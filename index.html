@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>JAH Data Bases — Project Three</title>
+<meta name="description" content="JAH Data Bases: 37 connected databases, 37 boundless generators, 37 archive-aware AIs. Property of Justin Addam Higgins.">
+<style>
+:root{--bg:#060a14;--panel:#0d1526;--line:#1d2c4d;--ink:#e8f1ff;--dim:#9fb3d8;--acc:#2f7bff;--ok:#00e5a0}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Arial,Helvetica,sans-serif;line-height:1.5}
+.wrap{max-width:1100px;margin:0 auto;padding:16px}
+.hero{background:linear-gradient(135deg,#0b1e3a 0%,#101a30 60%,#0a1428 100%);border:1px solid var(--line);border-radius:16px;padding:28px 22px;text-align:center;margin-bottom:14px}
+.hero h1{margin:0;font-size:2.1em;letter-spacing:2px}
+.hero p{color:var(--dim);max-width:640px;margin:10px auto}
+.bigstats{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:14px}
+.bigstat{background:rgba(13,21,38,.8);border:1px solid var(--line);border-radius:12px;padding:10px 18px}
+.bigstat b{font-size:1.6em;color:var(--ok);display:block}
+.searchrow{display:flex;gap:8px;margin:14px 0}
+.searchrow input{flex:1;font-size:1em;border-radius:10px;border:1px solid var(--line);background:#0a1120;color:var(--ink);padding:11px 12px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px;display:flex;gap:10px;align-items:flex-start;text-decoration:none;color:var(--ink)}
+.card:hover{border-color:var(--acc)}
+.card img{width:56px;height:56px;border-radius:10px;flex:none}
+.card h3{margin:0 0 4px;font-size:1em}
+.card p{margin:0;color:var(--dim);font-size:.85em}
+.card .st{font-size:.75em;margin-top:6px}
+.st.live{color:var(--ok)}.st.building{color:#ffb020}
+.foot{margin-top:26px;padding-top:12px;border-top:1px solid var(--line);color:var(--dim);font-size:.85em;text-align:center}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hero">
+    <h1>JAH DATA BASES</h1>
+    <p>A connected network of specialized knowledge and generation systems — 37 databases, 37 boundless generators, 37 archive-aware AIs, one network. No API key required.</p>
+    <div class="bigstats">
+      <div class="bigstat"><b>37</b>databases</div>
+      <div class="bigstat"><b>1M</b>records target each</div>
+      <div class="bigstat"><b>37M</b>records at full march</div>
+      <div class="bigstat"><b>∞</b>boundless generation</div>
+    </div>
+  </div>
+  <div class="searchrow"><input id="q" placeholder="Find a data base…"></div>
+  <div class="grid" id="grid"></div>
+  <div class="foot">✳ JAH Data Bases — Project Three. Property of Justin Addam Higgins (JAH). Standalone network; the original 37 websites remain their own projects.</div>
+</div>
+<script src="core/jahdb.js"></script>
+<script>
+(function(){
+'use strict';
+var $=function(id){return document.getElementById(id);};
+fetch('data/manifest.json').then(function(r){return r.json();}).then(function(m){
+  var grid=$('grid');
+  function render(q){
+    grid.innerHTML='';
+    m.databases.forEach(function(d){
+      if(q && (d.name+' '+d.tagline+' '+d.record_kind).toLowerCase().indexOf(q)<0) return;
+      var a=document.createElement('a');
+      a.className='card'; a.href='db/'+d.slug+'/';
+      a.innerHTML='<img loading="lazy" src="'+JAHDB.emblemSVG(d.name,d.id_prefix.replace(/-/g,''))+'" alt="">'+
+        '<div><h3>'+d.name+'</h3><p>'+d.tagline+'</p>'+
+        '<div class="st '+(d.status==='live'?'live':'building')+'">'+(d.status==='live'?'● LIVE':'◐ BUILDING')+' · '+d.record_kind+'s</div></div>';
+      grid.appendChild(a);
+    });
+  }
+  render('');
+  $('q').addEventListener('input',function(){render($('q').value.trim().toLowerCase());});
+}).catch(function(e){
+  $('grid').innerHTML='<p style="color:#ffb020">Manifest failed to load: '+e.message+'</p>';
+});
+})();
+</script>
+</body>
+</html>
