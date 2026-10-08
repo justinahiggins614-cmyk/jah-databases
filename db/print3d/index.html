@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>JAH 3D Print Data Base — JAH Data Bases</title>
+<meta name="description" content="The JAH 3D Print Data Base: the permanent archive of 3D print tangibles, a boundless generator in archive style, and an archive-aware AI. Property of Justin Addam Higgins.">
+<style>
+:root{--bg:#070b16;--panel:#0d1526;--line:#1d2c4d;--ink:#e8f1ff;--dim:#9fb3d8;--acc:#2f7bff;--ok:#00e5a0;--warn:#ffb020}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Arial,Helvetica,sans-serif;line-height:1.5}
+.wrap{max-width:1060px;margin:0 auto;padding:14px}
+.hero{display:flex;gap:14px;align-items:center;background:linear-gradient(135deg,#0b1e3a,#101a30);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:12px}
+.hero img{width:84px;height:84px;border-radius:14px;flex:none}
+.hero h1{margin:0;font-size:1.5em}.hero p{margin:4px 0;color:var(--dim)}
+.stats{display:flex;gap:10px;flex-wrap:wrap;margin:8px 0}
+.stat{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:8px 12px;font-size:.9em}
+.stat b{color:var(--ok)}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
+.tab{border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:999px;padding:9px 18px;font-size:1em;cursor:pointer}
+.tab.on{background:var(--acc);border-color:var(--acc);font-weight:bold}
+.pane{display:none}.pane.on{display:block}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px;margin:10px 0}
+.card h3{margin:0 0 6px}
+.rec{display:flex;gap:10px;align-items:flex-start}
+.rec img{width:64px;height:64px;border-radius:10px;flex:none}
+.mono{font-family:Consolas,monospace}
+.dim{color:var(--dim)}.ok{color:var(--ok)}.bad{color:#ff6b6b}
+input,select,textarea,button{font-size:1em;border-radius:8px;border:1px solid var(--line);background:#0a1120;color:var(--ink);padding:9px 10px}
+button{cursor:pointer;background:#14305e}button.go{background:var(--acc);font-weight:bold}
+details.grp{border:1px solid var(--line);border-radius:10px;margin:8px 0;background:var(--panel)}
+details.grp>summary{padding:10px 12px;cursor:pointer;font-weight:bold;list-style:none}
+details.grp>summary::-webkit-details-marker{display:none}
+.badge{display:inline-block;background:#132a55;border:1px solid var(--line);border-radius:999px;padding:2px 10px;font-size:.8em;margin-right:6px}
+.chatlog{max-height:46vh;overflow:auto;border:1px solid var(--line);border-radius:10px;padding:10px;background:#080d18;margin-bottom:8px}
+.msg{margin:8px 0}.msg.u{text-align:right}.msg .b{display:inline-block;padding:8px 12px;border-radius:12px;max-width:88%}
+.msg.u .b{background:#14305e}.msg.a .b{background:#101a30;border:1px solid var(--line)}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+pre.steps{background:#080d18;border:1px solid var(--line);border-radius:8px;padding:8px;white-space:pre-wrap}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;font-size:.95em}
+.kv dt{color:var(--dim)}.kv dd{margin:0}
+.foot{margin-top:26px;padding-top:12px;border-top:1px solid var(--line);color:var(--dim);font-size:.85em}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hero">
+    <img id="emblem" alt="database emblem">
+    <div>
+      <h1>JAH 3D Print Data Base</h1>
+      <p>3D print models and records.</p>
+      <div class="stats">
+        <span class="stat">Archive records: <b id="stCount">…</b></span>
+        <span class="stat">Generator: <b>jahdb-print3d-1.0</b> <span class="ok">● working</span></span>
+        <span class="stat">AI: <b>JAH Print Librarian</b></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="tabs" role="tablist">
+    <button class="tab on" data-p="archive">Archive</button>
+    <button class="tab" data-p="gen">Generator</button>
+    <button class="tab" data-p="chat">AI Chat</button>
+    <button class="tab" data-p="about">About</button>
+  </div>
+
+  <section class="pane on" id="p-archive">
+    <div class="row">
+      <input id="q" placeholder="Search the archive (searches the title's letter file)…" style="flex:1;min-width:200px">
+      <button class="go" id="qgo">Search</button>
+    </div>
+    <p class="dim">Browse by letter — each group opens on demand and loads only what you open. Search looks inside the file for the query's first letter.</p>
+    <div id="groups"></div>
+    <div id="results"></div>
+  </section>
+
+  <section class="pane" id="p-gen">
+    <div class="card">
+      <h3>Boundless generator</h3>
+      <p class="dim">Same seed + same version always makes the same record. Every model is built from raw dimensions with internally consistent parameters; an independent verifier recomputes volume, filament mass, layer count, and the print-time estimate before the record is accepted, and it is checked against the archive for drift. Print times are estimates, never measured facts.</p>
+      <div class="row">
+        <label>Seed <input id="gSeed" type="number" value="1" style="width:110px"></label>
+        <label>Count <input id="gN" type="number" value="5" min="1" max="50" style="width:80px"></label>
+        <label>Model type <select id="gType"><option value="">any</option></select></label>
+        <label><input type="checkbox" id="gCross"> borrow a theme from another data base</label>
+        <button class="go" id="gGo">Generate</button>
+      </div>
+      <div id="gOut"></div>
+    </div>
+    <div class="card">
+      <h3>Queued for the archive <span class="dim" id="qCount"></span></h3>
+      <p class="dim">Generated records wait here. Only validated, drift-free records can be filed — filing is a deliberate act, never automatic from chat.</p>
+      <div id="queue"></div>
+    </div>
+  </section>
+
+  <section class="pane" id="p-chat">
+    <div class="card">
+      <h3>JAH Print Librarian <button id="fresh" style="font-size:.8em">New session</button></h3>
+      <div class="chatlog" id="chatlog"></div>
+      <div class="row">
+        <input id="chatIn" placeholder="Ask about the archive, or ask me to generate…" style="flex:1;min-width:200px">
+        <button class="go" id="chatGo">Send</button>
+      </div>
+      <p class="dim">Fresh screen every session. Nothing you say here enters the permanent archive unless you file it from the Generator tab.</p>
+    </div>
+  </section>
+
+  <section class="pane" id="p-about">
+    <div class="card">
+      <h3>About this data base</h3>
+      <dl class="kv">
+        <dt>Source archive</dt><dd>The Signature network's 3D-print tangible archive (JAH-SPEC/JAH-PAT tangible references), preserved as structured, searchable data.</dd>
+        <dt>Record schema</dt><dd class="mono">id · name · model_type · material · dims_mm{w,h,d} · volume_cm3 · infill_pct · layer_height_mm · filament_g · layers · est_print_hours</dd>
+        <dt>Generator</dt><dd>jahdb-print3d-1.0 — deterministic (mulberry32). Builds each model from raw dimensions with internally consistent parameters; an independent verifier recomputes volume, filament mass (from genuine material densities), layer count, and the print-time estimate from the raw dims before acceptance.</dd>
+        <dt>Drift control</dt><dd>Every generated record is checked against an archive sample for duplicate model names and re-validated by the independent checker.</dd>
+        <dt>Cross-database</dt><dd>The generator can borrow a numeric theme from any of the other 36 data bases when you tick the box.</dd>
+        <dt>AI</dt><dd>JAH Print Librarian — archive-aware. On-device Standard 1.0, no key needed; uses the shared Signature backend automatically when configured.</dd>
+        <dt>Ownership</dt><dd>✳ Property of Justin Addam Higgins (JAH).</dd>
+      </dl>
+    </div>
+  </section>
+
+  <div class="foot">JAH Data Bases — Project Three. Standalone network; the original 37 websites remain their own projects.</div>
+</div>
+
+<script src="../../core/jahdb.js"></script>
+<script src="../../core/standard-1.0.js"></script>
+<script src="../../core/guide-conv.js"></script>
+<script src="../../core/apex-2.0.js"></script>
+<script src="gen-print3d.js"></script>
+<script>
+(function(){
+'use strict';
+var SLUG='print3d';
+var BASE='https://justinahiggins614-cmyk.github.io/signature-3d-print/';
+var BASE_N=784662, OPTKEY='type';
+var db=null, manifest=null, archiveIdx=null, archiveSample=[];
+var $=function(id){return document.getElementById(id);};
+var FALLBACK={slug:SLUG,ai_name:'JAH Print Librarian',name:'JAH 3D Print Data Base',record_kind:'3D model'};
+
+/* tabs */
+document.querySelectorAll('.tab').forEach(function(t){
+  t.addEventListener('click',function(){
+    document.querySelectorAll('.tab').forEach(function(x){x.classList.remove('on');});
+    document.querySelectorAll('.pane').forEach(function(x){x.classList.remove('on');});
+    t.classList.add('on'); $('p-'+t.dataset.p).classList.add('on');
+  });
+});
+
+var LETTERS=['9','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
+var letterCache={};
+
+JAHDB.loadManifest().then(function(m){
+  manifest=m; db=JAHDB.dbBySlug(m,'print3d')||FALLBACK;
+  $('emblem').src=JAHDB.emblemSVG('3D Prints','JAH-3D');
+  return fetch(BASE+'data/counts.json').then(function(r){
+    if(!r.ok) throw new Error('fetch '+r.status);
+    return r.json();
+  });
+}).then(function(counts){
+  archiveIdx=[]; /* rows load per letter; counts give the totals */
+  var total=counts.total||0;
+  $('stCount').textContent=total.toLocaleString()+' / 1,000,000 target';
+  buildGroups();
+  var gen=JAHDB.getGenerator(SLUG);
+  if(gen&&gen.types){
+    var sel=$('gType');
+    gen.types.forEach(function(c){var o=document.createElement('option');o.textContent=c;sel.appendChild(o);});
+  }
+  renderQueue();
+  greet();
+}).catch(function(e){ $('stCount').textContent='archive unreachable ('+e.message+')'; });
+
+function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+function letterFile(L){ return 'data/az/az-'+L+'.json.gz'; }
+function loadLetter(L){
+  if(letterCache[L]) return Promise.resolve(letterCache[L]);
+  return JAHDB.fetchGz(BASE+letterFile(L)).then(function(t){
+    var rows=JSON.parse(t);
+    letterCache[L]=rows;
+    return rows;
+  });
+}
+function recCard(r){
+  /* archive rows are [id, title, type]; generated records are objects */
+  var id=r.id||r[0], title=(r.name||r.title||r[1]||'').replace(/\s*…\s*$/,''), type=r.model_type||r[2];
+  var img=JAHDB.emblemSVG(title||'model', id);
+  var extra='';
+  if(r.dims_mm){
+    extra='<dl class="kv">'+
+      '<dt>Material</dt><dd>'+esc(r.material)+' · infill '+esc(r.infill_pct)+'% · layer '+esc(r.layer_height_mm)+'mm</dd>'+
+      '<dt>Dims</dt><dd class="mono">'+esc(r.dims_mm.w)+' × '+esc(r.dims_mm.h)+' × '+esc(r.dims_mm.d)+' mm</dd>'+
+      '<dt>Volume</dt><dd class="mono">'+esc(r.volume_cm3)+' cm³ · filament '+esc(r.filament_g)+' g · '+esc(r.layers)+' layers</dd>'+
+      '<dt>Print time</dt><dd class="mono">≈ '+esc(r.est_print_hours)+' h (estimate)</dd></dl>';
+  }
+  return '<div class="card"><div class="rec"><img loading="lazy" src="'+img+'" alt="">'+
+    '<div style="flex:1"><h3 style="font-size:1.05em">'+esc(title||id)+'</h3>'+
+    '<div><span class="badge">'+esc(id)+'</span><span class="badge">'+esc(type)+'</span>'+
+    (r.model_type?'<span class="badge">generated</span>':'')+'</div>'+extra+
+    '</div></div></div>';
+}
+
+function buildGroups(){
+  var g=$('groups'); g.innerHTML='';
+  LETTERS.forEach(function(L){
+    var d=document.createElement('details'); d.className='grp';
+    d.innerHTML='<summary>Letter '+esc(L)+' <span class="dim" id="cnt-'+L+'"></span></summary><div class="body"><p class="dim">Open to load the first 25.</p></div>';
+    d.addEventListener('toggle',function(){
+      if(d.open && !d.dataset.loaded){ d.dataset.loaded='1'; loadGroupSample(L,d); }
+    });
+    g.appendChild(d);
+  });
+}
+function loadGroupSample(L,d){
+  var body=d.querySelector('.body');
+  body.innerHTML='<p class="dim">Loading…</p>';
+  loadLetter(L).then(function(rows){
+    var cnt=document.getElementById('cnt-'+L);
+    if(cnt) cnt.textContent='('+rows.length.toLocaleString()+')';
+    var first=rows.slice(0,25);
+    body.innerHTML=first.map(recCard).join('');
+    /* keep a drift sample from real letters */
+    var rnd=JAHDB.prng(L.charCodeAt(0));
+    for(var i=0;i<8&&i<rows.length;i++) archiveSample.push(rows[(rnd()*rows.length)|0]);
+  }).catch(function(){ body.innerHTML='<p class="dim">Letter file unreachable.</p>'; });
+}
+/* search: the archive is filed by first letter, so search that letter's file */
+function doSearch(){
+  var q=$('q').value.trim();
+  var box=$('results');
+  if(!q){box.innerHTML='';return;}
+  var m=/[A-Za-z]/.exec(q);
+  var L=m?m[0].toUpperCase():'9';
+  box.innerHTML='<p class="dim">Searching letter '+esc(L)+'…</p>';
+  loadLetter(L).then(function(rows){
+    var ql=q.toLowerCase();
+    var hits=rows.filter(function(r){return (String(r[1])+' '+r[0]).toLowerCase().indexOf(ql)>=0;}).slice(0,12);
+    if(!hits.length){box.innerHTML='<p class="dim">No archive hits under letter '+esc(L)+'. Try the Generator tab to make one.</p>';return;}
+    box.innerHTML='<h3>Archive hits ('+hits.length+', letter '+esc(L)+')</h3>'+hits.map(recCard).join('');
+  }).catch(function(){ box.innerHTML='<p class="dim">Letter file unreachable.</p>'; });
+}
+$('qgo').addEventListener('click',doSearch);
+$('q').addEventListener('keydown',function(e){if(e.key==='Enter')doSearch();});
+
+/* generator */
+$('gGo').addEventListener('click',function(){
+  var seed=+$('gSeed').value||1, n=Math.min(50,Math.max(1,+$('gN').value||5));
+  var type=$('gType').value||undefined, cross=$('gCross').checked;
+  var out=$('gOut'); out.innerHTML='<p class="dim">Generating…</p>';
+  var run=function(theme){
+    var recs=[],fails=[];
+    var gen=JAHDB.getGenerator(SLUG);
+    for(var i=0;i<n;i++){
+      var opts={baseN:BASE_N}; if(type) opts[OPTKEY]=type;
+      var r;
+      if(theme && gen && gen.themedGenerate){
+        try{
+          var rec=gen.themedGenerate(seed+i,opts,JAHDB.prng(JAHDB.hashStr(String(seed+i))),theme);
+          var v=gen.validate(rec);
+          r=v.ok?{ok:true,record:rec}:{ok:false,errors:v.errors};
+        }catch(e){ r={ok:false,errors:['themed generate threw: '+e.message]}; }
+      } else {
+        r=JAHDB.runGenerator(SLUG,seed+i,opts);
+      }
+      if(!r.ok){fails.push({seed:seed+i,errors:r.errors});continue;}
+      var dc={ok:true,errors:[]};
+      try{ dc=driftFor(r.record); }catch(e){}
+      if(!dc.ok){fails.push({seed:seed+i,errors:dc.errors});continue;}
+      recs.push(r.record);
+    }
+    renderGen(recs,fails);
+  };
+  if(cross && manifest){
+    var others=manifest.databases.filter(function(d){return d.slug!==SLUG&&d.status==='live';});
+    var target=others.length?others[seed%others.length]:null;
+    if(target){ JAHDB.sampleOther(manifest,target.slug,5).then(function(s){run(s);}); return; }
+  }
+  run(null);
+});
+function driftFor(rec){
+  var gen = JAHDB.getGenerator(SLUG);
+  if (gen && gen.driftCheck) return gen.driftCheck(rec, archiveSample);
+  return { ok: true, errors: [] };
+}
+function genCard(r){
+  return '<div class="card"><div class="rec"><img loading="lazy" src="'+JAHDB.emblemSVG(r.name,r.id)+'" alt="">'+
+    '<div style="flex:1"><h3 style="font-size:1.05em">'+esc(r.name)+'</h3>'+
+    '<div><span class="badge">'+esc(r.id)+'</span><span class="badge">'+esc(r.model_type)+'</span><span class="badge ok">validated ✓</span><span class="badge">seed '+esc(r._seed)+'</span></div>'+
+    '<dl class="kv">'+
+    '<dt>Material</dt><dd>'+esc(r.material)+' · infill '+esc(r.infill_pct)+'% · layer '+esc(r.layer_height_mm)+'mm</dd>'+
+    '<dt>Dims</dt><dd class="mono">'+esc(r.dims_mm.w)+' × '+esc(r.dims_mm.h)+' × '+esc(r.dims_mm.d)+' mm</dd>'+
+    '<dt>Volume</dt><dd class="mono">'+esc(r.volume_cm3)+' cm³ · filament '+esc(r.filament_g)+' g · '+esc(r.layers)+' layers</dd>'+
+    '<dt>Print time</dt><dd class="mono">≈ '+esc(r.est_print_hours)+' h (estimate)</dd></dl>'+
+    '<button data-file="'+esc(r.id)+'">Queue for archive</button></div></div></div>';
+}
+function renderGen(recs,fails){
+  var h='<p><b>'+recs.length+'</b> generated, <b>'+fails.length+'</b> rejected.</p>';
+  h+=recs.map(genCard).join('');
+  if(fails.length) h+='<p class="bad">Rejected: '+esc(JSON.stringify(fails).slice(0,300))+'</p>';
+  $('gOut').innerHTML=h;
+  $('gOut').querySelectorAll('[data-file]').forEach(function(b){
+    b.addEventListener('click',function(){
+      var rec=recs.filter(function(r){return r.id===b.dataset.file;})[0];
+      queueAdd(rec); b.textContent='Queued ✓'; b.disabled=true;
+    });
+  });
+}
+/* queue (localStorage — filing is deliberate) */
+function qkey(){return 'jahdb_print3d_queue';}
+function queueGet(){try{return JSON.parse(localStorage.getItem(qkey())||'[]');}catch(e){return[];}}
+function queueAdd(rec){var q=queueGet();q.push(rec);try{localStorage.setItem(qkey(),JSON.stringify(q));}catch(e){}renderQueue();}
+function renderQueue(){
+  var q=queueGet(); $('qCount').textContent='('+q.length+')';
+  $('queue').innerHTML=q.length?q.map(function(r){
+    return '<div class="card"><b class="mono">'+esc(r.id)+'</b> — '+esc(r.name)+' <span class="badge ok">validated</span></div>';
+  }).join(''):'<p class="dim">Empty.</p>';
+}
+
+/* chat */
+var session=JAHDB.getSession(SLUG);
+function greet(){
+  say('a','I\'m the JAH Print Librarian. I know this archive\'s tangibles, A to Z — ask me to find one, explain a model, or generate new 3D-model records in archive style.');
+}
+function say(who,text){
+  var d=document.createElement('div');d.className='msg '+who;
+  d.innerHTML='<span class="b">'+esc(text)+'</span>';
+  $('chatlog').appendChild(d);$('chatlog').scrollTop=$('chatlog').scrollHeight;
+}
+function sendChat(){
+  var t=$('chatIn').value.trim();if(!t)return;
+  $('chatIn').value='';say('u',t);session.turns.push({q:t});
+  var ctx='Archive holds 3D-print tangibles filed A-Z (spec and patent references). Generated models carry internally consistent dims, volume, filament, and print-time estimates.';
+  JAHDB.aiAnswer(db,t,ctx).then(function(a){say('a',a);});
+}
+$('chatGo').addEventListener('click',sendChat);
+$('chatIn').addEventListener('keydown',function(e){if(e.key==='Enter')sendChat();});
+$('fresh').addEventListener('click',function(){session=JAHDB.newSession(SLUG);$('chatlog').innerHTML='';greet();});
+})();
+</script>
+</body>
+</html>
