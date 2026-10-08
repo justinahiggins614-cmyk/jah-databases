@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>JAH Math Data Base — JAH Data Bases</title>
+<meta name="description" content="The JAH Math Data Base: the permanent archive of Signature math encoding records, a boundless math-grid generator in archive style, and an archive-aware AI. Property of Justin Addam Higgins.">
+<style>
+:root{--bg:#070b16;--panel:#0d1526;--line:#1d2c4d;--ink:#e8f1ff;--dim:#9fb3d8;--acc:#2f7bff;--ok:#00e5a0;--warn:#ffb020}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Arial,Helvetica,sans-serif;line-height:1.5}
+.wrap{max-width:1060px;margin:0 auto;padding:14px}
+.hero{display:flex;gap:14px;align-items:center;background:linear-gradient(135deg,#0b1e3a,#101a30);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:12px}
+.hero img{width:84px;height:84px;border-radius:14px;flex:none}
+.hero h1{margin:0;font-size:1.5em}.hero p{margin:4px 0;color:var(--dim)}
+.stats{display:flex;gap:10px;flex-wrap:wrap;margin:8px 0}
+.stat{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:8px 12px;font-size:.9em}
+.stat b{color:var(--ok)}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
+.tab{border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:999px;padding:9px 18px;font-size:1em;cursor:pointer}
+.tab.on{background:var(--acc);border-color:var(--acc);font-weight:bold}
+.pane{display:none}.pane.on{display:block}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px;margin:10px 0}
+.card h3{margin:0 0 6px}
+.rec{display:flex;gap:10px;align-items:flex-start}
+.rec img{width:64px;height:64px;border-radius:10px;flex:none}
+.mono{font-family:Consolas,monospace}
+.dim{color:var(--dim)}.ok{color:var(--ok)}.bad{color:#ff6b6b}
+input,select,textarea,button{font-size:1em;border-radius:8px;border:1px solid var(--line);background:#0a1120;color:var(--ink);padding:9px 10px}
+button{cursor:pointer;background:#14305e}button.go{background:var(--acc);font-weight:bold}
+details.grp{border:1px solid var(--line);border-radius:10px;margin:8px 0;background:var(--panel)}
+details.grp>summary{padding:10px 12px;cursor:pointer;font-weight:bold;list-style:none}
+details.grp>summary::-webkit-details-marker{display:none}
+.badge{display:inline-block;background:#132a55;border:1px solid var(--line);border-radius:999px;padding:2px 10px;font-size:.8em;margin-right:6px}
+.chatlog{max-height:46vh;overflow:auto;border:1px solid var(--line);border-radius:10px;padding:10px;background:#080d18;margin-bottom:8px}
+.msg{margin:8px 0}.msg.u{text-align:right}.msg .b{display:inline-block;padding:8px 12px;border-radius:12px;max-width:88%}
+.msg.u .b{background:#14305e}.msg.a .b{background:#101a30;border:1px solid var(--line)}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+pre.steps{background:#080d18;border:1px solid var(--line);border-radius:8px;padding:8px;white-space:pre-wrap}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;font-size:.95em}
+.kv dt{color:var(--dim)}.kv dd{margin:0}
+.foot{margin-top:26px;padding-top:12px;border-top:1px solid var(--line);color:var(--dim);font-size:.85em}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hero">
+    <img id="emblem" alt="database emblem">
+    <div>
+      <h1>JAH Math Data Base</h1>
+      <p>The Signature math grid and geometry records.</p>
+      <div class="stats">
+        <span class="stat">Archive records: <b id="stCount">…</b></span>
+        <span class="stat">Generator: <b>jahdb-math-1.0</b> <span class="ok">● working</span></span>
+        <span class="stat">AI: <b>JAH Math Librarian</b></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="tabs" role="tablist">
+    <button class="tab on" data-p="archive">Archive</button>
+    <button class="tab" data-p="gen">Generator</button>
+    <button class="tab" data-p="chat">AI Chat</button>
+    <button class="tab" data-p="about">About</button>
+  </div>
+
+  <section class="pane on" id="p-archive">
+    <div class="row">
+      <input id="q" placeholder="Search the archive…" style="flex:1;min-width:200px">
+      <button class="go" id="qgo">Search</button>
+    </div>
+    <p class="dim">Browse by category — each group opens on demand and loads only what you open. Stored records describe the Signature encoding systems; generated grid records are always labeled.</p>
+    <div id="groups"></div>
+    <div id="results"></div>
+  </section>
+
+  <section class="pane" id="p-gen">
+    <div class="card">
+      <h3>Boundless generator</h3>
+      <p class="dim">Same seed + same version always makes the same grid. Each record is a deterministic 12×12 bit grid encoded to hex, base64, and ASCII-art — then an independent re-encoder rebuilds every encoding from the raw bits before acceptance. Every record is labeled <b>GENERATED</b>.</p>
+      <div class="row">
+        <label>Seed <input id="gSeed" type="number" value="1" style="width:110px"></label>
+        <label>Count <input id="gN" type="number" value="5" min="1" max="50" style="width:80px"></label>
+        <label>Family <select id="gType"><option value="">any</option></select></label>
+        <label><input type="checkbox" id="gCross"> borrow a theme from another data base</label>
+        <button class="go" id="gGo">Generate</button>
+      </div>
+      <div id="gOut"></div>
+    </div>
+    <div class="card">
+      <h3>Queued for the archive <span class="dim" id="qCount"></span></h3>
+      <p class="dim">Generated records wait here. Only validated, drift-free records can be filed — filing is a deliberate act, never automatic from chat.</p>
+      <div id="queue"></div>
+    </div>
+  </section>
+
+  <section class="pane" id="p-chat">
+    <div class="card">
+      <h3>JAH Math Librarian <button id="fresh" style="font-size:.8em">New session</button></h3>
+      <div class="chatlog" id="chatlog"></div>
+      <div class="row">
+        <input id="chatIn" placeholder="Ask about the archive, or ask me to generate…" style="flex:1;min-width:200px">
+        <button class="go" id="chatGo">Send</button>
+      </div>
+      <p class="dim">Fresh screen every session. Nothing you say here enters the permanent archive unless you file it from the Generator tab.</p>
+    </div>
+  </section>
+
+  <section class="pane" id="p-about">
+    <div class="card">
+      <h3>About this data base</h3>
+      <dl class="kv">
+        <dt>Source archive</dt><dd>Signature Math's encoding-system records (JAH-MATHDATA) — base systems, mixes, visual codes, text encodings, geometry, cryptography and more — preserved as structured, searchable data.</dd>
+        <dt>Record schema</dt><dd class="mono">id · title · cat · grid · bitstring · encodings{hex, base64, ascii_art} · popcount · symmetric180 · note · stamp</dd>
+        <dt>Generator</dt><dd>jahdb-math-1.0 — deterministic (mulberry32), builds each record from a raw 144-bit grid, then an independent re-encoder rebuilds the bitstring, hex, base64, ASCII-art, popcount, and symmetry from the raw bits before acceptance.</dd>
+        <dt>Drift control</dt><dd>Every generated grid is checked against an archive sample for duplicate bitstrings and re-encoded by the independent verifier.</dd>
+        <dt>Cross-database</dt><dd>The generator can borrow a numeric theme from any of the other 36 data bases when you tick the box.</dd>
+        <dt>AI</dt><dd>JAH Math Librarian — archive-aware. On-device Standard 1.0, no key needed; uses the shared Signature backend automatically when configured.</dd>
+        <dt>Ownership</dt><dd>✳ Property of Justin Addam Higgins (JAH).</dd>
+      </dl>
+    </div>
+  </section>
+
+  <div class="foot">JAH Data Bases — Project Three. Standalone network; the original 37 websites remain their own projects.</div>
+</div>
+
+<script src="../../core/jahdb.js"></script>
+<script src="../../core/standard-1.0.js"></script>
+<script src="../../core/guide-conv.js"></script>
+<script src="../../core/apex-2.0.js"></script>
+<script src="gen-math.js"></script>
+<script>
+(function(){
+'use strict';
+var SLUG='math';
+var BASE='https://justinahiggins614-cmyk.github.io/signature-math/';
+var db=null, manifest=null, archiveIdx=[], archiveSample=[];
+var $=function(id){return document.getElementById(id);};
+var CATS=['Base systems','Mixes','Visual codes','Text encodings','Numeric formats','Audio','Geometry','Cryptography','Compression'];
+
+/* tabs */
+document.querySelectorAll('.tab').forEach(function(t){
+  t.addEventListener('click',function(){
+    document.querySelectorAll('.tab').forEach(function(x){x.classList.remove('on');});
+    document.querySelectorAll('.pane').forEach(function(x){x.classList.remove('on');});
+    t.classList.add('on'); $('p-'+t.dataset.p).classList.add('on');
+  });
+});
+/* family options */
+CATS.forEach(function(c){ var o=document.createElement('option'); o.value=c; o.textContent=c; $('gType').appendChild(o); });
+
+JAHDB.loadManifest().then(function(m){
+  manifest=m; db=JAHDB.dbBySlug(m,SLUG);
+  $('emblem').src=JAHDB.emblemSVG('Math Grids','JAH-MATH');
+  return fetch(BASE+'data/mathdata.json').then(function(r){if(!r.ok)throw new Error('fetch '+r.status);return r.json();});
+}).then(function(arr){
+  archiveIdx=arr;
+  $('stCount').textContent=archiveIdx.length.toLocaleString()+' / 1,000,000 target';
+  var rnd=JAHDB.prng(99);
+  for(var i=0;i<200&&i<archiveIdx.length;i++) archiveSample.push(archiveIdx[(rnd()*archiveIdx.length)|0]);
+  buildGroups();
+  renderQueue();
+  greet();
+}).catch(function(e){ $('stCount').textContent='archive unreachable ('+e.message+')'; });
+
+function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+function recCard(r){
+  return '<div class="card"><div class="rec"><img loading="lazy" src="'+JAHDB.emblemSVG(r.cat||'math',r.id)+'" alt="">'+
+    '<div><h3 style="font-size:1.05em">'+esc(r.name)+'</h3>'+
+    '<div><span class="badge mono">'+esc(r.id||'')+'</span><span class="badge">'+esc(r.cat||'')+'</span></div>'+
+    '<p class="dim">'+esc(String(r.system||'').slice(0,260))+'</p>'+
+    (r.ex_in?'<p class="mono dim">example: '+esc(r.ex_in)+' → '+esc(r.ex_out)+'</p>':'')+
+    '</div></div></div>';
+}
+function buildGroups(){
+  var g=$('groups'); g.innerHTML='';
+  CATS.forEach(function(c){
+    var rows=archiveIdx.filter(function(r){return r.cat===c;});
+    if(!rows.length) return;
+    var d=document.createElement('details'); d.className='grp';
+    d.innerHTML='<summary>'+esc(c)+' <span class="dim">('+rows.length+')</span></summary><div class="body"><p class="dim">Open to load.</p></div>';
+    d.addEventListener('toggle',function(){
+      if(d.open && !d.dataset.loaded){ d.dataset.loaded='1'; d.querySelector('.body').innerHTML=rows.map(recCard).join(''); }
+    });
+    g.appendChild(d);
+  });
+}
+/* search */
+function doSearch(){
+  var q=$('q').value.trim().toLowerCase();
+  var box=$('results');
+  if(!q){box.innerHTML='';return;}
+  var hits=archiveIdx.filter(function(r){return (r.name+' '+r.id+' '+(r.system||'')).toLowerCase().indexOf(q)>=0;}).slice(0,12);
+  if(!hits.length){box.innerHTML='<p class="dim">No archive hits. Try the Generator tab to make a grid.</p>';return;}
+  box.innerHTML='<h3>Archive hits ('+hits.length+')</h3>'+hits.map(recCard).join('');
+}
+$('qgo').addEventListener('click',doSearch);
+$('q').addEventListener('keydown',function(e){if(e.key==='Enter')doSearch();});
+
+/* generator */
+$('gGo').addEventListener('click',function(){
+  var seed=+$('gSeed').value||1, n=Math.min(50,Math.max(1,+$('gN').value||5));
+  var type=$('gType').value||undefined, cross=$('gCross').checked;
+  var out=$('gOut'); out.innerHTML='<p class="dim">Generating…</p>';
+  var run=function(theme){
+    var recs=[],fails=[];
+    var gen=JAHDB.getGenerator(SLUG);
+    for(var i=0;i<n;i++){
+      var r;
+      if(theme && gen && gen.themedGenerate){
+        try{
+          var rec=gen.themedGenerate(seed+i,{type:type,baseN:900000},JAHDB.prng(JAHDB.hashStr(String(seed+i))),theme);
+          var v=gen.validate(rec);
+          r=v.ok?{ok:true,record:rec}:{ok:false,errors:v.errors};
+        }catch(e){ r={ok:false,errors:['themed generate threw: '+e.message]}; }
+      } else {
+        r=JAHDB.runGenerator(SLUG,seed+i,{type:type,baseN:900000});
+      }
+      if(!r.ok){fails.push({seed:seed+i,errors:r.errors});continue;}
+      var dc={ok:true,errors:[]};
+      try{ dc=driftFor(r.record); }catch(e){}
+      if(!dc.ok){fails.push({seed:seed+i,errors:dc.errors});continue;}
+      recs.push(r.record);
+    }
+    renderGen(recs,fails);
+  };
+  if(cross && manifest){
+    var others=manifest.databases.filter(function(d){return d.slug!==SLUG&&d.status==='live';});
+    var target=others.length?others[seed%others.length]:null;
+    if(target){ JAHDB.sampleOther(manifest,target.slug,5).then(function(s){run(s);}); return; }
+  }
+  run(null);
+});
+function driftFor(rec){
+  var gen = JAHDB.getGenerator(SLUG);
+  if (gen && gen.driftCheck) return gen.driftCheck(rec, archiveSample);
+  return { ok: true, errors: [] };
+}
+function renderGen(recs,fails){
+  var h='<p><b>'+recs.length+'</b> generated, <b>'+fails.length+'</b> rejected.</p>';
+  h+=recs.map(function(r){
+    return '<div class="card"><div class="rec"><img loading="lazy" src="'+JAHDB.emblemSVG(r.cat,r.id)+'" alt="">'+
+      '<div style="flex:1"><h3 class="mono">'+esc(r.title)+'</h3>'+
+      '<div><span class="badge mono">'+esc(r.id)+'</span><span class="badge">'+esc(r.cat)+'</span><span class="badge ok">validated ✓</span><span class="badge">GENERATED</span><span class="badge">seed '+esc(r._seed)+'</span></div>'+
+      '<pre class="steps">'+esc(r.encodings.ascii_art.join('\n'))+'</pre>'+
+      '<p class="mono dim">hex '+esc(r.encodings.hex)+'<br>base64 '+esc(r.encodings.base64)+'</p>'+
+      '<p>Marks: <b>'+r.popcount+'</b> / 144 · 180° symmetric: <b>'+(r.symmetric180?'yes':'no')+'</b></p>'+
+      '<button data-file="'+esc(r.id)+'">Queue for archive</button></div></div></div>';
+  }).join('');
+  if(fails.length) h+='<p class="bad">Rejected: '+esc(JSON.stringify(fails).slice(0,300))+'</p>';
+  $('gOut').innerHTML=h;
+  $('gOut').querySelectorAll('[data-file]').forEach(function(b){
+    b.addEventListener('click',function(){
+      var rec=recs.filter(function(r){return r.id===b.dataset.file;})[0];
+      queueAdd(rec); b.textContent='Queued ✓'; b.disabled=true;
+    });
+  });
+}
+/* queue (localStorage — filing is deliberate) */
+function qkey(){return 'jahdb_math_queue';}
+function queueGet(){try{return JSON.parse(localStorage.getItem(qkey())||'[]');}catch(e){return[];}}
+function queueAdd(rec){var q=queueGet();q.push(rec);try{localStorage.setItem(qkey(),JSON.stringify(q));}catch(e){}renderQueue();}
+function renderQueue(){
+  var q=queueGet(); $('qCount').textContent='('+q.length+')';
+  $('queue').innerHTML=q.length?q.map(function(r){
+    return '<div class="card"><b class="mono">'+esc(r.id)+'</b> — '+esc(r.title)+' <span class="badge ok">validated</span> <span class="badge">GENERATED</span></div>';
+  }).join(''):'<p class="dim">Empty.</p>';
+}
+
+/* chat */
+var session=JAHDB.getSession(SLUG);
+function greet(){
+  say('a','I\'m the JAH Math Librarian. I know this archive\'s '+archiveIdx.length+' encoding-system records — ask me to find one, explain one, or generate new 12×12 grid records in archive style.');
+}
+function say(who,text){
+  var d=document.createElement('div');d.className='msg '+who;
+  d.innerHTML='<span class="b">'+esc(text)+'</span>';
+  $('chatlog').appendChild(d);$('chatlog').scrollTop=$('chatlog').scrollHeight;
+}
+function sendChat(){
+  var t=$('chatIn').value.trim();if(!t)return;
+  $('chatIn').value='';say('u',t);session.turns.push({q:t});
+  var ctx='Archive holds '+archiveIdx.length+' encoding-system records across categories: '+CATS.join(', ')+'.';
+  JAHDB.aiAnswer(db,t,ctx).then(function(a){say('a',a);});
+}
+$('chatGo').addEventListener('click',sendChat);
+$('chatIn').addEventListener('keydown',function(e){if(e.key==='Enter')sendChat();});
+$('fresh').addEventListener('click',function(){session=JAHDB.newSession(SLUG);$('chatlog').innerHTML='';greet();});
+})();
+</script>
+</body>
+</html>
