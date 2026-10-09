@@ -125,11 +125,14 @@
   function generate(seed, opts, rnd) {
     opts = opts || {};
     var cls = opts.type && TYPES.indexOf(opts.type) >= 0 ? opts.type : pick(rnd, TYPES);
+    var preI = Math.floor(rnd() * PRE.length), sufI = Math.floor(rnd() * SUF.length);
+    var aiIdx = Math.floor(rnd() * AI_NAMES.length);
     var p = {
-      body: pick(rnd, PRE) + pick(rnd, SUF),
+      body: PRE[preI] + SUF[sufI],
+      preI: preI, sufI: sufI, aiIdx: aiIdx,
       cls: cls,
       mission: pick(rnd, MISSIONS),
-      ai: pick(rnd, AI_NAMES),
+      ai: AI_NAMES[aiIdx],
       ai_family: 'domain',
       score: ri(rnd, 58, 97),
       height_cm: ri(rnd, 60, 190),
@@ -146,12 +149,17 @@
       verb: pick(rnd, VERBS)
     };
     p.payload_kg = Math.round(p.mass_kg * p.payloadRatio);
+    p.created = '2026-10-' + String(1 + (Math.abs(seed) % 9)).padStart(2, '0');
     var n = (opts.baseN || 0) + 1 + (opts.seq || 0);
+    var created = p.created;
     var pub = {
       id: ID_PREFIX + String(n).padStart(6, '0'),
       n: n,
       type: 'robot-design-match',
       title: p.body + ' × ' + p.ai,
+      ai_id: 'JAH-AI-DOM-' + String(p.aiIdx + 1).padStart(3, '0'),
+      body_id: 'JAH-BOT-' + String(p.preI * 1000 + p.sufI + 1).padStart(6, '0'),
+      created: created,
       body_name: p.body,
       class: p.cls,
       mission: p.mission,
@@ -179,8 +187,8 @@
   function validate(rec) {
     var errs = [];
     if (!rec || typeof rec !== 'object') return { ok: false, errors: ['not an object'] };
-    ['id', 'type', 'title', 'body_name', 'class', 'mission', 'ai_name',
-      'score', 'hardware', 'rationale', 'demo_lines'].forEach(function (k) {
+    ['id', 'type', 'title', 'ai_id', 'ai_name', 'ai_family', 'body_id', 'body_name', 'class', 'mission',
+      'score', 'hardware', 'rationale', 'demo_lines', 'created'].forEach(function (k) {
       if (rec[k] === undefined || rec[k] === null || rec[k] === '') errs.push('missing field: ' + k);
     });
     if (rec.id && !/^JAH-ROBOT-\d{6}$/.test(rec.id)) errs.push('bad id format');
@@ -197,6 +205,9 @@
       if (JSON.stringify(rec.rationale) !== JSON.stringify(r)) errs.push('rationale mismatch vs raw params');
       if (JSON.stringify(rec.demo_lines) !== JSON.stringify(d)) errs.push('demo_lines mismatch vs raw params');
       if (rec.body_name !== p.body) errs.push('body_name mismatch');
+      if (rec.ai_id !== 'JAH-AI-DOM-' + String(p.aiIdx + 1).padStart(3, '0')) errs.push('ai_id mismatch vs raw params');
+      if (rec.body_id !== 'JAH-BOT-' + String(p.preI * 1000 + p.sufI + 1).padStart(6, '0')) errs.push('body_id mismatch vs raw params');
+      if (rec.created !== p.created) errs.push('created mismatch vs raw params');
       if (rec.title !== p.body + ' × ' + p.ai) errs.push('title mismatch');
       if (rec.score !== p.score) errs.push('score mismatch');
       if (rec.mission !== p.mission) errs.push('mission mismatch');

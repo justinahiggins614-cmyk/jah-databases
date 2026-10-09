@@ -122,10 +122,28 @@ pre.steps{background:#080d18;border:1px solid var(--line);border-radius:8px;padd
   </section>
 </div>
 
+
+<div id="fv" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(3,6,14,.93);overflow-y:auto;padding:16px">
+  <div class="card" style="max-width:920px;margin:24px auto">
+    <div class="row" style="justify-content:space-between;align-items:center">
+      <h3 id="fvTitle" class="mono" style="margin:0;font-size:1.05em">record</h3>
+      <button id="fvClose">✕ Close</button>
+    </div>
+    <div id="fvEmblem" style="margin:10px 0"></div>
+    <div id="fvBody"></div>
+    <div class="row" style="margin-top:12px">
+      <button class="go" id="fvCopy">⧉ Copy full record</button>
+      <button id="fvDl">⬇ Download JSON</button>
+      <span id="fvExtra"></span>
+    </div>
+    <p class="dim" style="margin-bottom:0">One click from the card opened this complete record — every field, nothing summarized. This record lives in this data base's archive.</p>
+  </div>
+</div>
 <script src="../../core/jahdb.js"></script>
 <script src="../../core/standard-1.0.js"></script>
 <script src="../../core/guide-conv.js"></script>
 <script src="../../core/apex-2.0.js"></script>
+<script src="synth.js"></script>
 <script src="gen-music.js"></script>
 <script>
 (function(){
@@ -224,6 +242,145 @@ function doSearch(){
 }
 $('qgo').addEventListener('click',doSearch);
 $('q').addEventListener('keydown',function(e){if(e.key==='Enter')doSearch();});
+
+
+/* ===== one-click full-record view: card -> complete record, Copy + Download ===== */
+var FV={rec:null,cache:{}};
+function fvChunk(url){
+  if(FV.cache[url]) return Promise.resolve(FV.cache[url]);
+  var p;
+  if(/\.gz$/.test(url)){ p=JAHDB.fetchJsonlGz(url); }
+  else{
+    p=fetch(url).then(function(r){
+      if(!r.ok) throw new Error('HTTP '+r.status);
+      return r.text();
+    }).then(function(t){
+      t=t.trim();
+      if(t.charAt(0)==='[') return JSON.parse(t);
+      var out=[];
+      t.split('\n').forEach(function(l){ l=l.trim(); if(l) out.push(JSON.parse(l)); });
+      return out;
+    });
+  }
+  return p.then(function(recs){ FV.cache[url]=recs; return recs; });
+}
+function fvFind(recs,id){
+  for(var i=0;i<recs.length;i++){ if(String(recs[i].id)===String(id)) return recs[i]; }
+  return null;
+}
+function fvLocate(id){
+  if(!archiveIdx) return Promise.reject(new Error('archive not loaded yet'));
+  var f=null;
+  for(var i=0;i<archiveIdx.length;i++){ if(String(archiveIdx[i][0])===String(id)){ f=archiveIdx[i][3]; break; } }
+  if(!f) return Promise.reject(new Error('not in archive index'));
+  return fvChunk(LOCAL+'chunks/'+f).then(function(recs){
+    var r=fvFind(recs,id); if(!r) throw new Error('not in chunk'); return r;
+  });
+}
+function fvTitleFor(r){ return r.name||r.title||r.word||r.id||'record'; }
+function fvVal(v,depth){
+  if(v===null||v===undefined) return '<span class="dim">—</span>';
+  if(typeof v==='boolean'||typeof v==='number') return '<span class="mono">'+esc(v)+'</span>';
+  if(typeof v==='string'){
+    if(/^https?:\/\//.test(v)) return '<span class="dim mono">[external link removed — archive-local only]</span>';
+    return esc(v).replace(/\n/g,'<br>');
+  }
+  if(Array.isArray(v)){
+    if(!v.length) return '<span class="dim">[]</span>';
+    if(depth>2) return '<span class="dim">['+v.length+' items — full data in the downloaded JSON]</span>';
+    return '<ol style="margin:4px 0;padding-left:22px">'+v.map(function(x){return '<li>'+fvVal(x,depth+1)+'</li>';}).join('')+'</ol>';
+  }
+  var ks=Object.keys(v).filter(function(k){return k.charAt(0)!=='_';});
+  if(!ks.length) return '<span class="dim">{}</span>';
+  if(depth>2) return '<span class="dim">{'+ks.length+' fields — full data in the downloaded JSON}</span>';
+  return '<dl class="kv">'+ks.map(function(k){return '<dt>'+esc(k)+'</dt><dd>'+fvVal(v[k],depth+1)+'</dd>';}).join('')+'</dl>';
+}
+function fvRenderSpecial(r){
+  var h='';
+  if(r.svg && typeof r.svg==='string' && r.svg.indexOf('<')>=0){
+    h+='<div class="card" style="text-align:center"><svg viewBox="0 0 260 200" style="max-width:100%">'+r.svg+'</svg></div>';
+  }
+  if(r.lyrics){ h+='<h4>Lyrics</h4><pre class="steps">'+esc(r.lyrics)+'</pre>'; }
+  return h;
+}
+function fvOpen(id){
+  var ov=$('fv'); if(!ov) return;
+  ov.style.display='block';
+  $('fvTitle').textContent=String(id);
+  $('fvBody').innerHTML='<p class="dim">Loading the complete record…</p>';
+  $('fvEmblem').innerHTML='';
+  $('fvExtra').innerHTML='';
+  FV.rec=null;
+  fvLocate(id).then(function(rec){
+    if(!rec) throw new Error('record not found');
+    FV.rec=rec;
+    $('fvTitle').textContent=fvTitleFor(rec);
+    $('fvEmblem').innerHTML='<img src="'+JAHDB.emblemSVG(fvTitleFor(rec),rec.id)+'" alt="" style="width:84px;height:84px;border-radius:14px">';
+    var skip={svg:1,lyrics:1};
+    var ks=Object.keys(rec).filter(function(k){return !skip[k]&&k.charAt(0)!=='_';});
+    $('fvBody').innerHTML=fvRenderSpecial(rec)+
+      '<dl class="kv">'+ks.map(function(k){return '<dt>'+esc(k)+'</dt><dd>'+fvVal(rec[k],1)+'</dd>';}).join('')+'</dl>';
+    fvExtraButtons(rec);
+  }).catch(function(e){
+    $('fvBody').innerHTML='<p class="bad">Could not open the full record: '+esc(e.message)+'</p>';
+  });
+}
+function fvExtraButtons(rec){
+  if(SLUG==='music' && typeof SigSynth!=='undefined'){
+    $('fvExtra').innerHTML='<button class="go" id="fvPlay">▶ Play song</button> <span class="dim" id="fvPlayMsg"></span>';
+    $('fvPlay').addEventListener('click',function(){
+      var b=this; b.disabled=true; b.textContent='Rendering…';
+      try{ SigSynth.unlockAudio(); }catch(e){}
+      SigSynth.renderFullSong(rec,null,null).then(function(buf){
+        b.disabled=false; b.textContent='▶ Play song';
+        SigSynth.playBuffer(buf, rec.id);
+        $('fvPlayMsg').textContent='Playing — synthesized live from this record.';
+      },function(err){
+        b.disabled=false; b.textContent='▶ Play song';
+        $('fvPlayMsg').textContent='Render failed: '+err.message;
+      });
+    });
+  }
+}
+function fvCopy(){
+  if(!FV.rec) return;
+  var t=JSON.stringify(FV.rec,null,2);
+  var done=function(){$('fvCopy').textContent='Copied ✓';setTimeout(function(){$('fvCopy').textContent='⧉ Copy full record';},1500);};
+  if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(t).then(done,function(){fvFallbackCopy(t);done();}); }
+  else{ fvFallbackCopy(t); done(); }
+}
+function fvFallbackCopy(t){
+  var ta=document.createElement('textarea');ta.value=t;document.body.appendChild(ta);ta.select();
+  try{document.execCommand('copy');}catch(e){} document.body.removeChild(ta);
+}
+function fvDl(){
+  if(!FV.rec) return;
+  var blob=new Blob([JSON.stringify(FV.rec,null,2)],{type:'application/json'});
+  var a=document.createElement('a');
+  a.href=URL.createObjectURL(blob); a.download=String(FV.rec.id||'record')+'.json';
+  document.body.appendChild(a); a.click();
+  setTimeout(function(){URL.revokeObjectURL(a.href);a.remove();},500);
+}
+/* wrap recCard once: every archive card becomes one-click */
+(function(){
+  if(window.__fvWrapped) return;
+  window.__fvWrapped=true;
+  var _rc=recCard;
+  recCard=function(r){
+    var h=_rc(r);
+    var id=esc(r&&r.id?r.id:'');
+    if(!id) return h;
+    return h.replace('<div class="card">','<div class="card" data-fvid="'+id+'" style="cursor:pointer" title="Open the full record — one click">');
+  };
+  document.addEventListener('click',function(e){
+    var t=e.target&&e.target.closest?e.target.closest('[data-fvid]'):null;
+    if(t){ var id=t.getAttribute('data-fvid'); if(id) fvOpen(id); }
+  });
+  $('fvClose').addEventListener('click',function(){$('fv').style.display='none';});
+  $('fv').addEventListener('click',function(e){ if(e.target===$('fv')) $('fv').style.display='none'; });
+  $('fvCopy').addEventListener('click',fvCopy);
+  $('fvDl').addEventListener('click',fvDl);
+})();
 
 /* generator */
 $('gGo').addEventListener('click',function(){

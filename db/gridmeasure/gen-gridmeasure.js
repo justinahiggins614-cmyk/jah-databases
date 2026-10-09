@@ -81,7 +81,7 @@
     opts = opts || {};
     var shape = opts.shape && SHAPES.indexOf(opts.shape) >= 0 ? opts.shape : pick(rnd, SHAPES);
     var p = inputsFor(shape, rnd);
-    var n = (opts.baseN || 0) + 1;
+    var n = (opts.baseN || 0) + 1 + (opts.seq || 0);
     var label = shape === 'regular_polygon' ? POLYNAME[p.sides] : SHAPELABEL[shape];
     var rec = {
       id: ID_PREFIX + String(n).padStart(6, '0'),

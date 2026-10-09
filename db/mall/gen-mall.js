@@ -40,7 +40,7 @@
     var k = ri(rnd, 2, 3);
     var words = shuffle(rnd, vocab).slice(0, k);
     var name = words.map(title).join(' ');
-    var n = (opts.baseN || 0) + 1;
+    var n = (opts.baseN || 0) + 1 + (opts.seq || 0);
     var id = ID_PREFIX + String(n).padStart(6, '0');
     var rec = {
       id: id,

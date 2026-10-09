@@ -55,7 +55,7 @@
     var op = OPS[opName];
     var pos = ri(rnd, 0, 999);
     var r = op.apply(word, pos);
-    var n = (opts.baseN || 0) + 1;
+    var n = (opts.baseN || 0) + 1 + (opts.seq || 0);
     var rec = {
       id: ID_PREFIX + String(n).padStart(6, '0'),
       n: n,

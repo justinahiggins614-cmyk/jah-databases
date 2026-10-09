@@ -8,6 +8,16 @@
    reconstructs every derived field from the private raw picks. */
 (function () {
   'use strict';
+  function h32(str) {
+    var h = 2166136261; str = String(str);
+    for (var i = 0; i < str.length; i++) { h ^= str.charCodeAt(i); h = Math.imul(h, 16777619); }
+    return h >>> 0;
+  }
+  function hex64(str) {
+    var out = '', i;
+    for (i = 0; i < 8; i++) out += ('0000000' + h32(str + '#' + i).toString(16)).slice(-8);
+    return out;
+  }
   var VERSION = 'jahdb-fixit-1.0';
   var ID_PREFIX = 'JAH-FIX-';
 
@@ -163,10 +173,17 @@
       ]
     };
     var n = (opts.baseN || 0) + 1 + (opts.seq || 0);
+    var id = ID_PREFIX + String(n).padStart(6, '0');
+    p.created = '2026-10-' + String(1 + (Math.abs(seed) % 9)).padStart(2, '0');
+    p.content_hash = hex64(id + '|' + F.id + '|' + title);
     var pub = {
-      id: ID_PREFIX + String(n).padStart(6, '0'),
+      id: id,
       n: n,
       type: 'fix',
+      content_hash: p.content_hash,
+      created: p.created,
+      status: 'GENERATED',
+      version: '1.0',
       field: F.name,
       field_id: F.id,
       title: title,
@@ -188,7 +205,7 @@
     var errs = [];
     if (!rec || typeof rec !== 'object') return { ok: false, errors: ['not an object'] };
     ['id', 'type', 'field', 'field_id', 'title', 'symptoms', 'diagnosis',
-      'solutions', 'safety', 'difficulty'].forEach(function (k) {
+      'solutions', 'safety', 'difficulty', 'content_hash', 'created', 'status', 'version'].forEach(function (k) {
       if (rec[k] === undefined || rec[k] === null || rec[k] === '') errs.push('missing field: ' + k);
     });
     if (rec.id && !/^JAH-FIX-\d{6}$/.test(rec.id)) errs.push('bad id format');
@@ -219,6 +236,10 @@
       var s2 = rec.solutions[1] || {};
       if (s2.title !== 'Have a ' + F.pro + ' repair it') errs.push('solution 2 title mismatch');
       if (rec.warnings[0].indexOf(F.pro) < 0) errs.push('warning must name the pro');
+      if (rec.created !== p.created) errs.push('created mismatch vs raw params');
+      if (rec.content_hash !== p.content_hash) errs.push('content_hash mismatch vs raw params');
+      if (rec.status !== 'GENERATED') errs.push('status must be GENERATED');
+      if (rec.version !== '1.0') errs.push('version must be 1.0');
     } else errs.push('no private raw picks — cannot independently verify');
     return { ok: errs.length === 0, errors: errs };
   }

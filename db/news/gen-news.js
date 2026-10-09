@@ -18,12 +18,12 @@
   var ID_PREFIX = 'JAH-ED-';
   var ART_PREFIX = 'JAH-ARTICLE-';
   var STAMP = 'Official JAH Newspaper Archive — generated samples, verified independently.';
-  /* real archive sections (signature-newspapers data/index/articles.idx.json.gz) */
+  /* real archive sections, matching the archived edition data */
   var SECTIONS = ['lead', 'culture', 'region', 'science', 'sports', 'weather',
                   'business', 'opinion', 'network'];
   var PUB_KEYS = ['paper', 'date', 'issue', 'volume', 'articles', 'honesty', 'id', 'paper_id',
-                  'fictionality_status', 'creation_mode', 'version', 'status',
-                  'article_count', 'article_ids', 'content_hash', 'stamp'];
+                  'fictionality_status', 'creation_mode', 'version', 'status', 'coverage',
+                  'created', 'updated', 'article_count', 'article_ids', 'content_hash', 'stamp'];
   var HONESTY = 'GENERATED SAMPLE — this edition was produced by the JAH Data Bases generator ' +
     'as a sample article structure in the archive\'s format. It is NOT a real published edition, ' +
     'and it reports no real events, people, or organizations. All names and places are invented.';
@@ -65,12 +65,21 @@
     var sN = (typeof seed === 'number') ? seed : 0;
     return ART_PREFIX + String(900001 + (Math.abs(sN * 6 + i) % 89999)).padStart(6, '0');
   }
-  function articleFrom(ai, byName) {
+  function articleFrom(ai, byName, edId, artId) {
+    var sec = SECTIONS[ai[0]];
+    var h = fill(HEAD[ai[1]], PLACE[ai[3]], THING[ai[4]]);
+    var body = [fill(P1[ai[5]], PLACE[ai[3]], THING[ai[4]]), fill(P2[ai[6]], PLACE[ai[3]], THING[ai[4]])];
     return {
-      sec: SECTIONS[ai[0]],
-      h: fill(HEAD[ai[1]], PLACE[ai[3]], THING[ai[4]]),
+      sec: sec,
+      h: h,
       by: byName,
-      body: [fill(P1[ai[5]], PLACE[ai[3]], THING[ai[4]]), fill(P2[ai[6]], PLACE[ai[3]], THING[ai[4]])]
+      body: body,
+      id: artId,
+      edition_id: edId,
+      fictionality_status: 'GENERATED_SAMPLE',
+      creation_mode: 'GENERATED',
+      version: '1.0',
+      content_hash: fnvHex(sec + '|' + h + '|' + byName + '|' + body.join(' '))
     };
   }
 
@@ -89,17 +98,18 @@
       var s = picki(rnd, SECTIONS);
       if (secs.indexOf(s) < 0) secs.push(s);
     }
+    var n = (opts.baseN || 0) + 1 + (opts.seq || 0);
+    var edId = ID_PREFIX + String(n).padStart(6, '0');
     var artIdx = [], articles = [], i;
+    var article_ids = [];
+    for (i = 0; i < 6; i++) article_ids.push(artId(seed, i));
     for (i = 0; i < 6; i++) {
       var ai = [secs[i], picki(rnd, HEAD), picki(rnd, BY), picki(rnd, PLACE),
                 picki(rnd, THING), picki(rnd, P1), picki(rnd, P2)];
       artIdx.push(ai);
-      articles.push(articleFrom(ai, BY[ai[2]]));
+      articles.push(articleFrom(ai, BY[ai[2]], edId, article_ids[i]));
     }
-    var article_ids = [];
-    for (i = 0; i < 6; i++) article_ids.push(artId(seed, i));
     var canonical = articles.map(function (a) { return a.sec + '|' + a.h + '|' + a.by + '|' + a.body.join(' '); }).join('‖');
-    var n = (opts.baseN || 0) + 1;
     var rec = {
       paper: paper,
       date: date,
@@ -107,12 +117,15 @@
       volume: volume,
       articles: articles,
       honesty: HONESTY,
-      id: ID_PREFIX + String(n).padStart(6, '0'),
+      id: edId,
       paper_id: 'JAH-PAPER-' + String(paper + 1).padStart(6, '0'),
       fictionality_status: 'GENERATED_SAMPLE',
       creation_mode: 'GENERATED',
       version: '1.0',
       status: 'SAMPLE',
+      coverage: 'ecosystem',
+      created: date,
+      updated: date,
       article_count: 6,
       article_ids: article_ids,
       content_hash: fnvHex(canonical),
@@ -142,16 +155,22 @@
     for (i = 0; i < 6; i++) {
       var ai = priv._artIdx[i];
       if (SECTIONS.indexOf(SECTIONS[ai[0]]) < 0) { errs.push('bad section at ' + i); break; }
-      var want = articleFrom(ai, BY[ai[2]]);
+      var want = articleFrom(ai, BY[ai[2]], priv.id, priv.article_ids[i]);
       var got = priv.articles[i];
       if (got.sec !== want.sec || got.h !== want.h || got.by !== want.by ||
-          got.body.length !== 2 || got.body[0] !== want.body[0] || got.body[1] !== want.body[1]) {
+          got.body.length !== 2 || got.body[0] !== want.body[0] || got.body[1] !== want.body[1] ||
+          got.id !== want.id || got.edition_id !== want.edition_id ||
+          got.content_hash !== want.content_hash ||
+          got.fictionality_status !== 'GENERATED_SAMPLE' || got.creation_mode !== 'GENERATED' ||
+          got.version !== '1.0') {
         errs.push('article rebuild mismatch at ' + i); break;
       }
       if (priv.article_ids[i] !== artId(priv._seed, i)) { errs.push('article_id mismatch at ' + i); break; }
       canonicalParts.push(want.sec + '|' + want.h + '|' + want.by + '|' + want.body.join(' '));
     }
     if (priv.content_hash !== fnvHex(canonicalParts.join('‖'))) errs.push('content hash mismatch');
+    if (priv.coverage !== 'ecosystem') errs.push('coverage altered');
+    if (priv.created !== priv.date || priv.updated !== priv.date) errs.push('created/updated must equal edition date');
     if (priv.honesty !== HONESTY) errs.push('honesty note altered');
     if (priv.creation_mode !== 'GENERATED' || priv.fictionality_status !== 'GENERATED_SAMPLE' ||
         priv.status !== 'SAMPLE')
@@ -163,7 +182,8 @@
     var errs = [];
     if (!rec || typeof rec !== 'object') return { ok: false, errors: ['not an object'] };
     ['paper', 'date', 'issue', 'volume', 'articles', 'honesty', 'id', 'paper_id',
-     'article_count', 'article_ids', 'content_hash'].forEach(function (k) {
+     'fictionality_status', 'creation_mode', 'version', 'status', 'coverage',
+     'created', 'updated', 'article_count', 'article_ids', 'content_hash'].forEach(function (k) {
       if (rec[k] === undefined || rec[k] === null || rec[k] === '') errs.push('missing field: ' + k);
     });
     if (rec.id && !/^JAH-ED-\d{6}$/.test(rec.id)) errs.push('bad id format');
