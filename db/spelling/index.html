@@ -191,7 +191,13 @@ JAHDB.loadManifest().then(function(m){
 function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
 function letterOf(w){var c=(w.charAt(0)||'').toUpperCase();return /[A-Z]/.test(c)?c:'9';}
 function wordCard(w){
-  return '<span class="badge mono" data-fvid="w:'+esc(w)+'" style="cursor:pointer" title="Open the full word record">'+esc(w)+'</span>';
+  var img=JAHDB.emblemSVG(w, 'JAH-SPELL');
+  var L=letterOf(w);
+  return '<div class="card" data-fvid="w:'+esc(w)+'" style="cursor:pointer" title="Open the full word record — one click"><div class="rec"><img loading="lazy" src="'+img+'" alt="">'+
+    '<div style="flex:1"><h3 class="mono" style="font-size:1.05em">'+esc(w)+'</h3>'+
+    '<div><span class="badge">'+esc(L)+'</span><span class="badge">'+esc(w.length)+' letters</span><span class="badge ok">archive word</span></div>'+
+    '<p class="dim">A '+esc(w.length)+'-letter word under '+esc(L)+' in the archive word list — one click opens the full word record.</p>'+
+    '</div></div></div>';
 }
 function recCard(r){
   var img=JAHDB.emblemSVG(r.word||'spell', r.id);
@@ -225,12 +231,12 @@ function loadGroupSample(L,body){
     return r.json();
   }).then(function(words){
     var first=words.slice(0,25);
-    body.innerHTML='<div class="wordgrid">'+first.map(wordCard).join('')+'</div>'+
+    body.innerHTML='<div>'+first.map(wordCard).join('')+'</div>'+
       '<p class="dim">'+words.length.toLocaleString()+' words under '+L+' — showing first 25.</p>';
   }).catch(function() {
     /* fall back to the in-memory list */
     var rows=archiveIdx.filter(function(w){return letterOf(w)===L;}).slice(0,25);
-    body.innerHTML='<div class="wordgrid">'+rows.map(wordCard).join('')+'</div>';
+    body.innerHTML='<div>'+rows.map(wordCard).join('')+'</div>';
   });
 }
 /* search */
@@ -240,7 +246,7 @@ function doSearch(){
   if(!q){box.innerHTML='';return;}
   var hits=archiveIdx.filter(function(w){return w.toLowerCase().indexOf(q)>=0;}).slice(0,24);
   if(!hits.length){box.innerHTML='<p class="dim">No archive hits. Try the Generator tab to make one.</p>';return;}
-  box.innerHTML='<h3>Archive hits ('+hits.length+')</h3><div class="wordgrid">'+hits.map(wordCard).join('')+'</div>';
+  box.innerHTML='<h3>Archive hits ('+hits.length+')</h3><div>'+hits.map(wordCard).join('')+'</div>';
 }
 $('qgo').addEventListener('click',doSearch);
 $('q').addEventListener('keydown',function(e){if(e.key==='Enter')doSearch();});

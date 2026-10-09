@@ -214,6 +214,9 @@ function recCard(r){
   return '<div class="card"><div class="rec"><img loading="lazy" src="'+img+'" alt="">'+
     '<div style="flex:1"><h3 class="mono" style="font-size:1.05em">'+esc(r.name||r.id)+'</h3>'+
     '<div><span class="badge">'+esc(r.id||'')+'</span><span class="badge">'+esc(r.shape||'')+'</span></div>'+
+    '<p class="dim">'+esc(String(r.shape||'measure').replace(/_/g,' '))+' · '+((r.table||[]).length)+' measurements'+
+      ((r.table&&r.table.length)?' — '+esc(r.table[0][0])+': '+esc(r.table[0][1]):'')+
+      ' — one click opens the full measure.</p>'+
     (r.svg?'<svg class="fig" viewBox="0 0 260 200">'+r.svg+'</svg>':'')+
     (r.table?mtable(r.table):'')+
     '</div></div></div>';
