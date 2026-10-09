@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>JAH Patent Data Base — JAH Data Bases</title>
 <meta name="description" content="The JAH Patent Data Base: the permanent archive of public patent records, a boundless generator in archive style, and an archive-aware AI. Property of Justin Addam Higgins.">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Dataset","name":"JAH Patent Data Base","description":"The JAH Patent Data Base: the permanent archive of public patent records, a boundless generator in archive style, and an archive-aware AI. Property of Justin Addam Higgins.","creator":{"@type":"Person","name":"Justin Addam Higgins"},"license":"https://creativecommons.org/publicdomain/zero/1.0/","distribution":{"@type":"DataDownload","contentUrl":"data/patents/patents.idx.json.gz"}}</script>
 <style>
 :root{--bg:#070b16;--panel:#0d1526;--line:#1d2c4d;--ink:#e8f1ff;--dim:#9fb3d8;--acc:#2f7bff;--ok:#00e5a0;--warn:#ffb020}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Arial,Helvetica,sans-serif;line-height:1.5}
@@ -132,7 +133,7 @@ pre.steps{background:#080d18;border:1px solid var(--line);border-radius:8px;padd
 (function(){
 'use strict';
 var SLUG='patents';
-var BASE='https://justinahiggins614-cmyk.github.io/cyber-patent-catalog/';
+
 var LOCAL='../../data/patents/';
 var BASE_N=200000;
 var db=null, manifest=null, archiveIdx=null, archiveSample=[];
@@ -164,7 +165,7 @@ JAHDB.loadManifest().then(function(m){
 
 function fetchRecord(row){
   var off=row[4], len=row[5];
-  return fetch(BASE+'data/patents.jsonl',{headers:{'Range':'bytes='+off+'-'+(off+len-1)}})
+  return fetch(LOCAL+'patents.jsonl',{headers:{'Range':'bytes='+off+'-'+(off+len-1)}})
     .then(function(r){ if(!r.ok&&r.status!==206) throw new Error('range '+r.status); return r.text(); })
     .then(function(t){ return JSON.parse(t.split('\n')[0]); });
 }

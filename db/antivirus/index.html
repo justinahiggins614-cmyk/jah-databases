@@ -40,6 +40,7 @@ pre.steps{background:#080d18;border:1px solid var(--line);border-radius:8px;padd
 .kv dt{color:var(--dim)}.kv dd{margin:0}
 .foot{margin-top:26px;padding-top:12px;border-top:1px solid var(--line);color:var(--dim);font-size:.85em}
 </style>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Dataset", "name": "JAH Antivirus Data Base", "description": "The permanent archive of virus-solution records, a boundless generator of defense drills in archive style, and an archive-aware AI.", "creator": {"@type": "Person", "name": "Justin Addam Higgins"}, "license": "https://creativecommons.org/publicdomain/zero/1.0/", "distribution": {"@type": "DataDownload", "contentUrl": "data/antivirus/index.json"}}</script>
 </head>
 <body>
 <div class="wrap">
@@ -132,7 +133,6 @@ pre.steps{background:#080d18;border:1px solid var(--line);border-radius:8px;padd
 (function(){
 'use strict';
 var SLUG='antivirus';
-var BASE='https://justinahiggins614-cmyk.github.io/signature-antivirus/';
 var LOCAL='../../data/antivirus/';
 var GEN_BASEN=23032;
 var db=null, manifest=null, archiveIdx=null, archiveSample=[];
@@ -196,7 +196,7 @@ function loadChunked(rows,body){
   var byChunk={};
   rows.forEach(function(r){ var c=r[5]; (byChunk[c]=byChunk[c]||[]).push(r[0]); });
   var jobs=Object.keys(byChunk).map(function(c){
-    return JAHDB.fetchJsonlGz(BASE+'data/addons/volumes/'+chunkName(+c)).then(function(recs){
+    return JAHDB.fetchJsonlGz(LOCAL+'chunks/'+chunkName(+c)).then(function(recs){
       var want={}; byChunk[c].forEach(function(id){want[id]=1;});
       return recs.filter(function(r){return want[r.id];});
     }).catch(function(){return [];});

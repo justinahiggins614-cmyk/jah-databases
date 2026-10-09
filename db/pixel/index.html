@@ -40,6 +40,7 @@ pre.steps{background:#080d18;border:1px solid var(--line);border-radius:8px;padd
 .kv dt{color:var(--dim)}.kv dd{margin:0}
 .foot{margin-top:26px;padding-top:12px;border-top:1px solid var(--line);color:var(--dim);font-size:.85em}
 </style>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Dataset", "name": "JAH Image and Video Data Base \u2014 JAH Data Bases", "description": "The JAH Image and Video Data Base: the permanent archive of generated goods and ad creatives, a boundless generator in archive style, and an archive-aware AI. Property of Justin Addam Higgins.", "creator": {"@type": "Person", "name": "Justin Addam Higgins"}, "license": "https://creativecommons.org/publicdomain/zero/1.0/", "distribution": {"@type": "DataDownload", "contentUrl": "data/pixel/goods.idx.json.gz"}}</script>
 </head>
 <body>
 <div class="wrap">
@@ -132,7 +133,7 @@ pre.steps{background:#080d18;border:1px solid var(--line);border-radius:8px;padd
 (function(){
 'use strict';
 var SLUG='pixel';
-var BASE='https://justinahiggins614-cmyk.github.io/signature-ai-image-video-maker/';
+
 var LOCAL='../../data/pixel/';
 var BASEN=900000;
 var db=null, manifest=null, archiveIdx=null, archiveSample=[];
@@ -194,7 +195,7 @@ function loadCatSample(ct,body){
   var byFile={};
   rows.forEach(function(r){ (byFile[r[3]]=byFile[r[3]]||[]).push(r[0]); });
   var jobs=Object.keys(byFile).map(function(f){
-    return JAHDB.fetchJsonlGz(BASE+'data/goods/'+f).then(function(recs){
+    return JAHDB.fetchJsonlGz(LOCAL+'chunks/'+f).then(function(recs){
       var want={}; byFile[f].forEach(function(id){want[id]=1;});
       return recs.filter(function(r){return want[r.id];});
     }).catch(function(){return [];});
@@ -215,7 +216,7 @@ function doSearch(){
   var byFile={};
   hits.forEach(function(r){(byFile[r[3]]=byFile[r[3]]||[]).push(r[0]);});
   Object.keys(byFile).forEach(function(f){
-    JAHDB.fetchJsonlGz(BASE+'data/goods/'+f).then(function(recs){
+    JAHDB.fetchJsonlGz(LOCAL+'chunks/'+f).then(function(recs){
       var want={};byFile[f].forEach(function(id){want[id]=1;});
       var found=recs.filter(function(r){return want[r.id];});
       if(found.length) box.innerHTML+=found.map(recCard).join('');

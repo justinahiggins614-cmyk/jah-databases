@@ -40,6 +40,7 @@ pre.steps{background:#080d18;border:1px solid var(--line);border-radius:8px;padd
 .kv dt{color:var(--dim)}.kv dd{margin:0}
 .foot{margin-top:26px;padding-top:12px;border-top:1px solid var(--line);color:var(--dim);font-size:.85em}
 </style>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Dataset", "name": "JAH Book Data Base \u2014 JAH Data Bases", "description": "The JAH Book Data Base: the permanent archive of finished Signature books, a boundless book generator in archive style, and an archive-aware AI. Property of Justin Addam Higgins.", "creator": {"@type": "Person", "name": "Justin Addam Higgins"}, "license": "https://creativecommons.org/publicdomain/zero/1.0/", "distribution": {"@type": "DataDownload", "contentUrl": "data/books/books.idx.json.gz"}}</script>
 </head>
 <body>
 <div class="wrap">
@@ -132,7 +133,7 @@ pre.steps{background:#080d18;border:1px solid var(--line);border-radius:8px;padd
 (function(){
 'use strict';
 var SLUG='books';
-var BASE='https://justinahiggins614-cmyk.github.io/signature-books/';
+
 var LOCAL='../../data/books/';
 var db=null, manifest=null, archiveIdx=[], archiveSample=[];
 var $=function(id){return document.getElementById(id);};
@@ -190,7 +191,7 @@ function loadGroupSample(gr,body){
   var byChunk={};
   rows.forEach(function(r){ var c=chunkOf(r.id); (byChunk[c]=byChunk[c]||[]).push(r.id); });
   var jobs=Object.keys(byChunk).map(function(c){
-    return JAHDB.fetchGz(BASE+'data/volumes/'+chunkName(+c)).then(function(t){
+    return JAHDB.fetchGz(LOCAL+'chunks/'+chunkName(+c)).then(function(t){
       var recs=JSON.parse(t), want={};
       byChunk[c].forEach(function(id){want[id]=1;});
       return recs.filter(function(r){return want[r.id];});
@@ -212,7 +213,7 @@ function doSearch(){
   var byChunk={};
   hits.forEach(function(r){ var c=chunkOf(r.id); (byChunk[c]=byChunk[c]||[]).push(r.id); });
   Object.keys(byChunk).forEach(function(c){
-    JAHDB.fetchGz(BASE+'data/volumes/'+chunkName(+c)).then(function(t){
+    JAHDB.fetchGz(LOCAL+'chunks/'+chunkName(+c)).then(function(t){
       var recs=JSON.parse(t), want={};
       byChunk[c].forEach(function(id){want[id]=1;});
       var found=recs.filter(function(r){return want[r.id];});

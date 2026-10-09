@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>JAH Recipe Data Base — JAH Data Bases</title>
 <meta name="description" content="The JAH Recipe Data Base: the permanent archive of cookbook recipes, a boundless generator in archive style, and an archive-aware AI. Property of Justin Addam Higgins.">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Dataset","name":"JAH Recipe Data Base","description":"The JAH Recipe Data Base: the permanent archive of cookbook recipes, a boundless generator in archive style, and an archive-aware AI. Property of Justin Addam Higgins.","creator":{"@type":"Person","name":"Justin Addam Higgins"},"license":"https://creativecommons.org/publicdomain/zero/1.0/","distribution":{"@type":"DataDownload","contentUrl":"data/cookbook/recipes.idx.json"}}</script>
 <style>
 :root{--bg:#070b16;--panel:#0d1526;--line:#1d2c4d;--ink:#e8f1ff;--dim:#9fb3d8;--acc:#2f7bff;--ok:#00e5a0;--warn:#ffb020}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Arial,Helvetica,sans-serif;line-height:1.5}
@@ -133,7 +134,6 @@ ul.ing{margin:6px 0;padding-left:20px}
 (function(){
 'use strict';
 var SLUG='cookbook';
-var BASE='https://justinahiggins614-cmyk.github.io/signature-cookbook/';
 var LOCAL='../../data/cookbook/';
 var BASE_N=14100, OPTKEY='chapter';
 var db=null, manifest=null, archiveIdx=null, archiveSample=[];
@@ -211,7 +211,7 @@ function loadGroupSample(ch,body){
   var byChunk={};
   rows.forEach(function(r){ (byChunk[r.k]=byChunk[r.k]||[]).push(r.id); });
   var jobs=Object.keys(byChunk).map(function(k){
-    return JAHDB.fetchJsonlGz(BASE+'data/recipes/chunks/'+chunkName(k)).then(function(recs){
+    return JAHDB.fetchJsonlGz(LOCAL+'chunks/'+chunkName(k)).then(function(recs){
       var want={}; byChunk[k].forEach(function(id){want[id]=1;});
       return recs.filter(function(r){return want[r.id];});
     }).catch(function(){return [];});
@@ -232,7 +232,7 @@ function doSearch(){
   var byChunk={};
   hits.forEach(function(r){(byChunk[r.k]=byChunk[r.k]||[]).push(r.id);});
   Object.keys(byChunk).forEach(function(k){
-    JAHDB.fetchJsonlGz(BASE+'data/recipes/chunks/'+chunkName(k)).then(function(recs){
+    JAHDB.fetchJsonlGz(LOCAL+'chunks/'+chunkName(k)).then(function(recs){
       var want={};byChunk[k].forEach(function(id){want[id]=1;});
       var found=recs.filter(function(r){return want[r.id];});
       if(found.length) box.innerHTML+=found.map(recCard).join('');

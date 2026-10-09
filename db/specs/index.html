@@ -40,6 +40,7 @@ pre.steps{background:#080d18;border:1px solid var(--line);border-radius:8px;padd
 .kv dt{color:var(--dim)}.kv dd{margin:0}
 .foot{margin-top:26px;padding-top:12px;border-top:1px solid var(--line);color:var(--dim);font-size:.85em}
 </style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Dataset","name":"JAH Patent Specification Data Base","description":"Original Signature-line draft specifications.","creator":{"@type":"Person","name":"Justin Addam Higgins"},"license":"https://creativecommons.org/publicdomain/zero/1.0/","distribution":{"@type":"DataDownload","contentUrl":"data/specs/specs.idx.json.gz"}}</script>
 </head>
 <body>
 <div class="wrap">
@@ -132,7 +133,6 @@ pre.steps{background:#080d18;border:1px solid var(--line);border-radius:8px;padd
 (function(){
 'use strict';
 var SLUG='specs';
-var BASE='https://justinahiggins614-cmyk.github.io/signature-one-archive/';
 var LOCAL='../../data/specs/';
 var BASE_N=950000;
 var db=null, manifest=null, archiveIdx=null, archiveSample=[];
@@ -164,18 +164,13 @@ JAHDB.loadManifest().then(function(m){
   greet();
 }).catch(function(e){ $('stCount').textContent='archive unreachable ('+e.message+')'; });
 
-function chunkPath(r){ return r[r.length-1]; }
-var chunkCache={};
-function fetchChunk(cp){
-  if(chunkCache[cp]) return chunkCache[cp];
-  chunkCache[cp]=JAHDB.fetchJsonlGz(BASE+cp);
-  return chunkCache[cp];
-}
-function fetchRecord(row){
-  return fetchChunk(chunkPath(row)).then(function(recs){
-    for(var i=0;i<recs.length;i++) if(recs[i].spec_id===row[0]) return recs[i];
-    return null;
-  });
+/* The compact vendored index IS the archive — 21-field rows:
+   [id, title, abstract, category, cpc, era, date, ..., chunkpath].
+   Chunk contents live only on the original site and are never fetched:
+   record objects are built straight from the real index rows. */
+function rowToRec(r){
+  return {spec_id:r[0], title:r[1], abstract:r[2], category:r[3], cpc:r[4],
+          era:r[5], prepared_date:r[6], status:'Draft — ready to file'};
 }
 function recCard(r){
   var img=JAHDB.emblemSVG(r.category||'spec', r.spec_id);
@@ -223,18 +218,8 @@ function fillCatSelect(){
 }
 function loadGroupSample(rows,body){
   body.innerHTML='<p class="dim">Loading…</p>';
-  var byChunk={};
-  rows.forEach(function(r){ (byChunk[chunkPath(r)]=byChunk[chunkPath(r)]||[]).push(r[0]); });
-  var jobs=Object.keys(byChunk).map(function(cp){
-    return fetchChunk(cp).then(function(recs){
-      var want={}; byChunk[cp].forEach(function(id){want[id]=1;});
-      return recs.filter(function(r){return want[r.spec_id];});
-    }).catch(function(){return [];});
-  });
-  Promise.all(jobs).then(function(parts){
-    var recs=[]; parts.forEach(function(p){recs=recs.concat(p);});
-    body.innerHTML=recs.length?recs.map(recCard).join(''):'<p class="dim">Nothing loaded.</p>';
-  });
+  var recs=rows.map(rowToRec);
+  body.innerHTML=recs.length?recs.map(recCard).join(''):'<p class="dim">Nothing loaded.</p>';
 }
 /* search */
 function doSearch(){
@@ -243,19 +228,7 @@ function doSearch(){
   if(!q){box.innerHTML='';return;}
   var hits=archiveIdx.filter(function(r){return (r[1]+' '+r[0]).toLowerCase().indexOf(q)>=0;}).slice(0,12);
   if(!hits.length){box.innerHTML='<p class="dim">No archive hits. Try the Generator tab to make one.</p>';return;}
-  box.innerHTML='<h3>Archive hits ('+hits.length+')</h3><p class="dim">Loading…</p>';
-  var byChunk={};
-  hits.forEach(function(r){ (byChunk[chunkPath(r)]=byChunk[chunkPath(r)]||[]).push(r[0]); });
-  var jobs=Object.keys(byChunk).map(function(cp){
-    return fetchChunk(cp).then(function(recs){
-      var want={}; byChunk[cp].forEach(function(id){want[id]=1;});
-      return recs.filter(function(r){return want[r.spec_id];});
-    }).catch(function(){return [];});
-  });
-  Promise.all(jobs).then(function(parts){
-    var recs=[]; parts.forEach(function(p){recs=recs.concat(p);});
-    box.innerHTML='<h3>Archive hits ('+recs.length+')</h3>'+(recs.length?recs.map(recCard).join(''):'<p class="dim">Nothing loaded.</p>');
-  });
+  box.innerHTML='<h3>Archive hits ('+hits.length+')</h3>'+hits.map(rowToRec).map(recCard).join('');
 }
 $('qgo').addEventListener('click',doSearch);
 $('q').addEventListener('keydown',function(e){if(e.key==='Enter')doSearch();});

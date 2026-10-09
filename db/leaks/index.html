@@ -40,6 +40,7 @@ pre.steps{background:#080d18;border:1px solid var(--line);border-radius:8px;padd
 .kv dt{color:var(--dim)}.kv dd{margin:0}
 .foot{margin-top:26px;padding-top:12px;border-top:1px solid var(--line);color:var(--dim);font-size:.85em}
 </style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Dataset","name":"JAH-N Wiki Leaks Data Base","description":"Dossiers and files, clearly marked by kind.","creator":{"@type":"Person","name":"Justin Addam Higgins"},"license":"https://creativecommons.org/publicdomain/zero/1.0/","distribution":{"@type":"DataDownload","contentUrl":"data/leaks/bizarre.idx.json.gz"}}</script>
 </head>
 <body>
 <div class="wrap">
@@ -132,7 +133,6 @@ pre.steps{background:#080d18;border:1px solid var(--line);border-radius:8px;padd
 (function(){
 'use strict';
 var SLUG='leaks';
-var BASE='https://justinahiggins614-cmyk.github.io/jah-n-wiki-leaks/';
 var LOCAL='../../data/leaks/';
 var BASE_N=200000;
 var db=null, manifest=null, archiveIdx=null, archiveSample=[];
@@ -162,28 +162,11 @@ JAHDB.loadManifest().then(function(m){
   greet();
 }).catch(function(e){ $('stCount').textContent='archive unreachable ('+e.message+')'; });
 
-/* chunk files: JSONL where each line is an ARRAY of dossier dicts */
-var chunkCache={};
-function fetchChunkRecs(cf){
-  if(chunkCache[cf]) return chunkCache[cf];
-  chunkCache[cf]=JAHDB.fetchGz(BASE+'data/bizarre/chunks/'+cf+'.json.gz').then(function(t){
-    var out=[];
-    t.split('\n').forEach(function(l){
-      if(!l.trim()) return;
-      try{
-        var arr=JSON.parse(l);
-        (Array.isArray(arr)?arr:[arr]).forEach(function(r){ out.push(r); });
-      }catch(e){}
-    });
-    return out;
-  });
-  return chunkCache[cf];
-}
-function fetchRecord(row){
-  return fetchChunkRecs(row[3]).then(function(recs){
-    for(var i=0;i<recs.length;i++) if(recs[i].id===row[0]) return recs[i];
-    return null;
-  });
+/* The compact vendored index IS the archive — rows are [id, title, category, chunkfile].
+   Chunk contents live only on the original site and are never fetched: cards render
+   directly from the real index rows; full records come from the Generator tab. */
+function rowToRec(r){
+  return {id:r[0], subject:r[1], kind:'dossier', category:r[2]};
 }
 function recCard(r){
   var img=JAHDB.emblemSVG(r.category||'leak', r.id);
@@ -223,18 +206,8 @@ function buildGroups(){
 }
 function loadGroupSample(rows,body){
   body.innerHTML='<p class="dim">Loading…</p>';
-  var byChunk={};
-  rows.forEach(function(r){ (byChunk[r[3]]=byChunk[r[3]]||[]).push(r[0]); });
-  var jobs=Object.keys(byChunk).map(function(cf){
-    return fetchChunkRecs(cf).then(function(recs){
-      var want={}; byChunk[cf].forEach(function(id){want[id]=1;});
-      return recs.filter(function(r){return want[r.id];});
-    }).catch(function(){return [];});
-  });
-  Promise.all(jobs).then(function(parts){
-    var recs=[]; parts.forEach(function(p){recs=recs.concat(p);});
-    body.innerHTML=recs.length?recs.map(recCard).join(''):'<p class="dim">Nothing loaded.</p>';
-  });
+  var recs=rows.map(rowToRec);
+  body.innerHTML=recs.length?recs.map(recCard).join(''):'<p class="dim">Nothing loaded.</p>';
 }
 /* search */
 function doSearch(){
@@ -243,19 +216,7 @@ function doSearch(){
   if(!q){box.innerHTML='';return;}
   var hits=archiveIdx.filter(function(r){return (r[1]+' '+r[0]).toLowerCase().indexOf(q)>=0;}).slice(0,12);
   if(!hits.length){box.innerHTML='<p class="dim">No archive hits. Try the Generator tab to make one.</p>';return;}
-  box.innerHTML='<h3>Archive hits ('+hits.length+')</h3><p class="dim">Loading…</p>';
-  var byChunk={};
-  hits.forEach(function(r){ (byChunk[r[3]]=byChunk[r[3]]||[]).push(r[0]); });
-  var jobs=Object.keys(byChunk).map(function(cf){
-    return fetchChunkRecs(cf).then(function(recs){
-      var want={}; byChunk[cf].forEach(function(id){want[id]=1;});
-      return recs.filter(function(r){return want[r.id];});
-    }).catch(function(){return [];});
-  });
-  Promise.all(jobs).then(function(parts){
-    var recs=[]; parts.forEach(function(p){recs=recs.concat(p);});
-    box.innerHTML='<h3>Archive hits ('+recs.length+')</h3>'+(recs.length?recs.map(recCard).join(''):'<p class="dim">Nothing loaded.</p>');
-  });
+  box.innerHTML='<h3>Archive hits ('+hits.length+')</h3>'+hits.map(rowToRec).map(recCard).join('');
 }
 $('qgo').addEventListener('click',doSearch);
 $('q').addEventListener('keydown',function(e){if(e.key==='Enter')doSearch();});

@@ -44,6 +44,7 @@ table.mtab td,table.mtab th{border:1px solid var(--line);padding:4px 10px;text-a
 table.mtab th{color:var(--dim);font-weight:normal}
 .fig{border:1px solid var(--line);border-radius:8px;background:#080d18;margin:6px 0;max-width:280px}
 </style>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Dataset", "name": "JAH Image Measure Data Base \u2014 JAH Data Bases", "description": "The JAH Image Measure Data Base: the permanent archive of grid and measure records, a boundless generator in archive style, and an archive-aware AI. Property of Justin Addam Higgins.", "creator": {"@type": "Person", "name": "Justin Addam Higgins"}, "license": "https://creativecommons.org/publicdomain/zero/1.0/", "distribution": {"@type": "DataDownload", "contentUrl": "data/gridmeasure/index.json"}}</script>
 </head>
 <body>
 <div class="wrap">
@@ -136,7 +137,7 @@ table.mtab th{color:var(--dim);font-weight:normal}
 (function(){
 'use strict';
 var SLUG='gridmeasure';
-var BASE='https://justinahiggins614-cmyk.github.io/signature-image-grid-measure/';
+
 var LOCAL='../../data/gridmeasure/';
 var BASE_N=4920, OPTKEY='shape';
 var db=null, manifest=null, archiveIdx=null, archiveSample=[];
@@ -163,7 +164,7 @@ JAHDB.loadManifest().then(function(m){
   var chunks=idx.chunks||[];
   /* build a compact row index from the chunks (rows only, records stay lazy) */
   var jobs=chunks.map(function(cn,i){
-    return fetch(BASE+'data/measures/'+cn).then(function(r){
+    return fetch(LOCAL+'measures/'+cn).then(function(r){
       if(!r.ok) throw new Error('fetch '+r.status);
       return r.json();
     }).then(function(recs){
@@ -223,7 +224,7 @@ function loadGroupSample(sh,body){
   var byChunk={};
   rows.forEach(function(r){ (byChunk[r.c]=byChunk[r.c]||[]).push(r.id); });
   var jobs=Object.keys(byChunk).map(function(c){
-    return fetch(BASE+'data/measures/'+chunkName(+c)).then(function(r){
+    return fetch(LOCAL+'measures/'+chunkName(+c)).then(function(r){
       if(!r.ok) throw new Error('fetch '+r.status);
       return r.json();
     }).then(function(recs){
@@ -247,7 +248,7 @@ function doSearch(){
   var byChunk={};
   hits.forEach(function(r){(byChunk[r.c]=byChunk[r.c]||[]).push(r.id);});
   Object.keys(byChunk).forEach(function(c){
-    fetch(BASE+'data/measures/'+chunkName(+c)).then(function(r){
+    fetch(LOCAL+'measures/'+chunkName(+c)).then(function(r){
       if(!r.ok) throw new Error('fetch '+r.status);
       return r.json();
     }).then(function(recs){

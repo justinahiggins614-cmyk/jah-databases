@@ -42,6 +42,7 @@ pre.steps{background:#080d18;border:1px solid var(--line);border-radius:8px;padd
 .wordgrid{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
 .wordgrid .badge{margin:0}
 </style>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Dataset", "name": "JAH Spelling Data Base \u2014 JAH Data Bases", "description": "The JAH Spelling Data Base: the permanent archive of spelling words and correction patterns, a boundless generator in archive style, and an archive-aware AI. Property of Justin Addam Higgins.", "creator": {"@type": "Person", "name": "Justin Addam Higgins"}, "license": "https://creativecommons.org/publicdomain/zero/1.0/", "distribution": {"@type": "DataDownload", "contentUrl": "data/spelling/words.txt"}}</script>
 </head>
 <body>
 <div class="wrap">
@@ -134,7 +135,7 @@ pre.steps{background:#080d18;border:1px solid var(--line);border-radius:8px;padd
 (function(){
 'use strict';
 var SLUG='spelling';
-var BASE='https://justinahiggins614-cmyk.github.io/signature-spell-check/';
+
 var LOCAL='../../data/spelling/';
 var BASE_N=99227, OPTKEY='op';
 var db=null, manifest=null, archiveIdx=null, archiveSample=[];
@@ -204,7 +205,7 @@ function buildGroups(){
 }
 function loadGroupSample(L,body){
   body.innerHTML='<p class="dim">Loading…</p>';
-  fetch(BASE+'data/az/'+L.toLowerCase()+'.json').then(function(r){
+  fetch(LOCAL+'az/'+L.toLowerCase()+'.json').then(function(r){
     if(!r.ok) throw new Error('fetch '+r.status);
     return r.json();
   }).then(function(words){

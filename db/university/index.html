@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>JAH University Data Base — JAH Data Bases</title>
 <meta name="description" content="The JAH University Data Base: the permanent archive of courses, lessons, and tracks, a boundless generator in archive style, and an archive-aware AI. Property of Justin Addam Higgins.">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Dataset","name":"JAH University Data Base","description":"The JAH University Data Base: the permanent archive of courses, lessons, and tracks, a boundless generator in archive style, and an archive-aware AI. Property of Justin Addam Higgins.","creator":{"@type":"Person","name":"Justin Addam Higgins"},"license":"https://creativecommons.org/publicdomain/zero/1.0/","distribution":{"@type":"DataDownload","contentUrl":"data/university/courses.idx.json"}}</script>
 <style>
 :root{--bg:#070b16;--panel:#0d1526;--line:#1d2c4d;--ink:#e8f1ff;--dim:#9fb3d8;--acc:#2f7bff;--ok:#00e5a0;--warn:#ffb020}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Arial,Helvetica,sans-serif;line-height:1.5}
@@ -132,7 +133,7 @@ pre.steps{background:#080d18;border:1px solid var(--line);border-radius:8px;padd
 (function(){
 'use strict';
 var SLUG='university';
-var BASE='https://justinahiggins614-cmyk.github.io/signature-university/';
+
 var LOCAL='../../data/university/';
 var BASEN=900000;
 var db=null, manifest=null, archiveIdx=null, archiveSample=[];
@@ -211,7 +212,7 @@ function loadCatSample(ck,body){
   var byFile={};
   rows.forEach(function(r){ var f=chunkNameForId(r.i); (byFile[f]=byFile[f]||[]).push(r.i); });
   var jobs=Object.keys(byFile).map(function(f){
-    return fetch(BASE+'data/chunks/'+f).then(function(r){
+    return fetch(LOCAL+'chunks/'+f).then(function(r){
       if(!r.ok) throw new Error(f+' '+r.status);
       return r.json();
     }).then(function(recs){
@@ -235,7 +236,7 @@ function doSearch(){
   var byFile={};
   hits.forEach(function(r){ var f=chunkNameForId(r.i); (byFile[f]=byFile[f]||[]).push(r.i); });
   Object.keys(byFile).forEach(function(f){
-    fetch(BASE+'data/chunks/'+f).then(function(r){return r.json();}).then(function(recs){
+    fetch(LOCAL+'chunks/'+f).then(function(r){return r.json();}).then(function(recs){
       var want={};byFile[f].forEach(function(id){want[id]=1;});
       var found=recs.filter(function(r){return want[r.id];});
       if(found.length) box.innerHTML+=found.map(recCard).join('');

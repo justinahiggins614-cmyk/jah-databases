@@ -40,6 +40,7 @@ pre.steps{background:#080d18;border:1px solid var(--line);border-radius:8px;padd
 .kv dt{color:var(--dim)}.kv dd{margin:0}
 .foot{margin-top:26px;padding-top:12px;border-top:1px solid var(--line);color:var(--dim);font-size:.85em}
 </style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Dataset","name":"JAH Dictionary Data Base","description":"Words, definitions, and word inventions.","creator":{"@type":"Person","name":"Justin Addam Higgins"},"license":"https://creativecommons.org/publicdomain/zero/1.0/","distribution":{"@type":"DataDownload","contentUrl":"data/words/dict.idx.json.gz"}}</script>
 </head>
 <body>
 <div class="wrap">
@@ -132,7 +133,6 @@ pre.steps{background:#080d18;border:1px solid var(--line);border-radius:8px;padd
 (function(){
 'use strict';
 var SLUG='words';
-var BASE='https://justinahiggins614-cmyk.github.io/jah-dictionary/';
 var LOCAL='../../data/words/';
 var BASE_N=200000;
 var db=null, manifest=null, archiveIdx=null, archiveSample=[];
@@ -162,14 +162,11 @@ JAHDB.loadManifest().then(function(m){
   greet();
 }).catch(function(e){ $('stCount').textContent='archive unreachable ('+e.message+')'; });
 
-var chunkCache={};
-function fetchChunkRows(cf){
-  if(chunkCache[cf]) return chunkCache[cf];
-  chunkCache[cf]=JAHDB.fetchJsonlGz(BASE+'data/dict/'+cf);
-  return chunkCache[cf];
-}
-function fetchRecord(row){
-  return fetchChunkRows(row[1]).then(function(recs){ return recs[row[2]]||null; });
+/* The compact vendored index IS the archive — rows are [headword, chunkfile, idx-in-chunk].
+   Definitions live only in the original site's unvendored chunks and are never fetched:
+   cards render the real headword record straight from the index rows. */
+function rowToRec(r){
+  return {w:r[0], st:r[1], rid:'#'+r[2]};
 }
 function cleanW(w){ return String(w||'').replace(/^["']+|["']+$/g,''); }
 function recCard(r){
@@ -177,7 +174,7 @@ function recCard(r){
   return '<div class="card"><div class="rec"><img loading="lazy" src="'+img+'" alt="">'+
     '<div><h3 style="font-size:1.15em">'+esc(cleanW(r.w)||'(untitled)')+'</h3>'+
     '<div><span class="badge mono">'+esc(r.st||'')+'</span>'+(r.rt?'<span class="badge">'+esc(r.rt)+'</span>':'')+(r.rid?'<span class="badge mono">'+esc(r.rid)+'</span>':'')+(r.cpc?'<span class="badge">'+esc(r.cpc)+'</span>':'')+'</div>'+
-    (r.d?'<p>'+esc(r.d)+'</p>':'')+
+    (r.d?'<p>'+esc(r.d)+'</p>':'<p class="dim" style="font-size:.8em">Index record — full definition lives in the archive chunk, not in this compact index.</p>')+
     '</div></div></div>';
 }
 function genCard(r){
@@ -211,17 +208,8 @@ function buildGroups(){
 }
 function loadGroupSample(rows,body){
   body.innerHTML='<p class="dim">Loading…</p>';
-  var byChunk={};
-  rows.forEach(function(r){ (byChunk[r[1]]=byChunk[r[1]]||[]).push(r); });
-  var jobs=Object.keys(byChunk).map(function(cf){
-    return fetchChunkRows(cf).then(function(recs){
-      return byChunk[cf].map(function(r){ return recs[r[2]]||null; }).filter(Boolean);
-    }).catch(function(){return [];});
-  });
-  Promise.all(jobs).then(function(parts){
-    var recs=[]; parts.forEach(function(p){recs=recs.concat(p);});
-    body.innerHTML=recs.length?recs.map(recCard).join(''):'<p class="dim">Nothing loaded.</p>';
-  });
+  var recs=rows.map(rowToRec);
+  body.innerHTML=recs.length?recs.map(recCard).join(''):'<p class="dim">Nothing loaded.</p>';
 }
 /* search */
 function doSearch(){
@@ -233,12 +221,7 @@ function doSearch(){
     if(String(archiveIdx[i][0]).toLowerCase().indexOf(q)>=0) hits.push(archiveIdx[i]);
   }
   if(!hits.length){box.innerHTML='<p class="dim">No archive hits. Try the Generator tab to make one.</p>';return;}
-  box.innerHTML='<h3>Archive hits ('+hits.length+')</h3><p class="dim">Loading…</p>';
-  Promise.all(hits.map(function(r){ return fetchRecord(r).catch(function(){return null;}); }))
-    .then(function(recs){
-      recs=recs.filter(Boolean);
-      box.innerHTML='<h3>Archive hits ('+recs.length+')</h3>'+(recs.length?recs.map(recCard).join(''):'<p class="dim">Nothing loaded.</p>');
-    });
+  box.innerHTML='<h3>Archive hits ('+hits.length+')</h3>'+hits.map(rowToRec).map(recCard).join('');
 }
 $('qgo').addEventListener('click',doSearch);
 $('q').addEventListener('keydown',function(e){if(e.key==='Enter')doSearch();});
