@@ -1942,9 +1942,9 @@ function solveCustom(text) {
                      records (Spec Catalog + Patent Catalog) backing the build
    Deterministic: the parts RNG is seeded from family+seed, independent of
    the main solve stream. */
-var SPEC_ARCHIVE_URL = "https://justinahiggins614-cmyk.github.io/signature-one-archive/specs.html?spec=";
-var PATENT_ARCHIVE_URL = "https://justinahiggins614-cmyk.github.io/cyber-patent-catalog/?patent=";
-var GEN_HOME_URL = "https://justinahiggins614-cmyk.github.io/signature-boundless-generators/";
+var SPEC_ARCHIVE_URL = "https://justinahiggins614-cmyk.github.io/jah-databases/db/specs/?spec=";
+var PATENT_ARCHIVE_URL = "https://justinahiggins614-cmyk.github.io/jah-databases/db/patents/?patent=";
+var GEN_HOME_URL = "https://justinahiggins614-cmyk.github.io/jah-databases/db/generators/";
 
 var TOL = {
   MACH: "±0.05 mm", FAB: "±0.5 mm", ASM: "±1.0 mm", SOFT: "±3 mm", WOOD: "±1.0 mm",

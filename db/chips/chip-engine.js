@@ -215,7 +215,7 @@ function canonicalRecord(row){
   c.record_schema=RECORD_SCHEMA;
   c.record_version="1.0";
   c.family={id:row.fam, label:FAMS[row.fam].label, version:"1.0", rules_version:ENGVER};
-  c.canonical_url="https://justinahiggins614-cmyk.github.io/signature-chip-maker/?chip="+c.id;
+  c.canonical_url="https://justinahiggins614-cmyk.github.io/jah-databases/db/chips/?chip="+c.id;
   c.creation_mode="SIGNATURE-GENERATED";
   c.value_kind="GENERATED_TARGET";
   c.design_status="CONCEPT";
