@@ -58,6 +58,7 @@ pre.steps{background:#080d18;border:1px solid var(--line);border-radius:8px;padd
 
   <div class="tabs" role="tablist">
     <button class="tab on" data-p="archive">Archive</button>
+    <button class="tab" data-p="blueprint">✳ The Blueprint</button>
     <button class="tab" data-p="gen">Generator</button>
     <button class="tab" data-p="chat">AI Chat</button>
     <button class="tab" data-p="about">About</button>
@@ -102,6 +103,14 @@ pre.steps{background:#080d18;border:1px solid var(--line);border-radius:8px;padd
         <button class="go" id="chatGo">Send</button>
       </div>
       <p class="dim">Fresh screen every session. Nothing you say here enters the permanent archive unless you file it from the Generator tab.</p>
+    </div>
+  </section>
+
+  <section class="pane" id="p-blueprint">
+    <div class="card">
+      <h3>✳ The Signature Blueprint — the full canonical wording</h3>
+      <p class="dim">A complete copy of the math and all wording from the original Signature Math archive: the four canonical documents, exactly as written — the source math grid, the Signature-Geometry-One specification with its human real-world explanations, the math-grid-one, and the Reversed Universal Allowance Algorithm. The blueprint framework: the six canonical measuring tools, the deterministic-and-infinite universal mapping, the boundless able ecosystem.</p>
+      <div id="bpDocs"><p class="dim">Loading the blueprint…</p></div>
     </div>
   </section>
 
@@ -160,7 +169,16 @@ JAHDB.loadManifest().then(function(m){
   buildGroups();
   renderQueue();
   greet();
+  loadBlueprint();
 }).catch(function(e){ $('stCount').textContent='archive unreachable ('+e.message+')'; });
+function loadBlueprint(){
+  fetch('data/blueprint.json').then(function(r){if(!r.ok)throw new Error('blueprint '+r.status);return r.json();}).then(function(bp){
+    $('bpDocs').innerHTML=bp.documents.map(function(d,i){
+      return '<details class="grp"><summary>'+esc(d.id)+' — '+esc(d.name)+'</summary>'+
+        '<div style="padding:0 12px 12px"><pre class="body">'+esc(d.text)+'</pre></div></details>';
+    }).join('');
+  }).catch(function(e){$('bpDocs').innerHTML='<p class="bad">Blueprint failed to load: '+esc(e.message)+'</p>';});
+}
 
 function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
 function recCard(r){
