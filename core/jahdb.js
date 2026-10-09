@@ -5,7 +5,16 @@
    No API key is ever required from the user. */
 var JAHDB = (function () {
   'use strict';
-  var MANIFEST_URL = '../data/manifest.json';
+  /* Base URL of this project, derived from this script's own location so every
+     page (hub at root, database pages at db/<slug>/) resolves data correctly. */
+  var CORE_BASE = (function () {
+    try {
+      var s = document.currentScript && document.currentScript.src;
+      if (s) return s.replace(/core\/jahdb\.js(\?.*)?(#.*)?$/, '');
+    } catch (e) {}
+    return '';
+  })();
+  var MANIFEST_URL = CORE_BASE + 'data/manifest.json';
   var _manifest = null;
 
   /* ---------- deterministic PRNG (mulberry32) ---------- */
@@ -39,7 +48,10 @@ var JAHDB = (function () {
     return null;
   }
   function dataBase(db) {
-    return 'https://justinahiggins614-cmyk.github.io/' + db.source + '/';
+    /* Local project base — databases are standalone; archive data lives in
+       this project's own data/<slug>/ directories (or its data shard repos),
+       never on the original websites. */
+    return CORE_BASE;
   }
 
   /* ---------- deterministic emblem SVG (per-record / per-database image) ---------- */
@@ -114,8 +126,9 @@ var JAHDB = (function () {
   /* ---------- cross-database sampling (the network) ---------- */
   function sampleOther(m, slug, n) {
     var db = dbBySlug(m, slug);
-    if (!db || !db.index) return Promise.resolve([]);
-    var url = dataBase(db) + db.index;
+    var idx = db && (db.local_index || db.index);
+    if (!idx) return Promise.resolve([]);
+    var url = (/^https?:\/\//i.test(idx) ? '' : dataBase(db)) + idx;
     return fetchGz(url).then(function (t) {
       var lines = t.split('\n').filter(function (l) { return l.trim(); });
       var rnd = prng(hashStr(slug + Date.now() % 100000));
