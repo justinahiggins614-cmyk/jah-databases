@@ -202,6 +202,30 @@ function loadSourceIdx(kind){
   return (job||Promise.resolve()).then(function(){return idxCache[kind];});
 }
 function cleanW(w){ return String(w||'').replace(/^[\"']+|[\"']+$/g,''); }
+function shortDesc(s,n){ s=String(s==null?'':s).replace(/\s+/g,' ').trim(); n=n||180; return s.length>n?s.slice(0,n)+'…':s; }
+/* description per kind, from the underlying full record */
+function descFor(kind, loaded){
+  if(!loaded||loaded.missing||!loaded.record) return '';
+  var rec=loaded.record;
+  if(loaded.kind==='wordspec') return rec.abstract||'';
+  if(loaded.kind==='patent') return rec.abstract_snippet||'';
+  if(loaded.kind==='word') return Array.isArray(rec.d)?rec.d.join(' '):(rec.d||'');
+  if(loaded.kind==='dossier') return rec.overview||'';
+  return '';
+}
+/* uniform cards: image + title + description — click opens the full article */
+function cardsForArticles(kind, rows, body){
+  body.innerHTML='<p class="dim">Loading…</p>';
+  var jobs=rows.map(function(r){
+    return loadFullRecord(kind, r[2]).then(function(ld){return {r:r,ld:ld};})
+      .catch(function(){return {r:r,ld:{missing:'load failed'}};});
+  });
+  Promise.all(jobs).then(function(got){
+    body.innerHTML=got.map(function(g){ return articleCard(kind, g.r, descFor(kind,g.ld)); }).join('')
+      || '<p class="dim">Nothing loaded.</p>';
+    wireCards(body,kind);
+  });
+}
 
 /* fetch one full record for (kind, source_id) */
 function loadFullRecord(kind, sid){
@@ -399,18 +423,18 @@ function buildGroups(){
           var sample=rows.slice(0,25);
           var rnd=JAHDB.prng(99);
           for(var i=0;i<200&&i<rows.length;i++) archiveSample.push(rows[(rnd()*rows.length)|0]);
-          body.innerHTML=sample.map(function(r){return articleCard(kind,r);}).join('');
-          wireCards(body,kind);
+          cardsForArticles(kind, sample, body);
         }).catch(function(e){body.innerHTML='<p class="bad">Load failed: '+esc(e.message)+'</p>';});
       }
     });
     g.appendChild(d);
   });
 }
-function articleCard(kind,r){
+function articleCard(kind,r,desc){
   var n=r[0], title=r[1], sid=r[2];
   return '<div class="card"><div class="rec"><img loading="lazy" src="'+JAHDB.emblemSVG('article',wid(n))+'" alt="">'+
     '<div style="flex:1"><h3 style="margin:0 0 4px;font-size:1.05em">'+esc(title)+'</h3>'+
+    (desc?'<p>'+esc(shortDesc(desc))+'</p>':'')+
     '<div><span class="badge">'+wid(n)+'</span><span class="badge mono">'+esc(sid)+'</span><span class="badge">'+esc(kind)+' article</span></div>'+
     '<div class="row" style="margin-top:8px"><button class="go" data-art="'+n+'">Open full article →</button></div>'+
     '</div></div></div>';
@@ -431,15 +455,20 @@ function doSearch(){
   box.innerHTML='<p class="dim">Searching…</p>';
   var jobs=KINDS.map(function(kd){return loadKind(kd[0]).then(function(rows){return {kind:kd[0],rows:rows};});});
   Promise.all(jobs).then(function(all){
+    all.forEach(function(k){
+      k.hits=[];
+      for(var i=0;i<k.rows.length&&k.hits.length<6;i++)
+        if(String(k.rows[i][1]).toLowerCase().indexOf(q)>=0) k.hits.push(k.rows[i]);
+    });
     var html='';
     all.forEach(function(k){
-      var hits=[];
-      for(var i=0;i<k.rows.length&&hits.length<6;i++)
-        if(String(k.rows[i][1]).toLowerCase().indexOf(q)>=0) hits.push(k.rows[i]);
-      if(hits.length) html+='<h3>'+esc(k.kind)+' hits</h3>'+hits.map(function(r){return articleCard(k.kind,r);}).join('');
+      if(k.hits.length) html+='<h3>'+esc(k.kind)+' hits</h3><div id="sh-'+k.kind+'"></div>';
     });
-    box.innerHTML=html||'<p class="dim">No articles found. Try the Generator tab to write one.</p>';
-    KINDS.forEach(function(kd){ wireCards(box,kd[0]); });
+    if(!html){ box.innerHTML='<p class="dim">No articles found. Try the Generator tab to write one.</p>'; return; }
+    box.innerHTML=html;
+    all.forEach(function(k){
+      if(k.hits.length) cardsForArticles(k.kind, k.hits, box.querySelector('#sh-'+k.kind));
+    });
   });
 }
 $('qgo').addEventListener('click',doSearch);

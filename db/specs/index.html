@@ -262,13 +262,32 @@ function wireFullCard(root, rec){
   });
 }
 
-function recCard(r){
+function shortDesc(s,n){ s=String(s==null?'':s).replace(/\s+/g,' ').trim(); n=n||160; return s.length>n?s.slice(0,n)+'…':s; }
+function recCard(r, rec){
   var img=JAHDB.emblemSVG(r[4]||'spec', r[0]);
+  var desc=rec&&rec.abstract?shortDesc(rec.abstract):'';
   return '<div class="card"><div class="rec"><img loading="lazy" src="'+img+'" alt="">'+
     '<div style="flex:1"><h3 style="font-size:1.05em">'+esc(r[1]||r[0])+'</h3>'+
-    '<div><span class="badge mono">'+esc(r[0])+'</span><span class="badge">'+esc(r[4]||'')+'</span><span class="badge dim">shard '+esc(r[3])+'</span></div>'+
+    (desc?'<p>'+esc(desc)+'</p>':'')+
+    '<div><span class="badge mono">'+esc(r[0])+'</span><span class="badge">'+esc(r[4]||'')+'</span></div>'+
     '<div class="row" style="margin-top:8px"><button class="go" data-open="'+esc(r[0])+'">Open full record →</button></div>'+
     '</div></div></div>';
+}
+/* uniform cards: image + title + description — descriptions come from the
+   records' own abstracts, fetched with their chunks */
+function cardsForRows(rows, body){
+  body.innerHTML='<p class="dim">Loading…</p>';
+  var byChunk={}, order=[];
+  rows.forEach(function(r){ var k=r[3]+'/'+r[2]; if(!byChunk[k]){byChunk[k]=[];order.push(k);} byChunk[k].push(r); });
+  var jobs=order.map(function(k){ return loadChunk(byChunk[k][0]).then(function(m){return {k:k,m:m};}); });
+  Promise.all(jobs).then(function(got){
+    var maps={}; got.forEach(function(g){maps[g.k]=g.m;});
+    body.innerHTML=rows.map(function(r){
+      var m=maps[r[3]+'/'+r[2]]||{};
+      return recCard(r, m[r[0]]||null);
+    }).join('') || '<p class="dim">Nothing loaded.</p>';
+    wireOpenButtons(body);
+  }).catch(function(e){ body.innerHTML='<p class="bad">Load failed: '+esc(e.message)+'</p>'; });
 }
 function wireOpenButtons(root){
   root.querySelectorAll('[data-open]').forEach(function(b){
@@ -290,9 +309,7 @@ function buildGroups(){
     d.addEventListener('toggle',function(){
       if(d.open && !d.dataset.loaded){
         d.dataset.loaded='1';
-        var body=d.querySelector('.body');
-        body.innerHTML=rows.slice(0,25).map(recCard).join('');
-        wireOpenButtons(body);
+        cardsForRows(rows.slice(0,25), d.querySelector('.body'));
       }
     });
     g.appendChild(d);
@@ -316,8 +333,8 @@ function doSearch(){
     if((r[1]+' '+r[0]).toLowerCase().indexOf(ql)>=0) hits.push(r);
   }
   if(!hits.length){box.innerHTML='<p class="dim">No archive hits. Try the Generator tab to make one.</p>';return;}
-  box.innerHTML='<h3>Archive hits ('+hits.length+')</h3>'+hits.map(recCard).join('');
-  wireOpenButtons(box);
+  box.innerHTML='<h3>Archive hits ('+hits.length+')</h3><div id="srch"></div>';
+  cardsForRows(hits, box.querySelector('#srch'));
 }
 $('qgo').addEventListener('click',doSearch);
 $('q').addEventListener('keydown',function(e){if(e.key==='Enter')doSearch();});
