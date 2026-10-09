@@ -43,7 +43,7 @@ var ApexAI = (function () {
     try{ return /model/i.test(d.error.message||''); }catch(e){ return false; }
   }
   var API = 'https://api.groq.com/openai/v1/chat/completions';
-  var NET = 'https://justinahiggins614-cmyk.github.io';
+  var NET = (function(){ try{ var x=document.currentScript&&document.currentScript.src; if(x) return x.replace(/core\/apex-2\.0\.js(\?.*)?(#.*)?$/,'db/'); }catch(e){} return '../'; })();
   var hist = []; /* {role, content} — this session */
 
   var TOOLS = [
@@ -102,17 +102,17 @@ var ApexAI = (function () {
     if (name === 'route_site') {
       var t = String(args.topic || '').toLowerCase();
       var map = [
-        ['dictionary', '3 Dictionary', NET + '/jah-dictionary'], ['word', '3 Dictionary', NET + '/jah-dictionary'],
-        ['wiki', '4 JAH Wiki', NET + '/jah-wiki'], ['leak', '5 JAH-N Wiki Leaks', NET + '/jah-n-wiki-leaks'],
-        ['calcul', '2 Calculator', NET + '/jah-calculator'], ['math', '2 Calculator', NET + '/jah-calculator'],
-        ['patent', '8 Patent Catalog', NET + '/cyber-patent-catalog'],
-        ['spec', '9 Spec Catalog', NET + '/signature-one-archive/specs.html'],
-        ['music', '23 Music Studio', NET + '/signature-ai-song-maker'], ['song', '23 Music Studio', NET + '/signature-ai-song-maker'],
-        ['llama', '6 Signature Llama', NET + '/signature-llama'], ['phone', '7 AI Phone Book', NET + '/jah-ai-models'],
-        ['book', '11 Book Depository', NET + '/signature-books'], ['mall', '36 Cyber Mega-Mall', NET + '/signature-cyber-mega-mall']
+        ['dictionary', 'Dictionary Database', NET + 'words/'], ['word', 'Dictionary Database', NET + 'words/'],
+        ['wiki', 'JAH Wiki Database', NET + 'wiki/'], ['leak', 'JAH-N Wiki Leaks Database', NET + 'leaks/'],
+        ['calcul', 'Calculator Database', NET + 'equations/'], ['math', 'Math Database', NET + 'math/'],
+        ['patent', 'Patent Catalog Database', NET + 'patents/'],
+        ['spec', 'Spec Catalog Database', NET + 'specs/'],
+        ['music', 'Music Studio Database', NET + 'music/'], ['song', 'Music Studio Database', NET + 'music/'],
+        ['llama', 'Llama Database', NET + 'llama/'], ['phone', 'AI Phone Book Database', NET + 'ai-models/'],
+        ['book', 'Book Depository Database', NET + 'books/'], ['mall', 'Cyber Mega-Mall Database', NET + 'mall/']
       ];
-      for (var i = 0; i < map.length; i++) if (t.indexOf(map[i][0]) >= 0) return Promise.resolve('Site ' + map[i][1] + ': ' + map[i][2]);
-      return Promise.resolve('Signature network: ' + NET + '/signature-the-ai (39 sites — ask which one)');
+      for (var i = 0; i < map.length; i++) if (t.indexOf(map[i][0]) >= 0) return Promise.resolve('Database ' + map[i][1] + ': ' + map[i][2]);
+      return Promise.resolve('JAH Data Bases: ' + NET + ' (37 databases — ask which one)');
     }
     return Promise.resolve('unknown tool: ' + name);
   }

@@ -4,7 +4,8 @@ var SupremeConv = {
   remember: function(q, intent){ this.mem.push({q:q, intent:intent, t:Date.now()}); if(this.mem.length>10) this.mem.shift(); },
   pick: function(key, arr){ var h=this.said[key]||0; var v=arr[h%arr.length]; this.said[key]=h+1; return v; }
 };
-var DICT_BASE = 'https://justinahiggins614-cmyk.github.io/jah-dictionary';
+var DICT_BASE = (function(){ try{ var s=document.currentScript&&document.currentScript.src; if(s) return s.replace(/core\/standard-1\.0\.js(\?.*)?(#.*)?$/,'data/words/lexical/'); }catch(e){} return '../../data/words/lexical/'; })();
+var WORDS_DB = (function(){ try{ var s=document.currentScript&&document.currentScript.src; if(s) return s.replace(/core\/standard-1\.0\.js(\?.*)?(#.*)?$/,'db/words/'); }catch(e){} return '../words/'; })();
 var dictCache = {};
 function dictLookup(word){
   word = String(word||'').toLowerCase().trim();
@@ -16,7 +17,7 @@ function dictLookup(word){
     return null;
   }
   if(dictCache[L]) return Promise.resolve(scan(dictCache[L]));
-  return fetch(DICT_BASE + '/data/lexical/shard-' + L + '.json')
+  return fetch(DICT_BASE + 'shard-' + L + '.json')
     .then(function(r){ if(!r.ok) throw 0; return r.json(); })
     .then(function(rows){ dictCache[L]=rows; return scan(rows); })
     .catch(function(){ return null; });
@@ -88,9 +89,9 @@ function supremeAnswer(q){
         var pos = row[1] ? ' ('+row[1]+')' : '';
         var pron = row[2] ? ' — say it: '+row[2] : '';
         return '📖 ' + roleTag + row[0] + pos + pron + '\n' + (row[3] || 'Definition on file.') +
-          '\n\n[[LINK:' + DICT_BASE + '/?w=' + encodeURIComponent(row[0]) + '|Open in the Signature Dictionary →]]';
+          '\n\n[[LINK:' + WORDS_DB + '?w=' + encodeURIComponent(row[0]) + '|Open in The Signature Dictionary Database →]]';
       }
-      return '📖 ' + roleTag + 'I looked through the live Signature Dictionary and couldn\u2019t find \u201c'+w+'\u201d. Check the spelling, or try the dictionary site directly:\n[[LINK:' + DICT_BASE + '|Open the Signature Dictionary →]]';
+      return '📖 ' + roleTag + 'I looked through the live Signature Dictionary and couldn\u2019t find \u201c'+w+'\u201d. Check the spelling, or try the dictionary database directly:\n[[LINK:' + WORDS_DB + '|Open The Signature Dictionary Database →]]';
     });
   }
   /* --- single word query: treat as define --- */
@@ -101,7 +102,7 @@ function supremeAnswer(q){
         var pos = row[1] ? ' ('+row[1]+')' : '';
         var pron = row[2] ? ' — say it: '+row[2] : '';
         return '📖 ' + roleTag + row[0] + pos + pron + '\n' + (row[3] || 'Definition on file.') +
-          '\n\n[[LINK:' + DICT_BASE + '/?w=' + encodeURIComponent(row[0]) + '|Open in the Signature Dictionary →]]';
+          '\n\n[[LINK:' + WORDS_DB + '?w=' + encodeURIComponent(row[0]) + '|Open in The Signature Dictionary Database →]]';
       }
       return null; /* fall through to fallback below */
     }).then(function(a){
@@ -114,20 +115,20 @@ function supremeAnswer(q){
     });
   }
   /* --- archive routing: honest pointers with real links --- */
-  var NET = 'https://justinahiggins614-cmyk.github.io';
+  var NET = (function(){ try{ var x=document.currentScript&&document.currentScript.src; if(x) return x.replace(/core\/standard-1\.0\.js(\?.*)?(#.*)?$/,'db/'); }catch(e){} return '../'; })();
   if(/\bpatent\b/.test(low)){ SupremeConv.remember(q,'route:patent');
-    return roleTag + 'Patents live in two places:\n[[LINK:'+NET+'/cyber-patent-catalog|Globally Rejustered Patent Catalog →]] (harvested public records)\n[[LINK:'+NET+'/signature-one-archive/specs.html|Signature Spec Catalog →]] (your original drafts)';
+    return roleTag + 'Patents live in two places:\n[[LINK:'+NET+'patents/|Globally Rejustered Patent Catalog Database →]] (harvested public records)\n[[LINK:'+NET+'specs/|Signature Spec Catalog Pending Patents Database →]] (original drafts)';
   }
   if(/\bwiki\b|\bhistory of\b|\bwho (was|is)\b/.test(low)){ SupremeConv.remember(q,'route:wiki');
-    return roleTag + 'For deep articles try:\n[[LINK:'+NET+'/jah-wiki|JAH Wiki →]]\n[[LINK:'+NET+'/jah-n-wiki-leaks|JAH-N Wiki Leaks →]] (the classified-dossier side)';
+    return roleTag + 'For deep articles try:\n[[LINK:'+NET+'wiki/|JAH Wiki Database →]]\n[[LINK:'+NET+'leaks/|JAH-N Wiki Leaks Database →]] (the classified-dossier side)';
   }
   if(/\bsong|music\b/.test(low)){ SupremeConv.remember(q,'route:music');
-    return roleTag + 'Music lives at [[LINK:'+NET+'/signature-ai-song-maker|Signature Music Studio →]] — full song generator in there.';
+    return roleTag + 'Music lives at [[LINK:'+NET+'music/|Signature Music Studio Database →]] — full song generator in there.';
   }
   /* --- honest fallback: never canned, never word salad --- */
   SupremeConv.remember(q,'fallback');
   return roleTag + SupremeConv.pick('fallback', [
-    'I want to give you a real answer, not a guess — I\u2019m best at defining words (try \u201cdefine <word>\u201d), math like 12*8+3, and routing you across the 37 sites. For open-ended reasoning, the Industry Standard cloud path on the Signature Llama site is the deeper brain.',
+    'I want to give you a real answer, not a guess — I\u2019m best at defining words (try \u201cdefine <word>\u201d), math like 12*8+3, and routing you across the 37 databases. For open-ended reasoning, the cloud path in the Signature Llama Database is the deeper brain.',
     'That\u2019s outside what I can answer on-device. I do words, math, roles, and network routing for real — everything else, the full cloud Llama handles.',
     'I don\u2019t have a real answer for that one, and I\u2019d rather say so than make one up. Try a word, some math, or ask me what I can do.'
   ]);
