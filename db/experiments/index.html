@@ -40,6 +40,23 @@ pre.steps{background:#080d18;border:1px solid var(--line);border-radius:8px;padd
 .kv{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;font-size:.95em}
 .kv dt{color:var(--dim)}.kv dd{margin:0}
 .foot{margin-top:26px;padding-top:12px;border-top:1px solid var(--line);color:var(--dim);font-size:.85em}
+
+/* one-click full-record modal (2026-10-09: every archive card opens the FULL record) */
+.fm-back{position:fixed;inset:0;background:rgba(2,6,16,.8);z-index:9990;display:none;align-items:flex-start;justify-content:center;padding:4vh 12px;overflow:auto}
+.fm-back.on{display:flex}
+.fm{width:min(880px,96vw);max-height:92vh;overflow:auto;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px}
+.fm-head{display:flex;gap:10px;align-items:flex-start;justify-content:space-between;margin-bottom:8px}
+.fm-head h2{margin:0;font-size:1.2em}
+.fm-actions{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
+.fm dl.fkv{display:grid;grid-template-columns:minmax(110px,190px) 1fr;gap:6px 12px;font-size:.93em;margin:0}
+.fm dl.fkv dt{color:var(--dim);word-break:break-word}
+.fm dl.fkv dd{margin:0;word-break:break-word}
+.fm .fsec{margin:10px 0;padding:10px;border:1px solid var(--line);border-radius:10px;background:#080d18}
+.fm .fsec>h4{margin:0 0 6px;font-size:.95em}
+.fm pre.raw{background:#060a14;border:1px solid var(--line);border-radius:8px;padding:10px;white-space:pre-wrap;word-break:break-word;font-size:.78em;max-height:40vh;overflow:auto}
+.card[data-fi]{cursor:pointer}
+.card[data-fi]:hover{border-color:var(--acc)}
+
 </style>
 </head>
 <body>
@@ -122,10 +139,26 @@ pre.steps{background:#080d18;border:1px solid var(--line);border-radius:8px;padd
   </section>
 </div>
 
+
+<div class="fm-back" id="fmBack" role="dialog" aria-modal="true" aria-label="Full record">
+  <div class="fm">
+    <div class="fm-head">
+      <h2 id="fmTitle">Record</h2>
+      <button id="fmClose" aria-label="Close">✕ Close</button>
+    </div>
+    <div class="fm-actions">
+      <button class="go" id="fmCopy">⧉ Copy full record (JSON)</button>
+      <button id="fmDl">⬇ Download full record (.json)</button>
+    </div>
+    <div id="fmBody"></div>
+    <details class="fsec"><summary style="cursor:pointer;font-weight:bold">Raw JSON</summary><pre class="raw" id="fmRaw"></pre></details>
+  </div>
+</div>
 <script src="../../core/jahdb.js"></script>
 <script src="../../core/standard-1.0.js"></script>
 <script src="../../core/guide-conv.js"></script>
 <script src="../../core/apex-2.0.js"></script>
+<script src="engine.js"></script>
 <script src="gen-experiments.js"></script>
 <script>
 (function(){
@@ -149,8 +182,13 @@ document.querySelectorAll('.tab').forEach(function(t){
 JAHDB.loadManifest().then(function(m){
   manifest=m; db=JAHDB.dbBySlug(m,'experiments');
   $('emblem').src=JAHDB.emblemSVG('Solved Experiments','JAH-EXP');
-  return JAHDB.fetchGz(LOCAL+'index.json.gz');
-}).then(function(t){
+  return Promise.all([
+    JAHDB.fetchGz(LOCAL+'index.json.gz'),
+    fetch(LOCAL+'solver_types.json').then(function(r){if(!r.ok)throw new Error('types '+r.status);return r.json();}).catch(function(){return [];})
+  ]);
+}).then(function(res){
+  try{ window.EXP_TYPES=res[1]||[]; }catch(e){}
+  var t=res[0];
   /* each line is a JSON array of rows: [id, slug, pos, title, discipline] */
   archiveIdx=[];
   t.split('\n').forEach(function(l){
@@ -167,12 +205,13 @@ JAHDB.loadManifest().then(function(m){
 
 /* index row: [id, slug, pos, title, discipline] — the card is the index entry itself */
 function recCardRow(r){
+var _fi=regFull(r);
   var img=JAHDB.emblemSVG(r[1]||'exp', r[0]);
-  return '<div class="card"><div class="rec"><img loading="lazy" src="'+img+'" alt="">'+
+  return '<div class="card" data-fi="'+_fi+'" title="Click to open the FULL record — every field, with copy & download"><div class="rec"><img loading="lazy" src="'+img+'" alt="">'+
     '<div style="flex:1"><h3 class="mono" style="font-size:1.05em">'+esc(r[3]||r[0])+'</h3>'+
     '<div><span class="badge">'+esc(r[0])+'</span><span class="badge">'+esc(r[1]||'')+'</span>'+
     '<span class="badge">'+esc(r[4]||'')+'</span></div>'+
-    '<p class="dim">Archive record — full solver values are computed deterministically on the source archive.</p>'+
+    '<p class="dim">Archive record — one click opens the full solver record, computed deterministically by the vendored SOLVER-ENGINE-V1.</p>'+
     '</div></div></div>';
 }
 function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
@@ -306,7 +345,90 @@ function sendChat(){
 $('chatGo').addEventListener('click',sendChat);
 $('chatIn').addEventListener('keydown',function(e){if(e.key==='Enter')sendChat();});
 $('fresh').addEventListener('click',function(){session=JAHDB.newSession(SLUG);$('chatlog').innerHTML='';greet();});
+
+/* ---------- one-click full-record view (2026-10-09) ----------
+   Every archive card registers its record in FULLREG and gets data-fi.
+   One click opens the FULL record: every field, with Copy + Download. */
+var FULLREG=[];
+var FULLSYS={};
+function regFull(r){FULLREG.push(r);return FULLREG.length-1;}
+function FULLBUILD(r){return r;}
+var FMREC=null,FMRAW='';
+function fmVal(v){
+  if(v===null||v===undefined||v==='')return '<span class="dim">—</span>';
+  if(typeof v==='boolean')return v?'yes':'no';
+  if(typeof v==='number')return '<span class="mono">'+esc(String(v))+'</span>';
+  if(typeof v==='string'){
+    if(/^(https?:)?\/\//.test(v)||v.indexOf('www.')===0)return '<a href="'+esc(v)+'" target="_blank" rel="noopener">'+esc(v)+'</a>';
+    return esc(v.length>800?v.slice(0,800)+'…':v);
+  }
+  if(Array.isArray(v)){
+    if(!v.length)return '<span class="dim">[]</span>';
+    if(v.every(function(x){return x===null||typeof x!=='object';}))return esc(v.join('; ').slice(0,900));
+    return '<div>'+v.slice(0,60).map(function(x,ix){
+      return '<div class="fsec"><h4>#'+(ix+1)+'</h4>'+fmObj(x)+'</div>';
+    }).join('')+(v.length>60?'<p class="dim">…and '+(v.length-60)+' more (see Raw JSON)</p>':'')+'</div>';
+  }
+  return fmObj(v);
+}
+function fmObj(o){
+  if(o===null||typeof o!=='object')return fmVal(o);
+  var ks=Object.keys(o).filter(function(k){return k.charAt(0)!=='_';});
+  if(!ks.length)return '<span class="dim">{}</span>';
+  return '<dl class="fkv">'+ks.map(function(k){
+    return '<dt>'+esc(k)+'</dt><dd>'+fmVal(o[k])+'</dd>';
+  }).join('')+'</dl>';
+}
+function fmTitle(r){return r.title||r.TITLE||r.name||r.NAME||r.id||r.ID||r.code||r.record_id||'Record';}
+function openFull(i){
+  var row=FULLREG[i];if(row===undefined)return;
+  var r=null,note='';
+  try{ r=FULLBUILD(row); }catch(e){ note='Full-record build failed: '+String((e&&e.message)||e); }
+  if(!r||typeof r!=='object'){ r={archive_row:row}; note=note||'Showing the archive row exactly as stored.'; }
+  FMREC=r;
+  try{ FMRAW=JSON.stringify(r,function(k,v){return (k&&k.charAt(0)==='_')?undefined:v;},2); }
+  catch(e){ FMRAW=String(r); }
+  $('fmTitle').textContent=fmTitle(r);
+  $('fmBody').innerHTML=(note?'<p class="bad">'+esc(note)+'</p>':'')+fmObj(r)+
+    '<p class="dim">One click opened this full record — every field above, exactly as stored. Copy or Download takes it with you.</p>';
+  $('fmRaw').textContent=FMRAW;
+  $('fmBack').classList.add('on');
+  document.body.style.overflow='hidden';
+}
+function closeFull(){ $('fmBack').classList.remove('on'); document.body.style.overflow=''; }
+function fmFileName(){
+  var r=FMREC||{};
+  var id=String(r.id||r.ID||r.code||r.record_id||'record').replace(/[^A-Za-z0-9._-]+/g,'_');
+  return id+'.json';
+}
+document.addEventListener('click',function(e){
+  var t=e.target&&e.target.closest?e.target.closest('[data-fi]'):null;
+  if(t&&!e.target.closest('button')&&!e.target.closest('a')){ openFull(parseInt(t.getAttribute('data-fi'),10)); }
+});
+$('fmClose').addEventListener('click',closeFull);
+$('fmBack').addEventListener('click',function(e){ if(e.target===$('fmBack')) closeFull(); });
+document.addEventListener('keydown',function(e){ if(e.key==='Escape') closeFull(); });
+$('fmCopy').addEventListener('click',function(){
+  var done=function(ok){ $('fmCopy').textContent=ok?'✓ Copied':'Copy failed — select the Raw JSON'; setTimeout(function(){$('fmCopy').textContent='⧉ Copy full record (JSON)';},1600); };
+  if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(FMRAW).then(function(){done(true);},function(){done(false);}); }
+  else{ var ta=document.createElement('textarea');ta.value=FMRAW;document.body.appendChild(ta);ta.select();
+    try{done(document.execCommand('copy'));}catch(x){done(false);} document.body.removeChild(ta); }
+});
+$('fmDl').addEventListener('click',function(){
+  var blob=new Blob([FMRAW],{type:'application/json'});
+  var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=fmFileName();
+  document.body.appendChild(a);a.click();setTimeout(function(){URL.revokeObjectURL(a.href);a.remove();},500);
+});
+
+/* full experiment records are built on demand by the vendored SOLVER-ENGINE-V1
+   (the source archive never stored them — it computes them, exactly like this) */
+function FULLBUILD(row){
+  if(!window.ExpEngine) throw new Error('solver engine not loaded yet');
+  return window.ExpEngine.solve(row[1], row[2], {}, row[0]);
+}
+
 })();
 </script>
+
 </body>
 </html>

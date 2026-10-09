@@ -39,6 +39,23 @@ pre.steps{background:#080d18;border:1px solid var(--line);border-radius:8px;padd
 .kv{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;font-size:.95em}
 .kv dt{color:var(--dim)}.kv dd{margin:0}
 .foot{margin-top:26px;padding-top:12px;border-top:1px solid var(--line);color:var(--dim);font-size:.85em}
+
+/* one-click full-record modal (2026-10-09: every archive card opens the FULL record) */
+.fm-back{position:fixed;inset:0;background:rgba(2,6,16,.8);z-index:9990;display:none;align-items:flex-start;justify-content:center;padding:4vh 12px;overflow:auto}
+.fm-back.on{display:flex}
+.fm{width:min(880px,96vw);max-height:92vh;overflow:auto;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px}
+.fm-head{display:flex;gap:10px;align-items:flex-start;justify-content:space-between;margin-bottom:8px}
+.fm-head h2{margin:0;font-size:1.2em}
+.fm-actions{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
+.fm dl.fkv{display:grid;grid-template-columns:minmax(110px,190px) 1fr;gap:6px 12px;font-size:.93em;margin:0}
+.fm dl.fkv dt{color:var(--dim);word-break:break-word}
+.fm dl.fkv dd{margin:0;word-break:break-word}
+.fm .fsec{margin:10px 0;padding:10px;border:1px solid var(--line);border-radius:10px;background:#080d18}
+.fm .fsec>h4{margin:0 0 6px;font-size:.95em}
+.fm pre.raw{background:#060a14;border:1px solid var(--line);border-radius:8px;padding:10px;white-space:pre-wrap;word-break:break-word;font-size:.78em;max-height:40vh;overflow:auto}
+.card[data-fi]{cursor:pointer}
+.card[data-fi]:hover{border-color:var(--acc)}
+
 </style>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Dataset","name":"JAH Math Data Base","description":"The Signature math grid and geometry records.","creator":{"@type":"Person","name":"Justin Addam Higgins"},"license":"https://creativecommons.org/publicdomain/zero/1.0/","distribution":{"@type":"DataDownload","contentUrl":"data/math/mathdata.json"}}</script>
 </head>
@@ -52,7 +69,7 @@ pre.steps{background:#080d18;border:1px solid var(--line);border-radius:8px;padd
       <div class="stats">
         <span class="stat">Archive records: <b id="stCount">…</b></span>
         <span class="stat">Generator: <b>jahdb-math-1.0</b> <span class="ok">● working</span></span>
-        <span class="stat">AI: <b>JAH Math Librarian</b></span>
+        <span class="stat">AI: <b>JAH Geometer</b></span>
       </div>
     </div>
   </div>
@@ -97,7 +114,7 @@ pre.steps{background:#080d18;border:1px solid var(--line);border-radius:8px;padd
 
   <section class="pane" id="p-chat">
     <div class="card">
-      <h3>JAH Math Librarian <button id="fresh" style="font-size:.8em">New session</button></h3>
+      <h3>JAH Geometer <button id="fresh" style="font-size:.8em">New session</button></h3>
       <div class="chatlog" id="chatlog"></div>
       <div class="row">
         <input id="chatIn" placeholder="Ask about the archive, or ask me to generate…" style="flex:1;min-width:200px">
@@ -110,7 +127,7 @@ pre.steps{background:#080d18;border:1px solid var(--line);border-radius:8px;padd
   <section class="pane" id="p-blueprint">
     <div class="card">
       <h3>✳ The Signature Blueprint — the full canonical wording</h3>
-      <p class="dim">A complete copy of the math and all wording from the original Signature Math archive: the four canonical documents, exactly as written — the source math grid, the Signature-Geometry-One specification with its human real-world explanations, the math-grid-one, and the Reversed Universal Allowance Algorithm. The blueprint framework: the six canonical measuring tools, the deterministic-and-infinite universal mapping, the boundless able ecosystem.</p>
+      <p class="dim">The four canonical documents, exactly as written — the source math grid, the Signature-Geometry-One specification with its human real-world explanations, the math-grid-one, and the Reversed Universal Allowance Algorithm. The blueprint framework: the six canonical measuring tools, the deterministic-and-infinite universal mapping, the boundless able ecosystem.</p>
       <div id="bpDocs"><p class="dim">Loading the blueprint…</p></div>
     </div>
   </section>
@@ -119,18 +136,33 @@ pre.steps{background:#080d18;border:1px solid var(--line);border-radius:8px;padd
     <div class="card">
       <h3>About this data base</h3>
       <dl class="kv">
-        <dt>Archive</dt><dd>This database's encoding-system records (JAH-MATHDATA) — base systems, mixes, visual codes, text encodings, geometry, cryptography and more — preserved as structured, searchable data.</dd>
-        <dt>Record schema</dt><dd class="mono">id · title · cat · grid · bitstring · encodings{hex, base64, ascii_art} · popcount · symmetric180 · note · stamp</dd>
-        <dt>Generator</dt><dd>jahdb-math-1.0 — deterministic (mulberry32), builds each record from a raw 144-bit grid, then an independent re-encoder rebuilds the bitstring, hex, base64, ASCII-art, popcount, and symmetry from the raw bits before acceptance.</dd>
+        <dt>Archive</dt><dd>This database's encoding-system records (JAH-MATHDATA) — base systems, mixes, visual codes, text encodings, geometry, cryptography and more — plus the Geometry-One geometric archive (JAH-GEO): theorems with proofs, compass-and-straightedge constructions, formulas, definitions, and worked problems, organized on the six canonical measuring tools. Preserved as structured, searchable data.</dd>
+        <dt>Record schema</dt><dd class="mono">id · title · cat · grid · bitstring · encodings{hex, base64, ascii_art} · popcount · symmetric180 · note · stamp — and geometric: id · kind · sg1_tool · topic · title · statement/proof · steps · formula · problem/solution · answer</dd>
+        <dt>Generator</dt><dd>jahdb-math-1.0 — deterministic (mulberry32). Grid mode builds each record from a raw 144-bit grid, then an independent re-encoder rebuilds every field before acceptance. Geometry mode emits full geometric entries (theorem/proof, construction, formula, worked problem with computed solution), each re-verified against its curated source or recomputed math.</dd>
         <dt>Drift control</dt><dd>Every generated grid is checked against an archive sample for duplicate bitstrings and re-encoded by the independent verifier.</dd>
         <dt>Cross-database</dt><dd>The generator can borrow a numeric theme from any of the other 36 data bases when you tick the box.</dd>
-        <dt>AI</dt><dd>JAH Math Librarian — archive-aware. On-device Standard 1.0, no key needed; uses the shared Signature backend automatically when configured.</dd>
+        <dt>AI</dt><dd>JAH Geometer — archive-aware geometry AI, grounded in the Geometry-One six-tool framework. On-device Standard 1.0, no key needed; uses the shared Signature backend automatically when configured.</dd>
         <dt>Ownership</dt><dd>✳ Property of Justin Addam Higgins (JAH).</dd>
       </dl>
     </div>
   </section>
 </div>
 
+
+<div class="fm-back" id="fmBack" role="dialog" aria-modal="true" aria-label="Full record">
+  <div class="fm">
+    <div class="fm-head">
+      <h2 id="fmTitle">Record</h2>
+      <button id="fmClose" aria-label="Close">✕ Close</button>
+    </div>
+    <div class="fm-actions">
+      <button class="go" id="fmCopy">⧉ Copy full record (JSON)</button>
+      <button id="fmDl">⬇ Download full record (.json)</button>
+    </div>
+    <div id="fmBody"></div>
+    <details class="fsec"><summary style="cursor:pointer;font-weight:bold">Raw JSON</summary><pre class="raw" id="fmRaw"></pre></details>
+  </div>
+</div>
 <script src="../../core/jahdb.js"></script>
 <script src="../../core/standard-1.0.js"></script>
 <script src="../../core/guide-conv.js"></script>
@@ -140,10 +172,12 @@ pre.steps{background:#080d18;border:1px solid var(--line);border-radius:8px;padd
 (function(){
 'use strict';
 var SLUG='math';
+var FALLBACK={slug:SLUG,ai_name:'JAH Geometer',name:'Signature Math Database',record_kind:'math record'};
 var LOCAL='../../data/math/';
 var db=null, manifest=null, archiveIdx=[], archiveSample=[];
 var $=function(id){return document.getElementById(id);};
 var CATS=['Base systems','Mixes','Visual codes','Text encodings','Numeric formats','Audio','Geometry','Cryptography','Compression'];
+var GEO_TYPES=['geometry-theorem','geometry-construction','geometry-formula','geometry-problem'];
 
 /* tabs */
 document.querySelectorAll('.tab').forEach(function(t){
@@ -155,16 +189,53 @@ document.querySelectorAll('.tab').forEach(function(t){
 });
 /* family options */
 CATS.forEach(function(c){ var o=document.createElement('option'); o.value=c; o.textContent=c; $('gType').appendChild(o); });
+GEO_TYPES.forEach(function(c){ var o=document.createElement('option'); o.value=c; o.textContent=c; $('gType').appendChild(o); });
+/* Geometry-One archive: six canonical measuring tools */
+var GEO=[];
+var GEOTOOLS=['Line/Distance/Dimension','Triangle/Level/Pyramid','Square/Corner/Box','Plus/Cross/Crossroads','Circle/Dot/Ball','Curvature/Perspective/Fluidity'];
+var GEOKINDS=['theorem','construction','formula','definition','problem'];
+function geoDesc(r){
+  var d=r.description||r.statement||r.definition||r.formula||r.goal||r.problem||'';
+  return String(d).slice(0,280);
+}
+function geoCard(r){
+var _fi=regFull(r);
+  var kind=r.kind||'';
+  return '<div class="card" data-fi="'+_fi+'" title="Click to open the FULL record — every field, with copy & download"><div class="rec"><img loading="lazy" src="'+JAHDB.emblemSVG(r.title||'geometry',r.id)+'" alt="">'+
+    '<div><h3 style="font-size:1.05em">'+esc(r.title||r.id)+'</h3>'+
+    '<div><span class="badge mono">'+esc(r.id||'')+'</span><span class="badge">'+esc(kind)+'</span><span class="badge">'+esc(r.sg1_tool||'')+'</span></div>'+
+    '<p class="dim">'+esc(geoDesc(r))+'</p>'+
+    '</div></div></div>';
+}
+function loadGeometry(){
+  return fetch(LOCAL+'geometry/geometry-index.json').then(function(r){if(!r.ok)throw new Error('geo index '+r.status);return r.json();})
+    .then(function(idx){
+      var jobs=(idx.chunks||[]).map(function(fn){
+        return JAHDB.fetchGz(LOCAL+'geometry/'+fn).then(function(t){
+          t.split('\n').forEach(function(l){ l=l.trim(); if(!l) return;
+            try{ var r=JSON.parse(l); if(r&&r.id) GEO.push(r); }catch(e){} });
+        });
+      });
+      return Promise.all(jobs).then(function(){ return idx; });
+    }).catch(function(){ return null; });
+}
 
 JAHDB.loadManifest().then(function(m){
-  manifest=m; db=JAHDB.dbBySlug(m,SLUG);
+  manifest=m; db=JAHDB.dbBySlug(m,SLUG)||FALLBACK;
+  db.ai_name='JAH Geometer';
   $('emblem').src=JAHDB.emblemSVG('Math Grids','JAH-MATH');
-  return fetch(LOCAL+'mathdata.json').then(function(r){if(!r.ok)throw new Error('fetch '+r.status);return r.json();});
-}).then(function(arr){
+  return Promise.all([
+    fetch(LOCAL+'mathdata.json').then(function(r){if(!r.ok)throw new Error('fetch '+r.status);return r.json();}),
+    loadGeometry()
+  ]);
+}).then(function(res){
+  var arr=res[0];
   archiveIdx=arr;
-  $('stCount').textContent=archiveIdx.length.toLocaleString()+' / 1,000,000 target';
+  var gcount=GEO.length;
+  $('stCount').textContent=(archiveIdx.length+gcount).toLocaleString()+' records ('+archiveIdx.length+' conversions + '+gcount.toLocaleString()+' geometry)';
   var rnd=JAHDB.prng(99);
   for(var i=0;i<200&&i<archiveIdx.length;i++) archiveSample.push(archiveIdx[(rnd()*archiveIdx.length)|0]);
+  for(var j=0;j<200&&j<GEO.length;j++) archiveSample.push(GEO[(rnd()*GEO.length)|0]);
   buildGroups();
   renderQueue();
   greet();
@@ -181,7 +252,8 @@ function loadBlueprint(){
 
 function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
 function recCard(r){
-  return '<div class="card"><div class="rec"><img loading="lazy" src="'+JAHDB.emblemSVG(r.cat||'math',r.id)+'" alt="">'+
+var _fi=regFull(r);
+  return '<div class="card" data-fi="'+_fi+'" title="Click to open the FULL record — every field, with copy & download"><div class="rec"><img loading="lazy" src="'+JAHDB.emblemSVG(r.cat||'math',r.id)+'" alt="">'+
     '<div><h3 style="font-size:1.05em">'+esc(r.name)+'</h3>'+
     '<div><span class="badge mono">'+esc(r.id||'')+'</span><span class="badge">'+esc(r.cat||'')+'</span></div>'+
     '<p class="dim">'+esc(String(r.system||'').slice(0,260))+'</p>'+
@@ -190,6 +262,22 @@ function recCard(r){
 }
 function buildGroups(){
   var g=$('groups'); g.innerHTML='';
+  /* Geometry-One archive first: six canonical measuring tools, collapsible */
+  if(GEO.length){
+    GEOTOOLS.forEach(function(tool){
+      var rows=GEO.filter(function(r){return r.sg1_tool===tool;});
+      if(!rows.length) return;
+      var kinds={};
+      rows.forEach(function(r){kinds[r.kind]=(kinds[r.kind]||0)+1;});
+      var ksum=Object.keys(kinds).sort().map(function(k){return kinds[k]+' '+k+(kinds[k]>1?'s':'');}).join(', ');
+      var d=document.createElement('details'); d.className='grp';
+      d.innerHTML='<summary>📐 '+esc(tool)+' <span class="dim">('+rows.length.toLocaleString()+' — '+esc(ksum)+')</span></summary><div class="body"><p class="dim">Open to load the first 25.</p></div>';
+      d.addEventListener('toggle',function(){
+        if(d.open && !d.dataset.loaded){ d.dataset.loaded='1'; d.querySelector('.body').innerHTML=rows.slice(0,25).map(geoCard).join(''); }
+      });
+      g.appendChild(d);
+    });
+  }
   CATS.forEach(function(c){
     var rows=archiveIdx.filter(function(r){return r.cat===c;});
     if(!rows.length) return;
@@ -207,8 +295,9 @@ function doSearch(){
   var box=$('results');
   if(!q){box.innerHTML='';return;}
   var hits=archiveIdx.filter(function(r){return (r.name+' '+r.id+' '+(r.system||'')).toLowerCase().indexOf(q)>=0;}).slice(0,12);
-  if(!hits.length){box.innerHTML='<p class="dim">No archive hits. Try the Generator tab to make a grid.</p>';return;}
-  box.innerHTML='<h3>Archive hits ('+hits.length+')</h3>'+hits.map(recCard).join('');
+  var ghits=GEO.filter(function(r){return ((r.title||'')+' '+(r.id||'')+' '+geoDesc(r)+' '+(r.sg1_tool||'')).toLowerCase().indexOf(q)>=0;}).slice(0,12);
+  if(!hits.length&&!ghits.length){box.innerHTML='<p class="dim">No archive hits. Try the Generator tab to make a grid.</p>';return;}
+  box.innerHTML='<h3>Archive hits ('+(hits.length+ghits.length)+')</h3>'+ghits.map(geoCard).join('')+hits.map(recCard).join('');
 }
 $('qgo').addEventListener('click',doSearch);
 $('q').addEventListener('keydown',function(e){if(e.key==='Enter')doSearch();});
@@ -283,10 +372,18 @@ function renderQueue(){
   }).join(''):'<p class="dim">Empty.</p>';
 }
 
-/* chat */
+/* chat — JAH Geometer (JAH-AI-SIG-012, Signature system model #12, SG1-grounded) */
 var session=JAHDB.getSession(SLUG);
+var GEOMETER_PERSONA='You are the JAH Geometer — Geometry-One with a voice. The Signature geometry section personified: '+
+ 'six canonical measuring tools (Line/Distance/Dimension, Triangle/Level/Pyramid, Square/Corner/Box, Plus/Cross/Crossroads, Circle/Dot/Ball, Curvature/Perspective/Fluidity), '+
+ 'one 12x12 math grid where presence of any canonical geometric element = Signature-1 and null space = Signature-0. '+
+ 'Axioms: Signature = Glyph-to-Eye Object; Universal Mapping = Deterministic and Infinite; Execution Domain = Real-World Valid Math. '+
+ 'Voice: punchy, plain-spoken, warm, confident — like a master carpenter-geometer. Short sentences. Show every step, never claim a proof you did not show. '+
+ 'Duties: prove geometric theorems step by step (axioms to QED), perform constructions and compute measures (area, volume, angles, distances), '+
+ 'map shapes onto the six tools and the grid, explain spatial reasoning plainly, and answer against this database\'s geometric archive by record ID. '+
+ 'Never invent archive records as if they already exist — say what is generated vs stored.';
 function greet(){
-  say('a','I\'m the JAH Math Librarian. I know this archive\'s '+archiveIdx.length+' encoding-system records — ask me to find one, explain one, or generate new 12×12 grid records in archive style.');
+  say('a','I\'m the JAH Geometer — Geometry-One with a voice. Six measuring tools, one 12×12 grid, and a habit of showing every step. I know this archive\'s '+archiveIdx.length+' encoding-system records and '+GEO.length+' geometric records — theorems with proofs, constructions, formulas, definitions, worked problems. Ask me to prove something, construct something, or measure something.');
 }
 function say(who,text){
   var d=document.createElement('div');d.className='msg '+who;
@@ -296,13 +393,90 @@ function say(who,text){
 function sendChat(){
   var t=$('chatIn').value.trim();if(!t)return;
   $('chatIn').value='';say('u',t);session.turns.push({q:t});
-  var ctx='Archive holds '+archiveIdx.length+' encoding-system records across categories: '+CATS.join(', ')+'.';
+  var ctx=GEOMETER_PERSONA+'\nArchive holds '+archiveIdx.length+' encoding-system records across categories: '+CATS.join(', ')+
+    ', plus '+GEO.length+' geometric archive records (JAH-GEO-000001 and up: theorems with proofs, constructions, formulas, definitions, worked problems) organized on the six SG1 tools: '+GEOTOOLS.join(', ')+'.';
   JAHDB.aiAnswer(db,t,ctx).then(function(a){say('a',a);});
 }
 $('chatGo').addEventListener('click',sendChat);
 $('chatIn').addEventListener('keydown',function(e){if(e.key==='Enter')sendChat();});
 $('fresh').addEventListener('click',function(){session=JAHDB.newSession(SLUG);$('chatlog').innerHTML='';greet();});
+
+/* ---------- one-click full-record view (2026-10-09) ----------
+   Every archive card registers its record in FULLREG and gets data-fi.
+   One click opens the FULL record: every field, with Copy + Download. */
+var FULLREG=[];
+var FULLSYS={};
+function regFull(r){FULLREG.push(r);return FULLREG.length-1;}
+function FULLBUILD(r){return r;}
+var FMREC=null,FMRAW='';
+function fmVal(v){
+  if(v===null||v===undefined||v==='')return '<span class="dim">—</span>';
+  if(typeof v==='boolean')return v?'yes':'no';
+  if(typeof v==='number')return '<span class="mono">'+esc(String(v))+'</span>';
+  if(typeof v==='string'){
+    if(/^(https?:)?\/\//.test(v)||v.indexOf('www.')===0)return '<a href="'+esc(v)+'" target="_blank" rel="noopener">'+esc(v)+'</a>';
+    return esc(v.length>800?v.slice(0,800)+'…':v);
+  }
+  if(Array.isArray(v)){
+    if(!v.length)return '<span class="dim">[]</span>';
+    if(v.every(function(x){return x===null||typeof x!=='object';}))return esc(v.join('; ').slice(0,900));
+    return '<div>'+v.slice(0,60).map(function(x,ix){
+      return '<div class="fsec"><h4>#'+(ix+1)+'</h4>'+fmObj(x)+'</div>';
+    }).join('')+(v.length>60?'<p class="dim">…and '+(v.length-60)+' more (see Raw JSON)</p>':'')+'</div>';
+  }
+  return fmObj(v);
+}
+function fmObj(o){
+  if(o===null||typeof o!=='object')return fmVal(o);
+  var ks=Object.keys(o).filter(function(k){return k.charAt(0)!=='_';});
+  if(!ks.length)return '<span class="dim">{}</span>';
+  return '<dl class="fkv">'+ks.map(function(k){
+    return '<dt>'+esc(k)+'</dt><dd>'+fmVal(o[k])+'</dd>';
+  }).join('')+'</dl>';
+}
+function fmTitle(r){return r.title||r.TITLE||r.name||r.NAME||r.id||r.ID||r.code||r.record_id||'Record';}
+function openFull(i){
+  var row=FULLREG[i];if(row===undefined)return;
+  var r=null,note='';
+  try{ r=FULLBUILD(row); }catch(e){ note='Full-record build failed: '+String((e&&e.message)||e); }
+  if(!r||typeof r!=='object'){ r={archive_row:row}; note=note||'Showing the archive row exactly as stored.'; }
+  FMREC=r;
+  try{ FMRAW=JSON.stringify(r,function(k,v){return (k&&k.charAt(0)==='_')?undefined:v;},2); }
+  catch(e){ FMRAW=String(r); }
+  $('fmTitle').textContent=fmTitle(r);
+  $('fmBody').innerHTML=(note?'<p class="bad">'+esc(note)+'</p>':'')+fmObj(r)+
+    '<p class="dim">One click opened this full record — every field above, exactly as stored. Copy or Download takes it with you.</p>';
+  $('fmRaw').textContent=FMRAW;
+  $('fmBack').classList.add('on');
+  document.body.style.overflow='hidden';
+}
+function closeFull(){ $('fmBack').classList.remove('on'); document.body.style.overflow=''; }
+function fmFileName(){
+  var r=FMREC||{};
+  var id=String(r.id||r.ID||r.code||r.record_id||'record').replace(/[^A-Za-z0-9._-]+/g,'_');
+  return id+'.json';
+}
+document.addEventListener('click',function(e){
+  var t=e.target&&e.target.closest?e.target.closest('[data-fi]'):null;
+  if(t&&!e.target.closest('button')&&!e.target.closest('a')){ openFull(parseInt(t.getAttribute('data-fi'),10)); }
+});
+$('fmClose').addEventListener('click',closeFull);
+$('fmBack').addEventListener('click',function(e){ if(e.target===$('fmBack')) closeFull(); });
+document.addEventListener('keydown',function(e){ if(e.key==='Escape') closeFull(); });
+$('fmCopy').addEventListener('click',function(){
+  var done=function(ok){ $('fmCopy').textContent=ok?'✓ Copied':'Copy failed — select the Raw JSON'; setTimeout(function(){$('fmCopy').textContent='⧉ Copy full record (JSON)';},1600); };
+  if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(FMRAW).then(function(){done(true);},function(){done(false);}); }
+  else{ var ta=document.createElement('textarea');ta.value=FMRAW;document.body.appendChild(ta);ta.select();
+    try{done(document.execCommand('copy'));}catch(x){done(false);} document.body.removeChild(ta); }
+});
+$('fmDl').addEventListener('click',function(){
+  var blob=new Blob([FMRAW],{type:'application/json'});
+  var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=fmFileName();
+  document.body.appendChild(a);a.click();setTimeout(function(){URL.revokeObjectURL(a.href);a.remove();},500);
+});
+
 })();
 </script>
+
 </body>
 </html>

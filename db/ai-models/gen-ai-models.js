@@ -77,17 +77,28 @@
     var verb = pick(rnd, VERB), obj = pick(rnd, OBJ);
     var desc = buildDesc(name, verb, obj, cat);
     var caps = buildCaps(dom, verb, obj);
+    var dlfile = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '') + '.json';
     return {
       NAME: name, TYPE: type, CATEGORY: cat, DESCRIPTION: desc,
       CAPABILITIES: caps, LIMITATIONS: buildLimit(),
       STATUS: 'GENERATED', VERSION: '1.0',
       ROLE: pick(rnd, ROLES),
+      RUNTIME: {
+        what_you_download: 'JSON record file (human-readable) — profile data, capabilities, and voice config; runs as data, not trained-model weights',
+        what_the_demo_is: 'the profile rendered live in the database page from this record',
+        what_the_chat_is: 'archive-aware answers generated on-device by the database AI using this profile',
+        works_offline: 'YES — after the page loads',
+        internet_required: 'NO for the record itself; YES once to fetch the page',
+        browser_only: 'NO — the JSON record is portable'
+      },
+      DEMO: { kind: 'synthetic', runs_in: 'database page', note: 'generated profile — demo renders from the record data' },
       VOICE: { read_aloud: false, engine: 'none — text only' },
       SIGNATURE_NUMBER: buildSig(n),
       SOURCE: 'JAH Data Bases boundless generator jahdb-ai-models-1.0 (synthetic profile)',
       RELATIONSHIPS: {},
+      ARTIFACTS: { download: dlfile, deep_link: '#file-' + dlfile.replace(/\.json$/, ''), note: 'full record JSON download from this database' },
       _adj: adj, _dom: dom, _kindw: kindw, _verb: verb, _obj: obj,
-      _type: type, _cat: cat, _role: null
+      _type: type, _cat: cat, _role: null, _dlfile: dlfile
     };
   }
 
@@ -108,10 +119,13 @@
       STATUS: g.STATUS,
       VERSION: g.VERSION,
       ROLE: g.ROLE,
+      RUNTIME: g.RUNTIME,
+      DEMO: g.DEMO,
       VOICE: g.VOICE,
       SIGNATURE_NUMBER: g.SIGNATURE_NUMBER,
       SOURCE: g.SOURCE,
       RELATIONSHIPS: g.RELATIONSHIPS,
+      ARTIFACTS: g.ARTIFACTS,
       HASH: buildHash(canonical),
       record_kind: 'synthetic'
     };
@@ -139,6 +153,9 @@
     if (rec.HASH !== buildHash(p._canonical)) errs.push('HASH mismatch');
     if (rec.STATUS !== 'GENERATED') errs.push('STATUS must be GENERATED for synthetic profiles');
     if (rec.ROLE !== p._role) errs.push('ROLE mismatch');
+    if (!rec.RUNTIME || rec.RUNTIME.what_you_download !== p.RUNTIME.what_you_download) errs.push('RUNTIME mismatch');
+    if (!rec.DEMO || rec.DEMO.kind !== 'synthetic') errs.push('DEMO mismatch');
+    if (!rec.ARTIFACTS || rec.ARTIFACTS.download !== p._dlfile) errs.push('ARTIFACTS mismatch');
     return errs;
   }
 
@@ -146,7 +163,8 @@
     var errs = [];
     if (!rec || typeof rec !== 'object') return { ok: false, errors: ['not an object'] };
     ['id', 'NAME', 'TYPE', 'CATEGORY', 'DESCRIPTION', 'CAPABILITIES', 'LIMITATIONS',
-     'STATUS', 'VERSION', 'ROLE', 'SIGNATURE_NUMBER', 'HASH'].forEach(function (k) {
+     'STATUS', 'VERSION', 'ROLE', 'RUNTIME', 'DEMO', 'VOICE', 'SIGNATURE_NUMBER',
+     'SOURCE', 'RELATIONSHIPS', 'ARTIFACTS', 'HASH'].forEach(function (k) {
       if (rec[k] === undefined || rec[k] === null || rec[k] === '') errs.push('missing field: ' + k);
     });
     if (rec.id && !/^JAH-AI-\d{4}$/.test(rec.id)) errs.push('bad id format');
