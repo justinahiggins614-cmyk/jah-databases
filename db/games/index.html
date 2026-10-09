@@ -109,7 +109,7 @@ pre.steps{background:#080d18;border:1px solid var(--line);border-radius:8px;padd
     <div class="card">
       <h3>About this data base</h3>
       <dl class="kv">
-        <dt>Source archive</dt><dd>The Signature Game Store's catalog (JAH-GAME records): 13 hand-built playable games plus a deterministic concept shelf marching to 1,000,000, computed live from the store's own catalog code.</dd>
+        <dt>Archive</dt><dd>This database's game catalog (JAH-GAME records): 13 hand-built playable games plus a deterministic concept shelf marching to 1,000,000, computed live from the store's own catalog code.</dd>
         <dt>Record schema</dt><dd class="mono">id · title · genre · era · concept · desc · controls · rules · win · difficulty · cover · ai</dd>
         <dt>Generator</dt><dd>jahdb-games-1.0 — deterministic (mulberry32). Builds new concepts from the store's own genre/era/title/hook pools, ids above the 1M deterministic tail; an independent verifier rebuilds the title, description and cover-palette hash from the private pool indices.</dd>
         <dt>Drift control</dt><dd>Every generated id must sit above the store's deterministic tail and must not collide with any archived record id.</dd>
@@ -133,6 +133,7 @@ pre.steps{background:#080d18;border:1px solid var(--line);border-radius:8px;padd
 'use strict';
 var SLUG='games';
 var BASE='https://justinahiggins614-cmyk.github.io/signature-game-store/';
+var LOCAL='../../data/games/';
 var GEN_BASEN=1000000;
 var db=null, manifest=null, GC=null, archiveIdx=null, archiveSample=[];
 var $=function(id){return document.getElementById(id);};
@@ -150,7 +151,7 @@ document.querySelectorAll('.tab').forEach(function(t){
 JAHDB.loadManifest().then(function(m){
   manifest=m; db=JAHDB.dbBySlug(m,'games')||{ai_name:'JAH Game Librarian',name:'JAH Game Data Base',record_kind:'game'};
   $('emblem').src=JAHDB.emblemSVG('Game Store','JAH-GAME');
-  return fetch(BASE+'js/catalog.js').then(function(r){ if(!r.ok) throw new Error('catalog '+r.status); return r.text(); });
+  return fetch(LOCAL+'catalog.js').then(function(r){ if(!r.ok) throw new Error('catalog '+r.status); return r.text(); });
 }).then(function(t){
   new Function(t)(); /* registers window.GameCatalog — the store's own catalog code */
   GC=window.GameCatalog;

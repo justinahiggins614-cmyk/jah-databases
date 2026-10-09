@@ -110,7 +110,7 @@ ul.caps{margin:6px 0;padding-left:20px}
     <div class="card">
       <h3>About this data base</h3>
       <dl class="kv">
-        <dt>Source archive</dt><dd>The Signature AI phone book's AI catalog — system, persona, domain, Signature-line, and mixed AI profiles with capabilities, roles, and lineage — preserved as structured, searchable data.</dd>
+        <dt>Archive</dt><dd>This database's AI catalog — system, persona, domain, Signature-line, and mixed AI profiles with capabilities, roles, and lineage — preserved as structured, searchable data.</dd>
         <dt>Record schema</dt><dd class="mono">ID · NAME · TYPE · CATEGORY · DESCRIPTION · CAPABILITIES[] · LIMITATIONS · STATUS · VERSION · ROLE · SIGNATURE_NUMBER · HASH</dd>
         <dt>Generator</dt><dd>jahdb-ai-models-1.0 — deterministic (mulberry32), builds each profile constructively from known-valid parts (name, description, capabilities, signature number, content hash), then an independent checker re-verifies every derived field.</dd>
         <dt>Drift control</dt><dd>Every generated record is checked against an archive sample for exact name duplicates and re-validated by the independent checker.</dd>
@@ -134,6 +134,7 @@ ul.caps{margin:6px 0;padding-left:20px}
 'use strict';
 var SLUG='ai-models';
 var BASE='https://justinahiggins614-cmyk.github.io/jah-ai-models/';
+var LOCAL='../../data/ai-models/';
 var BASE_N=1000;
 var db=null, manifest=null, archiveIdx=null, archiveSample=[];
 var $=function(id){return document.getElementById(id);};
@@ -151,7 +152,7 @@ JAHDB.loadManifest().then(function(m){
   manifest=m; db=JAHDB.dbBySlug(m,'ai-models');
   $('emblem').src=JAHDB.emblemSVG('AI Models','JAH-AI');
   /* catalog is a single plain JSON file (not gz): {records:[...]} */
-  return fetch(BASE+'ai-catalog.json').then(function(r){
+  return fetch(LOCAL+'ai-catalog.json').then(function(r){
     if(!r.ok) throw new Error('catalog '+r.status);
     return r.json();
   });

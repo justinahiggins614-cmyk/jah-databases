@@ -111,7 +111,7 @@ pre.steps{background:#080d18;border:1px solid var(--line);border-radius:8px;padd
     <div class="card">
       <h3>About this data base</h3>
       <dl class="kv">
-        <dt>Source archive</dt><dd>The Signature network's spell-check word archive (99,227 words, A–Z), preserved as structured, searchable data.</dd>
+        <dt>Archive</dt><dd>This database's spell-check word archive (99,227 words, A–Z), preserved as structured, searchable data.</dd>
         <dt>Record schema</dt><dd class="mono">id · word · misspelling · op · rule · letter</dd>
         <dt>Generator</dt><dd>jahdb-spelling-1.0 — deterministic (mulberry32). Draws real words from the archive word list and applies a genuine mechanical edit operation (adjacent transposition, letter doubling, letter drop); an independent verifier re-applies the operation from scratch and requires the exact misspelling.</dd>
         <dt>Drift control</dt><dd>Every generated record is checked against an archive sample: the misspelling must not itself be a real archive word, and the pair must not repeat.</dd>
@@ -135,6 +135,7 @@ pre.steps{background:#080d18;border:1px solid var(--line);border-radius:8px;padd
 'use strict';
 var SLUG='spelling';
 var BASE='https://justinahiggins614-cmyk.github.io/signature-spell-check/';
+var LOCAL='../../data/spelling/';
 var BASE_N=99227, OPTKEY='op';
 var db=null, manifest=null, archiveIdx=null, archiveSample=[];
 var $=function(id){return document.getElementById(id);};
@@ -152,7 +153,7 @@ document.querySelectorAll('.tab').forEach(function(t){
 JAHDB.loadManifest().then(function(m){
   manifest=m; db=JAHDB.dbBySlug(m,'spelling')||FALLBACK;
   $('emblem').src=JAHDB.emblemSVG('Spelling','JAH-SPELL');
-  return fetch(BASE+'data/words.txt').then(function(r){
+  return fetch(LOCAL+'words.txt').then(function(r){
     if(!r.ok) throw new Error('fetch '+r.status);
     return r.text();
   });

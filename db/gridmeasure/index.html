@@ -113,7 +113,7 @@ table.mtab th{color:var(--dim);font-weight:normal}
     <div class="card">
       <h3>About this data base</h3>
       <dl class="kv">
-        <dt>Source archive</dt><dd>The Signature network's image grid-and-measure archive (JAH-GRID records), preserved as structured, searchable data.</dd>
+        <dt>Archive</dt><dd>This database's image grid-and-measure archive (JAH-GRID records), preserved as structured, searchable data.</dd>
         <dt>Record schema</dt><dd class="mono">id · name · shape · svg · table[[label, value]]</dd>
         <dt>Generator</dt><dd>jahdb-gridmeasure-1.0 — deterministic (mulberry32). Builds each measure constructively from random inputs (legs, width/height, radius, base/height, sides); an independent verifier recomputes every table cell — hypotenuse, angles, area, perimeter, diagonal, apothem — from the inputs before acceptance.</dd>
         <dt>Drift control</dt><dd>Every generated record is checked against an archive sample for duplicate measures and re-validated by the independent checker.</dd>
@@ -137,6 +137,7 @@ table.mtab th{color:var(--dim);font-weight:normal}
 'use strict';
 var SLUG='gridmeasure';
 var BASE='https://justinahiggins614-cmyk.github.io/signature-image-grid-measure/';
+var LOCAL='../../data/gridmeasure/';
 var BASE_N=4920, OPTKEY='shape';
 var db=null, manifest=null, archiveIdx=null, archiveSample=[];
 var $=function(id){return document.getElementById(id);};
@@ -154,7 +155,7 @@ document.querySelectorAll('.tab').forEach(function(t){
 JAHDB.loadManifest().then(function(m){
   manifest=m; db=JAHDB.dbBySlug(m,'gridmeasure')||FALLBACK;
   $('emblem').src=JAHDB.emblemSVG('Measures','JAH-GRID');
-  return fetch(BASE+'data/index.json').then(function(r){
+  return fetch(LOCAL+'index.json').then(function(r){
     if(!r.ok) throw new Error('fetch '+r.status);
     return r.json();
   });

@@ -110,7 +110,7 @@ pre.steps{background:#080d18;border:1px solid var(--line);border-radius:8px;padd
     <div class="card">
       <h3>About this data base</h3>
       <dl class="kv">
-        <dt>Source archive</dt><dd>The Signature network's space-mapping archive (JAH-MAP records), preserved as structured, searchable data.</dd>
+        <dt>Archive</dt><dd>This database's space-mapping archive (JAH-MAP records), preserved as structured, searchable data.</dd>
         <dt>Record schema</dt><dd class="mono">id · name · kind · blurb · rooms[{x,y,w,h,label}] · doors[{x,y}]</dd>
         <dt>Generator</dt><dd>jahdb-space-1.0 — deterministic (mulberry32). Builds each map as a left-to-right room tiling from a real archive layout; an independent verifier re-checks that rooms tile contiguously, doors sit on room boundaries, and the blurb names every room.</dd>
         <dt>Drift control</dt><dd>Every generated record is checked against an archive sample for duplicate map names and re-validated by the independent checker.</dd>
@@ -134,6 +134,7 @@ pre.steps{background:#080d18;border:1px solid var(--line);border-radius:8px;padd
 'use strict';
 var SLUG='space';
 var BASE='https://justinahiggins614-cmyk.github.io/signature-space-mapping/';
+var LOCAL='../../data/space/';
 var BASE_N=9100, OPTKEY='layout';
 var db=null, manifest=null, archiveIdx=null, archiveSample=[];
 var $=function(id){return document.getElementById(id);};
@@ -151,7 +152,7 @@ document.querySelectorAll('.tab').forEach(function(t){
 JAHDB.loadManifest().then(function(m){
   manifest=m; db=JAHDB.dbBySlug(m,'space')||FALLBACK;
   $('emblem').src=JAHDB.emblemSVG('Space Maps','JAH-SPACE');
-  return fetch(BASE+'data/maps.json').then(function(r){
+  return fetch(LOCAL+'maps.json').then(function(r){
     if(!r.ok) throw new Error('fetch '+r.status);
     return r.json();
   });

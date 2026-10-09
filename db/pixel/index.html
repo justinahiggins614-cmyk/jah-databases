@@ -109,7 +109,7 @@ pre.steps{background:#080d18;border:1px solid var(--line);border-radius:8px;padd
     <div class="card">
       <h3>About this data base</h3>
       <dl class="kv">
-        <dt>Source archive</dt><dd>The Signature network's generated-goods archive: creative product records with generation specs across 24 product categories (JAH-GOODS records), preserved as structured, searchable data.</dd>
+        <dt>Archive</dt><dd>This database's generated-goods archive: creative product records with generation specs across 24 product categories (JAH-GOODS records), preserved as structured, searchable data.</dd>
         <dt>Record schema</dt><dd class="mono">id · type · title · name · cat · desc · prompt · seed · palette · scene · kw[] · stamp</dd>
         <dt>Generator</dt><dd>jahdb-pixel-1.0 — deterministic (mulberry32). Builds each creative record constructively from archive-style parts, then an independent re-builder reconstructs every derived field from the raw picks to verify the record. Metadata only — the emblem image is generated deterministically on view.</dd>
         <dt>Drift control</dt><dd>Every generated title is checked against an archive sample for exact duplicates and re-verified by the independent re-builder.</dd>
@@ -133,6 +133,7 @@ pre.steps{background:#080d18;border:1px solid var(--line);border-radius:8px;padd
 'use strict';
 var SLUG='pixel';
 var BASE='https://justinahiggins614-cmyk.github.io/signature-ai-image-video-maker/';
+var LOCAL='../../data/pixel/';
 var BASEN=900000;
 var db=null, manifest=null, archiveIdx=null, archiveSample=[];
 var $=function(id){return document.getElementById(id);};
@@ -149,7 +150,7 @@ document.querySelectorAll('.tab').forEach(function(t){
 JAHDB.loadManifest().then(function(m){
   manifest=m; db=JAHDB.dbBySlug(m,'pixel');
   $('emblem').src=JAHDB.emblemSVG('Creative Goods','JAH-GOODS');
-  return JAHDB.fetchGz(BASE+'data/index/goods.idx.json.gz');
+  return JAHDB.fetchGz(LOCAL+'goods.idx.json.gz');
 }).then(function(t){
   /* rows: [id, title, cat, chunkfile] */
   archiveIdx=t.split('\n').filter(function(l){return l.trim();}).map(function(l){try{return JSON.parse(l);}catch(e){return null;}}).filter(Boolean);

@@ -109,7 +109,7 @@ pre.steps{background:#080d18;border:1px solid var(--line);border-radius:8px;padd
     <div class="card">
       <h3>About this data base</h3>
       <dl class="kv">
-        <dt>Source archive</dt><dd>The Signature network's chip maker archive (JAH-CHIP records across 16 chip families) — preserved as structured, searchable data.</dd>
+        <dt>Archive</dt><dd>This database's chip archive (JAH-CHIP records across 16 chip families) — preserved as structured, searchable data.</dd>
         <dt>Record schema</dt><dd class="mono">id · fam · era · name</dd>
         <dt>Generator</dt><dd>jahdb-chips-1.0 — deterministic (mulberry32), derives each chip name from archive-harvested core names and suffixes per family, then an independent re-builder re-derives the name from the private parameters before acceptance.</dd>
         <dt>Drift control</dt><dd>Every generated record is checked against an archive sample for exact duplicates and re-validated by the independent verifier.</dd>
@@ -133,6 +133,7 @@ pre.steps{background:#080d18;border:1px solid var(--line);border-radius:8px;padd
 'use strict';
 var SLUG='chips';
 var BASE='https://justinahiggins614-cmyk.github.io/signature-chip-maker/';
+var LOCAL='../../data/chips/';
 var db=null, manifest=null, archiveIdx=[], archiveSample=[];
 var $=function(id){return document.getElementById(id);};
 
@@ -157,7 +158,7 @@ document.querySelectorAll('.tab').forEach(function(t){
 JAHDB.loadManifest().then(function(m){
   manifest=m; db=JAHDB.dbBySlug(m,'chips');
   $('emblem').src=JAHDB.emblemSVG('Chip Archive','JAH-CHIP');
-  return JAHDB.fetchGz(BASE+'data/index/chips.search.json.gz');
+  return JAHDB.fetchGz(LOCAL+'chips.search.json.gz');
 }).then(function(t){
   archiveIdx=parseIdx(t);
   $('stCount').textContent=archiveIdx.length.toLocaleString()+' / 1,000,000 target';

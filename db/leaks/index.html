@@ -109,7 +109,7 @@ pre.steps{background:#080d18;border:1px solid var(--line);border-radius:8px;padd
     <div class="card">
       <h3>About this data base</h3>
       <dl class="kv">
-        <dt>Source archive</dt><dd>The JAH-N Wiki Leaks dossier archive — exhaustive top-secret files with overviews, proofs, simulated expert panels, and officer conclusions — preserved as structured, searchable data.</dd>
+        <dt>Archive</dt><dd>This database's dossier archive — exhaustive top-secret files with overviews, proofs, simulated expert panels, and officer conclusions — preserved as structured, searchable data.</dd>
         <dt>Record schema</dt><dd class="mono">id · kind · category · cat_code · subject · classification · overview · assessment · science_proof · math_proof · panel · officer_conclusion · date_filed · sources</dd>
         <dt>Generator</dt><dd>jahdb-leaks-1.0 — deterministic (mulberry32), builds each dossier constructively from invented parts with zero fabricated citations, then an independent checker re-verifies every derived field.</dd>
         <dt>Drift control</dt><dd>Every generated record is checked against an archive sample for exact subject duplicates and re-validated by the independent checker.</dd>
@@ -133,6 +133,7 @@ pre.steps{background:#080d18;border:1px solid var(--line);border-radius:8px;padd
 'use strict';
 var SLUG='leaks';
 var BASE='https://justinahiggins614-cmyk.github.io/jah-n-wiki-leaks/';
+var LOCAL='../../data/leaks/';
 var BASE_N=200000;
 var db=null, manifest=null, archiveIdx=null, archiveSample=[];
 var $=function(id){return document.getElementById(id);};
@@ -150,7 +151,7 @@ JAHDB.loadManifest().then(function(m){
   manifest=m; db=JAHDB.dbBySlug(m,'leaks');
   $('emblem').src=JAHDB.emblemSVG('Leaks','JAH-LEAK');
   /* index rows: [id, title, category, chunkfile] */
-  return JAHDB.fetchGz(BASE+'data/bizarre/bizarre.idx.json.gz');
+  return JAHDB.fetchGz(LOCAL+'bizarre.idx.json.gz');
 }).then(function(t){
   archiveIdx=t.split('\n').filter(function(l){return l.trim();}).map(function(l){try{return JSON.parse(l);}catch(e){return null;}}).filter(Boolean);
   $('stCount').textContent=archiveIdx.length.toLocaleString()+' / 1,000,000 target';

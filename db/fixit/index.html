@@ -109,7 +109,7 @@ pre.steps{background:#080d18;border:1px solid var(--line);border-radius:8px;padd
     <div class="card">
       <h3>About this data base</h3>
       <dl class="kv">
-        <dt>Source archive</dt><dd>The Signature network's fix-it archive: step-by-step fix guides with symptoms, diagnosis, and ranked solutions across 12 repair fields (JAH-FIX records), preserved as structured, searchable data.</dd>
+        <dt>Archive</dt><dd>This database's fix-it archive: step-by-step fix guides with symptoms, diagnosis, and ranked solutions across 12 repair fields (JAH-FIX records), preserved as structured, searchable data.</dd>
         <dt>Record schema</dt><dd class="mono">id · type · field · field_id · title · symptoms[] · diagnosis[] · solutions[{rank,kind,title,steps[],difficulty,time,cost,tools[],parts[]}] · safety · warnings[] · difficulty · stamp</dd>
         <dt>Generator</dt><dd>jahdb-fixit-1.0 — deterministic (mulberry32). Builds each guide constructively from real field vocab (devices, problems, tools, parts), then an independent re-builder reconstructs every derived field from the raw picks to verify the record.</dd>
         <dt>Drift control</dt><dd>Every generated title is checked against an archive sample for exact duplicates and re-verified by the independent re-builder.</dd>
@@ -133,6 +133,7 @@ pre.steps{background:#080d18;border:1px solid var(--line);border-radius:8px;padd
 'use strict';
 var SLUG='fixit';
 var BASE='https://justinahiggins614-cmyk.github.io/signature-fixit/';
+var LOCAL='../../data/fixit/';
 var BASEN=900000;
 var db=null, manifest=null, archiveIdx=null, fixMap={}, archiveSample=[];
 var $=function(id){return document.getElementById(id);};
@@ -149,7 +150,7 @@ document.querySelectorAll('.tab').forEach(function(t){
 JAHDB.loadManifest().then(function(m){
   manifest=m; db=JAHDB.dbBySlug(m,'fixit');
   $('emblem').src=JAHDB.emblemSVG('Fix Guides','JAH-FIX');
-  return JAHDB.fetchGz(BASE+'data/index/fixes.idx.json.gz');
+  return JAHDB.fetchGz(LOCAL+'fixes.idx.json.gz');
 }).then(function(t){
   /* rows: [id, title, field, field_id] */
   archiveIdx=t.split('\n').filter(function(l){return l.trim();}).map(function(l){try{return JSON.parse(l);}catch(e){return null;}}).filter(Boolean);

@@ -109,7 +109,7 @@ pre.steps{background:#080d18;border:1px solid var(--line);border-radius:8px;padd
     <div class="card">
       <h3>About this data base</h3>
       <dl class="kv">
-        <dt>Source archive</dt><dd>The Signature OS Updater's upgrade-pack archive (JAH-UPG records): renewal packs across four eras, three operating systems and seven focuses, marching to 1,000,000.</dd>
+        <dt>Archive</dt><dd>This database's upgrade-pack archive (JAH-UPG records): renewal packs across four eras, three operating systems and seven focuses, marching to 1,000,000.</dd>
         <dt>Record schema</dt><dd class="mono">id · title · era · os · focus · focus_label · components · blurb · best</dd>
         <dt>Generator</dt><dd>jahdb-osupdater-1.0 — deterministic (mulberry32). Rebuilds new packs from the archive's own pack names, blurb templates and component sets; an independent verifier recomputes the title, blurb and components from the private params.</dd>
         <dt>Drift control</dt><dd>Upgrade-pack titles are unique per record in the archive — a generated title must not duplicate a stored one.</dd>
@@ -133,6 +133,7 @@ pre.steps{background:#080d18;border:1px solid var(--line);border-radius:8px;padd
 'use strict';
 var SLUG='osupdater';
 var BASE='https://justinahiggins614-cmyk.github.io/signature-os-updater/';
+var LOCAL='../../data/osupdater/';
 var GEN_BASEN=9600;
 var db=null, manifest=null, archiveIdx=null, archiveSample=[];
 var $=function(id){return document.getElementById(id);};
@@ -151,7 +152,7 @@ document.querySelectorAll('.tab').forEach(function(t){
 JAHDB.loadManifest().then(function(m){
   manifest=m; db=JAHDB.dbBySlug(m,'osupdater')||{ai_name:'JAH Update Librarian',name:'JAH OS Update Data Base',record_kind:'upgrade pack'};
   $('emblem').src=JAHDB.emblemSVG('OS Updates','JAH-UPG');
-  return fetch(BASE+'data/upgrades.json').then(function(r){ if(!r.ok) throw new Error('upgrades '+r.status); return r.json(); });
+  return fetch(LOCAL+'upgrades.json').then(function(r){ if(!r.ok) throw new Error('upgrades '+r.status); return r.json(); });
 }).then(function(d){
   archiveIdx=d;
   $('stCount').textContent=archiveIdx.length.toLocaleString()+' / 1,000,000 target';

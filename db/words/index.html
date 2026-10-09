@@ -109,7 +109,7 @@ pre.steps{background:#080d18;border:1px solid var(--line);border-radius:8px;padd
     <div class="card">
       <h3>About this data base</h3>
       <dl class="kv">
-        <dt>Source archive</dt><dd>The Signature Dictionary's word and term entries — headwords, definitions, patent references, and word-invention records — preserved as structured, searchable data.</dd>
+        <dt>Archive</dt><dd>This database's word and term entries — headwords, definitions, patent references, and word-invention records — preserved as structured, searchable data.</dd>
         <dt>Record schema</dt><dd class="mono">w (headword) · pos · d (definition) · invention_title · invention_desc · rt · rid · cpc</dd>
         <dt>Generator</dt><dd>jahdb-words-1.0 — deterministic (mulberry32), pairs each headword with its genuine pool definition and builds the word-invention text constructively from the word's own letters and sense, then an independent checker re-verifies the pairing.</dd>
         <dt>Drift control</dt><dd>Every generated record is checked against an archive sample for headword duplicates and re-validated by the independent checker.</dd>
@@ -133,6 +133,7 @@ pre.steps{background:#080d18;border:1px solid var(--line);border-radius:8px;padd
 'use strict';
 var SLUG='words';
 var BASE='https://justinahiggins614-cmyk.github.io/jah-dictionary/';
+var LOCAL='../../data/words/';
 var BASE_N=200000;
 var db=null, manifest=null, archiveIdx=null, archiveSample=[];
 var $=function(id){return document.getElementById(id);};
@@ -150,7 +151,7 @@ JAHDB.loadManifest().then(function(m){
   manifest=m; db=JAHDB.dbBySlug(m,'words');
   $('emblem').src=JAHDB.emblemSVG('Dictionary','JAH-WORD');
   /* index is a gz of one JSON array: [headword, chunkfile, idx-in-chunk] */
-  return JAHDB.fetchGz(BASE+'data/index/dict.idx.json.gz');
+  return JAHDB.fetchGz(LOCAL+'dict.idx.json.gz');
 }).then(function(t){
   archiveIdx=JSON.parse(t);
   $('stCount').textContent=archiveIdx.length.toLocaleString()+' / 1,000,000 target';

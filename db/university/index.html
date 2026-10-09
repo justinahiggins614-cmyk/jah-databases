@@ -109,7 +109,7 @@ pre.steps{background:#080d18;border:1px solid var(--line);border-radius:8px;padd
     <div class="card">
       <h3>About this data base</h3>
       <dl class="kv">
-        <dt>Source archive</dt><dd>The Signature network's university catalog: courses with modules, lessons, labs, and teachers across 11 colleges (JAH-COURSE records), preserved as structured, searchable data.</dd>
+        <dt>Archive</dt><dd>This database's university catalog: courses with modules, lessons, labs, and teachers across 11 colleges (JAH-COURSE records), preserved as structured, searchable data.</dd>
         <dt>Record schema</dt><dd class="mono">id · type · code · title · college · college_key · level · credits · desc · modules[{m,lessons[]}] · readings[] · teacher{} · labs[] · prereq · stamp</dd>
         <dt>Generator</dt><dd>jahdb-university-1.0 — deterministic (mulberry32). Builds each course constructively from real college vocab, then an independent re-builder reconstructs every derived field from the raw picks to verify the record.</dd>
         <dt>Drift control</dt><dd>Every generated title is checked against an archive sample for exact duplicates and re-verified by the independent re-builder.</dd>
@@ -133,6 +133,7 @@ pre.steps{background:#080d18;border:1px solid var(--line);border-radius:8px;padd
 'use strict';
 var SLUG='university';
 var BASE='https://justinahiggins614-cmyk.github.io/signature-university/';
+var LOCAL='../../data/university/';
 var BASEN=900000;
 var db=null, manifest=null, archiveIdx=null, archiveSample=[];
 var $=function(id){return document.getElementById(id);};
@@ -150,7 +151,7 @@ JAHDB.loadManifest().then(function(m){
   manifest=m; db=JAHDB.dbBySlug(m,'university');
   $('emblem').src=JAHDB.emblemSVG('University Courses','JAH-COURSE');
   /* NOT gz — plain JSON array of {i,c,t,k,l} */
-  return fetch(BASE+'data/courses.idx.json').then(function(r){
+  return fetch(LOCAL+'courses.idx.json').then(function(r){
     if(!r.ok) throw new Error('courses.idx.json '+r.status);
     return r.json();
   });

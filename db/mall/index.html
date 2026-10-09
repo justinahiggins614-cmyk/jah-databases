@@ -109,7 +109,7 @@ pre.steps{background:#080d18;border:1px solid var(--line);border-radius:8px;padd
     <div class="card">
       <h3>About this data base</h3>
       <dl class="kv">
-        <dt>Source archive</dt><dd>The Signature network's cyber mega-mall product archive (JAH-MALL records), preserved as structured, searchable data.</dd>
+        <dt>Archive</dt><dd>This database's product archive (JAH-MALL records), preserved as structured, searchable data.</dd>
         <dt>Record schema</dt><dd class="mono">id · name · dept · price · src · stype · sid · blurb · seed</dd>
         <dt>Generator</dt><dd>jahdb-mall-1.0 — deterministic (mulberry32). Builds each product name constructively from the department's real archive vocabulary; an independent verifier rebuilds the name from the word indices and checks every word against that department's vocabulary. Price is always 0 — free forever.</dd>
         <dt>Drift control</dt><dd>Every generated record is checked against an archive sample for duplicate product names and re-validated by the independent checker.</dd>
@@ -133,6 +133,7 @@ pre.steps{background:#080d18;border:1px solid var(--line);border-radius:8px;padd
 'use strict';
 var SLUG='mall';
 var BASE='https://justinahiggins614-cmyk.github.io/signature-cyber-mega-mall/';
+var LOCAL='../../data/mall/';
 var BASE_N=8821, OPTKEY='dept';
 var db=null, manifest=null, archiveIdx=null, archiveSample=[];
 var $=function(id){return document.getElementById(id);};
@@ -151,7 +152,7 @@ JAHDB.loadManifest().then(function(m){
   manifest=m; db=JAHDB.dbBySlug(m,'mall')||FALLBACK;
   $('emblem').src=JAHDB.emblemSVG('Products','JAH-PROD');
   /* index is a gzipped JSON array (not JSONL) */
-  return JAHDB.fetchGz(BASE+'data/products/index.json.gz').then(function(t){return JSON.parse(t);});
+  return JAHDB.fetchGz(LOCAL+'index.json.gz').then(function(t){return JSON.parse(t);});
 }).then(function(idx){
   archiveIdx=idx.map(function(r,i){r._i=i;return r;});
   $('stCount').textContent=archiveIdx.length.toLocaleString()+' / 1,000,000 target';

@@ -109,7 +109,7 @@ pre.steps{background:#080d18;border:1px solid var(--line);border-radius:8px;padd
     <div class="card">
       <h3>About this data base</h3>
       <dl class="kv">
-        <dt>Source archive</dt><dd>The Signature network's AI-to-robot match archive: AI personas paired with robot body designs, scored and reasoned per mission (JAH-PAIR records), preserved as structured, searchable data.</dd>
+        <dt>Archive</dt><dd>This database's AI-to-robot match archive: AI personas paired with robot body designs, scored and reasoned per mission (JAH-PAIR records), preserved as structured, searchable data.</dd>
         <dt>Record schema</dt><dd class="mono">id · type · title · body_name · class · mission · ai_name · score · hardware{} · rationale{} · demo_lines[] · stamp</dd>
         <dt>Generator</dt><dd>jahdb-robots-1.0 — deterministic (mulberry32). Builds each design constructively from archive-style parts (body name, class, mission, AI persona, hardware), then an independent re-builder reconstructs every derived string from the raw picks to verify the record.</dd>
         <dt>Drift control</dt><dd>Every generated design name is checked against an archive sample for exact duplicates and re-verified by the independent re-builder.</dd>
@@ -133,6 +133,7 @@ pre.steps{background:#080d18;border:1px solid var(--line);border-radius:8px;padd
 'use strict';
 var SLUG='robots';
 var BASE='https://justinahiggins614-cmyk.github.io/signature-ai-robot-matcher/';
+var LOCAL='../../data/robots/';
 var BASEN=900000;
 var db=null, manifest=null, archiveIdx=null, archiveSample=[];
 var $=function(id){return document.getElementById(id);};
@@ -149,7 +150,7 @@ document.querySelectorAll('.tab').forEach(function(t){
 JAHDB.loadManifest().then(function(m){
   manifest=m; db=JAHDB.dbBySlug(m,'robots');
   $('emblem').src=JAHDB.emblemSVG('Robot Designs','JAH-ROBOT');
-  return JAHDB.fetchGz(BASE+'data/index/pairs.idx.json.gz');
+  return JAHDB.fetchGz(LOCAL+'pairs.idx.json.gz');
 }).then(function(t){
   archiveIdx=t.split('\n').filter(function(l){return l.trim();}).map(function(l){try{return JSON.parse(l);}catch(e){return null;}}).filter(Boolean);
   $('stCount').textContent=archiveIdx.length.toLocaleString()+' / 1,000,000 target';

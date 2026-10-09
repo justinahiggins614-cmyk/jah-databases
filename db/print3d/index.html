@@ -109,7 +109,7 @@ pre.steps{background:#080d18;border:1px solid var(--line);border-radius:8px;padd
     <div class="card">
       <h3>About this data base</h3>
       <dl class="kv">
-        <dt>Source archive</dt><dd>The Signature network's 3D-print tangible archive (JAH-SPEC/JAH-PAT tangible references), preserved as structured, searchable data.</dd>
+        <dt>Archive</dt><dd>This database's 3D-print tangible archive (JAH-SPEC/JAH-PAT tangible references), preserved as structured, searchable data.</dd>
         <dt>Record schema</dt><dd class="mono">id · name · model_type · material · dims_mm{w,h,d} · volume_cm3 · infill_pct · layer_height_mm · filament_g · layers · est_print_hours</dd>
         <dt>Generator</dt><dd>jahdb-print3d-1.0 — deterministic (mulberry32). Builds each model from raw dimensions with internally consistent parameters; an independent verifier recomputes volume, filament mass (from genuine material densities), layer count, and the print-time estimate from the raw dims before acceptance.</dd>
         <dt>Drift control</dt><dd>Every generated record is checked against an archive sample for duplicate model names and re-validated by the independent checker.</dd>
@@ -133,6 +133,7 @@ pre.steps{background:#080d18;border:1px solid var(--line);border-radius:8px;padd
 'use strict';
 var SLUG='print3d';
 var BASE='https://justinahiggins614-cmyk.github.io/signature-3d-print/';
+var LOCAL='../../data/print3d/';
 var BASE_N=784662, OPTKEY='type';
 var db=null, manifest=null, archiveIdx=null, archiveSample=[];
 var $=function(id){return document.getElementById(id);};
@@ -153,7 +154,7 @@ var letterCache={};
 JAHDB.loadManifest().then(function(m){
   manifest=m; db=JAHDB.dbBySlug(m,'print3d')||FALLBACK;
   $('emblem').src=JAHDB.emblemSVG('3D Prints','JAH-3D');
-  return fetch(BASE+'data/counts.json').then(function(r){
+  return fetch(LOCAL+'counts.json').then(function(r){
     if(!r.ok) throw new Error('fetch '+r.status);
     return r.json();
   });
@@ -172,10 +173,10 @@ JAHDB.loadManifest().then(function(m){
 }).catch(function(e){ $('stCount').textContent='archive unreachable ('+e.message+')'; });
 
 function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
-function letterFile(L){ return 'data/az/az-'+L+'.json.gz'; }
+function letterFile(L){ return 'az-'+L+'.json.gz'; }
 function loadLetter(L){
   if(letterCache[L]) return Promise.resolve(letterCache[L]);
-  return JAHDB.fetchGz(BASE+letterFile(L)).then(function(t){
+  return JAHDB.fetchGz(LOCAL+letterFile(L)).then(function(t){
     var rows=JSON.parse(t);
     letterCache[L]=rows;
     return rows;

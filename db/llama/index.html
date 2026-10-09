@@ -109,7 +109,7 @@ pre.steps{background:#080d18;border:1px solid var(--line);border-radius:8px;padd
     <div class="card">
       <h3>About this data base</h3>
       <dl class="kv">
-        <dt>Source archive</dt><dd>Signature Llama's tool-library index (125 libraries across 13 categories) plus the model versions SIGLLAMA-V1 and SIGLLAMA-V2 — preserved as structured, searchable data.</dd>
+        <dt>Archive</dt><dd>This database's tool-library index (125 libraries across 13 categories) plus the model versions SIGLLAMA-V1 and SIGLLAMA-V2 — preserved as structured, searchable data.</dd>
         <dt>Record schema</dt><dd class="mono">id · name · title · profile · engine{model_id, params, layers, heads} · sampling · libraries[{id,name,version}] · build_hash · mix_lineage · stamp</dd>
         <dt>Generator</dt><dd>jahdb-llama-1.0 — deterministic (mulberry32), assembles each build only from the archive's real engine versions and real tool libraries, then an independent verifier rebuilds the build from its private parts (engine spec, library ids, sampling, hash) before acceptance.</dd>
         <dt>Drift control</dt><dd>Every generated build is checked against an archive sample for duplicate build hashes and re-verified by the independent verifier.</dd>
@@ -133,6 +133,7 @@ pre.steps{background:#080d18;border:1px solid var(--line);border-radius:8px;padd
 'use strict';
 var SLUG='llama';
 var BASE='https://justinahiggins614-cmyk.github.io/signature-llama/';
+var LOCAL='../../data/llama/';
 var db=null, manifest=null, archiveIdx=[], versions=[], archiveSample=[];
 var $=function(id){return document.getElementById(id);};
 
@@ -149,7 +150,7 @@ JAHDB.loadManifest().then(function(m){
   manifest=m; db=JAHDB.dbBySlug(m,SLUG);
   $('emblem').src=JAHDB.emblemSVG('Llama Builds','JAH-LLAMA');
   return Promise.all([
-    fetch(BASE+'data/tool-libraries.json').then(function(r){if(!r.ok)throw new Error('libs '+r.status);return r.json();}),
+    fetch(LOCAL+'tool-libraries.json').then(function(r){if(!r.ok)throw new Error('libs '+r.status);return r.json();}),
     fetch(BASE+'llama-manifest.json').then(function(r){if(!r.ok)throw new Error('manifest '+r.status);return r.json();}).catch(function(){return null;})
   ]);
 }).then(function(res){

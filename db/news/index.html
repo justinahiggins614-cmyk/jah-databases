@@ -111,7 +111,7 @@ pre.steps{background:#080d18;border:1px solid var(--line);border-radius:8px;padd
     <div class="card">
       <h3>About this data base</h3>
       <dl class="kv">
-        <dt>Source archive</dt><dd>The Signature network press archive (JAH-ED editions, JAH-ARTICLE articles) — preserved as structured, searchable data.</dd>
+        <dt>Archive</dt><dd>This database's press archive (JAH-ED editions, JAH-ARTICLE articles) — preserved as structured, searchable data.</dd>
         <dt>Record schema</dt><dd class="mono">id · paper · date · issue · volume · articles[{sec, h, by, body[]}] · honesty · paper_id · fictionality_status · creation_mode · version · status · article_count · article_ids · content_hash · stamp</dd>
         <dt>Generator</dt><dd>jahdb-news-1.0 — deterministic (mulberry32), assembles each 6-article edition combinatorially from clean pools, computes a real content hash, then an independent verifier rebuilds every article and the hash from the private pool indices before acceptance. Honesty markers (GENERATED / GENERATED_SAMPLE / SAMPLE) are verified, not decorative — stripping them fails validation.</dd>
         <dt>Drift control</dt><dd>Every generated edition is checked against an archive sample for duplicate content hashes and re-verified by the independent verifier.</dd>
@@ -135,6 +135,7 @@ pre.steps{background:#080d18;border:1px solid var(--line);border-radius:8px;padd
 'use strict';
 var SLUG='news';
 var BASE='https://justinahiggins614-cmyk.github.io/signature-newspapers/';
+var LOCAL='../../data/news/';
 var db=null, manifest=null, archiveIdx=[], archiveSample=[];
 var $=function(id){return document.getElementById(id);};
 var SECTIONS=['lead','culture','region','science','sports','weather','business','opinion','network'];
@@ -152,7 +153,7 @@ SECTIONS.forEach(function(c){ var o=document.createElement('option'); o.value=c;
 JAHDB.loadManifest().then(function(m){
   manifest=m; db=JAHDB.dbBySlug(m,SLUG);
   $('emblem').src=JAHDB.emblemSVG('Network Press','JAH-ED');
-  return JAHDB.fetchGz(BASE+'data/index/editions.idx.json.gz');
+  return JAHDB.fetchGz(LOCAL+'editions.idx.json.gz');
 }).then(function(t){
   archiveIdx=JSON.parse(t);
   $('stCount').textContent=archiveIdx.length.toLocaleString()+' / 1,000,000 target';

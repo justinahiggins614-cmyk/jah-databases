@@ -109,7 +109,7 @@ pre.steps{background:#080d18;border:1px solid var(--line);border-radius:8px;padd
     <div class="card">
       <h3>About this data base</h3>
       <dl class="kv">
-        <dt>Source archive</dt><dd>The Signature Antivirus add-on archive (JAH-AV records): documented historic malware families plus generated defense drills across ten threat types, marching to 1,000,000.</dd>
+        <dt>Archive</dt><dd>This database's antivirus add-on archive (JAH-AV records): documented historic malware families plus generated defense drills across ten threat types, marching to 1,000,000.</dd>
         <dt>Record schema</dt><dd class="mono">id · name · year · type · level · vector · solution · status · origin · note</dd>
         <dt>Generator</dt><dd>jahdb-antivirus-1.0 — deterministic (mulberry32). Builds new drills in the archive's own family-variant scheme with the archive's per-type defense profiles; an independent verifier rebuilds the name, vector and solution from the private params. status/origin are always 'generated' with the drill disclaimer.</dd>
         <dt>Drift control</dt><dd>Every generated drill name is checked against an archive sample — it must not duplicate a stored record name.</dd>
@@ -133,6 +133,7 @@ pre.steps{background:#080d18;border:1px solid var(--line);border-radius:8px;padd
 'use strict';
 var SLUG='antivirus';
 var BASE='https://justinahiggins614-cmyk.github.io/signature-antivirus/';
+var LOCAL='../../data/antivirus/';
 var GEN_BASEN=23032;
 var db=null, manifest=null, archiveIdx=null, archiveSample=[];
 var $=function(id){return document.getElementById(id);};
@@ -150,7 +151,7 @@ document.querySelectorAll('.tab').forEach(function(t){
 JAHDB.loadManifest().then(function(m){
   manifest=m; db=JAHDB.dbBySlug(m,'antivirus')||{ai_name:'JAH Antivirus Librarian',name:'JAH Antivirus Data Base',record_kind:'virus solution'};
   $('emblem').src=JAHDB.emblemSVG('Antivirus','JAH-AV');
-  return fetch(BASE+'data/addons/index.json').then(function(r){ if(!r.ok) throw new Error('index '+r.status); return r.json(); });
+  return fetch(LOCAL+'index.json').then(function(r){ if(!r.ok) throw new Error('index '+r.status); return r.json(); });
 }).then(function(d){
   archiveIdx=d.rows; /* rows: [id,name,type,severity,status,volume] */
   $('stCount').textContent=d.count.toLocaleString()+' / 1,000,000 target';

@@ -1,0 +1,569 @@
+[
+ {
+  "name": "ASCII Text",
+  "cat": "Text encodings",
+  "system": "ASCII is the 7-bit American Standard Code for Information Interchange: 128 code points (0-127); printable characters start at 32. One byte per character.",
+  "mapping": "Take the Signature bitstring in 7-bit groups; each group is one ASCII code point. The Signature's text labels (e.g. 'SIGNATURE-ONE') also encode directly to their ASCII bytes, so the mark travels as plain text.",
+  "apply": [
+   "1. Reduce the Signature to its 144-bit string on the 12x12 grid (1 = geometry present, 0 = null).",
+   "2. Split the bitstring into 7-bit groups from the left; pad the last group with trailing zeros.",
+   "3. Convert each group to decimal (0-127) and look up the ASCII character.",
+   "4. The resulting character string is the ASCII form of the Signature."
+  ],
+  "ex_in": "Character 'J'",
+  "ex_out": "Decimal 74 -> binary 01001010",
+  "mix_of": null,
+  "id": "JAH-MATHDATA-000001",
+  "letter": "A"
+ },
+ {
+  "name": "Audio Waveform (PCM)",
+  "cat": "Audio",
+  "system": "PCM (pulse-code modulation) stores sound as a sequence of amplitude samples. Standard CD audio uses 44,100 samples per second at 16-bit depth.",
+  "mapping": "Sonify the Signature: read the 144-bit grid string as 144 audio samples (1 = positive amplitude, 0 = negative amplitude). This is the SG1 'ping' \u2014 the echolocation mapping made audible. A pure reference tone is computed the same way any synth does: sample = round(32767 * sin(2*pi*f*t)).",
+  "apply": [
+   "1. Take the 144-bit Signature string.",
+   "2. Map each bit to one 16-bit sample: 1 -> +16000, 0 -> -16000.",
+   "3. Write the 144 samples as a .wav file at 8000 Hz (add a 44-byte WAV header).",
+   "4. Play it: you hear the Signature's echolocation ping."
+  ],
+  "ex_in": "440 Hz sine, 4 samples @ 8000 Hz",
+  "ex_out": "samples = [0, 11099, 20886, 28204]",
+  "mix_of": null,
+  "id": "JAH-MATHDATA-000002",
+  "letter": "A"
+ },
+ {
+  "name": "Barcode (Linear)",
+  "cat": "Visual codes",
+  "system": "A linear barcode encodes data as bars and spaces of varying widths scanned left to right. This record uses a demonstration mapping (wide/narrow bars), not a registered symbology.",
+  "mapping": "Map each Signature bit to one bar: 1 = wide bar, 0 = narrow bar. One 12-bit grid row becomes a 12-bar strip. This is a visual demonstration of bit-to-bar mapping, honestly labeled \u2014 not a scannable retail barcode.",
+  "apply": [
+   "1. Take one 12-bit row of the Signature grid string.",
+   "2. Draw 12 vertical bars left to right: wide for 1, narrow for 0.",
+   "3. Repeat for all 12 rows to make a 12-row bar panel.",
+   "4. Label it 'demonstration mapping \u2014 not a registered symbology'."
+  ],
+  "ex_in": "bits 101100",
+  "ex_out": "bars: \u25ae\u25af\u25ae\u25ae\u25af\u25af (wide,narrow pattern)",
+  "mix_of": null,
+  "id": "JAH-MATHDATA-000003",
+  "letter": "B"
+ },
+ {
+  "name": "Base64",
+  "cat": "Base systems",
+  "system": "Base64 encodes arbitrary binary data as 64 printable ASCII characters (A-Z, a-z, 0-9, +, /), 3 bytes -> 4 characters. Used anywhere binary must travel as text.",
+  "mapping": "Pack the 144 Signature bits into 18 bytes, then Base64-encode them. The result is a 24-character text token that carries the entire Signature grid losslessly.",
+  "apply": [
+   "1. Take the 144-bit Signature string and pad to a multiple of 8 bits (already is: 18 bytes).",
+   "2. Convert each 3-byte group to 4 Base64 characters using the standard alphabet.",
+   "3. The 24-character token is the Base64 form. Decode reverses it exactly."
+  ],
+  "ex_in": "bytes of 'SIG'",
+  "ex_out": "Base64 = U0lH",
+  "mix_of": null,
+  "id": "JAH-MATHDATA-000004",
+  "letter": "B"
+ },
+ {
+  "name": "BCD (Binary-Coded Decimal)",
+  "cat": "Base systems",
+  "system": "In BCD each decimal digit 0-9 is stored as its own 4-bit nibble (e.g. 9 = 1001). Used in calculators and seven-segment displays.",
+  "mapping": "Encode each decimal digit of the Signature's canonical measurements separately: apex (4.12, 4.92) becomes digits 4,1,2,4,9,2 -> six nibbles. Digit-exact, no binary rounding.",
+  "apply": [
+   "1. Write the measurement in decimal, e.g. segment length 1.37.",
+   "2. Convert each digit (1,3,7) to a 4-bit nibble: 0001 0011 0111.",
+   "3. Join with spaces. Reverse by reading each nibble as one digit."
+  ],
+  "ex_in": "decimal 42",
+  "ex_out": "BCD = 0100 0010",
+  "mix_of": null,
+  "id": "JAH-MATHDATA-000005",
+  "letter": "B"
+ },
+ {
+  "name": "Binary (Base-2)",
+  "cat": "Base systems",
+  "system": "Base-2 uses digits 0 and 1 only. Every digital system on Earth ultimately reduces to binary.",
+  "mapping": "This is the Signature's native reduction (Signature-Math-Grid-One): presence of any canonical geometric element = Signature-One = 1; absence/null space = Signature-Zero = 0. Lay the 12x12 grid, test each cell, read the 144-bit string row-major from the top-left origin.",
+  "apply": [
+   "1. Draw the 12x12 Signature Source Math Grid, origin (0,0) top-left.",
+   "2. For each of the 144 cells write 1 if any arc, line, dot, or cross-stroke passes through it, else 0.",
+   "3. Read row by row from the top -> the 144-bit Signature bitstring.",
+   "4. Group into bytes (8 bits) for storage or transmission."
+  ],
+  "ex_in": "4x4 sample grid rows 1010/0101/1100/0011",
+  "ex_out": "16-bit string: 1010010111000011",
+  "mix_of": null,
+  "id": "JAH-MATHDATA-000006",
+  "letter": "B"
+ },
+ {
+  "name": "Color Hex (#RRGGBB)",
+  "cat": "Visual codes",
+  "system": "Web/digital color as six hex digits: two each for red, green, blue intensity (00-FF). #FF0000 is pure red.",
+  "mapping": "Map the Signature's pressure-backed rainbow color coding to hex swatches: sample each stroke's color (red base, orange apex, yellow tail, blue-violet diagonal, pink tip) and record its #RRGGBB value beside the geometry it colors.",
+  "apply": [
+   "1. List each Signature stroke from Document 1 (Segment 1 arc, Segment 1 line, dot, Segment 2 arc, diagonal, cross-stroke, dots).",
+   "2. Assign the documented color to each stroke (example palette below).",
+   "3. Convert each color to #RRGGBB and store alongside the stroke's coordinates.",
+   "4. Any renderer can now repaint the Signature exactly."
+  ],
+  "ex_in": "example stroke palette (red, orange, yellow, blue-violet, pink)",
+  "ex_out": "#FF0000, #FF8000, #FFFF00, #5B2FD6, #FF7BAC",
+  "mix_of": null,
+  "id": "JAH-MATHDATA-000007",
+  "letter": "C"
+ },
+ {
+  "name": "DNA-Style Quaternary",
+  "cat": "Base systems",
+  "system": "DNA uses a 4-letter alphabet (A, C, G, T); each base carries exactly 2 bits of information. Quaternary = base-4.",
+  "mapping": "Map Signature bit pairs to bases: 00->A, 01->C, 10->G, 11->T. The 144-bit Signature becomes a 72-base DNA-style sequence \u2014 a bio-inspired archive form of the mark.",
+  "apply": [
+   "1. Take the 144-bit Signature string.",
+   "2. Split into 2-bit pairs from the left.",
+   "3. Translate each pair: 00=A, 01=C, 10=G, 11=T.",
+   "4. The 72-letter sequence is the DNA-style form. Reverse the table to decode."
+  ],
+  "ex_in": "bits 011011",
+  "ex_out": "pairs 01|10|11 -> CGT",
+  "mix_of": null,
+  "id": "JAH-MATHDATA-000008",
+  "letter": "D"
+ },
+ {
+  "name": "Decimal (Base-10)",
+  "cat": "Base systems",
+  "system": "Base-10, digits 0-9: the everyday human number system. The Signature's canonical coordinates are already decimal inches.",
+  "mapping": "Signature coordinates are natively decimal (e.g. apex (4.12, 4.92), dot (3.73, 5.10)). Any Signature bitstring also converts to decimal for human readout: value = sum of bit*2^position.",
+  "apply": [
+   "1. For coordinates: read them as-is \u2014 they are decimal inches on the 12x12 grid.",
+   "2. For a bitstring: number the bits from the right starting at position 0.",
+   "3. Add 2^position for every 1-bit. The total is the decimal value.",
+   "4. Reverse with repeated divide-by-2 to verify."
+  ],
+  "ex_in": "binary 1010",
+  "ex_out": "decimal = 1*8 + 0*4 + 1*2 + 0 = 10",
+  "mix_of": null,
+  "id": "JAH-MATHDATA-000009",
+  "letter": "D"
+ },
+ {
+  "name": "Floating-Point (IEEE 754)",
+  "cat": "Numeric formats",
+  "system": "IEEE-754 single precision stores a real number in 32 bits: 1 sign bit, 8 exponent bits, 23 mantissa bits. The standard for scientific computing.",
+  "mapping": "Encode Signature measurements (lengths, angles, coordinates) as 32-bit floats for numeric interchange: e.g. the Segment 1 line length 1.37 in becomes its exact 32-bit pattern, reproducible on any machine.",
+  "apply": [
+   "1. Take a Signature measurement in decimal, e.g. 1.37.",
+   "2. Convert to IEEE-754 single: sign 0 (positive), exponent and mantissa per the standard.",
+   "3. Record the 32-bit pattern and hex. Any IEEE-754 decoder returns 1.37.",
+   "4. Use double (64-bit) when more precision is needed and say which you used."
+  ],
+  "ex_in": "1.37 as IEEE-754 single",
+  "ex_out": "bits 00111111101011110101110000101001 (0x3FAF5C29)",
+  "mix_of": null,
+  "id": "JAH-MATHDATA-000010",
+  "letter": "F"
+ },
+ {
+  "name": "Geometric Coordinate Sets",
+  "cat": "Geometry",
+  "system": "An ordered list of (x, y) coordinate pairs (often as JSON) describing geometry exactly. This is the Signature's native data form.",
+  "mapping": "This is the source form from Document 1: segment starts, apexes, ends, dot centers, all in inches on the 12x12 grid with origin top-left. Every other conversion on this page derives from these coordinates.",
+  "apply": [
+   "1. Copy the canonical coordinates from Document 1 (reconstruction order).",
+   "2. Store as JSON: {\"segment1_arc\": {\"start\": [1.35, 7.73], \"apex\": [4.12, 4.92]}, ...}.",
+   "3. Keep 2 decimal places (the documented precision).",
+   "4. Any renderer plots these points to redraw the Signature deterministically."
+  ],
+  "ex_in": "Segment 1 arc",
+  "ex_out": "{\"start\": [1.35, 7.73], \"apex\": [4.12, 4.92]}",
+  "mix_of": null,
+  "id": "JAH-MATHDATA-000011",
+  "letter": "G"
+ },
+ {
+  "name": "Gray Code",
+  "cat": "Base systems",
+  "system": "Binary reflected Gray code orders values so successive numbers differ in exactly one bit. Used in rotary encoders and error-resistant sensing.",
+  "mapping": "Convert the Signature bitstring with g = b XOR (b shifted right 1). Adjacent grid positions then differ by one bit \u2014 the grid becomes a Gray-coded position sensor layout.",
+  "apply": [
+   "1. Take the Signature bitstring as an integer b.",
+   "2. Compute g = b XOR (b >> 1), keep the same bit width.",
+   "3. The result is the Gray-coded form. Convert back with the standard inverse loop.",
+   "4. Verify: binary 1011 -> Gray 1110, and back again."
+  ],
+  "ex_in": "binary 1011 (decimal 11)",
+  "ex_out": "Gray = 1110 (decimal 14)",
+  "mix_of": null,
+  "id": "JAH-MATHDATA-000012",
+  "letter": "G"
+ },
+ {
+  "name": "Hash Digest (SHA-256)",
+  "cat": "Cryptography",
+  "system": "SHA-256 maps any input to a fixed 256-bit (64-hex-character) fingerprint. Changing even one bit of input changes the digest completely.",
+  "mapping": "Hash the canonical Signature record \u2014 coordinates in the Document 1 reconstruction order, UTF-8 encoded \u2014 to fingerprint the geometry. Publish the digest beside the record: anyone can re-hash and verify the mark is unaltered.",
+  "apply": [
+   "1. Write the canonical record: coordinates in reconstruction order, 2 decimals, comma-separated, UTF-8.",
+   "2. Run SHA-256 over those exact bytes.",
+   "3. Publish the 64-hex-character digest with the record.",
+   "4. Verifiers re-hash the same bytes and compare digests."
+  ],
+  "ex_in": "SHA-256(\"SIGNATURE-ONE\")",
+  "ex_out": "9c08d5a1e39aaf5f9747c32a6d4335c3552265c814563d20b84a9bdc4981deb4",
+  "mix_of": null,
+  "id": "JAH-MATHDATA-000013",
+  "letter": "H"
+ },
+ {
+  "name": "Hexadecimal (Base-16)",
+  "cat": "Base systems",
+  "system": "Base-16 uses digits 0-9 and A-F; each hex digit is exactly 4 bits (one nibble). The compact text form of binary data.",
+  "mapping": "Group the 144-bit Signature string into 4-bit nibbles and write each as one hex digit: 144 bits -> 36 hex characters. This is the canonical compact text form of the Signature bitstring.",
+  "apply": [
+   "1. Take the 144-bit Signature string.",
+   "2. Split into 4-bit groups from the left (pad the last group if needed).",
+   "3. Convert each group: 0000=0 ... 1001=9, 1010=A ... 1111=F.",
+   "4. The 36-character hex string is the compact form. Expand nibbles to verify."
+  ],
+  "ex_in": "binary 111100001010",
+  "ex_out": "hex = F0A",
+  "mix_of": null,
+  "id": "JAH-MATHDATA-000014",
+  "letter": "H"
+ },
+ {
+  "name": "IPv4 Address Form",
+  "cat": "Numeric formats",
+  "system": "An IPv4 address is 32 bits written as four decimal octets (e.g. 192.168.1.1). Here it is used purely as an address-FORM demonstration for 32 Signature bits.",
+  "mapping": "Pack the first 32 bits of the Signature string into four 8-bit octets and write them dotted-decimal. This demonstrates the address form; it does not claim the Signature is a routable network address.",
+  "apply": [
+   "1. Take the first 32 bits of the Signature string.",
+   "2. Split into four 8-bit octets.",
+   "3. Convert each octet to decimal 0-255, join with dots.",
+   "4. Label the result 'address form \u2014 demonstration only'."
+  ],
+  "ex_in": "octets of 192.168.1.1",
+  "ex_out": "binary: 11000000.10101000.00000001.00000001",
+  "mix_of": null,
+  "id": "JAH-MATHDATA-000015",
+  "letter": "I"
+ },
+ {
+  "name": "IPv6 Address Form",
+  "cat": "Numeric formats",
+  "system": "IPv6 uses 128 bits written as eight groups of four hex digits (e.g. 2001:0db8::1). Demonstration form for longer Signature bit runs.",
+  "mapping": "Extend the Signature bitstring to 128 bits (documented: first 128 bits, no padding games) and write eight hex groups. Demonstration of the 128-bit address form only.",
+  "apply": [
+   "1. Take the first 128 bits of the Signature string.",
+   "2. Split into eight 16-bit groups; write each as 4 hex digits.",
+   "3. Join with colons (compress longest zero run with '::' per the standard).",
+   "4. Label 'address form \u2014 demonstration only'."
+  ],
+  "ex_in": "::1 expanded",
+  "ex_out": "0000:0000:0000:0000:0000:0000:0000:0001",
+  "mix_of": null,
+  "id": "JAH-MATHDATA-000016",
+  "letter": "I"
+ },
+ {
+  "name": "MIDI Note Map",
+  "cat": "Audio",
+  "system": "MIDI represents musical notes as numbers 0-127; middle C = 60, each +1 is one semitone. A Note-On message is three bytes: status, note, velocity.",
+  "mapping": "Map the Signature's three dot y-coordinates to MIDI pitches: the grid's y-range [4.00, 9.80] maps linearly to MIDI notes 48-72 (two octaves). The dots become a three-note motif; arcs become pitch bends.",
+  "apply": [
+   "1. Take each dot center's y-coordinate from Document 1.",
+   "2. Compute note = round(48 + (9.80 - y) / 5.80 * 24).",
+   "3. Send as MIDI Note-On (0x90), note, velocity 100; Note-Off after one beat.",
+   "4. The three dots play the Signature's dot-motif."
+  ],
+  "ex_in": "dots at y = 5.10, 4.49, 4.33",
+  "ex_out": "MIDI notes = 67, 70, 71 (G4, A#4, B4)",
+  "mix_of": null,
+  "id": "JAH-MATHDATA-000017",
+  "letter": "M"
+ },
+ {
+  "name": "Morse Code",
+  "cat": "Text encodings",
+  "system": "Morse encodes letters as dots (.) and dashes (-). 'JAH' in International Morse is .--- .- ....",
+  "mapping": "Two honest mappings: (a) encode the Signature's text labels to Morse; (b) read Signature bits directly as Morse symbols, 1 = dah (-), 0 = dit (.).",
+  "apply": [
+   "1. Choose mapping (a) text labels or (b) raw bits; say which.",
+   "2. For (a): look up each letter in the International Morse table.",
+   "3. For (b): write '-' for each 1-bit and '.' for each 0-bit.",
+   "4. Separate letters with spaces, words with ' / '."
+  ],
+  "ex_in": "'JAH'",
+  "ex_out": "Morse: .--- .- ....",
+  "mix_of": null,
+  "id": "JAH-MATHDATA-000018",
+  "letter": "M"
+ },
+ {
+  "name": "Octal (Base-8)",
+  "cat": "Base systems",
+  "system": "Base-8 uses digits 0-7; each octal digit is exactly 3 bits. A compact human-readable packing of binary.",
+  "mapping": "Group the 144-bit Signature string into 3-bit groups; each group becomes one octal digit: 144 bits -> 48 octal digits. Compact readout, historically used for machine word display.",
+  "apply": [
+   "1. Take the 144-bit Signature string.",
+   "2. Split into 3-bit groups from the left.",
+   "3. Convert each group: 000=0 ... 111=7.",
+   "4. The 48-digit string is the octal form. Expand groups to verify."
+  ],
+  "ex_in": "binary 101010",
+  "ex_out": "octal = 52 (decimal 42)",
+  "mix_of": null,
+  "id": "JAH-MATHDATA-000019",
+  "letter": "O"
+ },
+ {
+  "name": "Pixel Grid (Raster)",
+  "cat": "Visual codes",
+  "system": "A raster image is a rectangular grid of pixels, each pixel one color value. A 1-bit monochrome image is one bit per pixel.",
+  "mapping": "The 12x12 Signature math grid IS a 144-pixel monochrome image: 1 = inked pixel, 0 = blank. Scale each cell to N\u00d7N screen pixels for any display size; the bitstring is the image data.",
+  "apply": [
+   "1. Take the 144-bit Signature string.",
+   "2. Arrange as 12 rows of 12 bits (row-major, top-left origin).",
+   "3. Render each 1-bit as a filled square, each 0-bit as empty.",
+   "4. Scale: multiply every cell by N for an N-times-larger image \u2014 geometry preserved."
+  ],
+  "ex_in": "5x5 sample rows 00100/01110/11111/01110/00100",
+  "ex_out": "25-bit image data: 0010001110111110111000100",
+  "mix_of": null,
+  "id": "JAH-MATHDATA-000020",
+  "letter": "P"
+ },
+ {
+  "name": "QR-Style Matrix Pattern",
+  "cat": "Visual codes",
+  "system": "QR codes are 2D matrices of dark/light modules with finder patterns in three corners. This record demonstrates the matrix-pattern idea; it does not generate scannable QR codes.",
+  "mapping": "Lay the 144 Signature bits into a 12x12 module matrix (the math grid itself, at module scale). Reserve the three corner 3x3 zones as finder-style anchors. An honest pattern demonstration of 2D bit layout \u2014 labeled as such.",
+  "apply": [
+   "1. Take the 144-bit Signature string as 12 rows of 12.",
+   "2. Draw each bit as one square module: dark for 1, light for 0.",
+   "3. Mark the three corner 3x3 zones as finder-style anchors.",
+   "4. Label 'matrix-pattern demonstration \u2014 not a scannable QR code'."
+  ],
+  "ex_in": "12x12 Signature bit matrix",
+  "ex_out": "144 modules + 3 finder-style corner anchors",
+  "mix_of": null,
+  "id": "JAH-MATHDATA-000021",
+  "letter": "Q"
+ },
+ {
+  "name": "Run-Length Encoding (RLE)",
+  "cat": "Compression",
+  "system": "RLE compresses data by replacing runs of identical values with (count, value) pairs: 'AAABBC' -> '3A','2B','1C'.",
+  "mapping": "Compress the Signature bitstring's runs. The grid is mostly null space, so long zero-runs collapse dramatically \u2014 this is the honest reason the Signature archives so small.",
+  "apply": [
+   "1. Take the 144-bit Signature string.",
+   "2. Scan left to right; count each run of identical bits.",
+   "3. Write each run as count + bit (e.g. 5 ones -> '5x1').",
+   "4. Decode by expanding each run. Verify round-trip equality."
+  ],
+  "ex_in": "bits 'AAABBC'",
+  "ex_out": "RLE = 3A2B1C",
+  "mix_of": null,
+  "id": "JAH-MATHDATA-000022",
+  "letter": "R"
+ },
+ {
+  "name": "Ternary (Base-3)",
+  "cat": "Base systems",
+  "system": "Base-3 uses digits 0, 1, 2. Each trit carries log2(3) ~ 1.585 bits of information.",
+  "mapping": "Classify each grid cell three ways: 1 = stroke present, 0 = null space, 2 = crossing point (where two elements intersect, e.g. cross-stroke over the diagonal). Read the 144 trits row-major \u2014 the Signature's three-state reduction.",
+  "apply": [
+   "1. Lay the 12x12 grid.",
+   "2. Mark each cell: 2 if two Signature elements cross inside it, 1 if one passes through, else 0.",
+   "3. Read row-major -> 144-trit string.",
+   "4. Convert groups to decimal to verify (positional base-3)."
+  ],
+  "ex_in": "trits '102' as a number",
+  "ex_out": "1*9 + 0*3 + 2 = 11",
+  "mix_of": null,
+  "id": "JAH-MATHDATA-000023",
+  "letter": "T"
+ },
+ {
+  "name": "Unicode (UTF-8)",
+  "cat": "Text encodings",
+  "system": "Unicode assigns every character a code point (U+0000 and up); UTF-8 encodes code points as 1-4 bytes. The universal text standard.",
+  "mapping": "Encode the Signature's labels, metadata, and annotations as UTF-8 so the math records travel in any script: Greek letters for angles (e.g. \u03a3), inch marks, and the full record text.",
+  "apply": [
+   "1. Write the label/record text (any script).",
+   "2. Look up each character's code point (e.g. \u03a3 = U+03A3).",
+   "3. Encode to UTF-8 bytes per the standard.",
+   "4. Decode reverses exactly \u2014 text survives any system."
+  ],
+  "ex_in": "character '\u03a3' (U+03A3)",
+  "ex_out": "UTF-8 bytes = CEA3",
+  "mix_of": null,
+  "id": "JAH-MATHDATA-000024",
+  "letter": "U"
+ },
+ {
+  "name": "ASCII-Morse-Binary Chain",
+  "cat": "Mixes",
+  "system": "A three-stage pipeline: text -> Morse -> raw bits. Each stage is independently reversible.",
+  "mapping": "Chain three records: ASCII text to Morse symbols (record: Morse Code), then Morse to bits with 1=dah, 0=dit (record: Binary). The Signature's name travels as text, as rhythm, and as bits.",
+  "apply": [
+   "1. Write the label, e.g. 'JAH'.",
+   "2. ASCII+Mor se: convert to Morse -> .--- .- ....",
+   "3. Morse+Binary: map - -> 1, . -> 0 (letter separators dropped, documented).",
+   "4. Reverse the chain to verify the round trip."
+  ],
+  "ex_in": "'JAH' -> Morse -> bits",
+  "ex_out": ".--- .- .... -> 1000 01 0000 (documented mapping)",
+  "mix_of": [
+   "ASCII Text",
+   "Morse Code",
+   "Binary (Base-2)"
+  ],
+  "id": "JAH-MATHDATA-000025",
+  "letter": "A"
+ },
+ {
+  "name": "Binary-Hex Bridge",
+  "cat": "Mixes",
+  "system": "The standard bridge between machine bits and human-readable hex: 4 bits <-> 1 hex digit, lossless both ways.",
+  "mapping": "Take the Signature bitstring (record: Binary), group into nibbles, and write hex (record: Hexadecimal). This bridge is how the 144-bit grid becomes the 36-character compact token.",
+  "apply": [
+   "1. Start from the 144-bit Signature string.",
+   "2. Apply the Binary record's grouping into 4-bit nibbles.",
+   "3. Apply the Hexadecimal record's digit table.",
+   "4. The 36-char hex token decodes back to the exact 144 bits."
+  ],
+  "ex_in": "16-bit sample 1010010111000011",
+  "ex_out": "hex = A5C3 (grouped in nibbles)",
+  "mix_of": [
+   "Binary (Base-2)",
+   "Hexadecimal (Base-16)"
+  ],
+  "id": "JAH-MATHDATA-000026",
+  "letter": "B"
+ },
+ {
+  "name": "Coordinate-to-Pixel Raster",
+  "cat": "Mixes",
+  "system": "Vector-to-raster conversion: exact coordinates become discrete pixels. The bridge from the Signature's native form to image data.",
+  "mapping": "Take the canonical coordinate set (record: Geometric Coordinate Sets) and rasterize each stroke onto the 12x12 pixel grid (record: Pixel Grid). Vector in, pixels out \u2014 the same pipeline every renderer uses.",
+  "apply": [
+   "1. Take the canonical coordinates from Document 1.",
+   "2. For each of the 144 pixel cells, test whether any stroke passes through it.",
+   "3. Write 1/0 per cell -> the pixel-grid bitstring.",
+   "4. Compare against the binary record's string: they must agree."
+  ],
+  "ex_in": "Segment 1 arc start (1.35, 7.73)",
+  "ex_out": "lights the pixel cell covering x[1,2), y[7,8)",
+  "mix_of": [
+   "Geometric Coordinate Sets",
+   "Pixel Grid (Raster)"
+  ],
+  "id": "JAH-MATHDATA-000027",
+  "letter": "C"
+ },
+ {
+  "name": "DNA-to-Base64 Capsule",
+  "cat": "Mixes",
+  "system": "Two text-safe encodings chained: quaternary sequence wrapped in Base64 for transport through text-only channels.",
+  "mapping": "Convert the Signature bitstring to its DNA-style sequence (record: DNA-Style Quaternary), take the ASCII bytes of that sequence, and Base64-encode them (record: Base64). A bio-flavored capsule carrying the exact bits.",
+  "apply": [
+   "1. Bits -> DNA sequence via the 00=A,01=C,10=G,11=T table.",
+   "2. Take the sequence's ASCII bytes.",
+   "3. Base64-encode those bytes.",
+   "4. Decode Base64, reverse the DNA table -> original bits."
+  ],
+  "ex_in": "bits 101001 -> GGC",
+  "ex_out": "Base64('GGC') = R0dD",
+  "mix_of": [
+   "DNA-Style Quaternary",
+   "Base64"
+  ],
+  "id": "JAH-MATHDATA-000028",
+  "letter": "D"
+ },
+ {
+  "name": "Gray-to-Binary Round-Trip",
+  "cat": "Mixes",
+  "system": "Gray code and back: the self-checking pair. Encoding then decoding must return the exact original \u2014 a built-in integrity test.",
+  "mapping": "Apply Gray encoding (record: Gray Code) to the Signature bitstring, then immediately decode back to binary (record: Binary). If the round trip is not bit-identical, the implementation has a bug.",
+  "apply": [
+   "1. Take the Signature bitstring.",
+   "2. Gray-encode: g = b XOR (b >> 1).",
+   "3. Gray-decode with the standard inverse.",
+   "4. Assert decoded == original. Publish the assertion result."
+  ],
+  "ex_in": "binary 1011 -> Gray 1110 -> binary",
+  "ex_out": "round trip = 1011 (verified identical)",
+  "mix_of": [
+   "Gray Code",
+   "Binary (Base-2)"
+  ],
+  "id": "JAH-MATHDATA-000029",
+  "letter": "G"
+ },
+ {
+  "name": "Morse-to-Barcode Chain",
+  "cat": "Mixes",
+  "system": "Text as rhythm as bars: Morse symbols become physical bar widths. A message you can hear becomes a strip you can see.",
+  "mapping": "Convert a label to Morse (record: Morse Code), then map each symbol to bars: dah = wide bar, dit = narrow bar, letter gap = space (record: Barcode). The Signature's name becomes a visible bar strip.",
+  "apply": [
+   "1. Write the label and convert to Morse.",
+   "2. Map: '-' -> wide bar, '.' -> narrow bar, gaps -> blank space.",
+   "3. Draw the bars left to right.",
+   "4. Label 'demonstration chain \u2014 not a registered symbology'."
+  ],
+  "ex_in": "'JAH' -> .--- .- ....",
+  "ex_out": "wide/narrow bar strip per symbol",
+  "mix_of": [
+   "Morse Code",
+   "Barcode (Linear)"
+  ],
+  "id": "JAH-MATHDATA-000030",
+  "letter": "M"
+ },
+ {
+  "name": "Pixel-to-Color-Hex Mosaic",
+  "cat": "Mixes",
+  "system": "Structure plus color: the pixel grid says WHERE, the color hex says WHAT COLOR. Together they repaint the Signature exactly.",
+  "mapping": "Take the pixel grid (record: Pixel Grid) for geometry and the stroke color table (record: Color Hex), then paint each lit pixel with its stroke's hex color. A full-color mosaic reconstruction.",
+  "apply": [
+   "1. Rasterize the Signature to the 12x12 pixel grid.",
+   "2. Look up each lit pixel's stroke in the color table.",
+   "3. Fill the pixel with that stroke's #RRGGBB.",
+   "4. The mosaic matches the Document 1 color description."
+  ],
+  "ex_in": "lit pixel on Segment 1 arc",
+  "ex_out": "filled #FF0000 (red base, example palette)",
+  "mix_of": [
+   "Pixel Grid (Raster)",
+   "Color Hex (#RRGGBB)"
+  ],
+  "id": "JAH-MATHDATA-000031",
+  "letter": "P"
+ },
+ {
+  "name": "Ternary-to-Octal Packing",
+  "cat": "Mixes",
+  "system": "Base-3 trits packed into base-8 digits: a compactness bridge between the three-state and eight-state reductions.",
+  "mapping": "Take the ternary cell classification (record: Ternary), group trits, convert through decimal to octal digits (record: Octal). Demonstrates base conversion between non-binary systems.",
+  "apply": [
+   "1. Classify grid cells as trits (0/1/2).",
+   "2. Convert trit groups to decimal values.",
+   "3. Write each value in octal.",
+   "4. Reverse the chain to verify."
+  ],
+  "ex_in": "trits '102' = decimal 11",
+  "ex_out": "octal = 13 (1*8 + 3)",
+  "mix_of": [
+   "Ternary (Base-3)",
+   "Octal (Base-8)"
+  ],
+  "id": "JAH-MATHDATA-000032",
+  "letter": "T"
+ }
+]

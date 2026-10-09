@@ -109,7 +109,7 @@ pre.steps{background:#080d18;border:1px solid var(--line);border-radius:8px;padd
     <div class="card">
       <h3>About this data base</h3>
       <dl class="kv">
-        <dt>Source archive</dt><dd>The Signature network's AI mix lab archive (JAH-MIX blend records): fused parent AIs with blend names, mentalities and lineages — preserved as structured, searchable data.</dd>
+        <dt>Archive</dt><dd>This database's AI mix archive (JAH-MIX blend records): fused parent AIs with blend names, mentalities and lineages — preserved as structured, searchable data.</dd>
         <dt>Record schema</dt><dd class="mono">id · name · variant · parentA · parentB · mentality · abilities[] · lineage · descA · descB</dd>
         <dt>Generator</dt><dd>jahdb-aimix-1.0 — deterministic (mulberry32), fuses two real parent AIs into a blend name, mentality and lineage, then an independent re-builder re-derives every field from the private parameters before acceptance.</dd>
         <dt>Drift control</dt><dd>Every generated record is checked against an archive sample for exact duplicates and re-validated by the independent verifier.</dd>
@@ -133,6 +133,7 @@ pre.steps{background:#080d18;border:1px solid var(--line);border-radius:8px;padd
 'use strict';
 var SLUG='aimix';
 var BASE='https://justinahiggins614-cmyk.github.io/signature-ai-mixlab/';
+var LOCAL='../../data/aimix/';
 var db=null, manifest=null, archiveIdx=[], archiveSample=[];
 var $=function(id){return document.getElementById(id);};
 
@@ -157,7 +158,7 @@ document.querySelectorAll('.tab').forEach(function(t){
 JAHDB.loadManifest().then(function(m){
   manifest=m; db=JAHDB.dbBySlug(m,'aimix');
   $('emblem').src=JAHDB.emblemSVG('AI Mix Lab','JAH-AIMIX');
-  return JAHDB.fetchGz(BASE+'data/index/mixes.idx.json.gz');
+  return JAHDB.fetchGz(LOCAL+'mixes.idx.json.gz');
 }).then(function(t){
   archiveIdx=parseIdx(t);
   $('stCount').textContent=archiveIdx.length.toLocaleString()+' / 1,000,000 target';

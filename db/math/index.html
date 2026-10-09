@@ -118,7 +118,7 @@ pre.steps{background:#080d18;border:1px solid var(--line);border-radius:8px;padd
     <div class="card">
       <h3>About this data base</h3>
       <dl class="kv">
-        <dt>Source archive</dt><dd>Signature Math's encoding-system records (JAH-MATHDATA) — base systems, mixes, visual codes, text encodings, geometry, cryptography and more — preserved as structured, searchable data.</dd>
+        <dt>Archive</dt><dd>This database's encoding-system records (JAH-MATHDATA) — base systems, mixes, visual codes, text encodings, geometry, cryptography and more — preserved as structured, searchable data.</dd>
         <dt>Record schema</dt><dd class="mono">id · title · cat · grid · bitstring · encodings{hex, base64, ascii_art} · popcount · symmetric180 · note · stamp</dd>
         <dt>Generator</dt><dd>jahdb-math-1.0 — deterministic (mulberry32), builds each record from a raw 144-bit grid, then an independent re-encoder rebuilds the bitstring, hex, base64, ASCII-art, popcount, and symmetry from the raw bits before acceptance.</dd>
         <dt>Drift control</dt><dd>Every generated grid is checked against an archive sample for duplicate bitstrings and re-encoded by the independent verifier.</dd>
@@ -142,6 +142,7 @@ pre.steps{background:#080d18;border:1px solid var(--line);border-radius:8px;padd
 'use strict';
 var SLUG='math';
 var BASE='https://justinahiggins614-cmyk.github.io/signature-math/';
+var LOCAL='../../data/math/';
 var db=null, manifest=null, archiveIdx=[], archiveSample=[];
 var $=function(id){return document.getElementById(id);};
 var CATS=['Base systems','Mixes','Visual codes','Text encodings','Numeric formats','Audio','Geometry','Cryptography','Compression'];
@@ -160,7 +161,7 @@ CATS.forEach(function(c){ var o=document.createElement('option'); o.value=c; o.t
 JAHDB.loadManifest().then(function(m){
   manifest=m; db=JAHDB.dbBySlug(m,SLUG);
   $('emblem').src=JAHDB.emblemSVG('Math Grids','JAH-MATH');
-  return fetch(BASE+'data/mathdata.json').then(function(r){if(!r.ok)throw new Error('fetch '+r.status);return r.json();});
+  return fetch(LOCAL+'mathdata.json').then(function(r){if(!r.ok)throw new Error('fetch '+r.status);return r.json();});
 }).then(function(arr){
   archiveIdx=arr;
   $('stCount').textContent=archiveIdx.length.toLocaleString()+' / 1,000,000 target';

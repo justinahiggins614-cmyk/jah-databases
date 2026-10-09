@@ -109,7 +109,7 @@ pre.steps{background:#080d18;border:1px solid var(--line);border-radius:8px;padd
     <div class="card">
       <h3>About this data base</h3>
       <dl class="kv">
-        <dt>Source archive</dt><dd>The Signature Comic Store's comics (JAH-COMIC records) — 9 series, issues, characters, panels — preserved as structured, searchable data.</dd>
+        <dt>Archive</dt><dd>This database's comics (JAH-COMIC records) — 9 series, issues, characters, panels — preserved as structured, searchable data.</dd>
         <dt>Record schema</dt><dd class="mono">id · series · skey · num · title · chars[{name, code, power}] · desc · pages[{cap, dlg}] · words · note · creation_mode · stamp</dd>
         <dt>Generator</dt><dd>jahdb-comics-1.0 — deterministic (mulberry32), assembles each issue combinatorially from clean pools, computes the real word count, then an independent verifier rebuilds the title, characters, description, and all 6 pages from the private pool indices before acceptance.</dd>
         <dt>Drift control</dt><dd>Every generated comic is checked against an archive sample for duplicate titles and re-verified by the independent verifier.</dd>
@@ -133,6 +133,7 @@ pre.steps{background:#080d18;border:1px solid var(--line);border-radius:8px;padd
 'use strict';
 var SLUG='comics';
 var BASE='https://justinahiggins614-cmyk.github.io/signature-comics/';
+var LOCAL='../../data/comics/';
 var db=null, manifest=null, archiveIdx=[], archiveSample=[];
 var $=function(id){return document.getElementById(id);};
 var SERIES=['THE SIGNALBEARERS','EMBERFALL','THE HOLLOW CIRCUIT','TIDEBOUND','THE GLOAMING WATCH',"STARFARER'S LOG",'THE CLOCKWORK MENAGERIE','JUNIOR SIGNALS','COSMIC CROSSOVER EVENTS'];
@@ -150,7 +151,7 @@ SERIES.forEach(function(c){ var o=document.createElement('option'); o.value=c; o
 JAHDB.loadManifest().then(function(m){
   manifest=m; db=JAHDB.dbBySlug(m,SLUG);
   $('emblem').src=JAHDB.emblemSVG('Comic Issues','JAH-COMIC');
-  return JAHDB.fetchGz(BASE+'data/index/comics.idx.json.gz');
+  return JAHDB.fetchGz(LOCAL+'comics.idx.json.gz');
 }).then(function(t){
   archiveIdx=JSON.parse(t);
   $('stCount').textContent=archiveIdx.length.toLocaleString()+' / 1,000,000 target';

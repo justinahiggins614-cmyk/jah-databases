@@ -109,7 +109,7 @@ pre.steps{background:#080d18;border:1px solid var(--line);border-radius:8px;padd
     <div class="card">
       <h3>About this data base</h3>
       <dl class="kv">
-        <dt>Source archive</dt><dd>The Signature Book Depository's finished books (JAH-BOOK records) — 16 genres, full chapters — preserved as structured, searchable data.</dd>
+        <dt>Archive</dt><dd>This database's finished books (JAH-BOOK records) — 16 genres, full chapters — preserved as structured, searchable data.</dd>
         <dt>Record schema</dt><dd class="mono">id · title · author · genre · gkey · desc · words · chapters[{t, b}] · note · sources · origin · creation_mode · stamp</dd>
         <dt>Generator</dt><dd>jahdb-books-1.0 — deterministic (mulberry32), assembles each book combinatorially from clean pools, computes the real word count, then an independent verifier rebuilds the title, description, and every chapter from the private pool indices before acceptance.</dd>
         <dt>Drift control</dt><dd>Every generated book is checked against an archive sample for duplicate titles and re-verified by the independent verifier.</dd>
@@ -133,6 +133,7 @@ pre.steps{background:#080d18;border:1px solid var(--line);border-radius:8px;padd
 'use strict';
 var SLUG='books';
 var BASE='https://justinahiggins614-cmyk.github.io/signature-books/';
+var LOCAL='../../data/books/';
 var db=null, manifest=null, archiveIdx=[], archiveSample=[];
 var $=function(id){return document.getElementById(id);};
 var GENRES=['Science Fiction','Fantasy','Mystery','Romance','Horror','Mathematics','Physics','Chemistry','Biology','History','Computer Science',"Children's",'Poetry','Technical Manual','Philosophy','Business'];
@@ -150,7 +151,7 @@ GENRES.forEach(function(c){ var o=document.createElement('option'); o.value=c; o
 JAHDB.loadManifest().then(function(m){
   manifest=m; db=JAHDB.dbBySlug(m,SLUG);
   $('emblem').src=JAHDB.emblemSVG('Finished Books','JAH-BOOK');
-  return JAHDB.fetchGz(BASE+'data/index/books.idx.json.gz');
+  return JAHDB.fetchGz(LOCAL+'books.idx.json.gz');
 }).then(function(t){
   archiveIdx=JSON.parse(t);
   $('stCount').textContent=archiveIdx.length.toLocaleString()+' / 1,000,000 target';

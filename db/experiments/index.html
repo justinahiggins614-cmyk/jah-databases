@@ -109,7 +109,7 @@ pre.steps{background:#080d18;border:1px solid var(--line);border-radius:8px;padd
     <div class="card">
       <h3>About this data base</h3>
       <dl class="kv">
-        <dt>Source archive</dt><dd>The Signature network's experiment solver archive: experiment types solved deterministically into full lab records (JAH-EXP records), preserved as structured, searchable data.</dd>
+        <dt>Archive</dt><dd>This database's experiment archive: experiment types solved deterministically into full lab records (JAH-EXP records), preserved as structured, searchable data.</dd>
         <dt>Record schema</dt><dd class="mono">id · type · title · discipline · question · hypothesis · params{} · procedure[] · measurements{} · solution · check · simulation_status</dd>
         <dt>Generator</dt><dd>jahdb-experiments-1.0 — deterministic (mulberry32). Builds each experiment constructively from a solvable physics model, computes every measurement row, then an independent re-solver recomputes all numeric claims from the raw picks.</dd>
         <dt>Drift control</dt><dd>Every generated title is checked against an archive sample for exact duplicates and re-solved by the independent verifier.</dd>
@@ -133,6 +133,7 @@ pre.steps{background:#080d18;border:1px solid var(--line);border-radius:8px;padd
 'use strict';
 var SLUG='experiments';
 var BASE='https://justinahiggins614-cmyk.github.io/signature-experiment-solver/';
+var LOCAL='../../data/experiments/';
 var BASEN=900000;
 var db=null, manifest=null, archiveIdx=null, archiveSample=[];
 var $=function(id){return document.getElementById(id);};
@@ -149,7 +150,7 @@ document.querySelectorAll('.tab').forEach(function(t){
 JAHDB.loadManifest().then(function(m){
   manifest=m; db=JAHDB.dbBySlug(m,'experiments');
   $('emblem').src=JAHDB.emblemSVG('Solved Experiments','JAH-EXP');
-  return JAHDB.fetchGz(BASE+'data/index.json.gz');
+  return JAHDB.fetchGz(LOCAL+'index.json.gz');
 }).then(function(t){
   /* each line is a JSON array of rows: [id, slug, pos, title, discipline] */
   archiveIdx=[];

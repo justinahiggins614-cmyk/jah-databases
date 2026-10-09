@@ -109,7 +109,7 @@ pre.steps{background:#080d18;border:1px solid var(--line);border-radius:8px;padd
     <div class="card">
       <h3>About this data base</h3>
       <dl class="kv">
-        <dt>Source archive</dt><dd>Signature Earth's verified address archive (JAH-ADDR records): real addresses with coordinates, sourced from OpenStreetMap, marching to 1,000,000.</dd>
+        <dt>Archive</dt><dd>This database's verified address archive (JAH-ADDR records): real addresses with coordinates, sourced from OpenStreetMap, marching to 1,000,000.</dd>
         <dt>Record schema</dt><dd class="mono">id · label · display_name · lat · lon · country · osm_place_id · osm_class · osm_type · fetched_at</dd>
         <dt>Generator</dt><dd>jahdb-earth-1.0 — deterministic (mulberry32). Builds practice records from real street/city/country components sampled from the archive's index; an independent verifier rebuilds the label from the private pool indices. Every generated record carries the practice disclaimer and is never a verified real address.</dd>
         <dt>Drift control</dt><dd>Every generated practice label is checked against an archive sample — it must never equal a stored address label.</dd>
@@ -133,6 +133,7 @@ pre.steps{background:#080d18;border:1px solid var(--line);border-radius:8px;padd
 'use strict';
 var SLUG='earth';
 var BASE='https://justinahiggins614-cmyk.github.io/signature-earth/';
+var LOCAL='../../data/earth/';
 var GEN_BASEN=13700;
 var db=null, manifest=null, archiveIdx=null, archiveSample=[];
 var $=function(id){return document.getElementById(id);};
@@ -149,7 +150,7 @@ document.querySelectorAll('.tab').forEach(function(t){
 JAHDB.loadManifest().then(function(m){
   manifest=m; db=JAHDB.dbBySlug(m,'earth')||{ai_name:'JAH Earth Librarian',name:'JAH Earth Data Base',record_kind:'address'};
   $('emblem').src=JAHDB.emblemSVG('Earth Addresses','JAH-ADDR');
-  return JAHDB.fetchGz(BASE+'data/addresses/index.json.gz');
+  return JAHDB.fetchGz(LOCAL+'index.json.gz');
 }).then(function(t){
   archiveIdx=JSON.parse(t); /* rows: [id,label,lat,lon,country,osm_place_id] */
   $('stCount').textContent=archiveIdx.length.toLocaleString()+' / 1,000,000 target';
