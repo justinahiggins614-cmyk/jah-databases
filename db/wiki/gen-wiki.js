@@ -45,7 +45,7 @@
     var pool = SUBJECTS.filter(function (s) { return s[1] === kind; });
     if (!pool.length) pool = SUBJECTS;
     var subj = pick(rnd, pool);
-    var n = (opts.baseN || 0) + 1;
+    var n = (opts.baseN || 0) + seed;
     var title = subj[0];
     /* deterministic variant titles so the generator is boundless, not a fixed list */
     var variant = ri(rnd, 0, 999);

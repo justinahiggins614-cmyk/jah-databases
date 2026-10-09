@@ -1,10 +1,12 @@
 /* ✳ SIGNATURE — JAH Patent Specification Data Base generator. Property of Justin Addam Higgins (JAH).
-   Boundless generator: produces NEW synthetic draft specifications in the exact
-   archive format (spec_id, title, abstract, category, cpc, era, prepared_date,
-   status, signature_tool_mapping, key_parameters, id, stamp). Deterministic:
-   same seed + version => same record. These are ORIGINAL synthetic drafts,
-   clearly labeled GENERATED — they are not JAH's drafts and claim no filing.
-   Every record is re-verified by an INDEPENDENT checker before acceptance. */
+   Boundless generator: produces NEW synthetic draft specifications in the FULL
+   archive record format (spec_id, title, abstract, category, cpc, era,
+   prepared_date, inventor, owner, status, signature_tool_mapping, key_parameters,
+   patent_draft, manufacture, demo, ai_explainer, algorithm_steps, measurements,
+   autoread_block, stamp). Deterministic: same seed + version => same record.
+   These are ORIGINAL synthetic drafts, clearly labeled GENERATED — they are not
+   JAH's drafts and claim no filing. Every record is re-verified by an
+   INDEPENDENT checker before acceptance. */
 (function () {
   'use strict';
   var VERSION = 'jahdb-specs-1.0';
@@ -38,11 +40,12 @@
     'phase-locked loop tracking', 'closed-loop PID regulation',
     'redundant channel voting', 'differential pressure sensing',
     'pulse-width modulation staging', 'resonant inductive coupling',
-    ' Kalman-free state estimation', 'federated edge inference'];
+    'Kalman-free state estimation', 'federated edge inference'];
 
   function ri(rnd, a, b) { return a + Math.floor(rnd() * (b - a + 1)); }
   function pick(rnd, arr) { return arr[Math.floor(rnd() * arr.length)]; }
   function low(s) { return s.charAt(0).toLowerCase() + s.slice(1); }
+  function iso(y, m, d) { return y + '-' + String(m).padStart(2, '0') + '-' + String(d).padStart(2, '0'); }
 
   function buildTitle(dev, pur, mech) { return dev + ' ' + pur + ' using ' + mech; }
   function buildAbstract(dev, pur, mech, eff) {
@@ -68,72 +71,137 @@
       mtbf_h: ri(rnd, 5000, 60000)
     };
   }
-  function iso(y, m, d) {
-    return y + '-' + String(m).padStart(2, '0') + '-' + String(d).padStart(2, '0');
+  /* ---- full-record fields, all deterministically derived from private params ---- */
+  function buildPatentDraft(p, dev, pur, mech) {
+    var d = low(dev);
+    return 'PATENT DRAFT — ' + buildTitle(dev, pur, mech) + '\n' +
+      'Inventor: ' + PROVENANCE + '\n' +
+      'FIELD: A ' + d + ' ' + pur + ' by means of ' + mech + '.\n' +
+      'BACKGROUND: Conventional approaches waste energy as heat and drift out of ' +
+      'calibration under load. This draft discloses a ' + d + ' that holds ' +
+      p._params.efficiency_pct + '% conversion efficiency across -40 to 125 C operation.\n' +
+      'SUMMARY: The apparatus comprises (a) a primary ' + d + ' stage, (b) a ' + mech +
+      ' control loop, and (c) a redundant monitoring bus rated for ' + p._params.mtbf_h +
+      ' hours MTBF.\n' +
+      'DETAILED DESCRIPTION: FIG.1 shows the ' + d + ' housing with LINE primary axis; ' +
+      'FIG.2 the TRIANGLE taper geometry; FIG.3 the CROSS junction layout. The control ' +
+      'loop samples at adaptive rates and votes across redundant channels before ' +
+      'committing actuation, so a single sensor fault cannot drive the system out of ' +
+      'its qualified envelope.\n' +
+      'CLAIMS: 1. A ' + d + ' ' + pur + ' comprising a ' + mech + ' control loop. ' +
+      '2. The apparatus of claim 1, further comprising redundant channel voting. ' +
+      '3. The apparatus of claim 1, rated for ' + p._params.mtbf_h + ' hours MTBF.\n' +
+      'STATUS: Draft — synthetic (not filed).';
+  }
+  function buildManufacture(dev, pur, mech) {
+    var d = low(dev);
+    return 'Manufacture: machine the ' + d + ' housing to the LINE primary axis, form the ' +
+      'TRIANGLE taper, bore CIRCLE ports, and route the CROSS junctions. Calibrate the ' +
+      mech + ' loop on a bench rig ' + pur + ', then burn in for 48 hours before shipment.';
+  }
+  function buildDemo(dev, pur, p) {
+    return 'Demo: bench rig drives the ' + low(dev) + ' through its full ' + pur.replace(/^for /, '') +
+      ' envelope while the monitor bus logs efficiency; the unit holds ' +
+      p._params.efficiency_pct + '% conversion efficiency across the qualification run.';
+  }
+  function buildAiExplainer(dev, pur, mech, p) {
+    return 'In plain terms: this is a ' + low(dev) + ' built ' + pur + '. It works by ' +
+      mech + ' — the same idea as keeping a car in the right gear instead of redlining. ' +
+      'Rated ' + p._params.efficiency_pct + '% efficient with a ' + p._params.mtbf_h +
+      '-hour mean time between failures. Synthetic draft for study, not a filed patent.';
+  }
+  function buildAlgorithmSteps(dev, pur, mech) {
+    var d = low(dev);
+    return '1. Sample sensors on the ' + d + ' at the adaptive rate.\n' +
+      '2. Estimate state with ' + mech + '.\n' +
+      '3. Vote across redundant channels; discard out-of-family readings.\n' +
+      '4. Commit actuation only when two of three channels agree.\n' +
+      '5. Log efficiency and drift ' + pur + '; alarm on threshold breach.';
+  }
+  function buildMeasurements(p) {
+    return 'Bench: efficiency ' + p._params.efficiency_pct + '% at ' + p._params.operating_temp_c +
+      ' C ambient; MTBF ' + p._params.mtbf_h + ' h; calibration drift under 0.5% per 1000 h.';
+  }
+  function buildAutoreadBlock(dev, pur, mech, eff) {
+    return 'Read aloud: ' + buildTitle(dev, pur, mech) + '. ' + buildAbstract(dev, pur, mech, eff);
   }
 
   function genSpec(rnd, opts) {
     opts = opts || {};
-    var dev = pick(rnd, DEVICES), pur = pick(rnd, PURPOSES), mech = pick(rnd, MECHANISMS).trim();
+    var dev = pick(rnd, DEVICES), pur = pick(rnd, PURPOSES), mech = pick(rnd, MECHANISMS);
     var cat = (opts.category && CATEGORIES.indexOf(opts.category) >= 0) ? opts.category : pick(rnd, CATEGORIES);
     var cpc = pick(rnd, CPCS), era = pick(rnd, ERAS);
     var params = buildParams(rnd);
     var y = ri(rnd, 2016, 2026), m = ri(rnd, 1, 12), d = ri(rnd, 1, 28);
-    var title = buildTitle(dev, pur, mech);
     return {
-      title: title,
-      abstract: buildAbstract(dev, pur, mech, params.efficiency_pct),
-      category: cat, cpc: cpc, era: era,
-      prepared_date: iso(y, m, d),
-      inventor: PROVENANCE, owner: PROVENANCE,
-      status: 'Draft — synthetic (not filed)',
-      signature_tool_mapping: buildMapping(dev),
-      key_parameters: params,
       _dev: dev, _pur: pur, _mech: mech, _cat: cat, _cpc: cpc, _era: era,
       _y: y, _m: m, _d: d, _params: params
     };
   }
 
+  function assemble(p, n) {
+    var dev = p._dev, pur = p._pur, mech = p._mech;
+    var id = ID_PREFIX + String(n).padStart(6, '0');
+    return {
+      id: id,
+      spec_id: id,
+      n: n,
+      title: buildTitle(dev, pur, mech),
+      abstract: buildAbstract(dev, pur, mech, p._params.efficiency_pct),
+      category: p._cat,
+      cpc: p._cpc,
+      era: p._era,
+      prepared_date: iso(p._y, p._m, p._d),
+      inventor: PROVENANCE,
+      owner: PROVENANCE,
+      status: 'Draft — synthetic (not filed)',
+      signature_tool_mapping: buildMapping(dev),
+      key_parameters: p._params,
+      patent_draft: buildPatentDraft(p, dev, pur, mech),
+      manufacture: buildManufacture(dev, pur, mech),
+      demo: buildDemo(dev, pur, p),
+      ai_explainer: buildAiExplainer(dev, pur, mech, p),
+      algorithm_steps: buildAlgorithmSteps(dev, pur, mech),
+      measurements: buildMeasurements(p),
+      autoread_block: buildAutoreadBlock(dev, pur, mech, p._params.efficiency_pct),
+      record_kind: 'synthetic',
+      stamp: STAMP,
+      _priv: p
+    };
+  }
+
   function generate(seed, opts, rnd) {
     opts = opts || {};
-    var s = genSpec(rnd, opts);
-    var n = (opts.baseN || 0) + 1;
-    var rec = {
-      id: ID_PREFIX + String(n).padStart(6, '0'),
-      spec_id: ID_PREFIX + String(n).padStart(6, '0'),
-      n: n,
-      title: s.title,
-      abstract: s.abstract,
-      category: s.category,
-      cpc: s.cpc,
-      era: s.era,
-      prepared_date: s.prepared_date,
-      inventor: s.inventor,
-      owner: s.owner,
-      status: s.status,
-      signature_tool_mapping: s.signature_tool_mapping,
-      key_parameters: s.key_parameters,
-      record_kind: 'synthetic',
-      stamp: STAMP
-    };
-    rec._priv = s;
+    var p = genSpec(rnd, opts);
+    var n = (opts.baseN || 0) + seed;
+    var rec = assemble(p, n);
     rec._seed = seed;
     return rec;
   }
 
+  /* INDEPENDENT checker: rebuilds every derived field from private params only */
   function verify(rec) {
     var errs = [];
     var p = rec._priv;
     if (!p) return ['no private params — cannot independently verify'];
-    if (rec.title !== buildTitle(p._dev, p._pur, p._mech)) errs.push('title mismatch');
-    if (rec.abstract !== buildAbstract(p._dev, p._pur, p._mech, p._params.efficiency_pct))
-      errs.push('abstract mismatch');
+    var dev = p._dev, pur = p._pur, mech = p._mech;
+    function ck(name, got, want) { if (got !== want) errs.push(name + ' mismatch'); }
+    ck('title', rec.title, buildTitle(dev, pur, mech));
+    ck('abstract', rec.abstract, buildAbstract(dev, pur, mech, p._params.efficiency_pct));
+    ck('prepared_date', rec.prepared_date, iso(p._y, p._m, p._d));
+    ck('patent_draft', rec.patent_draft, buildPatentDraft(p, dev, pur, mech));
+    ck('manufacture', rec.manufacture, buildManufacture(dev, pur, mech));
+    ck('demo', rec.demo, buildDemo(dev, pur, p));
+    ck('ai_explainer', rec.ai_explainer, buildAiExplainer(dev, pur, mech, p));
+    ck('algorithm_steps', rec.algorithm_steps, buildAlgorithmSteps(dev, pur, mech));
+    ck('measurements', rec.measurements, buildMeasurements(p));
+    ck('autoread_block', rec.autoread_block, buildAutoreadBlock(dev, pur, mech, p._params.efficiency_pct));
     if (rec.category !== p._cat || CATEGORIES.indexOf(rec.category) < 0) errs.push('bad category');
     if (rec.cpc !== p._cpc || CPCS.indexOf(rec.cpc) < 0) errs.push('bad cpc');
     if (rec.era !== p._era || ERAS.indexOf(rec.era) < 0) errs.push('bad era');
-    if (rec.prepared_date !== iso(p._y, p._m, p._d)) errs.push('prepared_date mismatch');
     if (rec.spec_id !== rec.id) errs.push('spec_id/id mismatch');
-    var want = buildMapping(p._dev);
+    if (!/^JAH-SPEC-\d{6}$/.test(rec.id)) errs.push('bad id format');
+    var want = buildMapping(dev);
     ['LINE', 'TRIANGLE', 'SQUARE', 'CROSS', 'CIRCLE', 'CURVATURE'].forEach(function (k) {
       if (!rec.signature_tool_mapping || rec.signature_tool_mapping[k] !== want[k])
         errs.push('tool mapping mismatch: ' + k);
@@ -143,6 +211,10 @@
         kp.efficiency_pct !== p._params.efficiency_pct ||
         kp.mtbf_h !== p._params.mtbf_h) errs.push('key_parameters mismatch');
     if (kp.efficiency_pct < 72 || kp.efficiency_pct > 98) errs.push('efficiency out of range');
+    if (rec.inventor !== PROVENANCE) errs.push('inventor provenance mismatch');
+    if (rec.owner !== PROVENANCE) errs.push('owner provenance mismatch');
+    if (rec.status !== 'Draft — synthetic (not filed)') errs.push('status mismatch');
+    if (rec.stamp !== STAMP) errs.push('stamp mismatch');
     return errs;
   }
 
@@ -150,10 +222,11 @@
     var errs = [];
     if (!rec || typeof rec !== 'object') return { ok: false, errors: ['not an object'] };
     ['id', 'spec_id', 'title', 'abstract', 'category', 'cpc', 'era', 'prepared_date',
-     'status', 'signature_tool_mapping', 'key_parameters'].forEach(function (k) {
+     'inventor', 'owner', 'status', 'signature_tool_mapping', 'key_parameters',
+     'patent_draft', 'manufacture', 'demo', 'ai_explainer', 'algorithm_steps',
+     'measurements', 'autoread_block', 'stamp'].forEach(function (k) {
       if (rec[k] === undefined || rec[k] === null || rec[k] === '') errs.push('missing field: ' + k);
     });
-    if (rec.id && !/^JAH-SPEC-\d{6}$/.test(rec.id)) errs.push('bad id format');
     if (rec._priv) errs = errs.concat(verify(rec));
     else errs.push('no private params — cannot independently verify');
     return { ok: errs.length === 0, errors: errs };

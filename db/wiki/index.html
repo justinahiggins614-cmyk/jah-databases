@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>JAH Wiki Database — JAH Data Bases</title>
-<meta name="description" content="The JAH Wiki Data Base: every wiki article as the archive, a boundless article generator, and an archive-aware AI. Property of Justin Addam Higgins.">
+<meta name="description" content="The JAH Wiki Data Base: every wiki article rendered as the full article from its underlying full record — spec, patent, word, and dossier articles — plus a boundless full-article generator. Property of Justin Addam Higgins.">
 <style>
 :root{--bg:#070b16;--panel:#0d1526;--line:#1d2c4d;--ink:#e8f1ff;--dim:#9fb3d8;--acc:#2f7bff;--ok:#00e5a0}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Arial,Helvetica,sans-serif;line-height:1.5}
@@ -34,9 +34,14 @@ details.grp>summary::-webkit-details-marker{display:none}
 .msg{margin:8px 0}.msg.u{text-align:right}.msg .b{display:inline-block;padding:8px 12px;border-radius:12px;max-width:88%}
 .msg.u .b{background:#14305e}.msg.a .b{background:#101a30;border:1px solid var(--line)}
 .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
-pre.body{background:#080d18;border:1px solid var(--line);border-radius:8px;padding:8px;white-space:pre-wrap}
+pre.body{background:#080d18;border:1px solid var(--line);border-radius:8px;padding:10px;white-space:pre-wrap;font-size:.92em}
+.infobox{background:#0a1120;border:1px solid var(--line);border-radius:8px;padding:10px;margin:10px 0;font-size:.92em}
+.infobox .kv{display:grid;grid-template-columns:auto 1fr;gap:4px 12px}
+.infobox dt{color:var(--dim)}.infobox dd{margin:0}
 .kv{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;font-size:.95em}
 .kv dt{color:var(--dim)}.kv dd{margin:0}
+.sect{margin:12px 0}.sect h4{margin:8px 0 4px;color:var(--ok)}
+.mono{font-family:Consolas,monospace}
 .foot{margin-top:26px;padding-top:12px;border-top:1px solid var(--line);color:var(--dim);font-size:.85em}
 </style>
 </head>
@@ -46,7 +51,7 @@ pre.body{background:#080d18;border:1px solid var(--line);border-radius:8px;paddi
     <img id="emblem" alt="database emblem">
     <div>
       <h1>JAH Wiki Database</h1>
-      <p>Every wiki article as the archive — spec, patent, word, and dossier articles — plus a boundless article generator.</p>
+      <p>Every wiki article as the full article — rendered from its underlying full record.</p>
       <div class="stats">
         <span class="stat">Archive articles: <b id="stCount">…</b></span>
         <span class="stat">Generator: <b>jahdb-wiki-1.0</b> <span class="ok">● working</span></span>
@@ -67,7 +72,8 @@ pre.body{background:#080d18;border:1px solid var(--line);border-radius:8px;paddi
       <input id="q" placeholder="Search all articles…" style="flex:1;min-width:200px">
       <button class="go" id="qgo">Search</button>
     </div>
-    <p class="dim">Browse by article kind — each group loads its shard only when you open it.</p>
+    <p class="dim">Browse by article kind — each group loads its shard only when you open it. One click opens the <b>full article</b>, rendered from the underlying full record.</p>
+    <div id="viewer"></div>
     <div id="groups"></div>
     <div id="results"></div>
   </section>
@@ -75,7 +81,7 @@ pre.body{background:#080d18;border:1px solid var(--line);border-radius:8px;paddi
   <section class="pane" id="p-gen">
     <div class="card">
       <h3>Boundless article generator</h3>
-      <p class="dim">Same seed + same version always makes the same article. Every article is schema-checked and drift-checked against the archive before acceptance.</p>
+      <p class="dim">Same seed + same version always makes the same article. Every article is a <b>full article</b> — lead, full body, cross-references — schema-checked and drift-checked against the archive before acceptance.</p>
       <div class="row">
         <label>Seed <input id="gSeed" type="number" value="1" style="width:110px"></label>
         <label>Count <input id="gN" type="number" value="5" min="1" max="50" style="width:80px"></label>
@@ -102,14 +108,16 @@ pre.body{background:#080d18;border:1px solid var(--line);border-radius:8px;paddi
     <div class="card">
       <h3>About this data base</h3>
       <dl class="kv">
-        <dt>Archive</dt><dd>Every article the JAH Wiki renders: spec articles, patent articles, word articles, and dossier articles — 1,460,175 in total, each with a JAH-WIKI article identity.</dd>
-        <dt>Generator</dt><dd>jahdb-wiki-1.0 — deterministic; writes new articles with summary, analysis, and cross-references in the wiki's article format.</dd>
+        <dt>Archive</dt><dd>Every article this database holds: spec articles (from word-spec full records), patent articles (from public patent full records), word articles (from dictionary full records), and dossier articles (from full leak dossiers) — 1,460,175 in total, each with a JAH-WIKI article identity. One click renders the full article from the underlying full record; where a record is still being migrated the page says so plainly.</dd>
+        <dt>Generator</dt><dd>jahdb-wiki-1.0 — deterministic; writes new full articles with lead, full body, and cross-references in the wiki's article format.</dd>
         <dt>Drift control</dt><dd>Generated articles are checked for exact-title duplicates against archive samples before acceptance.</dd>
         <dt>AI</dt><dd>JAH Wiki Librarian — archive-aware. On-device Standard 1.0, no key needed; uses the shared Signature backend automatically when configured.</dd>
         <dt>Ownership</dt><dd>✳ Property of Justin Addam Higgins (JAH).</dd>
       </dl>
     </div>
   </section>
+
+  <div class="foot">✳ Property of Justin Addam Higgins (JAH) · JAH Data Bases · full-article archive</div>
 </div>
 
 <script src="../../core/jahdb.js"></script>
@@ -125,6 +133,10 @@ var db=null, manifest=null, counts={}, archiveSample=[];
 var $=function(id){return document.getElementById(id);};
 var KINDS=[['spec','Spec articles'],['patent','Patent articles'],['word','Word articles'],['dossier','Dossier articles']];
 var kindCache={};
+var idxCache={};   /* lazy per-kind source indexes */
+var chunkCache={}; /* fetched full-record chunks */
+function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+function wid(n){return 'JAH-WIKI-'+String(n).padStart(8,'0');}
 
 document.querySelectorAll('.tab').forEach(function(t){
   t.addEventListener('click',function(){
@@ -133,8 +145,6 @@ document.querySelectorAll('.tab').forEach(function(t){
     t.classList.add('on'); $('p-'+t.dataset.p).classList.add('on');
   });
 });
-function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
-function wid(n){return 'JAH-WIKI-'+String(n).padStart(8,'0');}
 
 JAHDB.loadManifest().then(function(m){
   manifest=m; db=JAHDB.dbBySlug(m,'wiki');
@@ -143,7 +153,7 @@ JAHDB.loadManifest().then(function(m){
 }).then(function(am){
   var total=0;
   Object.keys(am.shards).forEach(function(k){counts[k]=am.shards[k].count;total+=am.shards[k].count;});
-  $('stCount').textContent=total.toLocaleString()+' / 1,000,000 target';
+  $('stCount').textContent=total.toLocaleString()+' articles';
   buildGroups();
   greet();
 }).catch(function(e){ $('stCount').textContent='archive unreachable ('+e.message+')'; });
@@ -156,6 +166,225 @@ function loadKind(kind){
     return rows;
   });
 }
+/* lazy source indexes: kind -> resolver for source_id -> full record */
+function loadSourceIdx(kind){
+  if(idxCache[kind]) return Promise.resolve(idxCache[kind]);
+  var job;
+  if(kind==='spec'){
+    /* JAH-WORD-###### -> [id,title,chunkfile] */
+    job=JAHDB.fetchGz('../../data/specs/wordspec.idx.json.gz').then(function(t){
+      var m={};
+      t.split('\n').forEach(function(l){ if(!l.trim())return; try{var r=JSON.parse(l); m[r[0]]=r;}catch(e){} });
+      idxCache.spec={map:m};
+    });
+  }else if(kind==='patent'){
+    /* pubno -> {off,len} */
+    job=JAHDB.fetchGz('../../data/patents/patents.idx.json.gz').then(function(t){
+      var m={};
+      JSON.parse(t).forEach(function(r){ m[r[0]]={off:r[4],len:r[5],title:r[1],area:r[2],assignee:r[3]}; });
+      idxCache.patent={map:m};
+    });
+  }else if(kind==='word'){
+    /* word -> [word,chunkfile,idx] */
+    job=JAHDB.fetchGz('../../data/words/dict.idx.json.gz').then(function(t){
+      var m={};
+      JSON.parse(t).forEach(function(r){ m[cleanW(r[0])]=r; });
+      idxCache.word={map:m};
+    });
+  }else if(kind==='dossier'){
+    /* JAH-LEAK-* -> chunkfile */
+    job=JAHDB.fetchGz('../../data/leaks/bizarre.idx.json.gz').then(function(t){
+      var m={};
+      t.split('\n').forEach(function(l){ if(!l.trim())return; try{var r=JSON.parse(l); m[r[0]]=r[3];}catch(e){} });
+      idxCache.dossier={map:m};
+    });
+  }
+  return (job||Promise.resolve()).then(function(){return idxCache[kind];});
+}
+function cleanW(w){ return String(w||'').replace(/^[\"']+|[\"']+$/g,''); }
+
+/* fetch one full record for (kind, source_id) */
+function loadFullRecord(kind, sid){
+  return loadSourceIdx(kind).then(function(ix){
+    if(kind==='spec'){
+      var r=ix.map[sid];
+      if(!r) return {missing:'The full word-spec record for '+sid+' is still being migrated — the migrated word-spec archive currently holds records JAH-WORD-000001 through JAH-WORD-055000.'};
+      var key='wordspec/'+r[2];
+      var hit=chunkCache[key];
+      var done=function(map){ return {record:map[sid]||null, kind:'wordspec'}; };
+      if(hit) return done(hit);
+      return JAHDB.fetchGz('../../data/specs/words/'+r[2]).then(function(t){
+        var map={};
+        t.split('\n').forEach(function(l){ if(!l.trim())return; try{var rec=JSON.parse(l); if(rec.spec_id) map[rec.spec_id]=rec;}catch(e){} });
+        chunkCache[key]=map;
+        return done(map);
+      });
+    }else if(kind==='patent'){
+      var p=ix.map[sid];
+      if(!p) return {missing:'No patent record found for '+sid+' in the migrated patent archive.'};
+      return fetchRange('../../data/patents/patents.jsonl',p.off,p.len).then(function(txt){
+        var rec=null; try{rec=JSON.parse(txt);}catch(e){}
+        return {record:rec, kind:'patent'};
+      });
+    }else if(kind==='word'){
+      var w=ix.map[cleanW(sid)];
+      if(!w) return {missing:'No dictionary record found for "'+cleanW(sid)+'" in the migrated dictionary archive.'};
+      var wkey='dict/'+w[1];
+      var whit=chunkCache[wkey];
+      var wdone=function(recs){ return {record:recs[w[2]]||null, kind:'word'}; };
+      if(whit) return wdone(whit);
+      return JAHDB.fetchGz('../../data/words/full/dict/'+w[1]).then(function(t){
+        var recs=t.split('\n').filter(function(l){return l.trim();}).map(function(l){try{return JSON.parse(l);}catch(e){return null;}});
+        chunkCache[wkey]=recs;
+        return wdone(recs);
+      });
+    }else if(kind==='dossier'){
+      var cf=ix.map[sid];
+      if(!cf) return {missing:'No dossier found for '+sid+' in the migrated leak archive.'};
+      var leakUrl='../../data/leaks/full/'+cf;
+      if(leakUrl.slice(-3)!=='.gz') leakUrl+='.json.gz';
+      var dkey='leak/'+cf;
+      var dhit=chunkCache[dkey];
+      var ddone=function(recs){
+        var rec=null;
+        for(var i=0;i<recs.length;i++) if(recs[i]&&recs[i].id===sid){rec=recs[i];break;}
+        return {record:rec, kind:'dossier'};
+      };
+      if(dhit) return ddone(dhit);
+      return JAHDB.fetchGz(leakUrl).then(function(t){
+        var recs=[]; try{recs=JSON.parse(t);}catch(e){recs=[];}
+        chunkCache[dkey]=recs;
+        return ddone(recs);
+      });
+    }
+    return {missing:'Unknown article kind.'};
+  });
+}
+/* byte-range fetch with graceful fallback */
+function fetchRange(url, off, len){
+  return fetch(url,{headers:{'Range':'bytes='+off+'-'+(off+len-1)}}).then(function(r){
+    if(r.status===206) return r.text();
+    /* server ignored Range: download once and slice */
+    return r.text().then(function(t){ return t.substr(off,len); });
+  });
+}
+
+/* ---------- full article rendering ---------- */
+function sect(title, body){
+  if(body===undefined||body===null||body==='') return '';
+  var b;
+  if(Array.isArray(body)) b=esc(body.map(function(x){return String(x);}).join('\n\n'));
+  else if(typeof body==='object') b=esc(JSON.stringify(body,null,1));
+  else b=esc(String(body));
+  return '<div class="sect"><h4>'+esc(title)+'</h4><pre class="body">'+b+'</pre></div>';
+}
+function kvRow(k,v){ return '<dt>'+esc(k)+'</dt><dd>'+esc(v)+'</dd>'; }
+function infobox(rows){ return '<div class="infobox"><dl class="kv">'+rows.join('')+'</dl></div>'; }
+function articleShell(wikiId, title, badges, bodyHtml, rec){
+  var img=JAHDB.emblemSVG('article', wikiId);
+  var h='<div class="card"><div class="rec"><img loading="lazy" src="'+img+'" alt="">'+
+    '<div style="flex:1"><h3 style="font-size:1.15em">'+esc(title)+'</h3>'+
+    '<div>'+badges.map(function(b){return '<span class="badge">'+esc(b)+'</span>';}).join('')+'</div></div></div>'+
+    bodyHtml+
+    '<div class="row"><button class="go" data-cp>Copy full article</button>'+
+    '<button data-dl>Download JSON</button><button data-cl>Close</button></div></div>';
+  return {html:h, rec:rec, wikiId:wikiId, title:title};
+}
+function renderArticle(kind, wikiId, sid, loaded){
+  if(loaded.missing){
+    return articleShell(wikiId, sid, ['full article unavailable'],
+      '<p class="bad">'+esc(loaded.missing)+'</p>', null);
+  }
+  var rec=loaded.record;
+  if(!rec) return articleShell(wikiId, sid, ['record not found'],
+    '<p class="bad">The index points at a record that could not be read.</p>', null);
+  if(loaded.kind==='wordspec'){
+    var info=infobox([
+      kvRow('Word', rec.word||'—'), kvRow('Category', rec.category||'—'),
+      kvRow('CPC', rec.cpc||'—'), kvRow('Era', rec.era||'—'),
+      kvRow('Prepared', rec.prepared_date||'—'), kvRow('Inventor', rec.inventor||'—'),
+      kvRow('Status', rec.status||'—')]);
+    var body=info+
+      sect('Overview', rec.abstract)+sect('Patent draft', rec.patent_draft)+
+      sect('Manufacture', rec.manufacture)+sect('Demo data', rec.demo)+
+      sect('AI explainer', rec.ai_explainer)+sect('Algorithm steps', rec.algorithm_steps)+
+      sect('Measurements', rec.measurements)+sect('Signature tool mapping', rec.signature_tool_mapping)+
+      sect('Key parameters', rec.key_parameters)+sect('Lineage', rec.line||rec.line_note);
+    return articleShell(wikiId, rec.title||sid,
+      [wikiId,'spec article',rec.spec_id||sid,'full article'], body, rec);
+  }
+  if(loaded.kind==='patent'){
+    var pinfo=infobox([
+      kvRow('Publication', rec.publication_number||sid), kvRow('Title', rec.title||'—'),
+      kvRow('Assignee', rec.assignee||'—'), kvRow('Inventor', rec.inventor||'—'),
+      kvRow('CPC', rec.cpc||'—'), kvRow('Priority', rec.priority_date||'—'),
+      kvRow('Filed', rec.filing_date||'—'), kvRow('Granted', rec.grant_date||'—'),
+      kvRow('Published', rec.publication_date||'—'), kvRow('Language', rec.language||'—')]);
+    var pbody=pinfo+sect('Abstract', rec.abstract_snippet);
+    var known={publication_number:1,title:1,assignee:1,inventor:1,cpc:1,priority_date:1,filing_date:1,grant_date:1,publication_date:1,language:1,abstract_snippet:1};
+    Object.keys(rec).forEach(function(k){ if(!known[k]&&k.charAt(0)!=='_') pbody+=sect(k,rec[k]); });
+    return articleShell(wikiId, rec.title||sid,
+      [wikiId,'patent article',rec.publication_number||sid,'full article'], pbody, rec);
+  }
+  if(loaded.kind==='word'){
+    var winfo=infobox([
+      kvRow('Headword', cleanW(rec.w)), kvRow('Record', rec.st||'—'),
+      kvRow('Kind', rec.k||'—'), kvRow('Related', (rec.rt||'')+' '+(rec.rid||'')),
+      kvRow('CPC', rec.cpc||'—')]);
+    var wbody=winfo+sect('Definition', rec.d);
+    return articleShell(wikiId, cleanW(rec.w)||sid,
+      [wikiId,'word article',rec.st||'','full article'], wbody, rec);
+  }
+  if(loaded.kind==='dossier'){
+    var dinfo=infobox([
+      kvRow('Subject', rec.subject||'—'), kvRow('Category', rec.category||'—'),
+      kvRow('Classification', rec.classification||'—'), kvRow('Date filed', rec.date_filed||'—')]);
+    var dbody=dinfo+
+      sect('Overview', rec.overview)+sect('Assessment', rec.assessment)+
+      sect('Science proof', rec.science_proof)+sect('Math proof', rec.math_proof)+
+      sect('Corroborating specs', rec.corroborating_specs)+sect('Sources', rec.sources)+
+      sect('Panel', rec.panel)+sect('Panel block', rec.panel_block)+
+      sect('Officer conclusion', rec.officer_conclusion)+sect('Creator signoff', rec.creator_signoff);
+    return articleShell(wikiId, rec.subject||sid,
+      [wikiId,'dossier article',rec.id||sid,'full article'], dbody, rec);
+  }
+  return articleShell(wikiId, sid, ['full article'],
+    '<pre class="body">'+esc(JSON.stringify(rec,null,1))+'</pre>', rec);
+}
+function wireArticle(root, art){
+  function q(s){return root.querySelector(s);}
+  var cl=q('[data-cl]');
+  if(cl) cl.addEventListener('click',function(){ $('viewer').innerHTML=''; });
+  var cp=q('[data-cp]');
+  if(cp) cp.addEventListener('click',function(){
+    var txt=art.rec?JSON.stringify(art.rec,function(k,v){return k.charAt(0)==='_'?undefined:v;},1):(art.title||'');
+    function done(ok){cp.textContent=ok?'Copied ✓':'Copy failed';}
+    if(navigator.clipboard&&navigator.clipboard.writeText) navigator.clipboard.writeText(txt).then(function(){done(true);},function(){done(false);});
+    else{var ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();try{done(document.execCommand('copy'));}catch(e){done(false);}document.body.removeChild(ta);}
+  });
+  var dl=q('[data-dl]');
+  if(dl&&art.rec) dl.addEventListener('click',function(){
+    var a=document.createElement('a');
+    a.href=URL.createObjectURL(new Blob([JSON.stringify(art.rec,null,1)],{type:'application/json'}));
+    a.download=(art.wikiId||'article')+'.json';
+    document.body.appendChild(a);a.click();
+    setTimeout(function(){URL.revokeObjectURL(a.href);a.remove();},4000);
+  });
+}
+function openArticle(kind, n, title, sid){
+  var v=$('viewer');
+  v.innerHTML='<div class="card"><p class="dim">Loading the full article…</p></div>';
+  v.scrollIntoView();
+  loadFullRecord(kind, sid).then(function(loaded){
+    var art=renderArticle(kind, wid(n), sid, loaded);
+    v.innerHTML=art.html;
+    wireArticle(v, art);
+  }).catch(function(e){
+    v.innerHTML='<div class="card"><p class="bad">Could not load the full article ('+esc(e.message)+').</p></div>';
+  });
+}
+
+/* ---------- archive UI ---------- */
 function buildGroups(){
   var g=$('groups'); g.innerHTML='';
   KINDS.forEach(function(kd){
@@ -170,37 +399,53 @@ function buildGroups(){
           var sample=rows.slice(0,25);
           var rnd=JAHDB.prng(99);
           for(var i=0;i<200&&i<rows.length;i++) archiveSample.push(rows[(rnd()*rows.length)|0]);
-          body.innerHTML=sample.map(articleCard).join('');
+          body.innerHTML=sample.map(function(r){return articleCard(kind,r);}).join('');
+          wireCards(body,kind);
         }).catch(function(e){body.innerHTML='<p class="bad">Load failed: '+esc(e.message)+'</p>';});
       }
     });
     g.appendChild(d);
   });
 }
-function articleCard(r){
+function articleCard(kind,r){
   var n=r[0], title=r[1], sid=r[2];
   return '<div class="card"><div class="rec"><img loading="lazy" src="'+JAHDB.emblemSVG('article',wid(n))+'" alt="">'+
-    '<div><h3 style="margin:0 0 4px">'+esc(title)+'</h3>'+
-    '<div><span class="badge">'+wid(n)+'</span><span class="badge">'+esc(sid)+'</span><span class="badge">stored article</span></div></div></div></div>';
+    '<div style="flex:1"><h3 style="margin:0 0 4px;font-size:1.05em">'+esc(title)+'</h3>'+
+    '<div><span class="badge">'+wid(n)+'</span><span class="badge mono">'+esc(sid)+'</span><span class="badge">'+esc(kind)+' article</span></div>'+
+    '<div class="row" style="margin-top:8px"><button class="go" data-art="'+n+'">Open full article →</button></div>'+
+    '</div></div></div>';
+}
+function wireCards(root,kind){
+  root.querySelectorAll('[data-art]').forEach(function(b){
+    b.addEventListener('click',function(){
+      var rows=kindCache[kind]||[];
+      var row=null;
+      for(var i=0;i<rows.length;i++) if(String(rows[i][0])===b.dataset.art){row=rows[i];break;}
+      if(row) openArticle(kind,row[0],row[1],row[2]);
+    });
+  });
 }
 function doSearch(){
   var q=$('q').value.trim().toLowerCase(), box=$('results');
   if(!q){box.innerHTML='';return;}
   box.innerHTML='<p class="dim">Searching…</p>';
-  var jobs=KINDS.map(function(kd){return loadKind(kd[0]).then(function(rows){return rows;});});
+  var jobs=KINDS.map(function(kd){return loadKind(kd[0]).then(function(rows){return {kind:kd[0],rows:rows};});});
   Promise.all(jobs).then(function(all){
-    var hits=[];
-    all.forEach(function(rows){
-      for(var i=0;i<rows.length&&hits.length<12;i++)
-        if(rows[i][1].toLowerCase().indexOf(q)>=0) hits.push(rows[i]);
+    var html='';
+    all.forEach(function(k){
+      var hits=[];
+      for(var i=0;i<k.rows.length&&hits.length<6;i++)
+        if(String(k.rows[i][1]).toLowerCase().indexOf(q)>=0) hits.push(k.rows[i]);
+      if(hits.length) html+='<h3>'+esc(k.kind)+' hits</h3>'+hits.map(function(r){return articleCard(k.kind,r);}).join('');
     });
-    box.innerHTML=hits.length?'<h3>Article hits ('+hits.length+')</h3>'+hits.map(articleCard).join(''):'<p class="dim">No articles found. Try the Generator tab to write one.</p>';
+    box.innerHTML=html||'<p class="dim">No articles found. Try the Generator tab to write one.</p>';
+    KINDS.forEach(function(kd){ wireCards(box,kd[0]); });
   });
 }
 $('qgo').addEventListener('click',doSearch);
 $('q').addEventListener('keydown',function(e){if(e.key==='Enter')doSearch();});
 
-/* generator */
+/* generator — full articles only */
 $('gGo').addEventListener('click',function(){
   var seed=+$('gSeed').value||1, n=Math.min(50,Math.max(1,+$('gN').value||5));
   var kind=$('gKind').value||undefined;
@@ -214,20 +459,35 @@ $('gGo').addEventListener('click',function(){
     recs.push(r.record);
   }
   var h='<p><b>'+recs.length+'</b> generated, <b>'+fails.length+'</b> rejected.</p>';
-  h+=recs.map(function(r){
-    return '<div class="card"><div class="rec"><img loading="lazy" src="'+JAHDB.emblemSVG(r.kind,r.id)+'" alt="">'+
-      '<div style="flex:1"><h3>'+esc(r.title)+'</h3>'+
-      '<div><span class="badge">'+esc(r.id)+'</span><span class="badge">'+esc(r.kind)+' article</span><span class="badge ok">validated ✓</span><span class="badge">generated — not stored</span></div>'+
-      '<p>'+esc(r.summary)+'</p><pre class="body">'+esc(r.analysis)+'</pre>'+
-      '<p class="dim">See also: '+r.see_also.map(esc).join(' · ')+'</p></div></div></div>';
-  }).join('');
+  recs.forEach(function(r,ci){
+    var gid='genart-'+ci;
+    h+='<div id="'+gid+'">'+genArticleCard(r)+'</div>';
+  });
   if(fails.length) h+='<p class="bad">Rejected: '+esc(JSON.stringify(fails).slice(0,300))+'</p>';
-  $('gOut').innerHTML=h;
+  var out=$('gOut');
+  out.innerHTML=h;
+  recs.forEach(function(r,ci){
+    var holder=out.querySelector('#genart-'+ci);
+    if(holder) wireArticle(holder,{rec:r,wikiId:r.id,title:r.title});
+  });
 });
+/* full generated article: lead + body + cross-references, no stub */
+function genArticleCard(r){
+  var img=JAHDB.emblemSVG(r.kind,r.id);
+  var h='<div class="card"><div class="rec"><img loading="lazy" src="'+img+'" alt="">'+
+    '<div style="flex:1"><h3>'+esc(r.title)+'</h3>'+
+    '<div><span class="badge">'+esc(r.id)+'</span><span class="badge">'+esc(r.kind)+' article</span>'+
+    '<span class="badge ok">validated ✓</span><span class="badge">GENERATED</span><span class="badge">full article</span></div></div></div>'+
+    '<div class="sect"><h4>Article</h4><pre class="body">'+esc(r.summary)+'\n\n'+esc(r.analysis)+'</pre></div>'+
+    '<p class="dim">See also: '+r.see_also.map(esc).join(' · ')+'</p>'+
+    '<p class="dim">'+esc(r.stamp||'')+'</p>'+
+    '<div class="row"><button class="go" data-cp>Copy full article</button><button data-dl>Download JSON</button></div></div>';
+  return h;
+}
 
 /* chat */
 var session=JAHDB.getSession(SLUG);
-function greet(){say('a','I\'m the JAH Wiki Librarian. I know all 1,460,175 articles — ask me to find one, summarize one, or generate a new article in wiki style.');}
+function greet(){say('a','I\'m the JAH Wiki Librarian. I know all 1,460,175 articles — open any one for the full article, ask me to find one, or generate a new full article in wiki style.');}
 function say(who,text){
   var d=document.createElement('div');d.className='msg '+who;
   d.innerHTML='<span class="b">'+esc(text)+'</span>';
@@ -237,7 +497,7 @@ function sendChat(){
   var t=$('chatIn').value.trim();if(!t)return;
   $('chatIn').value='';say('u',t);session.turns.push({q:t});
   JAHDB.aiAnswer(db||{ai_name:'JAH Wiki Librarian',name:'JAH Wiki Data Base',record_kind:'article'},t,
-    'Archive holds 1,460,175 wiki articles: spec, patent, word, and dossier articles.').then(function(a){say('a',a);});
+    'Archive holds 1,460,175 wiki articles: spec, patent, word, and dossier articles. Each opens as a full article rendered from its underlying full record.').then(function(a){say('a',a);});
 }
 $('chatGo').addEventListener('click',sendChat);
 $('chatIn').addEventListener('keydown',function(e){if(e.key==='Enter')sendChat();});

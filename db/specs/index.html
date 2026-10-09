@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Signature Spec Catalog Pending Patents Database — JAH Data Bases</title>
-<meta name="description" content="The JAH Patent Specification Data Base: the permanent archive of Signature-line draft specifications, a boundless generator in archive style, and an archive-aware AI. Property of Justin Addam Higgins.">
+<meta name="description" content="The Signature Spec Catalog Pending Patents Data Base: the permanent full-record archive of Signature-line draft specifications, a boundless full-record generator, and an archive-aware AI. Property of Justin Addam Higgins.">
 <style>
 :root{--bg:#070b16;--panel:#0d1526;--line:#1d2c4d;--ink:#e8f1ff;--dim:#9fb3d8;--acc:#2f7bff;--ok:#00e5a0;--warn:#ffb020}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Arial,Helvetica,sans-serif;line-height:1.5}
@@ -36,11 +36,14 @@ details.grp>summary::-webkit-details-marker{display:none}
 .msg.u .b{background:#14305e}.msg.a .b{background:#101a30;border:1px solid var(--line)}
 .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
 pre.steps{background:#080d18;border:1px solid var(--line);border-radius:8px;padding:8px;white-space:pre-wrap}
+pre.full{background:#080d18;border:1px solid var(--line);border-radius:8px;padding:10px;white-space:pre-wrap;font-size:.92em}
 .kv{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;font-size:.95em}
 .kv dt{color:var(--dim)}.kv dd{margin:0}
+.sect{margin:12px 0}.sect h4{margin:8px 0 4px;color:var(--ok)}
+.viewer{position:sticky;top:0}
 .foot{margin-top:26px;padding-top:12px;border-top:1px solid var(--line);color:var(--dim);font-size:.85em}
 </style>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"Dataset","name":"JAH Patent Specification Data Base","description":"Original Signature-line draft specifications.","creator":{"@type":"Person","name":"Justin Addam Higgins"},"license":"https://creativecommons.org/publicdomain/zero/1.0/","distribution":{"@type":"DataDownload","contentUrl":"data/specs/specs.idx.json.gz"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Dataset","name":"Signature Spec Catalog Pending Patents Database","description":"Original Signature-line draft specifications, full records.","creator":{"@type":"Person","name":"Justin Addam Higgins"},"license":"https://creativecommons.org/publicdomain/zero/1.0/","distribution":{"@type":"DataDownload","contentUrl":"data/specs/specs.idx.json.gz"}}</script>
 </head>
 <body>
 <div class="wrap">
@@ -48,9 +51,9 @@ pre.steps{background:#080d18;border:1px solid var(--line);border-radius:8px;padd
     <img id="emblem" alt="database emblem">
     <div>
       <h1>Signature Spec Catalog Pending Patents Database</h1>
-      <p>Original Signature-line draft specifications.</p>
+      <p>Original Signature-line draft specifications — every record kept as the full file.</p>
       <div class="stats">
-        <span class="stat">Archive records: <b id="stCount">…</b></span>
+        <span class="stat">Full records: <b id="stCount">…</b></span>
         <span class="stat">Generator: <b>jahdb-specs-1.0</b> <span class="ok">● working</span></span>
         <span class="stat">AI: <b>JAH Spec Librarian</b></span>
       </div>
@@ -69,7 +72,8 @@ pre.steps{background:#080d18;border:1px solid var(--line);border-radius:8px;padd
       <input id="q" placeholder="Search the archive…" style="flex:1;min-width:200px">
       <button class="go" id="qgo">Search</button>
     </div>
-    <p class="dim">Browse by category — each group opens on demand and loads only what you open.</p>
+    <p class="dim">Browse by category — each group opens on demand and loads only what you open. One click on a record opens the <b>full file</b>: overview, patent draft, manufacture, demo data, AI explainer, measurements — everything.</p>
+    <div id="viewer"></div>
     <div id="groups"></div>
     <div id="results"></div>
   </section>
@@ -77,7 +81,7 @@ pre.steps{background:#080d18;border:1px solid var(--line);border-radius:8px;padd
   <section class="pane" id="p-gen">
     <div class="card">
       <h3>Boundless generator</h3>
-      <p class="dim">Same seed + same version always makes the same record. Generated records are <b>synthetic drafts</b> — not JAH's work, not real filings. Every record is independently re-verified before it is accepted, and checked against the archive for drift.</p>
+      <p class="dim">Same seed + same version always makes the same record. Generated records are <b>synthetic drafts</b> — not JAH's work, not real filings. Every record is a <b>full record</b> (all fields, independently re-verified) before it is accepted, and checked against the archive for drift.</p>
       <div class="row">
         <label>Seed <input id="gSeed" type="number" value="1" style="width:110px"></label>
         <label>Count <input id="gN" type="number" value="5" min="1" max="50" style="width:80px"></label>
@@ -110,16 +114,18 @@ pre.steps{background:#080d18;border:1px solid var(--line);border-radius:8px;padd
     <div class="card">
       <h3>About this data base</h3>
       <dl class="kv">
-        <dt>Archive</dt><dd>This database's original Signature-line draft specifications ("Draft — ready to file"), preserved as structured, searchable data. Originals only, never reworded copies.</dd>
-        <dt>Record schema</dt><dd class="mono">spec_id · title · abstract · category · cpc · era · prepared_date · inventor · owner · status · signature_tool_mapping · key_parameters</dd>
-        <dt>Generator</dt><dd>jahdb-specs-1.0 — deterministic (mulberry32), builds each draft constructively from known-valid parts (title, abstract, six Signature tool mappings, key parameters), then an independent checker re-verifies every derived field.</dd>
+        <dt>Archive</dt><dd>This database's original Signature-line draft specifications ("Draft — ready to file"), preserved as full structured records. Originals only, never reworded copies. Full record chunks are served by this database's own shard network; the archive page fetches them invisibly and one click opens the whole file.</dd>
+        <dt>Record schema</dt><dd class="mono">spec_id · title · abstract · category · cpc · era · prepared_date · inventor · owner · status · signature_tool_mapping · key_parameters · patent_draft · manufacture · demo · ai_explainer · algorithm_steps · measurements · autoread_block</dd>
+        <dt>Generator</dt><dd>jahdb-specs-1.0 — deterministic (mulberry32), builds each full draft constructively from known-valid parts, then an independent checker rebuilds and re-verifies every derived field.</dd>
         <dt>Drift control</dt><dd>Every generated record is checked against an archive sample for exact title duplicates and re-validated by the independent checker.</dd>
-        <dt>Cross-database</dt><dd>The generator can borrow a numeric theme from any of the other 36 data bases when you tick the box.</dd>
+        <dt>Cross-database</dt><dd>The generator can borrow a numeric theme from any of the other 76 data bases when you tick the box.</dd>
         <dt>AI</dt><dd>JAH Spec Librarian — archive-aware. On-device Standard 1.0, no key needed; uses the shared Signature backend automatically when configured.</dd>
         <dt>Ownership</dt><dd>✳ Property of Justin Addam Higgins (JAH).</dd>
       </dl>
     </div>
   </section>
+
+  <div class="foot">✳ Property of Justin Addam Higgins (JAH) · JAH Data Bases · full-record archive</div>
 </div>
 
 <script src="../../core/jahdb.js"></script>
@@ -133,8 +139,10 @@ pre.steps{background:#080d18;border:1px solid var(--line);border-radius:8px;padd
 var SLUG='specs';
 var LOCAL='../../data/specs/';
 var BASE_N=950000;
-var db=null, manifest=null, archiveIdx=null, archiveSample=[];
+var db=null, manifest=null, archiveIdx=[], shardBases=[], archiveSample=[];
+var chunkCache={};
 var $=function(id){return document.getElementById(id);};
+function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
 
 /* tabs */
 document.querySelectorAll('.tab').forEach(function(t){
@@ -148,12 +156,14 @@ document.querySelectorAll('.tab').forEach(function(t){
 JAHDB.loadManifest().then(function(m){
   manifest=m; db=JAHDB.dbBySlug(m,'specs');
   $('emblem').src=JAHDB.emblemSVG('Specifications','JAH-SPEC');
-  /* index rows: [id, title, abstract, category, cpc, era, date, ..., chunk] */
+  return fetch(LOCAL+'shards.json').then(function(r){return r.json();});
+}).then(function(sj){
+  shardBases=sj.shards||[];
+  /* compact index rows: [id, title, chunkfile, shardN, category] */
   return JAHDB.fetchGz(LOCAL+'specs.idx.json.gz');
 }).then(function(t){
-  archiveIdx=t.split('\n').filter(function(l){return l.trim();}).map(function(l){try{return JSON.parse(l);}catch(e){return null;}}).filter(Boolean)
-    .filter(function(r){return r[0] && r[0].indexOf('JAH-SPEC-')===0;});
-  $('stCount').textContent=archiveIdx.length.toLocaleString()+' / 1,000,000 target';
+  archiveIdx=t.split('\n').filter(function(l){return l.trim();}).map(function(l){try{return JSON.parse(l);}catch(e){return null;}}).filter(Boolean);
+  $('stCount').textContent=archiveIdx.length.toLocaleString()+' full records';
   var rnd=JAHDB.prng(99);
   for(var i=0;i<200&&i<archiveIdx.length;i++) archiveSample.push(archiveIdx[(rnd()*archiveIdx.length)|0]);
   buildGroups();
@@ -162,46 +172,128 @@ JAHDB.loadManifest().then(function(m){
   greet();
 }).catch(function(e){ $('stCount').textContent='archive unreachable ('+e.message+')'; });
 
-/* The compact vendored index IS the archive — 21-field rows:
-   [id, title, abstract, category, cpc, era, date, ..., chunkpath].
-   Chunk contents live only on the original site and are never fetched:
-   record objects are built straight from the real index rows. */
-function rowToRec(r){
-  return {spec_id:r[0], title:r[1], abstract:r[2], category:r[3], cpc:r[4],
-          era:r[5], prepared_date:r[6], status:'Draft — ready to file'};
+/* full-record fetch: chunk lives on this database's own shard network */
+function chunkUrl(row){
+  var base=shardBases[row[3]-1]||'';
+  return base+'data/specs/chunks/'+row[2];
 }
+function loadChunk(row){
+  var key=row[3]+'/'+row[2];
+  if(chunkCache[key]) return Promise.resolve(chunkCache[key]);
+  return JAHDB.fetchGz(chunkUrl(row)).then(function(t){
+    var recs=t.split('\n').filter(function(l){return l.trim();}).map(function(l){try{return JSON.parse(l);}catch(e){return null;}}).filter(Boolean);
+    var map={};
+    recs.forEach(function(r){ if(r.spec_id) map[r.spec_id]=r; });
+    chunkCache[key]=map;
+    return map;
+  });
+}
+function openFull(row){
+  var v=$('viewer');
+  v.innerHTML='<div class="card"><p class="dim">Loading full record '+esc(row[0])+'…</p></div>';
+  v.scrollIntoView();
+  loadChunk(row).then(function(map){
+    var rec=map[row[0]];
+    if(!rec){ v.innerHTML='<div class="card"><p class="bad">Full record not found in its chunk. The index entry may be stale.</p><button id="vClose">Close</button></div>';
+      $('vClose').addEventListener('click',function(){v.innerHTML='';}); return; }
+    v.innerHTML=fullRecCard(rec,false);
+    wireFullCard(v,rec);
+  }).catch(function(e){
+    v.innerHTML='<div class="card"><p class="bad">Could not load the full record ('+esc(e.message)+').</p><button id="vClose">Close</button></div>';
+    $('vClose').addEventListener('click',function(){v.innerHTML='';});
+  });
+}
+function sect(title, body){
+  if(body===undefined||body===null||body==='') return '';
+  var b;
+  if(typeof body==='object') b=esc(JSON.stringify(body,null,1));
+  else b=esc(String(body));
+  return '<div class="sect"><h4>'+esc(title)+'</h4><pre class="full">'+b+'</pre></div>';
+}
+/* full record card — every field the chunk holds, with Copy + Download */
+function fullRecCard(r, generated){
+  var img=JAHDB.emblemSVG(r.category||'spec', r.spec_id||r.id);
+  var h='<div class="card"><div class="rec"><img loading="lazy" src="'+img+'" alt="">'+
+    '<div style="flex:1"><h3 style="font-size:1.1em">'+esc(r.title||r.spec_id||r.id)+'</h3>'+
+    '<div><span class="badge mono">'+esc(r.spec_id||r.id||'')+'</span>'+
+    (r.category?'<span class="badge">'+esc(r.category)+'</span>':'')+
+    (r.cpc?'<span class="badge">'+esc(r.cpc)+'</span>':'')+
+    (r.era?'<span class="badge">'+esc(r.era)+'</span>':'')+
+    (generated?'<span class="badge">GENERATED</span>':'<span class="badge ok">archived</span>')+'</div>'+
+    '<p class="dim">Status: '+esc(r.status||'—')+' · Prepared: '+esc(r.prepared_date||'—')+
+    ' · Inventor: '+esc(r.inventor||'—')+'</p></div></div>';
+  h+=sect('Overview', r.abstract);
+  h+=sect('Patent draft', r.patent_draft);
+  h+=sect('Manufacture', r.manufacture);
+  h+=sect('Demo data', r.demo);
+  h+=sect('AI explainer', r.ai_explainer);
+  h+=sect('Algorithm steps', r.algorithm_steps);
+  h+=sect('Measurements', r.measurements);
+  h+=sect('Signature tool mapping', r.signature_tool_mapping);
+  h+=sect('Key parameters', r.key_parameters);
+  h+=sect('Read-aloud', r.autoread_block);
+  var known={id:1,spec_id:1,n:1,title:1,abstract:1,category:1,cpc:1,era:1,prepared_date:1,inventor:1,owner:1,status:1,signature_tool_mapping:1,key_parameters:1,patent_draft:1,manufacture:1,demo:1,ai_explainer:1,algorithm_steps:1,measurements:1,autoread_block:1,record_kind:1,stamp:1,_priv:1,_seed:1,_gen_version:1,word:1,line:1,line_note:1};
+  Object.keys(r).forEach(function(k){
+    if(!known[k] && k.charAt(0)!=='_') h+=sect(k, r[k]);
+  });
+  h+='<div class="row"><button class="go" id="vCopy">Copy full record</button>'+
+    '<button id="vDl">Download JSON</button><button id="vClose">Close</button></div></div>';
+  return h;
+}
+function wireFullCard(root, rec){
+  function q(s){ return root.querySelector(s); }
+  function close(){ var v=$('viewer'); if(root===v||root.parentNode===v) v.innerHTML=''; else if(root.parentNode) root.parentNode.removeChild(root); }
+  var c=q('#vClose'); if(c) c.addEventListener('click',close);
+  var cp=q('#vCopy');
+  if(cp) cp.addEventListener('click',function(){
+    var txt=JSON.stringify(rec,function(k,v){return k.charAt(0)==='_'?undefined:v;},1);
+    function done(ok){ cp.textContent=ok?'Copied ✓':'Copy failed'; }
+    if(navigator.clipboard&&navigator.clipboard.writeText) navigator.clipboard.writeText(txt).then(function(){done(true);},function(){done(false);});
+    else { var ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();try{done(document.execCommand('copy'));}catch(e){done(false);}document.body.removeChild(ta); }
+  });
+  var dl=$('vDl');
+  if(dl) dl.addEventListener('click',function(){
+    var txt=JSON.stringify(rec,function(k,v){return k.charAt(0)==='_'?undefined:v;},1);
+    var a=document.createElement('a');
+    a.href=URL.createObjectURL(new Blob([txt],{type:'application/json'}));
+    a.download=(rec.spec_id||rec.id||'record')+'.json';
+    document.body.appendChild(a);a.click();
+    setTimeout(function(){URL.revokeObjectURL(a.href);a.remove();},4000);
+  });
+}
+
 function recCard(r){
-  var img=JAHDB.emblemSVG(r.category||'spec', r.spec_id);
-  var kp=r.key_parameters||{};
+  var img=JAHDB.emblemSVG(r[4]||'spec', r[0]);
   return '<div class="card"><div class="rec"><img loading="lazy" src="'+img+'" alt="">'+
-    '<div><h3 style="font-size:1.05em">'+esc(r.title||r.spec_id)+'</h3>'+
-    '<div><span class="badge mono">'+esc(r.spec_id||'')+'</span><span class="badge">'+esc(r.category||'')+'</span><span class="badge">'+esc(r.cpc||'')+'</span><span class="badge">'+esc(r.era||'')+'</span></div>'+
-    (r.abstract?'<p>'+esc(r.abstract)+'</p>':'')+
-    '<p class="dim">Status: '+esc(r.status||'—')+' · Prepared: '+esc(r.prepared_date||'—')+'</p>'+
-    (kp.efficiency_pct!==undefined?'<p class="dim mono">efficiency '+esc(kp.efficiency_pct)+'% · operating temp '+esc(kp.operating_temp_c)+'°C · MTBF '+esc(kp.mtbf_h)+'h</p>':'')+
+    '<div style="flex:1"><h3 style="font-size:1.05em">'+esc(r[1]||r[0])+'</h3>'+
+    '<div><span class="badge mono">'+esc(r[0])+'</span><span class="badge">'+esc(r[4]||'')+'</span><span class="badge dim">shard '+esc(r[3])+'</span></div>'+
+    '<div class="row" style="margin-top:8px"><button class="go" data-open="'+esc(r[0])+'">Open full record →</button></div>'+
     '</div></div></div>';
 }
-function genCard(r){
-  var kp=r.key_parameters||{};
-  return '<div class="card"><div class="rec"><img loading="lazy" src="'+JAHDB.emblemSVG(r.category,r.id)+'" alt="">'+
-    '<div style="flex:1"><h3>'+esc(r.title)+'</h3>'+
-    '<div><span class="badge mono">'+esc(r.id)+'</span><span class="badge">'+esc(r.category)+'</span><span class="badge">'+esc(r.cpc)+'</span><span class="badge">'+esc(r.era)+'</span><span class="badge ok">validated ✓</span><span class="badge">seed '+esc(r._seed)+'</span><span class="badge">GENERATED</span></div>'+
-    '<p>'+esc(r.abstract)+'</p>'+
-    '<p class="dim mono">efficiency '+esc(kp.efficiency_pct)+'% · operating temp '+esc(kp.operating_temp_c)+'°C · MTBF '+esc(kp.mtbf_h)+'h</p>'+
-    '<button data-file="'+esc(r.id)+'">Queue for archive</button></div></div></div>';
+function wireOpenButtons(root){
+  root.querySelectorAll('[data-open]').forEach(function(b){
+    b.addEventListener('click',function(){
+      var row=null;
+      for(var i=0;i<archiveIdx.length;i++) if(archiveIdx[i][0]===b.dataset.open){row=archiveIdx[i];break;}
+      if(row) openFull(row);
+    });
+  });
 }
-function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
-
 function buildGroups(){
   var g=$('groups'); g.innerHTML='';
   var byCat={};
-  archiveIdx.forEach(function(r){ (byCat[r[3]]=byCat[r[3]]||[]).push(r); });
+  archiveIdx.forEach(function(r){ (byCat[r[4]]=byCat[r[4]]||[]).push(r); });
   Object.keys(byCat).sort(function(a,b){return byCat[b].length-byCat[a].length;}).forEach(function(cat){
     var rows=byCat[cat];
     var d=document.createElement('details'); d.className='grp';
-    d.innerHTML='<summary>'+esc(cat)+' <span class="dim">('+rows.length.toLocaleString()+')</span></summary><div class="body"><p class="dim">Open to load the first 25.</p></div>';
+    d.innerHTML='<summary>'+esc(cat||'(uncategorized)')+' <span class="dim">('+rows.length.toLocaleString()+')</span></summary><div class="body"><p class="dim">Open to load the first 25.</p></div>';
     d.addEventListener('toggle',function(){
-      if(d.open && !d.dataset.loaded){ d.dataset.loaded='1'; loadGroupSample(rows.slice(0,25),d.querySelector('.body')); }
+      if(d.open && !d.dataset.loaded){
+        d.dataset.loaded='1';
+        var body=d.querySelector('.body');
+        body.innerHTML=rows.slice(0,25).map(recCard).join('');
+        wireOpenButtons(body);
+      }
     });
     g.appendChild(d);
   });
@@ -209,24 +301,23 @@ function buildGroups(){
 function fillCatSelect(){
   var sel=$('gType');
   var cats={};
-  archiveIdx.forEach(function(r){ cats[r[3]]=1; });
+  archiveIdx.forEach(function(r){ cats[r[4]]=1; });
   Object.keys(cats).sort().forEach(function(c){
     var o=document.createElement('option'); o.textContent=c; sel.appendChild(o);
   });
 }
-function loadGroupSample(rows,body){
-  body.innerHTML='<p class="dim">Loading…</p>';
-  var recs=rows.map(rowToRec);
-  body.innerHTML=recs.length?recs.map(recCard).join(''):'<p class="dim">Nothing loaded.</p>';
-}
-/* search */
 function doSearch(){
   var q=$('q').value.trim().toLowerCase();
   var box=$('results');
   if(!q){box.innerHTML='';return;}
-  var hits=archiveIdx.filter(function(r){return (r[1]+' '+r[0]).toLowerCase().indexOf(q)>=0;}).slice(0,12);
+  var hits=[], ql=q;
+  for(var i=0;i<archiveIdx.length&&hits.length<12;i++){
+    var r=archiveIdx[i];
+    if((r[1]+' '+r[0]).toLowerCase().indexOf(ql)>=0) hits.push(r);
+  }
   if(!hits.length){box.innerHTML='<p class="dim">No archive hits. Try the Generator tab to make one.</p>';return;}
-  box.innerHTML='<h3>Archive hits ('+hits.length+')</h3>'+hits.map(rowToRec).map(recCard).join('');
+  box.innerHTML='<h3>Archive hits ('+hits.length+')</h3>'+hits.map(recCard).join('');
+  wireOpenButtons(box);
 }
 $('qgo').addEventListener('click',doSearch);
 $('q').addEventListener('keydown',function(e){if(e.key==='Enter')doSearch();});
@@ -273,14 +364,27 @@ function driftFor(rec){
 }
 function renderGen(recs,fails){
   var h='<p><b>'+recs.length+'</b> generated, <b>'+fails.length+'</b> rejected.</p>';
-  h+=recs.map(genCard).join('');
+  recs.forEach(function(r){
+    h+='<div id="gen-'+esc(r.id)+'">'+fullRecCard(r,true)+'</div>';
+  });
   if(fails.length) h+='<p class="bad">Rejected: '+esc(JSON.stringify(fails).slice(0,300))+'</p>';
-  $('gOut').innerHTML=h;
-  $('gOut').querySelectorAll('[data-file]').forEach(function(b){
-    b.addEventListener('click',function(){
-      var rec=recs.filter(function(r){return r.id===b.dataset.file;})[0];
-      queueAdd(rec); b.textContent='Queued ✓'; b.disabled=true;
-    });
+  var out=$('gOut');
+  out.innerHTML=h;
+  recs.forEach(function(r){
+    var holder=out.querySelector('#gen-'+CSS.escape(r.id));
+    if(holder) wireFullCard(holder,r);
+  });
+  /* add queue buttons after the copy/download/close row */
+  out.querySelectorAll('.card').forEach(function(card,ci){
+    if(ci>=recs.length) return;
+    var rec=recs[ci];
+    var row=card.querySelector('.row');
+    if(row){
+      var b=document.createElement('button');
+      b.textContent='Queue for archive';
+      b.addEventListener('click',function(){ queueAdd(rec); b.textContent='Queued ✓'; b.disabled=true; });
+      row.appendChild(b);
+    }
   });
 }
 /* queue (localStorage — filing is deliberate) */
@@ -297,7 +401,7 @@ function renderQueue(){
 /* chat */
 var session=JAHDB.getSession(SLUG);
 function greet(){
-  say('a','I\'m the JAH Spec Librarian. I know this archive\'s '+archiveIdx.length.toLocaleString()+' draft specifications — ask me to find one, explain one, or generate new synthetic drafts in archive style.');
+  say('a','I\'m the JAH Spec Librarian. I know this archive\'s '+archiveIdx.length.toLocaleString()+' full draft specifications — open any record for the whole file, ask me to find one, or generate new full synthetic drafts in archive style.');
 }
 function say(who,text){
   var d=document.createElement('div');d.className='msg '+who;
@@ -307,8 +411,8 @@ function say(who,text){
 function sendChat(){
   var t=$('chatIn').value.trim();if(!t)return;
   $('chatIn').value='';say('u',t);session.turns.push({q:t});
-  var ctx='Archive holds '+archiveIdx.length+' draft specifications across categories. '+
-    'Index rows are [spec_id, title, abstract, category, cpc, era, date, chunk]. Generated records are synthetic and labeled GENERATED.';
+  var ctx='Archive holds '+archiveIdx.length+' full draft specifications across categories. '+
+    'Index rows are [spec_id, title, chunkfile, shardN, category]. Full records fetch invisibly from this database\'s own shard network. Generated records are full synthetic records labeled GENERATED.';
   JAHDB.aiAnswer(db,t,ctx).then(function(a){say('a',a);});
 }
 $('chatGo').addEventListener('click',sendChat);
