@@ -70,6 +70,7 @@ pre.steps{background:#080d18;border:1px solid var(--line);border-radius:8px;padd
       <button class="go" id="qgo">Search</button>
     </div>
     <p class="dim">Browse by threat type — each group opens on demand and loads only what you open.</p>
+    <div id="fullview"></div>
     <div id="groups"></div>
     <div id="results"></div>
   </section>
@@ -161,6 +162,65 @@ JAHDB.loadManifest().then(function(m){
 }).catch(function(e){ $('stCount').textContent='archive unreachable ('+e.message+')'; });
 
 function chunkName(c){ return 'addons-c'+String(c).padStart(5,'0')+'.jsonl.gz'; }
+/* ---- one-click full-record view: card → one click → complete file ---- */
+var REC_CACHE={}, CUR_FULL=null;
+function keyOf(r){return r.id||r.stamp||r[0];}
+function card(r){REC_CACHE[keyOf(r)]=r;return recCard(r);}
+function fmtVal(v){
+  if(v==null)return '<span class="dim">—</span>';
+  if(Array.isArray(v)){
+    if(!v.length)return '<span class="dim">(empty)</span>';
+    if(typeof v[0]==='object'&&v[0]!==null)
+      return '<ol style="margin:4px 0;padding-left:20px;font-size:.95em">'+v.map(function(x){return '<li style="margin:3px 0">'+fmtVal(x)+'</li>';}).join('')+'</ol>';
+    return '<ul style="margin:4px 0;padding-left:20px;font-size:.95em">'+v.map(function(x){return '<li>'+esc(String(x))+'</li>';}).join('')+'</ul>';
+  }
+  if(typeof v==='object'){
+    return '<dl class="kv" style="margin:4px 0;font-size:.92em">'+Object.keys(v).map(function(k){
+      if(k.charAt(0)==='_')return '';
+      return '<dt>'+esc(k)+'</dt><dd>'+fmtVal(v[k])+'</dd>';}).join('')+'</dl>';
+  }
+  return esc(String(v));
+}
+function fullTitle(r){return r.title||r.name||r.display_name||r.label||r.stamp||r.id||'record';}
+function openFullRecord(id){var r=REC_CACHE[id];if(r){renderFull(r);return;}$('fullview').innerHTML='<p class="bad">Record not loaded — reopen its card.</p>';}
+function renderFull(r){
+  CUR_FULL=r;
+  var t=fullTitle(r);
+  var img=JAHDB.emblemSVG(t, keyOf(r));
+  var keys=Object.keys(r).filter(function(k){return k.charAt(0)!=='_';});
+  var h='<div class="card"><div class="row" style="justify-content:space-between"><span class="dim">Full record — every field</span><button data-fact="close">← back to archive</button></div>'+
+   '<div class="rec"><img src="'+img+'" alt="" style="width:84px;height:84px">'+
+   '<div style="flex:1"><h2 style="margin:.2em 0;font-size:1.3em">'+esc(t)+'</h2>'+
+   '<div><span class="badge mono">'+esc(keyOf(r))+'</span><span class="badge ok">FULL RECORD</span></div>'+
+   '<div class="row" style="margin-top:8px"><button class="go" data-fact="copy">⧉ Copy full record</button><button data-fact="dl">⬇ Download JSON</button></div>'+
+   '</div></div>'+
+   '<dl class="kv" style="margin-top:12px">'+keys.map(function(k){return '<dt class="mono">'+esc(k)+'</dt><dd>'+fmtVal(r[k])+'</dd>';}).join('')+'</dl></div>';
+  $('fullview').innerHTML=h;
+  $('fullview').scrollIntoView();
+}
+function fullViewAction(act){
+  if(act==='close'){$('fullview').innerHTML='';return;}
+  if(!CUR_FULL)return;
+  if(act==='copy'){
+    var j=JSON.stringify(CUR_FULL,null,2);
+    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(j).then(function(){toastFull('Full record copied.');},function(){toastFull('Copy failed.');});}
+    else toastFull('Copy not available in this browser.');
+  }
+  if(act==='dl'){
+    var blob=new Blob([JSON.stringify(CUR_FULL,null,2)],{type:'application/json'});
+    var a=document.createElement('a');a.href=URL.createObjectURL(blob);
+    a.download=String(keyOf(CUR_FULL)).replace(/[^A-Za-z0-9_.-]+/g,'_')+'.json';
+    document.body.appendChild(a);a.click();setTimeout(function(){URL.revokeObjectURL(a.href);a.remove();},800);
+  }
+}
+function toastFull(m){var d=document.createElement('div');d.className='card';d.innerHTML='<p>'+esc(m)+'</p>';$('fullview').insertBefore(d,$('fullview').firstChild);setTimeout(function(){if(d.parentNode)d.parentNode.removeChild(d);},2500);}
+document.addEventListener('click',function(e){
+  var t=e.target&&e.target.closest?e.target.closest('[data-open],[data-fact]'):null;
+  if(!t)return;
+  if(t.hasAttribute('data-open'))openFullRecord(t.getAttribute('data-open'));
+  else fullViewAction(t.getAttribute('data-fact'));
+});
+
 function recCard(r){
   var img=JAHDB.emblemSVG(r.type||'av', r.id);
   var status=(r.status||'')==='documented'?'documented':'generated drill';
@@ -169,9 +229,7 @@ function recCard(r){
     '<div><span class="badge">'+esc(r.id||'')+'</span><span class="badge">'+esc(r.type||'')+'</span>'+
     '<span class="badge">'+esc(r.level||'')+'</span><span class="badge">'+esc(status)+'</span></div>'+
     (r.vector?'<p><b>Vector:</b> '+esc(r.vector)+'</p>':'')+
-    (r.solution?'<p><b>Solution:</b> '+esc(r.solution)+'</p>':'')+
-    (r.year?'<p class="dim">Year: '+esc(r.year)+'</p>':'')+
-    (r.note?'<p class="dim">'+esc(r.note)+'</p>':'')+
+    '<div class="row" style="margin-top:8px"><button class="go" data-open="'+esc(keyOf(r))+'">Open full record ⤢</button></div>'+
     '</div></div></div>';
 }
 function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
@@ -203,7 +261,7 @@ function loadChunked(rows,body){
     var recs=[]; parts.forEach(function(p){recs=recs.concat(p);});
     var order={}; rows.forEach(function(r,i){order[r[0]]=i;});
     recs.sort(function(a,b){return (order[a.id]||0)-(order[b.id]||0);});
-    body.innerHTML=recs.length?recs.map(recCard).join(''):'<p class="dim">Nothing loaded.</p>';
+    body.innerHTML=recs.length?recs.map(card).join(''):'<p class="dim">Nothing loaded.</p>';
   });
 }
 function loadTypeSample(ty,body){

@@ -70,6 +70,7 @@ pre.steps{background:#080d18;border:1px solid var(--line);border-radius:8px;padd
       <button class="go" id="qgo">Search</button>
     </div>
     <p class="dim">Browse the archive — each group opens on demand and loads only what you open.</p>
+    <div id="fullview"></div>
     <div id="groups"></div>
     <div id="results"></div>
   </section>
@@ -126,6 +127,7 @@ pre.steps{background:#080d18;border:1px solid var(--line);border-radius:8px;padd
 <script src="../../core/standard-1.0.js"></script>
 <script src="../../core/guide-conv.js"></script>
 <script src="../../core/apex-2.0.js"></script>
+<script src="sigapp-engine.js"></script>
 <script src="gen-apps.js"></script>
 <script>
 (function(){
@@ -196,16 +198,90 @@ function loadCatSample(cat,body){
   });
   Promise.all(jobs).then(function(parts){
     var recs=[]; parts.forEach(function(p){recs=recs.concat(p);});
-    body.innerHTML=recs.length?recs.map(recCard).join(''):'<p class="dim">Nothing loaded.</p>';
+    body.innerHTML=recs.length?recs.map(card).join(''):'<p class="dim">Nothing loaded.</p>';
   });
+}
+
+/* ---- one-click full-record view: card → one click → complete file ---- */
+var REC_CACHE={}, CUR_FULL=null;
+function keyOf(r){return r.id||r.stamp||r[0];}
+function card(r){REC_CACHE[keyOf(r)]=r;return recCard(r);}
+function fmtVal(v){
+  if(v==null)return '<span class="dim">—</span>';
+  if(Array.isArray(v)){
+    if(!v.length)return '<span class="dim">(empty)</span>';
+    if(typeof v[0]==='object'&&v[0]!==null)
+      return '<ol style="margin:4px 0;padding-left:20px;font-size:.95em">'+v.map(function(x){return '<li style="margin:3px 0">'+fmtVal(x)+'</li>';}).join('')+'</ol>';
+    return '<ul style="margin:4px 0;padding-left:20px;font-size:.95em">'+v.map(function(x){return '<li>'+esc(String(x))+'</li>';}).join('')+'</ul>';
+  }
+  if(typeof v==='object'){
+    return '<dl class="kv" style="margin:4px 0;font-size:.92em">'+Object.keys(v).map(function(k){
+      if(k.charAt(0)==='_')return '';
+      return '<dt>'+esc(k)+'</dt><dd>'+fmtVal(v[k])+'</dd>';}).join('')+'</dl>';
+  }
+  return esc(String(v));
+}
+function fullTitle(r){return r.title||r.name||r.display_name||r.label||r.stamp||r.id||'record';}
+function openFullRecord(id){var r=REC_CACHE[id];if(r){renderFull(r);return;}$('fullview').innerHTML='<p class="bad">Record not loaded — reopen its card.</p>';}
+function renderFull(r){
+  CUR_FULL=r;
+  var t=fullTitle(r);
+  var img=JAHDB.emblemSVG(t, keyOf(r));
+  var keys=Object.keys(r).filter(function(k){return k.charAt(0)!=='_';});
+  var h='<div class="card"><div class="row" style="justify-content:space-between"><span class="dim">Full record — every field</span><button data-fact="close">← back to archive</button></div>'+
+   '<div class="rec"><img src="'+img+'" alt="" style="width:84px;height:84px">'+
+   '<div style="flex:1"><h2 style="margin:.2em 0;font-size:1.3em">'+esc(t)+'</h2>'+
+   '<div><span class="badge mono">'+esc(keyOf(r))+'</span><span class="badge ok">FULL RECORD</span></div>'+
+   '<div class="row" style="margin-top:8px"><button class="go" data-fact="copy">⧉ Copy full record</button><button data-fact="dl">⬇ Download JSON</button></div>'+
+   '</div></div>'+
+   '<dl class="kv" style="margin-top:12px">'+keys.map(function(k){return '<dt class="mono">'+esc(k)+'</dt><dd>'+fmtVal(r[k])+'</dd>';}).join('')+'</dl></div>';
+  $('fullview').innerHTML=h;
+  $('fullview').scrollIntoView();
+}
+function fullViewAction(act){
+  if(act==='close'){$('fullview').innerHTML='';return;}
+  if(!CUR_FULL)return;
+  if(act==='copy'){
+    var j=JSON.stringify(CUR_FULL,null,2);
+    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(j).then(function(){toastFull('Full record copied.');},function(){toastFull('Copy failed.');});}
+    else toastFull('Copy not available in this browser.');
+  }
+  if(act==='dl'){
+    var blob=new Blob([JSON.stringify(CUR_FULL,null,2)],{type:'application/json'});
+    var a=document.createElement('a');a.href=URL.createObjectURL(blob);
+    a.download=String(keyOf(CUR_FULL)).replace(/[^A-Za-z0-9_.-]+/g,'_')+'.json';
+    document.body.appendChild(a);a.click();setTimeout(function(){URL.revokeObjectURL(a.href);a.remove();},800);
+  }
+}
+function toastFull(m){var d=document.createElement('div');d.className='card';d.innerHTML='<p>'+esc(m)+'</p>';$('fullview').insertBefore(d,$('fullview').firstChild);setTimeout(function(){if(d.parentNode)d.parentNode.removeChild(d);},2500);}
+document.addEventListener('click',function(e){
+  var t=e.target&&e.target.closest?e.target.closest('[data-open],[data-fact]'):null;
+  if(!t)return;
+  if(t.hasAttribute('data-open'))openFullRecord(t.getAttribute('data-open'));
+  else fullViewAction(t.getAttribute('data-fact'));
+});
+
+
+function openFullRecord(id){
+  var r=REC_CACHE[id];if(r){renderFull(r);return;}
+  var n=parseInt(String(id).replace(/\D/g,''),10);
+  var c=Math.floor((n-1)/1000);
+  var f='full-c'+String(c).padStart(5,'0')+'.jsonl.gz';
+  $('fullview').innerHTML='<p class="dim">Loading full record…</p>';
+  JAHDB.fetchJsonlGz(LOCAL+'full/'+f).then(function(recs){
+    var hit=null;recs.forEach(function(x){if(x.id===id)hit=x;});
+    if(hit){REC_CACHE[id]=hit;renderFull(hit);}
+    else $('fullview').innerHTML='<p class="bad">Full record not found.</p>';
+  }).catch(function(e){$('fullview').innerHTML='<p class="bad">Could not load full record: '+esc(e.message)+'</p>';});
 }
 
 function recCard(r){
   var img=JAHDB.emblemSVG(r[3]||'app', r[0]);
   return '<div class="card"><div class="rec"><img loading="lazy" src="'+img+'" alt="">'+
-    '<div><h3 style="font-size:1.05em">'+esc(r[3]||r[0])+'</h3>'+
+    '<div style="flex:1"><h3 style="font-size:1.05em">'+esc(r[3]||r[0])+'</h3>'+
     '<div><span class="badge">'+esc(r[0]||'')+'</span><span class="badge">'+esc(r[1]||'')+'</span></div>'+
     (r[4]?'<p class="dim">'+esc(r[4])+'</p>':'')+
+    '<div class="row" style="margin-top:8px"><button class="go" data-open="'+esc(keyOf(r))+'">Open full record ⤢</button></div>'+
     '</div></div></div>';
 }
 
@@ -222,7 +298,7 @@ function doSearch(){
     JAHDB.fetchJsonlGz(LOCAL+'chunks/'+chunkName(+c)).then(function(recs){
       var want={};byChunk[c].forEach(function(id){want[id]=1;});
       var found=recs.filter(function(r){return want[r[0]];});
-      if(found.length) box.innerHTML+=found.map(recCard).join('');
+      if(found.length) box.innerHTML+=found.map(card).join('');
     });
   });
 }
