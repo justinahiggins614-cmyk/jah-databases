@@ -13,7 +13,7 @@
   var ID_PREFIX = 'JAH-BOOK-';
   var AUTHOR = 'Justin Addam Higgins';
   var STAMP = 'Official JAH Book Archive — generated boundlessly, verified independently.';
-  /* real archive genres -> gkey (signature-books data/volumes) */
+  /* real archive genres -> gkey (matches the archive's own volume chunks) */
   var GENRES = ['Science Fiction', 'Fantasy', 'Mystery', 'Romance', 'Horror', 'Mathematics',
                 'Physics', 'Chemistry', 'Biology', 'History', 'Computer Science', "Children's",
                 'Poetry', 'Technical Manual', 'Philosophy', 'Business'];

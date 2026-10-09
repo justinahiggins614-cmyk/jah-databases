@@ -39,6 +39,14 @@ pre.steps{background:#080d18;border:1px solid var(--line);border-radius:8px;padd
 .kv{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;font-size:.95em}
 .kv dt{color:var(--dim)}.kv dd{margin:0}
 .foot{margin-top:26px;padding-top:12px;border-top:1px solid var(--line);color:var(--dim);font-size:.85em}
+.ovl{position:fixed;inset:0;background:rgba(2,6,14,.85);z-index:60;overflow:auto;padding:16px}
+.ovl[hidden]{display:none}
+.ovlbox{max-width:880px;margin:3vh auto;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px 18px}
+.ovlbox h2{margin:.2em 0 .4em;font-size:1.4em}
+.fld{margin:12px 0}.fld>b{color:var(--acc);display:block;margin-bottom:4px;font-size:.82em;text-transform:uppercase;letter-spacing:.05em}
+.fld p{margin:5px 0}.fld ol,.fld ul{margin:5px 0;padding-left:22px}
+.chapt{border-top:1px dashed var(--line);padding:10px 0}.chapt h4{margin:0 0 6px}
+.opencard{cursor:pointer}.opencard:hover{border-color:var(--acc)}
 </style>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Dataset","name":"JAH-N Wiki Leaks Data Base","description":"Dossiers and files, clearly marked by kind.","creator":{"@type":"Person","name":"Justin Addam Higgins"},"license":"https://creativecommons.org/publicdomain/zero/1.0/","distribution":{"@type":"DataDownload","contentUrl":"data/leaks/bizarre.idx.json.gz"}}</script>
 </head>
@@ -72,6 +80,13 @@ pre.steps{background:#080d18;border:1px solid var(--line);border-radius:8px;padd
     <p class="dim">Browse by category — each group opens on demand and loads only what you open.</p>
     <div id="groups"></div>
     <div id="results"></div>
+    <div class="ovl" id="ovl" hidden><div class="ovlbox">
+      <div class="row" style="justify-content:space-between;align-items:center">
+        <b id="ovlTitle">Full record</b>
+        <span class="row"><button id="ovlCopy">Copy</button><button id="ovlDl">Download</button><button id="ovlX">Close ✕</button></span>
+      </div>
+      <div id="ovlBody"></div>
+    </div></div>
   </section>
 
   <section class="pane" id="p-gen">
@@ -160,21 +175,21 @@ JAHDB.loadManifest().then(function(m){
   greet();
 }).catch(function(e){ $('stCount').textContent='archive unreachable ('+e.message+')'; });
 
-/* The compact vendored index IS the archive — rows are [id, title, category, chunkfile].
-   Chunk contents live only on the original site and are never fetched: cards render
-   directly from the real index rows; full records come from the Generator tab. */
+/* Archive index rows are [id, subject, category, chunkfile]. Complete dossiers
+   (all fields: overview, assessment, proofs, panel, officer conclusion, sources…)
+   live in this database's own data/leaks/full/ chunks. One tap on a card opens
+   the full dossier. */
+var _rowByKey={};
 function rowToRec(r){
+  _rowByKey[r[0]]=r;
   return {id:r[0], subject:r[1], kind:'dossier', category:r[2]};
 }
 function recCard(r){
   var img=JAHDB.emblemSVG(r.category||'leak', r.id);
-  return '<div class="card"><div class="rec"><img loading="lazy" src="'+img+'" alt="">'+
+  return '<div class="card opencard" data-key="'+esc(r.id)+'"><div class="rec"><img loading="lazy" src="'+img+'" alt="">'+
     '<div><h3 style="font-size:1.05em">'+esc(r.subject||r.id)+'</h3>'+
     '<div><span class="badge mono">'+esc(r.id||'')+'</span><span class="badge">'+esc(r.kind||'')+'</span><span class="badge">'+esc(r.category||'')+'</span></div>'+
-    '<p class="dim mono" style="font-size:.8em">'+esc(r.classification||'')+'</p>'+
-    (r.overview?'<p>'+esc(r.overview)+'</p>':'')+
-    (r.officer_conclusion?'<p class="dim"><i>'+esc(r.officer_conclusion)+'</i></p>':'')+
-    '<p class="dim">Filed: '+esc(r.date_filed||'—')+'</p>'+
+    '<p class="dim" style="font-size:.85em">Tap to open the full dossier — overview, assessment, proofs, panel, officer conclusion, sources.</p>'+
     '</div></div></div>';
 }
 function genCard(r){
@@ -218,6 +233,79 @@ function doSearch(){
 }
 $('qgo').addEventListener('click',doSearch);
 $('q').addEventListener('keydown',function(e){if(e.key==='Enter')doSearch();});
+
+/* ---- full-dossier overlay: one tap on any card opens the complete file ---- */
+var _ovlText='';
+function ovlShow(title,html,text){
+  $('ovlTitle').textContent=title; $('ovlBody').innerHTML=html; _ovlText=text||'';
+  $('ovl').hidden=false; document.body.style.overflow='hidden';
+}
+function ovlHide(){ $('ovl').hidden=true; document.body.style.overflow=''; }
+$('ovlX').addEventListener('click',ovlHide);
+$('ovl').addEventListener('click',function(e){ if(e.target===$('ovl')) ovlHide(); });
+document.addEventListener('keydown',function(e){ if(e.key==='Escape'&&!$('ovl').hidden) ovlHide(); });
+$('ovlCopy').addEventListener('click',function(){
+  var done=function(){ $('ovlCopy').textContent='Copied ✓'; setTimeout(function(){$('ovlCopy').textContent='Copy';},1500); };
+  if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(_ovlText).then(done,done); }
+  else{ var ta=document.createElement('textarea'); ta.value=_ovlText; document.body.appendChild(ta); ta.select(); try{document.execCommand('copy');}catch(e){} document.body.removeChild(ta); done(); }
+});
+$('ovlDl').addEventListener('click',function(){
+  var blob=new Blob([_ovlText],{type:'text/plain'});
+  var a=document.createElement('a'); a.href=URL.createObjectURL(blob);
+  a.download=($('ovlTitle').textContent||'record').replace(/[^A-Za-z0-9_-]+/g,'_')+'.txt';
+  document.body.appendChild(a); a.click(); setTimeout(function(){URL.revokeObjectURL(a.href);a.remove();},500);
+});
+var _lchunk={};
+function leakChunk(file){
+  var k='full/'+file+'.json.gz';
+  if(_lchunk[k]) return Promise.resolve(_lchunk[k]);
+  return JAHDB.fetchGz(LOCAL+k).then(function(t){ var d=JSON.parse(t); _lchunk[k]=d; return d; });
+}
+function fld(label,val){
+  if(val===undefined||val===null||val==='') return '';
+  var body=Array.isArray(val)?'<ul>'+val.map(function(x){return '<li>'+esc(String(x))+'</li>';}).join('')+'</ul>':'<p>'+esc(String(val)).replace(/\n/g,'<br>')+'</p>';
+  return '<div class="fld"><b>'+esc(label)+'</b>'+body+'</div>';
+}
+function renderLeak(r){
+  var html='<h2>'+esc(r.subject||r.id)+'</h2>'+
+    '<div><span class="badge mono">'+esc(r.id||'')+'</span><span class="badge">'+esc(r.kind||'')+'</span>'+
+    '<span class="badge">'+esc(r.category||'')+'</span>'+(r.cat_code?'<span class="badge mono">'+esc(r.cat_code)+'</span>':'')+'</div>'+
+    fld('Classification',r.classification)+
+    fld('Overview',r.overview)+
+    fld('JAH-N assessment',r.assessment)+
+    fld('Science proof',r.science_proof)+
+    fld('Math proof',r.math_proof)+
+    fld('Panel',r.panel)+
+    fld('Panel block',r.panel_block)+
+    fld('Officer conclusion',r.officer_conclusion)+
+    fld('Creator sign-off',r.creator_signoff)+
+    fld('Corroborating specs',r.corroborating_specs)+
+    fld('Date filed',r.date_filed)+
+    fld('Sources',r.sources);
+  var lines=[(r.subject||r.id),(r.classification||''),'','ID: '+(r.id||''),'Kind: '+(r.kind||''),'Category: '+(r.category||'')+' ('+(r.cat_code||'')+')','Date filed: '+(r.date_filed||''),
+    '','OVERVIEW',(r.overview||''),'','JAH-N ASSESSMENT',(r.assessment||''),'','SCIENCE PROOF',(r.science_proof||''),'','MATH PROOF',(r.math_proof||''),
+    '','PANEL',Array.isArray(r.panel)?r.panel.join('; '):(r.panel||''),'','PANEL BLOCK',(r.panel_block||''),'','OFFICER CONCLUSION',(r.officer_conclusion||''),
+    '','CREATOR SIGN-OFF',(r.creator_signoff||''),'','CORROBORATING SPECS',Array.isArray(r.corroborating_specs)?r.corroborating_specs.join(', '):(r.corroborating_specs||''),
+    '','SOURCES',Array.isArray(r.sources)?r.sources.join('\n'):String(r.sources||'')];
+  ovlShow(r.subject||r.id,html,lines.join('\n'));
+}
+function openLeak(key){
+  var row=_rowByKey[key];
+  if(!row){ ovlShow('Dossier','<p class="bad">Record reference lost — search again.</p>',''); return; }
+  ovlShow(row[1]||row[0],'<p class="dim">Loading the full dossier…</p>','');
+  leakChunk(row[3]).then(function(recs){
+    var rec=null;
+    for(var i=0;i<recs.length;i++){ if(recs[i].id===row[0]){ rec=recs[i]; break; } }
+    if(!rec) throw new Error('record not found in '+row[3]);
+    renderLeak(rec);
+  }).catch(function(e){ ovlShow(row[1]||row[0],'<p class="bad">Could not load the full dossier ('+esc((e&&e.message)||e)+').</p>',''); });
+}
+function cardClick(e){
+  var c=e.target&&e.target.closest?e.target.closest('.opencard'):null;
+  if(c&&c.dataset.key) openLeak(c.dataset.key);
+}
+$('groups').addEventListener('click',cardClick);
+$('results').addEventListener('click',cardClick);
 
 /* generator */
 $('gGo').addEventListener('click',function(){

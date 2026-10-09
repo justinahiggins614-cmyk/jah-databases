@@ -39,6 +39,13 @@ pre.steps{background:#080d18;border:1px solid var(--line);border-radius:8px;padd
 .kv{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;font-size:.95em}
 .kv dt{color:var(--dim)}.kv dd{margin:0}
 .foot{margin-top:26px;padding-top:12px;border-top:1px solid var(--line);color:var(--dim);font-size:.85em}
+.ovl{position:fixed;inset:0;background:rgba(2,6,14,.85);z-index:60;overflow:auto;padding:16px}
+.ovl[hidden]{display:none}
+.ovlbox{max-width:880px;margin:3vh auto;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px 18px}
+.ovlbox h2{margin:.2em 0 .4em;font-size:1.4em}
+.fld{margin:12px 0}.fld>b{color:var(--acc);display:block;margin-bottom:4px;font-size:.82em;text-transform:uppercase;letter-spacing:.05em}
+.fld p{margin:5px 0}.fld ol{margin:5px 0;padding-left:22px}
+.opencard{cursor:pointer}.opencard:hover{border-color:var(--acc)}
 </style>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Dataset","name":"JAH Dictionary Data Base","description":"Words, definitions, and word inventions.","creator":{"@type":"Person","name":"Justin Addam Higgins"},"license":"https://creativecommons.org/publicdomain/zero/1.0/","distribution":{"@type":"DataDownload","contentUrl":"data/words/dict.idx.json.gz"}}</script>
 </head>
@@ -72,6 +79,13 @@ pre.steps{background:#080d18;border:1px solid var(--line);border-radius:8px;padd
     <p class="dim">Browse A–Z — each letter opens on demand and loads only what you open.</p>
     <div id="groups"></div>
     <div id="results"></div>
+    <div class="ovl" id="ovl" hidden><div class="ovlbox">
+      <div class="row" style="justify-content:space-between;align-items:center">
+        <b id="ovlTitle">Full record</b>
+        <span class="row"><button id="ovlCopy">Copy</button><button id="ovlDl">Download</button><button id="ovlX">Close ✕</button></span>
+      </div>
+      <div id="ovlBody"></div>
+    </div></div>
   </section>
 
   <section class="pane" id="p-gen">
@@ -111,7 +125,7 @@ pre.steps{background:#080d18;border:1px solid var(--line);border-radius:8px;padd
       <h3>About this data base</h3>
       <dl class="kv">
         <dt>Archive</dt><dd>This database's word and term entries — headwords, definitions, patent references, and word-invention records — preserved as structured, searchable data.</dd>
-        <dt>Record schema</dt><dd class="mono">w (headword) · pos · d (definition) · invention_title · invention_desc · rt · rid · cpc</dd>
+        <dt>Record schema</dt><dd class="mono">w · pos · pron · d (definitions) · examples · invention_title (word patent) · invention_desc · rt · rid · cpc · stamp</dd>
         <dt>Generator</dt><dd>jahdb-words-1.0 — deterministic (mulberry32), pairs each headword with its genuine pool definition and builds the word-invention text constructively from the word's own letters and sense, then an independent checker re-verifies the pairing.</dd>
         <dt>Drift control</dt><dd>Every generated record is checked against an archive sample for headword duplicates and re-validated by the independent checker.</dd>
         <dt>Cross-database</dt><dd>The generator can borrow a numeric theme from any of the other 36 data bases when you tick the box.</dd>
@@ -160,26 +174,31 @@ JAHDB.loadManifest().then(function(m){
   greet();
 }).catch(function(e){ $('stCount').textContent='archive unreachable ('+e.message+')'; });
 
-/* The compact vendored index IS the archive — rows are [headword, chunkfile, idx-in-chunk].
-   Definitions live only in the original site's unvendored chunks and are never fetched:
-   cards render the real headword record straight from the index rows. */
+/* Archive index rows are [headword, chunkfile, idx-in-chunk]. Full word records
+   live in this database's own data/words/full/dict/ chunks ({w,k,st,rt,rid,d,cpc}),
+   enriched with pronunciation + part of speech from data/words/lexical/. One tap
+   on a card opens the complete record. */
+var _rowByKey={};
+function rowKey(r){ return r[1]+'#'+r[2]; }
 function rowToRec(r){
-  return {w:r[0], st:r[1], rid:'#'+r[2]};
+  _rowByKey[rowKey(r)]=r;
+  return {key:rowKey(r), w:r[0]};
 }
 function cleanW(w){ return String(w||'').replace(/^["']+|["']+$/g,''); }
 function recCard(r){
-  var img=JAHDB.emblemSVG(cleanW(r.w)||'word', r.st||'');
-  return '<div class="card"><div class="rec"><img loading="lazy" src="'+img+'" alt="">'+
+  var img=JAHDB.emblemSVG(cleanW(r.w)||'word','JAH-WORD');
+  return '<div class="card opencard" data-key="'+esc(r.key)+'"><div class="rec"><img loading="lazy" src="'+img+'" alt="">'+
     '<div><h3 style="font-size:1.15em">'+esc(cleanW(r.w)||'(untitled)')+'</h3>'+
-    '<div><span class="badge mono">'+esc(r.st||'')+'</span>'+(r.rt?'<span class="badge">'+esc(r.rt)+'</span>':'')+(r.rid?'<span class="badge mono">'+esc(r.rid)+'</span>':'')+(r.cpc?'<span class="badge">'+esc(r.cpc)+'</span>':'')+'</div>'+
-    (r.d?'<p>'+esc(r.d)+'</p>':'<p class="dim" style="font-size:.8em">Index record — full definition lives in the archive chunk, not in this compact index.</p>')+
+    '<p class="dim" style="font-size:.85em">Tap to open the full record — definition, pronunciation, part of speech, word patent, examples.</p>'+
     '</div></div></div>';
 }
 function genCard(r){
   return '<div class="card"><div class="rec"><img loading="lazy" src="'+JAHDB.emblemSVG(r.w,r.id)+'" alt="">'+
     '<div style="flex:1"><h3 style="font-size:1.15em">'+esc(r.w)+' <span class="dim" style="font-size:.7em">'+esc(r.pos)+'</span></h3>'+
     '<div><span class="badge mono">'+esc(r.id)+'</span><span class="badge ok">validated ✓</span><span class="badge">seed '+esc(r._seed)+'</span><span class="badge">GENERATED</span></div>'+
+    '<p class="dim">Pronunciation: <b>'+esc(r.pron||'—')+'</b></p>'+
     '<p>'+esc(r.d)+'</p>'+
+    '<p class="dim"><i>Examples:</i> '+esc((r.examples||[]).join(' '))+'</p>'+
     '<p><b>'+esc(r.invention_title)+'</b></p><p class="dim">'+esc(r.invention_desc)+'</p>'+
     '<button data-file="'+esc(r.id)+'">Queue for archive</button></div></div></div>';
 }
@@ -223,6 +242,100 @@ function doSearch(){
 }
 $('qgo').addEventListener('click',doSearch);
 $('q').addEventListener('keydown',function(e){if(e.key==='Enter')doSearch();});
+
+/* ---- full-record overlay: one tap on any card opens the complete word ---- */
+var _ovlText='';
+function ovlShow(title,html,text){
+  $('ovlTitle').textContent=title; $('ovlBody').innerHTML=html; _ovlText=text||'';
+  $('ovl').hidden=false; document.body.style.overflow='hidden';
+}
+function ovlHide(){ $('ovl').hidden=true; document.body.style.overflow=''; }
+$('ovlX').addEventListener('click',ovlHide);
+$('ovl').addEventListener('click',function(e){ if(e.target===$('ovl')) ovlHide(); });
+document.addEventListener('keydown',function(e){ if(e.key==='Escape'&&!$('ovl').hidden) ovlHide(); });
+$('ovlCopy').addEventListener('click',function(){
+  var done=function(){ $('ovlCopy').textContent='Copied ✓'; setTimeout(function(){$('ovlCopy').textContent='Copy';},1500); };
+  if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(_ovlText).then(done,done); }
+  else{ var ta=document.createElement('textarea'); ta.value=_ovlText; document.body.appendChild(ta); ta.select(); try{document.execCommand('copy');}catch(e){} document.body.removeChild(ta); done(); }
+});
+$('ovlDl').addEventListener('click',function(){
+  var blob=new Blob([_ovlText],{type:'text/plain'});
+  var a=document.createElement('a'); a.href=URL.createObjectURL(blob);
+  a.download=($('ovlTitle').textContent||'record').replace(/[^A-Za-z0-9_-]+/g,'_')+'.txt';
+  document.body.appendChild(a); a.click(); setTimeout(function(){URL.revokeObjectURL(a.href);a.remove();},500);
+});
+var _chunkCache={}, _lexCache={};
+function dictChunk(file){
+  if(_chunkCache[file]) return Promise.resolve(_chunkCache[file]);
+  return JAHDB.fetchJsonlGz(LOCAL+'full/dict/'+file).then(function(rows){ _chunkCache[file]=rows; return rows; });
+}
+function lexShard(letter){
+  var lk=/[a-z]/.test(letter)?letter:'0', f='shard-'+lk+'.json';
+  if(_lexCache[f]) return Promise.resolve(_lexCache[f]);
+  return fetch(LOCAL+'lexical/'+f).then(function(r){ if(!r.ok) throw new Error('shard missing'); return r.json(); })
+    .then(function(d){ _lexCache[f]=d; return d; })
+    .catch(function(){ _lexCache[f]=[]; return []; });
+}
+var _EXT={
+  noun:['She set the {w} on the table and stepped back to admire it.',
+        'Every workshop keeps a {w} within arm\u2019s reach.',
+        'The old {w} had seen decades of honest use.'],
+  verb:['They {w} every morning before the sun rose.',
+        'He learned to {w} the long way, through trial and error.',
+        'She will {w} again tomorrow, weather permitting.'],
+  adjective:['The {w} morning made everyone pause at the window.',
+              'It was a {w} idea, and they knew it.',
+              'A {w} light filled the room.']
+};
+function exFor(w,pos){
+  var t=_EXT[pos]||_EXT.noun, h=JAHDB.hashStr(w+'|'+pos);
+  var a=t[h%t.length], b=t[(h>>>4)%t.length];
+  if(b===a) b=t[(h%t.length+1)%t.length];
+  return [a.split('{w}').join(w), b.split('{w}').join(w)];
+}
+function openWord(key){
+  var row=_rowByKey[key];
+  if(!row){ ovlShow('Word','<p class="bad">Record reference lost — search again.</p>',''); return; }
+  var file=row[1], ix=row[2];
+  ovlShow(cleanW(row[0]),'<p class="dim">Loading the full record…</p>','');
+  dictChunk(file).then(function(rows){
+    var rec=rows[ix]||{};
+    var w=cleanW(rec.w||row[0]);
+    var L=w.charAt(0).toLowerCase();
+    return lexShard(L).then(function(sh){ return {rec:rec,w:w,sh:sh}; });
+  }).then(function(o){
+    var rec=o.rec, w=o.w, lex=null, lw=w.toLowerCase();
+    for(var i=0;i<o.sh.length;i++){ if(cleanW(o.sh[i][0]).toLowerCase()===lw){ lex=o.sh[i]; break; } }
+    var pos=lex?lex[1]:'—', pron=lex?lex[2]:'—', stamp=lex?lex[4]:(rec.st||'—');
+    var defs=[];
+    if(lex&&lex[3]) defs.push(lex[3]);
+    if(rec.k==='w'&&Array.isArray(rec.d)) defs=defs.concat(rec.d);
+    var ex=exFor(w,pos==='—'?'noun':pos);
+    var html='<h2>'+esc(w)+'</h2>'+
+      '<div><span class="badge mono">'+esc(stamp)+'</span><span class="badge">'+esc(pos)+'</span>'+
+      (rec.k?'<span class="badge">'+esc(rec.k==='w'?'word':'term')+'</span>':'')+'</div>'+
+      '<div class="fld"><b>Pronunciation</b><p style="font-size:1.1em">'+esc(pron)+'</p></div>'+
+      '<div class="fld"><b>Definition'+(defs.length>1?'s':'')+'</b>'+
+      (defs.length?'<ol>'+defs.map(function(d){return '<li>'+esc(d)+'</li>';}).join('')+'</ol>':'<p class="dim">—</p>')+'</div>'+
+      '<div class="fld"><b>Examples</b><ol>'+ex.map(function(x){return '<li><i>'+esc(x)+'</i></li>';}).join('')+'</ol></div>';
+    if(rec.rt||rec.rid){
+      html+='<div class="fld"><b>Word patent</b><p><span class="badge">'+esc(rec.rt||'')+'</span> '+
+        '<span class="badge mono">'+esc(rec.rid||'')+'</span>'+(rec.cpc?' <span class="badge">'+esc(rec.cpc)+'</span>':'')+'</p>'+
+        ((rec.k!=='w'&&rec.d)?'<p>'+esc(rec.d)+'</p>':'')+'</div>';
+    }
+    var text=w+'  ['+pos+']  '+pron+'\nStamp: '+stamp+'\n\nDEFINITIONS\n'+
+      defs.map(function(d,i){return (i+1)+'. '+d;}).join('\n')+
+      '\n\nEXAMPLES\n'+ex.join('\n')+
+      ((rec.rt||rec.rid)?'\n\nWORD PATENT\n'+(rec.rt||'')+' '+(rec.rid||'')+' '+(rec.cpc||''):'');
+    ovlShow(w,html,text);
+  }).catch(function(e){ ovlShow(cleanW(row[0]),'<p class="bad">Could not load the full record ('+esc((e&&e.message)||e)+').</p>',''); });
+}
+function cardClick(e){
+  var c=e.target&&e.target.closest?e.target.closest('.opencard'):null;
+  if(c&&c.dataset.key) openWord(c.dataset.key);
+}
+$('groups').addEventListener('click',cardClick);
+$('results').addEventListener('click',cardClick);
 
 /* generator */
 $('gGo').addEventListener('click',function(){

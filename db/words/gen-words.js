@@ -1,7 +1,8 @@
 /* ✳ SIGNATURE — JAH Dictionary Data Base generator. Property of Justin Addam Higgins (JAH).
    Boundless generator: produces NEW dictionary entries + word inventions in the
-   archive's style (headword, part of speech, definition, lexical-form invention
-   apparatus, id, stamp). Deterministic: same seed + version => same record.
+   archive's style (headword, part of speech, pronunciation, definition,
+   examples, lexical-form invention apparatus, id, stamp). Deterministic: same
+   seed + version => same record.
    Headwords are real English words; definitions are plain authored senses;
    the word-invention text is built constructively from the word's own letters
    and sense — never a claim about the real world. Every record is re-verified
@@ -81,6 +82,49 @@
       'bench qualification.';
   }
 
+  /* deterministic approximate phonetic respelling (editor-style guide, like the archive) */
+  function respell(w) {
+    var s = String(w).toLowerCase().replace(/[^a-z]/g, '');
+    if (!s) return '—';
+    var vowels = 'aeiouy', parts = [], cur = '';
+    for (var i = 0; i < s.length; i++) {
+      cur += s[i];
+      var v = vowels.indexOf(s[i]) >= 0;
+      var nv = i + 1 < s.length && vowels.indexOf(s[i + 1]) >= 0;
+      if (v && !nv && cur.length >= 2 && i + 2 < s.length) { parts.push(cur); cur = ''; }
+    }
+    if (cur) parts.push(cur);
+    if (!parts.length) parts = [s];
+    parts[0] = parts[0].toUpperCase();
+    return parts.join('-');
+  }
+
+  /* deterministic usage examples — pure function of (word, pos) so the
+     independent verifier rebuilds them exactly */
+  var EXT = {
+    noun: ['She set the {w} on the table and stepped back to admire it.',
+           'Every workshop keeps a {w} within arm\u2019s reach.',
+           'The old {w} had seen decades of honest use.'],
+    verb: ['They {w} every morning before the sun rose.',
+           'He learned to {w} the long way, through trial and error.',
+           'She will {w} again tomorrow, weather permitting.'],
+    adjective: ['The {w} morning made everyone pause at the window.',
+                'It was a {w} idea, and they knew it.',
+                'A {w} light filled the room.']
+  };
+  function hashLocal(s) {
+    var h = 2166136261;
+    s = String(s);
+    for (var i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 16777619); }
+    return h >>> 0;
+  }
+  function buildExamples(w, pos) {
+    var t = EXT[pos] || EXT.noun, h = hashLocal(w + '|' + pos);
+    var a = t[h % t.length], b = t[(h >>> 4) % t.length];
+    if (b === a) b = t[(h % t.length + 1) % t.length];
+    return [a.split('{w}').join(w), b.split('{w}').join(w)];
+  }
+
   function generate(seed, opts, rnd) {
     opts = opts || {};
     var pool = (opts.pos && ['noun', 'verb', 'adjective'].indexOf(opts.pos) >= 0)
@@ -93,7 +137,9 @@
       n: n,
       w: w,
       pos: pos,
+      pron: respell(w),
       d: def,
+      examples: buildExamples(w, pos),
       invention_title: buildInventionTitle(w),
       invention_desc: buildInventionDesc(w, pos),
       rt: 'gen',
@@ -121,6 +167,13 @@
     if (rec.w !== p._w) errs.push('headword mismatch');
     if (rec.pos !== p._pos) errs.push('pos mismatch');
     if (rec.d !== p._def) errs.push('definition mismatch');
+    if (rec.pron !== respell(p._w)) errs.push('pronunciation mismatch');
+    var ex = buildExamples(p._w, p._pos);
+    if (!Array.isArray(rec.examples) || rec.examples.length !== 2 ||
+        rec.examples[0] !== ex[0] || rec.examples[1] !== ex[1])
+      errs.push('examples mismatch');
+    if (rec.examples && rec.examples.some(function (x) { return String(x).indexOf(p._w) < 0; }))
+      errs.push('example does not use the headword');
     if (rec.invention_title !== buildInventionTitle(p._w)) errs.push('invention title mismatch');
     if (rec.invention_desc !== buildInventionDesc(p._w, p._pos)) errs.push('invention desc mismatch');
     if (rec.rid !== rec.id) errs.push('rid/id mismatch');
@@ -132,7 +185,7 @@
   function validate(rec) {
     var errs = [];
     if (!rec || typeof rec !== 'object') return { ok: false, errors: ['not an object'] };
-    ['id', 'w', 'pos', 'd', 'invention_title', 'invention_desc'].forEach(function (k) {
+    ['id', 'w', 'pos', 'pron', 'd', 'examples', 'invention_title', 'invention_desc'].forEach(function (k) {
       if (rec[k] === undefined || rec[k] === null || rec[k] === '') errs.push('missing field: ' + k);
     });
     if (rec.id && !/^JAH-WORD-\d{6}$/.test(rec.id)) errs.push('bad id format');

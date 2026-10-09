@@ -39,6 +39,14 @@ pre.steps{background:#080d18;border:1px solid var(--line);border-radius:8px;padd
 .kv{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;font-size:.95em}
 .kv dt{color:var(--dim)}.kv dd{margin:0}
 .foot{margin-top:26px;padding-top:12px;border-top:1px solid var(--line);color:var(--dim);font-size:.85em}
+.ovl{position:fixed;inset:0;background:rgba(2,6,14,.85);z-index:60;overflow:auto;padding:16px}
+.ovl[hidden]{display:none}
+.ovlbox{max-width:880px;margin:3vh auto;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px 18px}
+.ovlbox h2{margin:.2em 0 .4em;font-size:1.4em}
+.fld{margin:12px 0}.fld>b{color:var(--acc);display:block;margin-bottom:4px;font-size:.82em;text-transform:uppercase;letter-spacing:.05em}
+.fld p{margin:5px 0}.fld ol,.fld ul{margin:5px 0;padding-left:22px}
+.chapt{border-top:1px dashed var(--line);padding:10px 0}.chapt h4{margin:0 0 6px}
+.opencard{cursor:pointer}.opencard:hover{border-color:var(--acc)}
 </style>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Dataset", "name": "JAH Book Data Base \u2014 JAH Data Bases", "description": "The JAH Book Data Base: the permanent archive of finished Signature books, a boundless book generator in archive style, and an archive-aware AI. Property of Justin Addam Higgins.", "creator": {"@type": "Person", "name": "Justin Addam Higgins"}, "license": "https://creativecommons.org/publicdomain/zero/1.0/", "distribution": {"@type": "DataDownload", "contentUrl": "data/books/books.idx.json.gz"}}</script>
 </head>
@@ -72,6 +80,13 @@ pre.steps{background:#080d18;border:1px solid var(--line);border-radius:8px;padd
     <p class="dim">Browse by genre — each group opens on demand and loads only what you open. Generated books are always labeled.</p>
     <div id="groups"></div>
     <div id="results"></div>
+    <div class="ovl" id="ovl" hidden><div class="ovlbox">
+      <div class="row" style="justify-content:space-between;align-items:center">
+        <b id="ovlTitle">Full record</b>
+        <span class="row"><button id="ovlCopy">Copy</button><button id="ovlDl">Download</button><button id="ovlX">Close ✕</button></span>
+      </div>
+      <div id="ovlBody"></div>
+    </div></div>
   </section>
 
   <section class="pane" id="p-gen">
@@ -164,11 +179,14 @@ JAHDB.loadManifest().then(function(m){
 function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
 function chunkOf(id){ var n=parseInt(id.slice(9),10); return Math.ceil(n/100); }
 function chunkName(c){ return 'books-c'+String(c).padStart(5,'0')+'.json.gz'; }
+var _bookById={};
 function recCard(r){
-  return '<div class="card"><div class="rec"><img loading="lazy" src="'+JAHDB.emblemSVG(r.genre||r.g,r.id||r.title)+'" alt="">'+
+  if(r&&r.id) _bookById[r.id]=r;
+  return '<div class="card opencard" data-key="'+esc(r.id||'')+'"><div class="rec"><img loading="lazy" src="'+JAHDB.emblemSVG(r.genre||r.g,r.id||r.title)+'" alt="">'+
     '<div><h3 style="font-size:1.05em">'+esc(r.title||r.t)+'</h3>'+
     '<div><span class="badge mono">'+esc(r.id||'')+'</span><span class="badge">'+esc(r.genre||r.g||'')+'</span>'+(r.words||r.w?'<span class="badge">'+esc(r.words||r.w)+' words</span>':'')+'</div>'+
-    '<p class="dim">'+esc(String(r.desc||r.d||'').slice(0,280))+'</p></div></div></div>';
+    '<p class="dim">'+esc(String(r.desc||r.d||'').slice(0,280))+'</p>'+
+    '<p class="dim" style="font-size:.85em">Tap to open the full book — every chapter, full text.</p></div></div></div>';
 }
 function buildGroups(){
   var g=$('groups'); g.innerHTML='';
@@ -221,6 +239,56 @@ function doSearch(){
 }
 $('qgo').addEventListener('click',doSearch);
 $('q').addEventListener('keydown',function(e){if(e.key==='Enter')doSearch();});
+
+/* ---- full-book overlay: one tap on any card opens the complete book ---- */
+var _ovlText='';
+function ovlShow(title,html,text){
+  $('ovlTitle').textContent=title; $('ovlBody').innerHTML=html; _ovlText=text||'';
+  $('ovl').hidden=false; document.body.style.overflow='hidden';
+}
+function ovlHide(){ $('ovl').hidden=true; document.body.style.overflow=''; }
+$('ovlX').addEventListener('click',ovlHide);
+$('ovl').addEventListener('click',function(e){ if(e.target===$('ovl')) ovlHide(); });
+document.addEventListener('keydown',function(e){ if(e.key==='Escape'&&!$('ovl').hidden) ovlHide(); });
+$('ovlCopy').addEventListener('click',function(){
+  var done=function(){ $('ovlCopy').textContent='Copied ✓'; setTimeout(function(){$('ovlCopy').textContent='Copy';},1500); };
+  if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(_ovlText).then(done,done); }
+  else{ var ta=document.createElement('textarea'); ta.value=_ovlText; document.body.appendChild(ta); ta.select(); try{document.execCommand('copy');}catch(e){} document.body.removeChild(ta); done(); }
+});
+$('ovlDl').addEventListener('click',function(){
+  var blob=new Blob([_ovlText],{type:'text/plain'});
+  var a=document.createElement('a'); a.href=URL.createObjectURL(blob);
+  a.download=($('ovlTitle').textContent||'record').replace(/[^A-Za-z0-9_-]+/g,'_')+'.txt';
+  document.body.appendChild(a); a.click(); setTimeout(function(){URL.revokeObjectURL(a.href);a.remove();},500);
+});
+function openBook(id){
+  var r=_bookById[id];
+  if(!r){ ovlShow('Book','<p class="bad">Record reference lost — search again.</p>',''); return; }
+  var chaps=Array.isArray(r.chapters)?r.chapters:[];
+  var html='<h2>'+esc(r.title||id)+'</h2>'+
+    '<div><span class="badge mono">'+esc(r.id||'')+'</span><span class="badge">'+esc(r.genre||'')+'</span>'+
+    (r.words?'<span class="badge">'+esc(r.words)+' words</span>':'')+
+    (chaps.length?'<span class="badge">'+chaps.length+' chapters</span>':'')+'</div>'+
+    '<div class="fld"><b>Author</b><p>'+esc(r.author||'')+'</p></div>'+
+    '<div class="fld"><b>Description</b><p>'+esc(r.desc||'')+'</p></div>'+
+    (r.note?'<div class="fld"><b>Note</b><p class="dim">'+esc(r.note)+'</p></div>':'')+
+    '<div class="fld"><b>Chapters — full text</b></div>'+
+    chaps.map(function(c,i){
+      return '<div class="chapt"><h4>'+esc((i+1)+'. '+(c.t||'Chapter'))+'</h4><p>'+esc(String(c.b||'')).replace(/\n/g,'<br>')+'</p></div>';
+    }).join('')+
+    (r.sources&&r.sources.length?'<div class="fld"><b>Sources</b><ul>'+r.sources.map(function(s){return '<li>'+esc(String(s))+'</li>';}).join('')+'</ul></div>':'')+
+    (r.origin?'<div class="fld"><b>Origin</b><p class="dim">'+esc(r.origin)+'</p></div>':'');
+  var text=(r.title||id)+'\nby '+(r.author||'')+'\n'+(r.genre||'')+' — '+(r.words||'')+' words\nID: '+(r.id||'')+
+    '\n\n'+(r.desc||'')+'\n\n'+
+    chaps.map(function(c,i){return 'CHAPTER '+(i+1)+': '+(c.t||'')+'\n\n'+(c.b||'');}).join('\n\n');
+  ovlShow(r.title||id,html,text);
+}
+function cardClick(e){
+  var c=e.target&&e.target.closest?e.target.closest('.opencard'):null;
+  if(c&&c.dataset.key) openBook(c.dataset.key);
+}
+$('groups').addEventListener('click',cardClick);
+$('results').addEventListener('click',cardClick);
 
 /* generator */
 $('gGo').addEventListener('click',function(){
