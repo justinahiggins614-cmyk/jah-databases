@@ -237,7 +237,7 @@ function loadRows(rows,body){
   var byChunk={};
   rows.forEach(function(r){ (byChunk[r.c]=byChunk[r.c]||[]).push(r.id); });
   var jobs=Object.keys(byChunk).map(function(c){
-    return JAHDB.fetchJsonlGz(LOCAL+'chunks/'+chunkName(+c)).then(function(recs){
+    return JAHDB.fetchJsonlGz(LOCAL+chunkName(+c)).then(function(recs){
       var want={}; byChunk[c].forEach(function(id){want[id]=1;});
       return recs.filter(function(r){return want[r.id];});
     }).catch(function(){return [];});
