@@ -166,7 +166,7 @@ function generate(seed,opts,rnd){
   var cat=opts.category||pick(CATS,rnd);
   var online=!opts.forceSignature&&(rnd()<0.24||opts.forceOnline);
   var rec=online?buildOnline(rnd,cat):buildSignature(rnd,cat);
-  if(rec.description.length<165)rec.description+=' Filed as a complete searchable record in the JAH Data Bases archive, with its full specifications intact.';
+  if(rec.description.length<165)rec.description+=' Filed as a complete searchable record in the JAH Databases archive, with its full specifications intact.';
   rec.id=PREFIX+String(seed).padStart(7,'0');
   rec._seed=seed;
   return rec;

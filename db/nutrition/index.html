@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>JAH Nutrition Database — JAH Data Bases</title>
+<title>JAH Nutrition Database — JAH Databases</title>
 <meta name="description" content="The JAH Nutrition Database: Nutrient data, ingredients, safety and methods. A permanent archive, a boundless generator, and an archive-aware AI. Property of Justin Addam Higgins.">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Dataset","name":"JAH Nutrition Database","description":"JAH Nutrition Database: Nutrient data, ingredients, safety and methods. Property of Justin Addam Higgins.","creator":{"@type":"Person","name":"Justin Addam Higgins"},"license":"https://creativecommons.org/publicdomain/zero/1.0/","distribution":{"@type":"DataDownload","contentUrl":"data/nutrition/index.jsonl.gz"}}</script>
 <style>
@@ -110,12 +110,12 @@ pre.steps{background:#080d18;border:1px solid var(--line);border-radius:8px;padd
         <dt>Record schema</dt><dd class="mono">id · title · category · description · nutrient · food · pattern · practice · rule · method · source</dd>
         <dt>Generator</dt><dd>jahdb-nutrition-1.0 — deterministic, every record validated by an independent checker before acceptance.</dd>
         <dt>Drift control</dt><dd>Every generated record is checked against an archive sample for exact duplicates and re-validated by the independent checker.</dd>
-        <dt>AI</dt><dd>JAH Nutrition Creator — archive-aware and network-aware across all JAH Data Bases. On-device Standard 1.0, no key needed; uses the shared Signature backend automatically when configured.</dd>
+        <dt>AI</dt><dd>JAH Nutrition Creator — archive-aware and network-aware across all JAH Databases. On-device Standard 1.0, no key needed; uses the shared Signature backend automatically when configured.</dd>
         <dt>Ownership</dt><dd>✳ Property of Justin Addam Higgins (JAH).</dd>
       </dl>
     </div>
   </section>
-  <div class="foot">✳ JAH Data Bases. Property of Justin Addam Higgins (JAH).</div>
+  <div class="foot">✳ JAH Databases. Property of Justin Addam Higgins (JAH).</div>
 </div>
 <script src="../../core/jahdb.js"></script>
 <script src="../../core/standard-1.0.js"></script>
@@ -282,7 +282,7 @@ function renderQueue(){
 }
 var session=JAHDB.getSession(SLUG);
 function greet(){
-  say('a','I\'m the '+d.ai_name+'. I know this archive\'s '+archiveIdx.length.toLocaleString()+' '+d.record_kind+' records \u2014 ask me to find one, explain one, or generate new ones in archive style. I\'m aware of all the databases in the JAH Data Bases network ('+NET+'), so I can discuss or route across them. I specialize in generating boundless new '+d.specialty+'.');
+  say('a','I\'m the '+d.ai_name+'. I know this archive\'s '+archiveIdx.length.toLocaleString()+' '+d.record_kind+' records \u2014 ask me to find one, explain one, or generate new ones in archive style. I\'m aware of all the databases in the JAH Databases network ('+NET+'), so I can discuss or route across them. I specialize in generating boundless new '+d.specialty+'.');
 }
 function say(who,text){
   var d2=document.createElement('div');d2.className='msg '+who;
@@ -292,7 +292,7 @@ function say(who,text){
 function sendChat(){
   var t=$('chatIn').value.trim();if(!t)return;
   $('chatIn').value='';say('u',t);session.turns.push({q:t});
-  var ctx='Archive holds '+archiveIdx.length+' nutrition record records across categories: nutrients, foods, diets, safety, planning. Part of the JAH Data Bases network (anatomy, genetics, microbiology, medical research, chemistry, nutrition, medical imaging, and more).';
+  var ctx='Archive holds '+archiveIdx.length+' nutrition record records across categories: nutrients, foods, diets, safety, planning. Part of the JAH Databases network (anatomy, genetics, microbiology, medical research, chemistry, nutrition, medical imaging, and more).';
   JAHDB.aiAnswer(db,t,ctx).then(function(a){say('a',a);});
 }
 $('chatGo').addEventListener('click',sendChat);

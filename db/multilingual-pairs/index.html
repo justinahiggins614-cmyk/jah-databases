@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>JAH Multilingual Pair Database — JAH Data Bases</title>
+<title>JAH Multilingual Pair Database — JAH Databases</title>
 <meta name="description" content="The JAH Multilingual Pair Database: Parallel instructions across languages. Property of Justin Addam Higgins.">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Dataset","name":"JAH Multilingual Pair Database","description":"The JAH Multilingual Pair Database: Parallel instructions across languages. Property of Justin Addam Higgins.","creator":{"@type":"Person","name":"Justin Addam Higgins"},"license":"https://creativecommons.org/publicdomain/zero/1.0/","distribution":{"@type":"DataDownload","contentUrl":"data/multilingual-pairs/index.jsonl.gz"}}</script>
 <style>
@@ -117,14 +117,14 @@ pre.steps{background:#080d18;border:1px solid var(--line);border-radius:8px;padd
         <dt>Record schema</dt><dd class="mono">id · pair_id · source_lang · target_lang · source_text · target_text · domain · quality · title</dd>
         <dt>Generator</dt><dd>jahdb-multilingual-pairs-1.0 — deterministic (mulberry32); builds an English instruction from word banks and translates it through embedded per-language dictionaries; the validator re-derives both sentences from the stored lexical indexes.</dd>
         <dt>Drift control</dt><dd>Every generated record is checked against an archive sample for exact duplicates and re-validated by the independent validator.</dd>
-        <dt>Cross-database</dt><dd>The generator can borrow a theme from any of the other live data bases when you tick the box.</dd>
+        <dt>Cross-database</dt><dd>The generator can borrow a theme from any of the other live databases when you tick the box.</dd>
         <dt>AI</dt><dd>JAH Translator Librarian — archive-aware. On-device Standard 1.0, no key needed; uses the shared Signature backend automatically when configured.</dd>
         <dt>Ownership</dt><dd>✳ Property of Justin Addam Higgins (JAH).</dd>
       </dl>
     </div>
   </section>
 
-  <div class="foot">✳ JAH Data Bases. Property of Justin Addam Higgins (JAH).</div>
+  <div class="foot">✳ JAH Databases. Property of Justin Addam Higgins (JAH).</div>
 </div>
 
 <script src="../../core/jahdb.js"></script>
@@ -199,7 +199,7 @@ function fetchRecords(chunk,ids){
     return recs.filter(function(r){return want[r.id];}).map(function(r){r._chunk=chunk;return r;});
   }).catch(function(){return [];});
 }
-/* Copy + Download for full records — uniform across all data bases */
+/* Copy + Download for full records — uniform across all databases */
 function recJSON(r){try{return JSON.stringify(r,function(k,v){return (k&&k.charAt(0)==='_')?undefined:v;},2);}catch(e){return String(r);}}
 function recFileName(r){var id=String(r.id||r.ID||r.code||r.record_id||'record').replace(/[^A-Za-z0-9._-]+/g,'_');return id+'.json';}
 function copyRecText(txt,btn,label){

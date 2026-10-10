@@ -188,18 +188,18 @@ function generate(seed,opts,rnd){
     if(which){rec.title='Tempo: '+t[0]+' ('+t[1]+'-'+t[2]+' BPM)';rec.topic='tempo';rec.theory={term:t[0],bpm_low:t[1],bpm_high:t[2],note:t[3]};rec.description='The tempo marking '+t[0]+' means '+t[3].toLowerCase()+' It spans roughly '+t[1]+' to '+t[2]+' beats per minute. A standard Italian tempo term used in scores everywhere.';}
     else{rec.title='Dynamic: '+d[0]+' ('+d[1]+')';rec.topic='dynamic';rec.theory={mark:d[0],name:d[1],meaning:d[2]};rec.description='The dynamic marking '+d[0]+' ('+d[1]+')'+(d[2]?' means '+d[2]+'.':' indicates a gradual change.')+' A standard volume instruction found in written music.';}
     rec.source_ref=REF_STD;
-  if(rec.description.length<165)rec.description+=' Filed as a complete searchable record in the JAH Data Bases archive, with its full specifications intact.';
+  if(rec.description.length<165)rec.description+=' Filed as a complete searchable record in the JAH Databases archive, with its full specifications intact.';
     return rec;
   }
   if(cat==='harmony'&&rnd()<0.25&&!opts.forceOnline){
     var cd=pick(CADENCES,rnd);
     var rec2={id:PREFIX+String(seed).padStart(7,'0'),category:cat,source:'online',creation_mode:'ONLINE-VERIFIED',_seed:seed,title:'Cadence: '+cd[0],topic:'cadence',theory:{cadence:cd[0],note:cd[1]},source_ref:REF_STD};
     rec2.description='The '+cd[0].toLowerCase()+' cadence: '+cd[1]+' Cadences punctuate phrases the way punctuation ends sentences in language.';
-  if(rec2.description.length<165)rec2.description+=' Filed as a complete searchable record in the JAH Data Bases archive, with its full specifications intact.';
+  if(rec2.description.length<165)rec2.description+=' Filed as a complete searchable record in the JAH Databases archive, with its full specifications intact.';
     return rec2;
   }
   var r=online?buildOnline(rnd,cat):buildSignature(rnd,cat);
-  if(r.description.length<165)r.description+=' Filed as a complete searchable record in the JAH Data Bases archive, with its full specifications intact.';
+  if(r.description.length<165)r.description+=' Filed as a complete searchable record in the JAH Databases archive, with its full specifications intact.';
   r.id=PREFIX+String(seed).padStart(7,'0');r._seed=seed;return r;
 }
 function validate(r){

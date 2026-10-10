@@ -1,4 +1,4 @@
-/* SIGNATURE — JAH Data Bases generator. Property of Justin Addam Higgins (JAH).
+/* SIGNATURE — JAH Databases generator. Property of Justin Addam Higgins (JAH).
    Generator for the JAH Lenovo Signature Archive Database.
    Deterministic: same seed + version always makes the same record.
    Address space: seeds 1..1000000. Slots 1..600000 -> Class 1 (Signature versions of

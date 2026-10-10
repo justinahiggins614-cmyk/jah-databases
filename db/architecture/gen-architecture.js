@@ -72,7 +72,7 @@ function generate(seed,opts,rnd){
     subject:t[0]+' '+tag,specifications:spec,structural:{system:spec.structure||spec.system||'conceptual'},
     standards:['IBC','local building code (concept)'],calculations:calc,
     description:desc,source:'signature',
-    source_ref:{authority:'JAH Data Bases — Signature generator',url:''},
+    source_ref:{authority:'JAH Databases — Signature generator',url:''},
     creation_mode:'SIGNATURE-GENERATED',design_status:'conceptual — not a permitted design; a licensed architect/engineer must develop any real project',_seed:seed};
 }
 function validate(r){

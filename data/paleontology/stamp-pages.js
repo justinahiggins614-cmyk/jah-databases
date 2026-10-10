@@ -2,7 +2,7 @@
 var fs = require('fs'), path = require('path');
 var base = '/home/hatch/workspace/jah-databases-new18';
 var tpl = fs.readFileSync(path.join(base, 'data/paleontology/page-template.html'), 'utf8');
-var NET = 'Part of the JAH Data Bases network (77 live databases plus this 18-database expansion), I can also describe boundless new __KIND__ records in archive style.';
+var NET = 'Part of the JAH Databases network (77 live databases plus this 18-database expansion), I can also describe boundless new __KIND__ records in archive style.';
 var DBS = [
 {slug:'paleontology',name:'JAH Paleontology Database',tagline:'Fossils, extinct species, eras, and dig sites.',ai:'JAH Paleontology Creator',kind:'fossil entry',prefix:'JAH-PAL-',genver:'jahdb-paleontology-1.0',
  cats:['dinosaur','marine-reptile','flying-reptile','prehistoric-mammal','invertebrate','plant','ancient-reptile','dig-site','era','field-note','hypothetical'],

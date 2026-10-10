@@ -1,4 +1,4 @@
-# How any AI reads every patent / file in JAH Data Bases
+# How any AI reads every patent / file in JAH Databases
 
 Everything in this project is **public and open**: no login, no API key, no fee.
 Any AI (ChatGPT, Claude, Gemini, Groq, an open-source model — anything) and any

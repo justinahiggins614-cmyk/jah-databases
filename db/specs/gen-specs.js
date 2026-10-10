@@ -12,7 +12,7 @@
   var VERSION = 'jahdb-specs-1.0';
   var ID_PREFIX = 'JAH-SPEC-';
   var STAMP = 'JAH Patent Specification Data Base — synthetic draft. Generated, not authored by JAH; not a real filing.';
-  var PROVENANCE = 'JAH Data Bases boundless generator (synthetic — not authored by Justin Addam Higgins)';
+  var PROVENANCE = 'JAH Databases boundless generator (synthetic — not authored by Justin Addam Higgins)';
 
   /* real categories observed in the archive */
   var CATEGORIES = ['Furniture', 'Cybersecurity', 'Identity Management', 'Network Routing',

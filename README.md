@@ -1,4 +1,4 @@
-# JAH Data Bases — Project Three
+# JAH Databases — Project Three
 
 37 connected databases, 37 boundless generators, 37 archive-aware AIs.
 Property of Justin Addam Higgins (JAH).

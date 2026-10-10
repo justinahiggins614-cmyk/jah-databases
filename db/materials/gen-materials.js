@@ -71,7 +71,7 @@ function generate(seed,opts,rnd){
     material:name,composition:props.alloyants||props.matrix||props.key_addition||'conceptual',
     properties:props,processing:['conceptual route — lab scale first'],applications:['study concept'],
     standards:['ASTM E8','ASTM E384'],calculations:calc,description:desc,source:'signature',
-    source_ref:{authority:'JAH Data Bases — Signature generator',url:''},
+    source_ref:{authority:'JAH Databases — Signature generator',url:''},
     creation_mode:'SIGNATURE-GENERATED',data_quality:'predicted-not-measured',
     design_status:'conceptual formulation — properties predicted, not measured',_seed:seed};
 }

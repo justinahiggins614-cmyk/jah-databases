@@ -226,7 +226,7 @@ var LIBS=[
       library_count: libs.length,
       build_hash: fnvHex(canonical),
       mix_lineage: engine.model_id + ' + ' + libs.length + ' tool libraries (' + profile + ' profile)',
-      note: 'GENERATED mix-and-match build assembled by the JAH Data Bases generator from the archive\'s real engine versions and tool libraries. Not a stored build.',
+      note: 'GENERATED mix-and-match build assembled by the JAH Databases generator from the archive\'s real engine versions and tool libraries. Not a stored build.',
       stamp: STAMP,
       _engKey: engKey, _libIds: libIds, _sampling: sampling, _name: name, _profile: profile, _seed: seed
     };

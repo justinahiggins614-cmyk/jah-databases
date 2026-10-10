@@ -24,7 +24,7 @@
   var PUB_KEYS = ['paper', 'date', 'issue', 'volume', 'articles', 'honesty', 'id', 'paper_id',
                   'fictionality_status', 'creation_mode', 'version', 'status', 'coverage',
                   'created', 'updated', 'article_count', 'article_ids', 'content_hash', 'stamp'];
-  var HONESTY = 'GENERATED SAMPLE — this edition was produced by the JAH Data Bases generator ' +
+  var HONESTY = 'GENERATED SAMPLE — this edition was produced by the JAH Databases generator ' +
     'as a sample article structure in the archive\'s format. It is NOT a real published edition, ' +
     'and it reports no real events, people, or organizations. All names and places are invented.';
 

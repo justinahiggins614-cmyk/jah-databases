@@ -71,7 +71,7 @@ function generate(seed,opts,rnd){
   return {id:id,ast_id:id,title:name+' '+tag+' — Concept Record',category:cat,record_type:'concept-design',
     object:name+' '+tag,specifications:spec,orbital:orb,physical:phys,mission:mis,
     calculations:calc,description:desc,source:'signature',
-    source_ref:{authority:'JAH Data Bases — Signature generator',url:''},
+    source_ref:{authority:'JAH Databases — Signature generator',url:''},
     creation_mode:'SIGNATURE-GENERATED',design_status:'conceptual — generated concept; not a real detection, mission, or facility',_seed:seed};
 }
 function validate(r){

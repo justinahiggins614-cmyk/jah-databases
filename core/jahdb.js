@@ -1,4 +1,4 @@
-/* ✳ SIGNATURE — JAH Data Bases core. Property of Justin Addam Higgins (JAH).
+/* ✳ SIGNATURE — JAH Databases core. Property of Justin Addam Higgins (JAH).
    Shared framework for all 37 databases: manifest, archive browsing, the
    generator registry, cross-database sampling, validation, sessions, and the
    archive-aware AI (Standard 1.0 on-device + Apex backend when configured).
@@ -160,7 +160,7 @@ var JAHDB = (function () {
      is configured (shared with The Signature AI), cloud answers come from there. */
   function aiAnswer(db, userText, context) {
     var persona = 'You are ' + db.ai_name + ', the archive-aware librarian of the ' +
-      db.name + ' (JAH Data Bases, property of Justin Addam Higgins). ' +
+      db.name + ' (JAH Databases, property of Justin Addam Higgins). ' +
       'This database holds ' + db.record_kind + ' records. Answer in natural sentences. ' +
       'When the user asks you to make something, describe the record you would generate ' +
       'in this archive\'s format, or run the generator if one is available on the page. ' +

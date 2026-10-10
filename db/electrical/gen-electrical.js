@@ -127,7 +127,7 @@ function generate(seed,opts,rnd){
   return {id:id,elec_id:id,title:a[0]+' '+tag+' — Concept Design',category:cat,record_type:'concept-design',
     component:a[0]+' '+tag,specifications:spec,calculations:calc,safety:safety,
     standards:['IEC 61010-1','NEC Article 110'],description:desc,source:'signature',
-    source_ref:{authority:'JAH Data Bases — Signature generator',url:''},
+    source_ref:{authority:'JAH Databases — Signature generator',url:''},
     creation_mode:'SIGNATURE-GENERATED',design_status:'conceptual — generated design, not a built circuit; verify against real datasheets before construction',_seed:seed};
 }
 function validate(r){

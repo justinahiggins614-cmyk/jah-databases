@@ -106,7 +106,7 @@ function generate(seed,opts,rnd){
   return {id:id,engy_id:id,title:t[0]+' '+tag+' — Concept Study',category:cat,record_type:'concept-design',
     system:t[0]+' '+tag,technology:t[0],specifications:spec,performance:{maturity:'conceptual'},
     calculations:calc,description:desc,source:'signature',
-    source_ref:{authority:'JAH Data Bases — Signature generator',url:''},
+    source_ref:{authority:'JAH Databases — Signature generator',url:''},
     creation_mode:'SIGNATURE-GENERATED',design_status:'conceptual study — not an operating plant; figures are modeled, not metered',_seed:seed};
 }
 function validate(r){

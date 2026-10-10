@@ -112,7 +112,7 @@ var ApexAI = (function () {
         ['book', 'Book Depository Database', NET + 'books/'], ['mall', 'Cyber Mega-Mall Database', NET + 'mall/']
       ];
       for (var i = 0; i < map.length; i++) if (t.indexOf(map[i][0]) >= 0) return Promise.resolve('Database ' + map[i][1] + ': ' + map[i][2]);
-      return Promise.resolve('JAH Data Bases: ' + NET + ' (37 databases — ask which one)');
+      return Promise.resolve('JAH Databases: ' + NET + ' (37 databases — ask which one)');
     }
     return Promise.resolve('unknown tool: ' + name);
   }

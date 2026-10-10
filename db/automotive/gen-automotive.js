@@ -73,7 +73,7 @@ function generate(seed,opts,rnd){
   return {id:id,auto_id:id,title:name+' '+tag+' — Concept Record',category:cat,record_type:'concept-design',
     vehicle_or_system:name+' '+tag,specifications:spec,diagnostics:diag,maintenance:maint,safety:saf,
     calculations:calc,description:desc,source:'signature',
-    source_ref:{authority:'JAH Data Bases — Signature generator',url:''},
+    source_ref:{authority:'JAH Databases — Signature generator',url:''},
     creation_mode:'SIGNATURE-GENERATED',design_status:'conceptual — generated concept, not a real vehicle; do not use for actual service or diagnosis',_seed:seed};
 }
 function validate(r){

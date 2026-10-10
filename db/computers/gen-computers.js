@@ -38,7 +38,7 @@
     return 'Generated system record: the ' + buildName([p[0], p[1], p[2]]) +
       ' is a ' + FORM[p[3]] + ' in the ' + CATS[p[6]] + ' design family, built around a ' +
       CPU[p[4]] + ' with ' + RAM[p[5]] + ' GB of memory and ' + DISK[p[7]] +
-      '. Assembled by the JAH Data Bases generator — a new entry in archive style, not a stored system.';
+      '. Assembled by the JAH Databases generator — a new entry in archive style, not a stored system.';
   }
 
   function generate(seed, opts, rnd) {
@@ -58,7 +58,7 @@
       design_family: fam,
       summary: buildSummary(p),
       specs: { form: FORM[p[3]], cpu: CPU[p[4]], ram_gb: RAM[p[5]], storage: DISK[p[7]], year: year },
-      note: 'GENERATED RECORD — produced by the JAH Data Bases generator. Not a stored archive system.',
+      note: 'GENERATED RECORD — produced by the JAH Databases generator. Not a stored archive system.',
       stamp: STAMP,
       _p: p, _year: year, _n: n, _seed: seed
     };

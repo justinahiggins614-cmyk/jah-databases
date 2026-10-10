@@ -94,7 +94,7 @@
       DEMO: { kind: 'synthetic', runs_in: 'database page', note: 'generated profile — demo renders from the record data' },
       VOICE: { read_aloud: false, engine: 'none — text only' },
       SIGNATURE_NUMBER: buildSig(n),
-      SOURCE: 'JAH Data Bases boundless generator jahdb-ai-models-1.0 (synthetic profile)',
+      SOURCE: 'JAH Databases boundless generator jahdb-ai-models-1.0 (synthetic profile)',
       RELATIONSHIPS: {},
       ARTIFACTS: { download: dlfile, deep_link: '#file-' + dlfile.replace(/\.json$/, ''), note: 'full record JSON download from this database' },
       _adj: adj, _dom: dom, _kindw: kindw, _verb: verb, _obj: obj,

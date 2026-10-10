@@ -168,7 +168,7 @@ function generate(seed,opts,rnd){
   return {id:id,mech_id:id,title:title,category:cat,record_type:'concept-design',component:a[0]+' '+tag,
     material:props.material||m[0],standards:['ISO 2768-m','ASME Y14.5'],properties:props,dimensions:dims,
     calculations:calc,tolerances:tol,description:desc,source:'signature',
-    source_ref:{authority:'JAH Data Bases — Signature generator',url:''},
+    source_ref:{authority:'JAH Databases — Signature generator',url:''},
     creation_mode:'SIGNATURE-GENERATED',design_status:'conceptual — generated design, not a manufactured product; properties predicted, not measured',_seed:seed};
 }
 function validate(r){
