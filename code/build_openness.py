@@ -17,11 +17,14 @@ DBS = MAN["databases"]
 
 
 def url(path):
+    if path.startswith("http://") or path.startswith("https://"):
+        return path
     return f"{BASE}/{path}"
 
 
 def data_files():
-    """All files under data/, sorted, relative."""
+    """All files under data/, sorted, relative. Also includes shard-repo data
+    (jah-databases-data-1) for DBs whose local_index is an absolute URL."""
     out = []
     for dirpath, _dirs, files in os.walk(os.path.join(ROOT, "data")):
         for f in sorted(files):
@@ -29,6 +32,16 @@ def data_files():
                 continue
             rel = os.path.relpath(os.path.join(dirpath, f), ROOT)
             out.append(rel.replace(os.sep, "/"))
+    # Shard data: map absolute local_index URLs back to shard-relative paths
+    shard_base = "https://justinahiggins614-cmyk.github.io/jah-databases-data-1/"
+    shard_root = os.path.expanduser("~/workspace/jah-databases-data-1/data")
+    if os.path.isdir(shard_root):
+        for dirpath, _dirs, files in os.walk(shard_root):
+            for f in sorted(files):
+                if f.startswith("."):
+                    continue
+                rel = os.path.relpath(os.path.join(dirpath, f), shard_root)
+                out.append(shard_base + "data/" + rel.replace(os.sep, "/"))
     return sorted(out)
 
 
