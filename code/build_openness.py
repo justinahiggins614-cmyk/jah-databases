@@ -62,9 +62,21 @@ def row_count(path):
         fp = os.path.join(ROOT, path)
         if path.endswith(".gz"):
             n = 0
+            first = None
             with gzip.open(fp, "rt", encoding="utf-8", errors="replace") as fh:
-                for _ in fh:
+                for line in fh:
                     n += 1
+                    if n == 1:
+                        first = line
+            # Some indexes are a single giant JSON array on one line, not
+            # newline-delimited JSON — count the array elements instead.
+            if n == 1 and first:
+                try:
+                    d = json.loads(first)
+                    if isinstance(d, list):
+                        return len(d)
+                except Exception:
+                    pass
             return n
         if path.endswith(".json"):
             with open(fp, encoding="utf-8", errors="replace") as fh:
