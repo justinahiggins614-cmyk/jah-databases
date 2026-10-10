@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>JAH Chemistry Published Archive Database — JAH Databases</title>
+<meta name="description" content="The JAH Chemistry Published Archive Database: Foundational texts and landmark papers of chemistry — full published records from alchemy to nanotech. A permanent archive, a boundless generator, and an archive-aware AI. Property of Justin Addam Higgins.">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Dataset","name":"JAH Chemistry Published Archive Database","description":"JAH Chemistry Published Archive Database: Foundational texts and landmark papers of chemistry — full published records from alchemy to nanotech. Property of Justin Addam Higgins.","creator":{"@type":"Person","name":"Justin Addam Higgins"},"license":"https://creativecommons.org/publicdomain/zero/1.0/","distribution":{"@type":"DataDownload","contentUrl":"data/chemistry-study-published/index.jsonl.gz"}}</script>
+<style>
+:root{--bg:#070b16;--panel:#0d1526;--line:#1d2c4d;--ink:#e8f1ff;--dim:#9fb3d8;--acc:#2f7bff;--ok:#00e5a0;--warn:#ffb020}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Arial,Helvetica,sans-serif;line-height:1.5}
+.wrap{max-width:1060px;margin:0 auto;padding:14px}
+.hero{display:flex;gap:14px;align-items:center;background:linear-gradient(135deg,#0b1e3a,#101a30);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:12px}
+.hero img{width:84px;height:84px;border-radius:14px;flex:none}
+.hero h1{margin:0;font-size:1.5em}.hero p{margin:4px 0;color:var(--dim)}
+.stats{display:flex;gap:10px;flex-wrap:wrap;margin:8px 0}
+.stat{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:8px 12px;font-size:.9em}
+.stat b{color:var(--ok)}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
+.tab{border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:999px;padding:9px 18px;font-size:1em;cursor:pointer}
+.tab.on{background:var(--acc);border-color:var(--acc);font-weight:bold}
+.pane{display:none}.pane.on{display:block}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px;margin:10px 0}
+.card h3{margin:0 0 6px}
+.rec{display:flex;gap:10px;align-items:flex-start}
+.rec img{width:64px;height:64px;border-radius:10px;flex:none}
+.mono{font-family:Consolas,monospace}
+.dim{color:var(--dim)}.ok{color:var(--ok)}.bad{color:#ff6b6b}
+input,select,textarea,button{font-size:1em;border-radius:8px;border:1px solid var(--line);background:#0a1120;color:var(--ink);padding:9px 10px}
+button{cursor:pointer;background:#14305e}button.go{background:var(--acc);font-weight:bold}
+details.grp{border:1px solid var(--line);border-radius:10px;margin:8px 0;background:var(--panel)}
+details.grp>summary{padding:10px 12px;cursor:pointer;font-weight:bold;list-style:none}
+details.grp>summary::-webkit-details-marker{display:none}
+.badge{display:inline-block;background:#132a55;border:1px solid var(--line);border-radius:999px;padding:2px 10px;font-size:.8em;margin-right:6px}
+.chatlog{max-height:46vh;overflow:auto;border:1px solid var(--line);border-radius:10px;padding:10px;background:#080d18;margin-bottom:8px}
+.msg{margin:8px 0}.msg.u{text-align:right}.msg .b{display:inline-block;padding:8px 12px;border-radius:12px;max-width:88%}
+.msg.u .b{background:#14305e}.msg.a .b{background:#101a30;border:1px solid var(--line)}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+pre.steps{background:#080d18;border:1px solid var(--line);border-radius:8px;padding:8px;white-space:pre-wrap}
+.kv{display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 12px;font-size:.95em}
+.kv dt{color:var(--dim);overflow-wrap:break-word}.kv dd{margin:0;min-width:0;overflow-wrap:break-word}
+.kv dd.longtext{grid-column:1/-1;font-size:1em;line-height:1.55}
+.rec>*{min-width:0}
+.foot{margin-top:26px;padding-top:12px;border-top:1px solid var(--line);color:var(--dim);font-size:.85em}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hero">
+    <img id="emblem" alt="database emblem">
+    <div>
+      <h1>JAH Chemistry Published Archive Database</h1>
+      <p>Foundational texts and landmark papers of chemistry — full published records from alchemy to nanotech.</p>
+      <div class="stats">
+        <span class="stat">Archive records: <b id="stCount">…</b></span>
+        <span class="stat">Generator: <b>jahdb-chemistry-study-published-1.0</b> <span class="ok">● working</span></span>
+        <span class="stat">AI: <b>JAH Chemistry Archivist</b></span>
+      </div>
+    </div>
+  </div>
+  <div class="tabs" role="tablist">
+    <button class="tab on" data-p="archive">Archive</button>
+    <button class="tab" data-p="gen">Generator</button>
+    <button class="tab" data-p="chat">AI Chat</button>
+    <button class="tab" data-p="about">About</button>
+  </div>
+  <section class="pane on" id="p-archive">
+    <div class="row">
+      <input id="q" placeholder="Search the archive…" style="flex:1;min-width:200px">
+      <button class="go" id="qgo">Search</button>
+    </div>
+    <p class="dim">Browse by category — each group opens on demand and loads only what you open.</p>
+    <div id="groups"></div>
+    <div id="results"></div>
+  </section>
+  <section class="pane" id="p-gen">
+    <div class="card">
+      <h3>Boundless generator</h3>
+      <p class="dim">Same seed + same version always makes the same record. Every record is validated independently before it is accepted, and checked against the archive for drift.</p>
+      <div class="row">
+        <label>Seed <input id="gSeed" type="number" value="1" style="width:110px"></label>
+        <label>Count <input id="gN" type="number" value="5" min="1" max="50" style="width:80px"></label>
+        <label>Category <select id="gType"><option value="">any</option><option>Organic Chemistry</option><option>Inorganic Chemistry</option><option>Physical Chemistry</option><option>Analytical Chemistry</option><option>Materials Chemistry</option><option>Chemical History</option><option>Spectroscopy</option><option>Electrochemistry</option></select></label>
+        <button class="go" id="gGo">Generate</button>
+      </div>
+      <div id="gOut"></div>
+    </div>
+    <div class="card">
+      <h3>Queued for the archive <span class="dim" id="qCount"></span></h3>
+      <p class="dim">Generated records wait here. Only validated, drift-free records can be filed — filing is a deliberate act, never automatic from chat.</p>
+      <div id="queue"></div>
+    </div>
+  </section>
+  <section class="pane" id="p-chat">
+    <div class="card">
+      <h3>JAH Chemistry Archivist <button id="fresh" style="font-size:.8em">New session</button></h3>
+      <div class="chatlog" id="chatlog"></div>
+      <div class="row">
+        <input id="chatIn" placeholder="Ask about the archive, or ask me to generate…" style="flex:1;min-width:200px">
+        <button class="go" id="chatGo">Send</button>
+      </div>
+      <p class="dim">Fresh screen every session. Nothing you say here enters the permanent archive unless you file it from the Generator tab.</p>
+    </div>
+  </section>
+  <section class="pane" id="p-about">
+    <div class="card">
+      <h3>About this database</h3>
+      <dl class="kv">
+        <dt>Archive</dt><dd>This database’s published-work archive (JAH-chemistry-study-published-P- records), preserved as structured, searchable data.</dd>
+        <dt>Record schema</dt><dd class="mono">id · title · authors · publication · year · category · full_content · source_ref · signature_link · level</dd>
+        <dt>Generator</dt><dd>jahdb-chemistry-study-published-1.0 — deterministic, every record validated by an independent checker before acceptance.</dd>
+        <dt>Drift control</dt><dd>Every generated record is checked against an archive sample for exact duplicates and re-validated by the independent checker.</dd>
+        <dt>AI</dt><dd>JAH Chemistry Archivist — archive-aware. On-device Standard 1.0, no key needed; uses the shared Signature backend automatically when configured.</dd>
+        <dt>Ownership</dt><dd>✳ Property of Justin Addam Higgins (JAH).</dd>
+      </dl>
+    </div>
+  </section>
+  <div class="foot">✳ JAH Databases. Property of Justin Addam Higgins (JAH).</div>
+</div>
+<script src="../../core/jahdb.js"></script>
+<script src="../../core/standard-1.0.js"></script>
+<script src="../../core/guide-conv.js"></script>
+<script src="../../core/apex-2.0.js"></script>
+<script src="gen-chemistry-study-published.js"></script>
+<script>
+(function(){
+'use strict';
+var SLUG='chemistry-study-published';
+var LOCAL='https://justinahiggins614-cmyk.github.io/jah-databases-data-1/data/chemistry-study-published/';
+var CATEGORIES=["Organic Chemistry", "Inorganic Chemistry", "Physical Chemistry", "Analytical Chemistry", "Materials Chemistry", "Chemical History", "Spectroscopy", "Electrochemistry"];
+var db={slug:SLUG,name:'JAH Chemistry Published Archive Database',ai_name:'JAH Chemistry Archivist',record_kind:'published work'};
+var manifest=null, archiveIdx=null, archiveSample=[];
+var $=function(id){return document.getElementById(id);};
+document.querySelectorAll('.tab').forEach(function(t){
+  t.addEventListener('click',function(){
+    document.querySelectorAll('.tab').forEach(function(x){x.classList.remove('on');});
+    document.querySelectorAll('.pane').forEach(function(x){x.classList.remove('on');});
+    t.classList.add('on'); $('p-'+t.dataset.p).classList.add('on');
+  });
+});
+JAHDB.loadManifest().then(function(m){manifest=m;db=JAHDB.dbBySlug(m,SLUG)||db;}).catch(function(){}).then(function(){
+  return JAHDB.fetchGz(LOCAL+'index.jsonl.gz');
+}).then(function(t){
+  archiveIdx=t.split('\n').filter(function(l){return l.trim();}).map(function(l){try{return JSON.parse(l);}catch(e){return null;}}).filter(Boolean);
+  $('stCount').textContent=archiveIdx.length.toLocaleString()+' / 1,000,000 target';
+  $('emblem').src=JAHDB.emblemSVG(db.name,'JAH-CHEM-PUB-');
+  var rnd=JAHDB.prng(99);
+  for(var i=0;i<200&&i<archiveIdx.length;i++) archiveSample.push(archiveIdx[(rnd()*archiveIdx.length)|0]);
+  buildGroups();
+  renderQueue();
+  greet();
+}).catch(function(e){ $('stCount').textContent='archive unreachable ('+e.message+')'; });
+function chunkName(c){ return 'chunks/chunk-'+String(c).padStart(4,'0')+'.jsonl.gz'; }
+function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+function fmtVal(v){
+  if(v===null||v===undefined)return '<span class="dim">\u2014</span>';
+  if(Array.isArray(v)){
+    if(v.length&&typeof v[0]==='object')return '<ol>'+v.map(function(x){return '<li>'+fmtVal(x)+'</li>';}).join('')+'</ol>';
+    return esc(v.join('; '));
+  }
+  if(typeof v==='object')return '<dl class="kv">'+Object.keys(v).map(function(k){return '<dt class="mono">'+esc(k)+'</dt><dd'+(typeof v[k]==='string'&&v[k].length>150?' class="longtext"':'')+'>'+fmtVal(v[k])+'</dd>';}).join('')+'</dl>';
+  return esc(String(v));
+}
+function renderFull(r){
+  var h='<dl class="kv">';
+  Object.keys(r).forEach(function(k){ var _ltv=r[k];h+='<dt class="mono">'+esc(k)+'</dt><dd'+(typeof _ltv==='string'&&_ltv.length>150?' class="longtext"':'')+'>'+fmtVal(_ltv)+'</dd>'; });
+  return h+'</dl>';
+}
+function descOf(r){ try{ return String(r.full_content||""); }catch(e){ return ""; } }
+function catOf(r){ try{ return String(r.category||""); }catch(e){ return ""; } }
+/* Copy + Download for full records — uniform across all databases */
+function recJSON(r){try{return JSON.stringify(r,function(k,v){return (k&&k.charAt(0)==='_')?undefined:v;},2);}catch(e){return String(r);}}
+function recFileName(r){var id=String(r.id||r.ID||r.code||r.record_id||'record').replace(/[^A-Za-z0-9._-]+/g,'_');return id+'.json';}
+function copyRecText(txt,btn,label){
+  var done=function(ok){btn.textContent=ok?'\u2713 Copied':'Copy failed';setTimeout(function(){btn.textContent=label;},1600);};
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(txt).then(function(){done(true);},function(){done(false);});}
+  else{var ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();try{done(document.execCommand('copy'));}catch(x){done(false);}document.body.removeChild(ta);}
+}
+function dlRecText(txt,fname){
+  var blob=new Blob([txt],{type:'application/json'});
+  var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=fname;
+  document.body.appendChild(a);a.click();setTimeout(function(){URL.revokeObjectURL(a.href);a.remove();},500);
+}
+function wireRecBtns(scope,r){
+  var txt=recJSON(r),fname=recFileName(r);
+  var cp=scope.querySelector('[data-copyrec]'),dl=scope.querySelector('[data-dlrec]');
+  if(cp)cp.addEventListener('click',function(){copyRecText(txt,cp,'\u29C9 Copy full record (JSON)');});
+  if(dl)dl.addEventListener('click',function(){dlRecText(txt,fname);});
+}
+var RECBYID={};
+document.addEventListener('click',function(e){
+  var b=e.target&&e.target.closest?e.target.closest('[data-copyrec][data-rid],[data-dlrec][data-rid]'):null;
+  if(!b)return;
+  var r=RECBYID[b.getAttribute('data-rid')];if(!r)return;
+  if(b.hasAttribute('data-copyrec'))copyRecText(recJSON(r),b,'\u29C9 Copy full record (JSON)');
+  else dlRecText(recJSON(r),recFileName(r));
+});
+function recCard(r){
+  RECBYID[r.id]=r;
+  var img=JAHDB.emblemSVG(r.t||r.id, r.id);
+  return '<div class="card"><div class="rec"><img loading="lazy" src="'+img+'" alt="">'+
+    '<div style="flex:1"><h3 style="font-size:1.05em">'+esc(r.t||r.id)+'</h3>'+
+    '<div><span class="badge mono">'+esc(r.id||'')+'</span><span class="badge">'+esc(r.g||catOf(r))+'</span></div>'+
+    '<p class="dim">'+esc(descOf(r).slice(0,140))+'</p>'+
+    '<details class="grp"><summary>Open full record \u2922</summary><div class="row" style="margin:8px 0 8px 12px"><button class="go" data-copyrec data-rid="'+esc(r.id)+'">⧉ Copy full record (JSON)</button><button data-dlrec data-rid="'+esc(r.id)+'">⬇ Download full record (.json)</button></div><div class="body">'+renderFull(r)+'</div></details>'+
+    '</div></div></div>';
+}
+function buildGroups(){
+  var g=$('groups'); g.innerHTML='';
+  CATEGORIES.forEach(function(cat){
+    var rows=archiveIdx.filter(function(r){return r.g===cat;});
+    if(!rows.length) return;
+    var d=document.createElement('details'); d.className='grp';
+    d.innerHTML='<summary>'+esc(cat)+' <span class="dim">('+rows.length.toLocaleString()+')</span></summary><div class="body"><p class="dim">Open to load the first 25.</p></div>';
+    d.addEventListener('toggle',function(){
+      if(d.open && !d.dataset.loaded){ d.dataset.loaded='1'; loadCatSample(cat,d.querySelector('.body')); }
+    });
+    g.appendChild(d);
+  });
+}
+function loadCatSample(cat,body){
+  body.innerHTML='<p class="dim">Loading\u2026</p>';
+  var rows=archiveIdx.filter(function(r){return r.g===cat;}).slice(0,25);
+  var byChunk={};
+  rows.forEach(function(r){ (byChunk[r.c]=byChunk[r.c]||[]).push(r.id); });
+  var jobs=Object.keys(byChunk).map(function(c){
+    return JAHDB.fetchJsonlGz(LOCAL+chunkName(+c)).then(function(recs){
+      var want={}; byChunk[c].forEach(function(id){want[id]=1;});
+      return recs.filter(function(r){return want[r.id];});
+    }).catch(function(){return [];});
+  });
+  Promise.all(jobs).then(function(parts){
+    var recs=[]; parts.forEach(function(p){recs=recs.concat(p);});
+    body.innerHTML=recs.length?recs.map(recCard).join(''):'<p class="dim">Nothing loaded.</p>';
+  });
+}
+function doSearch(){
+  var q=$('q').value.trim().toLowerCase();
+  var box=$('results');
+  if(!q){box.innerHTML='';return;}
+  var hits=archiveIdx.filter(function(r){return (r.t+' '+r.id).toLowerCase().indexOf(q)>=0;}).slice(0,12);
+  if(!hits.length){box.innerHTML='<p class="dim">No archive hits. Try the Generator tab to make one.</p>';return;}
+  box.innerHTML='<h3>Archive hits ('+hits.length+')</h3>';
+  var byChunk={};
+  hits.forEach(function(r){(byChunk[r.c]=byChunk[r.c]||[]).push(r.id);});
+  Object.keys(byChunk).forEach(function(c){
+    JAHDB.fetchJsonlGz(LOCAL+chunkName(+c)).then(function(recs){
+      var want={};byChunk[c].forEach(function(id){want[id]=1;});
+      var found=recs.filter(function(r){return want[r.id];});
+      if(found.length) box.innerHTML+=found.map(recCard).join('');
+    });
+  });
+}
+$('qgo').addEventListener('click',doSearch);
+$('q').addEventListener('keydown',function(e){if(e.key==='Enter')doSearch();});
+$('gGo').addEventListener('click',function(){
+  var seed=+$('gSeed').value||1, n=Math.min(50,Math.max(1,+$('gN').value||5));
+  var cat=$('gType').value||undefined;
+  var out=$('gOut'); out.innerHTML='<p class="dim">Generating\u2026</p>';
+  var recs=[],fails=[];
+  for(var i=0;i<n;i++){
+    var r=JAHDB.runGenerator(SLUG,seed+i,{category:cat});
+    if(!r.ok){fails.push({seed:seed+i,errors:r.errors});continue;}
+    var dc={ok:true,errors:[]};
+    try{ dc=driftFor(r.record); }catch(e){}
+    if(!dc.ok){fails.push({seed:seed+i,errors:dc.errors});continue;}
+    recs.push(r.record);
+  }
+  renderGen(recs,fails);
+});
+function driftFor(rec){
+  var gen=JAHDB.getGenerator(SLUG);
+  if(gen&&gen.driftCheck)return gen.driftCheck(rec,archiveSample);
+  return {ok:true,errors:[]};
+}
+function renderGen(recs,fails){
+  var h='<p><b>'+recs.length+'</b> generated, <b>'+fails.length+'</b> rejected.</p>';
+  h+=recs.map(function(r){
+    return '<div class="card"><div class="rec"><img loading="lazy" src="'+JAHDB.emblemSVG(r.title||r.id,r.id)+'" alt="">'+
+      '<div style="flex:1"><h3 class="mono">'+esc(r.title||r.id)+'</h3>'+
+      '<div><span class="badge">'+esc(r.id)+'</span><span class="badge">'+esc(catOf(r))+'</span><span class="badge ok">validated \u2713</span><span class="badge">seed '+r._seed+'</span></div>'+
+      '<details class="grp"><summary>Full record</summary><div class="body">'+renderFull(r)+'</div></details>'+
+      '<button data-file="'+esc(r.id)+'">Queue for archive</button></div></div></div>';
+  }).join('');
+  if(fails.length) h+='<p class="bad">Rejected: '+esc(JSON.stringify(fails).slice(0,300))+'</p>';
+  $('gOut').innerHTML=h;
+  $('gOut').querySelectorAll('[data-file]').forEach(function(b){
+    b.addEventListener('click',function(){
+      var rec=recs.filter(function(r){return r.id===b.dataset.file;})[0];
+      queueAdd(rec); b.textContent='Queued \u2713'; b.disabled=true;
+    });
+  });
+}
+function qkey(){return 'jahdb_'+SLUG+'_queue';}
+function queueGet(){try{return JSON.parse(localStorage.getItem(qkey())||'[]');}catch(e){return[];}}
+function queueAdd(rec){var q=queueGet();q.push(rec);try{localStorage.setItem(qkey(),JSON.stringify(q));}catch(e){}renderQueue();}
+function renderQueue(){
+  var q=queueGet(); $('qCount').textContent='('+q.length+')';
+  $('queue').innerHTML=q.length?q.map(function(r){
+    return '<div class="card"><b class="mono">'+esc(r.id)+'</b> \u2014 '+esc(r.title||r.id)+' <span class="badge ok">validated</span></div>';
+  }).join(''):'<p class="dim">Empty.</p>';
+}
+var session=JAHDB.getSession(SLUG);
+function greet(){
+  say('a','I\'m the JAH Chemistry Archivist. I know this archive\'s '+archiveIdx.length.toLocaleString()+' published work records \u2014 ask me to find one, explain one, or generate new ones in archive style.');
+}
+function say(who,text){
+  var d2=document.createElement('div');d2.className='msg '+who;
+  d2.innerHTML='<span class="b">'+esc(text)+'</span>';
+  $('chatlog').appendChild(d2);$('chatlog').scrollTop=$('chatlog').scrollHeight;
+}
+function sendChat(){
+  var t=$('chatIn').value.trim();if(!t)return;
+  $('chatIn').value='';say('u',t);session.turns.push({q:t});
+  var ctx='Archive holds '+archiveIdx.length+' published work records across categories: Organic Chemistry, Inorganic Chemistry, Physical Chemistry, Analytical Chemistry, Materials Chemistry, Chemical History, Spectroscopy, Electrochemistry. I am one archivist in the JAH Databases network; I stay in my JAH Chemistry Archivist role.';
+  JAHDB.aiAnswer(db,t,ctx).then(function(a){say('a',a);});
+}
+$('chatGo').addEventListener('click',sendChat);
+$('chatIn').addEventListener('keydown',function(e){if(e.key==='Enter')sendChat();});
+$('fresh').addEventListener('click',function(){session=JAHDB.newSession(SLUG);$('chatlog').innerHTML='';greet();});
+})();
+</script>
+</body>
+</html>
