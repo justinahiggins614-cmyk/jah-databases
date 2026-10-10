@@ -85,7 +85,7 @@ pre.steps{background:#080d18;border:1px solid var(--line);border-radius:8px;padd
     <div class="ovl" id="ovl" hidden><div class="ovlbox">
       <div class="row" style="justify-content:space-between;align-items:center">
         <b id="ovlTitle">Full record</b>
-        <span class="row"><button id="ovlCopy">Copy</button><button id="ovlDl">Download</button><button id="ovlX">Close ✕</button></span>
+        <span class="row"><button id="ovlCopy">Copy</button><button id="ovlLink">Copy link</button><button id="ovlDl">Download</button><button id="ovlX">Close ✕</button></span>
       </div>
       <div id="ovlBody"></div>
     </div></div>
@@ -176,6 +176,16 @@ JAHDB.loadManifest().then(function(m){
   buildGroups();
   renderQueue();
   greet();
+  /* deep link: a URL ending in #rec=<id> opens that full book directly */
+  var deepId=JAHDB.recHashGet();
+  if(deepId){
+    var dc=chunkOf(deepId);
+    JAHDB.fetchGz(LOCAL+'chunks/'+chunkName(dc)).then(function(bt){
+      var recs=JSON.parse(bt), rec=null;
+      for(var i=0;i<recs.length;i++){ if(recs[i]&&recs[i].id===deepId){ rec=recs[i]; break; } }
+      if(rec){ _bookById[rec.id]=rec; openBook(rec.id); }
+    }).catch(function(){});
+  }
 }).catch(function(e){ $('stCount').textContent='archive unreachable ('+e.message+')'; });
 
 function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
@@ -243,13 +253,19 @@ $('qgo').addEventListener('click',doSearch);
 $('q').addEventListener('keydown',function(e){if(e.key==='Enter')doSearch();});
 
 /* ---- full-book overlay: one tap on any card opens the complete book ---- */
-var _ovlText='';
+var _ovlText='', _ovlId='';
 function ovlShow(title,html,text){
   $('ovlTitle').textContent=title; $('ovlBody').innerHTML=html; _ovlText=text||'';
   $('ovl').hidden=false; document.body.style.overflow='hidden';
 }
 function ovlHide(){ $('ovl').hidden=true; document.body.style.overflow=''; }
 $('ovlX').addEventListener('click',ovlHide);
+$('ovlLink').addEventListener('click',function(){
+  var url=JAHDB.recLink(_ovlId||'');
+  var done=function(){ $('ovlLink').textContent='Link copied ✓'; setTimeout(function(){$('ovlLink').textContent='Copy link';},1500); };
+  if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(url).then(done,done); }
+  else{ var ta=document.createElement('textarea'); ta.value=url; document.body.appendChild(ta); ta.select(); try{document.execCommand('copy');}catch(e){} document.body.removeChild(ta); done(); }
+});
 $('ovl').addEventListener('click',function(e){ if(e.target===$('ovl')) ovlHide(); });
 document.addEventListener('keydown',function(e){ if(e.key==='Escape'&&!$('ovl').hidden) ovlHide(); });
 $('ovlCopy').addEventListener('click',function(){
@@ -284,6 +300,7 @@ function openBook(id){
     '\n\n'+(r.desc||'')+'\n\n'+
     chaps.map(function(c,i){return 'CHAPTER '+(i+1)+': '+(c.t||'')+'\n\n'+(c.b||'');}).join('\n\n');
   ovlShow(r.title||id,html,text);
+  _ovlId=r.id||id; JAHDB.recHashSet(_ovlId);
 }
 function cardClick(e){
   var c=e.target&&e.target.closest?e.target.closest('.opencard'):null;

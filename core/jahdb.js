@@ -140,6 +140,30 @@ var JAHDB = (function () {
     }).catch(function () { return []; });
   }
 
+  /* ---------- per-record deep links ("links to works") ---------- */
+  /* Pages set location.hash to #rec=<id> whenever a full record view opens,
+     and offer a "Copy link" control that hands the user the absolute URL.
+     Opening a page with #rec=<id> lets the page auto-open that record. */
+  function recHashGet() {
+    try {
+      var m = String(location.hash || '').match(/#rec=([^&]+)/);
+      return m ? decodeURIComponent(m[1]) : '';
+    } catch (e) { return ''; }
+  }
+  function recHashSet(id) {
+    try { if (id) location.hash = '#rec=' + encodeURIComponent(id); } catch (e) {}
+  }
+  function recHashClear() {
+    try {
+      if (String(location.hash || '').indexOf('#rec=') === 0)
+        history.replaceState(null, '', location.pathname + location.search);
+    } catch (e) {}
+  }
+  function recLink(id) {
+    try { return location.origin + location.pathname + '#rec=' + encodeURIComponent(id); }
+    catch (e) { return '#rec=' + encodeURIComponent(id); }
+  }
+
   /* ---------- sessions: every user gets a fresh screen ---------- */
   function sessionKey(slug) { return 'jahdb_' + slug + '_session'; }
   function newSession(slug) {
@@ -199,6 +223,7 @@ var JAHDB = (function () {
     runGenerator: runGenerator, batchGenerate: batchGenerate,
     sampleOther: sampleOther,
     newSession: newSession, getSession: getSession,
+    recHashGet: recHashGet, recHashSet: recHashSet, recHashClear: recHashClear, recLink: recLink,
     aiAnswer: aiAnswer
   };
 })();
