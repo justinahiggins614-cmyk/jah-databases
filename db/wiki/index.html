@@ -34,12 +34,14 @@ details.grp>summary::-webkit-details-marker{display:none}
 .msg{margin:8px 0}.msg.u{text-align:right}.msg .b{display:inline-block;padding:8px 12px;border-radius:12px;max-width:88%}
 .msg.u .b{background:#14305e}.msg.a .b{background:#101a30;border:1px solid var(--line)}
 .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
-pre.body{background:#080d18;border:1px solid var(--line);border-radius:8px;padding:10px;white-space:pre-wrap;font-size:.92em}
+pre.body{background:#080d18;border:1px solid var(--line);border-radius:8px;padding:10px;white-space:pre-wrap;overflow-wrap:break-word;font-size:.92em}
 .infobox{background:#0a1120;border:1px solid var(--line);border-radius:8px;padding:10px;margin:10px 0;font-size:.92em}
-.infobox .kv{display:grid;grid-template-columns:auto 1fr;gap:4px 12px}
+.infobox .kv{display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 12px}
 .infobox dt{color:var(--dim)}.infobox dd{margin:0}
-.kv{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;font-size:.95em}
-.kv dt{color:var(--dim)}.kv dd{margin:0}
+.kv{display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 12px;font-size:.95em}
+.kv dt{color:var(--dim);overflow-wrap:break-word}.kv dd{margin:0;min-width:0;overflow-wrap:break-word}
+.kv dd.longtext{grid-column:1/-1;font-size:1em;line-height:1.55}
+.rec>*{min-width:0}
 .sect{margin:12px 0}.sect h4{margin:8px 0 4px;color:var(--ok)}
 .mono{font-family:Consolas,monospace}
 .foot{margin-top:26px;padding-top:12px;border-top:1px solid var(--line);color:var(--dim);font-size:.85em}
@@ -108,7 +110,7 @@ pre.body{background:#080d18;border:1px solid var(--line);border-radius:8px;paddi
     <div class="card">
       <h3>About this data base</h3>
       <dl class="kv">
-        <dt>Archive</dt><dd>Every article this database holds: spec articles (from word-spec full records), patent articles (from public patent full records), word articles (from dictionary full records), and dossier articles (from full leak dossiers) — 1,460,175 in total, each with a JAH-WIKI article identity. One click renders the full article from the underlying full record; where a record is still being migrated the page says so plainly.</dd>
+        <dt>Archive</dt><dd>Every article this database holds: spec articles (from word-spec full records), patent articles (from public patent full records), word articles (from dictionary full records), and dossier articles (from full leak dossiers) — 1,470,175 in total, each with a JAH-WIKI article identity. One click renders the full article from the underlying full record; where a record is still being migrated the page says so plainly.</dd>
         <dt>Generator</dt><dd>jahdb-wiki-1.0 — deterministic; writes new full articles with lead, full body, and cross-references in the wiki's article format.</dd>
         <dt>Drift control</dt><dd>Generated articles are checked for exact-title duplicates against archive samples before acceptance.</dd>
         <dt>AI</dt><dd>JAH Wiki Librarian — archive-aware. On-device Standard 1.0, no key needed; uses the shared Signature backend automatically when configured.</dd>
@@ -302,7 +304,7 @@ function sect(title, body){
   else b=esc(String(body));
   return '<div class="sect"><h4>'+esc(title)+'</h4><pre class="body">'+b+'</pre></div>';
 }
-function kvRow(k,v){ return '<dt>'+esc(k)+'</dt><dd>'+esc(v)+'</dd>'; }
+function kvRow(k,v){ return '<dt>'+esc(k)+'</dt><dd'+(typeof v==='string'&&v.length>150?' class="longtext"':'')+'>'+esc(v)+'</dd>'; }
 function infobox(rows){ return '<div class="infobox"><dl class="kv">'+rows.join('')+'</dl></div>'; }
 function articleShell(wikiId, title, badges, bodyHtml, rec){
   var img=JAHDB.emblemSVG('article', wikiId);
@@ -516,7 +518,7 @@ function genArticleCard(r){
 
 /* chat */
 var session=JAHDB.getSession(SLUG);
-function greet(){say('a','I\'m the JAH Wiki Librarian. I know all 1,460,175 articles — open any one for the full article, ask me to find one, or generate a new full article in wiki style.');}
+function greet(){say('a','I\'m the JAH Wiki Librarian. I know all 1,470,175 articles — open any one for the full article, ask me to find one, or generate a new full article in wiki style.');}
 function say(who,text){
   var d=document.createElement('div');d.className='msg '+who;
   d.innerHTML='<span class="b">'+esc(text)+'</span>';
@@ -526,7 +528,7 @@ function sendChat(){
   var t=$('chatIn').value.trim();if(!t)return;
   $('chatIn').value='';say('u',t);session.turns.push({q:t});
   JAHDB.aiAnswer(db||{ai_name:'JAH Wiki Librarian',name:'JAH Wiki Data Base',record_kind:'article'},t,
-    'Archive holds 1,460,175 wiki articles: spec, patent, word, and dossier articles. Each opens as a full article rendered from its underlying full record.').then(function(a){say('a',a);});
+    'Archive holds 1,470,175 wiki articles: spec, patent, word, and dossier articles. Each opens as a full article rendered from its underlying full record.').then(function(a){say('a',a);});
 }
 $('chatGo').addEventListener('click',sendChat);
 $('chatIn').addEventListener('keydown',function(e){if(e.key==='Enter')sendChat();});

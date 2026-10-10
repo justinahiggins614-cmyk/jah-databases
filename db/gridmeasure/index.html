@@ -36,8 +36,10 @@ details.grp>summary::-webkit-details-marker{display:none}
 .msg.u .b{background:#14305e}.msg.a .b{background:#101a30;border:1px solid var(--line)}
 .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
 pre.steps{background:#080d18;border:1px solid var(--line);border-radius:8px;padding:8px;white-space:pre-wrap}
-.kv{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;font-size:.95em}
-.kv dt{color:var(--dim)}.kv dd{margin:0}
+.kv{display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 12px;font-size:.95em}
+.kv dt{color:var(--dim);overflow-wrap:break-word}.kv dd{margin:0;min-width:0;overflow-wrap:break-word}
+.kv dd.longtext{grid-column:1/-1;font-size:1em;line-height:1.55}
+.rec>*{min-width:0}
 .foot{margin-top:26px;padding-top:12px;border-top:1px solid var(--line);color:var(--dim);font-size:.85em}
 table.mtab{border-collapse:collapse;margin:6px 0;font-size:.9em}
 table.mtab td,table.mtab th{border:1px solid var(--line);padding:4px 10px;text-align:left}
@@ -329,7 +331,7 @@ function fvVal(v,depth){
   var ks=Object.keys(v).filter(function(k){return k.charAt(0)!=='_';});
   if(!ks.length) return '<span class="dim">{}</span>';
   if(depth>2) return '<span class="dim">{'+ks.length+' fields — full data in the downloaded JSON}</span>';
-  return '<dl class="kv">'+ks.map(function(k){return '<dt>'+esc(k)+'</dt><dd>'+fvVal(v[k],depth+1)+'</dd>';}).join('')+'</dl>';
+  return '<dl class="kv">'+ks.map(function(k){return '<dt>'+esc(k)+'</dt><dd'+(typeof v[k]==='string'&&v[k].length>150?' class="longtext"':'')+'>'+fvVal(v[k],depth+1)+'</dd>';}).join('')+'</dl>';
 }
 function fvRenderSpecial(r){
   var h='';
@@ -355,7 +357,7 @@ function fvOpen(id){
     var skip={svg:1,lyrics:1};
     var ks=Object.keys(rec).filter(function(k){return !skip[k]&&k.charAt(0)!=='_';});
     $('fvBody').innerHTML=fvRenderSpecial(rec)+
-      '<dl class="kv">'+ks.map(function(k){return '<dt>'+esc(k)+'</dt><dd>'+fvVal(rec[k],1)+'</dd>';}).join('')+'</dl>';
+      '<dl class="kv">'+ks.map(function(k){return '<dt>'+esc(k)+'</dt><dd'+(typeof rec[k]==='string'&&rec[k].length>150?' class="longtext"':'')+'>'+fvVal(rec[k],1)+'</dd>';}).join('')+'</dl>';
     fvExtraButtons(rec);
   }).catch(function(e){
     $('fvBody').innerHTML='<p class="bad">Could not open the full record: '+esc(e.message)+'</p>';

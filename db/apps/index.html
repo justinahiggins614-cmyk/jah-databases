@@ -37,8 +37,10 @@ details.grp>summary::-webkit-details-marker{display:none}
 .msg.u .b{background:#14305e}.msg.a .b{background:#101a30;border:1px solid var(--line)}
 .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
 pre.steps{background:#080d18;border:1px solid var(--line);border-radius:8px;padding:8px;white-space:pre-wrap}
-.kv{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;font-size:.95em}
-.kv dt{color:var(--dim)}.kv dd{margin:0}
+.kv{display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 12px;font-size:.95em}
+.kv dt{color:var(--dim);overflow-wrap:break-word}.kv dd{margin:0;min-width:0;overflow-wrap:break-word}
+.kv dd.longtext{grid-column:1/-1;font-size:1em;line-height:1.55}
+.rec>*{min-width:0}
 .foot{margin-top:26px;padding-top:12px;border-top:1px solid var(--line);color:var(--dim);font-size:.85em}
 </style>
 </head>
@@ -142,7 +144,7 @@ function parseIdx(t){
   t=String(t==null?'':t).trim();
   if(t.charAt(0)==='['){
     try{ var a=JSON.parse(t); return Array.isArray(a)?(a.length&&Array.isArray(a[0])?a:[a]):[]; }
-    catch(e){ return []; }
+    catch(e){ /* not a single JSON array — fall through to JSONL parsing */ }
   }
   return t.split('\n').filter(function(l){return l.trim();}).map(function(l){try{return JSON.parse(l);}catch(e){return null;}}).filter(Boolean);
 }
@@ -217,7 +219,7 @@ function fmtVal(v){
   if(typeof v==='object'){
     return '<dl class="kv" style="margin:4px 0;font-size:.92em">'+Object.keys(v).map(function(k){
       if(k.charAt(0)==='_')return '';
-      return '<dt>'+esc(k)+'</dt><dd>'+fmtVal(v[k])+'</dd>';}).join('')+'</dl>';
+      return '<dt>'+esc(k)+'</dt><dd'+(typeof v[k]==='string'&&v[k].length>150?' class="longtext"':'')+'>'+fmtVal(v[k])+'</dd>';}).join('')+'</dl>';
   }
   return esc(String(v));
 }
@@ -234,7 +236,7 @@ function renderFull(r){
    '<div><span class="badge mono">'+esc(keyOf(r))+'</span><span class="badge ok">FULL RECORD</span></div>'+
    '<div class="row" style="margin-top:8px"><button class="go" data-fact="copy">⧉ Copy full record</button><button data-fact="dl">⬇ Download JSON</button></div>'+
    '</div></div>'+
-   '<dl class="kv" style="margin-top:12px">'+keys.map(function(k){return '<dt class="mono">'+esc(k)+'</dt><dd>'+fmtVal(r[k])+'</dd>';}).join('')+'</dl></div>';
+   '<dl class="kv" style="margin-top:12px">'+keys.map(function(k){var _ltv=r[k];return '<dt class="mono">'+esc(k)+'</dt><dd'+(typeof _ltv==='string'&&_ltv.length>150?' class="longtext"':'')+'>'+fmtVal(_ltv)+'</dd>';}).join('')+'</dl></div>';
   $('fullview').innerHTML=h;
   $('fullview').scrollIntoView();
 }

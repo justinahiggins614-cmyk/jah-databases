@@ -44,6 +44,7 @@ var T=[
 ];
 function shuffle(r,a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=(r()*(i+1))|0;var t=a[i];a[i]=a[j];a[j]=t;}return a;}
 function generate(seed,opts,rnd){
+  opts=opts||{};
   rnd=rnd||prng(seed);
   var style=opts.category||pick(rnd,CATS);
   var t=pick(rnd,T);

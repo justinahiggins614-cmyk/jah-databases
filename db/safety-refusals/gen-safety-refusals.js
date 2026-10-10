@@ -163,6 +163,7 @@ harassment:['resolve the conflict through direct, respectful communication or me
 illicit:['stay on the right side of the law and talk to a lawyer about your situation','legal trouble','a licensed attorney or legal aid office'],
 privacy:['respect other people\'s privacy and address the concern openly with them','a privacy concern','a counselor or, if you feel unsafe, local authorities']};
 function generate(seed,opts,rnd){
+  opts=opts||{};
   rnd=rnd||prng(seed);
   var over=rnd()<0.15;
   var cat=opts.category||pick(rnd,CATS);

@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>JAH OpenAI Signature Archive Database — JAH Data Bases</title>
+<meta name="description" content="JAH OpenAI Signature Archive Database: Signature-original archive of conversational AI, coding agents, and generative models in the OpenAI tradition. A permanent archive, a boundless generator, and an archive-aware AI. Property of Justin Addam Higgins.">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Dataset","name":"JAH OpenAI Signature Archive Database","description":"JAH OpenAI Signature Archive Database: Signature-original archive of conversational AI, coding agents, and generative models in the OpenAI tradition. Property of Justin Addam Higgins.","creator":{"@type":"Person","name":"Justin Addam Higgins"},"license":"https://creativecommons.org/publicdomain/zero/1.0/","distribution":{"@type":"DataDownload","contentUrl":"data/openai/index.jsonl.gz"}}</script>
+<style>
+:root{--bg:#070b16;--panel:#0d1526;--line:#1d2c4d;--ink:#e8f1ff;--dim:#9fb3d8;--acc:#2f7bff;--ok:#00e5a0;--warn:#ffb020}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Arial,Helvetica,sans-serif;line-height:1.5}
+.wrap{max-width:1060px;margin:0 auto;padding:14px}
+.hero{display:flex;gap:14px;align-items:center;background:linear-gradient(135deg,#0b1e3a,#101a30);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:12px}
+.hero img{width:84px;height:84px;border-radius:14px;flex:none}
+.hero h1{margin:0;font-size:1.5em}.hero p{margin:4px 0;color:var(--dim)}
+.stats{display:flex;gap:10px;flex-wrap:wrap;margin:8px 0}
+.stat{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:8px 12px;font-size:.9em}
+.stat b{color:var(--ok)}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
+.tab{border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:999px;padding:9px 18px;font-size:1em;cursor:pointer}
+.tab.on{background:var(--acc);border-color:var(--acc);font-weight:bold}
+.pane{display:none}.pane.on{display:block}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px;margin:10px 0}
+.card h3{margin:0 0 6px}
+.rec{display:flex;gap:10px;align-items:flex-start}
+.rec img{width:64px;height:64px;border-radius:10px;flex:none}
+.mono{font-family:Consolas,monospace}
+.dim{color:var(--dim)}.ok{color:var(--ok)}.bad{color:#ff6b6b}
+input,select,textarea,button{font-size:1em;border-radius:8px;border:1px solid var(--line);background:#0a1120;color:var(--ink);padding:9px 10px}
+button{cursor:pointer;background:#14305e}button.go{background:var(--acc);font-weight:bold}
+details.grp{border:1px solid var(--line);border-radius:10px;margin:8px 0;background:var(--panel)}
+details.grp>summary{padding:10px 12px;cursor:pointer;font-weight:bold;list-style:none}
+details.grp>summary::-webkit-details-marker{display:none}
+.badge{display:inline-block;background:#132a55;border:1px solid var(--line);border-radius:999px;padding:2px 10px;font-size:.8em;margin-right:6px}
+.chatlog{max-height:46vh;overflow:auto;border:1px solid var(--line);border-radius:10px;padding:10px;background:#080d18;margin-bottom:8px}
+.msg{margin:8px 0}.msg.u{text-align:right}.msg .b{display:inline-block;padding:8px 12px;border-radius:12px;max-width:88%;text-align:left}
+.msg.u .b{background:#14305e}.msg.a .b{background:#101a30;border:1px solid var(--line)}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.frow{display:grid;grid-template-columns:minmax(96px,150px) minmax(0,1fr);gap:4px 12px;padding:4px 0;border-bottom:1px solid #111c33}
+.frow>dt{color:var(--dim);min-width:0;overflow-wrap:break-word}
+.frow>dd{margin:0;min-width:0;overflow-wrap:break-word}
+.flong{padding:6px 0;border-bottom:1px solid #111c33}
+.flong>dt{color:var(--dim);font-size:.85em;margin-bottom:2px}
+.para{line-height:1.55;margin:2px 0;overflow-wrap:break-word;min-width:0}
+.nest{margin:4px 0 4px 8px;padding-left:10px;border-left:2px solid var(--line)}
+.legal{background:#171208;border:1px solid #5a4a1e;border-left:4px solid var(--warn);border-radius:8px;padding:10px;margin:10px 0;font-size:.92em}
+.foot{margin-top:26px;padding-top:12px;border-top:1px solid var(--line);color:var(--dim);font-size:.85em}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hero">
+    <img id="emblem" alt="database emblem">
+    <div>
+      <h1>JAH OpenAI Signature Archive Database</h1>
+      <p>Signature-original archive of conversational AI, coding agents, and generative models in the OpenAI tradition.</p>
+      <div class="stats">
+        <span class="stat">Archive records: <b id="stCount">…</b></span>
+        <span class="stat">Generator: <b>jahdb-openai-1.0</b> <span class="ok">● working</span></span>
+        <span class="stat">AI: <b>JAH OpenAI Creator</b></span>
+      </div>
+    </div>
+  </div>
+  <div class="tabs" role="tablist">
+    <button class="tab on" data-p="archive">Archive</button>
+    <button class="tab" data-p="gen">Generator</button>
+    <button class="tab" data-p="chat">AI Chat</button>
+    <button class="tab" data-p="about">About</button>
+  </div>
+  <section class="pane on" id="p-archive">
+    <div class="row">
+      <input id="q" placeholder="Search the archive…" style="flex:1;min-width:200px">
+      <button class="go" id="qgo">Search</button>
+    </div>
+    <p class="dim">Browse by category — each group opens on demand and loads only what you open. One click opens the full record.</p>
+    <div id="groups"></div>
+    <div id="results"></div>
+  </section>
+  <section class="pane" id="p-gen">
+    <div class="card">
+      <h3>Boundless generator</h3>
+      <p class="dim">Same seed + same version always makes the same record. Every record is validated independently before it is accepted, and checked against the archive for drift. Class 1 seeds hold Signature versions of real products; higher seeds hold forward-looking Signature concepts.</p>
+      <div class="row">
+        <label>Seed <input id="gSeed" type="number" value="1" style="width:110px"></label>
+        <label>Count <input id="gN" type="number" value="5" min="1" max="50" style="width:80px"></label>
+        <label>Category <select id="gType"><option value="">any</option><option>chat models</option><option>reasoning models</option><option>coding agents</option><option>image generation</option><option>video generation</option><option>speech &amp; audio</option><option>api platform</option><option>developer tools</option></select></label>
+        <button class="go" id="gGo">Generate</button>
+      </div>
+      <div id="gOut"></div>
+    </div>
+    <div class="card">
+      <h3>Queued for the archive <span class="dim" id="qCount"></span></h3>
+      <p class="dim">Generated records wait here. Only validated, drift-free records can be filed — filing is a deliberate act, never automatic from chat.</p>
+      <div id="queue"></div>
+    </div>
+  </section>
+  <section class="pane" id="p-chat">
+    <div class="card">
+      <h3>JAH OpenAI Creator <button id="fresh" style="font-size:.8em">New session</button></h3>
+      <div class="chatlog" id="chatlog"></div>
+      <div class="row">
+        <input id="chatIn" placeholder="Ask about the archive, or ask me to generate…" style="flex:1;min-width:200px">
+        <button class="go" id="chatGo">Send</button>
+      </div>
+      <p class="dim">Fresh screen every session. Nothing you say here enters the permanent archive unless you file it from the Generator tab.</p>
+    </div>
+  </section>
+  <section class="pane" id="p-about">
+    <div class="card">
+      <h3>About this data base</h3>
+      <dl>
+        <div class="frow"><dt>Archive</dt><dd>A permanent Signature archive of products in the OpenAI tradition: chat models, reasoning models, coding agents, image generation, video generation, speech and audio, API platforms, and developer tools. Class 1 holds Signature versions of real products; Class 2 holds forward-looking Signature concepts.</dd></div>
+        <div class="frow"><dt>Record schema</dt><dd class="mono">id · signature_name · alludes_to · class · category · specs{} · description · year</dd></div>
+        <div class="frow"><dt>Classes</dt><dd><b>Class 1</b> — Signature versions of the company’s actual products (nominative reference only). <b>Class 2</b> — forward-looking Signature concepts that never shipped.</dd></div>
+        <div class="frow"><dt>Generator</dt><dd>jahdb-openai-1.0 — deterministic across a 1,000,000-record address space; every record validated by an independent checker before acceptance.</dd></div>
+        <div class="frow"><dt>Drift control</dt><dd>Every generated record is checked against an archive sample for exact duplicates and re-validated by the independent checker.</dd></div>
+        <div class="frow"><dt>AI</dt><dd>JAH OpenAI Creator — archive-aware and network-aware. On-device Standard 1.0, no key needed; uses the shared Signature backend automatically when configured. Specializes in generating boundless new product options in this company’s domain.</dd></div>
+        <div class="frow"><dt>Ownership</dt><dd>✳ Property of Justin Addam Higgins (JAH).</dd></div>
+      </dl>
+      <div class="legal"><b>Legal disclaimer:</b> Signature-original works by Justin Addam Higgins. Not affiliated with, endorsed by, or connected to OpenAI. Original product names appear as nominative reference only.</div>
+    </div>
+  </section>
+  <div class="foot">✳ JAH Data Bases. Property of Justin Addam Higgins (JAH).</div>
+</div>
+<script src="../../core/jahdb.js"></script>
+<script src="../../core/standard-1.0.js"></script>
+<script src="../../core/guide-conv.js"></script>
+<script src="../../core/apex-2.0.js"></script>
+<script src="gen-openai.js"></script>
+<script>
+(function(){
+'use strict';
+var SLUG="openai";
+var LOCAL="../../data/openai/";
+var CATEGORIES=["chat models","reasoning models","coding agents","image generation","video generation","speech & audio","api platform","developer tools"];
+var CATNOUN={"chat models":"conversational model","reasoning models":"reasoning engine","coding agents":"coding agent","image generation":"image generator","video generation":"video generator","speech & audio":"speech service","api platform":"developer API","developer tools":"developer tool"};
+var KB=[{"kw":["chatgpt","chat","colloquy"],"a":"The Colloquy Chat Companion is the archive’s Signature version of ChatGPT, the app that brought conversational AI to hundreds of millions. It now runs on the Augur Text Engine family, currently at 6.1 Helios. I can generate a brand-new chat concept for you."},{"kw":["gpt-5","gpt-6","model","frontier"],"a":"The Augur Text Engine line runs from 3 through 5.4 to the 6.1 Helios generation — the Signature versions of the GPT flagships. The Deliberator Reasoner series covers the o-style reasoning models. Ask me to invent the next engine."},{"kw":["code","codex","coding","developer"],"a":"The Smithy Code Agent and Smithy Terminal Agent are the Signature versions of the Codex coding agents, with the Smithy Review Sentry for automated review. They write, edit, and review code in the cloud and terminal. I can draft a new coding agent concept."},{"kw":["image","dall","picture"],"a":"The Muse Image Forger line — Signature versions of the DALL-E family through Image 1.5 — turns words into pictures inside ordinary conversation. The Kino Video Dreamer does the same for video with sound. Want a new generative concept?"},{"kw":["voice","speech","whisper","audio"],"a":"The Aural Speech Transcriber handles recognition across dozens of languages, the Aural Voice Synthesizer speaks text aloud, and the Live Voice API powers real-time voice agents. I can imagine a new speech service with you."},{"kw":["api","platform","developer"],"a":"The Foundry Model API, Answer Craft API, and Tailor Tune API are the Signature developer platform: every model behind one key, with tuning and structured outputs. The Bazaar Agent Market distributes finished agents. Ask me for a new API idea."}];
+var DISCLAIMER="Signature-original works by Justin Addam Higgins. Not affiliated with, endorsed by, or connected to OpenAI. Original product names appear as nominative reference only.";
+var db={slug:SLUG,name:"JAH OpenAI Signature Archive Database",ai_name:"JAH OpenAI Creator",record_kind:'signature product archive'};
+var manifest=null, archiveIdx=null, archiveSample=[], NETDBS=null;
+var $=function(id){return document.getElementById(id);};
+var RECREG={};
+document.querySelectorAll('.tab').forEach(function(t){
+  t.addEventListener('click',function(){
+    document.querySelectorAll('.tab').forEach(function(x){x.classList.remove('on');});
+    document.querySelectorAll('.pane').forEach(function(x){x.classList.remove('on');});
+    t.classList.add('on'); $('p-'+t.dataset.p).classList.add('on');
+  });
+});
+JAHDB.loadManifest().then(function(m){manifest=m;db=JAHDB.dbBySlug(m,SLUG)||db;}).catch(function(){}).then(function(){
+  return JAHDB.fetchGz(LOCAL+'index.jsonl.gz');
+}).then(function(t){
+  archiveIdx=t.split('\n').filter(function(l){return l.trim();}).map(function(l){try{return JSON.parse(l);}catch(e){return null;}}).filter(Boolean);
+  $('stCount').textContent=archiveIdx.length.toLocaleString()+' / 1,000,000 target';
+  $('emblem').src=JAHDB.emblemSVG(db.name,"JAH-OAI-");
+  var rnd=JAHDB.prng(99);
+  for(var i=0;i<200&&i<archiveIdx.length;i++) archiveSample.push(archiveIdx[(rnd()*archiveIdx.length)|0]);
+  buildGroups(); renderQueue(); greet();
+  JAHDB.loadManifest().then(function(m){ NETDBS=(m.databases||[]).map(function(d){return d.name;}); }).catch(function(){});
+}).catch(function(e){ $('stCount').textContent='archive unreachable ('+e.message+')'; });
+function chunkName(c){ return 'chunks/chunk-'+String(c).padStart(4,'0')+'.jsonl.gz'; }
+function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+function fmtVal(v){
+  if(v===null||v===undefined)return '<span class="dim">—</span>';
+  if(typeof v==='string'){var t=v.trim();
+    if(t.length>1&&((t[0]==='{'&&t[t.length-1]==='}')||(t[0]==='['&&t[t.length-1]===']'))){try{var p=JSON.parse(t);return fmtVal(p);}catch(e){}}
+    if(t.length>150)return '<p class="para">'+esc(t)+'</p>';
+    return esc(t);}
+  if(Array.isArray(v)){
+    if(v.length&&typeof v[0]==='object')return v.map(function(x){return '<div class="nest">'+fmtVal(x)+'</div>';}).join('');
+    return esc(v.join('; '));
+  }
+  if(typeof v==='object'){
+    return Object.keys(v).map(function(k){
+      var vv=v[k];
+      if(typeof vv==='string'&&vv.length>150)return '<div class="flong"><dt class="mono">'+esc(k)+'</dt><div class="para">'+esc(vv)+'</div></div>';
+      return '<div class="frow"><dt class="mono">'+esc(k)+'</dt><dd>'+fmtVal(vv)+'</dd></div>';
+    }).join('');
+  }
+  return esc(String(v));
+}
+function renderFull(r){
+  var h='';
+  Object.keys(r).forEach(function(k){
+    if(k==='_seed'||k==='_gen_version')return;
+    var v=r[k];
+    if(typeof v==='string'&&v.length>150){ h+='<div class="flong"><dt class="mono">'+esc(k)+'</dt><div class="para">'+esc(v)+'</div></div>'; }
+    else { h+='<div class="frow"><dt class="mono">'+esc(k)+'</dt><dd>'+fmtVal(v)+'</dd></div>'; }
+  });
+  h+='<div class="legal"><b>Legal disclaimer:</b> '+esc(DISCLAIMER)+'</div>';
+  h+='<div class="row"><button data-copy="'+esc(r.id)+'">Copy record</button><button data-dl="'+esc(r.id)+'">Download JSON</button></div>';
+  return h;
+}
+function wireRecordButtons(box){
+  box.querySelectorAll('[data-copy]').forEach(function(b){
+    b.addEventListener('click',function(){
+      var r=RECREG[b.getAttribute('data-copy')]; if(!r)return;
+      var txt=JSON.stringify(r,null,2);
+      if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(txt).then(function(){b.textContent='Copied ✓';});}
+      else{var ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();try{document.execCommand('copy');b.textContent='Copied ✓';}catch(e){}document.body.removeChild(ta);}
+    });
+  });
+  box.querySelectorAll('[data-dl]').forEach(function(b){
+    b.addEventListener('click',function(){
+      var r=RECREG[b.getAttribute('data-dl')]; if(!r)return;
+      var blob=new Blob([JSON.stringify(r,null,2)],{type:'application/json'});
+      var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=r.id+'.json';document.body.appendChild(a);a.click();
+      setTimeout(function(){URL.revokeObjectURL(a.href);a.remove();},500);
+    });
+  });
+}
+function classBadge(r){ return r['class']===1?'<span class="badge ok">Class 1</span>':'<span class="badge">Class 2</span>'; }
+function descOf(r){ try{ return String(r.description||""); }catch(e){ return ""; } }
+function recCard(r){
+  RECREG[r.id]=r;
+  var img=JAHDB.emblemSVG(r.title||r.id, r.id);
+  var box=document.createElement('div');
+  box.className='card';
+  box.innerHTML='<div class="rec"><img loading="lazy" src="'+img+'" alt="">'+
+    '<div style="flex:1;min-width:0"><h3 style="font-size:1.05em">'+esc(r.title||r.id)+'</h3>'+
+    '<div><span class="badge mono">'+esc(r.id||'')+'</span><span class="badge">'+esc(r.category||'')+'</span>'+classBadge(r)+'</div>'+
+    '<p class="dim para">'+esc(descOf(r).slice(0,140))+'</p>'+
+    '<details class="grp"><summary>Open full record ⤢</summary><div class="body">'+renderFull(r)+'</div></details>'+
+    '</div></div>';
+  wireRecordButtons(box);
+  return box;
+}
+function buildGroups(){
+  var g=$('groups'); g.innerHTML='';
+  CATEGORIES.forEach(function(cat){
+    var rows=archiveIdx.filter(function(r){return r.g===cat;});
+    if(!rows.length) return;
+    var d=document.createElement('details'); d.className='grp';
+    d.innerHTML='<summary>'+esc(cat)+' <span class="dim">('+rows.length.toLocaleString()+')</span></summary><div class="body"><p class="dim">Open to load the first 25.</p></div>';
+    d.addEventListener('toggle',function(){
+      if(d.open && !d.dataset.loaded){ d.dataset.loaded='1'; loadCatSample(cat,d.querySelector('.body')); }
+    });
+    g.appendChild(d);
+  });
+}
+function loadCatSample(cat,body){
+  body.innerHTML='<p class="dim">Loading…</p>';
+  var rows=archiveIdx.filter(function(r){return r.g===cat;}).slice(0,25);
+  var byChunk={};
+  rows.forEach(function(r){ (byChunk[r.c]=byChunk[r.c]||[]).push(r.id); });
+  var jobs=Object.keys(byChunk).map(function(c){
+    return JAHDB.fetchJsonlGz(LOCAL+chunkName(+c)).then(function(recs){
+      var want={}; byChunk[c].forEach(function(id){want[id]=1;});
+      return recs.filter(function(r){return want[r.id];});
+    }).catch(function(){return [];});
+  });
+  Promise.all(jobs).then(function(parts){
+    var recs=[]; parts.forEach(function(p){recs=recs.concat(p);});
+    body.innerHTML='';
+    recs.forEach(function(r){ body.appendChild(recCard(r)); });
+    if(!recs.length)body.innerHTML='<p class="dim">Nothing loaded.</p>';
+  });
+}
+function doSearch(){
+  var q=$('q').value.trim().toLowerCase();
+  var box=$('results');
+  if(!q){box.innerHTML='';return;}
+  var hits=archiveIdx.filter(function(r){return (r.t+' '+r.id).toLowerCase().indexOf(q)>=0;}).slice(0,12);
+  if(!hits.length){box.innerHTML='<p class="dim">No archive hits. Try the Generator tab to make one.</p>';return;}
+  box.innerHTML='<h3>Archive hits ('+hits.length+')</h3>';
+  var byChunk={};
+  hits.forEach(function(r){(byChunk[r.c]=byChunk[r.c]||[]).push(r.id);});
+  Object.keys(byChunk).forEach(function(c){
+    JAHDB.fetchJsonlGz(LOCAL+'chunks/'+chunkName(+c)).then(function(recs){
+      var want={};byChunk[c].forEach(function(id){want[id]=1;});
+      recs.filter(function(r){return want[r.id];}).forEach(function(r){ box.appendChild(recCard(r)); });
+    });
+  });
+}
+$('qgo').addEventListener('click',doSearch);
+$('q').addEventListener('keydown',function(e){if(e.key==='Enter')doSearch();});
+$('gGo').addEventListener('click',function(){
+  var seed=+$('gSeed').value||1, n=Math.min(50,Math.max(1,+$('gN').value||5));
+  var cat=$('gType').value||undefined;
+  var out=$('gOut'); out.innerHTML='<p class="dim">Generating…</p>';
+  var recs=[],fails=[];
+  for(var i=0;i<n;i++){
+    var r=JAHDB.runGenerator(SLUG,seed+i,{category:cat});
+    if(!r.ok){fails.push({seed:seed+i,errors:r.errors});continue;}
+    var dc={ok:true,errors:[]};
+    try{ dc=driftFor(r.record); }catch(e){}
+    if(!dc.ok){fails.push({seed:seed+i,errors:dc.errors});continue;}
+    recs.push(r.record);
+  }
+  renderGen(recs,fails);
+});
+function driftFor(rec){
+  var gen=JAHDB.getGenerator(SLUG);
+  if(gen&&gen.driftCheck)return gen.driftCheck(rec,archiveSample);
+  return {ok:true,errors:[]};
+}
+function renderGen(recs,fails){
+  var h='<p><b>'+recs.length+'</b> generated, <b>'+fails.length+'</b> rejected.</p>';
+  $('gOut').innerHTML=h;
+  recs.forEach(function(r){
+    var card=recCard(r);
+    var qb=document.createElement('button');
+    qb.textContent='Queue for archive';
+    qb.addEventListener('click',function(){queueAdd(r);qb.textContent='Queued ✓';qb.disabled=true;});
+    card.querySelector('.rec>div').appendChild(qb);
+    $('gOut').appendChild(card);
+  });
+  if(fails.length){var p=document.createElement('p');p.className='bad';p.textContent='Rejected: '+JSON.stringify(fails).slice(0,300);$('gOut').appendChild(p);}
+}
+function qkey(){return 'jahdb_'+SLUG+'_queue';}
+function queueGet(){try{return JSON.parse(localStorage.getItem(qkey())||'[]');}catch(e){return[];}}
+function queueAdd(rec){var q=queueGet();q.push(rec);try{localStorage.setItem(qkey(),JSON.stringify(q));}catch(e){}renderQueue();}
+function renderQueue(){
+  var q=queueGet(); $('qCount').textContent='('+q.length+')';
+  $('queue').innerHTML=q.length?q.map(function(r){
+    return '<div class="card"><b class="mono">'+esc(r.id)+'</b> — '+esc(r.title||r.id)+' <span class="badge ok">validated</span></div>';
+  }).join(''):'<p class="dim">Empty.</p>';
+}
+var session=JAHDB.getSession(SLUG);
+function netLine(){
+  if(NETDBS&&NETDBS.length)return ' I am aware of the full JAH Data Bases network: '+NETDBS.length+' databases including '+NETDBS.slice(0,12).join(', ')+(NETDBS.length>12?' and more':'')+'.';
+  return '';
+}
+function greet(){
+  sayHTML('a','I\'m the <b>'+esc(db.ai_name)+'</b> — keeper of this archive\'s '+archiveIdx.length.toLocaleString()+' signature product records, and a specialist in dreaming up boundless new product options in the OpenAI domain. Ask me to find a record, explain one, or generate a brand-new concept.'+netLine());
+}
+function say(who,text){
+  var d2=document.createElement('div');d2.className='msg '+who;
+  d2.innerHTML='<span class="b">'+esc(text)+'</span>';
+  $('chatlog').appendChild(d2);$('chatlog').scrollTop=$('chatlog').scrollHeight;
+}
+function sayHTML(who,html){
+  var d2=document.createElement('div');d2.className='msg '+who;
+  d2.innerHTML='<span class="b">'+html+'</span>';
+  $('chatlog').appendChild(d2);$('chatlog').scrollTop=$('chatlog').scrollHeight;
+}
+function chatRespond(text){
+  var t=text.toLowerCase();
+  for(var i=0;i<KB.length;i++){
+    var hit=KB[i].kw.some(function(k){return t.indexOf(k)>=0;});
+    if(hit)return Promise.resolve(KB[i].a);
+  }
+  if(/how many databases|all databases|whole network|other databases|network/.test(t)){
+    if(NETDBS&&NETDBS.length)return Promise.resolve('The JAH Data Bases network currently holds '+NETDBS.length+' databases. This one \u2014 JAH OpenAI Signature Archive Database \u2014 keeps '+archiveIdx.length.toLocaleString()+' signature product records across categories: '+CATEGORIES.join(', ')+'. Every database pairs a permanent archive with a boundless generator and an archive-aware AI like me.');
+    return Promise.resolve('This database holds '+archiveIdx.length.toLocaleString()+' signature product records across categories: '+CATEGORIES.join(', ')+'. It is one of many databases in the JAH Data Bases network, each with its own archive, generator, and AI.');
+  }
+  if(/class 1|class one/.test(t))return Promise.resolve('Class 1 records are Signature versions of the company\'s actual products \u2014 the real lineup, re-expressed as original Signature works with nominative reference only. Class 2 records are forward-looking Signature concepts: products that never shipped, imagined in full detail.');
+  if(/generat|make|create|invent|new product|concept|idea|dream up/.test(t)){
+    var seed=10001+((Math.random()*989000)|0);
+    var rr=JAHDB.runGenerator(SLUG,seed,{});
+    if(rr.ok){
+      var r=rr.record;
+      return Promise.resolve('Here is a fresh boundless concept from the JAH OpenAI Creator: <b>'+esc(r.title)+'</b> (seed '+seed+', category: '+esc(r.category)+'). '+esc(r.description)+' File it from the Generator tab if you want it kept.');
+    }
+  }
+  if(/search|find|look for|locate/.test(t))
+    return Promise.resolve('Use the Archive tab to search the stored '+archiveIdx.length.toLocaleString()+' signature product records \u2014 try a product name or a category like "'+CATEGORIES[0]+'". Tell me what you are hunting for and I will help narrow it down.');
+  var ctx='Archive holds '+archiveIdx.length+' signature product archive records across categories: '+CATEGORIES.join(', ')+'. This AI specializes in generating boundless new product options in the OpenAI domain.'+netLine();
+  return JAHDB.aiAnswer(db,text,ctx).then(function(a){return a;});
+}
+function sendChat(){
+  var t=$('chatIn').value.trim();if(!t)return;
+  $('chatIn').value='';say('u',t);session.turns.push({q:t});
+  chatRespond(t).then(function(a){sayHTML('a',a);});
+}
+$('chatGo').addEventListener('click',sendChat);
+$('chatIn').addEventListener('keydown',function(e){if(e.key==='Enter')sendChat();});
+$('fresh').addEventListener('click',function(){session=JAHDB.newSession(SLUG);$('chatlog').innerHTML='';greet();});
+})();
+</script>
+</body>
+</html>

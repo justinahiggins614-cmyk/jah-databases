@@ -93,6 +93,7 @@ function shortInputs(inp){
   return ks.map(function(k){var v=inp[k];return JSON.stringify(v).slice(0,24);}).join(', ');
 }
 function generate(seed,opts,rnd){
+  opts=opts||{};
   rnd=rnd||prng(seed);
   var cat=opts.category||pick(rnd,CATS);
   var bank=F[cat]||F.python;

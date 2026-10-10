@@ -37,8 +37,10 @@ details.grp>summary::-webkit-details-marker{display:none}
 .msg.u .b{background:#14305e}.msg.a .b{background:#101a30;border:1px solid var(--line)}
 .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
 pre.steps{background:#080d18;border:1px solid var(--line);border-radius:8px;padding:8px;white-space:pre-wrap}
-.kv{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;font-size:.95em}
-.kv dt{color:var(--dim)}.kv dd{margin:0}
+.kv{display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 12px;font-size:.95em}
+.kv dt{color:var(--dim);overflow-wrap:break-word}.kv dd{margin:0;min-width:0;overflow-wrap:break-word}
+.kv dd.longtext{grid-column:1/-1;font-size:1em;line-height:1.55}
+.rec>*{min-width:0}
 .foot{margin-top:26px;padding-top:12px;border-top:1px solid var(--line);color:var(--dim);font-size:.85em}
 </style>
 </head>
@@ -156,23 +158,51 @@ function fmtVal(v){
     if(v.length&&typeof v[0]==='object')return '<ol>'+v.map(function(x){return '<li>'+fmtVal(x)+'</li>';}).join('')+'</ol>';
     return esc(v.join('; '));
   }
-  if(typeof v==='object')return '<dl class="kv">'+Object.keys(v).map(function(k){return '<dt class="mono">'+esc(k)+'</dt><dd>'+fmtVal(v[k])+'</dd>';}).join('')+'</dl>';
+  if(typeof v==='object')return '<dl class="kv">'+Object.keys(v).map(function(k){return '<dt class="mono">'+esc(k)+'</dt><dd'+(typeof v[k]==='string'&&v[k].length>150?' class="longtext"':'')+'>'+fmtVal(v[k])+'</dd>';}).join('')+'</dl>';
   return esc(String(v));
 }
 function renderFull(r){
   var h='<dl class="kv">';
-  Object.keys(r).forEach(function(k){ h+='<dt class="mono">'+esc(k)+'</dt><dd>'+fmtVal(r[k])+'</dd>'; });
+  Object.keys(r).forEach(function(k){ var _ltv=r[k];h+='<dt class="mono">'+esc(k)+'</dt><dd'+(typeof _ltv==='string'&&_ltv.length>150?' class="longtext"':'')+'>'+fmtVal(_ltv)+'</dd>'; });
   return h+'</dl>';
 }
 function descOf(r){ try{ return String((r.turns&&r.turns[0]&&r.turns[0].text)||""||""); }catch(e){ return ""; } }
 function catOf(r){ try{ return String(r.topic||""); }catch(e){ return ""; } }
+/* Copy + Download for full records — uniform across all data bases */
+function recJSON(r){try{return JSON.stringify(r,function(k,v){return (k&&k.charAt(0)==='_')?undefined:v;},2);}catch(e){return String(r);}}
+function recFileName(r){var id=String(r.id||r.ID||r.code||r.record_id||'record').replace(/[^A-Za-z0-9._-]+/g,'_');return id+'.json';}
+function copyRecText(txt,btn,label){
+  var done=function(ok){btn.textContent=ok?'\u2713 Copied':'Copy failed';setTimeout(function(){btn.textContent=label;},1600);};
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(txt).then(function(){done(true);},function(){done(false);});}
+  else{var ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();try{done(document.execCommand('copy'));}catch(x){done(false);}document.body.removeChild(ta);}
+}
+function dlRecText(txt,fname){
+  var blob=new Blob([txt],{type:'application/json'});
+  var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=fname;
+  document.body.appendChild(a);a.click();setTimeout(function(){URL.revokeObjectURL(a.href);a.remove();},500);
+}
+function wireRecBtns(scope,r){
+  var txt=recJSON(r),fname=recFileName(r);
+  var cp=scope.querySelector('[data-copyrec]'),dl=scope.querySelector('[data-dlrec]');
+  if(cp)cp.addEventListener('click',function(){copyRecText(txt,cp,'\u29C9 Copy full record (JSON)');});
+  if(dl)dl.addEventListener('click',function(){dlRecText(txt,fname);});
+}
+var RECBYID={};
+document.addEventListener('click',function(e){
+  var b=e.target&&e.target.closest?e.target.closest('[data-copyrec][data-rid],[data-dlrec][data-rid]'):null;
+  if(!b)return;
+  var r=RECBYID[b.getAttribute('data-rid')];if(!r)return;
+  if(b.hasAttribute('data-copyrec'))copyRecText(recJSON(r),b,'\u29C9 Copy full record (JSON)');
+  else dlRecText(recJSON(r),recFileName(r));
+});
 function recCard(r){
+  RECBYID[r.id]=r;
   var img=JAHDB.emblemSVG(r.t||r.id, r.id);
   return '<div class="card"><div class="rec"><img loading="lazy" src="'+img+'" alt="">'+
     '<div style="flex:1"><h3 style="font-size:1.05em">'+esc(r.t||r.id)+'</h3>'+
     '<div><span class="badge mono">'+esc(r.id||'')+'</span><span class="badge">'+esc(r.g||catOf(r))+'</span></div>'+
     '<p class="dim">'+esc(descOf(r).slice(0,140))+'</p>'+
-    '<details class="grp"><summary>Open full record \u2922</summary><div class="body">'+renderFull(r)+'</div></details>'+
+    '<details class="grp"><summary>Open full record \u2922</summary><div class="row" style="margin:8px 0 8px 12px"><button class="go" data-copyrec data-rid="'+esc(r.id)+'">⧉ Copy full record (JSON)</button><button data-dlrec data-rid="'+esc(r.id)+'">⬇ Download full record (.json)</button></div><div class="body">'+renderFull(r)+'</div></details>'+
     '</div></div></div>';
 }
 function buildGroups(){
@@ -194,7 +224,7 @@ function loadCatSample(cat,body){
   var byChunk={};
   rows.forEach(function(r){ (byChunk[r.c]=byChunk[r.c]||[]).push(r.id); });
   var jobs=Object.keys(byChunk).map(function(c){
-    return JAHDB.fetchJsonlGz(LOCAL+'chunks/'+chunkName(+c)).then(function(recs){
+    return JAHDB.fetchJsonlGz(LOCAL+chunkName(+c)).then(function(recs){
       var want={}; byChunk[c].forEach(function(id){want[id]=1;});
       return recs.filter(function(r){return want[r.id];});
     }).catch(function(){return [];});
@@ -214,7 +244,7 @@ function doSearch(){
   var byChunk={};
   hits.forEach(function(r){(byChunk[r.c]=byChunk[r.c]||[]).push(r.id);});
   Object.keys(byChunk).forEach(function(c){
-    JAHDB.fetchJsonlGz(LOCAL+'chunks/'+chunkName(+c)).then(function(recs){
+    JAHDB.fetchJsonlGz(LOCAL+chunkName(+c)).then(function(recs){
       var want={};byChunk[c].forEach(function(id){want[id]=1;});
       var found=recs.filter(function(r){return want[r.id];});
       if(found.length) box.innerHTML+=found.map(recCard).join('');

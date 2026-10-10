@@ -49,9 +49,10 @@ ul.caps{margin:6px 0;padding-left:20px}
 .fm-head{display:flex;gap:10px;align-items:flex-start;justify-content:space-between;margin-bottom:8px}
 .fm-head h2{margin:0;font-size:1.2em}
 .fm-actions{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
-.fm dl.fkv{display:grid;grid-template-columns:minmax(110px,190px) 1fr;gap:6px 12px;font-size:.93em;margin:0}
-.fm dl.fkv dt{color:var(--dim);word-break:break-word}
-.fm dl.fkv dd{margin:0;word-break:break-word}
+.fm dl.fkv{display:grid;grid-template-columns:minmax(96px,150px) minmax(0,1fr);gap:6px 12px;font-size:.93em;margin:0}
+.fm dl.fkv dt{color:var(--dim);overflow-wrap:break-word}
+.fm dl.fkv dd{margin:0;min-width:0;overflow-wrap:break-word}
+.fm dl.fkv dd.longtext{grid-column:1/-1;font-size:1em;line-height:1.55}
 .fm .fsec{margin:10px 0;padding:10px;border:1px solid var(--line);border-radius:10px;background:#080d18}
 .fm .fsec>h4{margin:0 0 6px;font-size:.95em}
 .fm pre.raw{background:#060a14;border:1px solid var(--line);border-radius:8px;padding:10px;white-space:pre-wrap;word-break:break-word;font-size:.78em;max-height:40vh;overflow:auto}
@@ -347,6 +348,10 @@ function fmVal(v){
   if(typeof v==='number')return '<span class="mono">'+esc(String(v))+'</span>';
   if(typeof v==='string'){
     if(/^(https?:)?\/\//.test(v)||v.indexOf('www.')===0)return '<a href="'+esc(v)+'" target="_blank" rel="noopener">'+esc(v)+'</a>';
+    var t=v.trim();
+    if((t.charAt(0)==='{'&&t.charAt(t.length-1)==='}')){
+      try{ var jo=JSON.parse(t); if(jo&&typeof jo==='object')return fmObj(jo); }catch(e){}
+    }
     return esc(v.length>800?v.slice(0,800)+'…':v);
   }
   if(Array.isArray(v)){
@@ -363,7 +368,8 @@ function fmObj(o){
   var ks=Object.keys(o).filter(function(k){return k.charAt(0)!=='_';});
   if(!ks.length)return '<span class="dim">{}</span>';
   return '<dl class="fkv">'+ks.map(function(k){
-    return '<dt>'+esc(k)+'</dt><dd>'+fmVal(o[k])+'</dd>';
+    var v=o[k], longT=(typeof v==='string'&&v.length>150);
+    return '<dt>'+esc(k)+'</dt><dd'+(longT?' class="longtext"':'')+'>'+fmVal(v)+'</dd>';
   }).join('')+'</dl>';
 }
 function fmTitle(r){return r.title||r.TITLE||r.name||r.NAME||r.id||r.ID||r.code||r.record_id||'Record';}
