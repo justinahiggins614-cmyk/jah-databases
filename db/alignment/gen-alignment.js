@@ -1,0 +1,78 @@
+/* ✳ SIGNATURE — JAH JAH Alignment generator. Property of Justin Addam Higgins (JAH).
+   Deterministic: same seed + same version always yields the same record.
+   Runs in the browser (registered with JAHDB) and in node (self-test below). */
+(function(){
+'use strict';
+var SLUG='alignment', PREFIX='JAH-ALIGN-', VERSION='jahdb-alignment-1.0';
+var MARK='Signature version in the Signature system. Property of Justin Addam Higgins.';
+function hashStr(s){var h=2166136261;s=String(s);for(var i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619);}return h>>>0;}
+function mulberry(seed){var a=(seed>>>0)||1;return function(){a|=0;a=(a+0x6D2B79F5)|0;var t=Math.imul(a^(a>>>15),1|a);t=(t+Math.imul(t^(t>>>7),61|t))^t;return((t^(t>>>14))>>>0)/4294967296;};}
+var CATS=["rlhf", "preference-optimization", "oversight", "evaluation", "robustness", "values"];
+var ANGLES=["method deep dive", "mechanism unpack", "trade-off review", "paper spotlight", "deployment notes", "open problems"];
+var TOPICS=[{"t": "Reinforcement Learning from Human Feedback", "c": "rlhf", "d": "Reinforcement Learning from Human Feedback — alignment method entry.", "f": {"method": "Reinforcement Learning from Human Feedback (RLHF)", "overview": "Trains models to follow human preferences: collect human rankings, fit a reward model, then optimize the policy against it.", "how_it_works": ["Collect human preference comparisons over model outputs.", "Train a reward model to predict those preferences.", "Optimize the language model with PPO against the reward model, with a KL penalty to stay near the original."], "key_reference": "Christiano et al., Deep Reinforcement Learning from Human Preferences, 2017; Ouyang et al., Training Language Models to Follow Instructions (InstructGPT), 2022", "year": "2017 / 2022", "strengths": ["Demonstrably improves helpfulness and instruction-following.", "Reward model generalizes preferences to new prompts."], "limitations": ["Reward hacking: the policy can exploit flaws in the reward model.", "Expensive: needs large-scale human labeling."]}, "s": "online", "r": "Christiano et al., Deep Reinforcement Learning from Human Preferences, 2017; Ouyang et al., Training Language Models to Follow Instructions (InstructGPT), 2022"}, {"t": "RL from AI Feedback", "c": "rlhf", "d": "RL from AI Feedback — alignment method entry.", "f": {"method": "RL from AI Feedback (RLAIF)", "overview": "Replaces human labelers with an AI judge that ranks outputs against a written constitution, then trains the same way as RLHF.", "how_it_works": ["Write a constitution of principles for the AI judge.", "Have the AI judge rank outputs per the constitution.", "Train a reward model on AI rankings and optimize as in RLHF."], "key_reference": "Bai et al., Constitutional AI: Harmlessness from AI Feedback, 2022", "year": "2022", "strengths": ["Scales without large human-labeling pipelines.", "Principles are explicit and auditable in the constitution."], "limitations": ["The judge’s biases become the policy’s biases.", "Still vulnerable to reward hacking."]}, "s": "online", "r": "Bai et al., Constitutional AI: Harmlessness from AI Feedback, 2022"}, {"t": "Direct Preference Optimization", "c": "preference-optimization", "d": "Direct Preference Optimization — alignment method entry.", "f": {"method": "Direct Preference Optimization (DPO)", "overview": "Optimizes the policy directly on preference pairs with a classification-style loss — no separate reward model or RL loop.", "how_it_works": ["Collect chosen/rejected response pairs.", "Train the policy to raise the likelihood of chosen over rejected responses.", "A reference-model KL term keeps updates conservative."], "key_reference": "Rafailov et al., Direct Preference Optimization, 2023", "year": "2023", "strengths": ["Simpler and more stable than PPO-based RLHF.", "Needs only preference data, no reward model."], "limitations": ["Can overfit small preference datasets.", "Less explored at very large scale than RLHF."]}, "s": "online", "r": "Rafailov et al., Direct Preference Optimization, 2023"}, {"t": "Supervised Fine-Tuning on demonstrations", "c": "preference-optimization", "d": "Supervised Fine-Tuning on demonstrations — alignment method entry.", "f": {"method": "Supervised Fine-Tuning on demonstrations (SFT)", "overview": "Fine-tunes the base model on high-quality human demonstrations of desired behavior.", "how_it_works": ["Curate demonstration prompt/response pairs.", "Fine-tune with standard next-token loss.", "Evaluate against held-out prompts."], "key_reference": "Wei et al., Finetuned Language Models Are Zero-Shot Learners (FLAN), 2021", "year": "2021", "strengths": ["Simple, stable, and data-efficient.", "Strong baseline every fancier method must beat."], "limitations": ["Imitates style without learning robust preferences.", "Cannot fix behaviors absent from the demos."]}, "s": "online", "r": "Wei et al., Finetuned Language Models Are Zero-Shot Learners (FLAN), 2021"}, {"t": "Debate", "c": "oversight", "d": "Debate — alignment method entry.", "f": {"method": "Debate", "overview": "Two agents argue opposing answers while a human (or weaker judge) picks the winner, so the judge only needs to verify, not generate.", "how_it_works": ["Pose a question to two debating agents.", "Agents alternate arguments and rebuttals.", "A judge selects the more truthful side."], "key_reference": "Irving et al., AI Safety via Debate, 2018", "year": "2018", "strengths": ["Amplifies a weak judge: verification is easier than generation.", "Produces adversarially-tested answers."], "limitations": ["Needs honest debaters; deceptive debate is an open problem.", "Costly: multiple rollouts per question."]}, "s": "online", "r": "Irving et al., AI Safety via Debate, 2018"}, {"t": "Scalable oversight via task decomposition", "c": "oversight", "d": "Scalable oversight via task decomposition — alignment method entry.", "f": {"method": "Scalable oversight via task decomposition", "overview": "Breaks hard evaluations into small sub-tasks a weaker overseer can check, then aggregates.", "how_it_works": ["Decompose the target behavior into checkable sub-claims.", "Have the overseer verify each sub-claim.", "Aggregate into an overall judgment."], "key_reference": "Bowman et al., Measuring Progress on Scalable Oversight, 2022", "year": "2022", "strengths": ["Extends human oversight to superhuman outputs.", "Sub-claims are independently auditable."], "limitations": ["Decomposition itself can miss the point.", "Aggregation errors compound."]}, "s": "online", "r": "Bowman et al., Measuring Progress on Scalable Oversight, 2022"}, {"t": "Red-teaming evaluations", "c": "evaluation", "d": "Red-teaming evaluations — alignment method entry.", "f": {"method": "Red-teaming evaluations", "overview": "Adversarial probing of models to find failures before deployment, with findings tracked and fixed.", "how_it_works": ["Assemble adversarial prompts across harm categories.", "Record model failures systematically.", "Fix, re-test, and publish residual risk."], "key_reference": "Ganguli et al., Red Teaming Language Models to Reduce Harms, 2022", "year": "2022", "strengths": ["Finds failures benchmarks miss.", "Directly informs mitigations."], "limitations": ["Coverage is never complete.", "Findings can be subjective."]}, "s": "online", "r": "Ganguli et al., Red Teaming Language Models to Reduce Harms, 2022"}, {"t": "Behavioral eval suites", "c": "evaluation", "d": "Behavioral eval suites — alignment method entry.", "f": {"method": "Behavioral eval suites (e.g., MACHIAVELLI-style)", "overview": "Scenario-based suites that measure tendencies like power-seeking or deception across many situations.", "how_it_works": ["Build diverse scenario prompts.", "Score model choices against the target trait.", "Track scores across model versions."], "key_reference": "Pan et al., MACHIAVELLI: Benchmarking Moral Behavior, 2023", "year": "2023", "strengths": ["Measures tendencies, not just knowledge.", "Comparable across models and versions."], "limitations": ["Scenarios are artificial by design.", "Traits in fiction may not transfer to deployment."]}, "s": "online", "r": "Pan et al., MACHIAVELLI: Benchmarking Moral Behavior, 2023"}, {"t": "Adversarial training", "c": "robustness", "d": "Adversarial training — alignment method entry.", "f": {"method": "Adversarial training", "overview": "Trains on adversarial examples so the model stays correct under attack.", "how_it_works": ["Generate adversarial inputs against the current model.", "Add them to the training mix.", "Repeat until robustness plateaus."], "key_reference": "Madry et al., Towards Deep Learning Models Resistant to Adversarial Attacks, 2017", "year": "2017", "strengths": ["The most reliable known defense for bounded attacks.", "Well-understood theory in vision."], "limitations": ["Expensive and can reduce clean accuracy.", "Language attacks are harder to bound than pixel attacks."]}, "s": "online", "r": "Madry et al., Towards Deep Learning Models Resistant to Adversarial Attacks, 2017"}, {"t": "Constitutional classifiers / input-output filters", "c": "robustness", "d": "Constitutional classifiers / input-output filters — alignment method entry.", "f": {"method": "Constitutional classifiers / input-output filters", "overview": "Trained guard models that screen prompts and completions for policy violations.", "how_it_works": ["Train classifiers on violation examples.", "Deploy as gates around the main model.", "Continuously update on new jailbreaks."], "key_reference": "Anthropic, Constitutional Classifiers, 2025", "year": "2025", "strengths": ["Cheap to run relative to the main model.", "Can be updated without retraining the base model."], "limitations": ["Arms race with jailbreak authors.", "False positives block legitimate use."]}, "s": "online", "r": "Anthropic, Constitutional Classifiers, 2025"}, {"t": "Constitutional AI training", "c": "values", "d": "Constitutional AI training — alignment method entry.", "f": {"method": "Constitutional AI training", "overview": "Bakes a written set of principles into training via AI-generated critiques and revisions.", "how_it_works": ["Write the constitution.", "Generate self-critiques and revisions per the constitution.", "Fine-tune on the revised outputs."], "key_reference": "Bai et al., Constitutional AI, 2022", "year": "2022", "strengths": ["Values are explicit and editable.", "Reduces reliance on opaque human preference data."], "limitations": ["The constitution’s authors decide the values.", "Revision quality bounds the outcome."]}, "s": "online", "r": "Bai et al., Constitutional AI, 2022"}, {"t": "Value learning from deliberation", "c": "values", "d": "Value learning from deliberation — alignment method entry.", "f": {"method": "Value learning from deliberation", "overview": "Derives the model’s values from structured deliberation about what informed, reflective people would endorse.", "how_it_works": ["Collect deliberative judgments on hard cases.", "Distill principles from the deliberation.", "Train the model to those principles."], "key_reference": "Signature research synthesis", "year": "ongoing", "strengths": ["Aims at informed preferences, not raw clicks.", "Produces principled, explainable behavior."], "limitations": ["Deliberation is slow and costly.", "Whose deliberation counts is itself contested."]}, "s": "signature", "r": null}];
+function pickR(rnd,a){return a[(rnd()*a.length)|0];}
+function makeId(seed){var n=(typeof seed==='number'?seed:hashStr(String(seed)));return PREFIX+String((n%1000000)+1).padStart(7,'0');}
+function compose(seed,rnd,T,cat){
+  var A=pickR(rnd,ANGLES);
+  var rec={focus:A};
+  for(var k in T.f){rec[k]=T.f[k];}
+  return rec;
+}
+function generate(seed,opts,rnd){
+  var r=rnd||mulberry(typeof seed==='number'?seed:hashStr(String(seed)));
+  var cat=opts&&opts.category,pool=TOPICS;
+  if(cat){var f=TOPICS.filter(function(t){return t.c===cat;});if(f.length)pool=f;}
+  var T=pickR(r,pool);
+  var rec=compose(seed,r,T,cat);
+  if(!rec.id)rec.id=makeId(seed);
+  if(!rec.title)rec.title=T.t;
+  if(!rec.description)rec.description=T.d;
+  if(!rec.category)rec.category=T.c;
+  if(!rec.source)rec.source=T.s||'signature';
+  if(T.r&&!rec.source_ref)rec.source_ref=T.r;
+  rec.signature_mark=MARK;
+  return rec;
+}
+function validate(rec){
+  var errs=[],req=["id", "title", "description", "category", "method", "overview", "how_it_works", "key_reference", "strengths", "limitations", "source"];
+  if(!rec||typeof rec!=='object')return{ok:false,errors:['not an object']};
+  req.forEach(function(k){if(rec[k]===undefined||rec[k]===null||rec[k]==='')errs.push('missing '+k);});
+  if(rec.id&&!/^[A-Z0-9]+(-[A-Z0-9]+)*-[0-9]{7}$/.test(rec.id))errs.push('bad id format');
+  if(rec.source&&['online','signature','fact-checked'].indexOf(rec.source)<0)errs.push('bad source');
+  return{ok:errs.length===0,errors:errs};
+}
+function driftCheck(rec,sample){
+  var key;try{key=JSON.stringify(rec);}catch(e){return{ok:false,errors:['unstringifiable']};}
+  sample=sample||[];
+  for(var i=0;i<sample.length;i++){try{if(JSON.stringify(sample[i])===key)return{ok:false,errors:['exact duplicate of archive record']};}catch(e){}}
+  return{ok:true,errors:[]};
+}
+var GEN={version:VERSION,generate:generate,validate:validate,driftCheck:driftCheck};
+if(typeof JAHDB!=='undefined'&&JAHDB.registerGenerator){try{JAHDB.registerGenerator(SLUG,GEN);}catch(e){}}
+if(typeof module!=='undefined'){module.exports=GEN;}
+function runTests(){
+  var pass=0,fail=0;
+  function t(name,fn){try{if(fn()){pass++;}else{fail++;console.log('FAIL: '+name);}}catch(e){fail++;console.log('FAIL: '+name+' threw '+e.message);}}
+  var i;
+  for(i=1;i<=10;i++){(function(s){t('gen+validate seed '+s,function(){return validate(generate(s,{},null)).ok;});})(i);}
+  for(i=11;i<=20;i++){(function(s){t('determinism seed '+s,function(){return JSON.stringify(generate(s,{},null))===JSON.stringify(generate(s,{},null));});})(i);}
+  for(i=0;i<CATS.length;i++){(function(c){t('category filter '+c,function(){var r=generate(7,{category:c},null);return r.category===c&&validate(r).ok;});})(CATS[i]);}
+  t('id format',function(){return /^[A-Z0-9]+(-[A-Z0-9]+)*-[0-9]{7}$/.test(generate(42,{},null).id);});
+  t('title non-empty',function(){return String(generate(5,{},null).title).length>3;});
+  t('description non-empty',function(){return String(generate(5,{},null).description).length>10;});
+  t('source valid',function(){return['online','signature','fact-checked'].indexOf(generate(5,{},null).source)>=0;});
+  t('signature mark',function(){return String(generate(5,{},null).signature_mark).indexOf('Signature')>=0;});
+  t('reject empty',function(){return !validate({}).ok;});
+  t('reject missing title',function(){var r=generate(3,{},null);delete r.title;return !validate(r).ok;});
+  t('reject bad id',function(){var r=generate(3,{},null);r.id='nope';return !validate(r).ok;});
+  t('driftCheck novel ok',function(){return driftCheck(generate(999,{},null),[]).ok;});
+  t('driftCheck dupe caught',function(){var r=generate(999,{},null);return !driftCheck(r,[JSON.parse(JSON.stringify(r))]).ok;});
+  t('distinct seeds distinct ids',function(){return generate(1001,{},null).id!==generate(1002,{},null).id;});
+  t('json round-trip',function(){var r=generate(77,{},null);return JSON.parse(JSON.stringify(r)).id===r.id;});
+  t('extra domain check',function(){var r=generate(9,{},null);return (r.strengths.length>=1);});
+  t('version string',function(){return GEN.version===VERSION;});
+  console.log(pass+'/40 '+(fail===0?'PASS':'FAIL'));
+  if(fail>0&&typeof process!=='undefined')process.exitCode=1;
+}
+if(typeof require!=='undefined'&&require.main===module){runTests();}
+})();

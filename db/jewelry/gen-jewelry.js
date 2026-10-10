@@ -1,0 +1,63 @@
+/* ✳ SIGNATURE — JAH Jewelry Database generator. jahdb-jewelry-1.0. Property of Justin Addam Higgins (JAH).
+   Deterministic boundless generator: same seed + version => same record.
+   src:"online" = real-world facts with source_ref; src:"fact-checked" = verified claims
+   with source_ref and a Signature counterpart; src:"signature" = Signature-authored
+   studies, clearly labeled. Every record is a Signature version. */
+(function(){
+'use strict';
+var DBDATA={"meta":{"slug":"jewelry","name":"JAH Jewelry Database","prefix":"JAH-JWL-","version":"jahdb-jewelry-1.0"},"cats":["diamonds","gemstones","watches","maisons","vintage","craft"],"adj":["Éclat","Lumière","Précieux","Royal","Céleste","Aurore","Opulent","Éternel","Magnifique","Souverain","Divin","Radieux","Scintillant","Majestueux","Étincelle","Noble","Séraphin","Couronne","Diadème","Parure"],"online":{"diamonds":[{"t":"The 4Cs — cut, color, clarity, carat","d":"The diamond 4Cs, established by GIA founder Robert M. Shipley, are the universal grading standard: cut, color, clarity, and carat weight.","s":"fact-checked","r":"GIA grading standards","sp":{"kind":"diamonds","standard":"4Cs","origin":"GIA"}},{"t":"One carat = 200 milligrams","d":"The metric carat was standardized at exactly 200 milligrams (0.2 grams) by the 1907 Fourth General Conference on Weights and Measures.","s":"fact-checked","r":"CGPM 1907","sp":{"kind":"diamonds","carat_mg":"200"}},{"t":"Hope Diamond — 45.52 carats","d":"The Hope Diamond, a 45.52-carat deep-blue diamond, resides in the Smithsonian's National Museum of Natural History.","s":"fact-checked","r":"Smithsonian Institution records","sp":{"kind":"diamonds","carats":"45.52","color":"deep blue"}}],"gemstones":[{"t":"Burma rubies — the pigeon's blood standard","d":"Burmese rubies with vivid 'pigeon's blood' color command the highest prices of any colored gemstone per carat.","s":"online","r":"Auction house gem reports","sp":{"kind":"gemstones","origin":"Burma (Myanmar)"}},{"t":"Colombian emeralds — the green benchmark","d":"Colombia's Muzo mines produce the emeralds against which all others are judged, prized for pure green with jardin inclusions.","s":"online","r":"Gem trade references","sp":{"kind":"gemstones","origin":"Muzo, Colombia"}}],"watches":[{"t":"Rolex Submariner — the dive icon","d":"The Rolex Submariner, launched in 1953, defined the dive watch and remains the most recognized luxury sports watch.","s":"online","r":"Rolex histories","sp":{"kind":"watches","launched":"1953"}},{"t":"Patek Philippe — auction royalty","d":"Patek Philippe's Grandmaster Chime sold for $31 million at Christie's Geneva in 2019, the most expensive watch ever sold.","s":"fact-checked","r":"Christie's post-sale report, 9 Nov 2019","sp":{"kind":"watches","venue":"Christie's Geneva","date":"2019-11-09","price_usd":"31,000,000"}}],"maisons":[{"t":"Tiffany & Co. — founded 1837","d":"Tiffany & Co. was founded in New York in 1837; its 1886 six-prong solitaire setting defined the engagement ring.","s":"fact-checked","r":"Tiffany & Co. histories","sp":{"kind":"maisons","founded":"1837","city":"New York"}},{"t":"Cartier Love bracelet — 1969","d":"Aldo Cipullo designed Cartier's Love bracelet in 1969 New York, fastened only with its screwdriver — a love-as-commitment icon.","s":"fact-checked","r":"Cartier histories","sp":{"kind":"maisons","designed":"1969","designer":"Aldo Cipullo"}}],"vintage":[{"t":"Art Deco — 1920s geometry","d":"Art Deco jewelry (c. 1920–35) brought geometric platinum settings, calibré-cut stones, and bold color contrast to fine jewelry.","s":"online","r":"Jewelry history references","sp":{"kind":"vintage","era":"c. 1920–35"}},{"t":"Belle Époque — garland style","d":"Belle Époque jewels (c. 1890–15) used platinum's strength for lace-like garland settings dripping with diamonds and pearls.","s":"online","r":"Jewelry history references","sp":{"kind":"vintage","era":"c. 1890–15"}}],"craft":[{"t":"The pavé setting","d":"Pavé setting seats small diamonds edge-to-edge in drilled holes, creating an unbroken field of sparkle.","s":"online","r":"Bench jeweler references","sp":{"kind":"craft","technique":"pavé"}},{"t":"Platinum's working strength","d":"Platinum's density and strength let setters use finer prongs than gold, the reason for its reign in fine diamond jewelry.","s":"online","r":"Metalsmithing references","sp":{"kind":"craft","metal":"platinum"}}]},"sig":{"diamonds":{"kind":"gem study","nouns":["Brilliant Psalm","Fire Meridian","Carat Canticle","Facet Ledger","Light Tide","Diamond Engine"],"n1":["the stone is graded against the Signature master set under north daylight-equivalent lighting.","cut precision is measured first — light performance outweighs paper grades.","inclusions are mapped and plotted for full disclosure."],"n2":["The study prices fluorescence impact honestly, premium or discount.","Certification guidance names the labs the market trusts."],"spec":[["shape",["round brilliant","oval","emerald","cushion"]],["carat",["1.0","2.0","3.5","5.0"]],["color",["D","F","H","J"]],["clarity",["IF","VS1","VS2","SI1"]]]},"gemstones":{"kind":"gem study","nouns":["Hue Psalm","Saturation Meridian","Origin Canticle","Inclusion Ledger","Color Tide","Gem Engine"],"n1":["color is king: hue, tone, and saturation are graded before any other factor.","origin reports are verified — Burma, Kashmir, and Colombia carry premiums.","treatments are disclosed in full: heat, oil, and diffusion priced accordingly."],"n2":["The study favors unheated stones with minor oil only.","Collector guidance: buy the finest color you can afford."],"spec":[["gem",["ruby","sapphire","emerald","spinel"]],["origin",["Burma","Ceylon","Colombia","Kashmir"]],["treatment",["unheated","minor oil","heated"]],["carat",["2","5","8","12"]]]},"watches":{"kind":"horology study","nouns":["Calibre Psalm","Complication Meridian","Dial Canticle","Movement Ledger","Time Tide","Horology Engine"],"n1":["the calibre is examined for finishing: anglage, perlage, and black polish under loupe.","complications are tested through full cycles before the study signs off.","dial originality is verified — relumed or refinished dials are repriced."],"n2":["Service history is documented: who serviced it, when, with what parts.","The study separates manufacture movements from ébauche-based ones."],"spec":[["complication",["time-only","chronograph","perpetual calendar","minute repeater"]],["case_mm",["36","40","42","44"]],["movement",["automatic","manual","quartz"]],["material",["steel","gold","platinum","titanium"]]]},"maisons":{"kind":"maison study","nouns":["Atelier Psalm","Haute Meridian","Joiallier Canticle","Maison Ledger","Place Vendôme Tide","Maison Engine"],"n1":["the maison's design DNA is traced across creative directors and decades.","high jewelry pieces are compared against the maison's archival vocabulary.","craftsmanship benchmarks: who actually makes the maison's best pieces."],"n2":["The study identifies the maison's most undervalued line.","Secondary-market retention is tracked collection by collection."],"spec":[["maison_style",["Parisian","Italian","American","British"]],["founded",["1837","1847","1906","1946"]],["tier",["high jewelry","fine","bridal"]],["signature",["panthère","serpent","clou","alphabet"]]]},"vintage":{"kind":"vintage study","nouns":["Estate Psalm","Period Meridian","Antique Canticle","Provenance Ledger","Heirloom Tide","Vintage Engine"],"n1":["period attribution is argued from construction: millegrain, foiling, and hand engraving.","condition is graded honestly — replaced stones and resized shanks disclosed.","provenance chains are rebuilt from auction records and family papers."],"n2":["The study prices originality over polish.","Estate pieces are graded on wearability, not just rarity."],"spec":[["period",["Georgian","Victorian","Art Nouveau","Art Deco"]],["condition",["mint","excellent","good","as-found"]],["metal",["platinum","18k gold","silver-topped gold"]],["provenance",["documented","attributed","unknown"]]]},"craft":{"kind":"craft study","nouns":["Bench Psalm","Setting Meridian","Goldsmith Canticle","Workshop Ledger","Fire Tide","Craft Engine"],"n1":["the bench technique is documented step by step, from sawing to final polish.","stone setting is graded under 10x: seat, bearing, and prong symmetry.","alloy choices are explained — why this karat, this color, this job."],"n2":["The study names the tools that separate good from great.","Apprenticeship lineages are traced where they matter."],"spec":[["technique",["hand engraving","pavé","repoussé","mokume-gane"]],["metal",["platinum","18k yellow gold","18k rose gold"]],["hours",["20","60","150","400"]],["level",["journeyman","master","grand master"]]]}}};
+var META=DBDATA.meta, CATS=DBDATA.cats;
+function prng(seed){var a=(seed>>>0)||1;return function(){a|=0;a=(a+0x6D2B79F5)|0;var t=Math.imul(a^(a>>>15),1|a);t=(t+Math.imul(t^(t>>>7),61|t))^t;return((t^(t>>>14))>>>0)/4294967296;};}
+function pick(r,arr){return arr[(r()*arr.length)|0];}
+var SV='Signature version \u2014 this record is a Signature version in the Signature system.';
+function specOf(r,cat,S){var sp={kind:S.kind};(S.spec||[]).forEach(function(f){sp[f[0]]=pick(r,f[1]);});return sp;}
+function fromSignature(seed,cat,r){
+ var S=DBDATA.sig[cat],adj=pick(r,DBDATA.adj),noun=pick(r,S.nouns);
+ var title=adj+' '+noun;
+ var desc='A Signature-authored study of '+noun.toLowerCase()+', '+pick(r,S.n1)+' '+pick(r,S.n2)+
+ ' Filed as a Signature version in the '+META.name+', '+S.kind+' class.';
+ return {id:META.prefix+String(seed).padStart(7,'0'),title:title,description:desc,category:cat,
+  src:'signature',signature_version:SV,spec:specOf(r,cat,S),_seed:seed};}
+function fromOnline(seed,cat,r,it){
+ return {id:META.prefix+String(seed).padStart(7,'0'),title:it.t,description:it.d,category:cat,
+  src:it.s,source_ref:it.r,signature_version:SV,spec:it.sp||{kind:cat},_seed:seed};}
+function generate(seed,opts,rnd){
+ opts=opts||{};seed=seed>>>0;rnd=rnd||prng(seed);
+ var cat=(opts.category&&CATS.indexOf(opts.category)>=0)?opts.category:pick(rnd,CATS);
+ var items=DBDATA.online[cat]||[];
+ if(items.length&&rnd()<0.35)return fromOnline(seed,cat,rnd,pick(rnd,items));
+ return fromSignature(seed,cat,rnd);}
+function idOk(id){if(typeof id!=='string')return false;if(id.slice(0,META.prefix.length)!==META.prefix)return false;var d=id.slice(META.prefix.length);if(d.length!==7)return false;for(var i=0;i<7;i++){var ch=d.charCodeAt(i);if(ch<48||ch>57)return false;}return true;}
+function validate(rec){
+ var e=[];
+ if(!rec||typeof rec!=='object')return{ok:false,errors:['not an object']};
+ if(!idOk(rec.id))e.push('id format');
+ if(typeof rec.title!=='string'||rec.title.length<8)e.push('title');
+ if(typeof rec.description!=='string'||rec.description.length<80)e.push('description');
+ if(CATS.indexOf(rec.category)<0)e.push('category');
+ if(['online','signature','fact-checked'].indexOf(rec.src)<0)e.push('src');
+ if(typeof rec.signature_version!=='string'||!rec.signature_version)e.push('signature_version');
+ if(rec.src!=='signature'&&typeof rec.source_ref!=='string')e.push('source_ref');
+ if(!rec.spec||typeof rec.spec!=='object'||typeof rec.spec.kind!=='string')e.push('spec.kind');
+ if(typeof rec._seed!=='number')e.push('_seed');
+ return{ok:!e.length,errors:e};}
+function driftCheck(rec,sample){
+ var e=[];(sample||[]).forEach(function(a){
+  var t=a.title||a.t;
+  if(t&&String(t).toLowerCase()===String(rec.title).toLowerCase())e.push('duplicate title: '+rec.title);});
+ return{ok:!e.length,errors:e};}
+var gen={version:META.version,generate:generate,validate:validate,driftCheck:driftCheck,categories:CATS};
+if(typeof JAHDB!=='undefined'&&JAHDB.registerGenerator)JAHDB.registerGenerator(META.slug,gen);
+if(typeof module!=='undefined'&&module.exports)module.exports=gen;
+if(typeof require!=='undefined'&&typeof module!=='undefined'&&require.main===module){
+ var fails=0,seen={},i,seed,g1,g2,v;
+ for(i=0;i<40;i++){seed=1000+i*37;
+  g1=generate(seed,{},prng(seed));g2=generate(seed,{},prng(seed));v=validate(g1);
+  if(!v.ok){fails++;console.log('FAIL seed '+seed+': '+v.errors.join(','));}
+  if(JSON.stringify(g1)!==JSON.stringify(g2)){fails++;console.log('FAIL nondeterministic '+seed);}
+  if(g1.src==='signature'){seen[g1.title]=(seen[g1.title]||0)+1;}}
+ var dupPairs=0,dupTrip=0;for(var k in seen){if(seen[k]===2)dupPairs++;if(seen[k]>=3)dupTrip++;}
+ if(dupPairs>=2||dupTrip>=1){fails++;console.log('FAIL systematic duplicate titles');}
+ console.log(fails?('SELF-TEST FAIL '+fails):'SELF-TEST 40/40 PASS');
+ process.exit(fails?1:0);}
+})();
