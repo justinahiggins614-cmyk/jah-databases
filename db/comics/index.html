@@ -24,6 +24,9 @@
 .card h3{margin:0 0 6px}
 .rec{display:flex;gap:10px;align-items:flex-start}
 .rec img{width:64px;height:64px;border-radius:10px;flex:none}
+.cart{width:76px;height:114px;object-fit:cover;border-radius:8px;flex:none;border:2px solid #000;background:#0a0f1e}
+.cfull{width:200px;height:300px;object-fit:cover;border-radius:10px;flex:none;border:3px solid #000;background:#0a0f1e}
+.artcap{font-size:.8em;color:var(--dim);margin-top:6px;text-align:center;max-width:210px}
 .mono{font-family:Consolas,monospace}
 .dim{color:var(--dim)}.ok{color:var(--ok)}.bad{color:#ff6b6b}
 input,select,textarea,button{font-size:1em;border-radius:8px;border:1px solid var(--line);background:#0a1120;color:var(--ink);padding:9px 10px}
@@ -152,6 +155,7 @@ pre.steps{background:#080d18;border:1px solid var(--line);border-radius:8px;padd
 <script src="../../core/apex-2.0.js"></script>
 <script src="gen-comics.js"></script>
 <script src="gen-comics-full.js"></script>
+<script src="comic-art-gen.js"></script>
 <script>
 (function(){
 'use strict';
@@ -160,6 +164,23 @@ var LOCAL='../../data/comics/';
 var db=null, manifest=null, archiveIdx=[], archiveSample=[];
 var $=function(id){return document.getElementById(id);};
 var SERIES=['THE SIGNALBEARERS','EMBERFALL','THE HOLLOW CIRCUIT','TIDEBOUND','THE GLOAMING WATCH',"STARFARER'S LOG",'THE CLOCKWORK MENAGERIE','JUNIOR SIGNALS','COSMIC CROSSOVER EVENTS'];
+/* HD cover art: 29 real painted covers mapped to flagship records, everything
+   else gets deterministic generated comic-cover art (same record => same art) */
+var REALMAP={};
+function artImg(r,cls){
+  try{
+    if(window.ComicArt) return ComicArt.imgTag(r,REALMAP,cls);
+  }catch(e){}
+  return '<img loading="lazy" class="'+cls+'" src="'+JAHDB.emblemSVG(r.series||r.s,r.id||r.title)+'" alt="">';
+}
+function artCaption(r){
+  try{
+    if(window.ComicArt) return ComicArt.artKind(r,REALMAP)==='real'
+      ? 'Real painted cover'
+      : 'Generated cover art — deterministic for this record';
+  }catch(e){}
+  return '';
+}
 
 /* tabs */
 document.querySelectorAll('.tab').forEach(function(t){
@@ -178,6 +199,7 @@ JAHDB.loadManifest().then(function(m){
 }).then(function(t){
   archiveIdx=JSON.parse(t);
   $('stCount').textContent=archiveIdx.length.toLocaleString()+' / 1,000,000 target';
+  try{ REALMAP=ComicArt.buildRealMap(archiveIdx); }catch(e){}
   try{ if(typeof archiveIdx!=='undefined'&&archiveIdx&&archiveIdx.length) $('gSeed').value=archiveIdx.length+1; }catch(e){}
   var rnd=JAHDB.prng(99);
   for(var i=0;i<200&&i<archiveIdx.length;i++) archiveSample.push(archiveIdx[(rnd()*archiveIdx.length)|0]);
@@ -238,10 +260,10 @@ function openFullRecord(id){var r=REC_CACHE[id];if(r){renderFull(r);return;}$('f
 function renderFull(r){
   CUR_FULL=r;
   var t=fullTitle(r);
-  var img=JAHDB.emblemSVG(t, keyOf(r));
+  var art=artImg(r,'cfull'), cap=artCaption(r);
   var keys=Object.keys(r).filter(function(k){return k.charAt(0)!=='_';});
   var h='<div class="card"><div class="row" style="justify-content:space-between"><span class="dim">Full record — every field</span><button data-fact="close">← back to archive</button></div>'+
-   '<div class="rec"><img src="'+img+'" alt="" style="width:84px;height:84px">'+
+   '<div class="rec"><div>'+art+(cap?'<div class="artcap">'+esc(cap)+'</div>':'')+'</div>'+
    '<div style="flex:1"><h2 style="margin:.2em 0;font-size:1.3em">'+esc(t)+'</h2>'+
    '<div><span class="badge mono">'+esc(keyOf(r))+'</span><span class="badge ok">FULL RECORD</span></div>'+
    '<div class="row" style="margin-top:8px"><button class="go" data-fact="copy">⧉ Copy full record</button><button data-fact="dl">⬇ Download JSON</button></div>'+
@@ -274,7 +296,7 @@ document.addEventListener('click',function(e){
 });
 
 function recCard(r){
-  return '<div class="card"><div class="rec"><img loading="lazy" src="'+JAHDB.emblemSVG(r.series||r.s,r.id||r.title)+'" alt="">'+
+  return '<div class="card"><div class="rec">'+artImg(r,'cart')+
     '<div><h3 style="font-size:1.05em">'+esc(r.title||r.t)+'</h3>'+
     '<div><span class="badge mono">'+esc(r.id||'')+'</span><span class="badge">'+esc(r.series||r.s||'')+(r.num||r.n?' #'+esc(r.num||r.n):'')+'</span>'+((r.words||r.w)?'<span class="badge">'+esc(r.words||r.w)+' words</span>':'')+'</div>'+
     '<p class="dim">'+esc(String(r.desc||r.d||'').slice(0,160))+'</p>'+
@@ -361,7 +383,7 @@ function renderGen(recs,fails){
   h+=recs.map(function(r){
     var chs=r.chars.map(function(c){return esc(c.code)+' ('+esc(c.name)+' — '+esc(c.power)+')';}).join(', ');
     var pgs=r.pages.map(function(p,i){return '<div><b>Page '+(i+1)+'.</b> '+esc(p.cap)+'<br><span class="dim">'+esc(p.dlg)+'</span></div>';}).join('');
-    return '<div class="card"><div class="rec"><img loading="lazy" src="'+JAHDB.emblemSVG(r.series,r.id)+'" alt="">'+
+    return '<div class="card"><div class="rec">'+artImg(r,'cart')+
       '<div style="flex:1"><h3 class="mono">'+esc(r.series)+' #'+r.num+' — '+esc(r.title)+'</h3>'+
       '<div><span class="badge mono">'+esc(r.id)+'</span><span class="badge">'+r.words+' words</span><span class="badge ok">validated ✓</span><span class="badge">GENERATED</span><span class="badge">seed '+esc(r._seed)+'</span></div>'+
       '<p class="dim">Starring: '+chs+'</p><div class="dim">'+pgs+'</div>'+
