@@ -110,6 +110,13 @@ var JAHDB = (function () {
   /* ---------- generator registry ---------- */
   var generators = {};
   function registerGenerator(slug, gen) { generators[slug] = gen; }
+  /* Usable-or-demo rule: optional demo-program builder, registered by
+     core/jahdb-demo.js via setDemoBuilder. Every generated record ships a
+     runnable demo program (record.demo). Attached AFTER validation so no
+     generator's validator ever sees the extra field. Without the demo
+     engine loaded, generation behavior is byte-identical to before. */
+  var demoBuilder = null;
+  function setDemoBuilder(fn) { demoBuilder = (typeof fn === 'function') ? fn : null; }
   /* gen = { version, generate(seed, opts, rnd) -> record,
              validate(record) -> {ok, errors[]},
              driftCheck(record, archiveSample) -> {ok, errors[]} (optional) } */
@@ -122,6 +129,7 @@ var JAHDB = (function () {
     catch (e) { return { ok: false, errors: ['generate threw: ' + e.message] }; }
     var v = gen.validate(rec);
     if (!v.ok) return { ok: false, errors: v.errors, record: rec };
+    try { if (demoBuilder && !rec.demo) rec.demo = demoBuilder(slug, rec); } catch (e) {}
     rec._gen_version = gen.version;
     rec._seed = seed;
     return { ok: true, record: rec };
@@ -410,7 +418,7 @@ var JAHDB = (function () {
     networkCount: networkCount, networkCountSync: networkCountSync,
     emblemSVG: emblemSVG, fetchGz: fetchGz, fetchJsonlGz: fetchJsonlGz,
     prng: prng, hashStr: hashStr,
-    registerGenerator: registerGenerator, getGenerator: function (slug) { return generators[slug]; },
+    registerGenerator: registerGenerator, setDemoBuilder: setDemoBuilder, getGenerator: function (slug) { return generators[slug]; },
     runGenerator: runGenerator, batchGenerate: batchGenerate,
     sampleOther: sampleOther,
     crossQuery: crossQuery, crossDbIntent: crossDbIntent, stripCrossIntent: stripCrossIntent,
