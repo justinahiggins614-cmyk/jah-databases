@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Signature Web AI — JAH Databases</title>
+<meta name="description" content="Signature Web AI: the unified all-capable cloud intelligence of the JAH Databases network. One AI, every ability, all databases. Property of Justin Addam Higgins.">
+<style>
+:root{--bg:#070b14;--card:#0d1526;--line:#1d2c4d;--txt:#dbe6fb;--dim:#8ba0c8;--acc:#2b6cb0;--acc2:#7fb3ff}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--txt);font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.wrap{max-width:900px;margin:0 auto;padding:16px}
+.hero{text-align:center;padding:28px 12px 18px}
+.hero h1{font-size:2em;margin:.2em 0;letter-spacing:.04em}
+.hero h1 .sig{color:var(--acc2)}
+.hero p{color:var(--dim);max-width:640px;margin:0 auto}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px;margin:12px 0}
+.chatlog{height:52vh;min-height:300px;overflow:auto;border:1px solid var(--line);border-radius:10px;padding:10px;background:#080d18;margin-bottom:8px}
+.msg{display:flex;margin:8px 0}.msg.u{justify-content:flex-end}.msg.a{justify-content:flex-start}
+.msg .b{max-width:88%;padding:8px 12px;border-radius:12px;overflow-wrap:break-word;min-width:0;text-align:left}
+.msg.u .b{background:#14305e}.msg.a .b{background:#101a30;border:1px solid var(--line)}
+.msg.web .b{border:1px solid var(--acc)}
+.row{display:flex;gap:8px;flex-wrap:wrap}
+input[type=text],input[type=password]{flex:1;min-width:200px;background:#0a1120;border:1px solid var(--line);color:var(--txt);border-radius:8px;padding:10px}
+button.go{background:var(--acc);border:none;color:#fff;border-radius:8px;padding:10px 16px;cursor:pointer;font-weight:600}
+button.go:hover{background:#3a7fd0}
+.dim{color:var(--dim);font-size:.9em}
+.stats{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin:10px 0}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 18px;text-align:center}
+.stat b{font-size:1.4em;color:var(--acc2);display:block}
+.keyrow{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.badge{display:inline-block;background:#12233f;border:1px solid var(--line);border-radius:20px;padding:2px 10px;font-size:.8em;margin:2px}
+.ok{color:#7fe0a8}.warn{color:#ffcf7f}
+#dbGrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:8px;max-height:300px;overflow:auto}
+#dbGrid a{color:var(--txt);text-decoration:none;background:#0a1120;border:1px solid var(--line);border-radius:8px;padding:8px;font-size:.85em}
+#dbGrid a:hover{border-color:var(--acc)}
+details.grp{border:1px solid var(--line);border-radius:10px;margin:8px 0}
+details.grp summary{padding:10px;cursor:pointer;font-weight:600}
+details.grp .body{padding:0 12px 12px}
+.foot{text-align:center;color:var(--dim);font-size:.85em;padding:20px 0}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hero">
+    <div style="font-size:2.4em">🌐✳</div>
+    <h1>Signature <span class="sig">Web AI</span></h1>
+    <p>The unified all-capable cloud intelligence of the JAH Databases network — one AI, every ability, adapting to whatever you need. The master AI every database AI can reach.</p>
+    <div class="stats">
+      <div class="stat"><b id="stDb">…</b>databases known</div>
+      <div class="stat"><b>1</b>unified AI</div>
+      <div class="stat"><b>∞</b>abilities</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3 style="margin-top:0">💬 Ask the Web AI</h3>
+    <div class="chatlog" id="chatlog"></div>
+    <div class="row">
+      <input type="text" id="chatIn" placeholder="Ask anything — research, creative, technical, across all databases…">
+      <button class="go" id="chatGo">Send</button>
+    </div>
+    <p class="dim" id="keyStatus"></p>
+  </div>
+
+  <details class="grp">
+    <summary>🔑 API Key <span class="dim">(Manon adds this — one time)</span></summary>
+    <div class="body">
+      <p class="dim">Paste the Groq API key once. It stays on this device only (localStorage) — never baked into any page, never sent anywhere except the provider's API.</p>
+      <div class="keyrow">
+        <input type="password" id="keyIn" placeholder="gsk_…">
+        <button class="go" id="keySave">Save key</button>
+        <button class="go" id="keyClear" style="background:#5a2b2b">Clear</button>
+      </div>
+      <p class="dim" id="keyMsg"></p>
+    </div>
+  </details>
+
+  <details class="grp">
+    <summary>🗂 The ecosystem <span class="dim" id="ecoCount"></span></summary>
+    <div class="body">
+      <div class="row" style="margin-bottom:8px">
+        <input type="text" id="dbQ" placeholder="Search databases…" style="flex:1">
+      </div>
+      <div id="dbGrid"></div>
+    </div>
+  </details>
+
+  <div class="card">
+    <h3 style="margin-top:0">How it connects</h3>
+    <p class="dim">
+      <b>Every database</b> keeps its own on-device AI, exactly as before — untouched.<br>
+      <b>Every database chat</b> now has a <b>🌐 Ask Web AI</b> button: tap it and the question is faxed to this cloud AI, which answers with full knowledge of all databases.<br>
+      <b>This site</b> is the Web AI's home: talk to it directly, manage the key, browse the ecosystem.
+    </p>
+  </div>
+
+  <div class="foot">✳ JAH Databases · Signature Web AI · Property of Justin Addam Higgins (JAH)</div>
+</div>
+<script src="../core/signature-web-ai.js"></script>
+<script>
+(function(){
+'use strict';
+var $=function(id){return document.getElementById(id);};
+function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+function say(who,html,label){
+  var d=document.createElement('div');d.className='msg '+(who==='u'?'u':'a web');
+  d.innerHTML='<span class="b">'+(label?'<div style="font-size:.78em;color:#7fb3ff;margin-bottom:4px">🌐 '+esc(label)+'</div>':'')+html+'</span>';
+  $('chatlog').appendChild(d);$('chatlog').scrollTop=$('chatlog').scrollHeight;
+}
+function fmt(t){
+  return esc(t).split(/\n{2,}/).map(function(p){
+    p=p.trim();
+    if(/^([-*•]\s)/m.test(p)){
+      return '<ul style="margin:4px 0;padding-left:18px">'+p.split(/\n/).map(function(l){
+        return '<li>'+l.replace(/^[-*•]\s*/,'')+'</li>';}).join('')+'</ul>';
+    }
+    return '<p style="margin:4px 0">'+p.replace(/\n/g,'<br>')+'</p>';
+  }).join('');
+}
+function refreshKey(){
+  var ok=false;
+  try{ ok=!!(localStorage.getItem('sig_webai_key')||'').trim(); }catch(e){}
+  if(!ok && typeof ApexAI!=='undefined' && ApexAI.key){ try{ ok=!!ApexAI.key(); }catch(e){} }
+  $('keyStatus').innerHTML= ok
+    ? '<span class="ok">● Web AI connected — ask anything.</span>'
+    : '<span class="warn">● Web AI key not set yet — Manon will add it. You can still browse the ecosystem below.</span>';
+}
+function send(){
+  var t=$('chatIn').value.trim();if(!t)return;
+  $('chatIn').value='';say('u',esc(t));
+  var th=document.createElement('div');th.className='msg a web';
+  th.innerHTML='<span class="b"><span class="dim">🌐 Thinking…</span></span>';
+  $('chatlog').appendChild(th);$('chatlog').scrollTop=$('chatlog').scrollHeight;
+  SigWebAI.ask(t,function(a){
+    if(th.parentNode)th.parentNode.removeChild(th);
+    say('a',fmt(a),'Signature Web AI');
+  });
+}
+$('chatGo').addEventListener('click',send);
+$('chatIn').addEventListener('keydown',function(e){if(e.key==='Enter')send();});
+$('keySave').addEventListener('click',function(){
+  var v=$('keyIn').value.trim();
+  if(!v){$('keyMsg').textContent='Paste a key first.';return;}
+  SigWebAI.setKey(v);$('keyIn').value='';
+  $('keyMsg').innerHTML='<span class="ok">Key saved on this device.</span>';refreshKey();
+});
+$('keyClear').addEventListener('click',function(){
+  SigWebAI.setKey('');$('keyMsg').textContent='Key cleared.';refreshKey();
+});
+/* ecosystem browser */
+fetch('../data/manifest.json').then(function(r){return r.json();}).then(function(m){
+  var dbs=(m.databases||[]);
+  $('stDb').textContent=dbs.length.toLocaleString();
+  $('ecoCount').textContent='('+dbs.length.toLocaleString()+' databases)';
+  function render(q){
+    q=(q||'').toLowerCase();
+    var g=$('dbGrid');g.innerHTML='';
+    dbs.filter(function(d){return !q||(d.name||'').toLowerCase().indexOf(q)>=0;})
+       .slice(0,300).forEach(function(d){
+      var a=document.createElement('a');
+      a.href='../db/'+d.slug+'/';a.textContent=d.name||d.slug;a.target='_blank';a.rel='noopener';
+      g.appendChild(a);
+    });
+  }
+  render('');
+  $('dbQ').addEventListener('input',function(){render($('dbQ').value);});
+}).catch(function(){$('stDb').textContent='1000+';});
+refreshKey();
+say('a',fmt('I am Signature Web AI — one unified AI with every ability, tuned to what you need. I know all '+ '1000+' +' databases in the network. Ask me anything: research, creative work, technical problems, or questions spanning databases.'),'Signature Web AI');
+})();
+</script>
+<script src="../core/apex-2.0.js"></script>
+</body>
+</html>
