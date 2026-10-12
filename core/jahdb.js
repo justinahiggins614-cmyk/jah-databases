@@ -381,6 +381,9 @@ var JAHDB = (function () {
     /* Explicit cross-database questions get real cross-database answers —
        real stored records with deep links, never invented ones. */
     try { if (crossDbIntent(userText)) return crossAnswer(db, userText); } catch (e) {}
+    /* Deep investigations ("deep search", "investigate", "research") get the
+       multi-pass universal search engine when it is loaded. */
+    try { if (typeof JAHSearch !== 'undefined' && JAHSearch.deepSearchIntent(userText)) return JAHSearch.aiDeepSearch(db, userText); } catch (e) {}
     var persona = 'You are ' + db.ai_name + ', the archive-aware librarian of the ' +
       db.name + ' (JAH Databases, property of Justin Addam Higgins). ' +
       'This database holds ' + db.record_kind + ' records. Answer in natural sentences. ' +
@@ -426,4 +429,25 @@ var JAHDB = (function () {
     recHashGet: recHashGet, recHashSet: recHashSet, recHashClear: recHashClear, recLink: recLink,
     aiAnswer: aiAnswer
   };
+})();
+
+/* ---------- Universal Search + AI Deep Search loader (ADDITIVE) ----------
+   Manon's order: one search bar for the whole network, real record search,
+   multi-pass AI deep search. This only LOADS the separate jahdb-search.js
+   module. Nothing above is modified. If the module 404s, every page works
+   exactly as before. */
+(function () {
+  try {
+    var scripts = document.getElementsByTagName('script'), base = null, i, s;
+    for (i = 0; i < scripts.length; i++) {
+      s = scripts[i].src || '';
+      if (/core\/jahdb\.js/.test(s)) { base = s.replace(/jahdb\.js.*$/, ''); break; }
+    }
+    if (!base || typeof JAHSearch !== 'undefined') return;
+    var el = document.createElement('script');
+    el.src = base + 'jahdb-search.js';
+    el.defer = true;
+    el.onerror = function () { /* universal search optional — page works without it */ };
+    document.head.appendChild(el);
+  } catch (e) { /* never break the page */ }
 })();

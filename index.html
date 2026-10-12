@@ -17,6 +17,35 @@
 .bigstat b{font-size:1.6em;color:var(--ok);display:block}
 .searchrow{display:flex;gap:8px;margin:14px 0}
 .searchrow input{flex:1;font-size:1em;border-radius:10px;border:1px solid var(--line);background:#0a1120;color:var(--ink);padding:11px 12px}
+.gobtn{font-size:1em;border-radius:10px;border:1px solid var(--acc);background:var(--acc);color:#fff;padding:11px 18px;cursor:pointer;font-weight:bold}
+.gobtn:hover{filter:brightness(1.15)}
+.modes{display:flex;gap:8px;align-items:center;margin:0 0 6px;flex-wrap:wrap}
+.mode{font-size:.85em;border-radius:20px;border:1px solid var(--line);background:#0a1120;color:var(--dim);padding:6px 14px;cursor:pointer}
+.mode.on{border-color:var(--ok);color:var(--ok);font-weight:bold}
+.modehint{font-size:.8em;color:var(--dim)}
+.uprog{margin:10px 0}
+.uprogbar{height:8px;border-radius:4px;background:#0a1120;border:1px solid var(--line);overflow:hidden}
+.uprogbar div{height:100%;width:0;background:linear-gradient(90deg,var(--acc),var(--ok));transition:width .2s}
+.uprogtext{font-size:.85em;color:var(--dim);margin-top:6px}
+.uresults{margin:6px 0 14px}
+.uresult{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px;margin-bottom:10px}
+.uresult h4{margin:0 0 4px;font-size:1em}
+.uresult h4 a{color:var(--ink);text-decoration:none}
+.uresult h4 a:hover{color:var(--acc)}
+.uresult .udb{font-size:.8em;color:var(--dim)}
+.uresult .uex{font-size:.88em;color:var(--ink);margin:6px 0;opacity:.92}
+.uresult .umeta{display:flex;gap:8px;align-items:center;font-size:.78em;flex-wrap:wrap}
+.badge{border-radius:10px;padding:2px 10px;font-size:.78em}
+.badge.archive{background:rgba(0,229,160,.15);color:var(--ok);border:1px solid var(--ok)}
+.badge.generated{background:rgba(255,176,32,.15);color:#ffb020;border:1px solid #ffb020}
+.urep{color:#ffd76a;letter-spacing:1px}
+.uopen{color:var(--acc);text-decoration:none;font-weight:bold}
+.uhead{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.uhead b{font-size:1.05em}
+.uclose{background:none;border:1px solid var(--line);color:var(--dim);border-radius:8px;padding:4px 12px;cursor:pointer}
+.ustats{font-size:.82em;color:var(--dim);margin-bottom:10px}
+.ulimits{font-size:.82em;color:#ffb020;margin-top:10px}
+.uconn{border-left:3px solid var(--acc);padding-left:10px;margin-top:8px}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px}
 .card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px;display:flex;gap:10px;align-items:flex-start;text-decoration:none;color:var(--ink)}
 .card:hover{border-color:var(--acc)}
@@ -54,7 +83,21 @@
 })();
 </script>
   </div>
-  <div class="searchrow"><input id="q" placeholder="Find a data base…"></div>
+  <div class="searchrow">
+    <input id="q" placeholder="Search all databases — ask anything…" aria-label="Universal network search">
+    <button id="ugo" class="gobtn">Search</button>
+  </div>
+  <div class="modes" role="tablist" aria-label="Search mode">
+    <button class="mode on" data-mode="quick" role="tab" aria-selected="true">Quick</button>
+    <button class="mode" data-mode="deep" role="tab" aria-selected="false">Deep</button>
+    <button class="mode" data-mode="exhaustive" role="tab" aria-selected="false">Exhaustive</button>
+    <span class="modehint" id="modehint">Fast scan of the most relevant databases and their records.</span>
+  </div>
+  <div id="uprog" class="uprog" hidden>
+    <div class="uprogbar"><div id="uprogfill"></div></div>
+    <div id="uprogtext" class="uprogtext"></div>
+  </div>
+  <div id="uresults" class="uresults" hidden></div>
   <div class="grid" id="grid"></div>
   <div class="foot">✳ JAH Databases. Property of Justin Addam Higgins (JAH).</div>
 </div>
@@ -80,6 +123,104 @@ fetch('data/manifest.json').then(function(r){return r.json();}).then(function(m)
   }
   render('');
   $('q').addEventListener('input',function(){render($('q').value.trim().toLowerCase());});
+
+  /* ---------- Universal Network Search (JAHSearch engine) ---------- */
+  var umode = 'quick';
+  var HINTS = {
+    quick: 'Fast scan of the most relevant databases and their records.',
+    deep: 'Multi-pass investigation: records opened, connections followed, report with citations.',
+    exhaustive: 'Searches every relevant database index the network can reach. Slower; reports exact coverage.'
+  };
+  var modeBtns = document.querySelectorAll('.mode');
+  modeBtns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      umode = b.getAttribute('data-mode');
+      modeBtns.forEach(function (x) { x.classList.remove('on'); x.setAttribute('aria-selected', 'false'); });
+      b.classList.add('on'); b.setAttribute('aria-selected', 'true');
+      $('modehint').textContent = HINTS[umode];
+    });
+  });
+  function waitForSearch(cb) {
+    var tries = 0;
+    (function poll() {
+      if (typeof JAHSearch !== 'undefined') { cb(); return; }
+      if (++tries > 30) {
+        $('uprogtext').textContent = 'Search engine is still loading — try again in a moment.';
+        return;
+      }
+      setTimeout(poll, 100);
+    })();
+  }
+  function stars(score) {
+    var n = score >= 8 ? 3 : score >= 4 ? 2 : 1;
+    return '★'.repeat(n) + '☆'.repeat(3 - n);
+  }
+  function esc(s) {
+    return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+  function renderResults(rep) {
+    var box = $('uresults');
+    var h = '<div class="uhead"><b>' + rep.findings.length + ' result' +
+      (rep.findings.length === 1 ? '' : 's') + ' — ' + umode + ' search</b>' +
+      '<button class="uclose" id="uclose">× back to databases</button></div>';
+    h += '<div class="ustats">Searched ' + rep.stats.dbsSearched + ' of ' +
+      rep.stats.dbsDiscovered + ' relevant databases · ' +
+      (rep.stats.recordsExamined || 0).toLocaleString() + ' records examined' +
+      (rep.stats.dbsFailed ? ' · ' + rep.stats.dbsFailed + ' indexes unreachable' : '') + '</div>';
+    if (!rep.findings.length) {
+      h += '<div class="uresult"><div class="uex">No stored records matched "' +
+        esc(rep.query) + '". Try different words, or browse the databases below.</div></div>';
+    }
+    rep.findings.forEach(function (f) {
+      h += '<div class="uresult">' +
+        '<h4><a href="' + esc(f.deepLink) + '">' + esc(f.title) + '</a></h4>' +
+        '<div class="udb">' + esc(f.dbName) + ' · ' + esc(f.recordKind || 'record') + ' · ' + esc(f.recordId) + '</div>' +
+        (f.excerpt ? '<div class="uex">' + esc(f.excerpt) + '</div>' : '') +
+        '<div class="umeta"><span class="badge ' + (f.sourceKind === 'generated' ? 'generated' : 'archive') + '">' +
+        esc(f.sourceLabel || 'Archived record') + '</span>' +
+        '<span class="urep" title="relevance">' + stars(f.score) + '</span>' +
+        '<a class="uopen" href="' + esc(f.deepLink) + '">Open record →</a></div></div>';
+    });
+    (rep.connections || []).slice(0, 6).forEach(function (c) {
+      h += '<div class="uresult uconn">' +
+        '<h4><a href="' + esc(c.deepLink) + '">' + esc(c.title) + '</a></h4>' +
+        '<div class="udb">Connected via "' + esc(c.via || '?') + '" · ' + esc(c.dbName) + '</div>' +
+        '<div class="umeta"><a class="uopen" href="' + esc(c.deepLink) + '">Open record →</a></div></div>';
+    });
+    if (rep.uncertainties && rep.uncertainties.length) {
+      h += '<div class="ulimits">Limits: ' + rep.uncertainties.map(esc).join(' ') + '</div>';
+    }
+    box.innerHTML = h;
+    box.hidden = false;
+    $('uclose').addEventListener('click', function () { box.hidden = true; box.innerHTML = ''; });
+    box.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+  function runUniversal() {
+    var q = $('q').value.trim();
+    if (!q) return;
+    waitForSearch(function () {
+      var prog = $('uprog'), fill = $('uprogfill'), ptext = $('uprogtext');
+      $('uresults').hidden = true;
+      prog.hidden = false;
+      var fn = umode === 'deep' ? JAHSearch.deepSearch :
+               umode === 'exhaustive' ? JAHSearch.exhaustiveSearch : JAHSearch.quickSearch;
+      fn(q, function (p) {
+        var pct = p.total ? Math.round(100 * (p.done || 0) / p.total) : 10;
+        fill.style.width = Math.min(100, Math.max(4, pct)) + '%';
+        ptext.textContent = (p.passName || 'Searching…') +
+          (p.recordsExamined ? ' — ' + p.recordsExamined.toLocaleString() + ' records' : '');
+      }).then(function (rep) {
+        prog.hidden = true;
+        renderResults(rep);
+      }).catch(function (e) {
+        prog.hidden = true;
+        ptext.textContent = 'Search hiccuped: ' + (e && e.message || e);
+      });
+    });
+  }
+  $('ugo').addEventListener('click', runUniversal);
+  $('q').addEventListener('keydown', function (e) { if (e.key === 'Enter') runUniversal(); });
 }).catch(function(e){
   $('grid').innerHTML='<p style="color:#ffb020">Manifest failed to load: '+e.message+'</p>';
 });
