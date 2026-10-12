@@ -112,7 +112,11 @@ var ApexAI = (function () {
         ['book', 'Book Depository Database', NET + 'books/'], ['mall', 'Cyber Mega-Mall Database', NET + 'mall/']
       ];
       for (var i = 0; i < map.length; i++) if (t.indexOf(map[i][0]) >= 0) return Promise.resolve('Database ' + map[i][1] + ': ' + map[i][2]);
-      return Promise.resolve('JAH Databases: ' + NET + ' (37 databases — ask which one)');
+      if (typeof JAHDB !== 'undefined' && JAHDB.networkCount)
+        return JAHDB.networkCount().then(function (n) {
+          return 'JAH Databases: ' + NET + ' (' + (n || 444) + ' databases — ask which one)';
+        }, function () { return 'JAH Databases: ' + NET + ' (444 databases — ask which one)'; });
+      return Promise.resolve('JAH Databases: ' + NET + ' (444 databases — ask which one)');
     }
     return Promise.resolve('unknown tool: ' + name);
   }

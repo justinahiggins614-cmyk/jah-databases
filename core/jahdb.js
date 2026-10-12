@@ -1,5 +1,6 @@
 /* ✳ SIGNATURE — JAH Databases core. Property of Justin Addam Higgins (JAH).
-   Shared framework for all 37 databases: manifest, archive browsing, the
+   Shared framework for every database in the network (the live count comes
+   from data/manifest.json at runtime): manifest, archive browsing, the
    generator registry, cross-database sampling, validation, sessions, and the
    archive-aware AI (Standard 1.0 on-device + Apex backend when configured).
    No API key is ever required from the user. */
@@ -53,6 +54,17 @@ var JAHDB = (function () {
        never on the original websites. */
     return CORE_BASE;
   }
+
+  /* ---------- live network size (from the manifest, fetched once, cached) ---------- */
+  var _netCount = 0;
+  function networkCount() {
+    if (_netCount) return Promise.resolve(_netCount);
+    return loadManifest().then(function (m) {
+      _netCount = (m && m.databases && m.databases.length) || 0;
+      return _netCount;
+    }).catch(function () { return 0; });
+  }
+  function networkCountSync() { return _netCount; }
 
   /* ---------- deterministic emblem SVG (per-record / per-database image) ---------- */
   var PALETTES = [
@@ -140,6 +152,181 @@ var JAHDB = (function () {
     }).catch(function () { return []; });
   }
 
+  /* ---------- cross-database query (AI reasoning across the network) ---------- */
+  /* LAZY by design: the manifest loads once per session (cached above);
+     another database's index is only fetched when cross-database intent is
+     detected — never at page boot, so boot cost on phones stays zero.
+     Every returned ID comes from a real fetched index — IDs are never invented. */
+  var _idxRows = {};      /* slug -> Promise(rows) */
+  var _idxOrder = [];     /* tiny LRU so phones don't hoard parsed indexes */
+  var CROSS_STOP = { the:1,a:1,an:1,and:1,or:1,of:1,in:1,to:1,for:1,on:1,with:1,by:1,
+    is:1,are:1,was:1,were:1,be:1,been:1,what:1,which:1,who:1,whom:1,whose:1,all:1,
+    every:1,each:1,any:1,some:1,my:1,your:1,our:1,i:1,you:1,we:1,they:1,it:1,this:1,
+    that:1,these:1,those:1,there:1,their:1,from:1,about:1,into:1,how:1,do:1,does:1,
+    did:1,can:1,could:1,should:1,would:1,will:1,find:1,search:1,show:1,give:1,me:1,
+    across:1,database:1,databases:1,db:1,please:1,than:1,then:1,also:1,just:1,like:1,
+    has:1,have:1,had:1,not:1,no:1,yes:1,if:1,else:1,when:1,where:1,why:1 };
+  function crossKeywords(q) {
+    var out = [], seen = {};
+    String(q || '').toLowerCase().replace(/[^a-z0-9\s]/g, ' ').split(/\s+/).forEach(function (w) {
+      if (w.length < 3 || CROSS_STOP[w] || seen[w]) return;
+      seen[w] = 1; out.push(w);
+    });
+    return out;
+  }
+  function crossDbIntent(q) {
+    var low = String(q || '').toLowerCase();
+    return /search (all|every|each)( of)?( the)? databases?\b/.test(low) ||
+      /across all( of)?( the)? databases?\b/.test(low) ||
+      /\bin (all|every)( of)?( the)? databases?\b/.test(low) ||
+      (/\b(all|every)( of)?( the)? databases?\b/.test(low) &&
+        /\b(search|find|look|check|query|scan|hunt)\b/.test(low));
+  }
+  function stripCrossIntent(q) {
+    return String(q || '').toLowerCase()
+      .replace(/search (all|every|each)( of)?( the)? databases?( for| about)?/g, ' ')
+      .replace(/across all( of)?( the)? databases?/g, ' ')
+      .replace(/in (all|every)( of)?( the)? databases?/g, ' ')
+      .replace(/\b(all|every)( of)?( the)? databases?\b/g, ' ')
+      .replace(/[?.!]+$/g, '').replace(/\s+/g, ' ').trim();
+  }
+  /* Fetch an index as text; gzipped files go through fetchGz, plain-JSON
+     indexes fall back to a plain fetch (some indexes aren't gzipped). */
+  function fetchIndexText(url) {
+    return fetchGz(url).catch(function () {
+      return fetch(url).then(function (r) {
+        if (!r.ok) throw new Error('fetch ' + r.status + ' ' + url);
+        return r.text();
+      });
+    });
+  }
+  /* One index row -> {id, title}, across the index shapes in the wild:
+     {id,t,...} JSONL, patents-style [id,title,...] arrays, {i,t,...},
+     {id,title,...} / {name,...} plain-JSON rows. Unparseable rows are skipped. */
+  function normRow(r) {
+    var id, t;
+    if (Array.isArray(r)) { id = r[0]; t = r[1]; }
+    else if (r && typeof r === 'object') {
+      id = r.id || r.i || r.record_id || r.spec_id || r.pub_no;
+      t = r.t || r.title || r.name || r.headword || r.word;
+    }
+    if (typeof id !== 'string' && typeof id !== 'number') return null;
+    if (typeof t !== 'string' || !t.trim()) return null;
+    return { id: String(id), title: String(t).trim() };
+  }
+  function parseIndexText(txt) {
+    var rows = [], trimmed = String(txt || '').trim();
+    if (!trimmed) return rows;
+    try {
+      var doc = JSON.parse(trimmed);
+      if (Array.isArray(doc)) {
+        doc.forEach(function (r) { var n = normRow(r); if (n) rows.push(n); });
+        if (rows.length) return rows;
+      }
+    } catch (e) { /* not whole-document JSON — try JSONL below */ }
+    trimmed.split('\n').forEach(function (l) {
+      l = l.trim();
+      if (!l) return;
+      try { var n = normRow(JSON.parse(l)); if (n) rows.push(n); } catch (e) {}
+    });
+    return rows;
+  }
+  function deepLinkFor(slug, id) {
+    return CORE_BASE + 'db/' + slug + '/#rec=' + encodeURIComponent(id);
+  }
+  function idxRowsFor(d) {
+    var idx = d.local_index || d.index;
+    var url = (/^https?:\/\//i.test(idx) ? '' : dataBase(d)) + idx;
+    var key = d.slug;
+    if (!_idxRows[key]) {
+      _idxRows[key] = fetchIndexText(url).then(parseIndexText);
+      _idxRows[key].catch(function () { delete _idxRows[key]; });
+      _idxOrder.push(key);
+      while (_idxOrder.length > 3) { delete _idxRows[_idxOrder.shift()]; }
+    }
+    return _idxRows[key];
+  }
+  function scanDbIndex(d, kws) {
+    return idxRowsFor(d).then(function (rows) {
+      var hits = [];
+      for (var i = 0; i < rows.length; i++) {
+        var hay = rows[i].title.toLowerCase(), s = 0;
+        for (var k = 0; k < kws.length; k++) if (hay.indexOf(kws[k]) >= 0) s++;
+        if (s > 0) hits.push({ dbName: d.name, dbSlug: d.slug, recordId: rows[i].id,
+          title: rows[i].title, score: s, deepLink: deepLinkFor(d.slug, rows[i].id) });
+      }
+      hits.sort(function (a, b) { return b.score - a.score; });
+      return hits.slice(0, 4);
+    });
+  }
+  /* crossQuery(query, opts) -> Promise([{dbName, dbSlug, recordId, title, deepLink}]).
+     Two stages: cheap manifest-metadata ranking picks the top candidate
+     databases, then only those indexes are fetched and title-scanned.
+     opts: {exclude: slug, n: max results (default 5)}. */
+  function crossQuery(query, opts) {
+    opts = opts || {};
+    var n = opts.n || 5, exclude = opts.exclude || null;
+    var kws = crossKeywords(query);
+    if (!kws.length) return Promise.resolve([]);
+    return loadManifest().then(function (m) {
+      var dbs = (m && m.databases) || [], scored = [], i, k;
+      for (i = 0; i < dbs.length; i++) {
+        var d = dbs[i];
+        if (exclude && d.slug === exclude) continue;
+        var idx = d.local_index || d.index;
+        if (!idx || /^virtual:/i.test(String(idx))) continue;
+        var hay = ((d.name || '') + ' ' + (d.record_kind || '') + ' ' + (d.tagline || '')).toLowerCase();
+        var s = 0;
+        for (k = 0; k < kws.length; k++) if (hay.indexOf(kws[k]) >= 0) s++;
+        if (s > 0) scored.push({ db: d, s: s });
+      }
+      scored.sort(function (a, b) { return b.s - a.s; });
+      var cands = scored.slice(0, 6).map(function (x) { return x.db; });
+      if (!cands.length) return [];
+      return Promise.all(cands.map(function (d) {
+        return scanDbIndex(d, kws).catch(function () { return []; });
+      })).then(function (lists) {
+        var all = [];
+        lists.forEach(function (l) { all = all.concat(l); });
+        all.sort(function (a, b) { return b.score - a.score; });
+        var seen = {}, out = [];
+        for (var t = 0; t < all.length && out.length < n; t++) {
+          var h = all[t];
+          seen[h.dbSlug] = seen[h.dbSlug] || 0;
+          if (seen[h.dbSlug] < 2) {
+            seen[h.dbSlug]++;
+            out.push({ dbName: h.dbName, dbSlug: h.dbSlug, recordId: h.recordId,
+              title: h.title, deepLink: h.deepLink });
+          }
+        }
+        return out;
+      });
+    }).catch(function () { return []; });
+  }
+  /* Plain-language answer for an explicit cross-database question. */
+  function crossAnswer(db, userText) {
+    var topic = stripCrossIntent(userText);
+    if (!topic) return Promise.resolve(
+      'Tell me what to search for across the databases — for example, "search all databases for solar panels".');
+    return networkCount().then(function (cnt) {
+      return crossQuery(topic, { exclude: db && db.slug, n: 5 });
+    }).then(function (hits) {
+      var total = networkCountSync() || 444;
+      if (!hits.length)
+        return 'I searched across all ' + total + ' databases and found no stored records matching "' +
+          topic + '". Tell me which database it might live in and I\'ll point you there — ' +
+          'or ask me to generate a new record in this archive\'s style.';
+      var lines = ['I searched across the databases and found ' + hits.length +
+        ' stored record' + (hits.length === 1 ? '' : 's') + ':'];
+      hits.forEach(function (h, i) {
+        lines.push((i + 1) + '. ' + h.title + ' — in the ' + h.dbName + '. Open: ' + h.deepLink);
+      });
+      return lines.join('\n');
+    }).catch(function () {
+      return 'That cross-database search hiccuped. Try again, or tell me which database to look in.';
+    });
+  }
+
   /* ---------- per-record deep links ("links to works") ---------- */
   /* Pages set location.hash to #rec=<id> whenever a full record view opens,
      and offer a "Copy link" control that hands the user the absolute URL.
@@ -183,6 +370,9 @@ var JAHDB = (function () {
   /* Uses Standard 1.0 on-device always (no key). If an Apex backend URL or key
      is configured (shared with The Signature AI), cloud answers come from there. */
   function aiAnswer(db, userText, context) {
+    /* Explicit cross-database questions get real cross-database answers —
+       real stored records with deep links, never invented ones. */
+    try { if (crossDbIntent(userText)) return crossAnswer(db, userText); } catch (e) {}
     var persona = 'You are ' + db.ai_name + ', the archive-aware librarian of the ' +
       db.name + ' (JAH Databases, property of Justin Addam Higgins). ' +
       'This database holds ' + db.record_kind + ' records. Answer in natural sentences. ' +
@@ -217,11 +407,13 @@ var JAHDB = (function () {
 
   return {
     loadManifest: loadManifest, dbBySlug: dbBySlug, dataBase: dataBase,
+    networkCount: networkCount, networkCountSync: networkCountSync,
     emblemSVG: emblemSVG, fetchGz: fetchGz, fetchJsonlGz: fetchJsonlGz,
     prng: prng, hashStr: hashStr,
     registerGenerator: registerGenerator, getGenerator: function (slug) { return generators[slug]; },
     runGenerator: runGenerator, batchGenerate: batchGenerate,
     sampleOther: sampleOther,
+    crossQuery: crossQuery, crossDbIntent: crossDbIntent, stripCrossIntent: stripCrossIntent,
     newSession: newSession, getSession: getSession,
     recHashGet: recHashGet, recHashSet: recHashSet, recHashClear: recHashClear, recLink: recLink,
     aiAnswer: aiAnswer

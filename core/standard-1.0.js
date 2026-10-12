@@ -1,4 +1,19 @@
 /* --- Signature Llama 2.0 supreme conversational engine (replaces demo brain) --- */
+/* Live network size: read from the JAH Databases manifest once, cached.
+   Never hardcode the count — it grows as databases are added. */
+var NET_DB_N = 0, _netWarming = false;
+function netDbCount(){
+  try{
+    if(typeof JAHDB !== 'undefined'){
+      if(JAHDB.networkCountSync){ var n = JAHDB.networkCountSync(); if(n) NET_DB_N = n; }
+      if(!_netWarming && JAHDB.networkCount && !NET_DB_N){
+        _netWarming = true;
+        JAHDB.networkCount().then(function(nn){ if(nn) NET_DB_N = nn; }, function(){});
+      }
+    }
+  }catch(e){}
+  return NET_DB_N || 444;
+}
 var SupremeConv = {
   mem: [], said: {},
   remember: function(q, intent){ this.mem.push({q:q, intent:intent, t:Date.now()}); if(this.mem.length>10) this.mem.shift(); },
@@ -23,7 +38,7 @@ function dictLookup(word){
     .catch(function(){ return null; });
 }
 function supremeAnswer(q){
-  var role = LOCKED_ROLE, rq = q;
+  var role = (typeof LOCKED_ROLE !== 'undefined' ? LOCKED_ROLE : null), rq = q;
   var hm = q.match(/#[A-Za-z][A-Za-z0-9\-]*/);
   if(hm){ role = hm[0]; LOCKED_ROLE = role;
     var b = document.getElementById('rolebanner');
@@ -47,11 +62,27 @@ function supremeAnswer(q){
     }catch(e){}
   }
   var low = rq.toLowerCase().trim();
+  /* --- cross-database search: real stored records across the network --- */
+  if(typeof JAHDB !== 'undefined' && JAHDB.crossDbIntent && JAHDB.crossDbIntent(rq)){
+    SupremeConv.remember(q,'crossdb');
+    var topic = JAHDB.stripCrossIntent(rq);
+    return JAHDB.crossQuery(topic, {n:5}).then(function(hits){
+      if(!hits || !hits.length)
+        return roleTag + 'I searched across all ' + netDbCount() + ' databases and found no stored records matching "' + topic + '". Tell me which database it might live in and I\u2019ll point you there.';
+      var lines = ['I searched across the databases and found ' + hits.length + ' stored record' + (hits.length === 1 ? '' : 's') + ':'];
+      hits.forEach(function(h, i){
+        lines.push((i+1) + '. ' + h.title + '\n   in the ' + h.dbName + ' — [[LINK:' + h.deepLink + '|Open record \u2192]]');
+      });
+      return roleTag + lines.join('\n');
+    }, function(){
+      return roleTag + 'That cross-database search hiccuped. Try again, or tell me which database to look in.';
+    });
+  }
   /* --- conversational intents --- */
   if(/^(hi|hey|hello|yo|sup|howdy|good (morning|afternoon|evening))\b/.test(low) && low.length < 30){
     SupremeConv.remember(q,'greet');
     return roleTag + SupremeConv.pick('greet', [
-      'Hey — Signature Llama 2.0 here, the supreme build. Ask me anything: words from the live dictionary, math, or anywhere across the 37 sites.',
+      'Hey — Signature Llama 2.0 here, the supreme build. Ask me anything: words from the live dictionary, math, or anywhere across the ' + netDbCount() + ' databases.',
       'Hello! I\u2019m the 2.0 supreme AI. I can define words straight out of the Signature Dictionary, do math, and route you through the whole network.',
       'Hey there — supreme mode on. What do you want to know?'
     ]);
@@ -59,7 +90,7 @@ function supremeAnswer(q){
   if(/\bwho are you\b|\byour name\b|\bwhat are you\b/.test(low)){
     SupremeConv.remember(q,'identity');
     return roleTag + SupremeConv.pick('identity', [
-      'I\u2019m Signature Llama 2.0 — the supreme universal build. My duties: define any word from the live Signature Dictionary, solve math through the Calculator engine, lock into hashtag roles like #Task-Chef, and route you to any of the 37 Signature sites and archives.',
+      'I\u2019m Signature Llama 2.0 — the supreme universal build. My duties: define any word from the live Signature Dictionary, solve math through the Calculator engine, lock into hashtag roles like #Task-Chef, and route you to any of the ' + netDbCount() + ' databases and archives.',
       'Signature Llama 2.0, the supreme build, at your service. I look words up live, calculate, take roles, and know the whole network. For full open-ended reasoning, the Industry Standard cloud path on the Llama site is the deeper brain.'
     ]);
   }
@@ -109,7 +140,7 @@ function supremeAnswer(q){
       if(a) return a;
       return roleTag + SupremeConv.pick('fallback', [
         'I didn\u2019t catch that one — I looked it up and it\u2019s not in the dictionary either. Try \u201cdefine serendipity\u201d, a math question like 12*8+3, or ask me who I am.',
-        'Hmm, that one slipped past me. I\u2019m best at: defining words (try \u201cdefine <word>\u201d), math, and pointing you around the 37 sites.',
+        'Hmm, that one slipped past me. I\u2019m best at: defining words (try \u201cdefine <word>\u201d), math, and pointing you around the ' + netDbCount() + ' databases.',
         'Not sure what you meant there. Give me a word to define, some math, or a hashtag role like #Task-Chef.'
       ]);
     });
@@ -128,7 +159,7 @@ function supremeAnswer(q){
   /* --- honest fallback: never canned, never word salad --- */
   SupremeConv.remember(q,'fallback');
   return roleTag + SupremeConv.pick('fallback', [
-    'I want to give you a real answer, not a guess — I\u2019m best at defining words (try \u201cdefine <word>\u201d), math like 12*8+3, and routing you across the 37 databases. For open-ended reasoning, the cloud path in the Signature Llama Database is the deeper brain.',
+    'I want to give you a real answer, not a guess — I\u2019m best at defining words (try \u201cdefine <word>\u201d), math like 12*8+3, and routing you across the ' + netDbCount() + ' databases. For open-ended reasoning, the cloud path in the Signature Llama Database is the deeper brain.',
     'That\u2019s outside what I can answer on-device. I do words, math, roles, and network routing for real — everything else, the full cloud Llama handles.',
     'I don\u2019t have a real answer for that one, and I\u2019d rather say so than make one up. Try a word, some math, or ask me what I can do.'
   ]);
