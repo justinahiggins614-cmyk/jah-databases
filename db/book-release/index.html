@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Book Release Database — JAH Databases</title>
+<meta name="description" content="Books with full publication records — publication date, author, publisher, genre, and page count. Every record is a real publication fact. Property of Justin Addam Higgins.">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Dataset", "name": "Book Release Database", "description": "Books with full publication records — publication date, author, publisher, genre, and page count. Every record is a real publication fact. Property of Justin Addam Higgins.", "creator": {"@type": "Person", "name": "Justin Addam Higgins"}, "license": "https://creativecommons.org/publicdomain/zero/1.0/", "distribution": {"@type": "DataDownload", "contentUrl": "data/book-release/index.jsonl.gz"}}</script>
+<style>
+:root{--bg:#070b16;--panel:#0d1526;--line:#1d2c4d;--ink:#e8f1ff;--dim:#9fb3d8;--acc:#2f7bff;--ok:#00e5a0;--warn:#ffb020}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Arial,Helvetica,sans-serif;line-height:1.5}
+.wrap{max-width:1060px;margin:0 auto;padding:14px}
+.hero{display:flex;gap:14px;align-items:center;background:linear-gradient(135deg,#0b1e3a,#101a30);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:12px}
+.hero img{width:84px;height:84px;border-radius:14px;flex:none}
+.hero h1{margin:0;font-size:1.5em}.hero p{margin:4px 0;color:var(--dim)}
+.stats{display:flex;gap:10px;flex-wrap:wrap;margin:8px 0}
+.stat{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:8px 12px;font-size:.9em}
+.stat b{color:var(--ok)}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
+.tab{border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:999px;padding:9px 18px;font-size:1em;cursor:pointer}
+.tab.on{background:var(--acc);border-color:var(--acc);font-weight:bold}
+.pane{display:none}.pane.on{display:block}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px;margin:10px 0}
+.card h3{margin:0 0 6px}
+.rec{display:flex;gap:10px;align-items:flex-start}
+.rec img{width:64px;height:64px;border-radius:10px;flex:none}
+.mono{font-family:Consolas,monospace}
+.dim{color:var(--dim)}.ok{color:var(--ok)}.bad{color:#ff6b6b}
+input,select,textarea,button{font-size:1em;border-radius:8px;border:1px solid var(--line);background:#0a1120;color:var(--ink);padding:9px 10px}
+button{cursor:pointer;background:#14305e}button.go{background:var(--acc);font-weight:bold}
+details.grp{border:1px solid var(--line);border-radius:10px;margin:8px 0;background:var(--panel)}
+details.grp>summary{padding:10px 12px;cursor:pointer;font-weight:bold;list-style:none}
+details.grp>summary::-webkit-details-marker{display:none}
+.badge{display:inline-block;background:#132a55;border:1px solid var(--line);border-radius:999px;padding:2px 10px;font-size:.8em;margin-right:6px}
+.badge.sig{background:#2a1a3d;border-color:#7a4fb5;color:#e8d5ff}.badge.fact{background:#0f2f1d;border-color:#3fae6a;color:#c9f2d8}
+.sigbanner{margin:0 0 8px}
+.chatlog{max-height:46vh;overflow:auto;border:1px solid var(--line);border-radius:10px;padding:10px;background:#080d18;margin-bottom:8px}
+.msg{display:flex;margin:8px 0}.msg.u{justify-content:flex-end}.msg.a{justify-content:flex-start}.msg .b{max-width:88%;padding:8px 12px;border-radius:12px;overflow-wrap:break-word;min-width:0;text-align:left}
+.msg.u .b{background:#14305e}.msg.a .b{background:#101a30;border:1px solid var(--line)}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+pre.code{background:#080d18;border:1px solid var(--line);border-radius:8px;padding:10px;white-space:pre-wrap;overflow-wrap:break-word;font-size:.82em;max-height:420px;overflow:auto}
+.kv{display:grid;grid-template-columns:minmax(96px,150px) minmax(120px,1fr);gap:4px 12px;font-size:.95em}
+.kv dt{color:var(--dim);overflow-wrap:break-word}.kv dd{margin:0;min-width:0;overflow-wrap:break-word}
+.kv dd.longtext{grid-column:1/-1;font-size:1em;line-height:1.55}
+.kv .kv{grid-template-columns:auto minmax(120px,1fr)}
+.kv dt{min-width:0}
+.rec>*{min-width:0}
+.foot{margin-top:26px;padding-top:12px;border-top:1px solid var(--line);color:var(--dim);font-size:.85em}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hero">
+    <img id="emblem" alt="database emblem">
+    <div>
+      <h1>Book Release Database</h1>
+      <p>Books with full publication records — publication date, author, publisher, genre, and page count. Every record is a real publication fact.</p>
+      <div class="stats">
+        <span class="stat">Archive records: <b id="stCount">…</b></span>
+        <span class="stat">Generator: <b>jahdb-book-release-1.0</b> <span class="ok">● working</span></span>
+        <span class="stat">Type: <b>◉ Public record</b></span>
+      </div>
+    </div>
+  </div>
+  <div class="tabs" role="tablist">
+    <button class="tab on" data-p="archive">Archive</button>
+    <button class="tab" data-p="gen">Generator</button>
+    <button class="tab" data-p="chat">AI Chat</button>
+    <button class="tab" data-p="about">About</button>
+  </div>
+  <section class="pane on" id="p-archive">
+    <div class="row">
+      <input id="q" placeholder="Search books, authors, publishers…" style="flex:1;min-width:200px">
+      <button class="go" id="qgo">Search</button>
+    </div>
+    <p class="dim">Browse by era — each group opens on demand and loads only what you open.</p>
+    <div id="groups"></div>
+    <div id="results"></div>
+  </section>
+  <section class="pane" id="p-gen">
+    <div class="card">
+      <h3>book release generator</h3>
+      <p class="dim">Mint deterministic sample records. Same seed always makes the same record. Samples are clearly labeled and never presented as real records.</p>
+      <div class="row">
+        <label>Seed <input id="gSeed" type="number" value="101" style="width:110px"></label>
+        <label>Count <input id="gN" type="number" value="5" min="1" max="50" style="width:80px"></label>
+        <label>decade <select id="gGrp"><option value="">any (generator picks)</option></select></label>
+        <button class="go" id="gGo">Generate</button>
+      </div>
+      <div id="gOut"></div>
+    </div>
+  </section>
+  <section class="pane" id="p-chat">
+    <div class="card">
+      <h3>JAH Book Archivist <button id="fresh" style="font-size:.8em">New session</button></h3>
+      <div class="chatlog" id="chatlog"></div>
+      <div class="row">
+        <input id="chatIn" placeholder="Ask about books…" style="flex:1;min-width:200px">
+        <button class="go" id="chatGo">Send</button>
+      </div>
+      <p class="dim">Fresh screen every session. Nothing you say here enters the permanent archive.</p>
+    </div>
+  </section>
+  <section class="pane" id="p-about">
+    <div class="card">
+      <h3>About this data base</h3>
+      <dl class="kv">
+        <dt>Archive</dt><dd>This database's book archive (JAH-BKR- records): real publication facts — title, author, publication date, publisher, genre, and page count. Every record is a verified public fact, never invented.</dd>
+        <dt>Record schema</dt><dd class="mono">id · name · title · description · author · pub_date · publisher · genre · pages · src</dd>
+        <dt>Coverage</dt><dd>Publication eras of literature, from the 1810s to today.</dd>
+        <dt>Generator</dt><dd>jahdb-book-release-1.0 — deterministic sample generator: same seed always makes the same record. Samples are clearly labeled.</dd>
+        <dt>Target</dt><dd>1,000,000 records. The archive marches toward the million mark with overload protection: 100-record chunks, lazy loading, and a collapsible per-decade archive so no device ever renders everything at once.</dd>
+        <dt>AI</dt><dd>JAH Book Archivist — archive-aware, a book release specialist, and aware of the whole JAH Databases network through cross-database reasoning. On-device Standard 1.0, no key needed.</dd>
+        <dt>Public record</dt><dd>◉ This database is a <b>public record organized in the Signature System</b> — real, verified facts. Property of Justin Addam Higgins (JAH).</dd><dt>Ownership</dt><dd>Property of Justin Addam Higgins (JAH).</dd>
+      </dl>
+    </div>
+  </section>
+  <div class="foot">JAH Databases. Property of Justin Addam Higgins (JAH).</div>
+</div>
+<script src="../../core/jahdb.js"></script>
+<script src="../../core/standard-1.0.js"></script>
+<script src="../../core/guide-conv.js"></script>
+<script src="../../core/apex-2.0.js"></script>
+<script src="gen-book-release.js"></script>
+<script>
+(function(){
+'use strict';
+var SLUG='book-release';
+var LOCAL='../../data/book-release/';
+var db={slug:SLUG,name:'Book Release Database',ai_name:'JAH Book Archivist',record_kind:'book release'};
+var ROLE='book release specialist';
+var NETWORK='Part of the JAH Databases network of archive-aware Creator AIs, every database marching to 1,000,000 records.';
+JAHDB.loadManifest().then(function(m){
+  try{
+    var n=m.databases.length, names=[], i;
+    for(i=0;i<Math.min(10,n);i++){ names.push(m.databases[i].name); }
+    NETWORK='I am one of '+n+' archive-aware Creator AIs in the JAH Databases network (each database marching to 1,000,000 records). Sibling databases include: '+names.join('; ')+' — and '+(n-10)+' more. Ask me about any of them and I will route you.';
+  }catch(e){}
+}).catch(function(){});
+var manifest=null, archiveIdx=null;
+var $=function(id){return document.getElementById(id);};
+document.querySelectorAll('.tab').forEach(function(t){
+  t.addEventListener('click',function(){
+    document.querySelectorAll('.tab').forEach(function(x){x.classList.remove('on');});
+    document.querySelectorAll('.pane').forEach(function(x){x.classList.remove('on');});
+    t.classList.add('on'); $('p-'+t.dataset.p).classList.add('on');
+  });
+});
+function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+JAHDB.loadManifest().then(function(m){manifest=m;db=JAHDB.dbBySlug(m,SLUG)||db;}).catch(function(){}).then(function(){
+  return JAHDB.fetchGz(LOCAL+'index.jsonl.gz');
+}).then(function(t){
+  archiveIdx=t.split('\n').filter(function(l){return l.trim();}).map(function(l){try{return JSON.parse(l);}catch(e){return null;}}).filter(Boolean);
+  $('stCount').textContent=archiveIdx.length.toLocaleString()+' / 1,000,000 target';
+  try{ $('gSeed').value=archiveIdx.length+1; }catch(e){}
+  $('emblem').src=JAHDB.emblemSVG(db.name,'JAH-BKR-');
+  fillSelects();
+  buildGroups();
+  greet();
+  deepOpen();
+}).catch(function(e){ $('stCount').textContent='archive unreachable ('+e.message+')'; });
+function chunkName(c){ return 'chunks/chunk-'+String(c).padStart(4,'0')+'.jsonl.gz'; }
+function fmtVal(v){
+  if(v===null||v===undefined)return '<span class="dim">—</span>';
+  if(Array.isArray(v))return esc(v.join('; '));
+  if(typeof v==='object')return '<dl class="kv">'+Object.keys(v).map(function(k){return '<dt class="mono">'+esc(k)+'</dt><dd>'+fmtVal(v[k])+'</dd>';}).join('')+'</dl>';
+  return esc(String(v));
+}
+function factBadge(r){
+  return '<div class="sigbanner"><span class="badge fact">◉ Public record — verified fact</span></div>';
+}
+function renderFull(r){
+  var h=factBadge(r)+'<dl class="kv">';
+  Object.keys(r).forEach(function(k){
+    if(k.charAt(0)==='_')return;
+    var v=r[k];h+='<dt class="mono">'+esc(k)+'</dt><dd'+(typeof v==='string'&&v.length>150?' class="longtext"':'')+'>'+fmtVal(v)+'</dd>';
+  });
+  return h+'</dl>';
+}
+function descOf(r){ try{ return String(r.description||""); }catch(e){ return ""; } }
+function buildGroups(){
+  var g=$('groups'); g.innerHTML='';
+  var byG={},i;
+  for(i=0;i<archiveIdx.length;i++){var s=archiveIdx[i].g||'unknown';(byG[s]=byG[s]||[]).push(archiveIdx[i]);}
+  Object.keys(byG).sort().forEach(function(grp){
+    var rows=byG[grp];
+    var d=document.createElement('details'); d.className='grp';
+    d.innerHTML='<summary>'+esc(grp)+' <span class="dim">('+rows.length.toLocaleString()+')</span></summary><div class="body"><p class="dim">Open to load the first 25.</p></div>';
+    d.addEventListener('toggle',function(){
+      if(d.open && !d.dataset.loaded){ d.dataset.loaded='1'; loadGrpSample(grp,d.querySelector('.body')); }
+    });
+    g.appendChild(d);
+  });
+}
+function loadChunked(ids,body,cardFn){
+  body.innerHTML='<p class="dim">Loading…</p>';
+  var need={};
+  ids.forEach(function(id){var c=Math.floor((parseInt(String(id).replace(/\D/g,''),10)-1)/100)+1;need[c]=1;});
+  var chunks=Object.keys(need).map(Number).sort(function(a,b){return a-b;});
+  var all=[];
+  (function next(i){
+    if(i>=chunks.length){
+      var want={};ids.forEach(function(id){want[id]=1;});
+      body.innerHTML=all.filter(function(r){return want[r.id];}).map(cardFn).join('')||'<p class="dim">No records loaded.</p>';
+      return;
+    }
+    JAHDB.fetchGz(LOCAL+chunkName(chunks[i])).then(function(t){
+      t.split('\n').filter(function(l){return l.trim();}).forEach(function(l){try{all.push(JSON.parse(l));}catch(e){}});
+      next(i+1);
+    }).catch(function(){next(i+1);});
+  })(0);
+}
+function loadGrpSample(grp,body){
+  var rows=archiveIdx.filter(function(r){return (r.g||'unknown')===grp;}).slice(0,25);
+  loadChunked(rows.map(function(r){return r.id;}),body,recCard);
+}
+function recCard(r){
+  var img=JAHDB.emblemSVG(r.name||r.id, r.id);
+  return '<div class="card"><div class="rec"><img loading="lazy" src="'+img+'" alt="">'+
+    '<div style="flex:1"><h3 style="font-size:1.05em">'+esc(r.name||r.id)+'</h3>'+
+    '<div><span class="badge mono">'+esc(r.id||'')+'</span><span class="badge">'+esc(r.g||'')+'</span><span class="badge mono">'+esc(r.t||'')+'</span></div>'+
+    '<p class="dim">'+esc(descOf(r).slice(0,140))+'</p>'+
+    '<details class="grp"><summary>Open full record ⤢</summary><div class="body">'+renderFull(r)+'</div></details>'+
+    '</div></div></div>';
+}
+$('qgo').addEventListener('click',doSearch);
+$('q').addEventListener('keydown',function(e){if(e.key==='Enter')doSearch();});
+function doSearch(){
+  var q=$('q').value.trim().toLowerCase(),box=$('results');
+  if(!q){box.innerHTML='';return;}
+  var hits=archiveIdx.filter(function(r){
+    return (r.name||'').toLowerCase().indexOf(q)>=0||(r.g||'').toLowerCase().indexOf(q)>=0||(r.t||'').toLowerCase().indexOf(q)>=0;
+  }).slice(0,25);
+  if(!hits.length){box.innerHTML='<p class="dim">No matches.</p>';return;}
+  loadChunked(hits.map(function(r){return r.id;}),box,recCard);
+}
+function fillSelects(){
+  var grps={},i;
+  for(i=0;i<archiveIdx.length;i++){grps[archiveIdx[i].g]=1;}
+  Object.keys(grps).sort().forEach(function(s){var o=document.createElement('option');o.value=s;o.textContent=s;$('gGrp').appendChild(o);});
+}
+$('gGo').addEventListener('click',function(){
+  var seed=+$('gSeed').value||101,n=Math.min(50,+$('gN').value||5);
+  var gen=(typeof JAHDB!=='undefined'&&JAHDB.generators&&JAHDB.generators['book-release'])?JAHDB.generators['book-release']:null;
+  var out=$('gOut');out.innerHTML='';
+  if(!gen){out.innerHTML='<p class="bad">Generator not registered yet.</p>';return;}
+  for(var i=0;i<n;i++){
+    var r=gen.generate(seed+i,{group:$('gGrp').value||undefined});
+    var v=gen.validate(r);
+    if(!v.ok){out.innerHTML+='<p class="bad">Seed '+seed+i+' failed: '+v.errors.join(', ')+'</p>';continue;}
+    out.innerHTML+='<div class="card"><b class="mono">'+esc(r.id)+'</b> — '+esc(r.name)+' <span class="dim">'+esc(r.g)+' · SAMPLE</span> <span class="ok">✓ valid</span><details class="grp"><summary>View sample</summary><div class="body">'+renderFull(r)+'</div></details></div>';
+  }
+  $('gSeed').value=seed+n;
+});
+function greet(){
+  var log=$('chatlog');
+  log.innerHTML='<div class="msg a"><div class="b">I\'m the JAH Book Archivist. Ask me about books — by decade, date, or name — and I\'ll point you to the archive. '+NETWORK+'</div></div>';
+}
+function aiReply(q){
+  q=q.toLowerCase();
+  var hits=archiveIdx.filter(function(r){
+    return (r.name||'').toLowerCase().indexOf(q)>=0||(r.g||'').toLowerCase().indexOf(q)>=0||(r.t||'').toLowerCase().indexOf(q)>=0;
+  }).slice(0,5);
+  if(hits.length){
+    return 'I found '+hits.length+' record'+(hits.length>1?'s':'')+' matching that:\n'+hits.map(function(r){return '• '+r.name+' ('+r.id+', '+r.g+') — '+r.t;}).join('\n')+'\nOpen the Archive tab for the full record.';
+  }
+  return 'The archive holds '+archiveIdx.length+' books. Try asking for a decade like "'+archiveIdx[0].g+'" or a name.';
+}
+$('chatGo').addEventListener('click',sendChat);
+$('chatIn').addEventListener('keydown',function(e){if(e.key==='Enter')sendChat();});
+function sendChat(){
+  var inp=$('chatIn'),q=inp.value.trim();if(!q)return;inp.value='';
+  var log=$('chatlog');
+  log.innerHTML+='<div class="msg u"><div class="b">'+esc(q)+'</div></div>';
+  log.innerHTML+='<div class="msg a"><div class="b">'+esc(aiReply(q)).replace(/\n/g,'<br>')+'</div></div>';
+  log.scrollTop=log.scrollHeight;
+}
+$('fresh').addEventListener('click',function(){$('chatlog').innerHTML='';greet();});
+function deepOpen(){
+  try{
+    var m=location.hash.match(/rec=([^&]+)/);
+    if(m){var id=decodeURIComponent(m[1]);
+      $('q').value=id;$('qgo').click();
+    }
+  }catch(e){}
+}
+})();
+</script>
+</body>
+</html>
