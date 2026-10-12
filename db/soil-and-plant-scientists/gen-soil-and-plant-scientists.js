@@ -1,0 +1,35 @@
+(function(){'use strict';
+/* Soil and Plant Scientists Database generator — jahdb-soil-and-plant-scientists-1.0.
+   Property of Justin Addam Higgins (JAH).
+   Deterministic: same seed always makes the same record.
+   Type 2: Signature-developed original content. */
+function prng(seed){var a=(seed>>>0)||1;return function(){a|=0;a=(a+0x6D2B79F5)|0;var t=Math.imul(a^(a>>>15),1|a);t=(t+Math.imul(t^(t>>>7),61|t))^t;return((t^(t>>>14))>>>0)/4294967296;};}
+function pick(r,s){return r[(s()*r.length)|0];}
+function ri(s,a,b){return a+((s()*(b-a+1))|0);}
+var PREFIX='JAH-SAP-';
+var TITLE='Soil and Plant Scientists';
+var DESC='Conduct research in breeding, physiology, production, yield, and management of crops and agricultural plants or trees, shrubs, and nursery stock, their growth in soils, and control of pests; or study ';
+var ASPECTS=[["Overview", "Determine and formulate policies and provide overall direction of companies or private and public sector organizations within guidelines set up by a board of directors or similar governing body. Plan,", "general"], ["Career Path", "Career paths and progression in Soil and Plant Scientists.", "careers"], ["Skills", "Key skills and requirements for Soil and Plant Scientists.", "skills"], ["Education", "Educational pathways for Soil and Plant Scientists.", "education"], ["Outlook", "Future trends and outlook for Soil and Plant Scientists.", "outlook"]];
+function generate(seed,opts){
+  opts=opts||{};
+  var s=prng(seed);
+  var a=ASPECTS[(seed-1)%ASPECTS.length];
+  return {
+    id:PREFIX+String(seed).padStart(6,'0'),
+    title:TITLE+' - '+a[0],
+    description:DESC,
+    aspect:a[0],
+    detail:a[1],
+    focus:a[2],
+    src:'signature',
+    seed:seed
+  };
+}
+function validate(rec){
+  return rec&&rec.id&&rec.title&&rec.id.indexOf(PREFIX)===0;
+}
+var api={generate:generate,validate:validate,slug:'soil-and-plant-scientists',version:'1.0'};
+if(typeof module!=='undefined'&&module.exports)module.exports=api;
+window['jahdb_soil_and_plant_scientists']=api;
+if(window.JAHDB&&JAHDB.registerGenerator)JAHDB.registerGenerator('soil-and-plant-scientists',api);
+})();
