@@ -63,6 +63,7 @@ pre.steps{background:#080d18;border:1px solid var(--line);border-radius:8px;padd
   <div class="tabs" role="tablist">
     <button class="tab on" data-p="archive">Archive</button>
     <button class="tab" data-p="gen">Generator</button>
+    <button class="tab" data-p="build">Build Database</button>
     <button class="tab" data-p="chat">AI Chat</button>
     <button class="tab" data-p="about">About</button>
   </div>
@@ -94,6 +95,37 @@ pre.steps{background:#080d18;border:1px solid var(--line);border-radius:8px;padd
       <h3>Queued for the archive <span class="dim" id="qCount"></span></h3>
       <p class="dim">Generated records wait here. Only validated, drift-free records can be filed — filing is a deliberate act, never automatic from chat.</p>
       <div id="queue"></div>
+    </div>
+  </section>
+  <section class="pane" id="p-build">
+    <div class="card">
+      <h3>Build a full database</h3>
+      <p class="dim">Enter a name and pick a type — this builds the COMPLETE file set for a new database to JAH standards: the full page, the deterministic generator, seeded records, and the manifest entry. Download as a ZIP, drop it in the repo, push.</p>
+      <div class="row" style="margin-bottom:8px">
+        <input id="bbName" placeholder="Database name (e.g. Vintage Cars)" style="flex:1;min-width:200px">
+      </div>
+      <div class="row" style="margin-bottom:8px">
+        <label>Database type <select id="bbType">
+          <option value="general">General purpose — a full database on ANY subject</option>
+          <option value="user-idea">User-idea database — your idea, fully worked out</option>
+          <option value="ecosystem">Ecosystem database — builds everything one at a time</option>
+          <option value="reverse-allowance">Reverse universal allowance — solve by working backwards</option>
+          <option value="book">Book database — the full book in every file</option>
+        </select></label>
+      </div>
+      <div class="row" style="margin-bottom:8px">
+        <input id="bbTopic" placeholder="Topic / description (e.g. classic automobiles 1900–1980)" style="flex:1;min-width:200px">
+      </div>
+      <div class="row" style="margin-bottom:8px">
+        <input id="bbKind" placeholder="Record kind (e.g. car profile)" style="flex:1;min-width:140px">
+        <input id="bbAI" placeholder="AI name (e.g. JAH Vintage Car Curator)" style="flex:1;min-width:140px">
+      </div>
+      <div class="row" style="margin-bottom:8px">
+        <label>Source type <select id="bbSrc"><option value="signature">Type 2 — Signature-original</option><option value="fact">Type 1 — Public fact-checked info</option></select></label>
+        <label>Seed records <input id="bbN" type="number" value="50" min="10" max="200" style="width:80px"></label>
+        <button class="go" id="bbGo">Build Database Files</button>
+      </div>
+      <div id="bbOut"></div>
     </div>
   </section>
   <section class="pane" id="p-chat">
@@ -128,6 +160,9 @@ pre.steps{background:#080d18;border:1px solid var(--line);border-radius:8px;padd
 <script src="../../core/guide-conv.js"></script>
 <script src="../../core/apex-2.0.js"></script>
 <script src="gen-database-builder.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="../../core/build-tool-core.js"></script>
+<script id="buildToolScript" src="../../core/build-tool-ui.js"></script>
 <script>
 (function(){
 'use strict';
