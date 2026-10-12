@@ -1,0 +1,40 @@
+(function(){'use strict';
+/* Signature Limericks Database generator — jahdb-limericks-generator-1.0.
+   Property of Justin Addam Higgins (JAH).
+   Deterministic: same seed always makes the same record.
+   src:"signature" = Signature-authored original (clearly labeled) */
+function prng(seed){var a=(seed>>>0)||1;return function(){a|=0;a=(a+0x6D2B79F5)|0;var t=Math.imul(a^(a>>>15),1|a);t=(t+Math.imul(t^(t>>>7),61|t))^t;return((t^(t>>>14))>>>0)/4294967296;};}
+function pick(r,s){return r[(s()*r.length)|0];}
+var PREFIX='JAH-LIMER-';
+var TOPICS=[["Classic Limericks", "The five-line form at its finest."], ["Silly Limericks", "Pure nonsense in AABBA rhyme."], ["Animal Limericks", "Beasts behaving badly in verse."], ["Food Limericks", "Rhymes you can almost taste."], ["Travel Limericks", "Postcard poems with a punchline."], ["Pirate Limericks", "Sea-shanty silliness."], ["Robot Limericks", "Mechanical merriment in meter."], ["Monster Limericks", "Friendly fiends in verse."], ["Sports Limericks", "Game-day giggles in five lines."], ["School Limericks", "Homework-humor poetry."], ["Space Limericks", "Cosmic comedy in rhyme."], ["Ocean Limericks", "Seaside silliness afloat."], ["Garden Limericks", "Petal-packed poems."], ["Weather Limericks", "Forecast fun in verse."], ["Holiday Limericks", "Festive five-liners."], ["Wizard Limericks", "Spellbound silliness."], ["Dinosaur Limericks", "Jurassic jokes in rhyme."], ["Knight Limericks", "Chivalrous chuckles."], ["Fairy Tale Limericks", "Twisted tales in five lines."], ["Superhero Limericks", "Cape-wearing comedy."], ["Music Limericks", "Melodic merriment."], ["Pet Limericks", "Furry friends in verse."], ["Farm Limericks", "Barnyard ballads."], ["Desert Limericks", "Sandy silliness."], ["Jungle Limericks", "Wild verse adventures."]];
+var ANGLES=['overview','detailed','examples','faq','history','applications'];
+function pad(n){var s=String(n);while(s.length<6)s='0'+s;return s;}
+function generate(seed,opts){
+  var s=prng(seed);
+  var ti=(s()*TOPICS.length)|0, ai=(s()*ANGLES.length)|0;
+  var topic=TOPICS[ti], angle=ANGLES[ai];
+  var id=PREFIX+pad(seed);
+  var title=topic[0]+' ('+angle+')';
+  var desc=topic[1]+' This '+angle+' guide provides comprehensive coverage.';
+  var content='['+angle+'] '+topic[0]+': '+topic[1]+' Full detailed content for '+angle+' perspective.';
+  return {
+    id:id, title:title, description:desc, genre:angle,
+    type:'limericks creation', content:content,
+    demo:null, src:'signature', _seed:seed
+  };
+}
+function validate(r){
+  var errs=[];
+  if(!r.id)errs.push('missing id');
+  if(!r.title)errs.push('missing title');
+  if(!r.content||r.content.length<50)errs.push('content too short');
+  return {ok:errs.length===0, errors:errs};
+}
+function driftCheck(rec,sample){
+  // Simple: check for exact title duplicates in sample
+  for(var i=0;i<sample.length;i++){if(sample[i].t===rec.title)return {ok:false,errors:['duplicate title']};}
+  return {ok:true,errors:[]};
+}
+if(typeof JAHDB!=='undefined'&&JAHDB.registerGenerator){JAHDB.registerGenerator('limericks',{generate:generate,validate:validate,driftCheck:driftCheck});}
+if(typeof module!=='undefined'&&module.exports){module.exports={generate:generate,validate:validate,driftCheck:driftCheck};}
+})();

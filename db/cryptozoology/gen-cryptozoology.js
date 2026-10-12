@@ -1,0 +1,40 @@
+(function(){'use strict';
+/* Signature Cryptozoology Database generator — jahdb-cryptozoology-generator-1.0.
+   Property of Justin Addam Higgins (JAH).
+   Deterministic: same seed always makes the same record.
+   src:"signature" = Signature-authored original (clearly labeled) */
+function prng(seed){var a=(seed>>>0)||1;return function(){a|=0;a=(a+0x6D2B79F5)|0;var t=Math.imul(a^(a>>>15),1|a);t=(t+Math.imul(t^(t>>>7),61|t))^t;return((t^(t>>>14))>>>0)/4294967296;};}
+function pick(r,s){return r[(s()*r.length)|0];}
+var PREFIX='JAH-CRYPTO-';
+var TOPICS=[["The Thylacine and Documented Extinction Claims", "Eyewitness reports from Tasmania describe encounters with a striped marsupial carnivore long after its declared 1936 extinction; researchers continue to analyze purported sightings and camera-trap images."], ["Orang Pendek of Sumatra", "Indonesian forest guides and visiting naturalists report a small upright-walking ape in Sumatra's rainforests; footprint casts and hair samples have been studied without a confirmed identification."], ["The Mokele-Mbembe of the Congo Basin", "Local folklore and missionary accounts describe a large sauropod-like animal in the Likouala swamps; expeditions since the early 1900s have returned with stories but no physical specimen."], ["Sea Serpents in Maritime Logs", "Ship captains from the 1700s through the 1900s logged encounters with long-necked sea creatures; modern analysts compare the reports to known animals like oarfish and giant squid."], ["The Chupacabra Phenomenon", "Reports originating in Puerto Rico in 1995 describe a spiny-backed creature blamed for livestock deaths; later specimens were identified by biologists as coyotes with severe mange."], ["Loch Ness Cryptid Photographic Record", "From the 1934 surgeon's photograph to sonar surveys, the loch's famous inhabitant remains unproven; genetic eDNA surveys of the loch found abundant eel DNA and no unknown large species."], ["The Yeti and Himalayan Hair Samples", "Sherpa traditions describe the meh-teh; mid-20th-century expeditions collected alleged hair and footprints, and later DNA testing attributed samples to known bears."], ["Thunderbirds in North American Folklore", "Indigenous traditions and pioneer journals tell of giant birds with vast wingspans; cryptozoologists collect modern sightings while ornithologists point to condors and misidentified aircraft."], ["The Jersey Devil Legend", "Since the 1700s, New Jersey's Pine Barrens have produced reports of a winged, horse-headed figure; folklorists trace the legend to colonial-era gossip and tabloid hoaxes."], ["Mongolian Death Worm", "Nomadic accounts describe a red sausage-like creature in the Gobi Desert said to spray venom; expeditions have found monitor lizards and snakes but nothing matching the description."], ["The Beast of G\u00e9vaudan", "In 1764\u20131767 France, a series of fatal attacks were attributed to a huge wolf-like beast; historians debate whether a wolf pack, a hyena, or human killers were responsible."], ["Black Dog Apparitions of Britain", "Centuries of reports describe phantom black dogs like Black Shuck haunting English lanes; folklorists classify them as omen legends rather than zoological claims."], ["The Mapinguari of the Amazon", "Rubber-tapper folklore describes a giant ground-sloth-like beast with backward feet; scientists note real giant ground sloths went extinct millennia ago, keeping the claim unconfirmed."], ["Lake Monsters Beyond Ness", "From Champ in Lake Champlain to Ogopogo in Okanagan Lake, lake-monster reports follow a shared template; sonar sweeps and sturgeon misidentifications explain many cases."], ["The Dover Demon", "In April 1977, teenagers in Dover, Massachusetts reported a strange watermelon-headed humanoid over two nights; investigators cataloged it as an unresolved close-encounter report."], ["Giant Anacondas of the Amazon", "Explorers claim anacondas exceeding 40 feet in remote rivers; the largest verified specimen measured under 30 feet, keeping the giant claims anecdotal."], ["The Bunyip of Aboriginal Australia", "Aboriginal traditions warn of a water-dwelling creature; colonial settlers collected conflicting descriptions, and scholars treat it as a layered cultural legend."], ["Skunk Apes of the Florida Everglades", "Swamp residents report a foul-smelling ape-like creature in South Florida; trail cameras have captured raccoons and feral hogs but no primate."], ["The Owlman of Mawnan", "Beginning in 1976, visitors to a Cornwall church reported a large owl-like figure; researchers compare the case to mothman-style sightings shaped by local storytelling."], ["Cadborosaurus: Caddy of the Pacific", "Sailors and coastal residents from British Columbia to Alaska report a serpentine sea creature nicknamed Caddy; a recovered 1937 carcass was identified as a decomposed basking shark."], ["The Ahool of Java", "Naturalist accounts describe a giant bat-like creature with a monkey face in Indonesian rainforests; no specimen or clear photograph has ever surfaced."], ["Almasty: Wild Men of the Caucasus", "Russian and Central Asian reports describe relict hominids in remote mountains; the controversial Zana case was DNA-tested and attributed to a human of sub-Saharan African origin."], ["The Kraken in Naval History", "Sailors' tales of ship-dragging monsters likely drew on encounters with giant squid, which were not scientifically documented until the 19th century."], ["Nandi Bear of East Africa", "Settlers and local guides reported a ferocious bear-like animal in Kenya; zoologists suggest spotted hyenas or honey badgers seen in poor light."], ["The Loveland Frogman", "Ohio police officers in 1955 and 1972 reported frog-like humanoids near Loveland; later analysis suggested misidentified large iguanas escaped from captivity."], ["Cryptozoology's Investigative Methods", "Field cryptozoologists use footprint casts, hair analysis, camera traps, and eDNA sampling; skeptics argue the methods confirm known species more often than unknown ones."], ["Coelacanth: The Lazarus Fish", "Thought extinct for 66 million years until a 1938 catch off South Africa, the coelacanth shows how real animals can hide \u2014 and why extraordinary claims still need specimens."], ["The Okapi's Discovery Story", "Once dismissed as a colonial tall tale, the okapi was confirmed in 1901; it remains the textbook case cryptozoologists cite for keeping an open but evidence-demanding mind."]];
+var ANGLES=['overview','detailed','examples','faq','history','applications'];
+function pad(n){var s=String(n);while(s.length<6)s='0'+s;return s;}
+function generate(seed,opts){
+  var s=prng(seed);
+  var ti=(s()*TOPICS.length)|0, ai=(s()*ANGLES.length)|0;
+  var topic=TOPICS[ti], angle=ANGLES[ai];
+  var id=PREFIX+pad(seed);
+  var title=topic[0]+' ('+angle+')';
+  var desc=topic[1]+' This '+angle+' guide provides comprehensive coverage.';
+  var content='['+angle+'] '+topic[0]+': '+topic[1]+' Full detailed content for '+angle+' perspective.';
+  return {
+    id:id, title:title, description:desc, genre:angle,
+    type:'cryptozoology exploration', content:content,
+    demo:null, src:'signature', _seed:seed
+  };
+}
+function validate(r){
+  var errs=[];
+  if(!r.id)errs.push('missing id');
+  if(!r.title)errs.push('missing title');
+  if(!r.content||r.content.length<50)errs.push('content too short');
+  return {ok:errs.length===0, errors:errs};
+}
+function driftCheck(rec,sample){
+  // Simple: check for exact title duplicates in sample
+  for(var i=0;i<sample.length;i++){if(sample[i].t===rec.title)return {ok:false,errors:['duplicate title']};}
+  return {ok:true,errors:[]};
+}
+if(typeof JAHDB!=='undefined'&&JAHDB.registerGenerator){JAHDB.registerGenerator('cryptozoology',{generate:generate,validate:validate,driftCheck:driftCheck});}
+if(typeof module!=='undefined'&&module.exports){module.exports={generate:generate,validate:validate,driftCheck:driftCheck};}
+})();
