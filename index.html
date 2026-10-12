@@ -71,9 +71,9 @@ fetch('data/manifest.json').then(function(r){return r.json();}).then(function(m)
       if(q && (d.name+' '+d.tagline+' '+d.record_kind).toLowerCase().indexOf(q)<0) return;
       var a=document.createElement('a');
       a.className='card'; a.href='db/'+d.slug+'/';
-      a.innerHTML='<img loading="lazy" src="'+JAHDB.emblemSVG(d.name,d.id_prefix.replace(/-/g,''))+'" alt="">'+
-        '<div><h3>'+d.name+'</h3><p>'+d.tagline+'</p>'+
-        '<div class="st '+(d.status==='live'?'live':'building')+'">'+(d.status==='live'?'● LIVE':'◐ BUILDING')+' · '+d.record_kind+'s</div></div>';
+      a.innerHTML='<img loading="lazy" src="'+JAHDB.emblemSVG(d.name,(d.id_prefix||d.slug||'').replace(/-/g,''))+'" alt="">'+
+        '<div><h3>'+d.name+'</h3><p>'+(d.tagline||'')+'</p>'+
+        '<div class="st '+(d.status==='live'?'live':'building')+'">'+(d.status==='live'?'● LIVE':'◐ BUILDING')+' · '+(d.record_kind||'record')+'s</div></div>';
       grid.appendChild(a);
     });
   }
