@@ -545,6 +545,24 @@ function build(slug, rec) {
   }
 }
 var HOW = 'PC: save the program as demo.js (or demo.py/demo.sql per language) and run it with node/python3/sqlite3. In-page: open the record, Demo Lab tab, press Run.';
+/* Forced-kind builder (ADDITIVE — powers boundless alternatives: swap the demo
+   kind without touching the default build path). Returns a finalized demo. */
+function buildKind(slug, rec, kind) {
+  try {
+    slug = String(slug || 'db'); rec = rec || {};
+    var c = collect(rec), out = null;
+    if (kind === 'code') {
+      out = codeBuilderFor(slug)(slug, rec);
+      if ((out.language || 'javascript') === 'javascript' && !smokeTest(out.program))
+        out = bExplore(slug, rec, c);
+    }
+    else if (kind === 'simulate') out = bSim(slug, rec, c);
+    else if (kind === 'chart') out = bChart(slug, rec, c);
+    else if (kind === 'read') out = bRead(slug, rec, c);
+    else out = bExplore(slug, rec, c);
+    return finalize(out, slug, rec);
+  } catch (e) { return build(slug, rec); }
+}
 function finalize(r, slug, rec) {
   return {
     engine: VERSION,
@@ -758,6 +776,7 @@ function initPage() {
 var D = {
   version: VERSION,
   build: build,
+  buildKind: buildKind,
   kindFor: kindFor,
   runProgram: runProgram,
   renderDemoInto: renderDemoInto,

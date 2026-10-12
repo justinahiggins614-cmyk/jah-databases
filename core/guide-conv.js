@@ -111,6 +111,26 @@ var GuideConv = (function () {
   };
 })();
 
+/* ---------- Per-File AI + Boundless Alternatives loader (ADDITIVE) ----------
+   Manon's architecture: each file gets its own AI (item + database + system
+   aware) with boundless alternatives A1/A2/A3…. This only LOADS the separate
+   jahdb-fileai.js module, which injects its own panel into record views.
+   Nothing above is modified or affected. If the module 404s, nothing breaks. */
+(function () {
+  try {
+    var scripts = document.getElementsByTagName('script'), base = null, i, s;
+    for (i = 0; i < scripts.length; i++) {
+      s = scripts[i].src || '';
+      if (/core\/guide-conv\.js/.test(s)) { base = s.replace(/guide-conv\.js.*$/, ''); break; }
+    }
+    if (!base) return;
+    var el = document.createElement('script');
+    el.src = base + 'jahdb-fileai.js';
+    el.defer = true;
+    el.onerror = function () { /* per-file AI optional — page works without it */ };
+    document.head.appendChild(el);
+  } catch (e) { /* never break the page */ }
+})();
 /* ---------- Signature Web AI side-channel loader (ADDITIVE — fax design) ----------
    Manon's order: do not mess up the current AI. This only LOADS the separate
    signature-web-ai.js module, which injects its own banner + button. Nothing
