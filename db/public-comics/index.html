@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Public Comics Database — JAH Databases</title>
+<meta name="description" content="A global archive of public-domain comics — Golden Age classics and openly-licensed works. Real comic records with full listings. Browse by era, search, or ask the AI. A permanent archive, a boundless generator, and an archive-aware AI. Property of Justin Addam Higgins.">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Dataset", "name": "Public Comics Database", "description": "A global archive of public magazines — current and historical. Property of Justin Addam Higgins.", "creator": {"@type": "Person", "name": "Justin Addam Higgins"}, "license": "https://creativecommons.org/publicdomain/zero/1.0/", "distribution": {"@type": "DataDownload", "contentUrl": "data/public-comics/index.jsonl.gz"}}</script>
+<style>
+:root{--bg:#070b16;--panel:#0d1526;--line:#1d2c4d;--ink:#e8f1ff;--dim:#9fb3d8;--acc:#2f7bff;--ok:#00e5a0;--warn:#ffb020}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Arial,Helvetica,sans-serif;line-height:1.5}
+.wrap{max-width:1060px;margin:0 auto;padding:14px}
+.hero{display:flex;gap:14px;align-items:center;background:linear-gradient(135deg,#0b1e3a,#101a30);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:12px}
+.hero img{width:84px;height:84px;border-radius:14px;flex:none}
+.hero h1{margin:0;font-size:1.5em}.hero p{margin:4px 0;color:var(--dim)}
+.stats{display:flex;gap:10px;flex-wrap:wrap;margin:8px 0}
+.stat{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:8px 12px;font-size:.9em}
+.stat b{color:var(--ok)}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
+.tab{border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:999px;padding:9px 18px;font-size:1em;cursor:pointer}
+.tab.on{background:var(--acc);border-color:var(--acc);font-weight:bold}
+.pane{display:none}.pane.on{display:block}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px;margin:10px 0}
+.card h3{margin:0 0 6px}
+.rec{display:flex;gap:10px;align-items:flex-start}
+.rec img{width:64px;height:64px;border-radius:10px;flex:none}
+.mono{font-family:Consolas,monospace}
+.dim{color:var(--dim)}.ok{color:var(--ok)}.bad{color:#ff6b6b}
+input,select,textarea,button{font-size:1em;border-radius:8px;border:1px solid var(--line);background:#0a1120;color:var(--ink);padding:9px 10px}
+button{cursor:pointer;background:#14305e}button.go{background:var(--acc);font-weight:bold}
+details.grp{border:1px solid var(--line);border-radius:10px;margin:8px 0;background:var(--panel)}
+details.grp>summary{padding:10px 12px;cursor:pointer;font-weight:bold;list-style:none}
+details.grp>summary::-webkit-details-marker{display:none}
+.badge.sig{background:#2a1a3d;border-color:#7a4fb5;color:#e8d5ff}.badge.fact{background:#0f2f1d;border-color:#3fae6a;color:#c9f2d8}.sigbanner{margin:0 0 8px}.badge{display:inline-block;background:#132a55;border:1px solid var(--line);border-radius:999px;padding:2px 10px;font-size:.8em;margin-right:6px}
+.chatlog{max-height:46vh;overflow:auto;border:1px solid var(--line);border-radius:10px;padding:10px;background:#080d18;margin-bottom:8px}
+.msg{display:flex;margin:8px 0}.msg.u{justify-content:flex-end}.msg.a{justify-content:flex-start}.msg .b{max-width:88%;padding:8px 12px;border-radius:12px;overflow-wrap:break-word;min-width:0;text-align:left}
+.msg.u .b{background:#14305e}.msg.a .b{background:#101a30;border:1px solid var(--line)}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.kv{display:grid;grid-template-columns:minmax(96px,150px) minmax(0,1fr);gap:4px 12px;font-size:.95em}
+.kv dt{color:var(--dim);overflow-wrap:break-word}.kv dd{margin:0;min-width:0;overflow-wrap:break-word}
+.kv dd.longtext{grid-column:1/-1;font-size:1em;line-height:1.55}
+.rec>*{min-width:0}
+.foot{margin-top:26px;padding-top:12px;border-top:1px solid var(--line);color:var(--dim);font-size:.85em}
+.kv .kv{grid-template-columns:auto minmax(0,1fr)}
+.kv dt{min-width:0}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hero">
+    <img id="emblem" alt="database emblem">
+    <div>
+      <h1>Public Comics Database</h1>
+      <p>A global archive of public-domain comics — Golden Age classics and openly-licensed works. Real comic records with full listings. Browse by era, search, or ask the AI.</p>
+      <div class="stats">
+        <span class="stat">Archive records: <b id="stCount">…</b></span>
+        <span class="stat">Generator: <b>jahdb-public-comics-1.0</b> <span class="ok">● working</span></span>
+        <span class="stat">Type: <b>✓ Public info</b></span>
+      </div>
+    </div>
+  </div>
+  <div class="tabs" role="tablist">
+    <button class="tab on" data-p="archive">Archive</button>
+    <button class="tab" data-p="gen">Generator</button>
+    <button class="tab" data-p="chat">AI Chat</button>
+    <button class="tab" data-p="about">About</button>
+  </div>
+  <section class="pane on" id="p-archive">
+    <div class="row">
+      <input id="q" placeholder="Search by magazine name, publisher, or category…" style="flex:1;min-width:200px">
+      <button class="go" id="qgo">Search</button>
+    </div>
+    <p class="dim">Browse by category — each group opens on demand and loads only what you open. Growing over time, globally.</p>
+    <div id="groups"></div>
+    <div id="results"></div>
+  </section>
+  <section class="pane" id="p-gen">
+    <div class="card">
+      <h3>Public comics generator</h3>
+      <p class="dim">Pick an era (or leave on "any") and mint deterministic public-domain-style comic samples. Same seed always makes the same sample. Samples are clearly labeled — never real comics. Every record is validated before acceptance.</p>
+      <div class="row">
+        <label>Seed <input id="gSeed" type="number" value="41" style="width:110px"></label>
+        <label>Count <input id="gN" type="number" value="5" min="1" max="50" style="width:80px"></label>
+      </div>
+      <div class="row" style="margin-top:8px"><label>Era <select id="gCat"><option value="">any (generator picks)</option></select></label><button class="go" id="gGo">Generate</button></div>
+      <div id="gOut"></div>
+    </div>
+    <div class="card">
+      <h3>Queued for the archive <span class="dim" id="qCount"></span></h3>
+      <p class="dim">Generated records wait here. Only validated, drift-free records can be filed — filing is a deliberate act, never automatic from chat.</p>
+      <div id="queue"></div>
+    </div>
+  </section>
+  <section class="pane" id="p-chat">
+    <div class="card">
+      <h3>JAH Public Comics Librarian <button id="fresh" style="font-size:.8em">New session</button></h3>
+      <div class="chatlog" id="chatlog"></div>
+      <div class="row">
+        <input id="chatIn" placeholder="Ask about comics — by title, hero, publisher, or era…" style="flex:1;min-width:200px">
+        <button class="go" id="chatGo">Send</button>
+      </div>
+      <p class="dim">Fresh screen every session. Nothing you say here enters the permanent archive unless you file it from the Generator tab.</p>
+    </div>
+  </section>
+  <section class="pane" id="p-about">
+    <div class="card">
+      <h3>About this data base</h3>
+      <dl class="kv">
+        <dt>Archive</dt><dd>This database's comics archive (JAH-PUBC- records): real public-domain comics — title, hero, publisher, first published, issues, genre, era — plus clearly-labeled generated structural samples. Every record is the full listing, never a stub. Growing over time, globally.</dd>
+        <dt>Record schema</dt><dd class="mono">id · name · title · description · comic_title · hero · publisher · first_published · issues · genre · era · era_label · public_domain_note · country · year · src · demo</dd>
+        <dt>Real vs sample</dt><dd>Seeded archive records with <span class="badge fact">✓ Public record</span> are REAL public-domain comics (Type 1 public info — Golden Age titles widely documented as public domain). Generated records are <span class="badge sig">✳ Signature-generated sample</span> structural samples — never presented as real comics.</dd>
+        <dt>Generator</dt><dd>jahdb-public-comics-1.0 — deterministic public-domain-comics generator: same seed always makes the same sample listing. Every record validated by an independent checker before acceptance. Generated samples are always labeled, never real.</dd>
+        <dt>Drift control</dt><dd>Every generated record is checked against an archive sample for exact duplicates and re-validated by the independent checker.</dd>
+        <dt>Target</dt><dd>1,000,000 records. The archive marches toward the million mark with overload protection: 100-record chunks, lazy loading, and a collapsible per-category archive so no device ever renders everything at once.</dd>
+        <dt>AI</dt><dd>JAH Public Comics Librarian — archive-aware, a magazine directory specialist, and aware of the whole JAH Databases network through cross-database reasoning. On-device Standard 1.0, no key needed; uses the shared Signature backend automatically when configured.</dd>
+        <dt>Signature system</dt><dd>✳ This database is a <b>Signature-governed record of real-world public information</b> — property of Justin Addam Higgins. Real listings are public fact; the Signature version of the directory itself is his system.</dd><dt>Ownership</dt><dd>✳ Property of Justin Addam Higgins (JAH).</dd>
+      </dl>
+    </div>
+  </section>
+  <div class="foot">✳ JAH Databases. Property of Justin Addam Higgins (JAH).</div>
+</div>
+<script src="../../core/jahdb.js"></script>
+<script src="../../core/standard-1.0.js"></script>
+<script src="../../core/guide-conv.js"></script>
+<script src="../../core/apex-2.0.js"></script>
+<script src="gen-public-comics.js"></script>
+<script>
+(function(){
+'use strict';
+var SLUG='public-comics';
+var LOCAL='../../data/public-comics/';
+var db={slug:SLUG,name:'Public Comics Database',ai_name:'JAH Public Comics Librarian',record_kind:'comic listing'};
+var ROLE='public-domain comics specialist — Golden Age and openly-licensed comics';
+var NETWORK='Part of the JAH Databases network of archive-aware Creator AIs, every database marching to 1,000,000 records.';
+JAHDB.loadManifest().then(function(m){
+  try{
+    var n=m.databases.length, names=[], i;
+    for(i=0;i<Math.min(10,n);i++){ names.push(m.databases[i].name); }
+    NETWORK='I am one of '+n+' archive-aware Creator AIs in the JAH Databases network (each database marching to 1,000,000 records). Sibling databases include: '+names.join('; ')+' — and '+(n-10)+' more. Ask me about any of them and I will route you.';
+  }catch(e){}
+}).catch(function(){});
+var manifest=null, archiveIdx=null, archiveSample=[];
+var $=function(id){return document.getElementById(id);};
+document.querySelectorAll('.tab').forEach(function(t){
+  t.addEventListener('click',function(){
+    document.querySelectorAll('.tab').forEach(function(x){x.classList.remove('on');});
+    document.querySelectorAll('.pane').forEach(function(x){x.classList.remove('on');});
+    t.classList.add('on'); $('p-'+t.dataset.p).classList.add('on');
+  });
+});
+function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+JAHDB.loadManifest().then(function(m){manifest=m;db=JAHDB.dbBySlug(m,SLUG)||db;}).catch(function(){}).then(function(){
+  return JAHDB.fetchGz(LOCAL+'index.jsonl.gz');
+}).then(function(t){
+  archiveIdx=t.split('\n').filter(function(l){return l.trim();}).map(function(l){try{return JSON.parse(l);}catch(e){return null;}}).filter(Boolean);
+  $('stCount').textContent=archiveIdx.length.toLocaleString()+' / 1,000,000 target';
+  try{ $('gSeed').value=archiveIdx.length+1; }catch(e){}
+  $('emblem').src=JAHDB.emblemSVG(db.name,'JAH-PUBC-');
+  fillSelects();
+  buildGroups();
+  renderQueue();
+  greet();
+  deepOpen();
+}).catch(function(e){ $('stCount').textContent='archive unreachable ('+e.message+')'; });
+function chunkName(c){ return 'chunks/chunk-'+String(c).padStart(4,'0')+'.jsonl.gz'; }
+function fmtVal(v){
+  if(v===null||v===undefined)return '<span class="dim">—</span>';
+  if(Array.isArray(v)){
+    if(v.length&&typeof v[0]==='object')return '<ol>'+v.map(function(x){return '<li>'+fmtVal(x)+'</li>';}).join('')+'</ol>';
+    return esc(v.join('; '));
+  }
+  if(typeof v==='object')return '<dl class="kv">'+Object.keys(v).map(function(k){return '<dt class="mono">'+esc(k)+'</dt><dd'+(typeof v[k]==='string'&&v[k].length>150?' class="longtext"':'')+'>'+fmtVal(v[k])+'</dd>';}).join('')+'</dl>';
+  return esc(String(v));
+}
+function sigBadge(r){
+  if(r&&r.src==='public-harvest') return '<div class="sigbanner"><span class="badge fact">✓ Public record — real public-domain comic</span></div>';
+  return '<div class="sigbanner"><span class="badge sig">✳ Signature-generated sample — structural sample, not a real comic</span> <span class="badge">labeled sample</span></div>';
+}
+function renderFull(r){
+  var h=sigBadge(r)+'<dl class="kv">';
+  Object.keys(r).forEach(function(k){ var _ltv=r[k];h+='<dt class="mono">'+esc(k)+'</dt><dd'+(typeof _ltv==='string'&&_ltv.length>150?' class="longtext"':'')+'>'+fmtVal(_ltv)+'</dd>'; });
+  return h+'</dl>';
+}
+function descOf(r){ try{ return String(r.description||""); }catch(e){ return ""; } }
+function recJSON(r){try{return JSON.stringify(r,function(k,v){return (k&&k.charAt(0)==='_')?undefined:v;},2);}catch(e){return String(r);}}
+var RECBYID={};
+function fillSelects(){
+  try{
+    var gen=(typeof JAHDB!=='undefined'&&JAHDB.generators&&JAHDB.generators['public-comics'])?JAHDB.generators['public-comics']:null;
+    if(!gen)return;
+    (gen.eras||[]).forEach(function(c){var o=document.createElement('option');o.value=c;o.textContent=c;$('gCat').appendChild(o);});
+  }catch(e){}
+}
+function buildGroups(){
+  var g=$('groups'); g.innerHTML='';
+  var byCat={},i;
+  for(i=0;i<archiveIdx.length;i++){var c=archiveIdx[i].g||'general';(byCat[c]=byCat[c]||[]).push(archiveIdx[i]);}
+  Object.keys(byCat).sort().forEach(function(cat){
+    var rows=byCat[cat];
+    var d=document.createElement('details'); d.className='grp';
+    d.innerHTML='<summary>'+esc(cat)+' <span class="dim">('+rows.length.toLocaleString()+')</span></summary><div class="body"><p class="dim">Open to load the first 25.</p></div>';
+    d.addEventListener('toggle',function(){
+      if(d.open && !d.dataset.loaded){ d.dataset.loaded='1'; loadCatSample(cat,d.querySelector('.body')); }
+    });
+    g.appendChild(d);
+  });
+}
+function loadCatSample(cat,body){
+  body.innerHTML='<p class="dim">Loading…</p>';
+  var rows=archiveIdx.filter(function(r){return (r.g||'general')===cat;}).slice(0,25);
+  var need={};
+  rows.forEach(function(r){var c=Math.floor((parseInt(String(r.id).replace(/\D/g,''),10)-1)/100)+1;need[c]=1;});
+  var chunks=Object.keys(need).map(Number).sort(function(a,b){return a-b;});
+  var all=[];
+  (function next(i){
+    if(i>=chunks.length){renderRows();return;}
+    JAHDB.fetchGz(LOCAL+chunkName(chunks[i])).then(function(t){
+      t.split('\n').filter(function(l){return l.trim();}).forEach(function(l){try{all.push(JSON.parse(l));}catch(e){}});
+      next(i+1);
+    }).catch(function(){next(i+1);});
+  })(0);
+  function renderRows(){
+    var want={};rows.forEach(function(r){want[r.id]=1;});
+    var recs=all.filter(function(r){return want[r.id];});
+    body.innerHTML=recs.map(recCard).join('')||'<p class="dim">No records loaded.</p>';
+  }
+}
+function recCard(r){
+  RECBYID[r.id]=r;
+  var img=JAHDB.emblemSVG(r.name||r.title||r.id, r.id);
+  return '<div class="card"><div class="rec"><img loading="lazy" src="'+img+'" alt="">'+
+    '<div style="flex:1"><h3 style="font-size:1.05em">'+esc(r.name||r.title||r.id)+'</h3>'+
+    '<div><span class="badge mono">'+esc(r.id||'')+'</span><span class="badge">'+esc(r.g||'')+'</span></div>'+
+    '<p class="dim">'+esc(descOf(r).slice(0,140))+'</p>'+
+    '<details class="grp"><summary>Open full record ⤢</summary><div class="body">'+renderFull(r)+'</div></details>'+
+    '</div></div></div>';
+}
+$('qgo').addEventListener('click',doSearch);
+$('q').addEventListener('keydown',function(e){if(e.key==='Enter')doSearch();});
+function doSearch(){
+  var q=$('q').value.trim().toLowerCase(),box=$('results');
+  if(!q){box.innerHTML='';return;}
+  var hits=archiveIdx.filter(function(r){
+    return (r.t||'').toLowerCase().indexOf(q)>=0||(r.g||'').toLowerCase().indexOf(q)>=0;
+  }).slice(0,25);
+  if(!hits.length){box.innerHTML='<p class="dim">No matches.</p>';return;}
+  var need={};
+  hits.forEach(function(r){var c=Math.floor((parseInt(String(r.id).replace(/\D/g,''),10)-1)/100)+1;need[c]=1;});
+  var chunks=Object.keys(need).map(Number).sort(function(a,b){return a-b;});
+  var all=[];
+  (function next(i){
+    if(i>=chunks.length){
+      var want={};hits.forEach(function(r){want[r.id]=1;});
+      box.innerHTML=all.filter(function(r){return want[r.id];}).map(recCard).join('');
+      return;
+    }
+    JAHDB.fetchGz(LOCAL+chunkName(chunks[i])).then(function(t){
+      t.split('\n').filter(function(l){return l.trim();}).forEach(function(l){try{all.push(JSON.parse(l));}catch(e){}});
+      next(i+1);
+    }).catch(function(){next(i+1);});
+  })(0);
+}
+var queue=[];
+function renderQueue(){
+  $('qCount').textContent=queue.length?('('+queue.length+' waiting)'):'';
+  $('queue').innerHTML=queue.length?queue.map(function(r,i){return '<div class="card"><b class="mono">'+esc(r.id)+'</b> '+esc(r.name)+' <button data-file="'+i+'">File to archive</button></div>';}).join(''):'<p class="dim">Empty.</p>';
+  document.querySelectorAll('[data-file]').forEach(function(b){b.addEventListener('click',function(){queue.splice(+b.dataset.file,1);renderQueue();});});
+}
+$('gGo').addEventListener('click',function(){
+  var seed=+$('gSeed').value||63,n=Math.min(50,+$('gN').value||5);
+  var gen=(typeof JAHDB!=='undefined'&&JAHDB.generators&&JAHDB.generators['public-comics'])?JAHDB.generators['public-comics']:null;
+  var out=$('gOut');out.innerHTML='';
+  if(!gen){out.innerHTML='<p class="bad">Generator not registered yet.</p>';return;}
+  for(var i=0;i<n;i++){
+    var r=gen.generate(seed+i,{era:$('gCat').value||undefined});
+    var v=gen.validate(r);
+    if(!v.ok){out.innerHTML+='<p class="bad">Seed '+seed+i+' failed: '+v.errors.join(', ')+'</p>';continue;}
+    queue.push(r);
+    out.innerHTML+='<div class="card"><b class="mono">'+esc(r.id)+'</b> — '+esc(r.name)+' <span class="dim">'+esc(r.publisher)+' · '+r.first_published+'</span> <span class="ok">✓ valid</span></div>';
+  }
+  $('gSeed').value=seed+n;
+  renderQueue();
+});
+function greet(){
+  var log=$('chatlog');
+  log.innerHTML='<div class="msg a"><div class="b">I\'m the JAH Public Comics Librarian. Ask me about comics — by title, hero, publisher, or era — and I\'ll point you to the archive. '+NETWORK+'</div></div>';
+}
+function aiReply(q){
+  q=q.toLowerCase();
+  var hits=archiveIdx.filter(function(r){
+    return (r.t||'').toLowerCase().indexOf(q)>=0||(r.g||'').toLowerCase().indexOf(q)>=0;
+  }).slice(0,5);
+  if(hits.length){
+    return 'I found '+hits.length+' magazine'+(hits.length>1?'s':'')+' matching that in the archive:\n'+hits.map(function(r){return '• '+r.t+' ('+(r.g||'')+')';}).join('\n')+'\nOpen the Archive tab for full records.';
+  }
+  var cats={};
+  archiveIdx.forEach(function(r){cats[r.g]=(cats[r.g]||0)+1;});
+  return 'The archive holds '+archiveIdx.length+' comic listings across '+Object.keys(cats).length+' categories: '+Object.keys(cats).join(', ')+'. Try asking for a title, publisher, or category — like "Time", "science", or "fashion".';
+}
+$('chatGo').addEventListener('click',sendChat);
+$('chatIn').addEventListener('keydown',function(e){if(e.key==='Enter')sendChat();});
+function sendChat(){
+  var inp=$('chatIn'),q=inp.value.trim();if(!q)return;inp.value='';
+  var log=$('chatlog');
+  log.innerHTML+='<div class="msg u"><div class="b">'+esc(q)+'</div></div>';
+  log.innerHTML+='<div class="msg a"><div class="b">'+esc(aiReply(q)).replace(/\n/g,'<br>')+'</div></div>';
+  log.scrollTop=log.scrollHeight;
+}
+$('fresh').addEventListener('click',function(){$('chatlog').innerHTML='';greet();});
+function deepOpen(){
+  try{
+    var m=location.hash.match(/rec=([^&]+)/);
+    if(m){var id=decodeURIComponent(m[1]);
+      document.querySelectorAll('.tab').forEach(function(x){x.classList.remove('on');});
+      document.querySelectorAll('.pane').forEach(function(x){x.classList.remove('on');});
+      document.querySelector('[data-p="archive"]').classList.add('on');$('p-archive').classList.add('on');
+      $('q').value=id;$('qgo').click();
+    }
+  }catch(e){}
+}
+})();
+</script>
+</body>
+</html>
