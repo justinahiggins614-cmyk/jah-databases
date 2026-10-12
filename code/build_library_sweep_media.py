@@ -208,6 +208,7 @@ def page_html(spec):
     h = h.replace('"name": "Universal Generator Database", "description": "The genre-free database: describe anything and the boundless generator builds a full, complete record. Property of Justin Addam Higgins."',
                   f'"name": "{esc_xml(name)}", "description": "{esc_xml(spec["meta_desc"])}"')
     h = h.replace('data/universal-generator/index.jsonl.gz', f'data/{slug}/index.jsonl.gz')
+    h = h.replace('../../data/universal-generator/', f'../../data/{slug}/')
     # hero
     h = h.replace('<h1>Universal Generator Database</h1>', f'<h1>{esc_xml(name)}</h1>')
     h = h.replace('<p>The genre-free database — describe anything, any topic, any type, any field, and the boundless generator builds a full, complete record. Not limited by genre.</p>',
