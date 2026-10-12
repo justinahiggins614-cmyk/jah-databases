@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Robotics Technicians Database — JAH Databases</title>
+<meta name="description" content="Build, install, test, or maintain robotic equipment or related automated production systems. Property of Justin Addam Higgins.">
+<style>
+:root{--bg:#070b16;--panel:#0d1526;--line:#1d2c4d;--ink:#e8f1ff;--dim:#9fb3d8;--acc:#2f7bff;--ok:#00e5a0}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Arial,Helvetica,sans-serif;line-height:1.5}
+.wrap{max-width:1060px;margin:0 auto;padding:14px}
+.hero{background:linear-gradient(135deg,#0b1e3a,#101a30);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:12px}
+.hero h1{margin:0;font-size:1.5em}
+.hero p{margin:4px 0;color:var(--dim)}
+.stats{display:flex;gap:10px;flex-wrap:wrap;margin:8px 0}
+.stat{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:8px 12px;font-size:.9em}
+.stat b{color:var(--ok)}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
+.tab{border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:999px;padding:9px 18px;font-size:1em;cursor:pointer}
+.tab.on{background:var(--acc);border-color:var(--acc);font-weight:bold}
+.pane{display:none}
+.pane.on{display:block}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px;margin:10px 0}
+.card h3{margin:0 0 6px}
+.badge{display:inline-block;background:#132a55;border:1px solid var(--line);border-radius:999px;padding:2px 10px;font-size:.8em;margin-right:6px}
+.badge.sig{background:#2a1a3d;border-color:#7a4fb5;color:#e8d5ff}
+.badge.fact{background:#0f2f1d;border-color:#3fae6a;color:#c9f2d8}
+.chatlog{max-height:46vh;overflow:auto;border:1px solid var(--line);border-radius:10px;padding:10px;background:#080d18;margin-bottom:8px}
+.msg{display:flex;margin:8px 0}
+.msg.u{justify-content:flex-end}
+.msg.a{justify-content:flex-start}
+.msg .b{max-width:88%;padding:8px 12px;border-radius:12px;overflow-wrap:break-word;min-width:0;text-align:left}
+.msg.u .b{background:#14305e}
+.msg.a .b{background:#101a30;border:1px solid var(--line)}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.kv{display:grid;grid-template-columns:minmax(96px,150px) minmax(0,1fr);gap:4px 12px;font-size:.95em}
+.kv dt{color:var(--dim);overflow-wrap:break-word;min-width:0}
+.kv dd{margin:0;min-width:0;overflow-wrap:break-word}
+.kv .kv{grid-template-columns:auto minmax(0,1fr)}
+input,select,textarea,button{font-size:1em;border-radius:8px;border:1px solid var(--line);background:#0a1120;color:var(--ink);padding:9px 10px}
+button{cursor:pointer;background:#14305e}
+button.go{background:var(--acc);font-weight:bold}
+details.grp{border:1px solid var(--line);border-radius:10px;margin:8px 0;background:var(--panel)}
+details.grp>summary{padding:10px 12px;cursor:pointer;font-weight:bold;list-style:none}
+details.grp>summary::-webkit-details-marker{display:none}
+.foot{margin-top:26px;padding-top:12px;border-top:1px solid var(--line);color:var(--dim);font-size:.85em}
+.dim{color:var(--dim)}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="hero">
+<h1>Robotics Technicians Database</h1>
+<p>Build, install, test, or maintain robotic equipment or related automated production systems.</p>
+<div class="stats">
+<span class="stat">Archive records: <b id="stCount">50</b></span>
+<span class="stat">Generator: <b>jahdb-robotics-technicians-1.0</b> <span style="color:var(--ok)">● working</span></span>
+<span class="stat">AI: <b>JAH Robotics Technicians Guide</b></span>
+</div>
+<div><span class="badge sig">Signature</span></div>
+</div>
+<div class="tabs" role="tablist">
+<button class="tab on" data-p="archive">Archive</button>
+<button class="tab" data-p="gen">Generator</button>
+<button class="tab" data-p="chat">AI Chat</button>
+<button class="tab" data-p="about">About</button>
+</div>
+<section class="pane on" id="p-archive">
+<div class="row"><input id="q" placeholder="Search the archive…" style="flex:1;min-width:200px"><button class="go" id="qgo">Search</button></div>
+<div id="groups"></div><div id="results"></div>
+</section>
+<section class="pane" id="p-gen">
+<div class="card"><h3>Generate new record</h3>
+<div class="row"><input id="gseed" type="number" value="1" min="1" style="width:120px"><button class="go" id="ggo">Generate</button></div>
+<div id="gout"></div></div>
+</section>
+<section class="pane" id="p-chat">
+<div class="card"><h3>Ask the AI</h3><div class="chatlog" id="chatlog"></div>
+<div class="row"><input id="qin" placeholder="Ask about Robotics Technicians…" style="flex:1"><button class="go" id="qsend">Send</button></div></div>
+</section>
+<section class="pane" id="p-about">
+<div class="card"><h3>About this database</h3><p>Build, install, test, or maintain robotic equipment or related automated production systems.</p><p class="dim">Type 2 - Signature-developed. Original content by Justin Addam Higgins.</p></div>
+</section>
+<div class="foot">Property of Justin Addam Higgins. Robotics Technicians Database.</div>
+</div>
+<script src="gen-robotics-technicians.js"></script>
+<script>
+(function(){
+var DB={slug:'robotics-technicians',name:'Robotics Technicians Database'};
+document.querySelectorAll('.tab').forEach(function(t){t.onclick=function(){
+document.querySelectorAll('.tab').forEach(function(x){x.classList.remove('on')});
+document.querySelectorAll('.pane').forEach(function(x){x.classList.remove('on')});
+t.classList.add('on');document.getElementById('p-'+t.dataset.p).classList.add('on');};});
+var gen=window['jahdb_robotics_technicians'];
+document.getElementById('ggo').onclick=function(){
+var seed=parseInt(document.getElementById('gseed').value)||1;
+var rec=gen.generate(seed,{});
+var h='<dl class="kv">';
+for(var k in rec){if(rec[k]&&typeof rec[k]==='string')h+='<dt>'+k+'</dt><dd>'+String(rec[k]).substring(0,500)+'</dd>';}
+document.getElementById('gout').innerHTML=h+'</dl>';};
+document.getElementById('qsend').onclick=function(){
+var q=document.getElementById('qin').value;if(!q)return;
+var log=document.getElementById('chatlog');
+log.innerHTML+='<div class="msg u"><div class="b">'+q.replace(/</g,'&lt;')+'</div></div>';
+var ans='I can help with Robotics Technicians. ';
+if(window.JAHDB&&JAHDB.aiAnswer)ans=JAHDB.aiAnswer(DB.slug,q)||ans;
+log.innerHTML+='<div class="msg a"><div class="b">'+String(ans).replace(/</g,'&lt;')+'</div></div>';
+document.getElementById('qin').value='';log.scrollTop=log.scrollHeight;};
+})();
+</script>
+<script src="../../core/signature-web-ai.js"></script>
+</body>
+</html>
