@@ -565,6 +565,15 @@ var UNSAFE = [/while\s*\(\s*true\s*\)/, /for\s*\(\s*;\s*;\s*\)/, /process\.exit/
 /* Build-time smoke test (Node only): runs the generated JS in a 1.5s-timeout vm
    sandbox. Anything that throws or hangs -> caller falls back to a safe
    explore demo. Never runs in the browser. */
+/* Node only: async record code (e.g. an invoked async fn) can reject AFTER the
+   synchronous smoke test finishes. Swallow those late rejections so batch
+   harnesses never crash; the demo program itself is still the record's code. */
+try {
+  if (typeof process !== 'undefined' && process.on && !process._jahDemoGuard) {
+    process._jahDemoGuard = 1;
+    process.on('unhandledRejection', function () {});
+  }
+} catch (e) {}
 var _vm = undefined;
 function getVM() {
   if (_vm !== undefined) return _vm;
