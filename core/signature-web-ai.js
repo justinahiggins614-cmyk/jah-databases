@@ -112,46 +112,176 @@ var SigWebAI = (function () {
     return { name: 'a JAH Database' };
   }
 
-  /* ---------- the unified all-capable system prompt ---------- */
+  /* ---------- the unified all-capable system prompt (ultimate spec) ---------- */
   function systemPrompt(m) {
     var n = (m.databases && m.databases.length) || 0;
     var here = currentDB();
     return 'You are ' + NAME + ' — the unified cloud intelligence of the JAH Databases network, ' +
       'built by Justin Addam Higgins (JAH). ' +
       'You are ONE all-capable AI combining the best of every model into one — not a narrow specialist. ' +
+      'Better than defense-grade: you do not just answer, you MAKE. ' +
       'You are talkable: warm, conversational, user-friendly, like talking to a smart friend. ' +
-      'You adapt to whatever is needed: ' +
-      'research questions → deep, factual, precise; ' +
-      'creative requests → original, vivid, full-length work; ' +
-      'technical problems → exact, step-by-step, working code; ' +
-      'software questions → clear guidance for any app or program; ' +
-      'hardware questions → practical help for any device or build; ' +
-      'explanations → plain language at the right depth. ' +
-      'You know the full ecosystem: ' + n + ' databases including: ' + dbNames(m) + '. ' +
+      'TOTAL SYSTEM AWARENESS — you know: ' +
+      'every public record and every private Signature creation across all ' + n + ' databases; ' +
+      'every file, tool, generator, and code library in the Signature system; ' +
+      'every Python tool and JavaScript library at your disposal; ' +
+      'the system\'s full potential — and you use it. ' +
+      'Databases you know include: ' + dbNames(m) + '. ' +
       'The user is currently on "' + here.name + '". ' +
-      'You are the master AI every database AI can reach — answer as the top of the hierarchy: ' +
-      'authoritative, complete, friendly. ' +
+      'MAKER RULE — if the user needs something, you BUILD it on the spot: ' +
+      'write the working code, draft the complete design, generate the file content, ' +
+      'create the step-by-step plan. Never describe what could be made — make it. ' +
+      'You adapt to whatever is needed: ' +
+      'research → deep, factual, precise (use tools, never guess); ' +
+      'creative → original, vivid, full-length work; ' +
+      'technical → exact, step-by-step, working code; ' +
+      'software → clear guidance plus working code for any app or program; ' +
+      'hardware → practical build help for any device; ' +
+      'explanations → plain language at the right depth. ' +
+      'TOOLS — use them proactively, never guess what a tool can answer: ' +
+      'calculate (ALL math — never do arithmetic yourself), ' +
+      'define_word (the live Signature Dictionary), ' +
+      'wikipedia (factual web knowledge), ' +
+      'route_database (find the right JAH database for any topic and link it). ' +
+      'You may chain multiple tool calls. After tool results, synthesize a clean final answer. ' +
+      'You are the master AI every database AI can reach — authoritative, complete, friendly. ' +
       'You remember this whole conversation — stay coherent, build on what was said, never repeat yourself. ' +
-      'Format for chat: short paragraphs, bullets for lists, no essays unless asked. ' +
+      'Format for chat: short paragraphs, bullets for lists, code in plain blocks, no essays unless asked. ' +
       'Never claim to be Muse or Meta\u2019s model. ' +
       'If you do not know something, say so plainly and say what you do know. ' +
       'Everything is free forever; nothing here costs the user money.';
   }
 
+  /* ---------- tools: every library at the Operator's disposal ---------- */
+  var TOOLS = [
+    { type: 'function', 'function': {
+      name: 'calculate',
+      description: 'Safely evaluate a math expression. Use for ALL arithmetic — never do math yourself.',
+      parameters: { type: 'object', properties: { expr: { type: 'string', description: 'Math expression, e.g. 12*8+3' } }, required: ['expr'] }
+    }},
+    { type: 'function', 'function': {
+      name: 'define_word',
+      description: 'Look up a word in the live Signature Dictionary. Use for define/meaning/spelling questions.',
+      parameters: { type: 'object', properties: { word: { type: 'string', description: 'The word to define' } }, required: ['word'] }
+    }},
+    { type: 'function', 'function': {
+      name: 'wikipedia',
+      description: 'Get a Wikipedia summary for factual questions (people, places, history, science).',
+      parameters: { type: 'object', properties: { title: { type: 'string', description: 'Article title' } }, required: ['title'] }
+    }},
+    { type: 'function', 'function': {
+      name: 'route_database',
+      description: 'Find the right JAH database for a topic. Returns its name and link.',
+      parameters: { type: 'object', properties: { topic: { type: 'string', description: 'What the user wants' } }, required: ['topic'] }
+    }}
+  ];
+  function safeCalc(expr) {
+    try {
+      var e = String(expr).replace(/\^/g, '**');
+      if (!/^[\d\s+\-*/().%*]+$/.test(e) || !/\d/.test(e)) return 'not a valid math expression';
+      var v = Function('"use strict";return(' + e + ')')();
+      return String(v);
+    } catch (err) { return 'could not evaluate: ' + expr; }
+  }
+  function executeTool(name, args) {
+    args = args || {};
+    if (name === 'calculate') return Promise.resolve(safeCalc(args.expr || ''));
+    if (name === 'define_word') {
+      var w = String(args.word || '').trim();
+      if (!w) return Promise.resolve('no word given');
+      return fetch('https://justinahiggins614-cmyk.github.io/jah-dictionary/data/lexical/shard-' +
+        encodeURIComponent(w.charAt(0).toUpperCase()) + '.json')
+        .then(function (r) { if (!r.ok) throw new Error('shard'); return r.json(); })
+        .then(function (d) {
+          var rows = d.words || d || [];
+          for (var i = 0; i < rows.length; i++) {
+            var row = rows[i];
+            var head = row.headword || row.w || row.word || '';
+            if (String(head).toLowerCase() === w.toLowerCase()) {
+              return head + ' — ' + (row.definition || row.def || row.meaning || 'found in dictionary');
+            }
+          }
+          return 'not found in Signature Dictionary: ' + w;
+        }).catch(function () { return 'dictionary lookup failed for: ' + w; });
+    }
+    if (name === 'wikipedia') {
+      var t = String(args.title || '').trim();
+      if (!t) return Promise.resolve('no title given');
+      return fetch('https://en.wikipedia.org/api/rest_v1/page/summary/' + encodeURIComponent(t))
+        .then(function (r) { if (!r.ok) throw new Error('wiki'); return r.json(); })
+        .then(function (d) { return d.extract || 'no summary found'; })
+        .catch(function () { return 'wikipedia lookup failed for: ' + t; });
+    }
+    if (name === 'route_database') {
+      var topic = String(args.topic || '').toLowerCase();
+      return getManifest().then(function (m) {
+        var dbs = m.databases || [], best = null, bestScore = 0;
+        var words = topic.split(/[^a-z0-9]+/).filter(function (x) { return x.length > 2; });
+        dbs.forEach(function (d) {
+          var hay = ((d.name || '') + ' ' + (d.slug || '')).toLowerCase(), s = 0;
+          words.forEach(function (wd) { if (hay.indexOf(wd) >= 0) s++; });
+          if (s > bestScore) { bestScore = s; best = d; }
+        });
+        if (best && bestScore > 0) {
+          return best.name + ' — ' + siteRoot() + 'db/' + best.slug + '/';
+        }
+        return 'no matching database found for: ' + topic;
+      }).catch(function () { return 'database routing failed'; });
+    }
+    return Promise.resolve('unknown tool: ' + name);
+  }
+
   /* ---------- fax with model cascade (all models, best of everything) ---------- */
-  function callModel(model, messages, key) {
+  function callModel(model, messages, key, useTools) {
+    var body = { model: model, messages: messages, temperature: 0.7, max_tokens: 1500 };
+    if (useTools) { body.tools = TOOLS; body.tool_choice = 'auto'; }
     return fetch(API, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + key },
-      body: JSON.stringify({ model: model, messages: messages, temperature: 0.7, max_tokens: 1500 })
+      body: JSON.stringify(body)
     }).then(function (r) {
       if (!r.ok) throw new Error('model ' + model + ' → ' + r.status);
       return r.json();
     }).then(function (d) {
+      var msg = null;
+      try { msg = d.choices[0].message; } catch (e) {}
+      if (!msg || (!msg.content && !(msg.tool_calls && msg.tool_calls.length))) {
+        throw new Error('model ' + model + ' → empty');
+      }
+      return msg;
+    });
+  }
+  function runTools(msg, messages, key) {
+    var calls = msg.tool_calls || [];
+    if (!calls.length) return Promise.resolve(msg);
+    messages.push({ role: 'assistant', content: msg.content || '', tool_calls: calls });
+    var chain = Promise.resolve();
+    calls.forEach(function (tc) {
+      chain = chain.then(function () {
+        var args = {};
+        try { args = JSON.parse(tc.function.arguments || '{}'); } catch (e) {}
+        return executeTool(tc.function.name, args).then(function (result) {
+          messages.push({ role: 'tool', tool_call_id: tc.id, content: String(result).slice(0, 3000) });
+        });
+      });
+    });
+    return chain.then(function () { return { needFollowUp: true, messages: messages }; });
+  }
+  function askWithTools(model, messages, key, rounds) {
+    return callModel(model, messages, key, true).then(function (msg) {
+      return runTools(msg, messages, key);
+    }).then(function (res) {
+      if (res && res.needFollowUp) {
+        if (rounds <= 0) {
+          var last = '';
+          try { last = res.messages[res.messages.length - 1].content; } catch (e) {}
+          return last || 'Tool results arrived but I could not synthesize them. Try rephrasing.';
+        }
+        return askWithTools(model, res.messages, key, rounds - 1);
+      }
       var t = '';
-      try { t = d.choices[0].message.content; } catch (e) {}
-      if (!t) throw new Error('model ' + model + ' → empty');
-      return t;
+      try { t = res.content; } catch (e) {}
+      return t || 'The Operator returned an empty answer. Try again.';
     });
   }
   function ask(question, onDone) {
@@ -166,10 +296,10 @@ var SigWebAI = (function () {
     getManifest().then(function (m) {
       var messages = [{ role: 'system', content: systemPrompt(m) }].concat(hist);
       var key = getKey();
-      /* cascade through models until one answers */
+      /* cascade through models until one answers (each with tool loop) */
       var chain = Promise.reject(new Error('start'));
       MODELS.forEach(function (model) {
-        chain = chain.catch(function () { return callModel(model, messages, key); });
+        chain = chain.catch(function () { return askWithTools(model, messages.slice(), key, 3); });
       });
       return chain;
     }).then(function (answer) {
