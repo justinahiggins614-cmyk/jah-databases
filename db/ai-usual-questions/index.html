@@ -132,6 +132,47 @@ pre.steps{background:#080d18;border:1px solid var(--line);border-radius:8px;padd
 'use strict';
 var SLUG='ai-usual-questions';
 var LOCAL='../../data/ai-usual-questions/';
+
+/* ---- Shard-aware loading for 1M records ---- */
+var SHARDS=null;
+var SHARD_CATS=['technology','health-wellness','money-finance','home-diy','work-career','relationships','learning-study','food-cooking','travel','everyday-life'];
+var catIdxCache={};
+function loadShards(){
+  return JAHDB.fetchGz(LOCAL+'shards.json').then(function(t){
+    try{ SHARDS=JSON.parse(t).shards; }catch(e){ SHARDS=null; }
+    if(!SHARDS||!SHARDS.length) SHARDS=[{base:'',first_id:1,last_id:300,first_chunk:1,last_chunk:1}];
+    return SHARDS;
+  }).catch(function(){
+    SHARDS=[{base:'',first_id:1,last_id:300,first_chunk:1,last_chunk:1}];
+    return SHARDS;
+  });
+}
+function shardForChunk(c){
+  if(!SHARDS) return '';
+  for(var i=0;i<SHARDS.length;i++){ var s=SHARDS[i]; if(c>=s.first_chunk&&c<=s.last_chunk) return s.base; }
+  return '';
+}
+function chunkUrl(c){
+  var b=shardForChunk(c);
+  return b ? b+'data/ai-usual-questions/'+chunkName(c) : chunkUrl(c);
+}
+function loadCatIdx(cat){
+  if(catIdxCache[cat]) return Promise.resolve(catIdxCache[cat]);
+  var jobs=SHARDS.map(function(s){
+    var url=s.base ? s.base+'data/ai-usual-questions/idx/'+cat+'.jsonl.gz' : null;
+    if(!url) return Promise.resolve([]);
+    return JAHDB.fetchGz(url).then(function(t){
+      return t.split('\n').filter(function(l){return l.trim();}).map(function(l){try{return JSON.parse(l);}catch(e){return null;}}).filter(Boolean);
+    }).catch(function(){return [];});
+  });
+  return Promise.all(jobs).then(function(parts){
+    var merged=[];
+    parts.forEach(function(p){ merged=merged.concat(p); });
+    if(archiveIdx) archiveIdx.forEach(function(r){ if(r.g===cat) merged.push(r); });
+    catIdxCache[cat]=merged;
+    return merged;
+  });
+}
 var db={slug:SLUG,name:'AI Responses to Usual Questions Database',ai_name:'JAH Usual Answers',record_kind:'answered question'};
 var ROLE='everyday question-answering specialist';
 var NETWORK='Part of the JAH Databases network of archive-aware Creator AIs, every database marching to 1,000,000 records.';
@@ -152,11 +193,11 @@ document.querySelectorAll('.tab').forEach(function(t){
     t.classList.add('on'); $('p-'+t.dataset.p).classList.add('on');
   });
 });
-JAHDB.loadManifest().then(function(m){manifest=m;db=JAHDB.dbBySlug(m,SLUG)||db;}).catch(function(){}).then(function(){
+JAHDB.loadManifest().then(function(m){manifest=m;db=JAHDB.dbBySlug(m,SLUG)||db;}).catch(function(){}).then(loadShards).then(function(){
   return JAHDB.fetchGz(LOCAL+'index.jsonl.gz');
 }).then(function(t){
   archiveIdx=t.split('\n').filter(function(l){return l.trim();}).map(function(l){try{return JSON.parse(l);}catch(e){return null;}}).filter(Boolean);
-  $('stCount').textContent=archiveIdx.length.toLocaleString()+' / 1,000,000 target';
+  var totalRecs=(db&&db.record_count)||1000000; $('stCount').textContent=archiveIdx.length.toLocaleString()+' loaded / '+totalRecs.toLocaleString()+' total';
   try{ if(typeof archiveIdx!=='undefined'&&archiveIdx&&archiveIdx.length) $('gSeed').value=archiveIdx.length+1; }catch(e){}
   $('emblem').src=JAHDB.emblemSVG(db.name,'JAH-AUQ-');
   var seen={},i;
@@ -222,6 +263,10 @@ function recCard(r){
     '</div></div></div>';
 }
 function buildGroups(){
+  // For 1M scale: use known categories with counts from manifest assignment
+  if(archiveIdx && archiveIdx.length<=500){
+    GENRES=SHARD_CATS.slice();
+  }
   var g=$('groups'); g.innerHTML='';
   GENRES.forEach(function(genre){
     var rows=archiveIdx.filter(function(r){return r.g===genre;});
@@ -236,19 +281,21 @@ function buildGroups(){
 }
 function loadCatSample(genre,body){
   body.innerHTML='<p class="dim">Loading…</p>';
-  var rows=archiveIdx.filter(function(r){return r.g===genre;}).slice(0,25);
+  loadCatIdx(genre).then(function(allRows){
+  var rows=allRows.slice(0,25);
   var byChunk={};
   rows.forEach(function(r){ (byChunk[r.c]=byChunk[r.c]||[]).push(r.id); });
   var jobs=Object.keys(byChunk).map(function(c){
-    return JAHDB.fetchJsonlGz(LOCAL+chunkName(+c)).then(function(recs){
+    return JAHDB.fetchJsonlGz(chunkUrl(+c)).then(function(recs){
       var want={}; byChunk[c].forEach(function(id){want[id]=1;});
       return recs.filter(function(r){return want[r.id];});
     }).catch(function(){return [];});
   });
   Promise.all(jobs).then(function(parts){
     var recs=[]; parts.forEach(function(p){recs=recs.concat(p);});
-    body.innerHTML=recs.length?recs.map(recCard).join(''):'<p class="dim">Nothing loaded.</p>';
+    body.innerHTML=recs.length?recs.map(recCard).join('')+'<p class="dim">Showing 25 of '+allRows.length.toLocaleString()+' in this category.</p>':'<p class="dim">Nothing loaded.</p>';
   });
+  }).catch(function(){ body.innerHTML='<p class="dim">Load failed.</p>'; });
 }
 function doSearch(){
   var q=$('q').value.trim().toLowerCase();
@@ -260,7 +307,7 @@ function doSearch(){
   var byChunk={};
   hits.forEach(function(r){(byChunk[r.c]=byChunk[r.c]||[]).push(r.id);});
   Object.keys(byChunk).forEach(function(c){
-    JAHDB.fetchJsonlGz(LOCAL+chunkName(+c)).then(function(recs){
+    JAHDB.fetchJsonlGz(chunkUrl(+c)).then(function(recs){
       var want={};byChunk[c].forEach(function(id){want[id]=1;});
       var found=recs.filter(function(r){return want[r.id];});
       if(found.length) box.innerHTML+=found.map(recCard).join('');
@@ -325,7 +372,7 @@ function deepOpen(){
     var row=null;
     for(var i=0;i<archiveIdx.length;i++){ if(archiveIdx[i].id===id){ row=archiveIdx[i]; break; } }
     if(!row) return;
-    JAHDB.fetchJsonlGz(LOCAL+chunkName(+row.c)).then(function(recs){
+    JAHDB.fetchJsonlGz(chunkUrl(+row.c)).then(function(recs){
       var rec=null;
       for(var j=0;j<recs.length;j++){ if(recs[j].id===id){ rec=recs[j]; break; } }
       if(!rec) return;
@@ -356,7 +403,7 @@ function aiFind(q){
   say('a','Pulled up '+scored.length+' stored record'+(scored.length>1?'s':'')+' matching “'+q+'”:');
   var byChunk={}; scored.forEach(function(x){ (byChunk[x.r.c]=byChunk[x.r.c]||[]).push(x.r.id); });
   var jobs=Object.keys(byChunk).map(function(c){
-    return JAHDB.fetchJsonlGz(LOCAL+chunkName(+c)).then(function(recs){
+    return JAHDB.fetchJsonlGz(chunkUrl(+c)).then(function(recs){
       var want={}; byChunk[c].forEach(function(id){want[id]=1;});
       return recs.filter(function(r){return want[r.id];});
     }).catch(function(){return [];});
