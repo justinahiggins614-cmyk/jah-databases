@@ -25,7 +25,7 @@
     opts = opts || {};
     var si = pickI(rnd, STREETS.length), ci = pickI(rnd, CITIES.length), ti = pickI(rnd, COUNTRIES.length);
     var house = 1 + Math.floor(rnd() * 9999);
-    var n = (opts.baseN || 0) + 1;
+    var n = (opts.baseN || 0) + seed;
     var pub = {
       id: ID_PREFIX + String(n).padStart(ID_DIGITS, '0'),
       n: n,

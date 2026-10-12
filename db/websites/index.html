@@ -216,6 +216,7 @@ JAHDB.loadManifest().then(function(m){
   manifest=m; db=JAHDB.dbBySlug(m,'websites')||{ai_name:'JAH Web Librarian',name:'JAH Website Data Base',record_kind:'website'};
   $('emblem').src=JAHDB.emblemSVG('Websites','JAH-SITE');
   $('stCount').textContent=OPT_TOTAL.toLocaleString()+' deterministic options';
+  try{ if(typeof archiveIdx!=='undefined'&&archiveIdx&&archiveIdx.length) $('gSeed').value=archiveIdx.length+1; }catch(e){}
   var rnd=JAHDB.prng(99);
   for(var i=0;i<200;i++) archiveSample.push(optEntry((rnd()*OPT_TOTAL)|0));
   buildGroups();
@@ -277,7 +278,7 @@ $('q').addEventListener('keydown',function(e){if(e.key==='Enter')doSearch();});
 
 /* generator */
 $('gGo').addEventListener('click',function(){
-  var seed=+$('gSeed').value||1, n=Math.min(50,Math.max(1,+$('gN').value||5));
+  var seed=Math.max(+$('gSeed').value||1,(typeof archiveIdx!=='undefined'&&archiveIdx?archiveIdx.length:0)+queueGet().length+1), n=Math.min(50,Math.max(1,+$('gN').value||5));
   var type=$('gType').value||undefined, cross=$('gCross').checked;
   var out=$('gOut'); out.innerHTML='<p class="dim">Generating…</p>';
   var run=function(theme){
@@ -301,6 +302,7 @@ $('gGo').addEventListener('click',function(){
       recs.push(r.record);
     }
     renderGen(recs,fails);
+    try{$('gSeed').value=seed+n;}catch(e){}
   };
   if(cross && manifest){
     var others=manifest.databases.filter(function(d){return d.slug!==SLUG&&d.status==='live';});

@@ -30,7 +30,7 @@
     var FAMS = E.FAMS;
     var fam = (opts.type && FAMS.indexOf(opts.type) >= 0) ? opts.type : FAMS[Math.floor(rnd() * FAMS.length)];
     var era = (opts.era && ERAS.indexOf(opts.era) >= 0) ? opts.era : ERAS[Math.floor(rnd() * ERAS.length)];
-    var n = (opts.baseN || 0) + 1;
+    var n = (opts.baseN || 0) + seed;
     var id = ID_PREFIX + pad6(n);
     var nameIdx = Math.floor(rnd() * 6750 * 4);
     var name = E.chipName(nameIdx);

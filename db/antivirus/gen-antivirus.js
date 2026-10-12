@@ -80,7 +80,7 @@
     if (opts.type && TYPES[opts.type]) type = opts.type;
     var level = LEVELS[pickI(rnd, LEVELS.length)];
     var vnum = 1 + pickI(rnd, 9000);
-    var n = (opts.baseN || 0) + 1;
+    var n = (opts.baseN || 0) + seed;
     var pub = {
       id: ID_PREFIX + String(n).padStart(ID_DIGITS, '0'),
       n: n,

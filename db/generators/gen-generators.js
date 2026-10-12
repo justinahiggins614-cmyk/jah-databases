@@ -43,7 +43,7 @@
       if (slot.kind === 'S') frags.push({ fi: Math.floor(rnd() * slot.pool.length) });
       else frags.push({ v: ri(rnd, slot.min, slot.max) });
     });
-    var n = (opts.baseN || 0) + 1;
+    var n = (opts.baseN || 0) + seed;
     var built = rebuild({ type: type, ti: ti, si: si, nums: nums, frags: frags });
     var rec = {
       id: 'JAH-GEN-' + type.toUpperCase() + '-' + pad6(n), n: n, type: type,

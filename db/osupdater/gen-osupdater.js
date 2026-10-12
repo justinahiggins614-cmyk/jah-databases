@@ -54,7 +54,7 @@
     if (opts.type && FOCUS[opts.type]) focus = opts.type;
     var edition = 1 + pickI(rnd, 400);
     var offline = pickI(rnd, 2) === 1;
-    var n = (opts.baseN || 0) + 1;
+    var n = (opts.baseN || 0) + seed;
     var pub = {
       id: ID_PREFIX + String(n).padStart(ID_DIGITS, '0'),
       n: n,

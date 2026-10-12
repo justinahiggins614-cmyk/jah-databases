@@ -102,7 +102,7 @@
       words += wordCount(body);
       chaps.push({ t: CHT[cti], b: body, _ci: ci, _cti: cti });
     }
-    var n = (opts.baseN || 0) + 1;
+    var n = (opts.baseN || 0) + seed;
     var rec = {
       id: ID_PREFIX + String(n).padStart(6, '0'),
       title: titleFrom(ti),

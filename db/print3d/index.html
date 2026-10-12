@@ -194,6 +194,7 @@ JAHDB.loadManifest().then(function(m){
   archiveIdx=[]; /* rows load per letter; counts give the totals */
   var total=counts.total||0;
   $('stCount').textContent=total.toLocaleString()+' / 1,000,000 target';
+  try{ if(typeof archiveIdx!=='undefined'&&archiveIdx&&archiveIdx.length) $('gSeed').value=archiveIdx.length+1; }catch(e){}
   buildGroups();
   var gen=JAHDB.getGenerator(SLUG);
   if(gen&&gen.types){
@@ -281,7 +282,7 @@ $('q').addEventListener('keydown',function(e){if(e.key==='Enter')doSearch();});
 
 /* generator */
 $('gGo').addEventListener('click',function(){
-  var seed=+$('gSeed').value||1, n=Math.min(50,Math.max(1,+$('gN').value||5));
+  var seed=Math.max(+$('gSeed').value||1,(typeof archiveIdx!=='undefined'&&archiveIdx?archiveIdx.length:0)+queueGet().length+1), n=Math.min(50,Math.max(1,+$('gN').value||5));
   var type=$('gType').value||undefined, cross=$('gCross').checked;
   var out=$('gOut'); out.innerHTML='<p class="dim">Generating…</p>';
   var run=function(theme){
@@ -306,6 +307,7 @@ $('gGo').addEventListener('click',function(){
       recs.push(r.record);
     }
     renderGen(recs,fails);
+    try{$('gSeed').value=seed+n;}catch(e){}
   };
   if(cross && manifest){
     var others=manifest.databases.filter(function(d){return d.slug!==SLUG&&d.status==='live';});

@@ -145,7 +145,7 @@
     var type = opts.type && TYPES.indexOf(opts.type) >= 0 ? opts.type : TYPES[Math.floor(rnd() * TYPES.length)];
     var rec = type === 'linear' ? genLinear(rnd) : type === 'quadratic' ? genQuadratic(rnd) :
               type === 'system' ? genSystem(rnd) : genArithmetic(rnd);
-    var n = (opts.baseN || 0) + 1;
+    var n = (opts.baseN || 0) + seed;
     rec.id = ID_PREFIX + String(n).padStart(8, '0');
     rec.n = n;
     rec.stamp = STAMP;

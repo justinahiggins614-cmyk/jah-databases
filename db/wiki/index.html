@@ -92,6 +92,11 @@ pre.body{background:#080d18;border:1px solid var(--line);border-radius:8px;paddi
       </div>
       <div id="gOut"></div>
     </div>
+    <div class="card">
+      <h3>Queued for the archive <span class="dim" id="qCount"></span></h3>
+      <p class="dim">Generated articles wait here. Only validated, drift-free articles can be filed \u2014 filing is a deliberate act, never automatic from chat.</p>
+      <div id="queue"></div>
+    </div>
   </section>
 
   <section class="pane" id="p-chat">
@@ -131,7 +136,7 @@ pre.body{background:#080d18;border:1px solid var(--line);border-radius:8px;paddi
 (function(){
 'use strict';
 var SLUG='wiki';
-var db=null, manifest=null, counts={}, archiveSample=[];
+var db=null, manifest=null, counts={}, archiveSample=[], wikiTotal=0;
 var $=function(id){return document.getElementById(id);};
 var KINDS=[['spec','Spec articles'],['patent','Patent articles'],['word','Word articles'],['dossier','Dossier articles']];
 var kindCache={};
@@ -156,6 +161,8 @@ JAHDB.loadManifest().then(function(m){
   var total=0;
   Object.keys(am.shards).forEach(function(k){counts[k]=am.shards[k].count;total+=am.shards[k].count;});
   $('stCount').textContent=total.toLocaleString()+' articles';
+  wikiTotal=total;
+  wikiRenderQueue();
   buildGroups();
   greet();
 }).catch(function(e){ $('stCount').textContent='archive unreachable ('+e.message+')'; });
@@ -482,7 +489,7 @@ $('gGo').addEventListener('click',function(){
   var kind=$('gKind').value||undefined;
   var recs=[],fails=[];
   for(var i=0;i<n;i++){
-    var r=JAHDB.runGenerator(SLUG,seed+i,{kind:kind,baseN:2000000});
+    var r=JAHDB.runGenerator(SLUG,seed+i,{kind:kind,baseN:wikiTotal+wikiQueueGet().length});
     if(!r.ok){fails.push({seed:seed+i,errors:r.errors});continue;}
     var gen=JAHDB.getGenerator('wiki'), dc={ok:true,errors:[]};
     try{dc=gen.driftCheck(r.record,archiveSample);}catch(e){}
@@ -499,9 +506,25 @@ $('gGo').addEventListener('click',function(){
   out.innerHTML=h;
   recs.forEach(function(r,ci){
     var holder=out.querySelector('#genart-'+ci);
-    if(holder) wireArticle(holder,{rec:r,wikiId:r.id,title:r.title});
+    if(holder){ wireArticle(holder,{rec:r,wikiId:r.id,title:r.title});
+      var b=document.createElement('button'); b.className='go'; b.style.marginTop='8px'; b.textContent='Queue for archive';
+      b.addEventListener('click',function(){ wikiQueueAdd(r); b.textContent='Queued \u2713'; b.disabled=true; });
+      holder.appendChild(b);
+    }
   });
+  try{ $('gSeed').value=seed+n; }catch(e){}
 });
+function wikiQKey(){return 'jahdb_wiki_queue';}
+function wikiQueueGet(){try{return JSON.parse(localStorage.getItem(wikiQKey())||'[]');}catch(e){return[];}}
+function wikiQueueAdd(rec){var q=wikiQueueGet();q.push(rec);try{localStorage.setItem(wikiQKey(),JSON.stringify(q));}catch(e){}wikiRenderQueue();}
+function wikiRenderQueue(){
+  var q=wikiQueueGet(); var qc=$('qCount'); if(qc) qc.textContent='('+q.length+')';
+  var qel=$('queue'); if(!qel) return;
+  qel.innerHTML=q.length?q.map(function(r){
+    return '<div class="card"><b class="mono">'+esc(r.id)+'</b> \u2014 '+esc(r.title||r.id)+' <span class="badge ok">validated</span></div>';
+  }).join(''):'<p class="dim">Empty.</p>';
+  try{ if(wikiTotal) $('stCount').textContent=(wikiTotal+q.length).toLocaleString()+' articles'; }catch(e){}
+}
 /* full generated article: lead + body + cross-references, no stub */
 function genArticleCard(r){
   var img=JAHDB.emblemSVG(r.kind,r.id);

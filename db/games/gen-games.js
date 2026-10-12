@@ -61,7 +61,7 @@
     var gi = pickI(rnd, GENRES.length), ei = pickI(rnd, ERAS.length);
     if (opts.type && GENRES.indexOf(opts.type) >= 0) gi = GENRES.indexOf(opts.type);
     var i1 = pickI(rnd, T1.length), i2 = pickI(rnd, T2.length), di = pickI(rnd, DIFFS.length);
-    var n = (opts.baseN || 0) + 1;
+    var n = (opts.baseN || 0) + seed;
     var id = ID_PREFIX + String(n).padStart(ID_DIGITS, '0');
     var genre = GENRES[gi], era = ERAS[ei];
     var pub = {

@@ -47,7 +47,7 @@
     if (bi === ai) bi = (bi + 1) % AIS.length;
     var A = AIS[ai], B = AIS[bi];
     var ab = pickIdx(rnd, A.caps.length, 3), ba = pickIdx(rnd, B.caps.length, 3);
-    var n = (opts.baseN || 0) + 1;
+    var n = (opts.baseN || 0) + seed;
     var built = rebuild({ ai: ai, bi: bi, ab: ab, ba: ba });
     var rec = {
       id: ID_PREFIX + pad6(n), n: n, kind: 'mix',

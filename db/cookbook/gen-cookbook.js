@@ -96,7 +96,7 @@
     uses.push([]);
 
     var prep = ri(rnd, 5, 30), cook = ri(rnd, 10, 60);
-    var n = (opts.baseN || 0) + 1;
+    var n = (opts.baseN || 0) + seed;
     var rec = {
       id: ID_PREFIX + String(n).padStart(6, '0'),
       n: n,

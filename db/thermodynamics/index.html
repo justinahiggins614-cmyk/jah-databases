@@ -153,6 +153,7 @@ JAHDB.loadManifest().then(function(m){manifest=m;db=JAHDB.dbBySlug(m,SLUG)||db;}
 }).then(function(t){
   archiveIdx=t.split('\n').filter(function(l){return l.trim();}).map(function(l){try{return JSON.parse(l);}catch(e){return null;}}).filter(Boolean);
   $('stCount').textContent=archiveIdx.length.toLocaleString()+' / 1,000,000 target';
+  try{ if(typeof archiveIdx!=='undefined'&&archiveIdx&&archiveIdx.length) $('gSeed').value=archiveIdx.length+1; }catch(e){}
   $('emblem').src=JAHDB.emblemSVG(db.name,'JAH-THD-');
   var rnd=JAHDB.prng(99);
   for(var i=0;i<200&&i<archiveIdx.length;i++) archiveSample.push(archiveIdx[(rnd()*archiveIdx.length)|0]);
@@ -281,7 +282,7 @@ function doSearch(){
 $('qgo').addEventListener('click',doSearch);
 $('q').addEventListener('keydown',function(e){if(e.key==='Enter')doSearch();});
 $('gGo').addEventListener('click',function(){
-  var seed=+$('gSeed').value||1, n=Math.min(50,Math.max(1,+$('gN').value||5));
+  var seed=Math.max(+$('gSeed').value||1,(typeof archiveIdx!=='undefined'&&archiveIdx?archiveIdx.length:0)+queueGet().length+1), n=Math.min(50,Math.max(1,+$('gN').value||5));
   var cat=$('gType').value||undefined;
   var out=$('gOut'); out.innerHTML='<p class="dim">Generating…</p>';
   var recs=[],fails=[];
@@ -294,6 +295,7 @@ $('gGo').addEventListener('click',function(){
     recs.push(r.record);
   }
   renderGen(recs,fails);
+  try{$('gSeed').value=seed+n;}catch(e){}
 });
 function driftFor(rec){
   var gen=JAHDB.getGenerator(SLUG);
@@ -323,6 +325,7 @@ function queueGet(){try{return JSON.parse(localStorage.getItem(qkey())||'[]');}c
 function queueAdd(rec){var q=queueGet();q.push(rec);try{localStorage.setItem(qkey(),JSON.stringify(q));}catch(e){}renderQueue();}
 function renderQueue(){
   var q=queueGet(); $('qCount').textContent='('+q.length+')';
+  try{ if(typeof archiveIdx!=='undefined'&&archiveIdx) $('stCount').textContent=(archiveIdx.length+q.length).toLocaleString()+' / 1,000,000 target'; }catch(e){}
   $('queue').innerHTML=q.length?q.map(function(r){
     return '<div class="card"><b class="mono">'+esc(r.id)+'</b> — '+esc(r.title||r.id)+' <span class="badge ok">validated</span></div>';
   }).join(''):'<p class="dim">Empty.</p>';
@@ -363,9 +366,9 @@ function aiGenerate(q){
   var g=(typeof JAHDB!=='undefined'&&JAHDB.getGenerator)?JAHDB.getGenerator(SLUG):null;
   if(!g||!g.generate){ say('a','The on-page generator is not loaded \u2014 open the Generator tab to mint new records.'); return; }
   var theme=String(q).replace(/^(generate|make|create|invent|draft|new)\b/i,'').replace(/^(a|an|some|a few)\b/i,'').trim()||'archive style';
-  var made=[], base=(Date.now()%900000)+1000, i, r;
+  var made=[], base=(typeof archiveIdx!=='undefined'&&archiveIdx?archiveIdx.length:0)+queueGet().length+1, i, r;
   for(i=0;i<3;i++){
-    try{ r=g.generate(base+i*7919); if(r&&g.validate(r).ok){ made.push(r); queueAdd(r); } }catch(e){}
+    try{ r=g.generate(base+i); if(r&&g.validate(r).ok){ made.push(r); queueAdd(r); } }catch(e){}
   }
   say('a','Generated '+made.length+' new '+db.record_kind+' records on \u201c'+theme+'\u201d and queued them under the Generator tab: '+made.map(function(x){return x.id;}).join(', ')+'.');
 }

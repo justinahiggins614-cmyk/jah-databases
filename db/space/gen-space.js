@@ -48,7 +48,7 @@
       doors.push({ x: f2(bx), y: f2(2 + rnd() * Math.max(1, hh - 4)) });
     }
 
-    var n = (opts.baseN || 0) + 1;
+    var n = (opts.baseN || 0) + seed;
     var name = pick(rnd, PLACE) + ' ' + pat + ' ' + n;
     var blurb = pat.toLowerCase() + ' generated layout: ' + layout.rooms.join(', ') + '.';
     var rec = {

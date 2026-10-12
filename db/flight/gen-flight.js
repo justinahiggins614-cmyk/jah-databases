@@ -65,7 +65,7 @@
       if (z < 500) z = 500; if (z > 4000) z = 4000;
       wp.push([x, y, z]);
     }
-    var n = (opts.baseN || 0) + 1;
+    var n = (opts.baseN || 0) + seed;
     var pub = {
       id: ID_PREFIX + String(n).padStart(ID_DIGITS, '0'),
       n: n,

@@ -47,7 +47,7 @@
     opts = opts || {};
     var T = types();
     var cat = (opts.type && T.indexOf(opts.type) >= 0) ? opts.type : T[Math.floor(rnd() * T.length)];
-    var n = (opts.baseN || 0) + 1;
+    var n = (opts.baseN || 0) + seed;
     var id = ID_PREFIX + pad6(n);
     var rec = S.solve(cat, seed, id);
     /* full-record hygiene: stamp + private params for independent re-verification */

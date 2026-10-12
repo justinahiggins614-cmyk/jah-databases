@@ -104,7 +104,7 @@
 
   function generate(seed, opts, rnd) {
     opts = opts || {};
-    var n = (opts.baseN || 0) + 1;
+    var n = (opts.baseN || 0) + seed;
     var g = genAI(rnd, n, opts);
     var canonical = g.NAME + '|' + g.TYPE + '|' + g.CATEGORY + '|' + g.DESCRIPTION;
     var rec = {

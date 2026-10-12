@@ -48,7 +48,7 @@
     opts = opts || {};
     var ai = Math.floor(rnd() * PA.length), bi = Math.floor(rnd() * PA.length);
     if (bi === ai) bi = (bi + 1) % PA.length;
-    var n = (opts.baseN || 0) + 1;
+    var n = (opts.baseN || 0) + seed;
     var p = { ai: ai, bi: bi, variant: ri(rnd, 0, 2),
               leadA: pick(rnd, LEADA), leadB: pick(rnd, LEADB), n: n };
     var built = rebuild(p);

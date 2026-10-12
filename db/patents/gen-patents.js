@@ -93,7 +93,7 @@
   function generate(seed, opts, rnd) {
     opts = opts || {};
     var p = genPatent(rnd, opts);
-    var n = (opts.baseN || 0) + 1;
+    var n = (opts.baseN || 0) + seed;
     var rec = {
       id: ID_PREFIX + String(n).padStart(6, '0'),
       n: n,

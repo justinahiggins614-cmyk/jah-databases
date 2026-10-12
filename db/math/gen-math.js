@@ -222,7 +222,7 @@
   function generateGeo(seed, opts, rnd) {
     opts = opts || {};
     var kind = opts.type || 'geometry-problem';
-    var n = (opts.baseN || 0) + 1;
+    var n = (opts.baseN || 0) + seed;
     var id = GEO_ID_PREFIX + String(n).padStart(6, '0');
     var rec = {id:id, n:n, record_kind:'geometric-archive', stamp:GEO_STAMP, _seed:seed, _kind:kind};
     if (kind === 'geometry-theorem') {
@@ -304,7 +304,7 @@
     var cat = opts.type && CATS.indexOf(opts.type) >= 0 ? opts.type : pick(rnd, CATS);
     var bits = [];
     for (var i = 0; i < CELLS; i++) bits.push(rnd() < 0.5 ? 0 : 1);
-    var n = (opts.baseN || 0) + 1;
+    var n = (opts.baseN || 0) + seed;
     var pc = popcount(bits), sym = sym180(bits);
     var rec = {
       id: ID_PREFIX + String(n).padStart(6, '0'),

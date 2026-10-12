@@ -48,7 +48,7 @@
     var p = [picki(rnd, PRE), picki(rnd, CORE), picki(rnd, MODEL), picki(rnd, FORM),
              picki(rnd, CPU), picki(rnd, RAM), CATS.indexOf(fam), picki(rnd, DISK)];
     var year = ri(rnd, 1975, 2026);
-    var n = (opts.baseN || 0) + 1;
+    var n = (opts.baseN || 0) + seed;
     var rec = {
       id: ID_PREFIX + String(n).padStart(8, '0'),
       slug: 'sys-gen-' + n,

@@ -46,7 +46,7 @@
     var ci = pickI(rnd, OPT_CATS.length), si = pickI(rnd, OPT_STYLES.length);
     if (opts.type && OPT_CATS.indexOf(opts.type) >= 0) ci = OPT_CATS.indexOf(opts.type);
     var ai = pickI(rnd, ADJ.length), ni = pickI(rnd, NOUN.length), pi = pickI(rnd, OPT_PALETTES.length);
-    var n = (opts.baseN || 0) + 1;
+    var n = (opts.baseN || 0) + seed;
     var pub = {
       id: ID_PREFIX + String(n).padStart(ID_DIGITS, '0'),
       n: n,

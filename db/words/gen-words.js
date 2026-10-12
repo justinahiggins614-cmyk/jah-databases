@@ -131,7 +131,7 @@
       ? WORDS.filter(function (e) { return e[1] === opts.pos; }) : WORDS;
     var e = pick(rnd, pool.length ? pool : WORDS);
     var w = e[0], pos = e[1], def = e[2];
-    var n = (opts.baseN || 0) + 1;
+    var n = (opts.baseN || 0) + seed;
     var rec = {
       id: ID_PREFIX + String(n).padStart(6, '0'),
       n: n,
