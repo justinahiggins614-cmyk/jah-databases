@@ -63,7 +63,8 @@ pre.steps{background:#080d18;border:1px solid var(--line);border-radius:8px;padd
       <p>Finished books across every genre.</p>
       <div class="stats">
         <span class="stat">Archive records: <b id="stCount">…</b></span>
-        <span class="stat">Generator: <b>jahdb-books-1.0</b> <span class="ok">● working</span></span>
+        <span class="stat">Generator: <b id="stGen">…</b> <span class="ok">● working</span></span>
+        <span class="stat">Full novels: <b>40,000+ words each</b></span>
         <span class="stat">AI: <b>JAH Book Librarian</b></span>
       </div>
     </div>
@@ -96,7 +97,7 @@ pre.steps{background:#080d18;border:1px solid var(--line);border-radius:8px;padd
   <section class="pane" id="p-gen">
     <div class="card">
       <h3>Boundless generator</h3>
-      <p class="dim">Same seed + same version always makes the same book. Each book is assembled combinatorially from clean word pools — every name, place, and event invented — with a genuinely computed word count; then an independent verifier rebuilds the title, description, and every chapter from the private recipe before acceptance. Every book is labeled <b>GENERATED</b>.</p>
+      <p class="dim">Same seed + same version always makes the same book. Each book is a <b>complete full-length novel — 40,000+ words, 20+ chapters</b> — with a full four-act arc (setup, rising action, climax, resolution) and a cast whose relationships genuinely develop. Assembled combinatorially from clean word pools — every name, place, and event invented — with a genuinely computed word count; then an independent verifier rebuilds the entire novel from the seed and compares a checksum before acceptance. Every book is labeled <b>GENERATED</b>.</p>
       <div class="row">
         <label>Seed <input id="gSeed" type="number" value="1" style="width:110px"></label>
         <label>Count <input id="gN" type="number" value="5" min="1" max="50" style="width:80px"></label>
@@ -130,10 +131,11 @@ pre.steps{background:#080d18;border:1px solid var(--line);border-radius:8px;padd
       <h3>About this data base</h3>
       <dl class="kv">
         <dt>Archive</dt><dd>This database's finished books (JAH-BOOK records) — 16 genres, full chapters — preserved as structured, searchable data.</dd>
-        <dt>Record schema</dt><dd class="mono">id · title · author · genre · gkey · desc · words · chapters[{t, b}] · note · sources · origin · creation_mode · stamp</dd>
-        <dt>Generator</dt><dd>jahdb-books-1.0 — deterministic (mulberry32), assembles each book combinatorially from clean pools, computes the real word count, then an independent verifier rebuilds the title, description, and every chapter from the private pool indices before acceptance.</dd>
+        <dt>Record schema</dt><dd class="mono">id · title · author · genre · gkey · desc · words · chapters[{t, b, ph}] · note · src · origin · creation_mode · stamp · seed</dd>
+        <dt>Full works</dt><dd>Every book in this database is a <b>complete novel</b> — 40,000+ words, 20+ chapters, full four-act arc. Books 1–1,000 are stored as finished texts in the companion shard archive; every other book renders on demand from the deterministic generator, byte-identical every time. No partials, no stubs.</dd>
+        <dt>Generator</dt><dd id="aboutGen">jahdb-books-2.0 — deterministic (mulberry32), assembles each full novel combinatorially from clean pools: a six-character cast with seeded relationship arcs, motifs planted in chapter one and paid off in the climax, and a hard 40,000-word floor. The real word count is computed from the chapters; then an independent verifier rebuilds the entire novel from the seed and compares a checksum before acceptance.</dd>
         <dt>Drift control</dt><dd>Every generated book is checked against an archive sample for duplicate titles and re-verified by the independent verifier.</dd>
-        <dt>Cross-database</dt><dd>The generator can borrow a numeric theme from any of the other 36 databases when you tick the box.</dd>
+        <dt>Cross-database</dt><dd>The generator can borrow a numeric theme from any of the other databases when you tick the box.</dd>
         <dt>AI</dt><dd>JAH Book Librarian — archive-aware. On-device Standard 1.0, no key needed; uses the shared Signature backend automatically when configured.</dd>
         <dt>Ownership</dt><dd>✳ Property of Justin Addam Higgins (JAH).</dd>
       </dl>
@@ -179,16 +181,11 @@ JAHDB.loadManifest().then(function(m){
   buildGroups();
   renderQueue();
   greet();
-  /* deep link: a URL ending in #rec=<id> opens that full book directly */
+  /* deep link: a URL ending in #rec=<id> opens that full novel directly */
+  try{ var _gv=(JAHDB.getGenerator(SLUG)||{}).version||'…'; $('stGen').textContent=_gv;
+    var _ag=$('aboutGen'); if(_ag) _ag.innerHTML=_ag.innerHTML.replace(/jahdb-books-[\d.]+/, _gv); }catch(e){}
   var deepId=JAHDB.recHashGet();
-  if(deepId){
-    var dc=chunkOf(deepId);
-    JAHDB.fetchGz(LOCAL+'chunks/'+chunkName(dc)).then(function(bt){
-      var recs=JSON.parse(bt), rec=null;
-      for(var i=0;i<recs.length;i++){ if(recs[i]&&recs[i].id===deepId){ rec=recs[i]; break; } }
-      if(rec){ _bookById[rec.id]=rec; openBook(rec.id); }
-    }).catch(function(){});
-  }
+  if(deepId){ openBook(deepId); }
 }).catch(function(e){ $('stCount').textContent='archive unreachable ('+e.message+')'; });
 
 function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
@@ -199,7 +196,7 @@ function recCard(r){
   if(r&&r.id) _bookById[r.id]=r;
   return '<div class="card opencard" data-key="'+esc(r.id||'')+'"><div class="rec"><img loading="lazy" src="'+JAHDB.emblemSVG(r.genre||r.g,r.id||r.title)+'" alt="">'+
     '<div><h3 style="font-size:1.05em">'+esc(r.title||r.t)+'</h3>'+
-    '<div><span class="badge mono">'+esc(r.id||'')+'</span><span class="badge">'+esc(r.genre||r.g||'')+'</span>'+(r.words||r.w?'<span class="badge">'+esc(r.words||r.w)+' words</span>':'')+'</div>'+
+    '<div><span class="badge mono">'+esc(r.id||'')+'</span><span class="badge">'+esc(r.genre||r.g||'')+'</span><span class="badge ok">FULL NOVEL</span></div>'+
     '<p class="dim">'+esc(String(r.desc||r.d||'').slice(0,280))+'</p>'+
     '<p class="dim" style="font-size:.85em">Tap to open the full book — every chapter, full text.</p></div></div></div>';
 }
@@ -282,28 +279,69 @@ $('ovlDl').addEventListener('click',function(){
   a.download=($('ovlTitle').textContent||'record').replace(/[^A-Za-z0-9_-]+/g,'_')+'.txt';
   document.body.appendChild(a); a.click(); setTimeout(function(){URL.revokeObjectURL(a.href);a.remove();},500);
 });
+/* ---- full-novel loading: shard volumes for books 1-1000, on-demand generator after ---- */
+var _shardBase=null;
+function shardBase(){
+  if(_shardBase) return _shardBase;
+  var u='https://justinahiggins614-cmyk.github.io/jah-databases-books-shard-1/';
+  try{ if(db&&db.full_shards&&db.full_shards[0]&&db.full_shards[0].url) u=db.full_shards[0].url; }catch(e){}
+  if(u.slice(-1)!=='/') u+='/';
+  _shardBase=u; return u;
+}
+function bookNum(id){ var n=parseInt(String(id||'').slice(9),10); return isNaN(n)?0:n; }
+function idxMeta(id){ for(var i=0;i<archiveIdx.length;i++){ if(archiveIdx[i].id===id) return archiveIdx[i]; } return null; }
+function fullChunkName(n){ return 'full-c'+String(Math.ceil(n/100)).padStart(5,'0')+'.json.gz'; }
+function onDemandNovel(id){
+  var n=bookNum(id), meta=idxMeta(id);
+  if(!meta) return Promise.reject(new Error('not in the archive index'));
+  var r=JAHDB.runGenerator('books', n, {title: meta.t, genre: meta.g});
+  if(!r.ok) return Promise.reject(new Error('generator: '+r.errors.join('; ')));
+  return Promise.resolve(r.record);
+}
+function getFullNovel(id){
+  var n=bookNum(id);
+  if(n>=1&&n<=1000){
+    return JAHDB.fetchGz(shardBase()+'data/volumes/'+fullChunkName(n)).then(function(t){
+      var recs=JSON.parse(t);
+      for(var i=0;i<recs.length;i++){ if(recs[i]&&recs[i].id===id) return recs[i]; }
+      throw new Error('not in shard volume');
+    }).catch(function(){ return onDemandNovel(id); });
+  }
+  return onDemandNovel(id);
+}
 function openBook(id){
-  var r=_bookById[id];
-  if(!r){ ovlShow('Book','<p class="bad">Record reference lost — search again.</p>',''); return; }
+  ovlShow('Opening…','<p class="dim">Loading the complete novel — every chapter, full text.</p>','');
+  _ovlId=id;
+  getFullNovel(id).then(function(r){
+    renderFullNovel(r);
+    try{ JAHDB.recHashSet(id); }catch(e){}
+  }).catch(function(e){
+    ovlShow('Book','<p class="bad">Could not open the full novel ('+esc(e.message)+').</p>','');
+  });
+}
+function renderFullNovel(r){
   var chaps=Array.isArray(r.chapters)?r.chapters:[];
-  var html='<h2>'+esc(r.title||id)+'</h2>'+
-    '<div><span class="badge mono">'+esc(r.id||'')+'</span><span class="badge">'+esc(r.genre||'')+'</span>'+
-    (r.words?'<span class="badge">'+esc(r.words)+' words</span>':'')+
-    (chaps.length?'<span class="badge">'+chaps.length+' chapters</span>':'')+'</div>'+
+  var wc=Number(r.words||0);
+  var html='<h2>'+esc(r.title||r.id)+'</h2>'+
+    '<div><span class="badge mono">'+esc(r.id||'')+'</span>'+
+    '<span class="badge">'+esc(r.genre||'')+'</span>'+
+    (wc?'<span class="badge">'+wc.toLocaleString()+' words</span>':'')+
+    (chaps.length?'<span class="badge">'+chaps.length+' chapters</span>':'')+
+    '<span class="badge ok">FULL NOVEL</span>'+
+    (r.src?'<span class="badge">src: '+esc(r.src)+'</span>':'')+'</div>'+
     '<div class="fld"><b>Author</b><p>'+esc(r.author||'')+'</p></div>'+
     '<div class="fld"><b>Description</b><p>'+esc(r.desc||'')+'</p></div>'+
     (r.note?'<div class="fld"><b>Note</b><p class="dim">'+esc(r.note)+'</p></div>':'')+
-    '<div class="fld"><b>Chapters — full text</b></div>'+
+    '<div class="fld"><b>Chapters — complete text</b><p class="dim">Open a chapter to read it. The whole novel is '+
+      wc.toLocaleString()+' words, beginning to end.</p></div>'+
     chaps.map(function(c,i){
-      return '<div class="chapt"><h4>'+esc((i+1)+'. '+(c.t||'Chapter'))+'</h4><p>'+esc(String(c.b||'')).replace(/\n/g,'<br>')+'</p></div>';
-    }).join('')+
-    (r.sources&&r.sources.length?'<div class="fld"><b>Sources</b><ul>'+r.sources.map(function(s){return '<li>'+esc(String(s))+'</li>';}).join('')+'</ul></div>':'')+
-    (r.origin?'<div class="fld"><b>Origin</b><p class="dim">'+esc(r.origin)+'</p></div>':'');
-  var text=(r.title||id)+'\nby '+(r.author||'')+'\n'+(r.genre||'')+' — '+(r.words||'')+' words\nID: '+(r.id||'')+
+      return '<details class="grp"'+(i===0?' open':'')+'><summary>Chapter '+(i+1)+': '+esc(c.t||'Chapter')+
+        '</summary><div class="chapt"><p>'+esc(String(c.b||'')).replace(/\n/g,'<br>')+'</p></div></details>';
+    }).join('');
+  var text=(r.title||r.id)+'\nby '+(r.author||'')+'\n'+(r.genre||'')+' — '+(r.words||'')+' words\nID: '+(r.id||'')+
     '\n\n'+(r.desc||'')+'\n\n'+
     chaps.map(function(c,i){return 'CHAPTER '+(i+1)+': '+(c.t||'')+'\n\n'+(c.b||'');}).join('\n\n');
-  ovlShow(r.title||id,html,text);
-  _ovlId=r.id||id; JAHDB.recHashSet(_ovlId);
+  ovlShow(r.title||r.id,html,text);
 }
 function cardClick(e){
   var c=e.target&&e.target.closest?e.target.closest('.opencard'):null;
@@ -355,10 +393,11 @@ function driftFor(rec){
 function renderGen(recs,fails){
   var h='<p><b>'+recs.length+'</b> generated, <b>'+fails.length+'</b> rejected.</p>';
   h+=recs.map(function(r){
-    var chs=r.chapters.map(function(c){return '<div><b>'+esc(c.t)+'</b><br><span class="dim">'+esc(c.b.slice(0,140))+'…</span></div>';}).join('');
+    var chs=r.chapters.slice(0,3).map(function(c){return '<div><b>'+esc(c.t)+'</b><br><span class="dim">'+esc(c.b.slice(0,140))+'…</span></div>';}).join('')+
+      (r.chapters.length>3?'<div class="dim">…and '+(r.chapters.length-3)+' more chapters — '+Number(r.words).toLocaleString()+' words total</div>':'');
     return '<div class="card"><div class="rec"><img loading="lazy" src="'+JAHDB.emblemSVG(r.genre,r.id)+'" alt="">'+
       '<div style="flex:1"><h3 class="mono">'+esc(r.title)+'</h3>'+
-      '<div><span class="badge mono">'+esc(r.id)+'</span><span class="badge">'+esc(r.genre)+'</span><span class="badge">'+r.words+' words</span><span class="badge ok">validated ✓</span><span class="badge">GENERATED</span><span class="badge">seed '+esc(r._seed)+'</span></div>'+
+      '<div><span class="badge mono">'+esc(r.id)+'</span><span class="badge">'+esc(r.genre)+'</span><span class="badge">'+Number(r.words).toLocaleString()+' words</span><span class="badge">'+r.chapters.length+' chapters</span><span class="badge ok">FULL NOVEL</span><span class="badge ok">validated ✓</span><span class="badge">GENERATED</span><span class="badge">seed '+esc(r._seed)+'</span></div>'+
       '<p class="dim">'+esc(r.desc)+'</p><div class="dim">'+chs+'</div>'+
       '<p><button data-file="'+esc(r.id)+'">Queue for archive</button></p></div></div></div>';
   }).join('');
