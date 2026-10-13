@@ -44,7 +44,7 @@ p.long{grid-column:1/-1;line-height:1.55;margin:6px 0}
 .foot{margin-top:26px;padding-top:12px;border-top:1px solid var(--line);color:var(--dim);font-size:.85em}
 .kv .kv{grid-template-columns:auto minmax(120px,1fr)}
 .kv dt{min-width:0}
-</style>
+pre.codeblock{white-space:pre;overflow-x:auto;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.85em;line-height:1.5;background:#060b14;border:1px solid var(--line,#1e293b);border-radius:8px;padding:10px 12px;margin:6px 0;max-width:100%;box-sizing:border-box}</style>
 </head>
 <body>
 <div class="wrap">
@@ -195,8 +195,8 @@ function fmtVal(v){
     var keys=Object.keys(v),h='<dl class="kv">';
     keys.forEach(function(k){
       var val=v[k];
-      if(typeof val==='string'&&val.length>150){h+='<dt class="mono">'+esc(k)+'</dt><dd><p class="long">'+esc(val)+'</p></dd>';}
-      else{h+='<dt class="mono">'+esc(k)+'</dt><dd>'+fmtVal(val)+'</dd>';}
+      if(typeof val==='string'&&val.length>150){h+='<dt class="mono">'+esc(k)+'</dt><dd>'+((k==='program'||k==='code')?'<pre class="codeblock">'+esc(String(val))+'</pre>':'<p class="long">'+esc(val)+'</p>')+'</dd>';}
+      else{h+='<dt class="mono">'+esc(k)+'</dt><dd>'+((k==='program'||k==='code')?'<pre class="codeblock">'+esc(String(val))+'</pre>':fmtVal(val))+'</dd>';}
     });
     return h+'</dl>';
   }
