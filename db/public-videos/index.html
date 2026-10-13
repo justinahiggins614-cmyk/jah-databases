@@ -49,7 +49,7 @@ pre.steps{background:#080d18;border:1px solid var(--line);border-radius:8px;padd
 .kv dt{min-width:0}
 .vidwrap{position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:10px;margin:8px 0;background:#000}
 .vidwrap iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:0}
-</style>
+pre.codeblock{white-space:pre;overflow-x:auto;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.85em;line-height:1.5;background:#060b14;border:1px solid var(--line,#1e293b);border-radius:8px;padding:10px 12px;margin:6px 0;max-width:100%;box-sizing:border-box}</style>
 </head>
 <body>
 <div class="wrap">
@@ -184,7 +184,7 @@ function fmtVal(v){
     if(v.length&&typeof v[0]==='object')return '<ol>'+v.map(function(x){return '<li>'+fmtVal(x)+'</li>';}).join('')+'</ol>';
     return esc(v.join('; '));
   }
-  if(typeof v==='object')return '<dl class="kv">'+Object.keys(v).map(function(k){return '<dt class="mono">'+esc(k)+'</dt><dd'+(typeof v[k]==='string'&&v[k].length>150?' class="longtext"':'')+'>'+fmtVal(v[k])+'</dd>';}).join('')+'</dl>';
+  if(typeof v==='object')return '<dl class="kv">'+Object.keys(v).map(function(k){var _isC=(k==='program'||k==='code');var _in=_isC?'<pre class="codeblock">'+esc(String(v[k]))+'</pre>':fmtVal(v[k]);return '<dt class="mono">'+esc(k)+'</dt><dd'+(typeof v[k]==='string'&&v[k].length>150?' class="longtext"':'')+'>'+_in+'</dd>';}).join('')+'</dl>';
   return esc(String(v));
 }
 function pubBadge(r){

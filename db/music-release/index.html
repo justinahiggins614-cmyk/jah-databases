@@ -46,7 +46,7 @@ pre.code{background:#080d18;border:1px solid var(--line);border-radius:8px;paddi
 .kv dt{min-width:0}
 .rec>*{min-width:0}
 .foot{margin-top:26px;padding-top:12px;border-top:1px solid var(--line);color:var(--dim);font-size:.85em}
-</style>
+pre.codeblock{white-space:pre;overflow-x:auto;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.85em;line-height:1.5;background:#060b14;border:1px solid var(--line,#1e293b);border-radius:8px;padding:10px 12px;margin:6px 0;max-width:100%;box-sizing:border-box}</style>
 </head>
 <body>
 <div class="wrap">
@@ -163,7 +163,7 @@ function chunkName(c){ return 'chunks/chunk-'+String(c).padStart(4,'0')+'.jsonl.
 function fmtVal(v){
   if(v===null||v===undefined)return '<span class="dim">—</span>';
   if(Array.isArray(v))return esc(v.join('; '));
-  if(typeof v==='object')return '<dl class="kv">'+Object.keys(v).map(function(k){return '<dt class="mono">'+esc(k)+'</dt><dd>'+fmtVal(v[k])+'</dd>';}).join('')+'</dl>';
+  if(typeof v==='object')return '<dl class="kv">'+Object.keys(v).map(function(k){return '<dt class="mono">'+esc(k)+'</dt><dd>'+((k==='program'||k==='code')?'<pre class="codeblock">'+esc(String(v[k]))+'</pre>':fmtVal(v[k]))+'</dd>';}).join('')+'</dl>';
   return esc(String(v));
 }
 function factBadge(r){

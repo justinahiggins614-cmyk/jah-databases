@@ -43,7 +43,7 @@ details.grp>summary::-webkit-details-marker{display:none}
 .foot{margin-top:26px;padding-top:12px;border-top:1px solid var(--line);color:var(--dim);font-size:.85em}
 .kv .kv{grid-template-columns:auto minmax(120px,1fr)}
 .kv dt{min-width:0}
-</style>
+pre.codeblock{white-space:pre;overflow-x:auto;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.85em;line-height:1.5;background:#060b14;border:1px solid var(--line,#1e293b);border-radius:8px;padding:10px 12px;margin:6px 0;max-width:100%;box-sizing:border-box}</style>
 </head>
 <body>
 <div class="wrap">
@@ -174,7 +174,7 @@ function fmtVal(v){
     if(v.length&&typeof v[0]==='object')return '<ol>'+v.map(function(x){return '<li>'+fmtVal(x)+'</li>';}).join('')+'</ol>';
     return esc(v.join('; '));
   }
-  if(typeof v==='object')return '<dl class="kv">'+Object.keys(v).map(function(k){return '<dt class="mono">'+esc(k)+'</dt><dd'+(typeof v[k]==='string'&&v[k].length>150?' class="longtext"':'')+'>'+fmtVal(v[k])+'</dd>';}).join('')+'</dl>';
+  if(typeof v==='object')return '<dl class="kv">'+Object.keys(v).map(function(k){var _isC=(k==='program'||k==='code');var _in=_isC?'<pre class="codeblock">'+esc(String(v[k]))+'</pre>':fmtVal(v[k]);return '<dt class="mono">'+esc(k)+'</dt><dd'+(typeof v[k]==='string'&&v[k].length>150?' class="longtext"':'')+'>'+_in+'</dd>';}).join('')+'</dl>';
   return esc(String(v)).replace(/\n/g,'<br>');
 }
 function sigBadge(r){
