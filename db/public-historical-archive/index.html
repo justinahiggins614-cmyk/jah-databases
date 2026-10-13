@@ -67,7 +67,7 @@ pre.codeblock{white-space:pre;overflow-x:auto;font-family:ui-monospace,SFMono-Re
   </div>
   <section class="pane on" id="p-archive">
     <div class="row">
-      <input id="q" placeholder="Search records by title, poet, or form…" style="flex:1;min-width:200px">
+      <input id="q" placeholder="Search records by title, category, or person…" style="flex:1;min-width:200px">
       <button class="go" id="qgo">Search</button>
     </div>
     <p class="dim">Browse by category — each group opens on demand and loads only what you open.</p>
@@ -106,14 +106,14 @@ pre.codeblock{white-space:pre;overflow-x:auto;font-family:ui-monospace,SFMono-Re
     <div class="card">
       <h3>About this data base</h3>
       <dl class="kv">
-        <dt>Archive</dt><dd>This database's record archive (JAH-PHA- records): real public-domain records in <b>complete full text</b> — every record whole, never an excerpt — with poet, year of publication, form, full analysis, and citations. Public-domain status is documented per record.</dd>
+        <dt>Archive</dt><dd>This database's record archive (JAH-PHA- records): real public-domain records in <b>complete full text</b> — every record whole, never an excerpt — with person, year, category, full text, and citations. Public-domain status is documented per record.</dd>
         <dt>Record schema</dt><dd class="mono">id · title · category · year · issuer · description · full_text · significance · citations · src · demo</dd>
         <dt>Citations</dt><dd>Every record cites its sources: dates, issuers, publication facts, and public-domain basis. Legal only — no copyrighted material.</dd>
         <dt>Cross-links</dt><dd>Mirrored pair: the Public Historical Archive Database holds real public-domain historical records; the Signature Historical Archive Database holds Manon's original Signature historical records.</dd>
         <dt>Generator</dt><dd>jahdb-public-historical-archive-1.0 — generates clearly-labeled reading-guide samples only. Seeded records are the authoritative entries; the generator never invents real records.</dd>
         <dt>Drift control</dt><dd>Every generated record is checked against an archive sample for duplicate titles and re-validated by the independent checker.</dd>
         <dt>Target</dt><dd>1,000,000 records. The archive marches toward the million mark with overload protection: 100-record chunks, lazy loading, and a collapsible per-form archive so no device ever renders everything at once.</dd>
-        <dt>AI</dt><dd>JAH History Archivist — archive-aware poetry specialist — real public-domain records in complete full text, and aware of the whole JAH Databases network through cross-database reasoning. On-device Standard 1.0, no key needed; uses the shared Signature backend automatically when configured.</dd>
+        <dt>AI</dt><dd>JAH History Archivist — archive-aware history specialist — real public-domain records in complete full text, and aware of the whole JAH Databases network through cross-database reasoning. On-device Standard 1.0, no key needed; uses the shared Signature backend automatically when configured.</dd>
         <dt>Signature system</dt><dd>✳ Property of Justin Addam Higgins (JAH).</dd>
       </dl>
     </div>
@@ -179,7 +179,7 @@ function fmtVal(v){
 }
 function sigBadge(r){
   if(r&&r.src==='public-harvest') return '<div class="sigbanner"><span class="badge fact">✓ Public record — real documented historical record</span></div>';
-  if(r&&r.src==='signature') return '<div class="sigbanner"><span class="badge sig">✳ Signature original — Manon\'s original Signature technique</span></div>';
+  if(r&&r.src==='signature') return '<div class="sigbanner"><span class="badge sig">✳ Signature original — Manon\'s original Signature record</span></div>';
   return '<div class="sigbanner"><span class="badge sig">✳ Signature-generated sample — structural sample</span> <span class="badge">labeled sample</span></div>';
 }
 function renderFull(r){
@@ -296,7 +296,7 @@ document.addEventListener('toggle',function(e){
 },true);
 function greet(){
   var log=$('chatlog');
-  log.innerHTML='<div class="msg a"><div class="b">'+esc('I am the JAH History Archivist. Ask me about any record — its text, meaning, form, poet, or history.')+'</div></div>';
+  log.innerHTML='<div class="msg a"><div class="b">'+esc('I am the JAH History Archivist. Ask me about any record — its text, meaning, date, or history.')+'</div></div>';
 }
 function aiAsk(q){
   return JAHDB.aiAnswer(q,{db:db,role:ROLE,network:NETWORK,archive:archiveSample});
