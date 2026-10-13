@@ -19,6 +19,18 @@
 .searchrow input{flex:1;font-size:1em;border-radius:10px;border:1px solid var(--line);background:#0a1120;color:var(--ink);padding:11px 12px}
 .gobtn{font-size:1em;border-radius:10px;border:1px solid var(--acc);background:var(--acc);color:#fff;padding:11px 18px;cursor:pointer;font-weight:bold}
 .gobtn:hover{filter:brightness(1.15)}
+.mergebtn{font-size:.85em;border-radius:10px;border:1px solid #d11;color:#fff;background:#a00;padding:8px 14px;cursor:pointer;font-weight:bold;white-space:nowrap}
+.mergebtn:hover{filter:brightness(1.2)}
+.mergepanel{margin:10px 0 14px;background:var(--panel);border:1px solid #d11;border-radius:12px;padding:16px}
+.mergepanel h2{margin:0 0 6px;font-size:1.25em;color:#ffb3b3;letter-spacing:1px}
+.mwarn{background:rgba(255,40,40,.12);border:1px solid #d11;border-radius:10px;padding:10px 14px;margin:10px 0;font-size:.9em;color:#ffd7d7}
+.mcluster{margin:12px 0;border:1px solid var(--line);border-radius:10px;padding:10px 14px}
+.mcluster h3{margin:0 0 6px;font-size:1em;color:var(--ok)}
+.mcluster .mlist{font-size:.85em;color:var(--dim);line-height:1.7}
+.mcluster .mlist a{color:var(--acc);text-decoration:none}
+.mcluster .mlist a:hover{text-decoration:underline}
+.mjunc{font-size:.85em;color:#ffd76a;margin-top:4px}
+.mclose{background:none;border:1px solid var(--line);color:var(--dim);border-radius:8px;padding:4px 12px;cursor:pointer;float:right}
 .modes{display:flex;gap:8px;align-items:center;margin:0 0 6px;flex-wrap:wrap}
 .mode{font-size:.85em;border-radius:20px;border:1px solid var(--line);background:#0a1120;color:var(--dim);padding:6px 14px;cursor:pointer}
 .mode.on{border-color:var(--ok);color:var(--ok);font-weight:bold}
@@ -86,7 +98,9 @@
   <div class="searchrow">
     <input id="q" placeholder="Search all databases — ask anything…" aria-label="Universal network search">
     <button id="ugo" class="gobtn">Search</button>
+    <button id="umerge" class="mergebtn" title="Merged scholarly view across all databases — large data load">All Database Merger</button>
   </div>
+  <div id="mergepanel" class="mergepanel" hidden></div>
   <div class="modes" role="tablist" aria-label="Search mode">
     <button class="mode on" data-mode="quick" role="tab" aria-selected="true">Quick</button>
     <button class="mode" data-mode="deep" role="tab" aria-selected="false">Deep</button>
@@ -219,6 +233,65 @@ fetch('data/manifest.json').then(function(r){return r.json();}).then(function(m)
       });
     });
   }
+  /* ---------- All Database Merger — scholarly cross-network junction view ---------- */
+  var MERGE_STOP = { database: 1, signature: 1, public: 1, archive: 1, archives: 1, system: 1, systems: 1,
+    jah: 1, the: 1, of: 1, and: 1, for: 1, in: 1, on: 1, global: 1, universal: 1, boundless: 1,
+    record: 1, records: 1, collection: 1, study: 1, studies: 1, published: 1, work: 1, works: 1,
+    managers: 1, engineers: 1, technicians: 1, specialists: 1, scientists: 1, analysts: 1,
+    technologists: 1, workers: 1, other: 1, except: 1, social: 1, with: 1, from: 1 };
+  function mergeTopicWords(d) {
+    var s = (d.name + ' ' + d.slug).toLowerCase().replace(/[^a-z0-9]+/g, ' ');
+    var seen = {}, out = [];
+    s.split(' ').forEach(function (w) {
+      if (w.length > 3 && !MERGE_STOP[w] && !seen[w]) { seen[w] = 1; out.push(w); }
+    });
+    return out;
+  }
+  function renderMerger() {
+    var box = $('mergepanel');
+    var dbs = m.databases.filter(function (d) { return !d.internal; });
+    /* Junction points: scholarly topics studied by multiple databases */
+    var wordMap = {};
+    dbs.forEach(function (d) {
+      mergeTopicWords(d).forEach(function (w) {
+        if (!wordMap[w]) wordMap[w] = [];
+        wordMap[w].push(d);
+      });
+    });
+    var junctions = Object.keys(wordMap)
+      .filter(function (w) { return wordMap[w].length >= 4; })
+      .sort(function (a, b) { return wordMap[b].length - wordMap[a].length; });
+    var principal = junctions.slice(0, 30);
+    var h = '<button class="mclose" id="mclose">× back to databases</button>' +
+      '<h2>✳ ALL DATABASE MERGER — Scholarly Junction Index</h2>' +
+      '<div class="mwarn"><b>⚠ Caution:</b> this merged view spans the full network — ' +
+      dbs.length.toLocaleString() + ' databases and their boundless generators. ' +
+      'A large body of data loads below; proceed deliberately.</div>' +
+      '<div style="font-size:.9em;color:var(--dim)">A <b>junction</b> is a subject studied by multiple ' +
+      'databases at once — the meeting point where their boundless generators intersect and cross-pollinate. ' +
+      'The index below catalogs ' + junctions.length + ' such junctions across the network.</div>';
+    h += '<div class="mcluster" style="border-color:#d11"><h3>✳ Principal Cross-Network Junctions</h3>';
+    principal.forEach(function (w) {
+      var ds = wordMap[w];
+      h += '<details style="margin:6px 0"><summary style="cursor:pointer;color:#ffd76a;font-size:.9em">' +
+        '<b>' + esc(w) + '</b> — ' + ds.length + ' databases</summary>' +
+        '<div class="mlist" style="margin-top:4px">' + ds.map(function (d) {
+          return '<a href="db/' + esc(d.slug) + '/">' + esc(d.name) + '</a>';
+        }).join(' · ') + '</div></details>';
+    });
+    h += '</div>';
+    h += '<div class="mcluster"><h3>Full Subject Index (' + junctions.length + ' junctions, alphabetical)</h3>' +
+      '<div class="mlist" style="columns:2;column-gap:24px">' +
+      junctions.slice().sort().map(function (w) {
+        return esc(w) + ' <span style="color:#666">(' + wordMap[w].length + ')</span>';
+      }).join('<br>') + '</div></div>';
+    box.innerHTML = h;
+    box.hidden = false;
+    $('mclose').addEventListener('click', function () { box.hidden = true; box.innerHTML = ''; });
+    box.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+  $('umerge').addEventListener('click', renderMerger);
+
   $('ugo').addEventListener('click', runUniversal);
   $('q').addEventListener('keydown', function (e) { if (e.key === 'Enter') runUniversal(); });
 }).catch(function(e){
