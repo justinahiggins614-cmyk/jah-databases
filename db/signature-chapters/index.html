@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Signature Chapters Database — JAH Databases</title>
-<meta name="description" content="Original Signature poems — new works in sonnets, ballads, odes, and lyrics, each complete with the poet's own analysis. Property of Justin Addam Higgins.">
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Dataset", "name": "Public Surgery Database", "description": "Original Signature poems — new works in sonnets, ballads, odes, and lyrics, each complete with the poet's own analysis. Property of Justin Addam Higgins.", "creator": {"@type": "Person", "name": "Justin Addam Higgins"}}</script>
+<meta name="description" content="The complete 150-chapter Signature manuscript — corrected and reassembled in full. Identity, mathematics, physics, AI, inventions. Property of Justin Addam Higgins.">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Dataset", "name": "Public Surgery Database", "description": "The complete 150-chapter Signature manuscript — corrected and reassembled in full. Identity, mathematics, physics, AI, inventions. Property of Justin Addam Higgins.", "creator": {"@type": "Person", "name": "Justin Addam Higgins"}}</script>
 <style>
 :root{--bg:#070b16;--panel:#0d1526;--line:#1d2c4d;--ink:#e8f1ff;--dim:#9fb3d8;--acc:#2f7bff;--ok:#00e5a0;--warn:#ffb020}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Arial,Helvetica,sans-serif;line-height:1.5}
@@ -51,7 +51,7 @@ details.grp>summary::-webkit-details-marker{display:none}
     <img id="emblem" alt="database emblem">
     <div>
       <h1>Signature Chapters Database</h1>
-      <p>Original Signature poems — new works in sonnets, ballads, odes, and lyrics, each complete with the poet's own analysis.</p>
+      <p>The complete 150-chapter Signature manuscript — corrected and reassembled in full. Identity, mathematics, physics, AI, inventions.</p>
       <div class="stats">
         <span class="stat">Archive records: <b id="stCount">…</b></span>
         <span class="stat">Generator: <b>jahdb-signature-chapters-1.0</b> <span class="ok">● working</span></span>
@@ -67,7 +67,7 @@ details.grp>summary::-webkit-details-marker{display:none}
   </div>
   <section class="pane on" id="p-archive">
     <div class="row">
-      <input id="q" placeholder="Search poems by title, poet, or form…" style="flex:1;min-width:200px">
+      <input id="q" placeholder="Search chapters by title, theme, or number…" style="flex:1;min-width:200px">
       <button class="go" id="qgo">Search</button>
     </div>
     <p class="dim">Browse by form — each group opens on demand and loads only what you open.</p>
@@ -93,7 +93,7 @@ details.grp>summary::-webkit-details-marker{display:none}
   </section>
   <section class="pane" id="p-chat">
     <div class="card">
-      <h3>JAH Signature Poet <button id="fresh" style="font-size:.8em">New session</button></h3>
+      <h3>JAH Chapter Archivist <button id="fresh" style="font-size:.8em">New session</button></h3>
       <div class="chatlog" id="chatlog"></div>
       <div class="row">
         <input id="chatIn" placeholder="Ask about a poem…" style="flex:1;min-width:200px">
@@ -107,13 +107,13 @@ details.grp>summary::-webkit-details-marker{display:none}
       <h3>About this data base</h3>
       <dl class="kv">
         <dt>Archive</dt><dd>This database's poem archive (JAH-CHAP- records): <b>original Signature poems</b> — new works in sonnets, ballads, odes, lyrics, and free forms, each in complete full text with the poet's own analysis. Every poem is an original creation of the JAH Signature system.</dd>
-        <dt>Record schema</dt><dd class="mono">id · title · poet · year · form · theme · text (full) · analysis · description · citations · src · demo</dd>
+        <dt>Record schema</dt><dd class="mono">id · chapter_number · title · full_text · themes · date_range · source_posts · char_count · src · demo</dd>
         <dt>Citations</dt><dd>Every record cites its Signature origin: original work of the JAH Signature system, property of Justin Addam Higgins.</dd>
         <dt>Cross-links</dt><dd>Mirrored pair: the Signature Chapters Database holds Manon's original poems; the Public Poems Database holds real public-domain poems.</dd>
         <dt>Generator</dt><dd>jahdb-signature-chapters-1.0 — boundless generator of original Signature quatrains, deterministic per seed. Every generation is a new original work.</dd>
         <dt>Drift control</dt><dd>Every generated record is checked against an archive sample for duplicate titles and re-validated by the independent checker.</dd>
         <dt>Target</dt><dd>1,000,000 records. The archive marches toward the million mark with overload protection: 100-record chunks, lazy loading, and a collapsible per-form archive so no device ever renders everything at once.</dd>
-        <dt>AI</dt><dd>JAH Signature Poet — archive-aware poetry creator — original Signature poems with full text, and aware of the whole JAH Databases network through cross-database reasoning. On-device Standard 1.0, no key needed; uses the shared Signature backend automatically when configured.</dd>
+        <dt>AI</dt><dd>JAH Chapter Archivist — archive-aware poetry creator — original Signature poems with full text, and aware of the whole JAH Databases network through cross-database reasoning. On-device Standard 1.0, no key needed; uses the shared Signature backend automatically when configured.</dd>
         <dt>Signature system</dt><dd>✳ Property of Justin Addam Higgins (JAH).</dd>
       </dl>
     </div>
@@ -130,7 +130,7 @@ details.grp>summary::-webkit-details-marker{display:none}
 'use strict';
 var SLUG='signature-chapters';
 var LOCAL='../../data/signature-chapters/';
-var db={slug:SLUG,name:'Signature Chapters Database',ai_name:'JAH Signature Poet',record_kind:'poem'};
+var db={slug:SLUG,name:'Signature Chapters Database',ai_name:'JAH Chapter Archivist',record_kind:'chapter'};
 var ROLE='poetry creator — original Signature poems with full text and analysis';
 var NETWORK='Part of the JAH Databases network of archive-aware Creator AIs, every database marching to 1,000,000 records.';
 JAHDB.loadManifest().then(function(m){
@@ -296,7 +296,7 @@ document.addEventListener('toggle',function(e){
 },true);
 function greet(){
   var log=$('chatlog');
-  log.innerHTML='<div class="msg a"><div class="b">'+esc('I am the JAH Signature Poet. Ask me about any poem — or ask me to compose something new.')+'</div></div>';
+  log.innerHTML='<div class="msg a"><div class="b">'+esc('I am the JAH Chapter Archivist. Ask me about any poem — or ask me to compose something new.')+'</div></div>';
 }
 function aiAsk(q){
   return JAHDB.aiAnswer(q,{db:db,role:ROLE,network:NETWORK,archive:archiveSample});
