@@ -18,6 +18,10 @@ var TOPICS={
   "TinyBase",
   "Automerge",
   "PGlite",
+  "Pyodide",
+  "LocalForage",
+  "GunDB",
+  "TinyDB",
  ]
 };
 function demoProgram(topic,field){

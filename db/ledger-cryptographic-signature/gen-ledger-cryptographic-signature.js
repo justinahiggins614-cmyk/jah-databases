@@ -18,6 +18,12 @@ var TOPICS={
   "Signature Postchain Engine",
   "Signature Amazon Managed Blockchain Engine",
   "Signature Dolt Engine",
+  "Signature Trinsic Engine",
+  "Signature Hyperledger Indy Engine",
+  "Signature Verifiable Data Registry (VDR) Engine",
+  "Signature SpacetimeDB Engine",
+  "Signature Apache BookKeeper Engine",
+  "Signature Ceramic Network Engine",
  ]
 };
 function demoProgram(topic,field){

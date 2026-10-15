@@ -18,6 +18,7 @@ var TOPICS={
   "DataStax Astra DB",
   "Apache Phoenix",
   "Hypertable",
+  "Apache Kudu",
  ]
 };
 function demoProgram(topic,field){

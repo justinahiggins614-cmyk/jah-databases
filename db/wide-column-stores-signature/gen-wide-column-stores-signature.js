@@ -18,6 +18,7 @@ var TOPICS={
   "Signature DataStax Astra DB Engine",
   "Signature Apache Phoenix Engine",
   "Signature Hypertable Engine",
+  "Signature Apache Kudu Engine",
  ]
 };
 function demoProgram(topic,field){

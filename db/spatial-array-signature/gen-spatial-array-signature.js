@@ -18,6 +18,9 @@ var TOPICS={
   "Signature DuckDB Spatial Engine",
   "Signature Zarr Engine",
   "Signature GeoWave Engine",
+  "Signature HeavyDB Engine",
+  "Signature SpatiaLite Engine",
+  "Signature Ordnance Survey Spatial Engine Engine",
  ]
 };
 function demoProgram(topic,field){

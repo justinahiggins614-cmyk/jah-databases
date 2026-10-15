@@ -18,6 +18,11 @@ var TOPICS={
   "Tarantool",
   "CrateDB",
   "MarkLogic",
+  "Supabase",
+  "Xata",
+  "Nhost",
+  "LiteFS",
+  "PocketBase",
  ]
 };
 function demoProgram(topic,field){

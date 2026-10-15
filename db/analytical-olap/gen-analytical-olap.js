@@ -18,6 +18,7 @@ var TOPICS={
   "StarRocks",
   "Trino",
   "Databricks SQL",
+  "Apache Doris",
  ]
 };
 function demoProgram(topic,field){

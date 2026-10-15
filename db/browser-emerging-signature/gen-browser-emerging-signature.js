@@ -18,6 +18,10 @@ var TOPICS={
   "Signature TinyBase Engine",
   "Signature Automerge Engine",
   "Signature PGlite Engine",
+  "Signature Pyodide Engine",
+  "Signature LocalForage Engine",
+  "Signature GunDB Engine",
+  "Signature TinyDB Engine",
  ]
 };
 function demoProgram(topic,field){

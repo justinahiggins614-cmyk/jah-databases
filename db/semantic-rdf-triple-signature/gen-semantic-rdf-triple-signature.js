@@ -18,6 +18,8 @@ var TOPICS={
   "Signature Amazon Neptune (RDF) Engine",
   "Signature TerminusDB Engine",
   "Signature Oxigraph Engine",
+  "Signature Trinity (GraphEngine) Engine",
+  "Signature Cayley Engine",
  ]
 };
 function demoProgram(topic,field){

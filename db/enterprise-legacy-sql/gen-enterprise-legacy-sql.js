@@ -18,6 +18,15 @@ var TOPICS={
   "Vertica",
   "Greenplum",
   "Firebird",
+  "Altibase",
+  "Progress OpenEdge",
+  "Mimer SQL",
+  "Ingres",
+  "Raima",
+  "Caché",
+  "eXtremeDB",
+  "InfinityDB",
+  "Pervasive PSQL",
  ]
 };
 function demoProgram(topic,field){

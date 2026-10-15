@@ -18,6 +18,9 @@ var TOPICS={
   "Signature GridDB Engine",
   "Signature kdb+ Engine",
   "Signature OpenTSDB Engine",
+  "Signature M3DB Engine",
+  "Signature KairosDB Engine",
+  "Signature Graphite Engine",
  ]
 };
 function demoProgram(topic,field){

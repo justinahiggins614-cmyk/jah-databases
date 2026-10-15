@@ -28,6 +28,12 @@ var TOPICS={
   "Signature Turbopuffer Engine",
   "Signature Superlinked Engine",
   "Signature JVector Engine",
+  "Signature LanceDB Engine",
+  "Signature Elasticsearch Engine",
+  "Signature OpenSearch Engine",
+  "Signature Jina AI Engine",
+  "Signature txtai Engine",
+  "Signature Vearch Engine",
  ]
 };
 function demoProgram(topic,field){

@@ -18,6 +18,12 @@ var TOPICS={
   "Postchain",
   "Amazon Managed Blockchain",
   "Dolt",
+  "Trinsic",
+  "Hyperledger Indy",
+  "Verifiable Data Registry (VDR)",
+  "SpacetimeDB",
+  "Apache BookKeeper",
+  "Ceramic Network",
  ]
 };
 function demoProgram(topic,field){

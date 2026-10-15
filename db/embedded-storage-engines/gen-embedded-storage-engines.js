@@ -18,6 +18,14 @@ var TOPICS={
   "Sophia",
   "ForestDB",
   "Berkeley DB",
+  "Sled",
+  "redb",
+  "Kyoto Cabinet",
+  "UnQLite",
+  "HamsterDB",
+  "BonsaiDB",
+  "heed",
+  "AgateDB",
  ]
 };
 function demoProgram(topic,field){

@@ -18,6 +18,9 @@ var TOPICS={
   "GridDB",
   "kdb+",
   "OpenTSDB",
+  "M3DB",
+  "KairosDB",
+  "Graphite",
  ]
 };
 function demoProgram(topic,field){

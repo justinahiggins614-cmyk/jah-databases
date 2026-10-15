@@ -18,6 +18,7 @@ var TOPICS={
   "Datomic",
   "Vitess",
   "HarperDB",
+  "OceanBase",
  ]
 };
 function demoProgram(topic,field){

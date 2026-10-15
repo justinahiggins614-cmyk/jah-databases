@@ -18,6 +18,7 @@ var TOPICS={
   "Signature StarRocks Engine",
   "Signature Trino Engine",
   "Signature Databricks SQL Engine",
+  "Signature Apache Doris Engine",
  ]
 };
 function demoProgram(topic,field){

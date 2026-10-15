@@ -28,6 +28,12 @@ var TOPICS={
   "Turbopuffer",
   "Superlinked",
   "JVector",
+  "LanceDB",
+  "Elasticsearch",
+  "OpenSearch",
+  "Jina AI",
+  "txtai",
+  "Vearch",
  ]
 };
 function demoProgram(topic,field){

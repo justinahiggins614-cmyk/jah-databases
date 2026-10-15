@@ -18,6 +18,8 @@ var TOPICS={
   "Amazon Neptune (RDF)",
   "TerminusDB",
   "Oxigraph",
+  "Trinity (GraphEngine)",
+  "Cayley",
  ]
 };
 function demoProgram(topic,field){

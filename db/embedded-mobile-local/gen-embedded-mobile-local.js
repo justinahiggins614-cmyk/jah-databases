@@ -18,6 +18,9 @@ var TOPICS={
   "NeDB",
   "lowdb",
   "SQL.js",
+  "libSQL",
+  "H2 Database",
+  "Apache Derby",
  ]
 };
 function demoProgram(topic,field){

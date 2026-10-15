@@ -18,6 +18,11 @@ var TOPICS={
   "Signature Tarantool Engine",
   "Signature CrateDB Engine",
   "Signature MarkLogic Engine",
+  "Signature Supabase Engine",
+  "Signature Xata Engine",
+  "Signature Nhost Engine",
+  "Signature LiteFS Engine",
+  "Signature PocketBase Engine",
  ]
 };
 function demoProgram(topic,field){

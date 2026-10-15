@@ -18,6 +18,9 @@ var TOPICS={
   "DuckDB Spatial",
   "Zarr",
   "GeoWave",
+  "HeavyDB",
+  "SpatiaLite",
+  "Ordnance Survey Spatial Engine",
  ]
 };
 function demoProgram(topic,field){

@@ -18,6 +18,7 @@ var TOPICS={
   "Amazon DocumentDB",
   "EJDB2",
   "Ditto",
+  "FerretDB",
  ]
 };
 function demoProgram(topic,field){

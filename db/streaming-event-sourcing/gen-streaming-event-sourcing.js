@@ -18,6 +18,13 @@ var TOPICS={
   "Apache Flink",
   "Pravega",
   "WarpStream",
+  "Materialize",
+  "RisingWave",
+  "Akka Persistence",
+  "DeltaStream",
+  "Estuary Flow",
+  "Benthos",
+  "Timeplus",
  ]
 };
 function demoProgram(topic,field){

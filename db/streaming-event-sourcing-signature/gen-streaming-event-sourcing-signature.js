@@ -18,6 +18,13 @@ var TOPICS={
   "Signature Apache Flink Engine",
   "Signature Pravega Engine",
   "Signature WarpStream Engine",
+  "Signature Materialize Engine",
+  "Signature RisingWave Engine",
+  "Signature Akka Persistence Engine",
+  "Signature DeltaStream Engine",
+  "Signature Estuary Flow Engine",
+  "Signature Benthos Engine",
+  "Signature Timeplus Engine",
  ]
 };
 function demoProgram(topic,field){
