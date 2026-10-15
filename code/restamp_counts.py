@@ -161,6 +161,25 @@ def main():
             print("  " + os.path.relpath(p, ROOT), file=sys.stderr)
         return 1
 
+    # 6: xdb contract — generators declaring xdbUses must be well-formed
+    import re as _re
+    xdb_bad = []
+    for g in glob.glob(os.path.join(ROOT, "db", "*", "gen-*.js")):
+        try:
+            src = open(g, encoding="utf-8").read()
+        except Exception:
+            continue
+        if "xdbUses" in src:
+            # must be a non-empty array of {slug, fields} declarations
+            if not _re.search(r"xdbUses:\s*\[\s*\{[^]]*slug\s*:", src):
+                xdb_bad.append(g)
+    changed.append("generators with malformed xdbUses: %d" % len(xdb_bad))
+    if xdb_bad:
+        print("FATAL: %d generators have malformed xdbUses:" % len(xdb_bad), file=sys.stderr)
+        for p in xdb_bad[:20]:
+            print("  " + os.path.relpath(p, ROOT), file=sys.stderr)
+        return 1
+
     print("RESTAMP OK — n=%d databases" % n)
     for c in changed:
         print("  - " + c)

@@ -122,7 +122,8 @@ function driftCheck(record,sample){
   var dups=(sample||[]).filter(function(r){return r&&r.title===record.title&&r.field===record.field;});
   return dups.length?{ok:false,errors:['duplicate topic+field in archive sample']}:{ok:true,errors:[]};
 }
-var gen={version:'jahdb-robot-positions-1.0',generate:generate,validate:validate,driftCheck:driftCheck,fields:FIELDS};
+var gen={version:'jahdb-robot-positions-1.0',generate:generate,validate:validate,driftCheck:driftCheck,fields:FIELDS,
+xdbUses:[{slug:'predictive-trajectories',fields:['waypoints'],min:1},{slug:'dynamics-models',fields:['parameters'],min:1},{slug:'cost-functions',fields:['mathematical_form'],min:1},{slug:'optimal-plans',fields:['goal'],min:1},{slug:'model-predictive-control',fields:['formulation'],min:1}]};
 if(typeof JAHDB!=='undefined'&&JAHDB.registerGenerator)JAHDB.registerGenerator('robot-positions',gen);
 if(typeof module!=='undefined'&&module.exports)module.exports=gen;
 })();
