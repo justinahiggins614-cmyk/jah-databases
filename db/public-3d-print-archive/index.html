@@ -174,7 +174,7 @@ function fmtVal(v){
     if(v.length&&typeof v[0]==='object')return '<ol>'+v.map(function(x){return '<li>'+fmtVal(x)+'</li>';}).join('')+'</ol>';
     return esc(v.join('; '));
   }
-  if(typeof v==='object')return '<dl class="kv">'+Object.keys(v).map(function(k){var _isC=(k==='program'||k==='code');var _in=_isC?'<pre class="codeblock">'+esc(String(v[k]))+'</pre>':fmtVal(v[k]);return '<dt class="mono">'+esc(k)+'</dt><dd'+(typeof v[k]==='string'&&v[k].length>150?' class="longtext"':'')+'>'+_in+'</dd>';}).join('')+'</dl>';
+  if(typeof v==='object')return '<dl class="kv">'+Object.keys(v).map(function(k){var _isC=(k==='program'||k==='code');var _in=_isC?'<pre class="codeblock">'+esc(String(v[k]))+'</pre>':fmtVal(v[k]);return '<dt class="mono">'+esc(k==='est_print_hours'?'est_print_hours (estimate)':k)+'</dt><dd'+(typeof v[k]==='string'&&v[k].length>150?' class="longtext"':'')+'>'+_in+'</dd>';}).join('')+'</dl>';
   return esc(String(v)).replace(/\n/g,'<br>');
 }
 function sigBadge(r){
@@ -185,6 +185,7 @@ function sigBadge(r){
 function renderFull(r){
   var h=sigBadge(r)+'<dl class="kv">';
   Object.keys(r).forEach(function(k){ if(k.charAt(0)==='_')return; var _ltv=r[k];h+='<dt class="mono">'+esc(k)+'</dt><dd'+(typeof _ltv==='string'&&_ltv.length>150?' class="longtext"':'')+'>'+fmtVal(_ltv)+'</dd>'; });
+  if(r.print_settings){h+='<div style="margin:8px 0;border:1px solid #ffb020;border-radius:10px;padding:10px 12px;background:#0d1526"><b>⏱ Estimates, not validated print jobs.</b> Print times shown are internally consistent numerical estimates from a formula — not timed, validated print jobs. They do not model every real-world factor: wall thickness, supports, nozzle settings, printer motion, or material-specific slicing behavior. Slice the model in your own slicer for your machine and material.</div>';}
   return h+'</dl>';
 }
 function descOf(r){ try{ return String(r.description||""); }catch(e){ return ""; } }
