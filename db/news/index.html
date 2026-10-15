@@ -75,7 +75,7 @@ pre.steps{background:#080d18;border:1px solid var(--line);border-radius:8px;padd
       <input id="q" placeholder="Search the archive…" style="flex:1;min-width:200px">
       <button class="go" id="qgo">Search</button>
     </div>
-    <p class="dim">Browse by category — each group opens on demand and loads only what you open. Generated sample editions are always labeled and never presented as real published editions.</p>
+    <p class="dim">Browse by category — each group opens on demand and loads only what you open. Database reports, file reports, and network reports cover the Signature system itself; Signature ideas are fresh proposals cataloged for the system to use. Generated sample editions are always labeled and never presented as real published editions.</p>
     <div id="groups"></div>
     <div id="results"></div>
   </section>
@@ -206,12 +206,18 @@ JAHDB.loadManifest().then(function(m){
 function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
 function chunkName(c){ return 'editions-w'+String(c).padStart(5,'0')+'.jsonl.gz'; }
 /* idx row: [id, date, paper, week, chunk, text, category] */
+function modeBadge(r){
+  if(r.creation_mode==='GENERATED') return '<span class="badge">GENERATED SAMPLE</span>';
+  if(r.creation_mode==='REPORTED') return '<span class="badge ok">SIGNATURE REPORT</span>';
+  if(r.creation_mode==='PROPOSED') return '<span class="badge">SIGNATURE IDEA</span>';
+  return '';
+}
 function recCard(r){
   var id=r.id||r[0], date=r.date||r[1], text=r.articles?r.articles.map(function(a){return a.h;}).join(' ‖ '):(r[5]||'');
   var cat=r.fictionality_status||r[6]||'';
   return '<div class="card"><div class="rec"><img loading="lazy" src="'+JAHDB.emblemSVG('Edition',id)+'" alt="">'+
     '<div><h3 class="mono" style="font-size:1.05em">'+esc(id)+' <span class="dim">'+esc(date)+'</span></h3>'+
-    '<div><span class="badge">'+esc(cat)+'</span>'+(r.creation_mode?'<span class="badge">GENERATED SAMPLE</span>':'')+'</div>'+
+    '<div><span class="badge">'+esc(cat)+'</span>'+modeBadge(r)+'</div>'+
     '<p class="dim">'+esc(String(text).slice(0,300))+'</p></div></div></div>';
 }
 function catOf(r){ return r[6]||r.fictionality_status||'edition'; }
@@ -222,27 +228,48 @@ function buildGroups(){
   cats.forEach(function(c){
     var rows=archiveIdx.filter(function(r){return catOf(r)===c;});
     var d=document.createElement('details'); d.className='grp';
-    d.innerHTML='<summary>'+esc(c)+' <span class="dim">('+rows.length.toLocaleString()+')</span></summary><div class="body"><p class="dim">Open to load the first 25.</p></div>';
-    d.addEventListener('toggle',function(){
+    d.innerHTML='<summary>'+esc(catLabel(c))+' <span class="dim">('+rows.length.toLocaleString()+')</span></summary><div class="body"><p class="dim">Open to load the first 25.</p></div>';
+    var ensure=function(){
       if(d.open && !d.dataset.loaded){ d.dataset.loaded='1'; loadGroupSample(c,d.querySelector('.body')); }
-    });
+    };
+    d.addEventListener('toggle',ensure);
+    /* backup: some embedded browsers misfire toggle — the click fallback covers it */
+    d.querySelector('summary').addEventListener('click',function(){ setTimeout(ensure,60); });
     g.appendChild(d);
   });
+}
+function catLabel(c){
+  var labels={'ecosystem':'Ecosystem editions','database-reports':'Database reports','file-reports':'File reports','network-reports':'Network reports','signature-ideas':'Signature ideas'};
+  return labels[c]||c;
 }
 function loadGroupSample(c,body){
   body.innerHTML='<p class="dim">Loading…</p>';
   var rows=archiveIdx.filter(function(r){return catOf(r)===c;}).slice(0,25);
+  if(!rows.length){ body.innerHTML='<p class="dim">No records in this group.</p>'; return; }
   var byChunk={};
   rows.forEach(function(r){ var ch=r[4]; (byChunk[ch]=byChunk[ch]||[]).push(r[0]); });
   var jobs=Object.keys(byChunk).map(function(ch){
     return JAHDB.fetchJsonlGz(LOCAL+'chunks/'+chunkName(+ch)).then(function(recs){
       var want={}; byChunk[ch].forEach(function(id){want[id]=1;});
-      return recs.filter(function(r){return want[r.id];});
-    }).catch(function(){return [];});
+      return {ok:true,recs:recs.filter(function(r){return want[r.id];})};
+    }).catch(function(e){ return {ok:false,chunk:chunkName(+ch),error:String((e&&e.message)||e)}; });
   });
   Promise.all(jobs).then(function(parts){
-    var recs=[]; parts.forEach(function(p){recs=recs.concat(p);});
-    body.innerHTML=recs.length?recs.map(recCard).join(''):'<p class="dim">Nothing loaded.</p>';
+    var recs=[],fails=[];
+    parts.forEach(function(p){ if(p.ok) recs=recs.concat(p.recs); else fails.push(p); });
+    var retryBtn='<p><button class="go" data-retry="1">Retry</button></p>';
+    if(recs.length){
+      body.innerHTML=recs.map(recCard).join('')+
+        (fails.length?'<p class="bad">Some chunks failed ('+esc(fails.map(function(f){return f.chunk;}).join(', '))+').</p>'+retryBtn:'');
+    }else{
+      body.innerHTML='<p class="bad">Could not load records: '+esc(fails.map(function(f){return f.chunk+': '+f.error;}).join('; ')||'unknown error')+'</p>'+retryBtn;
+    }
+    var rb=body.querySelector('[data-retry]');
+    if(rb) rb.addEventListener('click',function(){ loadGroupSample(c,body); });
+  }).catch(function(e){
+    body.innerHTML='<p class="bad">Could not load records: '+esc(String((e&&e.message)||e))+'</p><p><button class="go" data-retry="1">Retry</button></p>';
+    var rb2=body.querySelector('[data-retry]');
+    if(rb2) rb2.addEventListener('click',function(){ loadGroupSample(c,body); });
   });
 }
 /* search */
@@ -481,7 +508,7 @@ function renderQueue(){
 /* chat */
 var session=JAHDB.getSession(SLUG);
 function greet(){
-  say('a','I\'m the JAH News Librarian. I know this archive\'s '+archiveIdx.length.toLocaleString()+' editions — ask me to find one, or generate a clearly-labeled sample edition in archive style.');
+  say('a','I\'m the JAH News Librarian. I know this archive\'s '+archiveIdx.length.toLocaleString()+' editions — database reports, file reports, network reports, and fresh Signature ideas. Ask me to find one, or generate a clearly-labeled sample edition in archive style.');
 }
 function say(who,text){
   var d=document.createElement('div');d.className='msg '+who;
@@ -492,7 +519,7 @@ function sendChat(){
   var t=$('chatIn').value.trim();if(!t)return;
   $('chatIn').value='';say('u',t);session.turns.push({q:t});
   var ctx='Archive holds '+archiveIdx.length+' press editions with sections: '+SECTIONS.join(', ')+
-    '. Generated editions are always labeled GENERATED SAMPLE and never presented as real published editions.';
+    '. Database reports, file reports, and network reports cover the Signature system itself; Signature ideas are fresh proposals cataloged for the system to use. Generated editions are always labeled GENERATED SAMPLE and never presented as real published editions.';
   JAHDB.aiAnswer(db,t,ctx).then(function(a){say('a',a);});
 }
 $('chatGo').addEventListener('click',sendChat);
