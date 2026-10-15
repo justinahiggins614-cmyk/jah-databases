@@ -141,7 +141,9 @@ pre.codeblock{white-space:pre;overflow-x:auto;font-family:ui-monospace,SFMono-Re
 
   <div class="foot">✳ JAH Databases. Property of Justin Addam Higgins (JAH).</div>
 </div>
-<script src="../../core/jahdb.js"></script>
+<script src="../../core/jahdb.js">
+<script src="../../core/jahdb-dedupe.js"></script>
+<script src="../../core/jahdb-xdb.js"></script></script>
 <script src="../../core/jahdb-demo.js"></script>
 <script src="../../core/standard-1.0.js"></script>
 <script src="../../core/guide-conv.js"></script>
@@ -177,7 +179,8 @@ JAHDB.loadManifest().then(function(m){manifest=m;db=JAHDB.dbBySlug(m,SLUG)||db;}
 }).then(function(t){
   archiveIdx=t.split('\n').filter(function(l){return l.trim();}).map(function(l){try{return JSON.parse(l);}catch(e){return null;}}).filter(Boolean);
   $('stCount').textContent=archiveIdx.length.toLocaleString()+' / 1,000,000 target';
-  try{ if(typeof archiveIdx!=='undefined'&&archiveIdx&&archiveIdx.length) $('gSeed').value=archiveIdx.length+1; }catch(e){}
+
+  try{ if(window.JAHDB&&JAHDB.dedupe) JAHDB.dedupe.indexSameDb(typeof archiveIdx!=='undefined'?archiveIdx:[], typeof SLUG!=='undefined'?SLUG:null); }catch(e){}  try{ if(typeof archiveIdx!=='undefined'&&archiveIdx&&archiveIdx.length) $('gSeed').value=archiveIdx.length+1; }catch(e){}
   $('emblem').src=JAHDB.emblemSVG(db.name,'JAH-SWARM-PUB-');
   var seen={},i;
   for(i=0;i<archiveIdx.length;i++){ if(archiveIdx[i].g&&!seen[archiveIdx[i].g]){seen[archiveIdx[i].g]=1;GENRES.push(archiveIdx[i].g);} }
@@ -294,16 +297,24 @@ $('gGo').addEventListener('click',function(){
   var genre=$('gType').value||undefined, topic=$('gTopic').value.trim()||undefined;
   var out=$('gOut'); out.innerHTML='<p class="dim">Generating…</p>';
   var recs=[],fails=[];
-  for(var i=0;i<n;i++){
-    var r=JAHDB.runGenerator(SLUG,seed+i,{genre:genre,topic:topic});
-    if(!r.ok){fails.push({seed:seed+i,errors:r.errors});continue;}
-    var dc={ok:true,errors:[]};
-    try{ dc=driftFor(r.record); }catch(e){}
-    if(!dc.ok){fails.push({seed:seed+i,errors:dc.errors});continue;}
-    recs.push(r.record);
-  }
-  renderGen(recs,fails);
-  try{$('gSeed').value=seed+n;}catch(e){}
+    var OPTS={genre:genre,topic:topic};
+  // Whole-system checked generation (dedupe + cross-db), async.
+  (function runChecked(k){
+    if(k>=n){ renderGen(recs,fails); try{$('gSeed').value=seed+n;}catch(e){} return; }
+    JAHDB.generateChecked(SLUG,seed+k,OPTS).then(function(r){
+      if(!r.ok){ fails.push({seed:seed+k,errors:r.errors}); }
+      else{
+        var dc={ok:true,errors:[]};
+        try{ dc=driftFor(r.record); }catch(e){}
+        if(!dc.ok){ fails.push({seed:seed+k,errors:dc.errors}); }
+        else recs.push(r.record);
+      }
+      runChecked(k+1);
+    }).catch(function(err){
+      fails.push({seed:seed+k,errors:[String(err&&err.message||err)]});
+      runChecked(k+1);
+    });
+  })(0);
 });
 function driftFor(rec){
   var gen=JAHDB.getGenerator(SLUG);

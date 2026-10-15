@@ -176,7 +176,9 @@ ul.caps{margin:6px 0;padding-left:20px}
     <details class="fsec"><summary style="cursor:pointer;font-weight:bold">Raw JSON</summary><pre class="raw" id="fmRaw"></pre></details>
   </div>
 </div>
-<script src="../../core/jahdb.js"></script>
+<script src="../../core/jahdb.js">
+<script src="../../core/jahdb-dedupe.js"></script>
+<script src="../../core/jahdb-xdb.js"></script></script>
 <script src="../../core/jahdb-demo.js"></script>
 <script src="../../core/standard-1.0.js"></script>
 <script src="../../core/guide-conv.js"></script>
@@ -212,7 +214,8 @@ JAHDB.loadManifest().then(function(m){
 }).then(function(cat){
   archiveIdx=cat.records||[];
   $('stCount').textContent=archiveIdx.length.toLocaleString()+' AI profiles';
-  try{ if(typeof archiveIdx!=='undefined'&&archiveIdx&&archiveIdx.length) $('gSeed').value=archiveIdx.length+1; }catch(e){}
+
+  try{ if(window.JAHDB&&JAHDB.dedupe) JAHDB.dedupe.indexSameDb(typeof archiveIdx!=='undefined'?archiveIdx:[], typeof SLUG!=='undefined'?SLUG:null); }catch(e){}  try{ if(typeof archiveIdx!=='undefined'&&archiveIdx&&archiveIdx.length) $('gSeed').value=archiveIdx.length+1; }catch(e){}
   var rnd=JAHDB.prng(99);
   for(var i=0;i<200&&i<archiveIdx.length;i++) archiveSample.push(archiveIdx[(rnd()*archiveIdx.length)|0]);
   buildGroups();

@@ -119,7 +119,9 @@ pre.codeblock{white-space:pre;overflow-x:auto;font-family:ui-monospace,SFMono-Re
   </section>
   <div class="foot">✳ JAH Databases. Property of Justin Addam Higgins (JAH).</div>
 </div>
-<script src="../../core/jahdb.js"></script>
+<script src="../../core/jahdb.js">
+<script src="../../core/jahdb-dedupe.js"></script>
+<script src="../../core/jahdb-xdb.js"></script></script>
 <script src="../../core/standard-1.0.js"></script>
 <script src="../../core/guide-conv.js"></script>
 <script src="../../core/apex-2.0.js"></script>
@@ -154,7 +156,8 @@ JAHDB.loadManifest().then(function(m){manifest=m;db=JAHDB.dbBySlug(m,SLUG)||db;}
 }).then(function(t){
   archiveIdx=t.split('\n').filter(function(l){return l.trim();}).map(function(l){try{return JSON.parse(l);}catch(e){return null;}}).filter(Boolean);
   $('stCount').textContent=archiveIdx.length.toLocaleString()+' / 1,000,000 target';
-  try{ $('gSeed').value=archiveIdx.length+1; }catch(e){}
+
+  try{ if(window.JAHDB&&JAHDB.dedupe) JAHDB.dedupe.indexSameDb(typeof archiveIdx!=='undefined'?archiveIdx:[], typeof SLUG!=='undefined'?SLUG:null); }catch(e){}  try{ $('gSeed').value=archiveIdx.length+1; }catch(e){}
   $('emblem').src=JAHDB.emblemSVG(db.name,'JAH-SUG-');
   fillSelects();
   buildGroups();

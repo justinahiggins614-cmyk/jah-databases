@@ -130,6 +130,37 @@ def main():
             print("  " + os.path.relpath(p, ROOT), file=sys.stderr)
         return 1
 
+    # 5: quality audit — dedupe+xdb tags on Track A pages; no contamination in generators
+    track_a = [p for p in pages
+               if '<script src="../../core/jahdb.js">' in open(p, encoding="utf-8").read()]
+    no_dedupe = [p for p in track_a
+                 if 'jahdb-dedupe.js' not in open(p, encoding="utf-8").read()]
+    no_xdb = [p for p in track_a
+              if 'jahdb-xdb.js' not in open(p, encoding="utf-8").read()]
+    changed.append("Track A pages with dedupe tags: %d/%d" % (len(track_a) - len(no_dedupe), len(track_a)))
+    changed.append("Track A pages with xdb tags: %d/%d" % (len(track_a) - len(no_xdb), len(track_a)))
+    if no_dedupe:
+        print("WARN: %d Track A pages lack dedupe tags" % len(no_dedupe), file=sys.stderr)
+    # contamination regression: no gen-*.js may contain the filler strings
+    bad_gens = []
+    for g in glob.glob(os.path.join(ROOT, "db", "*", "gen-*.js")):
+        try:
+            src = open(g, encoding="utf-8").read()
+        except Exception:
+            continue
+        if ("guide provides comprehensive coverage" in src
+                and "content_completeness" not in src):
+            bad_gens.append(g)
+        if "Determine and formulate policies" in src and "contaminated overview" not in src:
+            bad_gens.append(g)
+    changed.append("generators with contamination/filler: %d" % len(bad_gens))
+    if bad_gens:
+        print("FATAL: %d generators contain unpatched contamination/filler:" % len(bad_gens),
+              file=sys.stderr)
+        for p in bad_gens[:20]:
+            print("  " + os.path.relpath(p, ROOT), file=sys.stderr)
+        return 1
+
     print("RESTAMP OK — n=%d databases" % n)
     for c in changed:
         print("  - " + c)

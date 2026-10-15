@@ -165,7 +165,9 @@ table.mtab th{color:var(--dim);font-weight:normal}
     <p class="dim" style="margin-bottom:0">One click from the card opened this complete record — every field, nothing summarized. This record lives in this data base's archive.</p>
   </div>
 </div>
-<script src="../../core/jahdb.js"></script>
+<script src="../../core/jahdb.js">
+<script src="../../core/jahdb-dedupe.js"></script>
+<script src="../../core/jahdb-xdb.js"></script></script>
 <script src="../../core/jahdb-demo.js"></script>
 <script src="../../core/standard-1.0.js"></script>
 <script src="../../core/guide-conv.js"></script>
@@ -213,7 +215,8 @@ JAHDB.loadManifest().then(function(m){
 }).then(function(parts){
   archiveIdx=[]; parts.forEach(function(p){archiveIdx=archiveIdx.concat(p);});
   $('stCount').textContent=archiveIdx.length.toLocaleString()+' / 1,000,000 target';
-  try{ if(typeof archiveIdx!=='undefined'&&archiveIdx&&archiveIdx.length) $('gSeed').value=archiveIdx.length+1; }catch(e){}
+
+  try{ if(window.JAHDB&&JAHDB.dedupe) JAHDB.dedupe.indexSameDb(typeof archiveIdx!=='undefined'?archiveIdx:[], typeof SLUG!=='undefined'?SLUG:null); }catch(e){}  try{ if(typeof archiveIdx!=='undefined'&&archiveIdx&&archiveIdx.length) $('gSeed').value=archiveIdx.length+1; }catch(e){}
   var rnd=JAHDB.prng(99);
   for(var i=0;i<200&&i<archiveIdx.length;i++) archiveSample.push(archiveIdx[(rnd()*archiveIdx.length)|0]);
   buildGroups();
