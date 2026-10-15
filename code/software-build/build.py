@@ -38,6 +38,12 @@ SHARD = "/home/hatch/workspace/jah-databases-data-1"
 SHARD_BASE = "https://justinahiggins614-cmyk.github.io/jah-databases-data-1"
 TEMPLATE = os.path.join(REPO, "db", "public-synthetic-intelligence", "index.html")
 
+# Whole-system dedupe gate (his standing rule: every generator checks the
+# WHOLE system before generating). Wired per rollout-plan.md Phase 2 step 5.
+sys.path.insert(0, os.path.join(REPO, "code"))
+from dedupe_gate import DedupeGate
+GATE = DedupeGate(os.path.join(SHARD, "data", "dedupe", "exact"))
+
 sys.path.insert(0, HERE)
 from topics_apps import APPS_TOPICS
 from topics_tools import TOOLS_TOPICS
@@ -276,7 +282,11 @@ def build_records(slug):
     topics = ALL_TOPICS[slug]
     recs = []
     for i, (name, group, desc, points) in enumerate(topics):
-        rid = "%s%06d" % (cfg["prefix"], i + 1)
+        # Dedupe gate: refuse whole-system duplicate titles before writing.
+        if [h for h in GATE.check(slug, name) if h[0] != slug]:
+            print("  gate refused (cross-db dupe): %s" % name, flush=True)
+            continue
+        rid = "%s%06d" % (cfg["prefix"], len(recs) + 1)
         description = desc + " Key aspects include: " + "; ".join(points) + "."
         how = ("In practice, %s works by combining its core mechanisms into a coherent whole. "
                "Practitioners start from the fundamentals above, apply them to a concrete task, "
@@ -293,6 +303,7 @@ def build_records(slug):
         rec["demo"] = {"kind": "python", "language": "python",
                        "program": demo_program(rec, cfg),
                        "note": "Record demo: prints the full entry."}
+        GATE.admit(slug, name, rid)
         recs.append(rec)
     return recs
 

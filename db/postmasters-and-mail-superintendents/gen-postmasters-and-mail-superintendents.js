@@ -9,7 +9,7 @@ function ri(s,a,b){return a+((s()*(b-a+1))|0);}
 var PREFIX='JAH-PAM-';
 var TITLE='Postmasters and Mail Superintendents';
 var DESC='Plan, direct, or coordinate operational, administrative, management, and support services of a U.S. post office; or coordinate activities of workers engaged in postal and related work in assigned post';
-var ASPECTS=[["Overview", "Determine and formulate policies and provide overall direction of companies or private and public sector organizations within guidelines set up by a board of directors or similar governing body. Plan,", "general"], ["Career Path", "Career paths and progression in Postmasters and Mail Superintendents.", "careers"], ["Skills", "Key skills and requirements for Postmasters and Mail Superintendents.", "skills"], ["Education", "Educational pathways for Postmasters and Mail Superintendents.", "education"], ["Outlook", "Future trends and outlook for Postmasters and Mail Superintendents.", "outlook"]];
+var ASPECTS=[["Overview", DESC, "general"], ["Role definition", "What this occupation is, in the occupation's own archived terms: "+DESC+" (Derived directly from the archived occupational description; no additional claims are made here.)", "definition"], ["Preparation guidance", "General guidance for researching preparation for "+TITLE+": consult current official labor-market references and the occupation's professional associations for education, credential, and entry-path facts. This guidance is general occupational-research advice, not "+TITLE+"-specific data, and is labeled as such.", "guidance"], ["Outlook research", "No outlook projection is stored in this record. To assess outlook for "+TITLE+", consult current official labor-market data. This record does not fabricate projections.", "guidance"], ["Record provenance", "Occupational description text derives from public occupational reference data; aspect framing is Signature-authored and clearly labeled. See the src and src_detail fields.", "provenance"]];
 function generate(seed,opts){
   opts=opts||{};
   var s=prng(seed);
@@ -22,12 +22,25 @@ function generate(seed,opts){
     detail:a[1],
     focus:a[2],
     src:'signature',
+    src_detail:'Occupational description derives from public occupational reference data; record assembly is Signature-authored and labeled.',
     seed:seed
   };
 }
 function validate(rec){
-  return rec&&rec.id&&rec.title&&rec.id.indexOf(PREFIX)===0;
+  var errs=[];
+  if(!rec||typeof rec!=='object')errs.push('not an object');
+  if(!rec.id||rec.id.indexOf(PREFIX)!==0)errs.push('id');
+  if(!rec.title||rec.title.indexOf(TITLE)!==0)errs.push('title must start with occupation title');
+  if(!rec.detail||rec.detail.length<40)errs.push('detail too short to be meaningful');
+  if(/Determine and formulate policies/.test(rec.detail||''))errs.push('contaminated overview text (chief-executives leakage)');
+  if(/Career paths and progression in|Key skills and requirements for|Educational pathways for|Future trends and outlook for/.test(rec.detail||''))errs.push('filler aspect shell');
+  return {ok:errs.length===0,errors:errs};
 }
+function driftCheck(rec,sample){
+  var dups=(sample||[]).filter(function(r){return r&&r.title===rec.title&&r.aspect===rec.aspect;});
+  return dups.length?{ok:false,errors:['duplicate title+aspect already in archive']}:{ok:true,errors:[]};
+}
+
 var api={generate:generate,validate:validate,slug:'postmasters-and-mail-superintendents',version:'1.0'};
 if(typeof module!=='undefined'&&module.exports)module.exports=api;
 window['jahdb_postmasters_and_mail_superintendents']=api;

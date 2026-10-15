@@ -15,11 +15,12 @@ function generate(seed,opts){
   var topic=TOPICS[ti], angle=ANGLES[ai];
   var id=PREFIX+pad(seed);
   var title=topic[0]+' ('+angle+')';
-  var desc=topic[1]+' This '+angle+' guide provides comprehensive coverage.';
-  var content='['+angle+'] '+topic[0]+': '+topic[1]+' Full detailed content for '+angle+' perspective.';
+  var desc=topic[1];
+  var content=topic[0]+' \u2014 '+topic[1];
   return {
     id:id, title:title, description:desc, genre:angle,
-    type:'crosswords creation', content:content,
+    type:'crosswords creation', content:content, content_completeness:'stub',
+    stub_note:'Topic stub: the topic title and its one-line brief are real; the full guide article is not yet written. This record does not present shell text as a complete guide.',
     demo:null, src:'signature', _seed:seed
   };
 }
@@ -27,7 +28,7 @@ function validate(r){
   var errs=[];
   if(!r.id)errs.push('missing id');
   if(!r.title)errs.push('missing title');
-  if(!r.content||r.content.length<50)errs.push('content too short');
+  if(!r.content||(r.content_completeness!=='stub'&&r.content.length<50))errs.push('content too short');
   return {ok:errs.length===0, errors:errs};
 }
 function driftCheck(rec,sample){

@@ -58,7 +58,8 @@ function generate(seed,opts){
   var id=PREFIX+pad(s);
   var content=buildContent(topic,angle);
   var demo=topic.demo||defaultDemo();
-  return{id:id,title:title+' ('+angle+')',description:brief+' This '+angle+' guide provides comprehensive coverage.',genre:angle,type:RECORD_KIND,content:content,demo:demo,src:SRC,_seed:s};
+  return{id:id,title:title+' ('+angle+')',description:brief,genre:angle,type:RECORD_KIND,content:content, content_completeness:'stub',
+    stub_note:'Topic stub: the topic title and its one-line brief are real; the full guide article is not yet written. This record does not present shell text as a complete guide.',demo:demo,src:SRC,_seed:s};
 }
 function validate(r){
   var e=[];

@@ -9,7 +9,7 @@ function ri(s,a,b){return a+((s()*(b-a+1))|0);}
 var PREFIX='JAH-AEL-';
 var TITLE='Architects, Except Landscape and Naval';
 var DESC='Plan and design structures, such as private residences, office buildings, theaters, factories, and other structural property.';
-var ASPECTS=[["Overview", "Determine and formulate policies and provide overall direction of companies or private and public sector organizations within guidelines set up by a board of directors or similar governing body. Plan,", "general"], ["Career Path", "Career paths and progression in Architects, Except Landscape and Naval.", "careers"], ["Skills", "Key skills and requirements for Architects, Except Landscape and Naval.", "skills"], ["Education", "Educational pathways for Architects, Except Landscape and Naval.", "education"], ["Outlook", "Future trends and outlook for Architects, Except Landscape and Naval.", "outlook"]];
+var ASPECTS=[["Overview", DESC, "general"], ["Role definition", "What this occupation is, in the occupation's own archived terms: "+DESC+" (Derived directly from the archived occupational description; no additional claims are made here.)", "definition"], ["Preparation guidance", "General guidance for researching preparation for "+TITLE+": consult current official labor-market references and the occupation's professional associations for education, credential, and entry-path facts. This guidance is general occupational-research advice, not "+TITLE+"-specific data, and is labeled as such.", "guidance"], ["Outlook research", "No outlook projection is stored in this record. To assess outlook for "+TITLE+", consult current official labor-market data. This record does not fabricate projections.", "guidance"], ["Record provenance", "Occupational description text derives from public occupational reference data; aspect framing is Signature-authored and clearly labeled. See the src and src_detail fields.", "provenance"]];
 function generate(seed,opts){
   opts=opts||{};
   var s=prng(seed);
@@ -22,12 +22,25 @@ function generate(seed,opts){
     detail:a[1],
     focus:a[2],
     src:'signature',
+    src_detail:'Occupational description derives from public occupational reference data; record assembly is Signature-authored and labeled.',
     seed:seed
   };
 }
 function validate(rec){
-  return rec&&rec.id&&rec.title&&rec.id.indexOf(PREFIX)===0;
+  var errs=[];
+  if(!rec||typeof rec!=='object')errs.push('not an object');
+  if(!rec.id||rec.id.indexOf(PREFIX)!==0)errs.push('id');
+  if(!rec.title||rec.title.indexOf(TITLE)!==0)errs.push('title must start with occupation title');
+  if(!rec.detail||rec.detail.length<40)errs.push('detail too short to be meaningful');
+  if(/Determine and formulate policies/.test(rec.detail||''))errs.push('contaminated overview text (chief-executives leakage)');
+  if(/Career paths and progression in|Key skills and requirements for|Educational pathways for|Future trends and outlook for/.test(rec.detail||''))errs.push('filler aspect shell');
+  return {ok:errs.length===0,errors:errs};
 }
+function driftCheck(rec,sample){
+  var dups=(sample||[]).filter(function(r){return r&&r.title===rec.title&&r.aspect===rec.aspect;});
+  return dups.length?{ok:false,errors:['duplicate title+aspect already in archive']}:{ok:true,errors:[]};
+}
+
 var api={generate:generate,validate:validate,slug:'architects-except-landscape-and-naval',version:'1.0'};
 if(typeof module!=='undefined'&&module.exports)module.exports=api;
 window['jahdb_architects_except_landscape_and_naval']=api;

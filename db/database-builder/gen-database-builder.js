@@ -24,9 +24,10 @@ function generate(seed,opts){
     var ti=(s()*TOPICS.length)|0, ai=(s()*ANGLES.length)|0;
     var topic=TOPICS[ti], angle=ANGLES[ai];
     var title=topic[0]+' ('+angle+')';
-    var desc=topic[1]+' This '+angle+' guide provides comprehensive coverage.';
-    var content='['+angle+'] '+topic[0]+': '+topic[1]+' Full detailed content for '+angle+' perspective.';
-    return {id:id,title:title,description:desc,genre:angle,type:'database construction pattern',content:content,demo:null,src:'signature',_seed:seed};
+    var desc=topic[1];
+    var content=topic[0]+' \u2014 '+topic[1];
+    return {id:id,title:title,description:desc,genre:angle,type:'database construction pattern',content:content, content_completeness:'stub',
+    stub_note:'Topic stub: the topic title and its one-line brief are real; the full guide article is not yet written. This record does not present shell text as a complete guide.',demo:null,src:'signature',_seed:seed};
   }
   /* EXPANDED logic for seeds 169+ */
   var s2=prng(seed);
