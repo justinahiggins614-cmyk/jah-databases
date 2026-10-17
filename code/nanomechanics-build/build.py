@@ -487,7 +487,7 @@ def main():
     print("E (nu=0.3) = %.0f GPa" % (E / 1e9))
     assert abs(E_r / 1e9 - 432.9) < 1.0, E_r
     assert abs(E / 1e9 - 633.0) < 3.0, E
-    # sensitivity: 5% in h_c -> ~10% in modulus (area ~ h_c^2)
+    # sensitivity: 5% in h_c -> ~10% in area, ~4.8% in modulus (E_r ~ 1/sqrt(A))
     A2 = 24.5 * (h_c * 1.05) ** 2
     E_r2 = math.sqrt(math.pi) * S / (2.0 * beta * math.sqrt(A2))
     print("5%% deeper contact -> E_r drops %.1f%%: depth calibration is king" % ((1 - E_r2 / E_r) * 100))

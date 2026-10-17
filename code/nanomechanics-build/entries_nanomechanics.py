@@ -806,7 +806,7 @@ ENTRIES = [
 "nu_i = 0.07. The demo runs this pipeline on the worked example, "
 "landing on E_r = 432.9 GPa and E = 633 GPa, and shows the "
 "sensitivity: a 5% error in S is a 5% error in E_r, but a 5% error in "
-"h_c is a 10% error in area and modulus - depth calibration is king."),
+"h_c is a ~10% error in area and a ~4.8% error in modulus (E_r goes as 1/sqrt(A)) - depth calibration is king."),
 "key_points": [
 "Initial unloading is purely elastic: S = dP/dh gives modulus via Sneddon's solution.",
 "Pipeline: fit P = alpha*(h-h_f)^m -> S -> h_c -> A -> E_r -> E.",
@@ -966,7 +966,10 @@ ENTRIES = [
 "grain boundary; the stress concentration scales as sqrt(d), so "
 "yielding needs sigma ~ 1/sqrt(d). Fit copper with sigma_0 = 25 MPa "
 "and k = 0.14 MPa*m^1/2: d = 10 um -> 69 MPa; d = 1 um -> 165 MPa; "
-"d = 100 nm -> 468 MPa. Breakdown regime: below a critical size d_c "
+"d = 100 nm -> 468 MPa. Blindly extrapolating the same fit to d = 10 nm "
+"lands near 1.4 GPa - a strength no real copper reaches, which is "
+"exactly the point: the demo marks that point the breakdown zone, where "
+"the law has already inverted. Breakdown regime: below a critical size d_c "
 "~ 10-20 nm, the pile-up holds fewer than one dislocation, so the "
 "mechanism dies; grain-boundary-mediated flow takes over with an "
 "effective viscosity, and strength falls as d shrinks. The demo "
