@@ -33,6 +33,11 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from build_global_dedupe import norm_title, fnv1a64_hex, local_index_path
 
+# JAH lock-in governance: every build script importing this gate inherits
+# the immutability policy. Fails fast if data/governance.json is missing.
+import governance as _gov  # noqa: F401  (import for policy-load side effect)
+_gov.is_additive_only_ok()
+
 
 class DedupeGate:
     def __init__(self, exact_dir):
