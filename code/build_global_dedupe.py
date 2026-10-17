@@ -2,13 +2,21 @@
 """Build the whole-system dedupe index for JAH Databases (his standing rule:
 every generator checks the WHOLE system before generating).
 
-Reads every database's index file (11.65M records), normalizes each title
+Reads every database's index file, normalizes each title
 EXACTLY like core/jahdb-dedupe.js, hashes with FNV-1a 64, and writes
 256 hash-prefix shards:
 
   <out>/bloom/<xx>.json.gz  — Bloom filter per shard (browser runtime check)
   <out>/exact/<xx>.json.gz  — exact map hashhex -> [[slug, id], ...]
   <out>/manifest.json       — build metadata
+
+Index resolution per manifest entry (code/index_paths):
+  manifest URL -> local path; <X> templates glob-expanded;
+  fallback data/<slug>/<basename> for entries whose manifest index URL
+  names a file living under the database's own directory;
+  {"shards": {...}} pointer files are followed.
+Row formats: dict rows (t/title/name + id), list rows (id/title found
+heuristically), plain-text .txt (one title per line).
 
 Normalization + hashing MUST stay identical to core/jahdb-dedupe.js:
   NFKD -> strip U+0300-U+036F -> lowercase -> keep [a-z0-9] ->
@@ -67,42 +75,174 @@ assert fnv1a64_hex("foobar") == "85944171f73967e8", "FNV-1a64 self-test failed"
 
 
 def local_index_path(repo, entry):
+    """Single-path resolution (kept for backward compatibility)."""
+    ps = index_paths(repo, entry)
+    return ps[0] if ps else None
+
+
+def index_paths(repo, entry):
+    """All local index files for a manifest entry.
+
+    Resolution order:
+      1. The manifest URL mapped to its local path (same as before).
+      2. If the URL holds a <X> template (e.g. az-<L>.json.gz), glob-expand it
+         in both the literal directory and data/<slug>/.
+      3. Fallback: data/<slug>/<basename> when the manifest URL names a file
+         that exists under the database's own directory (covers manifest
+         entries whose index URL was written against a wrong directory).
+    """
+    import glob as _glob
     url = entry.get("index") or entry.get("local_index") or ""
+    slug = entry.get("slug") or ""
     m = re.match(r"https://justinahiggins614-cmyk\.github\.io/([^/]+)/data/([^/]+)/(.+)", url)
     if m:
-        return os.path.expanduser("~/workspace/%s/data/%s/%s" % (m.group(1), m.group(2), m.group(3)))
-    if url and not url.startswith("http"):
-        return os.path.join(repo, url)
-    return None
+        c = os.path.expanduser("~/workspace/%s/data/%s/%s" % (m.group(1), m.group(2), m.group(3)))
+    elif url and not url.startswith("http"):
+        c = os.path.join(repo, url)
+    else:
+        return []
+    if "<" in c and ">" in c:
+        base = os.path.basename(re.sub(r"<[^>]+>", "*", c))
+        out, seen = [], set()
+        for d in (os.path.dirname(c), os.path.join(repo, "data", slug)):
+            for h in sorted(_glob.glob(os.path.join(d, base))):
+                if h not in seen:
+                    seen.add(h)
+                    out.append(h)
+        return out
+    if os.path.exists(c):
+        return [c]
+    fb = os.path.join(repo, "data", slug, os.path.basename(c))
+    if os.path.exists(fb):
+        return [fb]
+    return []
+
+
+ID_RE = re.compile(r"^[A-Z][A-Z0-9_.-]*-\d")
+
+ROW_KEYS = ("rows", "records", "items", "entries", "mixes", "maps",
+            "articles", "data")
+
+
+def _follow_files(base, files):
+    """Yield rows from relative shard/chunk files, tolerating the files
+    living one level down (measures/, chunks/, shards/)."""
+    for fp in files:
+        if not isinstance(fp, str):
+            continue
+        hit = None
+        for cand in (os.path.join(base, fp),
+                     os.path.join(base, "measures", fp),
+                     os.path.join(base, "chunks", fp),
+                     os.path.join(base, "shards", fp)):
+            if os.path.exists(cand):
+                hit = cand
+                break
+        if hit:
+            for r in _read_json_rows(hit):
+                yield r
+
+
+def _list_row_title_id(r):
+    """Best-effort (title, id) from a list row, e.g. [id, title, ...],
+    [seq, title, id], ["JAH-SONG-0000001", "Amber Harbor", "song"]."""
+    strs = [x for x in r if isinstance(x, str)]
+    ids = [x for x in strs if ID_RE.match(x)]
+    title = next((x for x in strs if x not in ids and x.strip()), None)
+    rid = ids[0] if ids else None
+    if rid is None:
+        cands = [x for x in strs if x != title]
+        rid = cands[-1] if cands else None
+    if rid is None:
+        ints = [x for x in r if isinstance(x, int)]
+        rid = str(ints[0]) if ints else None
+    return title, rid
+
+
+def _read_json_rows(path):
+    """Yield raw rows from a .json.gz / .gz / .json index file.
+
+    Handles: JSON array files, JSONL (dict or list rows), plain JSON
+    objects, and pointer objects {"shards": {name: {"file": relpath}}}
+    whose relative shard files are followed recursively.
+    """
+    opener = gzip.open if path.endswith(".gz") else open
+    try:
+        with opener(path, "rt", encoding="utf-8", errors="replace") as f:
+            text = f.read()
+    except OSError:
+        return
+    text = text.strip()
+    if not text:
+        return
+    rows = None
+    if text.startswith("[") or text.startswith("{"):
+        try:
+            data = json.loads(text)
+        except ValueError:
+            data = None  # not a single JSON value -> line-by-line below
+        if data is not None:
+            if isinstance(data, dict) and isinstance(data.get("shards"), dict):
+                base = os.path.dirname(path)
+                for spec in data["shards"].values():
+                    fp = spec.get("file") if isinstance(spec, dict) else None
+                    if fp:
+                        for r in _follow_files(base, [fp]):
+                            yield r
+                return
+            if isinstance(data, dict):
+                for k in ROW_KEYS:
+                    v = data.get(k)
+                    if isinstance(v, list):
+                        rows = v
+                        break
+                else:
+                    ch = data.get("chunks")
+                    if isinstance(ch, list):
+                        for r in _follow_files(os.path.dirname(path), ch):
+                            yield r
+                        return
+                    rows = [data]
+            else:
+                rows = data if isinstance(data, list) else [data]
+    if rows is None:
+        for line in text.splitlines():
+            line = line.strip()
+            if not line:
+                continue
+            try:
+                yield json.loads(line)
+            except ValueError:
+                pass
+        return
+    for r in rows:
+        yield r
 
 
 def iter_index_rows(path):
-    """Yield (title, id) from a .json.gz index (JSONL rows or a JSON array)."""
-    try:
-        with gzip.open(path, "rt", encoding="utf-8") as f:
-            head = f.read(2)
-            f.seek(0)
-            if head.lstrip().startswith("["):
-                data = json.load(f)
-                rows = data if isinstance(data, list) else []
-            else:
-                rows = []
+    """Yield (title, id) from an index file: .json.gz/.gz/.json (array,
+    JSONL, or shards-pointer) or .txt (one title per line, id = title)."""
+    if path.endswith(".txt"):
+        try:
+            with open(path, encoding="utf-8", errors="replace") as f:
                 for line in f:
                     line = line.strip()
                     if line:
-                        try:
-                            rows.append(json.loads(line))
-                        except ValueError:
-                            pass
-    except OSError:
+                        yield line, line
+        except OSError:
+            return
         return
-    for r in rows:
-        if not isinstance(r, dict):
-            continue
-        t = r.get("t") or r.get("title") or r.get("name")
-        i = r.get("id")
-        if t:
-            yield t, i
+    for r in _read_json_rows(path):
+        if isinstance(r, dict):
+            t = r.get("t") or r.get("title") or r.get("name")
+            i = r.get("id")
+            if t:
+                yield t, i
+        elif isinstance(r, list):
+            t, i = _list_row_title_id(r)
+            if t:
+                yield t, i
+        # other row shapes are skipped
 
 
 def build_bloom(hashes):
@@ -157,19 +297,20 @@ def main():
     total, missing = 0, 0
     for n, e in enumerate(dbs):
         slug = e["slug"]
-        p = local_index_path(repo, e)
-        if not p or not os.path.exists(p):
+        ps = index_paths(repo, e)
+        if not ps:
             missing += 1
             continue
-        for t, i in iter_index_rows(p):
-            nt = norm_title(t)
-            if not nt:
-                continue
-            hx = fnv1a64_hex(nt)
-            xx = hx[:2]
-            shards[xx].append(hx)
-            exact[xx][hx].append([slug, i])
-            total += 1
+        for p in ps:
+            for t, i in iter_index_rows(p):
+                nt = norm_title(t)
+                if not nt:
+                    continue
+                hx = fnv1a64_hex(nt)
+                xx = hx[:2]
+                shards[xx].append(hx)
+                exact[xx][hx].append([slug, i])
+                total += 1
         if (n + 1) % 200 == 0:
             print("  scanned %d dbs, %d records" % (n + 1, total), flush=True)
     print("total records indexed: %d (missing index files: %d)" % (total, missing))
