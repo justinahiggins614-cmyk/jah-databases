@@ -235,7 +235,7 @@ function recCard(r){
   RECBYID[r.id]=r;
   var img=recImg(r);
   var link=JAHDB.recLink?JAHDB.recLink(r.id):('#rec='+encodeURIComponent(r.id));
-  return '<div class="card"><div class="rec">'+recImg(r)+'
+  return '<div class="card"><div class="rec">'+recImg(r)+
     '<div style="flex:1"><h3 style="font-size:1.05em">'+esc(r.t||r.title||r.id)+'</h3>'+
     '<div><span class="badge mono">'+esc(r.id||'')+'</span><span class="badge">'+esc(catOf(r))+'</span></div>'+
     '<p class="dim">'+esc(descOf(r).slice(0,140))+'</p>'+
@@ -322,7 +322,7 @@ function driftFor(rec){
 function renderGen(recs,fails){
   var h='<p><b>'+recs.length+'</b> generated, <b>'+fails.length+'</b> rejected.</p>';
   h+=recs.map(function(r){
-    return '<div class="card"><div class="rec">'+recImg(r)+'
+    return '<div class="card"><div class="rec">'+recImg(r)+
       '<div style="flex:1"><h3 class="mono">'+esc(r.title||r.id)+'</h3>'+
       '<div><span class="badge">'+esc(r.id)+'</span><span class="badge">'+esc(catOf(r))+'</span><span class="badge ok">validated ✓</span><span class="badge">seed '+r._seed+'</span></div>'+
       '<details class="grp"><summary>Full record</summary><div class="body">'+renderFull(r)+'</div></details>'+

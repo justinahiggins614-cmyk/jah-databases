@@ -158,7 +158,7 @@ button.pill-ex{border-radius:999px}
 var SLUG='moon';
 var LOCAL='../../data/moon/';
 var PALETTE=["#b8b8b8", "#8a8a8a", "#dcdcdc"];
-var db={slug:SLUG,name:'Earth's Moon Database',ai_name:'JAH Lunar Archivist',record_kind:'planetary record'};
+var db={slug:SLUG,name:'Earth\'s Moon Database',ai_name:'JAH Lunar Archivist',record_kind:'planetary record'};
 var ROLE='lunar science specialist — geology, surface, and exploration';
 var NETWORK='Part of the JAH Databases network of archive-aware Creator AIs, every database marching to 1,000,000 records.';
 var GENRES=[];
@@ -211,8 +211,7 @@ function rowVisible(r){ if(kindFilter!=='all'&&r.k!==kindFilter)return false; re
 JAHDB.loadManifest().then(function(m){manifest=m;db=JAHDB.dbBySlug(m,SLUG)||db;}).catch(function(){}).then(function(){
   return JAHDB.fetchGz(LOCAL+'index.jsonl.gz');
 }).then(function(t){
-  archiveIdx=t.split('
-').filter(function(l){return l.trim();}).map(function(l){try{return JSON.parse(l);}catch(e){return null;}}).filter(Boolean);
+  archiveIdx=t.split('\n').filter(function(l){return l.trim();}).map(function(l){try{return JSON.parse(l);}catch(e){return null;}}).filter(Boolean);
   $('stCount').textContent=archiveIdx.length.toLocaleString()+' / 1,000,000 target';
 
   try{ if(window.JAHDB&&JAHDB.dedupe) JAHDB.dedupe.indexSameDb(typeof archiveIdx!=='undefined'?archiveIdx:[], typeof SLUG!=='undefined'?SLUG:null); }catch(e){}  try{ if(typeof archiveIdx!=='undefined'&&archiveIdx&&archiveIdx.length) $('gSeed').value=archiveIdx.length+1; }catch(e){}
@@ -409,7 +408,7 @@ function deepOpen(){
 }
 var session=JAHDB.getSession(SLUG);
 function greet(){
-  say('a','I'm '+db.ai_name+', the '+ROLE+' for the '+db.name+'. I hold this archive's '+archiveIdx.length.toLocaleString()+' '+db.record_kind+' records. Ask me to FIND a record, EXPLAIN the science, or GENERATE a new one. '+NETWORK);
+  say('a','I\'m '+db.ai_name+', the '+ROLE+' for the '+db.name+'. I hold this archive\'s '+archiveIdx.length.toLocaleString()+' '+db.record_kind+' records. Ask me to FIND a record, EXPLAIN the science, or GENERATE a new one. '+NETWORK);
 }
 function say(who,text){
   var d2=document.createElement('div');d2.className='msg '+who;

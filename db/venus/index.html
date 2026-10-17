@@ -211,8 +211,7 @@ function rowVisible(r){ if(kindFilter!=='all'&&r.k!==kindFilter)return false; re
 JAHDB.loadManifest().then(function(m){manifest=m;db=JAHDB.dbBySlug(m,SLUG)||db;}).catch(function(){}).then(function(){
   return JAHDB.fetchGz(LOCAL+'index.jsonl.gz');
 }).then(function(t){
-  archiveIdx=t.split('
-').filter(function(l){return l.trim();}).map(function(l){try{return JSON.parse(l);}catch(e){return null;}}).filter(Boolean);
+  archiveIdx=t.split('\n').filter(function(l){return l.trim();}).map(function(l){try{return JSON.parse(l);}catch(e){return null;}}).filter(Boolean);
   $('stCount').textContent=archiveIdx.length.toLocaleString()+' / 1,000,000 target';
 
   try{ if(window.JAHDB&&JAHDB.dedupe) JAHDB.dedupe.indexSameDb(typeof archiveIdx!=='undefined'?archiveIdx:[], typeof SLUG!=='undefined'?SLUG:null); }catch(e){}  try{ if(typeof archiveIdx!=='undefined'&&archiveIdx&&archiveIdx.length) $('gSeed').value=archiveIdx.length+1; }catch(e){}
@@ -409,7 +408,7 @@ function deepOpen(){
 }
 var session=JAHDB.getSession(SLUG);
 function greet(){
-  say('a','I'm '+db.ai_name+', the '+ROLE+' for the '+db.name+'. I hold this archive's '+archiveIdx.length.toLocaleString()+' '+db.record_kind+' records. Ask me to FIND a record, EXPLAIN the science, or GENERATE a new one. '+NETWORK);
+  say('a','I\'m '+db.ai_name+', the '+ROLE+' for the '+db.name+'. I hold this archive\'s '+archiveIdx.length.toLocaleString()+' '+db.record_kind+' records. Ask me to FIND a record, EXPLAIN the science, or GENERATE a new one. '+NETWORK);
 }
 function say(who,text){
   var d2=document.createElement('div');d2.className='msg '+who;

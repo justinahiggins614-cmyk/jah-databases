@@ -140,8 +140,8 @@ button.pill-ex{border-radius:999px}
 'use strict';
 var SLUG='childrens-literature-signature';
 var LOCAL='../../data/childrens-literature-signature/';
-var db={slug:SLUG,name:'Signature Children's Literature Database',ai_name:'JAH Signature Storyteller',record_kind:'signature children's story'};
-var ROLE='signature storyteller - complete original children's stories in every genre';
+var db={slug:SLUG,name:'Signature Children\'s Literature Database',ai_name:'JAH Signature Storyteller',record_kind:'signature children\'s story'};
+var ROLE='signature storyteller - complete original children\'s stories in every genre';
 var NETWORK='Part of the JAH Databases network of archive-aware Creator AIs, every database marching to 1,000,000 records.';
 var GENRES=[];
 JAHDB.loadManifest().then(function(m){
@@ -268,7 +268,7 @@ function doSearch(){
   var box=$('results');
   if(!q){box.innerHTML='';return;}
   var hits=archiveIdx.filter(function(r){return (r.t+' '+r.id+' '+(r.g||'')).toLowerCase().indexOf(q)>=0;}).slice(0,12);
-  if(!hits.length){box.innerHTML='<p class="dim">No archive hits. Try the Generator tab to make one — describe a signature children's story topic.</p>';return;}
+  if(!hits.length){box.innerHTML='<p class="dim">No archive hits. Try the Generator tab to make one — describe a signature children\'s story topic.</p>';return;}
   box.innerHTML='<h3>Archive hits ('+hits.length+')</h3>';
   var byChunk={};
   hits.forEach(function(r){(byChunk[r.c]=byChunk[r.c]||[]).push(r.id);});
@@ -405,7 +405,7 @@ function sendChat(){
   var low=t.toLowerCase();
   if(/^(generate|make|create|invent|draft|new)\b/.test(low)||/\b(generate|create|make me|new records?|invent)\b/.test(low)){ aiGenerate(t); return; }
   if(/^(find|search|show|lookup|locate|list)\b/.test(low)||/\b(find|search for|look up|show me|pull up)\b/.test(low)){ aiFind(t); return; }
-  var ctx='Role: '+db.ai_name+' is the '+ROLE+' for the '+db.name+', holding '+archiveIdx.length+' '+db.record_kind+' records across genres: '+GENRES.join(', ')+'. '+NETWORK+' The generator here builds a full record on any signature children's story topic the user describes. Stay in role as the signature children's story specialist.';
+  var ctx='Role: '+db.ai_name+' is the '+ROLE+' for the '+db.name+', holding '+archiveIdx.length+' '+db.record_kind+' records across genres: '+GENRES.join(', ')+'. '+NETWORK+' The generator here builds a full record on any signature children\'s story topic the user describes. Stay in role as the signature children\'s story specialist.';
   JAHDB.aiAnswer(db,t,ctx).then(function(a){say('a',a);});
 }
 $('chatGo').addEventListener('click',sendChat);
