@@ -43,7 +43,11 @@ details.grp>summary::-webkit-details-marker{display:none}
 .foot{margin-top:26px;padding-top:12px;border-top:1px solid var(--line);color:var(--dim);font-size:.85em}
 .kv .kv{grid-template-columns:auto minmax(120px,1fr)}
 .kv dt{min-width:0}
-pre.codeblock{white-space:pre;overflow-x:auto;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.85em;line-height:1.5;background:#060b14;border:1px solid var(--line,#1e293b);border-radius:8px;padding:10px 12px;margin:6px 0;max-width:100%;box-sizing:border-box}</style>
+pre.codeblock{white-space:pre;overflow-x:auto;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.85em;line-height:1.5;background:#060b14;border:1px solid var(--line,#1e293b);border-radius:8px;padding:10px 12px;margin:6px 0;max-width:100%;box-sizing:border-box}
+button.merger{background:#c81e3a;border-color:#c81e3a;color:#fff;font-weight:bold}
+button.pill-ex{border-radius:999px}
+#mergePanel{margin-top:10px}
+</style>
 </head>
 <body>
 <div class="wrap">
@@ -68,8 +72,9 @@ pre.codeblock{white-space:pre;overflow-x:auto;font-family:ui-monospace,SFMono-Re
   <section class="pane on" id="p-archive">
     <div class="row">
       <input id="q" placeholder="Search hospitality database type record..." style="flex:1;min-width:200px">
-      <button class="go" id="qgo">Search</button>
+      <button class="go" id="qgo">Search</button><button class="tab pill-ex" id="qex">Exhaustive</button><button class="go merger" id="qmerge">All Database Merger</button>
     </div>
+    <div id="mergePanel"></div>
     <p class="dim">Browse by category — each group opens on demand and loads only what you open.</p>
     <div id="groups"></div>
     <div id="results"></div>
@@ -318,8 +323,8 @@ $('chatGo').addEventListener('click',function(){
   });
 });
 $('fresh').addEventListener('click',function(){greet();});
-$('qgo').addEventListener('click',function(){doSearch($('q').value);});
-$('q').addEventListener('keydown',function(e){if(e.key==='Enter')doSearch($('q').value);});
+$('qgo').addEventListener('click',function(){doSearchEx($('q').value);});
+$('q').addEventListener('keydown',function(e){if(e.key==='Enter')doSearchEx($('q').value);});
 $('gGo').addEventListener('click',doGenerate);
 genInit();
 function deepOpen(){
@@ -329,7 +334,80 @@ function deepOpen(){
   document.querySelector('[data-p="archive"]').click();
   doSearch(rid);
 }
-})();
-</script>
+
+var _mergeSet=[];
+function mergerAddCurrent(){
+  var cards=document.querySelectorAll('#results [data-rid], #groups [data-rid]');
+  var added=0;
+  cards.forEach(function(el){
+    var rid=el.getAttribute('data-rid');
+    if(rid&&_mergeSet.indexOf(rid)<0){_mergeSet.push(rid);added++;}
+  });
+  renderMergePanel('Added '+added+' record(s) from the current view. '+_mergeSet.length+' in the merge set.');
+}
+function renderMergePanel(note){
+  var p=$('mergePanel');
+  var h='<div class="card"><h3>All Database Merger <span class="dim">('+_mergeSet.length+' records)</span></h3>';
+  if(note)h+='<p class="dim">'+esc(note)+'</p>';
+  h+='<div class="row"><button class="go" id="mgLoad">Load full records</button> <button id="mgDl" class="merger">Download merged set (JSON)</button> <button id="mgClear">Clear</button></div><div id="mgOut"></div></div>';
+  p.innerHTML=h;
+  $('mgLoad').addEventListener('click',mergerLoadAll);
+  $('mgDl').addEventListener('click',mergerDownload);
+  $('mgClear').addEventListener('click',function(){_mergeSet=[];renderMergePanel('Merge set cleared.');});
+}
+var _chunkBase=0; /* chunk files on this database are numbered from 0 (chunk-0000...) */
+function mergerLoadAll(){
+  var out=$('mgOut'); out.innerHTML='<p class="dim">Loading '+_mergeSet.length+' full records…</p>';
+  var jobs=_mergeSet.map(function(rid){
+    var idx=archiveIdx.findIndex(function(r){return r.id===rid;});
+    if(idx<0)return Promise.resolve(null);
+    var chunk=Math.floor(idx/100)+_chunkBase;
+    return JAHDB.fetchGz(LOCAL+chunkName(chunk)).then(function(t){
+      var rows=t.split('\n').filter(function(l){return l.trim();}).map(function(l){try{return JSON.parse(l);}catch(e){return null;}}).filter(Boolean);
+      return rows.find(function(x){return x.id===rid;})||null;
+    }).catch(function(){return null;});
+  });
+  Promise.all(jobs).then(function(recs){
+    recs=recs.filter(Boolean);
+    window._mergeRecs=recs;
+    out.innerHTML='<h3>Merged set — '+recs.length+' full records</h3>'+recs.map(function(r){
+      RECBYID[r.id]=r;
+      return '<div class="card"><b>'+esc(r.t||r.title||r.id)+'</b> <span class="badge mono">'+esc(r.id)+'</span><p class="dim">'+esc(descOf(r).slice(0,160))+'</p></div>';
+    }).join('');
+  });
+}
+function mergerDownload(){
+  var recs=window._mergeRecs||[];
+  if(!recs.length){alert('Load full records first, then download.');return;}
+  dlRecText(JSON.stringify({database:SLUG,merged:recs.length,records:recs},null,2),'merged-'+SLUG+'.json');
+}
+var _exhaustive=false;
+function doSearchEx(q){
+  q=q.toLowerCase().trim();
+  if(!_exhaustive){doSearch(q);return;}
+  var rows=archiveIdx.filter(function(r){return (r.t+' '+(r.g||'')+' '+r.id).toLowerCase().indexOf(q)>=0;}).slice(0,50);
+  $('results').innerHTML='<h3>Exhaustive results ('+rows.length+')</h3><p class="dim">Exhaustive mode scans full record text across archive chunks.</p><div id="exOut"><p class="dim">Scanning...</p></div>';
+  var jobs=[],seen={};
+  rows.forEach(function(r){seen[r.id]=1;jobs.push(Promise.resolve(r));});
+  var nchunks=Math.min(20,Math.ceil(archiveIdx.length/100));
+  for(var c=0;c<nchunks;c++){
+    jobs.push(JAHDB.fetchGz(LOCAL+chunkName(c+_chunkBase)).then(function(t){
+      return t.split('\n').filter(function(l){return l.trim();}).map(function(l){try{return JSON.parse(l);}catch(e){return null;}}).filter(Boolean)
+        .filter(function(r){return r&&!seen[r.id]&&JSON.stringify(r).toLowerCase().indexOf(q)>=0;}).slice(0,25);
+    }).catch(function(){return [];}));
+  }
+  Promise.all(jobs).then(function(parts){
+    var all=[];parts.forEach(function(p){(Array.isArray(p)?p:[p]).forEach(function(r){if(r&&!seen[r.id]){seen[r.id]=1;all.push(r);}});});
+    all=all.slice(0,50);
+    all.forEach(function(r){RECBYID[r.id]=r;});
+    $('exOut').innerHTML='<h3>Full-text matches ('+all.length+')</h3>'+all.map(recCard).join('');
+  });
+}
+
+$('qex').addEventListener('click',function(){_exhaustive=!_exhaustive;$('qex').classList.toggle('on',_exhaustive);});
+$('qmerge').addEventListener('click',function(){mergerAddCurrent();});
+renderMergePanel('Search or browse, then press All Database Merger to collect the records you see into one merged set.');
+
+})();</script>
 </body>
 </html>
