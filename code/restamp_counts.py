@@ -21,6 +21,12 @@ What it stamps, all from n = len(manifest["databases"]):
      construction). Any page missing that wiring is reported and the
      script exits 1.
 
+  7. README.md + docs/AI_ACCESS.md count stamping: the same three counters
+     (connected databases, boundless generators, archive-aware AIs) and the
+     "N-database registry" / "the other N-1 databases" phrases are re-derived
+     from n on every run, with fail-loud assertions — these doc files went
+     stale at "37" for weeks while the manifest marched past 2300.
+
 Per-database record counts need no stamping: they come from the actual
 archive index at page load ($('stCount').textContent = archiveIdx.length...).
 
@@ -179,6 +185,55 @@ def main():
         for p in xdb_bad[:20]:
             print("  " + os.path.relpath(p, ROOT), file=sys.stderr)
         return 1
+
+    # 7: README.md + docs/AI_ACCESS.md — derived counts, fail-loud (2026-10-17:
+    # his order "update the files and databases as go along"; these files sat
+    # stale at "37" while the manifest marched past 2300)
+    rm_path = os.path.join(ROOT, "README.md")
+    rm = open(rm_path, "r", encoding="utf-8").read()
+    rm_orig = rm
+
+    rm, hero_subs = re.subn(
+        r"^\d+ connected databases, \d+ boundless generators, \d+ archive-aware AIs\.$",
+        "%d connected databases, %d boundless generators, %d archive-aware AIs." % (n, n, n),
+        rm, flags=re.M)
+    if hero_subs != 1:
+        print("FATAL: README.md hero count line not found exactly once (subs=%d) — "
+              "hand-fix the hero line, never hand-type a count" % hero_subs, file=sys.stderr)
+        return 1
+    rm = re.sub(r"sample the other \d+\n  databases",
+                "sample the other %d\n  databases" % (n - 1), rm)
+    rm = re.sub(r"hub front door, \d+ database cards\.",
+                "hub front door, %d database cards." % n, rm)
+    rm = re.sub(r"the \d+-database registry",
+                "the %d-database registry" % n, rm)
+
+    if rm != rm_orig:
+        with open(rm_path, "w", encoding="utf-8") as f:
+            f.write(rm)
+        changed.append("README.md restamped -> %d" % n)
+    else:
+        changed.append("README.md counts already at %d" % n)
+
+    aa_path = os.path.join(ROOT, "docs", "AI_ACCESS.md")
+    aa = open(aa_path, "r", encoding="utf-8").read()
+    aa_orig = aa
+    aa, llms_subs = re.subn(
+        r"It lists all \d+ databases with page URLs and index file URLs\.",
+        "It lists all %d databases with page URLs and index file URLs." % n, aa)
+    if llms_subs != 1:
+        print("FATAL: docs/AI_ACCESS.md llms.txt count line not found exactly once "
+              "(subs=%d)" % llms_subs, file=sys.stderr)
+        return 1
+    aa = re.sub(r"machine-readable catalog of all \d+ databases",
+                "machine-readable catalog of all %d databases" % n, aa)
+
+    if aa != aa_orig:
+        with open(aa_path, "w", encoding="utf-8") as f:
+            f.write(aa)
+        changed.append("docs/AI_ACCESS.md restamped -> %d" % n)
+    else:
+        changed.append("docs/AI_ACCESS.md counts already at %d" % n)
 
     print("RESTAMP OK — n=%d databases" % n)
     for c in changed:
