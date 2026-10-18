@@ -88,7 +88,7 @@ button.pill-ex{border-radius:999px}
       <div class="row">
         <label>Seed <input id="gSeed" type="number" value="1" style="width:110px"></label>
         <label>Count <input id="gN" type="number" value="5" min="1" max="50" style="width:80px"></label>
-        <label>Category <select id="gType"><option value="">any</option><option>curriculum</option><option>qualifications</option><option>research</option><option>findings</option><option>methods</option><option>textbooks</option></select></label>
+        <label>Category <select id="gType"><option value="">any</option><option>curriculum</option><option>qualifications</option><option>research</option><option>findings</option><option>methods</option><option>textbooks</option><option>workstation-design</option></select></label>
         <button class="go" id="gGo">Generate</button>
       </div>
       <div id="gOut"></div>
@@ -155,7 +155,7 @@ button.pill-ex{border-radius:999px}
 'use strict';
 var SLUG='occupational-safety-study';
 var LOCAL='https://justinahiggins614-cmyk.github.io/jah-databases-data-1/data/occupational-safety-study/';
-var CATEGORIES=["curriculum","qualifications","research","findings","methods","textbooks"];
+var CATEGORIES=["curriculum","qualifications","research","findings","methods","textbooks","workstation-design"];
 var db={slug:SLUG,name:'JAH Occupational Health and Safety Signature Study Database',ai_name:'JAH Safety Scholar',record_kind:'Signature study record'};
 var manifest=null, archiveIdx=null, archiveSample=[];
 var $=function(id){return document.getElementById(id);};
@@ -353,7 +353,7 @@ function say(who,text){
 function sendChat(){
   var t=$('chatIn').value.trim();if(!t)return;
   $('chatIn').value='';say('u',t);session.turns.push({q:t});
-  var ctx='Archive holds '+archiveIdx.length+' Signature study records in Occupational Health and Safety across categories: curriculum, qualifications, research, findings, methods, textbooks. One of the JAH Databases network (property of Justin Addam Higgins).';
+  var ctx='Archive holds '+archiveIdx.length+' Signature study records in Occupational Health and Safety across categories: curriculum, qualifications, research, findings, methods, textbooks, workstation-design. One of the JAH Databases network (property of Justin Addam Higgins).';
   JAHDB.aiAnswer(db,t,ctx).then(function(a){say('a',a);});
 }
 $('chatGo').addEventListener('click',sendChat);

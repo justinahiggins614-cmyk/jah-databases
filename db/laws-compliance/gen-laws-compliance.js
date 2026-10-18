@@ -91,7 +91,8 @@ function buildOnline(rnd,item,type){
 
 function buildSig(rnd,cat,opts){
   var types;
-  if(opts&&opts.family==='legislative'){types=CFG.sig_types.filter(function(t){return t.leg===1;});}
+  if(opts&&opts.family==='legislative'){types=CFG.sig_types.filter(function(t){return t.leg===1;});
+    if(opts.leg_type){var ft=types.filter(function(t){return t.key===opts.leg_type;});if(ft.length)types=ft;}}
   else{types=CFG.sig_types.filter(function(t){return t.c===cat&&!t.leg;});}
   if(!types.length) types=CFG.sig_types;
   var type=pick(types,rnd), m={}, i;

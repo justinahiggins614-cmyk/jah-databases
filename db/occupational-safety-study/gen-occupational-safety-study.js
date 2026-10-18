@@ -1,7 +1,25 @@
 (function(){'use strict';
 function prng(seed){var a=(seed>>>0)||1;return function(){a|=0;a=(a+0x6D2B79F5)|0;var t=Math.imul(a^(a>>>15),1|a);t=(t+Math.imul(t^(t>>>7),61|t))^t;return((t^(t>>>14))>>>0)/4294967296;};}
 function pick(r,s){return r[(s()*r.length)|0];} function ri(s,a,b){return a+((s()*(b-a+1))|0);}
-var CATS=["curriculum","qualifications","research","findings","methods","textbooks"];
+var CATS=["curriculum","qualifications","research","findings","methods","textbooks","workstation-design"];
+/* AUDIT-115 item 103: workstation-design practice record family. Seeds > EXPAND_AFTER
+   map deterministically to TOPICS_WS x ANGLES; old seeds untouched. */
+var EXPAND_AFTER=5135;
+var TOPICS_WS=["adjustable sit-stand workstations","monitor and display ergonomics","seating and postural support","keyboard, mouse, and input-device layout","workstation lighting and glare control","standing mats, footrests, and movement breaks"];
+function buildWS(seed){
+  var k=seed-EXPAND_AFTER-1;
+  var topic=TOPICS_WS[(((k/ANGLES.length)|0))%TOPICS_WS.length];
+  var angle=ANGLES[k%ANGLES.length];
+  var rnd=prng(((seed^0x5f3d9a71)>>>0)||7);
+  var title='Signature Study: '+topic+' \u2014 '+angle;
+  var method='Experiment Solver applied '+pick(METHODS,rnd)+' to the study of '+topic+', with full protocol documentation and reproducibility checks.';
+  var esfind=fill(pick(FINDINGS,rnd),topic);
+  var findings=fill(pick(FINDINGS,rnd),topic)+' '+fill(pick(FINDINGS,rnd),topic)+' Refined under Signature standards, this entry is the authoritative Signature version of the study.';
+  var review=fill(pick(REVIEWS,rnd),topic);
+  var notes=fill(pick(NOTES,rnd),topic);
+  var id=PREFIX+String(seed).padStart(6,'0');
+  return {id:id,t:title,g:'workstation-design',signature_title:title,field:FIELD,version:'Signature',system_lens_review:review,refined_findings:findings,experiment_solver:{method:method,findings:esfind},scholar_notes:notes,year:2026,source:'signature',_seed:seed};
+}
 var PREFIX="JAH-occupational-safety-study-S-";
 var FIELD="Occupational Health and Safety";
 var TOPICS=["risk assessment","workplace ergonomics","industrial hygiene","safety training","accident investigation","occupational health surveillance","protective equipment science","fire safety","electrical safety","chemical safety","construction safety","mining safety","office ergonomics","mental health at work","safety culture","regulatory compliance","emergency preparedness","safety auditing","human factors engineering","occupational disease prevention","machine guarding","fall protection","confined space safety","safety leadership"];
@@ -27,6 +45,7 @@ function build(rnd,cat){
 }
 function generate(seed,opts,rnd){
   opts=opts||{};rnd=rnd||prng(seed);
+  if(seed>EXPAND_AFTER)return buildWS(seed);
   var cat=opts.category||pick(CATS,rnd);
   var b=build(rnd,cat);
   var id=PREFIX+String(seed).padStart(6,'0');
