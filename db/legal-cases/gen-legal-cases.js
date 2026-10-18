@@ -16,6 +16,8 @@ var HOLD={
  constitutional:['The court held the ordinance unconstitutional as applied, finding it burdened protected expression without a compelling government interest.','The statute survived rational-basis review because the legislature\u2019s classification was reasonably related to a legitimate public purpose.','The court struck down the restriction, ruling that it singled out disfavored speakers in violation of equal protection.'],
  family:['The court awarded primary custody to {B}, finding that placement served the child\u2019s best interests after weighing stability, schooling, and each parent\u2019s caregiving history.','The support order against {A} was modified upward to reflect a material change in income since the prior decree.','The court approved the mediated parenting plan submitted by {A} and {B}, incorporating it into the final judgment.']};
 function generate(seed,opts,rnd){
+  opts=opts||{};
+  if(opts.family==='relationship')return generateRelationship(seed,opts,rnd);
   rnd=rnd||prng(seed);
   var ctype=(opts&&opts.category&&CATS.indexOf(opts.category)>=0)?opts.category:pick(CATS,rnd);
   var A=pick(SUR,rnd), B=pick(SUR,rnd);
@@ -43,6 +45,7 @@ function validate(r){
   var e=[];
   if(!r||typeof r!=='object')return{ok:false,errors:['record']};
   if(typeof r.id!=='string'||!/^JAH-CASE-\d{6}$/.test(r.id))e.push('id');
+  if(r.record_family==='case-relationship')return validateRelationship(r,e);
   if(r.case_id!==r.id)e.push('case_id');
   if(typeof r.case_name!=='string'||r.case_name.indexOf(' v. ')<0)e.push('case_name');
   if(r.title!==r.case_name)e.push('title');
@@ -54,6 +57,52 @@ function validate(r){
   if(typeof r.holding_summary!=='string'||!r.holding_summary||r.holding_summary.length>600)e.push('holding_summary');
   if(!Array.isArray(r.citations)||r.citations.length<1||r.citations.length>3)e.push('citations');
   if(!Array.isArray(r.judges)||r.judges.length<1||r.judges.length>3)e.push('judges');
+  return {ok:!e.length,errors:e};
+}
+/* ============ EXPANSION 2026-10-17 (audit item 35) ============
+   Case-law relationship records: citation networks, precedent relationships,
+   subsequent treatment. Opt-in via opts.family='relationship'; the decision-
+   record path is untouched. Relationships link existing synthetic decisions
+   (JAH-CASE-000001..010000) by deterministic reference. */
+var REL_TYPES=['cites','follows','distinguishes','affirms','overrules','reverses'];
+var REL_TREAT={cites:'cited',follows:'followed',distinguishes:'distinguished',affirms:'affirmed',overrules:'overruled',reverses:'reversed'};
+var REL_DESC={
+ cites:'Citation-network record: the citing decision references the cited decision as authority. Citation edges like this one form the directed graph researchers use to measure influence, find related authority, and trace how a doctrine spreads across jurisdictions.',
+ follows:'Precedent-relationship record: the citing court follows the cited decision, applying its rule to materially similar facts. A follow edge marks vertical or horizontal stare decisis in action.',
+ distinguishes:'Precedent-relationship record: the citing court distinguishes the cited decision, holding that a material factual or legal difference keeps the cited rule from controlling here. Distinguishing narrows a precedent without overruling it.',
+ affirms:'Subsequent-treatment record: on review, the higher court affirms the cited decision. Affirmance strengthens the precedent and ends the appellate challenge on the issues decided.',
+ overrules:'Subsequent-treatment record: the citing court expressly overrules the cited decision, ending its life as binding authority. Overruling is rare and is always noted by later researchers checking whether a case remains good law.',
+ reverses:'Subsequent-treatment record: the appellate court reverses the cited trial or intermediate decision. Reversal changes the outcome between the parties and may reset the governing rule on remand.'};
+function caseRef(n){
+  var r=generate(n,{});
+  return {id:r.id,name:r.case_name,court:r.court,date:r.decision_date,ctype:r.case_type};
+}
+function generateRelationship(seed,opts,rnd){
+  rnd=rnd||prng((opts&&opts.salt)?(seed^opts.salt):(seed^0x9e3779b9));
+  var rel=(opts&&opts.rel&&REL_TYPES.indexOf(opts.rel)>=0)?opts.rel:pick(REL_TYPES,rnd);
+  var a=1+((rnd()*10000)|0), b=1+((rnd()*10000)|0);
+  while(b===a)b=1+((rnd()*10000)|0);
+  var citing=caseRef(a), cited=caseRef(b);
+  var title=citing.name+' '+rel+' '+cited.name;
+  var desc='Case-law relationship record ('+rel+'; subsequent treatment: '+REL_TREAT[rel]+'). '+citing.name+' ('+citing.id+', '+citing.court+', decided '+citing.date+') '+rel+' '+cited.name+' ('+cited.id+', '+cited.court+', decided '+cited.date+'). '+REL_DESC[rel];
+  return {id:'JAH-CASE-'+String(seed).padStart(6,'0'),
+    record_family:'case-relationship',relationship_type:rel,treatment:REL_TREAT[rel],
+    citing_case:citing.id,citing_name:citing.name,citing_court:citing.court,citing_date:citing.date,
+    cited_case:cited.id,cited_name:cited.name,cited_court:cited.court,cited_date:cited.date,
+    title:title,description:desc.slice(0,900),case_type:citing.ctype,
+    source:'synthetic',creation_mode:'SIGNATURE-GENERATED'};
+}
+function validateRelationship(r,e){
+  if(REL_TYPES.indexOf(r.relationship_type)<0)e.push('relationship_type');
+  if(r.treatment!==REL_TREAT[r.relationship_type])e.push('treatment');
+  if(typeof r.citing_case!=='string'||!/^JAH-CASE-\d{6}$/.test(r.citing_case))e.push('citing_case');
+  if(typeof r.cited_case!=='string'||!/^JAH-CASE-\d{6}$/.test(r.cited_case))e.push('cited_case');
+  if(r.citing_case===r.cited_case)e.push('self_cite');
+  if(typeof r.citing_name!=='string'||r.citing_name.indexOf(' v. ')<0)e.push('citing_name');
+  if(typeof r.cited_name!=='string'||r.cited_name.indexOf(' v. ')<0)e.push('cited_name');
+  if(typeof r.title!=='string'||!r.title.length||r.title.length>200)e.push('title');
+  if(typeof r.description!=='string'||r.description.length<120)e.push('description');
+  if(CATS.indexOf(r.case_type)<0)e.push('case_type');
   return {ok:!e.length,errors:e};
 }
 var gen={version:'jahdb-legal-cases-1.0',generate:generate,validate:validate};
