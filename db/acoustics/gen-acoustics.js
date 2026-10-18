@@ -7,6 +7,44 @@ function prng(seed){var a=(seed>>>0)||1;return function(){a|=0;a=(a+0x6D2B79F5)|
 function pick(r,s){return r[(s()*r.length)|0];}
 function ri(s,a,b){return a+((s()*(b-a+1))|0);}
 var CATS=['sound-sources','hearing-safety','musical-instruments','acoustic-materials','measurement','environments'];
+/* ---- Expansion 2026-10-17: noise-control engineering, sound isolation,
+   vibration coupling (previously near-zero coverage). src:'online' = standard
+   engineering practice; src:'signature' = Signature-authored studies. ---- */
+var NEWCATS=['noise-control','sound-isolation','vibration-coupling'];
+NEWCATS.forEach(function(c){if(CATS.indexOf(c)<0)CATS.push(c);});
+var NOISE=[
+ ['barrier insertion loss','A noise barrier between source and receiver delivers real insertion loss, limited by diffraction over the top edge — height and closeness to the source matter most.','barrier design for highways and plants','8 dB','12 dB','18 dB'],
+ ['equipment enclosure','A full enclosure around a noisy machine cuts sound substantially, but every ventilation opening needs a silenced path or the rating collapses.','machinery noise control','15 dB','20 dB','25 dB'],
+ ['duct silencer','Reactive and absorptive silencers in ventilation ducts attenuate fan noise across the speech frequencies.','HVAC noise control','10 dB','15 dB','22 dB'],
+ ['engineering noise control','The noise hierarchy puts engineering controls first: quiet the source before reaching for earplugs.','workplace noise programs','5 dB','10 dB','15 dB'],
+ ['ordinance compliance','City nighttime limits are commonly 45 to 55 dBA at the property line, measured slow-response A-weighted.','environmental permitting','45 dBA','50 dBA','55 dBA'],
+ ['piping isolation','Flexible connectors and spring hangers keep pump vibration out of building structure.','mechanical rooms','8 dB','12 dB','16 dB']];
+var ISOL=[
+ ['STC-rated partition','A staggered-stud wall with double drywall and insulation reaches high STC — loud speech becomes inaudible next door.','multifamily housing','STC 45','STC 50','STC 55'],
+ ['mass law design','Doubling a partition\u2019s mass adds about 6 dB of transmission loss; mass is the cheapest decibel in the wall.','partition design','STC 40','STC 48','STC 56'],
+ ['floating floor','A concrete slab floated on resilient pads isolates impact noise in condominiums.','floor/ceiling assemblies','IIC 50','IIC 55','IIC 60'],
+ ['door and seal detailing','A solid-core door only performs if perimeter seals close every gap — a 1% opening ruins the rating.','studios and offices','STC 35','STC 42','STC 48'],
+ ['window isolation','Laminated double glazing with a wide air gap outperforms triple plain glass against traffic noise.','facades near roads','STC 32','STC 38','STC 44'],
+ ['flanking control','Sound sneaks around partitions through ducts, ceilings, and structure; flanking limits the best wall to its weakest path.','retrofit diagnostics','STC 45','STC 50','STC 52']];
+var VIB=[
+ ['mount natural frequency','Tune spring mounts to a few hertz and excitation well above resonance gets 90%+ isolation.','rotating equipment','3 Hz','4 Hz','5 Hz'],
+ ['transmissibility','Above resonance, transmissibility drops about 12 dB per octave — the math behind every isolation mount.','isolator selection','10 Hz','15 Hz','20 Hz'],
+ ['damping treatments','Constrained-layer damping converts panel vibration to heat, taming resonances in sheet metal.','enclosures and ducts','100 Hz','250 Hz','500 Hz'],
+ ['inertia bases','A concrete inertia base lowers the system natural frequency and stabilizes pumps and chillers.','mechanical rooms','600 kg','1200 kg','2400 kg'],
+ ['structure-borne paths','Vibration travels through structure far from the source; resilient breaks stop the journey.','building services','8 dB','14 dB','20 dB'],
+ ['critical speeds','Rotating machines must run well clear of their critical speeds — resonance at speed destroys bearings.','machinery design','1800 rpm','3600 rpm','5400 rpm']];
+function buildEng(rnd,cat,seed){
+ var pool=cat==='noise-control'?NOISE:cat==='sound-isolation'?ISOL:VIB;
+ var t=pick(pool,rnd), lvl=pick([t[3],t[4],t[5]],rnd);
+ var sig=t[0]+' — '+lvl+' (#'+seed+')';
+ var desc='Noise-control engineering: '+t[1]+' Rated performance here: '+lvl+'. Used in '+t[2]+'.';
+ var sp={topic:t[0],application:t[2]};
+ if(cat==='vibration-coupling'){sp.statement=t[1]+' Reference value: '+lvl+'.';}
+ else{sp.db_level=lvl+' rated';sp.principle=t[1];}
+ var online=rnd()<0.7;
+ if(!online){desc='Signature study — '+desc;sp.note='Signature-authored engineering study';}
+ return {title:sig,description:desc,src:online?'online':'signature',spec:sp};
+}
 var PREFIX='JAH-ACO-';
 /* Real decibel chart anchors: [source, level, note] */
 var CHART=[
@@ -75,7 +113,8 @@ var MATERIALS=[
  ['perforated wood panel','Perforated panels backed by an air cavity absorb mid frequencies by Helmholtz resonance.'],
  ['heavy curtain','Heavy drapes absorb high frequencies and tame flutter echo between parallel walls.']
 ];
-function build(rnd,cat){
+function build(rnd,cat,seed){
+ if(NEWCATS.indexOf(cat)>=0)return buildEng(rnd,cat,seed);
  var sp={},title,desc,src='online';
  if(cat==='sound-sources'){
   var s=pick(CHART,rnd);
@@ -123,7 +162,7 @@ function build(rnd,cat){
 function generate(seed,opts,rnd){
  opts=opts||{};rnd=rnd||prng(seed);
  var cat=(opts.category&&CATS.indexOf(opts.category)>=0)?opts.category:pick(CATS,rnd);
- var b=build(rnd,cat);
+ var b=build(rnd,cat,seed);
  var id=PREFIX+String(seed).padStart(6,'0');
  return {id:id,title:b.title,description:b.description,category:cat,src:b.src,spec:b.spec,_seed:seed};
 }

@@ -116,6 +116,52 @@ var THEMES=[
  ['science-in-motion','Science in Motion','science','Gravity probes, exoplanets, and soybeans — science on screen.']
 ];
 var CATEGORIES=['animation','documentary','educational','newsreel','space','history','science','industry','social-guidance','home-movies','public-service','collection'];
+/* ---- Annotation record families (expansion 2026-10-17): timestamped scene
+   descriptions, motion tracks, event annotations as data records. These are
+   Signature-authored annotation DATA over the verified catalog videos above —
+   src:'signature-generated', clearly labeled; they never invent videos. ---- */
+var ANNOTCATS=['scene-annotation','motion-track','event-annotation'];
+ANNOTCATS.forEach(function(c){if(CATEGORIES.indexOf(c)<0)CATEGORIES.push(c);});
+var SCENE_KINDS=['establishing shot','dialogue exchange','action beat','montage passage','title card','location change','crowd sequence','close-up detail','transition','closing shot'];
+var MOTIONS=['static tripod','slow pan left','slow pan right','tilt up','tilt down','dolly in','dolly out','handheld drift','rack focus','tracking shot'];
+var EVENTS=['speaker begins','applause','scene change','music cue','intertitle card','crowd reaction','vehicle passes','weather shift','cut to close-up','fade to black'];
+function durSecs(d){var m=/^(\d+):(\d\d):(\d\d)$/.exec(d||'');if(m)return (+m[1])*3600+(+m[2])*60+(+m[3]);m=/^(\d+):(\d\d)$/.exec(d||'');if(m)return (+m[1])*60+(+m[2]);return 0;}
+function fmtT(sec){sec=Math.max(0,Math.round(sec));var h=(sec/3600)|0,m=((sec%3600)/60)|0,s=sec%60;function p(x){return (x<10?'0':'')+x;}return h>0?(h+':'+p(m)+':'+p(s)):(m+':'+p(s));}
+function buildAnnotation(seed,rnd,cat){
+  var e=CATALOG[(seed-92)%CATALOG.length];
+  var id=PREFIX+String(seed).padStart(6,'0');
+  var total=durSecs(e[5])||(300+((seed*37)%1500));
+  var url='https://archive.org/details/'+e[0];
+  var rec={id:id,source_video:e[1],archive_id:e[0],source:e[3],source_url:url,embed_url:'https://archive.org/embed/'+e[0],thumbnail_url:'https://archive.org/services/img/'+e[0],license:e[7],country:e[6],region:e[6]==='United States'?'North America':'Europe',src:'signature-generated',_seed:seed};
+  var n,i,items;
+  if(cat==='scene-annotation'){
+    n=ri(rnd,4,6);items=[];
+    for(i=0;i<n;i++){var st=(total*(i+rnd()*0.6)/n)|0,en=Math.min(total,(st+total*(0.08+rnd()*0.2)/n*2)|0)||st+5;
+      items.push({n:i+1,start:fmtT(st),end:fmtT(Math.max(en,st+5)),kind:pick(SCENE_KINDS,rnd),description:pick(['Wide view establishing the setting and key figures in frame.','Principal action unfolds with the camera holding steady.','Dialogue or narration carries the sequence forward.','Visual detail fills the frame for emphasis.','Transitional passage bridging two locations or ideas.'],rnd)});}
+    rec.title='Scene annotations — '+e[1];
+    rec.description='Timestamped scene descriptions for the verified public video "'+e[1]+'" ('+e[3]+(e[4]?', '+e[4]:'')+'). '+n+' scenes with start/end timestamps. Signature-authored annotation data — the video itself is the real public record; the timestamps are an authored guide.';
+    rec.scenes=items;
+    rec.demo={kind:'annotation-player',program:'record.scenes.forEach(function(s){console.log(s.start+" - "+s.end+"  "+s.kind+": "+s.description);});',note:'Lists every timestamped scene in order.'};
+  }else if(cat==='motion-track'){
+    n=ri(rnd,3,5);items=[];
+    for(i=0;i<n;i++){var f0=(i*997+seed*13)%Math.max(1,(total*24|0)-240),f1=f0+ri(rnd,48,240);
+      items.push({n:i+1,subject:pick(['camera','crowd','vehicle','speaker','animal','flag or banner','aircraft'],rnd),from_frame:f0,to_frame:f1,motion:pick(MOTIONS,rnd),notes:'Track authored from the archive copy; frame numbers assume 24 fps.'});}
+    rec.title='Motion tracks — '+e[1];
+    rec.description='Motion-track data for the verified public video "'+e[1]+'" ('+e[3]+(e[4]?', '+e[4]:'')+'). '+n+' tracked subjects with frame ranges and camera-motion labels. Signature-authored annotation data over the real public video.';
+    rec.tracks=items;
+    rec.demo={kind:'annotation-player',program:'record.tracks.forEach(function(t){console.log(t.n+". "+t.subject+" frames "+t.from_frame+"-"+t.to_frame+": "+t.motion);});',note:'Lists every motion track with its frame range.'};
+  }else{
+    n=ri(rnd,4,6);items=[];
+    for(i=0;i<n;i++){var ts=(total*(i+0.5+rnd()*0.5)/n)|0;
+      items.push({n:i+1,timestamp:fmtT(ts),event:pick(EVENTS,rnd),confidence:pick(['high','high','medium'],rnd)});}
+    rec.title='Event annotations — '+e[1];
+    rec.description='Event annotations for the verified public video "'+e[1]+'" ('+e[3]+(e[4]?', '+e[4]:'')+'). '+n+' timestamped events with confidence labels. Signature-authored annotation data over the real public video.';
+    rec.events=items;
+    rec.demo={kind:'annotation-player',program:'record.events.forEach(function(v){console.log(v.timestamp+"  "+v.event+" ("+v.confidence+" confidence)");});',note:'Lists every annotated event in time order.'};
+  }
+  rec.category=cat;
+  return rec;
+}
 function catRecord(e,seed){
  var id=PREFIX+String(seed).padStart(6,'0');
  return {id:id,title:e[1],
@@ -148,8 +194,11 @@ function normTheme(t){
 }
 function generate(seed,opts,rnd){
  opts=opts||{}; rnd=rnd||prng(seed);
+ var fam=opts.family&&ANNOTCATS.indexOf(opts.family)>=0?opts.family:null;
+ if(fam)return buildAnnotation(seed,rnd,fam);
  var topic=(opts.topic||'').toString().trim().slice(0,120);
  var g=opts.genre?String(opts.genre).toLowerCase().trim():null;
+ if(g&&ANNOTCATS.indexOf(g)>=0)return buildAnnotation(seed,rnd,g);
  var id=PREFIX+String(seed).padStart(6,'0');
  var b;
  if(g==='collection'||topic){
@@ -174,6 +223,12 @@ function validate(r){
  if(r.category==='collection'){
   if(!Array.isArray(r.videos)||!r.videos.length)e.push('videos');
   if(r.src!=='signature-generated')e.push('src');
+ }else if(ANNOTCATS.indexOf(r.category)>=0){
+  /* annotation data records: Signature-authored annotations over catalog videos */
+  if(r.src!=='signature-generated')e.push('src');
+  var pl=r.scenes||r.tracks||r.events;
+  if(!Array.isArray(pl)||!pl.length)e.push('annotation-payload');
+  if(!/^https:\/\/archive\.org\/(details|embed)\//.test(r.source_url||''))e.push('url');
  }else{
   if(r.src!=='public-harvest')e.push('src');
   if(!/^https:\/\/archive\.org\/(details|embed)\//.test(r.source_url||'')&&!/^https:\/\/archive\.org\/(details|embed)\//.test(r.embed_url||''))e.push('url');

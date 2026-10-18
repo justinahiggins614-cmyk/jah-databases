@@ -7,6 +7,52 @@ function prng(seed){var a=(seed>>>0)||1;return function(){a|=0;a=(a+0x6D2B79F5)|
 function pick(r,s){return r[(s()*r.length)|0];}
 function ri(s,a,b){return a+((s()*(b-a+1))|0);}
 var CATS=['telescopes','microscopes','camera-lenses','spectrometers','interferometers','eyewear-optics'];
+/* ---- Expansion 2026-10-17: imaging performance, optical metrology, illumination,
+   lens design (the DB was instruments-only). Signature-authored study records and
+   standard-practice references, clearly labeled. ---- */
+var NEWCATS=['imaging-performance','optical-metrology','illumination','lens-design'];
+NEWCATS.forEach(function(c){if(CATS.indexOf(c)<0)CATS.push(c);});
+var NEWINST={
+ 'imaging-performance':['MTF test bench','PSF measurement station','slanted-edge target rig','star-test bench','wavefront sensor bench','veiling-glare test rig'],
+ 'optical-metrology':['Fizeau interferometer station','profilometer bench','autocollimator station','lensometer bench','spectrophotometer station','ellipsometer bench'],
+ 'illumination':['integrating-sphere rig','Kohler illumination bench','goniophotometer station','luminance test rig','collimated source bench','uniformity test rig'],
+ 'lens-design':['doublet prescription','triplet prescription','retrofocus prescription','telephoto prescription','microscope objective prescription','eyepiece prescription']};
+var NEWAPPS={
+ 'imaging-performance':['camera quality assurance','lens acceptance testing','sensor characterization','display evaluation'],
+ 'optical-metrology':['surface form testing','coating verification','radius measurement','wavefront certification'],
+ 'illumination':['display backlight design','microscope illumination','machine-vision lighting','architectural lighting mockups'],
+ 'lens-design':['photographic lenses','microscope objectives','telescope correctors','illumination optics']};
+var NEWNOTES={
+ 'imaging-performance':['MTF at 30 lp/mm is the standard contrast benchmark for photographic lenses.','The PSF Airy disk sets the diffraction-limited spot size for a given f-number.','Slanted-edge targets yield MTF curves without precision alignment.','Veiling glare lowers micro-contrast; baffling and coatings control it.'],
+ 'optical-metrology':['Repeatability must beat the tolerance being verified by at least 4 to 1.','Calibration is traceable to wavelength standards through the interferometer.','Temperature drift dominates long-path measurements; control to 0.1 C.','Surface form error is reported as peak-to-valley plus RMS wavefront.'],
+ 'illumination':['Uniformity above 90% across the field is the machine-vision acceptance bar.','Kohler illumination images the source at the condenser aperture for even fields.','Glare from stray light caps usable contrast before the lens does.','Color temperature must match the sensor white-balance target within 200 K.'],
+ 'lens-design':['Axial chromatic aberration: different colors focus at different distances along the axis.','Field curvature: the focal surface curves instead of lying flat across the field.','Distortion: straight lines render curved — barrel or pincushion.','Spherical aberration: edge rays focus closer to the lens than axial rays, blurring the image.']};
+var NEWKEY={
+ 'imaging-performance':['MTF 0.6 at 30 lp/mm','MTF 0.8 at 10 lp/mm','PSF 4.2 um Airy','glare index 2.1%'],
+ 'optical-metrology':['lambda/20 PV','lambda/100 RMS','0.05% radius accuracy','1 nm repeatability'],
+ 'illumination':['92% uniformity','5600 K CCT','1200 lux at target','0.5% flicker'],
+ 'lens-design':['50 mm f/1.8','35 mm f/2','200 mm f/4','25 mm f/1.4']};
+function buildNew(rnd,cat){
+ var inst=pick(NEWINST[cat],rnd), key=pick(NEWKEY[cat],rnd);
+ var an=NEWNOTES[cat].slice();
+ var n1=ri(rnd,0,an.length-1), n2=(n1+1+ri(rnd,0,an.length-2))%an.length;
+ var notes=[an[n1],an[n2]];
+ var corr=pick(CORRECT,rnd);
+ var sp={instrument_type:inst,application:pick(NEWAPPS[cat],rnd),aberration_notes:notes,correction_note:corr};
+ if(cat==='imaging-performance'){sp.test_target=pick(['ISO 12233 chart','slanted-edge target','pinhole source'],rnd);sp.criterion=key;}
+ else if(cat==='optical-metrology'){sp.measurement=pick(['surface form','radius of curvature','coating reflectance','wavefront error'],rnd);sp.accuracy=key;}
+ else if(cat==='illumination'){sp.uniformity_pct=ri(rnd,85,98);sp.color_temp_K=pick([3200,4100,5600,6500],rnd);}
+ else{var fl=parseInt(key,10);sp.focal_length_mm=fl;sp.elements=ri(rnd,2,9);sp.design_goal=key;}
+ var online=rnd()<0.62, title, desc;
+ if(online){
+  title=cap(inst)+' — '+key;
+  desc='The '+inst+' is standard practice for '+cat.replace(/-/g,' ')+', specified here at '+key+'. '+notes.join(' ')+' '+corr+' Typical use: '+sp.application+'.';
+ }else{
+  title='Signature Study — '+cap(inst)+' concept ('+key+')';
+  desc='This is a Signature-authored '+cat.replace(/-/g,' ')+' study for a '+inst+' at '+key+'. '+notes.join(' ')+' '+corr+' Intended application: '+sp.application+'.';
+ }
+ return {title:title,description:desc,src:online?'online':'signature',spec:sp};
+}
 var PREFIX='JAH-OPT2-';
 var INST={
  'telescopes':['Newtonian reflector','achromatic refractor','apochromatic refractor','Schmidt-Cassegrain','Dobsonian reflector','Maksutov-Cassegrain','Ritchey-Chrétien reflector','long-focus refractor'],
@@ -65,6 +111,7 @@ function specsFor(rnd,cat,inst){
  return sp;
 }
 function build(rnd,cat){
+ if(NEWCATS.indexOf(cat)>=0)return buildNew(rnd,cat);
  var online=rnd()<0.62;
  var inst=pick(INST[cat],rnd);
  var fam=FAM[cat];

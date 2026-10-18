@@ -9,6 +9,73 @@ function rf(r,a,b,d){var v=a+r()*(b-a);return d==null?v:+v.toFixed(d);}
 var CATS=['metals','polymers','ceramics','composites','properties'];
 var PREFIX='JAH-MAT-';
 var RTYPES=['datasheet','mechanical','thermal','electrical-prop','corrosion','processing','heat-treatment','joining','machining','applications','selection','sustainability','standards','testing','failure-modes','history','comparison','concept-design','dimensions','calculation','tolerance-class','material-process','application','installation','maintenance','safety'];
+/* ---- Characterization/failure-analysis record families (expansion 2026-10-17):
+   microscopy, fractography, root-cause failure records. Signature-authored
+   analytical records — clearly labeled, not measured lab data. ---- */
+var CHARTYPES=['microscopy','fractography','failure-analysis'];
+CHARTYPES.forEach(function(t){if(RTYPES.indexOf(t)<0)RTYPES.push(t);});
+var CHAR_TECH={
+ microscopy:[['optical microscopy','reflected-light examination of etched microstructure'],
+  ['scanning electron microscopy','high-resolution surface and cross-section imaging'],
+  ['transmission electron microscopy','nanoscale dislocation and precipitate imaging'],
+  ['grain-size measurement','ASTM E112 intercept method for average grain size'],
+  ['inclusion rating','ASTM E45 sulfide/oxide inclusion assessment'],
+  ['phase identification','metallographic phase fraction estimation']],
+ fractography:[['dimple rupture analysis','microvoid coalescence from overload'],
+  ['cleavage facet mapping','transgranular brittle fracture planes'],
+  ['fatigue striation counting','one striation per load cycle on the fracture face'],
+  ['intergranular fracture study','grain-boundary separation from embrittlement'],
+  ['beach-mark tracing','macroscopic crack-growth front positions'],
+  ['shear-lip measurement','ductile final-fracture region sizing']],
+ 'failure-analysis':[['five-whys analysis','iterative why-questioning to the root cause'],
+  ['fault-tree analysis','top-down logic-gate decomposition of the failure'],
+  ['FMEA review','failure modes with severity, occurrence, detection ranks'],
+  ['fishbone diagram','cause-and-effect categories for the failure event'],
+  ['timeline reconstruction','ordered event sequence leading to failure'],
+  ['corrective-action plan','containment, root-cause fix, and verification steps']]
+};
+var CHAR_MATS=['316L stainless steel','6061-T6 aluminum','Ti-6Al-4V','AISI 1045 steel','PEEK','alumina ceramic','Cu-Cr-Zr copper','Inconel 718'];
+function buildChar(seed,rnd,rt,cat){
+  var id=PREFIX+String(seed).padStart(7,'0');
+  var mat=pick(CHAR_MATS,rnd), tech=pick(CHAR_TECH[rt],rnd);
+  var tag='CH-'+ri(rnd,100,999)+'-'+String.fromCharCode(65+ri(rnd,0,25));
+  var props,desc,name;
+  if(rt==='microscopy'){
+    var mag=pick([100,200,500,1000,5000,10000],rnd);
+    var gs=rf(rnd,5,120,1);
+    props={family:'characterization record',technique:tech[0]+' — '+tech[1],magnification:mag+'x',
+      etchant:pick(['nital','Keller\u2019s reagent','Marble\u2019s reagent','electrolytic oxalic'],rnd),
+      observed_feature:pick(['equiaxed austenite grains','elongated rolled grains','martensite laths','precipitate dispersion','twin boundaries','dendritic structure'],rnd),
+      avg_grain_size_um:gs,specimen_prep:'mounted, ground, polished to 0.05 um, etched'};
+    name='Microscopy record '+tag+' ('+mat+')';
+    desc='Signature-authored microscopy record: '+tech[0]+' of '+mat+' at '+mag+'x shows '+props.observed_feature+' with an average grain size near '+gs+' um. Analytical record — representative parameters, not a measured laboratory result.';
+  }else if(rt==='fractography'){
+    var fmode=pick(['ductile overload','fatigue','brittle cleavage','stress-corrosion cracking','hydrogen embrittlement','creep rupture'],rnd);
+    props={family:'characterization record',technique:tech[0]+' — '+tech[1],fracture_mode:fmode,
+      magnification:pick([50,200,1000,5000],rnd)+'x',
+      key_feature:pick(['equiaxed dimples','river patterns','striations','intergranular facets','beach marks','wedge cracks'],rnd),
+      crack_origin:pick(['surface defect','inclusion','weld toe','keyway corner','corrosion pit','machining mark'],rnd)};
+    name='Fractography record '+tag+' ('+mat+')';
+    desc='Signature-authored fractography record: the fracture face of '+mat+' failed by '+fmode+', originating at a '+props.crack_origin+'; '+tech[0]+' reveals '+props.key_feature+'. Analytical record — representative parameters, not a measured laboratory result.';
+  }else{
+    var fmode2=pick(['fatigue crack growth','overload fracture','wear-out','corrosion perforation','thermal fatigue','fretting'],rnd);
+    var cause=pick(['inadequate fillet radius raising stress concentration','missed heat-treatment step','abrasive contamination in the lubricant','design load underestimated by 30%','protective coating damaged in assembly','maintenance interval exceeded'],rnd);
+    props={family:'failure-analysis record',technique:tech[0]+' — '+tech[1],component:pick(['drive shaft','pressure vessel','bearing race','welded bracket','turbine blade','fastener'],rnd)+' ('+mat+')',
+      failure_mode:fmode2,root_cause:cause,
+      contributing_factors:pick(['cyclic loading','elevated temperature','corrosive environment','vibration'],rnd)+'; '+pick(['poor surface finish','residual stress','material substitution'],rnd),
+      corrective_action:pick(['redesign fillet and re-qualify by test','restore specified heat treatment and audit','upgrade filtration and oil analysis','revise loads and re-run FEA','repair coating procedure and inspect','shorten interval and monitor'],rnd)};
+    name='Root-cause failure record '+tag+' ('+mat+')';
+    desc='Signature-authored root-cause failure record: '+props.component+' failed by '+fmode2+'. Root cause: '+cause+'. Corrective action: '+props.corrective_action+'. Analytical record — a structured investigation template, not a real incident report.';
+  }
+  return {id:id,mat_id:id,title:name+' — Signature characterization',category:cat,record_type:rt,
+    material:mat,composition:tech[0],properties:props,
+    processing:['characterization workflow — specimen prep, examination, interpretation'],
+    applications:['quality investigation','design feedback','failure prevention'],
+    standards:['ASTM E3','ASTM E407','ASTM E112'],description:desc,source:'signature',
+    source_ref:{authority:'JAH Databases — Signature generator',url:''},
+    creation_mode:'SIGNATURE-GENERATED',data_quality:'predicted-not-measured',
+    design_status:'analytical characterization record — Signature-authored, not measured',_seed:seed};
+}
 var FORMULAS={
  specific_strength:function(i){return i.uts_MPa/i.density_kg_m3*1000;},   /* kN·m/kg */
  specific_stiffness:function(i){return i.E_MPa/i.density_kg_m3*1000;},
@@ -30,6 +97,8 @@ function num(n,d){return +(+n).toFixed(d==null?2:d);}
 function sfig(v){return +(+v).toPrecision(6);}
 function generate(seed,opts,rnd){
   opts=opts||{};rnd=rnd||prng(seed);
+  if(opts.record_type&&CHARTYPES.indexOf(opts.record_type)>=0)
+    return buildChar(seed,rnd,opts.record_type,opts.category||pick(CATS,rnd));
   var cat=opts.category||pick(CATS,rnd);
   var tag='MX-'+ri(rnd,100,999)+'-'+String.fromCharCode(65+ri(rnd,0,25));
   var kind=cat==='metals'?0:cat==='polymers'?1:cat==='composites'?1:ri(rnd,0,2),name,props={},calc=null,desc='';

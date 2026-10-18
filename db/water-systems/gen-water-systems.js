@@ -14,7 +14,7 @@ var SLUG = 'water-systems';
 var PREFIX = 'JAH-WTR-';
 var VERSION = 'jahdb-water-systems-1.0';
 var RECORD_KIND = 'water entry';
-var CATS = ['water-cycle', 'treatment', 'infrastructure', 'conservation'];
+var CATS = ['water-cycle', 'treatment', 'infrastructure', 'conservation', 'wastewater'];
 
 /* ================= REAL (sourced) data: [title, key_points, body] ================= */
 var REAL_CYCLE = [
@@ -97,6 +97,51 @@ var REAL = interleave([
   REAL_INFRA.map(function (e) { return { k: 'i', e: e }; }),
   REAL_CONSERV.map(function (e) { return { k: 'v', e: e }; })
 ]);
+/* ================= Wastewater/sanitation engineering (expansion 2026-10-17):
+   sourced knowledge [title, key_points, body] + Signature designs
+   [title, summary, implementation]. ================= */
+var REAL_WW = [
+['Sanitary sewer collection networks', 'Gravity sewers carry wastewater downhill through pipes, manholes, and lift stations to treatment', 'Sanitary sewers are sized for peak flow with minimum slopes that keep solids moving — typically 2 feet per second at design flow. Manholes at every junction and direction change allow inspection and cleaning. Where gravity cannot reach, lift stations pump sewage uphill into the next gravity reach.'],
+['Combined versus separate sewers', 'Separate systems keep stormwater and sewage apart; combined systems carry both and can overflow in storms', 'Older cities built combined sewers that carry sewage and stormwater in one pipe; heavy rain overwhelms them and combined sewer overflows discharge diluted sewage to waterways. Modern practice builds separate sanitary and storm systems, and many cities are separating old combined networks or adding storage tunnels.'],
+['Wastewater pumping and lift stations', 'Wet wells collect sewage and pumps lift it where gravity flow is impossible', 'A lift station\u2019s wet well fills by gravity; level controls start pumps that push sewage through a force main to higher ground. Duplex pumps alternate for even wear, with a lag pump for peaks. Backup power is mandatory — a station without power becomes an overflow within hours.'],
+['Sewer inspection and cleaning', 'CCTV crawlers find defects; jetting and root cutters restore capacity', 'Crews send camera crawlers through sewers to grade cracks, roots, grease, and sags. High-pressure jetting scours deposits; mechanical cutters clear roots. Inspection on a 5-to-10-year cycle catches failures while repairs are still cheap.'],
+['Infiltration and inflow control', 'Groundwater leaking in (infiltration) and stormwater pouring in (inflow) overload sewers and plants', 'Cracked pipes and bad joints admit groundwater — infiltration — while roof drains and manhole covers admit stormwater — inflow. Together they can multiply dry-weather flow several times over. Smoke testing finds inflow sources; lining and joint sealing cut infiltration.'],
+['Wastewater reuse for irrigation', 'Treated effluent irrigates crops, golf courses, and landscapes under quality standards', 'Reclaimed water extends supply where freshwater is scarce. Treatment level matches the use: unrestricted irrigation needs filtration plus disinfection. Purple pipe marks reclaimed distribution so it is never confused with potable lines.'],
+['Industrial pretreatment programs', 'Industries must treat or limit discharges before sending waste to the public sewer', 'Pretreatment permits cap what factories may discharge — metals, oils, pH, flammables — protecting sewers, treatment biology, and workers. Grease traps on restaurants are the most common pretreatment device. Violations bring fines and surcharges.'],
+['Onsite sanitation: septic systems', 'Septic tanks settle solids; drainfields let soil finish treatment', 'A septic tank holds wastewater long enough for solids to settle and scum to float; the clarified liquid flows to a drainfield where soil microbes treat it. Tanks need pumping every 3 to 5 years. Failed systems surface sewage and contaminate wells — the classic rural sanitation failure.'],
+['Sludge handling and disposal', 'Treatment concentrates pollutants into sludge that must be thickened, stabilized, and put to use or landfilled', 'Primary and secondary sludge are thickened, then digested — anaerobically, capturing biogas — or stabilized aerobically. Dewatering by belt press or centrifuge cuts volume for hauling. Land application as biosolids returns nutrients to soil under strict pathogen and metals limits.'],
+['Nutrient removal: nitrogen and phosphorus', 'Excess nutrients cause algal blooms; biological processes now strip them from effluent', 'Nitrifying bacteria convert ammonia to nitrate; anoxic zones then denitrify it to nitrogen gas. Phosphorus is removed biologically by specialized organisms or chemically with metal salts. Nutrient limits protect lakes and estuaries from eutrophication.'],
+['Disinfection of wastewater effluent', 'Chlorine or UV kills pathogens before effluent reaches waterways', 'Chlorination is cheap and leaves a residual, but forms disinfection byproducts; dechlorination protects aquatic life. UV inactivates pathogens without chemicals and is now standard for sensitive receiving waters. Disinfection is the final public-health barrier.'],
+['Sewer odor and corrosion control', 'Hydrogen sulfide from septic sewage smells and eats concrete; control starts with keeping sewage fresh', 'Stagnant sewage goes septic, generating hydrogen sulfide — the rotten-egg smell that corrodes concrete crowns and sickens workers. Ventilation, chemical dosing, and keeping velocities up prevent the worst. Crown corrosion has collapsed sewers that looked fine from the street.']
+];
+var DESIGN_WW = [
+['Neighborhood decentralized treatment cluster', 'wastewater', 'A cluster of homes shares one compact treatment plant instead of each running a septic tank.', 'Form the district: group 20 to 50 homes with failing or aging septics. Size: a package extended-aeration plant matched to total flow. Collect: small-diameter gravity or pressure sewers to the plant. Operate: contract a licensed operator — shared cost beats 40 individual pump-outs.'],
+['Sewer-mining pilot for a business district', 'wastewater', 'Pull water out of the sewer, treat it locally, and reuse it — the sewer becomes a resource.', 'Tap: a side-stream intake on the trunk sewer. Treat: membrane bioreactor plus disinfection in a compact skid. Reuse: toilet flushing and cooling towers in the district. Return: residuals go back to the sewer. Measure: meter every gallon reused and publish the offset.'],
+['FOG compliance program for restaurants', 'wastewater', 'Fats, oils, and grease clog sewers; a permit-and-inspect program keeps them out.', 'Permit: every food-service site holds a FOG permit. Size: grease interceptors matched to fixture units. Inspect: quarterly checks with a pass/fail dipstick test. Enforce: fines escalate; chronic violators get monitored. Educate: staff training in three languages.'],
+['Rain-garden overflow relief for combined sewers', 'wastewater', 'Green infrastructure trims the storm peak that triggers combined sewer overflows.', 'Map: model which sub-catchments drive overflows. Build: curb-cut rain gardens and permeable alleys upstream. Meter: flow monitors prove the peak shaved. Maintain: vacuum sweeping and inlet cleaning on schedule. Report: overflow events before and after, published yearly.'],
+['Community latrine upgrade program', 'wastewater', 'Replace open pits with lined, ventilated latrines across a village cluster.', 'Survey: count households and map water points. Design: lined pits with slabs and vent pipes, sited 30 meters from wells. Build: train local masons; households dig, program supplies slabs. Maintain: pit-emptying service on rotation. Verify: open-defecation-free certification by transect walk.'],
+['Septage receiving station for a rural county', 'wastewater', 'Give pumpers a legal place to dump instead of the ditch behind the plant.', 'Site: at the treatment plant with truck access. Build: receiving manhole, screening, and equalization. Charge: per-gallon tipping fees that cover operation. Track: manifest every load by hauler and source. Enforce: illegal dumping fines fund the station.'],
+['Effluent reuse loop for a sports complex', 'wastewater', 'The complex irrigates its fields with its own treated wastewater.', 'Treat: package plant sized to the complex\u2019s flow with filtration and UV. Store: a lined pond buffers irrigation demand. Distribute: purple-pipe zones with backflow prevention. Monitor: weekly effluent testing posted at the gate. Sign: public education boards explain the loop.'],
+['Sewer acoustic monitoring network', 'wastewater', 'Listening sensors find blockages forming before the backup call comes in.', 'Deploy: acoustic sensors at key manholes on chronic-blockage lines. Baseline: learn each reach\u2019s normal sound profile. Alert: deviations page the cleaning crew automatically. Clean: jet the flagged reach and confirm the profile returns. Track: blockage calls per mile, before and after.'],
+['Decentralized MBR package plant for a campus', 'wastewater', 'A membrane bioreactor in a box treats a campus to reuse quality.', 'Size: design flow plus 25 percent for growth. Install: skid-mounted MBR with fine screening upstream. Operate: remote monitoring with weekly site visits. Reuse: cooling towers and irrigation take the effluent. Plan: membrane replacement budgeted on a 7-year cycle.'],
+['Biosolids composting cooperative', 'wastewater', 'Neighboring towns compost biosolids together instead of landfilling alone.', 'Form: interlocal agreement sharing costs by tonnage. Build: aerated static piles under cover with biofilters. Test: every batch for pathogens and metals before release. Sell: bagged compost funds the operation. Audit: annual third-party review of records.'],
+['Sewer lateral replacement program', 'wastewater', 'The private pipes from house to main cause half the problems; fix them systematically.', 'Inventory: camera every lateral during main replacement. Share cost: city funds the public half, low-interest loans cover the private half. Replace: trenchless lining where possible, open cut where not. Verify: post-repair camera and air test. Track: backup complaints by block, published yearly.'],
+['Constructed wetland polishing for a lagoon town', 'wastewater', 'A planted wetland polishes lagoon effluent to meet tightening nutrient limits.', 'Size: wetland area from design loading rates for the climate. Build: lined cells with graded media and native plants. Plant: reeds and rushes in zones. Tend: harvest biomass yearly to export nutrients. Monitor: influent and effluent sampling against the permit.']
+];
+function realWWRecord(e, id, seed) {
+  var secs = [
+    { heading: 'Key points', body: e[0] + '. ' + e[1] + '.' },
+    { heading: 'In depth', body: e[2] }
+  ];
+  var text = secs.map(function (s) { return s.heading + '.\n' + s.body; }).join('\n\n');
+  return { id: id, title: e[0], category: 'wastewater', record_kind: RECORD_KIND, origin: 'sourced', summary: e[1] + '.', details: { key_points: e[1].split('; ') }, sections: secs, record_text: text, source_note: 'Sourced: standard wastewater and sanitation engineering knowledge.', related: [], _seed: seed };
+}
+function sigWWDesign(r, id, seed, topic) {
+  var t = topic || pick(DESIGN_WW, r);
+  var secs = [{ heading: 'The design', body: t[0] + ' (' + t[1] + '). ' + t[2] }, { heading: 'Implementation', body: t[3] }];
+  var text = secs.map(function (s) { return s.heading + '.\n' + s.body; }).join('\n\n');
+  return { id: id, title: t[0] + ' \u2014 Signature design', category: 'wastewater', record_kind: RECORD_KIND, origin: 'signature-generated', summary: t[2], details: { area: 'wastewater', key_points: t[2].split('. ') }, sections: secs, record_text: text, source_note: 'Signature-generated: a homegrown wastewater-system design; verify against local codes and engineering review.', related: [], _seed: seed };
+}
 function realRecord(e, id, seed, cat) {
   var secs = [
     { heading: 'Key points', body: e[0] + '. ' + e[1] + '.' },
@@ -127,6 +172,11 @@ function generate(seed, opts, rnd) {
     if (!opts.category || CATMAP[re.k] === opts.category) return realRecord(re.e, id, seed, CATMAP[re.k]);
   }
   var cat = opts.category || pick(CATS, rnd);
+  if (cat === 'wastewater') {
+    var wix = (((seed - 10002) % 24) + 24) % 24;
+    if (wix < REAL_WW.length) return realWWRecord(REAL_WW[wix], id, seed);
+    return sigWWDesign(rnd, id, seed, DESIGN_WW[(wix - REAL_WW.length) % DESIGN_WW.length]);
+  }
   if (cat === 'water-cycle' && rnd() < 0.5) return sigCycle(rnd, id, seed);
   var pool = DESIGN_TOPICS.filter(function (x) { return !opts.category || x[1] === cat; });
   return sigDesign(rnd, id, seed, pick(pool.length ? pool : DESIGN_TOPICS, rnd));

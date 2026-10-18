@@ -5,8 +5,36 @@
 function prng(seed){var a=(seed>>>0)||1;return function(){a|=0;a=(a+0x6D2B79F5)|0;var t=Math.imul(a^(a>>>15),1|a);t=(t+Math.imul(t^(t>>>7),61|t))^t;return((t^(t>>>14))>>>0)/4294967296;};}
 function pick(r,s){return r[(s()*r.length)|0];}
 var PREFIX="JAH-DAT-";
-var FIELDS=["processing"];
+var FIELDS=["processing","acquisition-workflow"];
 var TOPICS={
+/* ---- Acquisition-workflow family (expansion 2026-10-17): discovery, import,
+   normalization, deduplication, and validation workflows as data records. ---- */
+ "acquisition-workflow": [
+  "Dataset discovery crawler \\u2014 acquisition-workflow",
+  "Source registry scan \\u2014 acquisition-workflow",
+  "Schema inference probe \\u2014 acquisition-workflow",
+  "Freshness monitor \\u2014 acquisition-workflow",
+  "License and terms checker \\u2014 acquisition-workflow",
+  "Bulk CSV importer \\u2014 acquisition-workflow",
+  "API harvester \\u2014 acquisition-workflow",
+  "Incremental change-data importer \\u2014 acquisition-workflow",
+  "File-drop watcher \\u2014 acquisition-workflow",
+  "Streaming ingestor \\u2014 acquisition-workflow",
+  "Unit normalizer \\u2014 acquisition-workflow",
+  "Date and time canonicalizer \\u2014 acquisition-workflow",
+  "Text case normalizer \\u2014 acquisition-workflow",
+  "Schema mapper \\u2014 acquisition-workflow",
+  "Encoding fixer \\u2014 acquisition-workflow",
+  "Exact-match deduper \\u2014 acquisition-workflow",
+  "Fuzzy-match deduper \\u2014 acquisition-workflow",
+  "Cross-source merger \\u2014 acquisition-workflow",
+  "Survivorship resolver \\u2014 acquisition-workflow",
+  "Duplicate cluster reviewer \\u2014 acquisition-workflow",
+  "Schema validator \\u2014 acquisition-workflow",
+  "Range and format checker \\u2014 acquisition-workflow",
+  "Referential integrity checker \\u2014 acquisition-workflow",
+  "Anomaly flagger \\u2014 acquisition-workflow"
+ ],
  "processing": [
   "Parsers \u2014 processing",
   "Lexers \u2014 processing",

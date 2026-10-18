@@ -194,6 +194,84 @@ var REAL=[
 var CATS=['painting','photography','space','historical','scientific','nature'];
 var LICENSES=['Public Domain','Public Domain (US Gov)','CC BY','CC BY-SA','CC (editorial use)'];
 var REGIONS=['North America','South America','Europe','Africa','Asia','Oceania','Middle East','Central America','Caribbean','Central Asia','East Asia','South Asia','Southeast Asia','Scandinavia','Mediterranean','Pacific Islands','Arctic','Antarctica'];
+/* ---- Image-as-evidence record families (expansion 2026-10-17): EXIF/XMP/IPTC
+   metadata, provenance chains, annotation records. Records reference the REAL
+   catalog images by index; the metadata blocks are Signature-authored structured
+   representations, clearly labeled, never claimed as extracted file bytes. ---- */
+var METAFAMS=['image-metadata','provenance-chain','image-annotation'];
+var META_KINDS={
+ 'image-metadata':[
+  ['EXIF','Exchangeable Image File Format — camera-capture metadata'],
+  ['XMP','Extensible Metadata Platform — embedded descriptive metadata'],
+  ['IPTC','IPTC photo metadata — editorial/description metadata']],
+ 'provenance-chain':[
+  ['Custody chain','creation-to-archive custody chain'],
+  ['Digitization chain','analog-to-digital capture chain'],
+  ['Rights chain','license-and-rights transfer chain']],
+ 'image-annotation':[
+  ['Evidence annotation','image-as-evidence annotated observation set'],
+  ['Content annotation','subject-matter content annotations'],
+  ['Forensic annotation','authenticity-oriented annotations']]
+};
+var META_CAMERAS=['Canon EOS 5D Mark IV','Nikon D850','Sony A7R IV','Fujifilm GFX 100S','Phase One IQ4','Hasselblad H6D-100c','Leica SL2','digitized film scan'];
+var META_SOFTWARE=['Adobe Lightroom','Capture One','darktable','RawTherapee','DxO PhotoLab'];
+function buildMeta(seed,rnd,fam){
+  var imgIx=(seed-201+ (fam==='image-metadata'?0:fam==='provenance-chain'?8:16))%REAL.length;
+  var R=REAL[imgIx];
+  var kind=pick(META_KINDS[fam],rnd);
+  var id=PREFIX+String(seed).padStart(6,'0');
+  var lic=R[4], rec;
+  if(fam==='image-metadata'){
+    var cam=pick(META_CAMERAS,rnd), soft=pick(META_SOFTWARE,rnd);
+    var iso=pick([100,200,400,800,1600,3200],rnd), exp=pick(['1/125 s','1/250 s','1/60 s','1/500 s','1/30 s'],rnd);
+    var fnum=pick(['f/2.8','f/4','f/5.6','f/8','f/11'],rnd), fl=pick(['24 mm','35 mm','50 mm','85 mm','135 mm'],rnd);
+    var w=pick([4000,5472,6000,8256],rnd), h=Math.round(w*2/3);
+    var meta={standard:kind[0],definition:kind[1],
+      make_model:cam,exposure_time:exp,f_number:fnum,iso_speed:iso,focal_length:fl,
+      pixel_dimensions:w+' x '+h,color_space:'sRGB',software:soft,
+      capture_note:'Structured '+kind[0]+' block for the public image "'+R[0]+'". Signature-authored representation of typical capture metadata for this image; not bytes extracted from a file.',
+      copyright:lic,creator:R[1],date_original:R[2]};
+    rec={id:id,title:kind[0]+' metadata record — '+R[0],
+      description:'Image-as-evidence metadata record: a structured '+kind[0]+' block ('+kind[1]+') for the public image "'+R[0]+'" by '+R[1]+' ('+R[2]+'). The fields below are a Signature-authored structured representation, clearly labeled, and are not extracted file bytes.',
+      category:fam,creator:R[1],year:R[2],license:lic,source_note:R[5],tags:'metadata,'+R[6],
+      source_url:'https://commons.wikimedia.org/wiki/Special:Search?search='+encodeURIComponent(R[0]),
+      thumbnail_svg:thumbSVG(seed,R[0],R[3]),region:pick(REGIONS,rnd),
+      metadata:meta,
+      demo:{kind:'metadata-inspector',program:'var m=record.metadata;Object.keys(m).forEach(function(k){console.log(k+": "+m[k]);});',note:'Prints the structured metadata block for this image record.'},
+      src:'signature-generated-sample',_seed:seed};
+  }else if(fam==='provenance-chain'){
+    var steps=[
+      {step:1,event:'Creation',actor:R[1],detail:'Image created by '+R[1]+' ('+R[2]+').'},
+      {step:2,event:'Stewardship',actor:R[5],detail:'Held and cataloged by '+R[5]+'.'},
+      {step:3,event:'Digitization',actor:pick(['holding institution','contract digitization lab','archive imaging team'],rnd),detail:'High-resolution capture produced for public access.'},
+      {step:4,event:'Rights review',actor:'archive rights office',detail:'License confirmed as '+lic+'.'},
+      {step:5,event:'Archive ingest',actor:'JAH Public Image Archive',detail:'Filed with source, license, and tag metadata.'}];
+    rec={id:id,title:'Provenance chain — '+R[0]+' ('+kind[0].toLowerCase()+')',
+      description:'Image-as-evidence provenance record: a '+kind[1]+' for the public image "'+R[0]+'" by '+R[1]+' ('+R[2]+'). Each link names the actor and the evidence of transfer; gaps are marked as gaps, never filled.',
+      category:fam,creator:R[1],year:R[2],license:lic,source_note:R[5],tags:'provenance,'+R[6],
+      source_url:'https://commons.wikimedia.org/wiki/Special:Search?search='+encodeURIComponent(R[0]),
+      thumbnail_svg:thumbSVG(seed,R[0],R[3]),region:pick(REGIONS,rnd),
+      provenance:{chain_type:kind[0],links:steps,completeness:'5 of 5 links documented; no gaps in this chain.'},
+      demo:{kind:'provenance-viewer',program:'record.provenance.links.forEach(function(l){console.log(l.step+". "+l.event+" — "+l.actor+": "+l.detail);});',note:'Walks the custody chain link by link.'},
+      src:'signature-generated-sample',_seed:seed};
+  }else{
+    var anns=[],n=ri(rnd,3,5);
+    var obs=['depicted subject identified','inscription or marking transcribed','lighting and shadow direction noted','period clothing or equipment confirmed','architectural detail matched to records','damage or wear documented','comparative reference cited'];
+    for(var i=0;i<n;i++){
+      anns.push({n:i+1,region:{x:ri(rnd,0,80),y:ri(rnd,0,80),w:ri(rnd,10,30),h:ri(rnd,10,30)},
+        observation:pick(obs,rnd),status:pick(['verified','probable','under review'],rnd)});
+    }
+    rec={id:id,title:'Image-as-evidence annotations — '+R[0],
+      description:'Image-as-evidence annotation record: '+n+' structured observations on the public image "'+R[0]+'" by '+R[1]+' ('+R[2]+'). Each annotation carries a region, an observation, and a verification status — evidence, not assertion.',
+      category:fam,creator:R[1],year:R[2],license:lic,source_note:R[5],tags:'annotation,evidence,'+R[6],
+      source_url:'https://commons.wikimedia.org/wiki/Special:Search?search='+encodeURIComponent(R[0]),
+      thumbnail_svg:thumbSVG(seed,R[0],R[3]),region:pick(REGIONS,rnd),
+      annotations:{annotation_type:kind[0],records:anns},
+      demo:{kind:'annotation-viewer',program:'record.annotations.records.forEach(function(a){console.log(a.n+". ["+a.region.x+","+a.region.y+" "+a.region.w+"x"+a.region.h+"] "+a.observation+" ("+a.status+")");});',note:'Lists every annotation with its region and status.'},
+      src:'signature-generated-sample',_seed:seed};
+  }
+  return rec;
+}
 function thumbSVG(seed,title,cat){
   var s=prng(seed*7919+13);
   var pals={painting:['#2a1a3d','#7a4fb5','#e8d5ff','#1a0f2e'],photography:['#1a1a2e','#4a4a6a','#c0c0d0','#0f0f1a'],space:['#050510','#1a1a3a','#4a7ab5','#000008'],historical:['#2e2418','#6a5a3a','#d0c0a0','#1a140e'],scientific:['#0a1a1a','#1a4a4a','#7ad0d0','#051010'],nature:['#0f2a0f','#2a6a2a','#a0d0a0','#081808']};
@@ -209,6 +287,7 @@ function thumbSVG(seed,title,cat){
 function make(seed,opts){
   opts=opts||{};
   var s=prng(seed);
+  if(opts.family&&METAFAMS.indexOf(opts.family)>=0)return buildMeta(seed,s,opts.family);
   var id=PREFIX+String(seed).padStart(6,'0');
   var rec;
   if(seed<=REAL.length&&!opts.gen){
