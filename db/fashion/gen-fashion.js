@@ -77,6 +77,61 @@ var GARMENT_FABRIC={
 };
 var SIG_A=['Moonlit','Crimson','Velvet','Ember','Harbor','Juniper','Onyx','Solstice'];
 var SIG_B=['atelier','maison','studio','house'];
+/* Fashion expansion: dyeing, sourcing, production, recycling, fibers.
+   Insert BEFORE the final `else` (trends branch) in buildOnline and buildSignature. */
+var NEW_CATS=['dyeing','sourcing','production','recycling','fibers'];
+var EXPAND_AFTER=10000;
+var DYE_METHODS=[
+ ['Fiber-reactive dyeing','Bonds chemically with cellulose fibers for wash-fast bright color.'],
+ ['Acid dyeing','Dyes protein fibers like wool and silk in vivid shades.'],
+ ['Vat dyeing','Insoluble dyes reduced then oxidized inside the fiber; classic indigo.'],
+ ['Disperse dyeing','High-heat dyeing for polyester and synthetics.'],
+ ['Natural dyeing','Plant, mineral and insect sources; madder, weld, cochineal.'],
+ ['Tie-dye','Resist patterns bound before dyeing for variegated effects.'],
+ ['Batik','Wax-resist dyeing producing crackled pattern lines.'],
+ ['Ombre dip-dyeing','Graduated color from repeated partial immersion.']
+];
+var SOURCE_TYPES=[
+ ['Fabric mills','Large-scale woven and knit producers, often minimum-order driven.'],
+ ['Deadstock suppliers','Resellers of surplus and end-of-line fabrics.'],
+ ['Trim suppliers','Buttons, zippers, interlinings and thread specialists.'],
+ ['Cut-and-sew factories','Contract manufacturers assembling finished garments.'],
+ ['Textile agents','Intermediaries sourcing mills and negotiating production.'],
+ ['Fiber producers','Spinners and growers at the raw-material origin.'],
+ ['Print houses','Screen and digital textile printing services.'],
+ ['Dye houses','Contract dyeing and finishing for yardage.']
+];
+var PROD_STEPS=[
+ ['Pattern grading','Scaling a base pattern across the size range.'],
+ ['Marker making','Nesting pattern pieces to minimize fabric waste.'],
+ ['Spreading and cutting','Layering fabric plies and cutting bundles precisely.'],
+ ['Fusing','Bonding interlining to stabilize collars, cuffs and fronts.'],
+ ['Assembly line sewing','Operators each complete one seam operation in sequence.'],
+ ['Pressing and finishing','Steam shaping seams and final garment presentation.'],
+ ['Quality inspection','Checking measurements, stitching and defects per AQL.'],
+ ['Packing and carton marking','Folding, bagging and labeling for shipment.']
+];
+var RECYCLE_METHODS=[
+ ['Mechanical fiber recycling','Shredding textiles back into staple fiber for yarn.'],
+ ['Chemical recycling','Dissolving fibers to regenerate new filament.'],
+ ['Upcycling','Redesigning used garments into higher-value pieces.'],
+ ['Textile take-back programs','Brand-run collection of worn clothing for reuse.'],
+ ['Shoddy production','Recycled wool fiber from reclaimed garments.'],
+ ['Closed-loop polyester','Bottle- and garment-derived PET respun as fiber.'],
+ ['Resale and vintage curation','Extending garment life through secondhand markets.'],
+ ['Industrial ragging','Converting unwearable textiles into wiping cloths.']
+];
+var FIBER_INFO=[
+ ['Cotton','natural cellulose','soft, breathable, absorbent; easy to dye and sew.'],
+ ['Wool','natural protein','warm, elastic, naturally odor-resistant.'],
+ ['Silk','natural protein','lustrous, strong, drapes beautifully.'],
+ ['Linen','natural cellulose','crisp, cool, wrinkles characterfully.'],
+ ['Polyester','synthetic','durable, wrinkle-resistant, quick-drying.'],
+ ['Nylon','synthetic','strong, abrasion-resistant, elastic.'],
+ ['Rayon','regenerated cellulose','silky drape from wood pulp.'],
+ ['Hemp','natural cellulose','sturdy, UV-resistant, softens with wear.']
+];
+
 function buildOnline(rnd,cat){
   var rec={category:cat,source:'online',creation_mode:'ONLINE-VERIFIED'};
   if(cat==='garments'){
@@ -110,6 +165,21 @@ function buildOnline(rnd,cat){
       rec.description='The '+sm[0].toLowerCase()+': '+sm[1]+' Seam choice balances strength, bulk and finish.';}
     else{var wv=pick(WEAVES,rnd);rec.title='Weave: '+wv[0];rec.topic='weave';rec.garment={weave:wv[0],note:wv[1]};rec.source_ref=REF_FABRIC;
       rec.description='The '+wv[0].toLowerCase()+': '+wv[1]+' Weave structure sets a fabric\u2019s strength, drape and texture.';}
+  }else if(cat==='dyeing'){
+    var dm=pick(DYE_METHODS,rnd);rec.title='Dye method: '+dm[0];rec.topic='dye method';rec.garment={method:dm[0],note:dm[1]};rec.source_ref=REF_STD;
+    rec.description='The '+dm[0].toLowerCase()+' method: '+dm[1]+' Dye choice sets colorfastness, hand and environmental footprint of the finished textile.';}
+  else if(cat==='sourcing'){
+    var st=pick(SOURCE_TYPES,rnd);rec.title='Sourcing: '+st[0];rec.topic='sourcing';rec.garment={source_type:st[0],note:st[1]};rec.source_ref=REF_STD;
+    rec.description='Sourcing through '+st[0].toLowerCase()+': '+st[1]+' Reliable sourcing balances cost, quality, lead time and compliance.';}
+  else if(cat==='production'){
+    var ps=pick(PROD_STEPS,rnd);rec.title='Production step: '+ps[0];rec.topic='production step';rec.garment={step:ps[0],note:ps[1]};rec.source_ref=REF_STD;
+    rec.description='The '+ps[0].toLowerCase()+' step: '+ps[1]+' Each production step has tolerances that decide the quality of the finished garment.';}
+  else if(cat==='recycling'){
+    var rm=pick(RECYCLE_METHODS,rnd);rec.title='Textile recycling: '+rm[0];rec.topic='recycling';rec.garment={method:rm[0],note:rm[1]};rec.source_ref=REF_STD;
+    rec.description='Textile recycling via '+rm[0].toLowerCase()+': '+rm[1]+' Circular systems keep fibers in use and out of landfill.';}
+  else if(cat==='fibers'){
+    var fi=pick(FIBER_INFO,rnd);rec.title='Fiber: '+fi[0];rec.topic='fiber';rec.garment={fiber:fi[0],class:fi[1],properties:fi[2]};rec.source_ref=REF_STD;
+    rec.description='The fiber '+fi[0].toLowerCase()+' is a '+fi[1]+' fiber: '+fi[2]+' Fiber choice is the first decision in every textile.';
   }else{
     var r3=rnd();
     if(r3<0.5){var er=pick(ERAS,rnd);rec.title='Fashion era: '+er[0];rec.topic='era';rec.garment={era:er[0],silhouette:er[1]};rec.source_ref=REF_STD;
@@ -130,12 +200,32 @@ function buildSignature(rnd,cat){
     rec.description='A Signature-generated fit block named '+nm+' with a '+rec.garment.chest_in+'in chest and '+rec.garment.waist_in+'in waist. An original sizing study by the JAH generator.';}
   else if(cat==='patterns'){rec.title='Signature pattern draft: '+nm;rec.topic='pattern draft';rec.garment={draft:nm,pieces:ri(rnd,4,14),seam_allowance_in:0.5};
     rec.description='A Signature-generated pattern draft named '+nm+' with '+rec.garment.pieces+' pieces and half-inch seam allowance. An original drafting study by the JAH generator.';}
+  else if(cat==='dyeing'){rec.title='Signature dye study: '+nm;rec.topic='dye study';rec.garment={study:nm,method:pick(DYE_METHODS,rnd)[0],baths:ri(rnd,2,6)};
+    rec.description='A Signature-generated dye study named '+nm+' using '+rec.garment.method.toLowerCase()+' across '+rec.garment.baths+' baths. An original color study by the JAH generator.';}
+  else if(cat==='sourcing'){rec.title='Signature sourcing plan: '+nm;rec.topic='sourcing plan';rec.garment={plan:nm,suppliers:ri(rnd,3,12),lead_weeks:ri(rnd,4,20)};
+    rec.description='A Signature-generated sourcing plan named '+nm+' coordinating '+rec.garment.suppliers+' suppliers on a '+rec.garment.lead_weeks+'-week lead time. An original supply study by the JAH generator.';}
+  else if(cat==='production'){rec.title='Signature production run: '+nm;rec.topic='production run';rec.garment={run:nm,units:ri(rnd,100,5000),steps:PROD_STEPS.length};
+    rec.description='A Signature-generated production run named '+nm+' of '+rec.garment.units+' units across '+rec.garment.steps+' tracked steps. An original manufacturing study by the JAH generator.';}
+  else if(cat==='recycling'){rec.title='Signature circular concept: '+nm;rec.topic='circular concept';rec.garment={concept:nm,method:pick(RECYCLE_METHODS,rnd)[0],recovery_pct:ri(rnd,40,95)};
+    rec.description='A Signature-generated circular concept named '+nm+' via '+rec.garment.method.toLowerCase()+' recovering '+rec.garment.recovery_pct+'% of material. An original sustainability study by the JAH generator.';}
+  else if(cat==='fibers'){rec.title='Signature fiber blend: '+nm;rec.topic='fiber blend';rec.garment={blend:nm,fiber_a:pick(FIBER_INFO,rnd)[0],fiber_b:pick(FIBER_INFO,rnd)[0],ratio:ri(rnd,10,90)+'/'+(100-ri(rnd,10,90))};
+    rec.description='A Signature-generated fiber blend named '+nm+': '+rec.garment.fiber_a.toLowerCase()+' and '+rec.garment.fiber_b.toLowerCase()+' in a '+rec.garment.ratio+' ratio. An original material study by the JAH generator.';}
   else{rec.title='Signature collection theme: '+nm;rec.topic='collection';rec.garment={theme:nm,looks:ri(rnd,8,30),palette:pick(['earth','jewel','mono','pastel'],rnd)};
     rec.description='A Signature-generated collection theme named '+nm+': '+rec.garment.looks+' looks in a '+rec.garment.palette+' palette. An original trend forecast by the JAH generator.';}
   return rec;
 }
+function genExpansion(seed,opts){
+  opts=opts||{};
+  var rnd=prng(seed^0x5f3d);
+  var cat=(opts.category&&NEW_CATS.indexOf(opts.category)>=0)?opts.category:NEW_CATS[(seed-EXPAND_AFTER-1)%NEW_CATS.length];
+  var online=(seed%2===0)&&!opts.forceSignature;
+  var rec=online?buildOnline(rnd,cat):buildSignature(rnd,cat);
+  if(rec.description.length<165)rec.description+=' Filed as a complete searchable record in the JAH Databases archive, with its full specifications intact.';
+  rec.id=PREFIX+String(seed).padStart(7,'0');rec._seed=seed;return rec;
+}
 function generate(seed,opts,rnd){
   opts=opts||{};rnd=rnd||prng(seed);
+  if(seed>EXPAND_AFTER)return genExpansion(seed,opts);
   var cat=opts.category||pick(CATS,rnd);
   var online=!opts.forceSignature&&(rnd()<0.24||opts.forceOnline);
   var rec=online?buildOnline(rnd,cat):buildSignature(rnd,cat);
@@ -148,7 +238,7 @@ function validate(r){
   if(!/^JAH-FASH-\d{7}$/.test(r.id||''))e.push('id');
   if(typeof r.title!=='string'||r.title.length<8)e.push('title');
   if(typeof r.description!=='string'||r.description.length<150)e.push('description');
-  if(CATS.indexOf(r.category)<0)e.push('category');
+  if((CATS.concat(NEW_CATS)).indexOf(r.category)<0)e.push('category');
   if(r.source!=='online'&&r.source!=='signature')e.push('source');
   if(r.source==='online'&&(r.creation_mode!=='ONLINE-VERIFIED'||typeof r.source_ref!=='string'||!r.source_ref.length))e.push('source_ref');
   if(r.source==='signature'&&r.creation_mode!=='SIGNATURE-GENERATED')e.push('creation_mode');

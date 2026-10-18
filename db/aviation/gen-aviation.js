@@ -50,8 +50,66 @@ var ASPECTS=['overview','technical deep-dive','operational use','historical time
 var CONTEXTS=['operations study','engineering review','training module','safety case','historical survey','fleet planning study'];
 var TYPELBL={'aircraft':'aircraft','engine':'aircraft engine','engine-type':'engine type','system':'aviation system','procedure':'flight procedure','concept':'aviation concept','facility':'airport facility','event':'aviation event'};
 function specText(o){return Object.keys(o).map(function(k){return k.replace(/_/g,' ')+': '+o[k];}).join('; ')+'.';}
+/* Expansion anchors: aircraft-maintenance, airline-scheduling, weather-impacts.
+   Same row format as ANCH: [subject, category, type, key fact, measures object, [related x3], year] */
+var NEW_CATS=['aircraft-maintenance','airline-scheduling','weather-impacts'];
+var ALLCATS=CATS.concat(NEW_CATS);
+var NEW_ANCH=[
+['A-check maintenance','aircraft-maintenance','procedure','overnight line-maintenance checks performed every 400 to 600 flight hours',{interval_fh:'400-600',duration:'overnight',setting:'line station'},['line maintenance','transit check','MRO'],0],
+['C-check heavy maintenance','aircraft-maintenance','procedure','deep structural inspections every 20 to 24 months with the aircraft out of service for weeks',{interval:'20-24 months',downtime:'weeks',setting:'hangar'},['heavy maintenance','structural inspection','MRO'],0],
+['Engine borescope inspection','aircraft-maintenance','procedure','internal turbine inspection with optical probes to detect blade damage without teardown',{tool:'borescope',finds:'blade damage',setting:'on-wing'},['turbine','non-destructive testing','on-wing'],0],
+['Corrosion prevention program','aircraft-maintenance','program','scheduled inspections and treatments protecting airframes from structural corrosion',{method:'inspection plus treatment',scope:'airframe'},['airframe','corrosion','aging aircraft'],0],
+['Fleet assignment optimization','airline-scheduling','process','matching aircraft types to routes by demand, range, and turnaround constraints',{goal:'right aircraft on the right route'},['scheduling','fleet planning','utilization'],0],
+['Crew rostering','airline-scheduling','process','building legal crew pairings under duty-time regulations and union agreements',{constraint:'duty-time limits'},['pairings','rosters','regulations'],0],
+['Airport slot management','airline-scheduling','process','securing takeoff and landing slots at congested airports under IATA coordination rules',{rule:'IATA slot conference'},['airports','congestion','grandfather rights'],0],
+['Irregular operations recovery','airline-scheduling','process','rebuilding schedules after disruptions through rebooking, aircraft swaps, and ferry flights',{trigger:'disruption'},['IROPS','recovery','rebooking'],0],
+['Thunderstorm avoidance','weather-impacts','procedure','rerouting around convective cells using onboard radar and controller guidance',{tool:'weather radar'},['convection','reroute','turbulence'],0],
+['Aircraft icing conditions','weather-impacts','hazard','supercooled-droplet icing on airframes; anti-ice systems and holdover times manage the risk',{hazard:'airframe ice'},['de-icing','holdover time','freezing rain'],0],
+['Volcanic ash avoidance','weather-impacts','hazard','ash clouds that can flame out engines; advisories and notices close affected airspace',{hazard:'engine flameout'},['VAAC','NOTAM','ash cloud'],0],
+['Crosswind landing limits','weather-impacts','procedure','maximum demonstrated crosswinds by aircraft type, flown with crab and sideslip techniques',{technique:'crab and sideslip'},['landing','wind limits','runway'],0]
+];
+/* 24 unique (anchor, aspect) pairs: each anchor twice, with two different aspects */
+var NEW_PAIRS=[];
+for(var _a=0;_a<NEW_ANCH.length;_a++){NEW_PAIRS.push([_a,_a%ASPECTS.length]);NEW_PAIRS.push([_a,(_a+3)%ASPECTS.length]);}
+var EXPAND_AFTER=10002;
+function genExpansion(seed,opts){
+  var i=seed-EXPAND_AFTER-1, pr=NEW_PAIRS[i%NEW_PAIRS.length];
+  var a=NEW_ANCH[pr[0]], aspect=ASPECTS[pr[1]];
+  var id=PREFIX+String(seed).padStart(6,'0');
+  var serial='R-'+(10000+seed);
+  var title,desc,src,code=null,rel=a[5].slice();
+  if(i%2===0){
+    code=serial;
+    title=a[0]+': '+aspect+' ('+serial+')';
+    var s1=a[0]+' is a '+(TYPELBL[a[2]]||a[2])+(a[6]>0?', first recorded in '+a[6]:'')+'. '+a[3]+'.';
+    var s2='Key specifications: '+specText(a[4]);
+    var s3='Related topics: '+a[5][0]+', '+a[5][1]+', '+a[5][2]+'.';
+    if(aspect==='technical deep-dive')desc=s1+' '+s2+' These specifications define what '+a[0]+' can and cannot do. '+s3;
+    else if(aspect==='operational use')desc=s1+' '+s3+' In service, '+a[0]+' is applied where these characteristics matter most. '+s2;
+    else if(aspect==='historical timeline')desc=(a[6]>0?'In '+a[6]+', ':'In aviation history, ')+a[0]+' entered the record. '+s1+' '+s2;
+    else if(aspect==='safety relevance')desc=s1+' '+s2+' Safety practice around '+a[0]+' follows directly from these characteristics. '+s3;
+    else if(aspect==='comparative analysis')desc=s1+' Compared with its contemporaries, '+a[0]+' stands out as follows: '+a[3]+' '+s2;
+    else desc=s1+' '+s2+' '+s3;
+    src='online';
+  }else{
+    code='CS-'+(1000+((seed*7919)%9000))+'/'+serial;
+    var ctx=CONTEXTS[seed%CONTEXTS.length];
+    var n=20+((seed*7919)%1981), yr=2016+(seed%11);
+    title=a[0]+' \u2014 '+ctx+' '+code;
+    desc='This generated study ('+code+', compiled '+yr+') examines '+n.toLocaleString('en-US')+' documented records concerning '+a[0]+' in a '+ctx+' setting. '+
+      'The established facts remain: '+a[3]+' '+
+      'The study focuses on '+a[5][0]+' and '+a[5][1]+', reporting patterns consistent with published aviation references. '+
+      'As a Signature-generated study record, the scenario is illustrative; the core facts about '+a[0]+' come from published aviation sources.';
+    src='signature';rel=[a[5][0],a[5][1],ctx+' (generated study)'];
+  }
+  return {id:id,title:title,description:desc,category:a[1],
+    spec:{subject:a[0],subject_type:a[2],category:a[1],key_spec:a[3],specs:a[4],related:rel,year:a[6]||null,aspect:aspect,study_code:code},
+    src:src,_seed:seed};
+}
+
 function generate(seed,opts,rnd){
   opts=opts||{};rnd=rnd||prng(seed);
+  if(seed>EXPAND_AFTER)return genExpansion(seed,opts);
   var cat=opts.category||pick(CATS,rnd);
   var pool=ANCH.filter(function(a){return a[1]===cat;});
   if(!pool.length)pool=ANCH;
@@ -96,7 +154,7 @@ function validate(r){
   if(typeof r.title!=='string'||r.title.length<8||r.title.length>160)e.push('title');
   if(typeof r.description!=='string'||r.description.length<120||r.description.length>1600)e.push('description');
   else{var parts=r.description.split('. ');if(parts.length<2)e.push('description-sentences');if(!/\.$/.test(r.description.trim()))e.push('description-period');}
-  if(CATS.indexOf(r.category)<0)e.push('category');
+  if(ALLCATS.indexOf(r.category)<0)e.push('category');
   var s=r.spec;
   if(!s||typeof s!=='object')e.push('spec');
   else{

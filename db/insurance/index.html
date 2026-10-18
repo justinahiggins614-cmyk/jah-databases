@@ -85,7 +85,7 @@ pre.codeblock{white-space:pre;overflow-x:auto;font-family:ui-monospace,SFMono-Re
       <div class="row">
         <label>Seed <input id="gSeed" type="number" value="1" style="width:110px"></label>
         <label>Count <input id="gN" type="number" value="5" min="1" max="50" style="width:80px"></label>
-        <label>Category <select id="gType"><option value="">any</option><option>insurance-type</option><option>policy-term</option><option>coverage-guide</option><option>claims-process</option></select></label>
+        <label>Category <select id="gType"><option value="">any</option><option>insurance-type</option><option>policy-term</option><option>coverage-guide</option><option>claims-process</option><option>actuarial-science</option><option>underwriting</option><option>fraud-detection</option><option>loss-modeling</option></select></label>
         <button class="go" id="gGo">Generate</button>
       </div>
       <div id="gOut"></div>
@@ -152,7 +152,7 @@ pre.codeblock{white-space:pre;overflow-x:auto;font-family:ui-monospace,SFMono-Re
 'use strict';
 var SLUG='insurance';
 var LOCAL='../../data/insurance/';
-var CATEGORIES=["insurance-type","policy-term","coverage-guide","claims-process"];
+var CATEGORIES=["insurance-type","policy-term","coverage-guide","claims-process","actuarial-science","underwriting","fraud-detection","loss-modeling"];
 var db={slug:SLUG,name:'JAH Insurance Database',ai_name:'JAH Insurance Creator',record_kind:'insurance entry'};
 var manifest=null, archiveIdx=null, archiveSample=[], sisterNames='';
 var $=function(id){return document.getElementById(id);};
@@ -368,7 +368,7 @@ function say(who,text){
 function sendChat(){
   var t=$('chatIn').value.trim();if(!t)return;
   $('chatIn').value='';say('u',t);session.turns.push({q:t});
-  var ctx='Archive holds '+archiveIdx.length+' insurance entry records across categories: insurance-type, policy-term, coverage-guide, claims-process. '+
+  var ctx='Archive holds '+archiveIdx.length+' insurance entry records across categories: insurance-type, policy-term, coverage-guide, claims-process, actuarial-science, underwriting, fraud-detection, loss-modeling. '+
     'This database is one of the JAH Databases network; sister databases include: '+(sisterNames||'(manifest unavailable)')+'. '+
     'I specialize in generating boundless new options in insurance: new coverage guides, term explainers, and claims walkthroughs.';
   JAHDB.aiAnswer(db,t,ctx).then(function(a){say('a',a);});

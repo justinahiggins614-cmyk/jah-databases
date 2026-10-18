@@ -56,8 +56,65 @@ var ASPECTS=['overview','technical deep-dive','operational use','historical time
 var CONTEXTS=['operations study','fleet review','training module','safety case','historical survey','port planning study'];
 var TYPELBL={'vessel':'vessel type','unit':'unit of measure','system':'maritime system','technique':'navigation technique','instrument':'navigation instrument','measure':'tonnage measure','terminology':'maritime terminology','equipment':'ship equipment','facility':'port facility','waterway':'waterway','regulation':'maritime regulation','organization':'maritime organization','practice':'maritime practice','procedure':'safety procedure','innovation':'cargo innovation','cargo':'cargo type','event':'maritime event'};
 function measureText(o){return Object.keys(o).map(function(k){return k.replace(/_/g,' ')+': '+o[k];}).join('; ')+'.';}
+/* Expansion anchors: shipping-routes, marine-insurance, shipbuilding.
+   Same row format as ANCH: [subject, category, type, key fact, measures object, [related x3], year] */
+var NEW_CATS=['shipping-routes','marine-insurance','shipbuilding'];
+var ALLCATS=CATS.concat(NEW_CATS);
+var NEW_ANCH=[
+['Trans-Pacific container route','shipping-routes','waterway','the highest-volume boxship lane: East Asia to North America West Coast via the great-circle track',{volume:'highest container lane',endpoints:'East Asia to USWC'},['transpacific','boxship','great circle'],0],
+['Suez Canal transit','shipping-routes','waterway','the shortcut between Europe and Asia: 193 km, convoys, and Suezmax limits on vessel size',{length_km:193,limit:'Suezmax'},['canal','convoy','Suezmax'],1869],
+['Panama Canal transit','shipping-routes','waterway','the Americas shortcut: locks, Neopanamax limits, and freshwater draft restrictions',{limit:'Neopanamax',resource:'freshwater'},['locks','Neopanamax','transit slots'],1914],
+['Arctic Northern Sea Route','shipping-routes','waterway','the seasonal polar shortcut: ice-class requirements and shrinking summer windows',{season:'summer',requirement:'ice class'},['Arctic','ice class','polar code'],0],
+['Hull and machinery insurance','marine-insurance','regulation','covers physical damage to the vessel: collision, grounding, heavy weather, and machinery breakdown',{covers:'physical damage'},['H&M','perils of the sea','deductible'],0],
+['Protection and indemnity (P&I)','marine-insurance','organization','mutual clubs covering third-party liabilities: injury, pollution, wreck removal, and cargo claims',{covers:'third-party liability'},['P&I club','mutual','pollution liability'],0],
+['Cargo insurance','marine-insurance','regulation','covers goods in transit under Institute Cargo Clauses A, B, or C with defined perils',{clauses:'A, B, C'},['Institute clauses','perils','general average'],0],
+['War-risk insurance','marine-insurance','regulation','separate cover for war, strikes, and piracy in listed high-risk areas',{covers:'war and piracy'},['piracy','listed areas','breach'],0],
+['Keel laying to launch','shipbuilding','procedure','the build sequence: steel cutting, block assembly, keel laying, outfitting, launch, and sea trials',{sequence:'cut, assemble, launch, trial'},['block construction','launch','sea trials'],0],
+['Shipyard block construction','shipbuilding','procedure','modular building: hull blocks assembled under cover, then joined on the slipway or in drydock',{method:'modular blocks'},['modular','drydock','outfitting'],0],
+['Ship recycling','shipbuilding','procedure','end-of-life dismantling under the Hong Kong Convention: inventory of hazardous materials first',{rule:'Hong Kong Convention'},['breaking','hazmat','beaching'],0],
+['Naval architecture basics','shipbuilding','practice','the design science: hydrostatics, stability, resistance, and propulsion matching',{disciplines:'stability, resistance, propulsion'},['stability','hydrostatics','lines plan'],0]
+];
+var NEW_PAIRS=[];
+for(var _a=0;_a<NEW_ANCH.length;_a++){NEW_PAIRS.push([_a,_a%ASPECTS.length]);NEW_PAIRS.push([_a,(_a+3)%ASPECTS.length]);}
+var EXPAND_AFTER=10001;
+function genExpansion(seed,opts){
+  var i=seed-EXPAND_AFTER-1, pr=NEW_PAIRS[i%NEW_PAIRS.length];
+  var a=NEW_ANCH[pr[0]], aspect=ASPECTS[pr[1]];
+  var id=PREFIX+String(seed).padStart(6,'0');
+  var serial='R-'+(10000+seed);
+  var title,desc,src,code=null,rel=a[5].slice();
+  if(i%2===0){
+    code=serial;
+    title=a[0]+': '+aspect+' ('+serial+')';
+    var s1=a[0]+' is a '+(TYPELBL[a[2]]||a[2])+(a[6]>0?', first recorded in '+a[6]:'')+'. '+a[3]+'.';
+    var s2='Key measures: '+measureText(a[4]);
+    var s3='Related terms: '+a[5][0]+', '+a[5][1]+', '+a[5][2]+'.';
+    if(aspect==='technical deep-dive')desc=s1+' '+s2+' These measures define what '+a[0]+' is and how it is used. '+s3;
+    else if(aspect==='operational use')desc=s1+' '+s3+' At sea and in port, '+a[0]+' is handled according to these characteristics. '+s2;
+    else if(aspect==='historical timeline')desc=(a[6]>0?'In '+a[6]+', ':'In maritime history, ')+a[0]+' entered the record. '+s1+' '+s2;
+    else if(aspect==='safety relevance')desc=s1+' '+s2+' Safe operation around '+a[0]+' follows directly from these facts. '+s3;
+    else if(aspect==='comparative analysis')desc=s1+' Compared with its counterparts, '+a[0]+' is distinguished as follows: '+a[3]+' '+s2;
+    else desc=s1+' '+s2+' '+s3;
+    src='online';
+  }else{
+    code='CS-'+(1000+((seed*7919)%9000))+'/'+serial;
+    var ctx=CONTEXTS[seed%CONTEXTS.length];
+    var n=20+((seed*7919)%1981), yr=2016+(seed%11);
+    title=a[0]+' \u2014 '+ctx+' '+code;
+    desc='This generated study ('+code+', compiled '+yr+') examines '+n.toLocaleString('en-US')+' documented records concerning '+a[0]+' in a '+ctx+' setting. '+
+      'The established facts remain: '+a[3]+' '+
+      'The study focuses on '+a[5][0]+' and '+a[5][1]+', reporting patterns consistent with published maritime references. '+
+      'As a Signature-generated study record, the scenario is illustrative; the core facts about '+a[0]+' come from published maritime sources.';
+    src='signature';rel=[a[5][0],a[5][1],ctx+' (generated study)'];
+  }
+  return {id:id,title:title,description:desc,category:a[1],
+    spec:{subject:a[0],subject_type:a[2],category:a[1],key_fact:a[3],measures:a[4],related_terms:rel,year:a[6]||null,aspect:aspect,study_code:code},
+    src:src,_seed:seed};
+}
+
 function generate(seed,opts,rnd){
   opts=opts||{};rnd=rnd||prng(seed);
+  if(seed>EXPAND_AFTER)return genExpansion(seed,opts);
   var cat=opts.category||pick(CATS,rnd);
   var pool=ANCH.filter(function(a){return a[1]===cat;});
   if(!pool.length)pool=ANCH;
@@ -102,7 +159,7 @@ function validate(r){
   if(typeof r.title!=='string'||r.title.length<8||r.title.length>160)e.push('title');
   if(typeof r.description!=='string'||r.description.length<120||r.description.length>1600)e.push('description');
   else{var parts=r.description.split('. ');if(parts.length<2)e.push('description-sentences');if(!/\.$/.test(r.description.trim()))e.push('description-period');}
-  if(CATS.indexOf(r.category)<0)e.push('category');
+  if(ALLCATS.indexOf(r.category)<0)e.push('category');
   var s=r.spec;
   if(!s||typeof s!=='object')e.push('spec');
   else{

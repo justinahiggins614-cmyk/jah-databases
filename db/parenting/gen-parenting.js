@@ -210,8 +210,73 @@ function qaRec(seed,j){
     q[0]+" "+q[1]+(v>0?" A fresh pass over a common question.":"")+" For personal concerns, talk to your pediatrician or a trusted professional.";
   return mkRec(seed,"qa",title,summary,{question:q[0],answer:q[1],variant:v+1,disclaimer:"General information only."},"signature",SIGSRC);
 }
+/* Parenting expansion: foster-care, adoption, child-protection process guides.
+   Each entry: [category, title, summary, details]. General information only. */
+var NEW_CATS=['foster-care','adoption','child-protection'];
+var EXPAND_AFTER=10000;
+var NEW_WELFARE=[
+['foster-care','Becoming a foster parent: the licensing path','Foster licensing prepares and approves families to care for children in state custody. Typical steps include an application, background checks, a home study with interviews and safety review, and pre-service training. Timelines vary by agency. General information only; contact your local child welfare agency for requirements.',
+ {steps:['Submit application to agency','Complete background checks','Home study interviews and safety review','Pre-service training','Licensing approval'],note:'Requirements vary by state and agency.',disclaimer:'General information only.'}],
+['foster-care','What foster parents provide day to day','Foster parents provide a safe home, meals, school support, medical care coordination, and emotional steadiness. They document behaviors, attend court-related meetings, and work with caseworkers toward the child\u2019s permanency plan. General information only.',
+ {provides:['Safe housing and meals','School enrollment support','Medical and therapy appointments','Caseworker collaboration','Court hearing attendance'],disclaimer:'General information only.'}],
+['foster-care','Supporting a foster child\u2019s first week','The first week in foster care is disorienting. Keep routines predictable, explain house rules kindly, allow contact with siblings and safe family where permitted, and watch for signs of distress to report to the caseworker. Patience matters more than perfection. General information only.',
+ {tips:['Keep routines predictable','Explain rules kindly','Support permitted family contact','Report distress signs','Be patient'],disclaimer:'General information only.'}],
+['foster-care','Foster care and school stability','School stability helps foster children learn. Caregivers usually enroll the child promptly, share records with the new school, request support services, and advocate at meetings. Many places prioritize keeping the child in their school of origin when possible. General information only.',
+ {actions:['Enroll promptly','Transfer records','Request support services','Advocate at school meetings'],disclaimer:'General information only.'}],
+['foster-care','Working with your caseworker','Caseworkers coordinate the foster care team. Foster parents do best when they communicate regularly, document concerns in writing, attend scheduled visits, and ask questions about the permanency plan. Respectful partnership serves the child. General information only.',
+ {practices:['Communicate regularly','Document in writing','Attend scheduled visits','Ask about the permanency plan'],disclaimer:'General information only.'}],
+['foster-care','Foster care payments and reimbursements','Foster families typically receive a monthly maintenance payment covering the child\u2019s food, clothing, and daily needs, sometimes plus clothing allowances and reimbursed expenses. Rates and policies differ by state. Keep receipts and submit claims on time. General information only.',
+ {items:['Monthly maintenance payment','Clothing allowances','Reimbursed approved expenses','Receipt keeping'],disclaimer:'General information only.'}],
+['foster-care','When a foster placement ends','Placements end through reunification, adoption, guardianship, or moves. Prepare the child with honest age-appropriate goodbyes, pass along routines and preferences to the next caregiver, and allow yourself to grieve. Your care mattered regardless of length. General information only.',
+ {steps:['Prepare honest goodbyes','Share routines with next caregiver','Document the child\u2019s needs','Allow time to grieve'],disclaimer:'General information only.'}],
+['foster-care','Kinship care: relatives stepping in','Kinship caregivers \u2014 grandparents, aunts, uncles, family friends \u2014 care for children when parents cannot. They often face expedited licensing, need legal custody clarity, and benefit from support groups and respite care. The existing bond is a powerful asset. General information only.',
+ {points:['Often expedited licensing','Clarify legal custody','Seek support groups','Use respite care','Lean on the existing bond'],disclaimer:'General information only.'}],
+['adoption','Adoption paths: an overview','Families adopt through public agencies (often foster-to-adopt), private domestic agencies, or intercountry programs. Each path has different timelines, costs, and requirements. Research all three before choosing, and verify any agency\u2019s license and track record. General information only.',
+ {paths:['Public agency / foster-to-adopt','Private domestic agency','Intercountry adoption'],tip:'Verify agency licensing.',disclaimer:'General information only.'}],
+['adoption','The home study for adoption','The home study assesses readiness to adopt: interviews, background checks, financial review, home safety check, and references. It also prepares parents through education. Be honest and thorough; the process protects children. General information only.',
+ {includes:['Interviews','Background checks','Financial review','Home safety check','References','Parent education'],disclaimer:'General information only.'}],
+['adoption','Adoption costs and financial help','Adoption costs range from minimal (public agency) to substantial (private/intercountry). Families use employer benefits, tax credits, grants, and loans. Get every fee in writing and beware of guarantees no agency can honestly make. General information only.',
+ {costs:['Public agency: often low','Private: varies widely','Intercountry: travel plus fees'],helps:['Employer benefits','Tax credits','Grants'],disclaimer:'General information only.'}],
+['adoption','Open adoption: contact agreements','In open adoptions, birth and adoptive families agree on contact \u2014 letters, calls, or visits. Clear written agreements, respectful boundaries, and child-centered flexibility make openness work. Laws on enforceability vary. General information only.',
+ {elements:['Written contact agreement','Respectful boundaries','Child-centered flexibility','Legal review'],disclaimer:'General information only.'}],
+['adoption','Talking to your child about adoption','Tell the adoption story early, honestly, and warmly, in age-appropriate layers. Affirm that adoption was a loving plan, welcome questions, and never frame birth parents as villains. Books and support groups help the whole family. General information only.',
+ {guidance:['Start the story early','Be honest and warm','Welcome questions','Avoid villain narratives'],disclaimer:'General information only.'}],
+['adoption','Transracial adoption considerations','Transracial adoptive parents commit to their child\u2019s racial and cultural identity: diverse community, honest talk about racism, cultural education, and mentors who share the child\u2019s background. Love is the start, not the whole job. General information only.',
+ {commitments:['Diverse community ties','Honest talk about racism','Cultural education','Same-background mentors'],disclaimer:'General information only.'}],
+['adoption','Adoption disruption and support','Some adoptions struggle. Early intervention \u2014 therapy, respite, parent coaching \u2014 prevents disruption. If a placement cannot continue, agencies must plan responsibly for the child. Seeking help is strength, not failure. General information only.',
+ {supports:['Early therapy','Respite care','Parent coaching','Agency planning if needed'],disclaimer:'General information only.'}],
+['adoption','Stepparent and relative adoption','Stepparents and relatives adopt through a streamlined court process, often with home study waivers and consent requirements. Legal counsel familiar with local family court is essential. The child\u2019s best interest governs every decision. General information only.',
+ {notes:['Often streamlined process','Consent requirements apply','Local family counsel essential','Best-interest standard'],disclaimer:'General information only.'}],
+['child-protection','Recognizing signs of child maltreatment','Warning signs include unexplained injuries, extreme behavior changes, fear of caregivers, poor hygiene, and age-inappropriate knowledge. No single sign proves abuse, but patterns warrant a report to child protective services. Trust careful observation. General information only.',
+ {signs:['Unexplained injuries','Extreme behavior changes','Fear of caregivers','Neglect indicators'],action:'Report patterns to child protective services.',disclaimer:'General information only.'}],
+['child-protection','How to report suspected child abuse','Reports go to child protective services or law enforcement hotlines, many 24/7. Give the child\u2019s information, what you observed, and when. Reporters can often remain anonymous, and good-faith reports are protected by law. General information only.',
+ {steps:['Call CPS or law enforcement hotline','Give facts observed','Note dates and details','Good-faith reports are protected'],disclaimer:'General information only.'}],
+['child-protection','Mandatory reporters: who must report','Teachers, doctors, social workers, and childcare providers are typically mandatory reporters who must alert authorities to suspected maltreatment. Training covers recognition and reporting duties. Know your state\u2019s list and timeline. General information only.',
+ {who:['Teachers and school staff','Medical professionals','Social workers','Childcare providers'],duty:'Know your state\u2019s requirements.',disclaimer:'General information only.'}],
+['child-protection','What happens after a CPS report','After a report, CPS screens it in or out, may investigate with interviews and home visits, and decides on services, safety plans, or court action. Reporters are rarely told outcomes due to privacy laws. The process aims at child safety. General information only.',
+ {stages:['Screening decision','Investigation','Safety planning or services','Possible court action'],note:'Outcomes are usually confidential.',disclaimer:'General information only.'}],
+['child-protection','Safety planning for families','Safety plans set concrete steps to keep children safe during CPS involvement: supervision arrangements, hazard removal, service attendance, and check-in schedules. Families who engage honestly with plans do better. General information only.',
+ {elements:['Supervision arrangements','Hazard removal','Service attendance','Check-in schedule'],disclaimer:'General information only.'}],
+['child-protection','Preventing child maltreatment','Prevention works: home visiting programs, parenting support, concrete help with food and housing, and community connections reduce risk. Stressed caregivers should seek help early \u2014 support lines exist in every state. General information only.',
+ {strategies:['Home visiting programs','Parenting support','Concrete economic help','Community connections'],encouragement:'Seek help early.',disclaimer:'General information only.'}],
+['child-protection','Supporting a child who discloses abuse','When a child discloses abuse: stay calm, believe them, avoid leading questions, reassure them it is not their fault, and report promptly. Do not confront the alleged abuser. Write down what the child said verbatim. General information only.',
+ {response:['Stay calm and believe','Avoid leading questions','Reassure: not their fault','Report promptly','Document verbatim'],disclaimer:'General information only.'}],
+['child-protection','The role of the guardian ad litem','Courts appoint guardians ad litem or CASAs to speak for the child\u2019s best interest in dependency cases. They visit, review records, and recommend placements and services to the judge. Their independent voice centers the child. General information only.',
+ {role:['Independent best-interest advocate','Visits and record review','Recommendations to the judge'],disclaimer:'General information only.'}]
+];
+function genExpansion(seed,opts){
+  var i=(seed-EXPAND_AFTER-1)%NEW_WELFARE.length;
+  var e=NEW_WELFARE[i];
+  if(opts&&opts.category&&NEW_CATS.indexOf(opts.category)>=0){
+    var pool=NEW_WELFARE.filter(function(x){return x[0]===opts.category;});
+    e=pool[i%pool.length];
+  }
+  return mkRec(seed,e[0],e[1],e[2],e[3],'signature',SIGSRC);
+}
+
 function generate(seed,opts,rnd){
   opts=opts||{};rnd=rnd||prng(seed);
+  if(seed>EXPAND_AFTER)return genExpansion(seed,opts);
   var s=((seed-1)%10000)+1;
   var explicit=!!opts.category;
   var cat=opts.category;
@@ -237,7 +302,7 @@ function validate(r){
   if(!r||typeof r!=="object")return {ok:false,errors:["not an object"]};
   if(!/^JAH-PAR-\d{6,7}$/.test(r.id||""))e.push("id");
   if(typeof r.title!=="string"||!r.title.length)e.push("title");
-  if(CATS.indexOf(r.category)<0)e.push("category");
+  if((CATS.concat(NEW_CATS)).indexOf(r.category)<0)e.push("category");
   if(r.record_kind!==KIND)e.push("record_kind");
   if(typeof r.summary!=="string"||r.summary.length<80)e.push("summary");
   if(!r.details||typeof r.details!=="object")e.push("details");
