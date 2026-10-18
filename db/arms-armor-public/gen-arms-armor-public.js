@@ -9,7 +9,7 @@ function pick(r,s){return r[(s()*r.length)|0];}
 function ri(s,a,b){return a+((s()*(b-a+1))|0);}
 var PREFIX='JAH-ARMS-PUB-';
 var KINDS=["armor", "sword", "helmet", "shield", "bow", "firearm", "polearm", "dagger", "horse-armor", "artillery-piece"];
-var FIELDS=["medieval Europe", "samurai Japan", "Ottoman arms", "Renaissance plate", "Napoleonic wars", "early firearms"];
+var FIELDS=["medieval Europe", "samurai Japan", "Ottoman arms", "Renaissance plate", "Napoleonic wars", "early firearms", "legendary armors", "legendary armors"];
 var idRe=/^JAH\-ARMS\-PUB\-\d{6}$/;
 function normKind(g){
  if(!g) return null;

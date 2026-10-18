@@ -1,7 +1,7 @@
 (function(){'use strict';
 function prng(seed){var a=(seed>>>0)||1;return function(){a|=0;a=(a+0x6D2B79F5)|0;var t=Math.imul(a^(a>>>15),1|a);t=(t+Math.imul(t^(t>>>7),61|t))^t;return((t^(t>>>14))>>>0)/4294967296;};}
 function pick(r,s){return r[(s()*r.length)|0];} function ri(s,a,b){return a+((s()*(b-a+1))|0);}
-var CATS=['chat','coding','writing','analysis','tool-use','image'];
+var CATS=['chat','coding','writing','analysis','tool-use','image','painting-prompts','life-story-prompts','endless-art-prompts'];
 var PREFIX='JAH-PROMPT-';
 /* rows: [task_type, role, prompt_text, [tags]] */
 var P=[
@@ -29,6 +29,52 @@ var P=[
  ['image','system','You are a photographer. Specify lens, light, and composition like a shot list.',['photography','composition']],
  ['image','user','A cozy cabin interior at dusk, warm lamplight, rain on the windows, painterly style.',['cozy','painterly']],
  ['image','user','Design a minimalist logo: a single continuous line forming a mountain and sun.',['logo','minimal']]
+,
+["painting-prompts",'user',"Paint Storm Over the Harbor at Dusk. ",['prompt','painting-prompts']],
+["painting-prompts",'user',"Paint The Clockmaker’s Workshop. ",['prompt','painting-prompts']],
+["painting-prompts",'user',"Paint Desert Bloom After Rain. ",['prompt','painting-prompts']],
+["painting-prompts",'user',"Paint Portrait of a Beekeeper. ",['prompt','painting-prompts']],
+["painting-prompts",'user',"Paint Neon Alley in the Rain. ",['prompt','painting-prompts']],
+["painting-prompts",'user',"Paint The Last Lighthouse Keeper. ",['prompt','painting-prompts']],
+["painting-prompts",'user',"Paint Orchard in White Blossom. ",['prompt','painting-prompts']],
+["painting-prompts",'user',"Paint The Night Train. ",['prompt','painting-prompts']],
+["painting-prompts",'user',"Paint Coral Reef Cathedral. ",['prompt','painting-prompts']],
+["painting-prompts",'user',"Paint The Astronomer’s Roof. ",['prompt','painting-prompts']],
+["painting-prompts",'user',"Paint Market Day in Marrakech. ",['prompt','painting-prompts']],
+["painting-prompts",'user',"Paint The Frozen Waterfall. ",['prompt','painting-prompts']],
+["painting-prompts",'user',"Paint Greenhouse in Winter. ",['prompt','painting-prompts']],
+["painting-prompts",'user',"Paint The Violin Maker. ",['prompt','painting-prompts']],
+["painting-prompts",'user',"Paint Harvest Moon Over Wheat. ",['prompt','painting-prompts']],
+["life-story-prompts",'user',"Tell the life story behind The Kitchen Table Interview. ",['prompt','life-story-prompts']],
+["life-story-prompts",'user',"Tell the life story behind The Object Biography. ",['prompt','life-story-prompts']],
+["life-story-prompts",'user',"Tell the life story behind The Map of Moves. ",['prompt','life-story-prompts']],
+["life-story-prompts",'user',"Tell the life story behind The Letter to Ten-Year-Old You. ",['prompt','life-story-prompts']],
+["life-story-prompts",'user',"Tell the life story behind The Work Story. ",['prompt','life-story-prompts']],
+["life-story-prompts",'user',"Tell the life story behind The Recipe Inheritance. ",['prompt','life-story-prompts']],
+["life-story-prompts",'user',"Tell the life story behind The Scar Stories. ",['prompt','life-story-prompts']],
+["life-story-prompts",'user',"Tell the life story behind The Song Timeline. ",['prompt','life-story-prompts']],
+["life-story-prompts",'user',"Tell the life story behind The Neighbor Chronicles. ",['prompt','life-story-prompts']],
+["life-story-prompts",'user',"Tell the life story behind The First Money Memory. ",['prompt','life-story-prompts']],
+["life-story-prompts",'user',"Tell the life story behind The Storm Story. ",['prompt','life-story-prompts']],
+["life-story-prompts",'user',"Tell the life story behind The School Desk Years. ",['prompt','life-story-prompts']],
+["life-story-prompts",'user',"Tell the life story behind The Journey Here. ",['prompt','life-story-prompts']],
+["life-story-prompts",'user',"Tell the life story behind The Unsent Letters. ",['prompt','life-story-prompts']],
+["life-story-prompts",'user',"Tell the life story behind The Legacy Interview Finale. ",['prompt','life-story-prompts']],
+["endless-art-prompts",'user',"Create endless art from Draw Your Morning in Five Lines. ",['prompt','endless-art-prompts']],
+["endless-art-prompts",'user',"Create endless art from The Color You Avoid. ",['prompt','endless-art-prompts']],
+["endless-art-prompts",'user',"Create endless art from Sculpt With Shadows. ",['prompt','endless-art-prompts']],
+["endless-art-prompts",'user',"Create endless art from The One-Inch Masterpiece. ",['prompt','endless-art-prompts']],
+["endless-art-prompts",'user',"Create endless art from Paint With Your Non-Dominant Hand. ",['prompt','endless-art-prompts']],
+["endless-art-prompts",'user',"Create endless art from The Sound Sculpture. ",['prompt','endless-art-prompts']],
+["endless-art-prompts",'user',"Create endless art from Collage Your Junk Drawer. ",['prompt','endless-art-prompts']],
+["endless-art-prompts",'user',"Create endless art from The Exquisite Corpse Chain. ",['prompt','endless-art-prompts']],
+["endless-art-prompts",'user',"Create endless art from Ice Art: Sculpt and Watch Melt. ",['prompt','endless-art-prompts']],
+["endless-art-prompts",'user',"Create endless art from The Blind Contour Week. ",['prompt','endless-art-prompts']],
+["endless-art-prompts",'user',"Create endless art from Map an Emotion. ",['prompt','endless-art-prompts']],
+["endless-art-prompts",'user',"Create endless art from The Leftovers Still Life. ",['prompt','endless-art-prompts']],
+["endless-art-prompts",'user',"Create endless art from Write a Poem, Then Erase. ",['prompt','endless-art-prompts']],
+["endless-art-prompts",'user',"Create endless art from The 60-Second Sculpture. ",['prompt','endless-art-prompts']],
+["endless-art-prompts",'user',"Create endless art from The Infinite Sketchbook Page. ",['prompt','endless-art-prompts']]
 ];
 var GOALS=['reverses a string','counts word frequencies','finds duplicate files','validates email addresses'];
 var TOPICS=['remote work','electric cars','meal planning','learning guitar'];

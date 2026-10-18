@@ -5,7 +5,7 @@ function prng(seed){var a=(seed>>>0)||1;return function(){a|=0;a=(a+0x6D2B79F5)|
 function pick(s,r){return r[(s()*r.length)|0];}
 function ri(s,a,b){return a+((s()*(b-a+1))|0);}
 var SLUG='retro-gaming',PREFIX='JAH-RG-';
-var CATS=['console','handheld','game','peripheral','media'];
+var CATS=['console','handheld','game','peripheral','media','collector-guides'];
 /* [title, maker, year, kind, generation/media, cat, description] */
 var REAL=[
 ["Atari 2600","Atari","1977","console","second generation","console","Launched the home console market with interchangeable cartridges. Its wood-grain design is an icon of 1970s tech."],
@@ -44,10 +44,15 @@ var REAL=[
 ];
 var NOTES=["Boxed copies in good condition command premium prices.","The original manuals are prized by collectors.","Reproduction labels are common; check the board inside.","This hardware revision is the one collectors seek.","Capacitor replacement is common maintenance for this unit.","Region-free mods are popular for this hardware.","The startup sound alone triggers nostalgia.","Complete-in-box examples are increasingly rare."];
 var SIG_SYS=["Nova Boy","Pixel Deck","Turbo Comet","Star Cartridge","Retro Forge","Bit Voyager","Quantum Pad","Echo Console","Prism Handheld","Drift Station","Iron Pixel","Solar Cart","Comet Dock","Neon Vault","Frost Byte","Copper Core","Silent Chip","Nova Cart","Tide Board","Ember Pad"];
+var GUIDE_TOPICS=[["Grading Cartridges: The Collector’s Eye", "Mint means mint."], ["Boxed vs Loose: The Value Math", "The box doubles it."], ["Spotting Reproduction Carts", "Fakes are getting good."], ["The CRT Question", "Play it like 1989."], ["Battery Saves: The Ticking Clock", "Your childhood saves are dying."], ["The Complete Set Chase", "Catching them all, expensively."], ["Manuals: The Undervalued Half", "Read the manual."], ["The Flea Market Playbook", "Treasure among the toasters."], ["Storage That Preserves", "Your collection in 2050."], ["The Price Guide Mindset", "Guides guide; markets decide."], ["Homebrew and Reproductions", "New games for old systems."], ["The Repair Bench", "Fix, don’t replace."], ["The Display Shelf", "Museum of you."], ["Insuring the Collection", "Paperwork for plastic."], ["The Collector’s Oath", "Custodian, not just owner: the capstone."]];
 function generate(seed,opts,rnd){
   rnd=rnd||prng(seed);
   var cat=(opts&&opts.category&&CATS.indexOf(opts.category)>=0)?opts.category:CATS[seed%CATS.length];
   var id=PREFIX+String(seed).padStart(7,'0');
+  if(cat==="collector-guides"){var gt=GUIDE_TOPICS[(seed-1)%GUIDE_TOPICS.length];
+    return {id:id,t:gt[0],title:gt[0],description:"A Signature collector guide: "+gt[0]+". "+gt[1]+" Written for collectors \u2014 grading, spotting fakes, and fair pricing.",
+      category:cat,g:cat,maker:"Signature Retro Works",year:"2026",kind:"guide",platform:"collecting",
+      source:"signature",sigil:"\u2733 SIGNATURE ORIGINAL"};}
   if(seed<=2500){
     var e=REAL[(seed-1)%REAL.length];
     return {id:id,t:e[0],title:e[0],description:e[6]+" "+pick(rnd,NOTES),

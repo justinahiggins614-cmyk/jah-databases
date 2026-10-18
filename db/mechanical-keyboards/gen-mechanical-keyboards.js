@@ -5,7 +5,7 @@ function prng(seed){var a=(seed>>>0)||1;return function(){a|=0;a=(a+0x6D2B79F5)|
 function pick(s,r){return r[(s()*r.length)|0];}
 function ri(s,a,b){return a+((s()*(b-a+1))|0);}
 var SLUG='mechanical-keyboards',PREFIX='JAH-KB-';
-var CATS=['switch','layout','keycap','board','accessory'];
+var CATS=['switch','layout','keycap','board','accessory', 'unusual', 'unusual'];
 /* [title, maker, kind, spec, sound, cat, description] */
 var REAL=[
 ["Cherry MX Red","Cherry GmbH","linear switch","45cN / 2.0mm actuation","quiet","switch","The classic linear gaming switch from Cherry GmbH of Germany. Smooth 45cN travel with no tactile bump made it the esports standard."],

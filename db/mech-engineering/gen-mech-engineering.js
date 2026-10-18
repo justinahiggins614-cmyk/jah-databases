@@ -6,7 +6,7 @@ function prng(seed){var a=(seed>>>0)||1;return function(){a|=0;a=(a+0x6D2B79F5)|
 function pick(a,r){return a[(r()*a.length)|0];}
 function ri(r,a,b){return a+((r()*(b-a+1))|0);}
 function rf(r,a,b,d){var v=a+r()*(b-a);return d==null?v:+v.toFixed(d);}
-var CATS=['components','mechanisms','materials','tolerances','statics'];
+var CATS=['components','mechanisms','materials','tolerances','statics', 'robot-actuators', 'gear-systems', 'fasteners-joinery', 'robot-actuators', 'gear-systems', 'fasteners-joinery'];
 var PREFIX='JAH-MECH-';
 var RTYPES=['datasheet','dimensions','calculation','tolerance-class','material-process','application','selection','installation','maintenance','safety','failure-modes','standards','history','comparison','concept-design'];
 /* Real engineering formulas. Each takes an inputs object and returns the result.

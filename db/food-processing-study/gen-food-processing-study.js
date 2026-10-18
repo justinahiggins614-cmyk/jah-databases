@@ -1,5 +1,5 @@
 (function(){'use strict';
-var CATS=["curriculum","qualifications","research","findings","methods","textbooks"];
+var CATS=["curriculum", "qualifications", "research", "findings", "methods", "textbooks", "fermentation-methods", "food-preservation", "cooking-science"];
 var PREFIX="JAH-food-processing-study-S-";
 var FIELD={"field":"Food Processing","topics":["Food safety and HACCP","Thermal processing methods","Preservation techniques","Packaging technology","Quality control testing","Fermentation science","Sanitation procedures","Cold chain management"],"roles":["Food Processing Operator","Quality Assurance Technician","Sanitation Supervisor","Packaging Operator","HACCP Coordinator","Cold Storage Manager","Production Planner","Sensory Evaluator"],"methods":["HACCP plan workshops","Swab-testing routines","Temperature-logging drills","Allergen-control audits","Line changeover practice","Sensory panel sessions","Metal-detection checks","Traceability exercises"],"subjects":["Microbial test pass rate","Temperature excursion count","Allergen audit score","Line efficiency","Packaging seal integrity","Traceability retrieval time","Sanitation verification pass","Sensory panel agreement"]};
 var ASPECTS=["core definitions","governing principles","standard procedures","common errors","worked examples","reference tables","safety considerations","measurement practice"];

@@ -1,7 +1,7 @@
 (function(){'use strict';
 function prng(seed){var a=(seed>>>0)||1;return function(){a|=0;a=(a+0x6D2B79F5)|0;var t=Math.imul(a^(a>>>15),1|a);t=(t+Math.imul(t^(t>>>7),61|t))^t;return((t^(t>>>14))>>>0)/4294967296;};}
 function pick(r,s){return r[(s()*r.length)|0];} function ri(s,a,b){return a+((s()*(b-a+1))|0);}
-var CATS=['mechanics','levels','quests','rules','balance'];
+var CATS=['mechanics','levels','quests','rules','balance', 'puzzle-game-design', 'game-feel-design', 'puzzle-game-design', 'game-feel-design'];
 var PREFIX='JAH-GAME-';
 var REF_MDA='https://yukaichou.com/gamification-analysis/mda-framework-hunicke-leblanc-zubek-mechanics-dynamics-aesthetics/';
 var REF_BARTLE='https://en.wikipedia.org/wiki/Bartle_taxonomy_of_player_types';

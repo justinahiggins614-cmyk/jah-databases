@@ -9,7 +9,7 @@ function pick(r,s){return r[(s()*r.length)|0];}
 function ri(s,a,b){return a+((s()*(b-a+1))|0);}
 var PREFIX='JAH-CER-PUB-';
 var KINDS=["vase", "bowl", "plate", "figurine", "tile", "amphora", "teaware", "sculptural-ceramic", "porcelain-figure", "storage-jar"];
-var FIELDS=["Chinese porcelain", "Greek vases", "Japanese tea ceramics", "Islamic pottery", "European porcelain", "pre-Columbian pottery"];
+var FIELDS=["Chinese porcelain", "Greek vases", "Japanese tea ceramics", "Islamic pottery", "European porcelain", "pre-Columbian pottery", "pottery ideas", "pottery ideas"];
 var idRe=/^JAH\-CER\-PUB\-\d{6}$/;
 function normKind(g){
  if(!g) return null;

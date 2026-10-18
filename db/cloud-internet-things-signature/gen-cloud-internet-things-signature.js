@@ -5,7 +5,7 @@
 function prng(seed){var a=(seed>>>0)||1;return function(){a|=0;a=(a+0x6D2B79F5)|0;var t=Math.imul(a^(a>>>15),1|a);t=(t+Math.imul(t^(t>>>7),61|t))^t;return((t^(t>>>14))>>>0)/4294967296;};}
 function pick(r,s){return r[(s()*r.length)|0];}
 var PREFIX="JAH-CITS-";
-var FIELDS=["Foundations","Compounded","Advanced"];
+var FIELDS=["Foundations","Compounded","Advanced", "Interplanetary Internet"];
 var TOPICS={
  "Foundations": [
   "What Is Cloud Computing (Signature Edition) - Foundations",
@@ -47,7 +47,24 @@ var TOPICS={
   "Service Mesh (Signature Edition) - Advanced",
   "The Future Internet: IPv6, QUIC, and Beyond (Signature Edition) - Advanced"
  ]
-};
+,
+ "Interplanetary Internet": [
+  "Delay-Tolerant Networking Protocols",
+  "Mars Relay Orbiter Network",
+  "Laser Communication Terminals",
+  "The Lunar Internet Gateway",
+  "Caching at Interplanetary Scale",
+  "Time Synchronization Across Planets",
+  "Security for the Deep-Space Network",
+  "The Outer Planets Relay Chain",
+  "Interplanetary Email and Messaging",
+  "The Mars Web: A Local Internet",
+  "Deep-Space Network Ground Stations",
+  "Protocols for Crewed Missions",
+  "The Interplanetary Address System",
+  "Governance of the Space Network",
+  "The First Interplanetary Packet"
+ ]};
 function demoProgram(topic,field){
   var safe=String(topic).replace(/\\/g,'\\\\').replace(/"/g,"'");
   return "# Cloud Internet Study — "+safe+"\n"

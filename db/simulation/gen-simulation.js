@@ -6,7 +6,7 @@ function prng(seed){var a=(seed>>>0)||1;return function(){a|=0;a=(a+0x6D2B79F5)|
 function pick(r,s){return r[(s()*r.length)|0];}
 function ri(s,a,b){return a+((s()*(b-a+1))|0);}
 var PREFIX='JAH-SIM-';
-var CATS=['physical','network','process','monte-carlo','digital-twin'];
+var CATS=['physical','network','process','monte-carlo','digital-twin','simulation-deep-dives'];
 function sjson(v){return JSON.stringify(v);}
 function r6(x){return Math.round(x*1e6)/1e6;}
 

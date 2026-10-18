@@ -1,7 +1,7 @@
 (function(){'use strict';
 function prng(seed){var a=(seed>>>0)||1;return function(){a|=0;a=(a+0x6D2B79F5)|0;var t=Math.imul(a^(a>>>15),1|a);t=(t+Math.imul(t^(t>>>7),61|t))^t;return((t^(t>>>14))>>>0)/4294967296;};}
 function pick(r,s){return r[(s()*r.length)|0];} function ri(s,a,b){return a+((s()*(b-a+1))|0);}
-var CATS=['shots','camera','editing','scenes','production'];
+var CATS=['shots','camera','editing','scenes','production', 'behind-the-scenes', 'behind-the-scenes'];
 var PREFIX='JAH-FILM-';
 var REF_SHOT='https://www.adobe.com/vn_en/creativecloud/video/production/cinematography/camera-shots-and-angles.html';
 var REF_STD='Film craft standards (verified 2026-10-09)';

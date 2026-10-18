@@ -5,7 +5,7 @@
 function prng(seed){var a=(seed>>>0)||1;return function(){a|=0;a=(a+0x6D2B79F5)|0;var t=Math.imul(a^(a>>>15),1|a);t=(t+Math.imul(t^(t>>>7),61|t))^t;return((t^(t>>>14))>>>0)/4294967296;};}
 function pick(r,s){return r[(s()*r.length)|0];}
 var PREFIX="JAH-NCS-";
-var FIELDS=["Foundations","Compounded","Advanced"];
+var FIELDS=["Foundations","Compounded","Advanced", "Self-Healing Technologies"];
 var TOPICS={
  "Foundations": [
   "Nanocomposites: Plastics and Metals Reinforced at the Nanoscale (Signature Edition) - Foundations",
@@ -47,7 +47,24 @@ var TOPICS={
   "Working Safe: Nanoparticle Handling and Standards (Signature Edition) - Advanced",
   "Design Rules: The Engineer's Nanocomposite Checklist (Signature Edition) - Advanced"
  ]
-};
+,
+ "Self-Healing Technologies": [
+  "Microcapsule Healing Polymers",
+  "Vascular Self-Healing Networks",
+  "Intrinsic Reversible Polymers",
+  "Self-Healing Concrete",
+  "Self-Healing Coatings",
+  "Self-Healing Electronics",
+  "Self-Healing Hydrogels",
+  "Self-Healing Asphalt",
+  "Self-Healing Composites",
+  "The Healing Efficiency Metric",
+  "Bio-Inspired Healing Design",
+  "Self-Healing in Extreme Environments",
+  "The Economics of Healing",
+  "Self-Healing Standards",
+  "The Self-Healing Future"
+ ]};
 function demoProgram(topic,field){
   var safe=String(topic).replace(/\\/g,'\\\\').replace(/"/g,"'");
   return "# Nanocomposites Study — "+safe+"\n"

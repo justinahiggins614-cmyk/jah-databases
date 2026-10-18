@@ -9,7 +9,7 @@
 function prng(seed){var a=(seed>>>0)||1;return function(){a|=0;a=(a+0x6D2B79F5)|0;var t=Math.imul(a^(a>>>15),1|a);t=(t+Math.imul(t^(t>>>7),61|t))^t;return((t^(t>>>14))>>>0)/4294967296;};}
 var PREFIX='JAH-PHO-';
 var KIND='photography entry';
-var CATS=['camera','lens','technique','composition','lighting','film','genre','accessory','shoot-plan'];
+var CATS=['camera','lens','technique','composition','lighting','film','genre','accessory','shoot-plan','macro-photography','photography-school','everyday-photo-hunts'];
 /* [model, maker, year, type, mount, note] */
 var CAMERAS=[
 ["Canon EOS R5","Canon","2020","mirrorless full-frame","RF","45 megapixels with 8K video."],
@@ -180,6 +180,18 @@ function comboGen(j,nE,nA,nG){
 }
 var SRC="JAH Photography curated dataset v1 \u2014 real cameras, lenses, techniques, and film stocks from public photographic knowledge.";
 var SIGSRC="JAH Signature generator \u2014 homegrown shoot plans, clearly labeled as generated.";
+var NEW_FAM_TOPICS={
+'macro-photography':[["Macro on a Budget: The Reversed Lens", "Stunning close-ups with the lens you already own."], ["The Insect Portrait", "Eye-level with beetles: field macro ethics and craft."], ["Water Droplet Refraction", "Worlds inside a drop: the refraction technique."], ["Focus Stacking Workflow", "Infinite depth from finite slices."], ["The Snowflake Studio", "Photographing snowflakes before they melt."], ["Macro Lighting: The Diffuser", "Soft light at tiny distances: the DIY diffuser."], ["The Eye Iris Project", "Galaxies in the eye: iris photography technique."], ["Fungi Close-Up Season", "Autumn’s macro bounty: the mushroom portrait."], ["The Feather Detail", "Barbs and barbules: the architecture of flight."], ["Kitchen Macro: Food Close-Up", "The pantry as studio: edible macro subjects."], ["The Mineral World", "Crystals and agates: geology in close-up."], ["Macro in the Rain", "Wet-weather close-ups: rain as collaborator."], ["The Tiny World Diorama", "Staging miniature scenes: macro storytelling."], ["Extreme Macro: Beyond 1:1", "Microscope objectives on cameras: the 5× frontier."], ["The Macro Year: A Practice Plan", "Twelve months of close-up assignments."]],
+'photography-school':[["Exposure Triangle Masterclass", "Aperture, shutter, ISO — finally intuitive."], ["Composition: The Rule Breakers", "Learn the rules to break them beautifully."], ["Light: The Only Subject", "Seeing light before seeing subjects."], ["The Portrait Lighting Lab", "Five setups every portraitist must own."], ["Street Photography Ethics", "The decisive moment and the human subject."], ["The Darkroom Mindset (Digital)", "Editing as the second exposure."], ["Storytelling: The Photo Essay", "From single frames to narratives."], ["The Business of Photography", "Pricing, contracts, and surviving as a pro."], ["Critique: Giving and Receiving", "The skill that accelerates every other skill."], ["The Personal Project", "A year-long body of work: the school’s capstone."], ["Flash: Beyond the Basics", "Making artificial light look natural."], ["The Landscape Field Course", "Planning, patience, and the pre-visualized frame."], ["Color Theory for Photographers", "The palette decisions that elevate work."], ["The Portfolio Review", "Editing your own work ruthlessly."], ["Graduation: Finding Your Eye", "The school’s end is the photographer’s beginning."]],
+'everyday-photo-hunts':[["The Alphabet Hunt", "A to Z in photographs: the classic scavenger shoot."], ["The Color Hunt: Red", "One color, one day: seeing chromatically."], ["Shadows at Noon", "The harsh-light hunt everyone avoids."], ["The Reflection Hunt", "Mirrors, puddles, windows: the doubled world."], ["Textures of the Street", "A tactile catalog of the everyday."], ["The Golden Hour Commute", "Rush hour as magic hour: the daily hunt."], ["Signs and Typography Hunt", "The vernacular lettering of the streets."], ["The Market Morning", "Color, chaos, character: the market shoot."], ["Windows and Doorways", "Thresholds as frames: the architectural hunt."], ["The Night Walk Hunt", "After dark with a tripod: the city’s second shift."], ["Hands at Work Hunt", "Documenting craft through hands."], ["The Weather Hunt", "Shooting the sky’s moods as the subject."], ["The Self-Portrait Hunt", "Thirty days of you: the inward expedition."], ["The Found Still Life", "Arrangements the world made without you."], ["The Year of Hunts: Calendar", "Fifty-two hunts, one per week, forever fresh."]]
+};
+function newFamRec(seed,cat){
+  var topics=NEW_FAM_TOPICS[cat]||[['Untitled','A new entry.']];
+  var tp=topics[(seed-1)%topics.length];
+  var label=cat.replace(/-/g,' ');
+  var summary='Signature-generated '+label+' \u2014 '+tp[0]+'. '+tp[1];
+  return mkRec(seed,cat,tp[0],summary,{topic:tp[0],note:tp[1],family:label},'signature',SIGSRC);
+}
 function mkRec(seed,cat,title,summary,details,prov,src){
   while(summary.length<80)summary+=" Keep practicing deliberately; the craft rewards steady work.";
   return {id:PREFIX+String(seed).padStart(6,"0"),title:title,category:cat,record_kind:KIND,
@@ -269,6 +281,8 @@ function generate(seed,opts,rnd){
   if(cat==="genre")return profRec(seed,ord(8501),GENRES,SIMPLE_ASPECTS,"genre",function(x){return {genre:x[0],note:x[1]};});
   if(cat==="accessory")return profRec(seed,ord(9001),ACCESSORIES,SIMPLE_ASPECTS,"accessory",function(x){return {accessory:x[0],note:x[1]};});
   if(cat==="shoot-plan")return planRec(seed,ord(9401));
+  var NEW_CATS=["macro-photography","photography-school","everyday-photo-hunts"];
+  if(NEW_CATS.indexOf(cat)>=0)return newFamRec(seed,cat);
   return profRec(seed,ord(1),CAMERAS,CAM_ASPECTS,"camera",function(x){return {model:x[0],maker:x[1],year:x[2],type:x[3],mount:x[4],note:x[5]};});
 }
 function validate(r){

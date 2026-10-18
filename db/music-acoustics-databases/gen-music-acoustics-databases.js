@@ -5,12 +5,63 @@
 function prng(seed){var a=(seed>>>0)||1;return function(){a|=0;a=(a+0x6D2B79F5)|0;var t=Math.imul(a^(a>>>15),1|a);t=(t+Math.imul(t^(t>>>7),61|t))^t;return((t^(t>>>14))>>>0)/4294967296;};}
 function pick(r,s){return r[(s()*r.length)|0];}
 var PREFIX="JAH-MUSA-";
-var FIELDS=["catalog-paste archives"];
+var FIELDS=["catalog-paste archives", "Strangest Sounds", "Cinematic Sound", "Sound Illusions"];
 var TOPICS={
  "catalog-paste archives": [
 
  ]
-};
+,
+ "Strangest Sounds": [
+  "The Bloop: Revisited",
+  "The Hum: The Unheard Epidemic",
+  "The Sky Trumpets",
+  "The Wow Signal of Sound: The Upsweep",
+  "The Slowdown",
+  "The Train Whistle of the Deep",
+  "Bio-Duck: The Antarctic Mystery",
+  "The Julia",
+  "Singing Sand Dunes",
+  "The Bloodhound's Roar: Iceberg Songs",
+  "The Taos Hum Investigation",
+  "Infrasound and Unease",
+  "The Strangest Sound Archive",
+  "The 52-Hertz Whale",
+  "The Seismic Hum of Earth"
+ ],
+ "Cinematic Sound": [
+  "The Wilhelm Scream",
+  "Foley: The Art of Footsteps",
+  "The Lightsaber Hum",
+  "The TIE Fighter Scream",
+  "The Inception Braam",
+  "Silence as Sound Design",
+  "The Shepard Tone",
+  "Creature Vocals",
+  "The Room Tone",
+  "The Stinger",
+  "The Montage Music",
+  "The Diegetic Song",
+  "The Sound Bridge",
+  "The Final Mix",
+  "The Sound of the Future"
+ ],
+ "Sound Illusions": [
+  "The Shepard Tone Illusion",
+  "The Tritone Paradox",
+  "The McGurk Effect",
+  "The Phantom Words",
+  "The Octave Illusion",
+  "The Scale Illusion",
+  "The Missing Fundamental",
+  "The Binaural Beats",
+  "The Auditory Afterimage",
+  "The Speech-to-Song Illusion",
+  "The Yanny-Laurel Lesson",
+  "The Risset Rhythm",
+  "The Glissando Illusion",
+  "The Illusion Collection",
+  "Hearing the Unheard"
+ ]};
 function demoProgram(topic,field){
   var safe=String(topic).replace(/\\/g,'\\\\').replace(/"/g,"'");
   return "# Music Acoustics Databases — "+safe+"\n"

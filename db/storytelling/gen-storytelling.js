@@ -1,7 +1,7 @@
 (function(){'use strict';
 function prng(seed){var a=(seed>>>0)||1;return function(){a|=0;a=(a+0x6D2B79F5)|0;var t=Math.imul(a^(a>>>15),1|a);t=(t+Math.imul(t^(t>>>7),61|t))^t;return((t^(t>>>14))>>>0)/4294967296;};}
 function pick(r,s){return r[(s()*r.length)|0];} function ri(s,a,b){return a+((s()*(b-a+1))|0);}
-var CATS=['plots','characters','settings','arcs','devices'];
+var CATS=['plots','characters','settings','arcs','devices','plot-twists'];
 var PREFIX='JAH-STRY-';
 var REF_HERO='https://fiveable.me/key-terms/introduction-creative-writing/freytags-pyramid';
 var REF_BEAT='https://nofilmschool.com/save-the-cat-beat-sheet';
@@ -155,6 +155,7 @@ function buildOnline(rnd,cat){
   }
   return rec;
 }
+var PLOT_TWISTS=[["The Unreliable Confession", "The narrator’s big reveal was the lie."], ["The Ally’s Ledger", "The helper was keeping accounts — and collecting."], ["The Dead Witness", "The testimony came from someone who wasn’t there — because they’re dead."], ["The Prophecy’s Loophole", "The prophecy came true — in the worst possible way."], ["The Rescuer’s Price", "The rescue was real — and it was also the trap."], ["The Twin’s Alibi", "Two people, one alibi — the identity split."], ["The Cure’s Cost", "The miracle cure works — on everyone except the one who needs it."], ["The Map’s Lie", "The map everyone trusted was drawn by the enemy."], ["The Heir’s Refusal", "The chosen one declines — and the story continues anyway."], ["The Monster’s Mercy", "The monster spared someone once — and that someone is the key."], ["The Trial’s Audience", "The trial was never about guilt — it was about the watchers."], ["The Letter’s Delay", "The letter arrived twenty years late — on purpose."], ["The Mentor’s Exam", "The training was the test — and the student already passed."], ["The Twistwright’s Code", "The capstone: the ethics and craft of the reveal."], ["The Quiet Twist", "No thunderclap — the twist the reader feels before understanding."]];
 function buildSignature(rnd,cat){
   var rec={category:cat,source:'signature',creation_mode:'SIGNATURE-GENERATED'};
   var nm=pick(SIG_A,rnd)+' '+pick(SIG_B,rnd);
@@ -168,6 +169,7 @@ function buildSignature(rnd,cat){
     rec.description='A Signature-generated setting named '+nm+', a '+rec.structure.era+' '+rec.structure.genre.toLowerCase()+' world. An original worldbuilding sketch by the JAH generator.';}
   else if(cat==='arcs'){rec.title='Signature arc study: '+nm;rec.topic='arc study';rec.structure={study:nm,shape:pick(SHAPES,rnd)[0],direction:pick(['rising','falling','cyclical'],rnd)};
     rec.description='A Signature-generated arc study named '+nm+' following a '+rec.structure.shape.toLowerCase()+' pattern with a '+rec.structure.direction+' line. An original structure experiment by the JAH generator.';}
+  else if(cat==='plot-twists'){var tw=pick(PLOT_TWISTS,rnd);rec.title='Signature plot twist: '+tw[0];rec.topic='plot twist';rec.structure={twist:tw[0],note:tw[1]};rec.description='A Signature-generated plot twist: '+tw[0]+' \u2014 '+tw[1]+' An original craft exercise by the JAH generator, filed as a complete searchable record.';}
   else{var dv=pick(DEVICES,rnd);rec.title='Signature device application: '+nm;rec.topic='device application';rec.structure={study:nm,device:dv[0],genre:pick(GENRES,rnd)[0]};
     rec.description='A Signature-generated application of '+dv[0].toLowerCase()+' inside a '+rec.structure.genre.toLowerCase()+' tale named '+nm+'. An original craft exercise by the JAH generator.';}
   return rec;

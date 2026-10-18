@@ -5,7 +5,7 @@
 function prng(seed){var a=(seed>>>0)||1;return function(){a|=0;a=(a+0x6D2B79F5)|0;var t=Math.imul(a^(a>>>15),1|a);t=(t+Math.imul(t^(t>>>7),61|t))^t;return((t^(t>>>14))>>>0)/4294967296;};}
 function pick(r,s){return r[(s()*r.length)|0];}
 var PREFIX="JAH-EVH-";
-var FIELDS=["Ancient","Medieval","Early Modern","Modern","Contemporary","Signature History"];
+var FIELDS=["Ancient","Medieval","Early Modern","Modern","Contemporary","Signature History", "Ancient History Adventures", "Ancient vs Modern Engineering"];
 var TOPICS={
  "Ancient": [
   "Ancient Civilizations: Mesopotamia and Egypt \u2014 Ancient",
@@ -31,7 +31,41 @@ var TOPICS={
   "Signature Cause-and-Effect Analyzer (Signature Edition) \u2014 Signature History",
   "Signature Archive Harmonizer (Signature Edition) \u2014 Signature History"
  ]
-};
+,
+ "Ancient History Adventures": [
+  "Walking the Streets of Pompeii",
+  "Sailing with the Phoenicians",
+  "The Building of the Pyramids",
+  "Athens in the Age of Pericles",
+  "The Silk Road Caravan",
+  "Rome's Water Empire",
+  "The Library of Alexandria",
+  "The Terracotta Army",
+  "Viking Voyages",
+  "The Inca Road System",
+  "Angkor at Its Zenith",
+  "The Mali Empire's Gold",
+  "Byzantium: The Queen of Cities",
+  "The Minoan Labyrinth",
+  "The Adventure Continues"
+ ],
+ "Ancient vs Modern Engineering": [
+  "Roman Concrete vs Modern Concrete",
+  "The Antikythera Mechanism vs Computers",
+  "Inca Masonry vs Modern Masonry",
+  "Egyptian Surveying vs GPS",
+  "Roman Aqueducts vs Modern Water Systems",
+  "Damascus Steel vs Modern Metallurgy",
+  "Greek Fire vs Modern Weapons",
+  "The Baghdad Battery vs Modern Batteries",
+  "Polynesian Navigation vs Instruments",
+  "Medieval Cathedrals vs Skyscrapers",
+  "The Seismoscope of Zhang Heng",
+  "Ancient Surgery vs Modern Surgery",
+  "The Lighthouse of Alexandria vs Modern Lighthouses",
+  "Qanats vs Modern Irrigation",
+  "The Verdict: What Progress Means"
+ ]};
 function demoProgram(topic,field){
   var safe=String(topic).replace(/\\/g,'\\\\').replace(/"/g,"'");
   return "# Everything History — "+safe+"\n"

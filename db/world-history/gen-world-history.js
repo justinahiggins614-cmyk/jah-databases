@@ -4,10 +4,10 @@
    civilizations — never presented as real historical events. Compact JSON. */
 function prng(seed){var a=(seed>>>0)||1;return function(){a|=0;a=(a+0x6D2B79F5)|0;var t=Math.imul(a^(a>>>15),1|a);t=(t+Math.imul(t^(t>>>7),61|t))^t;return((t^(t>>>14))>>>0)/4294967296;};}
 function pick(r,s){return r[(s()*r.length)|0];} function ri(s,a,b){return a+((s()*(b-a+1))|0);}
-var CATS=['ancient','medieval','modern','contemporary','cultures','timelines'];
+var CATS=['ancient','medieval','modern','contemporary','cultures','timelines','abandoned-places','ancient-cities','haunted-history'];
 var PREFIX='JAH-HIST-';
 var ERAS=['Ancient (before 500 CE)','Medieval (500–1500)','Early Modern (1500–1800)','Modern (1800–1945)','Contemporary (1945–present)'];
-var CAT_ERA={ancient:'Ancient (before 500 CE)',medieval:'Medieval (500–1500)',modern:'Modern (1800–1945)',contemporary:'Contemporary (1945–present)'};
+var CAT_ERA={ancient:'Ancient (before 500 CE)',medieval:'Medieval (500–1500)',modern:'Modern (1800–1945)',contemporary:'Contemporary (1945–present)','abandoned-places':'Modern (1800–1945)','ancient-cities':'Ancient (before 500 CE)','haunted-history':'Medieval (500–1500)'};
 var NOTICE='ILLUSTRATIVE TIMELINE EXERCISE — a fictional scenario for timeline practice, not a real historical event.';
 var CIVS=['the harbor cities of Velmar','the highland clans of Dunbrae','the river confederacy of Sarn','the desert caravans of Qith','the island leagues of Pelago','the forest communes of Sylva','the steppe riders of Kesh','the mountain cantons of Bral'];
 var SCEN=[
@@ -24,12 +24,20 @@ var EV_T=[['First {x} compact signed','charter'],['Great {y} convened','council'
 var NAMES=['Marisol Vane','Toren Ash','Isolde Fen','Kasper Wold','Anouk Sere','Dain Mercer','Petra Hollis','Rurik Dann'];
 var ROLES=['charter negotiator','festival elder','bridge warden','star-chart teacher','granary steward','caravan master'];
 var QP=['What changed most between the first and last entries?','Which agreement was hardest to keep, and why?','How did ordinary people feel the effects?','Which event deserves a monument?'];
+var NEW_FAM_TOPICS={
+'abandoned-places':[["Pripyat", "The city frozen on April 26, 1986."], ["Hashima Island", "The battleship island, emptied in 1974."], ["Centralia", "The town burning since 1962."], ["Kolmanskop", "The diamond town the desert reclaimed."], ["Oradour-sur-Glane", "The village preserved as it fell."], ["Bodie", "The gold town in arrested decay."], ["Varosha", "The resort frozen since 1974."], ["Craco", "The hill town that slid away."], ["Kayakoy", "The Greek village emptied by exchange."], ["Bannack", "The gold camp that became the capital, then nothing."], ["Pyramiden", "The Soviet Arctic town, perfectly preserved in cold."], ["Thurmond", "The railroad town the trains left."], ["Belchite", "The town left as a war memorial."], ["Ross Island", "The colonial capital the jungle took."], ["The Abandoned Atlas", "Fifteen ruins, one lesson: the capstone."]],
+'ancient-cities':[["Pompeii", "The city stopped at 1pm on August 24, 79 CE."], ["Petra", "The rose city carved from cliffs."], ["Machu Picchu", "The Inca estate in the clouds."], ["Angkor", "The largest preindustrial city on earth."], ["Mohenjo-daro", "The Indus city with sewers before Rome."], ["Ephesus", "The marble metropolis of Asia Minor."], ["Tikal", "The Maya city in the jungle canopy."], ["Palmyra", "The bride of the desert, twice lost."], ["Great Zimbabwe", "The stone city that named a nation."], ["Chan Chan", "The adobe capital of the Chimú."], ["Persepolis", "The ceremonial heart of Persia."], ["Teotihuacan", "The city of the gods, builders unknown."], ["Babylon", "The hanging gardens’ maybe-home."], ["Carthage", "Rome’s rival, salted in legend."], ["The Ancient Atlas", "Fifteen cities, five millennia: the capstone."]],
+'haunted-history':[["The Tower of London", "A thousand years of history — and its ghosts."], ["The Catacombs of Paris", "Six million skeletons, one legend."], ["Poveglia Island", "The island of quarantine and legend."], ["The Stanley Hotel", "The Overlook’s inspiration, hauntings optional."], ["Aokigahara and Its Real Story", "The forest’s legend vs its ecology."], ["The Edinburgh Vaults", "The buried street of the poor."], ["The Myrtles Plantation", "The legend factory of Louisiana."], ["Hoia Baciu Forest", "Romania’s “Bermuda Triangle” — the facts."], ["The Winchester Mystery House", "The labyrinth built for the spirits — maybe."], ["The Island of the Dolls", "The chinampa of a thousand dolls."], ["The Borley Rectory Story", "“The most haunted house in England” — investigated."], ["The Sedlec Ossuary", "The church decorated with 40,000 skeletons."], ["The Eastern State Penitentiary", "The prison that invented the penitentiary — and its echoes."], ["The Haunted Historian’s Rule", "History first, hauntings labeled: the capstone."], ["The Bell Witch Cave", "America’s most documented haunting — the record."]]
+};
 function generate(seed,opts,rnd){
   opts=opts||{};rnd=rnd||prng(seed);
   var cat=opts.category||pick(CATS,rnd);
   var era=CAT_ERA[cat]||pick(ERAS,rnd);
   var civ=pick(CIVS,rnd),sc=pick(SCEN,rnd);
   var id=PREFIX+String(seed).padStart(7,'0');
+  var famT=NEW_FAM_TOPICS[cat]?NEW_FAM_TOPICS[cat][(seed-1)%NEW_FAM_TOPICS[cat].length]:null;
+  var famTitle=famT?('Timeline exercise: '+famT[0]):null;
+  var famDesc=famT?('Timeline exercise: '+famT[0]+' \u2014 '+famT[1]+' A Signature historical study.') : null;
   var n=3,evs=[],off=0,used={},i;
   for(i=0;i<n;i++){
     var t=pick(EV_T,rnd);
@@ -42,10 +50,10 @@ function generate(seed,opts,rnd){
   if(rnd()<0.5)figs.push({name:pick(NAMES,rnd),role:pick(ROLES,rnd)});
   return {
     id:id,record_id:id,
-    title:'Timeline exercise: '+sc[0]+' among '+civ,
+    title:famTitle||('Timeline exercise: '+sc[0]+' among '+civ),
     category:cat,era:era,kind:'timeline-exercise',
     scenario:'Imagine '+civ+', where '+sc[0]+' unfolds over generations.',
-    description:'Fictional timeline practice: '+sc[0]+' among '+civ+'. Order the '+n+' events, then argue which mattered most. '+NOTICE,
+    description:famDesc||('Fictional timeline practice: '+sc[0]+' among '+civ+'. Order the '+n+' events, then argue which mattered most. '+NOTICE),
     timeline_events:evs,figures:figs,discussion_questions:[QP[0],QP[1]],
     key_concepts:[sc[1]+' and exchange','collective agreements','record-keeping'],
     is_real:false,notice:NOTICE,

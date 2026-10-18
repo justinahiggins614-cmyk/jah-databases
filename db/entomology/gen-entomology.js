@@ -5,7 +5,7 @@
 function prng(seed){var a=(seed>>>0)||1;return function(){a|=0;a=(a+0x6D2B79F5)|0;var t=Math.imul(a^(a>>>15),1|a);t=(t+Math.imul(t^(t>>>7),61|t))^t;return((t^(t>>>14))>>>0)/4294967296;};}
 function pick(r,s){return r[(s()*r.length)|0];}
 var PREFIX="JAH-ENT-";
-var FIELDS=["Foundations","Compounded","Advanced"];
+var FIELDS=["Foundations","Compounded","Advanced", "Insect Superworld"];
 var TOPICS={
  "Foundations": [
   "What Is an Insect: The Six-Legged Kingdom \u2014 Foundations",
@@ -49,7 +49,24 @@ var TOPICS={
   "Urban Entomology: Bed Bugs, Cockroaches, Termites \u2014 Advanced",
   "Conservation of Insects: Pollinator Declines \u2014 Advanced"
  ]
-};
+,
+ "Insect Superworld": [
+  "The Ant Supercolony",
+  "The Monarch Migration",
+  "The Bombardier Beetle",
+  "The Honeybee Waggle Dance",
+  "The Cicada Prime Cycles",
+  "The Mantis Shrimp Punch",
+  "The Firefly Synchronization",
+  "The Leafcutter Highway",
+  "The Dragonfly's Flight",
+  "The Termite Mound Climate",
+  "The Jewel Wasp's Surgery",
+  "The Mosquito's Stealth",
+  "The Butterfly's Metamorphosis",
+  "The Ant's Farming",
+  "The Insect Apocalypse and Hope"
+ ]};
 function demoProgram(topic,field){
   var safe=String(topic).replace(/\\/g,'\\\\').replace(/"/g,"'");
   return "# Entomology Study — "+safe+"\n"

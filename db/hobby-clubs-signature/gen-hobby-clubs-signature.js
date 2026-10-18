@@ -5,12 +5,97 @@
 function prng(seed){var a=(seed>>>0)||1;return function(){a|=0;a=(a+0x6D2B79F5)|0;var t=Math.imul(a^(a>>>15),1|a);t=(t+Math.imul(t^(t>>>7),61|t))^t;return((t^(t>>>14))>>>0)/4294967296;};}
 function pick(r,s){return r[(s()*r.length)|0];}
 var PREFIX="JAH-HBCG-";
-var FIELDS=["group-kind catalog"];
+var FIELDS=["group-kind catalog", "Hidden Hobby Finder", "Hobby Discovery Machine", "Hobby Partners", "Shared Interest Discovery", "Universal Hobby Generator"];
 var TOPICS={
  "group-kind catalog": [
 
  ]
-};
+,
+ "Hidden Hobby Finder": [
+  "The Hobby You Didn't Know Existed: Lock Picking",
+  "Hidden Hobby: Stone Balancing",
+  "Hidden Hobby: Niche Perfumery",
+  "Hidden Hobby: Urban Sketching",
+  "Hidden Hobby: Beekeeping",
+  "Hidden Hobby: Bookbinding",
+  "Hidden Hobby: Foraging",
+  "Hidden Hobby: Stargazing",
+  "Hidden Hobby: Fermentation",
+  "Hidden Hobby: Calligraphy",
+  "Hidden Hobby: Birding",
+  "Hidden Hobby: Whittling",
+  "Hidden Hobby: Letterboxing",
+  "Hidden Hobby: Bonsai",
+  "Hidden Hobby: The Finder Itself"
+ ],
+ "Hobby Discovery Machine": [
+  "Machine Input: Your Hands",
+  "Machine Input: Your Time",
+  "Machine Input: Your People",
+  "Machine Input: Your Budget",
+  "Machine Output: The Shortlist",
+  "Machine Output: The Trial Protocol",
+  "Machine Calibration: The Check-In",
+  "Machine Mode: The Deep Dive",
+  "Machine Mode: The Wild Card",
+  "Machine Mode: The Social Match",
+  "Machine Learning: The Feedback Loop",
+  "Machine Ethics: No Shame",
+  "Machine Integration: The Calendar",
+  "Machine Community: The Alumni",
+  "Machine Philosophy: The Examined Leisure"
+ ],
+ "Hobby Partners": [
+  "Finding Your Climbing Partner",
+  "The Chess Club Welcome",
+  "The Running Group",
+  "The Maker Space Buddy",
+  "The Language Exchange",
+  "The Photography Walk Group",
+  "The Book Club Dynamics",
+  "The Gaming Group",
+  "The Volunteer Crew",
+  "The Music Jam",
+  "The Cooking Collective",
+  "The Hiking Club",
+  "The Craft Circle",
+  "The Stargazing Party",
+  "The Partnership Principle"
+ ],
+ "Shared Interest Discovery": [
+  "The Interest Inventory",
+  "The Taste Buddies",
+  "The Skill Swap Meet",
+  "The Fandom Finder",
+  "The Cross-Pollination",
+  "The Interest Graph",
+  "The Beginner's Table",
+  "The Deep Dive Club",
+  "The Interest Speed Dating",
+  "The Shared Calendar",
+  "The Interest Incubator",
+  "The Reunion Tour",
+  "The Interest Audit",
+  "The Discovery Journal",
+  "The Shared Discovery"
+ ],
+ "Universal Hobby Generator": [
+  "Generator Seed: Hands Plus Outdoors",
+  "Generator Seed: Mind Plus Solitude",
+  "Generator Seed: Body Plus Community",
+  "Generator Seed: Create Plus Share",
+  "Generator Seed: Learn Plus Teach",
+  "Generator Output: The Recipe",
+  "Generator Output: The Progression",
+  "Generator Output: The Community",
+  "Generator Mode: The Remix",
+  "Generator Mode: The Constraint",
+  "Generator Mode: The Season",
+  "Generator Mode: The Life Stage",
+  "Generator Ethics: The Honest Brochure",
+  "Generator Future: The Learning Loop",
+  "Generator Philosophy: The Good Life"
+ ]};
 function demoProgram(topic,field){
   var safe=String(topic).replace(/\\/g,'\\\\').replace(/"/g,"'");
   return "# Hobby Clubs Signature — "+safe+"\n"

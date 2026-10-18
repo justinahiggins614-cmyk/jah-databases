@@ -7,7 +7,7 @@ function pick(s,r){return r[(s()*r.length)|0];}
 function ri(s,a,b){return a+((s()*(b-a+1))|0);}
 function pad(n){return String(n).padStart(6,'0');}
 
-var CATS=['hospital','clinic','urgent-care','specialty','rehab'];
+var CATS=['hospital','clinic','urgent-care','specialty','rehab', 'future-hospital', 'future-hospital'];
 var PRE=['Riverside','Lakeside','Summit','Cedar','Willow','Granite','Harbor','Meadow','Brook','Stone','Pine','Elm','Maple','Birch','Aspen','Redwood','Blue','Golden','Silver','Copper','Prairie','Desert','Ocean','Mountain'];
 var KIND={hospital:['General Hospital','Medical Center','Community Hospital','Regional Hospital'],clinic:['Family Clinic','Health Clinic','Community Clinic','Care Clinic'], 'urgent-care':['Urgent Care Center','Express Care Clinic','After-Hours Care'],specialty:['Heart Center','Orthopedic Institute','Cancer Center','Neurology Institute','Pediatric Center'],rehab:['Rehabilitation Center','Recovery Hospital','Physical Therapy Center']};
 var CITIES=['Springfield','Riverdale','Lakeside','Cedar Falls','Brookfield','Fairview','Maple Grove','Hillcrest','Oakdale','Pinehurst','Westfield','Northgate','Elmwood','Clearwater','Stonebridge','Meadowbrook','Sunnyvale','Ridgemont','Ashford','Granite City','Willow Creek','Bayport','Summit','Harborview','Kingsport','Milltown','Eastvale','Portside','Fairhaven','Crestview'];

@@ -5,12 +5,29 @@
 function prng(seed){var a=(seed>>>0)||1;return function(){a|=0;a=(a+0x6D2B79F5)|0;var t=Math.imul(a^(a>>>15),1|a);t=(t+Math.imul(t^(t>>>7),61|t))^t;return((t^(t>>>14))>>>0)/4294967296;};}
 function pick(r,s){return r[(s()*r.length)|0];}
 var PREFIX="JAH-EXSV-";
-var FIELDS=["catalog-paste archives"];
+var FIELDS=["catalog-paste archives", "Most Extreme Places"];
 var TOPICS={
  "catalog-paste archives": [
 
  ]
-};
+,
+ "Most Extreme Places": [
+  "The Danakil Depression: Hell on Earth",
+  "Oymyakon: The Cold Pole",
+  "The Mariana Trench: The Deepest Place",
+  "The Atacama: The Driest Desert",
+  "Mount Everest's Death Zone",
+  "The Rub' al Khali: The Empty Quarter",
+  "Antarctica's Dry Valleys",
+  "The Darvaza Gas Crater",
+  "The Siachen Glacier: The Highest Battlefield",
+  "The Congo's Deep Forest",
+  "The Kola Superdeep Borehole",
+  "The Lut Desert: The Hottest Surface",
+  "The Cave of Crystals",
+  "The South Pole Station Winter",
+  "The Extreme as Teacher"
+ ]};
 function demoProgram(topic,field){
   var safe=String(topic).replace(/\\/g,'\\\\').replace(/"/g,"'");
   return "# Extreme Survival Databases — "+safe+"\n"

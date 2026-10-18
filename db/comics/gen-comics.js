@@ -15,7 +15,7 @@
   /* real archive series -> skey (signature-comics data/index/comics.idx.json.gz) */
   var SERIES = ['THE SIGNALBEARERS', 'EMBERFALL', 'THE HOLLOW CIRCUIT', 'TIDEBOUND',
                 'THE GLOAMING WATCH', "STARFARER'S LOG", 'THE CLOCKWORK MENAGERIE',
-                'JUNIOR SIGNALS', 'COSMIC CROSSOVER EVENTS'];
+                'JUNIOR SIGNALS', 'COSMIC CROSSOVER EVENTS', 'THE SIGNATURE SAGA'];
   var SKEY = { 'THE SIGNALBEARERS': 'signal', 'EMBERFALL': 'ember', 'THE HOLLOW CIRCUIT': 'circuit',
     'TIDEBOUND': 'tide', 'THE GLOAMING WATCH': 'gloam', "STARFARER'S LOG": 'starlog',
     'THE CLOCKWORK MENAGERIE': 'clockwork', 'JUNIOR SIGNALS': 'junior', 'COSMIC CROSSOVER EVENTS': 'event' };

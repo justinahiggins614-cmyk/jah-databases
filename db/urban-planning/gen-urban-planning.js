@@ -5,7 +5,7 @@
 function prng(seed){var a=(seed>>>0)||1;return function(){a|=0;a=(a+0x6D2B79F5)|0;var t=Math.imul(a^(a>>>15),1|a);t=(t+Math.imul(t^(t>>>7),61|t))^t;return((t^(t>>>14))>>>0)/4294967296;};}
 function pick(r,s){return r[(s()*r.length)|0];}
 function ri(s,a,b){return a+((s()*(b-a+1))|0);}
-var CATS=['zoning','transit','housing','public-space','sustainability','land-use','urban-design','mobility'];
+var CATS=['zoning','transit','housing','public-space','sustainability','land-use','urban-design','mobility','living-city','fantasy-skyline','future-city-competition','underground-city','ocean-city'];
 var PREFIX='JAH-URB-';
 /* Anchors: [name, category, fact1, fact2, example place, example fact].
    fact1/fact2 are single sentences verified from public sources. */
@@ -60,6 +60,27 @@ var ANCHORS=[
 ["Wayfinding Systems","mobility","Legible wayfinding, with consistent signs, maps, and landmarks, helps people navigate transit and public space.","Good systems cut perceived wait times and wayfinding anxiety.","General practice","London's Legible London pedestrian signs standardized city navigation."],
 ["Urban Agriculture","sustainability","Rooftop farms, community gardens, and vertical farms grow food inside cities.","They shorten supply chains and teach food literacy, though they rarely feed whole districts.","General practice","Detroit's urban farms reuse thousands of vacant lots."],
 ["Stormwater Green Infrastructure","sustainability","Green infrastructure, such as permeable pavement, rain gardens, and tree trenches, manages rain where it falls.","It reduces combined-sewer overflows while cooling streets.","General practice","Philadelphia's Green City, Clean Waters plan targets green stormwater citywide."]
+,
+["The 15-Minute Neighborhood","living-city","Everything daily within a quarter-hour walk.","The concept is developed as an original vision, not a built project.","Signature concept","A Signature-authored planning concept, clearly labeled."],
+["The Urban Forest Strategy","living-city","A million trees as infrastructure.","The concept is developed as an original vision, not a built project.","Signature concept","A Signature-authored planning concept, clearly labeled."],
+["The Night Mayor’s District","living-city","Planning the city after dark.","The concept is developed as an original vision, not a built project.","Signature concept","A Signature-authored planning concept, clearly labeled."],
+["The Schoolyard Park","living-city","Playgrounds that open to all after hours.","The concept is developed as an original vision, not a built project.","Signature concept","A Signature-authored planning concept, clearly labeled."],
+["The Spire Gardens","fantasy-skyline","Towers wearing forests.","The concept is developed as an original vision, not a built project.","Signature concept","A Signature-authored planning concept, clearly labeled."],
+["The Bridge City","fantasy-skyline","A city strung between towers.","The concept is developed as an original vision, not a built project.","Signature concept","A Signature-authored planning concept, clearly labeled."],
+["The Lantern Towers","fantasy-skyline","Towers that glow like lanterns.","The concept is developed as an original vision, not a built project.","Signature concept","A Signature-authored planning concept, clearly labeled."],
+["The Terraced Mountain City","fantasy-skyline","A city stepped like rice paddies.","The concept is developed as an original vision, not a built project.","Signature concept","A Signature-authored planning concept, clearly labeled."],
+["The Competition Brief","future-city-competition","Design the 2050 district: the rules.","The concept is developed as an original vision, not a built project.","Signature concept","A Signature-authored planning concept, clearly labeled."],
+["The Carbon Ledger Entry","future-city-competition","Counting every ton: the winning math.","The concept is developed as an original vision, not a built project.","Signature concept","A Signature-authored planning concept, clearly labeled."],
+["The Water Entry","future-city-competition","A district that drinks the rain.","The concept is developed as an original vision, not a built project.","Signature concept","A Signature-authored planning concept, clearly labeled."],
+["The Food Entry","future-city-competition","A district that feeds itself.","The concept is developed as an original vision, not a built project.","Signature concept","A Signature-authored planning concept, clearly labeled."],
+["The Daylight Well","underground-city","Sunlight, piped underground.","The concept is developed as an original vision, not a built project.","Signature concept","A Signature-authored planning concept, clearly labeled."],
+["The Cavern Boulevard","underground-city","A main street under the earth.","The concept is developed as an original vision, not a built project.","Signature concept","A Signature-authored planning concept, clearly labeled."],
+["The Geothermal Heart","underground-city","The earth’s heat as the city’s heart.","The concept is developed as an original vision, not a built project.","Signature concept","A Signature-authored planning concept, clearly labeled."],
+["The Mushroom Farms","underground-city","Caverns growing the city’s food.","The concept is developed as an original vision, not a built project.","Signature concept","A Signature-authored planning concept, clearly labeled."],
+["The Floating Foundation","ocean-city","A city that rides the waves.","The concept is developed as an original vision, not a built project.","Signature concept","A Signature-authored planning concept, clearly labeled."],
+["The Breakwater Ring","ocean-city","A ring that calms the sea.","The concept is developed as an original vision, not a built project.","Signature concept","A Signature-authored planning concept, clearly labeled."],
+["The Tidal Power Keel","ocean-city","The city’s keel makes electricity.","The concept is developed as an original vision, not a built project.","Signature concept","A Signature-authored planning concept, clearly labeled."],
+["The Desalination Deck","ocean-city","The city drinks the sea.","The concept is developed as an original vision, not a built project.","Signature concept","A Signature-authored planning concept, clearly labeled."]
 ];
 /* 20 lenses x 10 editions = 200 variants per anchor; 50 anchors = 10,000 records. */
 var LENSES=[
@@ -93,7 +114,7 @@ var CATDATA={
 "land-use":{principles:["Grow inward before outward","Remediate before abandoning","Balance jobs and housing"],mechanisms:["Growth boundaries","Brownfield cleanup programs","Infill incentives"]},
 "urban-design":{principles:["Human scale first","Eyes on the street","Durable materials"],mechanisms:["Form-based controls","Active frontage rules","Universal access standards"]},
 "mobility":{principles:["Move people, not vehicles","Build complete networks, not fragments","Protect the most vulnerable users"],mechanisms:["Protected lanes","Traffic calming","Integrated wayfinding"]}
-};
+,"living-city":{"principles":["Design for the living city vision","Keep concepts buildable and humane","Measure what matters"],"mechanisms":["Concept master plans","Pilot districts","Public review"]},"fantasy-skyline":{"principles":["Design for the fantasy skyline vision","Keep concepts buildable and humane","Measure what matters"],"mechanisms":["Concept master plans","Pilot districts","Public review"]},"future-city-competition":{"principles":["Design for the future city competition vision","Keep concepts buildable and humane","Measure what matters"],"mechanisms":["Concept master plans","Pilot districts","Public review"]},"underground-city":{"principles":["Design for the underground city vision","Keep concepts buildable and humane","Measure what matters"],"mechanisms":["Concept master plans","Pilot districts","Public review"]},"ocean-city":{"principles":["Design for the ocean city vision","Keep concepts buildable and humane","Measure what matters"],"mechanisms":["Concept master plans","Pilot districts","Public review"]}};
 function fill(tpl,a,lens,ed){
   return tpl.replace(/\{n\}/g,a[0]).replace(/\{c\}/g,a[1]).replace(/\{p\}/g,a[4]).replace(/\{f\}/g,a[5]).replace(/\{e\}/g,String(ed));
 }

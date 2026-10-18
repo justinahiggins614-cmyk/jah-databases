@@ -10,7 +10,7 @@
 function prng(seed){var a=(seed>>>0)||1;return function(){a|=0;a=(a+0x6D2B79F5)|0;var t=Math.imul(a^(a>>>15),1|a);t=(t+Math.imul(t^(t>>>7),61|t))^t;return((t^(t>>>14))>>>0)/4294967296;};}
 var PREFIX='JAH-PET-';
 var KIND='pet care entry';
-var CATS=['dog-breed','cat-breed','bird','fish','reptile','small-mammal','care-guide','health-note','training-tip','new-owner-checklist'];
+var CATS=['dog-breed','cat-breed','bird','fish','reptile','small-mammal','care-guide','health-note','training-tip','new-owner-checklist','digital-pet-personalities','pet-personality-guides','pet-adventures','pet-toy-inventions'];
 /* [breed, origin, size, coat, temperament, note] */
 var DOGS=[
 ["Labrador Retriever","Newfoundland, Canada","large","short double","friendly, outgoing, eager","Among the most popular breeds in the world for decades."],
@@ -230,6 +230,20 @@ var ANGLES=[
 ["apartment living"," \u2014 apartment living"," Small spaces work fine with the right setup and routine."],
 ["budget notes"," \u2014 budget notes"," Plan for food, vet care, and supplies before you commit."]
 ];
+var NEW_FAM_TOPICS={
+'digital-pet-personalities':[["The Loyal Companion Bot", "A virtual pet personality tuned for steadiness and comfort."], ["The Mischief Sprite", "A chaotic-good virtual pet that keeps owners on their toes."], ["The Sage Old Owl Profile", "A slow, wise digital pet for reflective owners."], ["The Athletic Pup Program", "A sporty virtual dog that gamifies real exercise."], ["The Nocturnal Nighthawk", "A digital pet for night owls, active when you are."], ["The Social Butterfly Flock", "A multi-pet personality that thrives on multiplayer interaction."], ["The Minimalist Mote", "A nearly invisible pet for owners who hate clutter."], ["The Scholarly Dragon", "A knowledge-hoarding pet that grows with what you learn."], ["The Guardian Golem", "A protective personality focused on safety habits."], ["The Empathic Axolotl", "A mood-mirroring pet that teaches emotional literacy."], ["The Timekeeper Tortoise", "A slow-living pet that rewards patience."], ["The Prankster Parrot", "A mimic personality that learns your phrases."], ["The Gardener Snail", "A slow pet for plant lovers that syncs with real gardens."], ["The Stargazer Fox", "A curious pet that rewards looking up."], ["The Legacy Phoenix", "A pet designed to be passed down, generation to generation."]],
+'pet-personality-guides':[["Reading Your Dog: The Five Signals", "Tail, ears, eyes, posture, voice — the canine dashboard."], ["The Bold vs Cautious Spectrum in Cats", "Where your cat sits between brave and wary — and why it matters."], ["The Social Butterfly Dog", "For the dog who loves everyone: channeling exuberance."], ["The Anxious Pet: Recognition and Relief", "Spotting anxiety early changes everything."], ["The Independent Cat: Respecting Boundaries", "Affection on their terms — the independent cat’s love language."], ["The Velcro Dog: Managing Clinginess", "When your shadow has four legs: healthy attachment vs distress."], ["The Hunter: Prey Drive Personalities", "For pets wired to chase: safe outlets for ancient instincts."], ["The Senior Pet’s Changing Personality", "Aging reshapes temperament — reading the shifts with grace."], ["Multi-Pet Households: Personality Chemistry", "Matching temperaments under one roof."], ["The Play Style Decoder", "Chase, wrestle, stalk — what play reveals about personality."], ["The Food Personality: Eaters Decoded", "Gobblers, grazers, and gourmets — feeding the temperament."], ["The Vocal Pet: What the Noise Means", "Barks, meows, chirps — the personality behind the soundtrack."], ["The Rescue Pet’s True Self", "Decompression reveals personality: the 3-3-3 rule."], ["The Working Dog Mind", "Herders, guardians, retrievers — bred purpose shapes personality."], ["Building a Personality Profile", "The capstone: your pet’s one-page dossier."]],
+'pet-adventures':[["The First Hike Together", "Trail-ready in five training sessions."], ["Beach Day Protocol", "Sand, surf, and safety: the complete beach plan."], ["Camping with Cats (Yes, Really)", "Adventure cats exist — here’s the harness-training path."], ["The Urban Adventure Walk", "City as wilderness: the structured urban expedition."], ["Kayaking with Your Dog", "Paddle partner training from living room to lake."], ["The Snow Day Expedition", "Winter adventures for cold-loving breeds — and the rest."], ["Road Trip Ready", "The 500-mile plan: rest stops, routines, and calm cars."], ["The Backyard Safari", "No travel required: turning home turf into expedition."], ["Swimming Lessons for Dogs", "Not all dogs swim — the safe introduction method."], ["The Pet-Friendly Patio Crawl", "Café manners as adventure sport."], ["Stargazing with Your Pet", "Night skies and quiet companions: the calmest adventure."], ["The Agility Backyard Build", "DIY agility from pool noodles and plywood."], ["Volunteer Adventures: Therapy Visits", "Adventure with purpose: the therapy-visit path."], ["The Photo Expedition", "Adventure as art: the pet photography outing."], ["The Adventure Journal", "Logging every expedition: the capstone habit."]],
+'pet-toy-inventions':[["The Puzzle Feeder Cube", "A DIY cube that makes mealtime a thinking game."], ["The Flirt Pole 2.0", "Upgrading the classic with interchangeable lures."], ["The Snuffle Garden Mat", "A fabric foraging field for nose-work beginners."], ["The Catnip Kicker Revival", "A reinforced kicker toy built for bunny-kick champions."], ["The Treat-Dispensing Ball Maze", "A ball within a ball: the rolling puzzle."], ["The Window Perch Puzzle", "Combining the best seat in the house with foraging."], ["The Scent Work Starter Kit", "A three-box kit that teaches nose-work fundamentals."], ["The Floating Fetch Dummy", "A water-safe retriever toy that won’t waterlog."], ["The Crinkle Tunnel Upgrade", "A collapsible tunnel with sound zones."], ["The Slow-Feeder Lick Mat", "A textured mat that turns treats into meditation."], ["The Feather Wand Modular System", "Interchangeable teaser heads for the discerning hunter."], ["The Dig Box for Dogs", "Legal excavation: the sandbox that saves your yard."], ["The Bobbing Treat Buoy", "A water puzzle for dock-diving enthusiasts."], ["The Cardboard Castle Kit", "Flat-pack fortress: the modular cat mansion."], ["The Invention Notebook", "Documenting every build: the capstone practice."]]
+};
+var NEW_FAM_LABEL={'digital-pet-personalities':'digital pet personality','pet-personality-guides':'pet personality guide','pet-adventures':'pet adventure','pet-toy-inventions':'pet toy invention'};
+function newFamRec(seed,cat){
+  var topics=NEW_FAM_TOPICS[cat]||[['Untitled','A new entry.']];
+  var tp=topics[(seed-1)%topics.length];
+  var label=NEW_FAM_LABEL[cat]||cat;
+  var summary='Signature-generated '+label+' \u2014 '+tp[0]+'. '+tp[1];
+  return mkRec(seed,cat,tp[0],summary,{topic:tp[0],note:tp[1],family:label},'signature',SIGSRC);
+}
 function comboGen(j,nE,nA,nG){
   var per=nA*nG;
   var e=j%nE, c=Math.floor(j/nE)%per, part=Math.floor(j/(nE*per));
@@ -343,6 +357,8 @@ function generate(seed,opts,rnd){
   if(cat==="health-note")return healthRec(seed,ord(7501));
   if(cat==="training-tip")return trainRec(seed,ord(8501));
   if(cat==="new-owner-checklist")return checkRec(seed,ord(9501));
+  var NEW_CATS=["digital-pet-personalities","pet-personality-guides","pet-adventures","pet-toy-inventions"];
+  if(NEW_CATS.indexOf(cat)>=0)return newFamRec(seed,cat);
   return breedRec(seed,ord(1),null);
 }
 function validate(r){

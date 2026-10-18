@@ -6,7 +6,7 @@
 'use strict';
 var SLUG='vintage-cars', PREFIX='JAH-VC-', VERSION='jahdb-vintage-cars-1.0';
 var KIND='vintage car', AI='JAH Vintage Car Creator';
-var CATEGORIES=["american-classic", "european-sports", "muscle", "pre-war", "luxury", "racing"];
+var CATEGORIES=["american-classic", "european-sports", "muscle", "pre-war", "luxury", "racing",'era-journeys'];
 var MAKERS=["Signature Motor Works", "JAH Coachbuilders", "Meridian Motors", "Heritage Auto Atelier", "Apex Motor Co.", "Continental Coachworks", "Paramount Motors", "Golden Era Garage", "Vantage Motor Works", "Legacy Auto House", "Copperline Motors", "Regent Coachbuilders"], LINES=["Heritage Tourer", "Grand Routier", "Speedster", "Continental Coupe", "Pioneer Roadster", "Centennial Sedan", "Rally Special", "Gentleman Racer", "Golden Age", "Origin Model"], WORDS=["a hand-formed aluminum body", "a numbers-matching drivetrain", "a full concours restoration", "its original interior trim", "a documented ownership history", "a freshly rebuilt engine", "factory-correct paint", "a complete tool roll"], DESCS=["Coupe", "Roadster", "Convertible", "Sedan", "Speedster", "Tourer", "Cabriolet", "Spyder", "Grand Tourer", "Phaeton", "Runabout", "Shooting Brake"];
 var SPEC_KEYS=["Engine", "Power", "Transmission", "Body", "Production", "Drive"], SPEC_VALS=[["V8", "inline-six", "V12", "flat-four"], ["200 hp", "300 hp", "425 hp", "150 hp"], ["4-speed manual", "3-speed automatic", "5-speed manual", "2-speed automatic"], ["coupe", "convertible", "roadster", "sedan"], ["limited run", "5,000 built", "25,000 built", "one-year only"], ["rear-wheel drive", "rear-wheel drive", "front-wheel drive", "rear-wheel drive"]];
 var OPENERS=["Documented here as %s, this %s is a matter of public record.", "The archive holds this %s under %s, preserved as a full file.", "Filed in this database as %s, this %s carries verified facts.", "This database records the %s under %s with its facts checked."];
@@ -67,11 +67,17 @@ function factRecord(seed,rnd){
     signature_note:'Fact-checked real-world record. This database is a Signature version in the Signature system; the Signature counterpart linked above is the Signature-system companion to this verified item.'
   };
 }
+var NEW_FAM_TOPICS={
+'era-journeys':[["The Brass Era Road (1900–1915)", "Horseless carriages."], ["The Jazz Age Tourer (1920s)", "Gatsby’s garage."], ["Depression-Era Ingenuity (1930s)", "Beauty on a budget."], ["The War Effort Wheels (1940s)", "Jeeps and rationing."], ["The Fabulous Fifties (1950s)", "Fins and chrome."], ["The Muscle Era (1960s)", "Horsepower wars."], ["The Malaise Era (1970s)", "Smog pumps and land yachts."], ["The Turbo Eighties (1980s)", "Wedges and boost."], ["The Analog Nineties (1990s)", "The last analog heroes."], ["The Pre-War Grand Prix", "Racing’s heroic age."], ["Le Mans Legends", "24 hours of glory."], ["The Rally Rebels", "Mud, snow, sideways."], ["Buying Your First Vintage", "The entry ticket."], ["The Restoration Journey", "From barn to concours."], ["The Era Never Ends", "Keep them running: the capstone."]]
+};
 function generate(seed,opts,rnd){
   seed=(typeof seed==='number')?seed:0;
   rnd=rnd||prng(seed);
   var rec=(seed%5===0)?factRecord(seed,rnd):sigRecord(seed,rnd);
   if(opts&&opts.category&&CATEGORIES.indexOf(opts.category)>=0){rec.g=opts.category;rec.category=opts.category;}
+  if(NEW_FAM_TOPICS[rec.category]){var tp=NEW_FAM_TOPICS[rec.category][(seed%NEW_FAM_TOPICS[rec.category].length)];
+    rec.t=tp[0];rec.title=tp[0];
+    rec.description='Signature era journey: '+tp[0]+' \u2014 '+tp[1]+' A Signature-original motoring story.';}
   return rec;
 }
 function validate(rec){

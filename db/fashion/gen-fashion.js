@@ -1,7 +1,7 @@
 (function(){'use strict';
 function prng(seed){var a=(seed>>>0)||1;return function(){a|=0;a=(a+0x6D2B79F5)|0;var t=Math.imul(a^(a>>>15),1|a);t=(t+Math.imul(t^(t>>>7),61|t))^t;return((t^(t>>>14))>>>0)/4294967296;};}
 function pick(r,s){return r[(s()*r.length)|0];} function ri(s,a,b){return a+((s()*(b-a+1))|0);}
-var CATS=['garments','fabrics','sizing','patterns','trends'];
+var CATS=['garments','fabrics','sizing','patterns','trends', 'remix', 'retro', 'futuristic', 'moodboard', 'history', 'remix', 'retro', 'futuristic', 'moodboard', 'history'];
 var PREFIX='JAH-FASH-';
 var REF_FABRIC='https://www.thesewingdirectory.co.uk/fabric-glossary/';
 var REF_STD='Fashion reference (verified 2026-10-09)';

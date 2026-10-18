@@ -5,7 +5,7 @@
 function prng(seed){var a=(seed>>>0)||1;return function(){a|=0;a=(a+0x6D2B79F5)|0;var t=Math.imul(a^(a>>>15),1|a);t=(t+Math.imul(t^(t>>>7),61|t))^t;return((t^(t>>>14))>>>0)/4294967296;};}
 function pick(r,s){return r[(s()*r.length)|0];}
 var PREFIX="JAH-LVSTS-";
-var FIELDS=["Foundations","Compounded","Advanced"];
+var FIELDS=["Foundations","Compounded","Advanced", "Appreciation Day"];
 var TOPICS={
  "Foundations": [
   "You Matter To Me (Signature Edition) - Foundations",
@@ -47,7 +47,24 @@ var TOPICS={
   "Until The End (Signature Edition) - Advanced",
   "The Legacy Letter (Signature Edition) - Advanced"
  ]
-};
+,
+ "Appreciation Day": [
+  "Appreciation Day: The Morning Tribute",
+  "Appreciation Day: The Gratitude Walk",
+  "Appreciation Day: The Letter",
+  "Appreciation Day: The Public Thanks",
+  "Appreciation Day: The Quiet Thanks",
+  "Appreciation Day: The Team Tribute",
+  "Appreciation Day: The Family Circle",
+  "Appreciation Day: The Mentor Honor",
+  "Appreciation Day: The Stranger Thanks",
+  "Appreciation Day: The Self Appreciation",
+  "Appreciation Day: The Nature Thanks",
+  "Appreciation Day: The Difficult Thanks",
+  "Appreciation Day: The Celebration",
+  "Appreciation Day: The Commitment",
+  "Appreciation Day: The Legacy"
+ ]};
 function demoProgram(topic,field){
   var safe=String(topic).replace(/\\/g,'\\\\').replace(/"/g,"'");
   return "# Loving Statement Study — "+safe+"\n"
