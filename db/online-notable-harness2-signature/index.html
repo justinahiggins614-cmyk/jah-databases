@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Google Harness2 Signature Database — JAH Databases</title>
+<meta name="description" content="Google Harness2 Signature Database. A permanent archive, a boundless generator, and an archive-aware AI. Property of Justin Addam Higgins.">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Dataset","name":"Google Harness2 Signature Database","description":"Google Harness2 Signature Database. Property of Justin Addam Higgins.","creator":{"@type":"Person","name":"Justin Addam Higgins"},"license":"https://creativecommons.org/publicdomain/zero/1.0/","distribution":{"@type":"DataDownload","contentUrl":"data/online-notable-harness2-signature/index.jsonl.gz"}}</script>
+<style>
+:root{--bg:#070b16;--panel:#0d1526;--line:#1d2c4d;--ink:#e8f1ff;--dim:#9fb3d8;--acc:#2f7bff;--ok:#00e5a0;--warn:#ffb020}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Arial,Helvetica,sans-serif;line-height:1.5}
+.wrap{max-width:1060px;margin:0 auto;padding:14px}
+.hero{display:flex;gap:14px;align-items:center;background:linear-gradient(135deg,#0b1e3a,#101a30);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:12px}
+.hero h1{margin:0;font-size:1.5em}.hero p{margin:4px 0;color:var(--dim)}
+.stats{display:flex;gap:10px;flex-wrap:wrap;margin:8px 0}
+.stat{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:8px 12px;font-size:.9em}
+.stat b{color:var(--ok)}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
+.tab{border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:999px;padding:9px 18px;font-size:1em;cursor:pointer}
+.tab.on{background:var(--acc);border-color:var(--acc);font-weight:bold}
+.pane{display:none}.pane.on{display:block}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px;margin:10px 0}
+.card h3{margin:0 0 6px}
+.mono{font-family:Consolas,monospace}
+.dim{color:var(--dim)}.ok{color:var(--ok)}
+input,select,textarea,button{font-size:1em;border-radius:8px;border:1px solid var(--line);background:#0a1120;color:var(--ink);padding:9px 10px}
+button{cursor:pointer;background:#14305e}button.go{background:var(--acc);font-weight:bold}
+button.merger{background:#c81e3a;border-color:#c81e3a;color:#fff;font-weight:bold}
+.badge{display:inline-block;border:1px solid var(--line);border-radius:999px;padding:2px 10px;font-size:.8em;margin:2px 4px 2px 0}
+.badge.sig{background:#2a1a3d;border-color:#7a4fb5;color:#e8d5ff}
+.badge.fact{background:#0f2f1d;border-color:#3fae6a;color:#c9f2d8}
+.badge.mat-est{background:#0f2f1d;border-color:#3fae6a;color:#c9f2d8}
+.badge.mat-emg{background:#3a2c07;border-color:#ffb020;color:#ffe1a8}
+.badge.mat-spc{background:#2a1a3d;border-color:#7a4fb5;color:#e8d5ff}
+dl.kv{display:grid;grid-template-columns:auto minmax(120px,1fr);gap:6px 12px;margin:8px 0}
+dl.kv dt{font-weight:bold;color:var(--dim)}dl.kv dd{margin:0}
+pre.codeblock{white-space:pre;overflow-x:auto;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.85em;line-height:1.5;background:#060b14;border:1px solid var(--line);border-radius:8px;padding:10px 12px;margin:6px 0;max-width:100%;box-sizing:border-box}
+.longtext{line-height:1.6}
+details.grp{border:1px solid var(--line);border-radius:10px;margin:8px 0;background:var(--panel)}
+details.grp>summary{padding:10px 12px;cursor:pointer;font-weight:bold;list-style:none}
+details.grp>summary::-webkit-details-marker{display:none}
+.pills{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0}
+.pill{border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:999px;padding:6px 14px;cursor:pointer;font-size:.9em}
+.pill.on{background:var(--acc);border-color:var(--acc);font-weight:bold}
+.askbox textarea{width:100%;min-height:70px;margin:6px 0}
+.footer{margin-top:24px;color:var(--dim);font-size:.85em;text-align:center}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hero"><div><h1>Google Harness2 Signature Database</h1>
+  <p>Signature-edition archive of Google Harness2: the full Signature version with the complete teaching ladder, boundless generator, and archive-aware AI.</p>
+  <p class="dim">Status: emerging — early-stage, developing fast.</p></div></div>
+  <div class="stats">
+    <span class="stat">Archive records: <b id="stCount">…</b></span>
+    <span class="stat">Teaching ladder: <b>Foundation → Core → Advanced → Mastery</b></span>
+    <span class="stat">Edition: <b>Signature Edition</b></span>
+  </div>
+  <div class="tabs">
+    <button class="tab on" data-p="archive">Archive</button>
+    <button class="tab" data-p="search">Search</button>
+    <button class="tab" data-p="gen">Boundless Generator</button>
+    <button class="tab" data-p="ai">Ask the AI</button>
+  </div>
+  <div class="pane on" id="p-archive">
+    <div class="pills" id="tierPills"></div>
+    <div id="recList"><p class="dim">Loading archive…</p></div>
+  </div>
+  <div class="pane" id="p-search">
+    <input id="q" placeholder="Search this database…" style="width:70%">
+    <button class="go" id="qgo">Search</button>
+    <button class="pill" id="qex">Exhaustive</button>
+    <button class="go merger" id="qmerge">All Database Merger</button>
+    <div id="qres"></div><div id="mres"></div>
+  </div>
+  <div class="pane" id="p-gen">
+    <p>Deterministic boundless generator — same seed, same record, every time.</p>
+    <input id="gseed" type="number" value="1" min="1" style="width:120px">
+    <button class="go" id="ggo">Generate</button>
+    <div id="gres"></div>
+  </div>
+  <div class="pane" id="p-ai">
+    <div class="askbox"><textarea id="aibx" placeholder="Ask about Harness2…"></textarea>
+    <button class="go" id="aigo">Ask</button></div>
+    <div id="aires"></div>
+  </div>
+  <div class="footer">Property of Justin Addam Higgins · JAH Databases · records march to 1,000,000</div>
+</div>
+<script>var JAHDB_SLUG="online-notable-harness2-signature";</script>
+<script src="gen-online-notable-harness2-signature.js"></script>
+<script>
+(function(){"use strict";
+var LOCAL='../../data/online-notable-harness2-signature/';
+var $=function(id){return document.getElementById(id);};
+function esc(s){return String(s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+function fetchGz(u){return fetch(u).then(function(r){if(!r.ok)throw new Error('HTTP '+r.status);return r.arrayBuffer();}).then(function(b){return new Promise(function(res,rej){try{var ds=new DecompressionStream('gzip');var s=ds.writable.getWriter();s.write(b);s.close();new Response(ds.readable).text().then(res,rej);}catch(e){rej(e);}});});}
+function fetchJsonlGz(u){return fetchGz(u).then(function(t){return t.split('\n').filter(function(x){return x.trim();}).map(JSON.parse);});}
+var archiveIdx=[];
+function matBadge(m){var c=m==='established'?'mat-est':(m==='emerging'?'mat-emg':'mat-spc');return '<span class="badge '+c+'">'+esc(m)+'</span>';}
+function srcBadge(s){return '<span class="badge '+(s==='signature'?'sig':'fact')+'">'+esc(s)+'</span>';}
+function fmtVal(v){
+  if(v==null)return '<span class="dim">—</span>';
+  if(Array.isArray(v))return '<ul>'+v.map(function(x){return '<li>'+esc(String(x))+'</li>';}).join('')+'</ul>';
+  if(typeof v==='object')return '<dl class="kv">'+Object.keys(v).map(function(k){var isC=(k==='demo'||k==='program'||k==='code');var inner=isC?'<pre class="codeblock">'+esc(String(v[k]))+'</pre>':fmtVal(v[k]);return '<dt class="mono">'+esc(k)+'</dt><dd>'+inner+'</dd>';}).join('')+'</dl>';
+  return esc(String(v));
+}
+function recCard(r){
+  var h='<div class="card"><h3>'+esc(r.title)+'</h3><div>'+srcBadge(r.src||'')+matBadge(r.maturity||'')+'<span class="badge">'+esc(r.ladder_tier||'')+' · #'+(r.ladder_rank||'')+'</span></div>';
+  h+='<p>'+esc(r.description||'')+'</p>';
+  h+='<details class="grp"><summary>Full record</summary><dl class="kv">';
+  var order=['name','how_it_works','key_points','requirements','standards','citations','maturity_note','demo'];
+  order.forEach(function(k){ if(r[k]!==undefined&&r[k]!==null){ var isC=(k==='demo'); var inner=isC?'<pre class="codeblock">'+esc(String(r[k]))+'</pre>':fmtVal(r[k]); h+='<dt class="mono">'+esc(k)+'</dt><dd'+(typeof r[k]==='string'&&r[k].length>150?' class="longtext"':'')+'>'+inner+'</dd>'; }});
+  h+='</dl></details></div>';
+  return h;
+}
+var curTier='all';
+function renderArchive(){
+  var el=$('recList');
+  var rows=archiveIdx.filter(function(x){return curTier==='all'||x.g===curTier.toLowerCase();});
+  if(!rows.length){el.innerHTML='<p class="dim">No records in this tier yet.</p>';return;}
+  fetchJsonlGz(LOCAL+'chunks/chunk-0000.jsonl.gz').then(function(recs){
+    var byId={};recs.forEach(function(r){byId[r.id]=r;});
+    el.innerHTML=rows.map(function(x){return byId[x.id]?recCard(byId[x.id]):'';}).join('');
+  }).catch(function(e){el.innerHTML='<p class="dim">Archive unreachable ('+esc(e.message)+')</p>';});
+}
+function initPills(){
+  var tiers=['all','foundation','core','advanced','mastery'];
+  $('tierPills').innerHTML=tiers.map(function(t){return '<button class="pill'+(t===curTier?' on':'')+'" data-t="'+t+'">'+t[0].toUpperCase()+t.slice(1)+'</button>';}).join('');
+  Array.prototype.forEach.call($('tierPills').children,function(b){b.onclick=function(){curTier=b.getAttribute('data-t');initPills();renderArchive();};});
+}
+document.querySelectorAll('.tab').forEach(function(t){t.onclick=function(){document.querySelectorAll('.tab').forEach(function(x){x.classList.remove('on');});document.querySelectorAll('.pane').forEach(function(x){x.classList.remove('on');});t.classList.add('on');$('p-'+t.getAttribute('data-p')).classList.add('on');};});
+fetchGz(LOCAL+'index.jsonl.gz').then(function(t){
+  archiveIdx=t.split('\n').filter(function(x){return x.trim();}).map(JSON.parse);
+  $('stCount').textContent=archiveIdx.length.toLocaleString()+' / 1,000,000 target';
+  initPills();renderArchive();
+}).catch(function(e){$('stCount').textContent='archive unreachable ('+esc(e.message)+')';});
+var _mergeSet=[];
+$('qgo').onclick=function(){
+  var q=$('q').value.trim().toLowerCase();if(!q)return;
+  var ex=$('qex').classList.contains('on');
+  fetchJsonlGz(LOCAL+'chunks/chunk-0000.jsonl.gz').then(function(recs){
+    var hits=recs.filter(function(r){var s=JSON.stringify(r).toLowerCase();return ex?q.split(/\s+/).every(function(w){return s.indexOf(w)>=0;}):s.indexOf(q)>=0;});
+    $('qres').innerHTML='<p>'+hits.length+' result(s)</p>'+hits.slice(0,50).map(recCard).join('');
+    _mergeSet=hits;
+  });
+};
+$('qex').onclick=function(){this.classList.toggle('on');};
+$('qmerge').onclick=function(){
+  var h='<div class="card"><h3>All Database Merger <span class="dim">('+_mergeSet.length+' records)</span></h3>';
+  h+='<p>Merge the current result set into one working collection. Select records below to carry forward.</p>';
+  h+=_mergeSet.slice(0,100).map(function(r){return '<label style="display:block;margin:4px 0"><input type="checkbox" checked> '+esc(r.title)+'</label>';}).join('');
+  h+='</div>';$('mres').innerHTML=h;
+};
+$('ggo').onclick=function(){
+  var seed=parseInt($('gseed').value,10)||1;
+  try{var r=(typeof JAHDB!=='undefined'&&JAHDB.generators&&JAHDB.generators[JAHDB_SLUG])?JAHDB.generators[JAHDB_SLUG].generate(seed):{title:'Generator not loaded',description:'The generator script did not register.'};
+  $('gres').innerHTML=recCard(r);}catch(e){$('gres').innerHTML='<p class="dim">'+esc(e.message)+'</p>';}
+};
+$('aigo').onclick=function(){
+  var q=$('aibx').value.trim();if(!q)return;
+  fetchJsonlGz(LOCAL+'chunks/chunk-0000.jsonl.gz').then(function(recs){
+    var words=q.toLowerCase().split(/\s+/).filter(function(w){return w.length>3;});
+    var best=null,bs=-1;
+    recs.forEach(function(r){var s=JSON.stringify(r).toLowerCase();var sc=0;words.forEach(function(w){if(s.indexOf(w)>=0)sc++;});if(sc>bs){bs=sc;best=r;}});
+    $('aires').innerHTML=best?('<p><b>Best matching record:</b></p>'+recCard(best)):'<p class="dim">No close match found. Try different words.</p>';
+  });
+};
+})();
+</script>
+</body>
+</html>
