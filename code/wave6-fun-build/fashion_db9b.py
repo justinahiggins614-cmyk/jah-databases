@@ -1,0 +1,33 @@
+"""Fashion db9 top-ups: formalwear-guide +8, accessory-guide +8."""
+from music_db import T, list_demo
+from fashion_db9 import ITEMS
+
+def X(F, title, g, s1, s2, pts, keys, ca, cb):
+    return T(title, g, [s1, s2], pts, keys, [ca, cb],
+             demo=list_demo(title, [p[:30] for p in pts] + ['The done'], title + ':'))
+
+_fw = [it for it in ITEMS if it['slug'] == 'formalwear-guide'][0]
+F = _fw['fields']
+_fw['topics'] += [
+X(F, 'The Formal Shirt Studs', F[1], 'The studs: the jeweled - the onyx, the pearl. The studs are the detail.', 'The detailing: the placket.', ['The studded.', 'The detail.', 'Onyxed.', 'Placket.', 'The shirt studs.'], ['Shirt studs.', 'The studded.', 'Detail, onyxed.', 'The shirt studs.', 'The pearl.'], 'Style references: shirt studs.', 'Practice references: the detail.'),
+X(F, 'The Cufflink Choice', F[1], 'The choice: the linked - the silk knot, the monogram. The choice is the personal.', 'The personalizing: the wrist.', ['The linked.', 'The personal.', 'Knotted.', 'Wrist.', 'The cufflink choice.'], ['Cufflink choice.', 'The chosed.', 'Personal, knotted.', 'The cufflink choice.', 'The monogram.'], 'Style references: cufflinks.', 'Practice references: the personal.'),
+X(F, 'The Formal Overcoat', F[1], 'The coat: the topped - the chesterfield, the guard. The coat is the arrival.', 'The arriving: the night.', ['The coated.', 'The arrival.', 'Chesterfield.', 'Night.', 'The overcoat.'], ['Formal overcoat.', 'The coated.', 'Arrival, chesterfield.', 'The overcoat.', 'The guard.'], 'Style references: overcoats.', 'Practice references: the arrival.'),
+X(F, 'The Opera Pump', F[1], 'The pump: the patent - the bow, the slipper. The pump is the white-tie.', 'The tying: the formal.', ['The pumped.', 'The white-tie.', 'Patent.', 'Formal.', 'The opera pump.'], ['Opera pump.', 'The pumped.', 'White-tie, patent.', 'The opera pump.', 'The bow.'], 'Style references: opera pumps.', 'History references: the white-tie.'),
+X(F, 'The Gown Train', F[1], 'The train: the swept - the chapel, the court. The train is the drama.', 'The dramaing: the aisle.', ['The trained.', 'The drama.', 'Swept.', 'Aisle.', 'The gown train.'], ['Gown train.', 'The trained.', 'Drama, swept.', 'The gown train.', 'The chapel.'], 'Style references: gown trains.', 'Culture references: the drama.'),
+X(F, 'The Formal Emergency', F[2], 'The emergency: the saved - the stain stick, the needle. The emergency is the calm.', 'The calming: the clutch.', ['The saved.', 'The calm.', 'Sticked.', 'Clutch.', 'The formal emergency.'], ['Formal emergency.', 'The emergencied.', 'Calm, sticked.', 'The formal emergency.', 'The needle.'], 'Practice references: formal emergencies.', 'Style references: the calm.'),
+X(F, 'The Formal Photos', F[2], 'The photos: the kept - the posed, the candid. The photos are the memory.', 'The remembering: the album.', ['The kept.', 'The memory.', 'Posed.', 'Album.', 'The formal photos.'], ['Formal photos.', 'The photoed.', 'Memory, posed.', 'The formal photos.', 'The candid.'], 'Practice references: formal photos.', 'Style references: the memory.'),
+X(F, 'The Formal Confidence', F[2], 'The confidence: the worn-well - the stood-tall, the owned. The confidence is the wearer.', 'The wearing: the night.', ['The worn.', 'The wearer.', 'Stood-tall.', 'Night.', 'The formal confidence.'], ['Formal confidence.', 'The confidenced.', 'Wearer, stood-tall.', 'The formal confidence.', 'The owned.'], 'Style references: formal confidence.', 'Practice references: the wearer.'),
+]
+
+_ag = [it for it in ITEMS if it['slug'] == 'accessory-guide'][0]
+F = _ag['fields']
+_ag['topics'] += [
+X(F, 'The Clutch Guide', F[1], 'The guide: the carried-night - the minaudiere, the envelope. The guide is the evening.', 'The evening: the hand.', ['The guided.', 'The evening.', 'Minaudiered.', 'Hand.', 'The clutch guide.'], ['Clutch guide.', 'The guided.', 'Evening, minaudiered.', 'The clutch guide.', 'The envelope.'], 'Style references: clutches.', 'Practice references: the evening.'),
+X(F, 'The Tote Workhorse', F[1], 'The workhorse: the carried-daily - the leather, the canvas. The workhorse is the reliable.', 'The relying: the shoulder.', ['The horsed.', 'The reliable.', 'Leathered.', 'Shoulder.', 'The tote workhorse.'], ['Tote workhorse.', 'The horsed.', 'Reliable, leathered.', 'The tote workhorse.', 'The canvas.'], 'Style references: totes.', 'Practice references: the reliable.'),
+X(F, 'The Crossbody Ease', F[1], 'The ease: the hands-free - the adjusted, the secure. The ease is the freedom.', 'The freeing: the hip.', ['The eased.', 'The freedom.', 'Adjusted.', 'Hip.', 'The crossbody ease.'], ['Crossbody ease.', 'The eased.', 'Freedom, adjusted.', 'The crossbody ease.', 'The secure.'], 'Style references: crossbody bags.', 'Practice references: the freedom.'),
+X(F, 'The Belt Bag', F[1], 'The bag: the waisted - the sleek, the sporty. The bag is the modern.', 'The moderning: the waist.', ['The bagged.', 'The modern.', 'Sleek.', 'Waist.', 'The belt bag.'], ['Belt bag.', 'The bagged.', 'Modern, sleek.', 'The belt bag.', 'The sporty.'], 'Style references: belt bags.', 'Practice references: the modern.'),
+X(F, 'The Jewelry Metals', F[1], 'The metals: the gold, silver - the rose, the mixed. The metals are the palette.', 'The paletting: the skin.', ['The metaled.', 'The palette.', 'Golded.', 'Skin.', 'The jewelry metals.'], ['Jewelry metals.', 'The metaled.', 'Palette, golded.', 'The jewelry metals.', 'The rose.'], 'Style references: jewelry metals.', 'Craft references: the palette.'),
+X(F, 'The Gemstone Guide', F[2], 'The guide: the stoned - the birthstones, the meaning. The guide is the sparkle.', 'The sparkling: the light.', ['The guided.', 'The sparkle.', 'Stoned.', 'Light.', 'The gemstone guide.'], ['Gemstone guide.', 'The guided.', 'Sparkle, stoned.', 'The gemstone guide.', 'The birthstones.'], 'Style references: gemstones.', 'Culture references: the sparkle.'),
+X(F, 'The Pearl Primer', F[2], 'The primer: the lustred - the akoya, the baroque. The primer is the timeless.', 'The timing: the neck.', ['The primered.', 'The timeless.', 'Lustred.', 'Neck.', 'The pearl primer.'], ['Pearl primer.', 'The primered.', 'Timeless, lustred.', 'The pearl primer.', 'The akoya.'], 'Style references: pearls.', 'Culture references: the timeless.'),
+X(F, 'The Heirloom Jewelry', F[2], 'The heirloom: the kept - the grandmother, the story. The heirloom is the treasure.', 'The treasuring: the box.', ['The kept.', 'The treasure.', 'Grandmother.', 'Box.', 'The heirloom jewelry.'], ['Heirloom jewelry.', 'The heirloomed.', 'Treasure, kept.', 'The heirloom jewelry.', 'The story.'], 'Culture references: heirloom jewelry.', 'Practice references: the treasure.'),
+]

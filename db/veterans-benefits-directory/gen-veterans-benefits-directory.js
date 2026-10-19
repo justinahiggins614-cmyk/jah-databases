@@ -1,15 +1,15 @@
 (function(){'use strict';
-/* JAH veterans-benefits-directory generator — jahdb-veterans-benefits-directory-1.0.
+/* JAH Veterans Benefits Directory Database generator — jahdb-veterans-benefits-directory-1.0.
    Property of Justin Addam Higgins (JAH).
    Deterministic: same seed, same record. */
 function prng(seed){var a=(seed>>>0)||1;return function(){a|=0;a=(a+0x6D2B79F5)|0;var t=Math.imul(a^(a>>>15),1|a);t=(t+Math.imul(t^(t>>>7),61|t))^t;return((t^(t>>>14))>>>0)/4294967296;};}
 function pick(r,s){return r[(s()*r.length)|0];}
-var PREFIX="JAH-VBD-";
+var PREFIX="JAH-VETEBD-";
 var FIELDS=["Foundations", "Compounded", "Advanced"];
-var TOPICS={"Foundations": ["Getting Started with Veterans Benefits Directory", "Core Concepts of Veterans Benefits Directory", "Essential Vocabulary for Veterans Benefits Directory", "Your First Veterans Benefits Directory Project", "Beginner Mistakes in Veterans Benefits Directory (and How to Avoid Them)", "The Tools You Need for Veterans Benefits Directory", "Myths vs. Facts in Veterans Benefits Directory", "When to Start Veterans Benefits Directory", "Measuring the Basics in Veterans Benefits Directory", "Safety First in Veterans Benefits Directory", "Where to Find Help with Veterans Benefits Directory"], "Compounded": ["The Veterans Benefits Directory Workflow, Step by Step", "A Veterans Benefits Directory Decision Framework", "Veterans Benefits Directory Cost and Budget Planning", "Scheduling Veterans Benefits Directory Work", "Quality Checks for Veterans Benefits Directory", "Veterans Benefits Directory Troubleshooting Guide", "Intermediate Veterans Benefits Directory Skills", "Veterans Benefits Directory in Real-World Cases", "Comparing Veterans Benefits Directory Options", "Documenting Your Veterans Benefits Directory Work", "Collaborating on Veterans Benefits Directory", "Scaling Up Veterans Benefits Directory"], "Advanced": ["Advanced Veterans Benefits Directory Techniques", "Veterans Benefits Directory Edge Cases and Exceptions", "Auditing and Verifying Veterans Benefits Directory", "Automating Veterans Benefits Directory", "Veterans Benefits Directory Long-Term Strategy", "Teaching Veterans Benefits Directory to Others", "Ethics and Responsibility in Veterans Benefits Directory", "Integrating Veterans Benefits Directory with Other Systems", "The Veterans Benefits Directory Frontier: What Comes Next", "The Veterans Benefits Directory Master Checklist", "Veterans Benefits Directory Capstone Review: Putting It All Together"]};
+var TOPICS={"Foundations": ["VA Health Care Enrollment", "Disability Compensation", "Proving Service Connection", "C&P Exams", "Appealing VA Decisions", "GI Bill Education", "VA Home Loans", "VA Pension", "Mental Health Care", "Women Veterans", "Caregiver Support"], "Compounded": ["Burial Benefits", "VSO Assistance", "State Veterans Benefits", "Employment Programs", "Homeless Veteran Programs", "Family Benefits", "Discharge Upgrades", "Toxic Exposure Claims", "Teaching Fellow Veterans", "The Annual VA Review", "Aid and Attendance", "Housebound Benefits"], "Advanced": ["Dental Care", "Vision and Hearing", "Prescriptions", "Travel Reimbursement", "Fisher House", "Vet Centers", "Adaptive Housing", "Auto Grants", "Life Insurance", "Education for Dependents", "Pension for Survivors"]};
 function demoProgram(topic,field){
   var safe=String(topic).replace(/\\/g,'\\\\').replace(/"/g,"'");
-  return "#!/usr/bin/env python3\n\"\"\""+safe+" — problem-solving guide demo.\nRecord demo. Property of Justin Addam Higgins (JAH).\n\"\"\"\n"
+  return "#!/usr/bin/env python3\n\"\"\""+safe+" — benefits directory demo.\nRecord demo. Property of Justin Addam Higgins (JAH).\n\"\"\"\n"
    + "TOPIC = \""+safe+"\"\n"
    + "FIELD = \""+field+"\"\n"
    + "def summarize():\n"
@@ -25,9 +25,9 @@ function generate(seed,opts,rnd){
   var id=PREFIX+String(seed).padStart(6,'0');
   return {
     id:id,
-    name:topic+' — problem-solving guide',
+    name:topic+' — benefits directory',
     title:topic,
-    description:'SAMPLE RECORD (generated — structural sample). A public-record sample of "'+topic+'" in '+field+'. Generated sample records are clearly labeled and never presented as archive records.',
+    description:'SAMPLE RECORD (generated — structural sample). A benefits directory of "'+topic+'" in '+field+'. Generated sample record are clearly labeled and never presented as archive records.',
     field:field,
     src:'public-harvest',
     sample:true,

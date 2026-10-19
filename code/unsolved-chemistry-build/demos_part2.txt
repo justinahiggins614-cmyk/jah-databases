@@ -1,0 +1,557 @@
+def demo_uc_n2_fixation(hdr, name, rid, group, points, req):
+    return _wrap(hdr, name, rid, group, '''\
+def main():
+    print("SOLUTION EXPLORER: " + NAME)
+    print("Approach: competing energy ledgers - N2 reduction vs H2 evolution.")
+    # ---- step 1: Haber-Bosch thermodynamic compromise ----
+    dH, dS = -92.0e3, -199.0  # J/mol, J/mol/K for N2+3H2 -> 2NH3
+    R = 8.314
+    def Kp(T):
+        return math.exp(-(dH - T * dS) / (R * T))
+    k298, k773 = Kp(298.0), Kp(773.0)
+    print("step 1 Kp(25C) = %.2e; Kp(500C) = %.2e" % (k298, k773))
+    assert 1e5 < k298 < 1e6
+    assert 1e-5 < k773 < 1e-4
+    print("step 1 the compromise: low T favors ammonia, high T needed for kinetics")
+    # ---- step 2: nitrogenase ledger - accumulation before binding ----
+    equiv_accumulated = 4  # reducing equivalents before N2 binds (Janus concept)
+    print("step 2 nitrogenase accumulates %d equivalents BEFORE binding N2" % equiv_accumulated)
+    assert equiv_accumulated >= 3
+    # ---- step 3: selectivity race vs H2 evolution ----
+    barrier_N2, barrier_H2 = 55.0, 70.0  # kJ/mol, model barriers at the key step
+    selectivity = math.exp((barrier_H2 - barrier_N2) * 1000.0 / (R * 298.0))
+    print("step 3 N2 path favored over H2 loss by factor %.1e" % selectivity)
+    assert selectivity > 100.0
+    print("CONFIRM: trapped N2-bound intermediates match the predicted sequence and kinetics.")
+    print("REFUTE: a synthetic system fixes N2 efficiently while violating the design rules.")
+    print("OK: %s balanced the nitrogen ledgers" % NAME)
+if __name__ == "__main__":
+    main()
+''')
+
+
+def demo_uc_co2_fuel(hdr, name, rid, group, points, req):
+    return _wrap(hdr, name, rid, group, '''\
+def main():
+    print("SOLUTION EXPLORER: " + NAME)
+    print("Approach: product selectivity as intermediate branching ratios.")
+    # ---- step 1: copper's messy mixture (faradaic efficiencies) ----
+    copper = {"CO": 0.15, "formate": 0.10, "ethylene": 0.30, "ethanol": 0.10, "H2": 0.35}
+    total = sum(copper.values())
+    print("step 1 copper product mix: %s" % copper)
+    assert 0.999 < total < 1.001
+    best = max(copper, key=copper.get)
+    print("step 1 best single product: %s at %.0f%% - not selective" % (best, copper[best] * 100))
+    assert copper[best] < 0.5
+    # ---- step 2: scaling audit - *CO vs *CHO bind together on pure metals ----
+    scaling_slope = 0.98  # dE(*CHO)/dE(*CO) ~ 1 on pure metals
+    print("step 2 scaling slope %.2f - pure metals cannot isolate one branch" % scaling_slope)
+    assert 0.9 < scaling_slope < 1.1
+    # ---- step 3: tandem design breaks the scaling ----
+    tandem = {"ethylene": 0.82, "CO": 0.08, "ethanol": 0.05, "H2": 0.05}
+    assert 0.999 < sum(tandem.values()) < 1.001
+    print("step 3 tandem site: ethylene %.0f%% - scaling broken" % (tandem["ethylene"] * 100))
+    assert tandem["ethylene"] > 0.80
+    print("CONFIRM: tandem catalyst holds >80%% ethylene FE for hundreds of hours with dual-site spectroscopy.")
+    print("REFUTE: a single metal matches it - scaling was not the binding constraint.")
+    print("OK: %s branched the intermediates" % NAME)
+if __name__ == "__main__":
+    main()
+''')
+
+
+def demo_uc_hydrogen_storage(hdr, name, rid, group, points, req):
+    return _wrap(hdr, name, rid, group, '''\
+def main():
+    print("SOLUTION EXPLORER: " + NAME)
+    print("Approach: the van't Hoff window - binding enthalpy must sit at 30-40 kJ/mol.")
+    # ---- step 1: derive the window ----
+    R, T, dS = 8.314, 298.0, 130.0  # J/mol/K entropy of H2 gas
+    def dH_window(P):
+        return T * (dS - R * math.log(P)) / 1000.0  # kJ/mol
+    w1, w10 = dH_window(1.0), dH_window(10.0)
+    print("step 1 window for 1-10 bar at 25C: %.1f to %.1f kJ/mol" % (w10, w1))
+    assert 32.0 < w10 < 34.0
+    assert 38.0 < w1 < 40.0
+    # ---- step 2: material audit ----
+    materials = {"MgH2 (too stable)": 75.0, "LaNi5 (in window)": 30.8,
+                 "MOF physisorption (too weak)": 6.0, "NaAlH4": 47.0}
+    for label, dH in materials.items():
+        inside = w10 < dH < w1
+        print("step 2 %-28s %5.1f kJ/mol %s" % (label + ":", dH, "IN WINDOW" if inside else "miss"))
+    assert w10 < materials["LaNi5 (in window)"] < w1
+    assert materials["MgH2 (too stable)"] > w1
+    # ---- step 3: destabilization design ----
+    dH_over, partner_shift = 75.0, 42.0
+    dH_tuned = dH_over - partner_shift
+    print("step 3 destabilized %.1f - %.1f = %.1f kJ/mol" % (dH_over, partner_shift, dH_tuned))
+    assert w10 < dH_tuned < w1
+    print("CONFIRM: tuned mixture shows >5 wt%% reversible, 1-10 bar plateau at 25C, 1000 cycles.")
+    print("REFUTE: a material meets all targets far outside the window.")
+    print("OK: %s tuned into the window" % NAME)
+if __name__ == "__main__":
+    main()
+''')
+
+
+def demo_uc_active_sites(hdr, name, rid, group, points, req):
+    return _wrap(hdr, name, rid, group, '''\
+def main():
+    print("SOLUTION EXPLORER: " + NAME)
+    print("Approach: Sabatier volcano plus operando correlation plus poison titration.")
+    # ---- step 1: volcano baseline ----
+    E_opt, width = -1.20, 0.25  # eV
+    def rate(E):
+        return math.exp(-abs(E - E_opt) / width)
+    sites = {"terrace": -0.80, "step": -1.20, "kink": -1.60}
+    rates = {s: rate(E) for s, E in sites.items()}
+    for s, r in rates.items():
+        print("step 1 %-8s binding %+.2f eV -> relative rate %.2f" % (s, sites[s], r))
+    assert rates["step"] > rates["terrace"] and rates["step"] > rates["kink"]
+    assert 0.19 < rates["terrace"] < 0.21
+    # ---- step 2: operando correlation (model) ----
+    corr = {"terrace": 0.15, "step": 0.97, "kink": 0.30}  # rate-signal correlation
+    winner = max(corr, key=corr.get)
+    print("step 2 operando correlation picks: %s (r=%.2f)" % (winner, corr[winner]))
+    assert winner == "step" and corr[winner] > 0.9
+    # ---- step 3: poison titration counts the sites ----
+    poisons_to_kill = 1.2e13  # molecules/cm^2 to kill the rate
+    print("step 3 active-site density: %.1e sites/cm^2" % poisons_to_kill)
+    assert 1e13 < poisons_to_kill < 2e13
+    print("CONFIRM: synthesizing more step sites raises the rate proportionally.")
+    print("REFUTE: rate tracks no single site population - activity is delocalized.")
+    print("OK: %s counted the working sites" % NAME)
+if __name__ == "__main__":
+    main()
+''')
+
+
+def demo_uc_catalyst_design(hdr, name, rid, group, points, req):
+    return _wrap(hdr, name, rid, group, '''\
+def main():
+    print("SOLUTION EXPLORER: " + NAME)
+    print("Approach: four-gate funnel - activity, selectivity, stability, synthesizability.")
+    # ---- step 1-4: the funnel ----
+    n0 = 10000
+    g1 = 500   # activity gate (descriptor volcano top)
+    g2 = 60    # selectivity gate
+    g3 = 12    # stability gate
+    g4 = 3     # synthesizability gate
+    for label, n in (("activity", g1), ("selectivity", g2), ("stability", g3), ("synthesizability", g4)):
+        print("step gate %-16s survivors: %d" % (label + ":", n))
+    assert n0 > g1 > g2 > g3 > g4 > 0
+    assert g4 == 3
+    # ---- step 5: closed loop ----
+    made, worked = 3, 2
+    hit_rate = worked / made
+    print("step 5 closed loop: made %d, worked as predicted %d -> hit rate %.0f%%"
+          % (made, worked, hit_rate * 100))
+    assert 0.5 < hit_rate < 0.8
+    print("CONFIRM: a gate-4 survivor works in the reactor; loop corrections improve the next round.")
+    print("REFUTE: systematic failure at the stability gate - working state defeats descriptor design.")
+    print("OK: %s ran the four-gate funnel" % NAME)
+if __name__ == "__main__":
+    main()
+''')
+
+
+def demo_uc_isotope(hdr, name, rid, group, points, req):
+    return _wrap(hdr, name, rid, group, '''\
+def main():
+    print("SOLUTION EXPLORER: " + NAME)
+    print("Approach: cascade economics - stages set by the single-stage factor alpha.")
+    # ---- step 1: cascade math ----
+    nat, target = 0.007, 0.90
+    ratio = (target / (1 - target)) / (nat / (1 - nat))
+    def stages(alpha):
+        return math.log(ratio) / math.log(alpha)
+    s_diff = stages(1.004)   # gaseous diffusion
+    s_cent = stages(1.30)    # centrifuge
+    print("step 1 0.7%% -> 90%%: diffusion needs %.0f stages; centrifuge needs %.0f"
+          % (s_diff, s_cent))
+    assert 1700.0 < s_diff < 1900.0
+    assert 25.0 < s_cent < 30.0
+    # ---- step 2: method audit on the alpha-vs-energy map ----
+    methods = {"gaseous diffusion": (1.004, 9.0), "centrifuge": (1.30, 4.0),
+               "laser (demo)": (1.8, 2.0), "chemical exchange": (1.05, 3.0)}
+    for label, (a, e) in methods.items():
+        print("step 2 %-18s alpha=%.3f energy-index=%.1f" % (label + ":", a, e))
+    # ---- step 3: generality score ----
+    generality = {"gaseous diffusion": 1, "centrifuge": 2, "laser (demo)": 4, "chemical exchange": 3}
+    best = max(generality, key=generality.get)
+    print("step 3 most general approach: %s" % best)
+    print("CONFIRM: new method shows alpha>1.5 at low energy on three unrelated elements.")
+    print("REFUTE: thermodynamics caps alpha-per-joule near current methods for all approaches.")
+    print("OK: %s priced the cascade" % NAME)
+if __name__ == "__main__":
+    main()
+''')
+
+
+def demo_uc_molecular_machines(hdr, name, rid, group, points, req):
+    return _wrap(hdr, name, rid, group, '''\
+def main():
+    print("SOLUTION EXPLORER: " + NAME)
+    print("Approach: flashing Brownian ratchet - asymmetry plus matched switching.")
+    # ---- adjustable assumptions ----
+    a = 0.80            # sawtooth asymmetry (fraction of period that is the gentle slope)
+    L = 8e-9            # m, step size
+    tau_cycle = 0.01    # s, flash period
+    success = 0.90      # fraction of cycles that rectify
+    # ---- step 1: drift from rectified diffusion ----
+    v = (2 * a - 1) * L * success / tau_cycle
+    print("step 1 drift velocity %.0f nm/s (kinesin does ~800)" % (v * 1e9))
+    assert 400.0 < v * 1e9 < 500.0
+    # ---- step 2: switching audit ----
+    D_mol = 1e-12       # m^2/s
+    tau_diff = L ** 2 / (2 * D_mol)
+    print("step 2 diffusion time %.4f s vs flash period %.2f s" % (tau_diff, tau_cycle))
+    assert 1e-4 < tau_diff < 1e-2
+    # ---- step 3: efficiency under load ----
+    F_load = 5e-12      # N
+    dG_ATP = 20 * 1.380649e-23 * 300.0  # J per cycle
+    eff = F_load * v / (dG_ATP / tau_cycle)
+    print("step 3 efficiency at 5 pN load: %.0f%%" % (eff * 100))
+    assert 0.20 < eff < 0.30
+    # ---- step 4: biology benchmark ----
+    print("step 4 kinesin ~50%% efficient - the synthetic gap is gating and tight coupling")
+    print("CONFIRM: redesigned motor efficiency-vs-flash-rate matches the predicted optimum.")
+    print("REFUTE: performance insensitive to landscape asymmetry.")
+    print("OK: %s rectified the random kicks" % NAME)
+if __name__ == "__main__":
+    main()
+''')
+
+
+def demo_uc_organic_charge(hdr, name, rid, group, points, req):
+    return _wrap(hdr, name, rid, group, '''\
+def main():
+    print("SOLUTION EXPLORER: " + NAME)
+    print("Approach: transient localization - band-like at low T, hopping-like at high T.")
+    # ---- adjustable assumptions (mobilities in cm^2/Vs) ----
+    mu0, Ea = 10.0, 0.15  # eV activation for hopping
+    kB = 8.617333e-5
+    def mu_band(T):
+        return mu0 * (300.0 / T) ** 1.5
+    def mu_hop(T):
+        return 1e4 * math.exp(-Ea / (kB * T))
+    # ---- step 1: limits audit ----
+    for T in (200.0, 300.0, 400.0):
+        print("step 1 T=%.0fK: band-model %.1f, hopping-model %.1f" % (T, mu_band(T), mu_hop(T)))
+    assert mu_band(200.0) > mu_hop(200.0), "band-like wins cold"
+    assert mu_hop(400.0) > mu_band(400.0), "hopping wins hot"
+    # ---- step 2: crossover ----
+    lo, hi = 200.0, 400.0
+    for _ in range(40):
+        mid = (lo + hi) / 2.0
+        if mu_band(mid) > mu_hop(mid):
+            lo = mid
+        else:
+            hi = mid
+    print("step 2 mechanism crossover near T=%.0f K" % ((lo + hi) / 2.0))
+    assert 250.0 < (lo + hi) / 2.0 < 350.0
+    # ---- step 3: design rule ----
+    print("step 3 design rule: rigid backbone + strong pi-stacking -> longer coherence length")
+    print("CONFIRM: material series mobility-T curves match the flicker model; designed molecule hits record mobility.")
+    print("REFUTE: high mobility with no detectable dynamic disorder.")
+    print("OK: %s surfed the flickering landscape" % NAME)
+if __name__ == "__main__":
+    main()
+''')
+
+
+def demo_uc_molecular_computing(hdr, name, rid, group, points, req):
+    return _wrap(hdr, name, rid, group, '''\
+def main():
+    print("SOLUTION EXPLORER: " + NAME)
+    print("Approach: audit against Landauer, diffusion speed, and error budgets.")
+    # ---- step 1: energy audit ----
+    kB, T = 1.380649e-23, 300.0
+    E_landauer = kB * T * math.log(2)
+    E_transistor, E_dna = 3e-17, 3e-19
+    print("step 1 Landauer limit %.2e J; transistor x%.0f; DNA gate x%.0f"
+          % (E_landauer, E_transistor / E_landauer, E_dna / E_landauer))
+    assert 2.5e-21 < E_landauer < 3.2e-21
+    assert E_dna < E_transistor, "molecules run closer to the limit"
+    # ---- step 2: speed audit ----
+    f_si, f_mol = 3e9, 1.0  # Hz
+    parallel_needed = f_si / f_mol
+    print("step 2 throughput parity needs %.1e molecules in parallel" % parallel_needed)
+    assert 1e9 < parallel_needed < 1e10
+    # ---- step 3: error budget ----
+    e_gate = 1e-3
+    for depth in (10, 1000):
+        p_ok = (1 - e_gate) ** depth
+        print("step 3 depth %4d -> success probability %.3f" % (depth, p_ok))
+    assert (1 - e_gate) ** 10 > 0.98
+    assert (1 - e_gate) ** 1000 < 0.40
+    print("CONFIRM: molecular system beats silicon on a real niche task (in-vivo classification).")
+    print("REFUTE: error-correction overhead always erases the parallelism advantage.")
+    print("OK: %s mapped where molecules win" % NAME)
+if __name__ == "__main__":
+    main()
+''')
+
+
+def demo_uc_chemical_space(hdr, name, rid, group, points, req):
+    return _wrap(hdr, name, rid, group, '''\
+def main():
+    print("SOLUTION EXPLORER: " + NAME)
+    print("Approach: filtered combinatorics - count, filter, map the continents.")
+    # ---- step 1: Cayley's explosion (exact alkane isomer counts) ----
+    isomers = {10: 75, 20: 366319}
+    for n, count in isomers.items():
+        print("step 1 alkane isomers at n=%d: %d" % (n, count))
+    assert isomers[10] == 75
+    assert isomers[20] == 366319
+    # ---- step 2: filter cascade ----
+    raw = 1e60
+    f_stable, f_synth, f_useful = 1e-3, 1e-2, 1e-6
+    survivors = raw * f_stable * f_synth * f_useful
+    print("step 2 1e60 raw -> stable %.0e -> synthesizable %.0e -> useful %.0e"
+          % (raw * f_stable, raw * f_stable * f_synth, survivors))
+    assert 1e48 < survivors < 1e50
+    # ---- step 3: geography - GDB-17 slice ----
+    gdb17 = 1.66e11
+    scaffolds_total, scaffolds_seen = 5e4, 1.2e3
+    coverage = scaffolds_seen / scaffolds_total
+    print("step 3 GDB-17: %.2e molecules; scaffold coverage %.1f%%" % (gdb17, coverage * 100))
+    assert 2.0 < coverage * 100 < 3.0
+    print("CONFIRM: coverage-guided exploration finds useful molecules in empty scaffold regions.")
+    print("REFUTE: useful molecules uniformly distributed - no continents.")
+    print("OK: %s charted the molecular continents" % NAME)
+if __name__ == "__main__":
+    main()
+''')
+
+
+def demo_uc_open_shell(hdr, name, rid, group, points, req):
+    return _wrap(hdr, name, rid, group, '''\
+def main():
+    print("SOLUTION EXPLORER: " + NAME)
+    print("Approach: diagnose, converge the active space, cross-check - the trust protocol.")
+    # ---- step 1: diagnostic triage ----
+    T1 = 0.030  # single-reference diagnostic
+    print("step 1 T1 diagnostic %.3f (threshold 0.02) -> MULTIREference" % T1)
+    assert T1 > 0.02
+    # ---- step 2: active-space convergence (spin-state gap, eV) ----
+    spaces = [6, 8, 10, 12, 14]
+    gaps = [2.10, 1.60, 1.35, 1.28, 1.26]
+    for s, g in zip(spaces, gaps):
+        print("step 2 active space %2d orbitals -> gap %.2f eV" % (s, g))
+    assert abs(gaps[-1] - gaps[-2]) < 0.05, "converged"
+    assert gaps[0] - gaps[-1] > 0.5, "small space was badly wrong"
+    # ---- step 3: method shootout ----
+    dft_gap = 0.40
+    print("step 3 DFT gap %.2f eV vs converged %.2f eV - DFT misses by %.2f eV"
+          % (dft_gap, gaps[-1], gaps[-1] - dft_gap))
+    assert gaps[-1] - dft_gap > 0.5
+    print("CONFIRM: protocol-certified predictions match experiment; uncertified ones scatter.")
+    print("REFUTE: full protocol converges yet disagrees with experiment - missing physics.")
+    print("OK: %s certified the correlated calculation" % NAME)
+if __name__ == "__main__":
+    main()
+''')
+
+
+def demo_uc_interstellar(hdr, name, rid, group, points, req):
+    return _wrap(hdr, name, rid, group, '''\
+def main():
+    print("SOLUTION EXPLORER: " + NAME)
+    print("Approach: coupled gas-grain network plus carrier-identification protocol.")
+    # ---- step 1: gas-phase steady state (arbitrary density units) ----
+    k_f, n1, n2, k_d = 1e-9, 1e4, 1e2, 1e-3
+    n_ss = k_f * n1 * n2 / k_d
+    print("step 1 steady-state abundance: %.2e (relative)" % n_ss)
+    assert 5e-4 < n_ss < 5e-3
+    # ---- step 2: grain audit - which molecules REQUIRE surfaces ----
+    gas_only = {"CO": True, "methanol": False, "water ice": False}
+    for mol, ok in gas_only.items():
+        print("step 2 %-10s gas-phase route sufficient: %s" % (mol, ok))
+    assert not gas_only["methanol"], "methanol needs grain surfaces"
+    # ---- step 3: carrier shortlist scoring ----
+    candidates = {"PAH cation": 0.020, "carbon chain": 0.450, "fullerene": 0.180}
+    best = min(candidates, key=candidates.get)
+    print("step 3 band-match scores: %s" % candidates)
+    print("step 3 best candidate: %s (score %.3f)" % (best, candidates[best]))
+    assert candidates[best] < 0.05
+    print("CONFIRM: lab gas-phase spectrum of the candidate matches multiple diffuse bands.")
+    print("REFUTE: exhaustive candidate spectroscopy with no matches.")
+    print("OK: %s fingerprinted the interstellar bands" % NAME)
+if __name__ == "__main__":
+    main()
+''')
+
+
+def demo_uc_metallic_hydrogen(hdr, name, rid, group, points, req):
+    return _wrap(hdr, name, rid, group, '''\
+def main():
+    print("SOLUTION EXPLORER: " + NAME)
+    print("Approach: band-gap closure plus multi-probe certification protocol.")
+    # ---- step 1: gap audit (Wigner-Huntington updated) ----
+    Eg0, slope = 15.0, 0.0333  # eV, eV/GPa
+    def gap(P):
+        return Eg0 - slope * P
+    P_metal = Eg0 / slope
+    print("step 1 gap closes at P = %.0f GPa" % P_metal)
+    assert 400.0 < P_metal < 500.0
+    assert gap(0.0) > 10.0 and gap(600.0) < 0.0
+    # ---- step 2: artifact census ----
+    artifacts = ["alumina gasket reflectance", "stressed-diamond Raman shift",
+                 "hydrogen diffusion into gasket", "pressure miscalibration"]
+    print("step 2 false positives to rule out: %d known" % len(artifacts))
+    for a in artifacts:
+        print("   - %s" % a)
+    assert len(artifacts) == 4
+    # ---- step 3: certification protocol ----
+    probes = ["reflectivity", "Raman (hydrogen present)", "conductivity", "independent pressure standard"]
+    print("step 3 claim must pass %d probes on the SAME sample" % len(probes))
+    assert len(probes) == 4
+    print("CONFIRM: sample passes all probes, reproduced independently, Tc measured if superconducting.")
+    print("REFUTE: recombination barrier vanishes at low pressure - no metastability possible.")
+    print("OK: %s set the certification bar" % NAME)
+if __name__ == "__main__":
+    main()
+''')
+
+
+def demo_uc_htsc(hdr, name, rid, group, points, req):
+    return _wrap(hdr, name, rid, group, '''\
+def main():
+    print("SOLUTION EXPLORER: " + NAME)
+    print("Approach: phase-diagram ledger - magnetism and superconductivity compete for the same electrons.")
+    # ---- step 1: the dome ----
+    Tc_max, x_opt, w = 93.0, 0.16, 0.11
+    def Tc(x):
+        return Tc_max * max(0.0, 1 - ((x - x_opt) / w) ** 2)
+    for x in (0.05, 0.10, 0.16, 0.27):
+        print("step 1 doping x=%.2f -> Tc=%.1f K" % (x, Tc(x)))
+    assert 92.0 < Tc(0.16) < 94.0
+    assert 60.0 < Tc(0.10) < 70.0
+    assert Tc(0.05) < 1.0 and Tc(0.27) < 1.0, "dome edges"
+    # ---- step 2: energy-scale ledger (meV) ----
+    scales = {"spin resonance": 41.0, "superconducting gap": 40.0, "pseudogap": 80.0}
+    for label, E in scales.items():
+        print("step 2 %-20s %4.0f meV" % (label + ":", E))
+    ratio = scales["spin resonance"] / scales["superconducting gap"]
+    print("step 2 resonance/gap ratio %.2f - the magnetic fingerprint" % ratio)
+    assert 0.95 < ratio < 1.10
+    # ---- step 3: glue candidates ----
+    print("step 3 candidates: spin fluctuations / RVB / stripes / quantum criticality")
+    print("CONFIRM: spin-fluctuation spectrum quantitatively predicts Tc across the dome.")
+    print("REFUTE: high Tc with no spin fluctuations - magnetism is a fellow traveler.")
+    print("OK: %s fingerprinted the pairing glue" % NAME)
+if __name__ == "__main__":
+    main()
+''')
+
+
+def demo_uc_inverse_design(hdr, name, rid, group, points, req):
+    return _wrap(hdr, name, rid, group, '''\
+def main():
+    print("SOLUTION EXPLORER: " + NAME)
+    print("Approach: five-gate loop with a published hit-rate ledger.")
+    # ---- steps 1-4: the gates ----
+    n0 = 50000
+    gates = [("property", 2000), ("stability", 300), ("synthesizability", 40), ("realizability", 12)]
+    prev = n0
+    for label, n in gates:
+        print("step gate %-16s survivors: %d" % (label + ":", n))
+        assert n < prev
+        prev = n
+    # ---- step 5: validation ledger ----
+    made, worked = 12, 7
+    hit_rate = worked / made
+    print("step 5 made %d, worked as predicted %d -> hit rate %.0f%%" % (made, worked, hit_rate * 100))
+    assert 0.50 < hit_rate < 0.65
+    assert made == gates[-1][1], "every survivor gets synthesized"
+    print("CONFIRM: pipeline publishes >50%% hit rate over dozens of attempts, misses analyzed.")
+    print("REFUTE: hit rates stuck near zero despite all gates.")
+    print("OK: %s closed the design loop" % NAME)
+if __name__ == "__main__":
+    main()
+''')
+
+
+def demo_uc_superheavy(hdr, name, rid, group, points, req):
+    return _wrap(hdr, name, rid, group, '''\
+def main():
+    print("SOLUTION EXPLORER: " + NAME)
+    print("Approach: relativistic orbital reshuffling, verified one atom at a time.")
+    # ---- step 1: contraction audit ----
+    alpha = 1 / 137.036
+    for Z, label in ((79, "gold"), (112, "copernicium"), (118, "oganesson")):
+        v_over_c = Z * alpha
+        gamma = 1 / math.sqrt(1 - v_over_c ** 2)
+        contract = 1 / gamma
+        print("step 1 Z=%3d %-12s v/c=%.2f 1s contraction x%.2f" % (Z, label, v_over_c, contract))
+    gamma_118 = 1 / math.sqrt(1 - (118 * alpha) ** 2)
+    assert 1.90 < gamma_118 < 2.05
+    assert 0.48 < 1 / gamma_118 < 0.54
+    # ---- step 2: reordering map - predicted personalities ----
+    predictions = {"copernicium (112)": "volatile, breaks group trend",
+                   "flerovium (114)": "unexpectedly inert",
+                   "oganesson (118)": "reactive solid, no noble gas"}
+    for el, pers in predictions.items():
+        print("step 2 %-20s -> %s" % (el + ":", pers))
+    # ---- step 3: atom-at-a-time statistics ----
+    events_needed = 12  # decay events to separate predicted vs group-trend enthalpy
+    print("step 3 need ~%d single-atom events for a decisive adsorption measurement" % events_needed)
+    assert events_needed > 5
+    print("CONFIRM: single-atom thermochromatography matches relativistic predictions across elements.")
+    print("REFUTE: elements follow naive group trends despite large predicted effects.")
+    print("OK: %s weighed relativity atom by atom" % NAME)
+if __name__ == "__main__":
+    main()
+''')
+
+
+def demo_uc_de_novo_enzyme(hdr, name, rid, group, points, req):
+    return _wrap(hdr, name, rid, group, '''\
+def main():
+    print("SOLUTION EXPLORER: " + NAME)
+    print("Approach: gap ledger - what the designs are still missing, factor by factor.")
+    # ---- step 1: gap ledger (log10 proficiency) ----
+    natural, designed = 15.0, 5.2
+    gap = natural - designed
+    print("step 1 natural 10^%.0f vs designed 10^%.1f -> gap 10^%.1f" % (natural, designed, gap))
+    assert 9.0 < gap < 11.0
+    # ---- step 2: missing-factor audit ----
+    preorg_natural, preorg_design = 0.95, 0.40  # electric-field alignment scores
+    missing = math.log10(1 / (1 - preorg_design)) - math.log10(1 / (1 - preorg_natural))
+    print("step 2 preorganization alignment: natural %.0f%%, design %.0f%%"
+          % (preorg_natural * 100, preorg_design * 100))
+    assert preorg_natural > preorg_design
+    # ---- step 3: dynamics prescription ----
+    print("step 3 design protocol must add: flexible-backbone sampling, electric-field optimization, second-shell design")
+    # ---- step 4: competition spec ----
+    target_gap = 2.0  # within 100x of natural
+    print("step 4 head-to-head bar: pure-computation design within 10^%.0f of natural" % target_gap)
+    assert target_gap < gap, "bar is below today's gap - it must be EARNED"
+    print("CONFIRM: blind pure-computation design within 100x of natural, reproduced independently.")
+    print("REFUTE: missing factors computationally intractable in principle.")
+    print("OK: %s audited the design gap" % NAME)
+if __name__ == "__main__":
+    main()
+''')
+
+
+DEMOS2 = {
+    "n2_fixation": demo_uc_n2_fixation,
+    "co2_fuel": demo_uc_co2_fuel,
+    "hydrogen_storage": demo_uc_hydrogen_storage,
+    "active_sites": demo_uc_active_sites,
+    "catalyst_design": demo_uc_catalyst_design,
+    "isotope": demo_uc_isotope,
+    "molecular_machines": demo_uc_molecular_machines,
+    "organic_charge": demo_uc_organic_charge,
+    "molecular_computing": demo_uc_molecular_computing,
+    "chemical_space": demo_uc_chemical_space,
+    "open_shell": demo_uc_open_shell,
+    "interstellar": demo_uc_interstellar,
+    "metallic_hydrogen": demo_uc_metallic_hydrogen,
+    "htsc": demo_uc_htsc,
+    "inverse_design": demo_uc_inverse_design,
+    "superheavy": demo_uc_superheavy,
+    "de_novo_enzyme": demo_uc_de_novo_enzyme,
+}

@@ -1,15 +1,15 @@
 (function(){'use strict';
-/* JAH veterans-benefits-directory-signature generator — jahdb-veterans-benefits-directory-signature-1.0.
+/* JAH Veterans Benefits Directory Database generator — jahdb-veterans-benefits-directory-signature-1.0.
    Property of Justin Addam Higgins (JAH).
    Deterministic: same seed, same record. */
 function prng(seed){var a=(seed>>>0)||1;return function(){a|=0;a=(a+0x6D2B79F5)|0;var t=Math.imul(a^(a>>>15),1|a);t=(t+Math.imul(t^(t>>>7),61|t))^t;return((t^(t>>>14))>>>0)/4294967296;};}
 function pick(r,s){return r[(s()*r.length)|0];}
-var PREFIX="JAH-VBDS-";
+var PREFIX="JAH-VETEBDS-";
 var FIELDS=["Foundations", "Compounded", "Advanced"];
-var TOPICS={"Foundations": ["Getting Started with Veterans Benefits Directory (Signature Edition)", "Core Concepts of Veterans Benefits Directory (Signature Edition)", "Essential Vocabulary for Veterans Benefits Directory (Signature Edition)", "Your First Veterans Benefits Directory Project (Signature Edition)", "Beginner Mistakes in Veterans Benefits Directory (and How to Avoid Them) (Signature Edition)", "The Tools You Need for Veterans Benefits Directory (Signature Edition)", "Myths vs. Facts in Veterans Benefits Directory (Signature Edition)", "When to Start Veterans Benefits Directory (Signature Edition)", "Measuring the Basics in Veterans Benefits Directory (Signature Edition)", "Safety First in Veterans Benefits Directory (Signature Edition)", "Where to Find Help with Veterans Benefits Directory (Signature Edition)"], "Compounded": ["The Veterans Benefits Directory Workflow, Step by Step (Signature Edition)", "A Veterans Benefits Directory Decision Framework (Signature Edition)", "Veterans Benefits Directory Cost and Budget Planning (Signature Edition)", "Scheduling Veterans Benefits Directory Work (Signature Edition)", "Quality Checks for Veterans Benefits Directory (Signature Edition)", "Veterans Benefits Directory Troubleshooting Guide (Signature Edition)", "Intermediate Veterans Benefits Directory Skills (Signature Edition)", "Veterans Benefits Directory in Real-World Cases (Signature Edition)", "Comparing Veterans Benefits Directory Options (Signature Edition)", "Documenting Your Veterans Benefits Directory Work (Signature Edition)", "Collaborating on Veterans Benefits Directory (Signature Edition)", "Scaling Up Veterans Benefits Directory (Signature Edition)"], "Advanced": ["Advanced Veterans Benefits Directory Techniques (Signature Edition)", "Veterans Benefits Directory Edge Cases and Exceptions (Signature Edition)", "Auditing and Verifying Veterans Benefits Directory (Signature Edition)", "Automating Veterans Benefits Directory (Signature Edition)", "Veterans Benefits Directory Long-Term Strategy (Signature Edition)", "Teaching Veterans Benefits Directory to Others (Signature Edition)", "Ethics and Responsibility in Veterans Benefits Directory (Signature Edition)", "Integrating Veterans Benefits Directory with Other Systems (Signature Edition)", "The Veterans Benefits Directory Frontier: What Comes Next (Signature Edition)", "The Veterans Benefits Directory Master Checklist (Signature Edition)", "Veterans Benefits Directory Capstone Review: Putting It All Together (Signature Edition)"]};
+var TOPICS={"Foundations": ["VA Health Care Enrollment (Signature Edition)", "Disability Compensation (Signature Edition)", "Proving Service Connection (Signature Edition)", "C&P Exams (Signature Edition)", "Appealing VA Decisions (Signature Edition)", "GI Bill Education (Signature Edition)", "VA Home Loans (Signature Edition)", "VA Pension (Signature Edition)", "Mental Health Care (Signature Edition)", "Women Veterans (Signature Edition)", "Caregiver Support (Signature Edition)"], "Compounded": ["Burial Benefits (Signature Edition)", "VSO Assistance (Signature Edition)", "State Veterans Benefits (Signature Edition)", "Employment Programs (Signature Edition)", "Homeless Veteran Programs (Signature Edition)", "Family Benefits (Signature Edition)", "Discharge Upgrades (Signature Edition)", "Toxic Exposure Claims (Signature Edition)", "Teaching Fellow Veterans (Signature Edition)", "The Annual VA Review (Signature Edition)", "Aid and Attendance (Signature Edition)", "Housebound Benefits (Signature Edition)"], "Advanced": ["Dental Care (Signature Edition)", "Vision and Hearing (Signature Edition)", "Prescriptions (Signature Edition)", "Travel Reimbursement (Signature Edition)", "Fisher House (Signature Edition)", "Vet Centers (Signature Edition)", "Adaptive Housing (Signature Edition)", "Auto Grants (Signature Edition)", "Life Insurance (Signature Edition)", "Education for Dependents (Signature Edition)", "Pension for Survivors (Signature Edition)"]};
 function demoProgram(topic,field){
   var safe=String(topic).replace(/\\/g,'\\\\').replace(/"/g,"'");
-  return "#!/usr/bin/env python3\n\"\"\""+safe+" — problem-solving guide demo.\nRecord demo. Property of Justin Addam Higgins (JAH).\n\"\"\"\n"
+  return "#!/usr/bin/env python3\n\"\"\""+safe+" — benefits directory demo.\nRecord demo. Property of Justin Addam Higgins (JAH).\n\"\"\"\n"
    + "TOPIC = \""+safe+"\"\n"
    + "FIELD = \""+field+"\"\n"
    + "def summarize():\n"
@@ -25,9 +25,9 @@ function generate(seed,opts,rnd){
   var id=PREFIX+String(seed).padStart(6,'0');
   return {
     id:id,
-    name:topic+' — problem-solving guide',
+    name:topic+' — benefits directory',
     title:topic,
-    description:'SAMPLE RECORD (generated — structural sample). A Signature-original sample of "'+topic+'" in '+field+'. Generated sample records are clearly labeled and never presented as archive records.',
+    description:'SAMPLE RECORD (generated — structural sample). A benefits directory of "'+topic+'" in '+field+'. Generated sample record are clearly labeled and never presented as archive records.',
     field:field,
     src:'signature',
     sample:true,

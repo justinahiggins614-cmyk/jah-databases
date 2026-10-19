@@ -1,0 +1,396 @@
+#!/usr/bin/env python3
+"""Build the Wu Chinese Language databases for JAH Databases
+(Language project 2026-10-17, batch 2).
+
+Roster rank 17/100: Wu Chinese (吴语), ISO 639-3 wuu, Sino-Tibetan.
+Slug verified free in the manifest; id prefixes JAH-LWUU- (public) and
+JAH-LWUUS- (signature) verified zero-hit in the manifest id_prefix values
+AND in every shard index file under jah-databases-data-1 (825 index files
+scanned; the only JAH-LW* prefix in the system is JAH-LW- luxury-watches).
+
+So this build creates two NEW databases, 34 ladder-ordered records each:
+
+  language-wu-chinese            - Wu Chinese Language Database
+                                   (public-harvest: real, fact-checked Wu
+                                   Chinese linguistics - Northern Wu with
+                                   the Shanghai dialect as reference
+                                   standard; tones/romanization, phonology,
+                                   core vocabulary, grammar, themed
+                                   sentence sets, stories, idioms,
+                                   registers, complex sentences,
+                                   conversations, mastery reference;
+                                   every record carrying Chinese
+                                   characters + romanization + English;
+                                   standard references Chao 1928, Norman
+                                   1988, Qian Nairong 1992/2007, Zhu 2006,
+                                   Ethnologue [wuu])
+  language-wu-chinese-signature - Wu Chinese Language Signature Database
+                                   (his original Signature language work:
+                                   the same 34-rung ladder read through the
+                                   Signature lens - every record a signed
+                                   covenant of meaning; src signature,
+                                   titles suffixed " (Signature Edition)",
+                                   never presented as authentic public
+                                   record)
+
+34 records each, ordered by the teaching ladder (ladder_rank 1-10
+non-decreasing, ladder_tier foundations/compounded/advanced); the shard
+index is written in ladder order so pages present simple -> compounded ->
+complex.
+
+Romanization: practical pinyin-style Wu romanization with tone numbers
+1=53, 2=34, 3=23, 4=5 (short), 5=12 (short), defined in record 3; citation
+tones per syllable; left-dominant sandhi in connected speech.
+
+Numerical cores: all hand-computed 2026-10-17, machine-verified by the
+demos (see demos_wu_chinese.py). Every demo prints its real computed
+values, asserts tight bounds (never float exact-equality), prints CHECK:
+lines cross-checked against the full entry text at build time, and ends
+with the OK marker; the build machine-executes all 68 demos.
+
+CONCURRENCY: this builder never touches data/manifest.json, api.json,
+index.html, README.md, or docs/AI_ACCESS.md, and never commits or pushes -
+a merger handles those. Manifest/api entries are printed (not written) for
+the merger.
+
+Never the words "bat belt" anywhere. No website references. No Facebook.
+"""
+import importlib.util
+import json
+import os
+import re
+import subprocess
+import sys
+
+HERE = os.path.dirname(os.path.abspath(__file__))
+REPO = "/home/hatch/workspace/jah-databases"
+SHARD = "/home/hatch/workspace/jah-databases-data-1"
+SHARD_BASE = "https://justinahiggins614-cmyk.github.io/jah-databases-data-1"
+TEMPLATE = os.path.join(REPO, "db", "public-synthetic-intelligence", "index.html")
+FRAGMENTS = "/home/hatch/workspace/hidden_files/missing-builds/fragments"
+
+sys.path.insert(0, os.path.join(REPO, "code", "phone-compound-build"))
+import build as base
+sys.path.insert(0, os.path.join(REPO, "code"))
+from dedupe_gate import DedupeGate
+base.GATE = DedupeGate(os.path.join(REPO, "data", "dedupe", "exact"))
+
+sys.path.insert(0, HERE)
+from entries_wu_chinese import ENTRIES, SIG_TAIL
+from demos_wu_chinese import DEMOS
+
+# ---------------------------------------------------------------- DB config
+
+def _cfg(slug, name, tagline, record_kind, prefix, ai, role, citation, source):
+    sig_line = ("Signature originals - his original Signature language work: "
+                "the full Wu ladder read through the Signature lens, every "
+                "record a signed covenant of meaning, every tone a seal, "
+                "every idiom a master seal of Wu identity. Clearly labeled "
+                "Signature-made, never presented as authentic public record.")
+    pub_line = ("Public records - real, fact-checked Wu Chinese linguistics: "
+                "Northern Wu with the Shanghai dialect as the reference "
+                "standard - tones and romanization, phonology, core "
+                "vocabulary, grammar, themed sentence sets, stories, idioms, "
+                "registers, complex sentences, conversations, and a mastery "
+                "reference - every record carrying Chinese characters, "
+                "romanization, and English, organized in the Signature "
+                "system.")
+    ladder = (" Records are ordered by the teaching ladder: Foundations "
+              "(language overview, writing system, pronunciation and "
+              "phonology, core nouns, core verbs, adjectives and adverbs, "
+              "pronouns, numbers and time, greetings and everyday phrases, "
+              "grammar essentials) -> Compounded (home and family, food and "
+              "cooking, travel and directions, work and school, health and "
+              "body, emotions and feelings, nature and weather, shopping and "
+              "money, friendship and social life, technology and "
+              "communication) -> Advanced (verb tenses, questions and "
+              "answers, commands and requests, descriptions, three stories, "
+              "idioms and proverbs, formal and polite registers, compound "
+              "and complex sentences, three conversations, mastery review "
+              "and full reference).")
+    return {
+        "name": name, "tagline": tagline, "record_kind": record_kind,
+        "prefix": prefix, "ai": ai, "role": role,
+        "hero_p": "%s - %s Every record carries the full entry: description, how it works, "
+                  "key points, requirements, standards, citations, and a working demonstration "
+                  "program.%s" % (tagline, sig_line if source == "signature" else pub_line, ladder),
+        "sig_type": ("Signature originals organized in the Signature system"
+                     if source == "signature" else
+                     "Public records organized in the Signature system"),
+        "search_ph": "Search Wu Chinese tones, pronunciation, nouns, verbs, grammar, numbers, greetings, phrases, idioms, conversations...",
+        "chat_ph": "Ask about Wu Chinese...",
+        "archive_blurb": ("Seeded %s Wu Chinese language records, marching toward one million records. "
+                          "Presented in teaching-ladder order: foundations, compounded, advanced."
+                          % ("Signature-original" if source == "signature" else "public-record")),
+        "schema": ("id, t, g, name, title, description, how_it_works, key_points, requirements, "
+                   "standards, citations, src, ladder_rank, ladder_tier, demo"),
+        "fields": "Foundations \u00b7 Compounded \u00b7 Advanced - each tier opens on demand and loads only what you open",
+        "gen_desc": "Generate clearly-labeled Wu Chinese language studies. Seeded archive records are the authoritative entries.",
+        "greet": "I am the %s. Ask me about Wu Chinese - from tones and pronunciation through core words, grammar, numbers, greetings, and everyday topics, to stories, idioms, and full conversation." % ai,
+        "gen_fields": ["Foundations", "Compounded", "Advanced"],
+        "gen_kind": "wu-chinese-study", "gen_demo_kind": "wu-chinese-demo",
+        "source": source,
+    }
+
+CIT_PUB = ("Wu Chinese linguistics (standard references: Chao Y R. Studies "
+           "in the Modern Wu-dialects. Tsing Hua College Research Institute; "
+           "1928; Norman J. Chinese. Cambridge University Press; 1988; Qian "
+           "Nairong. 当代吴语研究. Shanghai Educational Publishing House; "
+           "1992; Qian Nairong. 上海话大词典. Shanghai Lexicographical "
+           "Publishing House; 2007; Zhu X. Shanghai Tonetics. LINCOM Europa; "
+           "2006; Ethnologue: Wu Chinese [wuu], ISO 639-3:2007).")
+CIT_SIG = CIT_PUB + (" Signature editions are his original Signature "
+                     "language work - the Wu ladder read through the "
+                     "Signature lens, clearly labeled Signature-made.")
+
+DBCFG = {}
+DBCFG["language-wu-chinese"] = _cfg(
+    "language-wu-chinese", "Wu Chinese Language Database",
+    "Learn Wu Chinese (吴语): real, fact-checked Northern Wu language "
+    "teaching from first tones to full conversation - every record carrying "
+    "Chinese characters, romanization, and English, taught along the ladder.",
+    "language learning record", "JAH-LWUU-", "JAH Wu Chinese Language Tutor",
+    "Wu Chinese language tutor - teaching Wu Chinese from first tones to full "
+    "conversation with Chinese characters, romanization, and English on every "
+    "line; answers from many angles - definition, example, analogy, "
+    "application, history, sound, how-to - using only archive data from this "
+    "system",
+    CIT_PUB, "public")
+DBCFG["language-wu-chinese-signature"] = _cfg(
+    "language-wu-chinese-signature", "Wu Chinese Language Signature Database",
+    "His original Signature reading of Wu Chinese: the full 34-rung ladder "
+    "from first tones to full conversation, reframed as signed covenants of "
+    "meaning - every record a seal, every idiom a master seal of Wu "
+    "identity. Clearly labeled Signature-made, never presented as authentic "
+    "public record.",
+    "language learning record", "JAH-LWUUS-", "JAH Wu Chinese Language Tutor (Signature)",
+    "Wu Chinese language tutor - Signature editions: his original Signature "
+    "reading of Wu Chinese, every record a signed covenant of meaning, "
+    "clearly labeled Signature-made and never presented as authentic public "
+    "record; teaches progressively along the ladder from foundations through "
+    "compounded to advanced; answers from many angles - definition, example, "
+    "analogy, application, history, sound, how-to - using only archive data "
+    "from this system",
+    CIT_SIG, "signature")
+
+base.DBCFG = DBCFG
+
+assert set(DEMOS) == {e["key"] for e in ENTRIES}, "demo map misses entries"
+
+
+def build_records(slug, source):
+    cfg = DBCFG[slug]
+    sig = source == "signature"
+    ordered = sorted(enumerate(ENTRIES), key=lambda p: (p[1]["ladder_rank"], p[0]))
+    recs = []
+    refused = []
+    for _, e in ordered:
+        name = e["name"]
+        title = name + " (Signature Edition)" if sig else name
+        hits = [h for h in base.GATE.check(slug, title) if h[0] != slug]
+        if hits:
+            refused.append((title, hits))
+            print("  gate refused (cross-db dupe): %s -> %s" % (title, hits), flush=True)
+            continue
+        rid = "%s%06d" % (cfg["prefix"], len(recs) + 1)
+        if sig:
+            description = ("Signature original interpretation. " + e["sig_lens"] + " "
+                           + e["description"])
+            how = e["sig_lens"] + " " + e["how_it_works"]
+            citations = list(e["citations"]) + [SIG_TAIL]
+        else:
+            description = e["description"]
+            how = e["how_it_works"]
+            citations = list(e["citations"])
+        rec = {
+            "id": rid, "t": title, "g": e["group"], "name": name, "title": title,
+            "description": description,
+            "how_it_works": how,
+            "key_points": list(e["key_points"]),
+            "requirements": list(e["requirements"]),
+            "standards": list(e["standards"]),
+            "citations": citations,
+            "src": "signature" if sig else "public-harvest",
+            "ladder_rank": e["ladder_rank"],
+            "ladder_tier": e["ladder_tier"],
+        }
+        demo_fn = DEMOS[e["key"]]
+        program = demo_fn(base._hdr, name if not sig else title, rid, e["group"],
+                          e["key_points"], "; ".join(e["requirements"]))
+        rec["demo"] = {"kind": "python", "language": "python",
+                       "program": program,
+                       "note": "Working demonstration program (real, runnable Python)."}
+        base.GATE.admit(slug, title, rid)
+        recs.append(rec)
+    ranks = [r["ladder_rank"] for r in recs]
+    assert ranks == sorted(ranks), "records not in ladder order for %s" % slug
+    return recs, refused
+
+
+def node_check_js(path):
+    p = subprocess.run(["node", "--check", path],
+                       capture_output=True, text=True, timeout=60)
+    assert p.returncode == 0, "node --check failed on %s: %s" % (path, p.stderr[-500:])
+
+
+def node_check_page_scripts(ppath, workdir):
+    with open(ppath, "r", encoding="utf-8") as f:
+        html = f.read()
+    blocks = re.findall(r'<script(?![^>]*\bsrc=)(?![^>]*ld\+json)[^>]*>(.*?)</script>', html, re.S)
+    n = 0
+    for i, s in enumerate(blocks):
+        if not s.strip():
+            continue
+        tmp = os.path.join(workdir, "page-script-%d.js" % i)
+        with open(tmp, "w", encoding="utf-8") as f:
+            f.write(s)
+        node_check_js(tmp)
+        n += 1
+    return n
+
+
+def write_fragment(built):
+    frag = {}
+    for slug, recs in built.items():
+        sig = slug.endswith("-signature")
+        cfg = DBCFG[slug]
+        frag["signature" if sig else "public"] = {
+            "slug": slug,
+            "name": cfg["name"],
+            "tagline": cfg["tagline"],
+            "record_kind": cfg["record_kind"],
+            "id_prefix": cfg["prefix"],
+            "ai_name": cfg["ai"],
+            "local_index": SHARD_BASE + "/data/" + slug + "/index.jsonl.gz",
+            "record_count": len(recs),
+            "status": "live",
+            "full_records": len(recs),
+            "index": SHARD_BASE + "/data/" + slug + "/index.jsonl.gz",
+            "chunk_pattern": "data/" + slug + "/chunks/chunk-NNNN.jsonl.gz",
+            "source": "signature" if sig else "public-harvest",
+        }
+    os.makedirs(FRAGMENTS, exist_ok=True)
+    fpath = os.path.join(FRAGMENTS, "language-wu-chinese.json")
+    with open(fpath, "w", encoding="utf-8") as f:
+        json.dump(frag, f, indent=2, ensure_ascii=False)
+        f.write("\n")
+    return fpath
+
+
+def main():
+    sys.path.insert(0, os.path.join(REPO, "code", "numbering-build"))
+    spec = importlib.util.spec_from_file_location(
+        "nb_build", os.path.join(REPO, "code", "numbering-build", "build.py"))
+    nb = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(nb)
+    nb.DBCFG = DBCFG
+
+    sweep_path = "/home/hatch/workspace/goals/database-quality-audit/hidden_files/patches/sweep-db-pages.py"
+    sspec = importlib.util.spec_from_file_location("sweep", sweep_path)
+    sweep = importlib.util.module_from_spec(sspec)
+    sspec.loader.exec_module(sweep)
+
+    built = {}
+    all_refused = []
+    for slug in ("language-wu-chinese", "language-wu-chinese-signature"):
+        source = "signature" if slug.endswith("-signature") else "public"
+        recs, refused = build_records(slug, source)
+        built[slug] = recs
+        all_refused.extend(refused)
+
+    total = 0
+    for slug, recs in built.items():
+        cfg = DBCFG[slug]
+        ids = [r["id"] for r in recs]
+        assert len(ids) == len(set(ids)), "dup ids in %s" % slug
+        assert all(i.startswith(cfg["prefix"]) for i in ids), "prefix drift in %s" % slug
+        assert len(recs) == 34, "expected 34 records in %s, got %d" % (slug, len(recs))
+        for r in recs:
+            for k in ("id", "t", "g", "name", "title", "description", "how_it_works",
+                      "key_points", "requirements", "standards", "citations",
+                      "src", "ladder_rank", "ladder_tier", "demo"):
+                assert k in r, "missing %s in %s" % (k, r["id"])
+            prog = r["demo"].get("program")
+            assert prog and len(r["description"]) > 200, "stub in %s" % r["id"]
+            assert 1 <= r["ladder_rank"] <= 10, "ladder_rank out of range in %s" % r["id"]
+            assert r["ladder_tier"] in ("foundations", "compounded", "advanced"), \
+                "bad ladder_tier in %s" % r["id"]
+            compile(prog, r["id"], "exec")
+            blob = json.dumps(r).lower()
+            assert "facebook" not in blob, "facebook ref in %s" % r["id"]
+            assert "bat belt" not in blob, "banned phrase in %s" % r["id"]
+            if slug.endswith("-signature"):
+                assert "(signature edition)" in r["title"].lower(), "sig title missing suffix"
+                assert r["src"] == "signature"
+            else:
+                assert r["src"] == "public-harvest"
+        total += len(recs)
+        n = base.write_shard_db(slug, recs)
+        print("shard: %-38s %d records" % (slug, n), flush=True)
+
+    # machine-execute ALL demos (68) + cross-check CHECK: words vs entry text
+    for slug, recs in built.items():
+        for r in recs:
+            prog = r["demo"]["program"]
+            p = subprocess.run([sys.executable, "-c", prog],
+                               capture_output=True, text=True, timeout=180)
+            assert p.returncode == 0, "demo failed %s: %s" % (r["id"], p.stderr[-800:])
+            assert "OK:" in p.stdout, "demo no OK marker %s" % r["id"]
+            blob = json.dumps(r, ensure_ascii=False)
+            for line in p.stdout.splitlines():
+                if line.startswith("CHECK:"):
+                    word = line[len("CHECK:"):]
+                    assert word in blob, \
+                        "demo/entry cross-check failed: %r not in %s" % (word, r["id"])
+    print("demo execution: all %d demos ran OK; CHECK cross-checks passed" % total, flush=True)
+
+    with open(TEMPLATE, "r", encoding="utf-8") as f:
+        template = f.read()
+    for slug, recs in built.items():
+        page = nb.build_page(slug, template)
+        page = page.replace(
+            "Generate structural synthetic intelligence studies. Seeded archive records are the authoritative entries.",
+            DBCFG[slug]["gen_desc"])
+        assert 'id="stCount"' in page and "var SLUG='%s';" % slug in page
+        assert "minmax(120px,1fr)" in page and "pre.codeblock" in page
+        assert "pill-ex" in page and "qmerge" in page, "Exhaustive pill / merger button missing"
+        assert "dataset.p" in page, "tab-handler guard missing"
+        assert "facebook" not in page.lower()
+        assert "synthetic intelligence" not in page.lower(), "template leftover in %s" % slug
+        assert "universal build" not in page.lower(), "field leftover in %s" % slug
+        assert "universal-build" not in page, "slug leftover in %s" % slug
+        assert "bat belt" not in page.lower(), "banned phrase in page %s" % slug
+        ddir = os.path.join(REPO, "db", slug)
+        os.makedirs(ddir, exist_ok=True)
+        ppath = os.path.join(ddir, "index.html")
+        with open(ppath, "w", encoding="utf-8") as f:
+            f.write(page)
+        changed, notes = sweep.process_page(ppath)
+        topics = {}
+        for r in recs:
+            topics.setdefault(r["g"], []).append("%s - %s" % (r["t"], r["g"]))
+        gen_js = nb.build_gen_js(slug, topics, DBCFG[slug])
+        assert "facebook" not in gen_js.lower() and "bat belt" not in gen_js.lower()
+        assert "universal build" not in gen_js.lower(), "field leftover in gen js %s" % slug
+        gpath = os.path.join(ddir, "gen-%s.js" % slug)
+        with open(gpath, "w", encoding="utf-8") as f:
+            f.write(gen_js)
+        nscripts = node_check_page_scripts(ppath, HERE)
+        node_check_js(gpath)
+        print("page:  db/%s/index.html + gen-%s.js [%s] node: %d page scripts + gen js clean"
+              % (slug, slug, ", ".join(notes), nscripts), flush=True)
+
+    fpath = write_fragment(built)
+    print("fragment: %s" % fpath, flush=True)
+
+    # merger handoff: manifest/api entries printed, NOT written (concurrency rule)
+    for slug, recs in built.items():
+        print("MERGE-ENTRY: %s" % json.dumps(base.manifest_entry(slug, len(recs)),
+                                            ensure_ascii=False), flush=True)
+    print("dedupe refusals: %d" % len(all_refused), flush=True)
+    print("NEXT (merger): manifest + api.json + restamp + commit + push.")
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

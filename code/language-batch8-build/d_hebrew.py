@@ -1,0 +1,408 @@
+#!/usr/bin/env python3
+"""Language data: Hebrew (עברית) - Modern Hebrew.
+
+Dedupe gate: 'hebrew' zero hits across the full manifest; 'JAH-LHEB-' /
+'JAH-LHEBS-' zero hits in all shard index files of jah-databases-data-1
+(checked BEFORE authoring). ID prefixes JAH-LHEB- (public) and JAH-LHEBS-
+(signature) verified free: zero hits in manifest id_prefix values (exact
+and substring) and zero hits in shard record IDs.
+
+Fact-check notes (2026-10-17): about 9.5 million speakers; Afroasiatic,
+Semitic; official in Israel; 22-letter Hebrew abjad (plus 5 final
+forms), written right to left; three-letter root system; 7 verb
+patterns (binyanim); masculine/feminine gender; SVO word order;
+ISO 639-1 he, 639-3 heb. Content is everyday modern language use;
+no religious framing.
+
+Never the words "bat belt" anywhere. No website references. No Facebook.
+"""
+
+LANG = {
+    "slug": "language-hebrew",
+    "name": "Hebrew",
+    "prefix": "JAH-LHEB-",
+    "sig_prefix": "JAH-LHEBS-",
+    "tagline": ("Learn Hebrew from the ground up: the language overview, the "
+                "22-letter Hebrew alphabet, pronunciation and phonology, core "
+                "vocabulary with sentences, grammar essentials, and themed "
+                "sentence sets for daily life - every record carrying Hebrew "
+                "in Hebrew script plus transliteration plus English translation "
+                "plus example sentences, taught progressively along the ladder."),
+    "sig_phrase": "every word a letter rebuilt from ancient fire",
+    "sig_method": ("His original Signature Hebrew Method: every word a "
+                   "letter rebuilt from ancient fire, every verb a living "
+                   "deed of renewal, every proverb a memory carried across "
+                   "generations. The whole language taught as Signature science."),
+    "search_ph": "Search Hebrew words, verbs, phrases, grammar, dialogues...",
+    "chat_ph": "Ask about Hebrew...",
+    "greet": ("I am the JAH Hebrew Language Archivist. Ask me about Hebrew - "
+              "from the 22-letter alphabet and sounds through core words, "
+              "grammar, and everyday sentences to stories, idioms, and "
+              "conversations."),
+    "role": ("Hebrew language archivist - teaching Hebrew from the 22-letter "
+             "alphabet and sounds through core vocabulary, grammar, and "
+             "everyday sentences to stories, idioms, registers, and "
+             "conversations; teaching progressively along the ladder from "
+             "foundations through compounded to advanced; answers from many "
+             "angles - definition, example, pronunciation, usage, grammar, "
+             "culture - using only archive data from this system"),
+    "facts": [
+        ("Alphabet", "22 letters - the Hebrew abjad (plus 5 final letter forms)"),
+        ("Script", "Hebrew, written right to left"),
+        ("Word order", "Subject-Verb-Object (SVO), flexible"),
+        ("Speakers", "about 9.5 million"),
+        ("Family", "Afroasiatic, Semitic"),
+        ("Region", "Israel (official); Jewish communities worldwide"),
+        ("Sounds", "5 vowels; guttural chet and ayin; uvular resh"),
+        ("Grammar", "three-letter roots; 7 verb patterns; masculine/feminine gender"),
+        ("ISO 639-1 / 639-3", "he / heb"),
+    ],
+    "check": {"letters": 22, "speakers_m": 9.5, "speakers_lo": 7.0,
+              "speakers_hi": 11.0, "iso": "heb", "word_order": "SVO",
+              "family": "Semitic", "script_line": "the Hebrew script"},
+    "alphabet_note": ("Hebrew has 22 letters, all consonants; vowels are "
+                      "normally unwritten and read from context. Five letters "
+                      "take a special final form at the end of a word."),
+    "alphabet": [
+        ["א", "alef", "אבא", "aba", "father"],
+        ["ב", "bet", "בית", "bayit", "house"],
+        ["ג", "gimel", "גדול", "gadol", "big"],
+        ["ד", "dalet", "דג", "dag", "fish"],
+        ["ה", "he", "הוא", "hu", "he"],
+        ["ו", "vav", "ורד", "vered", "rose"],
+        ["ז", "zayin", "זמן", "zman", "time"],
+        ["ח", "chet", "חלב", "chalav", "milk"],
+        ["ט", "tet", "טוב", "tov", "good"],
+        ["י", "yod", "ילד", "yeled", "boy"],
+        ["כ", "kaf", "כלב", "kelev", "dog"],
+        ["ל", "lamed", "לחם", "lechem", "bread"],
+        ["מ", "mem", "מים", "mayim", "water"],
+        ["נ", "nun", "נר", "ner", "candle"],
+        ["ס", "samekh", "ספר", "sefer", "book"],
+        ["ע", "ayin", "עיר", "ir", "city"],
+        ["פ", "pe", "פרח", "perach", "flower"],
+        ["צ", "tsadi", "ציפור", "tsipor", "bird"],
+        ["ק", "qof", "קול", "qol", "voice"],
+        ["ר", "resh", "ראש", "rosh", "head"],
+        ["ש", "shin", "שמש", "shemesh", "sun"],
+        ["ת", "tav", "תפוח", "tapuach", "apple"],
+    ],
+    "phonology_note": ("Modern Hebrew has five vowels and a uvular resh made "
+                       "in the back of the throat. Stress usually falls on "
+                       "the last syllable."),
+    "phonology": [
+        ["a", "ah as in father", "אבא (father)"],
+        ["e", "eh as in bed", "ילד (boy)"],
+        ["i", "ee as in machine", "עיר (city)"],
+        ["o", "oh as in go", "טוב (good)"],
+        ["u", "oo as in moon", "ספר (book)"],
+        ["ch", "guttural, as in loch", "חלב (milk)"],
+        ["r", "uvular, in the back of the throat", "ראש (head)"],
+        ["'", "glottal catch, often silent", "עיר (city)"],
+        ["v / b", "bet is v, except b after some prefixes", "בית (house)"],
+        ["f / p", "pe is f, except p at word start", "פרח (flower)"],
+        ["sh / s", "shin is sh, sin is s", "שמש (sun)"],
+        ["stress", "usually on the last syllable", "ילד (boy)"],
+    ],
+    "nouns": [
+        ["איש", "ish", "man"],
+        ["אישה", "isha", "woman"],
+        ["ילד", "yeled", "boy"],
+        ["בית", "bayit", "house"],
+        ["מים", "mayim", "water"],
+        ["אוכל", "ochel", "food"],
+        ["כלב", "kelev", "dog"],
+        ["חתול", "chatul", "cat"],
+        ["יום", "yom", "day"],
+        ["לילה", "layla", "night"],
+        ["ספר", "sefer", "book"],
+        ["אדם", "adam", "person"],
+    ],
+    "verbs": [
+        ["לאכול", "le'echol", "to eat"],
+        ["לשתות", "lishtot", "to drink"],
+        ["לישון", "lishon", "to sleep"],
+        ["ללכת", "lalechet", "to go"],
+        ["לבוא", "lavo", "to come"],
+        ["לדבר", "ledaber", "to speak"],
+        ["להסתכל", "lehistakel", "to look"],
+        ["לעשות", "la'asot", "to do, to make"],
+        ["לעבוד", "la'avod", "to work"],
+        ["ללמוד", "lilmod", "to study, to learn"],
+        ["לאהוב", "le'ehov", "to love"],
+        ["לקנות", "liqnot", "to buy"],
+    ],
+    "adjectives": [
+        ["טוב", "tov", "good"],
+        ["גדול", "gadol", "big"],
+        ["קטן", "qatan", "small"],
+        ["יפה", "yafe", "beautiful"],
+        ["חדש", "chadash", "new"],
+        ["ישן", "yashan", "old"],
+        ["גבוה", "gavoha", "tall, high"],
+        ["נמוך", "namuch", "low, short"],
+        ["חם", "cham", "hot"],
+        ["קר", "qar", "cold"],
+    ],
+    "adverbs": [
+        ["עכשיו", "achshav", "now"],
+        ["אתמול", "etmol", "yesterday"],
+        ["מחר", "machar", "tomorrow"],
+        ["כאן", "kan", "here"],
+        ["שם", "sham", "there"],
+        ["מאוד", "me'od", "very"],
+    ],
+    "pronouns": [
+        ["אני", "ani", "I"],
+        ["אתה", "ata", "you (masculine)"],
+        ["את", "at", "you (feminine)"],
+        ["הוא", "hu", "he"],
+        ["היא", "hi", "she"],
+        ["אנחנו", "anachnu", "we"],
+        ["אתם", "atem", "you (plural)"],
+        ["הן", "hen", "they (feminine)"],
+    ],
+    "numbers": [
+        ["אחד", "echad", "one"],
+        ["שניים", "shnayim", "two"],
+        ["שלושה", "shlosha", "three"],
+        ["ארבעה", "arba'a", "four"],
+        ["חמישה", "chamisha", "five"],
+        ["שישה", "shisha", "six"],
+        ["שבעה", "shiv'a", "seven"],
+        ["שמונה", "shmona", "eight"],
+        ["תשעה", "tish'a", "nine"],
+        ["עשרה", "asara", "ten"],
+    ],
+    "time": [
+        ["עכשיו", "achshav", "now"],
+        ["היום", "hayom", "today"],
+        ["מחר", "machar", "tomorrow"],
+        ["אתמול", "etmol", "yesterday"],
+        ["בוקר", "boqer", "morning"],
+        ["ערב", "erev", "evening"],
+    ],
+    "greetings": [
+        ["שלום.", "shalom.", "Hello."],
+        ["בוקר טוב.", "boqer tov.", "Good morning."],
+        ["ערב טוב.", "erev tov.", "Good evening."],
+        ["מה שלומך?", "ma shlomcha?", "(to a man) How are you?"],
+        ["מה שלומכם?", "ma shlomchem?", "(plural) How are you all?"],
+        ["תודה.", "toda.", "Thank you."],
+        ["בבקשה.", "bevaqasha.", "Please. / You are welcome."],
+        ["להתראות.", "lehitra'ot.", "Goodbye."],
+    ],
+    "grammar_rules": [
+        ("Three-letter roots",
+         "Most words grow from a three-consonant root: k-t-v (write) gives katav (he wrote), yichtov (he will write), michtav (letter), ktiva (writing)."),
+        ("Seven verb patterns",
+         "Verbs conjugate in seven binyanim (patterns): pa'al, nif'al, pi'el, pu'al, hitpa'el, hif'il, huf'al - each pattern shades the root's meaning."),
+        ("Masculine and feminine",
+         "Every noun is masculine or feminine: masculine plurals usually end in -im (yeladim, boys), feminine in -ot (yeladot, girls)."),
+        ("The construct state",
+         "Two nouns join in smichut (construct): beit sefer (house of book = school), gan yeladim (garden of children = kindergarten)."),
+        ("Definite article ha-",
+         "ha- prefixes the noun: habayit (the house). There is no indefinite article - bayit is a house or house by context."),
+        ("Adjectives follow nouns",
+         "Adjectives come after the noun and agree in gender and number: yeled gadol (big boy), yalda gdola (big girl)."),
+        ("Flexible word order",
+         "Modern Hebrew is basically SVO: Ani ochel lechem (I eat bread), but words move for emphasis."),
+        ("Past, present, future",
+         "Past: achalti (I ate); present: ani ochel (I eat/am eating); future: ochal (I will eat). Person and gender mark every form."),
+    ],
+    "themes": [
+        ("At Home and with Family", [
+            ["אמא בבית.", "ima babayit.", "Mother is at home."],
+            ["הבית שלנו גדול.", "habayit shelanu gadol.", "Our house is big."],
+            ["תודה, אבא.", "toda, aba.", "Thank you, father."],
+            ["אני אוהב את המשפחה שלי.", "ani ohev et hamishpacha sheli.", "I love my family."],
+            ["אכלנו עכשיו.", "achalnu achshav.", "We just ate."],
+            ["הם יושבים בסלון.", "hem yoshvim basalon.", "They are sitting in the living room."],
+        ]),
+        ("Food and Cooking", [
+            ["בואו נאכל!", "bo'u ne'echal!", "Let us eat!"],
+            ["האוכל טעים.", "ha'ochel ta'im.", "The food is delicious."],
+            ["אני רוצה לחם.", "ani rotse lechem.", "I want bread."],
+            ["שתה מים.", "shte mayim.", "Drink water."],
+            ["אמא מבשלת.", "ima mevashelet.", "Mother is cooking."],
+            ["אני שבע.", "ani save'a.", "I am full."],
+        ]),
+        ("Travel and Directions", [
+            ["אני הולך לעיר.", "ani holech la'ir.", "I am going to the city."],
+            ["איפה הדרך?", "eifo haderech?", "Where is the road?"],
+            ["זה עוד רחוק?", "ze od rachok?", "Is it still far?"],
+            ["פנה ימינה.", "pne yamina.", "Turn right."],
+            ["כאן יש מלון.", "kan yesh malon.", "Here is a hotel."],
+            ["כמה עולה הכרטיס?", "kama ole hacartis?", "How much is the ticket?"],
+        ]),
+        ("Work and School", [
+            ["אני עובד במשרד.", "ani oved bamisrad.", "I work in an office."],
+            ["הם לומדים בבית הספר.", "hem lomdim beveit hasefer.", "They study at school."],
+            ["המורה טוב.", "hamore tov.", "The teacher is good."],
+            ["מה אתה עושה?", "ma ata ose?", "What do you do?"],
+            ["אני הולך לעבודה עכשיו.", "ani holech la'avoda achshav.", "I am going to work now."],
+            ["השיעור נגמר.", "hashi'ur nigmar.", "The class is over."],
+        ]),
+        ("Health and the Body", [
+            ["הראש שלי כואב.", "harosh sheli ko'ev.", "My head hurts."],
+            ["אני הולך לרופא.", "ani holech larofe.", "I am going to the doctor."],
+            ["אני חולה.", "ani chole.", "I am sick."],
+            ["קח תרופה.", "qach trufa.", "Take medicine."],
+            ["אני מרגיש יותר טוב עכשיו.", "ani margish yoter tov achshav.", "I feel better now."],
+            ["נוח.", "nuach.", "Rest."],
+        ]),
+        ("Emotions and Feelings", [
+            ["אני שמח.", "ani same'ach.", "I am happy."],
+            ["אני עצוב.", "ani atsev.", "I am sad."],
+            ["אני כועס.", "ani ko'es.", "I am angry."],
+            ["אני מפחד.", "ani mefached.", "I am afraid."],
+            ["אני אוהב אותך.", "ani ohev otach.", "I love you."],
+            ["אני צוחק.", "ani tsocheq.", "I am laughing."],
+        ]),
+        ("Nature and Weather", [
+            ["היום חם.", "hayom cham.", "It is hot today."],
+            ["יורד גשם.", "yored geshem.", "It is raining."],
+            ["הרוח חזקה.", "haru'ach chazaqa.", "The wind is strong."],
+            ["הירח יפה.", "hayare'ach yafe.", "The moon is beautiful."],
+            ["יש הרבה כוכבים.", "yesh harbe cochavim.", "There are many stars."],
+            ["המים קרים.", "hamayim qarim.", "The water is cold."],
+        ]),
+        ("Shopping and Money", [
+            ["כמה זה עולה?", "kama ze ole?", "How much is this?"],
+            ["זה יקר מדי.", "ze yaqar midai.", "It is too expensive."],
+            ["אפשר להתמקח?", "efshar lehitmaqeach?", "Can one haggle?"],
+            ["אני אקנה את זה.", "ani eqne et ze.", "I will buy this."],
+            ["יש עודף?", "yesh odef?", "Is there change?"],
+            ["החנות רחוקה?", "hachanut rechoqa?", "Is the store far?"],
+        ]),
+        ("Friendship and Social Life", [
+            ["הוא החבר שלי.", "hu hachaver sheli.", "He is my friend."],
+            ["בואו נהיה ביחד.", "bo'u nihye beyachad.", "Let us be together."],
+            ["בוא אלינו הביתה.", "bo eleinu habayta.", "Come to our house."],
+            ["מחר יש מסיבה.", "machar yesh mesiba.", "Tomorrow there is a party."],
+            ["בואו נשיר.", "bo'u nashir.", "Let us sing."],
+            ["בואו נשמח כולנו.", "bo'u nismach kulanu.", "Let us all rejoice."],
+        ]),
+        ("Technology and Communication", [
+            ["אתקשר אליך מחר.", "atqasher eleicha machar.", "I will call you tomorrow."],
+            ["אין קליטה כאן.", "ein qlita kan.", "There is no signal here."],
+            ["שלח לי הודעה.", "shlach li hoda'a.", "Send me a message."],
+            ["ראיתי את זה באינטרנט.", "ra'iti et ze ba'internet.", "I saw it on the internet."],
+            ["אני מחובר עכשיו.", "ani mechubar achshav.", "I am online now."],
+            ["טען את הטלפון.", "t'an et hatelefon.", "Charge the phone."],
+        ]),
+    ],
+    "tenses": [
+        ["אכלתי אתמול.", "achalti etmol.", "I ate yesterday."],
+        ["אני אוכל עכשיו.", "ani ochel achshav.", "I am eating now."],
+        ["אוכל מחר.", "ochal machar.", "I will eat tomorrow."],
+        ["הוא הלך לעיר.", "hu halach la'ir.", "He went to the city."],
+        ["הוא הולך לעיר.", "hu holech la'ir.", "He is going to the city."],
+        ["הוא ילך לעיר מחר.", "hu yelech la'ir machar.", "He will go to the city tomorrow."],
+    ],
+    "questions": [
+        ["מה שמך? - שמי מריה.", "ma shimcha? - shmi maria.", "What is your name? - My name is Maria."],
+        ["מאיפה אתה? - אני מירושלים.", "me'eifo ata? - ani miYerushalayim.", "Where are you from? - I am from Jerusalem."],
+        ["בן כמה אתה? - אני בן עשרים.", "ben kama ata? - ani ben esrim.", "How old are you? - I am twenty."],
+        ["מה השעה? - השעה שלוש.", "ma hasha'a? - hasha'a shalosh.", "What time is it? - It is three o'clock."],
+        ["לאן אתה הולך? - אני הולך לעיר.", "le'an ata holech? - ani holech la'ir.", "Where are you going? - I am going to the city."],
+        ["אתה רוצה קפה? - כן, תודה.", "ata rotse qafe? - ken, toda.", "Do you want coffee? - Yes, thanks."],
+    ],
+    "commands": [
+        ["בוא הנה.", "bo hena.", "Come here."],
+        ["שב.", "shev.", "Sit down."],
+        ["אכול.", "echol.", "Eat."],
+        ["שתה את המים.", "shte et hamayim.", "Drink the water."],
+        ["נוח.", "nuach.", "Rest."],
+        ["לך הביתה.", "lech habayta.", "Go home."],
+    ],
+    "descriptions": [
+        ["היא יפה.", "hi yafa.", "She is beautiful."],
+        ["הבית שלהם גבוה.", "habayit shelahem gavoha.", "Their house is tall."],
+        ["הכלב קטן.", "hakelev qatan.", "The dog is small."],
+        ["דוד הוא אדם טוב.", "david hu adam tov.", "David is a good person."],
+        ["לעץ יש הרבה עלים.", "la'etz yesh harbe alim.", "The tree has many leaves."],
+        ["השדה רחב.", "hasade rachav.", "The field is wide."],
+    ],
+    "stories": [
+        ("הילד והכלב", [
+            ["היה פעם ילד.", "haya pa'am yeled.", "Once there was a boy."],
+            ["היה לו כלב לבן.", "haya lo kelev lavan.", "He had a white dog."],
+            ["כל יום הם שיחקו בשדה.", "kol yom hem sichaqu basade.", "Every day they played in the field."],
+            ["יום אחד הכלב הלך לאיבוד.", "yom echad hakelev halach le'ibud.", "One day the dog got lost."],
+            ["הילד שמח כשמצא את הכלב שלו.", "hayeled samach kshe matsa et hakelev shelo.", "The boy was happy when he found his dog."],
+        ]),
+        ("האיכר", [
+            ["יוסי הוא איכר.", "yosi hu ikar.", "Yosi is a farmer."],
+            ["הוא הולך מוקדם בבוקר לשדה.", "hu holech muqdam baboqer lasade.", "He goes to the field early in the morning."],
+            ["הוא זורע תבואה.", "hu zore'a tvu'a.", "He sows grain."],
+            ["בקיץ יורד גשם.", "baqayitz yored geshem.", "In summer it rains."],
+            ["בסתיו היבול גדול.", "bastav hayvul gadol.", "In autumn the harvest is big."],
+        ]),
+        ("בית הספר החדש", [
+            ["יש בית ספר חדש בעיר שלנו.", "yesh beit sefer chadash ba'ir shelanu.", "There is a new school in our town."],
+            ["הילדים שמחים.", "hayladim smechim.", "The children are happy."],
+            ["המורה החדשה טובה.", "hamora hachadasha tova.", "The new teacher is good."],
+            ["הם לומדים עברית ואנגלית.", "hem lomdim ivrit ve'anglit.", "They learn Hebrew and English."],
+            ["העיר מקווה לעתיד.", "ha'ir meqava la'atid.", "The town hopes for the future."],
+        ]),
+    ],
+    "idioms": [
+        ["טיפה ועוד טיפה תהיינה לים.", "tipa ve'od tipa tihyena layam.", "Drop by drop becomes a sea - small efforts add up."],
+        ["אין חכם כבעל ניסיון.", "ein chacham keva'al nisayon.", "None is as wise as one with experience."],
+        ["סוף מעשה במחשבה תחילה.", "sof ma'ase bemachshava techila.", "The end of an act is in its first thought - think before acting."],
+        ["מים שקטים חודרים עמוק.", "mayim sheqtim chodrim amoq.", "Still waters run deep."],
+        ["הכלב נובח והשיירה עוברת.", "hakelev nove'ach ve'hashayara overet.", "The dog barks and the caravan passes - critics do not stop progress."],
+        ["התפוח לא נופל רחוק מהעץ.", "hatapuach lo nofel rachok meha'etz.", "The apple does not fall far from the tree."],
+        ["דיבורים זה כסף, שתיקה זה זהב.", "diburim ze kesef, shtiqa ze zahav.", "Speech is silver, silence is gold."],
+        ["כמה שפות אתה יודע, ככה אתה בן אדם.", "kama safot ata yode'a, kacha ata ben adam.", "As many languages as you know, so much you are a person."],
+    ],
+    "registers": [
+        ["בוקר טוב, אדוני המנהל.", "(formal) boqer tov, adoni hamenahel.", "Good morning, sir."],
+        ["מה שלומך, אדוני?", "(formal) ma shlomcha, adoni?", "How are you, sir?"],
+        ["האם אוכל...?", "(polite request) ha'im uchal...?", "May I...?"],
+        ["סליחה.", "slicha.", "Excuse me."],
+        ["תודה רבה.", "toda raba.", "Thank you very much."],
+        ["להתראות, חבר!", "(warm) lehitra'ot, chaver!", "Goodbye, friend!"],
+    ],
+    "compound": [
+        ["אני רוצה לאכול, אבל אני שבע.", "ani rotse le'echol, aval ani save'a.", "I want to eat, but I am full."],
+        ["אני הולך לעיר כי אקנה אוכל.", "ani holech la'ir ki eqne ochel.", "I am going to the city because I will buy food."],
+        ["אם ירד גשם, אשאר בבית.", "im yered geshem, esha'er babayit.", "If it rains, I will stay home."],
+        ["כשהוא בא, שמחנו.", "kshehu ba, samachnu.", "When he came, we were happy."],
+        ["היא שרה יפה ורוקדת יפה.", "hi shara yafe veroqedet yafe.", "She sings beautifully and dances beautifully."],
+        ["למרות שאני עייף, אני ממשיך לעבוד.", "lamrot she'ani ayef, ani mamshich la'avod.", "Although I am tired, I keep working."],
+    ],
+    "conversations": [
+        ("בשוק", [
+            ["מריה", "בוקר טוב!", "boqer tov!", "Good morning!"],
+            ["מוכר", "בוקר טוב! מה תרצי?", "boqer tov! ma tirtzi?", "Good morning! What would you like?"],
+            ["מריה", "כמה עולה קילו עגבניות?", "kama ole kilo agvaniyot?", "How much is a kilo of tomatoes?"],
+            ["מוכר", "שני שקלים לקילו.", "shnei shqalim laqilo.", "Two shekels a kilo."],
+            ["מריה", "זה יקר. אפשר בשקל וחצי?", "ze yaqar. efshar besheqel vachetzi?", "That is expensive. For one and a half?"],
+            ["מוכר", "בסדר, שקל וחצי. תודה!", "beseder, sheqel vachetzi. toda!", "Okay, one and a half. Thanks!"],
+        ]),
+        ("פגישה עם חבר", [
+            ["אנה", "יוסי! הרבה זמן!", "yosi! harbe zman!", "Yosi! Long time!"],
+            ["יוסי", "אנה! מה שלומך?", "ana! ma shlomech?", "Ana! How are you?"],
+            ["אנה", "טוב. לאן אתה הולך?", "tov. le'an ata holech?", "Good. Where are you going?"],
+            ["יוסי", "אני הולך לבית הספר. ואת?", "ani holech leveit hasefer. ve'at?", "To school. And you?"],
+            ["אנה", "אני הולכת לעיר. להתראות!", "ani holechet la'ir. lehitra'ot!", "To town. Goodbye!"],
+            ["יוסי", "להתראות! שמרי על עצמך!", "lehitra'ot! shimri al atzmech!", "Goodbye! Take care!"],
+        ]),
+        ("פתרון בעיה", [
+            ["דני", "הטלפון שלי לא עובד.", "hatelefon sheli lo oved.", "My phone does not work."],
+            ["נועה", "מה הבעיה?", "ma habe'aya?", "What is the problem?"],
+            ["דני", "אין קליטה.", "ein qlita.", "No signal."],
+            ["נועה", "תפעיל מחדש.", "taf'il mechadash.", "Restart it."],
+            ["דני", "הפעלתי מחדש, אבל זה לא עזר.", "hef'alti mechadash, aval ze lo azar.", "I restarted it, but it did not help."],
+            ["נועה", "בוא נלך למעבדה מחר.", "bo nelech lama'abada machar.", "Let us go to the lab tomorrow."],
+        ]),
+    ],
+    "citations": [
+        "Schwarzwald OR. Modern Hebrew. Munich: Lincom Europa; 2001.",
+        "Coffin C, Bolozky S. A Reference Grammar of Modern Hebrew. Cambridge: Cambridge University Press; 2005.",
+        "Academy of the Hebrew Language. Hebrew orthography rules; 2017.",
+        "ISO 639-1:2002 he; ISO 639-3:2007 heb.",
+    ],
+}

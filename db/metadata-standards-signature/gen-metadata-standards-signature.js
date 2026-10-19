@@ -1,0 +1,58 @@
+(function(){'use strict';
+/* JAH Signature Metadata Standards Database generator — jahdb-metadata-standards-signature-generator-1.0.
+   Property of Justin Addam Higgins (JAH).
+   Deterministic: same seed, same record. Sample records are clearly labeled and never archive entries. */
+function prng(seed){var a=(seed>>>0)||1;return function(){a|=0;a=(a+0x6D2B79F5)|0;var t=Math.imul(a^(a>>>15),1|a);t=(t+Math.imul(t^(t>>>7),61|t))^t;return((t^(t>>>14))>>>0)/4294967296;};}
+function pick(r,s){return r[(s()*r.length)|0];}
+var PREFIX="JAH-METASSS-";
+var FIELDS=["Foundations","Compounded","Advanced"];
+var TOPICS={
+"Foundations": ["The Essentials of Metadata Standards (Signature Edition)", "Getting Started with Metadata Standards in Plain Steps (Signature Edition)", "Metadata Standards Glossary: Key Terms Explained (Signature Edition)", "Why Metadata Standards Matters: The Real-World Payoff (Signature Edition)", "Metadata Standards for Absolute Beginners (Signature Edition)", "The History and Context of Metadata Standards (Signature Edition)", "Metadata Standards: Common Myths Debunked (Signature Edition)", "The Five Building Blocks of Metadata Standards (Signature Edition)", "Metadata Standards in Everyday Life (Signature Edition)", "Metadata Standards Basics Quiz and Answer Key (Signature Edition)", "A First Project in Metadata Standards (Signature Edition)", "Metadata Standards: What Success Looks Like (Signature Edition)"],
+"Compounded": ["Metadata Standards Step-by-Step Playbook (Signature Edition)", "Metadata Standards Tools and Resources Directory (Signature Edition)", "Metadata Standards Checklists You Can Use Today (Signature Edition)", "The 10 Most Common Metadata Standards Mistakes (Signature Edition)", "Metadata Standards Cost and Budget Guide (Signature Edition)", "Metadata Standards Safety, Risk, and What Can Go Wrong (Signature Edition)", "Metadata Standards Troubleshooting Guide (Signature Edition)", "Metadata Standards for Busy People: The 80/20 Version (Signature Edition)", "Metadata Standards Decision Framework (Signature Edition)", "Metadata Standards: Comparing Your Options (Signature Edition)", "Metadata Standards Templates and Worksheets (Signature Edition)", "Metadata Standards Case Studies: Three Real Situations (Signature Edition)"],
+"Advanced": ["Advanced Metadata Standards Techniques (Signature Edition)", "Metadata Standards Metrics: How to Measure Progress (Signature Edition)", "Metadata Standards Systems and Automation (Signature Edition)", "Metadata Standards Expert Interview Playbook (Signature Edition)", "Metadata Standards Edge Cases and What to Do (Signature Edition)", "Teaching Metadata Standards to Others (Signature Edition)", "Metadata Standards Research Review: What the Evidence Says (Signature Edition)", "Metadata Standards Planning Your Next 12 Months (Signature Edition)", "Metadata Standards Ethics and Responsibility (Signature Edition)", "Metadata Standards Mastery Capstone Project (Signature Edition)"],
+};
+function demoProgram(topic,field){
+  var safe=String(topic).replace(/\\/g,"\\\\").replace(/"/g,"'");
+  return "#!/usr/bin/env python3\n\"\"\""+safe+" — standards record sample demo.\nRecord demo. Property of Justin Addam Higgins (JAH).\n\"\"\"\n"
+   + "TOPIC = \""+safe+"\"\n"
+   + "FIELD = \""+field+"\"\n"
+   + "def summarize():\n"
+   + "    return TOPIC + ' [' + FIELD + ']'\n"
+   + "print(summarize())\n"
+   + "print('Sample record — structural sample, not an archive entry.')\n";
+}
+function generate(seed,opts,rnd){
+  opts=opts||{}; rnd=rnd||prng(seed);
+  var field=opts.field&&FIELDS.indexOf(opts.field)>=0?opts.field:pick(FIELDS,rnd);
+  var pool=TOPICS[field]||["General Study"];
+  var topic=pick(pool,rnd);
+  var id=PREFIX+String(seed).padStart(6,'0');
+  return {
+    id:id,
+    name:topic+' — standards record',
+    title:topic,
+    description:'SAMPLE RECORD (generated — structural sample). A standards record of "'+topic+'" in '+field+'. Generated sample records are clearly labeled and never presented as archive records.',
+    field:field,
+    src:'signature',
+    sample:true,
+    disclaimer:'Generated sample record — not an archive record. Seeded archive records are the authoritative entries.',
+    demo:{kind:"metadata-standards-signature-demo",language:'python',program:demoProgram(topic,field),note:'Structural sample demo.'},
+    _seed:seed
+  };
+}
+function validate(r){
+  var e=[];
+  if(!r||typeof r!=='object')return {ok:false,errors:['not an object']};
+  if(!new RegExp('^'+PREFIX.replace(/-/g,'\\-')+'\\d{6}$').test(r.id||''))e.push('id');
+  if(FIELDS.indexOf(r.field)<0)e.push('field');
+  if(!r.src)e.push('src');
+  if(!r.demo||!r.demo.program)e.push('demo');
+  return {ok:!e.length,errors:e};
+}
+function driftCheck(record,sample){
+  var dups=(sample||[]).filter(function(r){return r&&r.title===record.title&&r.field===record.field;});
+  return dups.length?{ok:false,errors:['duplicate topic+field in archive sample']}:{ok:true,errors:[]};
+}
+if(typeof JAHDB!=="undefined"&&JAHDB.registerGenerator){JAHDB.registerGenerator("metadata-standards-signature",{generate:generate,validate:validate,driftCheck:driftCheck});}
+if(typeof module!=='undefined'&&module.exports){module.exports={generate:generate,validate:validate,driftCheck:driftCheck};}
+})();

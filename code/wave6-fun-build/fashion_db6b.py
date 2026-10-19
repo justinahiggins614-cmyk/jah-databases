@@ -1,0 +1,34 @@
+"""Fashion db6 top-ups: vintage-fashion +9, luxury-fashion +8."""
+from music_db import T, list_demo
+from fashion_db6 import ITEMS
+
+def X(F, title, g, s1, s2, pts, keys, ca, cb):
+    return T(title, g, [s1, s2], pts, keys, [ca, cb],
+             demo=list_demo(title, [p[:30] for p in pts] + ['The done'], title + ':'))
+
+_v = [it for it in ITEMS if it['slug'] == 'vintage-fashion'][0]
+F = _v['fields']
+_v['topics'] += [
+X(F, 'The Deadstock', F[1], 'The stock: the never-worn — the tagged, the stored. The stock is the time capsule.', 'The capsuling: the decades.', ['The stocked.', 'The capsule.', 'Tagged.', 'Decades.', 'The deadstock.'], ['Deadstock.', 'The stocked.', 'Capsule, tagged.', 'The deadstock.', 'The never-worn.'], 'History references: deadstock.', 'Culture references: the capsule.'),
+X(F, 'The Patina Love', F[1], 'The patina: the worn-in — the fade, the crease. The patina is the story.', 'The storying: the years.', ['The patinaed.', 'The story.', 'Faded.', 'Years.', 'The patina.'], ['Patina love.', 'The patinaed.', 'Story, faded.', 'The patina.', 'The crease.'], 'Style references: patina.', 'Culture references: the story.'),
+X(F, 'The Designer Vintage', F[1], 'The designer: the old icons — the labeled, the archived. The designer is the grail.', 'The grailing: the hunt.', ['The designed.', 'The grail.', 'Labeled.', 'Hunt.', 'The designer.'], ['Designer vintage.', 'The designed.', 'Grail, labeled.', 'The designer.', 'The archived.'], 'Style references: designer vintage.', 'Culture references: the grail.'),
+X(F, 'The Alteration', F[2], 'The altered: the made-yours — the taken-in, the let-out. The altered is the fit.', 'The fitting: the body.', ['The altered.', 'The fit.', 'Taken-in.', 'Body.', 'The alteration.'], ['Alteration.', 'The altered.', 'Fit, taken-in.', 'The alteration.', 'The yours.'], 'Craft references: alterations.', 'Practice references: the fit.'),
+X(F, 'The Vintage Denim', F[2], 'The denim: the old — the selvedge, the fade. The denim is the workwear.', 'The working: the years.', ['The denimed.', 'The workwear.', 'Selvedged.', 'Years.', 'The denim.'], ['Vintage denim.', 'The denimed.', 'Workwear, selvedged.', 'The denim.', 'The fade.'], 'Style references: vintage denim.', 'History references: the workwear.'),
+X(F, 'The Vintage Dress', F[2], 'The dress: the old — the bias, the bead. The dress is the romance.', 'The romancing: the decades.', ['The dressed.', 'The romance.', 'Biased.', 'Decades.', 'The dress.'], ['Vintage dress.', 'The dressed.', 'Romance, biased.', 'The dress.', 'The bead.'], 'Style references: vintage dresses.', 'Culture references: the romance.'),
+X(F, 'The Vintage Suit', F[2], 'The suit: the old — the drape, the roped. The suit is the dapper.', 'The dappering: the eras.', ['The suited.', 'The dapper.', 'Draped.', 'Eras.', 'The suit.'], ['Vintage suit.', 'The suited.', 'Dapper, draped.', 'The suit.', 'The roped.'], 'Style references: vintage suits.', 'Culture references: the dapper.'),
+X(F, 'The Vintage Accessories', F[2], 'The accessories: the old — the bakelite, the beaded. The accessories are the finish.', 'The finishing: the look.', ['The accessoried.', 'The finish.', 'Bakelite.', 'Look.', 'The accessories.'], ['Vintage accessories.', 'The accessoried.', 'Finish, bakelite.', 'The accessories.', 'The beaded.'], 'Style references: vintage accessories.', 'Practice references: the finish.'),
+X(F, 'The Heirloom Piece', F[2], 'The heirloom: the kept — the grandmother\u2019s, the story. The heirloom is the treasure.', 'The treasuring: the generations.', ['The kept.', 'The treasure.', 'Grandmother.', 'Generations.', 'The heirloom.'], ['Heirloom piece.', 'The heirloomed.', 'Treasure, kept.', 'The heirloom.', 'The story.'], 'Culture references: heirlooms.', 'Practice references: the treasure.'),
+]
+
+_l = [it for it in ITEMS if it['slug'] == 'luxury-fashion'][0]
+F = _l['fields']
+_l['topics'] += [
+X(F, 'The Trunk Show', F[1], 'The show: the preview — the clients, the champagne. The show is the intimate.', 'The intimating: the season.', ['The showed.', 'The intimate.', 'Previewed.', 'Season.', 'The trunk show.'], ['Trunk show.', 'The showed.', 'Intimate, previewed.', 'The trunk show.', 'The clients.'], 'Business references: trunk shows.', 'Culture references: the intimate.'),
+X(F, 'The Made to Order', F[1], 'The order: the yours — the measured, the chosen. The order is the personal.', 'The personalizing: the one.', ['The ordered.', 'The personal.', 'Measured.', 'One.', 'The made to order.'], ['Made to order.', 'The ordered.', 'Personal, measured.', 'The made to order.', 'The chosen.'], 'Craft references: made to order.', 'Practice references: the personal.'),
+X(F, 'The Monogram', F[2], 'The mark: the yours — the initialed, the stamped. The mark is the signature.', 'The signing: the piece.', ['The marked.', 'The signature.', 'Initialed.', 'Piece.', 'The monogram.'], ['Monogram.', 'The monogrammed.', 'Signature, initialed.', 'The monogram.', 'The stamped.'], 'Style references: monograms.', 'Practice references: the signature.'),
+X(F, 'The Aftercare', F[2], 'The care: the serviced — the spa, the repair. The care is the forever.', 'The forevering: the piece.', ['The cared.', 'The forever.', 'Serviced.', 'Piece.', 'The aftercare.'], ['Aftercare.', 'The cared.', 'Forever, serviced.', 'The aftercare.', 'The spa.'], 'Business references: aftercare.', 'Practice references: the forever.'),
+X(F, 'The Waiting List', F[2], 'The list: the coveted — the waited, the called. The list is the desire.', 'The desiring: the call.', ['The listed.', 'The desire.', 'Waited.', 'Call.', 'The waiting list.'], ['Waiting list.', 'The listed.', 'Desire, waited.', 'The waiting list.', 'The coveted.'], 'Business references: waiting lists.', 'Culture references: the desire.'),
+X(F, 'The Unboxing Ritual', F[2], 'The ritual: the reveal — the box, the tissue. The ritual is the theater.', 'The theatering: the purchase.', ['The revealed.', 'The theater.', 'Boxed.', 'Purchase.', 'The unboxing.'], ['Unboxing ritual.', 'The unboxed.', 'Theater, revealed.', 'The unboxing.', 'The tissue.'], 'Culture references: unboxing.', 'Practice references: the ritual.'),
+X(F, 'The Heirloom Plan', F[2], 'The plan: the passed — the children, the story. The plan is the forever.', 'The forevering: the generations.', ['The planned.', 'The forever.', 'Passed.', 'Generations.', 'The heirloom plan.'], ['Heirloom plan.', 'The planned.', 'Forever, passed.', 'The heirloom plan.', 'The story.'], 'Culture references: heirlooms.', 'Practice references: the forever.'),
+X(F, 'The Luxury Standard', F[2], 'The standard: the excellence, kept — the bar, the never-less. The standard is the promise.', 'The promising: the forever.', ['The kept.', 'The promise.', 'Barred.', 'Forever.', 'The standard.'], ['Luxury standard.', 'The standarded.', 'Promise, kept.', 'The standard.', 'The bar.'], 'Style references: the luxury standard.', 'Practice references: the promise.'),
+]
