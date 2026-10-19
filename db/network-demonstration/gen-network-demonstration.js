@@ -7,21 +7,21 @@ function pick(r,s){return r[(s()*r.length)|0];}
 var PREFIX="JAH-NETD-";
 var FIELDS=["demo-runs","demonstration-studies"];
 var STUDIES=[
- ["Make a database of lighthouse keepers",["coastal-navigation","oceanography"]],
+ ["Make a database of lighthouse keepers",["oceanography","sailboats"]],
  ["Explain fermentation for a beginner",["cookbook","biology-public"]],
  ["Give me the key facts about volcanoes",["volcanoes","geology"]],
  ["Compare the main types of chess openings",["chess","board-games"]],
  ["Give me the history of bridges",["architecture","civil-engineering"]],
  ["Design a rainwater harvesting plan",["water-systems","gardening"]],
- ["Explain how solar panels are made",["solar-energy-systems-engineers","photovoltaics"]],
- ["Make a database of knots",["sailing-knots","boating"]],
+ ["Explain how solar panels are made",["solar-energy-systems-engineers","electrical-engineering"]],
+ ["Make a database of knots",["sailboats","db-lighthouse-explorer"]],
  ["Give me the key facts about the Boeing 747",["aircraft-boeing-747","aviation"]],
  ["Explain sourdough starter science",["cookbook","biology-public"]],
  ["Compare FDM and resin 3D printing",["public-3d-print-archive","signature-3d-print"]],
  ["Design a home woodworking shop layout",["woodworking-public","blueprints"]],
  ["Give me the history of telescopes",["astronomy-public","optics"]],
  ["Explain tides for a beginner",["physics-public","oceanography"]],
- ["Make a database of train stations",["transportation","railways"]]
+ ["Make a database of train stations",["transportation","railway-systems"]]
 ];
 function generate(seed,opts,rnd){
   opts=opts||{}; rnd=rnd||prng(seed);
