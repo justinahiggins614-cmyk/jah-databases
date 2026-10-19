@@ -1,0 +1,45 @@
+(function(){
+/* JAH %s generator — %s.
+   Property of Justin Addam Higgins (JAH).
+   Deterministic: same seed, same record. */
+function prng(seed){var a=(seed>>>0)||1;return function(){a|=0;a=(a+0x6D2B79F5)|0;var t=Math.imul(a^(a>>>15),1|a);t=(t+Math.imul(t^(t>>>7),61|t))^t;return((t^(t>>>14))>>>0)/4294967296;};}
+function pick(r,s){return r[(s()*r.length)|0];}
+var PREFIX="JAH-CMAG-";
+var FIELDS=["Foundations", "Real-World Basis", "Build It Yourself", "Math & Verification", "Safety & Limits", "Signature Design"];
+var TOPICS={"Foundations": ["The AI Genome: study 1 \u2014 Foundations", "The AI Genome: study 2 \u2014 Foundations", "The AI Genome: study 3 \u2014 Foundations", "The AI Genome: study 4 \u2014 Foundations", "The AI Genome: study 5 \u2014 Foundations", "The AI Genome: study 6 \u2014 Foundations"], "Real-World Basis": ["The AI Genome: study 1 \u2014 Real-World Basis", "The AI Genome: study 2 \u2014 Real-World Basis", "The AI Genome: study 3 \u2014 Real-World Basis", "The AI Genome: study 4 \u2014 Real-World Basis", "The AI Genome: study 5 \u2014 Real-World Basis", "The AI Genome: study 6 \u2014 Real-World Basis"], "Build It Yourself": ["The AI Genome: study 1 \u2014 Build It Yourself", "The AI Genome: study 2 \u2014 Build It Yourself", "The AI Genome: study 3 \u2014 Build It Yourself", "The AI Genome: study 4 \u2014 Build It Yourself", "The AI Genome: study 5 \u2014 Build It Yourself", "The AI Genome: study 6 \u2014 Build It Yourself"], "Math & Verification": ["The AI Genome: study 1 \u2014 Math & Verification", "The AI Genome: study 2 \u2014 Math & Verification", "The AI Genome: study 3 \u2014 Math & Verification", "The AI Genome: study 4 \u2014 Math & Verification", "The AI Genome: study 5 \u2014 Math & Verification", "The AI Genome: study 6 \u2014 Math & Verification"], "Safety & Limits": ["The AI Genome: study 1 \u2014 Safety & Limits", "The AI Genome: study 2 \u2014 Safety & Limits", "The AI Genome: study 3 \u2014 Safety & Limits", "The AI Genome: study 4 \u2014 Safety & Limits", "The AI Genome: study 5 \u2014 Safety & Limits", "The AI Genome: study 6 \u2014 Safety & Limits"], "Signature Design": ["The AI Genome: study 1 \u2014 Signature Design", "The AI Genome: study 2 \u2014 Signature Design", "The AI Genome: study 3 \u2014 Signature Design", "The AI Genome: study 4 \u2014 Signature Design", "The AI Genome: study 5 \u2014 Signature Design", "The AI Genome: study 6 \u2014 Signature Design"]};
+function demoProgram(topic,field){
+  var safe=String(topic).replace(/\\/g,'\\\\').replace(/"/g,"'");
+  return "# The AI Genome — structural study\n# Tier: "+field+"\nrecord = {'topic': \""+safe+"\"}\nprint('Structural sample — not an archive record.')\n";
+}
+function generate(seed,opts,rnd){
+  opts=opts||{}; rnd=rnd||prng(seed);
+  var field=opts.field&&FIELDS.indexOf(opts.field)>=0?opts.field:pick(FIELDS,rnd);
+  var pool=TOPICS[field]||["General Study"];
+  var topic=pick(pool,rnd);
+  var id=PREFIX+String(seed).padStart(6,'0');
+  return {
+    id:id, name:topic+' — structural study record', title:topic,
+    description:'SAMPLE RECORD (generated — structural sample). A structural study of "'+topic+'" in '+field+'. Generated samples are clearly labeled and never presented as archive records.',
+    field:field, src:'signature', sample:true,
+    disclaimer:'Generated sample record — not an archive record. Seeded archive records are the authoritative entries.',
+    demo:{kind:"python",language:'python',program:demoProgram(topic,field),note:'Structural sample demo.'},
+    _seed:seed
+  };
+}
+function validate(r){
+  var e=[];
+  if(!r||typeof r!=='object')return {ok:false,errors:['not an object']};
+  if(!new RegExp('^'+PREFIX.replace(/-/g,'\\-')+'\\d{6}$').test(r.id||''))e.push('id');
+  if(FIELDS.indexOf(r.field)<0)e.push('field');
+  if(!r.src)e.push('src');
+  if(!r.demo||!r.demo.program)e.push('demo');
+  return {ok:!e.length,errors:e};
+}
+function driftCheck(record,sample){
+  var dups=(sample||[]).filter(function(r){return r&&r.title===record.title&&r.field===record.field;});
+  return dups.length?{ok:false,errors:['duplicate topic+field in archive sample']}:{ok:true,errors:[]};
+}
+var gen={version:'jahdb-chapter-make-ai-genome-1.0',generate:generate,validate:validate,driftCheck:driftCheck,fields:FIELDS};
+if(typeof JAHDB!=='undefined'&&JAHDB.registerGenerator)JAHDB.registerGenerator('chapter-make-ai-genome',gen);
+if(typeof module!=='undefined'&&module.exports)module.exports=gen;
+})();
