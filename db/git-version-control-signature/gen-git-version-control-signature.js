@@ -18,7 +18,19 @@ var TOPICS={
   "Git diff: Reading Changes",
   "Git gitignore",
   "Git clone",
-  "Git Checking Out Commits"
+  "Git Checking Out Commits",
+  "AI-Generated Commit Messages",
+  "Conventional Commits with AI",
+  "AI Explains git status Output",
+  "AI Helps Write .gitignore",
+  "AI Summarizes a Diff",
+  "AI Suggests Branch Names",
+  "AI Reviews Your Commit Before Push",
+  "AI Explains Detached HEAD",
+  "AI Guided First Clone",
+  "AI Answers Git Questions",
+  "AI Generates Useful Aliases",
+  "AI Checks What's Staged"
  ],
  "Compounded": [
   "Git Branching",
@@ -32,7 +44,18 @@ var TOPICS={
   "Git Tags",
   "Git blame",
   "Git Aliases and Config",
-  "Git Undoing Mistakes Safely"
+  "Git Undoing Mistakes Safely",
+  "AI Merge Conflict Resolution",
+  "AI Rebase Assistance",
+  "AI Stash Management Tips",
+  "AI Cherry-Pick Guidance",
+  "AI Pull Request Descriptions",
+  "AI Code Review on PRs",
+  "AI Bisect Automation",
+  "AI Reflog Rescue",
+  "AI Submodule Explanations",
+  "AI Tag and Release Notes",
+  "AI Remotes Troubleshooting"
  ],
  "Advanced": [
   "Git Rebasing",
@@ -45,7 +68,18 @@ var TOPICS={
   "Git Worktrees",
   "GitHub Actions Intro",
   "Git Signing Commits",
-  "Git Monorepos Versus Polyrepos"
+  "Git Monorepos Versus Polyrepos",
+  "AI Interactive Rebase Planning",
+  "AI Monorepo Git Strategy",
+  "AI Commit Signing Setup",
+  "AI Hook Generation (pre-commit)",
+  "AI Worktree Workflows",
+  "AI LFS Guidance",
+  "AI Filter-Repo History Rewrites",
+  "AI GPG Troubleshooting",
+  "AI CI-Aware Branching",
+  "AI Blame Interpretation",
+  "AI Release Branch Automation"
  ]
 };
 var DEMOKIND="git-version-control-signature-demo";
