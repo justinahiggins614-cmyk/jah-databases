@@ -69,7 +69,10 @@ def render_plan(title, placed, W, D, unit="ft", ft_per_char=2.0,
         x0 = int(r["x"] / ft_per_char); y0 = int(r["y"] / ft_per_char)
         x1 = max(x0 + 2, int(round((r["x"] + r["w"]) / ft_per_char)))
         y1 = max(y0 + 2, int(round((r["y"] + r["d"]) / ft_per_char)))
-        x1 = min(x1, gw); y1 = min(y1, gh)
+        x0 = min(max(x0, 0), gw - 1); x1 = min(max(x1, x0 + 1), gw)
+        y0 = min(max(y0, 0), gh - 1); y1 = min(max(y1, y0 + 1), gh)
+        if x1 - x0 < 2 or y1 - y0 < 2:
+            continue  # degenerate sliver (e.g. a 1-ft wall strip) - in schedule only
         hline(y0, x0, x1); hline(y1 - 1, x0, x1)
         vline(x0, y0, y1); vline(x1 - 1, y0, y1)
         for cx, cy in ((x0, y0), (x1 - 1, y0), (x0, y1 - 1), (x1 - 1, y1 - 1)):
