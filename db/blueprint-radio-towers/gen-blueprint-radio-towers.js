@@ -1,0 +1,110 @@
+
+(function(){'use strict';
+/* JAH The Radio Tower Blueprint Database generator - jahdb-blueprint-radio-towers-1.0. Property of Justin Addam Higgins (JAH).
+   Deterministic seeded blueprint generation. Same seed = same blueprint. */
+function prng(seed){var a=(seed>>>0)||1;return function(){a|=0;a=(a+0x6D2B79F5)|0;var t=Math.imul(a^(a>>>15),1|a);t=(t+Math.imul(t^(t>>>7),61|t))^t;return((t^(t>>>14))>>>0)/4294967296;};}
+function pick(r,s){return s[(r()*s.length)|0];}
+var PREFIX="JAH-BP-RTOWR-G";
+var DATA={"sig": false, "unit": "ft", "bases": [{"noun": "Radio Tower", "name": "Guyed Mast", "styles": ["Guyed", "Ham", "Commercial"], "dims": {"W": 40.0, "D": 40.0, "H": 100.0, "base_w": 40.0, "top_w": 16.0}, "members": [{"name": "Section", "qty": 10, "l": 10.0, "w": 2, "t": 2, "mat": "galvanized steel"}, {"name": "Guy wire", "qty": 9, "l": 60.0, "w": 0.25, "t": 0.25, "mat": "EHS steel"}, {"name": "Anchor", "qty": 3, "l": 6.0, "w": 3, "t": 6, "mat": "concrete deadman"}, {"name": "Base", "qty": 1, "l": 4.0, "w": 4, "t": 6, "mat": "concrete pier"}], "steps": ["Fabricate or procure each subassembly: Radio Tower.", "Lay out the full arrangement per the plan; confirm clearances and service access before fastening anything.", "Assemble in order: base/frame first, then working assemblies, then guards, covers, and controls last.", "Torque all structural fasteners to the fastener schedule; align shafts, belts, or linkages per the plan.", "Wire/plumb utilities per the schematic; test each subsystem individually before integration.", "Run the no-load test sequence from the plan; check for vibration, heat, leaks, or binding.", "Finish per the plan; protect all surfaces for the service environment.", "Commissioning: run under load, recheck fasteners after break-in, and file the as-built dimensions."], "sizes": [["60 ft", 0.7], ["100 ft", 1.0], ["150 ft", 1.4]], "group": "Radio Towers", "shapes": [["h", 0.0, 40.0, 0.0], ["d", 0.0, 0.0, 38.8, 10.0], ["d", 40.0, 0.0, 1.1999999999999993, 10.0], ["h", 1.1999999999999993, 38.8, 10.0], ["d", 1.1999999999999993, 10.0, 37.6, 20.0], ["d", 38.8, 10.0, 2.3999999999999986, 20.0], ["h", 2.3999999999999986, 37.6, 20.0], ["d", 2.3999999999999986, 20.0, 36.4, 30.0], ["d", 37.6, 20.0, 3.6000000000000014, 30.0], ["h", 3.6000000000000014, 36.4, 30.0], ["d", 3.6000000000000014, 30.0, 35.2, 40.0], ["d", 36.4, 30.0, 4.800000000000001, 40.0], ["h", 4.800000000000001, 35.2, 40.0], ["d", 4.800000000000001, 40.0, 34.0, 50.0], ["d", 35.2, 40.0, 6.0, 50.0], ["h", 6.0, 34.0, 50.0], ["d", 6.0, 50.0, 32.8, 60.0], ["d", 34.0, 50.0, 7.199999999999999, 60.0], ["h", 7.199999999999999, 32.8, 60.0], ["d", 7.199999999999999, 60.0, 31.6, 70.0], ["d", 32.8, 60.0, 8.4, 70.0], ["h", 8.4, 31.6, 70.0], ["d", 8.4, 70.0, 30.4, 80.0], ["d", 31.6, 70.0, 9.6, 80.0], ["h", 9.6, 30.4, 80.0], ["d", 9.6, 80.0, 29.2, 90.0], ["d", 30.4, 80.0, 10.8, 90.0], ["h", 10.8, 29.2, 90.0], ["d", 10.8, 90.0, 28.0, 100.0], ["d", 29.2, 90.0, 12.0, 100.0], ["h", 12.0, 28.0, 100.0], ["v", 0, 0, 100.0], ["v", 40.0, 0, 100.0], ["rect", 8.8, 100.0, 22.4, 6.0, "GUYED MAST - ELEVATION"]], "planW": 40.0, "planH": 108.0, "overallKeys": ["W", "D", "H"]}, {"noun": "Radio Tower", "name": "Self-Supporting Tower", "styles": ["Self-support", "Commercial", "No-guys"], "dims": {"W": 20.0, "D": 20.0, "H": 80.0, "base_w": 20.0, "top_w": 8.0}, "members": [{"name": "Section", "qty": 8, "l": 10.0, "w": 4, "t": 4, "mat": "galvanized steel"}, {"name": "Base", "qty": 1, "l": 16.0, "w": 16, "t": 8, "mat": "concrete mat"}], "steps": ["Fabricate or procure each subassembly: Radio Tower.", "Lay out the full arrangement per the plan; confirm clearances and service access before fastening anything.", "Assemble in order: base/frame first, then working assemblies, then guards, covers, and controls last.", "Torque all structural fasteners to the fastener schedule; align shafts, belts, or linkages per the plan.", "Wire/plumb utilities per the schematic; test each subsystem individually before integration.", "Run the no-load test sequence from the plan; check for vibration, heat, leaks, or binding.", "Finish per the plan; protect all surfaces for the service environment.", "Commissioning: run under load, recheck fasteners after break-in, and file the as-built dimensions."], "sizes": [["80 ft", 1.0]], "group": "Radio Towers", "shapes": [["h", 0.0, 20.0, 0.0], ["d", 0.0, 0.0, 19.25, 10.0], ["d", 20.0, 0.0, 0.75, 10.0], ["h", 0.75, 19.25, 10.0], ["d", 0.75, 10.0, 18.5, 20.0], ["d", 19.25, 10.0, 1.5, 20.0], ["h", 1.5, 18.5, 20.0], ["d", 1.5, 20.0, 17.75, 30.0], ["d", 18.5, 20.0, 2.25, 30.0], ["h", 2.25, 17.75, 30.0], ["d", 2.25, 30.0, 17.0, 40.0], ["d", 17.75, 30.0, 3.0, 40.0], ["h", 3.0, 17.0, 40.0], ["d", 3.0, 40.0, 16.25, 50.0], ["d", 17.0, 40.0, 3.75, 50.0], ["h", 3.75, 16.25, 50.0], ["d", 3.75, 50.0, 15.5, 60.0], ["d", 16.25, 50.0, 4.5, 60.0], ["h", 4.5, 15.5, 60.0], ["d", 4.5, 60.0, 14.75, 70.0], ["d", 15.5, 60.0, 5.25, 70.0], ["h", 5.25, 14.75, 70.0], ["d", 5.25, 70.0, 14.0, 80.0], ["d", 14.75, 70.0, 6.0, 80.0], ["h", 6.0, 14.0, 80.0], ["v", 0, 0, 80.0], ["v", 20.0, 0, 80.0], ["rect", 4.4, 80.0, 11.2, 4.8, "SELF-SUPPORT - ELEVATION"]], "planW": 20.0, "planH": 86.4, "overallKeys": ["W", "D", "H"]}, {"noun": "Radio Tower", "name": "Crank-Up Tower", "styles": ["Crank-up", "Ham", "Residential"], "dims": {"W": 16.0, "D": 16.0, "H": 60.0, "base_w": 16.0, "top_w": 6.4}, "members": [{"name": "Section", "qty": 6, "l": 10.0, "w": 2, "t": 2, "mat": "aluminum/steel"}, {"name": "Base", "qty": 1, "l": 6.0, "w": 6, "t": 6, "mat": "concrete"}], "steps": ["Fabricate or procure each subassembly: Radio Tower.", "Lay out the full arrangement per the plan; confirm clearances and service access before fastening anything.", "Assemble in order: base/frame first, then working assemblies, then guards, covers, and controls last.", "Torque all structural fasteners to the fastener schedule; align shafts, belts, or linkages per the plan.", "Wire/plumb utilities per the schematic; test each subsystem individually before integration.", "Run the no-load test sequence from the plan; check for vibration, heat, leaks, or binding.", "Finish per the plan; protect all surfaces for the service environment.", "Commissioning: run under load, recheck fasteners after break-in, and file the as-built dimensions."], "sizes": [["50 ft crank-up", 1.0]], "group": "Radio Towers", "shapes": [["h", 0.0, 16.0, 0.0], ["d", 0.0, 0.0, 15.2, 10.0], ["d", 16.0, 0.0, 0.7999999999999998, 10.0], ["h", 0.7999999999999998, 15.2, 10.0], ["d", 0.7999999999999998, 10.0, 14.4, 20.0], ["d", 15.2, 10.0, 1.5999999999999996, 20.0], ["h", 1.5999999999999996, 14.4, 20.0], ["d", 1.5999999999999996, 20.0, 13.6, 30.0], ["d", 14.4, 20.0, 2.4000000000000004, 30.0], ["h", 2.4000000000000004, 13.6, 30.0], ["d", 2.4000000000000004, 30.0, 12.8, 40.0], ["d", 13.6, 30.0, 3.1999999999999993, 40.0], ["h", 3.1999999999999993, 12.8, 40.0], ["d", 3.1999999999999993, 40.0, 12.0, 50.0], ["d", 12.8, 40.0, 4.0, 50.0], ["h", 4.0, 12.0, 50.0], ["d", 4.0, 50.0, 11.2, 60.0], ["d", 12.0, 50.0, 4.8, 60.0], ["h", 4.8, 11.2, 60.0], ["v", 0, 0, 60.0], ["v", 16.0, 0, 60.0], ["rect", 3.5199999999999996, 60.0, 8.959999999999999, 3.5999999999999996, "CRANK-UP - ELEVATION"]], "planW": 16.0, "planH": 64.80000000000001, "overallKeys": ["W", "D", "H"]}], "materials": ["Galvanized steel", "Pressure-treated timber", "Aluminum"], "blurb": "A {style} {noun} in {material}, {size_label} size, {overall} overall. Full structural blueprint: leg and bracing schedule, connection details, foundation and anchor plan, and climbing/erection documentation. Key dimensions: {dims}.", "how": "The {noun} rises from its foundation plan - legs and bracing assembled in the sequence given, every connection torqued to spec, guys or anchors set before the {noun} goes up. It is climbed only with proper gear, and the structure is inspected on schedule. Overall {overall}.", "standards": ["AWS D1.1 structural welding (guidance)", "OSHA 29 CFR 1910.252 welding safety"], "tolerances": ["Cut length: +/- 1/16 in", "Hole locations: +/- 1/32 in", "Weldment squareness: 1/16 in per foot", "Flatness: 1/8 in per foot"], "safety": ["Welding PPE required: helmet, gloves, flame-resistant clothing; ventilate or exhaust fumes.", "Grinding: face shield plus eye protection; guard sparks away from flammables.", "Clamp work before drilling or cutting; deburr all edges.", "Keep a fire extinguisher rated ABC within reach."], "tools": ["Angle grinder", "Drill press", "Welder (process per plan)", "Clamps", "Tape measure", "Square", "Files", "Wire brush", "Welding helmet", "Gloves"], "ladder_rank": 2, "ladder_tier": "foundations"};
+function fmtD(v,u){var r=Math.round(v*100)/100;if(u==='in')return r+'"';return r+' '+u;}
+function drawAscii(shapes,W,H,unit,title){
+  var maxW=66,maxH=26;
+  W=Math.max(W,0.01);H=Math.max(H,0.01);
+  var sc=Math.max(W/maxW,H/maxH);
+  var gw=Math.max(10,Math.min(maxW,Math.ceil(W/sc))), gh=Math.max(6,Math.min(maxH,Math.ceil(H/sc)));
+  var sx=gw/W, sy=gh/H;
+  function X(x){return Math.max(0,Math.min(gw-1,Math.round(x*sx)));}
+  function Y(y){return Math.max(0,Math.min(gh-1,Math.round(y*sy)));}
+  var g=[],yy,xx;for(yy=0;yy<gh;yy++){g.push([]);for(xx=0;xx<gw;xx++)g[yy].push(' ');}
+  function put(x,y,ch){if(y>=0&&y<gh&&x>=0&&x<gw)g[y][x]=ch;}
+  function hline(x0,x1,y){var a=Math.min(X(x0),X(x1)),b=Math.max(X(x0),X(x1));for(var x=a;x<=b;x++)put(x,Y(y),'-');}
+  function vline(x,y0,y1){var a=Math.min(Y(y0),Y(y1)),b=Math.max(Y(y0),Y(y1));for(var y=a;y<=b;y++)put(X(x),y,'|');}
+  function diag(x0,y0,x1,y1){var st=Math.max(Math.abs(X(x1)-X(x0)),Math.abs(Y(y1)-Y(y0)),1);for(var i=0;i<=st;i++)put(Math.round(X(x0)+(X(x1)-X(x0))*i/st),Math.round(Y(y0)+(Y(y1)-Y(y0))*i/st),'/');}
+  shapes.forEach(function(sh){
+    var k=sh[0];
+    if(k==='rect'){var x=sh[1],y=sh[2],w=sh[3],h=sh[4],label=sh[5]||'';
+      var x0=X(x),y0=Y(y),x1=X(x+w),y1=Y(y+h);
+      if(x1<=x0)x1=x0+1;if(y1<=y0)y1=y0+1;
+      for(var xx2=x0;xx2<=x1;xx2++){put(xx2,y0,'-');put(xx2,y1,'-');}
+      for(var yy2=y0;yy2<=y1;yy2++){put(x0,yy2,'|');put(x1,yy2,'|');}
+      put(x0,y0,'+');put(x1,y0,'+');put(x0,y1,'+');put(x1,y1,'+');
+      var lab=String(label).slice(0,Math.max(1,x1-x0-1)),ly=(y0+y1)>>1,lx=x0+Math.max(1,((x1-x0-lab.length)>>1));
+      if(ly>y0&&ly<y1-1)for(var li=0;li<lab.length;li++)if(lx+li<x1-1)g[ly][lx+li]=lab[li];
+    }else if(k==='h'){hline(sh[1],sh[2],sh[3]);}
+    else if(k==='v'){vline(sh[1],sh[2],sh[3]);}
+    else if(k==='d'){diag(sh[1],sh[2],sh[3],sh[4]);}
+    else if(k==='t'){var tx=X(sh[1]),ty=Y(sh[2]),txt=String(sh[3]);for(var ti=0;ti<txt.length;ti++)if(tx+ti<gw)put(tx+ti,ty,txt[ti]);}
+  });
+  var lines=['PLAN: '+title,'Overall '+W+' x '+H+' '+unit+' | schematic - not to construction scale'];
+  for(yy=0;yy<gh;yy++)lines.push(g[yy].join('').replace(/\s+$/,''));
+  return lines.join('\n');
+}
+function generate(seed,opts,rnd){
+  opts=opts||{};rnd=rnd||prng(seed);
+  var base=pick(rnd,DATA.bases);
+  var size=pick(rnd,base.sizes);
+  var style=(opts.field&&base.styles.indexOf(opts.field)>=0)?opts.field:pick(rnd,base.styles);
+  var mat=pick(rnd,DATA.materials);
+  var s=size[1]*(DATA.sig?1.03:1);
+  var dims={},k;for(k in base.dims)dims[k]=Math.round(base.dims[k]*s*100)/100;
+  var members=base.members.map(function(m){
+    return {name:m.name,qty:m.qty,l:Math.round(m.l*s*100)/100,w:m.w,t:m.t,
+            material:(m.mat||'').replace('{MAT}',mat)};
+  });
+  var nPieces=members.reduce(function(a,m){return a+m.qty;},0);
+  var bf=members.reduce(function(a,m){return a+(m.w&&m.t?m.qty*m.l*m.w*m.t/144:0);},0);
+  var cut=members.map(function(m){
+    return {part:m.name,qty:m.qty,
+      size:(m.w&&m.t?fmtD(m.l,DATA.unit)+' x '+fmtD(m.w,DATA.unit)+' x '+fmtD(m.t,DATA.unit):fmtD(m.l,DATA.unit)),
+      material:m.material,board_feet:(m.w&&m.t?Math.round(m.qty*m.l*m.w*m.t/144*100)/100:null)};
+  });
+  var shapes=base.shapes.map(function(sh){
+    var o=sh.slice();
+    for(var i=1;i<o.length;i++){if(typeof o[i]==='number')o[i]=Math.round(o[i]*s*100)/100;}
+    return o;
+  });
+  var W=Math.round(base.planW*s*100)/100,H=Math.round(base.planH*s*100)/100;
+  var title=style+' '+base.noun+(size[0]!=='Standard'?' ('+size[0]+')':'')+' - Full Blueprint';
+  var plan=drawAscii(shapes,W,H,DATA.unit,title);
+  var id=PREFIX+String(seed).padStart(6,'0');
+  var overall=base.overallKeys.map(function(k2){return k2+' '+fmtD(dims[k2],DATA.unit);}).join(' x ');
+  var desc=DATA.blurb.replace('{name}',title.replace(' - Full Blueprint','')).replace('{style}',style)
+    .replace('{material}',mat).replace('{overall}',overall).replace('{noun}',base.noun)
+    .replace('{size_label}',size[0]).replace('{dims}',base.overallKeys.map(function(k2){return k2+' '+fmtD(dims[k2],DATA.unit);}).join(', '));
+  if(DATA.sig)desc+=' This is a JAH Signature original design - his own line, drawn from the same need as the public pattern but detailed as a new original work.';
+  else desc+=' Representative blueprint study compiled from standard construction practice and public code requirements.';
+  var prog='# JAH Blueprint demo - Record '+id+'\nplan = """\n'+plan.replace(/\\/g,'\\\\')+'\n"""\nprint(plan)\nprint("Overall: '+overall+'")\nprint("Cut pieces: '+nPieces+'")\nprint("Board feet: '+Math.round(bf*100)/100+'")\nprint("OK: '+id+' blueprint verified")\n';
+  return {
+    id:id,name:title.replace(' - Full Blueprint',''),title:title,
+    description:desc,g:base.group|| (base.noun+'s'),
+    how_it_works:DATA.how.replace('{noun}',base.noun).replace('{material}',mat).replace('{overall}',overall).replace('{size_label}',size[0]),
+    key_points:['Overall: '+overall,'Material: '+mat,'Cut pieces: '+nPieces,'Lumber: '+(Math.round(bf*10)/10)+' board feet'].concat(DATA.sig?['Signature original - JAH design lineage']:[]),
+    requirements:cut.slice(0,6).map(function(c){return c.qty+' x '+c.part+' ('+c.size+')';}),
+    standards:DATA.standards,citations:DATA.standards.concat(['Standard construction practice references.']),
+    blueprint:{plan_ascii:plan,overall:overall,unit:DATA.unit,
+      dimensions:Object.keys(dims).map(function(k2){return k2+': '+fmtD(dims[k2],DATA.unit);}).join(', '),
+      cut_list:cut,assembly_steps:base.steps,tolerances:DATA.tolerances,safety_notes:DATA.safety,tools_required:DATA.tools,
+      scale_note:'Schematic - not to construction scale. Verify all dimensions, loads, and code compliance with a licensed professional before building.'},
+    materials:cut.map(function(c){return c.qty+' x '+c.part+' - '+c.material+' ('+c.size+')';}),
+    src:DATA.sig?'signature':'public-harvest',
+    ladder_rank:DATA.ladder_rank,ladder_tier:DATA.ladder_tier,
+    demo:{kind:'python',language:'python',program:prog,note:'Working demonstration program (real, runnable Python): prints the schematic plan and verifies totals.'},
+    provenance:DATA.sig?'signature':'public-harvest',last_verified:'2026-10-19',_seed:seed
+  };
+}
+function validate(r){
+  var e=[];
+  if(!r||typeof r!=='object')return {ok:false,errors:['not an object']};
+  if(!new RegExp('^'+PREFIX.replace(/-/g,'\\-')+'\\d{6}$').test(r.id||''))e.push('id');
+  if(!r.blueprint||!r.blueprint.plan_ascii)e.push('plan');
+  if(!r.demo||!r.demo.program)e.push('demo');
+  return {ok:!e.length,errors:e};
+}
+function driftCheck(record,sample){
+  var dups=(sample||[]).filter(function(r){return r&&r.title===record.title;});
+  return dups.length?{ok:false,errors:['duplicate title in archive sample']}:{ok:true,errors:[]};
+}
+var gen={version:'jahdb-blueprint-radio-towers-1.0',generate:generate,validate:validate,driftCheck:driftCheck,fields:["Commercial", "Crank-up", "Guyed", "Ham", "No-guys", "Residential", "Self-support"]};
+if(typeof JAHDB!=='undefined'&&JAHDB.registerGenerator)JAHDB.registerGenerator('blueprint-radio-towers',gen);
+if(typeof module!=='undefined'&&module.exports)module.exports=gen;
+})();
