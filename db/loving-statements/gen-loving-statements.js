@@ -110,4 +110,7 @@ function driftCheck(record,sample){
 var gen={version:'jahdb-loving-statements-1.0',generate:generate,validate:validate,driftCheck:driftCheck,fields:FIELDS};
 if(typeof JAHDB!=='undefined'&&JAHDB.registerGenerator)JAHDB.registerGenerator('loving-statements',gen);
 if(typeof module!=='undefined'&&module.exports)module.exports=gen;
+
+/* Group-0 expansion: 10 appreciation topics. */
+TOPICS["Appreciation Day"].push("Thanking a Mentor Who Changed Your Path - Appreciation Day", "Appreciating the Friend Who Shows Up - Appreciation Day", "Honoring a Parent’s Quiet Sacrifices - Appreciation Day", "Gratitude for a Partner’s Daily Care - Appreciation Day", "Thanking a Teacher Years Later - Appreciation Day", "Appreciating a Colleague’s Behind-the-Scenes Work - Appreciation Day", "Gratitude for a Stranger’s Kindness - Appreciation Day", "Honoring a Caregiver’s Devotion - Appreciation Day", "Thanking Yourself: Self-Appreciation - Appreciation Day", "A Community’s Collective Thank-You - Appreciation Day");
 })();

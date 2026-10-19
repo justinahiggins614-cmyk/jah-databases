@@ -110,4 +110,7 @@ function driftCheck(record,sample){
 var gen={version:'jahdb-nanocomposites-1.0',generate:generate,validate:validate,driftCheck:driftCheck,fields:FIELDS};
 if(typeof JAHDB!=='undefined'&&JAHDB.registerGenerator)JAHDB.registerGenerator('nanocomposites',gen);
 if(typeof module!=='undefined'&&module.exports)module.exports=gen;
+
+/* Group-0 expansion: 10 self-healing topics. */
+TOPICS["Advanced"].push("Vascular Self-Healing Networks (Vol. 2) - Advanced", "Intrinsic Reversible Polymer Networks - Advanced", "Self-Healing Concrete with Bacteria - Advanced", "Self-Healing Coatings for Corrosion - Advanced", "Microvascular Composites in Aerospace - Advanced", "Self-Healing Elastomers for Soft Robotics - Advanced", "Stimuli-Responsive Healing: Light and Heat - Advanced", "Self-Healing Asphalt (Vol. 2) - Advanced", "Healing Efficiency: How It Is Measured - Advanced", "The Future: Fully Autonomous Healing Materials - Advanced");
 })();

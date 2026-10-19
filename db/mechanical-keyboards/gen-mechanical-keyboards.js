@@ -46,6 +46,18 @@ var REAL=[
 ];
 var NOTES=["Enthusiasts often film and lube these before use.","Check stem wobble on a tester before committing to a full build.","Pair with thick PBT caps for the best sound.","Factory lube quality varies by batch.","A switch tester is the cheapest way to try these.","Sound tests for this are widely shared online.","Plate material changes the feel noticeably.","Spring swaps are a common mod for these."];
 var SIG_SW=["Nova Linear","Ember Tactile","Tide Click","Prism Silent","Comet Speed","Iron Thock","Drift Feather","Solar Bump"];
+var SIG_UNUSUAL=[
+["The Typewriter Revival", "The Retro Works", "keyboard", "Full-size", "The clack of history", "unusual", "A keyboard that types like 1955: round keycaps, a 70-gram buckling mechanism, and a carriage-return lever that actually sends Enter. Nostalg"],
+["The Laser Projection", "The Photon Collective", "keyboard", "Projected", "The hum of photons", "unusual", "No keys at all: a laser projects a keyboard onto any surface, tracked at 1,000 Hz. Typing on air, with 60 words per minute for the practiced"],
+["The Braille Chord", "The Access Guild", "keyboard", "Chorded", "The soft percussion of chords", "unusual", "A 8-key chorder for blind typists: chords replace the alphabet, reaching 120 words per minute. The keyboard you play like an instrument."],
+["The Foot Pedal Board", "The Organ Works", "keyboard", "Pedal", "The thump of pedals", "unusual", "Typing with your feet: 12 pedals for modifiers and navigation, freeing the hands. Organists took to it instantly; programmers took 3 weeks."],
+["The Breath-Controlled", "The Access Guild", "keyboard", "Breath", "The whisper of air", "unusual", "A keyboard for those who cannot use hands: sip-and-puff plus breath patterns select keys at 25 words per minute. The most humane keyboard ev"],
+["The Modular Hex", "The Hex Foundry", "keyboard", "Modular", "The click of magnets", "unusual", "Six hexagonal modules that snap into any shape: split, tented, or wrapped around a chair arm. The keyboard as furniture, rearranged weekly."],
+["The E-Ink Keycap", "The Display Works", "keyboard", "75%", "The silent refresh", "unusual", "Every key is a tiny e-ink display: legends change per app, per language, per game. The keyboard that never needs new keycaps again."],
+["The Holographic Keyboard", "The Photon Collective", "keyboard", "Floating", "The shimmer of light", "unusual", "Keys of light above the desk: holographic switches with haptic ultrasound feedback. Typing on nothing, feeling everything."],
+["The Glove Keyboard", "The Wearable Works", "keyboard", "Wearable", "The tap of fingertips", "unusual", "Two gloves, 10 finger sensors: type by drumming your fingers anywhere. 80 words per minute once the muscle memory lands."],
+["The Drum Machine Keys", "The Beat Foundry", "keyboard", "Grid", "The thump of samples", "unusual", "A keyboard that is also a drum machine: each key triggers a sample, and typing becomes beat-making. Emails have never been this funky."]
+];
 var SIG_BD=["Signature Board 60","Signature Board TKL","Signature Pad","Signature Ergo","Signature Tenkey"];
 function generate(seed,opts,rnd){
   rnd=rnd||prng(seed);
@@ -59,6 +71,11 @@ function generate(seed,opts,rnd){
       signature_counterpart:PREFIX+String(seed+2500).padStart(7,'0')};
   }
   var isSw=cat==='switch';
+  if(cat==='unusual'){var u=pick(rnd,SIG_UNUSUAL);
+    return {id:id,t:u[0],title:u[0],description:u[6]+" "+pick(rnd,NOTES),
+      category:'unusual',g:'unusual',maker:u[1],kind:u[2],spec:u[3],sound:u[4],
+      source:"signature",source_ref:"Signature keyboard archive.",
+      signature_version:"Signature original design.",_seed:seed};}
   var tt=isSw?pick(rnd,SIG_SW)+" Signature":pick(rnd,SIG_BD);
   return {id:id,t:tt,title:tt,
     description:"A Signature original "+(isSw?"switch":"keyboard")+" design. "+(isSw?"Its stem rails are polished for a scratch-free press with a "+ri(rnd,40,70)+"cN spring.":"Its gasket-mounted plate and south-facing sockets are tuned for a deep, even sound.")+" "+pick(rnd,NOTES),

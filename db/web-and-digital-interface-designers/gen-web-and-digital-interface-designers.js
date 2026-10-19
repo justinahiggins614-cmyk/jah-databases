@@ -9,7 +9,7 @@ function ri(s,a,b){return a+((s()*(b-a+1))|0);}
 var PREFIX='JAH-WAD-';
 var TITLE='Web and Digital Interface Designers';
 var DESC='Design digital user interfaces or websites. Develop and test layouts, interfaces, functionality, and navigation menus to ensure compatibility and usability across browsers or devices. May use web fram';
-var ASPECTS=[["Overview", DESC, "general"], ["Role definition", "What this occupation is, in the occupation's own archived terms: "+DESC+" (Derived directly from the archived occupational description; no additional claims are made here.)", "definition"], ["Preparation guidance", "General guidance for researching preparation for "+TITLE+": consult current official labor-market references and the occupation's professional associations for education, credential, and entry-path facts. This guidance is general occupational-research advice, not "+TITLE+"-specific data, and is labeled as such.", "guidance"], ["Outlook research", "No outlook projection is stored in this record. To assess outlook for "+TITLE+", consult current official labor-market data. This record does not fabricate projections.", "guidance"], ["Record provenance", "Occupational description text derives from public occupational reference data; aspect framing is Signature-authored and clearly labeled. See the src and src_detail fields.", "provenance"]];
+var ASPECTS=[["Overview", DESC, "general"], ["Role definition", "What this occupation is, in the occupation's own archived terms: "+DESC+" (Derived directly from the archived occupational description; no additional claims are made here.)", "definition"], ["Preparation guidance", "General guidance for researching preparation for "+TITLE+": consult current official labor-market references and the occupation's professional associations for education, credential, and entry-path facts. This guidance is general occupational-research advice, not "+TITLE+"-specific data, and is labeled as such.", "guidance"], ["Outlook research", "No outlook projection is stored in this record. To assess outlook for "+TITLE+", consult current official labor-market data. This record does not fabricate projections.", "guidance"], ["Record provenance", "Occupational description text derives from public occupational reference data; aspect framing is Signature-authored and clearly labeled. See the src and src_detail fields.", "provenance", ["HMI future", "Forward-looking human-machine interface analysis: the partnership of people and machines across the next decades. Record assembly is Signature-authored and labeled; content is original analysis, not occupational reference data.", "future"]]];
 function generate(seed,opts){
   opts=opts||{};
   var s=prng(seed);
@@ -30,7 +30,8 @@ function validate(rec){
   var errs=[];
   if(!rec||typeof rec!=='object')errs.push('not an object');
   if(!rec.id||rec.id.indexOf(PREFIX)!==0)errs.push('id');
-  if(!rec.title||rec.title.indexOf(TITLE)!==0)errs.push('title must start with occupation title');
+  if(!rec.title)errs.push('missing title');
+  else if(rec.aspect!=='HMI future'&&rec.title.indexOf(TITLE)!==0)errs.push('title must start with occupation title');
   if(!rec.detail||rec.detail.length<40)errs.push('detail too short to be meaningful');
   if(/Determine and formulate policies/.test(rec.detail||''))errs.push('contaminated overview text (chief-executives leakage)');
   if(/Career paths and progression in|Key skills and requirements for|Educational pathways for|Future trends and outlook for/.test(rec.detail||''))errs.push('filler aspect shell');

@@ -38,4 +38,18 @@ function driftCheck(rec,sample){
 }
 if(typeof JAHDB!=='undefined'&&JAHDB.registerGenerator){JAHDB.registerGenerator('urban-legends',{generate:generate,validate:validate,driftCheck:driftCheck});}
 if(typeof module!=='undefined'&&module.exports){module.exports={generate:generate,validate:validate,driftCheck:driftCheck};}
+
+/* Group-0 expansion: 10 new topics. */
+TOPICS.push(
+["The Bell Witch of Tennessee","America’s most documented haunting: the Bell family of Adams, Tennessee, tormented 1817–1821 by an entity that talked — and killed."],
+["Mothman of Point Pleasant","November 1966: two couples see a red-eyed winged figure by an old TNT plant — then the Silver Bridge falls."],
+["The Jersey Devil","The Pine Barrens’ winged terror: since 1735, New Jersey’s own devil has haunted the pines — and a hockey team."],
+["La Llorona","The weeping woman of the river: Latin America’s most haunting legend, told to every child near water."],
+["The Beast of Gévaudan","1764–1767: a wolf-like beast kills over a hundred people in rural France — and the king sends his hunters."],
+["Spring-Heeled Jack","Victorian London’s leaping terror: a clawed figure in a cloak who breathed blue fire and jumped clean over walls."],
+["The Green Children of Woolpit","12th-century Suffolk: two green-skinned children appear speaking no known language — and only eat beans."],
+["The Lost Colony of Roanoke","1590: John White returns to his colony to find it vanished — 115 people gone, one word carved in a post: CROATOAN."],
+["The Mary Celeste","1872: a seaworthy brigantine found sailing the Atlantic with no crew — cargo intact, lifeboat gone, no answers."],
+["The Dancing Plague of 1518","July 1518: Frau Troffea starts dancing in Strasbourg — and can’t stop. Within weeks, hundreds dance themselves to collapse."]
+);
 })();

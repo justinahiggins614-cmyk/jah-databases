@@ -56,4 +56,7 @@ function driftCheck(record,sample){
 var gen={version:'jahdb-postscarcity-economics-databases-signature-1.0',generate:generate,validate:validate,driftCheck:driftCheck,fields:FIELDS};
 if(typeof JAHDB!=='undefined'&&JAHDB.registerGenerator)JAHDB.registerGenerator('postscarcity-economics-databases-signature',gen);
 if(typeof module!=='undefined'&&module.exports)module.exports=gen;
+
+/* Group-0 expansion: 20 catalog topics. */
+TOPICS["catalog-paste archives"].push("The Closed-Loop City: Zero-Waste Urban Metabolism", "Circular Manufacturing: Products Designed for Disassembly", "Water Loops: From Wastewater to Drinking Water", "Nutrient Cycling: Closing the Food-Waste Loop", "Energy Looping: Waste Heat Recovery Districts", "Material Passports: Tracking Every Atom", "The Repair Economy at Civilization Scale", "Closed-Loop Agriculture: Aquaponics Arcologies", "Atmospheric Carbon as Feedstock", "Governance of a No-Waste Civilization", "Vertical Farms: Skyscraper Harvests", "Precision Fermentation: Brewing Food", "Cellular Agriculture: Meat Without Animals", "Algae: The Ocean’s Protein Factory", "Abundant Orchards: Perennial Food Forests", "The Global Food Grid: Sharing Surplus Instantly", "Personal Food Printers: The Kitchen Replicator", "Saltwater Greenhouses for Deserts", "Seed Vaults and the Abundance Archive", "Post-Scarcity Nutrition: Eating for Joy");
 })();

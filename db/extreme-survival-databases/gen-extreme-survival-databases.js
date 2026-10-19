@@ -26,7 +26,17 @@ var TOPICS={
   "The Lut Desert: The Hottest Surface",
   "The Cave of Crystals",
   "The South Pole Station Winter",
-  "The Extreme as Teacher"
+  "The Extreme as Teacher",
+  "Mount Erebus: The Lava Lake",
+  "The Salar de Uyuni: The Salt Mirror",
+  "Mount Vinson: Antarctica's Roof",
+  "The Tsingy: The Stone Forest",
+  "The Grand Prismatic Spring: Earth's Eye",
+  "The Skaftafell Ice Caves",
+  "The Zhangjiajie Pillars: The Floating Mountains",
+  "The Sossusvlei Dunes: The Red Sea of Sand",
+  "The Waitomo Glowworm Caves",
+  "The Pamir: The Roof of the World",
  ]};
 function demoProgram(topic,field){
   var safe=String(topic).replace(/\\/g,'\\\\').replace(/"/g,"'");

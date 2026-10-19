@@ -9,10 +9,10 @@ function pad(n){return String(n).padStart(6,'0');}
 
 var CATS=['hospital','clinic','urgent-care','specialty','rehab', 'future-hospital', 'future-hospital'];
 var PRE=['Riverside','Lakeside','Summit','Cedar','Willow','Granite','Harbor','Meadow','Brook','Stone','Pine','Elm','Maple','Birch','Aspen','Redwood','Blue','Golden','Silver','Copper','Prairie','Desert','Ocean','Mountain'];
-var KIND={hospital:['General Hospital','Medical Center','Community Hospital','Regional Hospital'],clinic:['Family Clinic','Health Clinic','Community Clinic','Care Clinic'], 'urgent-care':['Urgent Care Center','Express Care Clinic','After-Hours Care'],specialty:['Heart Center','Orthopedic Institute','Cancer Center','Neurology Institute','Pediatric Center'],rehab:['Rehabilitation Center','Recovery Hospital','Physical Therapy Center']};
+var KIND={hospital:['General Hospital','Medical Center','Community Hospital','Regional Hospital'],clinic:['Family Clinic','Health Clinic','Community Clinic','Care Clinic'], 'urgent-care':['Urgent Care Center','Express Care Clinic','After-Hours Care'],specialty:['Heart Center','Orthopedic Institute','Cancer Center','Neurology Institute','Pediatric Center'],rehab:['Rehabilitation Center','Recovery Hospital','Physical Therapy Center'],'future-hospital':['Future Hospital','AI Care Tower','Healing Garden Hospital','Longevity Institute']};
 var CITIES=['Springfield','Riverdale','Lakeside','Cedar Falls','Brookfield','Fairview','Maple Grove','Hillcrest','Oakdale','Pinehurst','Westfield','Northgate','Elmwood','Clearwater','Stonebridge','Meadowbrook','Sunnyvale','Ridgemont','Ashford','Granite City','Willow Creek','Bayport','Summit','Harborview','Kingsport','Milltown','Eastvale','Portside','Fairhaven','Crestview'];
 var SPECS=['cardiology','oncology','orthopedics','pediatrics','neurology','emergency medicine','radiology','surgery','primary care','dermatology','psychiatry','obstetrics','geriatrics','physical therapy','ophthalmology','urology','endocrinology','pulmonology'];
-var BED_RANGE={hospital:[100,900],clinic:[0,30],'urgent-care':[0,20],specialty:[50,300],rehab:[40,200]};
+var BED_RANGE={hospital:[100,900],clinic:[0,30],'urgent-care':[0,20],specialty:[50,300],rehab:[40,200],'future-hospital':[50,500]};
 
 function uniqPick(rnd,arr,n){
   var out=[],used={},tries=0;

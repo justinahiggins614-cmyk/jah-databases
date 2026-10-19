@@ -38,4 +38,18 @@ function driftCheck(rec,sample){
 }
 if(typeof JAHDB!=='undefined'&&JAHDB.registerGenerator){JAHDB.registerGenerator('planet-colonization',{generate:generate,validate:validate,driftCheck:driftCheck});}
 if(typeof module!=='undefined'&&module.exports){module.exports={generate:generate,validate:validate,driftCheck:driftCheck};}
+
+/* Group-0 expansion: 10 new topics. */
+TOPICS.push(
+["Designing a Tidally-Locked Ocean World","One side eternal day, one side eternal night: colonizing the twilight band of a red-dwarf ocean planet."],
+["The Low-Gravity Greenhouse Dome","Farming on a world with a third of Earth’s gravity: taller plants, stranger water, and domes that practically lift themselves."],
+["Mars: The Canyon City","Why the first Martian city belongs in a canyon: radiation shielding, water ice, and a sky you can pressurize."],
+["The Ice Moon Harbor","A colony beneath the ice of an ocean moon: melting down to a black sea that has waited a billion years."],
+["Venus Cloud Cities","Fifty kilometers above Venus’s hellish surface, the air is Earthlike: floating cities in the most Earth-like place off Earth."],
+["The Desert World Water Plan","Colonizing a dune planet: every drop accounted for, from atmospheric condensers to deep fossil aquifers."],
+["A Colony on a Super-Earth","Twice the gravity, endless horizons: designing for a world where everything weighs double and the air is thick."],
+["The Generation Ship’s Destination","Choosing where a century-long voyage ends: the survey criteria for a world worth a hundred years of travel."],
+["Terraforming in Stages","The thousand-year project: how a dead world becomes a living one, one engineered stage at a time."],
+["The First Hundred Days on a New World","Landing to living: the critical first hundred days when a colony either takes root or dies trying."]
+);
 })();

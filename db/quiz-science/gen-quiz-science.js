@@ -5,7 +5,7 @@
 function prng(seed){var a=(seed>>>0)||1;return function(){a|=0;a=(a+0x6D2B79F5)|0;var t=Math.imul(a^(a>>>15),1|a);t=(t+Math.imul(t^(t>>>7),61|t))^t;return((t^(t>>>14))>>>0)/4294967296;};}
 function pick(r,s){return r[(s()*r.length)|0];}
 var PREFIX="JAH-QZSC-";
-var FIELDS=["Physics","Chemistry","Biology","Earth Science","Astronomy"];
+var FIELDS=["Physics","Chemistry","Biology","Earth Science","Astronomy", "science-quiz-show"];
 var TOPICS={
  "Physics": [
   "What Is Motion? A First Physics Quiz - Physics",
@@ -51,7 +51,19 @@ var TOPICS={
   "Stars: How Stars Are Born, Live, and Die - Astronomy",
   "Cosmology: The Big Bang and Beyond - Astronomy"
  ]
-};
+,
+ "science-quiz-show": [
+  "Physics Lightning: Energy and Waves",
+  "Chemistry Countdown: Reactions",
+  "Biology Blitz: Ecosystems",
+  "Astronomy After Dark: Black Holes",
+  "Earth Science: Volcanoes Round",
+  "The Human Body: Brain Arena",
+  "Genetics: The Evolution Round",
+  "The Ocean Science Showdown",
+  "The Climate Challenge Round",
+  "The Space Race Timeline",
+ ]};
 function demoProgram(topic,field){
   var safe=String(topic).replace(/\\/g,'\\\\').replace(/"/g,"'");
   return "# Science Quiz Study — "+safe+"\n"

@@ -38,4 +38,18 @@ function driftCheck(rec,sample){
 }
 if(typeof JAHDB!=='undefined'&&JAHDB.registerGenerator){JAHDB.registerGenerator('shadow-puppets',{generate:generate,validate:validate,driftCheck:driftCheck});}
 if(typeof module!=='undefined'&&module.exports){module.exports={generate:generate,validate:validate,driftCheck:driftCheck};}
+
+/* Group-0 expansion: 10 new topics. */
+TOPICS.push(
+["Wayang Kulit: Java’s Shadow Theater","A thousand years of leather puppets, gamelan music, and all-night epics: the world’s greatest shadow tradition."],
+["Chinese Pi Ying Xi","Two thousand years of donkey-hide shadows: China’s pi ying xi, born for emperors and still performed today."],
+["Karagöz and Hacivat","The Ottoman Empire’s beloved shadow clowns: Karagöz the trickster and Hacivat the scholar, bickering for five centuries."],
+["Thai Nang Yai","Shadows the size of doors: Thailand’s nang yai uses meter-tall cowhide panels to tell the Ramakien epic."],
+["Indian Tholu Bommalata","Andhra Pradesh’s colored shadows: translucent puppets big as children, glowing like stained glass."],
+["Cambodian Sbek Thom","The Khmer Empire’s sacred shadows: two-meter panels of the Reamker, danced before gods and kings."],
+["Hand Shadowgraphy: The Art of Trewey","No puppets, just hands: Félicien Trewey’s 19th-century shadowgraphy turned fingers into elephants, clowns, and whole plays."],
+["Modern Shadow Dance","Bodies as puppets: contemporary troupes like Pilobolus turn human silhouettes into living shadow theater."],
+["Shadow Puppetry in Film","From Lotte Reiniger’s silhouettes to modern cinema: how shadow puppetry became film’s most poetic technique."],
+["Building a Home Shadow Theater","A bedsheet, a lamp, and cardboard: everything needed to stage shadow plays at home tonight."]
+);
 })();

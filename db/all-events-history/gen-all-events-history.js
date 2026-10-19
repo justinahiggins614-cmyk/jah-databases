@@ -38,4 +38,18 @@ function driftCheck(rec,sample){
 }
 if(typeof JAHDB!=='undefined'&&JAHDB.registerGenerator){JAHDB.registerGenerator('all-events-history',{generate:generate,validate:validate,driftCheck:driftCheck});}
 if(typeof module!=='undefined'&&module.exports){module.exports={generate:generate,validate:validate,driftCheck:driftCheck};}
+
+/* Group-0 expansion: 10 new topics. */
+TOPICS.push(
+["The Tunguska Event (1908)","June 30, 1908: an explosion over Siberia flattens 80 million trees — with no crater and no meteorite ever found."],
+["The Dyatlov Pass Incident (1959)","Nine experienced hikers die in the Urals after fleeing their tent — cut open from the inside — into −30°C night."],
+["The Voynich Manuscript","A 600-year-old book in an unknown language, full of unknown plants and naked nymphs — unreadable to this day."],
+["The Wow! Signal (1977)","August 15, 1977: a 72-second blast of radio from deep space, thirty times louder than background — never repeated."],
+["The Somerton Man (Tamam Shud)","December 1948: a well-dressed man is found dead on an Adelaide beach — no ID, no cause of death, and a scrap of Persian poetry in his pocket."],
+["The Lead Masks Case","1966: two men found dead on a Brazilian hill wearing lead eye masks — with a note: “protect your face, wear the mask.”"],
+["The Hessdalen Lights","Since the 1940s, glowing orbs have danced over a Norwegian valley — measured by science, explained by no one."],
+["The Max Headroom Incident (1987)","November 22, 1987: a masked figure hijacks Chicago TV twice in one night — and is never caught."],
+["The Disappearance of the Sodder Children (1945)","Christmas Eve 1945: the Sodder home burns down — five children vanish, no remains found, and the family never believes the official story."],
+["The Bloop (1997)","Summer 1997: hydrophones catch an ultra-low-frequency sound louder than a blue whale — from the deep Pacific. NOAA never identified it."]
+);
 })();

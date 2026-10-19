@@ -38,4 +38,18 @@ function driftCheck(rec,sample){
 }
 if(typeof JAHDB!=='undefined'&&JAHDB.registerGenerator){JAHDB.registerGenerator('post-scarcity',{generate:generate,validate:validate,driftCheck:driftCheck});}
 if(typeof module!=='undefined'&&module.exports){module.exports={generate:generate,validate:validate,driftCheck:driftCheck};}
+
+/* Group-0 expansion: 10 new topics. */
+TOPICS.push(
+["The Replicator Economy","Imagine a machine that makes anything from raw atoms: what happens to prices, jobs, and wants when making costs nothing?"],
+["What Work Means When Nothing Is Scarce","If survival is guaranteed, why do anything? The thought experiment that finds purpose after the paycheck."],
+["The Post-Scarcity City","Walk through a city where no one is poor: what do the streets, homes, and public spaces look like?"],
+["Ownership Without Scarcity","If everything can be copied, what does “owning” something even mean? Property rethought for abundance."],
+["Education in a World of Plenty","When every child has a tutor, a lab, and a library: what does school become when resources are infinite?"],
+["Art When Materials Are Free","If canvas, marble, and compute cost nothing, what limits art? The thought experiment finds the new frontier."],
+["The End of the Job Interview","No one needs to hire you to survive — so how do teams form? Matching talent to missions without the job market."],
+["Governance by Abundance","When the state can provide everything, what is politics about? Governing the allocation of the irreproducible."],
+["What We Still Compete For","Scarcity ends but rivalry doesn’t: the thought experiment catalogs what humans compete for when goods are free."],
+["The First Post-Scarcity Generation","Children who never knew want: what does the first generation raised in abundance believe, value, and fear?"]
+);
 })();

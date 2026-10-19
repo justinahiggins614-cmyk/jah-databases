@@ -4,7 +4,7 @@
    as real locations. Compact JSON. */
 function prng(seed){var a=(seed>>>0)||1;return function(){a|=0;a=(a+0x6D2B79F5)|0;var t=Math.imul(a^(a>>>15),1|a);t=(t+Math.imul(t^(t>>>7),61|t))^t;return((t^(t>>>14))>>>0)/4294967296;};}
 function pick(r,s){return r[(s()*r.length)|0];} function ri(s,a,b){return a+((s()*(b-a+1))|0);}
-var CATS=['physical','political','climate','hydrology','places'];
+var CATS=['physical','political','climate','hydrology','places','geography-speedrun','geography-adventure-map'];
 var PREFIX='JAH-GEO-';
 var NOTICE='FICTIONAL ILLUSTRATIVE GEOGRAPHY — invented for map-reading practice, not a real location.';
 var REGIONS=['the Meridia Archipelago','the Thessaly Highlands','the Corvantine Basin','the Isles of Aer','the Vandor Steppes','the Lumen Delta','the Kestrel Ranges','the Palomar Fjords'];
@@ -13,7 +13,9 @@ var TYPES={
  political:[['a harbor city-state','charter districts'],['a river confederacy','canton assemblies'],['a highland kingdom','clan provinces'],['a delta republic','ward councils'],['a steppe khanate','banner camps']],
  climate:[['a monsoon coast','rain belts'],['a high desert','dune seas'],['a cloud forest','moss zones'],['a tundra plain','permafrost'],['a savanna corridor','grass seas']],
  hydrology:[['a braided river','channels'],['a crater lake','shores'],['a tidal estuary','mudflats'],['an artesian basin','springs'],['a glacial fjord','inlets']],
- places:[['a market town','bazaars'],['a lighthouse point','beacons'],['a university quarter','colleges'],['a fishing village','harbors'],['a rail junction','yards']]
+ places:[['a market town','bazaars'],['a lighthouse point','beacons'],['a university quarter','colleges'],['a fishing village','harbors'],['a rail junction','yards']],
+ 'geography-speedrun':[['a speedrun route','checkpoints'],['a timed traverse','waypoints'],['a capital sprint','capitals']],
+ 'geography-adventure-map':[['an expedition route','landfalls'],['a trade corridor','oases'],['a voyage map','ports']]
 };
 var STAT_T=[['elevation','m',function(r){return ri(r,0,4800);}],['area','sq km',function(r){return ri(r,50,90000);}],['mean temperature','°C',function(r){return ri(r,-12,34);}],['annual rainfall','mm',function(r){return ri(r,80,3200);}],['river length','km',function(r){return ri(r,60,2400);}],['coastline','km',function(r){return ri(r,20,1800);}]];
 var NP1=['Vel','Cor','Mar','Dun','Pel','Syl','Kes','Bra'],NP2=['mar','dore','thia','wen','lia','gard','mere','ford'];

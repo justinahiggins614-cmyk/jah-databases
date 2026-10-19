@@ -1,4 +1,5 @@
 (function(){'use strict';
+/* EXPANSION 2026-10-18 group-1: flavor/kitchen branches added. */
 function prng(seed){var a=(seed>>>0)||1;return function(){a|=0;a=(a+0x6D2B79F5)|0;var t=Math.imul(a^(a>>>15),1|a);t=(t+Math.imul(t^(t>>>7),61|t))^t;return((t^(t>>>14))>>>0)/4294967296;};}
 function pick(r,s){return r[(s()*r.length)|0];} function ri(s,a,b){return a+((s()*(b-a+1))|0);}
 var CATS=['organic','inorganic','physical','reactions','lab', 'flavor', 'kitchen', 'flavor', 'kitchen'];
@@ -31,8 +32,125 @@ var RXNS=[
 var ORG=[['Signature alkane study','alkane chain model'],['Signature alcohol study','hydroxyl group model'],['Signature carboxylic acid study','carboxyl group model'],['Signature ester study','ester linkage model'],['Signature aromatic study','ring delocalization model']];
 var LABM=[['titration','determining concentration by measured reaction'],['distillation','separating liquids by boiling point'],['chromatography','separating mixtures by differential migration'],['spectroscopy','identifying substances by light interaction'],['calorimetry','measuring heat of reaction']];
 var PHYS=[['periodic trend: atomic radius','generally decreases across a period and increases down a group'],['ideal gas relation','pressure, volume, temperature and amount relate as PV = nRT'],['mole concept','one mole contains Avogadro-scale particle counts'],['conservation of mass','atoms are rearranged, never created or destroyed, in reactions']];
+/* === EXPANSION 2026-10-18 group-1: Flavor Chemistry / Kitchen Chemistry ===
+   Real reference chemistry in the stored schema (concept/statement, source online,
+   creation_mode ONLINE-VERIFIED). Deterministic by seed. */
+var FLAVOR_TOPICS=[
+{t:"The Maillard Reaction — Browning and Flavor",
+ d:"The Maillard reaction between amino acids and reducing sugars creates the browned flavors of seared meat, baked bread, and roasted coffee.",
+ concept:"Maillard reaction",
+ statement:"The Maillard reaction is a non-enzymatic browning reaction between amino acids and reducing sugars, typically above 140 C, producing hundreds of flavor compounds including melanoidins.",
+ ref:"https://en.wikipedia.org/wiki/Maillard_reaction"},
+{t:"Caramelization — Sugar Under Heat",
+ d:"Caramelization is the thermal decomposition of sugar itself, producing the deep flavors of caramel, toffee, and crème brûlée.",
+ concept:"caramelization",
+ statement:"Caramelization is the pyrolysis of sugar at high temperature (sucrose around 160 C), producing volatile flavor compounds and brown polymers without amino acids.",
+ ref:"https://en.wikipedia.org/wiki/Caramelization"},
+{t:"Capsaicin — The Chemistry of Heat",
+ d:"Capsaicin binds the TRPV1 heat receptor, which is why chili heat feels like burning — the chemistry of spiciness explained.",
+ concept:"capsaicin receptor chemistry",
+ statement:"Capsaicin (C18H27NO3) activates the TRPV1 receptor, producing the sensation of heat; the Scoville scale quantifies pungency by capsaicinoid concentration.",
+ ref:"https://en.wikipedia.org/wiki/Capsaicin"},
+{t:"Umami — Glutamate and Savory Taste",
+ d:"Umami, the fifth taste, is triggered by glutamate and nucleotides — the chemistry behind savory depth in aged cheese, mushrooms, and dashi.",
+ concept:"umami taste chemistry",
+ statement:"Umami taste is mediated by glutamate binding to T1R1/T1R3 receptors, synergistically enhanced by inosinate and guanylate nucleotides.",
+ ref:"https://en.wikipedia.org/wiki/Umami"},
+{t:"Esters — The Aromas of Fruit",
+ d:"Esters are the volatile compounds behind most fruit aromas — ethyl butyrate smells of pineapple, isoamyl acetate of banana.",
+ concept:"ester aroma chemistry",
+ statement:"Fruit aromas are dominated by esters formed from carboxylic acids and alcohols; e.g., ethyl butyrate (pineapple) and isoamyl acetate (banana).",
+ ref:"https://en.wikipedia.org/wiki/Ester"},
+{t:"Vanillin — The World's Favorite Flavor",
+ d:"Vanillin is the primary flavor compound of vanilla — and most of the world's supply is synthesized, chemically identical to the natural molecule.",
+ concept:"vanillin",
+ statement:"Vanillin (C8H8O3, 4-hydroxy-3-methoxybenzaldehyde) is the principal flavor component of vanilla; synthetic vanillin is chemically identical to the natural compound.",
+ ref:"https://en.wikipedia.org/wiki/Vanillin"},
+{t:"Allicin — Garlic's Pungent Defense",
+ d:"Crushing garlic triggers an enzymatic reaction producing allicin — the sulfur chemistry behind garlic's bite and its reputed benefits.",
+ concept:"allicin formation",
+ statement:"Crushing garlic converts alliin to allicin via the enzyme alliinase; allicin (diallyl thiosulfinate) gives fresh garlic its pungency.",
+ ref:"https://en.wikipedia.org/wiki/Allicin"},
+{t:"Citric Acid — The Chemistry of Sour",
+ d:"Sour taste is the tongue detecting acidity — citric acid in citrus fruits donates protons that trigger sour receptors.",
+ concept:"sour taste chemistry",
+ statement:"Sour perception is triggered by acids donating protons (H+); citric acid (C6H8O7), abundant in citrus, is the characteristic food acid.",
+ ref:"https://en.wikipedia.org/wiki/Citric_acid"},
+{t:"Tannins — Astringency in Tea and Wine",
+ d:"Tannins bind salivary proteins, creating the dry, puckering sensation of astringency in strong tea, red wine, and unripe fruit.",
+ concept:"tannin astringency",
+ statement:"Astringency is caused by tannins (polyphenols) precipitating salivary proteins, producing the characteristic dry mouthfeel of tea and red wine.",
+ ref:"https://en.wikipedia.org/wiki/Tannin"},
+{t:"Menthol — The Chemistry of Cool",
+ d:"Menthol triggers the TRPM8 cold receptor, which is why mint feels cold — cooling without any temperature change.",
+ concept:"menthol receptor chemistry",
+ statement:"Menthol activates the TRPM8 cold receptor, producing a cooling sensation at constant temperature; it is a cyclic monoterpene alcohol (C10H20O).",
+ ref:"https://en.wikipedia.org/wiki/Menthol"}
+];
+var KITCHEN_TOPICS=[
+{t:"Leavening — Baking Soda vs Baking Powder",
+ d:"Chemical leaveners produce CO2 that lifts batters — the acid-base chemistry behind the difference between soda and powder.",
+ concept:"chemical leavening",
+ statement:"Baking soda (NaHCO3) requires an external acid to release CO2; baking powder contains its own acid and releases CO2 in two stages (moisture, then heat).",
+ ref:"https://en.wikipedia.org/wiki/Leavening_agent"},
+{t:"Gluten Development — The Protein Network",
+ d:"Kneading hydrates gliadin and glutenin into gluten — the elastic protein network that gives bread its structure.",
+ concept:"gluten formation",
+ statement:"Gluten forms when wheat proteins gliadin and glutenin hydrate and are mechanically worked, creating the viscoelastic network that traps fermentation gases.",
+ ref:"https://en.wikipedia.org/wiki/Gluten"},
+{t:"Egg Protein Coagulation — Heat and Structure",
+ d:"Heating eggs denatures and coagulates their proteins — the chemistry that sets custards, scrambles, and meringues.",
+ concept:"protein denaturation",
+ statement:"Egg proteins denature and coagulate with heat (whites around 60-65 C, yolks around 65-70 C), forming the gels and foams of cooked egg dishes.",
+ ref:"https://en.wikipedia.org/wiki/Egg_as_food"},
+{t:"Emulsification — The Science of Mayonnaise",
+ d:"Mayonnaise is an oil-in-water emulsion stabilized by egg-yolk lecithin — the colloid chemistry of creamy sauces.",
+ concept:"emulsion stabilization",
+ statement:"Mayonnaise is an oil-in-water emulsion in which egg-yolk lecithin acts as the emulsifier, stabilizing dispersed oil droplets in the aqueous phase.",
+ ref:"https://en.wikipedia.org/wiki/Emulsion"},
+{t:"Gelatin Setting — Collagen to Gel",
+ d:"Gelatin gels because denatured collagen partially renatures into a network — the thermoreversible chemistry of jellies.",
+ concept:"gelatin gelation",
+ statement:"Gelatin (hydrolyzed collagen) forms thermoreversible gels as protein chains partially reassociate into triple-helical junction zones on cooling.",
+ ref:"https://en.wikipedia.org/wiki/Gelatin"},
+{t:"Sugar Crystallization — Fudge and Control",
+ d:"Fudge, fondant, and rock candy are exercises in controlling sugar crystallization — nucleation, seeding, and interference.",
+ concept:"sugar crystallization",
+ statement:"Controlling sugar crystallization — via seeding, agitation timing, and interfering agents like corn syrup — determines the texture of crystalline confections.",
+ ref:"https://en.wikipedia.org/wiki/Crystallization"},
+{t:"Brining — Osmosis and Juiciness",
+ d:"Brining meat in salt water uses osmosis and protein denaturation to produce juicier cooked meat — the chemistry explained.",
+ concept:"brining osmosis",
+ statement:"Brining raises meat's water content by osmosis and partially denatures muscle proteins, reducing moisture loss during cooking.",
+ ref:"https://en.wikipedia.org/wiki/Brining"},
+{t:"Fermentation — Yeast and Bread Rising",
+ d:"Yeast ferments sugars into CO2 and ethanol — the biochemistry that leavens bread and brews beer.",
+ concept:"alcoholic fermentation",
+ statement:"Saccharomyces cerevisiae ferments sugars to carbon dioxide and ethanol (C6H12O6 -> 2 C2H5OH + 2 CO2), leavening dough and producing alcohol.",
+ ref:"https://en.wikipedia.org/wiki/Fermentation"},
+{t:"Anthocyanins — pH and Food Color",
+ d:"Anthocyanin pigments change color with pH — red in acid, blue in base — the chemistry behind red cabbage's famous trick.",
+ concept:"anthocyanin pH indicator",
+ statement:"Anthocyanins are pH-sensitive pigments (red in acid, purple neutral, blue-green in base), which is why red cabbage changes color with vinegar or baking soda.",
+ ref:"https://en.wikipedia.org/wiki/Anthocyanin"},
+{t:"Smoke Points — Fats Under Heat",
+ d:"Every cooking fat has a smoke point where it breaks down — the chemistry of choosing the right fat for the heat.",
+ concept:"fat smoke point",
+ statement:"A fat's smoke point is the temperature at which volatile compounds form visible smoke; refined oils smoke higher than unrefined, and exceeding it produces off-flavors.",
+ ref:"https://en.wikipedia.org/wiki/Smoke_point"}
+];
+function flavorKitchenRec(seed,cat){
+  var pool=cat==='flavor'?FLAVOR_TOPICS:KITCHEN_TOPICS;
+  var tp=pool[(seed-1)%pool.length];
+  return {title:tp.t,category:cat,description:tp.d,concept:tp.concept,statement:tp.statement,
+    source:'online',source_ref:tp.ref,creation_mode:'ONLINE-VERIFIED',_seed:seed,
+    id:PREFIX+String(seed).padStart(7,'0'),demo:null};
+}
+
 function generate(seed,opts,rnd){
   opts=opts||{};rnd=rnd||prng(seed);
+  if(opts.category==='flavor'||opts.category==='kitchen')return flavorKitchenRec(seed,opts.category);
+
   var cat=opts.category||pick(CATS,rnd);
   var id=PREFIX+String(seed).padStart(7,'0');
   var rec={id:id,category:cat,source:'signature',source_ref:'JAH Signature Generator',creation_mode:'SIGNATURE-GENERATED',_seed:seed};
@@ -89,6 +207,7 @@ function validate(r){
     }
   }
   if(r.category==='physical'&&typeof r.statement!=='string')e.push('statement');
+  if((r.category==='flavor'||r.category==='kitchen')&&typeof r.statement!=='string')e.push('statement');
   if(r.category==='lab'&&typeof r.technique!=='string')e.push('technique');
   if(r.source!=='signature'&&r.source!=='online')e.push('source');
   return {ok:!e.length,errors:e};

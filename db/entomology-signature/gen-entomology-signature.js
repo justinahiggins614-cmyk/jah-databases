@@ -82,7 +82,17 @@ var TOPICS={
   "The Hedgerow Revival (Signature Edition)",
   "The Pollinator-Friendly Farm (Signature Edition)",
   "The Winter Habitat (Signature Edition)",
-  "The Pollinator Paradise Manifesto (Signature Edition)"
+  "The Pollinator Paradise Manifesto (Signature Edition)",
+  "The Pollinator Pond (Signature Edition)",
+  "The Balcony Pollinator Patch (Signature Edition)",
+  "The Pollinator Calendar (Signature Edition)",
+  "The Bumblebee Nest Box (Signature Edition)",
+  "The Pollinator Hedge (Signature Edition)",
+  "The Moth Garden (Signature Edition)",
+  "The Pollinator Seed Library (Signature Edition)",
+  "The Hoverfly Haven (Signature Edition)",
+  "The Pollinator Highway (Signature Edition)",
+  "The Community Orchard for Pollinators (Signature Edition)",
  ]};
 function demoProgram(topic,field){
   var safe=String(topic).replace(/\\/g,'\\\\').replace(/"/g,"'");

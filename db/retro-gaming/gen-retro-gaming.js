@@ -104,4 +104,18 @@ function selfTest(){
   return pass===40;
 }
 if(typeof require!=='undefined'&&require.main===module){process.exit(selfTest()?0:1);}
+
+/* Group-0 expansion: 10 collector-guide topics. */
+GUIDE_TOPICS.push(
+["Grading Boxes: The CIB Scale","Mint means mint. Grading game boxes with the collector’s CIB scale: from “player"],
+["Spotting Reproduction Cartridges","Fakes are getting good — here’s how to spot them. Reproduction cartridges plague"],
+["Cleaning Cartridge Contacts Safely","Blowing in the cart never worked — do this instead. Clean cartridge edge connect"],
+["CRT Care for Retro Setups","Your CRT is the display these games were designed for — keep it alive. CRT telev"],
+["Price Charting with Sold Listings","Ignore asking prices — sold listings are the truth. Value any retro game by filt"],
+["Flash Carts: A Buyer’s Guide","Every game ever, one cartridge — legally, for games you own. Flash carts load RO"],
+["Archival Storage for Boxes and Manuals","Paper is the fragile part of your collection. Store boxes upright in acid-free p"],
+["Testing Controllers and Dead Zones","Test before you trust: a full controller diagnostic in five minutes. Check every"],
+["Identifying First-Print Manuals","First prints hide in the fine print. Identify first-print manuals by print codes"],
+["Insuring a Retro Collection","Your collection is worth real money — insure it like it. Document every item wit"]
+);
 })();

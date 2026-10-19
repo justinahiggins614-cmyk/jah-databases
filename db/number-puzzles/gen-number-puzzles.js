@@ -38,4 +38,18 @@ function driftCheck(rec,sample){
 }
 if(typeof JAHDB!=='undefined'&&JAHDB.registerGenerator){JAHDB.registerGenerator('number-puzzles',{generate:generate,validate:validate,driftCheck:driftCheck});}
 if(typeof module!=='undefined'&&module.exports){module.exports={generate:generate,validate:validate,driftCheck:driftCheck};}
+
+/* Group-0 expansion: 10 new topics. */
+TOPICS.push(
+["The Collatz Conjecture (Vol. 2)","Take any number: halve it if even, triple-and-add-one if odd. Every number tested — all the way to 2^68 — reaches 1. Nobody can prove it always does."],
+["Perfect Numbers","Numbers equal to the sum of their divisors: 6, 28, 496 — known since Euclid, and every even one comes from a Mersenne prime."],
+["Kaprekar’s Constant: 6174","Take any 4-digit number with two different digits, sort its digits up and down, subtract — repeat, and you always land on 6174."],
+["The 1089 Trick","Write a 3-digit number, reverse it, subtract, reverse the result, add — the answer is always 1089. A party trick with real algebra behind it."],
+["Palindromic Numbers","Numbers that read the same backward and forward — and the delightful “reverse and add” game that may never end."],
+["Armstrong Numbers","Numbers equal to the sum of their digits raised to the digit count: 153 = 1³ + 5³ + 3³. Only 88 exist."],
+["Benford’s Law","In real-world data, the digit 1 appears as the leading digit 30% of the time — and accountants use this to catch fraud."],
+["The Birthday Paradox","In a room of just 23 people, two probably share a birthday. The math surprises everyone — and powers cryptography."],
+["Cyclic Numbers: 142857","Multiply 142857 by 1 through 6 and the same digits just rotate. Multiply by 7 and you get 999999. Coincidence? No — it’s 1/7."],
+["Fermat’s Little Theorem in Puzzles","A 400-year-old theorem that doubles as a puzzle engine: a^(p−1) ≡ 1 (mod p) for prime p — and endless tricks follow."]
+);
 })();

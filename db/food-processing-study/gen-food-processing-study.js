@@ -1,5 +1,5 @@
 (function(){'use strict';
-var CATS=["curriculum", "qualifications", "research", "findings", "methods", "textbooks", "fermentation-methods", "food-preservation", "cooking-science"];
+var CATS=["curriculum", "qualifications", "research", "findings", "methods", "textbooks", "fermentation-methods", "food-preservation", "cooking-science", "future-food", "food-history", "food-science-challenge"];
 var PREFIX="JAH-food-processing-study-S-";
 var FIELD={"field":"Food Processing","topics":["Food safety and HACCP","Thermal processing methods","Preservation techniques","Packaging technology","Quality control testing","Fermentation science","Sanitation procedures","Cold chain management"],"roles":["Food Processing Operator","Quality Assurance Technician","Sanitation Supervisor","Packaging Operator","HACCP Coordinator","Cold Storage Manager","Production Planner","Sensory Evaluator"],"methods":["HACCP plan workshops","Swab-testing routines","Temperature-logging drills","Allergen-control audits","Line changeover practice","Sensory panel sessions","Metal-detection checks","Traceability exercises"],"subjects":["Microbial test pass rate","Temperature excursion count","Allergen audit score","Line efficiency","Packaging seal integrity","Traceability retrieval time","Sanitation verification pass","Sensory panel agreement"]};
 var ASPECTS=["core definitions","governing principles","standard procedures","common errors","worked examples","reference tables","safety considerations","measurement practice"];
@@ -29,7 +29,14 @@ function build(rnd, cat){
     method = 'Competency audit: ' + m + ' working practitioners were assessed against the draft unit list, and units were revised until inter-rater agreement exceeded ' + k + '%.';
     ef = 'Final map: ' + n + ' units at ' + k + '% assessor agreement. The pathway is Signature-complete — every unit is observable, measurable, and teachable in a working setting.';
     notes = 'Scholar notes: competence is proved by doing, not by describing. Re-audit the unit list yearly, and file every revision as a new version rather than editing history.';
-  } else if (cat === 'research'){
+  } else if (cat === 'future-food' || cat === 'food-history' || cat === 'food-science-challenge'){
+        var k3 = ri(rnd,18,60);
+        title = 'Research Brief \u2014 ' + T + ': Signature Analysis';
+        findings = 'This Signature research brief surveys ' + T.toLowerCase() + ' and separates settled knowledge from open questions across ' + k3 + ' reviewed sources. Claims are retained only when corroborated by at least two independent lines of evidence. The brief states its scope plainly and marks every uncertainty.';
+        method = 'Triangulated literature method: ' + k3 + ' sources compared claim by claim; findings entered only on corroboration by two independent lines of evidence.';
+        ef = 'Corroborated core findings are consolidated in the brief; open questions are listed with the evidence that would settle them.';
+        notes = 'Scholar notes: a brief is a map, not a verdict. Keep the corroboration bar fixed \u2014 lowering it is how drift begins.';
+    } else if (cat === 'research'){
     var k2 = ri(rnd,18,60);
     title = 'Research Brief — ' + T + ': Signature Analysis';
     findings = 'This Signature research brief surveys ' + T.toLowerCase() + ' and separates settled knowledge from open questions. Claims are retained only when corroborated by at least two independent lines of evidence across ' + k2 + ' reviewed sources. The brief states its scope plainly, notes what it leans on, and marks every uncertainty instead of smoothing it over.';

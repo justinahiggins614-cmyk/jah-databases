@@ -5,12 +5,48 @@
 function prng(seed){var a=(seed>>>0)||1;return function(){a|=0;a=(a+0x6D2B79F5)|0;var t=Math.imul(a^(a>>>15),1|a);t=(t+Math.imul(t^(t>>>7),61|t))^t;return((t^(t>>>14))>>>0)/4294967296;};}
 function pick(r,s){return r[(s()*r.length)|0];}
 var PREFIX="JAH-SODB-";
-var FIELDS=["database-type catalog"];
+var FIELDS=["database-type catalog", "community-connection", "online-safety", "social-quest"];
 var TOPICS={
  "database-type catalog": [
 
  ]
-};
+,
+ "community-connection": [
+  "The First 100 Members",
+  "Rituals That Stick",
+  "The Elders' Circle",
+  "Welcoming the Lurkers",
+  "The Annual Gathering",
+  "Codes of Conduct That Work",
+  "The Mentorship Pairing",
+  "Celebrating Milestones Together",
+  "The Conflict Archive",
+  "Passing the Torch",
+ ],
+ "online-safety": [
+  "The Two-Factor Mandate",
+  "Spotting Deepfakes",
+  "The Family Safety Pact",
+  "Reporting That Works",
+  "The Digital Footprint Audit",
+  "Safe Online Dating",
+  "The Backup Drill",
+  "Encryption for Everyone",
+  "The Scam Call Script",
+  "Protecting Elders Online",
+ ],
+ "social-quest": [
+  "The Reconnection Quest",
+  "The Dinner Party Quest",
+  "The Volunteer Quest",
+  "The Walking Buddy Quest",
+  "The Letter-Writing Quest",
+  "The Skill-Share Quest",
+  "The Neighborhood Quest",
+  "The Gratitude Visit Quest",
+  "The Newcomer Quest",
+  "The Decade Friend Quest",
+ ]};
 function demoProgram(topic,field){
   var safe=String(topic).replace(/\\/g,'\\\\').replace(/"/g,"'");
   return "# Social Databases — "+safe+"\n"

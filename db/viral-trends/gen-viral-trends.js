@@ -38,4 +38,28 @@ function driftCheck(rec,sample){
 }
 if(typeof JAHDB!=='undefined'&&JAHDB.registerGenerator){JAHDB.registerGenerator('viral-trends',{generate:generate,validate:validate,driftCheck:driftCheck});}
 if(typeof module!=='undefined'&&module.exports){module.exports={generate:generate,validate:validate,driftCheck:driftCheck};}
+
+/* Group-0 expansion: 20 new topics. */
+TOPICS.push(
+["Charlie Bit My Finger","The 2007 home video that became YouTube’s most-watched family clip: a baby, a finger, and 900 million views."],
+["Gangnam Style","Psy’s 2012 horse-dance anthem: the first video to hit one billion YouTube views and a global K-pop breakthrough."],
+["The Harlem Shake","The 2013 thirty-second meme: one dancer, a bass drop, then a room full of chaos — replicated millions of times."],
+["The Ice Bucket Challenge","Summer 2014: dump ice water on your head, donate to ALS research, nominate three friends — $115 million raised."],
+["Chewbacca Mask Lady","Candace Payne’s 2016 Facebook Live unboxing: pure joy in a Chewbacca mask, 170 million views, and Kohl’s sold out."],
+["Damn, Daniel","2016’s inexplicable catchphrase: a teenager complimenting his friend’s white Vans, 300,000 retweets, and a lifetime supply of shoes."],
+["David After Dentist","2009: a groggy kid after wisdom-tooth surgery asks “Is this real life?” — 140 million views of anesthesia philosophy."],
+["Evolution of Dance","2006: Judson Laipply dances through fifty years of pop moves in six minutes — YouTube’s first mega-viral performance."],
+["Keyboard Cat","2009: a cat “plays” keyboard, and the internet gains its favorite punchline for failure — play him off, Keyboard Cat."],
+["Numa Numa","2004: Gary Brolsma lip-syncs “Dragostea Din Tei” with total commitment — the pre-YouTube viral video."],
+["2005: YouTube’s First Year","Rewind to 2005: three ex-PayPal employees launch a dating-video site that accidentally becomes television’s replacement."],
+["2007: The Rickrolling Era","Rewind to 2007: internet pranksters promise one link and deliver Rick Astley’s “Never Gonna Give You Up” — millions fall for it."],
+["2010: Double Rainbow and Bed Intruder","Rewind to 2010: a man weeps at a double rainbow and a news interview becomes an auto-tuned anthem — sincerity goes platinum."],
+["2012: Gangnam Summer","Rewind to 2012: one horse dance unites the planet, YouTube breaks its own counter, and the flash mob peaks."],
+["2014: The Ice Bucket Summer","Rewind to 2014: ice water, nominations, and $115 million for ALS — the summer charity became content."],
+["2016: Mannequins and Masks","Rewind to 2016: everyone freezes for the Mannequin Challenge while a woman in a Chewbacca mask laughs her way to 170 million views."],
+["2018: The Tide Pod Panic","Rewind to 2018: a dangerous meme about eating detergent pods sparks panic, poison-control warnings, and a debate about meme responsibility."],
+["2020: Dalgona and Sourdough","Rewind to 2020: locked down, the internet whips coffee for twenty minutes and bakes bread like it’s 1849."],
+["2021: Sea Shanties","Rewind to 2021: a postman’s a cappella “Wellerman” sparks a global shanty singalong — the year the internet sang together."],
+["2023: Barbenheimer","Rewind to 2023: two movies, one weekend, and the internet turns a scheduling clash into a cultural holiday."]
+);
 })();

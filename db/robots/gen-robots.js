@@ -243,12 +243,51 @@
     return rec;
   }
 
+  
+/* Group-0 expansion: personal robot companion pairs (archive pair schema). */
+var CMP_AI=["Gentle Hearthside Companion", "Morning Light Motivator", "Storykeeper Elder Friend", "Playful Wit Partner", "Calm Harbor Listener", "Bright Day Organizer", "Tender Night Watch", "Curious Mind Mentor", "Warm Laughter Cheer", "Steady Pace Walker"];
+var CMP_BODY=["Cuddlebrook", "Sunpatch", "Willowmere", "Pebblelane", "Hearthglow", "Dawnwhistle", "Moonmoth", "Sagefield", "Gigglefern", "Trailwhistle"];
+var CMP_MISSION=["bedtime story reading for children", "morning routine coaching for seniors", "loneliness-easing conversation evenings", "memory game partner for brain health", "walking companion for daily strolls", "medication reminder friend", "video call helper for grandparents", "laughter therapy and joke sessions", "reading aloud companion for the visually impaired", "garden stroll buddy"];
+function generatePair(seed,opts){
+  opts=opts||{};
+  var s=(Math.abs(seed)||1);
+  var ai=CMP_AI[s%CMP_AI.length], body=CMP_BODY[s%CMP_BODY.length], mission=CMP_MISSION[s%CMP_MISSION.length];
+  var n=37001+(s%1000);
+  var score=64+(s%15);
+  var aiN='JAH-AI-CMP-'+(254+(s%10));
+  var bodyN='JAH-BOT-'+String(121+(s%10)).padStart(6,'0');
+  var lines=[
+    "I am "+ai+", and I run inside the "+body+" body \u2014 companion-class, built for real care.",
+    "On "+mission+" I keep my companion presence steady from start to finish.",
+    "Through my companion sensors, I read the room before I act.",
+    "Matched at "+score+" of 100, this pairing is no accident \u2014 ask me anything.",
+    "I hand control back to my human the instant anything looks off."];
+  return {id:'JAH-PAIR-'+String(n).padStart(6,'0'),
+    ai_id:aiN,ai_name:ai,ai_family:'persona',body_id:bodyN,body_name:body,
+    mission:mission,score:score,
+    rationale:{capability:ai+" pairs its companion strengths with the "+body+" build.",
+      temperament:"As a devoted companion, "+ai+" stays patient and kind.",
+      task:"On "+mission+", the "+body+" puts its companion features to work."},
+    demo_lines:lines,created:'2026-10-18',_seed:s};
+}
+function validatePair(rec){
+  var errs=[];
+  if(!rec||typeof rec!=='object')return{ok:false,errors:['not an object']};
+  if(!/^JAH-PAIR-\d{6}$/.test(rec.id||''))errs.push('id');
+  ['ai_id','ai_name','ai_family','body_id','body_name','mission','score'].forEach(function(k){if(rec[k]===undefined||rec[k]===null||rec[k]==='')errs.push(k);});
+  if(!Array.isArray(rec.demo_lines)||rec.demo_lines.length!==5)errs.push('demo_lines');
+  if(!rec.rationale||!rec.rationale.capability||!rec.rationale.temperament||!rec.rationale.task)errs.push('rationale');
+  return{ok:!errs.length,errors:errs};
+}
+
   JAHDB.registerGenerator('robots', {
     version: VERSION,
     generate: generate,
     validate: validate,
     driftCheck: driftCheck,
     themedGenerate: themedGenerate,
+    generatePair: generatePair,
+    validatePair: validatePair,
     types: TYPES
   });
 })();

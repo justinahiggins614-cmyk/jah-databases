@@ -17,7 +17,7 @@
 
   var TYPES = ['ambient', 'drum-and-bass', 'funk', 'hip-hop', 'house', 'jazz',
     'lofi', 'pop', 'reggae', 'rock', 'techno', 'trap'];
-  var MOODS = ['bright', 'chill', 'dark', 'dreamy', 'driving', 'epic', 'gritty', 'smooth'];
+  var MOODS = ['bright', 'chill', 'dark', 'dreamy', 'driving', 'epic', 'gritty', 'smooth', "bouncy", "cosmic", "curious", "defiant", "energetic", "expansive", "flowing", "gentle strength", "growing", "hopeful", "interconnected", "joyful", "longing", "majestic", "melancholy", "orderly", "playful", "restless", "warm nostalgia", "wonder"];
 
   var ADJ = ['Amber', 'Silver', 'Midnight', 'Crimson', 'Restless', 'Golden', 'Slow',
     'Electric', 'Quiet', 'Hollow', 'Copper', 'Static', 'Paper', 'Velvet', 'Neon',
