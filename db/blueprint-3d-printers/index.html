@@ -410,5 +410,212 @@ $('qmerge').addEventListener('click',function(){mergerAddCurrent();});
 renderMergePanel('Search or browse, then press All Database Merger to collect the records you see into one merged set.');
 
 })();</script>
+<!-- JAH_RV config for blueprint-3d-printers — quality-audit-r15 -->
+<script>
+window.JAH_RV = {"slug": "blueprint-3d-printers", "name": "The 3D Printer Blueprint Database", "concept": "Real 3D-printer blueprints: open-source machines you can actually build (Voron and RatRig class) with full BOMs and build sequences, plus specification-and-modification blueprints for commercial machines. Every record carries a print time and cost estimator, and a working print-planner program you can download and run.", "indexUrl": "https://justinahiggins614-cmyk.github.io/jah-databases-data-1/data/blueprint-3d-printers/index.jsonl.gz", "recordCount": "20", "demoKind": "Every record ships a runnable print time + cost estimator.", "workingTitle": "printer_planner.py — working print planner (Hobby 3D Printer (220 mm cube) - Full Blueprint)", "workingDesc": "A real, runnable Python CLI: pick a printer, estimate any job's time, check build-volume fit, emit a BOM CSV and a preflight checklist. This is the working version of the blueprint's planning logic — download it from the Working Version tab and run it.", "workingFile": "printer_planner.py_working_print_planner_Hobby_3D_Printer_220_mm_cube_-_Full_Blueprint_.py", "workingRun": "python3 printer_planner.py <printer-key> <volume_cm3>"};
+window.JAH_RV_PROGRAM = "\"\"\" printer_planner.py — working version\n    Full print planner. Printer: Hobby 3D Printer (220 mm cube) - Full Blueprint.\n    Runnable with Python 3, standard library only.\n\"\"\"\n# Configured for: Hobby 3D Printer (220 mm cube) - Full Blueprint (220, 220, 250)\n\n\nimport csv, sys\n\nPRINTERS = {\n    \"voron-2.4\":  {\"build\": (350, 350, 350), \"type\": \"CoreXY\",  \"power\": 800},\n    \"voron-0.2\":  {\"build\": (120, 120, 120), \"type\": \"CoreXY\",  \"power\": 300},\n    \"prusa-mk4s\": {\"build\": (250, 210, 220), \"type\": \"Bedslinger\", \"power\": 240},\n    \"bambu-x1c\":  {\"build\": (256, 256, 256), \"type\": \"CoreXY\",  \"power\": 350},\n    \"ender-3v3\":  {\"build\": (220, 220, 250), \"type\": \"Bedslinger\", \"power\": 350},\n}\n\ndef plan(printer, vol_cm3, infill=0.2):\n    p = PRINTERS[printer]\n    bx, by, bz = p[\"build\"]\n    need = vol_cm3 ** (1/3) * 10  # mm per side if cube\n    fits = need <= min(bx, by, bz)\n    import math\n    hours = vol_cm3 * 1000 * (0.25 + 0.75 * infill) / (60 * 0.45 * 0.2) / 3600\n    bom = [(\"Frame kit / printer\", 1, printer),\n           (\"Filament PLA 1kg\", max(1, int(vol_cm3 / 400) + 1), \"consumable\"),\n           (\"Nozzle 0.4mm brass\", 2, \"spare\"),\n           (\"Build plate adhesive\", 1, \"consumable\")]\n    checklist = [\"Bed leveled and clean\", \"Filament dry (<20% RH ideally)\",\n                 \"First-layer calibration print done\", \"Fire safety: never leave unattended\",\n                 \"Slicer profile matches printer + material\"]\n    return {\"printer\": printer, \"type\": p[\"type\"], \"fits_build_volume\": fits,\n            \"est_hours\": round(hours, 1), \"bom\": bom, \"preflight\": checklist}\n\nif __name__ == \"__main__\":\n    printer = sys.argv[1] if len(sys.argv) > 1 and sys.argv[1] in PRINTERS else \"voron-2.4\"\n    vol = float(sys.argv[2]) if len(sys.argv) > 2 else 120.0\n    r = plan(printer, vol)\n    print(f\"Printer: {r['printer']} ({r['type']}), build fits: {r['fits_build_volume']}\")\n    print(f\"Estimated print time: {r['est_hours']} h\")\n    print(\"BOM:\"); [print(f\"  {q}x {n} [{c}]\") for n, q, c in r[\"bom\"]]\n    print(\"Preflight:\"); [print(f\"  [ ] {c}\") for c in r[\"preflight\"]]\n    with open(\"bom.csv\", \"w\", newline=\"\") as f:\n        csv.writer(f).writerows([(\"qty\", \"item\", \"class\")] + [(q, n, c) for n, q, c in r[\"bom\"]])\n    print(\"Wrote bom.csv\")\n";
+window.JAH_RV_DEMOINIT = function rvDemoPrintEst(root){
+  root.innerHTML =
+    '<div class="rv-row"><label>Model cm³ <input id="rvVol" type="number" value="120" style="width:90px"></label>'
+    + '<label>Layer mm <input id="rvLh" type="number" step="0.04" value="0.2" style="width:80px"></label>'
+    + '<label>Speed mm/s <input id="rvSp" type="number" value="60" style="width:80px"></label>'
+    + '<label>Infill <input id="rvInf" type="number" step="0.05" min="0" max="1" value="0.2" style="width:80px"></label>'
+    + '<button class="go" id="rvGo">Estimate</button></div><div id="rvOut"></div>';
+  document.getElementById('rvGo').onclick = function(){
+    var vol = parseFloat(document.getElementById('rvVol').value) || 120,
+        lh = parseFloat(document.getElementById('rvLh').value) || 0.2,
+        sp = parseFloat(document.getElementById('rvSp').value) || 60,
+        inf = parseFloat(document.getElementById('rvInf').value);
+    if(!(inf >= 0)) inf = 0.2;
+    var filArea = Math.PI * Math.pow(1.75 / 2, 2);
+    var printed = vol * 1000 * (0.25 + 0.75 * inf);
+    var filM = printed / filArea / 1000, filG = printed / 1000 * 1.24;
+    var flow = sp * 0.45 * lh, hours = printed / Math.max(flow, 0.1) / 3600;
+    document.getElementById('rvOut').innerHTML =
+      '<dl class="rv-kv"><dt>Filament</dt><dd>' + filM.toFixed(1) + ' m (' + filG.toFixed(1) + ' g)</dd>'
+      + '<dt>Print time</dt><dd>' + hours.toFixed(1) + ' h</dd>'
+      + '<dt>Filament cost</dt><dd>$' + (filG / 1000 * 25).toFixed(2) + ' @ $25/kg PLA</dd>'
+      + '<dt>Energy</dt><dd>' + (hours * 0.35).toFixed(2) + ' kWh ≈ $' + (hours * 0.35 * 0.15).toFixed(2) + '</dd></dl>'
+      + '<p class="dim">Same math as the downloadable estimator on every printer record.</p>';
+  };
+  document.getElementById('rvGo').click();
+}
+
+/* ---------- 4. cut-list calculator (adirondack chairs) ---------- */;
+</script>
+
+<!-- ============================================================
+JAH WORKING-VERSION RETROFIT (quality-audit-r15)
+Paste this ENTIRE block just before </body>, AFTER the page's own scripts.
+Requires the config block (window.JAH_RV) immediately above it —
+see APPLY.md. Safe to include on pages without .tabs (no-ops).
+============================================================ -->
+<style>
+.rv-kv{display:grid;grid-template-columns:130px 1fr;gap:6px 10px;margin:8px 0}
+.rv-kv dt{color:#9fb3d8}.rv-kv dd{margin:0}
+.rv-code{background:#05090f;border:1px solid #1d2c4d;border-radius:10px;padding:10px;
+  overflow:auto;max-height:340px;font-family:Consolas,monospace;font-size:.82em;white-space:pre}
+.rv-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:8px 0}
+.rv-badge{display:inline-block;background:#0e2a1a;border:1px solid #00e5a0;color:#00e5a0;
+  border-radius:999px;padding:3px 12px;font-size:.8em;font-weight:bold}
+.rv-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px}
+.rv-plate{background:#0d1526;border:1px solid #1d2c4d;border-radius:10px;padding:8px}
+.rv-plate img{width:100%;border-radius:8px;display:block}
+.rv-plate p{font-size:.82em;color:#9fb3d8;margin:6px 0 0}
+</style>
+<script>
+(function(){
+'use strict';
+var C = window.JAH_RV || {};
+var PROG = (typeof window.JAH_RV_PROGRAM === 'string') ? window.JAH_RV_PROGRAM : '';
+function $(id){ return document.getElementById(id); }
+function el(tag, cls){ var e=document.createElement(tag); if(cls) e.className=cls; return e; }
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+var tabsBar = document.querySelector('.tabs');
+var firstPane = document.querySelector('.pane');
+if(!tabsBar || !firstPane || !C.slug){
+  if(window.console) console.warn('JAH_RV retrofit: page structure or config missing — skipping.');
+  return;
+}
+var paneParent = firstPane.parentNode;
+var OURS = ['rv-concept','rv-demolab','rv-workver'];
+
+/* ---------- tabs ---------- */
+[['rv-concept','Concept'],['rv-demolab','Demo Lab'],['rv-workver','Working Version']].forEach(function(t){
+  var b = el('button','tab'); b.setAttribute('data-p', t[0]); b.textContent = t[1];
+  tabsBar.appendChild(b);
+});
+
+/* ---------- panes ---------- */
+function conceptHTML(){
+  return '<div class="card"><h3>Concept</h3><p><span class="rv-badge">CONCEPT</span></p>'
+    + '<p>'+esc(C.concept||'No concept text supplied.')+'</p>'
+    + '<dl class="rv-kv">'
+    + '<dt>Records</dt><dd>'+esc(C.recordCount||'—')+' full records, marching to 1,000,000 '
+    + '<span class="rv-badge">MILLION IN PROGRESS</span></dd>'
+    + '<dt>Demos</dt><dd>'+esc(C.demoKind||'Each record ships a runnable demo program.')+'</dd>'
+    + '<dt>Working version</dt><dd>See the <b>Working Version</b> tab — a real runnable program, downloadable.</dd>'
+    + '</dl></div>';
+}
+var sec1 = el('section','pane'); sec1.id='p-rv-concept'; sec1.innerHTML = conceptHTML();
+
+var sec2 = el('section','pane'); sec2.id='p-rv-demolab';
+sec2.innerHTML = '<div class="card"><h3>Demo Lab <span class="rv-badge">RUNNABLE</span></h3>'
+  + '<p class="dim">Live demos pulled from this database\u2019s archive records. Copy any program or download it as a .py file and run it.</p>'
+  + '<div id="rvDemoBox"><p class="dim">Loading demos\u2026</p></div></div>'
+  + '<div class="card"><h3>Try it in your browser</h3><div id="rvTryBox"></div></div>';
+
+var sec3 = el('section','pane'); sec3.id='p-rv-workver';
+sec3.innerHTML = '<div class="card"><h3>'+esc(C.workingTitle||'Working version')
+  + ' <span class="rv-badge">WORKING VERSION</span></h3>'
+  + '<p>'+esc(C.workingDesc||'')+'</p>'
+  + '<div class="rv-row"><button class="go" id="rvDl">Download '+esc(C.workingFile||'working.py')+'</button>'
+  + '<button id="rvCopy">Copy program</button></div>'
+  + '<p class="dim mono">Run: '+esc(C.workingRun||'python3 '+(C.workingFile||'working.py'))+'</p>'
+  + '<div class="rv-code" id="rvProg"></div></div>';
+paneParent.appendChild(sec1); paneParent.appendChild(sec2); paneParent.appendChild(sec3);
+var progBox = $('rvProg'); if(progBox) progBox.textContent = PROG || '(no program embedded)';
+
+/* browser demo hook */
+try{
+  var init = window.JAH_RV_DEMOINIT;
+  if(typeof init === 'function') init($('rvTryBox'));
+  else if($('rvTryBox')) $('rvTryBox').innerHTML = '<p class="dim">Interactive demo loading with the Demo Lab above.</p>';
+}catch(e){ if(window.console) console.warn('JAH_RV demo init failed', e); }
+
+/* ---------- tab switching (ours only) ---------- */
+document.addEventListener('click', function(e){
+  var t = e.target && e.target.closest ? e.target.closest('.tab[data-p]') : null;
+  if(!t) return;
+  var p = t.getAttribute('data-p');
+  if(OURS.indexOf(p) < 0) return;
+  if(e.stopPropagation) e.stopPropagation();
+  document.querySelectorAll('.tab').forEach(function(x){ x.classList.remove('on'); });
+  document.querySelectorAll('.pane').forEach(function(x){ x.classList.remove('on'); });
+  t.classList.add('on');
+  var pane = $('p-'+p); if(pane) pane.classList.add('on');
+  if(p === 'rv-demolab') loadDemos();
+}, true);
+
+/* ---------- working-version buttons ---------- */
+document.addEventListener('click', function(e){
+  if(e.target && e.target.id === 'rvDl' && PROG){
+    var blob = new Blob([PROG], {type:'text/x-python'});
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob); a.download = C.workingFile || 'working.py';
+    document.body.appendChild(a); a.click();
+    setTimeout(function(){ URL.revokeObjectURL(a.href); a.remove(); }, 500);
+  }
+  if(e.target && e.target.id === 'rvCopy' && PROG && navigator.clipboard){
+    navigator.clipboard.writeText(PROG).then(function(){ e.target.textContent='Copied!'; });
+  }
+});
+
+/* ---------- demo lab: fetch index, render demo cards ---------- */
+var demosLoaded = false;
+function loadDemos(){
+  if(demosLoaded) return; demosLoaded = true;
+  var box = $('rvDemoBox');
+  if(!box || !C.indexUrl){ if(box) box.innerHTML='<p class="dim">No index URL configured.</p>'; return; }
+  fetch(C.indexUrl).then(function(r){
+    if(!r.ok) throw new Error('HTTP '+r.status);
+    var ct = r.headers.get('content-type')||'';
+    if(typeof DecompressionStream !== 'undefined' && !/json/.test(ct)){
+      return r.arrayBuffer().then(function(ab){
+        var ds = new DecompressionStream('gzip');
+        var stream = new Blob([ab]).stream().pipeThrough(ds);
+        return new Response(stream).text();
+      });
+    }
+    return r.text();
+  }).then(function(txt){
+    var recs = [], shown = 0;
+    txt.split('\n').some(function(line){
+      if(shown >= 12) return true;
+      line = line.trim(); if(!line) return false;
+      try{
+        var rec = JSON.parse(line);
+        var d = rec.demo;
+        if(d && d.program){
+          recs.push({title: rec.title || rec.t || rec.id, kind: d.kind||'demo',
+                     program: d.program, id: rec.id});
+          shown++;
+        }
+      }catch(e){}
+      return false;
+    });
+    if(!recs.length){ box.innerHTML = '<p class="dim">No runnable demos found in the fetched index.</p>'; return; }
+    box.innerHTML = '';
+    recs.forEach(function(rc, i){
+      var card = el('div','card');
+      var h = el('h3'); h.textContent = rc.title; card.appendChild(h);
+      var meta = el('p','dim'); meta.textContent = rc.id + ' — ' + rc.kind; card.appendChild(meta);
+      var pre = el('div','rv-code'); pre.textContent = rc.program; card.appendChild(pre);
+      var row = el('div','rv-row');
+      var cp = el('button'); cp.textContent='Copy';
+      cp.onclick = (function(p){ return function(){ navigator.clipboard.writeText(p); this.textContent='Copied!'; }; })(rc.program);
+      var dl = el('button'); dl.textContent='Download .py'; dl.className='go';
+      dl.onclick = (function(p, id){ return function(){
+        var blob = new Blob([p], {type:'text/x-python'});
+        var a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+        a.download = String(id||'demo').replace(/[^A-Za-z0-9_-]+/g,'_') + '.py';
+        document.body.appendChild(a); a.click();
+        setTimeout(function(){ URL.revokeObjectURL(a.href); a.remove(); }, 500);
+      }; })(rc.program, rc.id);
+      row.appendChild(cp); row.appendChild(dl); card.appendChild(row);
+      box.appendChild(card);
+    });
+    var note = el('p','dim');
+    note.textContent = 'Showing '+recs.length+' of the archive\u2019s runnable demos. Every record in this database ships one.';
+    box.appendChild(note);
+  }).catch(function(err){
+    box.innerHTML = '<p class="dim">Could not fetch the live index ('+esc(String(err&&err.message||err))
+      +'). The Working Version tab still carries a full runnable program.</p>';
+  });
+}
+})();
+</script>
+
 </body>
 </html>

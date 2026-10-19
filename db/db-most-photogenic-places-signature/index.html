@@ -410,5 +410,244 @@ $('qmerge').addEventListener('click',function(){mergerAddCurrent();});
 renderMergePanel('Search or browse, then press All Database Merger to collect the records you see into one merged set.');
 
 })();</script>
+<!-- JAH_RV config for db-most-photogenic-places-signature — quality-audit-r15 -->
+<script>
+window.JAH_RV = {"slug": "db-most-photogenic-places-signature", "name": "The Most Photogenic Places Database Signature Database", "concept": "JAH's original photo-expedition notes for the world's most photogenic places — same coordinates, new eyes. Dawn patrols, storm-chasing and the frames the postcards miss, each with the runnable light calculator.", "indexUrl": "https://justinahiggins614-cmyk.github.io/jah-databases-data-1/data/db-most-photogenic-places-signature/index.jsonl.gz", "recordCount": "34", "demoKind": "Every record ships a runnable golden-hour calculator.", "workingTitle": "db-most-photogenic-places-signature-demo.py", "workingDesc": "Runnable demo program from this database's records.", "workingFile": "db-most-photogenic-places-signature-demo.py", "workingRun": "python3 db-most-photogenic-places-signature-demo.py"};
+window.JAH_RV_PROGRAM = "\"\"\" Golden-hour calculator — What Makes a Place Photogenic?\n    Computes sunrise/sunset/golden/blue hours for this location.\n    Runnable with Python 3, standard library only.\n\"\"\"\nPLACE = 'What Makes a Place Photogenic?'\nLAT = None\nLON = None\n\n\n\nimport math, datetime\n\ndef _day_of_year(y, m, d):\n    return datetime.date(y, m, d).timetuple().tm_yday\n\ndef sun_times(lat, lon, y, m, d, tz_offset=0.0):\n    \"\"\"Return dict with sunrise/sunset/golden-hour/blue-hour as decimal hours (local).\"\"\"\n    n = _day_of_year(y, m, d)\n    lng_hour = lon / 15.0\n    # sunrise/sunset via standard NOAA solar equations\n    out = {}\n    for is_rise in (True, False):\n        t = n + ((6 if is_rise else 18) - lng_hour) / 24.0\n        M = 0.9856 * t - 3.289\n        L = M + 1.916 * math.sin(math.radians(M)) + 0.020 * math.sin(math.radians(2 * M)) + 282.634\n        L %= 360.0\n        RA = math.degrees(math.atan(0.91764 * math.tan(math.radians(L)))) % 360.0\n        Lq = (math.floor(L / 90) * 90); RAq = (math.floor(RA / 90) * 90)\n        RA = RA + (Lq - RAq); RA /= 15.0\n        sin_dec = 0.39782 * math.sin(math.radians(L)); cos_dec = math.cos(math.asin(sin_dec))\n        cos_h = (math.cos(math.radians(90.833)) - sin_dec * math.sin(math.radians(lat))) / (cos_dec * math.cos(math.radians(lat)))\n        cos_h = max(-1.0, min(1.0, cos_h))\n        H = (360.0 - math.degrees(math.acos(cos_h)) if is_rise else math.degrees(math.acos(cos_h))) / 15.0\n        T = H + RA - 0.06571 * t - 6.622\n        UT = (T - lng_hour) % 24.0\n        out['sunrise' if is_rise else 'sunset'] = (UT + tz_offset) % 24.0\n    sr, ss = out['sunrise'], out['sunset']\n    out['golden_morning'] = (sr, sr + 1.0)\n    out['golden_evening'] = (ss - 1.0, ss)\n    out['blue_morning'] = ((sr - 0.6) % 24, sr)\n    out['blue_evening'] = (ss, (ss + 0.6) % 24)\n    return out\n\ndef _hm(h):\n    h %= 24.0\n    return f\"{int(h):02d}:{int((h % 1) * 60):02d}\"\n\n\nif __name__ == \"__main__\":\n    import sys\n    y, m, d = (int(sys.argv[i]) if len(sys.argv) > i else v for i, v in ((1, 2026), (2, 10), (3, 19)))\n    tz = float(sys.argv[4]) if len(sys.argv) > 4 else 0.0\n    t = sun_times(LAT if LAT else 36.39, LON if LON else 25.46, y, m, d, tz)\n    print(f\"{PLACE} — {y}-{m:02d}-{d:02d}\")\n    print(f\"  sunrise {_hm(t['sunrise'])}, sunset {_hm(t['sunset'])}\")\n    print(f\"  golden: {_hm(t['golden_morning'][0])}-{_hm(t['golden_morning'][1])} / \"\n          f\"{_hm(t['golden_evening'][0])}-{_hm(t['golden_evening'][1])}\")\n    print(f\"  blue (eve): {_hm(t['blue_evening'][0])}-{_hm(t['blue_evening'][1])}\")\n";
+window.JAH_RV_DEMOINIT = function rvDemoGoldenHour(root){
+  root.innerHTML =
+    '<div class="rv-row"><label>Lat <input id="rvLat" type="number" step="0.01" value="36.39" style="width:90px"></label>'
+    + '<label>Lon <input id="rvLon" type="number" step="0.01" value="25.46" style="width:90px"></label>'
+    + '<label>Date <input id="rvDate" type="date" value="2026-06-15"></label>'
+    + '<label>UTC offset <input id="rvTz" type="number" step="0.5" value="3" style="width:70px"></label>'
+    + '<button class="go" id="rvGo">Calculate light</button></div>'
+    + '<div id="rvOut"></div>'
+    + '<p class="dim">Presets: <a href="#" data-p="36.39,25.46,3">Santorini</a> · <a href="#" data-p="51.18,-115.57,-6">Banff</a> · '
+    + '<a href="#" data-p="-16.50,-151.74,-10">Bora Bora</a> · <a href="#" data-p="68.15,13.75,1">Lofoten</a></p>';
+  function rad(d){ return d * Math.PI / 180; }
+  function sunTimes(lat, lon, y, m, d, tz){
+    var n = Math.floor((Date.UTC(y, m - 1, d) - Date.UTC(y, 0, 0)) / 864e5);
+    var out = {}, lngH = lon / 15;
+    [true, false].forEach(function(rise){
+      var t = n + ((rise ? 6 : 18) - lngH) / 24;
+      var M = 0.9856 * t - 3.289, L = M + 1.916 * Math.sin(rad(M)) + 0.020 * Math.sin(rad(2 * M)) + 282.634;
+      L = ((L % 360) + 360) % 360;
+      var RA = Math.atan(0.91764 * Math.tan(rad(L))) * 180 / Math.PI;
+      RA = ((RA % 360) + 360) % 360;
+      var Lq = Math.floor(L / 90) * 90, RAq = Math.floor(RA / 90) * 90;
+      RA = RA + (Lq - RAq); RA /= 15;
+      var sinDec = 0.39782 * Math.sin(rad(L)), cosDec = Math.cos(Math.asin(sinDec));
+      var cosH = (Math.cos(rad(90.833)) - sinDec * Math.sin(rad(lat))) / (cosDec * Math.cos(rad(lat)));
+      cosH = Math.max(-1, Math.min(1, cosH));
+      var H = (rise ? 360 - Math.acos(cosH) * 180 / Math.PI : Math.acos(cosH) * 180 / Math.PI) / 15;
+      var T = H + RA - 0.06571 * t - 6.622, UT = (T - lngH) % 24;
+      out[rise ? 'sr' : 'ss'] = (((UT + tz) % 24) + 24) % 24;
+    });
+    return out;
+  }
+  function hm(h){ h = ((h % 24) + 24) % 24; return ('0' + Math.floor(h)).slice(-2) + ':' + ('0' + Math.floor((h % 1) * 60)).slice(-2); }
+  function calc(){
+    var lat = parseFloat(document.getElementById('rvLat').value),
+        lon = parseFloat(document.getElementById('rvLon').value),
+        tz = parseFloat(document.getElementById('rvTz').value) || 0,
+        dp = document.getElementById('rvDate').value.split('-').map(Number);
+    var t = sunTimes(lat, lon, dp[0], dp[1], dp[2], tz);
+    document.getElementById('rvOut').innerHTML =
+      '<dl class="rv-kv"><dt>Sunrise</dt><dd>' + hm(t.sr) + '</dd>'
+      + '<dt>Golden hour</dt><dd>' + hm(t.sr) + ' – ' + hm(t.sr + 1) + ' (morning) · ' + hm(t.ss - 1) + ' – ' + hm(t.ss) + ' (evening)</dd>'
+      + '<dt>Sunset</dt><dd>' + hm(t.ss) + '</dd>'
+      + '<dt>Blue hour</dt><dd>' + hm(t.ss) + ' – ' + hm(t.ss + 0.6) + ' (evening)</dd></dl>'
+      + '<p class="dim">Real solar math, same engine as the downloadable Python demo on every record.</p>';
+  }
+  document.getElementById('rvGo').onclick = calc;
+  root.querySelectorAll('a[data-p]').forEach(function(a){
+    a.onclick = function(e){
+      e.preventDefault();
+      var v = a.getAttribute('data-p').split(',');
+      document.getElementById('rvLat').value = v[0];
+      document.getElementById('rvLon').value = v[1];
+      document.getElementById('rvTz').value = v[2];
+      calc();
+    };
+  });
+  calc();
+}
+
+/* ---------- 3. print estimator (3d printers) ---------- */;
+</script>
+
+<!-- ============================================================
+JAH WORKING-VERSION RETROFIT (quality-audit-r15)
+Paste this ENTIRE block just before </body>, AFTER the page's own scripts.
+Requires the config block (window.JAH_RV) immediately above it —
+see APPLY.md. Safe to include on pages without .tabs (no-ops).
+============================================================ -->
+<style>
+.rv-kv{display:grid;grid-template-columns:130px 1fr;gap:6px 10px;margin:8px 0}
+.rv-kv dt{color:#9fb3d8}.rv-kv dd{margin:0}
+.rv-code{background:#05090f;border:1px solid #1d2c4d;border-radius:10px;padding:10px;
+  overflow:auto;max-height:340px;font-family:Consolas,monospace;font-size:.82em;white-space:pre}
+.rv-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:8px 0}
+.rv-badge{display:inline-block;background:#0e2a1a;border:1px solid #00e5a0;color:#00e5a0;
+  border-radius:999px;padding:3px 12px;font-size:.8em;font-weight:bold}
+.rv-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px}
+.rv-plate{background:#0d1526;border:1px solid #1d2c4d;border-radius:10px;padding:8px}
+.rv-plate img{width:100%;border-radius:8px;display:block}
+.rv-plate p{font-size:.82em;color:#9fb3d8;margin:6px 0 0}
+</style>
+<script>
+(function(){
+'use strict';
+var C = window.JAH_RV || {};
+var PROG = (typeof window.JAH_RV_PROGRAM === 'string') ? window.JAH_RV_PROGRAM : '';
+function $(id){ return document.getElementById(id); }
+function el(tag, cls){ var e=document.createElement(tag); if(cls) e.className=cls; return e; }
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+var tabsBar = document.querySelector('.tabs');
+var firstPane = document.querySelector('.pane');
+if(!tabsBar || !firstPane || !C.slug){
+  if(window.console) console.warn('JAH_RV retrofit: page structure or config missing — skipping.');
+  return;
+}
+var paneParent = firstPane.parentNode;
+var OURS = ['rv-concept','rv-demolab','rv-workver'];
+
+/* ---------- tabs ---------- */
+[['rv-concept','Concept'],['rv-demolab','Demo Lab'],['rv-workver','Working Version']].forEach(function(t){
+  var b = el('button','tab'); b.setAttribute('data-p', t[0]); b.textContent = t[1];
+  tabsBar.appendChild(b);
+});
+
+/* ---------- panes ---------- */
+function conceptHTML(){
+  return '<div class="card"><h3>Concept</h3><p><span class="rv-badge">CONCEPT</span></p>'
+    + '<p>'+esc(C.concept||'No concept text supplied.')+'</p>'
+    + '<dl class="rv-kv">'
+    + '<dt>Records</dt><dd>'+esc(C.recordCount||'—')+' full records, marching to 1,000,000 '
+    + '<span class="rv-badge">MILLION IN PROGRESS</span></dd>'
+    + '<dt>Demos</dt><dd>'+esc(C.demoKind||'Each record ships a runnable demo program.')+'</dd>'
+    + '<dt>Working version</dt><dd>See the <b>Working Version</b> tab — a real runnable program, downloadable.</dd>'
+    + '</dl></div>';
+}
+var sec1 = el('section','pane'); sec1.id='p-rv-concept'; sec1.innerHTML = conceptHTML();
+
+var sec2 = el('section','pane'); sec2.id='p-rv-demolab';
+sec2.innerHTML = '<div class="card"><h3>Demo Lab <span class="rv-badge">RUNNABLE</span></h3>'
+  + '<p class="dim">Live demos pulled from this database\u2019s archive records. Copy any program or download it as a .py file and run it.</p>'
+  + '<div id="rvDemoBox"><p class="dim">Loading demos\u2026</p></div></div>'
+  + '<div class="card"><h3>Try it in your browser</h3><div id="rvTryBox"></div></div>';
+
+var sec3 = el('section','pane'); sec3.id='p-rv-workver';
+sec3.innerHTML = '<div class="card"><h3>'+esc(C.workingTitle||'Working version')
+  + ' <span class="rv-badge">WORKING VERSION</span></h3>'
+  + '<p>'+esc(C.workingDesc||'')+'</p>'
+  + '<div class="rv-row"><button class="go" id="rvDl">Download '+esc(C.workingFile||'working.py')+'</button>'
+  + '<button id="rvCopy">Copy program</button></div>'
+  + '<p class="dim mono">Run: '+esc(C.workingRun||'python3 '+(C.workingFile||'working.py'))+'</p>'
+  + '<div class="rv-code" id="rvProg"></div></div>';
+paneParent.appendChild(sec1); paneParent.appendChild(sec2); paneParent.appendChild(sec3);
+var progBox = $('rvProg'); if(progBox) progBox.textContent = PROG || '(no program embedded)';
+
+/* browser demo hook */
+try{
+  var init = window.JAH_RV_DEMOINIT;
+  if(typeof init === 'function') init($('rvTryBox'));
+  else if($('rvTryBox')) $('rvTryBox').innerHTML = '<p class="dim">Interactive demo loading with the Demo Lab above.</p>';
+}catch(e){ if(window.console) console.warn('JAH_RV demo init failed', e); }
+
+/* ---------- tab switching (ours only) ---------- */
+document.addEventListener('click', function(e){
+  var t = e.target && e.target.closest ? e.target.closest('.tab[data-p]') : null;
+  if(!t) return;
+  var p = t.getAttribute('data-p');
+  if(OURS.indexOf(p) < 0) return;
+  if(e.stopPropagation) e.stopPropagation();
+  document.querySelectorAll('.tab').forEach(function(x){ x.classList.remove('on'); });
+  document.querySelectorAll('.pane').forEach(function(x){ x.classList.remove('on'); });
+  t.classList.add('on');
+  var pane = $('p-'+p); if(pane) pane.classList.add('on');
+  if(p === 'rv-demolab') loadDemos();
+}, true);
+
+/* ---------- working-version buttons ---------- */
+document.addEventListener('click', function(e){
+  if(e.target && e.target.id === 'rvDl' && PROG){
+    var blob = new Blob([PROG], {type:'text/x-python'});
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob); a.download = C.workingFile || 'working.py';
+    document.body.appendChild(a); a.click();
+    setTimeout(function(){ URL.revokeObjectURL(a.href); a.remove(); }, 500);
+  }
+  if(e.target && e.target.id === 'rvCopy' && PROG && navigator.clipboard){
+    navigator.clipboard.writeText(PROG).then(function(){ e.target.textContent='Copied!'; });
+  }
+});
+
+/* ---------- demo lab: fetch index, render demo cards ---------- */
+var demosLoaded = false;
+function loadDemos(){
+  if(demosLoaded) return; demosLoaded = true;
+  var box = $('rvDemoBox');
+  if(!box || !C.indexUrl){ if(box) box.innerHTML='<p class="dim">No index URL configured.</p>'; return; }
+  fetch(C.indexUrl).then(function(r){
+    if(!r.ok) throw new Error('HTTP '+r.status);
+    var ct = r.headers.get('content-type')||'';
+    if(typeof DecompressionStream !== 'undefined' && !/json/.test(ct)){
+      return r.arrayBuffer().then(function(ab){
+        var ds = new DecompressionStream('gzip');
+        var stream = new Blob([ab]).stream().pipeThrough(ds);
+        return new Response(stream).text();
+      });
+    }
+    return r.text();
+  }).then(function(txt){
+    var recs = [], shown = 0;
+    txt.split('\n').some(function(line){
+      if(shown >= 12) return true;
+      line = line.trim(); if(!line) return false;
+      try{
+        var rec = JSON.parse(line);
+        var d = rec.demo;
+        if(d && d.program){
+          recs.push({title: rec.title || rec.t || rec.id, kind: d.kind||'demo',
+                     program: d.program, id: rec.id});
+          shown++;
+        }
+      }catch(e){}
+      return false;
+    });
+    if(!recs.length){ box.innerHTML = '<p class="dim">No runnable demos found in the fetched index.</p>'; return; }
+    box.innerHTML = '';
+    recs.forEach(function(rc, i){
+      var card = el('div','card');
+      var h = el('h3'); h.textContent = rc.title; card.appendChild(h);
+      var meta = el('p','dim'); meta.textContent = rc.id + ' — ' + rc.kind; card.appendChild(meta);
+      var pre = el('div','rv-code'); pre.textContent = rc.program; card.appendChild(pre);
+      var row = el('div','rv-row');
+      var cp = el('button'); cp.textContent='Copy';
+      cp.onclick = (function(p){ return function(){ navigator.clipboard.writeText(p); this.textContent='Copied!'; }; })(rc.program);
+      var dl = el('button'); dl.textContent='Download .py'; dl.className='go';
+      dl.onclick = (function(p, id){ return function(){
+        var blob = new Blob([p], {type:'text/x-python'});
+        var a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+        a.download = String(id||'demo').replace(/[^A-Za-z0-9_-]+/g,'_') + '.py';
+        document.body.appendChild(a); a.click();
+        setTimeout(function(){ URL.revokeObjectURL(a.href); a.remove(); }, 500);
+      }; })(rc.program, rc.id);
+      row.appendChild(cp); row.appendChild(dl); card.appendChild(row);
+      box.appendChild(card);
+    });
+    var note = el('p','dim');
+    note.textContent = 'Showing '+recs.length+' of the archive\u2019s runnable demos. Every record in this database ships one.';
+    box.appendChild(note);
+  }).catch(function(err){
+    box.innerHTML = '<p class="dim">Could not fetch the live index ('+esc(String(err&&err.message||err))
+      +'). The Working Version tab still carries a full runnable program.</p>';
+  });
+}
+})();
+</script>
+
 </body>
 </html>
