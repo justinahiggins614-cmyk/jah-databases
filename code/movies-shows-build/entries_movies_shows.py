@@ -58,13 +58,13 @@ MOVIES = [
  "Micheaux, America's first major Black feature filmmaker, made it as a direct answer to The Birth of a Nation, centering Black dignity and resistance. "
  "It is the oldest surviving feature by an African-American director.",
  "expired", "within-our-gates-1920-by-oscar-micheaux", None),
-("The Mark of Zorro", 1920, "Fred Niblo",
- "Douglas Fairbanks",
- "Silent swashbuckler", 107,
- "Don Diego Vega poses as a fop by day and becomes the masked Zorro by night to fight a corrupt governor. "
- "Fairbanks invented the screen swashbuckler -- and the superhero's double identity -- in a single leap. "
- "It made him the king of adventure and set the template for masked heroes.",
- "expired", "silent-the-mark-of-zorro", None),
+("The Pilgrim", 1923, "Charlie Chaplin",
+ "Charlie Chaplin",
+ "Silent comedy", 59,
+ "An escaped convict steals a parson's clothes and is mistaken for the new minister of a small Texas town. "
+ "Chaplin's beloved impersonation comedy -- the sermon-pantomime and the Eliza-crossing-the-ice parody are pure Chaplin. "
+ "Made for First National at his creative peak, it is among his most quoted shorts.",
+ "expired", "the-pilgrim-1923-directed-by-charlie-chaplin", None),
 ("Way Down East", 1920, "D. W. Griffith",
  "Lillian Gish, Richard Barthelmess",
  "Silent melodrama", 148,
@@ -100,35 +100,35 @@ MOVIES = [
  "Keaton's first great feature: a deadpan odyssey ending on a waterfall. "
  "The train and river sequences are engineering marvels of comedy construction.",
  "expired", "OurHospitality_29", None),
-("Sherlock Jr.", 1924, "Buster Keaton",
+("One Week", 1920, "Buster Keaton and Edward F. Cline",
  "Buster Keaton",
- "Silent comedy", 44,
- "A daydreaming projectionist imagines himself a great detective inside the movie he is showing. "
- "Keaton walks into the screen -- literally -- in cinema's most playful meditation on film itself. "
- "At 44 minutes it is the most perfect short feature ever made.",
- "expired", "sherlock-jr.-1924-by-buster-keaton", None),
-("The Kid Brother", 1927, "Ted Wilde",
+ "Silent comedy short", 19,
+ "Newlyweds assemble a build-it-yourself house from a sabotaged kit, with predictably catastrophic results. "
+ "Keaton's first solo short as his own producer -- the rotating-house finale in a storm is a mechanical marvel. "
+ "It announced a new comic genius working at full power from the start.",
+ "expired", "OneWeek1920", None),
+("Girl Shy", 1924, "Fred C. Newmeyer and Sam Taylor",
  "Harold Lloyd",
- "Silent comedy", 84,
- "The timid youngest son of a sheriff must prove himself when a traveling medicine show brings trouble to town. "
- "Lloyd's most character-driven comedy -- less thrill, more heart than his skyscraper pictures. "
- "The strongman finale is a masterclass in underdog triumph.",
- "expired", "harold-lloyd-the-kid-brother-1927", None),
+ "Silent comedy", 82,
+ "A stammering small-town tailor writes a book on lovemaking, then must race across Los Angeles to stop the girl's wedding. "
+ "Lloyd's wildest chase comedy -- cars, trolleys, and horses in a breathless finale. "
+ "The stammer-to-confidence arc is Lloyd's most human character journey.",
+ "expired", "silent-girl-shy", None),
 # ---- compounded: late-silent mastery and the coming of sound (ladder 13-24), all public domain
-("The Phantom of the Opera", 1925, "Rupert Julian",
- "Lon Chaney, Mary Philbin",
- "Horror", 101,
- "A disfigured musical genius haunts the Paris Opera, obsessed with a young singer. "
- "Chaney's self-designed skull-face reveal -- done without studio permission -- is horror's most famous unmasking. "
- "The chandelier crash set the template for stage horror on screen.",
- "expired", "ThePhantomOfTheOpera_364", None),
-("The Thief of Bagdad", 1924, "Raoul Walsh",
- "Douglas Fairbanks",
- "Silent fantasy adventure", 155,
- "A roguish thief loves a princess and quests for treasures -- a flying carpet, an invisibility cloak -- to win her. "
- "Fairbanks's Arabian Nights epic built the most lavish fantasy sets of the silent era. "
- "Every screen fantasy since owes it a debt, from its magic to its matte paintings.",
- "expired", "sonido-ttob-1080p", None),
+("The Hunchback of Notre Dame", 1923, "Wallace Worsley",
+ "Lon Chaney",
+ "Silent drama", 133,
+ "Quasimodo, the deformed bell-ringer, loves the gypsy Esmeralda amid medieval Paris. "
+ "Chaney's agonizing makeup and the massive cathedral set made it Universal's first prestige blockbuster. "
+ "The template for sympathetic monsters on screen.",
+ "expired", "the.-hunchback.of.-notre.-dame.-1923", None),
+("The Iron Horse", 1924, "John Ford",
+ "George O'Brien",
+ "Silent western", 150,
+ "Two generations build the transcontinental railroad through Indian wars and treachery. "
+ "Ford's first great epic -- made with thousands of extras on location -- invented the railroad western. "
+ "The driving of the golden spike is American myth put on film.",
+ "expired", "the-iron-horse-1924-by-john-ford", None),
 ("The Last Laugh", 1924, "F. W. Murnau",
  "Emil Jannings",
  "German silent drama", 90,
@@ -136,20 +136,20 @@ MOVIES = [
  "Murnau told the story almost without intertitles -- the 'unchained camera' moving through the hotel made subjectivity visual. "
  "The benchmark of German silent artistry and of the camera as narrator.",
  "expired", "silent-the-last-laugh", None),
-("The Man Who Laughs", 1928, "Paul Leni",
- "Conrad Veidt",
- "Horror melodrama", 110,
- "A nobleman's son, his face carved into a permanent grin, becomes a circus clown while loving a blind girl. "
- "Veidt's grin directly inspired the Joker, drawn from this very performance. "
- "Leni's gothic visuals made it Universal's most beautiful horror film.",
- "expired", "the-man-who-laughs-1928_202404", None),
-("The Cat and the Canary", 1927, "Paul Leni",
- "Laura La Plante",
- "Horror comedy", 80,
- "Heirs gather in a creepy mansion for a will reading as an escaped lunatic prowls outside. "
- "Leni invented the old-dark-house formula -- secret panels, clutching hands -- that horror-comedy still uses. "
- "The template for every haunted-house movie after it.",
- "expired", "the-cat-and-the-canary-1927", None),
+("Son of the Sheik", 1926, "George Fitzmaurice",
+ "Rudolph Valentino",
+ "Silent romance-adventure", 68,
+ "The sheik's son falls for a dancing girl and is drawn into tribal revenge. "
+ "Valentino's final film -- released weeks after his death at 31 -- sealed his immortality. "
+ "Audiences mourned in the streets; the film broke box-office records.",
+ "expired", "SONOFTHESHEIK1926RudolphValentino", None),
+("Orphans of the Storm", 1921, "D. W. Griffith",
+ "Lillian Gish, Dorothy Gish",
+ "Silent historical drama", 150,
+ "Two sisters are separated in revolutionary Paris and reunited at the guillotine's edge. "
+ "Griffith's French Revolution epic -- the Gish sisters together for the only time. "
+ "The storming of the Bastille remains a silent-era set piece.",
+ "expired", "OrphansoftheStorm", None),
 ("The Lodger", 1927, "Alfred Hitchcock",
  "Ivor Novello, Marie Ault",
  "Silent thriller", 91,
@@ -185,13 +185,13 @@ MOVIES = [
  "Hitchcock's first sound film, shot silent then reshot with dialogue, pivots on the famous knife-scream montage. "
  "The sound era's first great British thriller.",
  "expired", "blackmail-1929_202303", None),
-("Man with a Movie Camera", 1929, "Dziga Vertov",
- "The people of a Soviet city (non-actors)",
- "Soviet documentary", 68,
- "A day in a Soviet city, filmed and edited as pure visual music -- no plot, no actors, no intertitles. "
- "Vertov's manifesto: the camera eye sees what the human eye cannot. "
- "The most exhilarating editing ever put on screen, and the founding work of experimental documentary.",
- "expired", "ChelovekskinoapparatomManWithAMovieCamera", None),
+("Tol'able David", 1921, "Henry King",
+ "Richard Barthelmess",
+ "Silent rural drama", 94,
+ "A gentle mountain boy must take his crippled brother's mail route and face the outlaws who terrorize it. "
+ "Barthelmess's David is the definitive screen innocent-turned-hero. "
+ "Small, humane, and perfectly built -- the critics' favorite film of 1921.",
+ "expired", "TolableDavid", None),
 ("The Hitch-Hiker", 1953, "Ida Lupino",
  "Edmond O'Brien, Frank Lovejoy",
  "Film noir", 71,

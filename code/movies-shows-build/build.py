@@ -172,9 +172,9 @@ def main():
     print("OK: film record card printed for " + r["id"])
 if __name__ == "__main__":
     main()
-'''.replace('__RECORD__', json.dumps({k: r[k] for k in ("id", "title", "year", "director", "cast", "genre",
+'''.replace('__RECORD__', repr({k: r[k] for k in ("id", "title", "year", "director", "cast", "genre",
       "runtime_minutes", "synopsis", "public_domain", "pd_basis", "watch",
-      "file_reference")}, ensure_ascii=False))
+      "file_reference")}))
 
 def demo_pd_check(rec):
     r = rec
@@ -198,8 +198,8 @@ def main():
     print("OK: PD determination matches the archive record " + r["id"])
 if __name__ == "__main__":
     main()
-'''.replace('__RECORD__', json.dumps({"id": r["id"], "title": r["title"], "year": r["year"],
-                  "pd_kind": r["pd_kind"], "public_domain": r["public_domain"]}, ensure_ascii=False))
+'''.replace('__RECORD__', repr({"id": r["id"], "title": r["title"], "year": r["year"],
+                  "pd_kind": r["pd_kind"], "public_domain": r["public_domain"]}))
 
 def demo_series_record(rec):
     r = rec
@@ -224,9 +224,9 @@ def main():
     print("OK: series record card printed for " + r["id"])
 if __name__ == "__main__":
     main()
-'''.replace('__RECORD__', json.dumps({k: r[k] for k in ("id", "title", "years", "network", "stars", "genre",
+'''.replace('__RECORD__', repr({k: r[k] for k in ("id", "title", "years", "network", "stars", "genre",
       "episode_length_minutes", "episodes", "synopsis", "public_domain", "pd_basis",
-      "watch", "file_reference")}, ensure_ascii=False))
+      "watch", "file_reference")}))
 
 def demo_episode_math(rec):
     r = rec
@@ -249,8 +249,8 @@ def main():
     print("OK: episode math ran for " + r["id"])
 if __name__ == "__main__":
     main()
-'''.replace('__RECORD__', json.dumps({"id": r["id"], "title": r["title"], "episodes": r["episodes"],
-                  "episode_length_minutes": r["episode_length_minutes"]}, ensure_ascii=False))
+'''.replace('__RECORD__', repr({"id": r["id"], "title": r["title"], "episodes": r["episodes"],
+                  "episode_length_minutes": r["episode_length_minutes"]}))
 
 def demo_restoration(rec):
     r = rec
@@ -274,8 +274,8 @@ def main():
     print("OK: restoration plan printed for " + r["id"])
 if __name__ == "__main__":
     main()
-'''.replace('__RECORD__', json.dumps({"id": r["id"], "title": r["title"], "lineage": r["lineage"],
-                  "mode": r["mode"]}, ensure_ascii=False))
+'''.replace('__RECORD__', repr({"id": r["id"], "title": r["title"], "lineage": r["lineage"],
+                  "mode": r["mode"]}))
 
 def demo_curation(rec):
     r = rec
@@ -292,8 +292,8 @@ def main():
     print("OK: curation printed for " + r["id"])
 if __name__ == "__main__":
     main()
-'''.replace('__RECORD__', json.dumps({"id": r["id"], "title": r["title"], "lineage": r["lineage"],
-                  "arc": r["arc"], "season_episodes": r["season_episodes"]}, ensure_ascii=False))
+'''.replace('__RECORD__', repr({"id": r["id"], "title": r["title"], "lineage": r["lineage"],
+                  "arc": r["arc"], "season_episodes": r["season_episodes"]}))
 
 DEMOS = {
     "film_record": demo_film_record, "pd_check": demo_pd_check,
@@ -662,6 +662,7 @@ def gen_topics(slug, recs):
     return out
 
 def build_pages(built):
+    nb.DBCFG = DBCFG
     with open(TEMPLATE, "r", encoding="utf-8") as f:
         template = f.read()
     for slug, recs in built.items():
