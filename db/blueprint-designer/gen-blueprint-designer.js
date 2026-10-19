@@ -50,14 +50,15 @@ function asciiPlan(title,rooms,unit){
   for(yy=0;yy<gh;yy++)lines.push(g[yy].join('').replace(/\s+$/,''));
   return {text:lines.join('\n'),W:W,D:D};
 }
+function pyEsc(s){return String(s).replace(/\\/g,'\\\\').replace(/"/g,'\\"');}
 function pyDemo(rid,title,plan,stats){
-  var safe=String(plan).replace(/\\/g,'\\\\');
-  var L=['# JAH Blueprint Designer demo','# Record '+rid+' - '+String(title).replace(/"/g,"'"),'plan = ,safe,','print(plan)'];
-  for(var i=0;i<stats.length;i++)L.push('print("'+String(stats[i][0]).replace(/"/g,"'")+': '+String(stats[i][1]).replace(/"/g,"'")+'")');
+  var L=['# JAH Blueprint Designer demo','# Record '+rid+' - '+String(title).replace(/"/g,"'"),'plan = "\\n".join(['];
+  var plines=String(plan).split('\n');
+  for(var i=0;i<plines.length;i++)L.push('"'+pyEsc(plines[i])+'"'+(i<plines.length-1?',':''));
+  L.push('])','print(plan)');
+  for(var j=0;j<stats.length;j++)L.push('print("'+String(stats[j][0]).replace(/"/g,"'")+': '+String(stats[j][1]).replace(/"/g,"'")+'")');
   L.push('print("OK: '+rid+' designer blueprint verified")');
-  return L.join('
-')+'
-';
+  return L.join('\n')+'\n';
 }
 function generate(seed,opts,rnd){
   opts=opts||{};rnd=rnd||prng(seed);
@@ -97,7 +98,7 @@ function generate(seed,opts,rnd){
 function validate(r){
   var e=[];
   if(!r||typeof r!=='object')return {ok:false,errors:['not an object']};
-  if(!new RegExp('^'+PREFIX.replace(/-/g,'\-')+'\d{6}$').test(r.id||''))e.push('id');
+  if(!new RegExp('^'+PREFIX.replace(/-/g,'\\-')+'\\d{6}$').test(r.id||''))e.push('id');
   if(FIELDS.indexOf(r.field)<0)e.push('field');
   if(!r.src)e.push('src');
   if(!r.demo||!r.demo.program)e.push('demo');
