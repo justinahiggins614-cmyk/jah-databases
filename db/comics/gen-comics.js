@@ -59,7 +59,44 @@
              code: CODE[ci[4]], power: POWER[ci[5]] };
   }
 
+/* === EXPANSION 2026-10-18 group-1: Comic Book Universe ===
+   10 new issues continuing THE SIGNALBEARERS (#251-260) with original characters.
+   universeIssue(seed) returns the compact idx-row shape; expand via
+   gen-comics-full.js fullRecord() into the full 22-page archive record. */
+var UNIVERSE_SERIES='THE SIGNALBEARERS';
+var UNIVERSE_SKEY='signal';
+var UNIVERSE_ISSUES=[
+ {n:251,t:"The Beacon's Debt",ch:[{name:"Serine Valo",code:"Lumira",power:"signal-jumping"},{name:"Doren Keth",code:"Vexil",power:"light-bending"}]},
+ {n:252,t:"Static Over Velnara",ch:[{name:"Pran Oset",code:"Halcyon",power:"echo-location pulses"},{name:"Mira Telle",code:"Sonara",power:"memory weaving"}]},
+ {n:253,t:"The Ninth Relay",ch:[{name:"Jor Vannick",code:"Relay",power:"gravity anchoring"},{name:"Sella Mar",code:"Tideglass",power:"star charting"}]},
+ {n:254,t:"When Signals Die",ch:[{name:"Kess Aldane",code:"Murk",power:"signal-jumping"},{name:"Bren Okko",code:"Fathom",power:"light-bending"}]},
+ {n:255,t:"The Cartographer's Warning",ch:[{name:"Ilse Venn",code:"Chartwise",power:"star charting"},{name:"Tomm Brack",code:"Lodestar",power:"memory weaving"}]},
+ {n:256,t:"A Light in the Quiet",ch:[{name:"Wren Solace",code:"Kindle",power:"echo-location pulses"},{name:"Piotr Venn",code:"Hush",power:"gravity anchoring"}]},
+ {n:257,t:"The Relay Keepers",ch:[{name:"Alda Merrin",code:"Warden",power:"light-bending"},{name:"Corv Dain",code:"Rook",power:"signal-jumping"}]},
+ {n:258,t:"Beneath the Beacon Fields",ch:[{name:"Sira Pell",code:"Delver",power:"star charting"},{name:"Nilo Crann",code:"Undertow",power:"echo-location pulses"}]},
+ {n:259,t:"The Last Broadcast",ch:[{name:"Vesper Hale",code:"Finale",power:"memory weaving"},{name:"Juno Skerrit",code:"Static",power:"signal-jumping"}]},
+ {n:260,t:"Dawn Over Relay Nine",ch:[{name:"Tamere Ohal",code:"Illmir",power:"star charting"},{name:"Serine Valo",code:"Lumira",power:"signal-jumping"}]}
+];
+function universeIssue(seed){
+  var u=UNIVERSE_ISSUES[(seed-1)%UNIVERSE_ISSUES.length];
+  return {id:'JAH-COMIC-'+String(seed).padStart(6,'0'),s:UNIVERSE_SERIES,sk:UNIVERSE_SKEY,n:u.n,t:u.t,ch:u.ch};
+}
+function validateUniverse(r){
+  var e=[];
+  if(!r||typeof r!=='object')return{ok:false,errors:['not an object']};
+  if(!/^JAH-COMIC-\d{6}$/.test(r.id||''))e.push('id');
+  if(r.s!==UNIVERSE_SERIES)e.push('series');
+  if(r.sk!==UNIVERSE_SKEY)e.push('skey');
+  if(typeof r.n!=='number')e.push('num');
+  if(typeof r.t!=='string'||!r.t.length)e.push('title');
+  if(!Array.isArray(r.ch)||!r.ch.length)e.push('chars');
+  return{ok:!e.length,errors:e};
+}
+
   function generate(seed, opts, rnd) {
+    opts = opts || {};
+    if(opts.category==='comic-universe')return universeIssue(seed);
+
     opts = opts || {};
     var series = opts.type && SERIES.indexOf(opts.type) >= 0 ? opts.type : SERIES[Math.floor(rnd() * SERIES.length)];
     var num = ri(rnd, 1, 999);
@@ -139,6 +176,9 @@
   }
 
   function validate(rec) {
+    if(rec && typeof rec === 'object' && rec.s===UNIVERSE_SERIES && rec.sk===UNIVERSE_SKEY && !rec.pages){
+      return validateUniverse(rec);
+    }
     var errs = [];
     if (!rec || typeof rec !== 'object') return { ok: false, errors: ['not an object'] };
     ['id', 'series', 'skey', 'num', 'title', 'chars', 'desc', 'pages', 'words'].forEach(function (k) {
@@ -188,6 +228,8 @@
     validate: validate,
     driftCheck: driftCheck,
     themedGenerate: themedGenerate,
+    universeIssue: universeIssue,
+    validateUniverse: validateUniverse,
     types: SERIES
   });
 })();
