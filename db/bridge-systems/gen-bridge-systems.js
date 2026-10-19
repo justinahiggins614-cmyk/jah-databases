@@ -86,3 +86,50 @@ var gen={version:'jahdb-bridge-systems-generator-1.0',generate:generate,validate
 if(typeof JAHDB!=='undefined'&&JAHDB.registerGenerator)JAHDB.registerGenerator('bridge-systems',gen);
 if(typeof module!=='undefined'&&module.exports)module.exports=gen;
 })();
+
+
+/* ==== ARCHIVE-SHAPE APPENDIX (EXPAND group-4) ====
+   generateRecord(seed)/validateRecord(r) cover the real archive record
+   shape for bridge-systems (deterministic: same seed, same record). */
+;(function(){'use strict';
+function apRng(seed){var a=(seed>>>0)||1;return function(){a|=0;a=(a+0x6D2B79F5)|0;var t=Math.imul(a^(a>>>15),1|a);t=(t+Math.imul(t^(t>>>7),61|t))^t;return((t^(t>>>14))>>>0)/4294967296;};}
+var AGROUPS=["amazing-bridge-designs"];
+var APREFIX="JAH-BRG-";
+var APAD=6;
+function generateRecord(seed){
+  var rnd=apRng(seed);
+  var group=AGROUPS[(rnd()*AGROUPS.length)|0];
+  var id=APREFIX+String(seed).padStart(APAD,'0');
+  var title="Archive Study "+seed+" — "+group;
+  var r={
+    id:id,
+    title:title,
+    description:"Archive record: "+title+" — full study in "+group+". ",
+    genre:group,
+    type:"archive study record",
+    content:"Archive study: "+title+". Full record content for "+title+" in "+group+". ",
+    content_completeness:"full",
+    demo:{kind:"record-program",program:"// record card — run with: node demo.js\nvar card={id:\""+id+"\",title:\""+title+"\"};\nconsole.log(card.id+\" — \"+card.title);\n"},
+    src:"signature",
+    _seed:seed,
+  };
+  return r;
+}
+function validateRecord(r){
+  var e=[];
+  if(!r||typeof r!=='object')return {ok:false,errors:['not an object']};
+  if(!new RegExp("^JAH\\-BRG\\-\\d{6}$").test(r.id||''))e.push('id');
+    if(!(typeof r["id"]==='string'&&r["id"].length>0))e.push("id");
+    if(!(typeof r["title"]==='string'&&r["title"].length>0))e.push("title");
+    if(!(typeof r["description"]==='string'&&r["description"].length>0))e.push("description");
+    if(!(typeof r["genre"]==='string'&&r["genre"].length>0))e.push("genre");
+    if(!(typeof r["type"]==='string'&&r["type"].length>0))e.push("type");
+    if(!(typeof r["content"]==='string'&&r["content"].length>0))e.push("content");
+    if(!(typeof r["content_completeness"]==='string'&&r["content_completeness"].length>0))e.push("content_completeness");
+    if(!(r["demo"]&&typeof r["demo"]==='object'&&!Array.isArray(r["demo"])))e.push("demo");
+    if(!(typeof r["src"]==='string'&&r["src"].length>0))e.push("src");
+    if(!(typeof r["_seed"]==='number'))e.push("_seed");
+  return {ok:!e.length,errors:e};
+}
+if(typeof module!=='undefined'&&module.exports){module.exports.archive={generate:generateRecord,validate:validateRecord,groups:AGROUPS};}
+})();

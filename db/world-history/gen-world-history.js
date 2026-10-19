@@ -106,3 +106,67 @@ var gen={version:'jahdb-world-history-1.0',generate:generate,validate:validate};
 if(typeof JAHDB!=='undefined'&&JAHDB.registerGenerator)JAHDB.registerGenerator('world-history',gen);
 if(typeof module!=='undefined'&&module.exports)module.exports=gen;
 })();
+
+
+
+/* ==== ARCHIVE-SHAPE APPENDIX (EXPAND group-4) ====
+   generateRecord(seed)/validateRecord(r) cover the real archive record
+   shape for world-history (deterministic: same seed, same record). */
+;(function(){'use strict';
+function apRng(seed){var a=(seed>>>0)||1;return function(){a|=0;a=(a+0x6D2B79F5)|0;var t=Math.imul(a^(a>>>15),1|a);t=(t+Math.imul(t^(t>>>7),61|t))^t;return((t^(t>>>14))>>>0)/4294967296;};}
+var AGROUPS=["abandoned-places", "ancient-cities", "haunted-history"];
+var APREFIX="JAH-HIST-";
+var APAD=7;
+function generateRecord(seed){
+  var rnd=apRng(seed);
+  var group=AGROUPS[(rnd()*AGROUPS.length)|0];
+  var id=APREFIX+String(seed).padStart(APAD,'0');
+  var title="Archive Study "+seed+" — "+group;
+  var r={
+    id:id,
+    record_id:id,
+    title:title,
+    category:group,
+    era:'era',
+    kind:"real-event",
+    event:title,
+    date_label:"2026 CE",
+    year_int:2026,
+    description:"Archive record: "+title+" — full study in "+group+". ",
+    key_figures:["Figure one","Figure two"],
+    region:"Worldwide",
+    significance:"Significance of "+title+". ",
+    source:"signature",
+    source_ref:"Signature archive. ",
+    is_real:true,
+    _seed:seed,
+    demo:{engine:"jahdb-demo-1.0",kind:"explore",title:"Interactive record tour — "+title,language:"javascript",program:"/* JAH interactive demo program — jahdb-demo-1.0 */\n(function(){console.log(\""+title+"\");console.log(\"OK: tour complete\");})();"},
+  };
+  return r;
+}
+function validateRecord(r){
+  var e=[];
+  if(!r||typeof r!=='object')return {ok:false,errors:['not an object']};
+  if(!new RegExp("^JAH\\-HIST\\-\\d{7}$").test(r.id||''))e.push('id');
+    if(!(typeof r["id"]==='string'&&r["id"].length>0))e.push("id");
+    if(!(typeof r["record_id"]==='string'&&r["record_id"].length>0))e.push("record_id");
+    if(!(typeof r["title"]==='string'&&r["title"].length>0))e.push("title");
+    if(!(typeof r["category"]==='string'&&r["category"].length>0))e.push("category");
+    if(!(typeof r["era"]==='string'&&r["era"].length>0))e.push("era");
+    if(!(typeof r["kind"]==='string'&&r["kind"].length>0))e.push("kind");
+    if(!(typeof r["event"]==='string'&&r["event"].length>0))e.push("event");
+    if(!(typeof r["date_label"]==='string'&&r["date_label"].length>0))e.push("date_label");
+    if(!(typeof r["year_int"]==='number'))e.push("year_int");
+    if(!(typeof r["description"]==='string'&&r["description"].length>0))e.push("description");
+    if(!(Array.isArray(r["key_figures"])))e.push("key_figures");
+    if(!(typeof r["region"]==='string'&&r["region"].length>0))e.push("region");
+    if(!(typeof r["significance"]==='string'&&r["significance"].length>0))e.push("significance");
+    if(!(typeof r["source"]==='string'&&r["source"].length>0))e.push("source");
+    if(!(typeof r["source_ref"]==='string'&&r["source_ref"].length>0))e.push("source_ref");
+    if(!(typeof r["is_real"]==='boolean'))e.push("is_real");
+    if(!(typeof r["_seed"]==='number'))e.push("_seed");
+    if(!(r["demo"]&&typeof r["demo"]==='object'&&!Array.isArray(r["demo"])))e.push("demo");
+  return {ok:!e.length,errors:e};
+}
+if(typeof module!=='undefined'&&module.exports){module.exports.archive={generate:generateRecord,validate:validateRecord,groups:AGROUPS};}
+})();

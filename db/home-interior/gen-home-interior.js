@@ -103,3 +103,61 @@ var gen={version:CFG.version,generate:generate,validate:validate};
 if(typeof JAHDB!=='undefined'&&JAHDB.registerGenerator)JAHDB.registerGenerator(CFG.slug,gen);
 if(typeof module!=='undefined'&&module.exports)module.exports=gen;
 })();
+
+
+
+/* ==== ARCHIVE-SHAPE APPENDIX (EXPAND group-4) ====
+   generateRecord(seed)/validateRecord(r) cover the real archive record
+   shape for home-interior (deterministic: same seed, same record). */
+;(function(){'use strict';
+function apRng(seed){var a=(seed>>>0)||1;return function(){a|=0;a=(a+0x6D2B79F5)|0;var t=Math.imul(a^(a>>>15),1|a);t=(t+Math.imul(t^(t>>>7),61|t))^t;return((t^(t>>>14))>>>0)/4294967296;};}
+var AGROUPS=["small-space-design", "lighting-design"];
+var APREFIX="JAH-HOME-";
+var APAD=7;
+function generateRecord(seed){
+  var rnd=apRng(seed);
+  var group=AGROUPS[(rnd()*AGROUPS.length)|0];
+  var id=APREFIX+String(seed).padStart(APAD,'0');
+  var title="Archive Study "+seed+" — "+group;
+  var r={
+    id:id,
+    title:title,
+    subject:"archive subject",
+    category:group,
+    record_type:"component",
+    source:"signature",
+    source_ref:"Signature archive. ",
+    creation_mode:"SIGNATURE-GENERATED",
+    summary:"Summary of "+title+". ",
+    facts:{"Fact":"Value"},
+    key_points:["Point one for "+title,"Point two for "+title],
+    guidance:"Illustrative guidance.",
+    _seed:seed,
+    _gen_version:"jahdb-archive-1.0",
+    demo:{engine:"jahdb-demo-1.0",kind:"explore",title:"Interactive record tour — "+title,language:"javascript",program:"/* JAH interactive demo program — jahdb-demo-1.0 */\n(function(){console.log(\""+title+"\");console.log(\"OK: tour complete\");})();"},
+  };
+  return r;
+}
+function validateRecord(r){
+  var e=[];
+  if(!r||typeof r!=='object')return {ok:false,errors:['not an object']};
+  if(!new RegExp("^JAH\\-HOME\\-\\d{7}$").test(r.id||''))e.push('id');
+    if(!(typeof r["id"]==='string'&&r["id"].length>0))e.push("id");
+    if(!(typeof r["title"]==='string'&&r["title"].length>0))e.push("title");
+    if(!(typeof r["subject"]==='string'&&r["subject"].length>0))e.push("subject");
+    if(!(typeof r["category"]==='string'&&r["category"].length>0))e.push("category");
+    if(!(typeof r["record_type"]==='string'&&r["record_type"].length>0))e.push("record_type");
+    if(!(typeof r["source"]==='string'&&r["source"].length>0))e.push("source");
+    if(!(typeof r["source_ref"]==='string'&&r["source_ref"].length>0))e.push("source_ref");
+    if(!(typeof r["creation_mode"]==='string'&&r["creation_mode"].length>0))e.push("creation_mode");
+    if(!(typeof r["summary"]==='string'&&r["summary"].length>0))e.push("summary");
+    if(!(r["facts"]&&typeof r["facts"]==='object'&&!Array.isArray(r["facts"])))e.push("facts");
+    if(!(Array.isArray(r["key_points"])))e.push("key_points");
+    if(!(typeof r["guidance"]==='string'&&r["guidance"].length>0))e.push("guidance");
+    if(!(typeof r["_seed"]==='number'))e.push("_seed");
+    if(!(typeof r["_gen_version"]==='string'&&r["_gen_version"].length>0))e.push("_gen_version");
+    if(!(r["demo"]&&typeof r["demo"]==='object'&&!Array.isArray(r["demo"])))e.push("demo");
+  return {ok:!e.length,errors:e};
+}
+if(typeof module!=='undefined'&&module.exports){module.exports.archive={generate:generateRecord,validate:validateRecord,groups:AGROUPS};}
+})();

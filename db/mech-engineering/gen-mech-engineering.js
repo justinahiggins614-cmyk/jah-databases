@@ -203,3 +203,61 @@ var gen={version:'jahdb-mech-engineering-1.0',generate:generate,validate:validat
 if(typeof JAHDB!=='undefined'&&JAHDB.registerGenerator)JAHDB.registerGenerator('mech-engineering',gen);
 if(typeof module!=='undefined'&&module.exports)module.exports=gen;
 })();
+
+
+
+/* ==== ARCHIVE-SHAPE APPENDIX (EXPAND group-4) ====
+   generateRecord(seed)/validateRecord(r) cover the real archive record
+   shape for mech-engineering (deterministic: same seed, same record). */
+;(function(){'use strict';
+function apRng(seed){var a=(seed>>>0)||1;return function(){a|=0;a=(a+0x6D2B79F5)|0;var t=Math.imul(a^(a>>>15),1|a);t=(t+Math.imul(t^(t>>>7),61|t))^t;return((t^(t>>>14))>>>0)/4294967296;};}
+var AGROUPS=["robot-actuators", "gear-systems", "fasteners-joinery"];
+var APREFIX="JAH-MECH-";
+var APAD=7;
+function generateRecord(seed){
+  var rnd=apRng(seed);
+  var group=AGROUPS[(rnd()*AGROUPS.length)|0];
+  var id=APREFIX+String(seed).padStart(APAD,'0');
+  var title="Archive Study "+seed+" — "+group;
+  var r={
+    id:id,
+    mech_id:id,
+    title:title,
+    category:group,
+    record_type:"component",
+    component:title,
+    material:"Steel",
+    standards:["Standard references"],
+    properties:{"use":"Study"},
+    description:"Archive record: "+title+" — full study in "+group+". ",
+    source:"signature",
+    source_ref:"Signature archive. ",
+    _seed:seed,
+    _chunk:0,
+    demo:{engine:"jahdb-demo-1.0",kind:"explore",title:"Interactive record tour — "+title,language:"javascript",program:"/* JAH interactive demo program — jahdb-demo-1.0 */\n(function(){console.log(\""+title+"\");console.log(\"OK: tour complete\");})();"},
+  };
+  return r;
+}
+function validateRecord(r){
+  var e=[];
+  if(!r||typeof r!=='object')return {ok:false,errors:['not an object']};
+  if(!new RegExp("^JAH\\-MECH\\-\\d{7}$").test(r.id||''))e.push('id');
+    if(!(typeof r["id"]==='string'&&r["id"].length>0))e.push("id");
+    if(!(typeof r["mech_id"]==='string'&&r["mech_id"].length>0))e.push("mech_id");
+    if(!(typeof r["title"]==='string'&&r["title"].length>0))e.push("title");
+    if(!(typeof r["category"]==='string'&&r["category"].length>0))e.push("category");
+    if(!(typeof r["record_type"]==='string'&&r["record_type"].length>0))e.push("record_type");
+    if(!(typeof r["component"]==='string'&&r["component"].length>0))e.push("component");
+    if(!(typeof r["material"]==='string'&&r["material"].length>0))e.push("material");
+    if(!(Array.isArray(r["standards"])))e.push("standards");
+    if(!(r["properties"]&&typeof r["properties"]==='object'&&!Array.isArray(r["properties"])))e.push("properties");
+    if(!(typeof r["description"]==='string'&&r["description"].length>0))e.push("description");
+    if(!(typeof r["source"]==='string'&&r["source"].length>0))e.push("source");
+    if(!(typeof r["source_ref"]==='string'&&r["source_ref"].length>0))e.push("source_ref");
+    if(!(typeof r["_seed"]==='number'))e.push("_seed");
+    if(!(typeof r["_chunk"]==='number'))e.push("_chunk");
+    if(!(r["demo"]&&typeof r["demo"]==='object'&&!Array.isArray(r["demo"])))e.push("demo");
+  return {ok:!e.length,errors:e};
+}
+if(typeof module!=='undefined'&&module.exports){module.exports.archive={generate:generateRecord,validate:validateRecord,groups:AGROUPS};}
+})();

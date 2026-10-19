@@ -56,3 +56,59 @@ var gen={version:'jahdb-signature-restaurants-1.0',generate:generate,validate:va
 if(typeof JAHDB!=='undefined'&&JAHDB.registerGenerator)JAHDB.registerGenerator('signature-restaurants',gen);
 if(typeof module!=='undefined'&&module.exports)module.exports=gen;
 })();
+
+
+
+/* ==== ARCHIVE-SHAPE APPENDIX (EXPAND group-4) ====
+   generateRecord(seed)/validateRecord(r) cover the real archive record
+   shape for signature-restaurants (deterministic: same seed, same record). */
+;(function(){'use strict';
+function apRng(seed){var a=(seed>>>0)||1;return function(){a|=0;a=(a+0x6D2B79F5)|0;var t=Math.imul(a^(a>>>15),1|a);t=(t+Math.imul(t^(t>>>7),61|t))^t;return((t^(t>>>14))>>>0)/4294967296;};}
+var AGROUPS=["restaurant-concepts"];
+var APREFIX="JAH-SREST-";
+var APAD=6;
+function generateRecord(seed){
+  var rnd=apRng(seed);
+  var group=AGROUPS[(rnd()*AGROUPS.length)|0];
+  var id=APREFIX+String(seed).padStart(APAD,'0');
+  var title="Archive Study "+seed+" — "+group;
+  var r={
+    id:id,
+    t:title,
+    g:group,
+    name:title,
+    title:title,
+    description:"Archive record: "+title+" — full study in "+group+". ",
+    cuisine:"Signature cuisine",
+    signature_dishes:"Dish one, Dish two",
+    ingredients:"Core ingredients.",
+    cooking_methods:"House methods.",
+    concept:"Concept for "+title+". ",
+    projections:"Projected flagship.",
+    src:"signature",
+    demo:{kind:"python",language:"python",program:"# archive demo — "+title+"\nprint(\""+title+"\")\nprint(\"record "+id+" verified\")\n"},
+  };
+  return r;
+}
+function validateRecord(r){
+  var e=[];
+  if(!r||typeof r!=='object')return {ok:false,errors:['not an object']};
+  if(!new RegExp("^JAH\\-SREST\\-\\d{6}$").test(r.id||''))e.push('id');
+    if(!(typeof r["id"]==='string'&&r["id"].length>0))e.push("id");
+    if(!(typeof r["t"]==='string'&&r["t"].length>0))e.push("t");
+    if(!(typeof r["g"]==='string'&&r["g"].length>0))e.push("g");
+    if(!(typeof r["name"]==='string'&&r["name"].length>0))e.push("name");
+    if(!(typeof r["title"]==='string'&&r["title"].length>0))e.push("title");
+    if(!(typeof r["description"]==='string'&&r["description"].length>0))e.push("description");
+    if(!(typeof r["cuisine"]==='string'&&r["cuisine"].length>0))e.push("cuisine");
+    if(!(typeof r["signature_dishes"]==='string'&&r["signature_dishes"].length>0))e.push("signature_dishes");
+    if(!(typeof r["ingredients"]==='string'&&r["ingredients"].length>0))e.push("ingredients");
+    if(!(typeof r["cooking_methods"]==='string'&&r["cooking_methods"].length>0))e.push("cooking_methods");
+    if(!(typeof r["concept"]==='string'&&r["concept"].length>0))e.push("concept");
+    if(!(typeof r["projections"]==='string'&&r["projections"].length>0))e.push("projections");
+    if(!(typeof r["src"]==='string'&&r["src"].length>0))e.push("src");
+    if(!(r["demo"]&&typeof r["demo"]==='object'&&!Array.isArray(r["demo"])))e.push("demo");
+  return {ok:!e.length,errors:e};
+}
+if(typeof module!=='undefined'&&module.exports){module.exports.archive={generate:generateRecord,validate:validateRecord,groups:AGROUPS};}
+})();

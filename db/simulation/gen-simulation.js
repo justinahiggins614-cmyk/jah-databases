@@ -268,3 +268,59 @@ var gen={version:'jahdb-simulation-1.0',generate:generate,validate:validate,drif
 if(typeof JAHDB!=='undefined'&&JAHDB.registerGenerator)JAHDB.registerGenerator('simulation',gen);
 if(typeof module!=='undefined'&&module.exports)module.exports=gen;
 })();
+
+
+
+/* ==== ARCHIVE-SHAPE APPENDIX (EXPAND group-4) ====
+   generateRecord(seed)/validateRecord(r) cover the real archive record
+   shape for simulation (deterministic: same seed, same record). */
+;(function(){'use strict';
+function apRng(seed){var a=(seed>>>0)||1;return function(){a|=0;a=(a+0x6D2B79F5)|0;var t=Math.imul(a^(a>>>15),1|a);t=(t+Math.imul(t^(t>>>7),61|t))^t;return((t^(t>>>14))>>>0)/4294967296;};}
+var AGROUPS=["simulation-deep-dives"];
+var APREFIX="JAH-SIM-";
+var APAD=7;
+function generateRecord(seed){
+  var rnd=apRng(seed);
+  var group=AGROUPS[(rnd()*AGROUPS.length)|0];
+  var id=APREFIX+String(seed).padStart(APAD,'0');
+  var title="Archive Study "+seed+" — "+group;
+  var r={
+    id:id,
+    category:group,
+    title:title,
+    _seed:seed,
+    kind:"real-event",
+    model:"Archive model",
+    system:"Archive system",
+    model_description:"Model description for "+title+". ",
+    parameters:{"param":"value"},
+    run_spec:{"duration":"standard"},
+    results:{"reference":"Standard results"},
+    validation_results:"Standard validation.",
+    source:"signature",
+    source_ref:"Signature archive. ",
+  };
+  return r;
+}
+function validateRecord(r){
+  var e=[];
+  if(!r||typeof r!=='object')return {ok:false,errors:['not an object']};
+  if(!new RegExp("^JAH\\-SIM\\-\\d{7}$").test(r.id||''))e.push('id');
+    if(!(typeof r["id"]==='string'&&r["id"].length>0))e.push("id");
+    if(!(typeof r["category"]==='string'&&r["category"].length>0))e.push("category");
+    if(!(typeof r["title"]==='string'&&r["title"].length>0))e.push("title");
+    if(!(typeof r["_seed"]==='number'))e.push("_seed");
+    if(!(typeof r["kind"]==='string'&&r["kind"].length>0))e.push("kind");
+    if(!(typeof r["model"]==='string'&&r["model"].length>0))e.push("model");
+    if(!(typeof r["system"]==='string'&&r["system"].length>0))e.push("system");
+    if(!(typeof r["model_description"]==='string'&&r["model_description"].length>0))e.push("model_description");
+    if(!(r["parameters"]&&typeof r["parameters"]==='object'&&!Array.isArray(r["parameters"])))e.push("parameters");
+    if(!(r["run_spec"]&&typeof r["run_spec"]==='object'&&!Array.isArray(r["run_spec"])))e.push("run_spec");
+    if(!(r["results"]&&typeof r["results"]==='object'&&!Array.isArray(r["results"])))e.push("results");
+    if(!(typeof r["validation_results"]==='string'&&r["validation_results"].length>0))e.push("validation_results");
+    if(!(typeof r["source"]==='string'&&r["source"].length>0))e.push("source");
+    if(!(typeof r["source_ref"]==='string'&&r["source_ref"].length>0))e.push("source_ref");
+  return {ok:!e.length,errors:e};
+}
+if(typeof module!=='undefined'&&module.exports){module.exports.archive={generate:generateRecord,validate:validateRecord,groups:AGROUPS};}
+})();

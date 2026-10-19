@@ -55,3 +55,55 @@ var gen={version:"jahdb-elder-care-study-1.0",generate:generate,validate:validat
 if(typeof JAHDB!=='undefined'&&JAHDB.registerGenerator)JAHDB.registerGenerator("elder-care-study",gen);
 if(typeof module!=='undefined'&&module.exports)module.exports=gen;
 })();
+
+
+
+/* ==== ARCHIVE-SHAPE APPENDIX (EXPAND group-4) ====
+   generateRecord(seed)/validateRecord(r) cover the real archive record
+   shape for elder-care-study (deterministic: same seed, same record). */
+;(function(){'use strict';
+function apRng(seed){var a=(seed>>>0)||1;return function(){a|=0;a=(a+0x6D2B79F5)|0;var t=Math.imul(a^(a>>>15),1|a);t=(t+Math.imul(t^(t>>>7),61|t))^t;return((t^(t>>>14))>>>0)/4294967296;};}
+var AGROUPS=["elder-friendly-gadgets"];
+var APREFIX="JAH-elder-care-study-S-";
+var APAD=6;
+function generateRecord(seed){
+  var rnd=apRng(seed);
+  var group=AGROUPS[(rnd()*AGROUPS.length)|0];
+  var id=APREFIX+String(seed).padStart(APAD,'0');
+  var title="Archive Study "+seed+" — "+group;
+  var r={
+    signature_title:title,
+    field:"Archive field",
+    category:group,
+    version:"Signature",
+    system_lens_review:"System-lens review for "+title+". ",
+    refined_findings:"Refined findings for "+title+". ",
+    experiment_solver:{"method":"Standard method","findings":"Standard findings"},
+    scholar_notes:"Scholar notes for "+title+". ",
+    year:2026,
+    source:"signature",
+    id:id,
+    _seed:seed,
+  };
+  return r;
+}
+function validateRecord(r){
+  var e=[];
+  if(!r||typeof r!=='object')return {ok:false,errors:['not an object']};
+  if(!new RegExp("^JAH\\-elder\\-care\\-study\\-S\\-\\d{6}$").test(r.id||''))e.push('id');
+    if(!(typeof r["signature_title"]==='string'&&r["signature_title"].length>0))e.push("signature_title");
+    if(!(typeof r["field"]==='string'&&r["field"].length>0))e.push("field");
+    if(!(typeof r["category"]==='string'&&r["category"].length>0))e.push("category");
+    if(!(typeof r["version"]==='string'&&r["version"].length>0))e.push("version");
+    if(!(typeof r["system_lens_review"]==='string'&&r["system_lens_review"].length>0))e.push("system_lens_review");
+    if(!(typeof r["refined_findings"]==='string'&&r["refined_findings"].length>0))e.push("refined_findings");
+    if(!(r["experiment_solver"]&&typeof r["experiment_solver"]==='object'&&!Array.isArray(r["experiment_solver"])))e.push("experiment_solver");
+    if(!(typeof r["scholar_notes"]==='string'&&r["scholar_notes"].length>0))e.push("scholar_notes");
+    if(!(typeof r["year"]==='number'))e.push("year");
+    if(!(typeof r["source"]==='string'&&r["source"].length>0))e.push("source");
+    if(!(typeof r["id"]==='string'&&r["id"].length>0))e.push("id");
+    if(!(typeof r["_seed"]==='number'))e.push("_seed");
+  return {ok:!e.length,errors:e};
+}
+if(typeof module!=='undefined'&&module.exports){module.exports.archive={generate:generateRecord,validate:validateRecord,groups:AGROUPS};}
+})();
