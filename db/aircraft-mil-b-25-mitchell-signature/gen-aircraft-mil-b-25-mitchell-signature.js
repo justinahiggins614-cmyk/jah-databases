@@ -1,0 +1,76 @@
+(function(){'use strict';
+/* JAH B-25 Mitchell Database generator — jahdb-aircraft-mil-b-25-mitchell-1.0.
+   Property of Justin Addam Higgins (JAH).
+   Deterministic: same seed, same record. */
+function prng(seed){var a=(seed>>>0)||1;return function(){a|=0;a=(a+0x6D2B79F5)|0;var t=Math.imul(a^(a>>>15),1|a);t=(t+Math.imul(t^(t>>>7),61|t))^t;return((t^(t>>>14))>>>0)/4294967296;};}
+function pick(r,s){return r[(s()*r.length)|0];}
+var PREFIX="JAH-MAC-B25S-";
+var FIELDS=["Foundations","Compounded","Advanced"];
+var TOPICS={
+ "Foundations": [
+  "Introduction and overview — B-25 Mitchell",
+  "Design origins and first flight — B-25 Mitchell",
+  "Dimensions and general arrangement — B-25 Mitchell",
+  "Powerplant basics — B-25 Mitchell",
+  "Performance basics — B-25 Mitchell",
+  "How it flies — B-25 Mitchell",
+  "Service history, part one — B-25 Mitchell"
+ ],
+ "Compounded": [
+  "Variants and sub-models — B-25 Mitchell",
+  "Operators around the world — B-25 Mitchell",
+  "Performance analysis — B-25 Mitchell",
+  "Systems and avionics — B-25 Mitchell",
+  "Service history, part two — B-25 Mitchell",
+  "Maintenance and operations — B-25 Mitchell",
+  "Comparison with contemporaries — B-25 Mitchell"
+ ],
+ "Advanced": [
+  "Engineering deep-dive — B-25 Mitchell",
+  "Weapons and mission systems — B-25 Mitchell",
+  "Production analysis — B-25 Mitchell",
+  "Upgrades and modernization programs — B-25 Mitchell",
+  "Legacy and preservation — B-25 Mitchell",
+  "Records and superlatives — B-25 Mitchell"
+ ]
+};
+var DEMOKIND="aircraft sample calculation";
+function demoProgram(topic,field){
+  var safe=String(topic).replace(/\\/g,'\\\\').replace(/"/g,"'");
+  return "# flight performance sample — "+safe+"\n"
+   + "# Field: "+field+"\n"
+   + "record = {'title': \""+safe+"\", 'field': \""+field+"\"}\n"
+   + "def summarize(r):\n"
+   + "    return r['title'] + ' [' + r['field'] + ']'\n"
+   + "print(summarize(record))\n"
+   + "print('Sample record — structural sample, not an archive entry.')\n";
+}
+function generate(seed,opts,rnd){
+  opts=opts||{}; rnd=rnd||prng(seed);
+  var field=opts.field&&FIELDS.indexOf(opts.field)>=0?opts.field:pick(FIELDS,rnd);
+  var pool=TOPICS[field]||["General Study"];
+  var topic=pick(pool,rnd);
+  var id=PREFIX+String(seed).padStart(6,'0');
+  return {
+    id:id,
+    name:topic+' — aircraft record',
+    title:topic,
+    description:'SAMPLE RECORD (generated — structural sample). A aircraft record of "'+topic+'" in '+field+'. Signature-original sample — explicitly labeled, never presented as public record. ',
+    field:field,
+    src:"signature-generated-completion",
+    sample:true,
+    disclaimer:'Generated sample record — not an archive record. Seeded archive records are the authoritative entries.',
+    demo:{kind:DEMOKIND,language:'python',program:demoProgram(topic,field),note:'Structural sample demo.'},
+    _seed:seed
+  };
+}
+function validate(r){
+  if(!r||!r.id||!r.title)return {ok:false,reason:'missing id/title'};
+  if(r.id.indexOf(PREFIX)!==0)return {ok:false,reason:'bad prefix'};
+  return {ok:true};
+}
+try{
+  var J=window.JAHDB=window.JAHDB||{};J.generators=J.generators||{};
+  J.generators["aircraft-mil-b-25-mitchell-signature"]={generate:generate,validate:validate,fields:FIELDS,prefix:PREFIX};
+}catch(e){}
+})();
