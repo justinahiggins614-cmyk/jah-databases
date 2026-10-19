@@ -1,0 +1,55 @@
+(function(){'use strict';
+/* JAH Signature Power Supply and Conversion Database generator — "jahdb-power-supplies-conversion-signature-1.0".
+   Property of Justin Addam Higgins (JAH).
+   Deterministic: same seed, same record. */
+function prng(seed){var a=(seed>>>0)||1;return function(){a|=0;a=(a+0x6D2B79F5)|0;var t=Math.imul(a^(a>>>15),1|a);t=(t+Math.imul(t^(t>>>7),61|t))^t;return((t^(t>>>14))>>>0)/4294967296;};}
+function pick(r,s){return r[(s()*r.length)|0];}
+var PREFIX="JAH-POWSUS-";
+var FIELDS=["Foundations", "Compounded", "Advanced"];
+var TOPICS={"Foundations": ["Linear vs Switching Supplies (Signature Edition)", "Voltage, Current, and Power Ratings (Signature Edition)", "AC-DC Power Supplies (Signature Edition)", "DC-DC Converters: Buck and Boost (Signature Edition)", "Batteries and Battery Basics (Signature Edition)", "Ripple and Noise (Signature Edition)", "Fuses and Overcurrent Protection (Signature Edition)"], "Compounded": ["Efficiency and Heat (Signature Edition)", "Isolated vs Non-Isolated Converters (Signature Edition)", "Battery Management Systems (BMS) (Signature Edition)", "Power Distribution and Wiring (Signature Edition)", "Inrush Current and Soft Start (Signature Edition)", "EMI/EMC Considerations (Signature Edition)", "Redundant and Hot-Swap Power (Signature Edition)"], "Advanced": ["Digital Power and PMBus (Signature Edition)", "Wide-Bandgap Semiconductors (GaN/SiC) (Signature Edition)", "Power Integrity Analysis (Signature Edition)", "Functional Safety in Power Design (Signature Edition)", "Energy Harvesting Power Design (Signature Edition)", "Power Supply Test and Qualification (Signature Edition)", "Sustainable Power Design (Signature Edition)"]};
+function demoProgram(topic,field){
+  var safe=String(topic).replace(/\\/g,'\\\\').replace(/"/g,"'");
+  return "#!/usr/bin/env python3\n\"\"\""+safe+" — power-supplies-conversion-signature demo.\nRecord demo. Property of Justin Addam Higgins (JAH).\n\"\"\"\n"
+   + "TOPIC = \""+safe+"\"\n"
+   + "FIELD = \""+field+"\"\n"
+   + "def summarize():\n"
+   + "    return TOPIC + ' [' + FIELD + ']'\n"
+   + "print(summarize())\n"
+   + "print('Sample record — structural sample, not an archive entry.')\n";
+}
+function generate(seed,opts,rnd){
+  opts=opts||{}; rnd=rnd||prng(seed);
+  var field=opts.field&&FIELDS.indexOf(opts.field)>=0?opts.field:pick(FIELDS,rnd);
+  var pool=TOPICS[field]||["General Study"];
+  var topic=pick(pool,rnd);
+  var id=PREFIX+String(seed).padStart(6,'0');
+  return {
+    id:id,
+    name:topic+' — Signature-original power supply record',
+    title:topic,
+    description:"SAMPLE RECORD (generated \u2014 structural sample). A Signature-original power supply record study. Generated samples are clearly labeled and never presented as archive records.",
+    field:field,
+    src:"signature-sample",
+    sample:true,
+    disclaimer:"Generated sample record \u2014 not an archive record. Seeded archive records are the authoritative entries.",
+    demo:{kind:"python",language:'python',program:demoProgram(topic,field),note:'Structural sample demo.'},
+    _seed:seed
+  };
+}
+function validate(r){
+  var e=[];
+  if(!r||typeof r!=='object')return {ok:false,errors:['not an object']};
+  if(!new RegExp('^'+PREFIX.replace(/-/g,'\\-')+'\\d{6}$').test(r.id||''))e.push('id');
+  if(FIELDS.indexOf(r.field)<0)e.push('field');
+  if(!r.src)e.push('src');
+  if(!r.demo||!r.demo.program)e.push('demo');
+  return {ok:!e.length,errors:e};
+}
+function driftCheck(record,sample){
+  var dups=(sample||[]).filter(function(r){return r&&r.title===record.title&&r.field===record.field;});
+  return dups.length?{ok:false,errors:['duplicate topic+field in archive sample']}:{ok:true,errors:[]};
+}
+var gen={version:"jahdb-power-supplies-conversion-signature-1.0",generate:generate,validate:validate,driftCheck:driftCheck,fields:FIELDS};
+if(typeof JAHDB!=='undefined'&&JAHDB.registerGenerator)JAHDB.registerGenerator("power-supplies-conversion-signature",gen);
+if(typeof module!=='undefined'&&module.exports)module.exports=gen;
+})();
