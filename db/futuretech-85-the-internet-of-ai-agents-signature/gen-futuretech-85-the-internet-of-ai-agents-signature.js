@@ -1,0 +1,55 @@
+(function(){'use strict';
+/* JAH The Internet of AI Agents Future Technology Database — Signature Edition generator — jahdb-futuretech-85-the-internet-of-ai-agents-signature-1.0.
+   Property of Justin Addam Higgins (JAH).
+   Deterministic: same seed, same record. */
+function prng(seed){var a=(seed>>>0)||1;return function(){a|=0;a=(a+0x6D2B79F5)|0;var t=Math.imul(a^(a>>>15),1|a);t=(t+Math.imul(t^(t>>>7),61|t))^t;return((t^(t>>>14))>>>0)/4294967296;};}
+function pick(r,s){return r[(s()*r.length)|0];}
+var PREFIX="JAH-FT85-SIG-";
+var FIELDS=["Foundations","Compounded","Advanced"];
+var TOPICS={"Foundations": ["The Internet Of AI Agents — the Turing Test (Signature Edition)", "The Internet Of AI Agents — ELIZA (Signature Edition)", "The Internet Of AI Agents — Software Agents (Signature Edition)", "The Internet Of AI Agents — Agent Theory (Signature Edition)", "The Internet Of AI Agents — Siri (Signature Edition)", "The Internet Of AI Agents — Alexa (Signature Edition)", "The Internet Of AI Agents — the Bot Wave (Signature Edition)", "The Internet Of AI Agents — the Transformer (Signature Edition)", "The Internet Of AI Agents — GPT-1 (Signature Edition)", "The Internet Of AI Agents — GPT-3 (Signature Edition)", "The Internet Of AI Agents — ChatGPT (Signature Edition)"], "Compounded": ["The Internet Of AI Agents — AutoGPT (Signature Edition)", "The Internet Of AI Agents — BabyAGI (Signature Edition)", "The Internet Of AI Agents — LangChain (Signature Edition)", "The Internet Of AI Agents — Enterprise Agents (Signature Edition)", "The Internet Of AI Agents — AI Uses Computers (Signature Edition)", "The Internet Of AI Agents — Agent Protocols (Signature Edition)", "The Internet Of AI Agents — Agents Transact (Signature Edition)", "The Internet Of AI Agents — Agent Standards Emerge (Signature Edition)", "The Internet Of AI Agents — The Agent Internet (Signature Edition)", "The Internet Of AI Agents — Billions of Agents (Signature Edition)", "The Internet Of AI Agents — The Agent Economy (Signature Edition)", "The Internet Of AI Agents — The Agent Protocol (Signature Edition)"], "Advanced": ["The Internet Of AI Agents — Autonomous Organizations (Signature Edition)", "The Internet Of AI Agents — The Agent Cloud (Signature Edition)", "The Internet Of AI Agents — Personal Agent Swarms (Signature Edition)", "The Internet Of AI Agents — The Agentic Web (Signature Edition)", "The Internet Of AI Agents — The Agent Civilization (Signature Edition)", "The Internet Of AI Agents — The Post-App Internet (Signature Edition)", "The Internet Of AI Agents — The Agent Marketplace (Signature Edition)", "The Internet Of AI Agents — The Trusted Agent (Signature Edition)", "The Internet Of AI Agents — The Agent OS (Signature Edition)", "The Internet Of AI Agents — The Agent Society (Signature Edition)", "The Internet Of AI Agents — Everyday Agents - Working Version (Signature Edition)"]};
+function demoProgram(topic,field){
+  var safe=String(topic).replace(/\\/g,'\\\\').replace(/"/g,"'");
+  return "# The Internet Of AI Agents study \u2014 "+safe+"\n"
+   + "# Field: "+field+"\n"
+   + "record = {'title': \""+safe+"\", 'field': \""+field+"\"}\n"
+   + "def summarize(r):\n"
+   + "    return r['title'] + ' [' + r['field'] + ']'\n"
+   + "print(summarize(record))\n"
+   + "print('Sample record \u2014 structural sample, not an archive entry.')\n";
+}
+function generate(seed,opts,rnd){
+  opts=opts||{}; rnd=rnd||prng(seed);
+  var field=opts.field&&FIELDS.indexOf(opts.field)>=0?opts.field:pick(FIELDS,rnd);
+  var pool=TOPICS[field]||["General Study"];
+  var topic=pick(pool,rnd);
+  var id=PREFIX+String(seed).padStart(6,'0');
+  return {
+    id:id,
+    name:topic+' — technology study record',
+    title:topic,
+    description:'SAMPLE RECORD (generated — structural sample). A technology study record of "'+topic+'" in '+field+'. Generated samples are clearly labeled and never presented as archive records.',
+    field:field,
+    src:'signature-generated-sample',
+    sample:true,
+    disclaimer:'Generated sample record — not an archive record. Seeded archive records are the authoritative entries.',
+    demo:{kind:"futuretech-demo",language:'python',program:demoProgram(topic,field),note:'Structural sample demo.'},
+    _seed:seed
+  };
+}
+function validate(r){
+  var e=[];
+  if(!r||typeof r!=='object')return {ok:false,errors:['not an object']};
+  if(!new RegExp('^'+PREFIX.replace(/-/g,'\\-')+'\\d{6}$').test(r.id||''))e.push('id');
+  if(FIELDS.indexOf(r.field)<0)e.push('field');
+  if(!r.src)e.push('src');
+  if(!r.demo||!r.demo.program)e.push('demo');
+  return {ok:!e.length,errors:e};
+}
+function driftCheck(record,sample){
+  var dups=(sample||[]).filter(function(r){return r&&r.title===record.title&&r.field===record.field;});
+  return dups.length?{ok:false,errors:['duplicate topic+field in archive sample']}:{ok:true,errors:[]};
+}
+var gen={version:'jahdb-futuretech-85-the-internet-of-ai-agents-signature-1.0',generate:generate,validate:validate,driftCheck:driftCheck,fields:FIELDS};
+if(typeof JAHDB!=='undefined'&&JAHDB.registerGenerator)JAHDB.registerGenerator('futuretech-85-the-internet-of-ai-agents-signature',gen);
+if(typeof module!=='undefined'&&module.exports)module.exports=gen;
+})();
