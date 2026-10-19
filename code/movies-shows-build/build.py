@@ -667,6 +667,9 @@ def build_pages(built):
         template = f.read()
     for slug, recs in built.items():
         page = nb.build_page(slug, template)
+        page = page.replace(
+            "Generate structural synthetic intelligence studies. Seeded archive records are the authoritative entries.",
+            DBCFG[slug]["gen_desc"])
         assert 'id="stCount"' in page and "var SLUG='%s';" % slug in page
         assert "minmax(120px,1fr)" in page and "pre.codeblock" in page
         assert "Exhaustive" in page and "All Database Merger" in page
