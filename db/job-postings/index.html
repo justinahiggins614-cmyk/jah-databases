@@ -66,6 +66,7 @@ pre.steps{background:#080d18;border:1px solid var(--line);border-radius:8px;padd
     <button class="tab" data-p="gen">Generator</button>
     <button class="tab" data-p="chat">AI Chat</button>
     <button class="tab" data-p="about">About</button>
+    <button class="tab" data-p="spec">Full Spec</button>
     <button class="tab" data-p="demo">&#9654; Demo Lab</button>
   </div>
 
@@ -100,6 +101,12 @@ pre.steps{background:#080d18;border:1px solid var(--line);border-radius:8px;padd
   </section>
 
   <section class="pane" id="p-chat">
+<div class="card" style="margin-top:10px">
+  <h3>✨ Make an Assistant Like Mine</h3>
+  <p class="dim">Build a personal AI assistant exactly like Manon’s — name it, pick its role and personality, and it comes wired live to the <b>JAH Job Market Database</b> archive: real archive lookup, real generation, and a live demo chat you can talk to right now.</p>
+  <button class="jah-amk-btn go" type="button" data-slug="job-postings" data-name="JAH Job Market Database" data-ainame="JAH Career Librarian" data-kind="job posting" data-prefix="JAH-JOB-" data-local="../../data/job-postings/">✨ Make an Assistant Like Mine</button>
+</div>
+
     <div class="card">
       <h3>JAH Career Librarian <button id="fresh" style="font-size:.8em">New session</button></h3>
       <div class="chatlog" id="chatlog"></div>
@@ -125,6 +132,29 @@ pre.steps{background:#080d18;border:1px solid var(--line);border-radius:8px;padd
       </dl>
     </div>
   </section>
+  <!-- JAH-FULL-SPEC -->
+<section class="pane" id="p-spec">
+  <div class="card">
+    <h3>Full Spec — JAH Job Market Database</h3>
+    <p class="dim">The complete specification of this database: what it holds, how it is built, how its AI works, and where its files live. Derived from the live manifest and this page’s own About data.</p>
+    <dl class="kv">
+      <dt>Database</dt><dd class="longtext"><b>JAH Job Market Database</b> — Job listings with skills and salary bands.</dd>
+      <dt>Slug</dt><dd><span class="mono">job-postings</span></dd>
+      <dt>Purpose</dt><dd class="longtext">This database&#x27;s job posting archive (JAH-JOB- records), preserved as structured, searchable data.</dd>
+      <dt>Record schema</dt><dd class="longtext"><span class="mono">id · job_id · title · description · company · location · sector · salary_min · salary_max · skills[] · posted_date</span></dd>
+      <dt>Generator</dt><dd class="longtext"><b>jahdb-job-postings-1.0</b> — jahdb-job-postings-1.0 — deterministic seeded generator; salary bands are sector-plausible and every posting is validated field-by-field.</dd>
+      <dt>AI</dt><dd class="longtext"><b>JAH Career Librarian</b> — JAH Career Librarian — archive-aware. On-device Standard 1.0, no key needed; uses the shared Signature backend automatically when configured.</dd>
+      <dt>Records</dt><dd class="longtext"><b>10,000</b> of 1,000,000 target (1.00% — march to a million in progress). Status: live.</dd>
+      <dt>Data files</dt><dd class="longtext">Archive index: <span class="mono">data/job-postings/index.jsonl.gz</span> (gzipped JSON lines, one row per record). Full records: <span class="mono">data/job-postings/chunks/chunk-NNNN.jsonl.gz</span> (100 records per chunk). Record deep links: <span class="mono">https://justinahiggins614-cmyk.github.io/jah-databases/db/job-postings/#rec=&lt;record-id&gt;</span>.</dd>
+      <dt>Working version</dt><dd class="longtext">Live page: <a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/job-postings/">https://justinahiggins614-cmyk.github.io/jah-databases/db/job-postings/</a> — working tabs on this page: Archive, Generator, AI Chat, About, Demo Lab. Includes the live "Make an Assistant Like Mine" builder in the AI Chat tab.</dd>
+      <dt>Drift control</dt><dd class="longtext">Every generated record is validated and checked against an archive sample for exact duplicates.</dd>
+      <dt>Target</dt><dd class="longtext">1,000,000 records — the archive marches to the million mark.</dd>
+      <dt>Canon compliance</dt><dd class="longtext">Every record is the FULL fully-formed file with all data — never a stub or description alone. Real-world records are fact-checked; Signature-authored originals are clearly labeled Signature and never presented as public record. Provenance and licensing ride on every database.</dd>
+      <dt>Ownership</dt><dd class="longtext">✳ Property of Justin Addam Higgins (JAH).</dd>
+      <dt>Last verified</dt><dd class="longtext">2026-10-20</dd>
+    </dl>
+  </div>
+</section>
   <section class="pane" id="p-demo">
     <div class="card">
       <h3>&#9654; Demo Lab &mdash; every record ships a runnable demo program</h3>
@@ -153,6 +183,7 @@ pre.steps{background:#080d18;border:1px solid var(--line);border-radius:8px;padd
 <script src="../../core/standard-1.0.js"></script>
 <script src="../../core/guide-conv.js"></script>
 <script src="../../core/apex-2.0.js"></script>
+<script src="../../assets/assistant-maker.js"></script>
 <script src="gen-job-postings.js"></script>
 <script>
 (function(){

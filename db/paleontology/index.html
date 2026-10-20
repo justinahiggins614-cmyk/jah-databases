@@ -79,6 +79,7 @@ details.grp>summary::-webkit-details-marker{display:none}
     <button class="tab" data-p="gen">Generator</button>
     <button class="tab" data-p="chat">AI Chat</button>
     <button class="tab" data-p="about">About</button>
+    <button class="tab" data-p="spec">Full Spec</button>
     <button class="tab" data-p="demo">&#9654; Demo Lab</button>
   </div>
   <section class="pane on" id="p-archive">
@@ -109,6 +110,12 @@ details.grp>summary::-webkit-details-marker{display:none}
     </div>
   </section>
   <section class="pane" id="p-chat">
+<div class="card" style="margin-top:10px">
+  <h3>✨ Make an Assistant Like Mine</h3>
+  <p class="dim">Build a personal AI assistant exactly like Manon’s — name it, pick its role and personality, and it comes wired live to the <b>JAH Paleontology Database</b> archive: real archive lookup, real generation, and a live demo chat you can talk to right now.</p>
+  <button class="jah-amk-btn go" type="button" data-slug="paleontology" data-name="JAH Paleontology Database" data-ainame="JAH Paleontology Creator" data-kind="fossil entry" data-prefix="JAH-PAL-" data-local="../../data/paleontology/">✨ Make an Assistant Like Mine</button>
+</div>
+
     <div class="card">
       <h3>JAH Paleontology Creator <button id="fresh" style="font-size:.8em">New session</button></h3>
       <div class="chatlog" id="chatlog"></div>
@@ -133,6 +140,29 @@ details.grp>summary::-webkit-details-marker{display:none}
       </dl>
     </div>
   </section>
+  <!-- JAH-FULL-SPEC -->
+<section class="pane" id="p-spec">
+  <div class="card">
+    <h3>Full Spec — JAH Paleontology Database</h3>
+    <p class="dim">The complete specification of this database: what it holds, how it is built, how its AI works, and where its files live. Derived from the live manifest and this page’s own About data.</p>
+    <dl class="kv">
+      <dt>Database</dt><dd class="longtext"><b>JAH Paleontology Database</b> — Fossils, extinct species, eras, and dig sites.</dd>
+      <dt>Slug</dt><dd><span class="mono">paleontology</span></dd>
+      <dt>Purpose</dt><dd class="longtext">This database’s fossil archive (JAH-PAL- records) — dinosaurs, marine reptiles, flying reptiles, prehistoric mammals, invertebrates, plants, dig sites, and geologic eras — preserved as structured, searchable data.</dd>
+      <dt>Record schema</dt><dd class="longtext"><span class="mono">id · title · category · record_kind · summary · details{…} · provenance · source</span></dd>
+      <dt>Generator</dt><dd class="longtext"><b>jahdb-paleontology-1.0</b> — jahdb-paleontology-1.0 — deterministic, every record validated by an independent checker before acceptance.</dd>
+      <dt>AI</dt><dd class="longtext"><b>JAH Paleontology Creator</b> — JAH Paleontology Creator — archive-aware. On-device Standard 1.0, no key needed; uses the shared Signature backend automatically when configured.</dd>
+      <dt>Records</dt><dd class="longtext"><b>10,000</b> of 1,000,000 target (1.00% — march to a million in progress). Status: live.</dd>
+      <dt>Data files</dt><dd class="longtext">Archive index: <span class="mono">data/paleontology/index.jsonl.gz</span> (gzipped JSON lines, one row per record). Full records: <span class="mono">data/paleontology/chunks/chunk-NNNN.jsonl.gz</span> (100 records per chunk). Record deep links: <span class="mono">https://justinahiggins614-cmyk.github.io/jah-databases/db/paleontology/#rec=&lt;record-id&gt;</span>.</dd>
+      <dt>Working version</dt><dd class="longtext">Live page: <a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/paleontology/">https://justinahiggins614-cmyk.github.io/jah-databases/db/paleontology/</a> — working tabs on this page: Archive, Generator, AI Chat, About, Demo Lab. Includes the live "Make an Assistant Like Mine" builder in the AI Chat tab.</dd>
+      <dt>Drift control</dt><dd class="longtext">Every generated record is checked against an archive sample for exact duplicates and re-validated by the independent checker.</dd>
+      <dt>Target</dt><dd class="longtext">1,000,000 records — the archive marches to the million mark.</dd>
+      <dt>Canon compliance</dt><dd class="longtext">Every record is the FULL fully-formed file with all data — never a stub or description alone. Real-world records are fact-checked; Signature-authored originals are clearly labeled Signature and never presented as public record. Provenance and licensing ride on every database.</dd>
+      <dt>Ownership</dt><dd class="longtext">✳ Property of Justin Addam Higgins (JAH).</dd>
+      <dt>Last verified</dt><dd class="longtext">2026-10-20</dd>
+    </dl>
+  </div>
+</section>
   <section class="pane" id="p-demo">
     <div class="card">
       <h3>&#9654; Demo Lab &mdash; every record ships a runnable demo program</h3>
@@ -173,6 +203,7 @@ details.grp>summary::-webkit-details-marker{display:none}
 <script src="../../core/standard-1.0.js"></script>
 <script src="../../core/guide-conv.js"></script>
 <script src="../../core/apex-2.0.js"></script>
+<script src="../../assets/assistant-maker.js"></script>
 <script src="gen-paleontology.js"></script>
 <script>
 (function(){

@@ -82,6 +82,7 @@ pre.steps{background:#080d18;border:1px solid var(--line);border-radius:8px;padd
     <button class="tab" data-p="gen">Generator</button>
     <button class="tab" data-p="chat">AI Chat</button>
     <button class="tab" data-p="about">About</button>
+    <button class="tab" data-p="spec">Full Spec</button>
   </div>
 
   <section class="pane on" id="p-archive">
@@ -115,6 +116,12 @@ pre.steps{background:#080d18;border:1px solid var(--line);border-radius:8px;padd
   </section>
 
   <section class="pane" id="p-chat">
+<div class="card" style="margin-top:10px">
+  <h3>✨ Make an Assistant Like Mine</h3>
+  <p class="dim">Build a personal AI assistant exactly like Manon’s — name it, pick its role and personality, and it comes wired live to the <b>The Signature Experiment Solver Database</b> archive: real archive lookup, real generation, and a live demo chat you can talk to right now.</p>
+  <button class="jah-amk-btn go" type="button" data-slug="experiments" data-name="The Signature Experiment Solver Database" data-ainame="JAH Lab Librarian" data-kind="experiment" data-prefix="JAH-EXP-" data-local="../../data/experiments/">✨ Make an Assistant Like Mine</button>
+</div>
+
     <div class="card">
       <h3>JAH Lab Librarian <button id="fresh" style="font-size:.8em">New session</button></h3>
       <div class="chatlog" id="chatlog"></div>
@@ -164,6 +171,7 @@ pre.steps{background:#080d18;border:1px solid var(--line);border-radius:8px;padd
 <script src="../../core/guide-conv.js"></script>
 <script src="../../core/apex-2.0.js"></script>
 <script src="engine.js"></script>
+<script src="../../assets/assistant-maker.js"></script>
 <script src="gen-experiments.js"></script>
 <script>
 (function(){
@@ -444,5 +452,28 @@ function FULLBUILD(row){
 })();
 </script>
 
+<!-- JAH-FULL-SPEC -->
+<section class="pane" id="p-spec">
+  <div class="card">
+    <h3>Full Spec — The Signature Experiment Solver Database</h3>
+    <p class="dim">The complete specification of this database: what it holds, how it is built, how its AI works, and where its files live. Derived from the live manifest and this page’s own About data.</p>
+    <dl class="kv">
+      <dt>Database</dt><dd class="longtext"><b>The Signature Experiment Solver Database</b> — Solved experiments and lab records.</dd>
+      <dt>Slug</dt><dd><span class="mono">experiments</span></dd>
+      <dt>Purpose</dt><dd class="longtext">This database&#x27;s experiment archive: experiment types solved deterministically into full lab records (JAH-EXP records), preserved as structured, searchable data.</dd>
+      <dt>Record schema</dt><dd class="longtext"><span class="mono">id · type · title · discipline · question · hypothesis · params{} · procedure[] · measurements{} · solution · check · simulation_status</span></dd>
+      <dt>Generator</dt><dd class="longtext"><b>jahdb-experiments-1.0</b> — jahdb-experiments-1.0 — deterministic (mulberry32). Builds each experiment constructively from a solvable physics model, computes every measurement row, then an independent re-solver recomputes all numeric claims from the raw picks.</dd>
+      <dt>AI</dt><dd class="longtext"><b>JAH Lab Librarian</b> — JAH Lab Librarian — archive-aware. On-device Standard 1.0, no key needed; uses the shared Signature backend automatically when configured.</dd>
+      <dt>Records</dt><dd class="longtext"><b>35,925</b> of 1,000,000 target (3.59% — march to a million in progress). Status: live.</dd>
+      <dt>Data files</dt><dd class="longtext">Archive index: <span class="mono">data/experiments/index.json.gz</span> (gzipped JSON lines, one row per record). Full records: <span class="mono">data/experiments/chunks/chunk-NNNN.jsonl.gz</span> (100 records per chunk). Record deep links: <span class="mono">https://justinahiggins614-cmyk.github.io/jah-databases/db/experiments/#rec=&lt;record-id&gt;</span>.</dd>
+      <dt>Working version</dt><dd class="longtext">Live page: <a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/experiments/">https://justinahiggins614-cmyk.github.io/jah-databases/db/experiments/</a> — working tabs on this page: Archive, Generator, AI Chat, About. Includes the live "Make an Assistant Like Mine" builder in the AI Chat tab.</dd>
+      <dt>Drift control</dt><dd class="longtext">Every generated title is checked against an archive sample for exact duplicates and re-solved by the independent verifier.</dd>
+      <dt>Target</dt><dd class="longtext">1,000,000 records — the archive marches to the million mark.</dd>
+      <dt>Canon compliance</dt><dd class="longtext">Every record is the FULL fully-formed file with all data — never a stub or description alone. Real-world records are fact-checked; Signature-authored originals are clearly labeled Signature and never presented as public record. Provenance and licensing ride on every database.</dd>
+      <dt>Ownership</dt><dd class="longtext">✳ Property of Justin Addam Higgins (JAH).</dd>
+      <dt>Last verified</dt><dd class="longtext">2026-10-20</dd>
+    </dl>
+  </div>
+</section>
 </body>
 </html>

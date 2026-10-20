@@ -66,6 +66,7 @@ pre.steps{background:#080d18;border:1px solid var(--line);border-radius:8px;padd
     <button class="tab" data-p="gen">Generator</button>
     <button class="tab" data-p="chat">AI Chat</button>
     <button class="tab" data-p="about">About</button>
+    <button class="tab" data-p="spec">Full Spec</button>
     <button class="tab" data-p="demo">&#9654; Demo Lab</button>
   </div>
 
@@ -100,6 +101,12 @@ pre.steps{background:#080d18;border:1px solid var(--line);border-radius:8px;padd
   </section>
 
   <section class="pane" id="p-chat">
+<div class="card" style="margin-top:10px">
+  <h3>✨ Make an Assistant Like Mine</h3>
+  <p class="dim">Build a personal AI assistant exactly like Manon’s — name it, pick its role and personality, and it comes wired live to the <b>The Signature University Database</b> archive: real archive lookup, real generation, and a live demo chat you can talk to right now.</p>
+  <button class="jah-amk-btn go" type="button" data-slug="university" data-name="The Signature University Database" data-ainame="JAH University Librarian" data-kind="course" data-prefix="JAH-COURSE-" data-local="../../data/university/">✨ Make an Assistant Like Mine</button>
+</div>
+
     <div class="card">
       <h3>JAH University Librarian <button id="fresh" style="font-size:.8em">New session</button></h3>
       <div class="chatlog" id="chatlog"></div>
@@ -125,6 +132,29 @@ pre.steps{background:#080d18;border:1px solid var(--line);border-radius:8px;padd
       </dl>
     </div>
   </section>
+  <!-- JAH-FULL-SPEC -->
+<section class="pane" id="p-spec">
+  <div class="card">
+    <h3>Full Spec — The Signature University Database</h3>
+    <p class="dim">The complete specification of this database: what it holds, how it is built, how its AI works, and where its files live. Derived from the live manifest and this page’s own About data.</p>
+    <dl class="kv">
+      <dt>Database</dt><dd class="longtext"><b>The Signature University Database</b> — Courses, lessons, and tracks.</dd>
+      <dt>Slug</dt><dd><span class="mono">university</span></dd>
+      <dt>Purpose</dt><dd class="longtext">This database&#x27;s university catalog: courses with modules, lessons, labs, and teachers across 11 colleges (JAH-COURSE records), preserved as structured, searchable data.</dd>
+      <dt>Record schema</dt><dd class="longtext"><span class="mono">id · type · code · title · college · college_key · level · credits · desc · modules[{m,lessons[]}] · readings[] · teacher{} · labs[] · prereq · stamp</span></dd>
+      <dt>Generator</dt><dd class="longtext"><b>jahdb-university-1.0</b> — jahdb-university-1.0 — deterministic (mulberry32). Builds each course constructively from real college vocab, then an independent re-builder reconstructs every derived field from the raw picks to verify the record.</dd>
+      <dt>AI</dt><dd class="longtext"><b>JAH University Librarian</b> — JAH University Librarian — archive-aware. On-device Standard 1.0, no key needed; uses the shared Signature backend automatically when configured.</dd>
+      <dt>Records</dt><dd class="longtext"><b>3,850</b> of 1,000,000 target (0.39% — march to a million in progress). Status: live.</dd>
+      <dt>Data files</dt><dd class="longtext">Archive index: <span class="mono">data/university/courses.idx.json</span> (gzipped JSON lines, one row per record). Full records: <span class="mono">data/university/chunks/chunk-NNNN.jsonl.gz</span> (100 records per chunk). Record deep links: <span class="mono">https://justinahiggins614-cmyk.github.io/jah-databases/db/university/#rec=&lt;record-id&gt;</span>.</dd>
+      <dt>Working version</dt><dd class="longtext">Live page: <a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/university/">https://justinahiggins614-cmyk.github.io/jah-databases/db/university/</a> — working tabs on this page: Archive, Generator, AI Chat, About, Demo Lab. Includes the live "Make an Assistant Like Mine" builder in the AI Chat tab.</dd>
+      <dt>Drift control</dt><dd class="longtext">Every generated title is checked against an archive sample for exact duplicates and re-verified by the independent re-builder.</dd>
+      <dt>Target</dt><dd class="longtext">1,000,000 records — the archive marches to the million mark.</dd>
+      <dt>Canon compliance</dt><dd class="longtext">Every record is the FULL fully-formed file with all data — never a stub or description alone. Real-world records are fact-checked; Signature-authored originals are clearly labeled Signature and never presented as public record. Provenance and licensing ride on every database.</dd>
+      <dt>Ownership</dt><dd class="longtext">✳ Property of Justin Addam Higgins (JAH).</dd>
+      <dt>Last verified</dt><dd class="longtext">2026-10-20</dd>
+    </dl>
+  </div>
+</section>
   <section class="pane" id="p-demo">
     <div class="card">
       <h3>&#9654; Demo Lab &mdash; every record ships a runnable demo program</h3>
@@ -168,6 +198,7 @@ pre.steps{background:#080d18;border:1px solid var(--line);border-radius:8px;padd
 <script src="../../core/standard-1.0.js"></script>
 <script src="../../core/guide-conv.js"></script>
 <script src="../../core/apex-2.0.js"></script>
+<script src="../../assets/assistant-maker.js"></script>
 <script src="gen-university.js"></script>
 <script>
 (function(){

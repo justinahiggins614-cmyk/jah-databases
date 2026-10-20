@@ -69,6 +69,7 @@ pre.codeblock{white-space:pre;overflow-x:auto;font-family:ui-monospace,SFMono-Re
     <button class="tab" data-p="gen">Generator</button>
     <button class="tab" data-p="chat">AI Chat</button>
     <button class="tab" data-p="about">About</button>
+    <button class="tab" data-p="spec">Full Spec</button>
   </div>
   <section class="pane on" id="p-map">
     <div class="card">
@@ -109,6 +110,12 @@ pre.codeblock{white-space:pre;overflow-x:auto;font-family:ui-monospace,SFMono-Re
     </div>
   </section>
   <section class="pane" id="p-chat">
+<div class="card" style="margin-top:10px">
+  <h3>✨ Make an Assistant Like Mine</h3>
+  <p class="dim">Build a personal AI assistant exactly like Manon’s — name it, pick its role and personality, and it comes wired live to the <b>Public Cameras Database</b> archive: real archive lookup, real generation, and a live demo chat you can talk to right now.</p>
+  <button class="jah-amk-btn go" type="button" data-slug="public-cameras" data-name="Public Cameras Database" data-ainame="JAH Camera Locator" data-kind="camera listing" data-prefix="JAH-PCAM-" data-local="../../data/public-cameras/">✨ Make an Assistant Like Mine</button>
+</div>
+
     <div class="card">
       <h3>JAH Camera Locator <button id="fresh" style="font-size:.8em">New session</button></h3>
       <div class="chatlog" id="chatlog"></div>
@@ -135,6 +142,30 @@ pre.codeblock{white-space:pre;overflow-x:auto;font-family:ui-monospace,SFMono-Re
       </dl>
     </div>
   </section>
+  <!-- JAH-FULL-SPEC -->
+<section class="pane" id="p-spec">
+  <div class="card">
+    <h3>Full Spec — Public Cameras Database</h3>
+    <p class="dim">The complete specification of this database: what it holds, how it is built, how its AI works, and where its files live. Derived from the live manifest and this page’s own About data.</p>
+    <dl class="kv">
+      <dt>Database</dt><dd class="longtext"><b>Public Cameras Database</b> — Where all public recording happens — a mapped global directory of publicly-accessible cameras.</dd>
+      <dt>Slug</dt><dd><span class="mono">public-cameras</span></dd>
+      <dt>Purpose</dt><dd class="longtext">This database&#x27;s camera archive (JAH-PCAM- records): real publicly-accessible cameras — name, precise coordinates, address, country, category, what&#x27;s visible, stream notes — plus clearly-labeled generated structural samples. Every record is the full listing, never a stub. Location is the primary organizing principle.</dd>
+      <dt>Record schema</dt><dd class="longtext"><span class="mono">id · name · title · description · camera_name · location{city,country,country_code,lat,lon,address} · coordinates · category · visible · stream_url · stream_note · year · src · demo</span></dd>
+      <dt>Generator</dt><dd class="longtext"><b>jahdb-public-cameras-1.0</b> — jahdb-public-cameras-1.0 — deterministic camera-directory generator: same seed always makes the same sample listing. Every record validated by an independent checker before acceptance. Generated samples are always labeled, never real.</dd>
+      <dt>AI</dt><dd class="longtext"><b>JAH Camera Locator</b> — JAH Camera Locator — archive-aware, a public-camera directory specialist, and aware of the whole JAH Databases network through cross-database reasoning. On-device Standard 1.0, no key needed; uses the shared Signature backend automatically when configured.</dd>
+      <dt>Records</dt><dd class="longtext"><b>100</b> of 1,000,000 target (0.01% — march to a million in progress). Status: live.</dd>
+      <dt>Data files</dt><dd class="longtext">Archive index: <span class="mono">data/public-cameras/index.jsonl.gz</span> (gzipped JSON lines, one row per record). Full records: <span class="mono">data/public-cameras/chunks/chunk-NNNN.jsonl.gz</span> (100 records per chunk). Record deep links: <span class="mono">https://justinahiggins614-cmyk.github.io/jah-databases/db/public-cameras/#rec=&lt;record-id&gt;</span>.</dd>
+      <dt>Working version</dt><dd class="longtext">Live page: <a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/public-cameras/">https://justinahiggins614-cmyk.github.io/jah-databases/db/public-cameras/</a> — working tabs on this page: Archive, Generator, AI Chat, About. Includes the live "Make an Assistant Like Mine" builder in the AI Chat tab.</dd>
+      <dt>Drift control</dt><dd class="longtext">Every generated record is checked against an archive sample for exact duplicates and re-validated by the independent checker.</dd>
+      <dt>Target</dt><dd class="longtext">1,000,000 records. The archive marches toward the million mark with overload protection: 100-record chunks, lazy loading, and a collapsible per-country archive so no device ever renders everything at once.</dd>
+      <dt>Signature system</dt><dd class="longtext">✳ This database is a Signature-governed record of real-world public information — property of Justin Addam Higgins. Real listings are public fact; the Signature version of the directory itself is his system.</dd>
+      <dt>Canon compliance</dt><dd class="longtext">Every record is the FULL fully-formed file with all data — never a stub or description alone. Real-world records are fact-checked; Signature-authored originals are clearly labeled Signature and never presented as public record. Provenance and licensing ride on every database.</dd>
+      <dt>Ownership</dt><dd class="longtext">✳ Property of Justin Addam Higgins (JAH).</dd>
+      <dt>Last verified</dt><dd class="longtext">2026-10-20</dd>
+    </dl>
+  </div>
+</section>
   <div class="foot">✳ JAH Databases. Property of Justin Addam Higgins (JAH).</div>
 </div>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
@@ -144,6 +175,7 @@ pre.codeblock{white-space:pre;overflow-x:auto;font-family:ui-monospace,SFMono-Re
 <script src="../../core/standard-1.0.js"></script>
 <script src="../../core/guide-conv.js"></script>
 <script src="../../core/apex-2.0.js"></script>
+<script src="../../assets/assistant-maker.js"></script>
 <script src="gen-public-cameras.js"></script>
 <script>
 (function(){

@@ -78,6 +78,7 @@ pre.steps{background:#080d18;border:1px solid var(--line);border-radius:8px;padd
     <button class="tab" data-p="gen">Generator</button>
     <button class="tab" data-p="chat">AI Chat</button>
     <button class="tab" data-p="about">About</button>
+    <button class="tab" data-p="spec">Full Spec</button>
     <button class="tab" data-p="demo">&#9654; Demo Lab</button>
   </div>
 
@@ -119,6 +120,12 @@ pre.steps{background:#080d18;border:1px solid var(--line);border-radius:8px;padd
   </section>
 
   <section class="pane" id="p-chat">
+<div class="card" style="margin-top:10px">
+  <h3>✨ Make an Assistant Like Mine</h3>
+  <p class="dim">Build a personal AI assistant exactly like Manon’s — name it, pick its role and personality, and it comes wired live to the <b>The Signature Book Depository Database</b> archive: real archive lookup, real generation, and a live demo chat you can talk to right now.</p>
+  <button class="jah-amk-btn go" type="button" data-slug="books" data-name="The Signature Book Depository Database" data-ainame="JAH Book Librarian" data-kind="book" data-prefix="JAH-BOOK-" data-local="../../data/books/">✨ Make an Assistant Like Mine</button>
+</div>
+
     <div class="card">
       <h3>JAH Book Librarian <button id="fresh" style="font-size:.8em">New session</button></h3>
       <div class="chatlog" id="chatlog"></div>
@@ -145,6 +152,29 @@ pre.steps{background:#080d18;border:1px solid var(--line);border-radius:8px;padd
       </dl>
     </div>
   </section>
+  <!-- JAH-FULL-SPEC -->
+<section class="pane" id="p-spec">
+  <div class="card">
+    <h3>Full Spec — The Signature Book Depository Database</h3>
+    <p class="dim">The complete specification of this database: what it holds, how it is built, how its AI works, and where its files live. Derived from the live manifest and this page’s own About data.</p>
+    <dl class="kv">
+      <dt>Database</dt><dd class="longtext"><b>The Signature Book Depository Database</b> — Finished full-length books across every genre — every work complete.</dd>
+      <dt>Slug</dt><dd><span class="mono">books</span></dd>
+      <dt>Purpose</dt><dd class="longtext">This database&#x27;s finished books (JAH-BOOK records) — 16 genres, full chapters — preserved as structured, searchable data.</dd>
+      <dt>Record schema</dt><dd class="longtext"><span class="mono">id · title · author · genre · gkey · desc · words · chapters[{t, b, ph}] · note · src · origin · creation_mode · stamp · seed</span></dd>
+      <dt>Generator</dt><dd class="longtext"><b>jahdb-books-2</b> — jahdb-books-2.0 — deterministic (mulberry32), assembles each full novel combinatorially from clean pools: a six-character cast with seeded relationship arcs, motifs planted in chapter one and paid off in the climax, and a hard 40,000-word floor. The real word count is computed from the chapters; then an independent verifier rebuilds the entire novel from the seed and compares a checksum before acceptance.</dd>
+      <dt>AI</dt><dd class="longtext"><b>JAH Book Librarian</b> — JAH Book Librarian — archive-aware. On-device Standard 1.0, no key needed; uses the shared Signature backend automatically when configured.</dd>
+      <dt>Records</dt><dd class="longtext"><b>48,100</b> of 1,000,000 target (4.81% — march to a million in progress). Status: live.</dd>
+      <dt>Data files</dt><dd class="longtext">Archive index: <span class="mono">data/books/books.idx.json.gz</span> (gzipped JSON lines, one row per record). Full records: <span class="mono">data/books/chunks/chunk-NNNN.jsonl.gz</span> (100 records per chunk). Record deep links: <span class="mono">https://justinahiggins614-cmyk.github.io/jah-databases/db/books/#rec=&lt;record-id&gt;</span>.</dd>
+      <dt>Working version</dt><dd class="longtext">Live page: <a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/books/">https://justinahiggins614-cmyk.github.io/jah-databases/db/books/</a> — working tabs on this page: Archive, Generator, AI Chat, About, Demo Lab. Includes the live "Make an Assistant Like Mine" builder in the AI Chat tab.</dd>
+      <dt>Drift control</dt><dd class="longtext">Every generated book is checked against an archive sample for duplicate titles and re-verified by the independent verifier.</dd>
+      <dt>Target</dt><dd class="longtext">1,000,000 records — the archive marches to the million mark.</dd>
+      <dt>Canon compliance</dt><dd class="longtext">Every record is the FULL fully-formed file with all data — never a stub or description alone. Real-world records are fact-checked; Signature-authored originals are clearly labeled Signature and never presented as public record. Provenance and licensing ride on every database.</dd>
+      <dt>Ownership</dt><dd class="longtext">✳ Property of Justin Addam Higgins (JAH).</dd>
+      <dt>Last verified</dt><dd class="longtext">2026-10-20</dd>
+    </dl>
+  </div>
+</section>
   <section class="pane" id="p-demo">
     <div class="card">
       <h3>&#9654; Demo Lab &mdash; every record ships a runnable demo program</h3>
@@ -171,6 +201,7 @@ pre.steps{background:#080d18;border:1px solid var(--line);border-radius:8px;padd
 <script src="../../core/standard-1.0.js"></script>
 <script src="../../core/guide-conv.js"></script>
 <script src="../../core/apex-2.0.js"></script>
+<script src="../../assets/assistant-maker.js"></script>
 <script src="gen-books.js"></script>
 <script src="cover-gen.js"></script>
 <script>
