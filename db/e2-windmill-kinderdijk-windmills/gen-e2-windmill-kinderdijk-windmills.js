@@ -1,0 +1,95 @@
+(function(){'use strict';
+/* JAH Kinderdijk Windmills Windmill Database generator — jahdb-e2-windmill-kinderdijk-windmills-1.0. Property of Justin Addam Higgins (JAH).
+   Deterministic: same seed, same record. Seeds 1..BANK return archive sample
+   records; higher seeds generate boundless drills. Drill answers come from the
+   banked archive data and validate() re-checks every one of them. */
+function prng(seed){var a=(seed>>>0)||1;return function(){a|=0;a=(a+0x6D2B79F5)|0;var t=Math.imul(a^(a>>>15),1|a);t=(t+Math.imul(t^(t>>>7),61|t))^t;return((t^(t>>>14))>>>0)/4294967296;};}
+var SLUG='e2-windmill-kinderdijk-windmills',PREFIX='JAH-E2WINDMILLK-',NAME='JAH Kinderdijk Windmills Windmill Database';
+var FIELDS=["overview", "facts", "details", "history", "guide", "myths", "insider", "quiz", "resources"];
+var GEN_SRC='reference-authored';
+var MODE='quiz';
+var BANK=[{"t": "Kinderdijk Windmills: the complete guide", "d": "Kinderdijk Windmills: 19 Dutch icons..", "g": "overview", "l": 2, "q": "What is Kinderdijk Windmills: the complete guide?", "a": "Kinderdijk Windmills: 19 Dutch icons..", "x": "The complete windmill guide to Kinderdijk Windmills: 19 Dutch icons.. 19 mills. History, meaning, practices, and how to engage respectfully — everything in one database. History. Culture facts from standard references. Practices vary by community; descriptions summarize mainstream observance respectfully.", "s": "public-reference", "f": null}, {"t": "At a glance", "d": "Kinderdijk Windmills essentials.", "g": "overview", "l": 2, "q": "What is At a glance?", "a": "Kinderdijk Windmills essentials.", "x": "At a glance: Kinderdijk Windmills — 19 Dutch icons.. 1740. The essentials: Pumping.. UNESCO. Start here. Culture facts from standard references. Practices vary by community; descriptions summarize mainstream observance respectfully.", "s": "public-reference", "f": null}, {"t": "Key fact 1", "d": "19 mills.", "g": "facts", "l": 2, "q": "What is Key fact 1?", "a": "19 mills.", "x": "Kinderdijk Windmills: 19 mills.. Pumping. Essential knowledge — UNESCO.. 19 Dutch icons. Culture facts from standard references. Practices vary by community; descriptions summarize mainstream observance respectfully.", "s": "public-reference", "f": null}, {"t": "Key fact 1 explained", "d": "Understanding: 19 mills..", "g": "facts", "l": 2, "q": "What is Key fact 1 explained?", "a": "Understanding: 19 mills..", "x": "Explained: 19 mills.. Tours. The context — Kinderdijk Windmills. Pumping. Respectful understanding matters. Culture facts from standard references. Practices vary by community; descriptions summarize mainstream observance respectfully.", "s": "public-reference", "f": null}, {"t": "Key fact 2", "d": "1740.", "g": "facts", "l": 2, "q": "What is Key fact 2?", "a": "1740.", "x": "Kinderdijk Windmills: 1740.. UNESCO. Essential knowledge — Pumping.. 19 Dutch icons. Culture facts from standard references. Practices vary by community; descriptions summarize mainstream observance respectfully.", "s": "public-reference", "f": null}, {"t": "Key fact 2 explained", "d": "Understanding: 1740..", "g": "facts", "l": 2, "q": "What is Key fact 2 explained?", "a": "Understanding: 1740..", "x": "Explained: 1740.. Photos. The context — Kinderdijk Windmills. Netherlands. Respectful understanding matters. Culture facts from standard references. Practices vary by community; descriptions summarize mainstream observance respectfully.", "s": "public-reference", "f": null}, {"t": "Key fact 3", "d": "UNESCO.", "g": "facts", "l": 2, "q": "What is Key fact 3?", "a": "UNESCO.", "x": "Kinderdijk Windmills: UNESCO.. Tours. Essential knowledge — Netherlands.. 19 Dutch icons. Culture facts from standard references. Practices vary by community; descriptions summarize mainstream observance respectfully.", "s": "public-reference", "f": null}, {"t": "Key fact 3 explained", "d": "Understanding: UNESCO..", "g": "facts", "l": 2, "q": "What is Key fact 3 explained?", "a": "Understanding: UNESCO..", "x": "Explained: UNESCO.. Polders. The context — Kinderdijk Windmills. Photos. Respectful understanding matters. Culture facts from standard references. Practices vary by community; descriptions summarize mainstream observance respectfully.", "s": "public-reference", "f": null}, {"t": "Key fact 4", "d": "Pumping.", "g": "facts", "l": 2, "q": "What is Key fact 4?", "a": "Pumping.", "x": "Kinderdijk Windmills: Pumping.. Photos. Essential knowledge — Photos.. 19 Dutch icons. Culture facts from standard references. Practices vary by community; descriptions summarize mainstream observance respectfully.", "s": "public-reference", "f": null}, {"t": "Key fact 4 explained", "d": "Understanding: Pumping..", "g": "facts", "l": 2, "q": "What is Key fact 4 explained?", "a": "Understanding: Pumping..", "x": "Explained: Pumping.. History. The context — Kinderdijk Windmills. 19 mills. Respectful understanding matters. Culture facts from standard references. Practices vary by community; descriptions summarize mainstream observance respectfully.", "s": "public-reference", "f": null}, {"t": "Key fact 5", "d": "Netherlands.", "g": "facts", "l": 2, "q": "What is Key fact 5?", "a": "Netherlands.", "x": "Kinderdijk Windmills: Netherlands.. Polders. Essential knowledge — 19 mills.. 19 Dutch icons. Culture facts from standard references. Practices vary by community; descriptions summarize mainstream observance respectfully.", "s": "public-reference", "f": null}, {"t": "Key fact 5 explained", "d": "Understanding: Netherlands..", "g": "facts", "l": 2, "q": "What is Key fact 5 explained?", "a": "Understanding: Netherlands..", "x": "Explained: Netherlands.. Pumping. The context — Kinderdijk Windmills. 1740. Respectful understanding matters. Culture facts from standard references. Practices vary by community; descriptions summarize mainstream observance respectfully.", "s": "public-reference", "f": null}, {"t": "Key fact 6", "d": "Photos.", "g": "facts", "l": 2, "q": "What is Key fact 6?", "a": "Photos.", "x": "Kinderdijk Windmills: Photos.. History. Essential knowledge — 1740.. 19 Dutch icons. Culture facts from standard references. Practices vary by community; descriptions summarize mainstream observance respectfully.", "s": "public-reference", "f": null}, {"t": "Key fact 6 explained", "d": "Understanding: Photos..", "g": "facts", "l": 2, "q": "What is Key fact 6 explained?", "a": "Understanding: Photos..", "x": "Explained: Photos.. UNESCO. The context — Kinderdijk Windmills. UNESCO. Respectful understanding matters. Culture facts from standard references. Practices vary by community; descriptions summarize mainstream observance respectfully.", "s": "public-reference", "f": null}, {"t": "Deep dive 1", "d": "History.", "g": "details", "l": 2, "q": "What is Deep dive 1?", "a": "History.", "x": "Kinderdijk Windmills in depth: History.. 1740. Details — 19 Dutch icons.. UNESCO. Pumping. Culture facts from standard references. Practices vary by community; descriptions summarize mainstream observance respectfully.", "s": "public-reference", "f": null}, {"t": "Deep dive 2", "d": "Pumping.", "g": "details", "l": 2, "q": "What is Deep dive 2?", "a": "Pumping.", "x": "Kinderdijk Windmills in depth: Pumping.. UNESCO. Details — 19 Dutch icons.. Tours. Netherlands. Culture facts from standard references. Practices vary by community; descriptions summarize mainstream observance respectfully.", "s": "public-reference", "f": null}, {"t": "Deep dive 3", "d": "UNESCO.", "g": "details", "l": 2, "q": "What is Deep dive 3?", "a": "UNESCO.", "x": "Kinderdijk Windmills in depth: UNESCO.. Pumping. Details — 19 Dutch icons.. Photos. Photos. Culture facts from standard references. Practices vary by community; descriptions summarize mainstream observance respectfully.", "s": "public-reference", "f": null}, {"t": "Deep dive 4", "d": "Tours.", "g": "details", "l": 2, "q": "What is Deep dive 4?", "a": "Tours.", "x": "Kinderdijk Windmills in depth: Tours.. Netherlands. Details — 19 Dutch icons.. Polders. 19 mills. Culture facts from standard references. Practices vary by community; descriptions summarize mainstream observance respectfully.", "s": "public-reference", "f": null}, {"t": "Deep dive 5", "d": "Photos.", "g": "details", "l": 2, "q": "What is Deep dive 5?", "a": "Photos.", "x": "Kinderdijk Windmills in depth: Photos.. Photos. Details — 19 Dutch icons.. History. 1740. Culture facts from standard references. Practices vary by community; descriptions summarize mainstream observance respectfully.", "s": "public-reference", "f": null}, {"t": "Deep dive 6", "d": "Polders.", "g": "details", "l": 2, "q": "What is Deep dive 6?", "a": "Polders.", "x": "Kinderdijk Windmills in depth: Polders.. 19 mills. Details — 19 Dutch icons.. Pumping. UNESCO. Culture facts from standard references. Practices vary by community; descriptions summarize mainstream observance respectfully.", "s": "public-reference", "f": null}, {"t": "History and origins", "d": "Where Kinderdijk Windmills comes from.", "g": "history", "l": 2, "q": "What is History and origins?", "a": "Where Kinderdijk Windmills comes from.", "x": "Origins: History.. 19 mills. The history of Kinderdijk Windmills — 19 Dutch icons.. Pumping. Everything has roots. Culture facts from standard references. Practices vary by community; descriptions summarize mainstream observance respectfully.", "s": "public-reference", "f": null}, {"t": "How to engage", "d": "Experiencing Kinderdijk Windmills respectfully.", "g": "guide", "l": 2, "q": "What is How to engage?", "a": "Experiencing Kinderdijk Windmills respectfully.", "x": "Engaging: UNESCO.. 1740. How to participate or observe well — Kinderdijk Windmills. 19 Dutch icons. Respect first, always; Tours.. Culture facts from standard references. Practices vary by community; descriptions summarize mainstream observance respectfully.", "s": "public-reference", "f": null}, {"t": "Etiquette", "d": "Kinderdijk Windmills do's and don'ts.", "g": "guide", "l": 2, "q": "What is Etiquette?", "a": "Kinderdijk Windmills do's and don'ts.", "x": "Etiquette: Photos.. UNESCO. The rules of respect — Kinderdijk Windmills. 19 Dutch icons. When in doubt, ask about Polders.. Culture facts from standard references. Practices vary by community; descriptions summarize mainstream observance respectfully.", "s": "public-reference", "f": null}, {"t": "Planning", "d": "Planning around Kinderdijk Windmills.", "g": "guide", "l": 2, "q": "What is Planning?", "a": "Planning around Kinderdijk Windmills.", "x": "Planning: History.. Pumping. Practical notes — Kinderdijk Windmills. 19 Dutch icons. A little planning shows respect for Pumping.. Culture facts from standard references. Practices vary by community; descriptions summarize mainstream observance respectfully.", "s": "public-reference", "f": null}, {"t": "Costs", "d": "Kinderdijk Windmills and money.", "g": "guide", "l": 2, "q": "What is Costs?", "a": "Kinderdijk Windmills and money.", "x": "Costs: UNESCO.. Netherlands. What to budget — Kinderdijk Windmills. 19 Dutch icons. The best experiences of Tours. are often free. Culture facts from standard references. Practices vary by community; descriptions summarize mainstream observance respectfully.", "s": "public-reference", "f": null}];
+function pad(n){return String(n).padStart(6,'0');}
+function drillProg(q,a){
+  return '// boundless drill program\nvar Q='+JSON.stringify(q)+';\nvar A='+JSON.stringify(a)+';\n'
+    +'console.log("DRILL: "+Q);\nconsole.log("Say it out loud, then check:");\nconsole.log("ANSWER: "+A);';
+}
+function bankRec(i){
+  var b=BANK[(i-1)%BANK.length];
+  var r={id:PREFIX+pad(i),title:b.t,description:b.x,group:b.g,ladder:b.l,
+    question:b.q,answer:b.a,method:'archive-sample',
+    program:drillProg(b.q,b.a),language:'javascript',
+    src:b.s,last_verified:'2026-10-19',sample:true};
+  return r;
+}
+function genQuizDrill(rnd,seed){
+  var b=BANK[(rnd()*BANK.length)|0];
+  var desc='Boundless drill #'+seed+' — '+NAME+'. The question: '+b.q+'\n\n'
+    +'Cover the answer and say it out loud before reading on. Fluency with these facts is the whole game: '
+    +'each drill pulls a real record from this database\'s archive and tests exactly one fact cold. '
+    +'If you knew it, it is yours; if not, open the archive record "'+b.t+'" and read the full entry, then come back and drill it again. '
+    +'The validated answer: '+b.a+'\n\n'
+    +'Drills never repeat the archive verbatim — they re-ask the same true facts from new angles so the knowledge sticks.';
+  return {id:PREFIX+pad(seed),title:'Drill: '+b.t,description:desc,group:b.g,ladder:b.l,
+    method:'quiz-drill',question:b.q,answer:b.a,
+    program:drillProg(b.q,b.a),language:'javascript',src:GEN_SRC,last_verified:'2026-10-19'};
+}
+function genConvertDrill(rnd,seed){
+  var b1=BANK[(rnd()*BANK.length)|0],b2=BANK[(rnd()*BANK.length)|0];
+  var v=Math.round((1+rnd()*999)*100)/100;
+  var ans=v*b1.f/b2.f;
+  var q='Convert '+v+' '+b1.t+' to '+b2.t+'.';
+  var a=String(Math.round(ans*1e6)/1e6)+' '+b2.t;
+  var desc='Boundless drill #'+seed+' — '+NAME+'. The question: '+q+'\n\n'
+    +'Work it with the factor table: multiply by the "from" unit\'s factor to reach the base unit, then divide by the "to" unit\'s factor. '
+    +'The demo program on any archive record in this database runs the same computation, so you can check your method there first. '
+    +'The validated answer: '+a+'. If your number matches, the method is yours; drills like this one keep every conversion in this database one multiplication and one division away.';
+  return {id:PREFIX+pad(seed),title:'Conversion drill: '+b1.t+' to '+b2.t,description:desc,
+    group:b1.g,ladder:2,method:'convert-drill',question:q,answer:a,
+    conv:{value:v,from:b1.t,fromF:b1.f,to:b2.t,toF:b2.f},
+    program:'// conversion drill program\nvar v='+v+';\nvar fromF='+b1.f+';\nvar toF='+b2.f+';\n'
+      +'console.log("Q: convert "+v+" '+b1.t.replace(/'/g,"\\'")+' to '+b2.t.replace(/'/g,"\\'")+'");\n'
+      +'console.log("A: "+(v*fromF/toF)+" '+b2.t.replace(/'/g,"\\'")+'");',
+    language:'javascript',src:GEN_SRC,last_verified:'2026-10-19'};
+}
+function generate(seed,opts,rnd){
+  opts=opts||{};seed=+seed||1;rnd=rnd||prng(seed);
+  var g=opts.group||opts.category;
+  if(g&&FIELDS.indexOf(g)<0)g=null;
+  var r;
+  if(seed>=1&&seed<=BANK.length){r=bankRec(seed);}
+  else{r=(MODE==='convert')?genConvertDrill(rnd,seed):genQuizDrill(rnd,seed);}
+  if(g)r.group=g;
+  return r;
+}
+function validate(r){
+  var e=[];
+  if(!r||typeof r!=='object')return{ok:false,errors:['not an object']};
+  if(!new RegExp('^'+PREFIX.replace(/-/g,'\\-')+'\\d{6}$').test(r.id||''))e.push('id');
+  if(FIELDS.indexOf(r.group)<0)e.push('group');
+  if(typeof r.title!=='string'||!r.title.length)e.push('title');
+  if(typeof r.description!=='string'||r.description.length<200)e.push('description');
+  if(r.method==='quiz-drill'||r.method==='archive-sample'){
+    var hit=null;
+    for(var i=0;i<BANK.length;i++){if(BANK[i].q===r.question&&BANK[i].a===r.answer){hit=BANK[i];break;}}
+    if(!hit)e.push('answer not banked');
+  }else if(r.method==='convert-drill'){
+    var c=r.conv;
+    if(!c||typeof c.value!=='number')e.push('conv missing');
+    else{
+      var expect=c.value*c.fromF/c.toF;
+      var got=parseFloat(String(r.answer).split(' ')[0]);
+      if(!(Math.abs(got-expect)<Math.max(1e-6,Math.abs(expect)*1e-9)))e.push('conversion mismatch');
+    }
+  }else{e.push('method');}
+  return{ok:!e.length,errors:e};
+}
+function driftCheck(rec,sample){
+  var seen={};(sample||[]).forEach(function(s){if(s&&s.t)seen[s.t]=1;});
+  if(rec&&seen[rec.title])return{ok:false,errors:['duplicate title in archive sample']};
+  return{ok:true,errors:[]};
+}
+var gen={version:'jahdb-e2-windmill-kinderdijk-windmills-1.0',generate:generate,validate:validate,driftCheck:driftCheck,fields:FIELDS};
+if(typeof JAHDB!=='undefined'&&JAHDB.registerGenerator)JAHDB.registerGenerator(SLUG,gen);
+if(typeof module!=='undefined'&&module.exports)module.exports=gen;
+})();

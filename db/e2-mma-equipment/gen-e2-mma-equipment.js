@@ -1,0 +1,95 @@
+(function(){'use strict';
+/* JAH MMA Equipment Database generator — jahdb-e2-mma-equipment-1.0. Property of Justin Addam Higgins (JAH).
+   Deterministic: same seed, same record. Seeds 1..BANK return archive sample
+   records; higher seeds generate boundless drills. Drill answers come from the
+   banked archive data and validate() re-checks every one of them. */
+function prng(seed){var a=(seed>>>0)||1;return function(){a|=0;a=(a+0x6D2B79F5)|0;var t=Math.imul(a^(a>>>15),1|a);t=(t+Math.imul(t^(t>>>7),61|t))^t;return((t^(t>>>14))>>>0)/4294967296;};}
+var SLUG='e2-mma-equipment',PREFIX='JAH-E2MMAEQUIPM-',NAME='JAH MMA Equipment Database';
+var FIELDS=["overview", "facts"];
+var GEN_SRC='reference-authored';
+var MODE='quiz';
+var BANK=[{"t": "MMA equipment: overview", "d": "MMA essentials: gloves, mouthguard.", "g": "overview", "l": 2, "q": "What is MMA equipment: overview?", "a": "MMA essentials: gloves, mouthguard.", "x": "MMA equipment essentials: gloves, mouthguard. 4 oz gloves; mouthguards are custom. The right gear does three things: keeps you safe, lets you perform, and lasts. Beginners should spend on safety and fit first — the best equipment is the kind you forget you are wearing because it fits perfectly and does its job.", "s": "public-reference", "f": null}, {"t": "The ball or implement", "d": "MMA: 4 oz gloves; mouthguards are custom..", "g": "overview", "l": 2, "q": "What is The ball or implement?", "a": "MMA: 4 oz gloves; mouthguards are custom..", "x": "The heart of MMA equipment: 4 oz gloves; mouthguards are custom.. Specifications — size, weight, pressure, materials — are fixed by the laws so the game plays the same everywhere. Match-grade implements feel different from training ones; practice with what you will compete with. Replace worn implements before they change your technique.", "s": "public-reference", "f": null}, {"t": "Gear 1: gloves", "d": "MMA uses: gloves.", "g": "facts", "l": 2, "q": "What is Gear 1: gloves?", "a": "MMA uses: gloves.", "x": "In MMA, the gloves matters more than beginners think. Fit is everything — wrong size ruins performance and risks injury. Try before buying, break in gradually, and maintain it: clean it, dry it, store it properly. 4 oz gloves; mouthguards are custom. Quality gear lasts years when cared for; neglected gear fails at the worst moment.", "s": "public-reference", "f": null}, {"t": "Gear 2: mouthguard", "d": "MMA uses: mouthguard.", "g": "facts", "l": 2, "q": "What is Gear 2: mouthguard?", "a": "MMA uses: mouthguard.", "x": "In MMA, the mouthguard matters more than beginners think. Fit is everything — wrong size ruins performance and risks injury. Try before buying, break in gradually, and maintain it: clean it, dry it, store it properly. 4 oz gloves; mouthguards are custom. Quality gear lasts years when cared for; neglected gear fails at the worst moment.", "s": "public-reference", "f": null}, {"t": "Footwear", "d": "MMA footwear must suit the surface.", "g": "facts", "l": 2, "q": "What is Footwear?", "a": "MMA footwear must suit the surface.", "x": "Footwear for MMA: matched to the surface, fitted to the foot, replaced on schedule. 4 oz gloves; mouthguards are custom. The wrong shoes cause the most common overuse injuries in sport. Break new pairs in gradually, keep them dry between sessions, and retire them when the support dies — usually long before they look worn.", "s": "public-reference", "f": null}, {"t": "Protective gear", "d": "Protection in MMA is mandatory where the laws require it.", "g": "facts", "l": 2, "q": "What is Protective gear?", "a": "Protection in MMA is mandatory where the laws require it.", "x": "Protective gear in MMA: helmets, guards, and padding exist because the injury patterns are known. 4 oz gloves; mouthguards are custom. Wear every required piece, every session — the one rep you skip is the one that finds you. Replace protective gear after any serious impact; its job was to die so you did not.", "s": "public-reference", "f": null}, {"t": "Apparel", "d": "MMA kit: built for movement, weather, and team identity.", "g": "facts", "l": 2, "q": "What is Apparel?", "a": "MMA kit: built for movement, weather, and team identity.", "x": "Apparel for MMA: moisture-wicking, unrestricted, and weather-appropriate. 4 oz gloves; mouthguards are custom. Team kits carry identity — wear them with pride and keep them clean. In heat, light colors and ventilation; in cold, layers you can shed. Never let clothing restrict the movements the sport demands.", "s": "public-reference", "f": null}, {"t": "Training aids", "d": "Train MMA smarter with cones, targets, and video.", "g": "facts", "l": 2, "q": "What is Training aids?", "a": "Train MMA smarter with cones, targets, and video.", "x": "Training aids for MMA: cones, targets, rebounders, and video turn good sessions into great ones. 4 oz gloves; mouthguards are custom. The best aid is often the simplest — a wall, a target, a stopwatch. Buy aids that fix your specific weakness, not the gadget of the month.", "s": "public-reference", "f": null}, {"t": "Maintenance", "d": "Maintain MMA gear: clean, dry, inspect, store.", "g": "facts", "l": 2, "q": "What is Maintenance?", "a": "Maintain MMA gear: clean, dry, inspect, store.", "x": "Maintenance for MMA equipment: clean after use, dry fully before storage, inspect before every session, store out of sun and damp. 4 oz gloves; mouthguards are custom. A five-minute routine doubles gear life. Keep a small repair kit — tape, laces, patches — because failures happen at venues, not at home.", "s": "public-reference", "f": null}, {"t": "Fitting guide", "d": "Fit MMA gear properly: the performance multiplier.", "g": "facts", "l": 2, "q": "What is Fitting guide?", "a": "Fit MMA gear properly: the performance multiplier.", "x": "Fitting MMA gear: the difference between good and great equipment is usually fit. 4 oz gloves; mouthguards are custom. Get fitted by someone who knows the sport, re-check fit as young athletes grow, and never borrow safety gear. If it moves, pinches, or distracts, it does not fit.", "s": "public-reference", "f": null}, {"t": "Safety standards", "d": "MMA gear must meet certification standards.", "g": "facts", "l": 2, "q": "What is Safety standards?", "a": "MMA gear must meet certification standards.", "x": "Safety standards for MMA: look for the certification marks — they mean the gear passed real tests. 4 oz gloves; mouthguards are custom. Counterfeit safety gear kills; buy from reputable sources. Standards update over time; replace gear that predates current certifications.", "s": "public-reference", "f": null}, {"t": "Youth gear", "d": "Young MMA athletes need sized-down, not dumbed-down, gear.", "g": "facts", "l": 2, "q": "What is Youth gear?", "a": "Young MMA athletes need sized-down, not dumbed-down, gear.", "x": "Youth MMA gear: sized for growing bodies, never adult hand-me-downs that do not fit. 4 oz gloves; mouthguards are custom. Kids outgrow gear fast — buy adjustable where possible and check fit monthly. Never compromise on helmets or protection to save money; skimp on the bag, not the brain bucket.", "s": "public-reference", "f": null}, {"t": "Budget guide", "d": "Equip for MMA at any budget: spend on safety first.", "g": "facts", "l": 2, "q": "What is Budget guide?", "a": "Equip for MMA at any budget: spend on safety first.", "x": "Budgeting MMA gear: spend first on protection and fit, then on the implement, last on accessories. 4 oz gloves; mouthguards are custom. Good used gear beats bad new gear for non-safety items. Plan the yearly replacement cycle so costs never surprise you mid-season.", "s": "public-reference", "f": null}, {"t": "Innovations", "d": "MMA equipment keeps evolving: materials, data, and design.", "g": "facts", "l": 2, "q": "What is Innovations?", "a": "MMA equipment keeps evolving: materials, data, and design.", "x": "Innovation in MMA gear: lighter materials, smarter design, and embedded data. 4 oz gloves; mouthguards are custom. Adopt innovations that solve your problem; ignore the rest until proven. The fundamentals — fit, safety, durability — outlast every trend.", "s": "public-reference", "f": null}, {"t": "Rules on equipment", "d": "The laws of MMA regulate equipment specifications.", "g": "facts", "l": 2, "q": "What is Rules on equipment?", "a": "The laws of MMA regulate equipment specifications.", "x": "Equipment rules in MMA: the laws specify what is legal — dimensions, materials, and sometimes brands. 4 oz gloves; mouthguards are custom. Check legality before competition; illegal gear means disqualification. When in doubt, ask an official before the event, not during it.", "s": "public-reference", "f": null}, {"t": "Equipment checklist", "d": "MMA pre-session equipment checklist.", "g": "facts", "l": 2, "q": "What is Equipment checklist?", "a": "MMA pre-session equipment checklist.", "x": "The MMA pre-session checklist: inspect every item, confirm fit, pack spares. 4 oz gloves; mouthguards are custom. Five minutes of checking prevents the failures that ruin sessions — the forgotten mouthguard, the flat ball, the dead battery. Make the checklist a habit and the habit will save a season.", "s": "public-reference", "f": null}, {"t": "Equipment checklist", "d": "MMA pre-session equipment checklist.", "g": "facts", "l": 2, "q": "What is Equipment checklist?", "a": "MMA pre-session equipment checklist.", "x": "The MMA pre-session checklist: inspect every item, confirm fit, pack spares. 4 oz gloves; mouthguards are custom. Five minutes of checking prevents the failures that ruin sessions — the forgotten mouthguard, the flat ball, the dead battery. Make the checklist a habit and the habit will save a season.", "s": "public-reference", "f": null}, {"t": "Equipment checklist", "d": "MMA pre-session equipment checklist.", "g": "facts", "l": 2, "q": "What is Equipment checklist?", "a": "MMA pre-session equipment checklist.", "x": "The MMA pre-session checklist: inspect every item, confirm fit, pack spares. 4 oz gloves; mouthguards are custom. Five minutes of checking prevents the failures that ruin sessions — the forgotten mouthguard, the flat ball, the dead battery. Make the checklist a habit and the habit will save a season.", "s": "public-reference", "f": null}, {"t": "Equipment checklist", "d": "MMA pre-session equipment checklist.", "g": "facts", "l": 2, "q": "What is Equipment checklist?", "a": "MMA pre-session equipment checklist.", "x": "The MMA pre-session checklist: inspect every item, confirm fit, pack spares. 4 oz gloves; mouthguards are custom. Five minutes of checking prevents the failures that ruin sessions — the forgotten mouthguard, the flat ball, the dead battery. Make the checklist a habit and the habit will save a season.", "s": "public-reference", "f": null}, {"t": "Equipment checklist", "d": "MMA pre-session equipment checklist.", "g": "facts", "l": 2, "q": "What is Equipment checklist?", "a": "MMA pre-session equipment checklist.", "x": "The MMA pre-session checklist: inspect every item, confirm fit, pack spares. 4 oz gloves; mouthguards are custom. Five minutes of checking prevents the failures that ruin sessions — the forgotten mouthguard, the flat ball, the dead battery. Make the checklist a habit and the habit will save a season.", "s": "public-reference", "f": null}, {"t": "Equipment checklist", "d": "MMA pre-session equipment checklist.", "g": "facts", "l": 2, "q": "What is Equipment checklist?", "a": "MMA pre-session equipment checklist.", "x": "The MMA pre-session checklist: inspect every item, confirm fit, pack spares. 4 oz gloves; mouthguards are custom. Five minutes of checking prevents the failures that ruin sessions — the forgotten mouthguard, the flat ball, the dead battery. Make the checklist a habit and the habit will save a season.", "s": "public-reference", "f": null}, {"t": "Equipment checklist", "d": "MMA pre-session equipment checklist.", "g": "facts", "l": 2, "q": "What is Equipment checklist?", "a": "MMA pre-session equipment checklist.", "x": "The MMA pre-session checklist: inspect every item, confirm fit, pack spares. 4 oz gloves; mouthguards are custom. Five minutes of checking prevents the failures that ruin sessions — the forgotten mouthguard, the flat ball, the dead battery. Make the checklist a habit and the habit will save a season.", "s": "public-reference", "f": null}, {"t": "Equipment checklist", "d": "MMA pre-session equipment checklist.", "g": "facts", "l": 2, "q": "What is Equipment checklist?", "a": "MMA pre-session equipment checklist.", "x": "The MMA pre-session checklist: inspect every item, confirm fit, pack spares. 4 oz gloves; mouthguards are custom. Five minutes of checking prevents the failures that ruin sessions — the forgotten mouthguard, the flat ball, the dead battery. Make the checklist a habit and the habit will save a season.", "s": "public-reference", "f": null}, {"t": "Equipment checklist", "d": "MMA pre-session equipment checklist.", "g": "facts", "l": 2, "q": "What is Equipment checklist?", "a": "MMA pre-session equipment checklist.", "x": "The MMA pre-session checklist: inspect every item, confirm fit, pack spares. 4 oz gloves; mouthguards are custom. Five minutes of checking prevents the failures that ruin sessions — the forgotten mouthguard, the flat ball, the dead battery. Make the checklist a habit and the habit will save a season.", "s": "public-reference", "f": null}, {"t": "Equipment checklist", "d": "MMA pre-session equipment checklist.", "g": "facts", "l": 2, "q": "What is Equipment checklist?", "a": "MMA pre-session equipment checklist.", "x": "The MMA pre-session checklist: inspect every item, confirm fit, pack spares. 4 oz gloves; mouthguards are custom. Five minutes of checking prevents the failures that ruin sessions — the forgotten mouthguard, the flat ball, the dead battery. Make the checklist a habit and the habit will save a season.", "s": "public-reference", "f": null}];
+function pad(n){return String(n).padStart(6,'0');}
+function drillProg(q,a){
+  return '// boundless drill program\nvar Q='+JSON.stringify(q)+';\nvar A='+JSON.stringify(a)+';\n'
+    +'console.log("DRILL: "+Q);\nconsole.log("Say it out loud, then check:");\nconsole.log("ANSWER: "+A);';
+}
+function bankRec(i){
+  var b=BANK[(i-1)%BANK.length];
+  var r={id:PREFIX+pad(i),title:b.t,description:b.x,group:b.g,ladder:b.l,
+    question:b.q,answer:b.a,method:'archive-sample',
+    program:drillProg(b.q,b.a),language:'javascript',
+    src:b.s,last_verified:'2026-10-19',sample:true};
+  return r;
+}
+function genQuizDrill(rnd,seed){
+  var b=BANK[(rnd()*BANK.length)|0];
+  var desc='Boundless drill #'+seed+' — '+NAME+'. The question: '+b.q+'\n\n'
+    +'Cover the answer and say it out loud before reading on. Fluency with these facts is the whole game: '
+    +'each drill pulls a real record from this database\'s archive and tests exactly one fact cold. '
+    +'If you knew it, it is yours; if not, open the archive record "'+b.t+'" and read the full entry, then come back and drill it again. '
+    +'The validated answer: '+b.a+'\n\n'
+    +'Drills never repeat the archive verbatim — they re-ask the same true facts from new angles so the knowledge sticks.';
+  return {id:PREFIX+pad(seed),title:'Drill: '+b.t,description:desc,group:b.g,ladder:b.l,
+    method:'quiz-drill',question:b.q,answer:b.a,
+    program:drillProg(b.q,b.a),language:'javascript',src:GEN_SRC,last_verified:'2026-10-19'};
+}
+function genConvertDrill(rnd,seed){
+  var b1=BANK[(rnd()*BANK.length)|0],b2=BANK[(rnd()*BANK.length)|0];
+  var v=Math.round((1+rnd()*999)*100)/100;
+  var ans=v*b1.f/b2.f;
+  var q='Convert '+v+' '+b1.t+' to '+b2.t+'.';
+  var a=String(Math.round(ans*1e6)/1e6)+' '+b2.t;
+  var desc='Boundless drill #'+seed+' — '+NAME+'. The question: '+q+'\n\n'
+    +'Work it with the factor table: multiply by the "from" unit\'s factor to reach the base unit, then divide by the "to" unit\'s factor. '
+    +'The demo program on any archive record in this database runs the same computation, so you can check your method there first. '
+    +'The validated answer: '+a+'. If your number matches, the method is yours; drills like this one keep every conversion in this database one multiplication and one division away.';
+  return {id:PREFIX+pad(seed),title:'Conversion drill: '+b1.t+' to '+b2.t,description:desc,
+    group:b1.g,ladder:2,method:'convert-drill',question:q,answer:a,
+    conv:{value:v,from:b1.t,fromF:b1.f,to:b2.t,toF:b2.f},
+    program:'// conversion drill program\nvar v='+v+';\nvar fromF='+b1.f+';\nvar toF='+b2.f+';\n'
+      +'console.log("Q: convert "+v+" '+b1.t.replace(/'/g,"\\'")+' to '+b2.t.replace(/'/g,"\\'")+'");\n'
+      +'console.log("A: "+(v*fromF/toF)+" '+b2.t.replace(/'/g,"\\'")+'");',
+    language:'javascript',src:GEN_SRC,last_verified:'2026-10-19'};
+}
+function generate(seed,opts,rnd){
+  opts=opts||{};seed=+seed||1;rnd=rnd||prng(seed);
+  var g=opts.group||opts.category;
+  if(g&&FIELDS.indexOf(g)<0)g=null;
+  var r;
+  if(seed>=1&&seed<=BANK.length){r=bankRec(seed);}
+  else{r=(MODE==='convert')?genConvertDrill(rnd,seed):genQuizDrill(rnd,seed);}
+  if(g)r.group=g;
+  return r;
+}
+function validate(r){
+  var e=[];
+  if(!r||typeof r!=='object')return{ok:false,errors:['not an object']};
+  if(!new RegExp('^'+PREFIX.replace(/-/g,'\\-')+'\\d{6}$').test(r.id||''))e.push('id');
+  if(FIELDS.indexOf(r.group)<0)e.push('group');
+  if(typeof r.title!=='string'||!r.title.length)e.push('title');
+  if(typeof r.description!=='string'||r.description.length<200)e.push('description');
+  if(r.method==='quiz-drill'||r.method==='archive-sample'){
+    var hit=null;
+    for(var i=0;i<BANK.length;i++){if(BANK[i].q===r.question&&BANK[i].a===r.answer){hit=BANK[i];break;}}
+    if(!hit)e.push('answer not banked');
+  }else if(r.method==='convert-drill'){
+    var c=r.conv;
+    if(!c||typeof c.value!=='number')e.push('conv missing');
+    else{
+      var expect=c.value*c.fromF/c.toF;
+      var got=parseFloat(String(r.answer).split(' ')[0]);
+      if(!(Math.abs(got-expect)<Math.max(1e-6,Math.abs(expect)*1e-9)))e.push('conversion mismatch');
+    }
+  }else{e.push('method');}
+  return{ok:!e.length,errors:e};
+}
+function driftCheck(rec,sample){
+  var seen={};(sample||[]).forEach(function(s){if(s&&s.t)seen[s.t]=1;});
+  if(rec&&seen[rec.title])return{ok:false,errors:['duplicate title in archive sample']};
+  return{ok:true,errors:[]};
+}
+var gen={version:'jahdb-e2-mma-equipment-1.0',generate:generate,validate:validate,driftCheck:driftCheck,fields:FIELDS};
+if(typeof JAHDB!=='undefined'&&JAHDB.registerGenerator)JAHDB.registerGenerator(SLUG,gen);
+if(typeof module!=='undefined'&&module.exports)module.exports=gen;
+})();

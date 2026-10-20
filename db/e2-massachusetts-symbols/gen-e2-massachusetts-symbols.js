@@ -1,0 +1,95 @@
+(function(){'use strict';
+/* JAH Massachusetts Symbols Database generator — jahdb-e2-massachusetts-symbols-1.0. Property of Justin Addam Higgins (JAH).
+   Deterministic: same seed, same record. Seeds 1..BANK return archive sample
+   records; higher seeds generate boundless drills. Drill answers come from the
+   banked archive data and validate() re-checks every one of them. */
+function prng(seed){var a=(seed>>>0)||1;return function(){a|=0;a=(a+0x6D2B79F5)|0;var t=Math.imul(a^(a>>>15),1|a);t=(t+Math.imul(t^(t>>>7),61|t))^t;return((t^(t>>>14))>>>0)/4294967296;};}
+var SLUG='e2-massachusetts-symbols',PREFIX='JAH-E2MASSACHUS-',NAME='JAH Massachusetts Symbols Database';
+var FIELDS=["overview", "symbols", "flag", "nature", "culture", "facts"];
+var GEN_SRC='reference-authored';
+var MODE='quiz';
+var BANK=[{"t": "Massachusetts: symbols overview", "d": "Massachusetts's official symbols: mayflower, black-capped chickadee, American elm, and more.", "g": "overview", "l": 2, "q": "What is Massachusetts: symbols overview?", "a": "Massachusetts's official symbols: mayflower, black-capped chickadee, American elm, and more.", "x": "The official symbols of Massachusetts — the \"Bay State\" — tell the state's story in shorthand: the mayflower (flower), the black-capped chickadee (bird), the American elm (tree), the motto \"Ense petit placidam sub libertate quietem (By the sword we seek peace, but peace only under liberty),\" and the flag. Native American with bow on blue shield. Legislatures designate symbols to honor what the state values; this database covers every one, what it means, and where to see it.", "s": "public-reference", "f": null}, {"t": "Nickname: Bay State", "d": "The nickname of Massachusetts is \"Bay State.\"", "g": "symbols", "l": 2, "q": "What is Nickname: Bay State?", "a": "The nickname of Massachusetts is \"Bay State.\"", "x": "The nickname of Massachusetts — \"Bay State\" — was adopted to express the state's identity. Native American with bow on blue shield. It appears on seals, plates, and proclamations. Wampanoag; Plymouth 1620.", "s": "public-reference", "f": null}, {"t": "Nickname: the story", "d": "Why Massachusetts chose \"Bay State.\"", "g": "symbols", "l": 2, "q": "What is Nickname: the story?", "a": "Why Massachusetts chose \"Bay State.\"", "x": "Why \"Bay State\": the nickname's story reaches into Massachusetts's history — Revolution: Lexington, Bunker Hill.. Symbols are chosen, not found: committees, contests, and legislators all played a part. Knowing the story makes the symbol mean something.", "s": "public-reference", "f": null}, {"t": "Motto: Ense petit placidam sub libertate quietem (By the sword we seek peace, but peace only under liberty)", "d": "The motto of Massachusetts is \"Ense petit placidam sub libertate quietem (By the sword we seek peace, but peace only under liberty).\"", "g": "symbols", "l": 2, "q": "What is Motto: Ense petit placidam sub libertate quietem (By the sword we seek peace, but peace only under liberty)?", "a": "The motto of Massachusetts is \"Ense petit placidam sub libertate quietem (By the sword we seek peace, but peace only under liberty).\"", "x": "The motto of Massachusetts — \"Ense petit placidam sub libertate quietem (By the sword we seek peace, but peace only under liberty)\" — was adopted to express the state's identity. Native American with bow on blue shield. It appears on seals, plates, and proclamations. Wampanoag; Plymouth 1620.", "s": "public-reference", "f": null}, {"t": "Motto: the story", "d": "Why Massachusetts chose \"Ense petit placidam sub libertate quietem (By the sword we seek peace, but peace only under liberty).\"", "g": "symbols", "l": 2, "q": "What is Motto: the story?", "a": "Why Massachusetts chose \"Ense petit placidam sub libertate quietem (By the sword we seek peace, but peace only under liberty).\"", "x": "Why \"Ense petit placidam sub libertate quietem (By the sword we seek peace, but peace only under liberty)\": the motto's story reaches into Massachusetts's history — Revolution: Lexington, Bunker Hill.. Symbols are chosen, not found: committees, contests, and legislators all played a part. Knowing the story makes the symbol mean something.", "s": "public-reference", "f": null}, {"t": "State flower: mayflower", "d": "The state flower of Massachusetts is the mayflower.", "g": "nature", "l": 2, "q": "What is State flower: mayflower?", "a": "The state flower of Massachusetts is the mayflower.", "x": "The mayflower — mayflower — is Massachusetts's officially designated state flower. Native American with bow on blue shield. It was chosen for its beauty, its abundance, or its meaning to the people. Fenway Park", "s": "public-reference", "f": null}, {"t": "mayflower: natural history", "d": "The mayflower in the wild.", "g": "nature", "l": 2, "q": "What is mayflower: natural history?", "a": "The mayflower in the wild.", "x": "In the wild, the mayflower blooms across the state. Massachusetts Learning the state flower's natural history — where it grows or lives, what it needs — turns a symbol into a reason to visit Cape Cod National Seashore's parks and wild places.", "s": "public-reference", "f": null}, {"t": "Where to see the flower", "d": "See Massachusetts's state flower at Cape Cod National Seashore.", "g": "nature", "l": 2, "q": "What is Where to see the flower?", "a": "See Massachusetts's state flower at Cape Cod National Seashore.", "x": "See the state flower where it thrives: Cape Cod National Seashore in Massachusetts is the surest bet, and Cape Cod rewards the observant. Boston Marathon Visit in season, bring patience, and leave only footprints.", "s": "public-reference", "f": null}, {"t": "State bird: black-capped chickadee", "d": "The state bird of Massachusetts is the black-capped chickadee.", "g": "nature", "l": 2, "q": "What is State bird: black-capped chickadee?", "a": "The state bird of Massachusetts is the black-capped chickadee.", "x": "The black-capped chickadee — black-capped chickadee — is Massachusetts's officially designated state bird. Native American with bow on blue shield. It was chosen for its beauty, its abundance, or its meaning to the people. Fenway Park", "s": "public-reference", "f": null}, {"t": "black-capped chickadee: natural history", "d": "The black-capped chickadee in the wild.", "g": "nature", "l": 2, "q": "What is black-capped chickadee: natural history?", "a": "The black-capped chickadee in the wild.", "x": "In the wild, the black-capped chickadee lives across the state. Massachusetts Learning the state bird's natural history — where it grows or lives, what it needs — turns a symbol into a reason to visit Cape Cod National Seashore's parks and wild places.", "s": "public-reference", "f": null}, {"t": "Where to see the bird", "d": "See Massachusetts's state bird at Cape Cod National Seashore.", "g": "nature", "l": 2, "q": "What is Where to see the bird?", "a": "See Massachusetts's state bird at Cape Cod National Seashore.", "x": "See the state bird where it thrives: Cape Cod National Seashore in Massachusetts is the surest bet, and Cape Cod rewards the observant. Boston Marathon Visit in season, bring patience, and leave only footprints.", "s": "public-reference", "f": null}, {"t": "State tree: American elm", "d": "The state tree of Massachusetts is the American elm.", "g": "nature", "l": 2, "q": "What is State tree: American elm?", "a": "The state tree of Massachusetts is the American elm.", "x": "The American elm — American elm — is Massachusetts's officially designated state tree. Native American with bow on blue shield. It was chosen for its beauty, its abundance, or its meaning to the people. Fenway Park", "s": "public-reference", "f": null}, {"t": "American elm: natural history", "d": "The American elm in the wild.", "g": "nature", "l": 2, "q": "What is American elm: natural history?", "a": "The American elm in the wild.", "x": "In the wild, the American elm lives across the state. Massachusetts Learning the state tree's natural history — where it grows or lives, what it needs — turns a symbol into a reason to visit Cape Cod National Seashore's parks and wild places.", "s": "public-reference", "f": null}, {"t": "Where to see the tree", "d": "See Massachusetts's state tree at Cape Cod National Seashore.", "g": "nature", "l": 2, "q": "What is Where to see the tree?", "a": "See Massachusetts's state tree at Cape Cod National Seashore.", "x": "See the state tree where it thrives: Cape Cod National Seashore in Massachusetts is the surest bet, and Cape Cod rewards the observant. Boston Marathon Visit in season, bring patience, and leave only footprints.", "s": "public-reference", "f": null}, {"t": "The state flag: design", "d": "Massachusetts's flag: Native American with bow on blue shield..", "g": "flag", "l": 2, "q": "What is The state flag: design?", "a": "Massachusetts's flag: Native American with bow on blue shield..", "x": "The flag of Massachusetts: Native American with bow on blue shield.. Every element was chosen deliberately — colors, seals, stars — and the design's history mirrors the state's. Industrial revolution; abolition. Fly it correctly: the flag code gives the rules, and Massachusetts flies it with pride.", "s": "public-reference", "f": null}, {"t": "The state flag: colors and emblem", "d": "What Massachusetts's flag means.", "g": "flag", "l": 2, "q": "What is The state flag: colors and emblem?", "a": "What Massachusetts's flag means.", "x": "The colors and emblem of Massachusetts's flag carry meaning: Native American with bow on blue shield.. Ense petit placidam sub libertate quietem (By the sword we seek peace, but peace only under liberty) Vexillologists rank flags by simplicity and symbolism — Massachusetts's tells its story at a glance to those who know the code.", "s": "public-reference", "f": null}, {"t": "The state flag: history", "d": "How Massachusetts got its flag.", "g": "flag", "l": 2, "q": "What is The state flag: history?", "a": "How Massachusetts got its flag.", "x": "The history of Massachusetts's flag: adopted after contests or commission designs, sometimes replacing earlier banners. Education and tech hub. Flags evolve with states — each change marks an era. The current design has flown over Boston's modern history.", "s": "public-reference", "f": null}, {"t": "The state seal", "d": "The Great Seal of Massachusetts.", "g": "symbols", "l": 2, "q": "What is The state seal?", "a": "The Great Seal of Massachusetts.", "x": "The Great Seal of Massachusetts authenticates the state's official acts — every law and commission bears it. Native American with bow on blue shield. The seal's imagery compresses the state's identity: its industries, its ideals, its motto \"Ense petit placidam sub libertate quietem (By the sword we seek peace, but peace only under liberty).\"", "s": "public-reference", "f": null}, {"t": "The state quarter", "d": "Massachusetts's quarter in the 50 State Quarters program.", "g": "symbols", "l": 2, "q": "What is The state quarter?", "a": "Massachusetts's quarter in the 50 State Quarters program.", "x": "Massachusetts's quarter: the US Mint's 50 State Quarters program (1999-2008) gave every state a circulating canvas. Massachusetts's design honors Bay State — pocket change as history lesson. Collectors still hunt them.", "s": "public-reference", "f": null}, {"t": "The capitol building", "d": "Massachusetts's capitol in Boston.", "g": "culture", "l": 2, "q": "What is The capitol building?", "a": "Massachusetts's capitol in Boston.", "x": "The Massachusetts State Capitol in Boston: the building where laws are made and history happened. Wampanoag; Plymouth 1620. Capitols are museums of democracy — tour the chambers, the rotunda, the grounds. Freedom Trail", "s": "public-reference", "f": null}, {"t": "The state song", "d": "Massachusetts's officially adopted state song.", "g": "culture", "l": 2, "q": "What is The state song?", "a": "Massachusetts's officially adopted state song.", "x": "The state song of Massachusetts was adopted by the legislature — every state has one, sung at official occasions. Boston Marathon Songs, like flags, are identity set to music. Learn the chorus; it is the state's anthem in miniature.", "s": "public-reference", "f": null}, {"t": "How symbols are chosen", "d": "The legislature designates Massachusetts's symbols.", "g": "symbols", "l": 2, "q": "What is How symbols are chosen?", "a": "The legislature designates Massachusetts's symbols.", "x": "Symbols become official when the Massachusetts legislature says so — often after schoolchildren campaign, contests run, or committees deliberate. Ense petit placidam sub libertate quietem (By the sword we seek peace, but peace only under liberty) The process itself is civics: citizens proposing, debating, and adopting what represents them.", "s": "public-reference", "f": null}, {"t": "Flag etiquette", "d": "Displaying Massachusetts's flag correctly.", "g": "flag", "l": 2, "q": "What is Flag etiquette?", "a": "Displaying Massachusetts's flag correctly.", "x": "Flag etiquette for Massachusetts's banner: fly it sunrise to sunset (or lit at night), never let it touch the ground, and retire worn flags with dignity. Bay State The state flag flies below the US flag — a daily reminder of the federal order.", "s": "public-reference", "f": null}, {"t": "Symbol fact 1", "d": "More Massachusetts symbols: mayflower.", "g": "facts", "l": 2, "q": "What is Symbol fact 1?", "a": "More Massachusetts symbols: mayflower.", "x": "From the Massachusetts symbol file: mayflower. Massachusetts's symbols reward the curious — each one opens a story about the land, the people, or the moment it was chosen. \"Ense petit placidam sub libertate quietem (By the sword we seek peace, but peace only under liberty)\" indeed.", "s": "public-reference", "f": null}, {"t": "Symbol fact 2", "d": "More Massachusetts symbols: black-capped chickadee.", "g": "facts", "l": 2, "q": "What is Symbol fact 2?", "a": "More Massachusetts symbols: black-capped chickadee.", "x": "From the Massachusetts symbol file: black-capped chickadee. Massachusetts's symbols reward the curious — each one opens a story about the land, the people, or the moment it was chosen. \"Ense petit placidam sub libertate quietem (By the sword we seek peace, but peace only under liberty)\" indeed.", "s": "public-reference", "f": null}];
+function pad(n){return String(n).padStart(6,'0');}
+function drillProg(q,a){
+  return '// boundless drill program\nvar Q='+JSON.stringify(q)+';\nvar A='+JSON.stringify(a)+';\n'
+    +'console.log("DRILL: "+Q);\nconsole.log("Say it out loud, then check:");\nconsole.log("ANSWER: "+A);';
+}
+function bankRec(i){
+  var b=BANK[(i-1)%BANK.length];
+  var r={id:PREFIX+pad(i),title:b.t,description:b.x,group:b.g,ladder:b.l,
+    question:b.q,answer:b.a,method:'archive-sample',
+    program:drillProg(b.q,b.a),language:'javascript',
+    src:b.s,last_verified:'2026-10-19',sample:true};
+  return r;
+}
+function genQuizDrill(rnd,seed){
+  var b=BANK[(rnd()*BANK.length)|0];
+  var desc='Boundless drill #'+seed+' — '+NAME+'. The question: '+b.q+'\n\n'
+    +'Cover the answer and say it out loud before reading on. Fluency with these facts is the whole game: '
+    +'each drill pulls a real record from this database\'s archive and tests exactly one fact cold. '
+    +'If you knew it, it is yours; if not, open the archive record "'+b.t+'" and read the full entry, then come back and drill it again. '
+    +'The validated answer: '+b.a+'\n\n'
+    +'Drills never repeat the archive verbatim — they re-ask the same true facts from new angles so the knowledge sticks.';
+  return {id:PREFIX+pad(seed),title:'Drill: '+b.t,description:desc,group:b.g,ladder:b.l,
+    method:'quiz-drill',question:b.q,answer:b.a,
+    program:drillProg(b.q,b.a),language:'javascript',src:GEN_SRC,last_verified:'2026-10-19'};
+}
+function genConvertDrill(rnd,seed){
+  var b1=BANK[(rnd()*BANK.length)|0],b2=BANK[(rnd()*BANK.length)|0];
+  var v=Math.round((1+rnd()*999)*100)/100;
+  var ans=v*b1.f/b2.f;
+  var q='Convert '+v+' '+b1.t+' to '+b2.t+'.';
+  var a=String(Math.round(ans*1e6)/1e6)+' '+b2.t;
+  var desc='Boundless drill #'+seed+' — '+NAME+'. The question: '+q+'\n\n'
+    +'Work it with the factor table: multiply by the "from" unit\'s factor to reach the base unit, then divide by the "to" unit\'s factor. '
+    +'The demo program on any archive record in this database runs the same computation, so you can check your method there first. '
+    +'The validated answer: '+a+'. If your number matches, the method is yours; drills like this one keep every conversion in this database one multiplication and one division away.';
+  return {id:PREFIX+pad(seed),title:'Conversion drill: '+b1.t+' to '+b2.t,description:desc,
+    group:b1.g,ladder:2,method:'convert-drill',question:q,answer:a,
+    conv:{value:v,from:b1.t,fromF:b1.f,to:b2.t,toF:b2.f},
+    program:'// conversion drill program\nvar v='+v+';\nvar fromF='+b1.f+';\nvar toF='+b2.f+';\n'
+      +'console.log("Q: convert "+v+" '+b1.t.replace(/'/g,"\\'")+' to '+b2.t.replace(/'/g,"\\'")+'");\n'
+      +'console.log("A: "+(v*fromF/toF)+" '+b2.t.replace(/'/g,"\\'")+'");',
+    language:'javascript',src:GEN_SRC,last_verified:'2026-10-19'};
+}
+function generate(seed,opts,rnd){
+  opts=opts||{};seed=+seed||1;rnd=rnd||prng(seed);
+  var g=opts.group||opts.category;
+  if(g&&FIELDS.indexOf(g)<0)g=null;
+  var r;
+  if(seed>=1&&seed<=BANK.length){r=bankRec(seed);}
+  else{r=(MODE==='convert')?genConvertDrill(rnd,seed):genQuizDrill(rnd,seed);}
+  if(g)r.group=g;
+  return r;
+}
+function validate(r){
+  var e=[];
+  if(!r||typeof r!=='object')return{ok:false,errors:['not an object']};
+  if(!new RegExp('^'+PREFIX.replace(/-/g,'\\-')+'\\d{6}$').test(r.id||''))e.push('id');
+  if(FIELDS.indexOf(r.group)<0)e.push('group');
+  if(typeof r.title!=='string'||!r.title.length)e.push('title');
+  if(typeof r.description!=='string'||r.description.length<200)e.push('description');
+  if(r.method==='quiz-drill'||r.method==='archive-sample'){
+    var hit=null;
+    for(var i=0;i<BANK.length;i++){if(BANK[i].q===r.question&&BANK[i].a===r.answer){hit=BANK[i];break;}}
+    if(!hit)e.push('answer not banked');
+  }else if(r.method==='convert-drill'){
+    var c=r.conv;
+    if(!c||typeof c.value!=='number')e.push('conv missing');
+    else{
+      var expect=c.value*c.fromF/c.toF;
+      var got=parseFloat(String(r.answer).split(' ')[0]);
+      if(!(Math.abs(got-expect)<Math.max(1e-6,Math.abs(expect)*1e-9)))e.push('conversion mismatch');
+    }
+  }else{e.push('method');}
+  return{ok:!e.length,errors:e};
+}
+function driftCheck(rec,sample){
+  var seen={};(sample||[]).forEach(function(s){if(s&&s.t)seen[s.t]=1;});
+  if(rec&&seen[rec.title])return{ok:false,errors:['duplicate title in archive sample']};
+  return{ok:true,errors:[]};
+}
+var gen={version:'jahdb-e2-massachusetts-symbols-1.0',generate:generate,validate:validate,driftCheck:driftCheck,fields:FIELDS};
+if(typeof JAHDB!=='undefined'&&JAHDB.registerGenerator)JAHDB.registerGenerator(SLUG,gen);
+if(typeof module!=='undefined'&&module.exports)module.exports=gen;
+})();

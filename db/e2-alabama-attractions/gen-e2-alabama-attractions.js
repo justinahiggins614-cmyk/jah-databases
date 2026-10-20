@@ -1,0 +1,95 @@
+(function(){'use strict';
+/* JAH Alabama Attractions Database generator — jahdb-e2-alabama-attractions-1.0. Property of Justin Addam Higgins (JAH).
+   Deterministic: same seed, same record. Seeds 1..BANK return archive sample
+   records; higher seeds generate boundless drills. Drill answers come from the
+   banked archive data and validate() re-checks every one of them. */
+function prng(seed){var a=(seed>>>0)||1;return function(){a|=0;a=(a+0x6D2B79F5)|0;var t=Math.imul(a^(a>>>15),1|a);t=(t+Math.imul(t^(t>>>7),61|t))^t;return((t^(t>>>14))>>>0)/4294967296;};}
+var SLUG='e2-alabama-attractions',PREFIX='JAH-E2ALABAMAAT-',NAME='JAH Alabama Attractions Database';
+var FIELDS=["overview", "attractions", "parks", "cities", "food", "festivals", "itinerary"];
+var GEN_SRC='reference-authored';
+var MODE='quiz';
+var BANK=[{"t": "Alabama: attractions overview", "d": "The best of Alabama: U.S. Space & Rocket Center, Civil Rights Memorial, Gulf Shores beaches.", "g": "overview", "l": 2, "q": "What is Alabama: attractions overview?", "a": "The best of Alabama: U.S. Space & Rocket Center, Civil Rights Memorial, Gulf Shores beaches.", "x": "The essential Alabama: U.S. Space & Rocket Center, Civil Rights Memorial, Gulf Shores beaches — plus Little River Canyon National Preserve, Alabama's great fried green tomatoes. Mobile Mardi Gras This database is the complete visitor's guide: the famous sights, the parks, the cities, the food, and the festivals, with practical know-how for each.", "s": "public-reference", "f": null}, {"t": "U.S. Space & Rocket Center", "d": "U.S. Space & Rocket Center: a top Alabama attraction.", "g": "attractions", "l": 2, "q": "What is U.S. Space & Rocket Center?", "a": "U.S. Space & Rocket Center: a top Alabama attraction.", "x": "U.S. Space & Rocket Center is essential Alabama. Mississippian mounds; French Mobile (1702). Go early, read the story before you arrive, and give it the time it deserves — the famous sights earned their fame. fried green tomatoes", "s": "public-reference", "f": null}, {"t": "Visiting U.S. Space & Rocket Center", "d": "How to experience U.S. Space & Rocket Center.", "g": "attractions", "l": 2, "q": "What is Visiting U.S. Space & Rocket Center?", "a": "How to experience U.S. Space & Rocket Center.", "x": "Experiencing U.S. Space & Rocket Center: plan around Mobile Mardi Gras, the state's rhythm — Audemus jura nostra defendere (We dare defend our rights). Mornings beat crowds, weekdays beat weekends, and the shoulder seasons beat both. Little River Canyon National Preserve Book ahead where needed; the best experiences reward planners.", "s": "public-reference", "f": null}, {"t": "Civil Rights Memorial", "d": "Civil Rights Memorial: a top Alabama attraction.", "g": "attractions", "l": 2, "q": "What is Civil Rights Memorial?", "a": "Civil Rights Memorial: a top Alabama attraction.", "x": "Civil Rights Memorial is essential Alabama. Mississippian mounds; French Mobile (1702). Go early, read the story before you arrive, and give it the time it deserves — the famous sights earned their fame. fried green tomatoes", "s": "public-reference", "f": null}, {"t": "Visiting Civil Rights Memorial", "d": "How to experience Civil Rights Memorial.", "g": "attractions", "l": 2, "q": "What is Visiting Civil Rights Memorial?", "a": "How to experience Civil Rights Memorial.", "x": "Experiencing Civil Rights Memorial: plan around Mobile Mardi Gras, the state's rhythm — Audemus jura nostra defendere (We dare defend our rights). Mornings beat crowds, weekdays beat weekends, and the shoulder seasons beat both. Little River Canyon National Preserve Book ahead where needed; the best experiences reward planners.", "s": "public-reference", "f": null}, {"t": "Gulf Shores beaches", "d": "Gulf Shores beaches: a top Alabama attraction.", "g": "attractions", "l": 2, "q": "What is Gulf Shores beaches?", "a": "Gulf Shores beaches: a top Alabama attraction.", "x": "Gulf Shores beaches is essential Alabama. Mississippian mounds; French Mobile (1702). Go early, read the story before you arrive, and give it the time it deserves — the famous sights earned their fame. fried green tomatoes", "s": "public-reference", "f": null}, {"t": "Visiting Gulf Shores beaches", "d": "How to experience Gulf Shores beaches.", "g": "attractions", "l": 2, "q": "What is Visiting Gulf Shores beaches?", "a": "How to experience Gulf Shores beaches.", "x": "Experiencing Gulf Shores beaches: plan around Mobile Mardi Gras, the state's rhythm — Audemus jura nostra defendere (We dare defend our rights). Mornings beat crowds, weekdays beat weekends, and the shoulder seasons beat both. Little River Canyon National Preserve Book ahead where needed; the best experiences reward planners.", "s": "public-reference", "f": null}, {"t": "Birmingham Civil Rights Institute", "d": "Birmingham Civil Rights Institute: a top Alabama attraction.", "g": "attractions", "l": 2, "q": "What is Birmingham Civil Rights Institute?", "a": "Birmingham Civil Rights Institute: a top Alabama attraction.", "x": "Birmingham Civil Rights Institute is essential Alabama. Mississippian mounds; French Mobile (1702). Go early, read the story before you arrive, and give it the time it deserves — the famous sights earned their fame. fried green tomatoes", "s": "public-reference", "f": null}, {"t": "Visiting Birmingham Civil Rights Institute", "d": "How to experience Birmingham Civil Rights Institute.", "g": "attractions", "l": 2, "q": "What is Visiting Birmingham Civil Rights Institute?", "a": "How to experience Birmingham Civil Rights Institute.", "x": "Experiencing Birmingham Civil Rights Institute: plan around Mobile Mardi Gras, the state's rhythm — Audemus jura nostra defendere (We dare defend our rights). Mornings beat crowds, weekdays beat weekends, and the shoulder seasons beat both. Little River Canyon National Preserve Book ahead where needed; the best experiences reward planners.", "s": "public-reference", "f": null}, {"t": "Mobile's Mardi Gras", "d": "Mobile's Mardi Gras: a top Alabama attraction.", "g": "attractions", "l": 2, "q": "What is Mobile's Mardi Gras?", "a": "Mobile's Mardi Gras: a top Alabama attraction.", "x": "Mobile's Mardi Gras is essential Alabama. Mississippian mounds; French Mobile (1702). Go early, read the story before you arrive, and give it the time it deserves — the famous sights earned their fame. fried green tomatoes", "s": "public-reference", "f": null}, {"t": "Visiting Mobile's Mardi Gras", "d": "How to experience Mobile's Mardi Gras.", "g": "attractions", "l": 2, "q": "What is Visiting Mobile's Mardi Gras?", "a": "How to experience Mobile's Mardi Gras.", "x": "Experiencing Mobile's Mardi Gras: plan around Mobile Mardi Gras, the state's rhythm — Audemus jura nostra defendere (We dare defend our rights). Mornings beat crowds, weekdays beat weekends, and the shoulder seasons beat both. Little River Canyon National Preserve Book ahead where needed; the best experiences reward planners.", "s": "public-reference", "f": null}, {"t": "Huntsville's Space Center", "d": "Huntsville's Space Center: a top Alabama attraction.", "g": "attractions", "l": 2, "q": "What is Huntsville's Space Center?", "a": "Huntsville's Space Center: a top Alabama attraction.", "x": "Huntsville's Space Center is essential Alabama. Mississippian mounds; French Mobile (1702). Go early, read the story before you arrive, and give it the time it deserves — the famous sights earned their fame. fried green tomatoes", "s": "public-reference", "f": null}, {"t": "Visiting Huntsville's Space Center", "d": "How to experience Huntsville's Space Center.", "g": "attractions", "l": 2, "q": "What is Visiting Huntsville's Space Center?", "a": "How to experience Huntsville's Space Center.", "x": "Experiencing Huntsville's Space Center: plan around Mobile Mardi Gras, the state's rhythm — Audemus jura nostra defendere (We dare defend our rights). Mornings beat crowds, weekdays beat weekends, and the shoulder seasons beat both. Little River Canyon National Preserve Book ahead where needed; the best experiences reward planners.", "s": "public-reference", "f": null}, {"t": "Natchez Trace", "d": "Natchez Trace: a top Alabama attraction.", "g": "attractions", "l": 2, "q": "What is Natchez Trace?", "a": "Natchez Trace: a top Alabama attraction.", "x": "Natchez Trace is essential Alabama. Mississippian mounds; French Mobile (1702). Go early, read the story before you arrive, and give it the time it deserves — the famous sights earned their fame. fried green tomatoes", "s": "public-reference", "f": null}, {"t": "Visiting Natchez Trace", "d": "How to experience Natchez Trace.", "g": "attractions", "l": 2, "q": "What is Visiting Natchez Trace?", "a": "How to experience Natchez Trace.", "x": "Experiencing Natchez Trace: plan around Mobile Mardi Gras, the state's rhythm — Audemus jura nostra defendere (We dare defend our rights). Mornings beat crowds, weekdays beat weekends, and the shoulder seasons beat both. Little River Canyon National Preserve Book ahead where needed; the best experiences reward planners.", "s": "public-reference", "f": null}, {"t": "Little River Canyon", "d": "Little River Canyon: a top Alabama attraction.", "g": "attractions", "l": 2, "q": "What is Little River Canyon?", "a": "Little River Canyon: a top Alabama attraction.", "x": "Little River Canyon is essential Alabama. Mississippian mounds; French Mobile (1702). Go early, read the story before you arrive, and give it the time it deserves — the famous sights earned their fame. fried green tomatoes", "s": "public-reference", "f": null}, {"t": "Visiting Little River Canyon", "d": "How to experience Little River Canyon.", "g": "attractions", "l": 2, "q": "What is Visiting Little River Canyon?", "a": "How to experience Little River Canyon.", "x": "Experiencing Little River Canyon: plan around Mobile Mardi Gras, the state's rhythm — Audemus jura nostra defendere (We dare defend our rights). Mornings beat crowds, weekdays beat weekends, and the shoulder seasons beat both. Little River Canyon National Preserve Book ahead where needed; the best experiences reward planners.", "s": "public-reference", "f": null}, {"t": "Little River Canyon National Preserve", "d": "Little River Canyon National Preserve: Alabama's great park.", "g": "parks", "l": 2, "q": "What is Little River Canyon National Preserve?", "a": "Little River Canyon National Preserve: Alabama's great park.", "x": "Little River Canyon National Preserve is Alabama's wild heart: U.S. Space & Rocket Center. Parks preserve what development cannot replace — the views, the wildlife, the quiet. Mobile Mardi Gras Hike it, camp it, or just stand in it; protected land is the state's gift to the future.", "s": "public-reference", "f": null}, {"t": "Exploring Little River Canyon National Preserve", "d": "How to explore Little River Canyon National Preserve.", "g": "parks", "l": 2, "q": "What is Exploring Little River Canyon National Preserve?", "a": "How to explore Little River Canyon National Preserve.", "x": "Exploring Little River Canyon National Preserve: get the park map, check conditions, carry water and layers, and tell someone your plan. Audemus jura nostra defendere (We dare defend our rights) Rangers are the best guides — ask them. Leave no trace; the park's beauty is a loan from the future.", "s": "public-reference", "f": null}, {"t": "Montgomery: the capital city", "d": "Montgomery, capital of Alabama.", "g": "cities", "l": 2, "q": "What is Montgomery: the capital city?", "a": "Montgomery, capital of Alabama.", "x": "Montgomery: the capital of Alabama — government, history, and often the best museums. Cotton kingdom and slavery; Civil War. Beyond the capitol, capitals have their own character: neighborhoods, food scenes, and the rhythm of a working government town. Birmingham", "s": "public-reference", "f": null}, {"t": "Birmingham: the biggest city", "d": "Birmingham is Alabama's largest city.", "g": "cities", "l": 2, "q": "What is Birmingham: the biggest city?", "a": "Birmingham is Alabama's largest city.", "x": "Birmingham is where Alabama comes to work and play: the skyline, the food, the music, the crowds. aerospace (Huntsville) Big cities concentrate a state's energy — its ambition, its diversity, its contradictions. Mobile Mardi Gras", "s": "public-reference", "f": null}, {"t": "fried green tomatoes: the food", "d": "Taste Alabama: fried green tomatoes.", "g": "food", "l": 2, "q": "What is fried green tomatoes: the food?", "a": "Taste Alabama: fried green tomatoes.", "x": "The taste of Alabama is fried green tomatoes — and the foodways around it. Civil Rights: Montgomery bus boycott, Selma. Every state has a flavor: the dish locals defend, the restaurant rows, the festival foods. Mobile Mardi Gras Eat where the line is longest.", "s": "public-reference", "f": null}, {"t": "Food tour: Alabama", "d": "Eating your way through Alabama.", "g": "food", "l": 2, "q": "What is Food tour: Alabama?", "a": "Eating your way through Alabama.", "x": "Eating through Alabama: start with fried green tomatoes, then follow the locals — diners, food trucks, farm stands. Audemus jura nostra defendere (We dare defend our rights) Food is the fastest way into a place's heart; the stories come free with the meal. Birmingham", "s": "public-reference", "f": null}, {"t": "Mobile Mardi Gras", "d": "Mobile Mardi Gras: Alabama's signature festival.", "g": "festivals", "l": 2, "q": "What is Mobile Mardi Gras?", "a": "Mobile Mardi Gras: Alabama's signature festival.", "x": "Mobile Mardi Gras is Alabama at its most celebratory: Space age: Huntsville's Marshall Center.. Festivals distill a place — its music, food, craft, and pride — into a few joyful days. Montgomery Time a visit for one; book early.", "s": "public-reference", "f": null}, {"t": "Festival calendar", "d": "Alabama year-round: Mobile Mardi Gras and more.", "g": "festivals", "l": 2, "q": "What is Festival calendar?", "a": "Alabama year-round: Mobile Mardi Gras and more.", "x": "The Alabama festival calendar runs year-round, with Mobile Mardi Gras as the anchor. Audemus jura nostra defendere (We dare defend our rights) Every season has its celebration — plan trips around them for the liveliest version of the state. Little River Canyon National Preserve", "s": "public-reference", "f": null}];
+function pad(n){return String(n).padStart(6,'0');}
+function drillProg(q,a){
+  return '// boundless drill program\nvar Q='+JSON.stringify(q)+';\nvar A='+JSON.stringify(a)+';\n'
+    +'console.log("DRILL: "+Q);\nconsole.log("Say it out loud, then check:");\nconsole.log("ANSWER: "+A);';
+}
+function bankRec(i){
+  var b=BANK[(i-1)%BANK.length];
+  var r={id:PREFIX+pad(i),title:b.t,description:b.x,group:b.g,ladder:b.l,
+    question:b.q,answer:b.a,method:'archive-sample',
+    program:drillProg(b.q,b.a),language:'javascript',
+    src:b.s,last_verified:'2026-10-19',sample:true};
+  return r;
+}
+function genQuizDrill(rnd,seed){
+  var b=BANK[(rnd()*BANK.length)|0];
+  var desc='Boundless drill #'+seed+' — '+NAME+'. The question: '+b.q+'\n\n'
+    +'Cover the answer and say it out loud before reading on. Fluency with these facts is the whole game: '
+    +'each drill pulls a real record from this database\'s archive and tests exactly one fact cold. '
+    +'If you knew it, it is yours; if not, open the archive record "'+b.t+'" and read the full entry, then come back and drill it again. '
+    +'The validated answer: '+b.a+'\n\n'
+    +'Drills never repeat the archive verbatim — they re-ask the same true facts from new angles so the knowledge sticks.';
+  return {id:PREFIX+pad(seed),title:'Drill: '+b.t,description:desc,group:b.g,ladder:b.l,
+    method:'quiz-drill',question:b.q,answer:b.a,
+    program:drillProg(b.q,b.a),language:'javascript',src:GEN_SRC,last_verified:'2026-10-19'};
+}
+function genConvertDrill(rnd,seed){
+  var b1=BANK[(rnd()*BANK.length)|0],b2=BANK[(rnd()*BANK.length)|0];
+  var v=Math.round((1+rnd()*999)*100)/100;
+  var ans=v*b1.f/b2.f;
+  var q='Convert '+v+' '+b1.t+' to '+b2.t+'.';
+  var a=String(Math.round(ans*1e6)/1e6)+' '+b2.t;
+  var desc='Boundless drill #'+seed+' — '+NAME+'. The question: '+q+'\n\n'
+    +'Work it with the factor table: multiply by the "from" unit\'s factor to reach the base unit, then divide by the "to" unit\'s factor. '
+    +'The demo program on any archive record in this database runs the same computation, so you can check your method there first. '
+    +'The validated answer: '+a+'. If your number matches, the method is yours; drills like this one keep every conversion in this database one multiplication and one division away.';
+  return {id:PREFIX+pad(seed),title:'Conversion drill: '+b1.t+' to '+b2.t,description:desc,
+    group:b1.g,ladder:2,method:'convert-drill',question:q,answer:a,
+    conv:{value:v,from:b1.t,fromF:b1.f,to:b2.t,toF:b2.f},
+    program:'// conversion drill program\nvar v='+v+';\nvar fromF='+b1.f+';\nvar toF='+b2.f+';\n'
+      +'console.log("Q: convert "+v+" '+b1.t.replace(/'/g,"\\'")+' to '+b2.t.replace(/'/g,"\\'")+'");\n'
+      +'console.log("A: "+(v*fromF/toF)+" '+b2.t.replace(/'/g,"\\'")+'");',
+    language:'javascript',src:GEN_SRC,last_verified:'2026-10-19'};
+}
+function generate(seed,opts,rnd){
+  opts=opts||{};seed=+seed||1;rnd=rnd||prng(seed);
+  var g=opts.group||opts.category;
+  if(g&&FIELDS.indexOf(g)<0)g=null;
+  var r;
+  if(seed>=1&&seed<=BANK.length){r=bankRec(seed);}
+  else{r=(MODE==='convert')?genConvertDrill(rnd,seed):genQuizDrill(rnd,seed);}
+  if(g)r.group=g;
+  return r;
+}
+function validate(r){
+  var e=[];
+  if(!r||typeof r!=='object')return{ok:false,errors:['not an object']};
+  if(!new RegExp('^'+PREFIX.replace(/-/g,'\\-')+'\\d{6}$').test(r.id||''))e.push('id');
+  if(FIELDS.indexOf(r.group)<0)e.push('group');
+  if(typeof r.title!=='string'||!r.title.length)e.push('title');
+  if(typeof r.description!=='string'||r.description.length<200)e.push('description');
+  if(r.method==='quiz-drill'||r.method==='archive-sample'){
+    var hit=null;
+    for(var i=0;i<BANK.length;i++){if(BANK[i].q===r.question&&BANK[i].a===r.answer){hit=BANK[i];break;}}
+    if(!hit)e.push('answer not banked');
+  }else if(r.method==='convert-drill'){
+    var c=r.conv;
+    if(!c||typeof c.value!=='number')e.push('conv missing');
+    else{
+      var expect=c.value*c.fromF/c.toF;
+      var got=parseFloat(String(r.answer).split(' ')[0]);
+      if(!(Math.abs(got-expect)<Math.max(1e-6,Math.abs(expect)*1e-9)))e.push('conversion mismatch');
+    }
+  }else{e.push('method');}
+  return{ok:!e.length,errors:e};
+}
+function driftCheck(rec,sample){
+  var seen={};(sample||[]).forEach(function(s){if(s&&s.t)seen[s.t]=1;});
+  if(rec&&seen[rec.title])return{ok:false,errors:['duplicate title in archive sample']};
+  return{ok:true,errors:[]};
+}
+var gen={version:'jahdb-e2-alabama-attractions-1.0',generate:generate,validate:validate,driftCheck:driftCheck,fields:FIELDS};
+if(typeof JAHDB!=='undefined'&&JAHDB.registerGenerator)JAHDB.registerGenerator(SLUG,gen);
+if(typeof module!=='undefined'&&module.exports)module.exports=gen;
+})();

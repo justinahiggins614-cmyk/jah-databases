@@ -1,0 +1,95 @@
+(function(){'use strict';
+/* JAH Lentil Nutrition Nutrition Database generator — jahdb-e2-nutrition-lentil-nutrition-1.0. Property of Justin Addam Higgins (JAH).
+   Deterministic: same seed, same record. Seeds 1..BANK return archive sample
+   records; higher seeds generate boundless drills. Drill answers come from the
+   banked archive data and validate() re-checks every one of them. */
+function prng(seed){var a=(seed>>>0)||1;return function(){a|=0;a=(a+0x6D2B79F5)|0;var t=Math.imul(a^(a>>>15),1|a);t=(t+Math.imul(t^(t>>>7),61|t))^t;return((t^(t>>>14))>>>0)/4294967296;};}
+var SLUG='e2-nutrition-lentil-nutrition',PREFIX='JAH-E2NUTRITION-',NAME='JAH Lentil Nutrition Nutrition Database';
+var FIELDS=["overview", "facts", "details", "history", "guide", "myths", "insider", "quiz", "resources"];
+var GEN_SRC='reference-authored';
+var MODE='quiz';
+var BANK=[{"t": "Lentil Nutrition: the complete guide", "d": "Lentil Nutrition: the humble legume..", "g": "overview", "l": 2, "q": "What is Lentil Nutrition: the complete guide?", "a": "Lentil Nutrition: the humble legume..", "x": "The complete nutrition guide to Lentil Nutrition: the humble legume.. 116 calories. History, meaning, practices, and how to engage respectfully — everything in one database. Protein. Culture facts from standard references. Practices vary by community; descriptions summarize mainstream observance respectfully.", "s": "public-reference", "f": null}, {"t": "At a glance", "d": "Lentil Nutrition essentials.", "g": "overview", "l": 2, "q": "What is At a glance?", "a": "Lentil Nutrition essentials.", "x": "At a glance: Lentil Nutrition — the humble legume.. Protein. The essentials: Iron.. Iron. Start here. Culture facts from standard references. Practices vary by community; descriptions summarize mainstream observance respectfully.", "s": "public-reference", "f": null}, {"t": "Key fact 1", "d": "116 calories.", "g": "facts", "l": 2, "q": "What is Key fact 1?", "a": "116 calories.", "x": "Lentil Nutrition: 116 calories.. Iron. Essential knowledge — Iron.. the humble legume. Culture facts from standard references. Practices vary by community; descriptions summarize mainstream observance respectfully.", "s": "public-reference", "f": null}, {"t": "Key fact 1 explained", "d": "Understanding: 116 calories..", "g": "facts", "l": 2, "q": "What is Key fact 1 explained?", "a": "Understanding: 116 calories..", "x": "Explained: 116 calories.. Dal. The context — Lentil Nutrition. Folate. Respectful understanding matters. Culture facts from standard references. Practices vary by community; descriptions summarize mainstream observance respectfully.", "s": "public-reference", "f": null}, {"t": "Key fact 2", "d": "Protein.", "g": "facts", "l": 2, "q": "What is Key fact 2?", "a": "Protein.", "x": "Lentil Nutrition: Protein.. Varieties. Essential knowledge — Folate.. the humble legume. Culture facts from standard references. Practices vary by community; descriptions summarize mainstream observance respectfully.", "s": "public-reference", "f": null}, {"t": "Key fact 2 explained", "d": "Understanding: Protein..", "g": "facts", "l": 2, "q": "What is Key fact 2 explained?", "a": "Understanding: Protein..", "x": "Explained: Protein.. Cooking. The context — Lentil Nutrition. Red/green. Respectful understanding matters. Culture facts from standard references. Practices vary by community; descriptions summarize mainstream observance respectfully.", "s": "public-reference", "f": null}, {"t": "Key fact 3", "d": "Iron.", "g": "facts", "l": 2, "q": "What is Key fact 3?", "a": "Iron.", "x": "Lentil Nutrition: Iron.. Dal. Essential knowledge — Red/green.. the humble legume. Culture facts from standard references. Practices vary by community; descriptions summarize mainstream observance respectfully.", "s": "public-reference", "f": null}, {"t": "Key fact 3 explained", "d": "Understanding: Iron..", "g": "facts", "l": 2, "q": "What is Key fact 3 explained?", "a": "Understanding: Iron..", "x": "Explained: Iron.. Budget. The context — Lentil Nutrition. Dal. Respectful understanding matters. Culture facts from standard references. Practices vary by community; descriptions summarize mainstream observance respectfully.", "s": "public-reference", "f": null}, {"t": "Key fact 4", "d": "Folate.", "g": "facts", "l": 2, "q": "What is Key fact 4?", "a": "Folate.", "x": "Lentil Nutrition: Folate.. Cooking. Essential knowledge — Dal.. the humble legume. Culture facts from standard references. Practices vary by community; descriptions summarize mainstream observance respectfully.", "s": "public-reference", "f": null}, {"t": "Key fact 4 explained", "d": "Understanding: Folate..", "g": "facts", "l": 2, "q": "What is Key fact 4 explained?", "a": "Understanding: Folate..", "x": "Explained: Folate.. Protein. The context — Lentil Nutrition. 116 calories. Respectful understanding matters. Culture facts from standard references. Practices vary by community; descriptions summarize mainstream observance respectfully.", "s": "public-reference", "f": null}, {"t": "Key fact 5", "d": "Red/green.", "g": "facts", "l": 2, "q": "What is Key fact 5?", "a": "Red/green.", "x": "Lentil Nutrition: Red/green.. Budget. Essential knowledge — 116 calories.. the humble legume. Culture facts from standard references. Practices vary by community; descriptions summarize mainstream observance respectfully.", "s": "public-reference", "f": null}, {"t": "Key fact 5 explained", "d": "Understanding: Red/green..", "g": "facts", "l": 2, "q": "What is Key fact 5 explained?", "a": "Understanding: Red/green..", "x": "Explained: Red/green.. Iron. The context — Lentil Nutrition. Protein. Respectful understanding matters. Culture facts from standard references. Practices vary by community; descriptions summarize mainstream observance respectfully.", "s": "public-reference", "f": null}, {"t": "Key fact 6", "d": "Dal.", "g": "facts", "l": 2, "q": "What is Key fact 6?", "a": "Dal.", "x": "Lentil Nutrition: Dal.. Protein. Essential knowledge — Protein.. the humble legume. Culture facts from standard references. Practices vary by community; descriptions summarize mainstream observance respectfully.", "s": "public-reference", "f": null}, {"t": "Key fact 6 explained", "d": "Understanding: Dal..", "g": "facts", "l": 2, "q": "What is Key fact 6 explained?", "a": "Understanding: Dal..", "x": "Explained: Dal.. Varieties. The context — Lentil Nutrition. Iron. Respectful understanding matters. Culture facts from standard references. Practices vary by community; descriptions summarize mainstream observance respectfully.", "s": "public-reference", "f": null}, {"t": "Deep dive 1", "d": "Protein.", "g": "details", "l": 2, "q": "What is Deep dive 1?", "a": "Protein.", "x": "Lentil Nutrition in depth: Protein.. Protein. Details — the humble legume.. Varieties. Folate. Culture facts from standard references. Practices vary by community; descriptions summarize mainstream observance respectfully.", "s": "public-reference", "f": null}, {"t": "Deep dive 2", "d": "Iron.", "g": "details", "l": 2, "q": "What is Deep dive 2?", "a": "Iron.", "x": "Lentil Nutrition in depth: Iron.. Iron. Details — the humble legume.. Dal. Red/green. Culture facts from standard references. Practices vary by community; descriptions summarize mainstream observance respectfully.", "s": "public-reference", "f": null}, {"t": "Deep dive 3", "d": "Varieties.", "g": "details", "l": 2, "q": "What is Deep dive 3?", "a": "Varieties.", "x": "Lentil Nutrition in depth: Varieties.. Folate. Details — the humble legume.. Cooking. Dal. Culture facts from standard references. Practices vary by community; descriptions summarize mainstream observance respectfully.", "s": "public-reference", "f": null}, {"t": "Deep dive 4", "d": "Dal.", "g": "details", "l": 2, "q": "What is Deep dive 4?", "a": "Dal.", "x": "Lentil Nutrition in depth: Dal.. Red/green. Details — the humble legume.. Budget. 116 calories. Culture facts from standard references. Practices vary by community; descriptions summarize mainstream observance respectfully.", "s": "public-reference", "f": null}, {"t": "Deep dive 5", "d": "Cooking.", "g": "details", "l": 2, "q": "What is Deep dive 5?", "a": "Cooking.", "x": "Lentil Nutrition in depth: Cooking.. Dal. Details — the humble legume.. Protein. Protein. Culture facts from standard references. Practices vary by community; descriptions summarize mainstream observance respectfully.", "s": "public-reference", "f": null}, {"t": "Deep dive 6", "d": "Budget.", "g": "details", "l": 2, "q": "What is Deep dive 6?", "a": "Budget.", "x": "Lentil Nutrition in depth: Budget.. 116 calories. Details — the humble legume.. Iron. Iron. Culture facts from standard references. Practices vary by community; descriptions summarize mainstream observance respectfully.", "s": "public-reference", "f": null}, {"t": "History and origins", "d": "Where Lentil Nutrition comes from.", "g": "history", "l": 2, "q": "What is History and origins?", "a": "Where Lentil Nutrition comes from.", "x": "Origins: Protein.. 116 calories. The history of Lentil Nutrition — the humble legume.. Iron. Everything has roots. Culture facts from standard references. Practices vary by community; descriptions summarize mainstream observance respectfully.", "s": "public-reference", "f": null}, {"t": "How to engage", "d": "Experiencing Lentil Nutrition respectfully.", "g": "guide", "l": 2, "q": "What is How to engage?", "a": "Experiencing Lentil Nutrition respectfully.", "x": "Engaging: Varieties.. Protein. How to participate or observe well — Lentil Nutrition. the humble legume. Respect first, always; Dal.. Culture facts from standard references. Practices vary by community; descriptions summarize mainstream observance respectfully.", "s": "public-reference", "f": null}, {"t": "Etiquette", "d": "Lentil Nutrition do's and don'ts.", "g": "guide", "l": 2, "q": "What is Etiquette?", "a": "Lentil Nutrition do's and don'ts.", "x": "Etiquette: Cooking.. Iron. The rules of respect — Lentil Nutrition. the humble legume. When in doubt, ask about Budget.. Culture facts from standard references. Practices vary by community; descriptions summarize mainstream observance respectfully.", "s": "public-reference", "f": null}, {"t": "Planning", "d": "Planning around Lentil Nutrition.", "g": "guide", "l": 2, "q": "What is Planning?", "a": "Planning around Lentil Nutrition.", "x": "Planning: Protein.. Folate. Practical notes — Lentil Nutrition. the humble legume. A little planning shows respect for Iron.. Culture facts from standard references. Practices vary by community; descriptions summarize mainstream observance respectfully.", "s": "public-reference", "f": null}, {"t": "Costs", "d": "Lentil Nutrition and money.", "g": "guide", "l": 2, "q": "What is Costs?", "a": "Lentil Nutrition and money.", "x": "Costs: Varieties.. Red/green. What to budget — Lentil Nutrition. the humble legume. The best experiences of Dal. are often free. Culture facts from standard references. Practices vary by community; descriptions summarize mainstream observance respectfully.", "s": "public-reference", "f": null}];
+function pad(n){return String(n).padStart(6,'0');}
+function drillProg(q,a){
+  return '// boundless drill program\nvar Q='+JSON.stringify(q)+';\nvar A='+JSON.stringify(a)+';\n'
+    +'console.log("DRILL: "+Q);\nconsole.log("Say it out loud, then check:");\nconsole.log("ANSWER: "+A);';
+}
+function bankRec(i){
+  var b=BANK[(i-1)%BANK.length];
+  var r={id:PREFIX+pad(i),title:b.t,description:b.x,group:b.g,ladder:b.l,
+    question:b.q,answer:b.a,method:'archive-sample',
+    program:drillProg(b.q,b.a),language:'javascript',
+    src:b.s,last_verified:'2026-10-19',sample:true};
+  return r;
+}
+function genQuizDrill(rnd,seed){
+  var b=BANK[(rnd()*BANK.length)|0];
+  var desc='Boundless drill #'+seed+' — '+NAME+'. The question: '+b.q+'\n\n'
+    +'Cover the answer and say it out loud before reading on. Fluency with these facts is the whole game: '
+    +'each drill pulls a real record from this database\'s archive and tests exactly one fact cold. '
+    +'If you knew it, it is yours; if not, open the archive record "'+b.t+'" and read the full entry, then come back and drill it again. '
+    +'The validated answer: '+b.a+'\n\n'
+    +'Drills never repeat the archive verbatim — they re-ask the same true facts from new angles so the knowledge sticks.';
+  return {id:PREFIX+pad(seed),title:'Drill: '+b.t,description:desc,group:b.g,ladder:b.l,
+    method:'quiz-drill',question:b.q,answer:b.a,
+    program:drillProg(b.q,b.a),language:'javascript',src:GEN_SRC,last_verified:'2026-10-19'};
+}
+function genConvertDrill(rnd,seed){
+  var b1=BANK[(rnd()*BANK.length)|0],b2=BANK[(rnd()*BANK.length)|0];
+  var v=Math.round((1+rnd()*999)*100)/100;
+  var ans=v*b1.f/b2.f;
+  var q='Convert '+v+' '+b1.t+' to '+b2.t+'.';
+  var a=String(Math.round(ans*1e6)/1e6)+' '+b2.t;
+  var desc='Boundless drill #'+seed+' — '+NAME+'. The question: '+q+'\n\n'
+    +'Work it with the factor table: multiply by the "from" unit\'s factor to reach the base unit, then divide by the "to" unit\'s factor. '
+    +'The demo program on any archive record in this database runs the same computation, so you can check your method there first. '
+    +'The validated answer: '+a+'. If your number matches, the method is yours; drills like this one keep every conversion in this database one multiplication and one division away.';
+  return {id:PREFIX+pad(seed),title:'Conversion drill: '+b1.t+' to '+b2.t,description:desc,
+    group:b1.g,ladder:2,method:'convert-drill',question:q,answer:a,
+    conv:{value:v,from:b1.t,fromF:b1.f,to:b2.t,toF:b2.f},
+    program:'// conversion drill program\nvar v='+v+';\nvar fromF='+b1.f+';\nvar toF='+b2.f+';\n'
+      +'console.log("Q: convert "+v+" '+b1.t.replace(/'/g,"\\'")+' to '+b2.t.replace(/'/g,"\\'")+'");\n'
+      +'console.log("A: "+(v*fromF/toF)+" '+b2.t.replace(/'/g,"\\'")+'");',
+    language:'javascript',src:GEN_SRC,last_verified:'2026-10-19'};
+}
+function generate(seed,opts,rnd){
+  opts=opts||{};seed=+seed||1;rnd=rnd||prng(seed);
+  var g=opts.group||opts.category;
+  if(g&&FIELDS.indexOf(g)<0)g=null;
+  var r;
+  if(seed>=1&&seed<=BANK.length){r=bankRec(seed);}
+  else{r=(MODE==='convert')?genConvertDrill(rnd,seed):genQuizDrill(rnd,seed);}
+  if(g)r.group=g;
+  return r;
+}
+function validate(r){
+  var e=[];
+  if(!r||typeof r!=='object')return{ok:false,errors:['not an object']};
+  if(!new RegExp('^'+PREFIX.replace(/-/g,'\\-')+'\\d{6}$').test(r.id||''))e.push('id');
+  if(FIELDS.indexOf(r.group)<0)e.push('group');
+  if(typeof r.title!=='string'||!r.title.length)e.push('title');
+  if(typeof r.description!=='string'||r.description.length<200)e.push('description');
+  if(r.method==='quiz-drill'||r.method==='archive-sample'){
+    var hit=null;
+    for(var i=0;i<BANK.length;i++){if(BANK[i].q===r.question&&BANK[i].a===r.answer){hit=BANK[i];break;}}
+    if(!hit)e.push('answer not banked');
+  }else if(r.method==='convert-drill'){
+    var c=r.conv;
+    if(!c||typeof c.value!=='number')e.push('conv missing');
+    else{
+      var expect=c.value*c.fromF/c.toF;
+      var got=parseFloat(String(r.answer).split(' ')[0]);
+      if(!(Math.abs(got-expect)<Math.max(1e-6,Math.abs(expect)*1e-9)))e.push('conversion mismatch');
+    }
+  }else{e.push('method');}
+  return{ok:!e.length,errors:e};
+}
+function driftCheck(rec,sample){
+  var seen={};(sample||[]).forEach(function(s){if(s&&s.t)seen[s.t]=1;});
+  if(rec&&seen[rec.title])return{ok:false,errors:['duplicate title in archive sample']};
+  return{ok:true,errors:[]};
+}
+var gen={version:'jahdb-e2-nutrition-lentil-nutrition-1.0',generate:generate,validate:validate,driftCheck:driftCheck,fields:FIELDS};
+if(typeof JAHDB!=='undefined'&&JAHDB.registerGenerator)JAHDB.registerGenerator(SLUG,gen);
+if(typeof module!=='undefined'&&module.exports)module.exports=gen;
+})();

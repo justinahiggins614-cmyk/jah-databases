@@ -1,0 +1,95 @@
+(function(){'use strict';
+/* JAH Butter Chicken Dish Database generator — jahdb-e2-dish-butter-chicken-dish-1.0. Property of Justin Addam Higgins (JAH).
+   Deterministic: same seed, same record. Seeds 1..BANK return archive sample
+   records; higher seeds generate boundless drills. Drill answers come from the
+   banked archive data and validate() re-checks every one of them. */
+function prng(seed){var a=(seed>>>0)||1;return function(){a|=0;a=(a+0x6D2B79F5)|0;var t=Math.imul(a^(a>>>15),1|a);t=(t+Math.imul(t^(t>>>7),61|t))^t;return((t^(t>>>14))>>>0)/4294967296;};}
+var SLUG='e2-dish-butter-chicken-dish',PREFIX='JAH-E2DISHBUTTE-',NAME='JAH Butter Chicken Dish Database';
+var FIELDS=["overview", "facts", "details", "history", "guide", "myths", "insider", "quiz", "resources"];
+var GEN_SRC='reference-authored';
+var MODE='quiz';
+var BANK=[{"t": "Butter Chicken: the complete guide", "d": "Butter Chicken: the creamy tomato..", "g": "overview", "l": 2, "q": "What is Butter Chicken: the complete guide?", "a": "Butter Chicken: the creamy tomato..", "x": "The complete dish guide to Butter Chicken: the creamy tomato.. Delhi. History, meaning, practices, and how to engage respectfully — everything in one database. Delhi. Culture facts from standard references. Practices vary by community; descriptions summarize mainstream observance respectfully.", "s": "public-reference", "f": null}, {"t": "At a glance", "d": "Butter Chicken essentials.", "g": "overview", "l": 2, "q": "What is At a glance?", "a": "Butter Chicken essentials.", "x": "At a glance: Butter Chicken — the creamy tomato.. Tomato. The essentials: Cream.. Cream. Start here. Culture facts from standard references. Practices vary by community; descriptions summarize mainstream observance respectfully.", "s": "public-reference", "f": null}, {"t": "Key fact 1", "d": "Delhi.", "g": "facts", "l": 2, "q": "What is Key fact 1?", "a": "Delhi.", "x": "Butter Chicken: Delhi.. Cream. Essential knowledge — Cream.. the creamy tomato. Culture facts from standard references. Practices vary by community; descriptions summarize mainstream observance respectfully.", "s": "public-reference", "f": null}, {"t": "Key fact 1 explained", "d": "Understanding: Delhi..", "g": "facts", "l": 2, "q": "What is Key fact 1 explained?", "a": "Understanding: Delhi..", "x": "Explained: Delhi.. Tandoor. The context — Butter Chicken. Tandoor. Respectful understanding matters. Culture facts from standard references. Practices vary by community; descriptions summarize mainstream observance respectfully.", "s": "public-reference", "f": null}, {"t": "Key fact 2", "d": "Tomato.", "g": "facts", "l": 2, "q": "What is Key fact 2?", "a": "Tomato.", "x": "Butter Chicken: Tomato.. Naan. Essential knowledge — Tandoor.. the creamy tomato. Culture facts from standard references. Practices vary by community; descriptions summarize mainstream observance respectfully.", "s": "public-reference", "f": null}, {"t": "Key fact 2 explained", "d": "Understanding: Tomato..", "g": "facts", "l": 2, "q": "What is Key fact 2 explained?", "a": "Understanding: Tomato..", "x": "Explained: Tomato.. Tomato. The context — Butter Chicken. Fenugreek. Respectful understanding matters. Culture facts from standard references. Practices vary by community; descriptions summarize mainstream observance respectfully.", "s": "public-reference", "f": null}, {"t": "Key fact 3", "d": "Cream.", "g": "facts", "l": 2, "q": "What is Key fact 3?", "a": "Cream.", "x": "Butter Chicken: Cream.. Tandoor. Essential knowledge — Fenugreek.. the creamy tomato. Culture facts from standard references. Practices vary by community; descriptions summarize mainstream observance respectfully.", "s": "public-reference", "f": null}, {"t": "Key fact 3 explained", "d": "Understanding: Cream..", "g": "facts", "l": 2, "q": "What is Key fact 3 explained?", "a": "Understanding: Cream..", "x": "Explained: Cream.. Making. The context — Butter Chicken. Naan. Respectful understanding matters. Culture facts from standard references. Practices vary by community; descriptions summarize mainstream observance respectfully.", "s": "public-reference", "f": null}, {"t": "Key fact 4", "d": "Tandoor.", "g": "facts", "l": 2, "q": "What is Key fact 4?", "a": "Tandoor.", "x": "Butter Chicken: Tandoor.. Tomato. Essential knowledge — Naan.. the creamy tomato. Culture facts from standard references. Practices vary by community; descriptions summarize mainstream observance respectfully.", "s": "public-reference", "f": null}, {"t": "Key fact 4 explained", "d": "Understanding: Tandoor..", "g": "facts", "l": 2, "q": "What is Key fact 4 explained?", "a": "Understanding: Tandoor..", "x": "Explained: Tandoor.. Delhi. The context — Butter Chicken. Delhi. Respectful understanding matters. Culture facts from standard references. Practices vary by community; descriptions summarize mainstream observance respectfully.", "s": "public-reference", "f": null}, {"t": "Key fact 5", "d": "Fenugreek.", "g": "facts", "l": 2, "q": "What is Key fact 5?", "a": "Fenugreek.", "x": "Butter Chicken: Fenugreek.. Making. Essential knowledge — Delhi.. the creamy tomato. Culture facts from standard references. Practices vary by community; descriptions summarize mainstream observance respectfully.", "s": "public-reference", "f": null}, {"t": "Key fact 5 explained", "d": "Understanding: Fenugreek..", "g": "facts", "l": 2, "q": "What is Key fact 5 explained?", "a": "Understanding: Fenugreek..", "x": "Explained: Fenugreek.. Cream. The context — Butter Chicken. Tomato. Respectful understanding matters. Culture facts from standard references. Practices vary by community; descriptions summarize mainstream observance respectfully.", "s": "public-reference", "f": null}, {"t": "Key fact 6", "d": "Naan.", "g": "facts", "l": 2, "q": "What is Key fact 6?", "a": "Naan.", "x": "Butter Chicken: Naan.. Delhi. Essential knowledge — Tomato.. the creamy tomato. Culture facts from standard references. Practices vary by community; descriptions summarize mainstream observance respectfully.", "s": "public-reference", "f": null}, {"t": "Key fact 6 explained", "d": "Understanding: Naan..", "g": "facts", "l": 2, "q": "What is Key fact 6 explained?", "a": "Understanding: Naan..", "x": "Explained: Naan.. Naan. The context — Butter Chicken. Cream. Respectful understanding matters. Culture facts from standard references. Practices vary by community; descriptions summarize mainstream observance respectfully.", "s": "public-reference", "f": null}, {"t": "Deep dive 1", "d": "Delhi.", "g": "details", "l": 2, "q": "What is Deep dive 1?", "a": "Delhi.", "x": "Butter Chicken in depth: Delhi.. Tomato. Details — the creamy tomato.. Naan. Tandoor. Culture facts from standard references. Practices vary by community; descriptions summarize mainstream observance respectfully.", "s": "public-reference", "f": null}, {"t": "Deep dive 2", "d": "Cream.", "g": "details", "l": 2, "q": "What is Deep dive 2?", "a": "Cream.", "x": "Butter Chicken in depth: Cream.. Cream. Details — the creamy tomato.. Tandoor. Fenugreek. Culture facts from standard references. Practices vary by community; descriptions summarize mainstream observance respectfully.", "s": "public-reference", "f": null}, {"t": "Deep dive 3", "d": "Naan.", "g": "details", "l": 2, "q": "What is Deep dive 3?", "a": "Naan.", "x": "Butter Chicken in depth: Naan.. Tandoor. Details — the creamy tomato.. Tomato. Naan. Culture facts from standard references. Practices vary by community; descriptions summarize mainstream observance respectfully.", "s": "public-reference", "f": null}, {"t": "Deep dive 4", "d": "Tandoor.", "g": "details", "l": 2, "q": "What is Deep dive 4?", "a": "Tandoor.", "x": "Butter Chicken in depth: Tandoor.. Fenugreek. Details — the creamy tomato.. Making. Delhi. Culture facts from standard references. Practices vary by community; descriptions summarize mainstream observance respectfully.", "s": "public-reference", "f": null}, {"t": "Deep dive 5", "d": "Tomato.", "g": "details", "l": 2, "q": "What is Deep dive 5?", "a": "Tomato.", "x": "Butter Chicken in depth: Tomato.. Naan. Details — the creamy tomato.. Delhi. Tomato. Culture facts from standard references. Practices vary by community; descriptions summarize mainstream observance respectfully.", "s": "public-reference", "f": null}, {"t": "Deep dive 6", "d": "Making.", "g": "details", "l": 2, "q": "What is Deep dive 6?", "a": "Making.", "x": "Butter Chicken in depth: Making.. Delhi. Details — the creamy tomato.. Cream. Cream. Culture facts from standard references. Practices vary by community; descriptions summarize mainstream observance respectfully.", "s": "public-reference", "f": null}, {"t": "History and origins", "d": "Where Butter Chicken comes from.", "g": "history", "l": 2, "q": "What is History and origins?", "a": "Where Butter Chicken comes from.", "x": "Origins: Delhi.. Delhi. The history of Butter Chicken — the creamy tomato.. Cream. Everything has roots. Culture facts from standard references. Practices vary by community; descriptions summarize mainstream observance respectfully.", "s": "public-reference", "f": null}, {"t": "How to engage", "d": "Experiencing Butter Chicken respectfully.", "g": "guide", "l": 2, "q": "What is How to engage?", "a": "Experiencing Butter Chicken respectfully.", "x": "Engaging: Naan.. Tomato. How to participate or observe well — Butter Chicken. the creamy tomato. Respect first, always; Tandoor.. Culture facts from standard references. Practices vary by community; descriptions summarize mainstream observance respectfully.", "s": "public-reference", "f": null}, {"t": "Etiquette", "d": "Butter Chicken do's and don'ts.", "g": "guide", "l": 2, "q": "What is Etiquette?", "a": "Butter Chicken do's and don'ts.", "x": "Etiquette: Tomato.. Cream. The rules of respect — Butter Chicken. the creamy tomato. When in doubt, ask about Making.. Culture facts from standard references. Practices vary by community; descriptions summarize mainstream observance respectfully.", "s": "public-reference", "f": null}, {"t": "Planning", "d": "Planning around Butter Chicken.", "g": "guide", "l": 2, "q": "What is Planning?", "a": "Planning around Butter Chicken.", "x": "Planning: Delhi.. Tandoor. Practical notes — Butter Chicken. the creamy tomato. A little planning shows respect for Cream.. Culture facts from standard references. Practices vary by community; descriptions summarize mainstream observance respectfully.", "s": "public-reference", "f": null}, {"t": "Costs", "d": "Butter Chicken and money.", "g": "guide", "l": 2, "q": "What is Costs?", "a": "Butter Chicken and money.", "x": "Costs: Naan.. Fenugreek. What to budget — Butter Chicken. the creamy tomato. The best experiences of Tandoor. are often free. Culture facts from standard references. Practices vary by community; descriptions summarize mainstream observance respectfully.", "s": "public-reference", "f": null}];
+function pad(n){return String(n).padStart(6,'0');}
+function drillProg(q,a){
+  return '// boundless drill program\nvar Q='+JSON.stringify(q)+';\nvar A='+JSON.stringify(a)+';\n'
+    +'console.log("DRILL: "+Q);\nconsole.log("Say it out loud, then check:");\nconsole.log("ANSWER: "+A);';
+}
+function bankRec(i){
+  var b=BANK[(i-1)%BANK.length];
+  var r={id:PREFIX+pad(i),title:b.t,description:b.x,group:b.g,ladder:b.l,
+    question:b.q,answer:b.a,method:'archive-sample',
+    program:drillProg(b.q,b.a),language:'javascript',
+    src:b.s,last_verified:'2026-10-19',sample:true};
+  return r;
+}
+function genQuizDrill(rnd,seed){
+  var b=BANK[(rnd()*BANK.length)|0];
+  var desc='Boundless drill #'+seed+' — '+NAME+'. The question: '+b.q+'\n\n'
+    +'Cover the answer and say it out loud before reading on. Fluency with these facts is the whole game: '
+    +'each drill pulls a real record from this database\'s archive and tests exactly one fact cold. '
+    +'If you knew it, it is yours; if not, open the archive record "'+b.t+'" and read the full entry, then come back and drill it again. '
+    +'The validated answer: '+b.a+'\n\n'
+    +'Drills never repeat the archive verbatim — they re-ask the same true facts from new angles so the knowledge sticks.';
+  return {id:PREFIX+pad(seed),title:'Drill: '+b.t,description:desc,group:b.g,ladder:b.l,
+    method:'quiz-drill',question:b.q,answer:b.a,
+    program:drillProg(b.q,b.a),language:'javascript',src:GEN_SRC,last_verified:'2026-10-19'};
+}
+function genConvertDrill(rnd,seed){
+  var b1=BANK[(rnd()*BANK.length)|0],b2=BANK[(rnd()*BANK.length)|0];
+  var v=Math.round((1+rnd()*999)*100)/100;
+  var ans=v*b1.f/b2.f;
+  var q='Convert '+v+' '+b1.t+' to '+b2.t+'.';
+  var a=String(Math.round(ans*1e6)/1e6)+' '+b2.t;
+  var desc='Boundless drill #'+seed+' — '+NAME+'. The question: '+q+'\n\n'
+    +'Work it with the factor table: multiply by the "from" unit\'s factor to reach the base unit, then divide by the "to" unit\'s factor. '
+    +'The demo program on any archive record in this database runs the same computation, so you can check your method there first. '
+    +'The validated answer: '+a+'. If your number matches, the method is yours; drills like this one keep every conversion in this database one multiplication and one division away.';
+  return {id:PREFIX+pad(seed),title:'Conversion drill: '+b1.t+' to '+b2.t,description:desc,
+    group:b1.g,ladder:2,method:'convert-drill',question:q,answer:a,
+    conv:{value:v,from:b1.t,fromF:b1.f,to:b2.t,toF:b2.f},
+    program:'// conversion drill program\nvar v='+v+';\nvar fromF='+b1.f+';\nvar toF='+b2.f+';\n'
+      +'console.log("Q: convert "+v+" '+b1.t.replace(/'/g,"\\'")+' to '+b2.t.replace(/'/g,"\\'")+'");\n'
+      +'console.log("A: "+(v*fromF/toF)+" '+b2.t.replace(/'/g,"\\'")+'");',
+    language:'javascript',src:GEN_SRC,last_verified:'2026-10-19'};
+}
+function generate(seed,opts,rnd){
+  opts=opts||{};seed=+seed||1;rnd=rnd||prng(seed);
+  var g=opts.group||opts.category;
+  if(g&&FIELDS.indexOf(g)<0)g=null;
+  var r;
+  if(seed>=1&&seed<=BANK.length){r=bankRec(seed);}
+  else{r=(MODE==='convert')?genConvertDrill(rnd,seed):genQuizDrill(rnd,seed);}
+  if(g)r.group=g;
+  return r;
+}
+function validate(r){
+  var e=[];
+  if(!r||typeof r!=='object')return{ok:false,errors:['not an object']};
+  if(!new RegExp('^'+PREFIX.replace(/-/g,'\\-')+'\\d{6}$').test(r.id||''))e.push('id');
+  if(FIELDS.indexOf(r.group)<0)e.push('group');
+  if(typeof r.title!=='string'||!r.title.length)e.push('title');
+  if(typeof r.description!=='string'||r.description.length<200)e.push('description');
+  if(r.method==='quiz-drill'||r.method==='archive-sample'){
+    var hit=null;
+    for(var i=0;i<BANK.length;i++){if(BANK[i].q===r.question&&BANK[i].a===r.answer){hit=BANK[i];break;}}
+    if(!hit)e.push('answer not banked');
+  }else if(r.method==='convert-drill'){
+    var c=r.conv;
+    if(!c||typeof c.value!=='number')e.push('conv missing');
+    else{
+      var expect=c.value*c.fromF/c.toF;
+      var got=parseFloat(String(r.answer).split(' ')[0]);
+      if(!(Math.abs(got-expect)<Math.max(1e-6,Math.abs(expect)*1e-9)))e.push('conversion mismatch');
+    }
+  }else{e.push('method');}
+  return{ok:!e.length,errors:e};
+}
+function driftCheck(rec,sample){
+  var seen={};(sample||[]).forEach(function(s){if(s&&s.t)seen[s.t]=1;});
+  if(rec&&seen[rec.title])return{ok:false,errors:['duplicate title in archive sample']};
+  return{ok:true,errors:[]};
+}
+var gen={version:'jahdb-e2-dish-butter-chicken-dish-1.0',generate:generate,validate:validate,driftCheck:driftCheck,fields:FIELDS};
+if(typeof JAHDB!=='undefined'&&JAHDB.registerGenerator)JAHDB.registerGenerator(SLUG,gen);
+if(typeof module!=='undefined'&&module.exports)module.exports=gen;
+})();

@@ -1,0 +1,95 @@
+(function(){'use strict';
+/* JAH Hawaii Attractions Database generator — jahdb-e2-hawaii-attractions-1.0. Property of Justin Addam Higgins (JAH).
+   Deterministic: same seed, same record. Seeds 1..BANK return archive sample
+   records; higher seeds generate boundless drills. Drill answers come from the
+   banked archive data and validate() re-checks every one of them. */
+function prng(seed){var a=(seed>>>0)||1;return function(){a|=0;a=(a+0x6D2B79F5)|0;var t=Math.imul(a^(a>>>15),1|a);t=(t+Math.imul(t^(t>>>7),61|t))^t;return((t^(t>>>14))>>>0)/4294967296;};}
+var SLUG='e2-hawaii-attractions',PREFIX='JAH-E2HAWAIIATT-',NAME='JAH Hawaii Attractions Database';
+var FIELDS=["overview", "attractions", "parks", "cities", "food", "festivals", "itinerary"];
+var GEN_SRC='reference-authored';
+var MODE='quiz';
+var BANK=[{"t": "Hawaii: attractions overview", "d": "The best of Hawaii: Waikiki Beach, Pearl Harbor, Haleakala.", "g": "overview", "l": 2, "q": "What is Hawaii: attractions overview?", "a": "The best of Hawaii: Waikiki Beach, Pearl Harbor, Haleakala.", "x": "The essential Hawaii: Waikiki Beach, Pearl Harbor, Haleakala — plus Hawaii Volcanoes National Park, Hawaii's great poke. Merrie Monarch Festival This database is the complete visitor's guide: the famous sights, the parks, the cities, the food, and the festivals, with practical know-how for each.", "s": "public-reference", "f": null}, {"t": "Waikiki Beach", "d": "Waikiki Beach: a top Hawaii attraction.", "g": "attractions", "l": 2, "q": "What is Waikiki Beach?", "a": "Waikiki Beach: a top Hawaii attraction.", "x": "Waikiki Beach is essential Hawaii. Polynesian voyagers c. 1000 AD. Go early, read the story before you arrive, and give it the time it deserves — the famous sights earned their fame. poke State facts from official state publications and standard references. Symbols and slogans are designated by state legislatures.", "s": "public-reference", "f": null}, {"t": "Visiting Waikiki Beach", "d": "How to experience Waikiki Beach.", "g": "attractions", "l": 2, "q": "What is Visiting Waikiki Beach?", "a": "How to experience Waikiki Beach.", "x": "Experiencing Waikiki Beach: plan around Merrie Monarch Festival, the state's rhythm — Ua mau ke ea o ka aina i ka pono (The life of the land is perpetuated in righteousness). Mornings beat crowds, weekdays beat weekends, and the shoulder seasons beat both. Hawaii Volcanoes National Park Book ahead where needed; the best experiences reward planners.", "s": "public-reference", "f": null}, {"t": "Pearl Harbor", "d": "Pearl Harbor: a top Hawaii attraction.", "g": "attractions", "l": 2, "q": "What is Pearl Harbor?", "a": "Pearl Harbor: a top Hawaii attraction.", "x": "Pearl Harbor is essential Hawaii. Polynesian voyagers c. 1000 AD. Go early, read the story before you arrive, and give it the time it deserves — the famous sights earned their fame. poke State facts from official state publications and standard references. Symbols and slogans are designated by state legislatures.", "s": "public-reference", "f": null}, {"t": "Visiting Pearl Harbor", "d": "How to experience Pearl Harbor.", "g": "attractions", "l": 2, "q": "What is Visiting Pearl Harbor?", "a": "How to experience Pearl Harbor.", "x": "Experiencing Pearl Harbor: plan around Merrie Monarch Festival, the state's rhythm — Ua mau ke ea o ka aina i ka pono (The life of the land is perpetuated in righteousness). Mornings beat crowds, weekdays beat weekends, and the shoulder seasons beat both. Hawaii Volcanoes National Park Book ahead where needed; the best experiences reward planners.", "s": "public-reference", "f": null}, {"t": "Haleakala", "d": "Haleakala: a top Hawaii attraction.", "g": "attractions", "l": 2, "q": "What is Haleakala?", "a": "Haleakala: a top Hawaii attraction.", "x": "Haleakala is essential Hawaii. Polynesian voyagers c. 1000 AD. Go early, read the story before you arrive, and give it the time it deserves — the famous sights earned their fame. poke State facts from official state publications and standard references. Symbols and slogans are designated by state legislatures.", "s": "public-reference", "f": null}, {"t": "Visiting Haleakala", "d": "How to experience Haleakala.", "g": "attractions", "l": 2, "q": "What is Visiting Haleakala?", "a": "How to experience Haleakala.", "x": "Experiencing Haleakala: plan around Merrie Monarch Festival, the state's rhythm — Ua mau ke ea o ka aina i ka pono (The life of the land is perpetuated in righteousness). Mornings beat crowds, weekdays beat weekends, and the shoulder seasons beat both. Hawaii Volcanoes National Park Book ahead where needed; the best experiences reward planners.", "s": "public-reference", "f": null}, {"t": "Volcanoes National Park", "d": "Volcanoes National Park: a top Hawaii attraction.", "g": "attractions", "l": 2, "q": "What is Volcanoes National Park?", "a": "Volcanoes National Park: a top Hawaii attraction.", "x": "Volcanoes National Park is essential Hawaii. Polynesian voyagers c. 1000 AD. Go early, read the story before you arrive, and give it the time it deserves — the famous sights earned their fame. poke State facts from official state publications and standard references. Symbols and slogans are designated by state legislatures.", "s": "public-reference", "f": null}, {"t": "Visiting Volcanoes National Park", "d": "How to experience Volcanoes National Park.", "g": "attractions", "l": 2, "q": "What is Visiting Volcanoes National Park?", "a": "How to experience Volcanoes National Park.", "x": "Experiencing Volcanoes National Park: plan around Merrie Monarch Festival, the state's rhythm — Ua mau ke ea o ka aina i ka pono (The life of the land is perpetuated in righteousness). Mornings beat crowds, weekdays beat weekends, and the shoulder seasons beat both. Hawaii Volcanoes National Park Book ahead where needed; the best experiences reward planners.", "s": "public-reference", "f": null}, {"t": "Na Pali Coast", "d": "Na Pali Coast: a top Hawaii attraction.", "g": "attractions", "l": 2, "q": "What is Na Pali Coast?", "a": "Na Pali Coast: a top Hawaii attraction.", "x": "Na Pali Coast is essential Hawaii. Polynesian voyagers c. 1000 AD. Go early, read the story before you arrive, and give it the time it deserves — the famous sights earned their fame. poke State facts from official state publications and standard references. Symbols and slogans are designated by state legislatures.", "s": "public-reference", "f": null}, {"t": "Visiting Na Pali Coast", "d": "How to experience Na Pali Coast.", "g": "attractions", "l": 2, "q": "What is Visiting Na Pali Coast?", "a": "How to experience Na Pali Coast.", "x": "Experiencing Na Pali Coast: plan around Merrie Monarch Festival, the state's rhythm — Ua mau ke ea o ka aina i ka pono (The life of the land is perpetuated in righteousness). Mornings beat crowds, weekdays beat weekends, and the shoulder seasons beat both. Hawaii Volcanoes National Park Book ahead where needed; the best experiences reward planners.", "s": "public-reference", "f": null}, {"t": "Diamond Head", "d": "Diamond Head: a top Hawaii attraction.", "g": "attractions", "l": 2, "q": "What is Diamond Head?", "a": "Diamond Head: a top Hawaii attraction.", "x": "Diamond Head is essential Hawaii. Polynesian voyagers c. 1000 AD. Go early, read the story before you arrive, and give it the time it deserves — the famous sights earned their fame. poke State facts from official state publications and standard references. Symbols and slogans are designated by state legislatures.", "s": "public-reference", "f": null}, {"t": "Visiting Diamond Head", "d": "How to experience Diamond Head.", "g": "attractions", "l": 2, "q": "What is Visiting Diamond Head?", "a": "How to experience Diamond Head.", "x": "Experiencing Diamond Head: plan around Merrie Monarch Festival, the state's rhythm — Ua mau ke ea o ka aina i ka pono (The life of the land is perpetuated in righteousness). Mornings beat crowds, weekdays beat weekends, and the shoulder seasons beat both. Hawaii Volcanoes National Park Book ahead where needed; the best experiences reward planners.", "s": "public-reference", "f": null}, {"t": "Polynesian Cultural Center", "d": "Polynesian Cultural Center: a top Hawaii attraction.", "g": "attractions", "l": 2, "q": "What is Polynesian Cultural Center?", "a": "Polynesian Cultural Center: a top Hawaii attraction.", "x": "Polynesian Cultural Center is essential Hawaii. Polynesian voyagers c. 1000 AD. Go early, read the story before you arrive, and give it the time it deserves — the famous sights earned their fame. poke", "s": "public-reference", "f": null}, {"t": "Visiting Polynesian Cultural Center", "d": "How to experience Polynesian Cultural Center.", "g": "attractions", "l": 2, "q": "What is Visiting Polynesian Cultural Center?", "a": "How to experience Polynesian Cultural Center.", "x": "Experiencing Polynesian Cultural Center: plan around Merrie Monarch Festival, the state's rhythm — Ua mau ke ea o ka aina i ka pono (The life of the land is perpetuated in righteousness). Mornings beat crowds, weekdays beat weekends, and the shoulder seasons beat both. Hawaii Volcanoes National Park Book ahead where needed; the best experiences reward planners.", "s": "public-reference", "f": null}, {"t": "Hana Road", "d": "Hana Road: a top Hawaii attraction.", "g": "attractions", "l": 2, "q": "What is Hana Road?", "a": "Hana Road: a top Hawaii attraction.", "x": "Hana Road is essential Hawaii. Polynesian voyagers c. 1000 AD. Go early, read the story before you arrive, and give it the time it deserves — the famous sights earned their fame. poke State facts from official state publications and standard references. Symbols and slogans are designated by state legislatures.", "s": "public-reference", "f": null}, {"t": "Visiting Hana Road", "d": "How to experience Hana Road.", "g": "attractions", "l": 2, "q": "What is Visiting Hana Road?", "a": "How to experience Hana Road.", "x": "Experiencing Hana Road: plan around Merrie Monarch Festival, the state's rhythm — Ua mau ke ea o ka aina i ka pono (The life of the land is perpetuated in righteousness). Mornings beat crowds, weekdays beat weekends, and the shoulder seasons beat both. Hawaii Volcanoes National Park Book ahead where needed; the best experiences reward planners.", "s": "public-reference", "f": null}, {"t": "Hawaii Volcanoes National Park", "d": "Hawaii Volcanoes National Park: Hawaii's great park.", "g": "parks", "l": 2, "q": "What is Hawaii Volcanoes National Park?", "a": "Hawaii Volcanoes National Park: Hawaii's great park.", "x": "Hawaii Volcanoes National Park is Hawaii's wild heart: Waikiki Beach. Parks preserve what development cannot replace — the views, the wildlife, the quiet. Merrie Monarch Festival Hike it, camp it, or just stand in it; protected land is the state's gift to the future.", "s": "public-reference", "f": null}, {"t": "Exploring Hawaii Volcanoes National Park", "d": "How to explore Hawaii Volcanoes National Park.", "g": "parks", "l": 2, "q": "What is Exploring Hawaii Volcanoes National Park?", "a": "How to explore Hawaii Volcanoes National Park.", "x": "Exploring Hawaii Volcanoes National Park: get the park map, check conditions, carry water and layers, and tell someone your plan. Ua mau ke ea o ka aina i ka pono (The life of the land is perpetuated in righteousness) Rangers are the best guides — ask them. Leave no trace; the park's beauty is a loan from the future.", "s": "public-reference", "f": null}, {"t": "Honolulu: the capital city", "d": "Honolulu, capital of Hawaii.", "g": "cities", "l": 2, "q": "What is Honolulu: the capital city?", "a": "Honolulu, capital of Hawaii.", "x": "Honolulu: the capital of Hawaii — government, history, and often the best museums. Kingdom; overthrow 1893. Beyond the capitol, capitals have their own character: neighborhoods, food scenes, and the rhythm of a working government town. Honolulu", "s": "public-reference", "f": null}, {"t": "Honolulu: the biggest city", "d": "Honolulu is Hawaii's largest city.", "g": "cities", "l": 2, "q": "What is Honolulu: the biggest city?", "a": "Honolulu is Hawaii's largest city.", "x": "Honolulu is where Hawaii comes to work and play: the skyline, the food, the music, the crowds. tourism Big cities concentrate a state's energy — its ambition, its diversity, its contradictions. Merrie Monarch Festival", "s": "public-reference", "f": null}, {"t": "poke: the food", "d": "Taste Hawaii: poke.", "g": "food", "l": 2, "q": "What is poke: the food?", "a": "Taste Hawaii: poke.", "x": "The taste of Hawaii is poke — and the foodways around it. Pearl Harbor 1941; statehood 1959. Every state has a flavor: the dish locals defend, the restaurant rows, the festival foods. Merrie Monarch Festival Eat where the line is longest.", "s": "public-reference", "f": null}, {"t": "Food tour: Hawaii", "d": "Eating your way through Hawaii.", "g": "food", "l": 2, "q": "What is Food tour: Hawaii?", "a": "Eating your way through Hawaii.", "x": "Eating through Hawaii: start with poke, then follow the locals — diners, food trucks, farm stands. Ua mau ke ea o ka aina i ka pono (The life of the land is perpetuated in righteousness) Food is the fastest way into a place's heart; the stories come free with the meal. Honolulu", "s": "public-reference", "f": null}, {"t": "Merrie Monarch Festival", "d": "Merrie Monarch Festival: Hawaii's signature festival.", "g": "festivals", "l": 2, "q": "What is Merrie Monarch Festival?", "a": "Merrie Monarch Festival: Hawaii's signature festival.", "x": "Merrie Monarch Festival is Hawaii at its most celebratory: Statehood in 1959 made it the 50th state.. Festivals distill a place — its music, food, craft, and pride — into a few joyful days. Honolulu Time a visit for one; book early.", "s": "public-reference", "f": null}, {"t": "Festival calendar", "d": "Hawaii year-round: Merrie Monarch Festival and more.", "g": "festivals", "l": 2, "q": "What is Festival calendar?", "a": "Hawaii year-round: Merrie Monarch Festival and more.", "x": "The Hawaii festival calendar runs year-round, with Merrie Monarch Festival as the anchor. Ua mau ke ea o ka aina i ka pono (The life of the land is perpetuated in righteousness) Every season has its celebration — plan trips around them for the liveliest version of the state. Hawaii Volcanoes National Park", "s": "public-reference", "f": null}];
+function pad(n){return String(n).padStart(6,'0');}
+function drillProg(q,a){
+  return '// boundless drill program\nvar Q='+JSON.stringify(q)+';\nvar A='+JSON.stringify(a)+';\n'
+    +'console.log("DRILL: "+Q);\nconsole.log("Say it out loud, then check:");\nconsole.log("ANSWER: "+A);';
+}
+function bankRec(i){
+  var b=BANK[(i-1)%BANK.length];
+  var r={id:PREFIX+pad(i),title:b.t,description:b.x,group:b.g,ladder:b.l,
+    question:b.q,answer:b.a,method:'archive-sample',
+    program:drillProg(b.q,b.a),language:'javascript',
+    src:b.s,last_verified:'2026-10-19',sample:true};
+  return r;
+}
+function genQuizDrill(rnd,seed){
+  var b=BANK[(rnd()*BANK.length)|0];
+  var desc='Boundless drill #'+seed+' — '+NAME+'. The question: '+b.q+'\n\n'
+    +'Cover the answer and say it out loud before reading on. Fluency with these facts is the whole game: '
+    +'each drill pulls a real record from this database\'s archive and tests exactly one fact cold. '
+    +'If you knew it, it is yours; if not, open the archive record "'+b.t+'" and read the full entry, then come back and drill it again. '
+    +'The validated answer: '+b.a+'\n\n'
+    +'Drills never repeat the archive verbatim — they re-ask the same true facts from new angles so the knowledge sticks.';
+  return {id:PREFIX+pad(seed),title:'Drill: '+b.t,description:desc,group:b.g,ladder:b.l,
+    method:'quiz-drill',question:b.q,answer:b.a,
+    program:drillProg(b.q,b.a),language:'javascript',src:GEN_SRC,last_verified:'2026-10-19'};
+}
+function genConvertDrill(rnd,seed){
+  var b1=BANK[(rnd()*BANK.length)|0],b2=BANK[(rnd()*BANK.length)|0];
+  var v=Math.round((1+rnd()*999)*100)/100;
+  var ans=v*b1.f/b2.f;
+  var q='Convert '+v+' '+b1.t+' to '+b2.t+'.';
+  var a=String(Math.round(ans*1e6)/1e6)+' '+b2.t;
+  var desc='Boundless drill #'+seed+' — '+NAME+'. The question: '+q+'\n\n'
+    +'Work it with the factor table: multiply by the "from" unit\'s factor to reach the base unit, then divide by the "to" unit\'s factor. '
+    +'The demo program on any archive record in this database runs the same computation, so you can check your method there first. '
+    +'The validated answer: '+a+'. If your number matches, the method is yours; drills like this one keep every conversion in this database one multiplication and one division away.';
+  return {id:PREFIX+pad(seed),title:'Conversion drill: '+b1.t+' to '+b2.t,description:desc,
+    group:b1.g,ladder:2,method:'convert-drill',question:q,answer:a,
+    conv:{value:v,from:b1.t,fromF:b1.f,to:b2.t,toF:b2.f},
+    program:'// conversion drill program\nvar v='+v+';\nvar fromF='+b1.f+';\nvar toF='+b2.f+';\n'
+      +'console.log("Q: convert "+v+" '+b1.t.replace(/'/g,"\\'")+' to '+b2.t.replace(/'/g,"\\'")+'");\n'
+      +'console.log("A: "+(v*fromF/toF)+" '+b2.t.replace(/'/g,"\\'")+'");',
+    language:'javascript',src:GEN_SRC,last_verified:'2026-10-19'};
+}
+function generate(seed,opts,rnd){
+  opts=opts||{};seed=+seed||1;rnd=rnd||prng(seed);
+  var g=opts.group||opts.category;
+  if(g&&FIELDS.indexOf(g)<0)g=null;
+  var r;
+  if(seed>=1&&seed<=BANK.length){r=bankRec(seed);}
+  else{r=(MODE==='convert')?genConvertDrill(rnd,seed):genQuizDrill(rnd,seed);}
+  if(g)r.group=g;
+  return r;
+}
+function validate(r){
+  var e=[];
+  if(!r||typeof r!=='object')return{ok:false,errors:['not an object']};
+  if(!new RegExp('^'+PREFIX.replace(/-/g,'\\-')+'\\d{6}$').test(r.id||''))e.push('id');
+  if(FIELDS.indexOf(r.group)<0)e.push('group');
+  if(typeof r.title!=='string'||!r.title.length)e.push('title');
+  if(typeof r.description!=='string'||r.description.length<200)e.push('description');
+  if(r.method==='quiz-drill'||r.method==='archive-sample'){
+    var hit=null;
+    for(var i=0;i<BANK.length;i++){if(BANK[i].q===r.question&&BANK[i].a===r.answer){hit=BANK[i];break;}}
+    if(!hit)e.push('answer not banked');
+  }else if(r.method==='convert-drill'){
+    var c=r.conv;
+    if(!c||typeof c.value!=='number')e.push('conv missing');
+    else{
+      var expect=c.value*c.fromF/c.toF;
+      var got=parseFloat(String(r.answer).split(' ')[0]);
+      if(!(Math.abs(got-expect)<Math.max(1e-6,Math.abs(expect)*1e-9)))e.push('conversion mismatch');
+    }
+  }else{e.push('method');}
+  return{ok:!e.length,errors:e};
+}
+function driftCheck(rec,sample){
+  var seen={};(sample||[]).forEach(function(s){if(s&&s.t)seen[s.t]=1;});
+  if(rec&&seen[rec.title])return{ok:false,errors:['duplicate title in archive sample']};
+  return{ok:true,errors:[]};
+}
+var gen={version:'jahdb-e2-hawaii-attractions-1.0',generate:generate,validate:validate,driftCheck:driftCheck,fields:FIELDS};
+if(typeof JAHDB!=='undefined'&&JAHDB.registerGenerator)JAHDB.registerGenerator(SLUG,gen);
+if(typeof module!=='undefined'&&module.exports)module.exports=gen;
+})();

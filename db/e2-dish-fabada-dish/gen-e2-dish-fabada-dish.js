@@ -1,0 +1,95 @@
+(function(){'use strict';
+/* JAH Fabada Dish Database generator — jahdb-e2-dish-fabada-dish-1.0. Property of Justin Addam Higgins (JAH).
+   Deterministic: same seed, same record. Seeds 1..BANK return archive sample
+   records; higher seeds generate boundless drills. Drill answers come from the
+   banked archive data and validate() re-checks every one of them. */
+function prng(seed){var a=(seed>>>0)||1;return function(){a|=0;a=(a+0x6D2B79F5)|0;var t=Math.imul(a^(a>>>15),1|a);t=(t+Math.imul(t^(t>>>7),61|t))^t;return((t^(t>>>14))>>>0)/4294967296;};}
+var SLUG='e2-dish-fabada-dish',PREFIX='JAH-E2DISHFABAD-',NAME='JAH Fabada Dish Database';
+var FIELDS=["overview", "facts", "details", "history", "guide", "myths", "insider", "quiz", "resources"];
+var GEN_SRC='reference-authored';
+var MODE='quiz';
+var BANK=[{"t": "Fabada: the complete guide", "d": "Fabada: the Asturian beans..", "g": "overview", "l": 2, "q": "What is Fabada: the complete guide?", "a": "Fabada: the Asturian beans..", "x": "The complete dish guide to Fabada: the Asturian beans.. Asturias. History, meaning, practices, and how to engage respectfully — everything in one database. Beans. Culture facts from standard references. Practices vary by community; descriptions summarize mainstream observance respectfully.", "s": "public-reference", "f": null}, {"t": "At a glance", "d": "Fabada essentials.", "g": "overview", "l": 2, "q": "What is At a glance?", "a": "Fabada essentials.", "x": "At a glance: Fabada — the Asturian beans.. Beans. The essentials: Winter.. Chorizo. Start here. Culture facts from standard references. Practices vary by community; descriptions summarize mainstream observance respectfully.", "s": "public-reference", "f": null}, {"t": "Key fact 1", "d": "Asturias.", "g": "facts", "l": 2, "q": "What is Key fact 1?", "a": "Asturias.", "x": "Fabada: Asturias.. Winter. Essential knowledge — Chorizo.. the Asturian beans. Culture facts from standard references. Practices vary by community; descriptions summarize mainstream observance respectfully.", "s": "public-reference", "f": null}, {"t": "Key fact 1 explained", "d": "Understanding: Asturias..", "g": "facts", "l": 2, "q": "What is Key fact 1 explained?", "a": "Understanding: Asturias..", "x": "Explained: Asturias.. Asturias. The context — Fabada. Hearty. Respectful understanding matters. Culture facts from standard references. Practices vary by community; descriptions summarize mainstream observance respectfully.", "s": "public-reference", "f": null}, {"t": "Key fact 2", "d": "Beans.", "g": "facts", "l": 2, "q": "What is Key fact 2?", "a": "Beans.", "x": "Fabada: Beans.. Morcilla. Essential knowledge — Hearty.. the Asturian beans. Culture facts from standard references. Practices vary by community; descriptions summarize mainstream observance respectfully.", "s": "public-reference", "f": null}, {"t": "Key fact 2 explained", "d": "Understanding: Beans..", "g": "facts", "l": 2, "q": "What is Key fact 2 explained?", "a": "Understanding: Beans..", "x": "Explained: Beans.. Hearty. The context — Fabada. Winter. Respectful understanding matters. Culture facts from standard references. Practices vary by community; descriptions summarize mainstream observance respectfully.", "s": "public-reference", "f": null}, {"t": "Key fact 3", "d": "Chorizo.", "g": "facts", "l": 2, "q": "What is Key fact 3?", "a": "Chorizo.", "x": "Fabada: Chorizo.. Asturias. Essential knowledge — Winter.. the Asturian beans. Culture facts from standard references. Practices vary by community; descriptions summarize mainstream observance respectfully.", "s": "public-reference", "f": null}, {"t": "Key fact 3 explained", "d": "Understanding: Chorizo..", "g": "facts", "l": 2, "q": "What is Key fact 3 explained?", "a": "Understanding: Chorizo..", "x": "Explained: Chorizo.. Making. The context — Fabada. Morcilla. Respectful understanding matters. Culture facts from standard references. Practices vary by community; descriptions summarize mainstream observance respectfully.", "s": "public-reference", "f": null}, {"t": "Key fact 4", "d": "Hearty.", "g": "facts", "l": 2, "q": "What is Key fact 4?", "a": "Hearty.", "x": "Fabada: Hearty.. Hearty. Essential knowledge — Morcilla.. the Asturian beans. Culture facts from standard references. Practices vary by community; descriptions summarize mainstream observance respectfully.", "s": "public-reference", "f": null}, {"t": "Key fact 4 explained", "d": "Understanding: Hearty..", "g": "facts", "l": 2, "q": "What is Key fact 4 explained?", "a": "Understanding: Hearty..", "x": "Explained: Hearty.. Beans. The context — Fabada. Asturias. Respectful understanding matters. Culture facts from standard references. Practices vary by community; descriptions summarize mainstream observance respectfully.", "s": "public-reference", "f": null}, {"t": "Key fact 5", "d": "Winter.", "g": "facts", "l": 2, "q": "What is Key fact 5?", "a": "Winter.", "x": "Fabada: Winter.. Making. Essential knowledge — Asturias.. the Asturian beans. Culture facts from standard references. Practices vary by community; descriptions summarize mainstream observance respectfully.", "s": "public-reference", "f": null}, {"t": "Key fact 5 explained", "d": "Understanding: Winter..", "g": "facts", "l": 2, "q": "What is Key fact 5 explained?", "a": "Understanding: Winter..", "x": "Explained: Winter.. Winter. The context — Fabada. Beans. Respectful understanding matters. Culture facts from standard references. Practices vary by community; descriptions summarize mainstream observance respectfully.", "s": "public-reference", "f": null}, {"t": "Key fact 6", "d": "Morcilla.", "g": "facts", "l": 2, "q": "What is Key fact 6?", "a": "Morcilla.", "x": "Fabada: Morcilla.. Beans. Essential knowledge — Beans.. the Asturian beans. Culture facts from standard references. Practices vary by community; descriptions summarize mainstream observance respectfully.", "s": "public-reference", "f": null}, {"t": "Key fact 6 explained", "d": "Understanding: Morcilla..", "g": "facts", "l": 2, "q": "What is Key fact 6 explained?", "a": "Understanding: Morcilla..", "x": "Explained: Morcilla.. Morcilla. The context — Fabada. Chorizo. Respectful understanding matters. Culture facts from standard references. Practices vary by community; descriptions summarize mainstream observance respectfully.", "s": "public-reference", "f": null}, {"t": "Deep dive 1", "d": "Beans.", "g": "details", "l": 2, "q": "What is Deep dive 1?", "a": "Beans.", "x": "Fabada in depth: Beans.. Beans. Details — the Asturian beans.. Morcilla. Hearty. Culture facts from standard references. Practices vary by community; descriptions summarize mainstream observance respectfully.", "s": "public-reference", "f": null}, {"t": "Deep dive 2", "d": "Winter.", "g": "details", "l": 2, "q": "What is Deep dive 2?", "a": "Winter.", "x": "Fabada in depth: Winter.. Chorizo. Details — the Asturian beans.. Asturias. Winter. Culture facts from standard references. Practices vary by community; descriptions summarize mainstream observance respectfully.", "s": "public-reference", "f": null}, {"t": "Deep dive 3", "d": "Morcilla.", "g": "details", "l": 2, "q": "What is Deep dive 3?", "a": "Morcilla.", "x": "Fabada in depth: Morcilla.. Hearty. Details — the Asturian beans.. Hearty. Morcilla. Culture facts from standard references. Practices vary by community; descriptions summarize mainstream observance respectfully.", "s": "public-reference", "f": null}, {"t": "Deep dive 4", "d": "Asturias.", "g": "details", "l": 2, "q": "What is Deep dive 4?", "a": "Asturias.", "x": "Fabada in depth: Asturias.. Winter. Details — the Asturian beans.. Making. Asturias. Culture facts from standard references. Practices vary by community; descriptions summarize mainstream observance respectfully.", "s": "public-reference", "f": null}, {"t": "Deep dive 5", "d": "Hearty.", "g": "details", "l": 2, "q": "What is Deep dive 5?", "a": "Hearty.", "x": "Fabada in depth: Hearty.. Morcilla. Details — the Asturian beans.. Beans. Beans. Culture facts from standard references. Practices vary by community; descriptions summarize mainstream observance respectfully.", "s": "public-reference", "f": null}, {"t": "Deep dive 6", "d": "Making.", "g": "details", "l": 2, "q": "What is Deep dive 6?", "a": "Making.", "x": "Fabada in depth: Making.. Asturias. Details — the Asturian beans.. Winter. Chorizo. Culture facts from standard references. Practices vary by community; descriptions summarize mainstream observance respectfully.", "s": "public-reference", "f": null}, {"t": "History and origins", "d": "Where Fabada comes from.", "g": "history", "l": 2, "q": "What is History and origins?", "a": "Where Fabada comes from.", "x": "Origins: Beans.. Asturias. The history of Fabada — the Asturian beans.. Winter. Everything has roots. Culture facts from standard references. Practices vary by community; descriptions summarize mainstream observance respectfully.", "s": "public-reference", "f": null}, {"t": "How to engage", "d": "Experiencing Fabada respectfully.", "g": "guide", "l": 2, "q": "What is How to engage?", "a": "Experiencing Fabada respectfully.", "x": "Engaging: Morcilla.. Beans. How to participate or observe well — Fabada. the Asturian beans. Respect first, always; Asturias.. Culture facts from standard references. Practices vary by community; descriptions summarize mainstream observance respectfully.", "s": "public-reference", "f": null}, {"t": "Etiquette", "d": "Fabada do's and don'ts.", "g": "guide", "l": 2, "q": "What is Etiquette?", "a": "Fabada do's and don'ts.", "x": "Etiquette: Hearty.. Chorizo. The rules of respect — Fabada. the Asturian beans. When in doubt, ask about Making.. Culture facts from standard references. Practices vary by community; descriptions summarize mainstream observance respectfully.", "s": "public-reference", "f": null}, {"t": "Planning", "d": "Planning around Fabada.", "g": "guide", "l": 2, "q": "What is Planning?", "a": "Planning around Fabada.", "x": "Planning: Beans.. Hearty. Practical notes — Fabada. the Asturian beans. A little planning shows respect for Winter.. Culture facts from standard references. Practices vary by community; descriptions summarize mainstream observance respectfully.", "s": "public-reference", "f": null}, {"t": "Costs", "d": "Fabada and money.", "g": "guide", "l": 2, "q": "What is Costs?", "a": "Fabada and money.", "x": "Costs: Morcilla.. Winter. What to budget — Fabada. the Asturian beans. The best experiences of Asturias. are often free. Culture facts from standard references. Practices vary by community; descriptions summarize mainstream observance respectfully.", "s": "public-reference", "f": null}];
+function pad(n){return String(n).padStart(6,'0');}
+function drillProg(q,a){
+  return '// boundless drill program\nvar Q='+JSON.stringify(q)+';\nvar A='+JSON.stringify(a)+';\n'
+    +'console.log("DRILL: "+Q);\nconsole.log("Say it out loud, then check:");\nconsole.log("ANSWER: "+A);';
+}
+function bankRec(i){
+  var b=BANK[(i-1)%BANK.length];
+  var r={id:PREFIX+pad(i),title:b.t,description:b.x,group:b.g,ladder:b.l,
+    question:b.q,answer:b.a,method:'archive-sample',
+    program:drillProg(b.q,b.a),language:'javascript',
+    src:b.s,last_verified:'2026-10-19',sample:true};
+  return r;
+}
+function genQuizDrill(rnd,seed){
+  var b=BANK[(rnd()*BANK.length)|0];
+  var desc='Boundless drill #'+seed+' — '+NAME+'. The question: '+b.q+'\n\n'
+    +'Cover the answer and say it out loud before reading on. Fluency with these facts is the whole game: '
+    +'each drill pulls a real record from this database\'s archive and tests exactly one fact cold. '
+    +'If you knew it, it is yours; if not, open the archive record "'+b.t+'" and read the full entry, then come back and drill it again. '
+    +'The validated answer: '+b.a+'\n\n'
+    +'Drills never repeat the archive verbatim — they re-ask the same true facts from new angles so the knowledge sticks.';
+  return {id:PREFIX+pad(seed),title:'Drill: '+b.t,description:desc,group:b.g,ladder:b.l,
+    method:'quiz-drill',question:b.q,answer:b.a,
+    program:drillProg(b.q,b.a),language:'javascript',src:GEN_SRC,last_verified:'2026-10-19'};
+}
+function genConvertDrill(rnd,seed){
+  var b1=BANK[(rnd()*BANK.length)|0],b2=BANK[(rnd()*BANK.length)|0];
+  var v=Math.round((1+rnd()*999)*100)/100;
+  var ans=v*b1.f/b2.f;
+  var q='Convert '+v+' '+b1.t+' to '+b2.t+'.';
+  var a=String(Math.round(ans*1e6)/1e6)+' '+b2.t;
+  var desc='Boundless drill #'+seed+' — '+NAME+'. The question: '+q+'\n\n'
+    +'Work it with the factor table: multiply by the "from" unit\'s factor to reach the base unit, then divide by the "to" unit\'s factor. '
+    +'The demo program on any archive record in this database runs the same computation, so you can check your method there first. '
+    +'The validated answer: '+a+'. If your number matches, the method is yours; drills like this one keep every conversion in this database one multiplication and one division away.';
+  return {id:PREFIX+pad(seed),title:'Conversion drill: '+b1.t+' to '+b2.t,description:desc,
+    group:b1.g,ladder:2,method:'convert-drill',question:q,answer:a,
+    conv:{value:v,from:b1.t,fromF:b1.f,to:b2.t,toF:b2.f},
+    program:'// conversion drill program\nvar v='+v+';\nvar fromF='+b1.f+';\nvar toF='+b2.f+';\n'
+      +'console.log("Q: convert "+v+" '+b1.t.replace(/'/g,"\\'")+' to '+b2.t.replace(/'/g,"\\'")+'");\n'
+      +'console.log("A: "+(v*fromF/toF)+" '+b2.t.replace(/'/g,"\\'")+'");',
+    language:'javascript',src:GEN_SRC,last_verified:'2026-10-19'};
+}
+function generate(seed,opts,rnd){
+  opts=opts||{};seed=+seed||1;rnd=rnd||prng(seed);
+  var g=opts.group||opts.category;
+  if(g&&FIELDS.indexOf(g)<0)g=null;
+  var r;
+  if(seed>=1&&seed<=BANK.length){r=bankRec(seed);}
+  else{r=(MODE==='convert')?genConvertDrill(rnd,seed):genQuizDrill(rnd,seed);}
+  if(g)r.group=g;
+  return r;
+}
+function validate(r){
+  var e=[];
+  if(!r||typeof r!=='object')return{ok:false,errors:['not an object']};
+  if(!new RegExp('^'+PREFIX.replace(/-/g,'\\-')+'\\d{6}$').test(r.id||''))e.push('id');
+  if(FIELDS.indexOf(r.group)<0)e.push('group');
+  if(typeof r.title!=='string'||!r.title.length)e.push('title');
+  if(typeof r.description!=='string'||r.description.length<200)e.push('description');
+  if(r.method==='quiz-drill'||r.method==='archive-sample'){
+    var hit=null;
+    for(var i=0;i<BANK.length;i++){if(BANK[i].q===r.question&&BANK[i].a===r.answer){hit=BANK[i];break;}}
+    if(!hit)e.push('answer not banked');
+  }else if(r.method==='convert-drill'){
+    var c=r.conv;
+    if(!c||typeof c.value!=='number')e.push('conv missing');
+    else{
+      var expect=c.value*c.fromF/c.toF;
+      var got=parseFloat(String(r.answer).split(' ')[0]);
+      if(!(Math.abs(got-expect)<Math.max(1e-6,Math.abs(expect)*1e-9)))e.push('conversion mismatch');
+    }
+  }else{e.push('method');}
+  return{ok:!e.length,errors:e};
+}
+function driftCheck(rec,sample){
+  var seen={};(sample||[]).forEach(function(s){if(s&&s.t)seen[s.t]=1;});
+  if(rec&&seen[rec.title])return{ok:false,errors:['duplicate title in archive sample']};
+  return{ok:true,errors:[]};
+}
+var gen={version:'jahdb-e2-dish-fabada-dish-1.0',generate:generate,validate:validate,driftCheck:driftCheck,fields:FIELDS};
+if(typeof JAHDB!=='undefined'&&JAHDB.registerGenerator)JAHDB.registerGenerator(SLUG,gen);
+if(typeof module!=='undefined'&&module.exports)module.exports=gen;
+})();

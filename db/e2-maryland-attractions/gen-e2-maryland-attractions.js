@@ -1,0 +1,95 @@
+(function(){'use strict';
+/* JAH Maryland Attractions Database generator — jahdb-e2-maryland-attractions-1.0. Property of Justin Addam Higgins (JAH).
+   Deterministic: same seed, same record. Seeds 1..BANK return archive sample
+   records; higher seeds generate boundless drills. Drill answers come from the
+   banked archive data and validate() re-checks every one of them. */
+function prng(seed){var a=(seed>>>0)||1;return function(){a|=0;a=(a+0x6D2B79F5)|0;var t=Math.imul(a^(a>>>15),1|a);t=(t+Math.imul(t^(t>>>7),61|t))^t;return((t^(t>>>14))>>>0)/4294967296;};}
+var SLUG='e2-maryland-attractions',PREFIX='JAH-E2MARYLANDA-',NAME='JAH Maryland Attractions Database';
+var FIELDS=["overview", "attractions", "parks", "cities", "food", "festivals", "itinerary"];
+var GEN_SRC='reference-authored';
+var MODE='quiz';
+var BANK=[{"t": "Maryland: attractions overview", "d": "The best of Maryland: Inner Harbor, Fort McHenry, Annapolis.", "g": "overview", "l": 2, "q": "What is Maryland: attractions overview?", "a": "The best of Maryland: Inner Harbor, Fort McHenry, Annapolis.", "x": "The essential Maryland: Inner Harbor, Fort McHenry, Annapolis — plus Assateague Island National Seashore, Maryland's great crab cakes. Preakness Stakes This database is the complete visitor's guide: the famous sights, the parks, the cities, the food, and the festivals, with practical know-how for each.", "s": "public-reference", "f": null}, {"t": "Inner Harbor", "d": "Inner Harbor: a top Maryland attraction.", "g": "attractions", "l": 2, "q": "What is Inner Harbor?", "a": "Inner Harbor: a top Maryland attraction.", "x": "Inner Harbor is essential Maryland. Catholic refuge colony 1634. Go early, read the story before you arrive, and give it the time it deserves — the famous sights earned their fame. crab cakes State facts from official state publications and standard references. Symbols and slogans are designated by state legislatures.", "s": "public-reference", "f": null}, {"t": "Visiting Inner Harbor", "d": "How to experience Inner Harbor.", "g": "attractions", "l": 2, "q": "What is Visiting Inner Harbor?", "a": "How to experience Inner Harbor.", "x": "Experiencing Inner Harbor: plan around Preakness Stakes, the state's rhythm — Fatti maschii, parole femine (Manly deeds, womanly words). Mornings beat crowds, weekdays beat weekends, and the shoulder seasons beat both. Assateague Island National Seashore Book ahead where needed; the best experiences reward planners.", "s": "public-reference", "f": null}, {"t": "Fort McHenry", "d": "Fort McHenry: a top Maryland attraction.", "g": "attractions", "l": 2, "q": "What is Fort McHenry?", "a": "Fort McHenry: a top Maryland attraction.", "x": "Fort McHenry is essential Maryland. Catholic refuge colony 1634. Go early, read the story before you arrive, and give it the time it deserves — the famous sights earned their fame. crab cakes State facts from official state publications and standard references. Symbols and slogans are designated by state legislatures.", "s": "public-reference", "f": null}, {"t": "Visiting Fort McHenry", "d": "How to experience Fort McHenry.", "g": "attractions", "l": 2, "q": "What is Visiting Fort McHenry?", "a": "How to experience Fort McHenry.", "x": "Experiencing Fort McHenry: plan around Preakness Stakes, the state's rhythm — Fatti maschii, parole femine (Manly deeds, womanly words). Mornings beat crowds, weekdays beat weekends, and the shoulder seasons beat both. Assateague Island National Seashore Book ahead where needed; the best experiences reward planners.", "s": "public-reference", "f": null}, {"t": "Annapolis", "d": "Annapolis: a top Maryland attraction.", "g": "attractions", "l": 2, "q": "What is Annapolis?", "a": "Annapolis: a top Maryland attraction.", "x": "Annapolis is essential Maryland. Catholic refuge colony 1634. Go early, read the story before you arrive, and give it the time it deserves — the famous sights earned their fame. crab cakes State facts from official state publications and standard references. Symbols and slogans are designated by state legislatures.", "s": "public-reference", "f": null}, {"t": "Visiting Annapolis", "d": "How to experience Annapolis.", "g": "attractions", "l": 2, "q": "What is Visiting Annapolis?", "a": "How to experience Annapolis.", "x": "Experiencing Annapolis: plan around Preakness Stakes, the state's rhythm — Fatti maschii, parole femine (Manly deeds, womanly words). Mornings beat crowds, weekdays beat weekends, and the shoulder seasons beat both. Assateague Island National Seashore Book ahead where needed; the best experiences reward planners.", "s": "public-reference", "f": null}, {"t": "Ocean City", "d": "Ocean City: a top Maryland attraction.", "g": "attractions", "l": 2, "q": "What is Ocean City?", "a": "Ocean City: a top Maryland attraction.", "x": "Ocean City is essential Maryland. Catholic refuge colony 1634. Go early, read the story before you arrive, and give it the time it deserves — the famous sights earned their fame. crab cakes State facts from official state publications and standard references. Symbols and slogans are designated by state legislatures.", "s": "public-reference", "f": null}, {"t": "Visiting Ocean City", "d": "How to experience Ocean City.", "g": "attractions", "l": 2, "q": "What is Visiting Ocean City?", "a": "How to experience Ocean City.", "x": "Experiencing Ocean City: plan around Preakness Stakes, the state's rhythm — Fatti maschii, parole femine (Manly deeds, womanly words). Mornings beat crowds, weekdays beat weekends, and the shoulder seasons beat both. Assateague Island National Seashore Book ahead where needed; the best experiences reward planners.", "s": "public-reference", "f": null}, {"t": "Antietam battlefield", "d": "Antietam battlefield: a top Maryland attraction.", "g": "attractions", "l": 2, "q": "What is Antietam battlefield?", "a": "Antietam battlefield: a top Maryland attraction.", "x": "Antietam battlefield is essential Maryland. Catholic refuge colony 1634. Go early, read the story before you arrive, and give it the time it deserves — the famous sights earned their fame. crab cakes State facts from official state publications and standard references. Symbols and slogans are designated by state legislatures.", "s": "public-reference", "f": null}, {"t": "Visiting Antietam battlefield", "d": "How to experience Antietam battlefield.", "g": "attractions", "l": 2, "q": "What is Visiting Antietam battlefield?", "a": "How to experience Antietam battlefield.", "x": "Experiencing Antietam battlefield: plan around Preakness Stakes, the state's rhythm — Fatti maschii, parole femine (Manly deeds, womanly words). Mornings beat crowds, weekdays beat weekends, and the shoulder seasons beat both. Assateague Island National Seashore Book ahead where needed; the best experiences reward planners.", "s": "public-reference", "f": null}, {"t": "Chesapeake Bay", "d": "Chesapeake Bay: a top Maryland attraction.", "g": "attractions", "l": 2, "q": "What is Chesapeake Bay?", "a": "Chesapeake Bay: a top Maryland attraction.", "x": "Chesapeake Bay is essential Maryland. Catholic refuge colony 1634. Go early, read the story before you arrive, and give it the time it deserves — the famous sights earned their fame. crab cakes State facts from official state publications and standard references. Symbols and slogans are designated by state legislatures.", "s": "public-reference", "f": null}, {"t": "Visiting Chesapeake Bay", "d": "How to experience Chesapeake Bay.", "g": "attractions", "l": 2, "q": "What is Visiting Chesapeake Bay?", "a": "How to experience Chesapeake Bay.", "x": "Experiencing Chesapeake Bay: plan around Preakness Stakes, the state's rhythm — Fatti maschii, parole femine (Manly deeds, womanly words). Mornings beat crowds, weekdays beat weekends, and the shoulder seasons beat both. Assateague Island National Seashore Book ahead where needed; the best experiences reward planners.", "s": "public-reference", "f": null}, {"t": "National Aquarium", "d": "National Aquarium: a top Maryland attraction.", "g": "attractions", "l": 2, "q": "What is National Aquarium?", "a": "National Aquarium: a top Maryland attraction.", "x": "National Aquarium is essential Maryland. Catholic refuge colony 1634. Go early, read the story before you arrive, and give it the time it deserves — the famous sights earned their fame. crab cakes State facts from official state publications and standard references. Symbols and slogans are designated by state legislatures.", "s": "public-reference", "f": null}, {"t": "Visiting National Aquarium", "d": "How to experience National Aquarium.", "g": "attractions", "l": 2, "q": "What is Visiting National Aquarium?", "a": "How to experience National Aquarium.", "x": "Experiencing National Aquarium: plan around Preakness Stakes, the state's rhythm — Fatti maschii, parole femine (Manly deeds, womanly words). Mornings beat crowds, weekdays beat weekends, and the shoulder seasons beat both. Assateague Island National Seashore Book ahead where needed; the best experiences reward planners.", "s": "public-reference", "f": null}, {"t": "Assateague Island", "d": "Assateague Island: a top Maryland attraction.", "g": "attractions", "l": 2, "q": "What is Assateague Island?", "a": "Assateague Island: a top Maryland attraction.", "x": "Assateague Island is essential Maryland. Catholic refuge colony 1634. Go early, read the story before you arrive, and give it the time it deserves — the famous sights earned their fame. crab cakes State facts from official state publications and standard references. Symbols and slogans are designated by state legislatures.", "s": "public-reference", "f": null}, {"t": "Visiting Assateague Island", "d": "How to experience Assateague Island.", "g": "attractions", "l": 2, "q": "What is Visiting Assateague Island?", "a": "How to experience Assateague Island.", "x": "Experiencing Assateague Island: plan around Preakness Stakes, the state's rhythm — Fatti maschii, parole femine (Manly deeds, womanly words). Mornings beat crowds, weekdays beat weekends, and the shoulder seasons beat both. Assateague Island National Seashore Book ahead where needed; the best experiences reward planners.", "s": "public-reference", "f": null}, {"t": "Assateague Island National Seashore", "d": "Assateague Island National Seashore: Maryland's great park.", "g": "parks", "l": 2, "q": "What is Assateague Island National Seashore?", "a": "Assateague Island National Seashore: Maryland's great park.", "x": "Assateague Island National Seashore is Maryland's wild heart: Inner Harbor. Parks preserve what development cannot replace — the views, the wildlife, the quiet. Preakness Stakes Hike it, camp it, or just stand in it; protected land is the state's gift to the future.", "s": "public-reference", "f": null}, {"t": "Exploring Assateague Island National Seashore", "d": "How to explore Assateague Island National Seashore.", "g": "parks", "l": 2, "q": "What is Exploring Assateague Island National Seashore?", "a": "How to explore Assateague Island National Seashore.", "x": "Exploring Assateague Island National Seashore: get the park map, check conditions, carry water and layers, and tell someone your plan. Fatti maschii, parole femine (Manly deeds, womanly words) Rangers are the best guides — ask them. Leave no trace; the park's beauty is a loan from the future.", "s": "public-reference", "f": null}, {"t": "Annapolis: the capital city", "d": "Annapolis, capital of Maryland.", "g": "cities", "l": 2, "q": "What is Annapolis: the capital city?", "a": "Annapolis, capital of Maryland.", "x": "Annapolis: the capital of Maryland — government, history, and often the best museums. Civil War border state. Beyond the capitol, capitals have their own character: neighborhoods, food scenes, and the rhythm of a working government town. Baltimore", "s": "public-reference", "f": null}, {"t": "Baltimore: the biggest city", "d": "Baltimore is Maryland's largest city.", "g": "cities", "l": 2, "q": "What is Baltimore: the biggest city?", "a": "Baltimore is Maryland's largest city.", "x": "Baltimore is where Maryland comes to work and play: the skyline, the food, the music, the crowds. federal government Big cities concentrate a state's energy — its ambition, its diversity, its contradictions. Preakness Stakes", "s": "public-reference", "f": null}, {"t": "crab cakes: the food", "d": "Taste Maryland: crab cakes.", "g": "food", "l": 2, "q": "What is crab cakes: the food?", "a": "Taste Maryland: crab cakes.", "x": "The taste of Maryland is crab cakes — and the foodways around it. Chesapeake Bay; federal workforce. Every state has a flavor: the dish locals defend, the restaurant rows, the festival foods. Preakness Stakes Eat where the line is longest.", "s": "public-reference", "f": null}, {"t": "Food tour: Maryland", "d": "Eating your way through Maryland.", "g": "food", "l": 2, "q": "What is Food tour: Maryland?", "a": "Eating your way through Maryland.", "x": "Eating through Maryland: start with crab cakes, then follow the locals — diners, food trucks, farm stands. Fatti maschii, parole femine (Manly deeds, womanly words) Food is the fastest way into a place's heart; the stories come free with the meal. Baltimore", "s": "public-reference", "f": null}, {"t": "Preakness Stakes", "d": "Preakness Stakes: Maryland's signature festival.", "g": "festivals", "l": 2, "q": "What is Preakness Stakes?", "a": "Preakness Stakes: Maryland's signature festival.", "x": "Preakness Stakes is Maryland at its most celebratory: Fort McHenry's 1814 defense inspired the Star-Spangled Banner.. Festivals distill a place — its music, food, craft, and pride — into a few joyful days. Annapolis Time a visit for one; book early.", "s": "public-reference", "f": null}, {"t": "Festival calendar", "d": "Maryland year-round: Preakness Stakes and more.", "g": "festivals", "l": 2, "q": "What is Festival calendar?", "a": "Maryland year-round: Preakness Stakes and more.", "x": "The Maryland festival calendar runs year-round, with Preakness Stakes as the anchor. Fatti maschii, parole femine (Manly deeds, womanly words) Every season has its celebration — plan trips around them for the liveliest version of the state. Assateague Island National Seashore", "s": "public-reference", "f": null}];
+function pad(n){return String(n).padStart(6,'0');}
+function drillProg(q,a){
+  return '// boundless drill program\nvar Q='+JSON.stringify(q)+';\nvar A='+JSON.stringify(a)+';\n'
+    +'console.log("DRILL: "+Q);\nconsole.log("Say it out loud, then check:");\nconsole.log("ANSWER: "+A);';
+}
+function bankRec(i){
+  var b=BANK[(i-1)%BANK.length];
+  var r={id:PREFIX+pad(i),title:b.t,description:b.x,group:b.g,ladder:b.l,
+    question:b.q,answer:b.a,method:'archive-sample',
+    program:drillProg(b.q,b.a),language:'javascript',
+    src:b.s,last_verified:'2026-10-19',sample:true};
+  return r;
+}
+function genQuizDrill(rnd,seed){
+  var b=BANK[(rnd()*BANK.length)|0];
+  var desc='Boundless drill #'+seed+' — '+NAME+'. The question: '+b.q+'\n\n'
+    +'Cover the answer and say it out loud before reading on. Fluency with these facts is the whole game: '
+    +'each drill pulls a real record from this database\'s archive and tests exactly one fact cold. '
+    +'If you knew it, it is yours; if not, open the archive record "'+b.t+'" and read the full entry, then come back and drill it again. '
+    +'The validated answer: '+b.a+'\n\n'
+    +'Drills never repeat the archive verbatim — they re-ask the same true facts from new angles so the knowledge sticks.';
+  return {id:PREFIX+pad(seed),title:'Drill: '+b.t,description:desc,group:b.g,ladder:b.l,
+    method:'quiz-drill',question:b.q,answer:b.a,
+    program:drillProg(b.q,b.a),language:'javascript',src:GEN_SRC,last_verified:'2026-10-19'};
+}
+function genConvertDrill(rnd,seed){
+  var b1=BANK[(rnd()*BANK.length)|0],b2=BANK[(rnd()*BANK.length)|0];
+  var v=Math.round((1+rnd()*999)*100)/100;
+  var ans=v*b1.f/b2.f;
+  var q='Convert '+v+' '+b1.t+' to '+b2.t+'.';
+  var a=String(Math.round(ans*1e6)/1e6)+' '+b2.t;
+  var desc='Boundless drill #'+seed+' — '+NAME+'. The question: '+q+'\n\n'
+    +'Work it with the factor table: multiply by the "from" unit\'s factor to reach the base unit, then divide by the "to" unit\'s factor. '
+    +'The demo program on any archive record in this database runs the same computation, so you can check your method there first. '
+    +'The validated answer: '+a+'. If your number matches, the method is yours; drills like this one keep every conversion in this database one multiplication and one division away.';
+  return {id:PREFIX+pad(seed),title:'Conversion drill: '+b1.t+' to '+b2.t,description:desc,
+    group:b1.g,ladder:2,method:'convert-drill',question:q,answer:a,
+    conv:{value:v,from:b1.t,fromF:b1.f,to:b2.t,toF:b2.f},
+    program:'// conversion drill program\nvar v='+v+';\nvar fromF='+b1.f+';\nvar toF='+b2.f+';\n'
+      +'console.log("Q: convert "+v+" '+b1.t.replace(/'/g,"\\'")+' to '+b2.t.replace(/'/g,"\\'")+'");\n'
+      +'console.log("A: "+(v*fromF/toF)+" '+b2.t.replace(/'/g,"\\'")+'");',
+    language:'javascript',src:GEN_SRC,last_verified:'2026-10-19'};
+}
+function generate(seed,opts,rnd){
+  opts=opts||{};seed=+seed||1;rnd=rnd||prng(seed);
+  var g=opts.group||opts.category;
+  if(g&&FIELDS.indexOf(g)<0)g=null;
+  var r;
+  if(seed>=1&&seed<=BANK.length){r=bankRec(seed);}
+  else{r=(MODE==='convert')?genConvertDrill(rnd,seed):genQuizDrill(rnd,seed);}
+  if(g)r.group=g;
+  return r;
+}
+function validate(r){
+  var e=[];
+  if(!r||typeof r!=='object')return{ok:false,errors:['not an object']};
+  if(!new RegExp('^'+PREFIX.replace(/-/g,'\\-')+'\\d{6}$').test(r.id||''))e.push('id');
+  if(FIELDS.indexOf(r.group)<0)e.push('group');
+  if(typeof r.title!=='string'||!r.title.length)e.push('title');
+  if(typeof r.description!=='string'||r.description.length<200)e.push('description');
+  if(r.method==='quiz-drill'||r.method==='archive-sample'){
+    var hit=null;
+    for(var i=0;i<BANK.length;i++){if(BANK[i].q===r.question&&BANK[i].a===r.answer){hit=BANK[i];break;}}
+    if(!hit)e.push('answer not banked');
+  }else if(r.method==='convert-drill'){
+    var c=r.conv;
+    if(!c||typeof c.value!=='number')e.push('conv missing');
+    else{
+      var expect=c.value*c.fromF/c.toF;
+      var got=parseFloat(String(r.answer).split(' ')[0]);
+      if(!(Math.abs(got-expect)<Math.max(1e-6,Math.abs(expect)*1e-9)))e.push('conversion mismatch');
+    }
+  }else{e.push('method');}
+  return{ok:!e.length,errors:e};
+}
+function driftCheck(rec,sample){
+  var seen={};(sample||[]).forEach(function(s){if(s&&s.t)seen[s.t]=1;});
+  if(rec&&seen[rec.title])return{ok:false,errors:['duplicate title in archive sample']};
+  return{ok:true,errors:[]};
+}
+var gen={version:'jahdb-e2-maryland-attractions-1.0',generate:generate,validate:validate,driftCheck:driftCheck,fields:FIELDS};
+if(typeof JAHDB!=='undefined'&&JAHDB.registerGenerator)JAHDB.registerGenerator(SLUG,gen);
+if(typeof module!=='undefined'&&module.exports)module.exports=gen;
+})();

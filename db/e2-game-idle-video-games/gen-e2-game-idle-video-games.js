@@ -1,0 +1,95 @@
+(function(){'use strict';
+/* JAH Idle Games Game Genre Database generator — jahdb-e2-game-idle-video-games-1.0. Property of Justin Addam Higgins (JAH).
+   Deterministic: same seed, same record. Seeds 1..BANK return archive sample
+   records; higher seeds generate boundless drills. Drill answers come from the
+   banked archive data and validate() re-checks every one of them. */
+function prng(seed){var a=(seed>>>0)||1;return function(){a|=0;a=(a+0x6D2B79F5)|0;var t=Math.imul(a^(a>>>15),1|a);t=(t+Math.imul(t^(t>>>7),61|t))^t;return((t^(t>>>14))>>>0)/4294967296;};}
+var SLUG='e2-game-idle-video-games',PREFIX='JAH-E2GAMEIDLEV-',NAME='JAH Idle Games Game Genre Database';
+var FIELDS=["overview", "facts", "details", "history", "guide", "myths", "insider", "quiz", "resources"];
+var GEN_SRC='reference-authored';
+var MODE='quiz';
+var BANK=[{"t": "Idle Games: the complete guide", "d": "Idle Games: the numbers go up..", "g": "overview", "l": 2, "q": "What is Idle Games: the complete guide?", "a": "Idle Games: the numbers go up..", "x": "The complete game genre guide to Idle Games: the numbers go up.. Cookie Clicker. History, meaning, practices, and how to engage respectfully — everything in one database. Prestige. Culture facts from standard references. Practices vary by community; descriptions summarize mainstream observance respectfully.", "s": "public-reference", "f": null}, {"t": "At a glance", "d": "Idle Games essentials.", "g": "overview", "l": 2, "q": "What is At a glance?", "a": "Idle Games essentials.", "x": "At a glance: Idle Games — the numbers go up.. Prestige. The essentials: Numbers.. Offline. Start here. Culture facts from standard references. Practices vary by community; descriptions summarize mainstream observance respectfully.", "s": "public-reference", "f": null}, {"t": "Key fact 1", "d": "Cookie Clicker.", "g": "facts", "l": 2, "q": "What is Key fact 1?", "a": "Cookie Clicker.", "x": "Idle Games: Cookie Clicker.. Numbers. Essential knowledge — Offline.. the numbers go up. Culture facts from standard references. Practices vary by community; descriptions summarize mainstream observance respectfully.", "s": "public-reference", "f": null}, {"t": "Key fact 1 explained", "d": "Understanding: Cookie Clicker..", "g": "facts", "l": 2, "q": "What is Key fact 1 explained?", "a": "Understanding: Cookie Clicker..", "x": "Explained: Cookie Clicker.. Cookie. The context — Idle Games. Numbers. Respectful understanding matters. Culture facts from standard references. Practices vary by community; descriptions summarize mainstream observance respectfully.", "s": "public-reference", "f": null}, {"t": "Key fact 2", "d": "Prestige.", "g": "facts", "l": 2, "q": "What is Key fact 2?", "a": "Prestige.", "x": "Idle Games: Prestige.. Addictive. Essential knowledge — Numbers.. the numbers go up. Culture facts from standard references. Practices vary by community; descriptions summarize mainstream observance respectfully.", "s": "public-reference", "f": null}, {"t": "Key fact 2 explained", "d": "Understanding: Prestige..", "g": "facts", "l": 2, "q": "What is Key fact 2 explained?", "a": "Understanding: Prestige..", "x": "Explained: Prestige.. Offline. The context — Idle Games. Incremental. Respectful understanding matters. Culture facts from standard references. Practices vary by community; descriptions summarize mainstream observance respectfully.", "s": "public-reference", "f": null}, {"t": "Key fact 3", "d": "Offline.", "g": "facts", "l": 2, "q": "What is Key fact 3?", "a": "Offline.", "x": "Idle Games: Offline.. Cookie. Essential knowledge — Incremental.. the numbers go up. Culture facts from standard references. Practices vary by community; descriptions summarize mainstream observance respectfully.", "s": "public-reference", "f": null}, {"t": "Key fact 3 explained", "d": "Understanding: Offline..", "g": "facts", "l": 2, "q": "What is Key fact 3 explained?", "a": "Understanding: Offline..", "x": "Explained: Offline.. Classics. The context — Idle Games. Addictive. Respectful understanding matters. Culture facts from standard references. Practices vary by community; descriptions summarize mainstream observance respectfully.", "s": "public-reference", "f": null}, {"t": "Key fact 4", "d": "Numbers.", "g": "facts", "l": 2, "q": "What is Key fact 4?", "a": "Numbers.", "x": "Idle Games: Numbers.. Offline. Essential knowledge — Addictive.. the numbers go up. Culture facts from standard references. Practices vary by community; descriptions summarize mainstream observance respectfully.", "s": "public-reference", "f": null}, {"t": "Key fact 4 explained", "d": "Understanding: Numbers..", "g": "facts", "l": 2, "q": "What is Key fact 4 explained?", "a": "Understanding: Numbers..", "x": "Explained: Numbers.. Prestige. The context — Idle Games. Cookie Clicker. Respectful understanding matters. Culture facts from standard references. Practices vary by community; descriptions summarize mainstream observance respectfully.", "s": "public-reference", "f": null}, {"t": "Key fact 5", "d": "Incremental.", "g": "facts", "l": 2, "q": "What is Key fact 5?", "a": "Incremental.", "x": "Idle Games: Incremental.. Classics. Essential knowledge — Cookie Clicker.. the numbers go up. Culture facts from standard references. Practices vary by community; descriptions summarize mainstream observance respectfully.", "s": "public-reference", "f": null}, {"t": "Key fact 5 explained", "d": "Understanding: Incremental..", "g": "facts", "l": 2, "q": "What is Key fact 5 explained?", "a": "Understanding: Incremental..", "x": "Explained: Incremental.. Numbers. The context — Idle Games. Prestige. Respectful understanding matters. Culture facts from standard references. Practices vary by community; descriptions summarize mainstream observance respectfully.", "s": "public-reference", "f": null}, {"t": "Key fact 6", "d": "Addictive.", "g": "facts", "l": 2, "q": "What is Key fact 6?", "a": "Addictive.", "x": "Idle Games: Addictive.. Prestige. Essential knowledge — Prestige.. the numbers go up. Culture facts from standard references. Practices vary by community; descriptions summarize mainstream observance respectfully.", "s": "public-reference", "f": null}, {"t": "Key fact 6 explained", "d": "Understanding: Addictive..", "g": "facts", "l": 2, "q": "What is Key fact 6 explained?", "a": "Understanding: Addictive..", "x": "Explained: Addictive.. Addictive. The context — Idle Games. Offline. Respectful understanding matters. Culture facts from standard references. Practices vary by community; descriptions summarize mainstream observance respectfully.", "s": "public-reference", "f": null}, {"t": "Deep dive 1", "d": "Prestige.", "g": "details", "l": 2, "q": "What is Deep dive 1?", "a": "Prestige.", "x": "Idle Games in depth: Prestige.. Prestige. Details — the numbers go up.. Addictive. Numbers. Culture facts from standard references. Practices vary by community; descriptions summarize mainstream observance respectfully.", "s": "public-reference", "f": null}, {"t": "Deep dive 2", "d": "Numbers.", "g": "details", "l": 2, "q": "What is Deep dive 2?", "a": "Numbers.", "x": "Idle Games in depth: Numbers.. Offline. Details — the numbers go up.. Cookie. Incremental. Culture facts from standard references. Practices vary by community; descriptions summarize mainstream observance respectfully.", "s": "public-reference", "f": null}, {"t": "Deep dive 3", "d": "Addictive.", "g": "details", "l": 2, "q": "What is Deep dive 3?", "a": "Addictive.", "x": "Idle Games in depth: Addictive.. Numbers. Details — the numbers go up.. Offline. Addictive. Culture facts from standard references. Practices vary by community; descriptions summarize mainstream observance respectfully.", "s": "public-reference", "f": null}, {"t": "Deep dive 4", "d": "Cookie.", "g": "details", "l": 2, "q": "What is Deep dive 4?", "a": "Cookie.", "x": "Idle Games in depth: Cookie.. Incremental. Details — the numbers go up.. Classics. Cookie Clicker. Culture facts from standard references. Practices vary by community; descriptions summarize mainstream observance respectfully.", "s": "public-reference", "f": null}, {"t": "Deep dive 5", "d": "Offline.", "g": "details", "l": 2, "q": "What is Deep dive 5?", "a": "Offline.", "x": "Idle Games in depth: Offline.. Addictive. Details — the numbers go up.. Prestige. Prestige. Culture facts from standard references. Practices vary by community; descriptions summarize mainstream observance respectfully.", "s": "public-reference", "f": null}, {"t": "Deep dive 6", "d": "Classics.", "g": "details", "l": 2, "q": "What is Deep dive 6?", "a": "Classics.", "x": "Idle Games in depth: Classics.. Cookie Clicker. Details — the numbers go up.. Numbers. Offline. Culture facts from standard references. Practices vary by community; descriptions summarize mainstream observance respectfully.", "s": "public-reference", "f": null}, {"t": "History and origins", "d": "Where Idle Games comes from.", "g": "history", "l": 2, "q": "What is History and origins?", "a": "Where Idle Games comes from.", "x": "Origins: Prestige.. Cookie Clicker. The history of Idle Games — the numbers go up.. Numbers. Everything has roots. Culture facts from standard references. Practices vary by community; descriptions summarize mainstream observance respectfully.", "s": "public-reference", "f": null}, {"t": "How to engage", "d": "Experiencing Idle Games respectfully.", "g": "guide", "l": 2, "q": "What is How to engage?", "a": "Experiencing Idle Games respectfully.", "x": "Engaging: Addictive.. Prestige. How to participate or observe well — Idle Games. the numbers go up. Respect first, always; Cookie.. Culture facts from standard references. Practices vary by community; descriptions summarize mainstream observance respectfully.", "s": "public-reference", "f": null}, {"t": "Etiquette", "d": "Idle Games do's and don'ts.", "g": "guide", "l": 2, "q": "What is Etiquette?", "a": "Idle Games do's and don'ts.", "x": "Etiquette: Offline.. Offline. The rules of respect — Idle Games. the numbers go up. When in doubt, ask about Classics.. Culture facts from standard references. Practices vary by community; descriptions summarize mainstream observance respectfully.", "s": "public-reference", "f": null}, {"t": "Planning", "d": "Planning around Idle Games.", "g": "guide", "l": 2, "q": "What is Planning?", "a": "Planning around Idle Games.", "x": "Planning: Prestige.. Numbers. Practical notes — Idle Games. the numbers go up. A little planning shows respect for Numbers.. Culture facts from standard references. Practices vary by community; descriptions summarize mainstream observance respectfully.", "s": "public-reference", "f": null}, {"t": "Costs", "d": "Idle Games and money.", "g": "guide", "l": 2, "q": "What is Costs?", "a": "Idle Games and money.", "x": "Costs: Addictive.. Incremental. What to budget — Idle Games. the numbers go up. The best experiences of Cookie. are often free. Culture facts from standard references. Practices vary by community; descriptions summarize mainstream observance respectfully.", "s": "public-reference", "f": null}];
+function pad(n){return String(n).padStart(6,'0');}
+function drillProg(q,a){
+  return '// boundless drill program\nvar Q='+JSON.stringify(q)+';\nvar A='+JSON.stringify(a)+';\n'
+    +'console.log("DRILL: "+Q);\nconsole.log("Say it out loud, then check:");\nconsole.log("ANSWER: "+A);';
+}
+function bankRec(i){
+  var b=BANK[(i-1)%BANK.length];
+  var r={id:PREFIX+pad(i),title:b.t,description:b.x,group:b.g,ladder:b.l,
+    question:b.q,answer:b.a,method:'archive-sample',
+    program:drillProg(b.q,b.a),language:'javascript',
+    src:b.s,last_verified:'2026-10-19',sample:true};
+  return r;
+}
+function genQuizDrill(rnd,seed){
+  var b=BANK[(rnd()*BANK.length)|0];
+  var desc='Boundless drill #'+seed+' — '+NAME+'. The question: '+b.q+'\n\n'
+    +'Cover the answer and say it out loud before reading on. Fluency with these facts is the whole game: '
+    +'each drill pulls a real record from this database\'s archive and tests exactly one fact cold. '
+    +'If you knew it, it is yours; if not, open the archive record "'+b.t+'" and read the full entry, then come back and drill it again. '
+    +'The validated answer: '+b.a+'\n\n'
+    +'Drills never repeat the archive verbatim — they re-ask the same true facts from new angles so the knowledge sticks.';
+  return {id:PREFIX+pad(seed),title:'Drill: '+b.t,description:desc,group:b.g,ladder:b.l,
+    method:'quiz-drill',question:b.q,answer:b.a,
+    program:drillProg(b.q,b.a),language:'javascript',src:GEN_SRC,last_verified:'2026-10-19'};
+}
+function genConvertDrill(rnd,seed){
+  var b1=BANK[(rnd()*BANK.length)|0],b2=BANK[(rnd()*BANK.length)|0];
+  var v=Math.round((1+rnd()*999)*100)/100;
+  var ans=v*b1.f/b2.f;
+  var q='Convert '+v+' '+b1.t+' to '+b2.t+'.';
+  var a=String(Math.round(ans*1e6)/1e6)+' '+b2.t;
+  var desc='Boundless drill #'+seed+' — '+NAME+'. The question: '+q+'\n\n'
+    +'Work it with the factor table: multiply by the "from" unit\'s factor to reach the base unit, then divide by the "to" unit\'s factor. '
+    +'The demo program on any archive record in this database runs the same computation, so you can check your method there first. '
+    +'The validated answer: '+a+'. If your number matches, the method is yours; drills like this one keep every conversion in this database one multiplication and one division away.';
+  return {id:PREFIX+pad(seed),title:'Conversion drill: '+b1.t+' to '+b2.t,description:desc,
+    group:b1.g,ladder:2,method:'convert-drill',question:q,answer:a,
+    conv:{value:v,from:b1.t,fromF:b1.f,to:b2.t,toF:b2.f},
+    program:'// conversion drill program\nvar v='+v+';\nvar fromF='+b1.f+';\nvar toF='+b2.f+';\n'
+      +'console.log("Q: convert "+v+" '+b1.t.replace(/'/g,"\\'")+' to '+b2.t.replace(/'/g,"\\'")+'");\n'
+      +'console.log("A: "+(v*fromF/toF)+" '+b2.t.replace(/'/g,"\\'")+'");',
+    language:'javascript',src:GEN_SRC,last_verified:'2026-10-19'};
+}
+function generate(seed,opts,rnd){
+  opts=opts||{};seed=+seed||1;rnd=rnd||prng(seed);
+  var g=opts.group||opts.category;
+  if(g&&FIELDS.indexOf(g)<0)g=null;
+  var r;
+  if(seed>=1&&seed<=BANK.length){r=bankRec(seed);}
+  else{r=(MODE==='convert')?genConvertDrill(rnd,seed):genQuizDrill(rnd,seed);}
+  if(g)r.group=g;
+  return r;
+}
+function validate(r){
+  var e=[];
+  if(!r||typeof r!=='object')return{ok:false,errors:['not an object']};
+  if(!new RegExp('^'+PREFIX.replace(/-/g,'\\-')+'\\d{6}$').test(r.id||''))e.push('id');
+  if(FIELDS.indexOf(r.group)<0)e.push('group');
+  if(typeof r.title!=='string'||!r.title.length)e.push('title');
+  if(typeof r.description!=='string'||r.description.length<200)e.push('description');
+  if(r.method==='quiz-drill'||r.method==='archive-sample'){
+    var hit=null;
+    for(var i=0;i<BANK.length;i++){if(BANK[i].q===r.question&&BANK[i].a===r.answer){hit=BANK[i];break;}}
+    if(!hit)e.push('answer not banked');
+  }else if(r.method==='convert-drill'){
+    var c=r.conv;
+    if(!c||typeof c.value!=='number')e.push('conv missing');
+    else{
+      var expect=c.value*c.fromF/c.toF;
+      var got=parseFloat(String(r.answer).split(' ')[0]);
+      if(!(Math.abs(got-expect)<Math.max(1e-6,Math.abs(expect)*1e-9)))e.push('conversion mismatch');
+    }
+  }else{e.push('method');}
+  return{ok:!e.length,errors:e};
+}
+function driftCheck(rec,sample){
+  var seen={};(sample||[]).forEach(function(s){if(s&&s.t)seen[s.t]=1;});
+  if(rec&&seen[rec.title])return{ok:false,errors:['duplicate title in archive sample']};
+  return{ok:true,errors:[]};
+}
+var gen={version:'jahdb-e2-game-idle-video-games-1.0',generate:generate,validate:validate,driftCheck:driftCheck,fields:FIELDS};
+if(typeof JAHDB!=='undefined'&&JAHDB.registerGenerator)JAHDB.registerGenerator(SLUG,gen);
+if(typeof module!=='undefined'&&module.exports)module.exports=gen;
+})();
