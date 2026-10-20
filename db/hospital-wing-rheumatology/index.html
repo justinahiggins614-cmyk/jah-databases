@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Rheumatology Hospital Wing Database</title>
+<style>
+body{font-family:Georgia,serif;max-width:1100px;margin:0 auto;padding:16px;background:#faf8f4;color:#222}
+.hero{background:#10243d;color:#fff;padding:28px;border-radius:12px}
+.pill{display:inline-block;background:#1c6e3c;color:#fff;border-radius:20px;padding:4px 14px;margin:4px;font-size:13px}
+.merger{display:inline-block;background:#c0392b;color:#fff;border:none;border-radius:8px;padding:10px 22px;font-size:15px;cursor:pointer;margin:6px}
+.million{background:#fff8e1;border:2px solid #d4a017;border-radius:10px;padding:12px;margin:14px 0;font-weight:bold}
+.kv{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:8px;margin:10px 0}
+.kv div{background:#fff;border:1px solid #ddd;border-radius:8px;padding:8px;font-size:13px}
+.card{background:#fff;border:1px solid #ddd;border-radius:10px;padding:16px;margin:14px 0}
+.codeblock{background:#1e1e1e;color:#d7ffce;padding:12px;border-radius:8px;overflow-x:auto;font-size:13px}
+.ladder{font-size:12px;color:#555}
+h2{color:#10243d}
+</style></head><body>
+<div class="hero"><h1>The Rheumatology Hospital Wing Database</h1><p>Real, fact-checked records on the Rheumatology Hospital Wing — purpose, equipment, procedures, staff, and patient flow. Public records organized in the Signature system.</p>
+<p>Records banked: <span id="stCount">20 / 1,000,000 target</span></p></div>
+<div class="million">MARCH TO 1,000,000 &mdash; 20 records banked. This database is in progress toward one million full records.</div>
+<div><span class="pill">Exhaustive</span>
+<button class="merger" onclick="alert('Merger queued: this database will merge into the All Database Merger.')">All Database Merger</button>
+<button class="merger" onclick="alert('Added to the All Database Merger queue.')">Merge This Database</button></div>
+<h2>Records</h2>
+<div class='card'><h3>Rheumatoid Arthritis</h3><p>RA&#x27;s symmetric small-joint inflammation is now controllable — early DMARDs plus biologics induce remission undreamed of decades ago. Treat-to-target guides. Joints, preserved.</p><p class='ladder'>Ladder rank 1 — Simple: the core idea in plain words — what it is and why it matters.</p><div class='kv'><div><b>Equipment</b><br>Musculoskeletal ultrasound<br>Polarized light microscopes (crystal analysis)<br>Infusion suites<br>Bone density scanners</div><div><b>Procedures</b><br>Joint aspiration and injection<br>Biologic infusion therapy<br>Autoantibody interpretation<br>Musculoskeletal ultrasound</div><div><b>Staff</b><br>Rheumatologists<br>Infusion nurses<br>Physical and occupational therapists<br>Pharmacists</div><div><b>Flow</b><br>Referrals come for joint pain, positive ANAs, or mysterious inflammation; workup blends history, exam, labs, and imaging over visits. Treatment steps from NSAID...</div></div><pre class='codeblock'>def das28(tender28, swollen28, esr, patient_global):
+    &quot;&quot;&quot;DAS28 rheumatoid arthritis activity estimator (simplified).&quot;&quot;&quot;
+    import math
+    d = 0.56*math.sqrt(tender28) + 0.28*math.sqrt(swollen28) + 0.70*math.log(esr) + 0.014*patient_global
+    band = &quot;remission&quot; if d &lt; 2.6 else &quot;low&quot; if d &lt; 3.2 else &quot;moderate&quot; if d &lt;= 5.1 else &quot;high&quot;
+    return f&quot;DAS28 {d:.2f} -&gt; {band} disease activity&quot;
+print(das28(6, 4, 28, 40))</pre></div>
+<div class='card'><h3>Lupus (SLE)</h3><p>Lupus&#x27;s multisystem autoimmunity — rashes, joints, kidneys — needs careful immunosuppression and monitoring. Flares are managed, not feared. Complexity, coordinated.</p><p class='ladder'>Ladder rank 1 — Simple: the core idea in plain words — what it is and why it matters.</p><div class='kv'><div><b>Equipment</b><br>Musculoskeletal ultrasound<br>Polarized light microscopes (crystal analysis)<br>Infusion suites<br>Bone density scanners</div><div><b>Procedures</b><br>Joint aspiration and injection<br>Biologic infusion therapy<br>Autoantibody interpretation<br>Musculoskeletal ultrasound</div><div><b>Staff</b><br>Rheumatologists<br>Infusion nurses<br>Physical and occupational therapists<br>Pharmacists</div><div><b>Flow</b><br>Referrals come for joint pain, positive ANAs, or mysterious inflammation; workup blends history, exam, labs, and imaging over visits. Treatment steps from NSAID...</div></div><pre class='codeblock'>def das28(tender28, swollen28, esr, patient_global):
+    &quot;&quot;&quot;DAS28 rheumatoid arthritis activity estimator (simplified).&quot;&quot;&quot;
+    import math
+    d = 0.56*math.sqrt(tender28) + 0.28*math.sqrt(swollen28) + 0.70*math.log(esr) + 0.014*patient_global
+    band = &quot;remission&quot; if d &lt; 2.6 else &quot;low&quot; if d &lt; 3.2 else &quot;moderate&quot; if d &lt;= 5.1 else &quot;high&quot;
+    return f&quot;DAS28 {d:.2f} -&gt; {band} disease activity&quot;
+print(das28(6, 4, 28, 40))</pre></div>
+<div class='card'><h3>Biologic Therapies</h3><p>Targeted biologics — TNF, IL-6, JAK inhibitors — revolutionized rheumatology, halting damage with precision. Monitoring manages infection risk. Precision beats carpet-bombing.</p><p class='ladder'>Ladder rank 1 — Simple: the core idea in plain words — what it is and why it matters.</p><div class='kv'><div><b>Equipment</b><br>Musculoskeletal ultrasound<br>Polarized light microscopes (crystal analysis)<br>Infusion suites<br>Bone density scanners</div><div><b>Procedures</b><br>Joint aspiration and injection<br>Biologic infusion therapy<br>Autoantibody interpretation<br>Musculoskeletal ultrasound</div><div><b>Staff</b><br>Rheumatologists<br>Infusion nurses<br>Physical and occupational therapists<br>Pharmacists</div><div><b>Flow</b><br>Referrals come for joint pain, positive ANAs, or mysterious inflammation; workup blends history, exam, labs, and imaging over visits. Treatment steps from NSAID...</div></div><pre class='codeblock'>def das28(tender28, swollen28, esr, patient_global):
+    &quot;&quot;&quot;DAS28 rheumatoid arthritis activity estimator (simplified).&quot;&quot;&quot;
+    import math
+    d = 0.56*math.sqrt(tender28) + 0.28*math.sqrt(swollen28) + 0.70*math.log(esr) + 0.014*patient_global
+    band = &quot;remission&quot; if d &lt; 2.6 else &quot;low&quot; if d &lt; 3.2 else &quot;moderate&quot; if d &lt;= 5.1 else &quot;high&quot;
+    return f&quot;DAS28 {d:.2f} -&gt; {band} disease activity&quot;
+print(das28(6, 4, 28, 40))</pre></div>
+<div class='card'><h3>Gout Management</h3><p>Crystal-proven gout is managed acutely with anti-inflammatories and long-term with urate-lowering to target. Treat-to-target dissolves crystals. The disease of kings, dethroned.</p><p class='ladder'>Ladder rank 1 — Simple: the core idea in plain words — what it is and why it matters.</p><div class='kv'><div><b>Equipment</b><br>Musculoskeletal ultrasound<br>Polarized light microscopes (crystal analysis)<br>Infusion suites<br>Bone density scanners</div><div><b>Procedures</b><br>Joint aspiration and injection<br>Biologic infusion therapy<br>Autoantibody interpretation<br>Musculoskeletal ultrasound</div><div><b>Staff</b><br>Rheumatologists<br>Infusion nurses<br>Physical and occupational therapists<br>Pharmacists</div><div><b>Flow</b><br>Referrals come for joint pain, positive ANAs, or mysterious inflammation; workup blends history, exam, labs, and imaging over visits. Treatment steps from NSAID...</div></div><pre class='codeblock'>def das28(tender28, swollen28, esr, patient_global):
+    &quot;&quot;&quot;DAS28 rheumatoid arthritis activity estimator (simplified).&quot;&quot;&quot;
+    import math
+    d = 0.56*math.sqrt(tender28) + 0.28*math.sqrt(swollen28) + 0.70*math.log(esr) + 0.014*patient_global
+    band = &quot;remission&quot; if d &lt; 2.6 else &quot;low&quot; if d &lt; 3.2 else &quot;moderate&quot; if d &lt;= 5.1 else &quot;high&quot;
+    return f&quot;DAS28 {d:.2f} -&gt; {band} disease activity&quot;
+print(das28(6, 4, 28, 40))</pre></div>
+<div class='card'><h3>Psoriatic Arthritis</h3><p>Psoriasis plus inflammatory arthritis gets dermatology-rheumatology teamwork and IL-17/IL-23 agents. Skin and joints, together treated. Two specialties, one patient.</p><p class='ladder'>Ladder rank 1 — Simple: the core idea in plain words — what it is and why it matters.</p><div class='kv'><div><b>Equipment</b><br>Musculoskeletal ultrasound<br>Polarized light microscopes (crystal analysis)<br>Infusion suites<br>Bone density scanners</div><div><b>Procedures</b><br>Joint aspiration and injection<br>Biologic infusion therapy<br>Autoantibody interpretation<br>Musculoskeletal ultrasound</div><div><b>Staff</b><br>Rheumatologists<br>Infusion nurses<br>Physical and occupational therapists<br>Pharmacists</div><div><b>Flow</b><br>Referrals come for joint pain, positive ANAs, or mysterious inflammation; workup blends history, exam, labs, and imaging over visits. Treatment steps from NSAID...</div></div><pre class='codeblock'>def das28(tender28, swollen28, esr, patient_global):
+    &quot;&quot;&quot;DAS28 rheumatoid arthritis activity estimator (simplified).&quot;&quot;&quot;
+    import math
+    d = 0.56*math.sqrt(tender28) + 0.28*math.sqrt(swollen28) + 0.70*math.log(esr) + 0.014*patient_global
+    band = &quot;remission&quot; if d &lt; 2.6 else &quot;low&quot; if d &lt; 3.2 else &quot;moderate&quot; if d &lt;= 5.1 else &quot;high&quot;
+    return f&quot;DAS28 {d:.2f} -&gt; {band} disease activity&quot;
+print(das28(6, 4, 28, 40))</pre></div>
+<div class='card'><h3>Vasculitis</h3><p>Vessel inflammation — from giant cell arteritis to ANCA vasculitis — threatens organs rapidly; prompt steroids then steroid-sparing agents save. Speed matters enormously. Inflammation, urgently quelled.</p><p class='ladder'>Ladder rank 1 — Simple: the core idea in plain words — what it is and why it matters.</p><div class='kv'><div><b>Equipment</b><br>Musculoskeletal ultrasound<br>Polarized light microscopes (crystal analysis)<br>Infusion suites<br>Bone density scanners</div><div><b>Procedures</b><br>Joint aspiration and injection<br>Biologic infusion therapy<br>Autoantibody interpretation<br>Musculoskeletal ultrasound</div><div><b>Staff</b><br>Rheumatologists<br>Infusion nurses<br>Physical and occupational therapists<br>Pharmacists</div><div><b>Flow</b><br>Referrals come for joint pain, positive ANAs, or mysterious inflammation; workup blends history, exam, labs, and imaging over visits. Treatment steps from NSAID...</div></div><pre class='codeblock'>def das28(tender28, swollen28, esr, patient_global):
+    &quot;&quot;&quot;DAS28 rheumatoid arthritis activity estimator (simplified).&quot;&quot;&quot;
+    import math
+    d = 0.56*math.sqrt(tender28) + 0.28*math.sqrt(swollen28) + 0.70*math.log(esr) + 0.014*patient_global
+    band = &quot;remission&quot; if d &lt; 2.6 else &quot;low&quot; if d &lt; 3.2 else &quot;moderate&quot; if d &lt;= 5.1 else &quot;high&quot;
+    return f&quot;DAS28 {d:.2f} -&gt; {band} disease activity&quot;
+print(das28(6, 4, 28, 40))</pre></div>
+<div class='card'><h3>Scleroderma</h3><p>Systemic sclerosis hardens skin and injures lungs, kidneys, gut — managed organ by organ with specialized monitoring. Pulmonary hypertension screening saves. Rare, demanding respect.</p><p class='ladder'>Ladder rank 1 — Simple: the core idea in plain words — what it is and why it matters.</p><div class='kv'><div><b>Equipment</b><br>Musculoskeletal ultrasound<br>Polarized light microscopes (crystal analysis)<br>Infusion suites<br>Bone density scanners</div><div><b>Procedures</b><br>Joint aspiration and injection<br>Biologic infusion therapy<br>Autoantibody interpretation<br>Musculoskeletal ultrasound</div><div><b>Staff</b><br>Rheumatologists<br>Infusion nurses<br>Physical and occupational therapists<br>Pharmacists</div><div><b>Flow</b><br>Referrals come for joint pain, positive ANAs, or mysterious inflammation; workup blends history, exam, labs, and imaging over visits. Treatment steps from NSAID...</div></div><pre class='codeblock'>def das28(tender28, swollen28, esr, patient_global):
+    &quot;&quot;&quot;DAS28 rheumatoid arthritis activity estimator (simplified).&quot;&quot;&quot;
+    import math
+    d = 0.56*math.sqrt(tender28) + 0.28*math.sqrt(swollen28) + 0.70*math.log(esr) + 0.014*patient_global
+    band = &quot;remission&quot; if d &lt; 2.6 else &quot;low&quot; if d &lt; 3.2 else &quot;moderate&quot; if d &lt;= 5.1 else &quot;high&quot;
+    return f&quot;DAS28 {d:.2f} -&gt; {band} disease activity&quot;
+print(das28(6, 4, 28, 40))</pre></div>
+<div class='card'><h3>Sjogren&#x27;s Syndrome</h3><p>Dry eyes, dry mouth, and systemic features get symptomatic plus immunologic care. Salivary care and lymphoma vigilance matter. Dryness, taken seriously.</p><p class='ladder'>Ladder rank 2 — Compounded: how it connects — the moving parts working together in real care.</p><div class='kv'><div><b>Equipment</b><br>Musculoskeletal ultrasound<br>Polarized light microscopes (crystal analysis)<br>Infusion suites<br>Bone density scanners</div><div><b>Procedures</b><br>Joint aspiration and injection<br>Biologic infusion therapy<br>Autoantibody interpretation<br>Musculoskeletal ultrasound</div><div><b>Staff</b><br>Rheumatologists<br>Infusion nurses<br>Physical and occupational therapists<br>Pharmacists</div><div><b>Flow</b><br>Referrals come for joint pain, positive ANAs, or mysterious inflammation; workup blends history, exam, labs, and imaging over visits. Treatment steps from NSAID...</div></div><pre class='codeblock'>def das28(tender28, swollen28, esr, patient_global):
+    &quot;&quot;&quot;DAS28 rheumatoid arthritis activity estimator (simplified).&quot;&quot;&quot;
+    import math
+    d = 0.56*math.sqrt(tender28) + 0.28*math.sqrt(swollen28) + 0.70*math.log(esr) + 0.014*patient_global
+    band = &quot;remission&quot; if d &lt; 2.6 else &quot;low&quot; if d &lt; 3.2 else &quot;moderate&quot; if d &lt;= 5.1 else &quot;high&quot;
+    return f&quot;DAS28 {d:.2f} -&gt; {band} disease activity&quot;
+print(das28(6, 4, 28, 40))</pre></div>
+<div class='card'><h3>Ankylosing Spondylitis</h3><p>Axial spondyloarthritis fuses spines; biologics plus exercise preserve mobility. Posture and movement are medicine. Spines, kept supple.</p><p class='ladder'>Ladder rank 2 — Compounded: how it connects — the moving parts working together in real care.</p><div class='kv'><div><b>Equipment</b><br>Musculoskeletal ultrasound<br>Polarized light microscopes (crystal analysis)<br>Infusion suites<br>Bone density scanners</div><div><b>Procedures</b><br>Joint aspiration and injection<br>Biologic infusion therapy<br>Autoantibody interpretation<br>Musculoskeletal ultrasound</div><div><b>Staff</b><br>Rheumatologists<br>Infusion nurses<br>Physical and occupational therapists<br>Pharmacists</div><div><b>Flow</b><br>Referrals come for joint pain, positive ANAs, or mysterious inflammation; workup blends history, exam, labs, and imaging over visits. Treatment steps from NSAID...</div></div><pre class='codeblock'>def das28(tender28, swollen28, esr, patient_global):
+    &quot;&quot;&quot;DAS28 rheumatoid arthritis activity estimator (simplified).&quot;&quot;&quot;
+    import math
+    d = 0.56*math.sqrt(tender28) + 0.28*math.sqrt(swollen28) + 0.70*math.log(esr) + 0.014*patient_global
+    band = &quot;remission&quot; if d &lt; 2.6 else &quot;low&quot; if d &lt; 3.2 else &quot;moderate&quot; if d &lt;= 5.1 else &quot;high&quot;
+    return f&quot;DAS28 {d:.2f} -&gt; {band} disease activity&quot;
+print(das28(6, 4, 28, 40))</pre></div>
+<div class='card'><h3>Myositis</h3><p>Inflammatory muscle diseases weaken proximally; steroids plus steroid-sparers restore strength, with malignancy screening. Weakness, investigated. Muscles, reclaimed.</p><p class='ladder'>Ladder rank 2 — Compounded: how it connects — the moving parts working together in real care.</p><div class='kv'><div><b>Equipment</b><br>Musculoskeletal ultrasound<br>Polarized light microscopes (crystal analysis)<br>Infusion suites<br>Bone density scanners</div><div><b>Procedures</b><br>Joint aspiration and injection<br>Biologic infusion therapy<br>Autoantibody interpretation<br>Musculoskeletal ultrasound</div><div><b>Staff</b><br>Rheumatologists<br>Infusion nurses<br>Physical and occupational therapists<br>Pharmacists</div><div><b>Flow</b><br>Referrals come for joint pain, positive ANAs, or mysterious inflammation; workup blends history, exam, labs, and imaging over visits. Treatment steps from NSAID...</div></div><pre class='codeblock'>def das28(tender28, swollen28, esr, patient_global):
+    &quot;&quot;&quot;DAS28 rheumatoid arthritis activity estimator (simplified).&quot;&quot;&quot;
+    import math
+    d = 0.56*math.sqrt(tender28) + 0.28*math.sqrt(swollen28) + 0.70*math.log(esr) + 0.014*patient_global
+    band = &quot;remission&quot; if d &lt; 2.6 else &quot;low&quot; if d &lt; 3.2 else &quot;moderate&quot; if d &lt;= 5.1 else &quot;high&quot;
+    return f&quot;DAS28 {d:.2f} -&gt; {band} disease activity&quot;
+print(das28(6, 4, 28, 40))</pre></div>
+<div class='card'><h3>Osteoarthritis Care</h3><p>OA&#x27;s wear-and-tear is managed with weight, exercise, topicals, injections, and timely joint replacement referral. Joints, preserved functionally. Motion is lotion.</p><p class='ladder'>Ladder rank 2 — Compounded: how it connects — the moving parts working together in real care.</p><div class='kv'><div><b>Equipment</b><br>Musculoskeletal ultrasound<br>Polarized light microscopes (crystal analysis)<br>Infusion suites<br>Bone density scanners</div><div><b>Procedures</b><br>Joint aspiration and injection<br>Biologic infusion therapy<br>Autoantibody interpretation<br>Musculoskeletal ultrasound</div><div><b>Staff</b><br>Rheumatologists<br>Infusion nurses<br>Physical and occupational therapists<br>Pharmacists</div><div><b>Flow</b><br>Referrals come for joint pain, positive ANAs, or mysterious inflammation; workup blends history, exam, labs, and imaging over visits. Treatment steps from NSAID...</div></div><pre class='codeblock'>def das28(tender28, swollen28, esr, patient_global):
+    &quot;&quot;&quot;DAS28 rheumatoid arthritis activity estimator (simplified).&quot;&quot;&quot;
+    import math
+    d = 0.56*math.sqrt(tender28) + 0.28*math.sqrt(swollen28) + 0.70*math.log(esr) + 0.014*patient_global
+    band = &quot;remission&quot; if d &lt; 2.6 else &quot;low&quot; if d &lt; 3.2 else &quot;moderate&quot; if d &lt;= 5.1 else &quot;high&quot;
+    return f&quot;DAS28 {d:.2f} -&gt; {band} disease activity&quot;
+print(das28(6, 4, 28, 40))</pre></div>
+<div class='card'><h3>Fibromyalgia</h3><p>Widespread pain with central sensitization is managed with exercise, sleep, and SNRIs — validated, not dismissed. Belief plus multimodal care. Pain, believed and treated.</p><p class='ladder'>Ladder rank 2 — Compounded: how it connects — the moving parts working together in real care.</p><div class='kv'><div><b>Equipment</b><br>Musculoskeletal ultrasound<br>Polarized light microscopes (crystal analysis)<br>Infusion suites<br>Bone density scanners</div><div><b>Procedures</b><br>Joint aspiration and injection<br>Biologic infusion therapy<br>Autoantibody interpretation<br>Musculoskeletal ultrasound</div><div><b>Staff</b><br>Rheumatologists<br>Infusion nurses<br>Physical and occupational therapists<br>Pharmacists</div><div><b>Flow</b><br>Referrals come for joint pain, positive ANAs, or mysterious inflammation; workup blends history, exam, labs, and imaging over visits. Treatment steps from NSAID...</div></div><pre class='codeblock'>def das28(tender28, swollen28, esr, patient_global):
+    &quot;&quot;&quot;DAS28 rheumatoid arthritis activity estimator (simplified).&quot;&quot;&quot;
+    import math
+    d = 0.56*math.sqrt(tender28) + 0.28*math.sqrt(swollen28) + 0.70*math.log(esr) + 0.014*patient_global
+    band = &quot;remission&quot; if d &lt; 2.6 else &quot;low&quot; if d &lt; 3.2 else &quot;moderate&quot; if d &lt;= 5.1 else &quot;high&quot;
+    return f&quot;DAS28 {d:.2f} -&gt; {band} disease activity&quot;
+print(das28(6, 4, 28, 40))</pre></div>
+<div class='card'><h3>Joint Injections</h3><p>Corticosteroid and hyaluronic injections calm inflamed joints — ultrasound-guided precisely. Relief, delivered locally. The needle, skillfully placed.</p><p class='ladder'>Ladder rank 2 — Compounded: how it connects — the moving parts working together in real care.</p><div class='kv'><div><b>Equipment</b><br>Musculoskeletal ultrasound<br>Polarized light microscopes (crystal analysis)<br>Infusion suites<br>Bone density scanners</div><div><b>Procedures</b><br>Joint aspiration and injection<br>Biologic infusion therapy<br>Autoantibody interpretation<br>Musculoskeletal ultrasound</div><div><b>Staff</b><br>Rheumatologists<br>Infusion nurses<br>Physical and occupational therapists<br>Pharmacists</div><div><b>Flow</b><br>Referrals come for joint pain, positive ANAs, or mysterious inflammation; workup blends history, exam, labs, and imaging over visits. Treatment steps from NSAID...</div></div><pre class='codeblock'>def das28(tender28, swollen28, esr, patient_global):
+    &quot;&quot;&quot;DAS28 rheumatoid arthritis activity estimator (simplified).&quot;&quot;&quot;
+    import math
+    d = 0.56*math.sqrt(tender28) + 0.28*math.sqrt(swollen28) + 0.70*math.log(esr) + 0.014*patient_global
+    band = &quot;remission&quot; if d &lt; 2.6 else &quot;low&quot; if d &lt; 3.2 else &quot;moderate&quot; if d &lt;= 5.1 else &quot;high&quot;
+    return f&quot;DAS28 {d:.2f} -&gt; {band} disease activity&quot;
+print(das28(6, 4, 28, 40))</pre></div>
+<div class='card'><h3>Infusion Therapy</h3><p>Biologic infusions run in comfortable suites with monitoring — rituximab, tocilizumab, and others. Hours, made pleasant. Infusion as respite.</p><p class='ladder'>Ladder rank 2 — Compounded: how it connects — the moving parts working together in real care.</p><div class='kv'><div><b>Equipment</b><br>Musculoskeletal ultrasound<br>Polarized light microscopes (crystal analysis)<br>Infusion suites<br>Bone density scanners</div><div><b>Procedures</b><br>Joint aspiration and injection<br>Biologic infusion therapy<br>Autoantibody interpretation<br>Musculoskeletal ultrasound</div><div><b>Staff</b><br>Rheumatologists<br>Infusion nurses<br>Physical and occupational therapists<br>Pharmacists</div><div><b>Flow</b><br>Referrals come for joint pain, positive ANAs, or mysterious inflammation; workup blends history, exam, labs, and imaging over visits. Treatment steps from NSAID...</div></div><pre class='codeblock'>def das28(tender28, swollen28, esr, patient_global):
+    &quot;&quot;&quot;DAS28 rheumatoid arthritis activity estimator (simplified).&quot;&quot;&quot;
+    import math
+    d = 0.56*math.sqrt(tender28) + 0.28*math.sqrt(swollen28) + 0.70*math.log(esr) + 0.014*patient_global
+    band = &quot;remission&quot; if d &lt; 2.6 else &quot;low&quot; if d &lt; 3.2 else &quot;moderate&quot; if d &lt;= 5.1 else &quot;high&quot;
+    return f&quot;DAS28 {d:.2f} -&gt; {band} disease activity&quot;
+print(das28(6, 4, 28, 40))</pre></div>
+<div class='card'><h3>Autoantibody Interpretation</h3><p>ANA, RF, anti-CCP, ANCA — antibodies inform but never diagnose alone; clinical correlation rules. Labs serve the story. Patterns, not positives.</p><p class='ladder'>Ladder rank 3 — Complex: the full picture — mastery-level detail for deep understanding.</p><div class='kv'><div><b>Equipment</b><br>Musculoskeletal ultrasound<br>Polarized light microscopes (crystal analysis)<br>Infusion suites<br>Bone density scanners</div><div><b>Procedures</b><br>Joint aspiration and injection<br>Biologic infusion therapy<br>Autoantibody interpretation<br>Musculoskeletal ultrasound</div><div><b>Staff</b><br>Rheumatologists<br>Infusion nurses<br>Physical and occupational therapists<br>Pharmacists</div><div><b>Flow</b><br>Referrals come for joint pain, positive ANAs, or mysterious inflammation; workup blends history, exam, labs, and imaging over visits. Treatment steps from NSAID...</div></div><pre class='codeblock'>def das28(tender28, swollen28, esr, patient_global):
+    &quot;&quot;&quot;DAS28 rheumatoid arthritis activity estimator (simplified).&quot;&quot;&quot;
+    import math
+    d = 0.56*math.sqrt(tender28) + 0.28*math.sqrt(swollen28) + 0.70*math.log(esr) + 0.014*patient_global
+    band = &quot;remission&quot; if d &lt; 2.6 else &quot;low&quot; if d &lt; 3.2 else &quot;moderate&quot; if d &lt;= 5.1 else &quot;high&quot;
+    return f&quot;DAS28 {d:.2f} -&gt; {band} disease activity&quot;
+print(das28(6, 4, 28, 40))</pre></div>
+<div class='card'><h3>Pregnancy in Rheumatic Disease</h3><p>Many rheumatic diseases allow safe pregnancy with planned, compatible medications — coordinated with obstetrics. Motherhood, medically supported. Planning enables.</p><p class='ladder'>Ladder rank 3 — Complex: the full picture — mastery-level detail for deep understanding.</p><div class='kv'><div><b>Equipment</b><br>Musculoskeletal ultrasound<br>Polarized light microscopes (crystal analysis)<br>Infusion suites<br>Bone density scanners</div><div><b>Procedures</b><br>Joint aspiration and injection<br>Biologic infusion therapy<br>Autoantibody interpretation<br>Musculoskeletal ultrasound</div><div><b>Staff</b><br>Rheumatologists<br>Infusion nurses<br>Physical and occupational therapists<br>Pharmacists</div><div><b>Flow</b><br>Referrals come for joint pain, positive ANAs, or mysterious inflammation; workup blends history, exam, labs, and imaging over visits. Treatment steps from NSAID...</div></div><pre class='codeblock'>def das28(tender28, swollen28, esr, patient_global):
+    &quot;&quot;&quot;DAS28 rheumatoid arthritis activity estimator (simplified).&quot;&quot;&quot;
+    import math
+    d = 0.56*math.sqrt(tender28) + 0.28*math.sqrt(swollen28) + 0.70*math.log(esr) + 0.014*patient_global
+    band = &quot;remission&quot; if d &lt; 2.6 else &quot;low&quot; if d &lt; 3.2 else &quot;moderate&quot; if d &lt;= 5.1 else &quot;high&quot;
+    return f&quot;DAS28 {d:.2f} -&gt; {band} disease activity&quot;
+print(das28(6, 4, 28, 40))</pre></div>
+<div class='card'><h3>Osteoporosis in Rheumatology</h3><p>Steroid-induced bone loss is prevented and treated proactively in rheumatic patients. Bones, guarded during treatment. Prevention, built in.</p><p class='ladder'>Ladder rank 3 — Complex: the full picture — mastery-level detail for deep understanding.</p><div class='kv'><div><b>Equipment</b><br>Musculoskeletal ultrasound<br>Polarized light microscopes (crystal analysis)<br>Infusion suites<br>Bone density scanners</div><div><b>Procedures</b><br>Joint aspiration and injection<br>Biologic infusion therapy<br>Autoantibody interpretation<br>Musculoskeletal ultrasound</div><div><b>Staff</b><br>Rheumatologists<br>Infusion nurses<br>Physical and occupational therapists<br>Pharmacists</div><div><b>Flow</b><br>Referrals come for joint pain, positive ANAs, or mysterious inflammation; workup blends history, exam, labs, and imaging over visits. Treatment steps from NSAID...</div></div><pre class='codeblock'>def das28(tender28, swollen28, esr, patient_global):
+    &quot;&quot;&quot;DAS28 rheumatoid arthritis activity estimator (simplified).&quot;&quot;&quot;
+    import math
+    d = 0.56*math.sqrt(tender28) + 0.28*math.sqrt(swollen28) + 0.70*math.log(esr) + 0.014*patient_global
+    band = &quot;remission&quot; if d &lt; 2.6 else &quot;low&quot; if d &lt; 3.2 else &quot;moderate&quot; if d &lt;= 5.1 else &quot;high&quot;
+    return f&quot;DAS28 {d:.2f} -&gt; {band} disease activity&quot;
+print(das28(6, 4, 28, 40))</pre></div>
+<div class='card'><h3>Pediatric Rheumatology</h3><p>Children&#x27;s arthritis and autoinflammatory diseases need specialized, family-centered care — growth considered always. Little joints, big expertise. Kids deserve remission too.</p><p class='ladder'>Ladder rank 3 — Complex: the full picture — mastery-level detail for deep understanding.</p><div class='kv'><div><b>Equipment</b><br>Musculoskeletal ultrasound<br>Polarized light microscopes (crystal analysis)<br>Infusion suites<br>Bone density scanners</div><div><b>Procedures</b><br>Joint aspiration and injection<br>Biologic infusion therapy<br>Autoantibody interpretation<br>Musculoskeletal ultrasound</div><div><b>Staff</b><br>Rheumatologists<br>Infusion nurses<br>Physical and occupational therapists<br>Pharmacists</div><div><b>Flow</b><br>Referrals come for joint pain, positive ANAs, or mysterious inflammation; workup blends history, exam, labs, and imaging over visits. Treatment steps from NSAID...</div></div><pre class='codeblock'>def das28(tender28, swollen28, esr, patient_global):
+    &quot;&quot;&quot;DAS28 rheumatoid arthritis activity estimator (simplified).&quot;&quot;&quot;
+    import math
+    d = 0.56*math.sqrt(tender28) + 0.28*math.sqrt(swollen28) + 0.70*math.log(esr) + 0.014*patient_global
+    band = &quot;remission&quot; if d &lt; 2.6 else &quot;low&quot; if d &lt; 3.2 else &quot;moderate&quot; if d &lt;= 5.1 else &quot;high&quot;
+    return f&quot;DAS28 {d:.2f} -&gt; {band} disease activity&quot;
+print(das28(6, 4, 28, 40))</pre></div>
+<div class='card'><h3>Exercise as Medicine</h3><p>Tailored exercise — aquatic, strengthening, tai chi — is prescribed like drugs for rheumatic disease. Movement reduces inflammation&#x27;s toll. Prescription: motion.</p><p class='ladder'>Ladder rank 3 — Complex: the full picture — mastery-level detail for deep understanding.</p><div class='kv'><div><b>Equipment</b><br>Musculoskeletal ultrasound<br>Polarized light microscopes (crystal analysis)<br>Infusion suites<br>Bone density scanners</div><div><b>Procedures</b><br>Joint aspiration and injection<br>Biologic infusion therapy<br>Autoantibody interpretation<br>Musculoskeletal ultrasound</div><div><b>Staff</b><br>Rheumatologists<br>Infusion nurses<br>Physical and occupational therapists<br>Pharmacists</div><div><b>Flow</b><br>Referrals come for joint pain, positive ANAs, or mysterious inflammation; workup blends history, exam, labs, and imaging over visits. Treatment steps from NSAID...</div></div><pre class='codeblock'>def das28(tender28, swollen28, esr, patient_global):
+    &quot;&quot;&quot;DAS28 rheumatoid arthritis activity estimator (simplified).&quot;&quot;&quot;
+    import math
+    d = 0.56*math.sqrt(tender28) + 0.28*math.sqrt(swollen28) + 0.70*math.log(esr) + 0.014*patient_global
+    band = &quot;remission&quot; if d &lt; 2.6 else &quot;low&quot; if d &lt; 3.2 else &quot;moderate&quot; if d &lt;= 5.1 else &quot;high&quot;
+    return f&quot;DAS28 {d:.2f} -&gt; {band} disease activity&quot;
+print(das28(6, 4, 28, 40))</pre></div>
+<div class='card'><h3>Treat-to-Target</h3><p>Disease activity scores drive escalation until remission or low activity — systematic, relentless. Targets, pursued. Remission is the standard.</p><p class='ladder'>Ladder rank 3 — Complex: the full picture — mastery-level detail for deep understanding.</p><div class='kv'><div><b>Equipment</b><br>Musculoskeletal ultrasound<br>Polarized light microscopes (crystal analysis)<br>Infusion suites<br>Bone density scanners</div><div><b>Procedures</b><br>Joint aspiration and injection<br>Biologic infusion therapy<br>Autoantibody interpretation<br>Musculoskeletal ultrasound</div><div><b>Staff</b><br>Rheumatologists<br>Infusion nurses<br>Physical and occupational therapists<br>Pharmacists</div><div><b>Flow</b><br>Referrals come for joint pain, positive ANAs, or mysterious inflammation; workup blends history, exam, labs, and imaging over visits. Treatment steps from NSAID...</div></div><pre class='codeblock'>def das28(tender28, swollen28, esr, patient_global):
+    &quot;&quot;&quot;DAS28 rheumatoid arthritis activity estimator (simplified).&quot;&quot;&quot;
+    import math
+    d = 0.56*math.sqrt(tender28) + 0.28*math.sqrt(swollen28) + 0.70*math.log(esr) + 0.014*patient_global
+    band = &quot;remission&quot; if d &lt; 2.6 else &quot;low&quot; if d &lt; 3.2 else &quot;moderate&quot; if d &lt;= 5.1 else &quot;high&quot;
+    return f&quot;DAS28 {d:.2f} -&gt; {band} disease activity&quot;
+print(das28(6, 4, 28, 40))</pre></div>
+<h2>Working Demo</h2>
+<pre class="codeblock">def das28(tender28, swollen28, esr, patient_global):
+    &quot;&quot;&quot;DAS28 rheumatoid arthritis activity estimator (simplified).&quot;&quot;&quot;
+    import math
+    d = 0.56*math.sqrt(tender28) + 0.28*math.sqrt(swollen28) + 0.70*math.log(esr) + 0.014*patient_global
+    band = &quot;remission&quot; if d &lt; 2.6 else &quot;low&quot; if d &lt; 3.2 else &quot;moderate&quot; if d &lt;= 5.1 else &quot;high&quot;
+    return f&quot;DAS28 {d:.2f} -&gt; {band} disease activity&quot;
+print(das28(6, 4, 28, 40))</pre>
+</body></html>

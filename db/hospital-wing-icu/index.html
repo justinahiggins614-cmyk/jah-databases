@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Intensive Care Unit Hospital Wing Database</title>
+<style>
+body{font-family:Georgia,serif;max-width:1100px;margin:0 auto;padding:16px;background:#faf8f4;color:#222}
+.hero{background:#10243d;color:#fff;padding:28px;border-radius:12px}
+.pill{display:inline-block;background:#1c6e3c;color:#fff;border-radius:20px;padding:4px 14px;margin:4px;font-size:13px}
+.merger{display:inline-block;background:#c0392b;color:#fff;border:none;border-radius:8px;padding:10px 22px;font-size:15px;cursor:pointer;margin:6px}
+.million{background:#fff8e1;border:2px solid #d4a017;border-radius:10px;padding:12px;margin:14px 0;font-weight:bold}
+.kv{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:8px;margin:10px 0}
+.kv div{background:#fff;border:1px solid #ddd;border-radius:8px;padding:8px;font-size:13px}
+.card{background:#fff;border:1px solid #ddd;border-radius:10px;padding:16px;margin:14px 0}
+.codeblock{background:#1e1e1e;color:#d7ffce;padding:12px;border-radius:8px;overflow-x:auto;font-size:13px}
+.ladder{font-size:12px;color:#555}
+h2{color:#10243d}
+</style></head><body>
+<div class="hero"><h1>The Intensive Care Unit Hospital Wing Database</h1><p>Real, fact-checked records on the Intensive Care Unit Hospital Wing — purpose, equipment, procedures, staff, and patient flow. Public records organized in the Signature system.</p>
+<p>Records banked: <span id="stCount">20 / 1,000,000 target</span></p></div>
+<div class="million">MARCH TO 1,000,000 &mdash; 20 records banked. This database is in progress toward one million full records.</div>
+<div><span class="pill">Exhaustive</span>
+<button class="merger" onclick="alert('Merger queued: this database will merge into the All Database Merger.')">All Database Merger</button>
+<button class="merger" onclick="alert('Added to the All Database Merger queue.')">Merge This Database</button></div>
+<h2>Records</h2>
+<div class='card'><h3>Mechanical Ventilation Basics</h3><p>A ventilator breathes for patients whose lungs cannot. The team sets how much air, how fast, and how much pressure, then adjusts daily based on blood gases and chest X-rays. Too much pressure injures lungs, so modern care uses small, gentle breaths.</p><p class='ladder'>Ladder rank 1 — Simple: the core idea in plain words — what it is and why it matters.</p><div class='kv'><div><b>Equipment</b><br>Mechanical ventilators<br>Hemodynamic monitors with arterial lines<br>Infusion pumps for vasopressors and sedation<br>Continuous renal replacement therapy (CRRT) machines</div><div><b>Procedures</b><br>Mechanical ventilation management<br>Vasopressor titration<br>Central line placement<br>Arterial line placement</div><div><b>Staff</b><br>Intensivists<br>ICU nurses (1:1 or 1:2 ratios)<br>Respiratory therapists<br>Pharmacists</div><div><b>Flow</b><br>Patients arrive from the ED, operating room, or a deteriorating floor bed. Every patient gets continuous cardiac, blood pressure, and oxygen monitoring plus fre...</div></div><pre class='codeblock'>def sofa_score(pao2_fio2, platelets, bilirubin, map_, gcs, creatinine):
+    &quot;&quot;&quot;SOFA organ-failure estimator: higher means worse. Simplified bands.&quot;&quot;&quot;
+    s = 0
+    s += 0 if pao2_fio2 &gt;= 400 else 1 if pao2_fio2 &gt;= 300 else 2 if pao2_fio2 &gt;= 200 else 3 if pao2_fio2 &gt;= 100 else 4
+    s += 0 if platelets &gt;= 150 else 1 if platelets &gt;= 100 else 2 if platelets &gt;= 50 else 3 if platelets &gt;= 20 else 4
+    s += 0 if map_ &gt;= 70 else 1
+    s += 0 if gcs == 15 else 1 if gcs &gt;= 13 else 2 if gcs &gt;= 10 else 3 if gcs &gt;= 6 else 4
+    s += 0 if creatinine &lt; 1.2 else 1 if creatinine &lt; 2.0 else 2 if creatinine &lt; 3</pre></div>
+<div class='card'><h3>Vasopressor Therapy</h3><p>When blood pressure collapses in shock, vasopressors like norepinephrine squeeze blood vessels to keep the brain and heart perfused. Nurses titrate the drip minute by minute against the arterial line reading. They run through central lines because they can damage small veins.</p><p class='ladder'>Ladder rank 1 — Simple: the core idea in plain words — what it is and why it matters.</p><div class='kv'><div><b>Equipment</b><br>Mechanical ventilators<br>Hemodynamic monitors with arterial lines<br>Infusion pumps for vasopressors and sedation<br>Continuous renal replacement therapy (CRRT) machines</div><div><b>Procedures</b><br>Mechanical ventilation management<br>Vasopressor titration<br>Central line placement<br>Arterial line placement</div><div><b>Staff</b><br>Intensivists<br>ICU nurses (1:1 or 1:2 ratios)<br>Respiratory therapists<br>Pharmacists</div><div><b>Flow</b><br>Patients arrive from the ED, operating room, or a deteriorating floor bed. Every patient gets continuous cardiac, blood pressure, and oxygen monitoring plus fre...</div></div><pre class='codeblock'>def sofa_score(pao2_fio2, platelets, bilirubin, map_, gcs, creatinine):
+    &quot;&quot;&quot;SOFA organ-failure estimator: higher means worse. Simplified bands.&quot;&quot;&quot;
+    s = 0
+    s += 0 if pao2_fio2 &gt;= 400 else 1 if pao2_fio2 &gt;= 300 else 2 if pao2_fio2 &gt;= 200 else 3 if pao2_fio2 &gt;= 100 else 4
+    s += 0 if platelets &gt;= 150 else 1 if platelets &gt;= 100 else 2 if platelets &gt;= 50 else 3 if platelets &gt;= 20 else 4
+    s += 0 if map_ &gt;= 70 else 1
+    s += 0 if gcs == 15 else 1 if gcs &gt;= 13 else 2 if gcs &gt;= 10 else 3 if gcs &gt;= 6 else 4
+    s += 0 if creatinine &lt; 1.2 else 1 if creatinine &lt; 2.0 else 2 if creatinine &lt; 3</pre></div>
+<div class='card'><h3>Sedation and Analgesia</h3><p>ICU patients on ventilators need pain control first and sedation second — pain is treated before adding sleep drugs. Daily sedation vacations wake the patient briefly to test readiness for weaning. Less sedation means fewer days on the ventilator and less delirium.</p><p class='ladder'>Ladder rank 1 — Simple: the core idea in plain words — what it is and why it matters.</p><div class='kv'><div><b>Equipment</b><br>Mechanical ventilators<br>Hemodynamic monitors with arterial lines<br>Infusion pumps for vasopressors and sedation<br>Continuous renal replacement therapy (CRRT) machines</div><div><b>Procedures</b><br>Mechanical ventilation management<br>Vasopressor titration<br>Central line placement<br>Arterial line placement</div><div><b>Staff</b><br>Intensivists<br>ICU nurses (1:1 or 1:2 ratios)<br>Respiratory therapists<br>Pharmacists</div><div><b>Flow</b><br>Patients arrive from the ED, operating room, or a deteriorating floor bed. Every patient gets continuous cardiac, blood pressure, and oxygen monitoring plus fre...</div></div><pre class='codeblock'>def sofa_score(pao2_fio2, platelets, bilirubin, map_, gcs, creatinine):
+    &quot;&quot;&quot;SOFA organ-failure estimator: higher means worse. Simplified bands.&quot;&quot;&quot;
+    s = 0
+    s += 0 if pao2_fio2 &gt;= 400 else 1 if pao2_fio2 &gt;= 300 else 2 if pao2_fio2 &gt;= 200 else 3 if pao2_fio2 &gt;= 100 else 4
+    s += 0 if platelets &gt;= 150 else 1 if platelets &gt;= 100 else 2 if platelets &gt;= 50 else 3 if platelets &gt;= 20 else 4
+    s += 0 if map_ &gt;= 70 else 1
+    s += 0 if gcs == 15 else 1 if gcs &gt;= 13 else 2 if gcs &gt;= 10 else 3 if gcs &gt;= 6 else 4
+    s += 0 if creatinine &lt; 1.2 else 1 if creatinine &lt; 2.0 else 2 if creatinine &lt; 3</pre></div>
+<div class='card'><h3>Hemodynamic Monitoring</h3><p>An arterial line gives beat-to-beat blood pressure and easy blood draws. Central lines measure pressures near the heart and deliver powerful drugs. Together they let the team see exactly how the heart and vessels are responding to treatment.</p><p class='ladder'>Ladder rank 1 — Simple: the core idea in plain words — what it is and why it matters.</p><div class='kv'><div><b>Equipment</b><br>Mechanical ventilators<br>Hemodynamic monitors with arterial lines<br>Infusion pumps for vasopressors and sedation<br>Continuous renal replacement therapy (CRRT) machines</div><div><b>Procedures</b><br>Mechanical ventilation management<br>Vasopressor titration<br>Central line placement<br>Arterial line placement</div><div><b>Staff</b><br>Intensivists<br>ICU nurses (1:1 or 1:2 ratios)<br>Respiratory therapists<br>Pharmacists</div><div><b>Flow</b><br>Patients arrive from the ED, operating room, or a deteriorating floor bed. Every patient gets continuous cardiac, blood pressure, and oxygen monitoring plus fre...</div></div><pre class='codeblock'>def sofa_score(pao2_fio2, platelets, bilirubin, map_, gcs, creatinine):
+    &quot;&quot;&quot;SOFA organ-failure estimator: higher means worse. Simplified bands.&quot;&quot;&quot;
+    s = 0
+    s += 0 if pao2_fio2 &gt;= 400 else 1 if pao2_fio2 &gt;= 300 else 2 if pao2_fio2 &gt;= 200 else 3 if pao2_fio2 &gt;= 100 else 4
+    s += 0 if platelets &gt;= 150 else 1 if platelets &gt;= 100 else 2 if platelets &gt;= 50 else 3 if platelets &gt;= 20 else 4
+    s += 0 if map_ &gt;= 70 else 1
+    s += 0 if gcs == 15 else 1 if gcs &gt;= 13 else 2 if gcs &gt;= 10 else 3 if gcs &gt;= 6 else 4
+    s += 0 if creatinine &lt; 1.2 else 1 if creatinine &lt; 2.0 else 2 if creatinine &lt; 3</pre></div>
+<div class='card'><h3>Continuous Renal Replacement Therapy</h3><p>CRRT is slow, gentle dialysis for unstable ICU patients whose kidneys have failed. It runs 24 hours a day, removing fluid and toxins gradually so blood pressure never crashes. Standard dialysis would be too rough for these patients.</p><p class='ladder'>Ladder rank 1 — Simple: the core idea in plain words — what it is and why it matters.</p><div class='kv'><div><b>Equipment</b><br>Mechanical ventilators<br>Hemodynamic monitors with arterial lines<br>Infusion pumps for vasopressors and sedation<br>Continuous renal replacement therapy (CRRT) machines</div><div><b>Procedures</b><br>Mechanical ventilation management<br>Vasopressor titration<br>Central line placement<br>Arterial line placement</div><div><b>Staff</b><br>Intensivists<br>ICU nurses (1:1 or 1:2 ratios)<br>Respiratory therapists<br>Pharmacists</div><div><b>Flow</b><br>Patients arrive from the ED, operating room, or a deteriorating floor bed. Every patient gets continuous cardiac, blood pressure, and oxygen monitoring plus fre...</div></div><pre class='codeblock'>def sofa_score(pao2_fio2, platelets, bilirubin, map_, gcs, creatinine):
+    &quot;&quot;&quot;SOFA organ-failure estimator: higher means worse. Simplified bands.&quot;&quot;&quot;
+    s = 0
+    s += 0 if pao2_fio2 &gt;= 400 else 1 if pao2_fio2 &gt;= 300 else 2 if pao2_fio2 &gt;= 200 else 3 if pao2_fio2 &gt;= 100 else 4
+    s += 0 if platelets &gt;= 150 else 1 if platelets &gt;= 100 else 2 if platelets &gt;= 50 else 3 if platelets &gt;= 20 else 4
+    s += 0 if map_ &gt;= 70 else 1
+    s += 0 if gcs == 15 else 1 if gcs &gt;= 13 else 2 if gcs &gt;= 10 else 3 if gcs &gt;= 6 else 4
+    s += 0 if creatinine &lt; 1.2 else 1 if creatinine &lt; 2.0 else 2 if creatinine &lt; 3</pre></div>
+<div class='card'><h3>ECMO Life Support</h3><p>Extracorporeal membrane oxygenation pumps blood outside the body, oxygenates it, and returns it — doing the work of failed heart or lungs. It is the last resort for patients who cannot survive on a ventilator alone. ECMO requires a dedicated specialist at the bedside around the clock.</p><p class='ladder'>Ladder rank 1 — Simple: the core idea in plain words — what it is and why it matters.</p><div class='kv'><div><b>Equipment</b><br>Mechanical ventilators<br>Hemodynamic monitors with arterial lines<br>Infusion pumps for vasopressors and sedation<br>Continuous renal replacement therapy (CRRT) machines</div><div><b>Procedures</b><br>Mechanical ventilation management<br>Vasopressor titration<br>Central line placement<br>Arterial line placement</div><div><b>Staff</b><br>Intensivists<br>ICU nurses (1:1 or 1:2 ratios)<br>Respiratory therapists<br>Pharmacists</div><div><b>Flow</b><br>Patients arrive from the ED, operating room, or a deteriorating floor bed. Every patient gets continuous cardiac, blood pressure, and oxygen monitoring plus fre...</div></div><pre class='codeblock'>def sofa_score(pao2_fio2, platelets, bilirubin, map_, gcs, creatinine):
+    &quot;&quot;&quot;SOFA organ-failure estimator: higher means worse. Simplified bands.&quot;&quot;&quot;
+    s = 0
+    s += 0 if pao2_fio2 &gt;= 400 else 1 if pao2_fio2 &gt;= 300 else 2 if pao2_fio2 &gt;= 200 else 3 if pao2_fio2 &gt;= 100 else 4
+    s += 0 if platelets &gt;= 150 else 1 if platelets &gt;= 100 else 2 if platelets &gt;= 50 else 3 if platelets &gt;= 20 else 4
+    s += 0 if map_ &gt;= 70 else 1
+    s += 0 if gcs == 15 else 1 if gcs &gt;= 13 else 2 if gcs &gt;= 10 else 3 if gcs &gt;= 6 else 4
+    s += 0 if creatinine &lt; 1.2 else 1 if creatinine &lt; 2.0 else 2 if creatinine &lt; 3</pre></div>
+<div class='card'><h3>Sepsis Bundles in the ICU</h3><p>ICU sepsis care continues what the ED started: antibiotics, fluids, vasopressors, and source control like draining an abscess. Lactate levels and urine output guide resuscitation hour by hour. The goal is restoring tissue perfusion before organs fail.</p><p class='ladder'>Ladder rank 1 — Simple: the core idea in plain words — what it is and why it matters.</p><div class='kv'><div><b>Equipment</b><br>Mechanical ventilators<br>Hemodynamic monitors with arterial lines<br>Infusion pumps for vasopressors and sedation<br>Continuous renal replacement therapy (CRRT) machines</div><div><b>Procedures</b><br>Mechanical ventilation management<br>Vasopressor titration<br>Central line placement<br>Arterial line placement</div><div><b>Staff</b><br>Intensivists<br>ICU nurses (1:1 or 1:2 ratios)<br>Respiratory therapists<br>Pharmacists</div><div><b>Flow</b><br>Patients arrive from the ED, operating room, or a deteriorating floor bed. Every patient gets continuous cardiac, blood pressure, and oxygen monitoring plus fre...</div></div><pre class='codeblock'>def sofa_score(pao2_fio2, platelets, bilirubin, map_, gcs, creatinine):
+    &quot;&quot;&quot;SOFA organ-failure estimator: higher means worse. Simplified bands.&quot;&quot;&quot;
+    s = 0
+    s += 0 if pao2_fio2 &gt;= 400 else 1 if pao2_fio2 &gt;= 300 else 2 if pao2_fio2 &gt;= 200 else 3 if pao2_fio2 &gt;= 100 else 4
+    s += 0 if platelets &gt;= 150 else 1 if platelets &gt;= 100 else 2 if platelets &gt;= 50 else 3 if platelets &gt;= 20 else 4
+    s += 0 if map_ &gt;= 70 else 1
+    s += 0 if gcs == 15 else 1 if gcs &gt;= 13 else 2 if gcs &gt;= 10 else 3 if gcs &gt;= 6 else 4
+    s += 0 if creatinine &lt; 1.2 else 1 if creatinine &lt; 2.0 else 2 if creatinine &lt; 3</pre></div>
+<div class='card'><h3>ARDS Ventilation Strategy</h3><p>Acute respiratory distress syndrome fills lungs with fluid, making them stiff. The strategy is low tidal volumes, higher PEEP to keep air sacs open, and prone positioning — flipping patients onto their stomachs to improve oxygenation. It is uncomfortable but lifesaving.</p><p class='ladder'>Ladder rank 2 — Compounded: how it connects — the moving parts working together in real care.</p><div class='kv'><div><b>Equipment</b><br>Mechanical ventilators<br>Hemodynamic monitors with arterial lines<br>Infusion pumps for vasopressors and sedation<br>Continuous renal replacement therapy (CRRT) machines</div><div><b>Procedures</b><br>Mechanical ventilation management<br>Vasopressor titration<br>Central line placement<br>Arterial line placement</div><div><b>Staff</b><br>Intensivists<br>ICU nurses (1:1 or 1:2 ratios)<br>Respiratory therapists<br>Pharmacists</div><div><b>Flow</b><br>Patients arrive from the ED, operating room, or a deteriorating floor bed. Every patient gets continuous cardiac, blood pressure, and oxygen monitoring plus fre...</div></div><pre class='codeblock'>def sofa_score(pao2_fio2, platelets, bilirubin, map_, gcs, creatinine):
+    &quot;&quot;&quot;SOFA organ-failure estimator: higher means worse. Simplified bands.&quot;&quot;&quot;
+    s = 0
+    s += 0 if pao2_fio2 &gt;= 400 else 1 if pao2_fio2 &gt;= 300 else 2 if pao2_fio2 &gt;= 200 else 3 if pao2_fio2 &gt;= 100 else 4
+    s += 0 if platelets &gt;= 150 else 1 if platelets &gt;= 100 else 2 if platelets &gt;= 50 else 3 if platelets &gt;= 20 else 4
+    s += 0 if map_ &gt;= 70 else 1
+    s += 0 if gcs == 15 else 1 if gcs &gt;= 13 else 2 if gcs &gt;= 10 else 3 if gcs &gt;= 6 else 4
+    s += 0 if creatinine &lt; 1.2 else 1 if creatinine &lt; 2.0 else 2 if creatinine &lt; 3</pre></div>
+<div class='card'><h3>Delirium Prevention (ABCDEF Bundle)</h3><p>ICU delirium — sudden confusion — lengthens stays and worsens outcomes. The ABCDEF bundle fights it: assess pain, wake and breathe trials, choose light sedation, screen for delirium, get patients moving early, and involve family. Every letter is evidence-based.</p><p class='ladder'>Ladder rank 2 — Compounded: how it connects — the moving parts working together in real care.</p><div class='kv'><div><b>Equipment</b><br>Mechanical ventilators<br>Hemodynamic monitors with arterial lines<br>Infusion pumps for vasopressors and sedation<br>Continuous renal replacement therapy (CRRT) machines</div><div><b>Procedures</b><br>Mechanical ventilation management<br>Vasopressor titration<br>Central line placement<br>Arterial line placement</div><div><b>Staff</b><br>Intensivists<br>ICU nurses (1:1 or 1:2 ratios)<br>Respiratory therapists<br>Pharmacists</div><div><b>Flow</b><br>Patients arrive from the ED, operating room, or a deteriorating floor bed. Every patient gets continuous cardiac, blood pressure, and oxygen monitoring plus fre...</div></div><pre class='codeblock'>def sofa_score(pao2_fio2, platelets, bilirubin, map_, gcs, creatinine):
+    &quot;&quot;&quot;SOFA organ-failure estimator: higher means worse. Simplified bands.&quot;&quot;&quot;
+    s = 0
+    s += 0 if pao2_fio2 &gt;= 400 else 1 if pao2_fio2 &gt;= 300 else 2 if pao2_fio2 &gt;= 200 else 3 if pao2_fio2 &gt;= 100 else 4
+    s += 0 if platelets &gt;= 150 else 1 if platelets &gt;= 100 else 2 if platelets &gt;= 50 else 3 if platelets &gt;= 20 else 4
+    s += 0 if map_ &gt;= 70 else 1
+    s += 0 if gcs == 15 else 1 if gcs &gt;= 13 else 2 if gcs &gt;= 10 else 3 if gcs &gt;= 6 else 4
+    s += 0 if creatinine &lt; 1.2 else 1 if creatinine &lt; 2.0 else 2 if creatinine &lt; 3</pre></div>
+<div class='card'><h3>Central and Arterial Lines</h3><p>Central lines go into large neck, chest, or groin veins for powerful drugs and pressure readings. Arterial lines go into wrist arteries for continuous pressure. Both are placed with ultrasound guidance and full sterile technique to prevent bloodstream infections.</p><p class='ladder'>Ladder rank 2 — Compounded: how it connects — the moving parts working together in real care.</p><div class='kv'><div><b>Equipment</b><br>Mechanical ventilators<br>Hemodynamic monitors with arterial lines<br>Infusion pumps for vasopressors and sedation<br>Continuous renal replacement therapy (CRRT) machines</div><div><b>Procedures</b><br>Mechanical ventilation management<br>Vasopressor titration<br>Central line placement<br>Arterial line placement</div><div><b>Staff</b><br>Intensivists<br>ICU nurses (1:1 or 1:2 ratios)<br>Respiratory therapists<br>Pharmacists</div><div><b>Flow</b><br>Patients arrive from the ED, operating room, or a deteriorating floor bed. Every patient gets continuous cardiac, blood pressure, and oxygen monitoring plus fre...</div></div><pre class='codeblock'>def sofa_score(pao2_fio2, platelets, bilirubin, map_, gcs, creatinine):
+    &quot;&quot;&quot;SOFA organ-failure estimator: higher means worse. Simplified bands.&quot;&quot;&quot;
+    s = 0
+    s += 0 if pao2_fio2 &gt;= 400 else 1 if pao2_fio2 &gt;= 300 else 2 if pao2_fio2 &gt;= 200 else 3 if pao2_fio2 &gt;= 100 else 4
+    s += 0 if platelets &gt;= 150 else 1 if platelets &gt;= 100 else 2 if platelets &gt;= 50 else 3 if platelets &gt;= 20 else 4
+    s += 0 if map_ &gt;= 70 else 1
+    s += 0 if gcs == 15 else 1 if gcs &gt;= 13 else 2 if gcs &gt;= 10 else 3 if gcs &gt;= 6 else 4
+    s += 0 if creatinine &lt; 1.2 else 1 if creatinine &lt; 2.0 else 2 if creatinine &lt; 3</pre></div>
+<div class='card'><h3>ICU Nutrition Support</h3><p>Critically ill patients burn enormous energy, so feeding starts within 24 to 48 hours, usually through a tube into the stomach. Dietitians calculate protein and calorie targets daily. Underfeeding weakens healing; overfeeding causes complications.</p><p class='ladder'>Ladder rank 2 — Compounded: how it connects — the moving parts working together in real care.</p><div class='kv'><div><b>Equipment</b><br>Mechanical ventilators<br>Hemodynamic monitors with arterial lines<br>Infusion pumps for vasopressors and sedation<br>Continuous renal replacement therapy (CRRT) machines</div><div><b>Procedures</b><br>Mechanical ventilation management<br>Vasopressor titration<br>Central line placement<br>Arterial line placement</div><div><b>Staff</b><br>Intensivists<br>ICU nurses (1:1 or 1:2 ratios)<br>Respiratory therapists<br>Pharmacists</div><div><b>Flow</b><br>Patients arrive from the ED, operating room, or a deteriorating floor bed. Every patient gets continuous cardiac, blood pressure, and oxygen monitoring plus fre...</div></div><pre class='codeblock'>def sofa_score(pao2_fio2, platelets, bilirubin, map_, gcs, creatinine):
+    &quot;&quot;&quot;SOFA organ-failure estimator: higher means worse. Simplified bands.&quot;&quot;&quot;
+    s = 0
+    s += 0 if pao2_fio2 &gt;= 400 else 1 if pao2_fio2 &gt;= 300 else 2 if pao2_fio2 &gt;= 200 else 3 if pao2_fio2 &gt;= 100 else 4
+    s += 0 if platelets &gt;= 150 else 1 if platelets &gt;= 100 else 2 if platelets &gt;= 50 else 3 if platelets &gt;= 20 else 4
+    s += 0 if map_ &gt;= 70 else 1
+    s += 0 if gcs == 15 else 1 if gcs &gt;= 13 else 2 if gcs &gt;= 10 else 3 if gcs &gt;= 6 else 4
+    s += 0 if creatinine &lt; 1.2 else 1 if creatinine &lt; 2.0 else 2 if creatinine &lt; 3</pre></div>
+<div class='card'><h3>Pressure Injury Prevention</h3><p>Immobilized ICU patients develop bedsores fast. Specialty beds redistribute pressure, and nurses reposition patients every two hours. Heels are floated off the mattress and skin is inspected daily — a stage 4 ulcer can take months to heal.</p><p class='ladder'>Ladder rank 2 — Compounded: how it connects — the moving parts working together in real care.</p><div class='kv'><div><b>Equipment</b><br>Mechanical ventilators<br>Hemodynamic monitors with arterial lines<br>Infusion pumps for vasopressors and sedation<br>Continuous renal replacement therapy (CRRT) machines</div><div><b>Procedures</b><br>Mechanical ventilation management<br>Vasopressor titration<br>Central line placement<br>Arterial line placement</div><div><b>Staff</b><br>Intensivists<br>ICU nurses (1:1 or 1:2 ratios)<br>Respiratory therapists<br>Pharmacists</div><div><b>Flow</b><br>Patients arrive from the ED, operating room, or a deteriorating floor bed. Every patient gets continuous cardiac, blood pressure, and oxygen monitoring plus fre...</div></div><pre class='codeblock'>def sofa_score(pao2_fio2, platelets, bilirubin, map_, gcs, creatinine):
+    &quot;&quot;&quot;SOFA organ-failure estimator: higher means worse. Simplified bands.&quot;&quot;&quot;
+    s = 0
+    s += 0 if pao2_fio2 &gt;= 400 else 1 if pao2_fio2 &gt;= 300 else 2 if pao2_fio2 &gt;= 200 else 3 if pao2_fio2 &gt;= 100 else 4
+    s += 0 if platelets &gt;= 150 else 1 if platelets &gt;= 100 else 2 if platelets &gt;= 50 else 3 if platelets &gt;= 20 else 4
+    s += 0 if map_ &gt;= 70 else 1
+    s += 0 if gcs == 15 else 1 if gcs &gt;= 13 else 2 if gcs &gt;= 10 else 3 if gcs &gt;= 6 else 4
+    s += 0 if creatinine &lt; 1.2 else 1 if creatinine &lt; 2.0 else 2 if creatinine &lt; 3</pre></div>
+<div class='card'><h3>Family Communication and Rounds</h3><p>ICU teams hold family meetings to explain the situation, the goals, and the likely outcomes in plain language. Many units invite families to bedside rounds. Clear, compassionate communication is as much a treatment as any drug.</p><p class='ladder'>Ladder rank 2 — Compounded: how it connects — the moving parts working together in real care.</p><div class='kv'><div><b>Equipment</b><br>Mechanical ventilators<br>Hemodynamic monitors with arterial lines<br>Infusion pumps for vasopressors and sedation<br>Continuous renal replacement therapy (CRRT) machines</div><div><b>Procedures</b><br>Mechanical ventilation management<br>Vasopressor titration<br>Central line placement<br>Arterial line placement</div><div><b>Staff</b><br>Intensivists<br>ICU nurses (1:1 or 1:2 ratios)<br>Respiratory therapists<br>Pharmacists</div><div><b>Flow</b><br>Patients arrive from the ED, operating room, or a deteriorating floor bed. Every patient gets continuous cardiac, blood pressure, and oxygen monitoring plus fre...</div></div><pre class='codeblock'>def sofa_score(pao2_fio2, platelets, bilirubin, map_, gcs, creatinine):
+    &quot;&quot;&quot;SOFA organ-failure estimator: higher means worse. Simplified bands.&quot;&quot;&quot;
+    s = 0
+    s += 0 if pao2_fio2 &gt;= 400 else 1 if pao2_fio2 &gt;= 300 else 2 if pao2_fio2 &gt;= 200 else 3 if pao2_fio2 &gt;= 100 else 4
+    s += 0 if platelets &gt;= 150 else 1 if platelets &gt;= 100 else 2 if platelets &gt;= 50 else 3 if platelets &gt;= 20 else 4
+    s += 0 if map_ &gt;= 70 else 1
+    s += 0 if gcs == 15 else 1 if gcs &gt;= 13 else 2 if gcs &gt;= 10 else 3 if gcs &gt;= 6 else 4
+    s += 0 if creatinine &lt; 1.2 else 1 if creatinine &lt; 2.0 else 2 if creatinine &lt; 3</pre></div>
+<div class='card'><h3>Weaning from the Ventilator</h3><p>Weaning trials reduce ventilator support daily to test whether the patient can breathe alone. When trials succeed, the breathing tube comes out — extubation. Failed trials mean more time and a search for the cause: weakness, fluid, or infection.</p><p class='ladder'>Ladder rank 2 — Compounded: how it connects — the moving parts working together in real care.</p><div class='kv'><div><b>Equipment</b><br>Mechanical ventilators<br>Hemodynamic monitors with arterial lines<br>Infusion pumps for vasopressors and sedation<br>Continuous renal replacement therapy (CRRT) machines</div><div><b>Procedures</b><br>Mechanical ventilation management<br>Vasopressor titration<br>Central line placement<br>Arterial line placement</div><div><b>Staff</b><br>Intensivists<br>ICU nurses (1:1 or 1:2 ratios)<br>Respiratory therapists<br>Pharmacists</div><div><b>Flow</b><br>Patients arrive from the ED, operating room, or a deteriorating floor bed. Every patient gets continuous cardiac, blood pressure, and oxygen monitoring plus fre...</div></div><pre class='codeblock'>def sofa_score(pao2_fio2, platelets, bilirubin, map_, gcs, creatinine):
+    &quot;&quot;&quot;SOFA organ-failure estimator: higher means worse. Simplified bands.&quot;&quot;&quot;
+    s = 0
+    s += 0 if pao2_fio2 &gt;= 400 else 1 if pao2_fio2 &gt;= 300 else 2 if pao2_fio2 &gt;= 200 else 3 if pao2_fio2 &gt;= 100 else 4
+    s += 0 if platelets &gt;= 150 else 1 if platelets &gt;= 100 else 2 if platelets &gt;= 50 else 3 if platelets &gt;= 20 else 4
+    s += 0 if map_ &gt;= 70 else 1
+    s += 0 if gcs == 15 else 1 if gcs &gt;= 13 else 2 if gcs &gt;= 10 else 3 if gcs &gt;= 6 else 4
+    s += 0 if creatinine &lt; 1.2 else 1 if creatinine &lt; 2.0 else 2 if creatinine &lt; 3</pre></div>
+<div class='card'><h3>Code Blue in the ICU</h3><p>Even in the ICU, hearts stop. Because monitors alarm instantly and staff are steps away, compressions and drugs start in seconds. ICU codes have better survival than floor codes, but prevention — catching decline early — saves more lives.</p><p class='ladder'>Ladder rank 3 — Complex: the full picture — mastery-level detail for deep understanding.</p><div class='kv'><div><b>Equipment</b><br>Mechanical ventilators<br>Hemodynamic monitors with arterial lines<br>Infusion pumps for vasopressors and sedation<br>Continuous renal replacement therapy (CRRT) machines</div><div><b>Procedures</b><br>Mechanical ventilation management<br>Vasopressor titration<br>Central line placement<br>Arterial line placement</div><div><b>Staff</b><br>Intensivists<br>ICU nurses (1:1 or 1:2 ratios)<br>Respiratory therapists<br>Pharmacists</div><div><b>Flow</b><br>Patients arrive from the ED, operating room, or a deteriorating floor bed. Every patient gets continuous cardiac, blood pressure, and oxygen monitoring plus fre...</div></div><pre class='codeblock'>def sofa_score(pao2_fio2, platelets, bilirubin, map_, gcs, creatinine):
+    &quot;&quot;&quot;SOFA organ-failure estimator: higher means worse. Simplified bands.&quot;&quot;&quot;
+    s = 0
+    s += 0 if pao2_fio2 &gt;= 400 else 1 if pao2_fio2 &gt;= 300 else 2 if pao2_fio2 &gt;= 200 else 3 if pao2_fio2 &gt;= 100 else 4
+    s += 0 if platelets &gt;= 150 else 1 if platelets &gt;= 100 else 2 if platelets &gt;= 50 else 3 if platelets &gt;= 20 else 4
+    s += 0 if map_ &gt;= 70 else 1
+    s += 0 if gcs == 15 else 1 if gcs &gt;= 13 else 2 if gcs &gt;= 10 else 3 if gcs &gt;= 6 else 4
+    s += 0 if creatinine &lt; 1.2 else 1 if creatinine &lt; 2.0 else 2 if creatinine &lt; 3</pre></div>
+<div class='card'><h3>Infection Control in the ICU</h3><p>ICUs fight device infections: ventilator pneumonia, line infections, and catheter UTIs. Prevention bundles cover hand hygiene, sterile insertion, daily line-necessity checks, and head-of-bed elevation. One prevented infection can save a life and weeks of stay.</p><p class='ladder'>Ladder rank 3 — Complex: the full picture — mastery-level detail for deep understanding.</p><div class='kv'><div><b>Equipment</b><br>Mechanical ventilators<br>Hemodynamic monitors with arterial lines<br>Infusion pumps for vasopressors and sedation<br>Continuous renal replacement therapy (CRRT) machines</div><div><b>Procedures</b><br>Mechanical ventilation management<br>Vasopressor titration<br>Central line placement<br>Arterial line placement</div><div><b>Staff</b><br>Intensivists<br>ICU nurses (1:1 or 1:2 ratios)<br>Respiratory therapists<br>Pharmacists</div><div><b>Flow</b><br>Patients arrive from the ED, operating room, or a deteriorating floor bed. Every patient gets continuous cardiac, blood pressure, and oxygen monitoring plus fre...</div></div><pre class='codeblock'>def sofa_score(pao2_fio2, platelets, bilirubin, map_, gcs, creatinine):
+    &quot;&quot;&quot;SOFA organ-failure estimator: higher means worse. Simplified bands.&quot;&quot;&quot;
+    s = 0
+    s += 0 if pao2_fio2 &gt;= 400 else 1 if pao2_fio2 &gt;= 300 else 2 if pao2_fio2 &gt;= 200 else 3 if pao2_fio2 &gt;= 100 else 4
+    s += 0 if platelets &gt;= 150 else 1 if platelets &gt;= 100 else 2 if platelets &gt;= 50 else 3 if platelets &gt;= 20 else 4
+    s += 0 if map_ &gt;= 70 else 1
+    s += 0 if gcs == 15 else 1 if gcs &gt;= 13 else 2 if gcs &gt;= 10 else 3 if gcs &gt;= 6 else 4
+    s += 0 if creatinine &lt; 1.2 else 1 if creatinine &lt; 2.0 else 2 if creatinine &lt; 3</pre></div>
+<div class='card'><h3>ICU Staffing Ratios</h3><p>ICU nurses care for one or two patients at a time — the sickest get 1:1 care. This ratio exists because a ventilated patient on three drips needs constant eyes. Studies link better ratios directly to lower mortality.</p><p class='ladder'>Ladder rank 3 — Complex: the full picture — mastery-level detail for deep understanding.</p><div class='kv'><div><b>Equipment</b><br>Mechanical ventilators<br>Hemodynamic monitors with arterial lines<br>Infusion pumps for vasopressors and sedation<br>Continuous renal replacement therapy (CRRT) machines</div><div><b>Procedures</b><br>Mechanical ventilation management<br>Vasopressor titration<br>Central line placement<br>Arterial line placement</div><div><b>Staff</b><br>Intensivists<br>ICU nurses (1:1 or 1:2 ratios)<br>Respiratory therapists<br>Pharmacists</div><div><b>Flow</b><br>Patients arrive from the ED, operating room, or a deteriorating floor bed. Every patient gets continuous cardiac, blood pressure, and oxygen monitoring plus fre...</div></div><pre class='codeblock'>def sofa_score(pao2_fio2, platelets, bilirubin, map_, gcs, creatinine):
+    &quot;&quot;&quot;SOFA organ-failure estimator: higher means worse. Simplified bands.&quot;&quot;&quot;
+    s = 0
+    s += 0 if pao2_fio2 &gt;= 400 else 1 if pao2_fio2 &gt;= 300 else 2 if pao2_fio2 &gt;= 200 else 3 if pao2_fio2 &gt;= 100 else 4
+    s += 0 if platelets &gt;= 150 else 1 if platelets &gt;= 100 else 2 if platelets &gt;= 50 else 3 if platelets &gt;= 20 else 4
+    s += 0 if map_ &gt;= 70 else 1
+    s += 0 if gcs == 15 else 1 if gcs &gt;= 13 else 2 if gcs &gt;= 10 else 3 if gcs &gt;= 6 else 4
+    s += 0 if creatinine &lt; 1.2 else 1 if creatinine &lt; 2.0 else 2 if creatinine &lt; 3</pre></div>
+<div class='card'><h3>Transfer and Step-Down Criteria</h3><p>Patients leave the ICU when they breathe on their own, hold their blood pressure without drips, and need only routine monitoring. Step-down units bridge the gap with telemetry. Premature transfer risks bouncing back to the ICU.</p><p class='ladder'>Ladder rank 3 — Complex: the full picture — mastery-level detail for deep understanding.</p><div class='kv'><div><b>Equipment</b><br>Mechanical ventilators<br>Hemodynamic monitors with arterial lines<br>Infusion pumps for vasopressors and sedation<br>Continuous renal replacement therapy (CRRT) machines</div><div><b>Procedures</b><br>Mechanical ventilation management<br>Vasopressor titration<br>Central line placement<br>Arterial line placement</div><div><b>Staff</b><br>Intensivists<br>ICU nurses (1:1 or 1:2 ratios)<br>Respiratory therapists<br>Pharmacists</div><div><b>Flow</b><br>Patients arrive from the ED, operating room, or a deteriorating floor bed. Every patient gets continuous cardiac, blood pressure, and oxygen monitoring plus fre...</div></div><pre class='codeblock'>def sofa_score(pao2_fio2, platelets, bilirubin, map_, gcs, creatinine):
+    &quot;&quot;&quot;SOFA organ-failure estimator: higher means worse. Simplified bands.&quot;&quot;&quot;
+    s = 0
+    s += 0 if pao2_fio2 &gt;= 400 else 1 if pao2_fio2 &gt;= 300 else 2 if pao2_fio2 &gt;= 200 else 3 if pao2_fio2 &gt;= 100 else 4
+    s += 0 if platelets &gt;= 150 else 1 if platelets &gt;= 100 else 2 if platelets &gt;= 50 else 3 if platelets &gt;= 20 else 4
+    s += 0 if map_ &gt;= 70 else 1
+    s += 0 if gcs == 15 else 1 if gcs &gt;= 13 else 2 if gcs &gt;= 10 else 3 if gcs &gt;= 6 else 4
+    s += 0 if creatinine &lt; 1.2 else 1 if creatinine &lt; 2.0 else 2 if creatinine &lt; 3</pre></div>
+<div class='card'><h3>APACHE and SOFA Scoring</h3><p>APACHE and SOFA scores turn vital signs and labs into numbers predicting mortality risk. They help teams compare severity, track whether a patient is improving, and have honest talks with families. No score decides care alone — they guide judgment.</p><p class='ladder'>Ladder rank 3 — Complex: the full picture — mastery-level detail for deep understanding.</p><div class='kv'><div><b>Equipment</b><br>Mechanical ventilators<br>Hemodynamic monitors with arterial lines<br>Infusion pumps for vasopressors and sedation<br>Continuous renal replacement therapy (CRRT) machines</div><div><b>Procedures</b><br>Mechanical ventilation management<br>Vasopressor titration<br>Central line placement<br>Arterial line placement</div><div><b>Staff</b><br>Intensivists<br>ICU nurses (1:1 or 1:2 ratios)<br>Respiratory therapists<br>Pharmacists</div><div><b>Flow</b><br>Patients arrive from the ED, operating room, or a deteriorating floor bed. Every patient gets continuous cardiac, blood pressure, and oxygen monitoring plus fre...</div></div><pre class='codeblock'>def sofa_score(pao2_fio2, platelets, bilirubin, map_, gcs, creatinine):
+    &quot;&quot;&quot;SOFA organ-failure estimator: higher means worse. Simplified bands.&quot;&quot;&quot;
+    s = 0
+    s += 0 if pao2_fio2 &gt;= 400 else 1 if pao2_fio2 &gt;= 300 else 2 if pao2_fio2 &gt;= 200 else 3 if pao2_fio2 &gt;= 100 else 4
+    s += 0 if platelets &gt;= 150 else 1 if platelets &gt;= 100 else 2 if platelets &gt;= 50 else 3 if platelets &gt;= 20 else 4
+    s += 0 if map_ &gt;= 70 else 1
+    s += 0 if gcs == 15 else 1 if gcs &gt;= 13 else 2 if gcs &gt;= 10 else 3 if gcs &gt;= 6 else 4
+    s += 0 if creatinine &lt; 1.2 else 1 if creatinine &lt; 2.0 else 2 if creatinine &lt; 3</pre></div>
+<div class='card'><h3>End-of-Life Care in the ICU</h3><p>When treatment cannot succeed, the ICU shifts to comfort: stopping painful interventions, controlling symptoms, and giving families time and space. Palliative teams guide these conversations. A peaceful, dignified death is a core ICU duty, not a failure.</p><p class='ladder'>Ladder rank 3 — Complex: the full picture — mastery-level detail for deep understanding.</p><div class='kv'><div><b>Equipment</b><br>Mechanical ventilators<br>Hemodynamic monitors with arterial lines<br>Infusion pumps for vasopressors and sedation<br>Continuous renal replacement therapy (CRRT) machines</div><div><b>Procedures</b><br>Mechanical ventilation management<br>Vasopressor titration<br>Central line placement<br>Arterial line placement</div><div><b>Staff</b><br>Intensivists<br>ICU nurses (1:1 or 1:2 ratios)<br>Respiratory therapists<br>Pharmacists</div><div><b>Flow</b><br>Patients arrive from the ED, operating room, or a deteriorating floor bed. Every patient gets continuous cardiac, blood pressure, and oxygen monitoring plus fre...</div></div><pre class='codeblock'>def sofa_score(pao2_fio2, platelets, bilirubin, map_, gcs, creatinine):
+    &quot;&quot;&quot;SOFA organ-failure estimator: higher means worse. Simplified bands.&quot;&quot;&quot;
+    s = 0
+    s += 0 if pao2_fio2 &gt;= 400 else 1 if pao2_fio2 &gt;= 300 else 2 if pao2_fio2 &gt;= 200 else 3 if pao2_fio2 &gt;= 100 else 4
+    s += 0 if platelets &gt;= 150 else 1 if platelets &gt;= 100 else 2 if platelets &gt;= 50 else 3 if platelets &gt;= 20 else 4
+    s += 0 if map_ &gt;= 70 else 1
+    s += 0 if gcs == 15 else 1 if gcs &gt;= 13 else 2 if gcs &gt;= 10 else 3 if gcs &gt;= 6 else 4
+    s += 0 if creatinine &lt; 1.2 else 1 if creatinine &lt; 2.0 else 2 if creatinine &lt; 3</pre></div>
+<h2>Working Demo</h2>
+<pre class="codeblock">def sofa_score(pao2_fio2, platelets, bilirubin, map_, gcs, creatinine):
+    &quot;&quot;&quot;SOFA organ-failure estimator: higher means worse. Simplified bands.&quot;&quot;&quot;
+    s = 0
+    s += 0 if pao2_fio2 &gt;= 400 else 1 if pao2_fio2 &gt;= 300 else 2 if pao2_fio2 &gt;= 200 else 3 if pao2_fio2 &gt;= 100 else 4
+    s += 0 if platelets &gt;= 150 else 1 if platelets &gt;= 100 else 2 if platelets &gt;= 50 else 3 if platelets &gt;= 20 else 4
+    s += 0 if map_ &gt;= 70 else 1
+    s += 0 if gcs == 15 else 1 if gcs &gt;= 13 else 2 if gcs &gt;= 10 else 3 if gcs &gt;= 6 else 4
+    s += 0 if creatinine &lt; 1.2 else 1 if creatinine &lt; 2.0 else 2 if creatinine &lt; 3.5 else 3 if creatinine &lt; 5.0 else 4
+    return s
+print(&quot;SOFA:&quot;, sofa_score(280, 120, 1.1, 65, 14, 1.8))</pre>
+</body></html>

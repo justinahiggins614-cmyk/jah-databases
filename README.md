@@ -1,6 +1,6 @@
 # JAH Databases — Project Three
 
-48218 connected databases, 48218 boundless generators, 48218 archive-aware AIs.
+49476 connected databases, 49476 boundless generators, 49476 archive-aware AIs.
 (Property of Justin Addam Higgins (JAH). Counts are re-stamped from
 `data/manifest.json` by `code/restamp_counts.py` whenever the manifest grows.)
 
@@ -21,7 +21,7 @@ searchable database with:
 - **Validation + drift control** — schema checks, independent re-verification,
   and duplicate checks against archive samples. Chat output never enters the
   archive automatically; filing is deliberate.
-- **Cross-database generation** — every generator can sample the other 48217
+- **Cross-database generation** — every generator can sample the other 49475
   databases (`JAHDB.sampleOther`) and fold themes into its own genre.
 
 The original 39 websites are NOT linked from here and this project is NOT
@@ -30,8 +30,8 @@ separate.
 
 ## Layout
 
-- `index.html` — hub front door, 48218 database cards.
-- `data/manifest.json` — the 48218-database registry (slug, name, source repo,
+- `index.html` — hub front door, 49476 database cards.
+- `data/manifest.json` — the 49476-database registry (slug, name, source repo,
   index/chunk paths, id prefix, AI name, status).
 - `core/jahdb.js` — shared framework (manifest, PRNG, emblems, gz fetch,
   generator registry, cross-db sampling, sessions, archive-aware AI).

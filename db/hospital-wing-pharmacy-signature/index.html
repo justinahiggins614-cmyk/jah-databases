@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Pharmacy Hospital Wing — Signature Edition Database</title>
+<style>
+body{font-family:Georgia,serif;max-width:1100px;margin:0 auto;padding:16px;background:#faf8f4;color:#222}
+.hero{background:#10243d;color:#fff;padding:28px;border-radius:12px}
+.pill{display:inline-block;background:#1c6e3c;color:#fff;border-radius:20px;padding:4px 14px;margin:4px;font-size:13px}
+.merger{display:inline-block;background:#c0392b;color:#fff;border:none;border-radius:8px;padding:10px 22px;font-size:15px;cursor:pointer;margin:6px}
+.million{background:#fff8e1;border:2px solid #d4a017;border-radius:10px;padding:12px;margin:14px 0;font-weight:bold}
+.kv{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:8px;margin:10px 0}
+.kv div{background:#fff;border:1px solid #ddd;border-radius:8px;padding:8px;font-size:13px}
+.card{background:#fff;border:1px solid #ddd;border-radius:10px;padding:16px;margin:14px 0}
+.codeblock{background:#1e1e1e;color:#d7ffce;padding:12px;border-radius:8px;overflow-x:auto;font-size:13px}
+.ladder{font-size:12px;color:#555}
+h2{color:#10243d}
+</style></head><body>
+<div class="hero"><h1>The Pharmacy Hospital Wing — Signature Edition Database</h1><p>Manon&#x27;s original Signature designs and improvements for the Pharmacy Hospital Wing — Signature-labeled concepts, never presented as established fact.</p>
+<p>Records banked: <span id="stCount">20 / 1,000,000 target</span></p></div>
+<div class="million">MARCH TO 1,000,000 &mdash; 20 records banked. This database is in progress toward one million full records.</div>
+<div><span class="pill">Exhaustive</span>
+<button class="merger" onclick="alert('Merger queued: this database will merge into the All Database Merger.')">All Database Merger</button>
+<button class="merger" onclick="alert('Added to the All Database Merger queue.')">Merge This Database</button></div>
+<h2>Records</h2>
+<div class='card'><h3>Signature Pill Story Card</h3><p>Every discharge medicine comes with a story card — what it does, told as a tiny tale with pictures, in the patient&#x27;s language. &#x27;This one keeps your blood slippery so clots can&#x27;t form.&#x27; Understanding in narrative form. Concept by Manon.</p><p><i>Improvement: Improves on tiny-print labels with memorable medication stories.</i></p><p class='ladder'>Ladder rank 1 — Simple: the core idea in plain words — what it is and why it matters.</p><div class='kv'><div><b>Equipment</b><br>Automated dispensing cabinets<br>IV compounding hoods<br>Chemotherapy biological safety cabinets<br>Unit-dose packaging machines</div><div><b>Procedures</b><br>Medication order verification<br>Sterile IV compounding<br>Chemotherapy preparation (USP 800)<br>Medication reconciliation</div><div><b>Staff</b><br>Clinical pharmacists<br>Dispensing pharmacists<br>Pharmacy technicians<br>Oncology pharmacists</div><div><b>Flow</b><br>Orders flow electronically to pharmacy verification — dose, interactions, allergies, kidney function checked. Technicians prepare and dispense; pharmacists comp...</div></div><pre class='codeblock'># Signature Pill Story Card — Signature design prototype
+def renal_dose_adjust(creatinine, age, weight_kg, female, normal_dose_mg):
+    &quot;&quot;&quot;Cockcroft-Gault creatinine clearance -&gt; dose band suggestion.&quot;&quot;&quot;
+    scr = max(creatinine, 0.6)
+    crcl = ((140 - age) * weight_kg) / (72 * scr)
+    if female: crcl *= 0.85
+    factor = 1.0 if crcl &gt;= 60 else 0.75 if crcl &gt;= 30 else 0.5
+    return f&quot;CrCl ~{crcl:.0f} mL/min -&gt; give {round(normal_dose_mg*factor)} mg (verify with pharmacist)&quot;
+print(renal_dose_adjust(1.6, 72, 70, False, 1000))</pre></div>
+<div class='card'><h3>Signature Sunrise Med Review</h3><p>A morning ritual where the pharmacist reviews the day&#x27;s medicines with the patient at the window, sunlight on the pill cups. The day&#x27;s drugs get a daily introduction. Concept by Manon.</p><p><i>Improvement: Improves on silent pill delivery with a daily teaching sunrise.</i></p><p class='ladder'>Ladder rank 1 — Simple: the core idea in plain words — what it is and why it matters.</p><div class='kv'><div><b>Equipment</b><br>Automated dispensing cabinets<br>IV compounding hoods<br>Chemotherapy biological safety cabinets<br>Unit-dose packaging machines</div><div><b>Procedures</b><br>Medication order verification<br>Sterile IV compounding<br>Chemotherapy preparation (USP 800)<br>Medication reconciliation</div><div><b>Staff</b><br>Clinical pharmacists<br>Dispensing pharmacists<br>Pharmacy technicians<br>Oncology pharmacists</div><div><b>Flow</b><br>Orders flow electronically to pharmacy verification — dose, interactions, allergies, kidney function checked. Technicians prepare and dispense; pharmacists comp...</div></div><pre class='codeblock'># Signature Sunrise Med Review — Signature design prototype
+def renal_dose_adjust(creatinine, age, weight_kg, female, normal_dose_mg):
+    &quot;&quot;&quot;Cockcroft-Gault creatinine clearance -&gt; dose band suggestion.&quot;&quot;&quot;
+    scr = max(creatinine, 0.6)
+    crcl = ((140 - age) * weight_kg) / (72 * scr)
+    if female: crcl *= 0.85
+    factor = 1.0 if crcl &gt;= 60 else 0.75 if crcl &gt;= 30 else 0.5
+    return f&quot;CrCl ~{crcl:.0f} mL/min -&gt; give {round(normal_dose_mg*factor)} mg (verify with pharmacist)&quot;
+print(renal_dose_adjust(1.6, 72, 70, False, 1000))</pre></div>
+<div class='card'><h3>Signature Flavor Lab</h3><p>A compounding corner where bad-tasting liquids are flavored to patient choice — cherry, vanilla, chocolate. Children and elders actually take their medicine. Concept by Manon.</p><p><i>Improvement: Improves on gag-inducing syrups with personalized flavors.</i></p><p class='ladder'>Ladder rank 1 — Simple: the core idea in plain words — what it is and why it matters.</p><div class='kv'><div><b>Equipment</b><br>Automated dispensing cabinets<br>IV compounding hoods<br>Chemotherapy biological safety cabinets<br>Unit-dose packaging machines</div><div><b>Procedures</b><br>Medication order verification<br>Sterile IV compounding<br>Chemotherapy preparation (USP 800)<br>Medication reconciliation</div><div><b>Staff</b><br>Clinical pharmacists<br>Dispensing pharmacists<br>Pharmacy technicians<br>Oncology pharmacists</div><div><b>Flow</b><br>Orders flow electronically to pharmacy verification — dose, interactions, allergies, kidney function checked. Technicians prepare and dispense; pharmacists comp...</div></div><pre class='codeblock'># Signature Flavor Lab — Signature design prototype
+def renal_dose_adjust(creatinine, age, weight_kg, female, normal_dose_mg):
+    &quot;&quot;&quot;Cockcroft-Gault creatinine clearance -&gt; dose band suggestion.&quot;&quot;&quot;
+    scr = max(creatinine, 0.6)
+    crcl = ((140 - age) * weight_kg) / (72 * scr)
+    if female: crcl *= 0.85
+    factor = 1.0 if crcl &gt;= 60 else 0.75 if crcl &gt;= 30 else 0.5
+    return f&quot;CrCl ~{crcl:.0f} mL/min -&gt; give {round(normal_dose_mg*factor)} mg (verify with pharmacist)&quot;
+print(renal_dose_adjust(1.6, 72, 70, False, 1000))</pre></div>
+<div class='card'><h3>Signature Meds-to-Bedside</h3><p>Pharmacists deliver discharge prescriptions to the bedside, counsel there, and watch the first dose taken. No pharmacy errand stands between patient and treatment. Concept by Manon.</p><p><i>Improvement: Improves on &#x27;pick this up on your way home&#x27; with bedside completion.</i></p><p class='ladder'>Ladder rank 1 — Simple: the core idea in plain words — what it is and why it matters.</p><div class='kv'><div><b>Equipment</b><br>Automated dispensing cabinets<br>IV compounding hoods<br>Chemotherapy biological safety cabinets<br>Unit-dose packaging machines</div><div><b>Procedures</b><br>Medication order verification<br>Sterile IV compounding<br>Chemotherapy preparation (USP 800)<br>Medication reconciliation</div><div><b>Staff</b><br>Clinical pharmacists<br>Dispensing pharmacists<br>Pharmacy technicians<br>Oncology pharmacists</div><div><b>Flow</b><br>Orders flow electronically to pharmacy verification — dose, interactions, allergies, kidney function checked. Technicians prepare and dispense; pharmacists comp...</div></div><pre class='codeblock'># Signature Meds-to-Bedside — Signature design prototype
+def renal_dose_adjust(creatinine, age, weight_kg, female, normal_dose_mg):
+    &quot;&quot;&quot;Cockcroft-Gault creatinine clearance -&gt; dose band suggestion.&quot;&quot;&quot;
+    scr = max(creatinine, 0.6)
+    crcl = ((140 - age) * weight_kg) / (72 * scr)
+    if female: crcl *= 0.85
+    factor = 1.0 if crcl &gt;= 60 else 0.75 if crcl &gt;= 30 else 0.5
+    return f&quot;CrCl ~{crcl:.0f} mL/min -&gt; give {round(normal_dose_mg*factor)} mg (verify with pharmacist)&quot;
+print(renal_dose_adjust(1.6, 72, 70, False, 1000))</pre></div>
+<div class='card'><h3>Signature Interaction Garden</h3><p>A visual garden display in the pharmacy where common dangerous interactions are shown as clashing plants — memorable education for staff and students. Learning that sticks. Concept by Manon.</p><p><i>Improvement: Improves on alert fatigue with memorable visual teaching.</i></p><p class='ladder'>Ladder rank 1 — Simple: the core idea in plain words — what it is and why it matters.</p><div class='kv'><div><b>Equipment</b><br>Automated dispensing cabinets<br>IV compounding hoods<br>Chemotherapy biological safety cabinets<br>Unit-dose packaging machines</div><div><b>Procedures</b><br>Medication order verification<br>Sterile IV compounding<br>Chemotherapy preparation (USP 800)<br>Medication reconciliation</div><div><b>Staff</b><br>Clinical pharmacists<br>Dispensing pharmacists<br>Pharmacy technicians<br>Oncology pharmacists</div><div><b>Flow</b><br>Orders flow electronically to pharmacy verification — dose, interactions, allergies, kidney function checked. Technicians prepare and dispense; pharmacists comp...</div></div><pre class='codeblock'># Signature Interaction Garden — Signature design prototype
+def renal_dose_adjust(creatinine, age, weight_kg, female, normal_dose_mg):
+    &quot;&quot;&quot;Cockcroft-Gault creatinine clearance -&gt; dose band suggestion.&quot;&quot;&quot;
+    scr = max(creatinine, 0.6)
+    crcl = ((140 - age) * weight_kg) / (72 * scr)
+    if female: crcl *= 0.85
+    factor = 1.0 if crcl &gt;= 60 else 0.75 if crcl &gt;= 30 else 0.5
+    return f&quot;CrCl ~{crcl:.0f} mL/min -&gt; give {round(normal_dose_mg*factor)} mg (verify with pharmacist)&quot;
+print(renal_dose_adjust(1.6, 72, 70, False, 1000))</pre></div>
+<div class='card'><h3>Signature Quiet Verification Alcove</h3><p>A distraction-free alcove where pharmacists verify high-risk orders — chemo, pediatric, ICU drips — in silence. Focus is a safety device. Concept by Manon.</p><p><i>Improvement: Improves on chaotic verification with a sanctuary of accuracy.</i></p><p class='ladder'>Ladder rank 1 — Simple: the core idea in plain words — what it is and why it matters.</p><div class='kv'><div><b>Equipment</b><br>Automated dispensing cabinets<br>IV compounding hoods<br>Chemotherapy biological safety cabinets<br>Unit-dose packaging machines</div><div><b>Procedures</b><br>Medication order verification<br>Sterile IV compounding<br>Chemotherapy preparation (USP 800)<br>Medication reconciliation</div><div><b>Staff</b><br>Clinical pharmacists<br>Dispensing pharmacists<br>Pharmacy technicians<br>Oncology pharmacists</div><div><b>Flow</b><br>Orders flow electronically to pharmacy verification — dose, interactions, allergies, kidney function checked. Technicians prepare and dispense; pharmacists comp...</div></div><pre class='codeblock'># Signature Quiet Verification Alcove — Signature design prototype
+def renal_dose_adjust(creatinine, age, weight_kg, female, normal_dose_mg):
+    &quot;&quot;&quot;Cockcroft-Gault creatinine clearance -&gt; dose band suggestion.&quot;&quot;&quot;
+    scr = max(creatinine, 0.6)
+    crcl = ((140 - age) * weight_kg) / (72 * scr)
+    if female: crcl *= 0.85
+    factor = 1.0 if crcl &gt;= 60 else 0.75 if crcl &gt;= 30 else 0.5
+    return f&quot;CrCl ~{crcl:.0f} mL/min -&gt; give {round(normal_dose_mg*factor)} mg (verify with pharmacist)&quot;
+print(renal_dose_adjust(1.6, 72, 70, False, 1000))</pre></div>
+<div class='card'><h3>Signature Patient Pill Organizer Art</h3><p>Discharge pill organizers customized with the patient&#x27;s schedule as art — morning sun, evening moon compartments. Beauty aids adherence. Concept by Manon.</p><p><i>Improvement: Improves on confusing bottles with an artful adherence tool.</i></p><p class='ladder'>Ladder rank 1 — Simple: the core idea in plain words — what it is and why it matters.</p><div class='kv'><div><b>Equipment</b><br>Automated dispensing cabinets<br>IV compounding hoods<br>Chemotherapy biological safety cabinets<br>Unit-dose packaging machines</div><div><b>Procedures</b><br>Medication order verification<br>Sterile IV compounding<br>Chemotherapy preparation (USP 800)<br>Medication reconciliation</div><div><b>Staff</b><br>Clinical pharmacists<br>Dispensing pharmacists<br>Pharmacy technicians<br>Oncology pharmacists</div><div><b>Flow</b><br>Orders flow electronically to pharmacy verification — dose, interactions, allergies, kidney function checked. Technicians prepare and dispense; pharmacists comp...</div></div><pre class='codeblock'># Signature Patient Pill Organizer Art — Signature design prototype
+def renal_dose_adjust(creatinine, age, weight_kg, female, normal_dose_mg):
+    &quot;&quot;&quot;Cockcroft-Gault creatinine clearance -&gt; dose band suggestion.&quot;&quot;&quot;
+    scr = max(creatinine, 0.6)
+    crcl = ((140 - age) * weight_kg) / (72 * scr)
+    if female: crcl *= 0.85
+    factor = 1.0 if crcl &gt;= 60 else 0.75 if crcl &gt;= 30 else 0.5
+    return f&quot;CrCl ~{crcl:.0f} mL/min -&gt; give {round(normal_dose_mg*factor)} mg (verify with pharmacist)&quot;
+print(renal_dose_adjust(1.6, 72, 70, False, 1000))</pre></div>
+<div class='card'><h3>Signature Herbal Wisdom Shelf</h3><p>A curated reference and counseling corner on herb-drug interactions, respecting patients&#x27; traditional medicines while keeping them safe. Culture plus safety. Concept by Manon.</p><p><i>Improvement: Improves on dismissed herbal use with respectful, safe guidance.</i></p><p class='ladder'>Ladder rank 2 — Compounded: how it connects — the moving parts working together in real care.</p><div class='kv'><div><b>Equipment</b><br>Automated dispensing cabinets<br>IV compounding hoods<br>Chemotherapy biological safety cabinets<br>Unit-dose packaging machines</div><div><b>Procedures</b><br>Medication order verification<br>Sterile IV compounding<br>Chemotherapy preparation (USP 800)<br>Medication reconciliation</div><div><b>Staff</b><br>Clinical pharmacists<br>Dispensing pharmacists<br>Pharmacy technicians<br>Oncology pharmacists</div><div><b>Flow</b><br>Orders flow electronically to pharmacy verification — dose, interactions, allergies, kidney function checked. Technicians prepare and dispense; pharmacists comp...</div></div><pre class='codeblock'># Signature Herbal Wisdom Shelf — Signature design prototype
+def renal_dose_adjust(creatinine, age, weight_kg, female, normal_dose_mg):
+    &quot;&quot;&quot;Cockcroft-Gault creatinine clearance -&gt; dose band suggestion.&quot;&quot;&quot;
+    scr = max(creatinine, 0.6)
+    crcl = ((140 - age) * weight_kg) / (72 * scr)
+    if female: crcl *= 0.85
+    factor = 1.0 if crcl &gt;= 60 else 0.75 if crcl &gt;= 30 else 0.5
+    return f&quot;CrCl ~{crcl:.0f} mL/min -&gt; give {round(normal_dose_mg*factor)} mg (verify with pharmacist)&quot;
+print(renal_dose_adjust(1.6, 72, 70, False, 1000))</pre></div>
+<div class='card'><h3>Signature Night Pharmacist Lantern</h3><p>The overnight pharmacist carries a lantern on rounds — a visible symbol that medication expertise never sleeps. Night nurses know help is a light away. Concept by Manon.</p><p><i>Improvement: Improves on invisible night coverage with a beacon of availability.</i></p><p class='ladder'>Ladder rank 2 — Compounded: how it connects — the moving parts working together in real care.</p><div class='kv'><div><b>Equipment</b><br>Automated dispensing cabinets<br>IV compounding hoods<br>Chemotherapy biological safety cabinets<br>Unit-dose packaging machines</div><div><b>Procedures</b><br>Medication order verification<br>Sterile IV compounding<br>Chemotherapy preparation (USP 800)<br>Medication reconciliation</div><div><b>Staff</b><br>Clinical pharmacists<br>Dispensing pharmacists<br>Pharmacy technicians<br>Oncology pharmacists</div><div><b>Flow</b><br>Orders flow electronically to pharmacy verification — dose, interactions, allergies, kidney function checked. Technicians prepare and dispense; pharmacists comp...</div></div><pre class='codeblock'># Signature Night Pharmacist Lantern — Signature design prototype
+def renal_dose_adjust(creatinine, age, weight_kg, female, normal_dose_mg):
+    &quot;&quot;&quot;Cockcroft-Gault creatinine clearance -&gt; dose band suggestion.&quot;&quot;&quot;
+    scr = max(creatinine, 0.6)
+    crcl = ((140 - age) * weight_kg) / (72 * scr)
+    if female: crcl *= 0.85
+    factor = 1.0 if crcl &gt;= 60 else 0.75 if crcl &gt;= 30 else 0.5
+    return f&quot;CrCl ~{crcl:.0f} mL/min -&gt; give {round(normal_dose_mg*factor)} mg (verify with pharmacist)&quot;
+print(renal_dose_adjust(1.6, 72, 70, False, 1000))</pre></div>
+<div class='card'><h3>Signature Allergy Alert Bracelet</h3><p>Beautiful, comfortable allergy bracelets made at admission — not paper bands — that patients actually keep wearing. Allergies stay visible. Concept by Manon.</p><p><i>Improvement: Improves on paper allergy bands with keepsake safety jewelry.</i></p><p class='ladder'>Ladder rank 2 — Compounded: how it connects — the moving parts working together in real care.</p><div class='kv'><div><b>Equipment</b><br>Automated dispensing cabinets<br>IV compounding hoods<br>Chemotherapy biological safety cabinets<br>Unit-dose packaging machines</div><div><b>Procedures</b><br>Medication order verification<br>Sterile IV compounding<br>Chemotherapy preparation (USP 800)<br>Medication reconciliation</div><div><b>Staff</b><br>Clinical pharmacists<br>Dispensing pharmacists<br>Pharmacy technicians<br>Oncology pharmacists</div><div><b>Flow</b><br>Orders flow electronically to pharmacy verification — dose, interactions, allergies, kidney function checked. Technicians prepare and dispense; pharmacists comp...</div></div><pre class='codeblock'># Signature Allergy Alert Bracelet — Signature design prototype
+def renal_dose_adjust(creatinine, age, weight_kg, female, normal_dose_mg):
+    &quot;&quot;&quot;Cockcroft-Gault creatinine clearance -&gt; dose band suggestion.&quot;&quot;&quot;
+    scr = max(creatinine, 0.6)
+    crcl = ((140 - age) * weight_kg) / (72 * scr)
+    if female: crcl *= 0.85
+    factor = 1.0 if crcl &gt;= 60 else 0.75 if crcl &gt;= 30 else 0.5
+    return f&quot;CrCl ~{crcl:.0f} mL/min -&gt; give {round(normal_dose_mg*factor)} mg (verify with pharmacist)&quot;
+print(renal_dose_adjust(1.6, 72, 70, False, 1000))</pre></div>
+<div class='card'><h3>Signature Chemo Calm Ritual</h3><p>A brief calming ritual before each chemo verification — breath, focus, double-check — honoring the gravity of hazardous drugs. Reverence as safety. Concept by Manon.</p><p><i>Improvement: Improves on rushed compounding with a ritual of care.</i></p><p class='ladder'>Ladder rank 2 — Compounded: how it connects — the moving parts working together in real care.</p><div class='kv'><div><b>Equipment</b><br>Automated dispensing cabinets<br>IV compounding hoods<br>Chemotherapy biological safety cabinets<br>Unit-dose packaging machines</div><div><b>Procedures</b><br>Medication order verification<br>Sterile IV compounding<br>Chemotherapy preparation (USP 800)<br>Medication reconciliation</div><div><b>Staff</b><br>Clinical pharmacists<br>Dispensing pharmacists<br>Pharmacy technicians<br>Oncology pharmacists</div><div><b>Flow</b><br>Orders flow electronically to pharmacy verification — dose, interactions, allergies, kidney function checked. Technicians prepare and dispense; pharmacists comp...</div></div><pre class='codeblock'># Signature Chemo Calm Ritual — Signature design prototype
+def renal_dose_adjust(creatinine, age, weight_kg, female, normal_dose_mg):
+    &quot;&quot;&quot;Cockcroft-Gault creatinine clearance -&gt; dose band suggestion.&quot;&quot;&quot;
+    scr = max(creatinine, 0.6)
+    crcl = ((140 - age) * weight_kg) / (72 * scr)
+    if female: crcl *= 0.85
+    factor = 1.0 if crcl &gt;= 60 else 0.75 if crcl &gt;= 30 else 0.5
+    return f&quot;CrCl ~{crcl:.0f} mL/min -&gt; give {round(normal_dose_mg*factor)} mg (verify with pharmacist)&quot;
+print(renal_dose_adjust(1.6, 72, 70, False, 1000))</pre></div>
+<div class='card'><h3>Signature Medication Timeline</h3><p>A visual timeline given to polypharmacy patients showing when each drug starts, what it targets, and when to reassess. Ten pills become a comprehensible plan. Concept by Manon.</p><p><i>Improvement: Improves on bottle chaos with a clear medication map.</i></p><p class='ladder'>Ladder rank 2 — Compounded: how it connects — the moving parts working together in real care.</p><div class='kv'><div><b>Equipment</b><br>Automated dispensing cabinets<br>IV compounding hoods<br>Chemotherapy biological safety cabinets<br>Unit-dose packaging machines</div><div><b>Procedures</b><br>Medication order verification<br>Sterile IV compounding<br>Chemotherapy preparation (USP 800)<br>Medication reconciliation</div><div><b>Staff</b><br>Clinical pharmacists<br>Dispensing pharmacists<br>Pharmacy technicians<br>Oncology pharmacists</div><div><b>Flow</b><br>Orders flow electronically to pharmacy verification — dose, interactions, allergies, kidney function checked. Technicians prepare and dispense; pharmacists comp...</div></div><pre class='codeblock'># Signature Medication Timeline — Signature design prototype
+def renal_dose_adjust(creatinine, age, weight_kg, female, normal_dose_mg):
+    &quot;&quot;&quot;Cockcroft-Gault creatinine clearance -&gt; dose band suggestion.&quot;&quot;&quot;
+    scr = max(creatinine, 0.6)
+    crcl = ((140 - age) * weight_kg) / (72 * scr)
+    if female: crcl *= 0.85
+    factor = 1.0 if crcl &gt;= 60 else 0.75 if crcl &gt;= 30 else 0.5
+    return f&quot;CrCl ~{crcl:.0f} mL/min -&gt; give {round(normal_dose_mg*factor)} mg (verify with pharmacist)&quot;
+print(renal_dose_adjust(1.6, 72, 70, False, 1000))</pre></div>
+<div class='card'><h3>Signature Pharmacist House Calls</h3><p>Post-discharge video visits where the pharmacist sees the patient&#x27;s actual pill bottles at home and fixes confusion on the spot. The medicine cabinet, supervised. Concept by Manon.</p><p><i>Improvement: Improves on discharge-and-hope with eyes on the home regimen.</i></p><p class='ladder'>Ladder rank 2 — Compounded: how it connects — the moving parts working together in real care.</p><div class='kv'><div><b>Equipment</b><br>Automated dispensing cabinets<br>IV compounding hoods<br>Chemotherapy biological safety cabinets<br>Unit-dose packaging machines</div><div><b>Procedures</b><br>Medication order verification<br>Sterile IV compounding<br>Chemotherapy preparation (USP 800)<br>Medication reconciliation</div><div><b>Staff</b><br>Clinical pharmacists<br>Dispensing pharmacists<br>Pharmacy technicians<br>Oncology pharmacists</div><div><b>Flow</b><br>Orders flow electronically to pharmacy verification — dose, interactions, allergies, kidney function checked. Technicians prepare and dispense; pharmacists comp...</div></div><pre class='codeblock'># Signature Pharmacist House Calls — Signature design prototype
+def renal_dose_adjust(creatinine, age, weight_kg, female, normal_dose_mg):
+    &quot;&quot;&quot;Cockcroft-Gault creatinine clearance -&gt; dose band suggestion.&quot;&quot;&quot;
+    scr = max(creatinine, 0.6)
+    crcl = ((140 - age) * weight_kg) / (72 * scr)
+    if female: crcl *= 0.85
+    factor = 1.0 if crcl &gt;= 60 else 0.75 if crcl &gt;= 30 else 0.5
+    return f&quot;CrCl ~{crcl:.0f} mL/min -&gt; give {round(normal_dose_mg*factor)} mg (verify with pharmacist)&quot;
+print(renal_dose_adjust(1.6, 72, 70, False, 1000))</pre></div>
+<div class='card'><h3>Signature Antibiotic Finish Bell</h3><p>A bell rung when a patient completes their antibiotic course — celebrating the full course that fights resistance. Adherence as achievement. Concept by Manon.</p><p><i>Improvement: Improves on abandoned courses with a finish-line ritual.</i></p><p class='ladder'>Ladder rank 2 — Compounded: how it connects — the moving parts working together in real care.</p><div class='kv'><div><b>Equipment</b><br>Automated dispensing cabinets<br>IV compounding hoods<br>Chemotherapy biological safety cabinets<br>Unit-dose packaging machines</div><div><b>Procedures</b><br>Medication order verification<br>Sterile IV compounding<br>Chemotherapy preparation (USP 800)<br>Medication reconciliation</div><div><b>Staff</b><br>Clinical pharmacists<br>Dispensing pharmacists<br>Pharmacy technicians<br>Oncology pharmacists</div><div><b>Flow</b><br>Orders flow electronically to pharmacy verification — dose, interactions, allergies, kidney function checked. Technicians prepare and dispense; pharmacists comp...</div></div><pre class='codeblock'># Signature Antibiotic Finish Bell — Signature design prototype
+def renal_dose_adjust(creatinine, age, weight_kg, female, normal_dose_mg):
+    &quot;&quot;&quot;Cockcroft-Gault creatinine clearance -&gt; dose band suggestion.&quot;&quot;&quot;
+    scr = max(creatinine, 0.6)
+    crcl = ((140 - age) * weight_kg) / (72 * scr)
+    if female: crcl *= 0.85
+    factor = 1.0 if crcl &gt;= 60 else 0.75 if crcl &gt;= 30 else 0.5
+    return f&quot;CrCl ~{crcl:.0f} mL/min -&gt; give {round(normal_dose_mg*factor)} mg (verify with pharmacist)&quot;
+print(renal_dose_adjust(1.6, 72, 70, False, 1000))</pre></div>
+<div class='card'><h3>Signature Taste-Test Bar</h3><p>A bar where patients sample flavored versions of their liquid medicines before choosing. Autonomy in every sip. Concept by Manon.</p><p><i>Improvement: Improves on forced flavors with patient choice.</i></p><p class='ladder'>Ladder rank 3 — Complex: the full picture — mastery-level detail for deep understanding.</p><div class='kv'><div><b>Equipment</b><br>Automated dispensing cabinets<br>IV compounding hoods<br>Chemotherapy biological safety cabinets<br>Unit-dose packaging machines</div><div><b>Procedures</b><br>Medication order verification<br>Sterile IV compounding<br>Chemotherapy preparation (USP 800)<br>Medication reconciliation</div><div><b>Staff</b><br>Clinical pharmacists<br>Dispensing pharmacists<br>Pharmacy technicians<br>Oncology pharmacists</div><div><b>Flow</b><br>Orders flow electronically to pharmacy verification — dose, interactions, allergies, kidney function checked. Technicians prepare and dispense; pharmacists comp...</div></div><pre class='codeblock'># Signature Taste-Test Bar — Signature design prototype
+def renal_dose_adjust(creatinine, age, weight_kg, female, normal_dose_mg):
+    &quot;&quot;&quot;Cockcroft-Gault creatinine clearance -&gt; dose band suggestion.&quot;&quot;&quot;
+    scr = max(creatinine, 0.6)
+    crcl = ((140 - age) * weight_kg) / (72 * scr)
+    if female: crcl *= 0.85
+    factor = 1.0 if crcl &gt;= 60 else 0.75 if crcl &gt;= 30 else 0.5
+    return f&quot;CrCl ~{crcl:.0f} mL/min -&gt; give {round(normal_dose_mg*factor)} mg (verify with pharmacist)&quot;
+print(renal_dose_adjust(1.6, 72, 70, False, 1000))</pre></div>
+<div class='card'><h3>Signature Med Reconciliation Café</h3><p>A calm café-style space for admission medication interviews — tea, unhurried conversation — where accurate home lists emerge. Truth over rushing. Concept by Manon.</p><p><i>Improvement: Improves on bedside interrogations with a conversational setting.</i></p><p class='ladder'>Ladder rank 3 — Complex: the full picture — mastery-level detail for deep understanding.</p><div class='kv'><div><b>Equipment</b><br>Automated dispensing cabinets<br>IV compounding hoods<br>Chemotherapy biological safety cabinets<br>Unit-dose packaging machines</div><div><b>Procedures</b><br>Medication order verification<br>Sterile IV compounding<br>Chemotherapy preparation (USP 800)<br>Medication reconciliation</div><div><b>Staff</b><br>Clinical pharmacists<br>Dispensing pharmacists<br>Pharmacy technicians<br>Oncology pharmacists</div><div><b>Flow</b><br>Orders flow electronically to pharmacy verification — dose, interactions, allergies, kidney function checked. Technicians prepare and dispense; pharmacists comp...</div></div><pre class='codeblock'># Signature Med Reconciliation Café — Signature design prototype
+def renal_dose_adjust(creatinine, age, weight_kg, female, normal_dose_mg):
+    &quot;&quot;&quot;Cockcroft-Gault creatinine clearance -&gt; dose band suggestion.&quot;&quot;&quot;
+    scr = max(creatinine, 0.6)
+    crcl = ((140 - age) * weight_kg) / (72 * scr)
+    if female: crcl *= 0.85
+    factor = 1.0 if crcl &gt;= 60 else 0.75 if crcl &gt;= 30 else 0.5
+    return f&quot;CrCl ~{crcl:.0f} mL/min -&gt; give {round(normal_dose_mg*factor)} mg (verify with pharmacist)&quot;
+print(renal_dose_adjust(1.6, 72, 70, False, 1000))</pre></div>
+<div class='card'><h3>Signature Deprescribing Garden</h3><p>A program and garden space for carefully reducing unnecessary medicines in elders, celebrated as &#x27;pruning&#x27; for health. Less can be more. Concept by Manon.</p><p><i>Improvement: Improves on endless refills with thoughtful, celebrated simplification.</i></p><p class='ladder'>Ladder rank 3 — Complex: the full picture — mastery-level detail for deep understanding.</p><div class='kv'><div><b>Equipment</b><br>Automated dispensing cabinets<br>IV compounding hoods<br>Chemotherapy biological safety cabinets<br>Unit-dose packaging machines</div><div><b>Procedures</b><br>Medication order verification<br>Sterile IV compounding<br>Chemotherapy preparation (USP 800)<br>Medication reconciliation</div><div><b>Staff</b><br>Clinical pharmacists<br>Dispensing pharmacists<br>Pharmacy technicians<br>Oncology pharmacists</div><div><b>Flow</b><br>Orders flow electronically to pharmacy verification — dose, interactions, allergies, kidney function checked. Technicians prepare and dispense; pharmacists comp...</div></div><pre class='codeblock'># Signature Deprescribing Garden — Signature design prototype
+def renal_dose_adjust(creatinine, age, weight_kg, female, normal_dose_mg):
+    &quot;&quot;&quot;Cockcroft-Gault creatinine clearance -&gt; dose band suggestion.&quot;&quot;&quot;
+    scr = max(creatinine, 0.6)
+    crcl = ((140 - age) * weight_kg) / (72 * scr)
+    if female: crcl *= 0.85
+    factor = 1.0 if crcl &gt;= 60 else 0.75 if crcl &gt;= 30 else 0.5
+    return f&quot;CrCl ~{crcl:.0f} mL/min -&gt; give {round(normal_dose_mg*factor)} mg (verify with pharmacist)&quot;
+print(renal_dose_adjust(1.6, 72, 70, False, 1000))</pre></div>
+<div class='card'><h3>Signature Vaccine Confidence Corner</h3><p>A welcoming corner addressing vaccine questions with patience, stories, and evidence — no judgment, just conversation. Hesitancy meets respect. Concept by Manon.</p><p><i>Improvement: Improves on mandates with trust-building dialogue.</i></p><p class='ladder'>Ladder rank 3 — Complex: the full picture — mastery-level detail for deep understanding.</p><div class='kv'><div><b>Equipment</b><br>Automated dispensing cabinets<br>IV compounding hoods<br>Chemotherapy biological safety cabinets<br>Unit-dose packaging machines</div><div><b>Procedures</b><br>Medication order verification<br>Sterile IV compounding<br>Chemotherapy preparation (USP 800)<br>Medication reconciliation</div><div><b>Staff</b><br>Clinical pharmacists<br>Dispensing pharmacists<br>Pharmacy technicians<br>Oncology pharmacists</div><div><b>Flow</b><br>Orders flow electronically to pharmacy verification — dose, interactions, allergies, kidney function checked. Technicians prepare and dispense; pharmacists comp...</div></div><pre class='codeblock'># Signature Vaccine Confidence Corner — Signature design prototype
+def renal_dose_adjust(creatinine, age, weight_kg, female, normal_dose_mg):
+    &quot;&quot;&quot;Cockcroft-Gault creatinine clearance -&gt; dose band suggestion.&quot;&quot;&quot;
+    scr = max(creatinine, 0.6)
+    crcl = ((140 - age) * weight_kg) / (72 * scr)
+    if female: crcl *= 0.85
+    factor = 1.0 if crcl &gt;= 60 else 0.75 if crcl &gt;= 30 else 0.5
+    return f&quot;CrCl ~{crcl:.0f} mL/min -&gt; give {round(normal_dose_mg*factor)} mg (verify with pharmacist)&quot;
+print(renal_dose_adjust(1.6, 72, 70, False, 1000))</pre></div>
+<div class='card'><h3>Signature Nightstand Med Map</h3><p>A laminated map for the home nightstand showing exactly which pill, when, with pictures of each tablet. The 2 a.m. question, answered. Concept by Manon.</p><p><i>Improvement: Improves on confusing schedules with a bedside visual guide.</i></p><p class='ladder'>Ladder rank 3 — Complex: the full picture — mastery-level detail for deep understanding.</p><div class='kv'><div><b>Equipment</b><br>Automated dispensing cabinets<br>IV compounding hoods<br>Chemotherapy biological safety cabinets<br>Unit-dose packaging machines</div><div><b>Procedures</b><br>Medication order verification<br>Sterile IV compounding<br>Chemotherapy preparation (USP 800)<br>Medication reconciliation</div><div><b>Staff</b><br>Clinical pharmacists<br>Dispensing pharmacists<br>Pharmacy technicians<br>Oncology pharmacists</div><div><b>Flow</b><br>Orders flow electronically to pharmacy verification — dose, interactions, allergies, kidney function checked. Technicians prepare and dispense; pharmacists comp...</div></div><pre class='codeblock'># Signature Nightstand Med Map — Signature design prototype
+def renal_dose_adjust(creatinine, age, weight_kg, female, normal_dose_mg):
+    &quot;&quot;&quot;Cockcroft-Gault creatinine clearance -&gt; dose band suggestion.&quot;&quot;&quot;
+    scr = max(creatinine, 0.6)
+    crcl = ((140 - age) * weight_kg) / (72 * scr)
+    if female: crcl *= 0.85
+    factor = 1.0 if crcl &gt;= 60 else 0.75 if crcl &gt;= 30 else 0.5
+    return f&quot;CrCl ~{crcl:.0f} mL/min -&gt; give {round(normal_dose_mg*factor)} mg (verify with pharmacist)&quot;
+print(renal_dose_adjust(1.6, 72, 70, False, 1000))</pre></div>
+<div class='card'><h3>Signature Thank-You Apothecary</h3><p>A historic-style apothecary display honoring pharmacy&#x27;s roots, where patients leave thanks for the pharmacists who kept them safe. Heritage plus gratitude. Concept by Manon.</p><p><i>Improvement: Improves on invisible pharmacy work with visible appreciation.</i></p><p class='ladder'>Ladder rank 3 — Complex: the full picture — mastery-level detail for deep understanding.</p><div class='kv'><div><b>Equipment</b><br>Automated dispensing cabinets<br>IV compounding hoods<br>Chemotherapy biological safety cabinets<br>Unit-dose packaging machines</div><div><b>Procedures</b><br>Medication order verification<br>Sterile IV compounding<br>Chemotherapy preparation (USP 800)<br>Medication reconciliation</div><div><b>Staff</b><br>Clinical pharmacists<br>Dispensing pharmacists<br>Pharmacy technicians<br>Oncology pharmacists</div><div><b>Flow</b><br>Orders flow electronically to pharmacy verification — dose, interactions, allergies, kidney function checked. Technicians prepare and dispense; pharmacists comp...</div></div><pre class='codeblock'># Signature Thank-You Apothecary — Signature design prototype
+def renal_dose_adjust(creatinine, age, weight_kg, female, normal_dose_mg):
+    &quot;&quot;&quot;Cockcroft-Gault creatinine clearance -&gt; dose band suggestion.&quot;&quot;&quot;
+    scr = max(creatinine, 0.6)
+    crcl = ((140 - age) * weight_kg) / (72 * scr)
+    if female: crcl *= 0.85
+    factor = 1.0 if crcl &gt;= 60 else 0.75 if crcl &gt;= 30 else 0.5
+    return f&quot;CrCl ~{crcl:.0f} mL/min -&gt; give {round(normal_dose_mg*factor)} mg (verify with pharmacist)&quot;
+print(renal_dose_adjust(1.6, 72, 70, False, 1000))</pre></div>
+<h2>Working Demo</h2>
+<pre class="codeblock"># Signature Pill Story Card — Signature design prototype
+def renal_dose_adjust(creatinine, age, weight_kg, female, normal_dose_mg):
+    &quot;&quot;&quot;Cockcroft-Gault creatinine clearance -&gt; dose band suggestion.&quot;&quot;&quot;
+    scr = max(creatinine, 0.6)
+    crcl = ((140 - age) * weight_kg) / (72 * scr)
+    if female: crcl *= 0.85
+    factor = 1.0 if crcl &gt;= 60 else 0.75 if crcl &gt;= 30 else 0.5
+    return f&quot;CrCl ~{crcl:.0f} mL/min -&gt; give {round(normal_dose_mg*factor)} mg (verify with pharmacist)&quot;
+print(renal_dose_adjust(1.6, 72, 70, False, 1000))</pre>
+</body></html>

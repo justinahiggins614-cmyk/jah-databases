@@ -1,0 +1,56 @@
+(function(){'use strict';
+/* JAH The Multi-Material Precision 3D Printing Database generator — jahdb-tech-832-multi-material-precision-3d-printing-1.0.
+   Property of Justin Addam Higgins (JAH).
+   Deterministic: same seed, same record. */
+function prng(seed){var a=(seed>>>0)||1;return function(){a|=0;a=(a+0x6D2B79F5)|0;var t=Math.imul(a^(a>>>15),1|a);t=(t+Math.imul(t^(t>>>7),61|t))^t;return((t^(t>>>14))>>>0)/4294967296;};}
+function pick(r,s){return r[(s()*r.length)|0];}
+var PREFIX="JAH-ET832-";
+var FIELDS=["Foundations","Compounded","Advanced"];
+var TOPICS={"Foundations":["What Multi-Material Precision 3D Printing Is","The Current State of Multi-Material Precision 3D Printing","Core Principles of Multi-Material Precision 3D Printing","Key Vocabulary of Multi-Material Precision 3D Printing","Why Multi-Material Precision 3D Printing Matters"],"Compounded":["Piece 1 of Multi-Material Precision 3D Printing: Process Tooling","Piece 2 of Multi-Material Precision 3D Printing: Material Feedstock","Piece 3 of Multi-Material Precision 3D Printing: Metrology","Piece 4 of Multi-Material Precision 3D Printing: Control Software","Piece 5 of Multi-Material Precision 3D Printing: Robotics and Handling","Piece 6 of Multi-Material Precision 3D Printing: Quality System","Piece 7 of Multi-Material Precision 3D Printing: Facility Infrastructure","Piece 8 of Multi-Material Precision 3D Printing: Digital Twin","How the Pieces of Multi-Material Precision 3D Printing Fit Together","Build Plan: Making Multi-Material Precision 3D Printing Step by Step"],"Advanced":["The Working Multi-Material Precision 3D Printing: What a Real Build Looks Like","Simulation Program: Modeling Multi-Material Precision 3D Printing in Code","Testing and Verifying Multi-Material Precision 3D Printing","Safety, Limits, and Responsible Use of Multi-Material Precision 3D Printing","Scaling Multi-Material Precision 3D Printing to Production","The Full Teaching Ladder for Multi-Material Precision 3D Printing","Open Problems and Next Steps in Multi-Material Precision 3D Printing"]};;
+var DEMOKIND="multi-material precision 3d printing record planner";
+function demoProgram(topic,field){
+  var safe=String(topic).replace(/\\/g,'\\\\').replace(/"/g,"'");
+  return "# multi-material precision 3d printing record planner — "+safe+"\n"
+   + "# Field: "+field+"\n"
+   + "record = {'title': \""+safe+"\", 'field': \""+field+"\"}\n"
+   + "def summarize(r):\n"
+   + "    return r['title'] + ' [' + r['field'] + ']'\n"
+   + "print(summarize(record))\n"
+   + "print('Sample record — structural sample, not an archive entry.')\n";
+}
+function generate(seed,opts,rnd){
+  opts=opts||{}; rnd=rnd||prng(seed);
+  var field=opts.field&&FIELDS.indexOf(opts.field)>=0?opts.field:pick(FIELDS,rnd);
+  var pool=TOPICS[field]||["General Study"];
+  var topic=pick(pool,rnd);
+  var id=PREFIX+String(seed).padStart(6,'0');
+  return {
+    id:id,
+    name:topic+' — multi-material precision 3d printing record',
+    title:topic,
+    description:'SAMPLE RECORD (generated — structural sample). A multi-material precision 3d printing record of "'+topic+'" in '+field+'. Generated samples are clearly labeled and never presented as archive records.',
+    field:field,
+    src:'public-harvest',
+    sample:true,
+    disclaimer:'Generated sample record — not an archive record. Seeded archive records are the authoritative entries.',
+    demo:{kind:DEMOKIND,language:'python',program:demoProgram(topic,field),note:'Structural sample demo.'},
+    _seed:seed
+  };
+}
+function validate(r){
+  var e=[];
+  if(!r||typeof r!=='object')return {ok:false,errors:['not an object']};
+  if(!new RegExp('^'+PREFIX.replace(/-/g,'\\-')+'\\d{6}$').test(r.id||''))e.push('id');
+  if(FIELDS.indexOf(r.field)<0)e.push('field');
+  if(!r.src)e.push('src');
+  if(!r.demo||!r.demo.program)e.push('demo');
+  return {ok:!e.length,errors:e};
+}
+function driftCheck(record,sample){
+  var dups=(sample||[]).filter(function(r){return r&&r.title===record.title&&r.field===record.field;});
+  return dups.length?{ok:false,errors:['duplicate topic+field in archive sample']}:{ok:true,errors:[]};
+}
+var gen={version:'jahdb-tech-832-multi-material-precision-3d-printing-1.0',generate:generate,validate:validate,driftCheck:driftCheck,fields:FIELDS};
+if(typeof JAHDB!=='undefined'&&JAHDB.registerGenerator)JAHDB.registerGenerator('tech-832-multi-material-precision-3d-printing',gen);
+if(typeof module!=='undefined'&&module.exports)module.exports=gen;
+})();

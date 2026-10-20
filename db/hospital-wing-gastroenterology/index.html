@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Gastroenterology Hospital Wing Database</title>
+<style>
+body{font-family:Georgia,serif;max-width:1100px;margin:0 auto;padding:16px;background:#faf8f4;color:#222}
+.hero{background:#10243d;color:#fff;padding:28px;border-radius:12px}
+.pill{display:inline-block;background:#1c6e3c;color:#fff;border-radius:20px;padding:4px 14px;margin:4px;font-size:13px}
+.merger{display:inline-block;background:#c0392b;color:#fff;border:none;border-radius:8px;padding:10px 22px;font-size:15px;cursor:pointer;margin:6px}
+.million{background:#fff8e1;border:2px solid #d4a017;border-radius:10px;padding:12px;margin:14px 0;font-weight:bold}
+.kv{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:8px;margin:10px 0}
+.kv div{background:#fff;border:1px solid #ddd;border-radius:8px;padding:8px;font-size:13px}
+.card{background:#fff;border:1px solid #ddd;border-radius:10px;padding:16px;margin:14px 0}
+.codeblock{background:#1e1e1e;color:#d7ffce;padding:12px;border-radius:8px;overflow-x:auto;font-size:13px}
+.ladder{font-size:12px;color:#555}
+h2{color:#10243d}
+</style></head><body>
+<div class="hero"><h1>The Gastroenterology Hospital Wing Database</h1><p>Real, fact-checked records on the Gastroenterology Hospital Wing — purpose, equipment, procedures, staff, and patient flow. Public records organized in the Signature system.</p>
+<p>Records banked: <span id="stCount">20 / 1,000,000 target</span></p></div>
+<div class="million">MARCH TO 1,000,000 &mdash; 20 records banked. This database is in progress toward one million full records.</div>
+<div><span class="pill">Exhaustive</span>
+<button class="merger" onclick="alert('Merger queued: this database will merge into the All Database Merger.')">All Database Merger</button>
+<button class="merger" onclick="alert('Added to the All Database Merger queue.')">Merge This Database</button></div>
+<h2>Records</h2>
+<div class='card'><h3>Upper Endoscopy (EGD)</h3><p>A flexible camera examines the esophagus, stomach, and duodenum — finding ulcers, reflux damage, and cancers. Biopsies are painless. It is the workhorse of GI diagnosis.</p><p class='ladder'>Ladder rank 1 — Simple: the core idea in plain words — what it is and why it matters.</p><div class='kv'><div><b>Equipment</b><br>Endoscopes and colonoscopes<br>ERCP duodenoscopes<br>Endoscopic ultrasound processors<br>Capsule endoscopy recorders</div><div><b>Procedures</b><br>Upper endoscopy (EGD)<br>Colonoscopy with polypectomy<br>ERCP for bile ducts<br>Endoscopic ultrasound (EUS)</div><div><b>Staff</b><br>Gastroenterologists<br>Hepatologists<br>Endoscopy nurses<br>Anesthesia/sedation nurses</div><div><b>Flow</b><br>Referrals come for bleeding, pain, screening, or abnormal labs; prep instructions go out days ahead for colonoscopies. Procedure days run like clockwork — sedat...</div></div><pre class='codeblock'>def colonoscopy_due(age, last_result, years_since):
+    &quot;&quot;&quot;Simplified colonoscopy screening scheduler (average risk).&quot;&quot;&quot;
+    if age &lt; 45: return &quot;Routine screening starts at 45&quot;
+    interval = 10 if last_result == &quot;normal&quot; else 5 if last_result == &quot;small polyps&quot; else 3
+    due = interval - years_since
+    return f&quot;Next colonoscopy in {max(due,0)} years ({&#x27;DUE NOW&#x27; if due &lt;= 0 else &#x27;on schedule&#x27;})&quot;
+print(colonoscopy_due(52, &quot;small polyps&quot;, 4))</pre></div>
+<div class='card'><h3>Colonoscopy</h3><p>The colonoscope inspects the entire colon, removing precancerous polyps on the spot — preventing cancer, not just finding it. Sedation makes it comfortable. Screening colonoscopy saves lives.</p><p class='ladder'>Ladder rank 1 — Simple: the core idea in plain words — what it is and why it matters.</p><div class='kv'><div><b>Equipment</b><br>Endoscopes and colonoscopes<br>ERCP duodenoscopes<br>Endoscopic ultrasound processors<br>Capsule endoscopy recorders</div><div><b>Procedures</b><br>Upper endoscopy (EGD)<br>Colonoscopy with polypectomy<br>ERCP for bile ducts<br>Endoscopic ultrasound (EUS)</div><div><b>Staff</b><br>Gastroenterologists<br>Hepatologists<br>Endoscopy nurses<br>Anesthesia/sedation nurses</div><div><b>Flow</b><br>Referrals come for bleeding, pain, screening, or abnormal labs; prep instructions go out days ahead for colonoscopies. Procedure days run like clockwork — sedat...</div></div><pre class='codeblock'>def colonoscopy_due(age, last_result, years_since):
+    &quot;&quot;&quot;Simplified colonoscopy screening scheduler (average risk).&quot;&quot;&quot;
+    if age &lt; 45: return &quot;Routine screening starts at 45&quot;
+    interval = 10 if last_result == &quot;normal&quot; else 5 if last_result == &quot;small polyps&quot; else 3
+    due = interval - years_since
+    return f&quot;Next colonoscopy in {max(due,0)} years ({&#x27;DUE NOW&#x27; if due &lt;= 0 else &#x27;on schedule&#x27;})&quot;
+print(colonoscopy_due(52, &quot;small polyps&quot;, 4))</pre></div>
+<div class='card'><h3>Polypectomy</h3><p>Polyps are snared, cut, and retrieved during colonoscopy, then examined by pathology. Removing adenomas interrupts the polyp-to-cancer sequence. Minutes of work, decades of prevention.</p><p class='ladder'>Ladder rank 1 — Simple: the core idea in plain words — what it is and why it matters.</p><div class='kv'><div><b>Equipment</b><br>Endoscopes and colonoscopes<br>ERCP duodenoscopes<br>Endoscopic ultrasound processors<br>Capsule endoscopy recorders</div><div><b>Procedures</b><br>Upper endoscopy (EGD)<br>Colonoscopy with polypectomy<br>ERCP for bile ducts<br>Endoscopic ultrasound (EUS)</div><div><b>Staff</b><br>Gastroenterologists<br>Hepatologists<br>Endoscopy nurses<br>Anesthesia/sedation nurses</div><div><b>Flow</b><br>Referrals come for bleeding, pain, screening, or abnormal labs; prep instructions go out days ahead for colonoscopies. Procedure days run like clockwork — sedat...</div></div><pre class='codeblock'>def colonoscopy_due(age, last_result, years_since):
+    &quot;&quot;&quot;Simplified colonoscopy screening scheduler (average risk).&quot;&quot;&quot;
+    if age &lt; 45: return &quot;Routine screening starts at 45&quot;
+    interval = 10 if last_result == &quot;normal&quot; else 5 if last_result == &quot;small polyps&quot; else 3
+    due = interval - years_since
+    return f&quot;Next colonoscopy in {max(due,0)} years ({&#x27;DUE NOW&#x27; if due &lt;= 0 else &#x27;on schedule&#x27;})&quot;
+print(colonoscopy_due(52, &quot;small polyps&quot;, 4))</pre></div>
+<div class='card'><h3>ERCP</h3><p>Endoscopic retrograde cholangiopancreatography accesses bile and pancreatic ducts through the duodenum — removing stones, stenting strictures. It is GI&#x27;s most technically demanding procedure. Pancreatitis is the watched-for risk.</p><p class='ladder'>Ladder rank 1 — Simple: the core idea in plain words — what it is and why it matters.</p><div class='kv'><div><b>Equipment</b><br>Endoscopes and colonoscopes<br>ERCP duodenoscopes<br>Endoscopic ultrasound processors<br>Capsule endoscopy recorders</div><div><b>Procedures</b><br>Upper endoscopy (EGD)<br>Colonoscopy with polypectomy<br>ERCP for bile ducts<br>Endoscopic ultrasound (EUS)</div><div><b>Staff</b><br>Gastroenterologists<br>Hepatologists<br>Endoscopy nurses<br>Anesthesia/sedation nurses</div><div><b>Flow</b><br>Referrals come for bleeding, pain, screening, or abnormal labs; prep instructions go out days ahead for colonoscopies. Procedure days run like clockwork — sedat...</div></div><pre class='codeblock'>def colonoscopy_due(age, last_result, years_since):
+    &quot;&quot;&quot;Simplified colonoscopy screening scheduler (average risk).&quot;&quot;&quot;
+    if age &lt; 45: return &quot;Routine screening starts at 45&quot;
+    interval = 10 if last_result == &quot;normal&quot; else 5 if last_result == &quot;small polyps&quot; else 3
+    due = interval - years_since
+    return f&quot;Next colonoscopy in {max(due,0)} years ({&#x27;DUE NOW&#x27; if due &lt;= 0 else &#x27;on schedule&#x27;})&quot;
+print(colonoscopy_due(52, &quot;small polyps&quot;, 4))</pre></div>
+<div class='card'><h3>Endoscopic Ultrasound</h3><p>EUS combines endoscopy with ultrasound, imaging through gut walls to stage cancers and biopsy pancreases. Fine-needle aspiration reaches the unreachable. Staging precision guides surgery.</p><p class='ladder'>Ladder rank 1 — Simple: the core idea in plain words — what it is and why it matters.</p><div class='kv'><div><b>Equipment</b><br>Endoscopes and colonoscopes<br>ERCP duodenoscopes<br>Endoscopic ultrasound processors<br>Capsule endoscopy recorders</div><div><b>Procedures</b><br>Upper endoscopy (EGD)<br>Colonoscopy with polypectomy<br>ERCP for bile ducts<br>Endoscopic ultrasound (EUS)</div><div><b>Staff</b><br>Gastroenterologists<br>Hepatologists<br>Endoscopy nurses<br>Anesthesia/sedation nurses</div><div><b>Flow</b><br>Referrals come for bleeding, pain, screening, or abnormal labs; prep instructions go out days ahead for colonoscopies. Procedure days run like clockwork — sedat...</div></div><pre class='codeblock'>def colonoscopy_due(age, last_result, years_since):
+    &quot;&quot;&quot;Simplified colonoscopy screening scheduler (average risk).&quot;&quot;&quot;
+    if age &lt; 45: return &quot;Routine screening starts at 45&quot;
+    interval = 10 if last_result == &quot;normal&quot; else 5 if last_result == &quot;small polyps&quot; else 3
+    due = interval - years_since
+    return f&quot;Next colonoscopy in {max(due,0)} years ({&#x27;DUE NOW&#x27; if due &lt;= 0 else &#x27;on schedule&#x27;})&quot;
+print(colonoscopy_due(52, &quot;small polyps&quot;, 4))</pre></div>
+<div class='card'><h3>Liver Disease and Hepatology</h3><p>Hepatologists manage hepatitis, fatty liver, cirrhosis, and liver failure — with elastography staging fibrosis without biopsy. Lifestyle is the first prescription. The liver forgives, until it can&#x27;t.</p><p class='ladder'>Ladder rank 1 — Simple: the core idea in plain words — what it is and why it matters.</p><div class='kv'><div><b>Equipment</b><br>Endoscopes and colonoscopes<br>ERCP duodenoscopes<br>Endoscopic ultrasound processors<br>Capsule endoscopy recorders</div><div><b>Procedures</b><br>Upper endoscopy (EGD)<br>Colonoscopy with polypectomy<br>ERCP for bile ducts<br>Endoscopic ultrasound (EUS)</div><div><b>Staff</b><br>Gastroenterologists<br>Hepatologists<br>Endoscopy nurses<br>Anesthesia/sedation nurses</div><div><b>Flow</b><br>Referrals come for bleeding, pain, screening, or abnormal labs; prep instructions go out days ahead for colonoscopies. Procedure days run like clockwork — sedat...</div></div><pre class='codeblock'>def colonoscopy_due(age, last_result, years_since):
+    &quot;&quot;&quot;Simplified colonoscopy screening scheduler (average risk).&quot;&quot;&quot;
+    if age &lt; 45: return &quot;Routine screening starts at 45&quot;
+    interval = 10 if last_result == &quot;normal&quot; else 5 if last_result == &quot;small polyps&quot; else 3
+    due = interval - years_since
+    return f&quot;Next colonoscopy in {max(due,0)} years ({&#x27;DUE NOW&#x27; if due &lt;= 0 else &#x27;on schedule&#x27;})&quot;
+print(colonoscopy_due(52, &quot;small polyps&quot;, 4))</pre></div>
+<div class='card'><h3>Inflammatory Bowel Disease</h3><p>Crohn&#x27;s and ulcerative colitis bring chronic gut inflammation; biologics and advanced therapies now induce lasting remission. IBD nurses guide the journey. Remission is the goal, normal life the prize.</p><p class='ladder'>Ladder rank 1 — Simple: the core idea in plain words — what it is and why it matters.</p><div class='kv'><div><b>Equipment</b><br>Endoscopes and colonoscopes<br>ERCP duodenoscopes<br>Endoscopic ultrasound processors<br>Capsule endoscopy recorders</div><div><b>Procedures</b><br>Upper endoscopy (EGD)<br>Colonoscopy with polypectomy<br>ERCP for bile ducts<br>Endoscopic ultrasound (EUS)</div><div><b>Staff</b><br>Gastroenterologists<br>Hepatologists<br>Endoscopy nurses<br>Anesthesia/sedation nurses</div><div><b>Flow</b><br>Referrals come for bleeding, pain, screening, or abnormal labs; prep instructions go out days ahead for colonoscopies. Procedure days run like clockwork — sedat...</div></div><pre class='codeblock'>def colonoscopy_due(age, last_result, years_since):
+    &quot;&quot;&quot;Simplified colonoscopy screening scheduler (average risk).&quot;&quot;&quot;
+    if age &lt; 45: return &quot;Routine screening starts at 45&quot;
+    interval = 10 if last_result == &quot;normal&quot; else 5 if last_result == &quot;small polyps&quot; else 3
+    due = interval - years_since
+    return f&quot;Next colonoscopy in {max(due,0)} years ({&#x27;DUE NOW&#x27; if due &lt;= 0 else &#x27;on schedule&#x27;})&quot;
+print(colonoscopy_due(52, &quot;small polyps&quot;, 4))</pre></div>
+<div class='card'><h3>GERD Management</h3><p>Reflux disease is managed stepwise: lifestyle, PPIs, then evaluation for Barrett&#x27;s or surgery. Chronic heartburn deserves scoping. Most reflux is highly treatable.</p><p class='ladder'>Ladder rank 2 — Compounded: how it connects — the moving parts working together in real care.</p><div class='kv'><div><b>Equipment</b><br>Endoscopes and colonoscopes<br>ERCP duodenoscopes<br>Endoscopic ultrasound processors<br>Capsule endoscopy recorders</div><div><b>Procedures</b><br>Upper endoscopy (EGD)<br>Colonoscopy with polypectomy<br>ERCP for bile ducts<br>Endoscopic ultrasound (EUS)</div><div><b>Staff</b><br>Gastroenterologists<br>Hepatologists<br>Endoscopy nurses<br>Anesthesia/sedation nurses</div><div><b>Flow</b><br>Referrals come for bleeding, pain, screening, or abnormal labs; prep instructions go out days ahead for colonoscopies. Procedure days run like clockwork — sedat...</div></div><pre class='codeblock'>def colonoscopy_due(age, last_result, years_since):
+    &quot;&quot;&quot;Simplified colonoscopy screening scheduler (average risk).&quot;&quot;&quot;
+    if age &lt; 45: return &quot;Routine screening starts at 45&quot;
+    interval = 10 if last_result == &quot;normal&quot; else 5 if last_result == &quot;small polyps&quot; else 3
+    due = interval - years_since
+    return f&quot;Next colonoscopy in {max(due,0)} years ({&#x27;DUE NOW&#x27; if due &lt;= 0 else &#x27;on schedule&#x27;})&quot;
+print(colonoscopy_due(52, &quot;small polyps&quot;, 4))</pre></div>
+<div class='card'><h3>GI Bleeding</h3><p>Bleeding — vomiting blood or black stools — triggers urgent scoping; endoscopic clips, bands, and cautery stop most sources. Resuscitation comes first. The scope finds and fixes.</p><p class='ladder'>Ladder rank 2 — Compounded: how it connects — the moving parts working together in real care.</p><div class='kv'><div><b>Equipment</b><br>Endoscopes and colonoscopes<br>ERCP duodenoscopes<br>Endoscopic ultrasound processors<br>Capsule endoscopy recorders</div><div><b>Procedures</b><br>Upper endoscopy (EGD)<br>Colonoscopy with polypectomy<br>ERCP for bile ducts<br>Endoscopic ultrasound (EUS)</div><div><b>Staff</b><br>Gastroenterologists<br>Hepatologists<br>Endoscopy nurses<br>Anesthesia/sedation nurses</div><div><b>Flow</b><br>Referrals come for bleeding, pain, screening, or abnormal labs; prep instructions go out days ahead for colonoscopies. Procedure days run like clockwork — sedat...</div></div><pre class='codeblock'>def colonoscopy_due(age, last_result, years_since):
+    &quot;&quot;&quot;Simplified colonoscopy screening scheduler (average risk).&quot;&quot;&quot;
+    if age &lt; 45: return &quot;Routine screening starts at 45&quot;
+    interval = 10 if last_result == &quot;normal&quot; else 5 if last_result == &quot;small polyps&quot; else 3
+    due = interval - years_since
+    return f&quot;Next colonoscopy in {max(due,0)} years ({&#x27;DUE NOW&#x27; if due &lt;= 0 else &#x27;on schedule&#x27;})&quot;
+print(colonoscopy_due(52, &quot;small polyps&quot;, 4))</pre></div>
+<div class='card'><h3>Celiac Disease</h3><p>Gluten-triggered immune damage flattens intestinal villi; diagnosis is serology plus duodenal biopsy. Treatment is strict lifelong gluten avoidance. Dietitians make the diet livable.</p><p class='ladder'>Ladder rank 2 — Compounded: how it connects — the moving parts working together in real care.</p><div class='kv'><div><b>Equipment</b><br>Endoscopes and colonoscopes<br>ERCP duodenoscopes<br>Endoscopic ultrasound processors<br>Capsule endoscopy recorders</div><div><b>Procedures</b><br>Upper endoscopy (EGD)<br>Colonoscopy with polypectomy<br>ERCP for bile ducts<br>Endoscopic ultrasound (EUS)</div><div><b>Staff</b><br>Gastroenterologists<br>Hepatologists<br>Endoscopy nurses<br>Anesthesia/sedation nurses</div><div><b>Flow</b><br>Referrals come for bleeding, pain, screening, or abnormal labs; prep instructions go out days ahead for colonoscopies. Procedure days run like clockwork — sedat...</div></div><pre class='codeblock'>def colonoscopy_due(age, last_result, years_since):
+    &quot;&quot;&quot;Simplified colonoscopy screening scheduler (average risk).&quot;&quot;&quot;
+    if age &lt; 45: return &quot;Routine screening starts at 45&quot;
+    interval = 10 if last_result == &quot;normal&quot; else 5 if last_result == &quot;small polyps&quot; else 3
+    due = interval - years_since
+    return f&quot;Next colonoscopy in {max(due,0)} years ({&#x27;DUE NOW&#x27; if due &lt;= 0 else &#x27;on schedule&#x27;})&quot;
+print(colonoscopy_due(52, &quot;small polyps&quot;, 4))</pre></div>
+<div class='card'><h3>Colonoscopy Bowel Prep</h3><p>The dreaded prep — clear liquids and laxatives — determines success; poor prep means missed polyps and repeat procedures. Split-dose preps improved tolerability. The prep is the procedure&#x27;s foundation.</p><p class='ladder'>Ladder rank 2 — Compounded: how it connects — the moving parts working together in real care.</p><div class='kv'><div><b>Equipment</b><br>Endoscopes and colonoscopes<br>ERCP duodenoscopes<br>Endoscopic ultrasound processors<br>Capsule endoscopy recorders</div><div><b>Procedures</b><br>Upper endoscopy (EGD)<br>Colonoscopy with polypectomy<br>ERCP for bile ducts<br>Endoscopic ultrasound (EUS)</div><div><b>Staff</b><br>Gastroenterologists<br>Hepatologists<br>Endoscopy nurses<br>Anesthesia/sedation nurses</div><div><b>Flow</b><br>Referrals come for bleeding, pain, screening, or abnormal labs; prep instructions go out days ahead for colonoscopies. Procedure days run like clockwork — sedat...</div></div><pre class='codeblock'>def colonoscopy_due(age, last_result, years_since):
+    &quot;&quot;&quot;Simplified colonoscopy screening scheduler (average risk).&quot;&quot;&quot;
+    if age &lt; 45: return &quot;Routine screening starts at 45&quot;
+    interval = 10 if last_result == &quot;normal&quot; else 5 if last_result == &quot;small polyps&quot; else 3
+    due = interval - years_since
+    return f&quot;Next colonoscopy in {max(due,0)} years ({&#x27;DUE NOW&#x27; if due &lt;= 0 else &#x27;on schedule&#x27;})&quot;
+print(colonoscopy_due(52, &quot;small polyps&quot;, 4))</pre></div>
+<div class='card'><h3>Sedation for Endoscopy</h3><p>Most endoscopies use conscious sedation or propofol — comfortable, amnestic, monitored. Anesthesia professionals watch every breath. Patients remember nothing and recover quickly.</p><p class='ladder'>Ladder rank 2 — Compounded: how it connects — the moving parts working together in real care.</p><div class='kv'><div><b>Equipment</b><br>Endoscopes and colonoscopes<br>ERCP duodenoscopes<br>Endoscopic ultrasound processors<br>Capsule endoscopy recorders</div><div><b>Procedures</b><br>Upper endoscopy (EGD)<br>Colonoscopy with polypectomy<br>ERCP for bile ducts<br>Endoscopic ultrasound (EUS)</div><div><b>Staff</b><br>Gastroenterologists<br>Hepatologists<br>Endoscopy nurses<br>Anesthesia/sedation nurses</div><div><b>Flow</b><br>Referrals come for bleeding, pain, screening, or abnormal labs; prep instructions go out days ahead for colonoscopies. Procedure days run like clockwork — sedat...</div></div><pre class='codeblock'>def colonoscopy_due(age, last_result, years_since):
+    &quot;&quot;&quot;Simplified colonoscopy screening scheduler (average risk).&quot;&quot;&quot;
+    if age &lt; 45: return &quot;Routine screening starts at 45&quot;
+    interval = 10 if last_result == &quot;normal&quot; else 5 if last_result == &quot;small polyps&quot; else 3
+    due = interval - years_since
+    return f&quot;Next colonoscopy in {max(due,0)} years ({&#x27;DUE NOW&#x27; if due &lt;= 0 else &#x27;on schedule&#x27;})&quot;
+print(colonoscopy_due(52, &quot;small polyps&quot;, 4))</pre></div>
+<div class='card'><h3>Capsule Endoscopy</h3><p>A pill-sized camera photographs the small bowel over 8 hours — reaching where scopes cannot. It finds obscure bleeding and Crohn&#x27;s. Technology, swallowed.</p><p class='ladder'>Ladder rank 2 — Compounded: how it connects — the moving parts working together in real care.</p><div class='kv'><div><b>Equipment</b><br>Endoscopes and colonoscopes<br>ERCP duodenoscopes<br>Endoscopic ultrasound processors<br>Capsule endoscopy recorders</div><div><b>Procedures</b><br>Upper endoscopy (EGD)<br>Colonoscopy with polypectomy<br>ERCP for bile ducts<br>Endoscopic ultrasound (EUS)</div><div><b>Staff</b><br>Gastroenterologists<br>Hepatologists<br>Endoscopy nurses<br>Anesthesia/sedation nurses</div><div><b>Flow</b><br>Referrals come for bleeding, pain, screening, or abnormal labs; prep instructions go out days ahead for colonoscopies. Procedure days run like clockwork — sedat...</div></div><pre class='codeblock'>def colonoscopy_due(age, last_result, years_since):
+    &quot;&quot;&quot;Simplified colonoscopy screening scheduler (average risk).&quot;&quot;&quot;
+    if age &lt; 45: return &quot;Routine screening starts at 45&quot;
+    interval = 10 if last_result == &quot;normal&quot; else 5 if last_result == &quot;small polyps&quot; else 3
+    due = interval - years_since
+    return f&quot;Next colonoscopy in {max(due,0)} years ({&#x27;DUE NOW&#x27; if due &lt;= 0 else &#x27;on schedule&#x27;})&quot;
+print(colonoscopy_due(52, &quot;small polyps&quot;, 4))</pre></div>
+<div class='card'><h3>Motility Disorders</h3><p>Manometry and pH studies diagnose achalasia, gastroparesis, and severe reflux — disorders of movement, not structure. Treatment targets the faulty motion. Function testing answers what scopes cannot.</p><p class='ladder'>Ladder rank 2 — Compounded: how it connects — the moving parts working together in real care.</p><div class='kv'><div><b>Equipment</b><br>Endoscopes and colonoscopes<br>ERCP duodenoscopes<br>Endoscopic ultrasound processors<br>Capsule endoscopy recorders</div><div><b>Procedures</b><br>Upper endoscopy (EGD)<br>Colonoscopy with polypectomy<br>ERCP for bile ducts<br>Endoscopic ultrasound (EUS)</div><div><b>Staff</b><br>Gastroenterologists<br>Hepatologists<br>Endoscopy nurses<br>Anesthesia/sedation nurses</div><div><b>Flow</b><br>Referrals come for bleeding, pain, screening, or abnormal labs; prep instructions go out days ahead for colonoscopies. Procedure days run like clockwork — sedat...</div></div><pre class='codeblock'>def colonoscopy_due(age, last_result, years_since):
+    &quot;&quot;&quot;Simplified colonoscopy screening scheduler (average risk).&quot;&quot;&quot;
+    if age &lt; 45: return &quot;Routine screening starts at 45&quot;
+    interval = 10 if last_result == &quot;normal&quot; else 5 if last_result == &quot;small polyps&quot; else 3
+    due = interval - years_since
+    return f&quot;Next colonoscopy in {max(due,0)} years ({&#x27;DUE NOW&#x27; if due &lt;= 0 else &#x27;on schedule&#x27;})&quot;
+print(colonoscopy_due(52, &quot;small polyps&quot;, 4))</pre></div>
+<div class='card'><h3>Pancreatic Disease</h3><p>Pancreatitis — often gallstone or alcohol-related — needs supportive care; chronic cases need enzyme replacement and pain management. The pancreas is unforgiving. Prevention beats treatment.</p><p class='ladder'>Ladder rank 3 — Complex: the full picture — mastery-level detail for deep understanding.</p><div class='kv'><div><b>Equipment</b><br>Endoscopes and colonoscopes<br>ERCP duodenoscopes<br>Endoscopic ultrasound processors<br>Capsule endoscopy recorders</div><div><b>Procedures</b><br>Upper endoscopy (EGD)<br>Colonoscopy with polypectomy<br>ERCP for bile ducts<br>Endoscopic ultrasound (EUS)</div><div><b>Staff</b><br>Gastroenterologists<br>Hepatologists<br>Endoscopy nurses<br>Anesthesia/sedation nurses</div><div><b>Flow</b><br>Referrals come for bleeding, pain, screening, or abnormal labs; prep instructions go out days ahead for colonoscopies. Procedure days run like clockwork — sedat...</div></div><pre class='codeblock'>def colonoscopy_due(age, last_result, years_since):
+    &quot;&quot;&quot;Simplified colonoscopy screening scheduler (average risk).&quot;&quot;&quot;
+    if age &lt; 45: return &quot;Routine screening starts at 45&quot;
+    interval = 10 if last_result == &quot;normal&quot; else 5 if last_result == &quot;small polyps&quot; else 3
+    due = interval - years_since
+    return f&quot;Next colonoscopy in {max(due,0)} years ({&#x27;DUE NOW&#x27; if due &lt;= 0 else &#x27;on schedule&#x27;})&quot;
+print(colonoscopy_due(52, &quot;small polyps&quot;, 4))</pre></div>
+<div class='card'><h3>Colorectal Cancer Screening</h3><p>Screening at 45 — colonoscopy, FIT, or stool DNA — catches cancer early or prevents it via polypectomy. Options fit different preferences. The best test is the one completed.</p><p class='ladder'>Ladder rank 3 — Complex: the full picture — mastery-level detail for deep understanding.</p><div class='kv'><div><b>Equipment</b><br>Endoscopes and colonoscopes<br>ERCP duodenoscopes<br>Endoscopic ultrasound processors<br>Capsule endoscopy recorders</div><div><b>Procedures</b><br>Upper endoscopy (EGD)<br>Colonoscopy with polypectomy<br>ERCP for bile ducts<br>Endoscopic ultrasound (EUS)</div><div><b>Staff</b><br>Gastroenterologists<br>Hepatologists<br>Endoscopy nurses<br>Anesthesia/sedation nurses</div><div><b>Flow</b><br>Referrals come for bleeding, pain, screening, or abnormal labs; prep instructions go out days ahead for colonoscopies. Procedure days run like clockwork — sedat...</div></div><pre class='codeblock'>def colonoscopy_due(age, last_result, years_since):
+    &quot;&quot;&quot;Simplified colonoscopy screening scheduler (average risk).&quot;&quot;&quot;
+    if age &lt; 45: return &quot;Routine screening starts at 45&quot;
+    interval = 10 if last_result == &quot;normal&quot; else 5 if last_result == &quot;small polyps&quot; else 3
+    due = interval - years_since
+    return f&quot;Next colonoscopy in {max(due,0)} years ({&#x27;DUE NOW&#x27; if due &lt;= 0 else &#x27;on schedule&#x27;})&quot;
+print(colonoscopy_due(52, &quot;small polyps&quot;, 4))</pre></div>
+<div class='card'><h3>Hemorrhoid and Anorectal Care</h3><p>Band ligation and office procedures treat hemorrhoids; fissures and fistulas get specialized care. Common, embarrassing, highly treatable. No one should suffer silently.</p><p class='ladder'>Ladder rank 3 — Complex: the full picture — mastery-level detail for deep understanding.</p><div class='kv'><div><b>Equipment</b><br>Endoscopes and colonoscopes<br>ERCP duodenoscopes<br>Endoscopic ultrasound processors<br>Capsule endoscopy recorders</div><div><b>Procedures</b><br>Upper endoscopy (EGD)<br>Colonoscopy with polypectomy<br>ERCP for bile ducts<br>Endoscopic ultrasound (EUS)</div><div><b>Staff</b><br>Gastroenterologists<br>Hepatologists<br>Endoscopy nurses<br>Anesthesia/sedation nurses</div><div><b>Flow</b><br>Referrals come for bleeding, pain, screening, or abnormal labs; prep instructions go out days ahead for colonoscopies. Procedure days run like clockwork — sedat...</div></div><pre class='codeblock'>def colonoscopy_due(age, last_result, years_since):
+    &quot;&quot;&quot;Simplified colonoscopy screening scheduler (average risk).&quot;&quot;&quot;
+    if age &lt; 45: return &quot;Routine screening starts at 45&quot;
+    interval = 10 if last_result == &quot;normal&quot; else 5 if last_result == &quot;small polyps&quot; else 3
+    due = interval - years_since
+    return f&quot;Next colonoscopy in {max(due,0)} years ({&#x27;DUE NOW&#x27; if due &lt;= 0 else &#x27;on schedule&#x27;})&quot;
+print(colonoscopy_due(52, &quot;small polyps&quot;, 4))</pre></div>
+<div class='card'><h3>Liver Biopsy</h3><p>Needle biopsy samples liver tissue when imaging and labs can&#x27;t answer — staging fibrosis, diagnosing mystery hepatitis. Ultrasound guidance made it safer. Tissue truth, when needed.</p><p class='ladder'>Ladder rank 3 — Complex: the full picture — mastery-level detail for deep understanding.</p><div class='kv'><div><b>Equipment</b><br>Endoscopes and colonoscopes<br>ERCP duodenoscopes<br>Endoscopic ultrasound processors<br>Capsule endoscopy recorders</div><div><b>Procedures</b><br>Upper endoscopy (EGD)<br>Colonoscopy with polypectomy<br>ERCP for bile ducts<br>Endoscopic ultrasound (EUS)</div><div><b>Staff</b><br>Gastroenterologists<br>Hepatologists<br>Endoscopy nurses<br>Anesthesia/sedation nurses</div><div><b>Flow</b><br>Referrals come for bleeding, pain, screening, or abnormal labs; prep instructions go out days ahead for colonoscopies. Procedure days run like clockwork — sedat...</div></div><pre class='codeblock'>def colonoscopy_due(age, last_result, years_since):
+    &quot;&quot;&quot;Simplified colonoscopy screening scheduler (average risk).&quot;&quot;&quot;
+    if age &lt; 45: return &quot;Routine screening starts at 45&quot;
+    interval = 10 if last_result == &quot;normal&quot; else 5 if last_result == &quot;small polyps&quot; else 3
+    due = interval - years_since
+    return f&quot;Next colonoscopy in {max(due,0)} years ({&#x27;DUE NOW&#x27; if due &lt;= 0 else &#x27;on schedule&#x27;})&quot;
+print(colonoscopy_due(52, &quot;small polyps&quot;, 4))</pre></div>
+<div class='card'><h3>Nutrition in GI Disease</h3><p>Dietitians manage the nutritional fallout of IBD, liver disease, and pancreatitis — deficiencies, weight loss, food fear. Food is therapy in GI. Nourishment is treatment.</p><p class='ladder'>Ladder rank 3 — Complex: the full picture — mastery-level detail for deep understanding.</p><div class='kv'><div><b>Equipment</b><br>Endoscopes and colonoscopes<br>ERCP duodenoscopes<br>Endoscopic ultrasound processors<br>Capsule endoscopy recorders</div><div><b>Procedures</b><br>Upper endoscopy (EGD)<br>Colonoscopy with polypectomy<br>ERCP for bile ducts<br>Endoscopic ultrasound (EUS)</div><div><b>Staff</b><br>Gastroenterologists<br>Hepatologists<br>Endoscopy nurses<br>Anesthesia/sedation nurses</div><div><b>Flow</b><br>Referrals come for bleeding, pain, screening, or abnormal labs; prep instructions go out days ahead for colonoscopies. Procedure days run like clockwork — sedat...</div></div><pre class='codeblock'>def colonoscopy_due(age, last_result, years_since):
+    &quot;&quot;&quot;Simplified colonoscopy screening scheduler (average risk).&quot;&quot;&quot;
+    if age &lt; 45: return &quot;Routine screening starts at 45&quot;
+    interval = 10 if last_result == &quot;normal&quot; else 5 if last_result == &quot;small polyps&quot; else 3
+    due = interval - years_since
+    return f&quot;Next colonoscopy in {max(due,0)} years ({&#x27;DUE NOW&#x27; if due &lt;= 0 else &#x27;on schedule&#x27;})&quot;
+print(colonoscopy_due(52, &quot;small polyps&quot;, 4))</pre></div>
+<div class='card'><h3>Endoscopy Unit Flow</h3><p>High-volume units run precise choreography: prepped patients, turned-over rooms, recovered discharges. Efficiency serves access. The schedule is a symphony.</p><p class='ladder'>Ladder rank 3 — Complex: the full picture — mastery-level detail for deep understanding.</p><div class='kv'><div><b>Equipment</b><br>Endoscopes and colonoscopes<br>ERCP duodenoscopes<br>Endoscopic ultrasound processors<br>Capsule endoscopy recorders</div><div><b>Procedures</b><br>Upper endoscopy (EGD)<br>Colonoscopy with polypectomy<br>ERCP for bile ducts<br>Endoscopic ultrasound (EUS)</div><div><b>Staff</b><br>Gastroenterologists<br>Hepatologists<br>Endoscopy nurses<br>Anesthesia/sedation nurses</div><div><b>Flow</b><br>Referrals come for bleeding, pain, screening, or abnormal labs; prep instructions go out days ahead for colonoscopies. Procedure days run like clockwork — sedat...</div></div><pre class='codeblock'>def colonoscopy_due(age, last_result, years_since):
+    &quot;&quot;&quot;Simplified colonoscopy screening scheduler (average risk).&quot;&quot;&quot;
+    if age &lt; 45: return &quot;Routine screening starts at 45&quot;
+    interval = 10 if last_result == &quot;normal&quot; else 5 if last_result == &quot;small polyps&quot; else 3
+    due = interval - years_since
+    return f&quot;Next colonoscopy in {max(due,0)} years ({&#x27;DUE NOW&#x27; if due &lt;= 0 else &#x27;on schedule&#x27;})&quot;
+print(colonoscopy_due(52, &quot;small polyps&quot;, 4))</pre></div>
+<h2>Working Demo</h2>
+<pre class="codeblock">def colonoscopy_due(age, last_result, years_since):
+    &quot;&quot;&quot;Simplified colonoscopy screening scheduler (average risk).&quot;&quot;&quot;
+    if age &lt; 45: return &quot;Routine screening starts at 45&quot;
+    interval = 10 if last_result == &quot;normal&quot; else 5 if last_result == &quot;small polyps&quot; else 3
+    due = interval - years_since
+    return f&quot;Next colonoscopy in {max(due,0)} years ({&#x27;DUE NOW&#x27; if due &lt;= 0 else &#x27;on schedule&#x27;})&quot;
+print(colonoscopy_due(52, &quot;small polyps&quot;, 4))</pre>
+</body></html>

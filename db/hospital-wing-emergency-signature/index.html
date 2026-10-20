@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Emergency Department Hospital Wing — Signature Edition Database</title>
+<style>
+body{font-family:Georgia,serif;max-width:1100px;margin:0 auto;padding:16px;background:#faf8f4;color:#222}
+.hero{background:#10243d;color:#fff;padding:28px;border-radius:12px}
+.pill{display:inline-block;background:#1c6e3c;color:#fff;border-radius:20px;padding:4px 14px;margin:4px;font-size:13px}
+.merger{display:inline-block;background:#c0392b;color:#fff;border:none;border-radius:8px;padding:10px 22px;font-size:15px;cursor:pointer;margin:6px}
+.million{background:#fff8e1;border:2px solid #d4a017;border-radius:10px;padding:12px;margin:14px 0;font-weight:bold}
+.kv{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:8px;margin:10px 0}
+.kv div{background:#fff;border:1px solid #ddd;border-radius:8px;padding:8px;font-size:13px}
+.card{background:#fff;border:1px solid #ddd;border-radius:10px;padding:16px;margin:14px 0}
+.codeblock{background:#1e1e1e;color:#d7ffce;padding:12px;border-radius:8px;overflow-x:auto;font-size:13px}
+.ladder{font-size:12px;color:#555}
+h2{color:#10243d}
+</style></head><body>
+<div class="hero"><h1>The Emergency Department Hospital Wing — Signature Edition Database</h1><p>Manon&#x27;s original Signature designs and improvements for the Emergency Department Hospital Wing — Signature-labeled concepts, never presented as established fact.</p>
+<p>Records banked: <span id="stCount">20 / 1,000,000 target</span></p></div>
+<div class="million">MARCH TO 1,000,000 &mdash; 20 records banked. This database is in progress toward one million full records.</div>
+<div><span class="pill">Exhaustive</span>
+<button class="merger" onclick="alert('Merger queued: this database will merge into the All Database Merger.')">All Database Merger</button>
+<button class="merger" onclick="alert('Added to the All Database Merger queue.')">Merge This Database</button></div>
+<h2>Records</h2>
+<div class='card'><h3>Signature Triage Lantern</h3><p>A wall of soft lantern lights above each triage chair that shifts color with the patient&#x27;s live acuity score, so the whole team reads the waiting room&#x27;s urgency at a glance without a screen. The lantern pulses gently when a patient&#x27;s vitals drift, calling a nurse before an alarm ever sounds. Concept by Manon: ambient awareness instead of alarm fatigue.</p><p><i>Improvement: Improves on overhead paging and monitor alarms by making acuity visible to everyone in the room at once.</i></p><p class='ladder'>Ladder rank 1 — Simple: the core idea in plain words — what it is and why it matters.</p><div class='kv'><div><b>Equipment</b><br>Cardiac monitors and defibrillators<br>Trauma bays with overhead surgical lights<br>Crash carts with airway and code drugs<br>CT scanner access and portable X-ray</div><div><b>Procedures</b><br>Emergency Severity Index (ESI) triage<br>Trauma team activation<br>Code blue resuscitation<br>Rapid sequence intubation</div><div><b>Staff</b><br>Emergency physicians<br>Emergency nurses<br>Triage nurses<br>Paramedics and EMTs</div><div><b>Flow</b><br>Patients arrive by ambulance or walk-in, get a rapid triage assessment within minutes, and are assigned an ESI level from 1 (immediate) to 5 (non-urgent). Level...</div></div><pre class='codeblock'># Signature Triage Lantern — Signature design prototype
+def esi_triage(hr, sbp, spo2, gcs, pain, resources_needed):
+    &quot;&quot;&quot;Emergency Severity Index estimator: returns level 1 (immediate) to 5 (non-urgent).&quot;&quot;&quot;
+    if gcs &lt;= 8 or spo2 &lt; 90 or sbp &lt; 90: return 1
+    if hr &gt; 130 or hr &lt; 40 or pain &gt;= 9: return 2
+    if resources_needed &gt;= 2: return 3
+    if resources_needed == 1: return 4
+    return 5
+print(&quot;ESI level:&quot;, esi_triage(hr=142, sbp=88, spo2=94, gcs=15, pain=8, resources_needed=2))</pre></div>
+<div class='card'><h3>Signature One-Touch Stroke Clock</h3><p>A single oversized wall clock in every ED bay that starts counting the moment stroke symptoms are charted, with rings marking the tPA and thrombectomy windows. The ring turns from green to amber to red as each window closes, keeping the whole team time-aware without anyone doing math. Concept by Manon.</p><p><i>Improvement: Improves on manual time tracking by making the treatment window a shared physical object in the room.</i></p><p class='ladder'>Ladder rank 1 — Simple: the core idea in plain words — what it is and why it matters.</p><div class='kv'><div><b>Equipment</b><br>Cardiac monitors and defibrillators<br>Trauma bays with overhead surgical lights<br>Crash carts with airway and code drugs<br>CT scanner access and portable X-ray</div><div><b>Procedures</b><br>Emergency Severity Index (ESI) triage<br>Trauma team activation<br>Code blue resuscitation<br>Rapid sequence intubation</div><div><b>Staff</b><br>Emergency physicians<br>Emergency nurses<br>Triage nurses<br>Paramedics and EMTs</div><div><b>Flow</b><br>Patients arrive by ambulance or walk-in, get a rapid triage assessment within minutes, and are assigned an ESI level from 1 (immediate) to 5 (non-urgent). Level...</div></div><pre class='codeblock'># Signature One-Touch Stroke Clock — Signature design prototype
+def esi_triage(hr, sbp, spo2, gcs, pain, resources_needed):
+    &quot;&quot;&quot;Emergency Severity Index estimator: returns level 1 (immediate) to 5 (non-urgent).&quot;&quot;&quot;
+    if gcs &lt;= 8 or spo2 &lt; 90 or sbp &lt; 90: return 1
+    if hr &gt; 130 or hr &lt; 40 or pain &gt;= 9: return 2
+    if resources_needed &gt;= 2: return 3
+    if resources_needed == 1: return 4
+    return 5
+print(&quot;ESI level:&quot;, esi_triage(hr=142, sbp=88, spo2=94, gcs=15, pain=8, resources_needed=2))</pre></div>
+<div class='card'><h3>Signature Calm Corridor</h3><p>A dedicated low-stimulation hallway for patients in behavioral crisis, with dimmable warm light, sound-absorbing walls, and a walking loop instead of a locked room. Patients can pace safely while staff observe from a glass alcove, reducing the need for restraints. Concept by Manon.</p><p><i>Improvement: Improves on standard seclusion rooms by treating agitation with environment instead of force.</i></p><p class='ladder'>Ladder rank 1 — Simple: the core idea in plain words — what it is and why it matters.</p><div class='kv'><div><b>Equipment</b><br>Cardiac monitors and defibrillators<br>Trauma bays with overhead surgical lights<br>Crash carts with airway and code drugs<br>CT scanner access and portable X-ray</div><div><b>Procedures</b><br>Emergency Severity Index (ESI) triage<br>Trauma team activation<br>Code blue resuscitation<br>Rapid sequence intubation</div><div><b>Staff</b><br>Emergency physicians<br>Emergency nurses<br>Triage nurses<br>Paramedics and EMTs</div><div><b>Flow</b><br>Patients arrive by ambulance or walk-in, get a rapid triage assessment within minutes, and are assigned an ESI level from 1 (immediate) to 5 (non-urgent). Level...</div></div><pre class='codeblock'># Signature Calm Corridor — Signature design prototype
+def esi_triage(hr, sbp, spo2, gcs, pain, resources_needed):
+    &quot;&quot;&quot;Emergency Severity Index estimator: returns level 1 (immediate) to 5 (non-urgent).&quot;&quot;&quot;
+    if gcs &lt;= 8 or spo2 &lt; 90 or sbp &lt; 90: return 1
+    if hr &gt; 130 or hr &lt; 40 or pain &gt;= 9: return 2
+    if resources_needed &gt;= 2: return 3
+    if resources_needed == 1: return 4
+    return 5
+print(&quot;ESI level:&quot;, esi_triage(hr=142, sbp=88, spo2=94, gcs=15, pain=8, resources_needed=2))</pre></div>
+<div class='card'><h3>Signature Family Bridge Board</h3><p>A bedside display showing the patient&#x27;s journey through the ED in plain language: what test is running, what the team is waiting on, and what happens next. Families stop asking for updates because the board answers before they ask. Concept by Manon.</p><p><i>Improvement: Improves on verbal-only updates by giving families a live, readable care map.</i></p><p class='ladder'>Ladder rank 1 — Simple: the core idea in plain words — what it is and why it matters.</p><div class='kv'><div><b>Equipment</b><br>Cardiac monitors and defibrillators<br>Trauma bays with overhead surgical lights<br>Crash carts with airway and code drugs<br>CT scanner access and portable X-ray</div><div><b>Procedures</b><br>Emergency Severity Index (ESI) triage<br>Trauma team activation<br>Code blue resuscitation<br>Rapid sequence intubation</div><div><b>Staff</b><br>Emergency physicians<br>Emergency nurses<br>Triage nurses<br>Paramedics and EMTs</div><div><b>Flow</b><br>Patients arrive by ambulance or walk-in, get a rapid triage assessment within minutes, and are assigned an ESI level from 1 (immediate) to 5 (non-urgent). Level...</div></div><pre class='codeblock'># Signature Family Bridge Board — Signature design prototype
+def esi_triage(hr, sbp, spo2, gcs, pain, resources_needed):
+    &quot;&quot;&quot;Emergency Severity Index estimator: returns level 1 (immediate) to 5 (non-urgent).&quot;&quot;&quot;
+    if gcs &lt;= 8 or spo2 &lt; 90 or sbp &lt; 90: return 1
+    if hr &gt; 130 or hr &lt; 40 or pain &gt;= 9: return 2
+    if resources_needed &gt;= 2: return 3
+    if resources_needed == 1: return 4
+    return 5
+print(&quot;ESI level:&quot;, esi_triage(hr=142, sbp=88, spo2=94, gcs=15, pain=8, resources_needed=2))</pre></div>
+<div class='card'><h3>Signature Sepsis Hourglass</h3><p>An hourglass-shaped timer that starts at triage for any patient flagged for possible sepsis, visible on the room door and the charge nurse&#x27;s dashboard. Sand runs for 60 minutes: cultures, antibiotics, fluids, lactate — each completed step lights a band. Concept by Manon.</p><p><i>Improvement: Improves on bundle checklists by turning the one-hour sepsis target into an unavoidable visual.</i></p><p class='ladder'>Ladder rank 1 — Simple: the core idea in plain words — what it is and why it matters.</p><div class='kv'><div><b>Equipment</b><br>Cardiac monitors and defibrillators<br>Trauma bays with overhead surgical lights<br>Crash carts with airway and code drugs<br>CT scanner access and portable X-ray</div><div><b>Procedures</b><br>Emergency Severity Index (ESI) triage<br>Trauma team activation<br>Code blue resuscitation<br>Rapid sequence intubation</div><div><b>Staff</b><br>Emergency physicians<br>Emergency nurses<br>Triage nurses<br>Paramedics and EMTs</div><div><b>Flow</b><br>Patients arrive by ambulance or walk-in, get a rapid triage assessment within minutes, and are assigned an ESI level from 1 (immediate) to 5 (non-urgent). Level...</div></div><pre class='codeblock'># Signature Sepsis Hourglass — Signature design prototype
+def esi_triage(hr, sbp, spo2, gcs, pain, resources_needed):
+    &quot;&quot;&quot;Emergency Severity Index estimator: returns level 1 (immediate) to 5 (non-urgent).&quot;&quot;&quot;
+    if gcs &lt;= 8 or spo2 &lt; 90 or sbp &lt; 90: return 1
+    if hr &gt; 130 or hr &lt; 40 or pain &gt;= 9: return 2
+    if resources_needed &gt;= 2: return 3
+    if resources_needed == 1: return 4
+    return 5
+print(&quot;ESI level:&quot;, esi_triage(hr=142, sbp=88, spo2=94, gcs=15, pain=8, resources_needed=2))</pre></div>
+<div class='card'><h3>Signature Warm Handoff Rail</h3><p>A continuous handrail from the ambulance bay to the trauma bay with a built-in audio strip that plays the paramedic&#x27;s handoff on loop as the stretcher rolls. The team hears age, mechanism, vitals, and treatment while moving, so nobody waits for a verbal report. Concept by Manon.</p><p><i>Improvement: Improves on single spoken handoffs by repeating the report exactly, hands-free, during transport.</i></p><p class='ladder'>Ladder rank 1 — Simple: the core idea in plain words — what it is and why it matters.</p><div class='kv'><div><b>Equipment</b><br>Cardiac monitors and defibrillators<br>Trauma bays with overhead surgical lights<br>Crash carts with airway and code drugs<br>CT scanner access and portable X-ray</div><div><b>Procedures</b><br>Emergency Severity Index (ESI) triage<br>Trauma team activation<br>Code blue resuscitation<br>Rapid sequence intubation</div><div><b>Staff</b><br>Emergency physicians<br>Emergency nurses<br>Triage nurses<br>Paramedics and EMTs</div><div><b>Flow</b><br>Patients arrive by ambulance or walk-in, get a rapid triage assessment within minutes, and are assigned an ESI level from 1 (immediate) to 5 (non-urgent). Level...</div></div><pre class='codeblock'># Signature Warm Handoff Rail — Signature design prototype
+def esi_triage(hr, sbp, spo2, gcs, pain, resources_needed):
+    &quot;&quot;&quot;Emergency Severity Index estimator: returns level 1 (immediate) to 5 (non-urgent).&quot;&quot;&quot;
+    if gcs &lt;= 8 or spo2 &lt; 90 or sbp &lt; 90: return 1
+    if hr &gt; 130 or hr &lt; 40 or pain &gt;= 9: return 2
+    if resources_needed &gt;= 2: return 3
+    if resources_needed == 1: return 4
+    return 5
+print(&quot;ESI level:&quot;, esi_triage(hr=142, sbp=88, spo2=94, gcs=15, pain=8, resources_needed=2))</pre></div>
+<div class='card'><h3>Signature Pediatric Comfort Pod</h3><p>A small enclosed pod in the pediatric zone with a starfield ceiling, a parent&#x27;s seat molded to hold a child, and procedure lighting that never shines in small eyes. Procedures happen with the child held upright by the parent inside the pod, cutting sedation needs. Concept by Manon.</p><p><i>Improvement: Improves on papoose boards and bright procedure rooms with a child-first treatment space.</i></p><p class='ladder'>Ladder rank 1 — Simple: the core idea in plain words — what it is and why it matters.</p><div class='kv'><div><b>Equipment</b><br>Cardiac monitors and defibrillators<br>Trauma bays with overhead surgical lights<br>Crash carts with airway and code drugs<br>CT scanner access and portable X-ray</div><div><b>Procedures</b><br>Emergency Severity Index (ESI) triage<br>Trauma team activation<br>Code blue resuscitation<br>Rapid sequence intubation</div><div><b>Staff</b><br>Emergency physicians<br>Emergency nurses<br>Triage nurses<br>Paramedics and EMTs</div><div><b>Flow</b><br>Patients arrive by ambulance or walk-in, get a rapid triage assessment within minutes, and are assigned an ESI level from 1 (immediate) to 5 (non-urgent). Level...</div></div><pre class='codeblock'># Signature Pediatric Comfort Pod — Signature design prototype
+def esi_triage(hr, sbp, spo2, gcs, pain, resources_needed):
+    &quot;&quot;&quot;Emergency Severity Index estimator: returns level 1 (immediate) to 5 (non-urgent).&quot;&quot;&quot;
+    if gcs &lt;= 8 or spo2 &lt; 90 or sbp &lt; 90: return 1
+    if hr &gt; 130 or hr &lt; 40 or pain &gt;= 9: return 2
+    if resources_needed &gt;= 2: return 3
+    if resources_needed == 1: return 4
+    return 5
+print(&quot;ESI level:&quot;, esi_triage(hr=142, sbp=88, spo2=94, gcs=15, pain=8, resources_needed=2))</pre></div>
+<div class='card'><h3>Signature Surge Bloom Plan</h3><p>A disaster plan stored as a blooming diagram: the ED floor plan unfolds in concentric rings showing exactly which spaces convert to treatment areas at each surge level. Staff drill by walking the rings, not reading binders. Concept by Manon.</p><p><i>Improvement: Improves on text-based disaster binders with a spatial plan anyone can follow under stress.</i></p><p class='ladder'>Ladder rank 2 — Compounded: how it connects — the moving parts working together in real care.</p><div class='kv'><div><b>Equipment</b><br>Cardiac monitors and defibrillators<br>Trauma bays with overhead surgical lights<br>Crash carts with airway and code drugs<br>CT scanner access and portable X-ray</div><div><b>Procedures</b><br>Emergency Severity Index (ESI) triage<br>Trauma team activation<br>Code blue resuscitation<br>Rapid sequence intubation</div><div><b>Staff</b><br>Emergency physicians<br>Emergency nurses<br>Triage nurses<br>Paramedics and EMTs</div><div><b>Flow</b><br>Patients arrive by ambulance or walk-in, get a rapid triage assessment within minutes, and are assigned an ESI level from 1 (immediate) to 5 (non-urgent). Level...</div></div><pre class='codeblock'># Signature Surge Bloom Plan — Signature design prototype
+def esi_triage(hr, sbp, spo2, gcs, pain, resources_needed):
+    &quot;&quot;&quot;Emergency Severity Index estimator: returns level 1 (immediate) to 5 (non-urgent).&quot;&quot;&quot;
+    if gcs &lt;= 8 or spo2 &lt; 90 or sbp &lt; 90: return 1
+    if hr &gt; 130 or hr &lt; 40 or pain &gt;= 9: return 2
+    if resources_needed &gt;= 2: return 3
+    if resources_needed == 1: return 4
+    return 5
+print(&quot;ESI level:&quot;, esi_triage(hr=142, sbp=88, spo2=94, gcs=15, pain=8, resources_needed=2))</pre></div>
+<div class='card'><h3>Signature Discharge Scroll</h3><p>Discharge instructions printed as a single illustrated scroll in the patient&#x27;s language, with pictures for every medication time and warning sign. The nurse walks the scroll with the patient, who keeps it on the fridge at home. Concept by Manon.</p><p><i>Improvement: Improves on dense printouts by making aftercare a visual story the patient actually keeps.</i></p><p class='ladder'>Ladder rank 2 — Compounded: how it connects — the moving parts working together in real care.</p><div class='kv'><div><b>Equipment</b><br>Cardiac monitors and defibrillators<br>Trauma bays with overhead surgical lights<br>Crash carts with airway and code drugs<br>CT scanner access and portable X-ray</div><div><b>Procedures</b><br>Emergency Severity Index (ESI) triage<br>Trauma team activation<br>Code blue resuscitation<br>Rapid sequence intubation</div><div><b>Staff</b><br>Emergency physicians<br>Emergency nurses<br>Triage nurses<br>Paramedics and EMTs</div><div><b>Flow</b><br>Patients arrive by ambulance or walk-in, get a rapid triage assessment within minutes, and are assigned an ESI level from 1 (immediate) to 5 (non-urgent). Level...</div></div><pre class='codeblock'># Signature Discharge Scroll — Signature design prototype
+def esi_triage(hr, sbp, spo2, gcs, pain, resources_needed):
+    &quot;&quot;&quot;Emergency Severity Index estimator: returns level 1 (immediate) to 5 (non-urgent).&quot;&quot;&quot;
+    if gcs &lt;= 8 or spo2 &lt; 90 or sbp &lt; 90: return 1
+    if hr &gt; 130 or hr &lt; 40 or pain &gt;= 9: return 2
+    if resources_needed &gt;= 2: return 3
+    if resources_needed == 1: return 4
+    return 5
+print(&quot;ESI level:&quot;, esi_triage(hr=142, sbp=88, spo2=94, gcs=15, pain=8, resources_needed=2))</pre></div>
+<div class='card'><h3>Signature Quiet Code</h3><p>A code blue called without overhead noise: team pagers vibrate in a sequence and the room&#x27;s light ring turns blue. The patient next door never hears a thing, and the team still assembles in under a minute. Concept by Manon.</p><p><i>Improvement: Improves on overhead paging by protecting every other patient&#x27;s rest during a crisis.</i></p><p class='ladder'>Ladder rank 2 — Compounded: how it connects — the moving parts working together in real care.</p><div class='kv'><div><b>Equipment</b><br>Cardiac monitors and defibrillators<br>Trauma bays with overhead surgical lights<br>Crash carts with airway and code drugs<br>CT scanner access and portable X-ray</div><div><b>Procedures</b><br>Emergency Severity Index (ESI) triage<br>Trauma team activation<br>Code blue resuscitation<br>Rapid sequence intubation</div><div><b>Staff</b><br>Emergency physicians<br>Emergency nurses<br>Triage nurses<br>Paramedics and EMTs</div><div><b>Flow</b><br>Patients arrive by ambulance or walk-in, get a rapid triage assessment within minutes, and are assigned an ESI level from 1 (immediate) to 5 (non-urgent). Level...</div></div><pre class='codeblock'># Signature Quiet Code — Signature design prototype
+def esi_triage(hr, sbp, spo2, gcs, pain, resources_needed):
+    &quot;&quot;&quot;Emergency Severity Index estimator: returns level 1 (immediate) to 5 (non-urgent).&quot;&quot;&quot;
+    if gcs &lt;= 8 or spo2 &lt; 90 or sbp &lt; 90: return 1
+    if hr &gt; 130 or hr &lt; 40 or pain &gt;= 9: return 2
+    if resources_needed &gt;= 2: return 3
+    if resources_needed == 1: return 4
+    return 5
+print(&quot;ESI level:&quot;, esi_triage(hr=142, sbp=88, spo2=94, gcs=15, pain=8, resources_needed=2))</pre></div>
+<div class='card'><h3>Signature Wound Wash Station</h3><p>A warm-water wound irrigation station shaped like a shallow basin chair, letting patients with lacerations sit comfortably while wounds are cleaned with precisely pressured streams. Kids watch the water instead of the wound. Concept by Manon.</p><p><i>Improvement: Improves on cold sink irrigation with comfort-engineered wound cleaning.</i></p><p class='ladder'>Ladder rank 2 — Compounded: how it connects — the moving parts working together in real care.</p><div class='kv'><div><b>Equipment</b><br>Cardiac monitors and defibrillators<br>Trauma bays with overhead surgical lights<br>Crash carts with airway and code drugs<br>CT scanner access and portable X-ray</div><div><b>Procedures</b><br>Emergency Severity Index (ESI) triage<br>Trauma team activation<br>Code blue resuscitation<br>Rapid sequence intubation</div><div><b>Staff</b><br>Emergency physicians<br>Emergency nurses<br>Triage nurses<br>Paramedics and EMTs</div><div><b>Flow</b><br>Patients arrive by ambulance or walk-in, get a rapid triage assessment within minutes, and are assigned an ESI level from 1 (immediate) to 5 (non-urgent). Level...</div></div><pre class='codeblock'># Signature Wound Wash Station — Signature design prototype
+def esi_triage(hr, sbp, spo2, gcs, pain, resources_needed):
+    &quot;&quot;&quot;Emergency Severity Index estimator: returns level 1 (immediate) to 5 (non-urgent).&quot;&quot;&quot;
+    if gcs &lt;= 8 or spo2 &lt; 90 or sbp &lt; 90: return 1
+    if hr &gt; 130 or hr &lt; 40 or pain &gt;= 9: return 2
+    if resources_needed &gt;= 2: return 3
+    if resources_needed == 1: return 4
+    return 5
+print(&quot;ESI level:&quot;, esi_triage(hr=142, sbp=88, spo2=94, gcs=15, pain=8, resources_needed=2))</pre></div>
+<div class='card'><h3>Signature Elder Sit Spot</h3><p>A row of high, firm chairs with armrests and good lighting reserved for elderly waiting patients, each with a call button and a blanket warmer. Older adults wait seated safely instead of on low plastic chairs. Concept by Manon.</p><p><i>Improvement: Improves on standard waiting rooms with age-aware seating that prevents falls.</i></p><p class='ladder'>Ladder rank 2 — Compounded: how it connects — the moving parts working together in real care.</p><div class='kv'><div><b>Equipment</b><br>Cardiac monitors and defibrillators<br>Trauma bays with overhead surgical lights<br>Crash carts with airway and code drugs<br>CT scanner access and portable X-ray</div><div><b>Procedures</b><br>Emergency Severity Index (ESI) triage<br>Trauma team activation<br>Code blue resuscitation<br>Rapid sequence intubation</div><div><b>Staff</b><br>Emergency physicians<br>Emergency nurses<br>Triage nurses<br>Paramedics and EMTs</div><div><b>Flow</b><br>Patients arrive by ambulance or walk-in, get a rapid triage assessment within minutes, and are assigned an ESI level from 1 (immediate) to 5 (non-urgent). Level...</div></div><pre class='codeblock'># Signature Elder Sit Spot — Signature design prototype
+def esi_triage(hr, sbp, spo2, gcs, pain, resources_needed):
+    &quot;&quot;&quot;Emergency Severity Index estimator: returns level 1 (immediate) to 5 (non-urgent).&quot;&quot;&quot;
+    if gcs &lt;= 8 or spo2 &lt; 90 or sbp &lt; 90: return 1
+    if hr &gt; 130 or hr &lt; 40 or pain &gt;= 9: return 2
+    if resources_needed &gt;= 2: return 3
+    if resources_needed == 1: return 4
+    return 5
+print(&quot;ESI level:&quot;, esi_triage(hr=142, sbp=88, spo2=94, gcs=15, pain=8, resources_needed=2))</pre></div>
+<div class='card'><h3>Signature Breath Bench</h3><p>A bench outside the ED entrance with guided breathing lights for panicking patients and families, walking them through slow exhales before they even check in. A calmer arrival means a clearer history. Concept by Manon.</p><p><i>Improvement: Improves on chaotic entrances by starting care with calm, not paperwork.</i></p><p class='ladder'>Ladder rank 2 — Compounded: how it connects — the moving parts working together in real care.</p><div class='kv'><div><b>Equipment</b><br>Cardiac monitors and defibrillators<br>Trauma bays with overhead surgical lights<br>Crash carts with airway and code drugs<br>CT scanner access and portable X-ray</div><div><b>Procedures</b><br>Emergency Severity Index (ESI) triage<br>Trauma team activation<br>Code blue resuscitation<br>Rapid sequence intubation</div><div><b>Staff</b><br>Emergency physicians<br>Emergency nurses<br>Triage nurses<br>Paramedics and EMTs</div><div><b>Flow</b><br>Patients arrive by ambulance or walk-in, get a rapid triage assessment within minutes, and are assigned an ESI level from 1 (immediate) to 5 (non-urgent). Level...</div></div><pre class='codeblock'># Signature Breath Bench — Signature design prototype
+def esi_triage(hr, sbp, spo2, gcs, pain, resources_needed):
+    &quot;&quot;&quot;Emergency Severity Index estimator: returns level 1 (immediate) to 5 (non-urgent).&quot;&quot;&quot;
+    if gcs &lt;= 8 or spo2 &lt; 90 or sbp &lt; 90: return 1
+    if hr &gt; 130 or hr &lt; 40 or pain &gt;= 9: return 2
+    if resources_needed &gt;= 2: return 3
+    if resources_needed == 1: return 4
+    return 5
+print(&quot;ESI level:&quot;, esi_triage(hr=142, sbp=88, spo2=94, gcs=15, pain=8, resources_needed=2))</pre></div>
+<div class='card'><h3>Signature Meds-to-Go Locker</h3><p>A secure locker wall near discharge that dispenses first-dose prescriptions on the spot, so patients leave with antibiotics or inhalers in hand instead of a paper slip. The pharmacist counsels at the locker window. Concept by Manon.</p><p><i>Improvement: Improves on pharmacy callbacks by closing the prescription loop before the patient leaves.</i></p><p class='ladder'>Ladder rank 2 — Compounded: how it connects — the moving parts working together in real care.</p><div class='kv'><div><b>Equipment</b><br>Cardiac monitors and defibrillators<br>Trauma bays with overhead surgical lights<br>Crash carts with airway and code drugs<br>CT scanner access and portable X-ray</div><div><b>Procedures</b><br>Emergency Severity Index (ESI) triage<br>Trauma team activation<br>Code blue resuscitation<br>Rapid sequence intubation</div><div><b>Staff</b><br>Emergency physicians<br>Emergency nurses<br>Triage nurses<br>Paramedics and EMTs</div><div><b>Flow</b><br>Patients arrive by ambulance or walk-in, get a rapid triage assessment within minutes, and are assigned an ESI level from 1 (immediate) to 5 (non-urgent). Level...</div></div><pre class='codeblock'># Signature Meds-to-Go Locker — Signature design prototype
+def esi_triage(hr, sbp, spo2, gcs, pain, resources_needed):
+    &quot;&quot;&quot;Emergency Severity Index estimator: returns level 1 (immediate) to 5 (non-urgent).&quot;&quot;&quot;
+    if gcs &lt;= 8 or spo2 &lt; 90 or sbp &lt; 90: return 1
+    if hr &gt; 130 or hr &lt; 40 or pain &gt;= 9: return 2
+    if resources_needed &gt;= 2: return 3
+    if resources_needed == 1: return 4
+    return 5
+print(&quot;ESI level:&quot;, esi_triage(hr=142, sbp=88, spo2=94, gcs=15, pain=8, resources_needed=2))</pre></div>
+<div class='card'><h3>Signature Hallway Care Kit</h3><p>A rolling kit that turns any hallway space into a safe monitored care spot during boarding surges: privacy screens, a vital-signs pod, and a nurse call button on a single cart. Dignity preserved even when beds run out. Concept by Manon.</p><p><i>Improvement: Improves on hallway boarding with a dignity-first mobile care station.</i></p><p class='ladder'>Ladder rank 3 — Complex: the full picture — mastery-level detail for deep understanding.</p><div class='kv'><div><b>Equipment</b><br>Cardiac monitors and defibrillators<br>Trauma bays with overhead surgical lights<br>Crash carts with airway and code drugs<br>CT scanner access and portable X-ray</div><div><b>Procedures</b><br>Emergency Severity Index (ESI) triage<br>Trauma team activation<br>Code blue resuscitation<br>Rapid sequence intubation</div><div><b>Staff</b><br>Emergency physicians<br>Emergency nurses<br>Triage nurses<br>Paramedics and EMTs</div><div><b>Flow</b><br>Patients arrive by ambulance or walk-in, get a rapid triage assessment within minutes, and are assigned an ESI level from 1 (immediate) to 5 (non-urgent). Level...</div></div><pre class='codeblock'># Signature Hallway Care Kit — Signature design prototype
+def esi_triage(hr, sbp, spo2, gcs, pain, resources_needed):
+    &quot;&quot;&quot;Emergency Severity Index estimator: returns level 1 (immediate) to 5 (non-urgent).&quot;&quot;&quot;
+    if gcs &lt;= 8 or spo2 &lt; 90 or sbp &lt; 90: return 1
+    if hr &gt; 130 or hr &lt; 40 or pain &gt;= 9: return 2
+    if resources_needed &gt;= 2: return 3
+    if resources_needed == 1: return 4
+    return 5
+print(&quot;ESI level:&quot;, esi_triage(hr=142, sbp=88, spo2=94, gcs=15, pain=8, resources_needed=2))</pre></div>
+<div class='card'><h3>Signature Language Lantern Post</h3><p>A standing kiosk at triage offering instant video interpreters in 200 languages with one tap, plus picture-based symptom cards for patients who cannot speak at all. No waiting for a phone interpreter queue. Concept by Manon.</p><p><i>Improvement: Improves on phone-only interpretation with instant visual access at the front door.</i></p><p class='ladder'>Ladder rank 3 — Complex: the full picture — mastery-level detail for deep understanding.</p><div class='kv'><div><b>Equipment</b><br>Cardiac monitors and defibrillators<br>Trauma bays with overhead surgical lights<br>Crash carts with airway and code drugs<br>CT scanner access and portable X-ray</div><div><b>Procedures</b><br>Emergency Severity Index (ESI) triage<br>Trauma team activation<br>Code blue resuscitation<br>Rapid sequence intubation</div><div><b>Staff</b><br>Emergency physicians<br>Emergency nurses<br>Triage nurses<br>Paramedics and EMTs</div><div><b>Flow</b><br>Patients arrive by ambulance or walk-in, get a rapid triage assessment within minutes, and are assigned an ESI level from 1 (immediate) to 5 (non-urgent). Level...</div></div><pre class='codeblock'># Signature Language Lantern Post — Signature design prototype
+def esi_triage(hr, sbp, spo2, gcs, pain, resources_needed):
+    &quot;&quot;&quot;Emergency Severity Index estimator: returns level 1 (immediate) to 5 (non-urgent).&quot;&quot;&quot;
+    if gcs &lt;= 8 or spo2 &lt; 90 or sbp &lt; 90: return 1
+    if hr &gt; 130 or hr &lt; 40 or pain &gt;= 9: return 2
+    if resources_needed &gt;= 2: return 3
+    if resources_needed == 1: return 4
+    return 5
+print(&quot;ESI level:&quot;, esi_triage(hr=142, sbp=88, spo2=94, gcs=15, pain=8, resources_needed=2))</pre></div>
+<div class='card'><h3>Signature Pain Ladder Wall</h3><p>A wall display in each treatment room showing the pain management ladder as climbable steps, so patients see non-drug options first and understand exactly when stronger medicine is appropriate. Shared decision-making made visible. Concept by Manon.</p><p><i>Improvement: Improves on verbal pain plans with a visible, patient-facing treatment ladder.</i></p><p class='ladder'>Ladder rank 3 — Complex: the full picture — mastery-level detail for deep understanding.</p><div class='kv'><div><b>Equipment</b><br>Cardiac monitors and defibrillators<br>Trauma bays with overhead surgical lights<br>Crash carts with airway and code drugs<br>CT scanner access and portable X-ray</div><div><b>Procedures</b><br>Emergency Severity Index (ESI) triage<br>Trauma team activation<br>Code blue resuscitation<br>Rapid sequence intubation</div><div><b>Staff</b><br>Emergency physicians<br>Emergency nurses<br>Triage nurses<br>Paramedics and EMTs</div><div><b>Flow</b><br>Patients arrive by ambulance or walk-in, get a rapid triage assessment within minutes, and are assigned an ESI level from 1 (immediate) to 5 (non-urgent). Level...</div></div><pre class='codeblock'># Signature Pain Ladder Wall — Signature design prototype
+def esi_triage(hr, sbp, spo2, gcs, pain, resources_needed):
+    &quot;&quot;&quot;Emergency Severity Index estimator: returns level 1 (immediate) to 5 (non-urgent).&quot;&quot;&quot;
+    if gcs &lt;= 8 or spo2 &lt; 90 or sbp &lt; 90: return 1
+    if hr &gt; 130 or hr &lt; 40 or pain &gt;= 9: return 2
+    if resources_needed &gt;= 2: return 3
+    if resources_needed == 1: return 4
+    return 5
+print(&quot;ESI level:&quot;, esi_triage(hr=142, sbp=88, spo2=94, gcs=15, pain=8, resources_needed=2))</pre></div>
+<div class='card'><h3>Signature Follow-Up Beacon</h3><p>A small beacon the patient takes home that glows gently when it is time for wound checks, suture removal, or follow-up visits, synced to their discharge plan. Missed follow-ups drop because the reminder lives on the nightstand. Concept by Manon.</p><p><i>Improvement: Improves on paper appointment slips with a physical reminder object.</i></p><p class='ladder'>Ladder rank 3 — Complex: the full picture — mastery-level detail for deep understanding.</p><div class='kv'><div><b>Equipment</b><br>Cardiac monitors and defibrillators<br>Trauma bays with overhead surgical lights<br>Crash carts with airway and code drugs<br>CT scanner access and portable X-ray</div><div><b>Procedures</b><br>Emergency Severity Index (ESI) triage<br>Trauma team activation<br>Code blue resuscitation<br>Rapid sequence intubation</div><div><b>Staff</b><br>Emergency physicians<br>Emergency nurses<br>Triage nurses<br>Paramedics and EMTs</div><div><b>Flow</b><br>Patients arrive by ambulance or walk-in, get a rapid triage assessment within minutes, and are assigned an ESI level from 1 (immediate) to 5 (non-urgent). Level...</div></div><pre class='codeblock'># Signature Follow-Up Beacon — Signature design prototype
+def esi_triage(hr, sbp, spo2, gcs, pain, resources_needed):
+    &quot;&quot;&quot;Emergency Severity Index estimator: returns level 1 (immediate) to 5 (non-urgent).&quot;&quot;&quot;
+    if gcs &lt;= 8 or spo2 &lt; 90 or sbp &lt; 90: return 1
+    if hr &gt; 130 or hr &lt; 40 or pain &gt;= 9: return 2
+    if resources_needed &gt;= 2: return 3
+    if resources_needed == 1: return 4
+    return 5
+print(&quot;ESI level:&quot;, esi_triage(hr=142, sbp=88, spo2=94, gcs=15, pain=8, resources_needed=2))</pre></div>
+<div class='card'><h3>Signature Night Shift Garden</h3><p>A small enclosed garden courtyard off the ED staff area with night-blooming plants and benches, giving night-shift teams a real reset space between traumas. Staff who decompress make fewer errors. Concept by Manon.</p><p><i>Improvement: Improves on windowless break rooms with a living recovery space for caregivers.</i></p><p class='ladder'>Ladder rank 3 — Complex: the full picture — mastery-level detail for deep understanding.</p><div class='kv'><div><b>Equipment</b><br>Cardiac monitors and defibrillators<br>Trauma bays with overhead surgical lights<br>Crash carts with airway and code drugs<br>CT scanner access and portable X-ray</div><div><b>Procedures</b><br>Emergency Severity Index (ESI) triage<br>Trauma team activation<br>Code blue resuscitation<br>Rapid sequence intubation</div><div><b>Staff</b><br>Emergency physicians<br>Emergency nurses<br>Triage nurses<br>Paramedics and EMTs</div><div><b>Flow</b><br>Patients arrive by ambulance or walk-in, get a rapid triage assessment within minutes, and are assigned an ESI level from 1 (immediate) to 5 (non-urgent). Level...</div></div><pre class='codeblock'># Signature Night Shift Garden — Signature design prototype
+def esi_triage(hr, sbp, spo2, gcs, pain, resources_needed):
+    &quot;&quot;&quot;Emergency Severity Index estimator: returns level 1 (immediate) to 5 (non-urgent).&quot;&quot;&quot;
+    if gcs &lt;= 8 or spo2 &lt; 90 or sbp &lt; 90: return 1
+    if hr &gt; 130 or hr &lt; 40 or pain &gt;= 9: return 2
+    if resources_needed &gt;= 2: return 3
+    if resources_needed == 1: return 4
+    return 5
+print(&quot;ESI level:&quot;, esi_triage(hr=142, sbp=88, spo2=94, gcs=15, pain=8, resources_needed=2))</pre></div>
+<div class='card'><h3>Signature Whole-Room X-Ray</h3><p>A trauma bay where the imaging panel is built into the stretcher and the overhead arm sweeps the full body in one pass, capturing chest, pelvis, and spine films without moving the patient once. Concept by Manon.</p><p><i>Improvement: Improves on portable X-ray repositioning by imaging the whole trauma patient in place.</i></p><p class='ladder'>Ladder rank 3 — Complex: the full picture — mastery-level detail for deep understanding.</p><div class='kv'><div><b>Equipment</b><br>Cardiac monitors and defibrillators<br>Trauma bays with overhead surgical lights<br>Crash carts with airway and code drugs<br>CT scanner access and portable X-ray</div><div><b>Procedures</b><br>Emergency Severity Index (ESI) triage<br>Trauma team activation<br>Code blue resuscitation<br>Rapid sequence intubation</div><div><b>Staff</b><br>Emergency physicians<br>Emergency nurses<br>Triage nurses<br>Paramedics and EMTs</div><div><b>Flow</b><br>Patients arrive by ambulance or walk-in, get a rapid triage assessment within minutes, and are assigned an ESI level from 1 (immediate) to 5 (non-urgent). Level...</div></div><pre class='codeblock'># Signature Whole-Room X-Ray — Signature design prototype
+def esi_triage(hr, sbp, spo2, gcs, pain, resources_needed):
+    &quot;&quot;&quot;Emergency Severity Index estimator: returns level 1 (immediate) to 5 (non-urgent).&quot;&quot;&quot;
+    if gcs &lt;= 8 or spo2 &lt; 90 or sbp &lt; 90: return 1
+    if hr &gt; 130 or hr &lt; 40 or pain &gt;= 9: return 2
+    if resources_needed &gt;= 2: return 3
+    if resources_needed == 1: return 4
+    return 5
+print(&quot;ESI level:&quot;, esi_triage(hr=142, sbp=88, spo2=94, gcs=15, pain=8, resources_needed=2))</pre></div>
+<h2>Working Demo</h2>
+<pre class="codeblock"># Signature Triage Lantern — Signature design prototype
+def esi_triage(hr, sbp, spo2, gcs, pain, resources_needed):
+    &quot;&quot;&quot;Emergency Severity Index estimator: returns level 1 (immediate) to 5 (non-urgent).&quot;&quot;&quot;
+    if gcs &lt;= 8 or spo2 &lt; 90 or sbp &lt; 90: return 1
+    if hr &gt; 130 or hr &lt; 40 or pain &gt;= 9: return 2
+    if resources_needed &gt;= 2: return 3
+    if resources_needed == 1: return 4
+    return 5
+print(&quot;ESI level:&quot;, esi_triage(hr=142, sbp=88, spo2=94, gcs=15, pain=8, resources_needed=2))</pre>
+</body></html>

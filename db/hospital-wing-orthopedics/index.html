@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Orthopedics Hospital Wing Database</title>
+<style>
+body{font-family:Georgia,serif;max-width:1100px;margin:0 auto;padding:16px;background:#faf8f4;color:#222}
+.hero{background:#10243d;color:#fff;padding:28px;border-radius:12px}
+.pill{display:inline-block;background:#1c6e3c;color:#fff;border-radius:20px;padding:4px 14px;margin:4px;font-size:13px}
+.merger{display:inline-block;background:#c0392b;color:#fff;border:none;border-radius:8px;padding:10px 22px;font-size:15px;cursor:pointer;margin:6px}
+.million{background:#fff8e1;border:2px solid #d4a017;border-radius:10px;padding:12px;margin:14px 0;font-weight:bold}
+.kv{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:8px;margin:10px 0}
+.kv div{background:#fff;border:1px solid #ddd;border-radius:8px;padding:8px;font-size:13px}
+.card{background:#fff;border:1px solid #ddd;border-radius:10px;padding:16px;margin:14px 0}
+.codeblock{background:#1e1e1e;color:#d7ffce;padding:12px;border-radius:8px;overflow-x:auto;font-size:13px}
+.ladder{font-size:12px;color:#555}
+h2{color:#10243d}
+</style></head><body>
+<div class="hero"><h1>The Orthopedics Hospital Wing Database</h1><p>Real, fact-checked records on the Orthopedics Hospital Wing — purpose, equipment, procedures, staff, and patient flow. Public records organized in the Signature system.</p>
+<p>Records banked: <span id="stCount">20 / 1,000,000 target</span></p></div>
+<div class="million">MARCH TO 1,000,000 &mdash; 20 records banked. This database is in progress toward one million full records.</div>
+<div><span class="pill">Exhaustive</span>
+<button class="merger" onclick="alert('Merger queued: this database will merge into the All Database Merger.')">All Database Merger</button>
+<button class="merger" onclick="alert('Added to the All Database Merger queue.')">Merge This Database</button></div>
+<h2>Records</h2>
+<div class='card'><h3>Fracture Classification</h3><p>Fractures are described by location, pattern, and displacement — transverse, oblique, comminuted, open versus closed. Classification drives treatment: stable fractures get casts, unstable ones get surgery. Precise language prevents wrong care.</p><p class='ladder'>Ladder rank 1 — Simple: the core idea in plain words — what it is and why it matters.</p><div class='kv'><div><b>Equipment</b><br>C-arm fluoroscopy<br>Arthroscopy towers<br>Joint replacement instrument sets<br>Casting and splinting supplies</div><div><b>Procedures</b><br>Fracture reduction and fixation<br>Total hip arthroplasty<br>Total knee arthroplasty<br>Arthroscopic repair</div><div><b>Staff</b><br>Orthopedic surgeons<br>Sports medicine physicians<br>Physician assistants<br>Orthopedic nurses</div><div><b>Flow</b><br>Injuries arrive via ED or clinic; imaging defines the fracture or joint damage. Many fractures are splinted and scheduled; urgent ones go to the OR the same day...</div></div><pre class='codeblock'>def fracture_clinic_slot(injury, days_since, weight_bearing):
+    &quot;&quot;&quot;Simple orthopedic triage: urgent OR vs clinic vs routine.&quot;&quot;&quot;
+    urgent = {&quot;open fracture&quot;, &quot;dislocation&quot;, &quot;compartment syndrome&quot;, &quot;cauda equina&quot;}
+    if injury.lower() in urgent: return &quot;URGENT: to OR now&quot;
+    if not weight_bearing or days_since &lt; 2: return &quot;Same-day fracture clinic&quot;
+    return &quot;Routine orthopedic clinic within 1 week&quot;
+print(fracture_clinic_slot(&quot;ankle fracture&quot;, 1, False))</pre></div>
+<div class='card'><h3>Casting and Splinting</h3><p>Casts immobilize fractures for healing; splints allow swelling room in the first days. Fiberglass replaced plaster for lightness. Good molding — three-point fixation — is a craft that determines alignment.</p><p class='ladder'>Ladder rank 1 — Simple: the core idea in plain words — what it is and why it matters.</p><div class='kv'><div><b>Equipment</b><br>C-arm fluoroscopy<br>Arthroscopy towers<br>Joint replacement instrument sets<br>Casting and splinting supplies</div><div><b>Procedures</b><br>Fracture reduction and fixation<br>Total hip arthroplasty<br>Total knee arthroplasty<br>Arthroscopic repair</div><div><b>Staff</b><br>Orthopedic surgeons<br>Sports medicine physicians<br>Physician assistants<br>Orthopedic nurses</div><div><b>Flow</b><br>Injuries arrive via ED or clinic; imaging defines the fracture or joint damage. Many fractures are splinted and scheduled; urgent ones go to the OR the same day...</div></div><pre class='codeblock'>def fracture_clinic_slot(injury, days_since, weight_bearing):
+    &quot;&quot;&quot;Simple orthopedic triage: urgent OR vs clinic vs routine.&quot;&quot;&quot;
+    urgent = {&quot;open fracture&quot;, &quot;dislocation&quot;, &quot;compartment syndrome&quot;, &quot;cauda equina&quot;}
+    if injury.lower() in urgent: return &quot;URGENT: to OR now&quot;
+    if not weight_bearing or days_since &lt; 2: return &quot;Same-day fracture clinic&quot;
+    return &quot;Routine orthopedic clinic within 1 week&quot;
+print(fracture_clinic_slot(&quot;ankle fracture&quot;, 1, False))</pre></div>
+<div class='card'><h3>Total Hip Replacement</h3><p>Hip arthroplasty replaces the arthritic ball and socket with metal and plastic, relieving bone-on-bone pain. Anterior approaches speed recovery. Most hips last 20+ years and patients walk the same day.</p><p class='ladder'>Ladder rank 1 — Simple: the core idea in plain words — what it is and why it matters.</p><div class='kv'><div><b>Equipment</b><br>C-arm fluoroscopy<br>Arthroscopy towers<br>Joint replacement instrument sets<br>Casting and splinting supplies</div><div><b>Procedures</b><br>Fracture reduction and fixation<br>Total hip arthroplasty<br>Total knee arthroplasty<br>Arthroscopic repair</div><div><b>Staff</b><br>Orthopedic surgeons<br>Sports medicine physicians<br>Physician assistants<br>Orthopedic nurses</div><div><b>Flow</b><br>Injuries arrive via ED or clinic; imaging defines the fracture or joint damage. Many fractures are splinted and scheduled; urgent ones go to the OR the same day...</div></div><pre class='codeblock'>def fracture_clinic_slot(injury, days_since, weight_bearing):
+    &quot;&quot;&quot;Simple orthopedic triage: urgent OR vs clinic vs routine.&quot;&quot;&quot;
+    urgent = {&quot;open fracture&quot;, &quot;dislocation&quot;, &quot;compartment syndrome&quot;, &quot;cauda equina&quot;}
+    if injury.lower() in urgent: return &quot;URGENT: to OR now&quot;
+    if not weight_bearing or days_since &lt; 2: return &quot;Same-day fracture clinic&quot;
+    return &quot;Routine orthopedic clinic within 1 week&quot;
+print(fracture_clinic_slot(&quot;ankle fracture&quot;, 1, False))</pre></div>
+<div class='card'><h3>Total Knee Replacement</h3><p>Knee replacement resurfaces the joint&#x27;s worn ends, correcting bowed alignment. Pain relief is dramatic; full recovery takes months of therapy. Knees demand more rehab dedication than hips.</p><p class='ladder'>Ladder rank 1 — Simple: the core idea in plain words — what it is and why it matters.</p><div class='kv'><div><b>Equipment</b><br>C-arm fluoroscopy<br>Arthroscopy towers<br>Joint replacement instrument sets<br>Casting and splinting supplies</div><div><b>Procedures</b><br>Fracture reduction and fixation<br>Total hip arthroplasty<br>Total knee arthroplasty<br>Arthroscopic repair</div><div><b>Staff</b><br>Orthopedic surgeons<br>Sports medicine physicians<br>Physician assistants<br>Orthopedic nurses</div><div><b>Flow</b><br>Injuries arrive via ED or clinic; imaging defines the fracture or joint damage. Many fractures are splinted and scheduled; urgent ones go to the OR the same day...</div></div><pre class='codeblock'>def fracture_clinic_slot(injury, days_since, weight_bearing):
+    &quot;&quot;&quot;Simple orthopedic triage: urgent OR vs clinic vs routine.&quot;&quot;&quot;
+    urgent = {&quot;open fracture&quot;, &quot;dislocation&quot;, &quot;compartment syndrome&quot;, &quot;cauda equina&quot;}
+    if injury.lower() in urgent: return &quot;URGENT: to OR now&quot;
+    if not weight_bearing or days_since &lt; 2: return &quot;Same-day fracture clinic&quot;
+    return &quot;Routine orthopedic clinic within 1 week&quot;
+print(fracture_clinic_slot(&quot;ankle fracture&quot;, 1, False))</pre></div>
+<div class='card'><h3>Arthroscopy</h3><p>Arthroscopes peer inside joints through tiny incisions to trim menisci, repair labrums, and smooth cartilage. Outpatient surgery with quick recovery. Knees and shoulders are the classic scopes.</p><p class='ladder'>Ladder rank 1 — Simple: the core idea in plain words — what it is and why it matters.</p><div class='kv'><div><b>Equipment</b><br>C-arm fluoroscopy<br>Arthroscopy towers<br>Joint replacement instrument sets<br>Casting and splinting supplies</div><div><b>Procedures</b><br>Fracture reduction and fixation<br>Total hip arthroplasty<br>Total knee arthroplasty<br>Arthroscopic repair</div><div><b>Staff</b><br>Orthopedic surgeons<br>Sports medicine physicians<br>Physician assistants<br>Orthopedic nurses</div><div><b>Flow</b><br>Injuries arrive via ED or clinic; imaging defines the fracture or joint damage. Many fractures are splinted and scheduled; urgent ones go to the OR the same day...</div></div><pre class='codeblock'>def fracture_clinic_slot(injury, days_since, weight_bearing):
+    &quot;&quot;&quot;Simple orthopedic triage: urgent OR vs clinic vs routine.&quot;&quot;&quot;
+    urgent = {&quot;open fracture&quot;, &quot;dislocation&quot;, &quot;compartment syndrome&quot;, &quot;cauda equina&quot;}
+    if injury.lower() in urgent: return &quot;URGENT: to OR now&quot;
+    if not weight_bearing or days_since &lt; 2: return &quot;Same-day fracture clinic&quot;
+    return &quot;Routine orthopedic clinic within 1 week&quot;
+print(fracture_clinic_slot(&quot;ankle fracture&quot;, 1, False))</pre></div>
+<div class='card'><h3>Spine Surgery</h3><p>Decompressions free pinched nerves; fusions stabilize unstable spines with screws and rods. Indications are strict — most back pain never needs surgery. Good spine surgeons operate reluctantly.</p><p class='ladder'>Ladder rank 1 — Simple: the core idea in plain words — what it is and why it matters.</p><div class='kv'><div><b>Equipment</b><br>C-arm fluoroscopy<br>Arthroscopy towers<br>Joint replacement instrument sets<br>Casting and splinting supplies</div><div><b>Procedures</b><br>Fracture reduction and fixation<br>Total hip arthroplasty<br>Total knee arthroplasty<br>Arthroscopic repair</div><div><b>Staff</b><br>Orthopedic surgeons<br>Sports medicine physicians<br>Physician assistants<br>Orthopedic nurses</div><div><b>Flow</b><br>Injuries arrive via ED or clinic; imaging defines the fracture or joint damage. Many fractures are splinted and scheduled; urgent ones go to the OR the same day...</div></div><pre class='codeblock'>def fracture_clinic_slot(injury, days_since, weight_bearing):
+    &quot;&quot;&quot;Simple orthopedic triage: urgent OR vs clinic vs routine.&quot;&quot;&quot;
+    urgent = {&quot;open fracture&quot;, &quot;dislocation&quot;, &quot;compartment syndrome&quot;, &quot;cauda equina&quot;}
+    if injury.lower() in urgent: return &quot;URGENT: to OR now&quot;
+    if not weight_bearing or days_since &lt; 2: return &quot;Same-day fracture clinic&quot;
+    return &quot;Routine orthopedic clinic within 1 week&quot;
+print(fracture_clinic_slot(&quot;ankle fracture&quot;, 1, False))</pre></div>
+<div class='card'><h3>Sports Medicine</h3><p>Sports docs treat ACL tears, sprains, and overuse injuries in athletes of all ages, balancing fast return with safe healing. Prevention programs cut ACL tears dramatically. The goal is lifetime activity, not just this season.</p><p class='ladder'>Ladder rank 1 — Simple: the core idea in plain words — what it is and why it matters.</p><div class='kv'><div><b>Equipment</b><br>C-arm fluoroscopy<br>Arthroscopy towers<br>Joint replacement instrument sets<br>Casting and splinting supplies</div><div><b>Procedures</b><br>Fracture reduction and fixation<br>Total hip arthroplasty<br>Total knee arthroplasty<br>Arthroscopic repair</div><div><b>Staff</b><br>Orthopedic surgeons<br>Sports medicine physicians<br>Physician assistants<br>Orthopedic nurses</div><div><b>Flow</b><br>Injuries arrive via ED or clinic; imaging defines the fracture or joint damage. Many fractures are splinted and scheduled; urgent ones go to the OR the same day...</div></div><pre class='codeblock'>def fracture_clinic_slot(injury, days_since, weight_bearing):
+    &quot;&quot;&quot;Simple orthopedic triage: urgent OR vs clinic vs routine.&quot;&quot;&quot;
+    urgent = {&quot;open fracture&quot;, &quot;dislocation&quot;, &quot;compartment syndrome&quot;, &quot;cauda equina&quot;}
+    if injury.lower() in urgent: return &quot;URGENT: to OR now&quot;
+    if not weight_bearing or days_since &lt; 2: return &quot;Same-day fracture clinic&quot;
+    return &quot;Routine orthopedic clinic within 1 week&quot;
+print(fracture_clinic_slot(&quot;ankle fracture&quot;, 1, False))</pre></div>
+<div class='card'><h3>Hand Surgery</h3><p>Hands pack 27 bones into intricate machinery; hand surgeons repair fractures, tendons, and nerves microscopically. Therapy afterward is as critical as the surgery. A millimeter matters in the hand.</p><p class='ladder'>Ladder rank 2 — Compounded: how it connects — the moving parts working together in real care.</p><div class='kv'><div><b>Equipment</b><br>C-arm fluoroscopy<br>Arthroscopy towers<br>Joint replacement instrument sets<br>Casting and splinting supplies</div><div><b>Procedures</b><br>Fracture reduction and fixation<br>Total hip arthroplasty<br>Total knee arthroplasty<br>Arthroscopic repair</div><div><b>Staff</b><br>Orthopedic surgeons<br>Sports medicine physicians<br>Physician assistants<br>Orthopedic nurses</div><div><b>Flow</b><br>Injuries arrive via ED or clinic; imaging defines the fracture or joint damage. Many fractures are splinted and scheduled; urgent ones go to the OR the same day...</div></div><pre class='codeblock'>def fracture_clinic_slot(injury, days_since, weight_bearing):
+    &quot;&quot;&quot;Simple orthopedic triage: urgent OR vs clinic vs routine.&quot;&quot;&quot;
+    urgent = {&quot;open fracture&quot;, &quot;dislocation&quot;, &quot;compartment syndrome&quot;, &quot;cauda equina&quot;}
+    if injury.lower() in urgent: return &quot;URGENT: to OR now&quot;
+    if not weight_bearing or days_since &lt; 2: return &quot;Same-day fracture clinic&quot;
+    return &quot;Routine orthopedic clinic within 1 week&quot;
+print(fracture_clinic_slot(&quot;ankle fracture&quot;, 1, False))</pre></div>
+<div class='card'><h3>Orthopedic Trauma</h3><p>High-energy crashes shatter bones needing staged fixation: external frames first, definitive plates later. Trauma orthopedists rebuild what seems unfixable. Timing — soft tissue first — is everything.</p><p class='ladder'>Ladder rank 2 — Compounded: how it connects — the moving parts working together in real care.</p><div class='kv'><div><b>Equipment</b><br>C-arm fluoroscopy<br>Arthroscopy towers<br>Joint replacement instrument sets<br>Casting and splinting supplies</div><div><b>Procedures</b><br>Fracture reduction and fixation<br>Total hip arthroplasty<br>Total knee arthroplasty<br>Arthroscopic repair</div><div><b>Staff</b><br>Orthopedic surgeons<br>Sports medicine physicians<br>Physician assistants<br>Orthopedic nurses</div><div><b>Flow</b><br>Injuries arrive via ED or clinic; imaging defines the fracture or joint damage. Many fractures are splinted and scheduled; urgent ones go to the OR the same day...</div></div><pre class='codeblock'>def fracture_clinic_slot(injury, days_since, weight_bearing):
+    &quot;&quot;&quot;Simple orthopedic triage: urgent OR vs clinic vs routine.&quot;&quot;&quot;
+    urgent = {&quot;open fracture&quot;, &quot;dislocation&quot;, &quot;compartment syndrome&quot;, &quot;cauda equina&quot;}
+    if injury.lower() in urgent: return &quot;URGENT: to OR now&quot;
+    if not weight_bearing or days_since &lt; 2: return &quot;Same-day fracture clinic&quot;
+    return &quot;Routine orthopedic clinic within 1 week&quot;
+print(fracture_clinic_slot(&quot;ankle fracture&quot;, 1, False))</pre></div>
+<div class='card'><h3>Osteoporosis and Fragility Fractures</h3><p>Hip fractures in osteoporotic bone kill as surely as many cancers within a year. Prevention — bone density scans, treatment, fall-proofing — matters more than fixation. Every fragility fracture triggers osteoporosis workup.</p><p class='ladder'>Ladder rank 2 — Compounded: how it connects — the moving parts working together in real care.</p><div class='kv'><div><b>Equipment</b><br>C-arm fluoroscopy<br>Arthroscopy towers<br>Joint replacement instrument sets<br>Casting and splinting supplies</div><div><b>Procedures</b><br>Fracture reduction and fixation<br>Total hip arthroplasty<br>Total knee arthroplasty<br>Arthroscopic repair</div><div><b>Staff</b><br>Orthopedic surgeons<br>Sports medicine physicians<br>Physician assistants<br>Orthopedic nurses</div><div><b>Flow</b><br>Injuries arrive via ED or clinic; imaging defines the fracture or joint damage. Many fractures are splinted and scheduled; urgent ones go to the OR the same day...</div></div><pre class='codeblock'>def fracture_clinic_slot(injury, days_since, weight_bearing):
+    &quot;&quot;&quot;Simple orthopedic triage: urgent OR vs clinic vs routine.&quot;&quot;&quot;
+    urgent = {&quot;open fracture&quot;, &quot;dislocation&quot;, &quot;compartment syndrome&quot;, &quot;cauda equina&quot;}
+    if injury.lower() in urgent: return &quot;URGENT: to OR now&quot;
+    if not weight_bearing or days_since &lt; 2: return &quot;Same-day fracture clinic&quot;
+    return &quot;Routine orthopedic clinic within 1 week&quot;
+print(fracture_clinic_slot(&quot;ankle fracture&quot;, 1, False))</pre></div>
+<div class='card'><h3>DVT Prophylaxis</h3><p>Blood clots threaten after joint replacement and trauma; prophylaxis with drugs and compression devices is standard. Risk stratification tailors intensity. A prevented clot is an invisible victory.</p><p class='ladder'>Ladder rank 2 — Compounded: how it connects — the moving parts working together in real care.</p><div class='kv'><div><b>Equipment</b><br>C-arm fluoroscopy<br>Arthroscopy towers<br>Joint replacement instrument sets<br>Casting and splinting supplies</div><div><b>Procedures</b><br>Fracture reduction and fixation<br>Total hip arthroplasty<br>Total knee arthroplasty<br>Arthroscopic repair</div><div><b>Staff</b><br>Orthopedic surgeons<br>Sports medicine physicians<br>Physician assistants<br>Orthopedic nurses</div><div><b>Flow</b><br>Injuries arrive via ED or clinic; imaging defines the fracture or joint damage. Many fractures are splinted and scheduled; urgent ones go to the OR the same day...</div></div><pre class='codeblock'>def fracture_clinic_slot(injury, days_since, weight_bearing):
+    &quot;&quot;&quot;Simple orthopedic triage: urgent OR vs clinic vs routine.&quot;&quot;&quot;
+    urgent = {&quot;open fracture&quot;, &quot;dislocation&quot;, &quot;compartment syndrome&quot;, &quot;cauda equina&quot;}
+    if injury.lower() in urgent: return &quot;URGENT: to OR now&quot;
+    if not weight_bearing or days_since &lt; 2: return &quot;Same-day fracture clinic&quot;
+    return &quot;Routine orthopedic clinic within 1 week&quot;
+print(fracture_clinic_slot(&quot;ankle fracture&quot;, 1, False))</pre></div>
+<div class='card'><h3>Pediatric Orthopedics</h3><p>Children&#x27;s bones grow and remodel — many fractures need only casting as growth corrects alignment. Growth plate injuries need expert eyes. Kids heal fast but deserve gentle care.</p><p class='ladder'>Ladder rank 2 — Compounded: how it connects — the moving parts working together in real care.</p><div class='kv'><div><b>Equipment</b><br>C-arm fluoroscopy<br>Arthroscopy towers<br>Joint replacement instrument sets<br>Casting and splinting supplies</div><div><b>Procedures</b><br>Fracture reduction and fixation<br>Total hip arthroplasty<br>Total knee arthroplasty<br>Arthroscopic repair</div><div><b>Staff</b><br>Orthopedic surgeons<br>Sports medicine physicians<br>Physician assistants<br>Orthopedic nurses</div><div><b>Flow</b><br>Injuries arrive via ED or clinic; imaging defines the fracture or joint damage. Many fractures are splinted and scheduled; urgent ones go to the OR the same day...</div></div><pre class='codeblock'>def fracture_clinic_slot(injury, days_since, weight_bearing):
+    &quot;&quot;&quot;Simple orthopedic triage: urgent OR vs clinic vs routine.&quot;&quot;&quot;
+    urgent = {&quot;open fracture&quot;, &quot;dislocation&quot;, &quot;compartment syndrome&quot;, &quot;cauda equina&quot;}
+    if injury.lower() in urgent: return &quot;URGENT: to OR now&quot;
+    if not weight_bearing or days_since &lt; 2: return &quot;Same-day fracture clinic&quot;
+    return &quot;Routine orthopedic clinic within 1 week&quot;
+print(fracture_clinic_slot(&quot;ankle fracture&quot;, 1, False))</pre></div>
+<div class='card'><h3>Bone Grafting</h3><p>Grafts — autograft from the patient, allograft from donors, or synthetic — fill defects and fuse spines. Autograft heals best but harvest hurts. Graft choice shapes fusion success.</p><p class='ladder'>Ladder rank 2 — Compounded: how it connects — the moving parts working together in real care.</p><div class='kv'><div><b>Equipment</b><br>C-arm fluoroscopy<br>Arthroscopy towers<br>Joint replacement instrument sets<br>Casting and splinting supplies</div><div><b>Procedures</b><br>Fracture reduction and fixation<br>Total hip arthroplasty<br>Total knee arthroplasty<br>Arthroscopic repair</div><div><b>Staff</b><br>Orthopedic surgeons<br>Sports medicine physicians<br>Physician assistants<br>Orthopedic nurses</div><div><b>Flow</b><br>Injuries arrive via ED or clinic; imaging defines the fracture or joint damage. Many fractures are splinted and scheduled; urgent ones go to the OR the same day...</div></div><pre class='codeblock'>def fracture_clinic_slot(injury, days_since, weight_bearing):
+    &quot;&quot;&quot;Simple orthopedic triage: urgent OR vs clinic vs routine.&quot;&quot;&quot;
+    urgent = {&quot;open fracture&quot;, &quot;dislocation&quot;, &quot;compartment syndrome&quot;, &quot;cauda equina&quot;}
+    if injury.lower() in urgent: return &quot;URGENT: to OR now&quot;
+    if not weight_bearing or days_since &lt; 2: return &quot;Same-day fracture clinic&quot;
+    return &quot;Routine orthopedic clinic within 1 week&quot;
+print(fracture_clinic_slot(&quot;ankle fracture&quot;, 1, False))</pre></div>
+<div class='card'><h3>Prosthetics After Amputation</h3><p>Modern prosthetics — from simple to microprocessor knees — restore remarkable function. Fitting starts as soon as the limb heals. Rehabilitation teaches a new way of moving through the world.</p><p class='ladder'>Ladder rank 2 — Compounded: how it connects — the moving parts working together in real care.</p><div class='kv'><div><b>Equipment</b><br>C-arm fluoroscopy<br>Arthroscopy towers<br>Joint replacement instrument sets<br>Casting and splinting supplies</div><div><b>Procedures</b><br>Fracture reduction and fixation<br>Total hip arthroplasty<br>Total knee arthroplasty<br>Arthroscopic repair</div><div><b>Staff</b><br>Orthopedic surgeons<br>Sports medicine physicians<br>Physician assistants<br>Orthopedic nurses</div><div><b>Flow</b><br>Injuries arrive via ED or clinic; imaging defines the fracture or joint damage. Many fractures are splinted and scheduled; urgent ones go to the OR the same day...</div></div><pre class='codeblock'>def fracture_clinic_slot(injury, days_since, weight_bearing):
+    &quot;&quot;&quot;Simple orthopedic triage: urgent OR vs clinic vs routine.&quot;&quot;&quot;
+    urgent = {&quot;open fracture&quot;, &quot;dislocation&quot;, &quot;compartment syndrome&quot;, &quot;cauda equina&quot;}
+    if injury.lower() in urgent: return &quot;URGENT: to OR now&quot;
+    if not weight_bearing or days_since &lt; 2: return &quot;Same-day fracture clinic&quot;
+    return &quot;Routine orthopedic clinic within 1 week&quot;
+print(fracture_clinic_slot(&quot;ankle fracture&quot;, 1, False))</pre></div>
+<div class='card'><h3>Joint Registries</h3><p>Registries track every implant&#x27;s survival, flagging failing designs years before recalls. They are quality&#x27;s long memory. Surgeons check their results against national data.</p><p class='ladder'>Ladder rank 3 — Complex: the full picture — mastery-level detail for deep understanding.</p><div class='kv'><div><b>Equipment</b><br>C-arm fluoroscopy<br>Arthroscopy towers<br>Joint replacement instrument sets<br>Casting and splinting supplies</div><div><b>Procedures</b><br>Fracture reduction and fixation<br>Total hip arthroplasty<br>Total knee arthroplasty<br>Arthroscopic repair</div><div><b>Staff</b><br>Orthopedic surgeons<br>Sports medicine physicians<br>Physician assistants<br>Orthopedic nurses</div><div><b>Flow</b><br>Injuries arrive via ED or clinic; imaging defines the fracture or joint damage. Many fractures are splinted and scheduled; urgent ones go to the OR the same day...</div></div><pre class='codeblock'>def fracture_clinic_slot(injury, days_since, weight_bearing):
+    &quot;&quot;&quot;Simple orthopedic triage: urgent OR vs clinic vs routine.&quot;&quot;&quot;
+    urgent = {&quot;open fracture&quot;, &quot;dislocation&quot;, &quot;compartment syndrome&quot;, &quot;cauda equina&quot;}
+    if injury.lower() in urgent: return &quot;URGENT: to OR now&quot;
+    if not weight_bearing or days_since &lt; 2: return &quot;Same-day fracture clinic&quot;
+    return &quot;Routine orthopedic clinic within 1 week&quot;
+print(fracture_clinic_slot(&quot;ankle fracture&quot;, 1, False))</pre></div>
+<div class='card'><h3>Outpatient Joint Replacement</h3><p>Selected healthy patients now get hips and knees as same-day surgery, recovering at home with visiting therapy. Strict criteria keep it safe. The hospital stay shrinks to hours.</p><p class='ladder'>Ladder rank 3 — Complex: the full picture — mastery-level detail for deep understanding.</p><div class='kv'><div><b>Equipment</b><br>C-arm fluoroscopy<br>Arthroscopy towers<br>Joint replacement instrument sets<br>Casting and splinting supplies</div><div><b>Procedures</b><br>Fracture reduction and fixation<br>Total hip arthroplasty<br>Total knee arthroplasty<br>Arthroscopic repair</div><div><b>Staff</b><br>Orthopedic surgeons<br>Sports medicine physicians<br>Physician assistants<br>Orthopedic nurses</div><div><b>Flow</b><br>Injuries arrive via ED or clinic; imaging defines the fracture or joint damage. Many fractures are splinted and scheduled; urgent ones go to the OR the same day...</div></div><pre class='codeblock'>def fracture_clinic_slot(injury, days_since, weight_bearing):
+    &quot;&quot;&quot;Simple orthopedic triage: urgent OR vs clinic vs routine.&quot;&quot;&quot;
+    urgent = {&quot;open fracture&quot;, &quot;dislocation&quot;, &quot;compartment syndrome&quot;, &quot;cauda equina&quot;}
+    if injury.lower() in urgent: return &quot;URGENT: to OR now&quot;
+    if not weight_bearing or days_since &lt; 2: return &quot;Same-day fracture clinic&quot;
+    return &quot;Routine orthopedic clinic within 1 week&quot;
+print(fracture_clinic_slot(&quot;ankle fracture&quot;, 1, False))</pre></div>
+<div class='card'><h3>Rotator Cuff Repair</h3><p>Torn shoulder tendons are reattached arthroscopically, then protected in slings for weeks before therapy rebuilds strength. Patience determines outcome — early overuse re-tears. Most return to full activity.</p><p class='ladder'>Ladder rank 3 — Complex: the full picture — mastery-level detail for deep understanding.</p><div class='kv'><div><b>Equipment</b><br>C-arm fluoroscopy<br>Arthroscopy towers<br>Joint replacement instrument sets<br>Casting and splinting supplies</div><div><b>Procedures</b><br>Fracture reduction and fixation<br>Total hip arthroplasty<br>Total knee arthroplasty<br>Arthroscopic repair</div><div><b>Staff</b><br>Orthopedic surgeons<br>Sports medicine physicians<br>Physician assistants<br>Orthopedic nurses</div><div><b>Flow</b><br>Injuries arrive via ED or clinic; imaging defines the fracture or joint damage. Many fractures are splinted and scheduled; urgent ones go to the OR the same day...</div></div><pre class='codeblock'>def fracture_clinic_slot(injury, days_since, weight_bearing):
+    &quot;&quot;&quot;Simple orthopedic triage: urgent OR vs clinic vs routine.&quot;&quot;&quot;
+    urgent = {&quot;open fracture&quot;, &quot;dislocation&quot;, &quot;compartment syndrome&quot;, &quot;cauda equina&quot;}
+    if injury.lower() in urgent: return &quot;URGENT: to OR now&quot;
+    if not weight_bearing or days_since &lt; 2: return &quot;Same-day fracture clinic&quot;
+    return &quot;Routine orthopedic clinic within 1 week&quot;
+print(fracture_clinic_slot(&quot;ankle fracture&quot;, 1, False))</pre></div>
+<div class='card'><h3>Compartment Syndrome</h3><p>Swelling inside muscle compartments chokes off blood — a surgical emergency needing fasciotomy within hours. Pain out of proportion is the warning. Missed compartments cost limbs.</p><p class='ladder'>Ladder rank 3 — Complex: the full picture — mastery-level detail for deep understanding.</p><div class='kv'><div><b>Equipment</b><br>C-arm fluoroscopy<br>Arthroscopy towers<br>Joint replacement instrument sets<br>Casting and splinting supplies</div><div><b>Procedures</b><br>Fracture reduction and fixation<br>Total hip arthroplasty<br>Total knee arthroplasty<br>Arthroscopic repair</div><div><b>Staff</b><br>Orthopedic surgeons<br>Sports medicine physicians<br>Physician assistants<br>Orthopedic nurses</div><div><b>Flow</b><br>Injuries arrive via ED or clinic; imaging defines the fracture or joint damage. Many fractures are splinted and scheduled; urgent ones go to the OR the same day...</div></div><pre class='codeblock'>def fracture_clinic_slot(injury, days_since, weight_bearing):
+    &quot;&quot;&quot;Simple orthopedic triage: urgent OR vs clinic vs routine.&quot;&quot;&quot;
+    urgent = {&quot;open fracture&quot;, &quot;dislocation&quot;, &quot;compartment syndrome&quot;, &quot;cauda equina&quot;}
+    if injury.lower() in urgent: return &quot;URGENT: to OR now&quot;
+    if not weight_bearing or days_since &lt; 2: return &quot;Same-day fracture clinic&quot;
+    return &quot;Routine orthopedic clinic within 1 week&quot;
+print(fracture_clinic_slot(&quot;ankle fracture&quot;, 1, False))</pre></div>
+<div class='card'><h3>Pre-Op Joint Classes</h3><p>Joint replacement classes teach what to expect, home preparation, and rehab commitment before surgery. Educated patients recover faster with fewer surprises. Knowledge is prehabilitation.</p><p class='ladder'>Ladder rank 3 — Complex: the full picture — mastery-level detail for deep understanding.</p><div class='kv'><div><b>Equipment</b><br>C-arm fluoroscopy<br>Arthroscopy towers<br>Joint replacement instrument sets<br>Casting and splinting supplies</div><div><b>Procedures</b><br>Fracture reduction and fixation<br>Total hip arthroplasty<br>Total knee arthroplasty<br>Arthroscopic repair</div><div><b>Staff</b><br>Orthopedic surgeons<br>Sports medicine physicians<br>Physician assistants<br>Orthopedic nurses</div><div><b>Flow</b><br>Injuries arrive via ED or clinic; imaging defines the fracture or joint damage. Many fractures are splinted and scheduled; urgent ones go to the OR the same day...</div></div><pre class='codeblock'>def fracture_clinic_slot(injury, days_since, weight_bearing):
+    &quot;&quot;&quot;Simple orthopedic triage: urgent OR vs clinic vs routine.&quot;&quot;&quot;
+    urgent = {&quot;open fracture&quot;, &quot;dislocation&quot;, &quot;compartment syndrome&quot;, &quot;cauda equina&quot;}
+    if injury.lower() in urgent: return &quot;URGENT: to OR now&quot;
+    if not weight_bearing or days_since &lt; 2: return &quot;Same-day fracture clinic&quot;
+    return &quot;Routine orthopedic clinic within 1 week&quot;
+print(fracture_clinic_slot(&quot;ankle fracture&quot;, 1, False))</pre></div>
+<div class='card'><h3>Rehabilitation Partnership</h3><p>Surgery is half the cure; therapy is the other half. Protocols progress from motion to strength to function over months. The surgeon-therapist partnership determines the final result.</p><p class='ladder'>Ladder rank 3 — Complex: the full picture — mastery-level detail for deep understanding.</p><div class='kv'><div><b>Equipment</b><br>C-arm fluoroscopy<br>Arthroscopy towers<br>Joint replacement instrument sets<br>Casting and splinting supplies</div><div><b>Procedures</b><br>Fracture reduction and fixation<br>Total hip arthroplasty<br>Total knee arthroplasty<br>Arthroscopic repair</div><div><b>Staff</b><br>Orthopedic surgeons<br>Sports medicine physicians<br>Physician assistants<br>Orthopedic nurses</div><div><b>Flow</b><br>Injuries arrive via ED or clinic; imaging defines the fracture or joint damage. Many fractures are splinted and scheduled; urgent ones go to the OR the same day...</div></div><pre class='codeblock'>def fracture_clinic_slot(injury, days_since, weight_bearing):
+    &quot;&quot;&quot;Simple orthopedic triage: urgent OR vs clinic vs routine.&quot;&quot;&quot;
+    urgent = {&quot;open fracture&quot;, &quot;dislocation&quot;, &quot;compartment syndrome&quot;, &quot;cauda equina&quot;}
+    if injury.lower() in urgent: return &quot;URGENT: to OR now&quot;
+    if not weight_bearing or days_since &lt; 2: return &quot;Same-day fracture clinic&quot;
+    return &quot;Routine orthopedic clinic within 1 week&quot;
+print(fracture_clinic_slot(&quot;ankle fracture&quot;, 1, False))</pre></div>
+<h2>Working Demo</h2>
+<pre class="codeblock">def fracture_clinic_slot(injury, days_since, weight_bearing):
+    &quot;&quot;&quot;Simple orthopedic triage: urgent OR vs clinic vs routine.&quot;&quot;&quot;
+    urgent = {&quot;open fracture&quot;, &quot;dislocation&quot;, &quot;compartment syndrome&quot;, &quot;cauda equina&quot;}
+    if injury.lower() in urgent: return &quot;URGENT: to OR now&quot;
+    if not weight_bearing or days_since &lt; 2: return &quot;Same-day fracture clinic&quot;
+    return &quot;Routine orthopedic clinic within 1 week&quot;
+print(fracture_clinic_slot(&quot;ankle fracture&quot;, 1, False))</pre>
+</body></html>

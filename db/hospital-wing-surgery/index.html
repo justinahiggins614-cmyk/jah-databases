@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Surgery and Operating Rooms Hospital Wing Database</title>
+<style>
+body{font-family:Georgia,serif;max-width:1100px;margin:0 auto;padding:16px;background:#faf8f4;color:#222}
+.hero{background:#10243d;color:#fff;padding:28px;border-radius:12px}
+.pill{display:inline-block;background:#1c6e3c;color:#fff;border-radius:20px;padding:4px 14px;margin:4px;font-size:13px}
+.merger{display:inline-block;background:#c0392b;color:#fff;border:none;border-radius:8px;padding:10px 22px;font-size:15px;cursor:pointer;margin:6px}
+.million{background:#fff8e1;border:2px solid #d4a017;border-radius:10px;padding:12px;margin:14px 0;font-weight:bold}
+.kv{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:8px;margin:10px 0}
+.kv div{background:#fff;border:1px solid #ddd;border-radius:8px;padding:8px;font-size:13px}
+.card{background:#fff;border:1px solid #ddd;border-radius:10px;padding:16px;margin:14px 0}
+.codeblock{background:#1e1e1e;color:#d7ffce;padding:12px;border-radius:8px;overflow-x:auto;font-size:13px}
+.ladder{font-size:12px;color:#555}
+h2{color:#10243d}
+</style></head><body>
+<div class="hero"><h1>The Surgery and Operating Rooms Hospital Wing Database</h1><p>Real, fact-checked records on the Surgery and Operating Rooms Hospital Wing — purpose, equipment, procedures, staff, and patient flow. Public records organized in the Signature system.</p>
+<p>Records banked: <span id="stCount">20 / 1,000,000 target</span></p></div>
+<div class="million">MARCH TO 1,000,000 &mdash; 20 records banked. This database is in progress toward one million full records.</div>
+<div><span class="pill">Exhaustive</span>
+<button class="merger" onclick="alert('Merger queued: this database will merge into the All Database Merger.')">All Database Merger</button>
+<button class="merger" onclick="alert('Added to the All Database Merger queue.')">Merge This Database</button></div>
+<h2>Records</h2>
+<div class='card'><h3>WHO Surgical Safety Checklist</h3><p>The World Health Organization checklist has three pauses: before anesthesia, before incision, and before leaving the OR. The team confirms identity, site, antibiotics, and counts aloud. Hospitals using it cut surgical deaths measurably.</p><p class='ladder'>Ladder rank 1 — Simple: the core idea in plain words — what it is and why it matters.</p><div class='kv'><div><b>Equipment</b><br>Operating tables and surgical lights<br>Anesthesia machines and monitors<br>Electrosurgical units<br>Sterile instrument trays</div><div><b>Procedures</b><br>WHO surgical safety checklist<br>Time-out before incision<br>Sponge and instrument counts<br>General and regional anesthesia</div><div><b>Staff</b><br>Surgeons<br>Anesthesiologists<br>Certified registered nurse anesthetists<br>Scrub nurses and surgical technologists</div><div><b>Flow</b><br>Patients check in, change, and wait in pre-op holding where the surgeon marks the site and anesthesia reviews the plan. In the OR, the team does a time-out — co...</div></div><pre class='codeblock'>def surgery_checklist(patient_ok, site_marked, antibiotics, counts_ok, specimen_labeled):
+    &quot;&quot;&quot;WHO-style safety checklist verifier. Returns pass/fail with missing items.&quot;&quot;&quot;
+    items = {&quot;identity confirmed&quot;: patient_ok, &quot;site marked&quot;: site_marked,
+             &quot;antibiotics given&quot;: antibiotics, &quot;counts correct&quot;: counts_ok,
+             &quot;specimen labeled&quot;: specimen_labeled}
+    missing = [k for k, v in items.items() if not v]
+    return (&quot;PASS - proceed&quot; if not missing else &quot;HOLD - missing: &quot; + &quot;, &quot;.join(missing))
+print(surgery_checklist(True, True, True, True, False))</pre></div>
+<div class='card'><h3>The Time-Out Ritual</h3><p>Right before the first cut, everything stops: the surgeon states the patient&#x27;s name, the procedure, and the site, and the team agrees. This single pause prevents wrong-site surgery. It is required by accreditation everywhere.</p><p class='ladder'>Ladder rank 1 — Simple: the core idea in plain words — what it is and why it matters.</p><div class='kv'><div><b>Equipment</b><br>Operating tables and surgical lights<br>Anesthesia machines and monitors<br>Electrosurgical units<br>Sterile instrument trays</div><div><b>Procedures</b><br>WHO surgical safety checklist<br>Time-out before incision<br>Sponge and instrument counts<br>General and regional anesthesia</div><div><b>Staff</b><br>Surgeons<br>Anesthesiologists<br>Certified registered nurse anesthetists<br>Scrub nurses and surgical technologists</div><div><b>Flow</b><br>Patients check in, change, and wait in pre-op holding where the surgeon marks the site and anesthesia reviews the plan. In the OR, the team does a time-out — co...</div></div><pre class='codeblock'>def surgery_checklist(patient_ok, site_marked, antibiotics, counts_ok, specimen_labeled):
+    &quot;&quot;&quot;WHO-style safety checklist verifier. Returns pass/fail with missing items.&quot;&quot;&quot;
+    items = {&quot;identity confirmed&quot;: patient_ok, &quot;site marked&quot;: site_marked,
+             &quot;antibiotics given&quot;: antibiotics, &quot;counts correct&quot;: counts_ok,
+             &quot;specimen labeled&quot;: specimen_labeled}
+    missing = [k for k, v in items.items() if not v]
+    return (&quot;PASS - proceed&quot; if not missing else &quot;HOLD - missing: &quot; + &quot;, &quot;.join(missing))
+print(surgery_checklist(True, True, True, True, False))</pre></div>
+<div class='card'><h3>Sponge and Instrument Counts</h3><p>Scrub nurses count every sponge, needle, and instrument before the case and again before closure. Counts must match exactly — a missing sponge means an X-ray before the patient leaves the room. Retained objects are a &#x27;never event.&#x27;</p><p class='ladder'>Ladder rank 1 — Simple: the core idea in plain words — what it is and why it matters.</p><div class='kv'><div><b>Equipment</b><br>Operating tables and surgical lights<br>Anesthesia machines and monitors<br>Electrosurgical units<br>Sterile instrument trays</div><div><b>Procedures</b><br>WHO surgical safety checklist<br>Time-out before incision<br>Sponge and instrument counts<br>General and regional anesthesia</div><div><b>Staff</b><br>Surgeons<br>Anesthesiologists<br>Certified registered nurse anesthetists<br>Scrub nurses and surgical technologists</div><div><b>Flow</b><br>Patients check in, change, and wait in pre-op holding where the surgeon marks the site and anesthesia reviews the plan. In the OR, the team does a time-out — co...</div></div><pre class='codeblock'>def surgery_checklist(patient_ok, site_marked, antibiotics, counts_ok, specimen_labeled):
+    &quot;&quot;&quot;WHO-style safety checklist verifier. Returns pass/fail with missing items.&quot;&quot;&quot;
+    items = {&quot;identity confirmed&quot;: patient_ok, &quot;site marked&quot;: site_marked,
+             &quot;antibiotics given&quot;: antibiotics, &quot;counts correct&quot;: counts_ok,
+             &quot;specimen labeled&quot;: specimen_labeled}
+    missing = [k for k, v in items.items() if not v]
+    return (&quot;PASS - proceed&quot; if not missing else &quot;HOLD - missing: &quot; + &quot;, &quot;.join(missing))
+print(surgery_checklist(True, True, True, True, False))</pre></div>
+<div class='card'><h3>General Anesthesia</h3><p>General anesthesia renders the patient unconscious, pain-free, and still using IV drugs and inhaled gases. The anesthesiologist manages the airway, breathing, and blood pressure throughout. Waking happens in PACU as the drugs wear off.</p><p class='ladder'>Ladder rank 1 — Simple: the core idea in plain words — what it is and why it matters.</p><div class='kv'><div><b>Equipment</b><br>Operating tables and surgical lights<br>Anesthesia machines and monitors<br>Electrosurgical units<br>Sterile instrument trays</div><div><b>Procedures</b><br>WHO surgical safety checklist<br>Time-out before incision<br>Sponge and instrument counts<br>General and regional anesthesia</div><div><b>Staff</b><br>Surgeons<br>Anesthesiologists<br>Certified registered nurse anesthetists<br>Scrub nurses and surgical technologists</div><div><b>Flow</b><br>Patients check in, change, and wait in pre-op holding where the surgeon marks the site and anesthesia reviews the plan. In the OR, the team does a time-out — co...</div></div><pre class='codeblock'>def surgery_checklist(patient_ok, site_marked, antibiotics, counts_ok, specimen_labeled):
+    &quot;&quot;&quot;WHO-style safety checklist verifier. Returns pass/fail with missing items.&quot;&quot;&quot;
+    items = {&quot;identity confirmed&quot;: patient_ok, &quot;site marked&quot;: site_marked,
+             &quot;antibiotics given&quot;: antibiotics, &quot;counts correct&quot;: counts_ok,
+             &quot;specimen labeled&quot;: specimen_labeled}
+    missing = [k for k, v in items.items() if not v]
+    return (&quot;PASS - proceed&quot; if not missing else &quot;HOLD - missing: &quot; + &quot;, &quot;.join(missing))
+print(surgery_checklist(True, True, True, True, False))</pre></div>
+<div class='card'><h3>Regional Anesthesia</h3><p>Spinals, epidurals, and nerve blocks numb only the surgical region while the patient stays awake or lightly sedated. Recovery is faster with less nausea and less opioid need. Hips, knees, and C-sections commonly use regional techniques.</p><p class='ladder'>Ladder rank 1 — Simple: the core idea in plain words — what it is and why it matters.</p><div class='kv'><div><b>Equipment</b><br>Operating tables and surgical lights<br>Anesthesia machines and monitors<br>Electrosurgical units<br>Sterile instrument trays</div><div><b>Procedures</b><br>WHO surgical safety checklist<br>Time-out before incision<br>Sponge and instrument counts<br>General and regional anesthesia</div><div><b>Staff</b><br>Surgeons<br>Anesthesiologists<br>Certified registered nurse anesthetists<br>Scrub nurses and surgical technologists</div><div><b>Flow</b><br>Patients check in, change, and wait in pre-op holding where the surgeon marks the site and anesthesia reviews the plan. In the OR, the team does a time-out — co...</div></div><pre class='codeblock'>def surgery_checklist(patient_ok, site_marked, antibiotics, counts_ok, specimen_labeled):
+    &quot;&quot;&quot;WHO-style safety checklist verifier. Returns pass/fail with missing items.&quot;&quot;&quot;
+    items = {&quot;identity confirmed&quot;: patient_ok, &quot;site marked&quot;: site_marked,
+             &quot;antibiotics given&quot;: antibiotics, &quot;counts correct&quot;: counts_ok,
+             &quot;specimen labeled&quot;: specimen_labeled}
+    missing = [k for k, v in items.items() if not v]
+    return (&quot;PASS - proceed&quot; if not missing else &quot;HOLD - missing: &quot; + &quot;, &quot;.join(missing))
+print(surgery_checklist(True, True, True, True, False))</pre></div>
+<div class='card'><h3>Sterile Field Technique</h3><p>Everything touching the surgical site must be sterile: gowns, gloves, drapes, and instruments. The scrub nurse guards the field, and anything contaminated is removed immediately. One break in sterility can seed a deep infection.</p><p class='ladder'>Ladder rank 1 — Simple: the core idea in plain words — what it is and why it matters.</p><div class='kv'><div><b>Equipment</b><br>Operating tables and surgical lights<br>Anesthesia machines and monitors<br>Electrosurgical units<br>Sterile instrument trays</div><div><b>Procedures</b><br>WHO surgical safety checklist<br>Time-out before incision<br>Sponge and instrument counts<br>General and regional anesthesia</div><div><b>Staff</b><br>Surgeons<br>Anesthesiologists<br>Certified registered nurse anesthetists<br>Scrub nurses and surgical technologists</div><div><b>Flow</b><br>Patients check in, change, and wait in pre-op holding where the surgeon marks the site and anesthesia reviews the plan. In the OR, the team does a time-out — co...</div></div><pre class='codeblock'>def surgery_checklist(patient_ok, site_marked, antibiotics, counts_ok, specimen_labeled):
+    &quot;&quot;&quot;WHO-style safety checklist verifier. Returns pass/fail with missing items.&quot;&quot;&quot;
+    items = {&quot;identity confirmed&quot;: patient_ok, &quot;site marked&quot;: site_marked,
+             &quot;antibiotics given&quot;: antibiotics, &quot;counts correct&quot;: counts_ok,
+             &quot;specimen labeled&quot;: specimen_labeled}
+    missing = [k for k, v in items.items() if not v]
+    return (&quot;PASS - proceed&quot; if not missing else &quot;HOLD - missing: &quot; + &quot;, &quot;.join(missing))
+print(surgery_checklist(True, True, True, True, False))</pre></div>
+<div class='card'><h3>Electrosurgery</h3><p>Electrosurgical units cut tissue and seal blood vessels with electric current, reducing bleeding dramatically. The surgeon switches between cut and coagulation modes with a foot pedal. A grounding pad protects the patient from burns.</p><p class='ladder'>Ladder rank 1 — Simple: the core idea in plain words — what it is and why it matters.</p><div class='kv'><div><b>Equipment</b><br>Operating tables and surgical lights<br>Anesthesia machines and monitors<br>Electrosurgical units<br>Sterile instrument trays</div><div><b>Procedures</b><br>WHO surgical safety checklist<br>Time-out before incision<br>Sponge and instrument counts<br>General and regional anesthesia</div><div><b>Staff</b><br>Surgeons<br>Anesthesiologists<br>Certified registered nurse anesthetists<br>Scrub nurses and surgical technologists</div><div><b>Flow</b><br>Patients check in, change, and wait in pre-op holding where the surgeon marks the site and anesthesia reviews the plan. In the OR, the team does a time-out — co...</div></div><pre class='codeblock'>def surgery_checklist(patient_ok, site_marked, antibiotics, counts_ok, specimen_labeled):
+    &quot;&quot;&quot;WHO-style safety checklist verifier. Returns pass/fail with missing items.&quot;&quot;&quot;
+    items = {&quot;identity confirmed&quot;: patient_ok, &quot;site marked&quot;: site_marked,
+             &quot;antibiotics given&quot;: antibiotics, &quot;counts correct&quot;: counts_ok,
+             &quot;specimen labeled&quot;: specimen_labeled}
+    missing = [k for k, v in items.items() if not v]
+    return (&quot;PASS - proceed&quot; if not missing else &quot;HOLD - missing: &quot; + &quot;, &quot;.join(missing))
+print(surgery_checklist(True, True, True, True, False))</pre></div>
+<div class='card'><h3>Minimally Invasive Laparoscopy</h3><p>Laparoscopy operates through small incisions using a camera and long instruments, instead of one large open cut. Patients have less pain, smaller scars, and faster discharge. Gallbladders, hernias, and many gynecologic cases are done this way.</p><p class='ladder'>Ladder rank 2 — Compounded: how it connects — the moving parts working together in real care.</p><div class='kv'><div><b>Equipment</b><br>Operating tables and surgical lights<br>Anesthesia machines and monitors<br>Electrosurgical units<br>Sterile instrument trays</div><div><b>Procedures</b><br>WHO surgical safety checklist<br>Time-out before incision<br>Sponge and instrument counts<br>General and regional anesthesia</div><div><b>Staff</b><br>Surgeons<br>Anesthesiologists<br>Certified registered nurse anesthetists<br>Scrub nurses and surgical technologists</div><div><b>Flow</b><br>Patients check in, change, and wait in pre-op holding where the surgeon marks the site and anesthesia reviews the plan. In the OR, the team does a time-out — co...</div></div><pre class='codeblock'>def surgery_checklist(patient_ok, site_marked, antibiotics, counts_ok, specimen_labeled):
+    &quot;&quot;&quot;WHO-style safety checklist verifier. Returns pass/fail with missing items.&quot;&quot;&quot;
+    items = {&quot;identity confirmed&quot;: patient_ok, &quot;site marked&quot;: site_marked,
+             &quot;antibiotics given&quot;: antibiotics, &quot;counts correct&quot;: counts_ok,
+             &quot;specimen labeled&quot;: specimen_labeled}
+    missing = [k for k, v in items.items() if not v]
+    return (&quot;PASS - proceed&quot; if not missing else &quot;HOLD - missing: &quot; + &quot;, &quot;.join(missing))
+print(surgery_checklist(True, True, True, True, False))</pre></div>
+<div class='card'><h3>Robotic-Assisted Surgery</h3><p>The surgeon sits at a console driving robotic arms with wristed instruments that bend beyond human range. A 3D magnified view shows tiny structures clearly. Prostate, colorectal, and gynecologic surgery commonly use robots.</p><p class='ladder'>Ladder rank 2 — Compounded: how it connects — the moving parts working together in real care.</p><div class='kv'><div><b>Equipment</b><br>Operating tables and surgical lights<br>Anesthesia machines and monitors<br>Electrosurgical units<br>Sterile instrument trays</div><div><b>Procedures</b><br>WHO surgical safety checklist<br>Time-out before incision<br>Sponge and instrument counts<br>General and regional anesthesia</div><div><b>Staff</b><br>Surgeons<br>Anesthesiologists<br>Certified registered nurse anesthetists<br>Scrub nurses and surgical technologists</div><div><b>Flow</b><br>Patients check in, change, and wait in pre-op holding where the surgeon marks the site and anesthesia reviews the plan. In the OR, the team does a time-out — co...</div></div><pre class='codeblock'>def surgery_checklist(patient_ok, site_marked, antibiotics, counts_ok, specimen_labeled):
+    &quot;&quot;&quot;WHO-style safety checklist verifier. Returns pass/fail with missing items.&quot;&quot;&quot;
+    items = {&quot;identity confirmed&quot;: patient_ok, &quot;site marked&quot;: site_marked,
+             &quot;antibiotics given&quot;: antibiotics, &quot;counts correct&quot;: counts_ok,
+             &quot;specimen labeled&quot;: specimen_labeled}
+    missing = [k for k, v in items.items() if not v]
+    return (&quot;PASS - proceed&quot; if not missing else &quot;HOLD - missing: &quot; + &quot;, &quot;.join(missing))
+print(surgery_checklist(True, True, True, True, False))</pre></div>
+<div class='card'><h3>Pre-Op Holding</h3><p>In pre-op, nurses verify identity, allergies, and fasting, start IVs, and give pre-op antibiotics. The surgeon marks the operative site with initials. Anesthesia does a final airway and history review before wheeling to the OR.</p><p class='ladder'>Ladder rank 2 — Compounded: how it connects — the moving parts working together in real care.</p><div class='kv'><div><b>Equipment</b><br>Operating tables and surgical lights<br>Anesthesia machines and monitors<br>Electrosurgical units<br>Sterile instrument trays</div><div><b>Procedures</b><br>WHO surgical safety checklist<br>Time-out before incision<br>Sponge and instrument counts<br>General and regional anesthesia</div><div><b>Staff</b><br>Surgeons<br>Anesthesiologists<br>Certified registered nurse anesthetists<br>Scrub nurses and surgical technologists</div><div><b>Flow</b><br>Patients check in, change, and wait in pre-op holding where the surgeon marks the site and anesthesia reviews the plan. In the OR, the team does a time-out — co...</div></div><pre class='codeblock'>def surgery_checklist(patient_ok, site_marked, antibiotics, counts_ok, specimen_labeled):
+    &quot;&quot;&quot;WHO-style safety checklist verifier. Returns pass/fail with missing items.&quot;&quot;&quot;
+    items = {&quot;identity confirmed&quot;: patient_ok, &quot;site marked&quot;: site_marked,
+             &quot;antibiotics given&quot;: antibiotics, &quot;counts correct&quot;: counts_ok,
+             &quot;specimen labeled&quot;: specimen_labeled}
+    missing = [k for k, v in items.items() if not v]
+    return (&quot;PASS - proceed&quot; if not missing else &quot;HOLD - missing: &quot; + &quot;, &quot;.join(missing))
+print(surgery_checklist(True, True, True, True, False))</pre></div>
+<div class='card'><h3>PACU Recovery</h3><p>The post-anesthesia care unit watches patients wake up: breathing, blood pressure, pain, nausea, and bleeding. Nurses use the Aldrete score to judge readiness for discharge. Most patients spend one to two hours here.</p><p class='ladder'>Ladder rank 2 — Compounded: how it connects — the moving parts working together in real care.</p><div class='kv'><div><b>Equipment</b><br>Operating tables and surgical lights<br>Anesthesia machines and monitors<br>Electrosurgical units<br>Sterile instrument trays</div><div><b>Procedures</b><br>WHO surgical safety checklist<br>Time-out before incision<br>Sponge and instrument counts<br>General and regional anesthesia</div><div><b>Staff</b><br>Surgeons<br>Anesthesiologists<br>Certified registered nurse anesthetists<br>Scrub nurses and surgical technologists</div><div><b>Flow</b><br>Patients check in, change, and wait in pre-op holding where the surgeon marks the site and anesthesia reviews the plan. In the OR, the team does a time-out — co...</div></div><pre class='codeblock'>def surgery_checklist(patient_ok, site_marked, antibiotics, counts_ok, specimen_labeled):
+    &quot;&quot;&quot;WHO-style safety checklist verifier. Returns pass/fail with missing items.&quot;&quot;&quot;
+    items = {&quot;identity confirmed&quot;: patient_ok, &quot;site marked&quot;: site_marked,
+             &quot;antibiotics given&quot;: antibiotics, &quot;counts correct&quot;: counts_ok,
+             &quot;specimen labeled&quot;: specimen_labeled}
+    missing = [k for k, v in items.items() if not v]
+    return (&quot;PASS - proceed&quot; if not missing else &quot;HOLD - missing: &quot; + &quot;, &quot;.join(missing))
+print(surgery_checklist(True, True, True, True, False))</pre></div>
+<div class='card'><h3>Aldrete Discharge Score</h3><p>The Aldrete score rates activity, breathing, circulation, consciousness, and oxygen — 0 to 2 points each. A score of 9 or 10 means safe discharge from PACU. It turns &#x27;ready to go&#x27; into an objective number.</p><p class='ladder'>Ladder rank 2 — Compounded: how it connects — the moving parts working together in real care.</p><div class='kv'><div><b>Equipment</b><br>Operating tables and surgical lights<br>Anesthesia machines and monitors<br>Electrosurgical units<br>Sterile instrument trays</div><div><b>Procedures</b><br>WHO surgical safety checklist<br>Time-out before incision<br>Sponge and instrument counts<br>General and regional anesthesia</div><div><b>Staff</b><br>Surgeons<br>Anesthesiologists<br>Certified registered nurse anesthetists<br>Scrub nurses and surgical technologists</div><div><b>Flow</b><br>Patients check in, change, and wait in pre-op holding where the surgeon marks the site and anesthesia reviews the plan. In the OR, the team does a time-out — co...</div></div><pre class='codeblock'>def surgery_checklist(patient_ok, site_marked, antibiotics, counts_ok, specimen_labeled):
+    &quot;&quot;&quot;WHO-style safety checklist verifier. Returns pass/fail with missing items.&quot;&quot;&quot;
+    items = {&quot;identity confirmed&quot;: patient_ok, &quot;site marked&quot;: site_marked,
+             &quot;antibiotics given&quot;: antibiotics, &quot;counts correct&quot;: counts_ok,
+             &quot;specimen labeled&quot;: specimen_labeled}
+    missing = [k for k, v in items.items() if not v]
+    return (&quot;PASS - proceed&quot; if not missing else &quot;HOLD - missing: &quot; + &quot;, &quot;.join(missing))
+print(surgery_checklist(True, True, True, True, False))</pre></div>
+<div class='card'><h3>Surgical Site Infection Prevention</h3><p>Infection prevention starts before the incision: antibiotics within 60 minutes, clipping (not shaving) hair, skin prep with chlorhexidine, and sterile technique. Post-op, wounds are watched for redness, drainage, and fever.</p><p class='ladder'>Ladder rank 2 — Compounded: how it connects — the moving parts working together in real care.</p><div class='kv'><div><b>Equipment</b><br>Operating tables and surgical lights<br>Anesthesia machines and monitors<br>Electrosurgical units<br>Sterile instrument trays</div><div><b>Procedures</b><br>WHO surgical safety checklist<br>Time-out before incision<br>Sponge and instrument counts<br>General and regional anesthesia</div><div><b>Staff</b><br>Surgeons<br>Anesthesiologists<br>Certified registered nurse anesthetists<br>Scrub nurses and surgical technologists</div><div><b>Flow</b><br>Patients check in, change, and wait in pre-op holding where the surgeon marks the site and anesthesia reviews the plan. In the OR, the team does a time-out — co...</div></div><pre class='codeblock'>def surgery_checklist(patient_ok, site_marked, antibiotics, counts_ok, specimen_labeled):
+    &quot;&quot;&quot;WHO-style safety checklist verifier. Returns pass/fail with missing items.&quot;&quot;&quot;
+    items = {&quot;identity confirmed&quot;: patient_ok, &quot;site marked&quot;: site_marked,
+             &quot;antibiotics given&quot;: antibiotics, &quot;counts correct&quot;: counts_ok,
+             &quot;specimen labeled&quot;: specimen_labeled}
+    missing = [k for k, v in items.items() if not v]
+    return (&quot;PASS - proceed&quot; if not missing else &quot;HOLD - missing: &quot; + &quot;, &quot;.join(missing))
+print(surgery_checklist(True, True, True, True, False))</pre></div>
+<div class='card'><h3>Patient Positioning</h3><p>Patients are positioned — supine, prone, lateral, lithotomy — to expose the surgical site while protecting nerves and pressure points. Padding guards elbows, heels, and eyes. Poor positioning can injure nerves that take months to heal.</p><p class='ladder'>Ladder rank 2 — Compounded: how it connects — the moving parts working together in real care.</p><div class='kv'><div><b>Equipment</b><br>Operating tables and surgical lights<br>Anesthesia machines and monitors<br>Electrosurgical units<br>Sterile instrument trays</div><div><b>Procedures</b><br>WHO surgical safety checklist<br>Time-out before incision<br>Sponge and instrument counts<br>General and regional anesthesia</div><div><b>Staff</b><br>Surgeons<br>Anesthesiologists<br>Certified registered nurse anesthetists<br>Scrub nurses and surgical technologists</div><div><b>Flow</b><br>Patients check in, change, and wait in pre-op holding where the surgeon marks the site and anesthesia reviews the plan. In the OR, the team does a time-out — co...</div></div><pre class='codeblock'>def surgery_checklist(patient_ok, site_marked, antibiotics, counts_ok, specimen_labeled):
+    &quot;&quot;&quot;WHO-style safety checklist verifier. Returns pass/fail with missing items.&quot;&quot;&quot;
+    items = {&quot;identity confirmed&quot;: patient_ok, &quot;site marked&quot;: site_marked,
+             &quot;antibiotics given&quot;: antibiotics, &quot;counts correct&quot;: counts_ok,
+             &quot;specimen labeled&quot;: specimen_labeled}
+    missing = [k for k, v in items.items() if not v]
+    return (&quot;PASS - proceed&quot; if not missing else &quot;HOLD - missing: &quot; + &quot;, &quot;.join(missing))
+print(surgery_checklist(True, True, True, True, False))</pre></div>
+<div class='card'><h3>Specimen Handling</h3><p>Tissue removed in surgery goes to pathology in labeled containers, sometimes rushed as a &#x27;frozen section&#x27; for a diagnosis while the patient is still asleep. Correct labeling ties every specimen to the right patient and site — a mix-up is catastrophic.</p><p class='ladder'>Ladder rank 3 — Complex: the full picture — mastery-level detail for deep understanding.</p><div class='kv'><div><b>Equipment</b><br>Operating tables and surgical lights<br>Anesthesia machines and monitors<br>Electrosurgical units<br>Sterile instrument trays</div><div><b>Procedures</b><br>WHO surgical safety checklist<br>Time-out before incision<br>Sponge and instrument counts<br>General and regional anesthesia</div><div><b>Staff</b><br>Surgeons<br>Anesthesiologists<br>Certified registered nurse anesthetists<br>Scrub nurses and surgical technologists</div><div><b>Flow</b><br>Patients check in, change, and wait in pre-op holding where the surgeon marks the site and anesthesia reviews the plan. In the OR, the team does a time-out — co...</div></div><pre class='codeblock'>def surgery_checklist(patient_ok, site_marked, antibiotics, counts_ok, specimen_labeled):
+    &quot;&quot;&quot;WHO-style safety checklist verifier. Returns pass/fail with missing items.&quot;&quot;&quot;
+    items = {&quot;identity confirmed&quot;: patient_ok, &quot;site marked&quot;: site_marked,
+             &quot;antibiotics given&quot;: antibiotics, &quot;counts correct&quot;: counts_ok,
+             &quot;specimen labeled&quot;: specimen_labeled}
+    missing = [k for k, v in items.items() if not v]
+    return (&quot;PASS - proceed&quot; if not missing else &quot;HOLD - missing: &quot; + &quot;, &quot;.join(missing))
+print(surgery_checklist(True, True, True, True, False))</pre></div>
+<div class='card'><h3>OR Turnover</h3><p>Between cases, the room is cleaned, trash removed, surfaces disinfected, and fresh sterile setups brought in. Fast, thorough turnover keeps the schedule moving without cutting corners. Average turnover runs 20 to 30 minutes.</p><p class='ladder'>Ladder rank 3 — Complex: the full picture — mastery-level detail for deep understanding.</p><div class='kv'><div><b>Equipment</b><br>Operating tables and surgical lights<br>Anesthesia machines and monitors<br>Electrosurgical units<br>Sterile instrument trays</div><div><b>Procedures</b><br>WHO surgical safety checklist<br>Time-out before incision<br>Sponge and instrument counts<br>General and regional anesthesia</div><div><b>Staff</b><br>Surgeons<br>Anesthesiologists<br>Certified registered nurse anesthetists<br>Scrub nurses and surgical technologists</div><div><b>Flow</b><br>Patients check in, change, and wait in pre-op holding where the surgeon marks the site and anesthesia reviews the plan. In the OR, the team does a time-out — co...</div></div><pre class='codeblock'>def surgery_checklist(patient_ok, site_marked, antibiotics, counts_ok, specimen_labeled):
+    &quot;&quot;&quot;WHO-style safety checklist verifier. Returns pass/fail with missing items.&quot;&quot;&quot;
+    items = {&quot;identity confirmed&quot;: patient_ok, &quot;site marked&quot;: site_marked,
+             &quot;antibiotics given&quot;: antibiotics, &quot;counts correct&quot;: counts_ok,
+             &quot;specimen labeled&quot;: specimen_labeled}
+    missing = [k for k, v in items.items() if not v]
+    return (&quot;PASS - proceed&quot; if not missing else &quot;HOLD - missing: &quot; + &quot;, &quot;.join(missing))
+print(surgery_checklist(True, True, True, True, False))</pre></div>
+<div class='card'><h3>Block Scheduling</h3><p>OR time is scheduled in blocks assigned to surgical services — orthopedics gets two rooms on Mondays, for example. Unused block time is released to others. Good scheduling fills rooms without running past midnight.</p><p class='ladder'>Ladder rank 3 — Complex: the full picture — mastery-level detail for deep understanding.</p><div class='kv'><div><b>Equipment</b><br>Operating tables and surgical lights<br>Anesthesia machines and monitors<br>Electrosurgical units<br>Sterile instrument trays</div><div><b>Procedures</b><br>WHO surgical safety checklist<br>Time-out before incision<br>Sponge and instrument counts<br>General and regional anesthesia</div><div><b>Staff</b><br>Surgeons<br>Anesthesiologists<br>Certified registered nurse anesthetists<br>Scrub nurses and surgical technologists</div><div><b>Flow</b><br>Patients check in, change, and wait in pre-op holding where the surgeon marks the site and anesthesia reviews the plan. In the OR, the team does a time-out — co...</div></div><pre class='codeblock'>def surgery_checklist(patient_ok, site_marked, antibiotics, counts_ok, specimen_labeled):
+    &quot;&quot;&quot;WHO-style safety checklist verifier. Returns pass/fail with missing items.&quot;&quot;&quot;
+    items = {&quot;identity confirmed&quot;: patient_ok, &quot;site marked&quot;: site_marked,
+             &quot;antibiotics given&quot;: antibiotics, &quot;counts correct&quot;: counts_ok,
+             &quot;specimen labeled&quot;: specimen_labeled}
+    missing = [k for k, v in items.items() if not v]
+    return (&quot;PASS - proceed&quot; if not missing else &quot;HOLD - missing: &quot; + &quot;, &quot;.join(missing))
+print(surgery_checklist(True, True, True, True, False))</pre></div>
+<div class='card'><h3>Emergency Surgery Readiness</h3><p>One OR stays ready around the clock for ruptured appendixes, trauma, and emergency C-sections. The on-call team can have the room open within 30 minutes. Elective schedules flex around true emergencies.</p><p class='ladder'>Ladder rank 3 — Complex: the full picture — mastery-level detail for deep understanding.</p><div class='kv'><div><b>Equipment</b><br>Operating tables and surgical lights<br>Anesthesia machines and monitors<br>Electrosurgical units<br>Sterile instrument trays</div><div><b>Procedures</b><br>WHO surgical safety checklist<br>Time-out before incision<br>Sponge and instrument counts<br>General and regional anesthesia</div><div><b>Staff</b><br>Surgeons<br>Anesthesiologists<br>Certified registered nurse anesthetists<br>Scrub nurses and surgical technologists</div><div><b>Flow</b><br>Patients check in, change, and wait in pre-op holding where the surgeon marks the site and anesthesia reviews the plan. In the OR, the team does a time-out — co...</div></div><pre class='codeblock'>def surgery_checklist(patient_ok, site_marked, antibiotics, counts_ok, specimen_labeled):
+    &quot;&quot;&quot;WHO-style safety checklist verifier. Returns pass/fail with missing items.&quot;&quot;&quot;
+    items = {&quot;identity confirmed&quot;: patient_ok, &quot;site marked&quot;: site_marked,
+             &quot;antibiotics given&quot;: antibiotics, &quot;counts correct&quot;: counts_ok,
+             &quot;specimen labeled&quot;: specimen_labeled}
+    missing = [k for k, v in items.items() if not v]
+    return (&quot;PASS - proceed&quot; if not missing else &quot;HOLD - missing: &quot; + &quot;, &quot;.join(missing))
+print(surgery_checklist(True, True, True, True, False))</pre></div>
+<div class='card'><h3>Implant Tracking</h3><p>Every implant — hips, knees, pacemakers, mesh — is logged with lot and serial numbers tied to the patient. If a manufacturer recalls a device, the hospital can find every affected patient in minutes. This registry is a patient-safety backbone.</p><p class='ladder'>Ladder rank 3 — Complex: the full picture — mastery-level detail for deep understanding.</p><div class='kv'><div><b>Equipment</b><br>Operating tables and surgical lights<br>Anesthesia machines and monitors<br>Electrosurgical units<br>Sterile instrument trays</div><div><b>Procedures</b><br>WHO surgical safety checklist<br>Time-out before incision<br>Sponge and instrument counts<br>General and regional anesthesia</div><div><b>Staff</b><br>Surgeons<br>Anesthesiologists<br>Certified registered nurse anesthetists<br>Scrub nurses and surgical technologists</div><div><b>Flow</b><br>Patients check in, change, and wait in pre-op holding where the surgeon marks the site and anesthesia reviews the plan. In the OR, the team does a time-out — co...</div></div><pre class='codeblock'>def surgery_checklist(patient_ok, site_marked, antibiotics, counts_ok, specimen_labeled):
+    &quot;&quot;&quot;WHO-style safety checklist verifier. Returns pass/fail with missing items.&quot;&quot;&quot;
+    items = {&quot;identity confirmed&quot;: patient_ok, &quot;site marked&quot;: site_marked,
+             &quot;antibiotics given&quot;: antibiotics, &quot;counts correct&quot;: counts_ok,
+             &quot;specimen labeled&quot;: specimen_labeled}
+    missing = [k for k, v in items.items() if not v]
+    return (&quot;PASS - proceed&quot; if not missing else &quot;HOLD - missing: &quot; + &quot;, &quot;.join(missing))
+print(surgery_checklist(True, True, True, True, False))</pre></div>
+<div class='card'><h3>Wound Closure Techniques</h3><p>Surgeons close wounds in layers: deep sutures for strength, skin sutures or staples for the surface, sometimes glue for small cuts. The method balances strength, healing, and scarring. Drains may be left to prevent fluid buildup.</p><p class='ladder'>Ladder rank 3 — Complex: the full picture — mastery-level detail for deep understanding.</p><div class='kv'><div><b>Equipment</b><br>Operating tables and surgical lights<br>Anesthesia machines and monitors<br>Electrosurgical units<br>Sterile instrument trays</div><div><b>Procedures</b><br>WHO surgical safety checklist<br>Time-out before incision<br>Sponge and instrument counts<br>General and regional anesthesia</div><div><b>Staff</b><br>Surgeons<br>Anesthesiologists<br>Certified registered nurse anesthetists<br>Scrub nurses and surgical technologists</div><div><b>Flow</b><br>Patients check in, change, and wait in pre-op holding where the surgeon marks the site and anesthesia reviews the plan. In the OR, the team does a time-out — co...</div></div><pre class='codeblock'>def surgery_checklist(patient_ok, site_marked, antibiotics, counts_ok, specimen_labeled):
+    &quot;&quot;&quot;WHO-style safety checklist verifier. Returns pass/fail with missing items.&quot;&quot;&quot;
+    items = {&quot;identity confirmed&quot;: patient_ok, &quot;site marked&quot;: site_marked,
+             &quot;antibiotics given&quot;: antibiotics, &quot;counts correct&quot;: counts_ok,
+             &quot;specimen labeled&quot;: specimen_labeled}
+    missing = [k for k, v in items.items() if not v]
+    return (&quot;PASS - proceed&quot; if not missing else &quot;HOLD - missing: &quot; + &quot;, &quot;.join(missing))
+print(surgery_checklist(True, True, True, True, False))</pre></div>
+<h2>Working Demo</h2>
+<pre class="codeblock">def surgery_checklist(patient_ok, site_marked, antibiotics, counts_ok, specimen_labeled):
+    &quot;&quot;&quot;WHO-style safety checklist verifier. Returns pass/fail with missing items.&quot;&quot;&quot;
+    items = {&quot;identity confirmed&quot;: patient_ok, &quot;site marked&quot;: site_marked,
+             &quot;antibiotics given&quot;: antibiotics, &quot;counts correct&quot;: counts_ok,
+             &quot;specimen labeled&quot;: specimen_labeled}
+    missing = [k for k, v in items.items() if not v]
+    return (&quot;PASS - proceed&quot; if not missing else &quot;HOLD - missing: &quot; + &quot;, &quot;.join(missing))
+print(surgery_checklist(True, True, True, True, False))</pre>
+</body></html>

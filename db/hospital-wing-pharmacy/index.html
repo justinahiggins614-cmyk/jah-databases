@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Pharmacy Hospital Wing Database</title>
+<style>
+body{font-family:Georgia,serif;max-width:1100px;margin:0 auto;padding:16px;background:#faf8f4;color:#222}
+.hero{background:#10243d;color:#fff;padding:28px;border-radius:12px}
+.pill{display:inline-block;background:#1c6e3c;color:#fff;border-radius:20px;padding:4px 14px;margin:4px;font-size:13px}
+.merger{display:inline-block;background:#c0392b;color:#fff;border:none;border-radius:8px;padding:10px 22px;font-size:15px;cursor:pointer;margin:6px}
+.million{background:#fff8e1;border:2px solid #d4a017;border-radius:10px;padding:12px;margin:14px 0;font-weight:bold}
+.kv{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:8px;margin:10px 0}
+.kv div{background:#fff;border:1px solid #ddd;border-radius:8px;padding:8px;font-size:13px}
+.card{background:#fff;border:1px solid #ddd;border-radius:10px;padding:16px;margin:14px 0}
+.codeblock{background:#1e1e1e;color:#d7ffce;padding:12px;border-radius:8px;overflow-x:auto;font-size:13px}
+.ladder{font-size:12px;color:#555}
+h2{color:#10243d}
+</style></head><body>
+<div class="hero"><h1>The Pharmacy Hospital Wing Database</h1><p>Real, fact-checked records on the Pharmacy Hospital Wing — purpose, equipment, procedures, staff, and patient flow. Public records organized in the Signature system.</p>
+<p>Records banked: <span id="stCount">20 / 1,000,000 target</span></p></div>
+<div class="million">MARCH TO 1,000,000 &mdash; 20 records banked. This database is in progress toward one million full records.</div>
+<div><span class="pill">Exhaustive</span>
+<button class="merger" onclick="alert('Merger queued: this database will merge into the All Database Merger.')">All Database Merger</button>
+<button class="merger" onclick="alert('Added to the All Database Merger queue.')">Merge This Database</button></div>
+<h2>Records</h2>
+<div class='card'><h3>Medication Order Verification</h3><p>Pharmacists verify every order: right drug, dose, route, timing — against allergies, interactions, kidney and liver function. This check catches errors before they reach the bedside. It is the most leveraged safety step in the hospital.</p><p class='ladder'>Ladder rank 1 — Simple: the core idea in plain words — what it is and why it matters.</p><div class='kv'><div><b>Equipment</b><br>Automated dispensing cabinets<br>IV compounding hoods<br>Chemotherapy biological safety cabinets<br>Unit-dose packaging machines</div><div><b>Procedures</b><br>Medication order verification<br>Sterile IV compounding<br>Chemotherapy preparation (USP 800)<br>Medication reconciliation</div><div><b>Staff</b><br>Clinical pharmacists<br>Dispensing pharmacists<br>Pharmacy technicians<br>Oncology pharmacists</div><div><b>Flow</b><br>Orders flow electronically to pharmacy verification — dose, interactions, allergies, kidney function checked. Technicians prepare and dispense; pharmacists comp...</div></div><pre class='codeblock'>def renal_dose_adjust(creatinine, age, weight_kg, female, normal_dose_mg):
+    &quot;&quot;&quot;Cockcroft-Gault creatinine clearance -&gt; dose band suggestion.&quot;&quot;&quot;
+    scr = max(creatinine, 0.6)
+    crcl = ((140 - age) * weight_kg) / (72 * scr)
+    if female: crcl *= 0.85
+    factor = 1.0 if crcl &gt;= 60 else 0.75 if crcl &gt;= 30 else 0.5
+    return f&quot;CrCl ~{crcl:.0f} mL/min -&gt; give {round(normal_dose_mg*factor)} mg (verify with pharmacist)&quot;
+print(renal_dose_adjust(1.6, 72, 70, False, 1000))</pre></div>
+<div class='card'><h3>Sterile IV Compounding</h3><p>IV admixtures are mixed in laminar-flow hoods under USP 797 sterile technique, garbed and gloved. Contaminated IVs kill. Every batch is labeled, checked, and beyond-use dated.</p><p class='ladder'>Ladder rank 1 — Simple: the core idea in plain words — what it is and why it matters.</p><div class='kv'><div><b>Equipment</b><br>Automated dispensing cabinets<br>IV compounding hoods<br>Chemotherapy biological safety cabinets<br>Unit-dose packaging machines</div><div><b>Procedures</b><br>Medication order verification<br>Sterile IV compounding<br>Chemotherapy preparation (USP 800)<br>Medication reconciliation</div><div><b>Staff</b><br>Clinical pharmacists<br>Dispensing pharmacists<br>Pharmacy technicians<br>Oncology pharmacists</div><div><b>Flow</b><br>Orders flow electronically to pharmacy verification — dose, interactions, allergies, kidney function checked. Technicians prepare and dispense; pharmacists comp...</div></div><pre class='codeblock'>def renal_dose_adjust(creatinine, age, weight_kg, female, normal_dose_mg):
+    &quot;&quot;&quot;Cockcroft-Gault creatinine clearance -&gt; dose band suggestion.&quot;&quot;&quot;
+    scr = max(creatinine, 0.6)
+    crcl = ((140 - age) * weight_kg) / (72 * scr)
+    if female: crcl *= 0.85
+    factor = 1.0 if crcl &gt;= 60 else 0.75 if crcl &gt;= 30 else 0.5
+    return f&quot;CrCl ~{crcl:.0f} mL/min -&gt; give {round(normal_dose_mg*factor)} mg (verify with pharmacist)&quot;
+print(renal_dose_adjust(1.6, 72, 70, False, 1000))</pre></div>
+<div class='card'><h3>Chemotherapy Preparation (USP 800)</h3><p>Hazardous chemo drugs are compounded in negative-pressure cabinets with full protective gear under USP 800. Closed-system devices protect staff. One spill protocol mistake can harm the preparer.</p><p class='ladder'>Ladder rank 1 — Simple: the core idea in plain words — what it is and why it matters.</p><div class='kv'><div><b>Equipment</b><br>Automated dispensing cabinets<br>IV compounding hoods<br>Chemotherapy biological safety cabinets<br>Unit-dose packaging machines</div><div><b>Procedures</b><br>Medication order verification<br>Sterile IV compounding<br>Chemotherapy preparation (USP 800)<br>Medication reconciliation</div><div><b>Staff</b><br>Clinical pharmacists<br>Dispensing pharmacists<br>Pharmacy technicians<br>Oncology pharmacists</div><div><b>Flow</b><br>Orders flow electronically to pharmacy verification — dose, interactions, allergies, kidney function checked. Technicians prepare and dispense; pharmacists comp...</div></div><pre class='codeblock'>def renal_dose_adjust(creatinine, age, weight_kg, female, normal_dose_mg):
+    &quot;&quot;&quot;Cockcroft-Gault creatinine clearance -&gt; dose band suggestion.&quot;&quot;&quot;
+    scr = max(creatinine, 0.6)
+    crcl = ((140 - age) * weight_kg) / (72 * scr)
+    if female: crcl *= 0.85
+    factor = 1.0 if crcl &gt;= 60 else 0.75 if crcl &gt;= 30 else 0.5
+    return f&quot;CrCl ~{crcl:.0f} mL/min -&gt; give {round(normal_dose_mg*factor)} mg (verify with pharmacist)&quot;
+print(renal_dose_adjust(1.6, 72, 70, False, 1000))</pre></div>
+<div class='card'><h3>Medication Reconciliation</h3><p>At admission, pharmacists build the true home medication list — interviewing patients, calling pharmacies — and compare it against hospital orders. Discrepancies cause most admission errors. Reconciliation repeats at discharge.</p><p class='ladder'>Ladder rank 1 — Simple: the core idea in plain words — what it is and why it matters.</p><div class='kv'><div><b>Equipment</b><br>Automated dispensing cabinets<br>IV compounding hoods<br>Chemotherapy biological safety cabinets<br>Unit-dose packaging machines</div><div><b>Procedures</b><br>Medication order verification<br>Sterile IV compounding<br>Chemotherapy preparation (USP 800)<br>Medication reconciliation</div><div><b>Staff</b><br>Clinical pharmacists<br>Dispensing pharmacists<br>Pharmacy technicians<br>Oncology pharmacists</div><div><b>Flow</b><br>Orders flow electronically to pharmacy verification — dose, interactions, allergies, kidney function checked. Technicians prepare and dispense; pharmacists comp...</div></div><pre class='codeblock'>def renal_dose_adjust(creatinine, age, weight_kg, female, normal_dose_mg):
+    &quot;&quot;&quot;Cockcroft-Gault creatinine clearance -&gt; dose band suggestion.&quot;&quot;&quot;
+    scr = max(creatinine, 0.6)
+    crcl = ((140 - age) * weight_kg) / (72 * scr)
+    if female: crcl *= 0.85
+    factor = 1.0 if crcl &gt;= 60 else 0.75 if crcl &gt;= 30 else 0.5
+    return f&quot;CrCl ~{crcl:.0f} mL/min -&gt; give {round(normal_dose_mg*factor)} mg (verify with pharmacist)&quot;
+print(renal_dose_adjust(1.6, 72, 70, False, 1000))</pre></div>
+<div class='card'><h3>Therapeutic Drug Monitoring</h3><p>Drugs like vancomycin and aminoglycosides need blood-level monitoring to stay effective without toxicity. Pharmacists calculate doses from levels and kidney function. Precision dosing saves kidneys and lives.</p><p class='ladder'>Ladder rank 1 — Simple: the core idea in plain words — what it is and why it matters.</p><div class='kv'><div><b>Equipment</b><br>Automated dispensing cabinets<br>IV compounding hoods<br>Chemotherapy biological safety cabinets<br>Unit-dose packaging machines</div><div><b>Procedures</b><br>Medication order verification<br>Sterile IV compounding<br>Chemotherapy preparation (USP 800)<br>Medication reconciliation</div><div><b>Staff</b><br>Clinical pharmacists<br>Dispensing pharmacists<br>Pharmacy technicians<br>Oncology pharmacists</div><div><b>Flow</b><br>Orders flow electronically to pharmacy verification — dose, interactions, allergies, kidney function checked. Technicians prepare and dispense; pharmacists comp...</div></div><pre class='codeblock'>def renal_dose_adjust(creatinine, age, weight_kg, female, normal_dose_mg):
+    &quot;&quot;&quot;Cockcroft-Gault creatinine clearance -&gt; dose band suggestion.&quot;&quot;&quot;
+    scr = max(creatinine, 0.6)
+    crcl = ((140 - age) * weight_kg) / (72 * scr)
+    if female: crcl *= 0.85
+    factor = 1.0 if crcl &gt;= 60 else 0.75 if crcl &gt;= 30 else 0.5
+    return f&quot;CrCl ~{crcl:.0f} mL/min -&gt; give {round(normal_dose_mg*factor)} mg (verify with pharmacist)&quot;
+print(renal_dose_adjust(1.6, 72, 70, False, 1000))</pre></div>
+<div class='card'><h3>Antimicrobial Stewardship</h3><p>Stewardship teams ensure antibiotics are right drug, right dose, right duration — de-escalating broad therapy when cultures return. It fights resistance and C. difficile. Every hospital needs this program.</p><p class='ladder'>Ladder rank 1 — Simple: the core idea in plain words — what it is and why it matters.</p><div class='kv'><div><b>Equipment</b><br>Automated dispensing cabinets<br>IV compounding hoods<br>Chemotherapy biological safety cabinets<br>Unit-dose packaging machines</div><div><b>Procedures</b><br>Medication order verification<br>Sterile IV compounding<br>Chemotherapy preparation (USP 800)<br>Medication reconciliation</div><div><b>Staff</b><br>Clinical pharmacists<br>Dispensing pharmacists<br>Pharmacy technicians<br>Oncology pharmacists</div><div><b>Flow</b><br>Orders flow electronically to pharmacy verification — dose, interactions, allergies, kidney function checked. Technicians prepare and dispense; pharmacists comp...</div></div><pre class='codeblock'>def renal_dose_adjust(creatinine, age, weight_kg, female, normal_dose_mg):
+    &quot;&quot;&quot;Cockcroft-Gault creatinine clearance -&gt; dose band suggestion.&quot;&quot;&quot;
+    scr = max(creatinine, 0.6)
+    crcl = ((140 - age) * weight_kg) / (72 * scr)
+    if female: crcl *= 0.85
+    factor = 1.0 if crcl &gt;= 60 else 0.75 if crcl &gt;= 30 else 0.5
+    return f&quot;CrCl ~{crcl:.0f} mL/min -&gt; give {round(normal_dose_mg*factor)} mg (verify with pharmacist)&quot;
+print(renal_dose_adjust(1.6, 72, 70, False, 1000))</pre></div>
+<div class='card'><h3>Automated Dispensing Cabinets</h3><p>Pyxis-style cabinets on units dispense verified doses with fingerprint access and full tracking. Overrides are audited. They put pharmacy&#x27;s safety at the bedside.</p><p class='ladder'>Ladder rank 1 — Simple: the core idea in plain words — what it is and why it matters.</p><div class='kv'><div><b>Equipment</b><br>Automated dispensing cabinets<br>IV compounding hoods<br>Chemotherapy biological safety cabinets<br>Unit-dose packaging machines</div><div><b>Procedures</b><br>Medication order verification<br>Sterile IV compounding<br>Chemotherapy preparation (USP 800)<br>Medication reconciliation</div><div><b>Staff</b><br>Clinical pharmacists<br>Dispensing pharmacists<br>Pharmacy technicians<br>Oncology pharmacists</div><div><b>Flow</b><br>Orders flow electronically to pharmacy verification — dose, interactions, allergies, kidney function checked. Technicians prepare and dispense; pharmacists comp...</div></div><pre class='codeblock'>def renal_dose_adjust(creatinine, age, weight_kg, female, normal_dose_mg):
+    &quot;&quot;&quot;Cockcroft-Gault creatinine clearance -&gt; dose band suggestion.&quot;&quot;&quot;
+    scr = max(creatinine, 0.6)
+    crcl = ((140 - age) * weight_kg) / (72 * scr)
+    if female: crcl *= 0.85
+    factor = 1.0 if crcl &gt;= 60 else 0.75 if crcl &gt;= 30 else 0.5
+    return f&quot;CrCl ~{crcl:.0f} mL/min -&gt; give {round(normal_dose_mg*factor)} mg (verify with pharmacist)&quot;
+print(renal_dose_adjust(1.6, 72, 70, False, 1000))</pre></div>
+<div class='card'><h3>Adverse Drug Event Monitoring</h3><p>Pharmacists track rashes, kidney injury, and bleeding as signals of drug harm, intervening and reporting. Surveillance turns reactions into prevention. Every event teaches the system.</p><p class='ladder'>Ladder rank 2 — Compounded: how it connects — the moving parts working together in real care.</p><div class='kv'><div><b>Equipment</b><br>Automated dispensing cabinets<br>IV compounding hoods<br>Chemotherapy biological safety cabinets<br>Unit-dose packaging machines</div><div><b>Procedures</b><br>Medication order verification<br>Sterile IV compounding<br>Chemotherapy preparation (USP 800)<br>Medication reconciliation</div><div><b>Staff</b><br>Clinical pharmacists<br>Dispensing pharmacists<br>Pharmacy technicians<br>Oncology pharmacists</div><div><b>Flow</b><br>Orders flow electronically to pharmacy verification — dose, interactions, allergies, kidney function checked. Technicians prepare and dispense; pharmacists comp...</div></div><pre class='codeblock'>def renal_dose_adjust(creatinine, age, weight_kg, female, normal_dose_mg):
+    &quot;&quot;&quot;Cockcroft-Gault creatinine clearance -&gt; dose band suggestion.&quot;&quot;&quot;
+    scr = max(creatinine, 0.6)
+    crcl = ((140 - age) * weight_kg) / (72 * scr)
+    if female: crcl *= 0.85
+    factor = 1.0 if crcl &gt;= 60 else 0.75 if crcl &gt;= 30 else 0.5
+    return f&quot;CrCl ~{crcl:.0f} mL/min -&gt; give {round(normal_dose_mg*factor)} mg (verify with pharmacist)&quot;
+print(renal_dose_adjust(1.6, 72, 70, False, 1000))</pre></div>
+<div class='card'><h3>Renal Dosing Adjustments</h3><p>Kidneys clear most drugs; when they fail, doses must shrink. Pharmacists calculate creatinine clearance and adjust every renally-cleared order. Standard doses in kidney failure are overdoses.</p><p class='ladder'>Ladder rank 2 — Compounded: how it connects — the moving parts working together in real care.</p><div class='kv'><div><b>Equipment</b><br>Automated dispensing cabinets<br>IV compounding hoods<br>Chemotherapy biological safety cabinets<br>Unit-dose packaging machines</div><div><b>Procedures</b><br>Medication order verification<br>Sterile IV compounding<br>Chemotherapy preparation (USP 800)<br>Medication reconciliation</div><div><b>Staff</b><br>Clinical pharmacists<br>Dispensing pharmacists<br>Pharmacy technicians<br>Oncology pharmacists</div><div><b>Flow</b><br>Orders flow electronically to pharmacy verification — dose, interactions, allergies, kidney function checked. Technicians prepare and dispense; pharmacists comp...</div></div><pre class='codeblock'>def renal_dose_adjust(creatinine, age, weight_kg, female, normal_dose_mg):
+    &quot;&quot;&quot;Cockcroft-Gault creatinine clearance -&gt; dose band suggestion.&quot;&quot;&quot;
+    scr = max(creatinine, 0.6)
+    crcl = ((140 - age) * weight_kg) / (72 * scr)
+    if female: crcl *= 0.85
+    factor = 1.0 if crcl &gt;= 60 else 0.75 if crcl &gt;= 30 else 0.5
+    return f&quot;CrCl ~{crcl:.0f} mL/min -&gt; give {round(normal_dose_mg*factor)} mg (verify with pharmacist)&quot;
+print(renal_dose_adjust(1.6, 72, 70, False, 1000))</pre></div>
+<div class='card'><h3>Pediatric Dosing Safety</h3><p>Children&#x27;s doses are weight-based and error-prone; pharmacists independently verify every calculation. Concentrations are standardized to prevent tenfold errors. Pediatric pharmacy is zero-tolerance work.</p><p class='ladder'>Ladder rank 2 — Compounded: how it connects — the moving parts working together in real care.</p><div class='kv'><div><b>Equipment</b><br>Automated dispensing cabinets<br>IV compounding hoods<br>Chemotherapy biological safety cabinets<br>Unit-dose packaging machines</div><div><b>Procedures</b><br>Medication order verification<br>Sterile IV compounding<br>Chemotherapy preparation (USP 800)<br>Medication reconciliation</div><div><b>Staff</b><br>Clinical pharmacists<br>Dispensing pharmacists<br>Pharmacy technicians<br>Oncology pharmacists</div><div><b>Flow</b><br>Orders flow electronically to pharmacy verification — dose, interactions, allergies, kidney function checked. Technicians prepare and dispense; pharmacists comp...</div></div><pre class='codeblock'>def renal_dose_adjust(creatinine, age, weight_kg, female, normal_dose_mg):
+    &quot;&quot;&quot;Cockcroft-Gault creatinine clearance -&gt; dose band suggestion.&quot;&quot;&quot;
+    scr = max(creatinine, 0.6)
+    crcl = ((140 - age) * weight_kg) / (72 * scr)
+    if female: crcl *= 0.85
+    factor = 1.0 if crcl &gt;= 60 else 0.75 if crcl &gt;= 30 else 0.5
+    return f&quot;CrCl ~{crcl:.0f} mL/min -&gt; give {round(normal_dose_mg*factor)} mg (verify with pharmacist)&quot;
+print(renal_dose_adjust(1.6, 72, 70, False, 1000))</pre></div>
+<div class='card'><h3>Crash Cart Medications</h3><p>Pharmacists stock and seal code carts with emergency drugs in standardized layouts, checking expirations regularly. In a code, the right drug must be found in seconds. The cart is readiness made physical.</p><p class='ladder'>Ladder rank 2 — Compounded: how it connects — the moving parts working together in real care.</p><div class='kv'><div><b>Equipment</b><br>Automated dispensing cabinets<br>IV compounding hoods<br>Chemotherapy biological safety cabinets<br>Unit-dose packaging machines</div><div><b>Procedures</b><br>Medication order verification<br>Sterile IV compounding<br>Chemotherapy preparation (USP 800)<br>Medication reconciliation</div><div><b>Staff</b><br>Clinical pharmacists<br>Dispensing pharmacists<br>Pharmacy technicians<br>Oncology pharmacists</div><div><b>Flow</b><br>Orders flow electronically to pharmacy verification — dose, interactions, allergies, kidney function checked. Technicians prepare and dispense; pharmacists comp...</div></div><pre class='codeblock'>def renal_dose_adjust(creatinine, age, weight_kg, female, normal_dose_mg):
+    &quot;&quot;&quot;Cockcroft-Gault creatinine clearance -&gt; dose band suggestion.&quot;&quot;&quot;
+    scr = max(creatinine, 0.6)
+    crcl = ((140 - age) * weight_kg) / (72 * scr)
+    if female: crcl *= 0.85
+    factor = 1.0 if crcl &gt;= 60 else 0.75 if crcl &gt;= 30 else 0.5
+    return f&quot;CrCl ~{crcl:.0f} mL/min -&gt; give {round(normal_dose_mg*factor)} mg (verify with pharmacist)&quot;
+print(renal_dose_adjust(1.6, 72, 70, False, 1000))</pre></div>
+<div class='card'><h3>Controlled Substance Control</h3><p>Narcotics live under perpetual inventory: locked safes, witnessed counts, every dose tracked from cabinet to patient. Diversion detection protects patients and staff. The chain of custody never breaks.</p><p class='ladder'>Ladder rank 2 — Compounded: how it connects — the moving parts working together in real care.</p><div class='kv'><div><b>Equipment</b><br>Automated dispensing cabinets<br>IV compounding hoods<br>Chemotherapy biological safety cabinets<br>Unit-dose packaging machines</div><div><b>Procedures</b><br>Medication order verification<br>Sterile IV compounding<br>Chemotherapy preparation (USP 800)<br>Medication reconciliation</div><div><b>Staff</b><br>Clinical pharmacists<br>Dispensing pharmacists<br>Pharmacy technicians<br>Oncology pharmacists</div><div><b>Flow</b><br>Orders flow electronically to pharmacy verification — dose, interactions, allergies, kidney function checked. Technicians prepare and dispense; pharmacists comp...</div></div><pre class='codeblock'>def renal_dose_adjust(creatinine, age, weight_kg, female, normal_dose_mg):
+    &quot;&quot;&quot;Cockcroft-Gault creatinine clearance -&gt; dose band suggestion.&quot;&quot;&quot;
+    scr = max(creatinine, 0.6)
+    crcl = ((140 - age) * weight_kg) / (72 * scr)
+    if female: crcl *= 0.85
+    factor = 1.0 if crcl &gt;= 60 else 0.75 if crcl &gt;= 30 else 0.5
+    return f&quot;CrCl ~{crcl:.0f} mL/min -&gt; give {round(normal_dose_mg*factor)} mg (verify with pharmacist)&quot;
+print(renal_dose_adjust(1.6, 72, 70, False, 1000))</pre></div>
+<div class='card'><h3>Discharge Counseling</h3><p>High-risk patients get pharmacist counseling: what each pill does, when to take it, what to avoid. Teach-back confirms understanding. Good counseling prevents readmissions.</p><p class='ladder'>Ladder rank 2 — Compounded: how it connects — the moving parts working together in real care.</p><div class='kv'><div><b>Equipment</b><br>Automated dispensing cabinets<br>IV compounding hoods<br>Chemotherapy biological safety cabinets<br>Unit-dose packaging machines</div><div><b>Procedures</b><br>Medication order verification<br>Sterile IV compounding<br>Chemotherapy preparation (USP 800)<br>Medication reconciliation</div><div><b>Staff</b><br>Clinical pharmacists<br>Dispensing pharmacists<br>Pharmacy technicians<br>Oncology pharmacists</div><div><b>Flow</b><br>Orders flow electronically to pharmacy verification — dose, interactions, allergies, kidney function checked. Technicians prepare and dispense; pharmacists comp...</div></div><pre class='codeblock'>def renal_dose_adjust(creatinine, age, weight_kg, female, normal_dose_mg):
+    &quot;&quot;&quot;Cockcroft-Gault creatinine clearance -&gt; dose band suggestion.&quot;&quot;&quot;
+    scr = max(creatinine, 0.6)
+    crcl = ((140 - age) * weight_kg) / (72 * scr)
+    if female: crcl *= 0.85
+    factor = 1.0 if crcl &gt;= 60 else 0.75 if crcl &gt;= 30 else 0.5
+    return f&quot;CrCl ~{crcl:.0f} mL/min -&gt; give {round(normal_dose_mg*factor)} mg (verify with pharmacist)&quot;
+print(renal_dose_adjust(1.6, 72, 70, False, 1000))</pre></div>
+<div class='card'><h3>Formulary Management</h3><p>The formulary — the hospital&#x27;s approved drug list — balances efficacy, safety, and cost. Pharmacy and therapeutics committees review new drugs rigorously. A tight formulary is safer and cheaper.</p><p class='ladder'>Ladder rank 2 — Compounded: how it connects — the moving parts working together in real care.</p><div class='kv'><div><b>Equipment</b><br>Automated dispensing cabinets<br>IV compounding hoods<br>Chemotherapy biological safety cabinets<br>Unit-dose packaging machines</div><div><b>Procedures</b><br>Medication order verification<br>Sterile IV compounding<br>Chemotherapy preparation (USP 800)<br>Medication reconciliation</div><div><b>Staff</b><br>Clinical pharmacists<br>Dispensing pharmacists<br>Pharmacy technicians<br>Oncology pharmacists</div><div><b>Flow</b><br>Orders flow electronically to pharmacy verification — dose, interactions, allergies, kidney function checked. Technicians prepare and dispense; pharmacists comp...</div></div><pre class='codeblock'>def renal_dose_adjust(creatinine, age, weight_kg, female, normal_dose_mg):
+    &quot;&quot;&quot;Cockcroft-Gault creatinine clearance -&gt; dose band suggestion.&quot;&quot;&quot;
+    scr = max(creatinine, 0.6)
+    crcl = ((140 - age) * weight_kg) / (72 * scr)
+    if female: crcl *= 0.85
+    factor = 1.0 if crcl &gt;= 60 else 0.75 if crcl &gt;= 30 else 0.5
+    return f&quot;CrCl ~{crcl:.0f} mL/min -&gt; give {round(normal_dose_mg*factor)} mg (verify with pharmacist)&quot;
+print(renal_dose_adjust(1.6, 72, 70, False, 1000))</pre></div>
+<div class='card'><h3>Pharmacokinetics Consults</h3><p>For complex cases — obese patients, dialysis, ECMO — pharmacists model drug behavior mathematically to find the right dose. Kinetics turns guessing into calculating. Critical care leans on this expertise.</p><p class='ladder'>Ladder rank 3 — Complex: the full picture — mastery-level detail for deep understanding.</p><div class='kv'><div><b>Equipment</b><br>Automated dispensing cabinets<br>IV compounding hoods<br>Chemotherapy biological safety cabinets<br>Unit-dose packaging machines</div><div><b>Procedures</b><br>Medication order verification<br>Sterile IV compounding<br>Chemotherapy preparation (USP 800)<br>Medication reconciliation</div><div><b>Staff</b><br>Clinical pharmacists<br>Dispensing pharmacists<br>Pharmacy technicians<br>Oncology pharmacists</div><div><b>Flow</b><br>Orders flow electronically to pharmacy verification — dose, interactions, allergies, kidney function checked. Technicians prepare and dispense; pharmacists comp...</div></div><pre class='codeblock'>def renal_dose_adjust(creatinine, age, weight_kg, female, normal_dose_mg):
+    &quot;&quot;&quot;Cockcroft-Gault creatinine clearance -&gt; dose band suggestion.&quot;&quot;&quot;
+    scr = max(creatinine, 0.6)
+    crcl = ((140 - age) * weight_kg) / (72 * scr)
+    if female: crcl *= 0.85
+    factor = 1.0 if crcl &gt;= 60 else 0.75 if crcl &gt;= 30 else 0.5
+    return f&quot;CrCl ~{crcl:.0f} mL/min -&gt; give {round(normal_dose_mg*factor)} mg (verify with pharmacist)&quot;
+print(renal_dose_adjust(1.6, 72, 70, False, 1000))</pre></div>
+<div class='card'><h3>Total Parenteral Nutrition</h3><p>TPN feeds patients intravenously when guts cannot: amino acids, dextrose, lipids, vitamins, precisely compounded daily. Pharmacists calculate and compound each bag. Monitoring prevents refeeding catastrophe.</p><p class='ladder'>Ladder rank 3 — Complex: the full picture — mastery-level detail for deep understanding.</p><div class='kv'><div><b>Equipment</b><br>Automated dispensing cabinets<br>IV compounding hoods<br>Chemotherapy biological safety cabinets<br>Unit-dose packaging machines</div><div><b>Procedures</b><br>Medication order verification<br>Sterile IV compounding<br>Chemotherapy preparation (USP 800)<br>Medication reconciliation</div><div><b>Staff</b><br>Clinical pharmacists<br>Dispensing pharmacists<br>Pharmacy technicians<br>Oncology pharmacists</div><div><b>Flow</b><br>Orders flow electronically to pharmacy verification — dose, interactions, allergies, kidney function checked. Technicians prepare and dispense; pharmacists comp...</div></div><pre class='codeblock'>def renal_dose_adjust(creatinine, age, weight_kg, female, normal_dose_mg):
+    &quot;&quot;&quot;Cockcroft-Gault creatinine clearance -&gt; dose band suggestion.&quot;&quot;&quot;
+    scr = max(creatinine, 0.6)
+    crcl = ((140 - age) * weight_kg) / (72 * scr)
+    if female: crcl *= 0.85
+    factor = 1.0 if crcl &gt;= 60 else 0.75 if crcl &gt;= 30 else 0.5
+    return f&quot;CrCl ~{crcl:.0f} mL/min -&gt; give {round(normal_dose_mg*factor)} mg (verify with pharmacist)&quot;
+print(renal_dose_adjust(1.6, 72, 70, False, 1000))</pre></div>
+<div class='card'><h3>Emergency Department Pharmacy</h3><p>ED pharmacists verify stat orders, prepare RSI drugs, and catch allergy and interaction errors in the chaos. Their presence cuts medication errors measurably. Speed plus safety.</p><p class='ladder'>Ladder rank 3 — Complex: the full picture — mastery-level detail for deep understanding.</p><div class='kv'><div><b>Equipment</b><br>Automated dispensing cabinets<br>IV compounding hoods<br>Chemotherapy biological safety cabinets<br>Unit-dose packaging machines</div><div><b>Procedures</b><br>Medication order verification<br>Sterile IV compounding<br>Chemotherapy preparation (USP 800)<br>Medication reconciliation</div><div><b>Staff</b><br>Clinical pharmacists<br>Dispensing pharmacists<br>Pharmacy technicians<br>Oncology pharmacists</div><div><b>Flow</b><br>Orders flow electronically to pharmacy verification — dose, interactions, allergies, kidney function checked. Technicians prepare and dispense; pharmacists comp...</div></div><pre class='codeblock'>def renal_dose_adjust(creatinine, age, weight_kg, female, normal_dose_mg):
+    &quot;&quot;&quot;Cockcroft-Gault creatinine clearance -&gt; dose band suggestion.&quot;&quot;&quot;
+    scr = max(creatinine, 0.6)
+    crcl = ((140 - age) * weight_kg) / (72 * scr)
+    if female: crcl *= 0.85
+    factor = 1.0 if crcl &gt;= 60 else 0.75 if crcl &gt;= 30 else 0.5
+    return f&quot;CrCl ~{crcl:.0f} mL/min -&gt; give {round(normal_dose_mg*factor)} mg (verify with pharmacist)&quot;
+print(renal_dose_adjust(1.6, 72, 70, False, 1000))</pre></div>
+<div class='card'><h3>Anticoagulation Clinics</h3><p>Warfarin clinics manage INR testing and dose adjustments, bridging, and perioperative plans. Pharmacist-run clinics outperform usual care. Newer agents get adherence and kidney monitoring.</p><p class='ladder'>Ladder rank 3 — Complex: the full picture — mastery-level detail for deep understanding.</p><div class='kv'><div><b>Equipment</b><br>Automated dispensing cabinets<br>IV compounding hoods<br>Chemotherapy biological safety cabinets<br>Unit-dose packaging machines</div><div><b>Procedures</b><br>Medication order verification<br>Sterile IV compounding<br>Chemotherapy preparation (USP 800)<br>Medication reconciliation</div><div><b>Staff</b><br>Clinical pharmacists<br>Dispensing pharmacists<br>Pharmacy technicians<br>Oncology pharmacists</div><div><b>Flow</b><br>Orders flow electronically to pharmacy verification — dose, interactions, allergies, kidney function checked. Technicians prepare and dispense; pharmacists comp...</div></div><pre class='codeblock'>def renal_dose_adjust(creatinine, age, weight_kg, female, normal_dose_mg):
+    &quot;&quot;&quot;Cockcroft-Gault creatinine clearance -&gt; dose band suggestion.&quot;&quot;&quot;
+    scr = max(creatinine, 0.6)
+    crcl = ((140 - age) * weight_kg) / (72 * scr)
+    if female: crcl *= 0.85
+    factor = 1.0 if crcl &gt;= 60 else 0.75 if crcl &gt;= 30 else 0.5
+    return f&quot;CrCl ~{crcl:.0f} mL/min -&gt; give {round(normal_dose_mg*factor)} mg (verify with pharmacist)&quot;
+print(renal_dose_adjust(1.6, 72, 70, False, 1000))</pre></div>
+<div class='card'><h3>Drug Information Services</h3><p>Pharmacists answer the hospital&#x27;s drug questions — compatibility, pregnancy safety, shortages — with evidence in minutes. The drug information center is the hospital&#x27;s medication brain trust.</p><p class='ladder'>Ladder rank 3 — Complex: the full picture — mastery-level detail for deep understanding.</p><div class='kv'><div><b>Equipment</b><br>Automated dispensing cabinets<br>IV compounding hoods<br>Chemotherapy biological safety cabinets<br>Unit-dose packaging machines</div><div><b>Procedures</b><br>Medication order verification<br>Sterile IV compounding<br>Chemotherapy preparation (USP 800)<br>Medication reconciliation</div><div><b>Staff</b><br>Clinical pharmacists<br>Dispensing pharmacists<br>Pharmacy technicians<br>Oncology pharmacists</div><div><b>Flow</b><br>Orders flow electronically to pharmacy verification — dose, interactions, allergies, kidney function checked. Technicians prepare and dispense; pharmacists comp...</div></div><pre class='codeblock'>def renal_dose_adjust(creatinine, age, weight_kg, female, normal_dose_mg):
+    &quot;&quot;&quot;Cockcroft-Gault creatinine clearance -&gt; dose band suggestion.&quot;&quot;&quot;
+    scr = max(creatinine, 0.6)
+    crcl = ((140 - age) * weight_kg) / (72 * scr)
+    if female: crcl *= 0.85
+    factor = 1.0 if crcl &gt;= 60 else 0.75 if crcl &gt;= 30 else 0.5
+    return f&quot;CrCl ~{crcl:.0f} mL/min -&gt; give {round(normal_dose_mg*factor)} mg (verify with pharmacist)&quot;
+print(renal_dose_adjust(1.6, 72, 70, False, 1000))</pre></div>
+<div class='card'><h3>Medication Safety Technology</h3><p>Bar-code scanning, smart pumps, and clinical decision support layer defenses against error. Technology assists; pharmacists decide. Every alert is tuned to avoid fatigue.</p><p class='ladder'>Ladder rank 3 — Complex: the full picture — mastery-level detail for deep understanding.</p><div class='kv'><div><b>Equipment</b><br>Automated dispensing cabinets<br>IV compounding hoods<br>Chemotherapy biological safety cabinets<br>Unit-dose packaging machines</div><div><b>Procedures</b><br>Medication order verification<br>Sterile IV compounding<br>Chemotherapy preparation (USP 800)<br>Medication reconciliation</div><div><b>Staff</b><br>Clinical pharmacists<br>Dispensing pharmacists<br>Pharmacy technicians<br>Oncology pharmacists</div><div><b>Flow</b><br>Orders flow electronically to pharmacy verification — dose, interactions, allergies, kidney function checked. Technicians prepare and dispense; pharmacists comp...</div></div><pre class='codeblock'>def renal_dose_adjust(creatinine, age, weight_kg, female, normal_dose_mg):
+    &quot;&quot;&quot;Cockcroft-Gault creatinine clearance -&gt; dose band suggestion.&quot;&quot;&quot;
+    scr = max(creatinine, 0.6)
+    crcl = ((140 - age) * weight_kg) / (72 * scr)
+    if female: crcl *= 0.85
+    factor = 1.0 if crcl &gt;= 60 else 0.75 if crcl &gt;= 30 else 0.5
+    return f&quot;CrCl ~{crcl:.0f} mL/min -&gt; give {round(normal_dose_mg*factor)} mg (verify with pharmacist)&quot;
+print(renal_dose_adjust(1.6, 72, 70, False, 1000))</pre></div>
+<h2>Working Demo</h2>
+<pre class="codeblock">def renal_dose_adjust(creatinine, age, weight_kg, female, normal_dose_mg):
+    &quot;&quot;&quot;Cockcroft-Gault creatinine clearance -&gt; dose band suggestion.&quot;&quot;&quot;
+    scr = max(creatinine, 0.6)
+    crcl = ((140 - age) * weight_kg) / (72 * scr)
+    if female: crcl *= 0.85
+    factor = 1.0 if crcl &gt;= 60 else 0.75 if crcl &gt;= 30 else 0.5
+    return f&quot;CrCl ~{crcl:.0f} mL/min -&gt; give {round(normal_dose_mg*factor)} mg (verify with pharmacist)&quot;
+print(renal_dose_adjust(1.6, 72, 70, False, 1000))</pre>
+</body></html>

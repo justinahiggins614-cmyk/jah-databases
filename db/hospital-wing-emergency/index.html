@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Emergency Department Hospital Wing Database</title>
+<style>
+body{font-family:Georgia,serif;max-width:1100px;margin:0 auto;padding:16px;background:#faf8f4;color:#222}
+.hero{background:#10243d;color:#fff;padding:28px;border-radius:12px}
+.pill{display:inline-block;background:#1c6e3c;color:#fff;border-radius:20px;padding:4px 14px;margin:4px;font-size:13px}
+.merger{display:inline-block;background:#c0392b;color:#fff;border:none;border-radius:8px;padding:10px 22px;font-size:15px;cursor:pointer;margin:6px}
+.million{background:#fff8e1;border:2px solid #d4a017;border-radius:10px;padding:12px;margin:14px 0;font-weight:bold}
+.kv{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:8px;margin:10px 0}
+.kv div{background:#fff;border:1px solid #ddd;border-radius:8px;padding:8px;font-size:13px}
+.card{background:#fff;border:1px solid #ddd;border-radius:10px;padding:16px;margin:14px 0}
+.codeblock{background:#1e1e1e;color:#d7ffce;padding:12px;border-radius:8px;overflow-x:auto;font-size:13px}
+.ladder{font-size:12px;color:#555}
+h2{color:#10243d}
+</style></head><body>
+<div class="hero"><h1>The Emergency Department Hospital Wing Database</h1><p>Real, fact-checked records on the Emergency Department Hospital Wing — purpose, equipment, procedures, staff, and patient flow. Public records organized in the Signature system.</p>
+<p>Records banked: <span id="stCount">20 / 1,000,000 target</span></p></div>
+<div class="million">MARCH TO 1,000,000 &mdash; 20 records banked. This database is in progress toward one million full records.</div>
+<div><span class="pill">Exhaustive</span>
+<button class="merger" onclick="alert('Merger queued: this database will merge into the All Database Merger.')">All Database Merger</button>
+<button class="merger" onclick="alert('Added to the All Database Merger queue.')">Merge This Database</button></div>
+<h2>Records</h2>
+<div class='card'><h3>Emergency Severity Index Triage</h3><p>The Emergency Severity Index sorts patients into five levels, from 1 (needs immediate life-saving intervention) to 5 (stable, needs no resources). Triage nurses assign the level within minutes of arrival using vital signs, symptoms, and expected resource needs. It is the single most important sorting tool in the emergency department.</p><p class='ladder'>Ladder rank 1 — Simple: the core idea in plain words — what it is and why it matters.</p><div class='kv'><div><b>Equipment</b><br>Cardiac monitors and defibrillators<br>Trauma bays with overhead surgical lights<br>Crash carts with airway and code drugs<br>CT scanner access and portable X-ray</div><div><b>Procedures</b><br>Emergency Severity Index (ESI) triage<br>Trauma team activation<br>Code blue resuscitation<br>Rapid sequence intubation</div><div><b>Staff</b><br>Emergency physicians<br>Emergency nurses<br>Triage nurses<br>Paramedics and EMTs</div><div><b>Flow</b><br>Patients arrive by ambulance or walk-in, get a rapid triage assessment within minutes, and are assigned an ESI level from 1 (immediate) to 5 (non-urgent). Level...</div></div><pre class='codeblock'>def esi_triage(hr, sbp, spo2, gcs, pain, resources_needed):
+    &quot;&quot;&quot;Emergency Severity Index estimator: returns level 1 (immediate) to 5 (non-urgent).&quot;&quot;&quot;
+    if gcs &lt;= 8 or spo2 &lt; 90 or sbp &lt; 90: return 1
+    if hr &gt; 130 or hr &lt; 40 or pain &gt;= 9: return 2
+    if resources_needed &gt;= 2: return 3
+    if resources_needed == 1: return 4
+    return 5
+print(&quot;ESI level:&quot;, esi_triage(hr=142, sbp=88, spo2=94, gcs=15, pain=8, resources_needed=2))</pre></div>
+<div class='card'><h3>Trauma Bay Operations</h3><p>Trauma bays are large resuscitation rooms with overhead lights, wall suction, oxygen, and space for a full trauma team. The most severely injured patients go here for simultaneous assessment by surgery, anesthesia, nursing, and radiology. Every tool needed for airway, breathing, and circulation is within arm&#x27;s reach.</p><p class='ladder'>Ladder rank 1 — Simple: the core idea in plain words — what it is and why it matters.</p><div class='kv'><div><b>Equipment</b><br>Cardiac monitors and defibrillators<br>Trauma bays with overhead surgical lights<br>Crash carts with airway and code drugs<br>CT scanner access and portable X-ray</div><div><b>Procedures</b><br>Emergency Severity Index (ESI) triage<br>Trauma team activation<br>Code blue resuscitation<br>Rapid sequence intubation</div><div><b>Staff</b><br>Emergency physicians<br>Emergency nurses<br>Triage nurses<br>Paramedics and EMTs</div><div><b>Flow</b><br>Patients arrive by ambulance or walk-in, get a rapid triage assessment within minutes, and are assigned an ESI level from 1 (immediate) to 5 (non-urgent). Level...</div></div><pre class='codeblock'>def esi_triage(hr, sbp, spo2, gcs, pain, resources_needed):
+    &quot;&quot;&quot;Emergency Severity Index estimator: returns level 1 (immediate) to 5 (non-urgent).&quot;&quot;&quot;
+    if gcs &lt;= 8 or spo2 &lt; 90 or sbp &lt; 90: return 1
+    if hr &gt; 130 or hr &lt; 40 or pain &gt;= 9: return 2
+    if resources_needed &gt;= 2: return 3
+    if resources_needed == 1: return 4
+    return 5
+print(&quot;ESI level:&quot;, esi_triage(hr=142, sbp=88, spo2=94, gcs=15, pain=8, resources_needed=2))</pre></div>
+<div class='card'><h3>Code Blue Response</h3><p>A code blue is called when a patient has no pulse or stops breathing. A team rushes in with a crash cart, starts chest compressions, delivers defibrillator shocks for shockable rhythms, and pushes emergency drugs like epinephrine. Survival depends on starting compressions within seconds.</p><p class='ladder'>Ladder rank 1 — Simple: the core idea in plain words — what it is and why it matters.</p><div class='kv'><div><b>Equipment</b><br>Cardiac monitors and defibrillators<br>Trauma bays with overhead surgical lights<br>Crash carts with airway and code drugs<br>CT scanner access and portable X-ray</div><div><b>Procedures</b><br>Emergency Severity Index (ESI) triage<br>Trauma team activation<br>Code blue resuscitation<br>Rapid sequence intubation</div><div><b>Staff</b><br>Emergency physicians<br>Emergency nurses<br>Triage nurses<br>Paramedics and EMTs</div><div><b>Flow</b><br>Patients arrive by ambulance or walk-in, get a rapid triage assessment within minutes, and are assigned an ESI level from 1 (immediate) to 5 (non-urgent). Level...</div></div><pre class='codeblock'>def esi_triage(hr, sbp, spo2, gcs, pain, resources_needed):
+    &quot;&quot;&quot;Emergency Severity Index estimator: returns level 1 (immediate) to 5 (non-urgent).&quot;&quot;&quot;
+    if gcs &lt;= 8 or spo2 &lt; 90 or sbp &lt; 90: return 1
+    if hr &gt; 130 or hr &lt; 40 or pain &gt;= 9: return 2
+    if resources_needed &gt;= 2: return 3
+    if resources_needed == 1: return 4
+    return 5
+print(&quot;ESI level:&quot;, esi_triage(hr=142, sbp=88, spo2=94, gcs=15, pain=8, resources_needed=2))</pre></div>
+<div class='card'><h3>Crash Cart Contents</h3><p>A crash cart carries everything for resuscitation: defibrillator, airway tubes, suction, IV supplies, and emergency medications. It is checked and restocked on every shift so nothing is missing in a crisis. Common drugs include epinephrine, amiodarone, atropine, and sodium bicarbonate.</p><p class='ladder'>Ladder rank 1 — Simple: the core idea in plain words — what it is and why it matters.</p><div class='kv'><div><b>Equipment</b><br>Cardiac monitors and defibrillators<br>Trauma bays with overhead surgical lights<br>Crash carts with airway and code drugs<br>CT scanner access and portable X-ray</div><div><b>Procedures</b><br>Emergency Severity Index (ESI) triage<br>Trauma team activation<br>Code blue resuscitation<br>Rapid sequence intubation</div><div><b>Staff</b><br>Emergency physicians<br>Emergency nurses<br>Triage nurses<br>Paramedics and EMTs</div><div><b>Flow</b><br>Patients arrive by ambulance or walk-in, get a rapid triage assessment within minutes, and are assigned an ESI level from 1 (immediate) to 5 (non-urgent). Level...</div></div><pre class='codeblock'>def esi_triage(hr, sbp, spo2, gcs, pain, resources_needed):
+    &quot;&quot;&quot;Emergency Severity Index estimator: returns level 1 (immediate) to 5 (non-urgent).&quot;&quot;&quot;
+    if gcs &lt;= 8 or spo2 &lt; 90 or sbp &lt; 90: return 1
+    if hr &gt; 130 or hr &lt; 40 or pain &gt;= 9: return 2
+    if resources_needed &gt;= 2: return 3
+    if resources_needed == 1: return 4
+    return 5
+print(&quot;ESI level:&quot;, esi_triage(hr=142, sbp=88, spo2=94, gcs=15, pain=8, resources_needed=2))</pre></div>
+<div class='card'><h3>Rapid Sequence Intubation</h3><p>Rapid sequence intubation places a breathing tube in seconds for patients who cannot protect their airway. The team gives a sedative and a paralytic back to back, then slides the tube past the vocal cords. It is used in trauma, overdose, and severe respiratory failure.</p><p class='ladder'>Ladder rank 1 — Simple: the core idea in plain words — what it is and why it matters.</p><div class='kv'><div><b>Equipment</b><br>Cardiac monitors and defibrillators<br>Trauma bays with overhead surgical lights<br>Crash carts with airway and code drugs<br>CT scanner access and portable X-ray</div><div><b>Procedures</b><br>Emergency Severity Index (ESI) triage<br>Trauma team activation<br>Code blue resuscitation<br>Rapid sequence intubation</div><div><b>Staff</b><br>Emergency physicians<br>Emergency nurses<br>Triage nurses<br>Paramedics and EMTs</div><div><b>Flow</b><br>Patients arrive by ambulance or walk-in, get a rapid triage assessment within minutes, and are assigned an ESI level from 1 (immediate) to 5 (non-urgent). Level...</div></div><pre class='codeblock'>def esi_triage(hr, sbp, spo2, gcs, pain, resources_needed):
+    &quot;&quot;&quot;Emergency Severity Index estimator: returns level 1 (immediate) to 5 (non-urgent).&quot;&quot;&quot;
+    if gcs &lt;= 8 or spo2 &lt; 90 or sbp &lt; 90: return 1
+    if hr &gt; 130 or hr &lt; 40 or pain &gt;= 9: return 2
+    if resources_needed &gt;= 2: return 3
+    if resources_needed == 1: return 4
+    return 5
+print(&quot;ESI level:&quot;, esi_triage(hr=142, sbp=88, spo2=94, gcs=15, pain=8, resources_needed=2))</pre></div>
+<div class='card'><h3>Sepsis Bundle</h3><p>Sepsis is the body&#x27;s overwhelming response to infection and kills fast. The bundle means: draw blood cultures, give broad-spectrum antibiotics within one hour, start IV fluids, and measure lactate. Every hour of antibiotic delay raises mortality, so the ED runs this as a timed protocol.</p><p class='ladder'>Ladder rank 1 — Simple: the core idea in plain words — what it is and why it matters.</p><div class='kv'><div><b>Equipment</b><br>Cardiac monitors and defibrillators<br>Trauma bays with overhead surgical lights<br>Crash carts with airway and code drugs<br>CT scanner access and portable X-ray</div><div><b>Procedures</b><br>Emergency Severity Index (ESI) triage<br>Trauma team activation<br>Code blue resuscitation<br>Rapid sequence intubation</div><div><b>Staff</b><br>Emergency physicians<br>Emergency nurses<br>Triage nurses<br>Paramedics and EMTs</div><div><b>Flow</b><br>Patients arrive by ambulance or walk-in, get a rapid triage assessment within minutes, and are assigned an ESI level from 1 (immediate) to 5 (non-urgent). Level...</div></div><pre class='codeblock'>def esi_triage(hr, sbp, spo2, gcs, pain, resources_needed):
+    &quot;&quot;&quot;Emergency Severity Index estimator: returns level 1 (immediate) to 5 (non-urgent).&quot;&quot;&quot;
+    if gcs &lt;= 8 or spo2 &lt; 90 or sbp &lt; 90: return 1
+    if hr &gt; 130 or hr &lt; 40 or pain &gt;= 9: return 2
+    if resources_needed &gt;= 2: return 3
+    if resources_needed == 1: return 4
+    return 5
+print(&quot;ESI level:&quot;, esi_triage(hr=142, sbp=88, spo2=94, gcs=15, pain=8, resources_needed=2))</pre></div>
+<div class='card'><h3>Stroke Code</h3><p>A stroke code mobilizes the stroke team the moment stroke symptoms are recognized. The patient gets a stat head CT to rule out bleeding, and if eligible, clot-busting tPA is given within 4.5 hours. Many centers can also pull the clot out mechanically up to 24 hours.</p><p class='ladder'>Ladder rank 1 — Simple: the core idea in plain words — what it is and why it matters.</p><div class='kv'><div><b>Equipment</b><br>Cardiac monitors and defibrillators<br>Trauma bays with overhead surgical lights<br>Crash carts with airway and code drugs<br>CT scanner access and portable X-ray</div><div><b>Procedures</b><br>Emergency Severity Index (ESI) triage<br>Trauma team activation<br>Code blue resuscitation<br>Rapid sequence intubation</div><div><b>Staff</b><br>Emergency physicians<br>Emergency nurses<br>Triage nurses<br>Paramedics and EMTs</div><div><b>Flow</b><br>Patients arrive by ambulance or walk-in, get a rapid triage assessment within minutes, and are assigned an ESI level from 1 (immediate) to 5 (non-urgent). Level...</div></div><pre class='codeblock'>def esi_triage(hr, sbp, spo2, gcs, pain, resources_needed):
+    &quot;&quot;&quot;Emergency Severity Index estimator: returns level 1 (immediate) to 5 (non-urgent).&quot;&quot;&quot;
+    if gcs &lt;= 8 or spo2 &lt; 90 or sbp &lt; 90: return 1
+    if hr &gt; 130 or hr &lt; 40 or pain &gt;= 9: return 2
+    if resources_needed &gt;= 2: return 3
+    if resources_needed == 1: return 4
+    return 5
+print(&quot;ESI level:&quot;, esi_triage(hr=142, sbp=88, spo2=94, gcs=15, pain=8, resources_needed=2))</pre></div>
+<div class='card'><h3>STEMI Protocol</h3><p>A STEMI is a major heart attack shown by ST elevation on the ECG. The protocol&#x27;s goal is door-to-balloon time under 90 minutes: ED diagnosis, immediate cardiology activation, and direct transfer to the catheterization lab. Aspirin, heparin, and antiplatelet drugs start in the ED.</p><p class='ladder'>Ladder rank 2 — Compounded: how it connects — the moving parts working together in real care.</p><div class='kv'><div><b>Equipment</b><br>Cardiac monitors and defibrillators<br>Trauma bays with overhead surgical lights<br>Crash carts with airway and code drugs<br>CT scanner access and portable X-ray</div><div><b>Procedures</b><br>Emergency Severity Index (ESI) triage<br>Trauma team activation<br>Code blue resuscitation<br>Rapid sequence intubation</div><div><b>Staff</b><br>Emergency physicians<br>Emergency nurses<br>Triage nurses<br>Paramedics and EMTs</div><div><b>Flow</b><br>Patients arrive by ambulance or walk-in, get a rapid triage assessment within minutes, and are assigned an ESI level from 1 (immediate) to 5 (non-urgent). Level...</div></div><pre class='codeblock'>def esi_triage(hr, sbp, spo2, gcs, pain, resources_needed):
+    &quot;&quot;&quot;Emergency Severity Index estimator: returns level 1 (immediate) to 5 (non-urgent).&quot;&quot;&quot;
+    if gcs &lt;= 8 or spo2 &lt; 90 or sbp &lt; 90: return 1
+    if hr &gt; 130 or hr &lt; 40 or pain &gt;= 9: return 2
+    if resources_needed &gt;= 2: return 3
+    if resources_needed == 1: return 4
+    return 5
+print(&quot;ESI level:&quot;, esi_triage(hr=142, sbp=88, spo2=94, gcs=15, pain=8, resources_needed=2))</pre></div>
+<div class='card'><h3>FAST Ultrasound Exam</h3><p>The Focused Assessment with Sonography for Trauma looks for internal bleeding in trauma patients in under two minutes. The probe checks four areas: around the heart, liver, spleen, and bladder. Free fluid means bleeding inside, and the patient may need emergency surgery.</p><p class='ladder'>Ladder rank 2 — Compounded: how it connects — the moving parts working together in real care.</p><div class='kv'><div><b>Equipment</b><br>Cardiac monitors and defibrillators<br>Trauma bays with overhead surgical lights<br>Crash carts with airway and code drugs<br>CT scanner access and portable X-ray</div><div><b>Procedures</b><br>Emergency Severity Index (ESI) triage<br>Trauma team activation<br>Code blue resuscitation<br>Rapid sequence intubation</div><div><b>Staff</b><br>Emergency physicians<br>Emergency nurses<br>Triage nurses<br>Paramedics and EMTs</div><div><b>Flow</b><br>Patients arrive by ambulance or walk-in, get a rapid triage assessment within minutes, and are assigned an ESI level from 1 (immediate) to 5 (non-urgent). Level...</div></div><pre class='codeblock'>def esi_triage(hr, sbp, spo2, gcs, pain, resources_needed):
+    &quot;&quot;&quot;Emergency Severity Index estimator: returns level 1 (immediate) to 5 (non-urgent).&quot;&quot;&quot;
+    if gcs &lt;= 8 or spo2 &lt; 90 or sbp &lt; 90: return 1
+    if hr &gt; 130 or hr &lt; 40 or pain &gt;= 9: return 2
+    if resources_needed &gt;= 2: return 3
+    if resources_needed == 1: return 4
+    return 5
+print(&quot;ESI level:&quot;, esi_triage(hr=142, sbp=88, spo2=94, gcs=15, pain=8, resources_needed=2))</pre></div>
+<div class='card'><h3>Decontamination Room</h3><p>Patients exposed to chemicals, radiation, or hazardous materials are decontaminated before entering the main ED. Staff in protective gear rinse the patient with water and remove contaminated clothing. This protects the patient, staff, and the whole department from spread.</p><p class='ladder'>Ladder rank 2 — Compounded: how it connects — the moving parts working together in real care.</p><div class='kv'><div><b>Equipment</b><br>Cardiac monitors and defibrillators<br>Trauma bays with overhead surgical lights<br>Crash carts with airway and code drugs<br>CT scanner access and portable X-ray</div><div><b>Procedures</b><br>Emergency Severity Index (ESI) triage<br>Trauma team activation<br>Code blue resuscitation<br>Rapid sequence intubation</div><div><b>Staff</b><br>Emergency physicians<br>Emergency nurses<br>Triage nurses<br>Paramedics and EMTs</div><div><b>Flow</b><br>Patients arrive by ambulance or walk-in, get a rapid triage assessment within minutes, and are assigned an ESI level from 1 (immediate) to 5 (non-urgent). Level...</div></div><pre class='codeblock'>def esi_triage(hr, sbp, spo2, gcs, pain, resources_needed):
+    &quot;&quot;&quot;Emergency Severity Index estimator: returns level 1 (immediate) to 5 (non-urgent).&quot;&quot;&quot;
+    if gcs &lt;= 8 or spo2 &lt; 90 or sbp &lt; 90: return 1
+    if hr &gt; 130 or hr &lt; 40 or pain &gt;= 9: return 2
+    if resources_needed &gt;= 2: return 3
+    if resources_needed == 1: return 4
+    return 5
+print(&quot;ESI level:&quot;, esi_triage(hr=142, sbp=88, spo2=94, gcs=15, pain=8, resources_needed=2))</pre></div>
+<div class='card'><h3>Fast Track Unit</h3><p>Fast Track handles low-acuity patients — sprains, minor cuts, ear infections — with a dedicated provider and nurse. It keeps simple cases moving so they never clog the main treatment bays. Typical door-to-discharge times run under 90 minutes.</p><p class='ladder'>Ladder rank 2 — Compounded: how it connects — the moving parts working together in real care.</p><div class='kv'><div><b>Equipment</b><br>Cardiac monitors and defibrillators<br>Trauma bays with overhead surgical lights<br>Crash carts with airway and code drugs<br>CT scanner access and portable X-ray</div><div><b>Procedures</b><br>Emergency Severity Index (ESI) triage<br>Trauma team activation<br>Code blue resuscitation<br>Rapid sequence intubation</div><div><b>Staff</b><br>Emergency physicians<br>Emergency nurses<br>Triage nurses<br>Paramedics and EMTs</div><div><b>Flow</b><br>Patients arrive by ambulance or walk-in, get a rapid triage assessment within minutes, and are assigned an ESI level from 1 (immediate) to 5 (non-urgent). Level...</div></div><pre class='codeblock'>def esi_triage(hr, sbp, spo2, gcs, pain, resources_needed):
+    &quot;&quot;&quot;Emergency Severity Index estimator: returns level 1 (immediate) to 5 (non-urgent).&quot;&quot;&quot;
+    if gcs &lt;= 8 or spo2 &lt; 90 or sbp &lt; 90: return 1
+    if hr &gt; 130 or hr &lt; 40 or pain &gt;= 9: return 2
+    if resources_needed &gt;= 2: return 3
+    if resources_needed == 1: return 4
+    return 5
+print(&quot;ESI level:&quot;, esi_triage(hr=142, sbp=88, spo2=94, gcs=15, pain=8, resources_needed=2))</pre></div>
+<div class='card'><h3>Behavioral Health Emergency Care</h3><p>EDs see patients in psychiatric crisis: suicidal thoughts, psychosis, or severe agitation. They are placed in safe, ligature-resistant rooms with constant observation. Medical causes are ruled out first, then psychiatry evaluates for admission or safe discharge planning.</p><p class='ladder'>Ladder rank 2 — Compounded: how it connects — the moving parts working together in real care.</p><div class='kv'><div><b>Equipment</b><br>Cardiac monitors and defibrillators<br>Trauma bays with overhead surgical lights<br>Crash carts with airway and code drugs<br>CT scanner access and portable X-ray</div><div><b>Procedures</b><br>Emergency Severity Index (ESI) triage<br>Trauma team activation<br>Code blue resuscitation<br>Rapid sequence intubation</div><div><b>Staff</b><br>Emergency physicians<br>Emergency nurses<br>Triage nurses<br>Paramedics and EMTs</div><div><b>Flow</b><br>Patients arrive by ambulance or walk-in, get a rapid triage assessment within minutes, and are assigned an ESI level from 1 (immediate) to 5 (non-urgent). Level...</div></div><pre class='codeblock'>def esi_triage(hr, sbp, spo2, gcs, pain, resources_needed):
+    &quot;&quot;&quot;Emergency Severity Index estimator: returns level 1 (immediate) to 5 (non-urgent).&quot;&quot;&quot;
+    if gcs &lt;= 8 or spo2 &lt; 90 or sbp &lt; 90: return 1
+    if hr &gt; 130 or hr &lt; 40 or pain &gt;= 9: return 2
+    if resources_needed &gt;= 2: return 3
+    if resources_needed == 1: return 4
+    return 5
+print(&quot;ESI level:&quot;, esi_triage(hr=142, sbp=88, spo2=94, gcs=15, pain=8, resources_needed=2))</pre></div>
+<div class='card'><h3>Pediatric Emergency Zone</h3><p>Children are not small adults: they need weight-based dosing, smaller equipment, and staff trained in pediatric emergencies. Many EDs have a dedicated pediatric area with child life specialists who reduce fear. The Broselow tape gives instant drug doses by the child&#x27;s length.</p><p class='ladder'>Ladder rank 2 — Compounded: how it connects — the moving parts working together in real care.</p><div class='kv'><div><b>Equipment</b><br>Cardiac monitors and defibrillators<br>Trauma bays with overhead surgical lights<br>Crash carts with airway and code drugs<br>CT scanner access and portable X-ray</div><div><b>Procedures</b><br>Emergency Severity Index (ESI) triage<br>Trauma team activation<br>Code blue resuscitation<br>Rapid sequence intubation</div><div><b>Staff</b><br>Emergency physicians<br>Emergency nurses<br>Triage nurses<br>Paramedics and EMTs</div><div><b>Flow</b><br>Patients arrive by ambulance or walk-in, get a rapid triage assessment within minutes, and are assigned an ESI level from 1 (immediate) to 5 (non-urgent). Level...</div></div><pre class='codeblock'>def esi_triage(hr, sbp, spo2, gcs, pain, resources_needed):
+    &quot;&quot;&quot;Emergency Severity Index estimator: returns level 1 (immediate) to 5 (non-urgent).&quot;&quot;&quot;
+    if gcs &lt;= 8 or spo2 &lt; 90 or sbp &lt; 90: return 1
+    if hr &gt; 130 or hr &lt; 40 or pain &gt;= 9: return 2
+    if resources_needed &gt;= 2: return 3
+    if resources_needed == 1: return 4
+    return 5
+print(&quot;ESI level:&quot;, esi_triage(hr=142, sbp=88, spo2=94, gcs=15, pain=8, resources_needed=2))</pre></div>
+<div class='card'><h3>Disaster Surge Plan</h3><p>When mass casualties arrive, the ED switches to surge mode: triage moves outside, elective areas become treatment space, and staff are recalled. Patients are sorted by survivability so resources save the most lives. Drills keep this plan ready at all times.</p><p class='ladder'>Ladder rank 2 — Compounded: how it connects — the moving parts working together in real care.</p><div class='kv'><div><b>Equipment</b><br>Cardiac monitors and defibrillators<br>Trauma bays with overhead surgical lights<br>Crash carts with airway and code drugs<br>CT scanner access and portable X-ray</div><div><b>Procedures</b><br>Emergency Severity Index (ESI) triage<br>Trauma team activation<br>Code blue resuscitation<br>Rapid sequence intubation</div><div><b>Staff</b><br>Emergency physicians<br>Emergency nurses<br>Triage nurses<br>Paramedics and EMTs</div><div><b>Flow</b><br>Patients arrive by ambulance or walk-in, get a rapid triage assessment within minutes, and are assigned an ESI level from 1 (immediate) to 5 (non-urgent). Level...</div></div><pre class='codeblock'>def esi_triage(hr, sbp, spo2, gcs, pain, resources_needed):
+    &quot;&quot;&quot;Emergency Severity Index estimator: returns level 1 (immediate) to 5 (non-urgent).&quot;&quot;&quot;
+    if gcs &lt;= 8 or spo2 &lt; 90 or sbp &lt; 90: return 1
+    if hr &gt; 130 or hr &lt; 40 or pain &gt;= 9: return 2
+    if resources_needed &gt;= 2: return 3
+    if resources_needed == 1: return 4
+    return 5
+print(&quot;ESI level:&quot;, esi_triage(hr=142, sbp=88, spo2=94, gcs=15, pain=8, resources_needed=2))</pre></div>
+<div class='card'><h3>Ambulance Bay and EMS Handoff</h3><p>Ambulances arrive at a dedicated bay where paramedics give a structured handoff: age, mechanism, injuries, vitals, treatment. This SBAR-style report lets the ED team act in seconds. Pre-arrival radio alerts let trauma teams assemble before the patient rolls in.</p><p class='ladder'>Ladder rank 3 — Complex: the full picture — mastery-level detail for deep understanding.</p><div class='kv'><div><b>Equipment</b><br>Cardiac monitors and defibrillators<br>Trauma bays with overhead surgical lights<br>Crash carts with airway and code drugs<br>CT scanner access and portable X-ray</div><div><b>Procedures</b><br>Emergency Severity Index (ESI) triage<br>Trauma team activation<br>Code blue resuscitation<br>Rapid sequence intubation</div><div><b>Staff</b><br>Emergency physicians<br>Emergency nurses<br>Triage nurses<br>Paramedics and EMTs</div><div><b>Flow</b><br>Patients arrive by ambulance or walk-in, get a rapid triage assessment within minutes, and are assigned an ESI level from 1 (immediate) to 5 (non-urgent). Level...</div></div><pre class='codeblock'>def esi_triage(hr, sbp, spo2, gcs, pain, resources_needed):
+    &quot;&quot;&quot;Emergency Severity Index estimator: returns level 1 (immediate) to 5 (non-urgent).&quot;&quot;&quot;
+    if gcs &lt;= 8 or spo2 &lt; 90 or sbp &lt; 90: return 1
+    if hr &gt; 130 or hr &lt; 40 or pain &gt;= 9: return 2
+    if resources_needed &gt;= 2: return 3
+    if resources_needed == 1: return 4
+    return 5
+print(&quot;ESI level:&quot;, esi_triage(hr=142, sbp=88, spo2=94, gcs=15, pain=8, resources_needed=2))</pre></div>
+<div class='card'><h3>Observation Unit</h3><p>The observation unit holds patients for 12 to 24 hours when the ED team needs more time to decide. Chest pain, mild asthma, and dehydration are common observation diagnoses. It prevents unnecessary full admissions while keeping patients safe under monitoring.</p><p class='ladder'>Ladder rank 3 — Complex: the full picture — mastery-level detail for deep understanding.</p><div class='kv'><div><b>Equipment</b><br>Cardiac monitors and defibrillators<br>Trauma bays with overhead surgical lights<br>Crash carts with airway and code drugs<br>CT scanner access and portable X-ray</div><div><b>Procedures</b><br>Emergency Severity Index (ESI) triage<br>Trauma team activation<br>Code blue resuscitation<br>Rapid sequence intubation</div><div><b>Staff</b><br>Emergency physicians<br>Emergency nurses<br>Triage nurses<br>Paramedics and EMTs</div><div><b>Flow</b><br>Patients arrive by ambulance or walk-in, get a rapid triage assessment within minutes, and are assigned an ESI level from 1 (immediate) to 5 (non-urgent). Level...</div></div><pre class='codeblock'>def esi_triage(hr, sbp, spo2, gcs, pain, resources_needed):
+    &quot;&quot;&quot;Emergency Severity Index estimator: returns level 1 (immediate) to 5 (non-urgent).&quot;&quot;&quot;
+    if gcs &lt;= 8 or spo2 &lt; 90 or sbp &lt; 90: return 1
+    if hr &gt; 130 or hr &lt; 40 or pain &gt;= 9: return 2
+    if resources_needed &gt;= 2: return 3
+    if resources_needed == 1: return 4
+    return 5
+print(&quot;ESI level:&quot;, esi_triage(hr=142, sbp=88, spo2=94, gcs=15, pain=8, resources_needed=2))</pre></div>
+<div class='card'><h3>EMTALA Duty</h3><p>The Emergency Medical Treatment and Labor Act requires every ED to screen and stabilize anyone who comes in, regardless of ability to pay. No patient can be turned away or transferred until stable. It is the legal backbone of emergency care access.</p><p class='ladder'>Ladder rank 3 — Complex: the full picture — mastery-level detail for deep understanding.</p><div class='kv'><div><b>Equipment</b><br>Cardiac monitors and defibrillators<br>Trauma bays with overhead surgical lights<br>Crash carts with airway and code drugs<br>CT scanner access and portable X-ray</div><div><b>Procedures</b><br>Emergency Severity Index (ESI) triage<br>Trauma team activation<br>Code blue resuscitation<br>Rapid sequence intubation</div><div><b>Staff</b><br>Emergency physicians<br>Emergency nurses<br>Triage nurses<br>Paramedics and EMTs</div><div><b>Flow</b><br>Patients arrive by ambulance or walk-in, get a rapid triage assessment within minutes, and are assigned an ESI level from 1 (immediate) to 5 (non-urgent). Level...</div></div><pre class='codeblock'>def esi_triage(hr, sbp, spo2, gcs, pain, resources_needed):
+    &quot;&quot;&quot;Emergency Severity Index estimator: returns level 1 (immediate) to 5 (non-urgent).&quot;&quot;&quot;
+    if gcs &lt;= 8 or spo2 &lt; 90 or sbp &lt; 90: return 1
+    if hr &gt; 130 or hr &lt; 40 or pain &gt;= 9: return 2
+    if resources_needed &gt;= 2: return 3
+    if resources_needed == 1: return 4
+    return 5
+print(&quot;ESI level:&quot;, esi_triage(hr=142, sbp=88, spo2=94, gcs=15, pain=8, resources_needed=2))</pre></div>
+<div class='card'><h3>Door-to-Doctor Metrics</h3><p>ED quality is measured in minutes: door-to-doctor, door-to-CT, door-to-antibiotic. Long waits raise the rate of patients who leave without being seen. Dashboards track these times live so charge nurses can rebalance staff instantly.</p><p class='ladder'>Ladder rank 3 — Complex: the full picture — mastery-level detail for deep understanding.</p><div class='kv'><div><b>Equipment</b><br>Cardiac monitors and defibrillators<br>Trauma bays with overhead surgical lights<br>Crash carts with airway and code drugs<br>CT scanner access and portable X-ray</div><div><b>Procedures</b><br>Emergency Severity Index (ESI) triage<br>Trauma team activation<br>Code blue resuscitation<br>Rapid sequence intubation</div><div><b>Staff</b><br>Emergency physicians<br>Emergency nurses<br>Triage nurses<br>Paramedics and EMTs</div><div><b>Flow</b><br>Patients arrive by ambulance or walk-in, get a rapid triage assessment within minutes, and are assigned an ESI level from 1 (immediate) to 5 (non-urgent). Level...</div></div><pre class='codeblock'>def esi_triage(hr, sbp, spo2, gcs, pain, resources_needed):
+    &quot;&quot;&quot;Emergency Severity Index estimator: returns level 1 (immediate) to 5 (non-urgent).&quot;&quot;&quot;
+    if gcs &lt;= 8 or spo2 &lt; 90 or sbp &lt; 90: return 1
+    if hr &gt; 130 or hr &lt; 40 or pain &gt;= 9: return 2
+    if resources_needed &gt;= 2: return 3
+    if resources_needed == 1: return 4
+    return 5
+print(&quot;ESI level:&quot;, esi_triage(hr=142, sbp=88, spo2=94, gcs=15, pain=8, resources_needed=2))</pre></div>
+<div class='card'><h3>Point-of-Care Testing</h3><p>Bedside analyzers run troponin, lactate, blood gases, and pregnancy tests in minutes instead of sending samples to the central lab. Faster results mean faster decisions on heart attacks, sepsis, and trauma. Quality control checks keep bedside results as reliable as lab results.</p><p class='ladder'>Ladder rank 3 — Complex: the full picture — mastery-level detail for deep understanding.</p><div class='kv'><div><b>Equipment</b><br>Cardiac monitors and defibrillators<br>Trauma bays with overhead surgical lights<br>Crash carts with airway and code drugs<br>CT scanner access and portable X-ray</div><div><b>Procedures</b><br>Emergency Severity Index (ESI) triage<br>Trauma team activation<br>Code blue resuscitation<br>Rapid sequence intubation</div><div><b>Staff</b><br>Emergency physicians<br>Emergency nurses<br>Triage nurses<br>Paramedics and EMTs</div><div><b>Flow</b><br>Patients arrive by ambulance or walk-in, get a rapid triage assessment within minutes, and are assigned an ESI level from 1 (immediate) to 5 (non-urgent). Level...</div></div><pre class='codeblock'>def esi_triage(hr, sbp, spo2, gcs, pain, resources_needed):
+    &quot;&quot;&quot;Emergency Severity Index estimator: returns level 1 (immediate) to 5 (non-urgent).&quot;&quot;&quot;
+    if gcs &lt;= 8 or spo2 &lt; 90 or sbp &lt; 90: return 1
+    if hr &gt; 130 or hr &lt; 40 or pain &gt;= 9: return 2
+    if resources_needed &gt;= 2: return 3
+    if resources_needed == 1: return 4
+    return 5
+print(&quot;ESI level:&quot;, esi_triage(hr=142, sbp=88, spo2=94, gcs=15, pain=8, resources_needed=2))</pre></div>
+<div class='card'><h3>Discharge and Admission Flow</h3><p>Discharge means prescriptions, written instructions, and a follow-up plan the patient can actually follow. Admission means a bed request, handoff report, and transport upstairs. Both paths are documented in the chart so nothing falls through the cracks.</p><p class='ladder'>Ladder rank 3 — Complex: the full picture — mastery-level detail for deep understanding.</p><div class='kv'><div><b>Equipment</b><br>Cardiac monitors and defibrillators<br>Trauma bays with overhead surgical lights<br>Crash carts with airway and code drugs<br>CT scanner access and portable X-ray</div><div><b>Procedures</b><br>Emergency Severity Index (ESI) triage<br>Trauma team activation<br>Code blue resuscitation<br>Rapid sequence intubation</div><div><b>Staff</b><br>Emergency physicians<br>Emergency nurses<br>Triage nurses<br>Paramedics and EMTs</div><div><b>Flow</b><br>Patients arrive by ambulance or walk-in, get a rapid triage assessment within minutes, and are assigned an ESI level from 1 (immediate) to 5 (non-urgent). Level...</div></div><pre class='codeblock'>def esi_triage(hr, sbp, spo2, gcs, pain, resources_needed):
+    &quot;&quot;&quot;Emergency Severity Index estimator: returns level 1 (immediate) to 5 (non-urgent).&quot;&quot;&quot;
+    if gcs &lt;= 8 or spo2 &lt; 90 or sbp &lt; 90: return 1
+    if hr &gt; 130 or hr &lt; 40 or pain &gt;= 9: return 2
+    if resources_needed &gt;= 2: return 3
+    if resources_needed == 1: return 4
+    return 5
+print(&quot;ESI level:&quot;, esi_triage(hr=142, sbp=88, spo2=94, gcs=15, pain=8, resources_needed=2))</pre></div>
+<h2>Working Demo</h2>
+<pre class="codeblock">def esi_triage(hr, sbp, spo2, gcs, pain, resources_needed):
+    &quot;&quot;&quot;Emergency Severity Index estimator: returns level 1 (immediate) to 5 (non-urgent).&quot;&quot;&quot;
+    if gcs &lt;= 8 or spo2 &lt; 90 or sbp &lt; 90: return 1
+    if hr &gt; 130 or hr &lt; 40 or pain &gt;= 9: return 2
+    if resources_needed &gt;= 2: return 3
+    if resources_needed == 1: return 4
+    return 5
+print(&quot;ESI level:&quot;, esi_triage(hr=142, sbp=88, spo2=94, gcs=15, pain=8, resources_needed=2))</pre>
+</body></html>

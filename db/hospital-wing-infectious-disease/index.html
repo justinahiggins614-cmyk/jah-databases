@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Infectious Disease Hospital Wing Database</title>
+<style>
+body{font-family:Georgia,serif;max-width:1100px;margin:0 auto;padding:16px;background:#faf8f4;color:#222}
+.hero{background:#10243d;color:#fff;padding:28px;border-radius:12px}
+.pill{display:inline-block;background:#1c6e3c;color:#fff;border-radius:20px;padding:4px 14px;margin:4px;font-size:13px}
+.merger{display:inline-block;background:#c0392b;color:#fff;border:none;border-radius:8px;padding:10px 22px;font-size:15px;cursor:pointer;margin:6px}
+.million{background:#fff8e1;border:2px solid #d4a017;border-radius:10px;padding:12px;margin:14px 0;font-weight:bold}
+.kv{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:8px;margin:10px 0}
+.kv div{background:#fff;border:1px solid #ddd;border-radius:8px;padding:8px;font-size:13px}
+.card{background:#fff;border:1px solid #ddd;border-radius:10px;padding:16px;margin:14px 0}
+.codeblock{background:#1e1e1e;color:#d7ffce;padding:12px;border-radius:8px;overflow-x:auto;font-size:13px}
+.ladder{font-size:12px;color:#555}
+h2{color:#10243d}
+</style></head><body>
+<div class="hero"><h1>The Infectious Disease Hospital Wing Database</h1><p>Real, fact-checked records on the Infectious Disease Hospital Wing — purpose, equipment, procedures, staff, and patient flow. Public records organized in the Signature system.</p>
+<p>Records banked: <span id="stCount">20 / 1,000,000 target</span></p></div>
+<div class="million">MARCH TO 1,000,000 &mdash; 20 records banked. This database is in progress toward one million full records.</div>
+<div><span class="pill">Exhaustive</span>
+<button class="merger" onclick="alert('Merger queued: this database will merge into the All Database Merger.')">All Database Merger</button>
+<button class="merger" onclick="alert('Added to the All Database Merger queue.')">Merge This Database</button></div>
+<h2>Records</h2>
+<div class='card'><h3>Fever of Unknown Origin Workup</h3><p>Persistent unexplained fever gets systematic hunting — cultures, imaging, biopsies, serologies — by ID detectives. Patience plus pattern recognition solves most. The fever always has a reason.</p><p class='ladder'>Ladder rank 1 — Simple: the core idea in plain words — what it is and why it matters.</p><div class='kv'><div><b>Equipment</b><br>Isolation rooms (negative pressure)<br>Biosafety cabinets<br>Rapid molecular test platforms<br>Vaccination clinics</div><div><b>Procedures</b><br>Fever of unknown origin workup<br>Antibiotic stewardship rounds<br>Isolation precaution management<br>Outbreak investigation</div><div><b>Staff</b><br>Infectious disease physicians<br>Infection preventionists<br>Antimicrobial stewardship pharmacists<br>Microbiologists</div><div><b>Flow</b><br>Consults arrive for mysterious fevers, resistant infections, or complex HIV/TB; workup blends cultures, molecular tests, and imaging. Stewardship teams round da...</div></div><pre class='codeblock'>def isolation_precautions(disease):
+    &quot;&quot;&quot;Maps disease to CDC isolation precaution type.&quot;&quot;&quot;
+    table = {&quot;mrsa&quot;: &quot;Contact&quot;, &quot;c_diff&quot;: &quot;Contact + soap/water handwash&quot;,
+             &quot;tb&quot;: &quot;Airborne (N95, negative pressure)&quot;, &quot;measles&quot;: &quot;Airborne&quot;,
+             &quot;flu&quot;: &quot;Droplet&quot;, &quot;covid&quot;: &quot;Airborne + eye protection&quot;,
+             &quot;norovirus&quot;: &quot;Contact&quot;, &quot;meningitis&quot;: &quot;Droplet (first 24h antibiotics)&quot;}
+    return table.get(disease.lower(), &quot;Standard precautions - verify with infection prevention&quot;)
+print(isolation_precautions(&quot;tb&quot;))</pre></div>
+<div class='card'><h3>Antibiotic Stewardship</h3><p>Stewardship ensures right drug, dose, and duration — stopping unnecessary antibiotics that breed resistance. Prospective audit and de-escalation are the tools. Every dose must earn its place.</p><p class='ladder'>Ladder rank 1 — Simple: the core idea in plain words — what it is and why it matters.</p><div class='kv'><div><b>Equipment</b><br>Isolation rooms (negative pressure)<br>Biosafety cabinets<br>Rapid molecular test platforms<br>Vaccination clinics</div><div><b>Procedures</b><br>Fever of unknown origin workup<br>Antibiotic stewardship rounds<br>Isolation precaution management<br>Outbreak investigation</div><div><b>Staff</b><br>Infectious disease physicians<br>Infection preventionists<br>Antimicrobial stewardship pharmacists<br>Microbiologists</div><div><b>Flow</b><br>Consults arrive for mysterious fevers, resistant infections, or complex HIV/TB; workup blends cultures, molecular tests, and imaging. Stewardship teams round da...</div></div><pre class='codeblock'>def isolation_precautions(disease):
+    &quot;&quot;&quot;Maps disease to CDC isolation precaution type.&quot;&quot;&quot;
+    table = {&quot;mrsa&quot;: &quot;Contact&quot;, &quot;c_diff&quot;: &quot;Contact + soap/water handwash&quot;,
+             &quot;tb&quot;: &quot;Airborne (N95, negative pressure)&quot;, &quot;measles&quot;: &quot;Airborne&quot;,
+             &quot;flu&quot;: &quot;Droplet&quot;, &quot;covid&quot;: &quot;Airborne + eye protection&quot;,
+             &quot;norovirus&quot;: &quot;Contact&quot;, &quot;meningitis&quot;: &quot;Droplet (first 24h antibiotics)&quot;}
+    return table.get(disease.lower(), &quot;Standard precautions - verify with infection prevention&quot;)
+print(isolation_precautions(&quot;tb&quot;))</pre></div>
+<div class='card'><h3>Isolation Precautions</h3><p>Contact, droplet, and airborne precautions — gowns, masks, negative pressure — contain contagion. Donning and doffing discipline protects staff. Precautions are respect made visible.</p><p class='ladder'>Ladder rank 1 — Simple: the core idea in plain words — what it is and why it matters.</p><div class='kv'><div><b>Equipment</b><br>Isolation rooms (negative pressure)<br>Biosafety cabinets<br>Rapid molecular test platforms<br>Vaccination clinics</div><div><b>Procedures</b><br>Fever of unknown origin workup<br>Antibiotic stewardship rounds<br>Isolation precaution management<br>Outbreak investigation</div><div><b>Staff</b><br>Infectious disease physicians<br>Infection preventionists<br>Antimicrobial stewardship pharmacists<br>Microbiologists</div><div><b>Flow</b><br>Consults arrive for mysterious fevers, resistant infections, or complex HIV/TB; workup blends cultures, molecular tests, and imaging. Stewardship teams round da...</div></div><pre class='codeblock'>def isolation_precautions(disease):
+    &quot;&quot;&quot;Maps disease to CDC isolation precaution type.&quot;&quot;&quot;
+    table = {&quot;mrsa&quot;: &quot;Contact&quot;, &quot;c_diff&quot;: &quot;Contact + soap/water handwash&quot;,
+             &quot;tb&quot;: &quot;Airborne (N95, negative pressure)&quot;, &quot;measles&quot;: &quot;Airborne&quot;,
+             &quot;flu&quot;: &quot;Droplet&quot;, &quot;covid&quot;: &quot;Airborne + eye protection&quot;,
+             &quot;norovirus&quot;: &quot;Contact&quot;, &quot;meningitis&quot;: &quot;Droplet (first 24h antibiotics)&quot;}
+    return table.get(disease.lower(), &quot;Standard precautions - verify with infection prevention&quot;)
+print(isolation_precautions(&quot;tb&quot;))</pre></div>
+<div class='card'><h3>HIV Care</h3><p>Modern antiretrovirals suppress HIV to undetectable — untransmittable — with single daily pills. U=U transformed the epidemic. Treatment is prevention.</p><p class='ladder'>Ladder rank 1 — Simple: the core idea in plain words — what it is and why it matters.</p><div class='kv'><div><b>Equipment</b><br>Isolation rooms (negative pressure)<br>Biosafety cabinets<br>Rapid molecular test platforms<br>Vaccination clinics</div><div><b>Procedures</b><br>Fever of unknown origin workup<br>Antibiotic stewardship rounds<br>Isolation precaution management<br>Outbreak investigation</div><div><b>Staff</b><br>Infectious disease physicians<br>Infection preventionists<br>Antimicrobial stewardship pharmacists<br>Microbiologists</div><div><b>Flow</b><br>Consults arrive for mysterious fevers, resistant infections, or complex HIV/TB; workup blends cultures, molecular tests, and imaging. Stewardship teams round da...</div></div><pre class='codeblock'>def isolation_precautions(disease):
+    &quot;&quot;&quot;Maps disease to CDC isolation precaution type.&quot;&quot;&quot;
+    table = {&quot;mrsa&quot;: &quot;Contact&quot;, &quot;c_diff&quot;: &quot;Contact + soap/water handwash&quot;,
+             &quot;tb&quot;: &quot;Airborne (N95, negative pressure)&quot;, &quot;measles&quot;: &quot;Airborne&quot;,
+             &quot;flu&quot;: &quot;Droplet&quot;, &quot;covid&quot;: &quot;Airborne + eye protection&quot;,
+             &quot;norovirus&quot;: &quot;Contact&quot;, &quot;meningitis&quot;: &quot;Droplet (first 24h antibiotics)&quot;}
+    return table.get(disease.lower(), &quot;Standard precautions - verify with infection prevention&quot;)
+print(isolation_precautions(&quot;tb&quot;))</pre></div>
+<div class='card'><h3>Tuberculosis Management</h3><p>TB needs months of multi-drug therapy with directly observed treatment; drug-resistant TB needs expertise. Isolation until noninfectious. Persistence cures.</p><p class='ladder'>Ladder rank 1 — Simple: the core idea in plain words — what it is and why it matters.</p><div class='kv'><div><b>Equipment</b><br>Isolation rooms (negative pressure)<br>Biosafety cabinets<br>Rapid molecular test platforms<br>Vaccination clinics</div><div><b>Procedures</b><br>Fever of unknown origin workup<br>Antibiotic stewardship rounds<br>Isolation precaution management<br>Outbreak investigation</div><div><b>Staff</b><br>Infectious disease physicians<br>Infection preventionists<br>Antimicrobial stewardship pharmacists<br>Microbiologists</div><div><b>Flow</b><br>Consults arrive for mysterious fevers, resistant infections, or complex HIV/TB; workup blends cultures, molecular tests, and imaging. Stewardship teams round da...</div></div><pre class='codeblock'>def isolation_precautions(disease):
+    &quot;&quot;&quot;Maps disease to CDC isolation precaution type.&quot;&quot;&quot;
+    table = {&quot;mrsa&quot;: &quot;Contact&quot;, &quot;c_diff&quot;: &quot;Contact + soap/water handwash&quot;,
+             &quot;tb&quot;: &quot;Airborne (N95, negative pressure)&quot;, &quot;measles&quot;: &quot;Airborne&quot;,
+             &quot;flu&quot;: &quot;Droplet&quot;, &quot;covid&quot;: &quot;Airborne + eye protection&quot;,
+             &quot;norovirus&quot;: &quot;Contact&quot;, &quot;meningitis&quot;: &quot;Droplet (first 24h antibiotics)&quot;}
+    return table.get(disease.lower(), &quot;Standard precautions - verify with infection prevention&quot;)
+print(isolation_precautions(&quot;tb&quot;))</pre></div>
+<div class='card'><h3>Sepsis Recognition</h3><p>ID teams drive sepsis protocols — early cultures, broad antibiotics within the hour, source control. Every hour counts. Recognition is the intervention.</p><p class='ladder'>Ladder rank 1 — Simple: the core idea in plain words — what it is and why it matters.</p><div class='kv'><div><b>Equipment</b><br>Isolation rooms (negative pressure)<br>Biosafety cabinets<br>Rapid molecular test platforms<br>Vaccination clinics</div><div><b>Procedures</b><br>Fever of unknown origin workup<br>Antibiotic stewardship rounds<br>Isolation precaution management<br>Outbreak investigation</div><div><b>Staff</b><br>Infectious disease physicians<br>Infection preventionists<br>Antimicrobial stewardship pharmacists<br>Microbiologists</div><div><b>Flow</b><br>Consults arrive for mysterious fevers, resistant infections, or complex HIV/TB; workup blends cultures, molecular tests, and imaging. Stewardship teams round da...</div></div><pre class='codeblock'>def isolation_precautions(disease):
+    &quot;&quot;&quot;Maps disease to CDC isolation precaution type.&quot;&quot;&quot;
+    table = {&quot;mrsa&quot;: &quot;Contact&quot;, &quot;c_diff&quot;: &quot;Contact + soap/water handwash&quot;,
+             &quot;tb&quot;: &quot;Airborne (N95, negative pressure)&quot;, &quot;measles&quot;: &quot;Airborne&quot;,
+             &quot;flu&quot;: &quot;Droplet&quot;, &quot;covid&quot;: &quot;Airborne + eye protection&quot;,
+             &quot;norovirus&quot;: &quot;Contact&quot;, &quot;meningitis&quot;: &quot;Droplet (first 24h antibiotics)&quot;}
+    return table.get(disease.lower(), &quot;Standard precautions - verify with infection prevention&quot;)
+print(isolation_precautions(&quot;tb&quot;))</pre></div>
+<div class='card'><h3>Outbreak Investigation</h3><p>Clusters trigger shoe-leather epidemiology — case definitions, curves, and source hunting. Norovirus, CRE, influenza: found and stopped. Detectives in lab coats.</p><p class='ladder'>Ladder rank 1 — Simple: the core idea in plain words — what it is and why it matters.</p><div class='kv'><div><b>Equipment</b><br>Isolation rooms (negative pressure)<br>Biosafety cabinets<br>Rapid molecular test platforms<br>Vaccination clinics</div><div><b>Procedures</b><br>Fever of unknown origin workup<br>Antibiotic stewardship rounds<br>Isolation precaution management<br>Outbreak investigation</div><div><b>Staff</b><br>Infectious disease physicians<br>Infection preventionists<br>Antimicrobial stewardship pharmacists<br>Microbiologists</div><div><b>Flow</b><br>Consults arrive for mysterious fevers, resistant infections, or complex HIV/TB; workup blends cultures, molecular tests, and imaging. Stewardship teams round da...</div></div><pre class='codeblock'>def isolation_precautions(disease):
+    &quot;&quot;&quot;Maps disease to CDC isolation precaution type.&quot;&quot;&quot;
+    table = {&quot;mrsa&quot;: &quot;Contact&quot;, &quot;c_diff&quot;: &quot;Contact + soap/water handwash&quot;,
+             &quot;tb&quot;: &quot;Airborne (N95, negative pressure)&quot;, &quot;measles&quot;: &quot;Airborne&quot;,
+             &quot;flu&quot;: &quot;Droplet&quot;, &quot;covid&quot;: &quot;Airborne + eye protection&quot;,
+             &quot;norovirus&quot;: &quot;Contact&quot;, &quot;meningitis&quot;: &quot;Droplet (first 24h antibiotics)&quot;}
+    return table.get(disease.lower(), &quot;Standard precautions - verify with infection prevention&quot;)
+print(isolation_precautions(&quot;tb&quot;))</pre></div>
+<div class='card'><h3>Infection Prevention Surveillance</h3><p>Preventionists track CLABSIs, CAUTIs, and SSIs, feeding data back to units for improvement. Surveillance drives prevention. What gets measured gets prevented.</p><p class='ladder'>Ladder rank 2 — Compounded: how it connects — the moving parts working together in real care.</p><div class='kv'><div><b>Equipment</b><br>Isolation rooms (negative pressure)<br>Biosafety cabinets<br>Rapid molecular test platforms<br>Vaccination clinics</div><div><b>Procedures</b><br>Fever of unknown origin workup<br>Antibiotic stewardship rounds<br>Isolation precaution management<br>Outbreak investigation</div><div><b>Staff</b><br>Infectious disease physicians<br>Infection preventionists<br>Antimicrobial stewardship pharmacists<br>Microbiologists</div><div><b>Flow</b><br>Consults arrive for mysterious fevers, resistant infections, or complex HIV/TB; workup blends cultures, molecular tests, and imaging. Stewardship teams round da...</div></div><pre class='codeblock'>def isolation_precautions(disease):
+    &quot;&quot;&quot;Maps disease to CDC isolation precaution type.&quot;&quot;&quot;
+    table = {&quot;mrsa&quot;: &quot;Contact&quot;, &quot;c_diff&quot;: &quot;Contact + soap/water handwash&quot;,
+             &quot;tb&quot;: &quot;Airborne (N95, negative pressure)&quot;, &quot;measles&quot;: &quot;Airborne&quot;,
+             &quot;flu&quot;: &quot;Droplet&quot;, &quot;covid&quot;: &quot;Airborne + eye protection&quot;,
+             &quot;norovirus&quot;: &quot;Contact&quot;, &quot;meningitis&quot;: &quot;Droplet (first 24h antibiotics)&quot;}
+    return table.get(disease.lower(), &quot;Standard precautions - verify with infection prevention&quot;)
+print(isolation_precautions(&quot;tb&quot;))</pre></div>
+<div class='card'><h3>Hand Hygiene Programs</h3><p>Hand hygiene — the single most effective infection prevention — is monitored, coached, and celebrated. Alcohol rubs at every doorway. Clean hands save lives, provably.</p><p class='ladder'>Ladder rank 2 — Compounded: how it connects — the moving parts working together in real care.</p><div class='kv'><div><b>Equipment</b><br>Isolation rooms (negative pressure)<br>Biosafety cabinets<br>Rapid molecular test platforms<br>Vaccination clinics</div><div><b>Procedures</b><br>Fever of unknown origin workup<br>Antibiotic stewardship rounds<br>Isolation precaution management<br>Outbreak investigation</div><div><b>Staff</b><br>Infectious disease physicians<br>Infection preventionists<br>Antimicrobial stewardship pharmacists<br>Microbiologists</div><div><b>Flow</b><br>Consults arrive for mysterious fevers, resistant infections, or complex HIV/TB; workup blends cultures, molecular tests, and imaging. Stewardship teams round da...</div></div><pre class='codeblock'>def isolation_precautions(disease):
+    &quot;&quot;&quot;Maps disease to CDC isolation precaution type.&quot;&quot;&quot;
+    table = {&quot;mrsa&quot;: &quot;Contact&quot;, &quot;c_diff&quot;: &quot;Contact + soap/water handwash&quot;,
+             &quot;tb&quot;: &quot;Airborne (N95, negative pressure)&quot;, &quot;measles&quot;: &quot;Airborne&quot;,
+             &quot;flu&quot;: &quot;Droplet&quot;, &quot;covid&quot;: &quot;Airborne + eye protection&quot;,
+             &quot;norovirus&quot;: &quot;Contact&quot;, &quot;meningitis&quot;: &quot;Droplet (first 24h antibiotics)&quot;}
+    return table.get(disease.lower(), &quot;Standard precautions - verify with infection prevention&quot;)
+print(isolation_precautions(&quot;tb&quot;))</pre></div>
+<div class='card'><h3>C. difficile Management</h3><p>C. diff colitis from antibiotic disruption is treated with fidaxomicin or vancomycin; recurrences get fecal transplant. Stewardship prevents it. The gut&#x27;s ecology, respected.</p><p class='ladder'>Ladder rank 2 — Compounded: how it connects — the moving parts working together in real care.</p><div class='kv'><div><b>Equipment</b><br>Isolation rooms (negative pressure)<br>Biosafety cabinets<br>Rapid molecular test platforms<br>Vaccination clinics</div><div><b>Procedures</b><br>Fever of unknown origin workup<br>Antibiotic stewardship rounds<br>Isolation precaution management<br>Outbreak investigation</div><div><b>Staff</b><br>Infectious disease physicians<br>Infection preventionists<br>Antimicrobial stewardship pharmacists<br>Microbiologists</div><div><b>Flow</b><br>Consults arrive for mysterious fevers, resistant infections, or complex HIV/TB; workup blends cultures, molecular tests, and imaging. Stewardship teams round da...</div></div><pre class='codeblock'>def isolation_precautions(disease):
+    &quot;&quot;&quot;Maps disease to CDC isolation precaution type.&quot;&quot;&quot;
+    table = {&quot;mrsa&quot;: &quot;Contact&quot;, &quot;c_diff&quot;: &quot;Contact + soap/water handwash&quot;,
+             &quot;tb&quot;: &quot;Airborne (N95, negative pressure)&quot;, &quot;measles&quot;: &quot;Airborne&quot;,
+             &quot;flu&quot;: &quot;Droplet&quot;, &quot;covid&quot;: &quot;Airborne + eye protection&quot;,
+             &quot;norovirus&quot;: &quot;Contact&quot;, &quot;meningitis&quot;: &quot;Droplet (first 24h antibiotics)&quot;}
+    return table.get(disease.lower(), &quot;Standard precautions - verify with infection prevention&quot;)
+print(isolation_precautions(&quot;tb&quot;))</pre></div>
+<div class='card'><h3>MRSA and VRE Control</h3><p>Resistant organisms are managed with contact precautions, decolonization, and targeted therapy. Screening finds silent carriers. Resistance demands respect.</p><p class='ladder'>Ladder rank 2 — Compounded: how it connects — the moving parts working together in real care.</p><div class='kv'><div><b>Equipment</b><br>Isolation rooms (negative pressure)<br>Biosafety cabinets<br>Rapid molecular test platforms<br>Vaccination clinics</div><div><b>Procedures</b><br>Fever of unknown origin workup<br>Antibiotic stewardship rounds<br>Isolation precaution management<br>Outbreak investigation</div><div><b>Staff</b><br>Infectious disease physicians<br>Infection preventionists<br>Antimicrobial stewardship pharmacists<br>Microbiologists</div><div><b>Flow</b><br>Consults arrive for mysterious fevers, resistant infections, or complex HIV/TB; workup blends cultures, molecular tests, and imaging. Stewardship teams round da...</div></div><pre class='codeblock'>def isolation_precautions(disease):
+    &quot;&quot;&quot;Maps disease to CDC isolation precaution type.&quot;&quot;&quot;
+    table = {&quot;mrsa&quot;: &quot;Contact&quot;, &quot;c_diff&quot;: &quot;Contact + soap/water handwash&quot;,
+             &quot;tb&quot;: &quot;Airborne (N95, negative pressure)&quot;, &quot;measles&quot;: &quot;Airborne&quot;,
+             &quot;flu&quot;: &quot;Droplet&quot;, &quot;covid&quot;: &quot;Airborne + eye protection&quot;,
+             &quot;norovirus&quot;: &quot;Contact&quot;, &quot;meningitis&quot;: &quot;Droplet (first 24h antibiotics)&quot;}
+    return table.get(disease.lower(), &quot;Standard precautions - verify with infection prevention&quot;)
+print(isolation_precautions(&quot;tb&quot;))</pre></div>
+<div class='card'><h3>OPAT (Outpatient IV Antibiotics)</h3><p>Stable patients finish IV antibiotics at home via PICC lines with weekly labs — hospital-level care, home comfort. Selection and monitoring keep it safe. Home is the best ward.</p><p class='ladder'>Ladder rank 2 — Compounded: how it connects — the moving parts working together in real care.</p><div class='kv'><div><b>Equipment</b><br>Isolation rooms (negative pressure)<br>Biosafety cabinets<br>Rapid molecular test platforms<br>Vaccination clinics</div><div><b>Procedures</b><br>Fever of unknown origin workup<br>Antibiotic stewardship rounds<br>Isolation precaution management<br>Outbreak investigation</div><div><b>Staff</b><br>Infectious disease physicians<br>Infection preventionists<br>Antimicrobial stewardship pharmacists<br>Microbiologists</div><div><b>Flow</b><br>Consults arrive for mysterious fevers, resistant infections, or complex HIV/TB; workup blends cultures, molecular tests, and imaging. Stewardship teams round da...</div></div><pre class='codeblock'>def isolation_precautions(disease):
+    &quot;&quot;&quot;Maps disease to CDC isolation precaution type.&quot;&quot;&quot;
+    table = {&quot;mrsa&quot;: &quot;Contact&quot;, &quot;c_diff&quot;: &quot;Contact + soap/water handwash&quot;,
+             &quot;tb&quot;: &quot;Airborne (N95, negative pressure)&quot;, &quot;measles&quot;: &quot;Airborne&quot;,
+             &quot;flu&quot;: &quot;Droplet&quot;, &quot;covid&quot;: &quot;Airborne + eye protection&quot;,
+             &quot;norovirus&quot;: &quot;Contact&quot;, &quot;meningitis&quot;: &quot;Droplet (first 24h antibiotics)&quot;}
+    return table.get(disease.lower(), &quot;Standard precautions - verify with infection prevention&quot;)
+print(isolation_precautions(&quot;tb&quot;))</pre></div>
+<div class='card'><h3>Travel Medicine</h3><p>Pre-travel clinics prescribe prophylaxis and vaccines by itinerary — malaria pills, typhoid shots. Post-travel fevers get expert workup. Adventure, protected.</p><p class='ladder'>Ladder rank 2 — Compounded: how it connects — the moving parts working together in real care.</p><div class='kv'><div><b>Equipment</b><br>Isolation rooms (negative pressure)<br>Biosafety cabinets<br>Rapid molecular test platforms<br>Vaccination clinics</div><div><b>Procedures</b><br>Fever of unknown origin workup<br>Antibiotic stewardship rounds<br>Isolation precaution management<br>Outbreak investigation</div><div><b>Staff</b><br>Infectious disease physicians<br>Infection preventionists<br>Antimicrobial stewardship pharmacists<br>Microbiologists</div><div><b>Flow</b><br>Consults arrive for mysterious fevers, resistant infections, or complex HIV/TB; workup blends cultures, molecular tests, and imaging. Stewardship teams round da...</div></div><pre class='codeblock'>def isolation_precautions(disease):
+    &quot;&quot;&quot;Maps disease to CDC isolation precaution type.&quot;&quot;&quot;
+    table = {&quot;mrsa&quot;: &quot;Contact&quot;, &quot;c_diff&quot;: &quot;Contact + soap/water handwash&quot;,
+             &quot;tb&quot;: &quot;Airborne (N95, negative pressure)&quot;, &quot;measles&quot;: &quot;Airborne&quot;,
+             &quot;flu&quot;: &quot;Droplet&quot;, &quot;covid&quot;: &quot;Airborne + eye protection&quot;,
+             &quot;norovirus&quot;: &quot;Contact&quot;, &quot;meningitis&quot;: &quot;Droplet (first 24h antibiotics)&quot;}
+    return table.get(disease.lower(), &quot;Standard precautions - verify with infection prevention&quot;)
+print(isolation_precautions(&quot;tb&quot;))</pre></div>
+<div class='card'><h3>Immunization Programs</h3><p>Employee and patient vaccination — flu, COVID, hepatitis B — is organized relentlessly. Mandates plus education achieve coverage. Vaccines are community armor.</p><p class='ladder'>Ladder rank 2 — Compounded: how it connects — the moving parts working together in real care.</p><div class='kv'><div><b>Equipment</b><br>Isolation rooms (negative pressure)<br>Biosafety cabinets<br>Rapid molecular test platforms<br>Vaccination clinics</div><div><b>Procedures</b><br>Fever of unknown origin workup<br>Antibiotic stewardship rounds<br>Isolation precaution management<br>Outbreak investigation</div><div><b>Staff</b><br>Infectious disease physicians<br>Infection preventionists<br>Antimicrobial stewardship pharmacists<br>Microbiologists</div><div><b>Flow</b><br>Consults arrive for mysterious fevers, resistant infections, or complex HIV/TB; workup blends cultures, molecular tests, and imaging. Stewardship teams round da...</div></div><pre class='codeblock'>def isolation_precautions(disease):
+    &quot;&quot;&quot;Maps disease to CDC isolation precaution type.&quot;&quot;&quot;
+    table = {&quot;mrsa&quot;: &quot;Contact&quot;, &quot;c_diff&quot;: &quot;Contact + soap/water handwash&quot;,
+             &quot;tb&quot;: &quot;Airborne (N95, negative pressure)&quot;, &quot;measles&quot;: &quot;Airborne&quot;,
+             &quot;flu&quot;: &quot;Droplet&quot;, &quot;covid&quot;: &quot;Airborne + eye protection&quot;,
+             &quot;norovirus&quot;: &quot;Contact&quot;, &quot;meningitis&quot;: &quot;Droplet (first 24h antibiotics)&quot;}
+    return table.get(disease.lower(), &quot;Standard precautions - verify with infection prevention&quot;)
+print(isolation_precautions(&quot;tb&quot;))</pre></div>
+<div class='card'><h3>Fungal Infections</h3><p>Invasive fungi in immunocompromised patients need prolonged antifungals and source control. Diagnosis is hard; suspicion is key. Fungi demand respect.</p><p class='ladder'>Ladder rank 3 — Complex: the full picture — mastery-level detail for deep understanding.</p><div class='kv'><div><b>Equipment</b><br>Isolation rooms (negative pressure)<br>Biosafety cabinets<br>Rapid molecular test platforms<br>Vaccination clinics</div><div><b>Procedures</b><br>Fever of unknown origin workup<br>Antibiotic stewardship rounds<br>Isolation precaution management<br>Outbreak investigation</div><div><b>Staff</b><br>Infectious disease physicians<br>Infection preventionists<br>Antimicrobial stewardship pharmacists<br>Microbiologists</div><div><b>Flow</b><br>Consults arrive for mysterious fevers, resistant infections, or complex HIV/TB; workup blends cultures, molecular tests, and imaging. Stewardship teams round da...</div></div><pre class='codeblock'>def isolation_precautions(disease):
+    &quot;&quot;&quot;Maps disease to CDC isolation precaution type.&quot;&quot;&quot;
+    table = {&quot;mrsa&quot;: &quot;Contact&quot;, &quot;c_diff&quot;: &quot;Contact + soap/water handwash&quot;,
+             &quot;tb&quot;: &quot;Airborne (N95, negative pressure)&quot;, &quot;measles&quot;: &quot;Airborne&quot;,
+             &quot;flu&quot;: &quot;Droplet&quot;, &quot;covid&quot;: &quot;Airborne + eye protection&quot;,
+             &quot;norovirus&quot;: &quot;Contact&quot;, &quot;meningitis&quot;: &quot;Droplet (first 24h antibiotics)&quot;}
+    return table.get(disease.lower(), &quot;Standard precautions - verify with infection prevention&quot;)
+print(isolation_precautions(&quot;tb&quot;))</pre></div>
+<div class='card'><h3>Emerging Pathogens</h3><p>Ebola, MERS, novel influenzas — ID teams maintain readiness plans, drills, and isolation capacity. Preparedness is quiet work. The next pathogen is always coming.</p><p class='ladder'>Ladder rank 3 — Complex: the full picture — mastery-level detail for deep understanding.</p><div class='kv'><div><b>Equipment</b><br>Isolation rooms (negative pressure)<br>Biosafety cabinets<br>Rapid molecular test platforms<br>Vaccination clinics</div><div><b>Procedures</b><br>Fever of unknown origin workup<br>Antibiotic stewardship rounds<br>Isolation precaution management<br>Outbreak investigation</div><div><b>Staff</b><br>Infectious disease physicians<br>Infection preventionists<br>Antimicrobial stewardship pharmacists<br>Microbiologists</div><div><b>Flow</b><br>Consults arrive for mysterious fevers, resistant infections, or complex HIV/TB; workup blends cultures, molecular tests, and imaging. Stewardship teams round da...</div></div><pre class='codeblock'>def isolation_precautions(disease):
+    &quot;&quot;&quot;Maps disease to CDC isolation precaution type.&quot;&quot;&quot;
+    table = {&quot;mrsa&quot;: &quot;Contact&quot;, &quot;c_diff&quot;: &quot;Contact + soap/water handwash&quot;,
+             &quot;tb&quot;: &quot;Airborne (N95, negative pressure)&quot;, &quot;measles&quot;: &quot;Airborne&quot;,
+             &quot;flu&quot;: &quot;Droplet&quot;, &quot;covid&quot;: &quot;Airborne + eye protection&quot;,
+             &quot;norovirus&quot;: &quot;Contact&quot;, &quot;meningitis&quot;: &quot;Droplet (first 24h antibiotics)&quot;}
+    return table.get(disease.lower(), &quot;Standard precautions - verify with infection prevention&quot;)
+print(isolation_precautions(&quot;tb&quot;))</pre></div>
+<div class='card'><h3>Needlestick Management</h3><p>Exposures get immediate washing, risk assessment, and post-exposure prophylaxis within hours. Protocols protect staff. Every exposure is taken seriously.</p><p class='ladder'>Ladder rank 3 — Complex: the full picture — mastery-level detail for deep understanding.</p><div class='kv'><div><b>Equipment</b><br>Isolation rooms (negative pressure)<br>Biosafety cabinets<br>Rapid molecular test platforms<br>Vaccination clinics</div><div><b>Procedures</b><br>Fever of unknown origin workup<br>Antibiotic stewardship rounds<br>Isolation precaution management<br>Outbreak investigation</div><div><b>Staff</b><br>Infectious disease physicians<br>Infection preventionists<br>Antimicrobial stewardship pharmacists<br>Microbiologists</div><div><b>Flow</b><br>Consults arrive for mysterious fevers, resistant infections, or complex HIV/TB; workup blends cultures, molecular tests, and imaging. Stewardship teams round da...</div></div><pre class='codeblock'>def isolation_precautions(disease):
+    &quot;&quot;&quot;Maps disease to CDC isolation precaution type.&quot;&quot;&quot;
+    table = {&quot;mrsa&quot;: &quot;Contact&quot;, &quot;c_diff&quot;: &quot;Contact + soap/water handwash&quot;,
+             &quot;tb&quot;: &quot;Airborne (N95, negative pressure)&quot;, &quot;measles&quot;: &quot;Airborne&quot;,
+             &quot;flu&quot;: &quot;Droplet&quot;, &quot;covid&quot;: &quot;Airborne + eye protection&quot;,
+             &quot;norovirus&quot;: &quot;Contact&quot;, &quot;meningitis&quot;: &quot;Droplet (first 24h antibiotics)&quot;}
+    return table.get(disease.lower(), &quot;Standard precautions - verify with infection prevention&quot;)
+print(isolation_precautions(&quot;tb&quot;))</pre></div>
+<div class='card'><h3>PPE Training</h3><p>Donning and doffing training — with observed practice — prevents self-contamination. Technique is protection. Drills make it reflex.</p><p class='ladder'>Ladder rank 3 — Complex: the full picture — mastery-level detail for deep understanding.</p><div class='kv'><div><b>Equipment</b><br>Isolation rooms (negative pressure)<br>Biosafety cabinets<br>Rapid molecular test platforms<br>Vaccination clinics</div><div><b>Procedures</b><br>Fever of unknown origin workup<br>Antibiotic stewardship rounds<br>Isolation precaution management<br>Outbreak investigation</div><div><b>Staff</b><br>Infectious disease physicians<br>Infection preventionists<br>Antimicrobial stewardship pharmacists<br>Microbiologists</div><div><b>Flow</b><br>Consults arrive for mysterious fevers, resistant infections, or complex HIV/TB; workup blends cultures, molecular tests, and imaging. Stewardship teams round da...</div></div><pre class='codeblock'>def isolation_precautions(disease):
+    &quot;&quot;&quot;Maps disease to CDC isolation precaution type.&quot;&quot;&quot;
+    table = {&quot;mrsa&quot;: &quot;Contact&quot;, &quot;c_diff&quot;: &quot;Contact + soap/water handwash&quot;,
+             &quot;tb&quot;: &quot;Airborne (N95, negative pressure)&quot;, &quot;measles&quot;: &quot;Airborne&quot;,
+             &quot;flu&quot;: &quot;Droplet&quot;, &quot;covid&quot;: &quot;Airborne + eye protection&quot;,
+             &quot;norovirus&quot;: &quot;Contact&quot;, &quot;meningitis&quot;: &quot;Droplet (first 24h antibiotics)&quot;}
+    return table.get(disease.lower(), &quot;Standard precautions - verify with infection prevention&quot;)
+print(isolation_precautions(&quot;tb&quot;))</pre></div>
+<div class='card'><h3>Antibiotic Allergy De-labeling</h3><p>Most penicillin &#x27;allergies&#x27; are not real; testing and challenges restore first-line antibiotics. De-labeling improves care broadly. Labels questioned, care improved.</p><p class='ladder'>Ladder rank 3 — Complex: the full picture — mastery-level detail for deep understanding.</p><div class='kv'><div><b>Equipment</b><br>Isolation rooms (negative pressure)<br>Biosafety cabinets<br>Rapid molecular test platforms<br>Vaccination clinics</div><div><b>Procedures</b><br>Fever of unknown origin workup<br>Antibiotic stewardship rounds<br>Isolation precaution management<br>Outbreak investigation</div><div><b>Staff</b><br>Infectious disease physicians<br>Infection preventionists<br>Antimicrobial stewardship pharmacists<br>Microbiologists</div><div><b>Flow</b><br>Consults arrive for mysterious fevers, resistant infections, or complex HIV/TB; workup blends cultures, molecular tests, and imaging. Stewardship teams round da...</div></div><pre class='codeblock'>def isolation_precautions(disease):
+    &quot;&quot;&quot;Maps disease to CDC isolation precaution type.&quot;&quot;&quot;
+    table = {&quot;mrsa&quot;: &quot;Contact&quot;, &quot;c_diff&quot;: &quot;Contact + soap/water handwash&quot;,
+             &quot;tb&quot;: &quot;Airborne (N95, negative pressure)&quot;, &quot;measles&quot;: &quot;Airborne&quot;,
+             &quot;flu&quot;: &quot;Droplet&quot;, &quot;covid&quot;: &quot;Airborne + eye protection&quot;,
+             &quot;norovirus&quot;: &quot;Contact&quot;, &quot;meningitis&quot;: &quot;Droplet (first 24h antibiotics)&quot;}
+    return table.get(disease.lower(), &quot;Standard precautions - verify with infection prevention&quot;)
+print(isolation_precautions(&quot;tb&quot;))</pre></div>
+<div class='card'><h3>One Health Collaboration</h3><p>Human, animal, and environmental health connect — zoonoses, foodborne illness — with veterinary and public health partners. Health is one system. Collaboration catches what silos miss.</p><p class='ladder'>Ladder rank 3 — Complex: the full picture — mastery-level detail for deep understanding.</p><div class='kv'><div><b>Equipment</b><br>Isolation rooms (negative pressure)<br>Biosafety cabinets<br>Rapid molecular test platforms<br>Vaccination clinics</div><div><b>Procedures</b><br>Fever of unknown origin workup<br>Antibiotic stewardship rounds<br>Isolation precaution management<br>Outbreak investigation</div><div><b>Staff</b><br>Infectious disease physicians<br>Infection preventionists<br>Antimicrobial stewardship pharmacists<br>Microbiologists</div><div><b>Flow</b><br>Consults arrive for mysterious fevers, resistant infections, or complex HIV/TB; workup blends cultures, molecular tests, and imaging. Stewardship teams round da...</div></div><pre class='codeblock'>def isolation_precautions(disease):
+    &quot;&quot;&quot;Maps disease to CDC isolation precaution type.&quot;&quot;&quot;
+    table = {&quot;mrsa&quot;: &quot;Contact&quot;, &quot;c_diff&quot;: &quot;Contact + soap/water handwash&quot;,
+             &quot;tb&quot;: &quot;Airborne (N95, negative pressure)&quot;, &quot;measles&quot;: &quot;Airborne&quot;,
+             &quot;flu&quot;: &quot;Droplet&quot;, &quot;covid&quot;: &quot;Airborne + eye protection&quot;,
+             &quot;norovirus&quot;: &quot;Contact&quot;, &quot;meningitis&quot;: &quot;Droplet (first 24h antibiotics)&quot;}
+    return table.get(disease.lower(), &quot;Standard precautions - verify with infection prevention&quot;)
+print(isolation_precautions(&quot;tb&quot;))</pre></div>
+<h2>Working Demo</h2>
+<pre class="codeblock">def isolation_precautions(disease):
+    &quot;&quot;&quot;Maps disease to CDC isolation precaution type.&quot;&quot;&quot;
+    table = {&quot;mrsa&quot;: &quot;Contact&quot;, &quot;c_diff&quot;: &quot;Contact + soap/water handwash&quot;,
+             &quot;tb&quot;: &quot;Airborne (N95, negative pressure)&quot;, &quot;measles&quot;: &quot;Airborne&quot;,
+             &quot;flu&quot;: &quot;Droplet&quot;, &quot;covid&quot;: &quot;Airborne + eye protection&quot;,
+             &quot;norovirus&quot;: &quot;Contact&quot;, &quot;meningitis&quot;: &quot;Droplet (first 24h antibiotics)&quot;}
+    return table.get(disease.lower(), &quot;Standard precautions - verify with infection prevention&quot;)
+print(isolation_precautions(&quot;tb&quot;))</pre>
+</body></html>
