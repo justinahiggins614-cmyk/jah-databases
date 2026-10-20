@@ -1,0 +1,68 @@
+(function(){'use strict';
+/* The Signature JAH California History Database generator — jahdb-e2-california-history-signature-1.0.
+   Property of Justin Addam Higgins (JAH).
+   Deterministic: same seed, same record. Signature-original records. */
+function prng(seed){var a=(seed>>>0)||1;return function(){a|=0;a=(a+0x6D2B79F5)|0;var t=Math.imul(a^(a>>>15),1|a);t=(t+Math.imul(t^(t>>>7),61|t))^t;return((t^(t>>>14))>>>0)/4294967296;};}
+function pick(r,s){return r[(s()*r.length)|0];}
+var PREFIX="JAH-E2CALIFORNIS2-";
+var SLUG="e2-california-history-signature";
+var FIELDS=["Foundations","Compounded","Advanced"];
+var GROUPS={Foundations:"guide",Compounded:"details",Advanced:"resources"};
+var LADDERS={Foundations:1,Compounded:2,Advanced:3};
+var TOPICS={"Foundations": ["The Signature Approach to California History", "Signature California History Principles", "The Signature California History Starter System", "Signature California History Vocabulary Reimagined", "Signature California History Tools Reimagined", "Signature California History Safety Redesign", "The Signature California History Learning Path"], "Compounded": ["Signature California History Method I: First Build", "Signature California History Method II: Working Sessions", "Signature California History Method III: Combinations", "Signature California History Experience Design", "Signature California History Quality System", "Signature California History Troubleshooting Engine", "Signature California History Cost and Time Philosophy"], "Advanced": ["Signature California History Method IV: Mastery", "Signature California History Method V: Performance", "Signature California History Teaching System", "Signature California History Community Model", "Signature California History Future Concepts", "The Signature California History Master Plan"]};
+function demoProgram(topic,field){
+  var safe=String(topic).replace(/\\/g,'\\\\').replace(/"/g,"'");
+  return "// Signature drill — "+safe+"\n"
+    + "// Field: "+field+" — run with: node drill.js\n"
+    + "var CARDS=[\n"
+    + "  ["+JSON.stringify(safe)+", "+JSON.stringify("A Signature-original "+"state history"+" creation.")+"],\n"
+    + "  ["+JSON.stringify(field)+", "+JSON.stringify("Tier of the Signature "+"California History"+" method.")+"]\n"
+    + "];\n"
+    + "function drill(n){var o=[];n=Math.min(n,CARDS.length);for(var i=0;i<n;i++){var c=CARDS[(Math.random()*CARDS.length)|0];o.push('Q'+(i+1)+': '+c[0]+'\nA'+(i+1)+': '+c[1]);}return o.join('\n\n');}\n"
+    + "console.log(drill(2));\n";
+}
+function generate(seed,opts,rnd){
+  opts=opts||{}; rnd=rnd||prng(seed);
+  var field=opts.field&&FIELDS.indexOf(opts.field)>=0?opts.field:pick(FIELDS,rnd);
+  var pool=TOPICS[field]||["General Study"];
+  var topic=pick(pool,rnd);
+  var id=PREFIX+String(seed).padStart(6,'0');
+  return {
+    id:id,
+    title:topic,
+    t:topic,
+    name:topic,
+    g:GROUPS[field]||"guide",
+    c:0,
+    l:LADDERS[field]||1,
+    d:"Signature-original "+"state history"+": "+topic+".",
+    definition:topic+" — a Signature-original "+"state history"+" creation from the Signature system.",
+    description:"SAMPLE RECORD (generated — structural sample). "+topic+": a Signature-original "+"state history"+" in the "+field+" tier of the Signature "+"California History"+" method. Generated samples are clearly labeled and never presented as archive records or public record.",
+    field:field,
+    facts:{topic:topic,field:field,origin:"created in the Signature system"},
+    program:demoProgram(topic,field),
+    language:"javascript",
+    src:"signature",
+    source:"signature",
+    last_verified:"2026-10-19",
+    sample:true,
+    _seed:seed
+  };
+}
+function validate(r){
+  var e=[];
+  if(!r||typeof r!=='object')return {ok:false,errors:['not an object']};
+  if(!new RegExp('^'+PREFIX.replace(/-/g,'\\-')+'\\d{6}$').test(r.id||''))e.push('id');
+  if(FIELDS.indexOf(r.field)<0)e.push('field');
+  if(!r.src)e.push('src');
+  if(!r.program)e.push('program');
+  return {ok:!e.length,errors:e};
+}
+function driftCheck(record,sample){
+  var dups=(sample||[]).filter(function(r){return r&&r.title===record.title&&r.field===record.field;});
+  return dups.length?{ok:false,errors:['duplicate topic+field in archive sample']}:{ok:true,errors:[]};
+}
+var gen={version:"jahdb-e2-california-history-signature-1.0",generate:generate,validate:validate,driftCheck:driftCheck,fields:FIELDS};
+if(typeof JAHDB!=='undefined'&&JAHDB.registerGenerator)JAHDB.registerGenerator(SLUG,gen);
+if(typeof module!=='undefined'&&module.exports)module.exports=gen;
+})();

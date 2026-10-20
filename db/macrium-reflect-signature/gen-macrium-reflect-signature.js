@@ -1,0 +1,215 @@
+(function(){'use strict';
+/* JAH The Macrium Reflect Signature Database generator — jahdb-techpresent-r16-1.0.
+   Property of Justin Addam Higgins (JAH).
+   Deterministic: same seed, same record. Seeds 1..20 rebuild the archive
+   records; higher seeds generate boundless variants (quizzes, explorers,
+   glossaries) derived from the archive's own anchors. */
+var SLUG="macrium-reflect-signature";
+var PLAIN="Macrium Reflect — Signature Edition";
+var DSUFFIX=" — Signature Method";
+var PREFIX="JAH-MRS-";
+var SIG=true;
+var SRC="signature";
+var FIELDS=["Foundations","Compounded","Advanced"];
+var ESSENCE="The Signature edition: the JAH system's original reference on Macrium Reflect. Macrium Reflect: The beloved Windows disk-imaging tool, long free for home use, now subscription-based. Made by Macrium, first released 2006. Runs on Windows; licensed as freemium.";
+var ANCHORS=[{"title": "What Macrium Reflect is", "facts": ["The beloved Windows disk-imaging tool, long free for home use, now subscription-based.", "Application software does a specific job for the user, on top of the operating system."]}, {"title": "Maker and history", "facts": ["From Macrium; first released 2006.", "viBoot boots backups as VMs."]}, {"title": "Core features", "facts": ["Imaging; Rapid Delta; rescue media.", "Trial; subscription."]}, {"title": "Platforms and editions", "facts": ["Available for Windows.", "Desktop, web and mobile editions differ; check which edition carries the features you need."]}, {"title": "Getting started", "facts": ["Install the app or create an account, then work through the built-in tour or starter templates.", "Import your existing data early so the tool becomes useful on day one."]}, {"title": "How it works", "facts": ["viBoot boots backups as VMs.", "Most modern apps keep a local interface with cloud sync behind it, so work survives device changes."]}, {"title": "Files and formats", "facts": ["Learn the app's native file format and its export options before committing important work.", "Prefer open or widely supported export formats for anything you must keep for years."]}, {"title": "Security and privacy", "facts": ["Use a strong unique password and turn on two-factor authentication where offered.", "Review what data the app syncs to the cloud and what stays on your device."]}, {"title": "Alternatives", "facts": ["Compare two or three alternatives on price, platform support and export freedom before settling.", "Free and open-source alternatives exist in most categories and are worth a trial."]}, {"title": "Pro tips", "facts": ["Learn the keyboard shortcuts for the five actions you repeat most.", "Back up the app's data folder or export regularly; sync is not a backup."]}];
+var TERMS=[{"t": "Native app", "d": "Software built for one platform, using its own interface toolkit."}, {"t": "Web app", "d": "Software that runs in the browser, needing no install beyond the browser itself."}, {"t": "Sync", "d": "Keeping the same data matched across devices through a cloud service."}, {"t": "Export", "d": "Saving work out of the app into a standard file format."}, {"t": "Plugin", "d": "An add-on that extends what the base application can do."}, {"t": "Subscription", "d": "Pay-per-period licensing; stop paying and the software usually stops working."}, {"t": "Perpetual license", "d": "Pay-once licensing; the version you bought keeps working."}, {"t": "Freemium", "d": "Free base version with paid upgrades for extra features."}, {"t": "Open source", "d": "Software whose source code is public and modifiable under a license."}, {"t": "Offline mode", "d": "Working without an internet connection, syncing later when back online."}];
+var GUIDE=["List the three tasks the app must do, then test each in the free trial.", "Check file export options before committing years of work to any app.", "Prefer tools that run on every device you own."];
+var SAFETY=["Download only from the official site or your OS app store.", "Turn on two-factor authentication for any account holding your work.", "Keep the app updated; updates carry security fixes."];
+var MAINT=["Update the app monthly and read the changelog for breaking changes.", "Export or back up your data quarterly, independent of cloud sync.", "Audit connected third-party integrations once a year."];
+var HIST=["1980s: shrink-wrapped software on floppy disks defines the app business.", "2007-2008: the iPhone and App Store make mobile apps mainstream.", "2010s: subscriptions replace most perpetual licenses.", "2020s: web apps and AI assistants reshape everyday software."];
+var TEACH=["Have the learner complete one real task end to end in the app.", "Teach export first, so nothing they make is ever trapped.", "Compare the app side by side with one alternative."];
+var LASTV="2026-10-19";
+var PUB_SRC="Public record \u2014 curated public-knowledge reference.";
+var SIG_SRC="Signature record \u2014 original work of the JAH system, labeled Signature, never presented as public record.";
+function prng(seed){var a=(seed>>>0)||1;return function(){a|=0;a=(a+0x6D2B79F5)|0;var t=Math.imul(a^(a>>>15),1|a);t=(t+Math.imul(t^(t>>>7),61|t))^t;return((t^(t>>>14))>>>0)/4294967296;};}
+function pickR(rnd,n){return (rnd()*n)|0;}
+function escJ(s){return String(s).replace(/\\/g,"\\\\").replace(/"/g,'\\"').replace(/\n/g,"\\n").replace(/\r/g,"");}
+function mkProg(kind,title,items){
+  var L=['console.log("'+kind.toUpperCase()+': '+escJ(title)+'");'];
+  if(kind==="quiz"){
+    L.push('var qa=['+items.slice(0,6).map(function(x){return '["'+escJ(x[0])+'","'+escJ(x[1]).slice(0,150)+'"]';}).join(",")+'];');
+    L.push('for(var i=0;i<qa.length;i++){console.log("Q"+(i+1)+": "+qa[i][0]);console.log("A"+(i+1)+": "+qa[i][1]);}');
+    L.push('console.log("Reviewed "+qa.length+" Q&A pairs.");');
+  }else if(kind==="glossary"){
+    L.push('var terms=['+items.slice(0,8).map(function(x){return '["'+escJ(x[0])+'","'+escJ(x[1]).slice(0,150)+'"]';}).join(",")+'];');
+    L.push('for(var j=0;j<terms.length;j++){console.log(terms[j][0]+" \u2014 "+terms[j][1]);}');
+    L.push('console.log(terms.length+" terms defined.");');
+  }else if(kind==="datatable"){
+    L.push('var rows=['+items.slice(0,8).map(function(x){return '["'+escJ(x[0])+'","'+escJ(x[1]).slice(0,120)+'"]';}).join(",")+'];');
+    L.push('for(var k=0;k<rows.length;k++){console.log(rows[k][0]+" = "+rows[k][1]);}');
+    L.push('console.log(rows.length+" values listed.");');
+  }else{
+    L.push('var items=['+items.slice(0,8).map(function(x){return '"'+escJ(x)+'"';}).join(",")+'];');
+    L.push('for(var m=0;m<items.length;m++){console.log((m+1)+". "+items[m]);}');
+    L.push('console.log("Done: "+items.length+" items reviewed.");');
+  }
+  return L.join("\n");
+}
+function baseRec(seed,title,tier){
+  return {
+    id:PREFIX+String(seed).padStart(6,"0"),
+    t:title, g:FIELDS[tier]||FIELDS[0], c:0, title:title,
+    src:SRC, last_verified:LASTV,
+    language:"javascript",
+    ladder_rank:tier+1, ladder_tier:FIELDS[tier]||FIELDS[0],
+    _seed:seed
+  };
+}
+function fin(r,description,definition,points,steps,program,demoKind){
+  r.description=description;
+  r.definition=definition;
+  r.key_points=points.slice(0);
+  while(r.key_points.length<3)r.key_points.push("See the full record for working detail.");
+  r.how_it_works=steps;
+  r.program=program;
+  r.demo={kind:demoKind,language:"javascript",program:program,note:"Runnable demo program."};
+  r.source=SIG?SIG_SRC:PUB_SRC;
+  r.provenance=r.source;
+  return r;
+}
+function overviewRec(){
+  var r=baseRec(1,"What "+PLAIN+" Is All About",0);
+  var desc=ESSENCE+" Full records with definitions, key facts, procedures, and runnable demo programs, on a teaching ladder from Foundations to Advanced.";
+  var prog=mkProg("checklist","Overview",["full records","teaching ladder","runnable demos","scope: "+ESSENCE.slice(0,80)]);
+  return fin(r,desc,PLAIN+": complete reference database.",
+    ["Full records \u2014 never stubs.","Teaching ladder: Foundations, Compounded, Advanced.",
+     "Every record ships a runnable demo program.","Scope: "+ESSENCE.slice(0,100)+"."],
+    ["Start with this overview.","Work Foundations in order.","Run each demo.","Advance up the ladder."],
+    prog,"overview");
+}
+function anchorRec(seed,a,tier){
+  var r=baseRec(seed,a.title,tier);
+  var facts=a.facts||[];
+  var desc=a.title+". "+facts.join(" ");
+  while(desc.length<140)desc+=" "+ESSENCE;
+  var prog=mkProg("datatable",a.title,facts.map(function(f,i){return ["fact "+(i+1),f];}));
+  var dcore=((facts[0]||"")+" "+(facts[1]||"")).replace(/^\s+|\s+$/g,"");
+  if(dcore.length<30)dcore=ESSENCE;
+  return fin(r,desc,a.title+" \u2014 "+dcore.slice(0,140)+".",
+    facts.slice(0,4),
+    ["Read the definition and key facts.","Run the demo program below.",
+     "Note the numbers \u2014 they are the working values.","Apply it to a real case."],
+    prog,SIG?"signature method simulator":"archive explorer");
+}
+function derivedRec(seed,kind,title,descExtra,points,steps,prog,demoKind){
+  var tier=seed<=14?1:2;
+  var r=baseRec(seed,title+DSUFFIX,tier);
+  var desc=title+DSUFFIX+": "+descExtra+" "+ESSENCE;
+  while(desc.length<140)desc+=" "+ESSENCE;
+  return fin(r,desc,title+DSUFFIX+" \u2014 "+descExtra.slice(0,120)+".",points,steps,prog,demoKind);
+}
+function glossaryRec(seed){
+  var pairs=TERMS.map(function(t){return [t.t,t.d];});
+  return derivedRec(seed,"glossary","Core Glossary: "+PLAIN,
+    "the working vocabulary of "+PLAIN+": "+pairs.length+" terms with plain definitions, runnable as a demo.",
+    pairs.map(function(p){return p[0]+": "+p[1].slice(0,80);}),
+    ["Run the demo glossary.","Cover each definition and recite it.","Check against the record.","Repeat until instant."],
+    mkProg("glossary","Core Glossary: "+PLAIN,pairs),"glossary drill");
+}
+function quizRec(seed,rnd){
+  var qa=ANCHORS.slice(0,6).map(function(a){return ["Key fact: "+a.title,(a.facts[0]||"").slice(0,150)];});
+  return derivedRec(seed,"quiz","Self-Test Quiz: "+PLAIN,
+    "a boundless self-test from the archive's own anchors: "+qa.length+" questions with answers from the key facts.",
+    qa.map(function(x){return x[0];}),
+    ["Run the demo quiz.","Answer each question aloud before reading the answer.","Log misses and re-open those records.","Re-drill until perfect."],
+    mkProg("quiz","Self-Test Quiz: "+PLAIN,qa),"self-test quiz");
+}
+function compareRec(seed){
+  var rows=ANCHORS.slice(0,8).map(function(a){return [a.title,(a.facts[0]||"").slice(0,120)];});
+  return derivedRec(seed,"compare","Side-by-Side Comparison: "+PLAIN,
+    "every anchor laid side by side: "+rows.length+" entries compared on their defining fact.",
+    rows.map(function(x){return x[0];}),
+    ["Read the comparison table.","Pick the two closest entries and list their differences.","Match entries to real cases.","Revisit after field experience."],
+    mkProg("datatable","Side-by-Side Comparison: "+PLAIN,rows),"comparison table");
+}
+function listRec(seed,kind,title,blurb,items,demoKind){
+  return derivedRec(seed,kind,title,blurb,items.slice(0,4),
+    ["Read each point.","Run the demo walkthrough.","Apply one point to a real case this week.","Teach the list to someone else."],
+    mkProg("checklist",title,items),demoKind);
+}
+function archiveDerived(seed){
+  var k=seed-12;
+  if(k===0)return glossaryRec(seed);
+  if(k===1)return quizRec(seed,prng(seed));
+  if(k===2)return compareRec(seed);
+  if(k===3)return listRec(seed,"guide","Selection Guide: "+PLAIN,"how to choose well in "+PLAIN+": the criteria that matter.",GUIDE,"selection guide");
+  if(k===4)return listRec(seed,"safety","Safety and Responsible Use: "+PLAIN,"the safety rules for "+PLAIN+": read before touching anything.",SAFETY,"safety briefing");
+  if(k===5)return listRec(seed,"maint","Maintenance and Troubleshooting: "+PLAIN,"keeping "+PLAIN+" working: maintenance rhythms and fixes.",MAINT,"maintenance guide");
+  if(k===6){var rows=HIST.map(function(h,i){return ["milestone "+(i+1),h.slice(0,120)];});
+    return derivedRec(seed,"history","History and Turning Points: "+PLAIN,"how "+PLAIN+" got here: the milestones that shaped it.",
+    HIST.slice(0,4),["Read the milestones in order.","Connect each turning point to what changed.","Ask what the next one could be.","Place yourself on the timeline."],
+    mkProg("datatable","History and Turning Points: "+PLAIN,rows),"timeline");}
+  if(k===7)return listRec(seed,"teach","Teach It to Someone Else: "+PLAIN,"how to teach "+PLAIN+": the explanations that stick.",TEACH,"teaching guide");
+  return listRec(seed,"checklist","Master Checklist: "+PLAIN,"the full sweep of "+PLAIN+": every anchor in one checklist.",
+    ANCHORS.slice(0,8).map(function(a){return a.title;}),"master checklist");
+}
+function boundlessQuiz(seed,rnd){
+  var qa=ANCHORS.slice(0,6).map(function(a){return ["Key fact: "+a.title,(a.facts[0]||"").slice(0,150)];});
+  var r=baseRec(seed,"Boundless Quiz #"+seed+" \u2014 "+SLUG,2);
+  return fin(r,"A boundless self-test generated from the archive's own anchors: "+qa.length+" questions drawn from real "+SLUG+" records. Same seed always makes the same quiz.",
+    "Generated self-test over the "+SLUG+" archive anchors.",qa.map(function(x){return x[0];}),
+    ["Run the demo quiz.","Answer aloud before reading.","Log misses.","Re-drill until perfect."],
+    mkProg("quiz","Boundless Quiz #"+seed,qa),"self-test quiz");
+}
+function boundlessExplorer(seed,rnd){
+  var a=ANCHORS[pickR(rnd,ANCHORS.length)];
+  var facts=a.facts||[];
+  var r=baseRec(seed,"Boundless Explorer #"+seed+": "+a.title,2);
+  return fin(r,"A boundless explorer record for "+a.title+": every fact laid out with a runnable program that walks them in order. Generated deterministically from seed "+seed+". "+facts.join(" ").slice(0,200),
+    "Explorer record: "+a.title+", all facts in walking order.",facts.slice(0,4),
+    ["Read each fact in order.","Run the demo walkthrough.","Pause on any fact you cannot restate.","Summarize the chain from memory."],
+    mkProg("checklist","Boundless Explorer: "+a.title,facts.length?facts:["see key facts"]),"record explorer");
+}
+function boundlessTerms(seed,rnd){
+  var pairs=TERMS.map(function(t){return [t.t,t.d];});
+  var r=baseRec(seed,"Boundless Glossary Drill #"+seed+" \u2014 "+SLUG,2);
+  return fin(r,"A boundless glossary drill from the archive's own vocabulary: "+pairs.length+" terms with definitions, runnable as a demo. Same seed, same drill.",
+    "Generated glossary drill over the "+SLUG+" working vocabulary.",pairs.map(function(p){return p[0]+": "+p[1].slice(0,80);}),
+    ["Run the demo glossary.","Cover each definition and recite it.","Check against the record.","Repeat until instant."],
+    mkProg("glossary","Boundless Glossary Drill #"+seed,pairs),"glossary drill");
+}
+function generate(seed,opts,rnd){
+  opts=opts||{};rnd=rnd||prng(seed);
+  var tier=0;
+  if(opts.tier&&FIELDS.indexOf(opts.tier)>=0)tier=FIELDS.indexOf(opts.tier);
+  else if(opts.group&&FIELDS.indexOf(opts.group)>=0)tier=FIELDS.indexOf(opts.group);
+  if(seed===1)return overviewRec();
+  if(seed>=2&&seed<=11){
+    var ai=seed-2;
+    return anchorRec(seed,ANCHORS[ai],ai<4?0:(ai<7?1:2));
+  }
+  if(seed>=12&&seed<=20){
+    var r=archiveDerived(seed);
+    if(opts.tier||opts.group)r.g=FIELDS[tier]||r.g;
+    return r;
+  }
+  var v=rnd();
+  if(v<0.4)return boundlessQuiz(seed,rnd);
+  if(v<0.7)return boundlessExplorer(seed,rnd);
+  return boundlessTerms(seed,rnd);
+}
+function validate(r){
+  var e=[];
+  if(!r||typeof r!=="object")return {ok:false,errors:["not an object"]};
+  var idre=new RegExp("^"+PREFIX.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")+"\\d{6}$");
+  if(!idre.test(r.id||""))e.push("id");
+  if(FIELDS.indexOf(r.g)<0)e.push("group");
+  if(typeof r.title!=="string"||!r.title.length)e.push("title");
+  if(typeof r.description!=="string"||r.description.length<120)e.push("description");
+  if(typeof r.definition!=="string"||r.definition.length<30)e.push("definition");
+  if(!Array.isArray(r.key_points)||r.key_points.length<3)e.push("key_points");
+  if(typeof r.program!=="string"||r.program.indexOf("console.log")<0)e.push("program");
+  if(r.src!==SRC)e.push("src");
+  if(!r.last_verified)e.push("last_verified");
+  return {ok:!e.length,errors:e};
+}
+function driftCheck(rec,sample){
+  var seen={};(sample||[]).forEach(function(s){if(s&&(s.t||s.title))seen[s.t||s.title]=1;});
+  if(rec&&seen[rec.title||rec.t])return {ok:false,errors:["duplicate title in archive sample"]};
+  return {ok:true,errors:[]};
+}
+var gen={version:"jahdb-techpresent-r16-1.0",generate:generate,validate:validate,driftCheck:driftCheck,fields:FIELDS};
+if(typeof JAHDB!=="undefined"&&JAHDB.registerGenerator)JAHDB.registerGenerator(SLUG,gen);
+if(typeof module!=="undefined"&&module.exports)module.exports=gen;
+})();

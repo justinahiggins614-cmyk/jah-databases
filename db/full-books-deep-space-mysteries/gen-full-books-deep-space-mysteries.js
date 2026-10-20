@@ -1,0 +1,37 @@
+(function(){'use strict';
+/* JAH The Full Books: Deep Space Mysteries Database generator - full-books-deep-space-mysteries-1.0.
+   Property of Justin Addam Higgins (JAH).
+   Deterministic: same seed, same record. */
+function prng(seed){var a=(seed>>>0)||1;return function(){a|=0;a=(a+0x6D2B79F5)|0;var t=Math.imul(a^(a>>>15),1|a);t=(t+Math.imul(t^(t>>>7),61|t))^t;return((t^(t>>>14))>>>0)/4294967296;};}
+function pick(r,s){return r[(s()*r.length)|0];}
+var PREFIX="JAH-DSM-";
+var FIELDS=["Foundations","Compounded","Advanced"];
+var TOPICS=["Foundations: Deep Space Mysteries - The Complete Guide", "The Red House Mystery (1922) - Complete Book Record", "The Woman in White (1859) - Complete Book Record", "The Murder on the Links (1923) - Complete Book Record", "The Murders in the Rue Morgue (1841) - Complete Book Record", "The Hound of the Baskervilles (1902) - Complete Book Record", "The Moonstone (1868) - Complete Book Record", "The Mysterious Affair at Styles (1920) - Complete Book Record", "The Innocence of Father Brown (1911) - Complete Book Record", "The Leavenworth Case (1878) - Complete Book Record", "The Purloined Letter (1844) - Complete Book Record", "The Man in the Brown Suit (1924) - Complete Book Record", "The Secret of Chimneys (1925) - Complete Book Record", "How to Plot a Whodunit - Deep Space Mysteries Craft Study", "The Locked Room Through History - Deep Space Mysteries Craft Study", "Fair Play: The Rules of Detection - Deep Space Mysteries Craft Study", "The Cozy Mystery Formula - Deep Space Mysteries Craft Study", "Red Herrings That Work - Deep Space Mysteries Craft Study", "The Detective's Sidekick - Deep Space Mysteries Craft Study", "The Deep Space Mysteries Reading Pathway"];
+function demoProgram(topic,field){
+  var safe=String(topic).replace(/\\/g,'\\\\').replace(/"/g,"'");
+  return "# "+safe+"\n# Field: "+field+"\nrecord={'title': \""+safe+"\", 'field': \""+field+"\"}\nprint('Record: '+record['title']+' ['+record['field']+']')\n";
+}
+function generate(seed,opts,rnd){
+  opts=opts||{}; rnd=rnd||prng(seed);
+  var field=opts.field&&FIELDS.indexOf(opts.field)>=0?opts.field:pick(FIELDS,rnd);
+  var topic=pick(TOPICS,rnd);
+  return {id:PREFIX+String(seed).padStart(6,'0'),title:topic,field:field,src:'public-harvest',
+    summary:'Generated record for '+topic+'.',demo:{language:'python',program:demoProgram(topic,field)},_seed:seed};
+}
+function validate(r){
+  var e=[];
+  if(!r||typeof r!=='object')return {ok:false,errors:['not an object']};
+  if(!new RegExp('^'+PREFIX.replace(/-/g,'\\-')+'\\d{6}$').test(r.id||''))e.push('id');
+  if(FIELDS.indexOf(r.field)<0)e.push('field');
+  if(!r.src)e.push('src');
+  if(!r.demo||!r.demo.program)e.push('demo');
+  return {ok:!e.length,errors:e};
+}
+function driftCheck(record,sample){
+  var dups=(sample||[]).filter(function(r){return r&&r.title===record.title&&r.field===record.field;});
+  return dups.length?{ok:false,errors:['duplicate topic+field in archive sample']}:{ok:true,errors:[]};
+}
+var gen={version:'full-books-deep-space-mysteries-1.0',generate:generate,validate:validate,driftCheck:driftCheck,fields:FIELDS};
+if(typeof JAHDB!=='undefined'&&JAHDB.registerGenerator)JAHDB.registerGenerator('full-books-deep-space-mysteries',gen);
+if(typeof module!=='undefined'&&module.exports)module.exports=gen;
+})();
