@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Benchmark Database — JAH Databases</title>
+<style>
+body{font-family:system-ui,sans-serif;max-width:900px;margin:0 auto;padding:16px;line-height:1.5}
+.kv{display:grid;grid-template-columns:minmax(120px,1fr) 2fr;gap:6px 12px;border:1px solid #ccc;padding:12px;margin:12px 0}
+.kv dt{font-weight:bold}.kv dd{margin:0}
+.pill{display:inline-block;background:#b00;color:#fff;border-radius:12px;padding:2px 10px;font-size:12px}
+button{padding:10px 18px;font-size:15px;cursor:pointer;margin:6px 4px}
+.count{font-size:28px;font-weight:bold}
+pre{background:#f4f4f4;padding:10px;overflow:auto;font-size:12px}
+</style></head><body>
+<h1>The Benchmark Database</h1>
+<p><span class="pill">Public edition</span> <span class="pill">march to a million: in progress</span></p>
+<p>Benchmark definitions with runnable tests and recorded measured results — for databases, tools, AIs, and programs. Every benchmark really executes.</p>
+<p><span class="count" id="stCount">24</span> records</p>
+<h2>Database facts</h2>
+<dl class="kv">
+<dt>Slug</dt><dd>benchmark-database</dd>
+<dt>Record kind</dt><dd>benchmark record</dd>
+<dt>Source label</dt><dd>public-harvest</dd>
+<dt>Built by</dt><dd>assistant-built</dd>
+<dt>Last verified</dt><dd>2026-10-21</dd>
+<dt>Generator hard cap</dt><dd>10<sup>15</sup> (one quadrillion) or stop when genuinely complete</dd>
+<dt>Generator ladder</dt><dd>simple → competitive → mix-and-match → unmade → top-notch-or-better → future-grade → god-mode</dd>
+<dt>Database AI</dt><dd>JAH Benchmark Librarian — archive-aware; can build an assistant like the user's personal assistant</dd>
+</dl>
+<h2>How this database works</h2>
+<p>Each record is a benchmark definition (target, metric, methodology, scoring) plus a runnable test program plus the honestly recorded measured results from executing it. Run any record program with node to reproduce the measurement.</p>
+<h2>Sample records</h2>
+<dl class="kv"><dt>JAH-BENCHMARK-000001</dt><dd>The Benchmark Database — JSON Record Serialization Throughput</dd><dt>JAH-BENCHMARK-000002</dt><dd>The Benchmark Database — JSON Record Parse Throughput</dd><dt>JAH-BENCHMARK-000003</dt><dd>The Benchmark Database — Gzip Index Round-Trip (Ratio + Integrity)</dd><dt>JAH-BENCHMARK-000004</dt><dd>The Benchmark Database — Sorted Index Binary-Search Lookup</dd></dl>
+<h2>Boundless generator</h2>
+<p>Generator script: <code>gen-benchmark-database.js</code> — run <code>node gen-benchmark-database.js --n 5</code>.
+Self-regulating: throttled, duplicate-checked, stops at 10<sup>15</sup> or when complete. Generated output is labeled
+<code>"generated"</code> and never mixed with assistant-built records.</p>
+<h2>Executed program example</h2>
+<p>Every record carries a program that was really executed (Node.js, verified 2026-10-21). Example:</p>
+<pre>var rand=mulberry32(11); var recs=[];
+for(var i=0;i&lt;20000;i++){recs.push({id:'JAH-REC-'+String(i).padStart(6,'0'),title:'Record '+i,cat:'cat'+(i%7),v:Math.floor(rand()*1000)});}
+var t0=nowMs(); var strs=recs.map(function(r){return JSON.stringify(r);}); var t1=nowMs();
+var ms=t1-t0;
+assert(strs.length===20000,'serialized 20000 records');
+assert(strs[0].length&gt;20,'non-trivial output length');
+assert(JSON.stringify(JSON.parse(strs[1234]))===strs[1234],'spot round-trip exact');
+RESULT({records:20000,total_ms:+ms.toFixed(2),records_per_sec:Math.round(20000/(ms/1000)),bytes:strs.join('').length});</pre>
+<h2>Provenance</h2>
+<dl class="kv">
+<dt>Order</dt><dd>Manon order 2026-10-21 ~17:58 EDT item 99 — BENCHMARK DATABASE (benchmarks for databases, tools, AIs, and programs: tests + results), Signature + public.</dd>
+<dt>Last verified</dt><dd>2026-10-21</dd>
+<dt>Node</dt><dd>v24.20.0</dd>
+<dt>Teaching ladder</dt><dd>ranks 1–15 across records (simple → most complex)</dd>
+</dl>
+<p><button id="mergerBtn">All Database Merger</button></p>
+<div id="mergerOut"></div>
+<script>
+document.getElementById('mergerBtn').addEventListener('click',function(){
+  document.getElementById('mergerOut').innerHTML='<dl class=kv><dt>Merger</dt><dd>The The Benchmark Database participates in the All Database Merger: its 24 records merge by slug <code>benchmark-database</code> with sibling edition <code>benchmark-database-signature</code>. Dedupe key: record id. Provenance preserved per record.</dd></dl>';
+});
+</script>
+</body></html>
