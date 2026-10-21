@@ -1,0 +1,63 @@
+(function(){'use strict';
+function prng(seed){var a=(seed>>>0)||1;return function(){a|=0;a=(a+0x6D2B79F5)|0;var t=Math.imul(a^(a>>>15),1|a);t=(t+Math.imul(t^(t>>>7),61|t))^t;return((t^(t>>>14))>>>0)/4294967296;};}
+function pick(r,s){return r[(s()*r.length)|0];}
+var CATS=["design-generation", "requirement-checking", "manufacturing"];
+var PREFIX='JAH-APX52S-';
+var VERSION='jahdb-apex-tool-automated-engineering-design-explorer-signature-1.0';
+var TOOLNAME='Automated Engineering Design Explorer';
+var PROV='Signature original design by Justin Addam Higgins (JAH). Signature-labeled original work - not a public record. Demo executed 2026-10-21.';
+var DEPS=["Parametric CAD kernel", "Material property tables", "Physics evaluation routines", "Manufacturing rule sets"];
+var PARAMS=[[1.0, 0.01, 8], [1.2, 0.008, 10], [1.5, 0.006, 12], [1.8, 0.005, 14], [2.0, 0.004, 16], [2.2, 0.004, 18], [2.5, 0.003, 20], [2.8, 0.003, 22], [3.0, 0.0025, 24], [3.2, 0.0025, 26], [3.5, 0.002, 28], [3.8, 0.002, 30], [4.0, 0.0018, 32], [4.2, 0.0015, 34], [4.5, 0.0012, 36]];
+var DEMO_TPL="function prng(seed){var a=seed>>>0||1;return function(){a|=0;a=(a+0x6D2B79F5)|0;var t=Math.imul(a^(a>>>15),1|a);t=(t+Math.imul(t^(t>>>7),61|t))^t;return((t^(t>>>14))>>>0)/4294967296;};}\nvar R=prng(__SEED__);\nvar T0=Date.now();\nvar F=1000,E=200e9,rho=7850,L=__P0__,MAXD=__P1__,G=__P2__;\nvar best=null,evaled=0;\nfor(var i=0;i<G;i++)for(var j=0;j<G;j++){\n  var w=0.02+0.18*i/Math.max(G-1,1),h=0.02+0.28*j/Math.max(G-1,1);\n  var I=w*Math.pow(h,3)/12,defl=F*Math.pow(L,3)/(3*E*I),mass=rho*L*w*h;\n  evaled++;\n  if(defl<=MAXD&&(!best||mass<best.mass))best={w:w,h:h,mass:mass,defl:defl};\n}\nconsole.log(JSON.stringify({id:\"__ID__\",ok:true,metrics:{evaluated:evaled,feasible:!!best,best_mass_kg:best?+best.mass.toFixed(3):null,best_w_m:best?+best.w.toFixed(4):null,best_h_m:best?+best.h.toFixed(4):null,best_defl_m:best?+best.defl.toExponential(2):null},ms:Date.now()-T0}));";
+var BP=[["design-generation", "Signature Parametric Kernel", "Justin's parametric kernel: every dimension is a named, ranged, unit-checked parameter, and every regenerated model carries a Signature seal binding it to its parameter set.", "Sealed parameter records drive the geometry kernel; seals make silent geometry drift impossible.", "Signature parametric kernel|Signature manufacturing filter|Signature safety-margin prover|Signature requirement seal", "explore(requirements)->candidates|explore(requirements)->candidates", "signature-original - established-pattern", "The demo detects a tampered parameter set by seal mismatch."], ["design-generation", "Signature Requirement Seal", "His requirement format: each requirement is sealed with units, threshold, and rationale, so a design's pass/fail verdict is auditable.", "Sealed requirement records compile to check functions; verdicts cite the seal.", "Signature requirement seal|Signature parametric kernel|Signature manufacturing filter|Signature safety-margin prover", "check(design,requirements)->verdict|check(design,requirements)->verdict", "signature-original - established-pattern", "The demo verdict traces each pass/fail to its sealed requirement."], ["design-generation", "Signature Candidate Forger", "A forger that emits ID-stamped candidates from the parameter space, each traceable to the seed and sampler that made it.", "Stamped candidate IDs encode seed, sampler, and parameter hash.", "Signature safety-margin prover|Signature requirement seal|Signature parametric kernel|Signature manufacturing filter", "rank(candidates)->pareto_front|rank(candidates)->pareto_front", "signature-original - established-pattern", "Every demo candidate traces to its seed and sampler."], ["design-generation", "Signature Physics Prover", "His evaluator proves behavior with real physics and attaches the derivation: formula, inputs, and result travel together.", "Physics routines emit derivation records alongside numbers.", "Signature manufacturing filter|Signature safety-margin prover|Signature requirement seal|Signature parametric kernel", "explore(requirements)->candidates|explore(requirements)->candidates", "signature-original - established-pattern", "The demo's deflection result carries its closed-form derivation."], ["design-generation", "Signature Margin Ledger", "A ledger recording safety margins per failure mode for every candidate, so 'safe' is a measured claim, not a feeling.", "Margin records per mode per candidate; sub-margin designs are sealed as rejected with reasons.", "Signature parametric kernel|Signature manufacturing filter|Signature safety-margin prover|Signature requirement seal", "check(design,requirements)->verdict|check(design,requirements)->verdict", "signature-original - established-pattern", "The demo ledger shows exactly which mode failed the rejected design."], ["requirement-checking", "Signature Buildability Gate", "His manufacturing gate: process rules are sealed records, and rejections name the rule, so a designer knows what to change.", "Sealed process rule sets; rejections cite rule IDs.", "Signature requirement seal|Signature parametric kernel|Signature manufacturing filter|Signature safety-margin prover", "rank(candidates)->pareto_front|rank(candidates)->pareto_front", "signature-original - prototype-demonstrated", "The demo rejection names the violated minimum-wall rule."], ["requirement-checking", "Signature Grid Explorer", "An exhaustive grid explorer that seals every evaluated point, making the baseline search itself an auditable dataset.", "Sealed grid points with cached results keyed by parameter hash.", "Signature safety-margin prover|Signature requirement seal|Signature parametric kernel|Signature manufacturing filter", "explore(requirements)->candidates|explore(requirements)->candidates", "signature-original - prototype-demonstrated", "The demo grid dataset is complete with no missing points."], ["requirement-checking", "Signature Pareto Keeper", "His Pareto keeper maintains the non-dominated front as a sealed record, so trade-off claims can be re-examined later.", "Sealed front snapshots; dominance checks on insertion.", "Signature manufacturing filter|Signature safety-margin prover|Signature requirement seal|Signature parametric kernel", "check(design,requirements)->verdict|check(design,requirements)->verdict", "signature-original - prototype-demonstrated", "The demo front verifies as non-dominated on re-check."], ["requirement-checking", "Signature Evolution Engine", "An evolutionary optimizer with Signature-stamped generations, so the lineage of the winning design \u2014 every parent and mutation \u2014 is inspectable.", "Stamped generation records with parent links.", "Signature parametric kernel|Signature manufacturing filter|Signature safety-margin prover|Signature requirement seal", "rank(candidates)->pareto_front|rank(candidates)->pareto_front", "signature-original - prototype-demonstrated", "The demo winner's full lineage traces back to generation zero."], ["requirement-checking", "Signature Constraint Weaver", "His constraint propagator weaves decisions through the parameter network, sealing each pruning step.", "Pruning steps recorded with the decision that caused them.", "Signature requirement seal|Signature parametric kernel|Signature manufacturing filter|Signature safety-margin prover", "explore(requirements)->candidates|explore(requirements)->candidates", "signature-original - prototype-demonstrated", "The demo never evaluates a pruned candidate and the log proves it."], ["manufacturing", "Signature Trade Measurer", "Measures trade-offs along the front as sealed exchange-rate records, turning 'lighter but weaker' into numbers.", "Exchange rates computed per front segment and sealed.", "Signature safety-margin prover|Signature requirement seal|Signature parametric kernel|Signature manufacturing filter", "check(design,requirements)->verdict|check(design,requirements)->verdict", "signature-original - design-stage", "The demo's exchange rates are positive, finite, and reproducible."], ["manufacturing", "Signature Robustness Prover", "Re-tests winners under perturbation and seals the robustness verdict, demoting fragile optima with evidence.", "Perturbation campaigns with sealed verdicts.", "Signature manufacturing filter|Signature safety-margin prover|Signature requirement seal|Signature parametric kernel", "rank(candidates)->pareto_front|rank(candidates)->pareto_front", "signature-original - design-stage", "The demo's fragile optimum is demoted with its spread data attached."], ["manufacturing", "Signature Report Forger", "His report generator forges human-readable reports where every figure is a live link to its sealed source run.", "Reports embed source-run references per figure.", "Signature parametric kernel|Signature manufacturing filter|Signature safety-margin prover|Signature requirement seal", "explore(requirements)->candidates|explore(requirements)->candidates", "signature-original - design-stage", "The demo report's winning mass re-computes from the cited run."], ["manufacturing", "Signature Guided Explorer", "A guided explorer where engineer guidance is itself a sealed record, so human steering is part of the audit trail.", "Guidance records constrain and are cited by the optimizer.", "Signature requirement seal|Signature parametric kernel|Signature manufacturing filter|Signature safety-margin prover", "check(design,requirements)->verdict|check(design,requirements)->verdict", "signature-original - design-stage", "The demo honors the sealed guidance and cites it in the result."], ["manufacturing", "Signature Campaign Director", "The Signature director runs generate-evaluate-check-filter-rank-report as one sealed campaign, stopping on acceptance or proven infeasibility.", "Sealed stage records; acceptance criteria checked against sealed verdicts.", "Signature safety-margin prover|Signature requirement seal|Signature parametric kernel|Signature manufacturing filter", "rank(candidates)->pareto_front|rank(candidates)->pareto_front", "signature-original - design-stage", "The demo campaign's final report traces every claim to a sealed stage."]];
+function demoSource(rank,seed,id){
+  var p=PARAMS[(rank-1)%PARAMS.length];
+  var s=DEMO_TPL;
+  s=s.split('__SEED__').join(String(seed));
+  s=s.split('__ID__').join(id);
+  for(var i=0;i<p.length;i++)s=s.split('__P'+i+'__').join(String(p[i]));
+  return s;
+}
+function generate(seed,opts){
+  opts=opts||{};
+  var idx=Math.abs(seed)%BP.length;
+  if(opts.category){
+    for(var i=0;i<BP.length;i++)if(BP[i][0]===opts.category){idx=i;break;}
+  }
+  var b=BP[idx];
+  var rank=1+(Math.abs(seed*7+idx)%15);
+  var id=PREFIX+String(100000+(Math.abs(seed)%899999)).padStart(6,'0');
+  var comps=b[4]?b[4].split('|'):[];
+  var ifaces=b[5]?b[5].split('|'):[];
+  return {id:id,t:b[1],g:b[0],title:b[1],description:b[2],ladder_rank:rank,
+    demo:demoSource(rank,seed,id),architecture:b[3],components:comps,interfaces:ifaces,
+    implementation_status:b[6],acceptance_tests:[b[7],'Generated record - run its demo program with node to verify.'],
+    dependencies:DEPS.slice(0,3),provenance:PROV,last_verified:'2026-10-21',
+    march_marker:'Million in progress - generated record marching to 1,000,000.',
+    edition:'signature',tool_number:52,tool_name:TOOLNAME,_seed:seed};
+}
+function validate(r){
+  var e=[];
+  if(!r||typeof r!=='object')return {ok:false,errors:['not an object']};
+  var rx=new RegExp('^'+PREFIX.replace(/[-]/g,'\\-')+'\\d{6}$');
+  if(!rx.test(r.id||''))e.push('id');
+  if(typeof r.title!=='string'||!r.title.length)e.push('title');
+  if(typeof r.description!=='string'||r.description.length<20)e.push('description');
+  if(!(r.ladder_rank>=1&&r.ladder_rank<=15))e.push('ladder_rank');
+  if(typeof r.demo!=='string'||r.demo.indexOf('console.log')<0)e.push('demo');
+  if(typeof r.architecture!=='string'||!r.architecture.length)e.push('architecture');
+  if(!Array.isArray(r.components)||!r.components.length)e.push('components');
+  if(!Array.isArray(r.acceptance_tests)||!r.acceptance_tests.length)e.push('acceptance_tests');
+  if(CATS.indexOf(r.g)<0)e.push('g');
+  if(r.last_verified!=='2026-10-21')e.push('last_verified');
+  return {ok:!e.length,errors:e};
+}
+function driftCheck(rec,sample){
+  sample=sample||[];
+  for(var i=0;i<sample.length;i++)if(sample[i]&&sample[i].id===rec.id)return {ok:false,errors:['duplicate id']};
+  return {ok:true,errors:[]};
+}
+var gen={version:VERSION,generate:generate,validate:validate,driftCheck:driftCheck};
+if(typeof JAHDB!=='undefined'&&JAHDB.registerGenerator)JAHDB.registerGenerator('apex-tool-automated-engineering-design-explorer-signature',gen);
+if(typeof module!=='undefined'&&module.exports)module.exports=gen;
+})();

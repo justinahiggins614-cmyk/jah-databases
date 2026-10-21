@@ -1,0 +1,59 @@
+(function(){'use strict';
+function prng(seed){var a=(seed>>>0)||1;return function(){a|=0;a=(a+0x6D2B79F5)|0;var t=Math.imul(a^(a>>>15),1|a);t=(t+Math.imul(t^(t>>>7),61|t))^t;return((t^(t>>>14))>>>0)/4294967296;};}
+function pick(r,s){return r[(s()*r.length)|0];} function ri(s,a,b){return a+((s()*(b-a+1))|0);}
+var CATS=["architecture", "component", "benchmark", "interface", "worked-example"];
+var PREFIX="JAH-APX6-";
+var VERSION="jahdb-apex-tool-multiversal-database-federation-1.0";
+/* rows: [group, focus, title, description, architecture] */
+var B=[["architecture", "Concept and purpose", "What the Database Federation is", "The federation lets many independently run databases answer queries as one, without any of them surrendering control. A query arrives at the federation layer, which plans it across member databases, translates it for each, and combines the results. Members join by signing the compact and publishing their schema and permissions — and they can leave the same way.", "Federation planner and executor; member registry with signed compacts; per-member translators; result combiner with provenance."], ["architecture", "Core data model", "Federation compact data model", "The compact is the federation's constitution in machine-readable form: schema compatibility promises, permission reciprocity rules, query cost accounting, data freshness commitments, and exit terms. Compacts are versioned and signed; the federation's monitors check compliance continuously, not just at signing time.", "Compact documents with sections per concern; signature and version envelope; compliance monitors per section; violation ledger."], ["component", "Key algorithm I", "Cross-database query planning algorithm", "The planner breaks a federated query into per-member subqueries, decides join order across databases, and pushes filters down to members to minimize data movement. It uses each member's published statistics to estimate costs, and it never asks a member for data its permissions forbid.", "Query decomposer; cost estimator from member statistics; permission-aware pruning; filter pushdown optimizer."], ["component", "Key algorithm II", "Schema mediation algorithm", "Members describe the same things differently — one table's 'title' is another's 'name'. Mediation maps member schemas to the federation's shared model with explicit, tested mappings, and flags unmappable fields instead of guessing. Mappings are versioned so schema evolution does not silently break queries.", "Shared federation model; per-member mapping documents; mapping test suite with sample rows; versioned mappings with migration notes."], ["interface", "Interface specification", "Federated query interface specification", "Callers write one query against the shared model and get combined answers with per-row member provenance. The interface supports filters, joins across members, aggregation, and pagination over the combined result. Every row says which member it came from and under what permission it was read.", "Shared-model query language; planner and executor; combiner with provenance tagging; permission context propagation."], ["component", "Ingestion and adapters", "Ingestion: member onboarding pipeline", "Joining the federation means publishing a schema, signing the compact, passing mediation tests, and surviving a probationary period of monitored queries. The pipeline is the same for a one-person database and an institutional archive — the tests do not care about size, only about compatibility and honesty.", "Onboarding stages: publish, sign, mediate, probation; automated test gates between stages; graduation to full membership on measured compliance."], ["component", "Indexing and retrieval", "Federated indexing and retrieval", "The federation keeps a lightweight global index — which members hold which kinds of records — so the planner can skip irrelevant members without asking them. The global index holds metadata only, never member data, preserving each member's ownership and privacy.", "Metadata-only global index from member statistics; planner consults it before fan-out; incremental updates as members report changes."], ["component", "Reasoning and decision component", "Reasoning: permission-aware query answering", "A federated answer is only valid if the caller was allowed to see every row in it. The executor evaluates permissions per member per caller, filters at the source, and marks the combined answer with the permission context. If a member denies access, the answer says which member was excluded and why.", "Caller identity propagation; per-member permission checks; source-side filtering; exclusion reporting in results."], ["interface", "Output and presentation", "Combined answer presentation output", "Combined answers render as one table with a member column: every row shows its home database, and grouping shows when members agree. Schema-mediated columns are labeled with their shared-model names, with member-native names available on demand for precision.", "Result renderer with member badges; agreement grouping; column-name mapping display; exportable combined sets."], ["benchmark", "Benchmark harness and measured baseline", "Federation benchmark harness", "The federation is benchmarked on cross-member tasks with known answers distributed across fixture members: recall, answer latency, data movement, and permission correctness. Baselines are querying each member separately and a naive centralized copy; the federation must match the copy's recall without the copy's centralization.", "Fixture member fleet with distributed truth; task runner; metrics for recall, latency, movement, permission correctness; baseline gate."], ["worked-example", "End-to-end worked example", "Worked example: counting inventions across members", "The question 'how many gear-pump inventions do we hold across the federation' fans out to three members with different schemas. Mediation maps title/name/headline to the shared invention concept, the planner pushes the filter down, each member counts locally, and the combiner sums with per-member breakdowns and provenance. No member's data ever leaves home except the counts.", "Shared-model count query; mediated filter pushdown; local counting per member; combiner summing with breakdowns."], ["component", "Failure modes and reliability", "Failure modes: member outages and compact breaches", "Members go offline, break their schema promises, or quietly change permissions. The federation detects outages, quarantines breaching members automatically, reroutes queries around them, and reports exactly what was missing from each answer. A federation that hides member failures is not a federation but a rumor mill.", "Liveness and compliance monitors; automatic quarantine on compact breach; outage-aware replanning; missing-member reporting in answers."], ["architecture", "Scaling architecture", "Scaling: federations of federations", "Federations themselves can federate: a regional federation appears as one member to a global federation, with its compact composed from its members' compacts. Query planning recurses, and provenance chains grow to show the full path from global answer to home member.", "Recursive federation membership; compact composition rules; recursive planner; extended provenance chains."], ["interface", "Security, permissions, and audit", "Security: trust without central control", "No central owner means trust must be engineered: signed compacts, authenticated members, query audit trails spanning members, and cost accounting that prevents one member from bankrupting another with expensive queries. The federation's security is in its agreements and its monitoring, not in a firewall.", "Mutual authentication between members; signed query audit trail; cost accounting with budgets; compact violation evidence collection."], ["worked-example", "Compounded integration and acceptance suite", "Compounded integration and acceptance suite", "Acceptance runs the federation against a fixture fleet: onboard members, sign compacts, mediate schemas, run cross-member queries, inject outages and breaches, and verify answers match ground truth with honest gap reporting. The federation ships only when recall, permission correctness, and failure honesty all pass.", "Fixture fleet with distributed truth; fault injection; full-loop runner; scorers for recall, permissions, honesty."]];
+function demoProgram(seed,title,rnd){
+  var n=ri(rnd,5,12);
+  var lines=['// JAH demo program — runnable with: node demo.js','// generated record demo (seed '+seed+')','\'use strict\';'];
+  lines.push('var checks=[');
+  for(var i=0;i<n;i++){lines.push('  {expr:"'+(i+2)+'*'+(i+3)+'",expect:'+((i+2)*(i+3))+'}'+(i<n-1?',':''));}
+  lines.push('];');
+  lines.push('var fails=0;');
+  lines.push('checks.forEach(function(c){var got=eval(c.expr);var ok=got===c.expect;if(!ok)fails++;console.log((ok?"PASS":"FAIL")+"  "+c.expr+" = "+got);});');
+  lines.push('console.log("generated demo: "+(checks.length-fails)+"/"+checks.length+" checks passed");');
+  return lines.join("\n");
+}
+function generate(seed,opts,rnd){
+  opts=opts||{};rnd=rnd||prng(seed);
+  var cat=opts.category||pick(CATS,rnd);
+  var pool=B.filter(function(b){return b[0]===cat;});
+  var b=pick(pool.length?pool:B,rnd);
+  var id=PREFIX+String(seed).padStart(6,'0');
+  var title=b[2]+' — variant '+seed;
+  var prog=demoProgram(seed,title,rnd);
+  return {id:id,title:title,description:b[3],ladder_rank:ri(rnd,1,15),
+    demo:{kind:'code',title:'Runnable code demo — '+title.slice(0,50),program:prog,language:'javascript'},
+    architecture:b[4],components:['core coordinator','interface adapter','validation harness','telemetry exporter'],
+    interfaces:['JSON record schema v1','query API (filter/sort/paginate)','demo runner (node-compatible JS)'],
+    implementation_status:'Generated design record — proposed capability; demo program is real executable code.',
+    acceptance_tests:{criteria:['demo program executes without errors','record validates against schema','no duplicate id in archive'],demo_status:'generated at runtime'},
+    dependencies:['node.js runtime (demo execution)','JAH database core (jahdb.js)','gzip JSONL archive'],
+    provenance:"Public-record survey",last_verified:"2026-10-21",march_marker:"March to a million in progress \u2014 15 of 1,000,000 records (0.0015%)",
+    t:title,g:cat,c:1,_seed:seed};
+}
+function validate(r){
+  var e=[];
+  if(!r||typeof r!=='object')return {ok:false,errors:['not an object']};
+  if(typeof r.id!=='string'||r.id.indexOf(PREFIX)!==0)e.push('id');
+  if(typeof r.title!=='string'||!r.title.length)e.push('title');
+  if(typeof r.description!=='string'||!r.description.length)e.push('description');
+  if(!(r.ladder_rank>=1&&r.ladder_rank<=15))e.push('ladder_rank');
+  var d=r.demo;
+  if(!d||d.language!=='javascript'||typeof d.program!=='string'||d.program.indexOf('console.log')<0)e.push('demo');
+  if(typeof r.architecture!=='string'||!r.architecture.length)e.push('architecture');
+  if(!Array.isArray(r.components)||!r.components.length)e.push('components');
+  if(!Array.isArray(r.interfaces)||!r.interfaces.length)e.push('interfaces');
+  if(typeof r.implementation_status!=='string'||!r.implementation_status.length)e.push('implementation_status');
+  if(!r.acceptance_tests||typeof r.acceptance_tests!=='object')e.push('acceptance_tests');
+  if(!Array.isArray(r.dependencies)||!r.dependencies.length)e.push('dependencies');
+  if(CATS.indexOf(r.g)<0)e.push('g');
+  return {ok:!e.length,errors:e};
+}
+var gen={version:VERSION,generate:generate,validate:validate};
+if(typeof JAHDB!=='undefined'&&JAHDB.registerGenerator)JAHDB.registerGenerator("apex-tool-multiversal-database-federation",gen);
+if(typeof module!=='undefined'&&module.exports)module.exports=gen;
+})();

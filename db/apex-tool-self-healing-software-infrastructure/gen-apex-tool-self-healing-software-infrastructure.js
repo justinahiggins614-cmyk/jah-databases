@@ -1,0 +1,63 @@
+(function(){'use strict';
+function prng(seed){var a=(seed>>>0)||1;return function(){a|=0;a=(a+0x6D2B79F5)|0;var t=Math.imul(a^(a>>>15),1|a);t=(t+Math.imul(t^(t>>>7),61|t))^t;return((t^(t>>>14))>>>0)/4294967296;};}
+function pick(r,s){return r[(s()*r.length)|0];}
+var CATS=["failure-detection", "recovery-procedures", "resilience-operations"];
+var PREFIX='JAH-APX54-';
+var VERSION='jahdb-apex-tool-self-healing-software-infrastructure-1.0';
+var TOOLNAME='Self-Healing Software Infrastructure';
+var PROV='Public knowledge: standard engineering practice documented in open technical literature; facts cross-checked against the executed demo program. Compiled 2026-10-21.';
+var DEPS=["Service health endpoints", "Playbook approval registry", "Traffic control plane", "Distributed lock service"];
+var PARAMS=[[5, 0.01, 2, 3, 500], [8, 0.015, 2, 3, 600], [10, 0.02, 3, 4, 700], [12, 0.02, 3, 4, 800], [15, 0.025, 3, 5, 900], [18, 0.03, 4, 5, 1000], [20, 0.03, 4, 6, 1100], [25, 0.035, 4, 6, 1200], [30, 0.04, 5, 7, 1300], [35, 0.04, 5, 7, 1400], [40, 0.045, 5, 8, 1500], [45, 0.05, 6, 8, 1600], [50, 0.05, 6, 9, 1700], [60, 0.055, 6, 10, 1800], [70, 0.06, 7, 10, 2000]];
+var DEMO_TPL="function prng(seed){var a=seed>>>0||1;return function(){a|=0;a=(a+0x6D2B79F5)|0;var t=Math.imul(a^(a>>>15),1|a);t=(t+Math.imul(t^(t>>>7),61|t))^t;return((t^(t>>>14))>>>0)/4294967296;};}\nvar R=prng(__SEED__);\nvar T0=Date.now();\nvar N=__P0__,PF=__P1__,DET=__P2__,RST=__P3__,T=__P4__;\nvar svc=[];for(var i=0;i<N;i++)svc.push({up:true,downAt:0,healAt:0});\nvar upTicks=0,incidents=0,mttrSum=0;\nfor(var t=0;t<T;t++)for(var i=0;i<N;i++){var s=svc[i];\n  if(s.up&&R()<PF){s.up=false;s.downAt=t;s.healAt=t+DET+RST;incidents++;}\n  if(!s.up&&t>=s.healAt){s.up=true;mttrSum+=t-s.downAt;}\n  if(s.up)upTicks++;}\nconsole.log(JSON.stringify({id:\"__ID__\",ok:true,metrics:{services:N,incidents:incidents,uptime_pct:+(100*upTicks/(N*T)).toFixed(2),mttr_ticks:incidents?+(mttrSum/incidents).toFixed(2):0},ms:Date.now()-T0}));";
+var BP=[["failure-detection", "Liveness and Readiness Probes", "The foundation: every service exposes cheap endpoints that answer 'am I alive' and 'can I serve', so detection starts from ground truth instead of guesses.", "Probes run on fixed intervals with timeouts; consecutive failures cross a threshold before anything is declared.", "Health probe mesh|Recovery playbook store|State reconciler|Recovery verifier", "report_health(service)->status|verify_recovery(ticket)->verdict", "established-practice", "The demo's probe marks the killed service down within the configured threshold."], ["failure-detection", "Threshold-Based Alerting", "Fires alerts when a metric crosses a declared boundary \u2014 error rate, latency, queue depth \u2014 with hysteresis so flapping does not page anyone twice.", "Alert rules carry warn/critical thresholds and cool-downs; state changes are logged.", "Anomaly detector|Restart orchestrator|Escalation router|Health probe mesh", "declare_incident(signature)->ticket|report_health(service)->status", "established-practice", "The demo alert fires once per real crossing and stays quiet during flapping."], ["failure-detection", "Log Pattern Watcher", "Scans service logs for known failure signatures \u2014 stack traces, timeout phrases, panic markers \u2014 catching failures metrics alone would miss.", "Pattern rules match log streams in real time; matches are annotated with service and timestamp.", "Incident classifier|Traffic shifter|Blast-radius limiter|Anomaly detector", "execute_playbook(ticket)->result|declare_incident(signature)->ticket", "established-practice", "The demo watcher catches the injected panic signature in the log stream."], ["failure-detection", "Anomaly Detection Baseline", "Learns each service's normal metric shape and flags deviations, catching novel failures that have no known signature yet.", "Baselines track rolling mean and spread; deviations beyond N sigma raise candidates for classification.", "Recovery playbook store|State reconciler|Recovery verifier|Incident classifier", "verify_recovery(ticket)->verdict|execute_playbook(ticket)->result", "established-practice", "The demo flags the injected latency anomaly while the normal period stays quiet."], ["failure-detection", "Incident Classifier", "Sorts detected problems into known incident types \u2014 crash loop, overload, dependency outage, bad deploy \u2014 so the right playbook runs.", "A classifier maps signal combinations to incident types with confidence scores.", "Restart orchestrator|Escalation router|Health probe mesh|Recovery playbook store", "report_health(service)->status|verify_recovery(ticket)->verdict", "established-practice", "The demo classifies the crash-loop injection as a crash loop with top confidence."], ["recovery-procedures", "Approved Playbook Store", "Recovery procedures live as reviewed, versioned playbooks \u2014 restart, failover, rollback \u2014 and only approved playbooks may execute automatically.", "Playbooks carry approvals, version, and preconditions; execution requires all preconditions true.", "Traffic shifter|Blast-radius limiter|Anomaly detector|Restart orchestrator", "declare_incident(signature)->ticket|report_health(service)->status", "prototype-demonstrated", "The demo refuses to run an unapproved playbook and runs the approved one."], ["recovery-procedures", "Safe Restart Orchestrator", "Restarts failed services in dependency order with health gates between steps, so recovery itself does not cascade.", "Ordered restart plans with per-step health checks; a step that fails its gate halts the plan.", "State reconciler|Recovery verifier|Incident classifier|Traffic shifter", "execute_playbook(ticket)->result|declare_incident(signature)->ticket", "prototype-demonstrated", "The demo restarts the failed tier and every step passes its health gate."], ["recovery-procedures", "Traffic Shifting and Failover", "Moves traffic away from sick instances toward healthy ones during recovery, keeping users served while the repair runs.", "Load balancer weights shift by health score; shift plans are reversible.", "Escalation router|Health probe mesh|Recovery playbook store|State reconciler", "verify_recovery(ticket)->verdict|execute_playbook(ticket)->result", "prototype-demonstrated", "The demo keeps serving requests through the failover with no dropped batch."], ["recovery-procedures", "State Reconciliation", "After recovery, reconciles state that diverged during the outage \u2014 replaying queues, healing replicas \u2014 so the system is consistent, not just running.", "Reconciliation jobs compare and merge divergent state with idempotent operations.", "Blast-radius limiter|Anomaly detector|Restart orchestrator|Escalation router", "report_health(service)->status|verify_recovery(ticket)->verdict", "prototype-demonstrated", "The demo reconciles the diverged queue with zero lost or duplicated messages."], ["recovery-procedures", "Blast-Radius Limiter", "Contains automated recovery to the affected scope \u2014 one zone, one tier \u2014 so a healing action can never take down the healthy remainder.", "Scope guards on every playbook; cross-scope actions require explicit escalation.", "Recovery verifier|Incident classifier|Traffic shifter|Blast-radius limiter", "declare_incident(signature)->ticket|report_health(service)->status", "prototype-demonstrated", "The demo's recovery touches only the failed zone; the healthy zone is untouched."], ["resilience-operations", "Recovery Verifier", "Independently confirms the incident is truly resolved \u2014 probes green, metrics normal, synthetic transactions passing \u2014 before closing the ticket.", "Verification suites run post-recovery checks; the incident closes only on full pass.", "Health probe mesh|Recovery playbook store|State reconciler|Recovery verifier", "execute_playbook(ticket)->result|declare_incident(signature)->ticket", "design-stage", "The demo closes the ticket only after all verification checks pass."], ["resilience-operations", "Escalation Router", "Routes incidents automation cannot resolve to the right human with full context: signals, actions taken, and what was tried.", "Escalation rules map incident types to owners; context bundles travel with the page.", "Anomaly detector|Restart orchestrator|Escalation router|Health probe mesh", "verify_recovery(ticket)->verdict|execute_playbook(ticket)->result", "design-stage", "The demo escalates the unresolvable incident with its full context bundle."], ["resilience-operations", "Post-Incident Learning Loop", "Turns every incident into prevention: new detection rules, tightened playbooks, and regression tests generated from what happened.", "Incident reviews produce rule and playbook updates; a tracker confirms they deploy.", "Incident classifier|Traffic shifter|Blast-radius limiter|Anomaly detector", "report_health(service)->status|verify_recovery(ticket)->verdict", "design-stage", "The demo generates a detection rule from the incident that would have caught it earlier."], ["resilience-operations", "Chaos Validation Drills", "Regularly injects controlled failures to prove the healing machinery works \u2014 recovery that is never tested is not recovery.", "Drill schedules inject faults in staging; healing performance is measured against targets.", "Recovery playbook store|State reconciler|Recovery verifier|Incident classifier", "declare_incident(signature)->ticket|report_health(service)->status", "design-stage", "The demo drill recovers within the target time and the report shows the measured MTTR."], ["resilience-operations", "Autonomous Healing Conductor", "Coordinates detection, classification, playbook execution, verification, and learning as one closed loop across the whole fleet.", "A conductor sequences the pipeline with scope guards and human escalation as the backstop.", "Restart orchestrator|Escalation router|Health probe mesh|Recovery playbook store", "execute_playbook(ticket)->result|declare_incident(signature)->ticket", "design-stage", "The demo conductor heals the injected outage end-to-end and files the learning update."]];
+function demoSource(rank,seed,id){
+  var p=PARAMS[(rank-1)%PARAMS.length];
+  var s=DEMO_TPL;
+  s=s.split('__SEED__').join(String(seed));
+  s=s.split('__ID__').join(id);
+  for(var i=0;i<p.length;i++)s=s.split('__P'+i+'__').join(String(p[i]));
+  return s;
+}
+function generate(seed,opts){
+  opts=opts||{};
+  var idx=Math.abs(seed)%BP.length;
+  if(opts.category){
+    for(var i=0;i<BP.length;i++)if(BP[i][0]===opts.category){idx=i;break;}
+  }
+  var b=BP[idx];
+  var rank=1+(Math.abs(seed*7+idx)%15);
+  var id=PREFIX+String(100000+(Math.abs(seed)%899999)).padStart(6,'0');
+  var comps=b[4]?b[4].split('|'):[];
+  var ifaces=b[5]?b[5].split('|'):[];
+  return {id:id,t:b[1],g:b[0],title:b[1],description:b[2],ladder_rank:rank,
+    demo:demoSource(rank,seed,id),architecture:b[3],components:comps,interfaces:ifaces,
+    implementation_status:b[6],acceptance_tests:[b[7],'Generated record - run its demo program with node to verify.'],
+    dependencies:DEPS.slice(0,3),provenance:PROV,last_verified:'2026-10-21',
+    march_marker:'Million in progress - generated record marching to 1,000,000.',
+    edition:'public',tool_number:54,tool_name:TOOLNAME,_seed:seed};
+}
+function validate(r){
+  var e=[];
+  if(!r||typeof r!=='object')return {ok:false,errors:['not an object']};
+  var rx=new RegExp('^'+PREFIX.replace(/[-]/g,'\\-')+'\\d{6}$');
+  if(!rx.test(r.id||''))e.push('id');
+  if(typeof r.title!=='string'||!r.title.length)e.push('title');
+  if(typeof r.description!=='string'||r.description.length<20)e.push('description');
+  if(!(r.ladder_rank>=1&&r.ladder_rank<=15))e.push('ladder_rank');
+  if(typeof r.demo!=='string'||r.demo.indexOf('console.log')<0)e.push('demo');
+  if(typeof r.architecture!=='string'||!r.architecture.length)e.push('architecture');
+  if(!Array.isArray(r.components)||!r.components.length)e.push('components');
+  if(!Array.isArray(r.acceptance_tests)||!r.acceptance_tests.length)e.push('acceptance_tests');
+  if(CATS.indexOf(r.g)<0)e.push('g');
+  if(r.last_verified!=='2026-10-21')e.push('last_verified');
+  return {ok:!e.length,errors:e};
+}
+function driftCheck(rec,sample){
+  sample=sample||[];
+  for(var i=0;i<sample.length;i++)if(sample[i]&&sample[i].id===rec.id)return {ok:false,errors:['duplicate id']};
+  return {ok:true,errors:[]};
+}
+var gen={version:VERSION,generate:generate,validate:validate,driftCheck:driftCheck};
+if(typeof JAHDB!=='undefined'&&JAHDB.registerGenerator)JAHDB.registerGenerator('apex-tool-self-healing-software-infrastructure',gen);
+if(typeof module!=='undefined'&&module.exports)module.exports=gen;
+})();

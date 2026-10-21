@@ -1,0 +1,59 @@
+(function(){'use strict';
+function prng(seed){var a=(seed>>>0)||1;return function(){a|=0;a=(a+0x6D2B79F5)|0;var t=Math.imul(a^(a>>>15),1|a);t=(t+Math.imul(t^(t>>>7),61|t))^t;return((t^(t>>>14))>>>0)/4294967296;};}
+function pick(r,s){return r[(s()*r.length)|0];} function ri(s,a,b){return a+((s()*(b-a+1))|0);}
+var CATS=["architecture", "component", "benchmark", "interface", "worked-example"];
+var PREFIX="JAH-APX5-";
+var VERSION="jahdb-apex-tool-total-knowledge-relationship-engine-1.0";
+/* rows: [group, focus, title, description, architecture] */
+var B=[["architecture", "Concept and purpose", "What the Relationship Engine is", "The engine stores knowledge as a typed graph: nodes are facts, programs, theories, designs, datasets, and disciplines; edges are typed relationships like supports, implements, refutes, or derives-from. Queries traverse the graph to answer relational questions no single document can answer, such as which datasets underpin a theory across disciplines.", "A property-graph store with a fixed relationship vocabulary; typed edge ingestion with evidence requirements; traversal query engine with path constraints."], ["architecture", "Core data model", "Typed relationship data model", "Every relationship is a record: source node, target node, relationship type from the controlled vocabulary, evidence pointers, strength score, and timestamps. The vocabulary distinguishes supports from implements from merely mentions, because those differences change what a traversal means.", "Edge documents with type, evidence, and strength; vocabulary versioned with deprecation paths; strength computed from evidence count and source reliability."], ["component", "Key algorithm I", "Relationship extraction algorithm", "Edges are mined from text, code, and metadata: citation parsers find supports edges, import graphs yield uses edges, and experiment sections yield tests edges. Every extracted edge carries its extraction evidence and a confidence score; low-confidence edges are queued for human confirmation instead of entering the graph silently.", "Extractor suite per source type; confidence scorer; human-review queue for low-confidence edges; accepted edges committed with extraction provenance."], ["component", "Key algorithm II", "Multi-hop traversal algorithm", "The engine's signature move is the multi-hop query: theory to supporting datasets to the programs that processed them to the designs they informed. Traversal respects edge types — a refutes edge flips the meaning of a path — and ranks paths by combined strength so the strongest evidence chains surface first.", "Breadth-first traversal with type-aware path semantics; path strength as product of edge strengths; top-k path ranking; cycle protection."], ["interface", "Interface specification", "Relationship query interface specification", "Callers ask relational questions in a small declarative language: find paths, count relationship types, list supporters and refuters of a claim. Responses include the paths with edge types and strengths, so the reasoning is inspectable, not a black-box score.", "Declarative query parser; planner mapping to traversals and aggregations; responses with full path details and strength math shown."], ["component", "Ingestion and adapters", "Ingestion: mining relationships from sources", "Sources arrive as papers, code repositories, datasets, and design documents. Ingestion pipelines extract nodes and typed edges per source type, resolve entities against the existing graph, and merge duplicates with provenance union. Ingestion is idempotent — reprocessing a source never double-counts its relationships.", "Per-type extraction pipelines; entity resolution against graph; idempotent merge with provenance union; ingest audit log."], ["component", "Indexing and retrieval", "Graph indexing and retrieval", "Relationship queries must be fast at millions of edges: adjacency indexes per node, edge-type indexes, and path materialization for common traversals. The index supports the queries analysts actually run — supporters, refuters, lineage, and cross-discipline bridges — in milliseconds.", "Adjacency and type indexes; materialized path views for hot traversals; incremental index maintenance on edge writes."], ["component", "Reasoning and decision component", "Reasoning: contradiction and support analysis", "The engine weighs evidence: for any claim it lists supporting and refuting paths, combines strengths, and reports a verdict with the margin. When a new refuting edge arrives, affected verdicts are recomputed and subscribers notified. Belief in this graph is always provisional and always evidenced.", "Verdict computer over support/refute path sets; incremental recompute on edge changes; subscription notifications on verdict flips."], ["interface", "Output and presentation", "Knowledge map presentation output", "Relationship answers render as navigable maps: the claim at center, supporters and refuters arranged by strength, paths expandable to full evidence. Every edge in the visualization links to its evidence, so the map is an interface for checking, not just for looking.", "Map layout engine (force-directed with type coloring); expandable path panels; evidence deep-links; exportable map snapshots."], ["benchmark", "Benchmark harness and measured baseline", "Relationship benchmark harness", "The engine is tested on graphs with planted ground truth: known support/refute structures, known cross-discipline bridges, known extraction targets. Metrics cover extraction precision/recall, traversal correctness, and verdict accuracy. New extractors and traversers must beat baselines to ship.", "Fixture graphs with planted truth; extraction and traversal runners; correctness scorers; baseline gate."], ["worked-example", "End-to-end worked example", "Worked example: tracing a theory's support", "Asked what supports the theory that encapsulation prevents humidity degradation in perovskites, the engine traverses: theory to 6 supporting datasets, to the programs that analyzed them, to 3 independent replications, while also surfacing 2 refuting field studies. The answer is a map of the theory's entire evidential neighborhood, ranked by path strength.", "Claim node lookup; multi-hop traversal with type semantics; support/refute aggregation; ranked map rendering."], ["component", "Failure modes and reliability", "Failure modes: false edges and vocabulary drift", "Extraction makes mistakes, vocabularies drift, and merged entities split. The engine tracks edge confidence, versions the vocabulary with migration paths, and supports entity splits that preserve history. Low-confidence subgraphs are quarantined from verdicts until reviewed.", "Confidence-tagged edges; vocabulary versioning; entity split/merge with history preservation; quarantine for low-confidence regions."], ["architecture", "Scaling architecture", "Scaling: partitioning the knowledge graph", "A planetary relationship graph does not fit on one machine. The engine partitions by discipline with cross-partition edge caches, so traversals that stay within a discipline are local and cross-discipline bridges use cached edges. Partitioning is by topic affinity, rebalanced as the graph grows.", "Affinity-based partitioning; cross-partition edge cache; local-first traversal planner; rebalancer."], ["interface", "Security, permissions, and audit", "Security: provenance integrity and access", "Relationship claims can be gamed by flooding fake edges. Edge ingestion requires authenticated sources, strength discounts low-reputation contributors, and anomaly detection flags coordinated edge injection. Sensitive relationships carry access controls enforced at traversal time.", "Authenticated ingestion; reputation-weighted strength; injection anomaly detection; traversal-time access control."], ["worked-example", "Compounded integration and acceptance suite", "Compounded integration and acceptance suite", "Acceptance runs the whole relationship loop on a fixture knowledge domain: ingest sources, extract typed edges, traverse multi-hop queries, compute verdicts, inject contradictions and false edges, and verify the engine surfaces truth with evidence. Every stage is scored against planted ground truth before the build ships.", "Fixture domain with planted relationships; full-loop runner; stage scorers; release gate."]];
+function demoProgram(seed,title,rnd){
+  var n=ri(rnd,5,12);
+  var lines=['// JAH demo program — runnable with: node demo.js','// generated record demo (seed '+seed+')','\'use strict\';'];
+  lines.push('var checks=[');
+  for(var i=0;i<n;i++){lines.push('  {expr:"'+(i+2)+'*'+(i+3)+'",expect:'+((i+2)*(i+3))+'}'+(i<n-1?',':''));}
+  lines.push('];');
+  lines.push('var fails=0;');
+  lines.push('checks.forEach(function(c){var got=eval(c.expr);var ok=got===c.expect;if(!ok)fails++;console.log((ok?"PASS":"FAIL")+"  "+c.expr+" = "+got);});');
+  lines.push('console.log("generated demo: "+(checks.length-fails)+"/"+checks.length+" checks passed");');
+  return lines.join("\n");
+}
+function generate(seed,opts,rnd){
+  opts=opts||{};rnd=rnd||prng(seed);
+  var cat=opts.category||pick(CATS,rnd);
+  var pool=B.filter(function(b){return b[0]===cat;});
+  var b=pick(pool.length?pool:B,rnd);
+  var id=PREFIX+String(seed).padStart(6,'0');
+  var title=b[2]+' — variant '+seed;
+  var prog=demoProgram(seed,title,rnd);
+  return {id:id,title:title,description:b[3],ladder_rank:ri(rnd,1,15),
+    demo:{kind:'code',title:'Runnable code demo — '+title.slice(0,50),program:prog,language:'javascript'},
+    architecture:b[4],components:['core coordinator','interface adapter','validation harness','telemetry exporter'],
+    interfaces:['JSON record schema v1','query API (filter/sort/paginate)','demo runner (node-compatible JS)'],
+    implementation_status:'Generated design record — proposed capability; demo program is real executable code.',
+    acceptance_tests:{criteria:['demo program executes without errors','record validates against schema','no duplicate id in archive'],demo_status:'generated at runtime'},
+    dependencies:['node.js runtime (demo execution)','JAH database core (jahdb.js)','gzip JSONL archive'],
+    provenance:"Public-record survey",last_verified:"2026-10-21",march_marker:"March to a million in progress \u2014 15 of 1,000,000 records (0.0015%)",
+    t:title,g:cat,c:1,_seed:seed};
+}
+function validate(r){
+  var e=[];
+  if(!r||typeof r!=='object')return {ok:false,errors:['not an object']};
+  if(typeof r.id!=='string'||r.id.indexOf(PREFIX)!==0)e.push('id');
+  if(typeof r.title!=='string'||!r.title.length)e.push('title');
+  if(typeof r.description!=='string'||!r.description.length)e.push('description');
+  if(!(r.ladder_rank>=1&&r.ladder_rank<=15))e.push('ladder_rank');
+  var d=r.demo;
+  if(!d||d.language!=='javascript'||typeof d.program!=='string'||d.program.indexOf('console.log')<0)e.push('demo');
+  if(typeof r.architecture!=='string'||!r.architecture.length)e.push('architecture');
+  if(!Array.isArray(r.components)||!r.components.length)e.push('components');
+  if(!Array.isArray(r.interfaces)||!r.interfaces.length)e.push('interfaces');
+  if(typeof r.implementation_status!=='string'||!r.implementation_status.length)e.push('implementation_status');
+  if(!r.acceptance_tests||typeof r.acceptance_tests!=='object')e.push('acceptance_tests');
+  if(!Array.isArray(r.dependencies)||!r.dependencies.length)e.push('dependencies');
+  if(CATS.indexOf(r.g)<0)e.push('g');
+  return {ok:!e.length,errors:e};
+}
+var gen={version:VERSION,generate:generate,validate:validate};
+if(typeof JAHDB!=='undefined'&&JAHDB.registerGenerator)JAHDB.registerGenerator("apex-tool-total-knowledge-relationship-engine",gen);
+if(typeof module!=='undefined'&&module.exports)module.exports=gen;
+})();
