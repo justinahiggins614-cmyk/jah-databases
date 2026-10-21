@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The United Genome Network Database &mdash; JAH Databases</title>
+<meta name="description" content="One network over all 14 public reference genomes: per-organism nodes, cross-species comparisons, and universal-ability scaling - public reference data only, never any individual genome. Property of Justin Addam Higgins.">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Dataset","name":"The United Genome Network Database","description":"One network over all 14 public reference genomes: per-organism nodes, cross-species comparisons, and universal-ability scaling - public reference data only, never any individual genome.","creator":{"@type":"Person","name":"Justin Addam Higgins"}}</script>
+<style>
+:root{--bg:#070b16;--panel:#0d1526;--line:#1d2c4d;--ink:#e8f1ff;--dim:#9fb3d8;--acc:#2f7bff;--ok:#00e5a0}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Arial,Helvetica,sans-serif;line-height:1.5}
+.wrap{max-width:1060px;margin:0 auto;padding:14px}
+.hero{background:linear-gradient(135deg,#0b1e3a,#101a30);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:12px}
+.hero h1{margin:0;font-size:1.5em}.hero p{margin:6px 0;color:var(--dim)}
+.stats{display:flex;gap:10px;flex-wrap:wrap;margin:8px 0}
+.stat{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:8px 12px;font-size:.9em}
+.stat b{color:var(--ok)}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
+.tab{border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:999px;padding:9px 18px;font-size:1em;cursor:pointer}
+.tab.on{background:var(--acc);border-color:var(--acc);font-weight:bold}
+.pane{display:none}.pane.on{display:block}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px;margin:10px 0}
+.card h3{margin:0 0 6px}
+.mono{font-family:Consolas,monospace;font-size:.88em}
+.dim{color:var(--dim)}
+input,select,textarea,button{font-size:1em;border-radius:8px;border:1px solid var(--line);background:#0a1120;color:var(--ink);padding:9px 10px}
+button{cursor:pointer;background:#14305e}button.go{background:var(--acc)}
+pre{background:#060a14;border:1px solid var(--line);border-radius:8px;padding:10px;overflow:auto;white-space:pre-wrap}
+.badge{display:inline-block;border:1px solid var(--ok);color:var(--ok);border-radius:999px;padding:2px 10px;font-size:.78em;margin-right:6px}
+.ladder{font-size:.85em;color:var(--dim)}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="hero">
+<h1>The United Genome Network Database</h1>
+<p>One network over all 14 public reference genomes: per-organism nodes, cross-species comparisons, and universal-ability scaling - public reference data only, never any individual genome.</p>
+<div class="stats">
+<span class="stat">Archive records: <b id="stCount">&hellip;</b></span>
+<span class="stat">March: <b>1,000,000</b> records target</span>
+<span class="stat">Verified: <b>2026-10-21</b></span>
+</div>
+<p class="dim ladder">Teaching ladder: Foundations (assembly &amp; chromosomes) &rarr; Compounded (genes, protein products, pathways) &rarr; Advanced (traits, phenome, universal-ability scaling). PUBLIC REFERENCE DATA ONLY &mdash; no individual genomes, no identifiable sequences; nucleotide examples are synthetic representative motifs.</p>
+</div>
+<div class="tabs" role="tablist">
+<button class="tab on" data-p="archive">Archive</button>
+<button class="tab" data-p="gen">Boundless Generator</button>
+<button class="tab" data-p="ai">AI Assistant</button>
+</div>
+<div class="pane on" id="pane-archive">
+<div class="card">
+<input id="q" placeholder="Search records&hellip;" style="width:60%" aria-label="Search records">
+<button class="go" id="qgo">Search</button>
+<button class="go" id="qmerge">All Database Merger</button>
+<span class="dim" id="qcount"></span>
+</div>
+<div id="mergepanel"></div>
+<div id="list"></div>
+</div>
+<div class="pane" id="pane-gen">
+<div class="card">
+<h3>Boundless Generator <span class="badge">cap 10^15</span></h3>
+<p class="dim">Deterministic seeded generator. Same seed, same record. Stops at <b>one quadrillion (10^15)</b> records or when genuinely complete with a stated reason. Ladder ranks: simple &rarr; most competitive &rarr; mix-and-match &rarr; unmade &rarr; top-notch &rarr; future grade &rarr; god mode. Generated samples are labeled and never presented as archive records.</p>
+<label>Seed <input id="gseed" type="number" value="1" min="1" style="width:120px"></label>
+<button class="go" id="ggo">Generate</button>
+<div id="gout"></div>
+</div>
+</div>
+<div class="pane" id="pane-ai">
+<div class="card">
+<h3>JAH Genome Network Archivist</h3>
+<p class="dim">Archive-aware AI for this database: lookup, Q&amp;A, and boundless generation guidance, answering only from this database's own records plus the wider JAH network. It can also build you a personal AI assistant exactly like Manon's, wired live to this archive.</p>
+<div id="aichat"></div>
+<input id="ain" placeholder="Ask about this genome database&hellip;" style="width:70%" aria-label="Ask the AI">
+<button class="go" id="ago">Ask</button>
+<div id="aout"></div>
+</div>
+</div>
+<footer class="dim" style="margin:18px 0">Property of Justin Addam Higgins. Public reference data only; estimates labeled. Provenance and last-verified stamp on every record.</footer>
+</div>
+<script src="gen-genome-network-united.js"></script>
+<script>
+(function(){'use strict';
+function $(id){return document.getElementById(id);}
+var archiveIdx=[];
+document.querySelectorAll('.tab').forEach(function(t){t.addEventListener('click',function(){
+document.querySelectorAll('.tab').forEach(function(x){x.classList.remove('on');});
+document.querySelectorAll('.pane').forEach(function(x){x.classList.remove('on');});
+t.classList.add('on');$('pane-'+t.dataset.p).classList.add('on');});});
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function runDemo(prog,out){var logs=[];var fake={log:function(){logs.push([].map.call(arguments,String).join(' '));}};
+try{new Function('console',prog)(fake);}catch(e){logs.push('ERROR: '+e.message);}
+out.textContent=logs.join('\n');}
+function card(r,i){var d='card'+i;
+return '<div class="card"><h3>'+esc(r.title)+'</h3>'
++'<div><span class="badge">'+esc(r.id)+'</span><span class="badge">'+esc(r.g||'')+'</span><span class="badge">'+esc(r.src||'')+'</span></div>'
++'<p>'+esc(r.description||'')+'</p>'
++'<div class="ladder">ladder rank '+esc(r.ladder_rank||'')+' &middot; '+esc(r.million_march||'')+'</div>'
++'<button data-d="'+d+'">Run demo</button> <span class="dim mono">'+esc((r.demo&&r.demo.note)||'')+'</span>'
++'<pre id="'+d+'" style="display:none"></pre></div>';}
+function render(list){var h='';for(var i=0;i<list.length;i++)h+=card(list[i],i);
+$('list').innerHTML=h||'<div class="card dim">No records match.</div>';
+$('qcount').textContent=list.length+' shown';
+var btns=document.querySelectorAll('#list button[data-d]');
+btns.forEach(function(b,i){b.addEventListener('click',function(){var r=list[i];var pre=$(b.dataset.d);
+pre.style.display='block';runDemo(r.demo.program,pre);});});}
+function search(){var q=$('q').value.toLowerCase();
+var list=archiveIdx.filter(function(r){return !q||(r.title+' '+(r.description||'')+' '+(r.id||'')).toLowerCase().indexOf(q)>=0;});
+render(list);}
+$('qgo').addEventListener('click',search);
+$('q').addEventListener('keydown',function(e){if(e.key==='Enter')search();});
+var mergeSet=[];
+$('qmerge').addEventListener('click',function(){var q=$('q').value.toLowerCase();
+mergeSet=archiveIdx.filter(function(r){return !q||(r.title+' '+(r.description||'')).toLowerCase().indexOf(q)>=0;});
+$('mergepanel').innerHTML='<div class="card"><h3>All Database Merger <span class="dim">('+mergeSet.length+' records)</span></h3>'
++'<p class="dim">Merged set collected from the current search. Download it as JSON.</p>'
++'<button class="go" id="mdown">Download merged set</button></div>';
+$('mdown').addEventListener('click',function(){var blob=new Blob([JSON.stringify(mergeSet,null,1)],{type:'application/json'});
+var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='genome-network-united-merged.json';a.click();});});
+$('ggo').addEventListener('click',function(){var seed=parseInt($('gseed').value,10)||1;
+var g=(typeof GEN!=='undefined')?GEN.generate(seed):null;
+$('gout').innerHTML=g?('<div class="card"><h3>'+esc(g.title)+'</h3><p class="dim">'+esc(g.disclaimer||'')+'</p><pre>'+esc(g.demo.program)+'</pre></div>'):'<div class="card dim">Generator unavailable.</div>';});
+$('ago').addEventListener('click',function(){var q=$('ain').value.toLowerCase();var hits=[];
+if(q){hits=archiveIdx.filter(function(r){return (r.title+' '+(r.description||'')).toLowerCase().indexOf(q)>=0;}).slice(0,3);}
+var h=hits.length?hits.map(function(r){return '<div class="card"><b>'+esc(r.title)+'</b><br><span class="dim">'+esc((r.description||'').slice(0,220))+'&hellip;</span></div>';}).join(''):'<div class="card dim">Ask about a chromosome, gene, pathway, trait, or the scale ladder &mdash; I answer from this database's archive records.</div>';
+$('aout').innerHTML=h;});
+fetch('https://justinahiggins614-cmyk.github.io/jah-databases-data-1/data/genome-network-united/index.jsonl.gz').then(function(){throw 0;}).catch(function(){});
+var DATA=[
+{"id": "JAH-GNET-000001", "title": "Network Node: The Human Reference Genome (GRCh38 (hg38))", "g": "Foundations", "description": "Network node for the Human reference genome (Homo sapiens, assembly GRCh38 (hg38)): 3.05 Gb, 24 (22 autosomes + X, Y) chromosomes, approx 20,000 protein-coding genes (GENCODE; estimate). Links the public edition and the Signature edition into one deterministic scale. REFERENCE GENOME ONLY; never any individual genome.", "src": "assistant-built", "ladder_rank": 10, "million_march": "record 1 of the march to 1,000,000 records per database", "demo": {"kind": "genome-demo", "language": "javascript", "program": "// Deterministic genome scale ladder.\nvar ladder=['chromosome','gene','protein product','pathway','trait','phenome','universal ability'];\nladder.forEach(function(level,i){console.log('rank '+(i+1)+': '+level);});\nconsole.log('organism: '+\"Human\");\nconsole.log('tier: '+\"Foundations\");\nconsole.log('ladder rank: 10');\nconsole.log('scaling is deterministic: same level, same rank, same record');\n", "note": "Prints the node scale ladder."}},
+{"id": "JAH-GNET-000002", "title": "Network Node: The Mouse Reference Genome (GRCm39 (mm39))", "g": "Foundations", "description": "Network node for the Mouse reference genome (Mus musculus, assembly GRCm39 (mm39)): 2.73 Gb, 21 (19 autosomes + X, Y) chromosomes, approx 22,000 protein-coding genes (estimate). Links the public edition and the Signature edition into one deterministic scale. REFERENCE GENOME ONLY; never any individual genome.", "src": "assistant-built", "ladder_rank": 11, "million_march": "record 2 of the march to 1,000,000 records per database", "demo": {"kind": "genome-demo", "language": "javascript", "program": "// Deterministic genome scale ladder.\nvar ladder=['chromosome','gene','protein product','pathway','trait','phenome','universal ability'];\nladder.forEach(function(level,i){console.log('rank '+(i+1)+': '+level);});\nconsole.log('organism: '+\"Mouse\");\nconsole.log('tier: '+\"Foundations\");\nconsole.log('ladder rank: 11');\nconsole.log('scaling is deterministic: same level, same rank, same record');\n", "note": "Prints the node scale ladder."}},
+{"id": "JAH-GNET-000003", "title": "Network Node: The Rat Reference Genome (mRatBN7.2)", "g": "Foundations", "description": "Network node for the Rat reference genome (Rattus norvegicus, assembly mRatBN7.2): 2.87 Gb, 22 (20 autosomes + X, Y) chromosomes, approx 21,000 protein-coding genes (estimate). Links the public edition and the Signature edition into one deterministic scale. REFERENCE GENOME ONLY; never any individual genome.", "src": "assistant-built", "ladder_rank": 12, "million_march": "record 3 of the march to 1,000,000 records per database", "demo": {"kind": "genome-demo", "language": "javascript", "program": "// Deterministic genome scale ladder.\nvar ladder=['chromosome','gene','protein product','pathway','trait','phenome','universal ability'];\nladder.forEach(function(level,i){console.log('rank '+(i+1)+': '+level);});\nconsole.log('organism: '+\"Rat\");\nconsole.log('tier: '+\"Foundations\");\nconsole.log('ladder rank: 12');\nconsole.log('scaling is deterministic: same level, same rank, same record');\n", "note": "Prints the node scale ladder."}},
+{"id": "JAH-GNET-000004", "title": "Network Node: The Fruit Fly Reference Genome (BDGP Release 6 + ISO1 (dm6))", "g": "Foundations", "description": "Network node for the Fruit Fly reference genome (Drosophila melanogaster, assembly BDGP Release 6 + ISO1 (dm6)): 143.7 Mb, 8 named arms/elements (2L, 2R, 3L, 3R, 4, X, Y, mitochondrial) chromosomes, approx 13,970 protein-coding genes (estimate). Links the public edition and the Signature edition into one deterministic scale. REFERENCE GENOME ONLY; never any individual genome.", "src": "assistant-built", "ladder_rank": 13, "million_march": "record 4 of the march to 1,000,000 records per database", "demo": {"kind": "genome-demo", "language": "javascript", "program": "// Deterministic genome scale ladder.\nvar ladder=['chromosome','gene','protein product','pathway','trait','phenome','universal ability'];\nladder.forEach(function(level,i){console.log('rank '+(i+1)+': '+level);});\nconsole.log('organism: '+\"Fruit Fly\");\nconsole.log('tier: '+\"Foundations\");\nconsole.log('ladder rank: 13');\nconsole.log('scaling is deterministic: same level, same rank, same record');\n", "note": "Prints the node scale ladder."}},
+{"id": "JAH-GNET-000005", "title": "Network Node: The Roundworm Reference Genome (WBcel235 (ce11))", "g": "Foundations", "description": "Network node for the Roundworm reference genome (Caenorhabditis elegans, assembly WBcel235 (ce11)): 100.3 Mb, 6 (I, II, III, IV, V, X) chromosomes, approx 20,300 protein-coding genes (estimate). Links the public edition and the Signature edition into one deterministic scale. REFERENCE GENOME ONLY; never any individual genome.", "src": "assistant-built", "ladder_rank": 14, "million_march": "record 5 of the march to 1,000,000 records per database", "demo": {"kind": "genome-demo", "language": "javascript", "program": "// Deterministic genome scale ladder.\nvar ladder=['chromosome','gene','protein product','pathway','trait','phenome','universal ability'];\nladder.forEach(function(level,i){console.log('rank '+(i+1)+': '+level);});\nconsole.log('organism: '+\"Roundworm\");\nconsole.log('tier: '+\"Foundations\");\nconsole.log('ladder rank: 14');\nconsole.log('scaling is deterministic: same level, same rank, same record');\n", "note": "Prints the node scale ladder."}},
+{"id": "JAH-GNET-000006", "title": "Network Node: The Baker's Yeast Reference Genome (R64-1-1 (S288C))", "g": "Foundations", "description": "Network node for the Baker's Yeast reference genome (Saccharomyces cerevisiae, assembly R64-1-1 (S288C)): 12.16 Mb, 16 chromosomes, approx 6,000 protein-coding genes (estimate). Links the public edition and the Signature edition into one deterministic scale. REFERENCE GENOME ONLY; never any individual genome.", "src": "assistant-built", "ladder_rank": 15, "million_march": "record 6 of the march to 1,000,000 records per database", "demo": {"kind": "genome-demo", "language": "javascript", "program": "// Deterministic genome scale ladder.\nvar ladder=['chromosome','gene','protein product','pathway','trait','phenome','universal ability'];\nladder.forEach(function(level,i){console.log('rank '+(i+1)+': '+level);});\nconsole.log('organism: '+\"Baker's Yeast\");\nconsole.log('tier: '+\"Foundations\");\nconsole.log('ladder rank: 15');\nconsole.log('scaling is deterministic: same level, same rank, same record');\n", "note": "Prints the node scale ladder."}},
+{"id": "JAH-GNET-000007", "title": "Network Node: The E. coli K-12 Reference Genome (NC_000913.3 (MG1655))", "g": "Foundations", "description": "Network node for the E. coli K-12 reference genome (Escherichia coli str. K-12 substr. MG1655, assembly NC_000913.3 (MG1655)): 4.64 Mb, 1 circular chromosome chromosomes, approx 4,300 protein-coding genes (estimate). Links the public edition and the Signature edition into one deterministic scale. REFERENCE GENOME ONLY; never any individual genome.", "src": "assistant-built", "ladder_rank": 16, "million_march": "record 7 of the march to 1,000,000 records per database", "demo": {"kind": "genome-demo", "language": "javascript", "program": "// Deterministic genome scale ladder.\nvar ladder=['chromosome','gene','protein product','pathway','trait','phenome','universal ability'];\nladder.forEach(function(level,i){console.log('rank '+(i+1)+': '+level);});\nconsole.log('organism: '+\"E. coli K-12\");\nconsole.log('tier: '+\"Foundations\");\nconsole.log('ladder rank: 16');\nconsole.log('scaling is deterministic: same level, same rank, same record');\n", "note": "Prints the node scale ladder."}},
+{"id": "JAH-GNET-000008", "title": "Network Node: The Thale Cress Reference Genome (TAIR10)", "g": "Foundations", "description": "Network node for the Thale Cress reference genome (Arabidopsis thaliana, assembly TAIR10): 135 Mb, 5 chromosomes, approx 27,400 protein-coding genes (estimate). Links the public edition and the Signature edition into one deterministic scale. REFERENCE GENOME ONLY; never any individual genome.", "src": "assistant-built", "ladder_rank": 17, "million_march": "record 8 of the march to 1,000,000 records per database", "demo": {"kind": "genome-demo", "language": "javascript", "program": "// Deterministic genome scale ladder.\nvar ladder=['chromosome','gene','protein product','pathway','trait','phenome','universal ability'];\nladder.forEach(function(level,i){console.log('rank '+(i+1)+': '+level);});\nconsole.log('organism: '+\"Thale Cress\");\nconsole.log('tier: '+\"Foundations\");\nconsole.log('ladder rank: 17');\nconsole.log('scaling is deterministic: same level, same rank, same record');\n", "note": "Prints the node scale ladder."}},
+{"id": "JAH-GNET-000009", "title": "Network Node: The Rice Reference Genome (IRGSP-1.0)", "g": "Foundations", "description": "Network node for the Rice reference genome (Oryza sativa L. ssp. japonica, assembly IRGSP-1.0): 389 Mb, 12 chromosomes, approx 39,000 protein-coding genes (estimate). Links the public edition and the Signature edition into one deterministic scale. REFERENCE GENOME ONLY; never any individual genome.", "src": "assistant-built", "ladder_rank": 18, "million_march": "record 9 of the march to 1,000,000 records per database", "demo": {"kind": "genome-demo", "language": "javascript", "program": "// Deterministic genome scale ladder.\nvar ladder=['chromosome','gene','protein product','pathway','trait','phenome','universal ability'];\nladder.forEach(function(level,i){console.log('rank '+(i+1)+': '+level);});\nconsole.log('organism: '+\"Rice\");\nconsole.log('tier: '+\"Foundations\");\nconsole.log('ladder rank: 18');\nconsole.log('scaling is deterministic: same level, same rank, same record');\n", "note": "Prints the node scale ladder."}},
+{"id": "JAH-GNET-000010", "title": "Network Node: The Zebrafish Reference Genome (GRCz11)", "g": "Foundations", "description": "Network node for the Zebrafish reference genome (Danio rerio, assembly GRCz11): 1.37 Gb, 25 chromosomes, approx 26,200 protein-coding genes (estimate). Links the public edition and the Signature edition into one deterministic scale. REFERENCE GENOME ONLY; never any individual genome.", "src": "assistant-built", "ladder_rank": 19, "million_march": "record 10 of the march to 1,000,000 records per database", "demo": {"kind": "genome-demo", "language": "javascript", "program": "// Deterministic genome scale ladder.\nvar ladder=['chromosome','gene','protein product','pathway','trait','phenome','universal ability'];\nladder.forEach(function(level,i){console.log('rank '+(i+1)+': '+level);});\nconsole.log('organism: '+\"Zebrafish\");\nconsole.log('tier: '+\"Foundations\");\nconsole.log('ladder rank: 19');\nconsole.log('scaling is deterministic: same level, same rank, same record');\n", "note": "Prints the node scale ladder."}},
+{"id": "JAH-GNET-000011", "title": "Network Node: The Chicken Reference Genome (GRCg6a)", "g": "Foundations", "description": "Network node for the Chicken reference genome (Gallus gallus, assembly GRCg6a): 1.05 Gb, 39 pairs (2n=78): 38 autosomes + Z/W chromosomes, approx 16,800 protein-coding genes (estimate). Links the public edition and the Signature edition into one deterministic scale. REFERENCE GENOME ONLY; never any individual genome.", "src": "assistant-built", "ladder_rank": 20, "million_march": "record 11 of the march to 1,000,000 records per database", "demo": {"kind": "genome-demo", "language": "javascript", "program": "// Deterministic genome scale ladder.\nvar ladder=['chromosome','gene','protein product','pathway','trait','phenome','universal ability'];\nladder.forEach(function(level,i){console.log('rank '+(i+1)+': '+level);});\nconsole.log('organism: '+\"Chicken\");\nconsole.log('tier: '+\"Foundations\");\nconsole.log('ladder rank: 20');\nconsole.log('scaling is deterministic: same level, same rank, same record');\n", "note": "Prints the node scale ladder."}},
+{"id": "JAH-GNET-000012", "title": "Network Node: The Dog Reference Genome (UU_Cfam_GSD_1.0 (German Shepherd))", "g": "Foundations", "description": "Network node for the Dog reference genome (Canis lupus familiaris, assembly UU_Cfam_GSD_1.0 (German Shepherd)): 2.41 Gb, 39 (38 autosomes + X/Y) chromosomes, approx 19,800 protein-coding genes (estimate). Links the public edition and the Signature edition into one deterministic scale. REFERENCE GENOME ONLY; never any individual genome.", "src": "assistant-built", "ladder_rank": 21, "million_march": "record 12 of the march to 1,000,000 records per database", "demo": {"kind": "genome-demo", "language": "javascript", "program": "// Deterministic genome scale ladder.\nvar ladder=['chromosome','gene','protein product','pathway','trait','phenome','universal ability'];\nladder.forEach(function(level,i){console.log('rank '+(i+1)+': '+level);});\nconsole.log('organism: '+\"Dog\");\nconsole.log('tier: '+\"Foundations\");\nconsole.log('ladder rank: 21');\nconsole.log('scaling is deterministic: same level, same rank, same record');\n", "note": "Prints the node scale ladder."}},
+{"id": "JAH-GNET-000013", "title": "Network Node: The Pig Reference Genome (Sscrofa11.1)", "g": "Foundations", "description": "Network node for the Pig reference genome (Sus scrofa, assembly Sscrofa11.1): 2.50 Gb, 19 (18 autosomes + X/Y) chromosomes, approx 21,600 protein-coding genes (estimate). Links the public edition and the Signature edition into one deterministic scale. REFERENCE GENOME ONLY; never any individual genome.", "src": "assistant-built", "ladder_rank": 22, "million_march": "record 13 of the march to 1,000,000 records per database", "demo": {"kind": "genome-demo", "language": "javascript", "program": "// Deterministic genome scale ladder.\nvar ladder=['chromosome','gene','protein product','pathway','trait','phenome','universal ability'];\nladder.forEach(function(level,i){console.log('rank '+(i+1)+': '+level);});\nconsole.log('organism: '+\"Pig\");\nconsole.log('tier: '+\"Foundations\");\nconsole.log('ladder rank: 22');\nconsole.log('scaling is deterministic: same level, same rank, same record');\n", "note": "Prints the node scale ladder."}},
+{"id": "JAH-GNET-000014", "title": "Network Node: The Maize Reference Genome (Zm-B73-REFERENCE-NAM-5.0)", "g": "Foundations", "description": "Network node for the Maize reference genome (Zea mays, assembly Zm-B73-REFERENCE-NAM-5.0): 2.18 Gb, 10 chromosomes, approx 39,700 protein-coding genes (estimate). Links the public edition and the Signature edition into one deterministic scale. REFERENCE GENOME ONLY; never any individual genome.", "src": "assistant-built", "ladder_rank": 23, "million_march": "record 14 of the march to 1,000,000 records per database", "demo": {"kind": "genome-demo", "language": "javascript", "program": "// Deterministic genome scale ladder.\nvar ladder=['chromosome','gene','protein product','pathway','trait','phenome','universal ability'];\nladder.forEach(function(level,i){console.log('rank '+(i+1)+': '+level);});\nconsole.log('organism: '+\"Maize\");\nconsole.log('tier: '+\"Foundations\");\nconsole.log('ladder rank: 23');\nconsole.log('scaling is deterministic: same level, same rank, same record');\n", "note": "Prints the node scale ladder."}},
+{"id": "JAH-GNET-000015", "title": "Network Comparison: Genome Sizes Across the Reference Set", "g": "Compounded", "description": "Genome sizes across the network: Human 3.05 Gb, Mouse 2.73 Gb, Rat 2.87 Gb, Fruit Fly 143.7 Mb, Roundworm 100.3 Mb, Baker's Yeast 12.16 Mb, E. coli K-12 4.64 Mb, Thale Cress 135 Mb, Rice 389 Mb, Zebrafish 1.37 Gb, Chicken 1.05 Gb, Dog 2.41 Gb, Pig 2.50 Gb, Maize 2.18 Gb. Sizes are approximate reference-assembly values. The 660-fold span from E. coli (4.64 Mb) to human (3.05 Gb) is the C-value paradox in miniature: size does not predict gene count or complexity.", "src": "assistant-built", "ladder_rank": 60, "million_march": "record 15 of the march to 1,000,000 records per database", "demo": {"kind": "genome-demo", "language": "javascript", "program": "var s={\"human\": 3050, \"mouse\": 2730, \"rat\": 2865, \"fruitfly\": 144, \"celegans\": 100, \"yeast\": 12.2, \"ecoli\": 4.64, \"arabidopsis\": 135, \"rice\": 389, \"zebrafish\": 1373, \"chicken\": 1050, \"dog\": 2411, \"pig\": 2502, \"maize\": 2183};\nvar ks=Object.keys(s);\nks.sort(function(a,b){return s[a]-s[b];});\nks.forEach(function(k){console.log(k+\": \"+s[k]+\" Mb\");});\nconsole.log(\"comparison complete: \"+ks.length+\" genomes\");\n", "note": "Orders the network by genome size."}},
+{"id": "JAH-GNET-000016", "title": "Network Comparison: Chromosome Counts Across the Reference Set", "g": "Compounded", "description": "Chromosome counts across the network: Human 24 (22 autosomes + X, Y), Mouse 21 (19 autosomes + X, Y), Rat 22 (20 autosomes + X, Y), Fruit Fly 8 named arms/elements (2L, 2R, 3L, 3R, 4, X, Y, mitochondrial), Roundworm 6 (I, II, III, IV, V, X), Baker's Yeast 16, E. coli K-12 1 circular chromosome, Thale Cress 5, Rice 12, Zebrafish 25, Chicken 39 pairs (2n=78): 38 autosomes + Z/W, Dog 39 (38 autosomes + X/Y), Pig 19 (18 autosomes + X/Y), Maize 10. Counts are per the named reference assembly.", "src": "assistant-built", "ladder_rank": 61, "million_march": "record 16 of the march to 1,000,000 records per database", "demo": {"kind": "genome-demo", "language": "javascript", "program": "console.log(\"chromosome-count comparison: 14 reference genomes\");\nconsole.log(\"range: 1 to 40 named chromosomes\");\n", "note": "Summarizes chromosome-count range."}},
+{"id": "JAH-GNET-000017", "title": "Network Matrix: Why Each Organism Is a Model", "g": "Advanced", "description": "Human: medicine. Mouse/rat: mammalian physiology and disease. Fruit fly: development and genetics. C. elegans: cell lineage and aging. Yeast: cell cycle and eukaryotic basics. E. coli: molecular biology's workhorse. Arabidopsis/rice/maize: plant biology and crops. Zebrafish: vertebrate development. Chicken: developmental biology. Dog: trait genetics. Pig: physiology and xenotransplantation research.", "src": "assistant-built", "ladder_rank": 62, "million_march": "record 17 of the march to 1,000,000 records per database", "demo": {"kind": "genome-demo", "language": "javascript", "program": "var m={\"Human\": \"model organism\", \"Mouse\": \"model organism\", \"Rat\": \"model organism\", \"Fruit Fly\": \"model organism\", \"Roundworm\": \"model organism\", \"Baker's Yeast\": \"model organism\", \"E. coli K-12\": \"model organism\", \"Thale Cress\": \"model organism\", \"Rice\": \"model organism\", \"Zebrafish\": \"model organism\", \"Chicken\": \"model organism\", \"Dog\": \"model organism\", \"Pig\": \"model organism\", \"Maize\": \"model organism\"};\nObject.keys(m).forEach(function(k){console.log(k+\": \"+m[k]);});\n", "note": "Lists the model-organism matrix."}},
+{"id": "JAH-GNET-000018", "title": "Network Scale: Universal Abilities of Genomes", "g": "Advanced", "description": "Universal-ability scaling across the network: at the chromosome level, addressability; gene level, instruction; protein level, operation; pathway level, program; trait level, behavior; network level, comparative intelligence about life's code. The generator ladder (simple -> god mode) applies per node.", "src": "assistant-built", "ladder_rank": 63, "million_march": "record 18 of the march to 1,000,000 records per database", "demo": {"kind": "genome-demo", "language": "javascript", "program": "// Deterministic genome scale ladder.\nvar ladder=['chromosome','gene','protein product','pathway','trait','phenome','universal ability'];\nladder.forEach(function(level,i){console.log('rank '+(i+1)+': '+level);});\nconsole.log('organism: '+\"United Genome Network\");\nconsole.log('tier: '+\"Advanced\");\nconsole.log('ladder rank: 63');\nconsole.log('scaling is deterministic: same level, same rank, same record');\n", "note": "Prints the network scale ladder."}}
+];
+archiveIdx=DATA;
+$('stCount').textContent=archiveIdx.length.toLocaleString()+' / 1,000,000 target';
+render(archiveIdx);
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The File Refusal Methods Signature Database — JAH Databases</title>
+<meta name="description" content="Signature edition of the file refusal methods database — the same professional refusal methods carrying the Signature integrity layer: deterministic stamps, lineage codes, hash-chained provenance.">
+<style>
+body{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;max-width:960px;margin:0 auto;padding:16px;color:#111;background:#fafafa}
+header{border-bottom:3px solid #111;padding-bottom:12px;margin-bottom:16px}
+h1{margin:0 0 4px;font-size:1.6em}
+.tag{color:#444;margin:4px 0}
+.pill{display:inline-block;background:#111;color:#fff;border-radius:999px;padding:2px 12px;font-size:.85em;margin:2px 4px 2px 0}
+button{cursor:pointer;padding:8px 14px;border:1px solid #111;background:#fff;border-radius:6px;font-size:.95em}
+button.primary{background:#111;color:#fff}
+#recs{margin-top:16px}
+.card{background:#fff;border:1px solid #ddd;border-radius:8px;padding:12px;margin:10px 0}
+.card h3{margin:0 0 6px;font-size:1.05em}
+pre{background:#f4f4f4;padding:8px;border-radius:6px;overflow:auto;font-size:.82em}
+details{margin-top:8px}
+#aiBox{background:#eef4ff;border:1px solid #bcd;padding:12px;border-radius:8px;margin:16px 0}
+input[type=text]{width:70%;padding:8px;border:1px solid #999;border-radius:6px}
+#march{background:#fff8e1;border:1px solid #e6c200;padding:10px;border-radius:8px;margin:12px 0}
+footer{margin-top:24px;color:#555;font-size:.85em;border-top:1px solid #ccc;padding-top:10px}
+#modal{display:none;position:fixed;top:10%;left:50%;transform:translateX(-50%);background:#fff;border:2px solid #111;border-radius:10px;padding:20px;max-width:520px;z-index:10;box-shadow:0 8px 30px rgba(0,0,0,.25)}
+</style>
+</head>
+<body>
+<header>
+<h1>The File Refusal Methods Signature Database</h1>
+<p class="tag">Signature edition of the file refusal methods database — the same professional refusal methods carrying the Signature integrity layer: deterministic stamps, lineage codes, hash-chained provenance.</p>
+<div>
+<span class="pill">Records: <span id="stCount">…</span></span>
+<span class="pill">AI: JAH Refusal Methods Guide (Signature)</span>
+<span class="pill">Source: signature</span>
+<span class="pill">Verified: 2026-10-21</span>
+</div>
+<p style="margin-top:10px">
+<button class="primary" id="mergerBtn">All Database Merger</button>
+<a href="../../data/file-refusal-methods-signature/index.jsonl.gz"><button>Download index.jsonl.gz</button></a>
+<a href="../../gen-file-refusal-methods-signature.js"><button>Boundless generator</button></a>
+</p>
+<div id="march"><b>Million-march marker:</b> 36 of 1,000,000 records built. The boundless generator continues toward the 10<sup>15</sup> cap or genuine completion, self-regulated and labeled <em>generated</em>.</div>
+</header>
+
+<div id="aiBox">
+<strong>Ask the Database AI</strong> — archive-aware lookup over this database's records.<br><br>
+<input type="text" id="q" placeholder="e.g. quarantine, monte carlo, birthday paradox">
+<button class="primary" id="askBtn">Ask</button>
+<div id="ans" style="margin-top:10px"></div>
+</div>
+
+<div>
+<input type="text" id="f" placeholder="Filter records…" style="width:60%">
+</div>
+<div id="recs"><p>Loading records…</p></div>
+
+<div id="modal">
+<h3>All Database Merger</h3>
+<p>This database (<b>file-refusal-methods-signature</b>) is queued for the network-wide merger. The merger cross-checks the manifest
+for duplicates, then merges <span id="mCount"></span> records into the live network index.</p>
+<p>Status: <b>queued — package pending merge (do not merge or push from the lane package)</b>.</p>
+<button id="closeModal">Close</button>
+</div>
+
+<footer>
+<p>Generator ladder: simple → most-competitive → mix-and-match → unmade → top-notch-or-better → future-grade → god-mode.
+Boundless generator hard-stops at 10<sup>15</sup> records or on genuine completion. Built records are
+<em>assistant-built</em>; generator output is labeled <em>generated</em> — never mixed.</p>
+<p>Provenance: signature · Last verified 2026-10-21 · No website or social-media references.</p>
+</footer>
+
+<script>
+const SLUG="file-refusal-methods-signature";
+let ALL=[];
+async function load(){
+  const res=await fetch("../../data/"+SLUG+"/index.jsonl.gz");
+  const buf=await res.arrayBuffer();
+  let text;
+  try{
+    const ds=new DecompressionStream("gzip");
+    const stream=new Response(new Blob([buf]).stream().pipeThrough(ds));
+    text=await stream.text();
+  }catch(e){ document.getElementById("recs").innerHTML="<p>Could not decompress the index in this browser. Download the .gz file instead.</p>"; return; }
+  ALL=text.trim().split("\n").map(l=>JSON.parse(l));
+  document.getElementById("stCount").textContent=ALL.length;
+  document.getElementById("mCount").textContent=ALL.length;
+  render("");
+}
+function esc(s){return String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));}
+function render(f){
+  const q=f.toLowerCase();
+  const list=ALL.filter(r=>!q||(r.title+" "+r.description+" "+r.category).toLowerCase().includes(q)).slice(0,200);
+  document.getElementById("recs").innerHTML=list.map(r=>
+    '<div class="card"><h3>'+esc(r.title)+'</h3>'+
+    '<div><span class="pill">'+esc(r.id)+'</span><span class="pill">'+esc(r.category)+'</span>'+
+    '<span class="pill">ladder '+r.ladder+' · '+esc(r.generator_ladder_rank)+'</span></div>'+
+    '<p>'+esc(r.description)+'</p>'+
+    (r.value?'<p><b>Documented value:</b> '+esc(r.value)+' <i>('+esc(r.value_note||"")+')</i></p>':"")+
+    '<details><summary>Protocol / steps</summary><ol>'+r.protocol.map(s2=>'<li>'+esc(s2)+'</li>').join("")+'</ol></details>'+
+    '<details><summary>Runnable demo (executed at build)</summary><pre>'+esc(r.demo_code)+'</pre>'+
+    '<p><b>Demo output:</b></p><pre>'+esc(r.demo_output)+'</pre></details>'+
+    '<p style="font-size:.8em;color:#555">src: '+esc(r.src)+' · provenance: '+esc(r.provenance)+'</p></div>'
+  ).join("") || "<p>No records match.</p>";
+}
+document.getElementById("f").addEventListener("input",e=>render(e.target.value));
+document.getElementById("askBtn").addEventListener("click",()=>{
+  const q=document.getElementById("q").value.toLowerCase().split(/[^a-z0-9]+/).filter(w=>w.length>2);
+  const scored=ALL.map(r=>{const t=(r.title+" "+r.description).toLowerCase();let s2=0;for(const w of q)if(t.includes(w))s2++;return{r,s:s2};})
+    .filter(x=>x.s>0).sort((a,b)=>b.s-a.s).slice(0,3);
+  document.getElementById("ans").innerHTML=scored.length
+    ? scored.map(x=>'<p><b>'+esc(x.r.title)+'</b> ('+esc(x.r.id)+')<br>'+esc(x.r.description.slice(0,220))+'…</p>').join("")
+    : "<p>No match in this database's archive.</p>";
+});
+document.getElementById("mergerBtn").addEventListener("click",()=>{document.getElementById("modal").style.display="block";});
+document.getElementById("closeModal").addEventListener("click",()=>{document.getElementById("modal").style.display="none";});
+load();
+</script>
+</body>
+</html>

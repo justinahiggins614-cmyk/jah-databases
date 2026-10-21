@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The AI Version for All Demos Database — JAH Databases</title>
+<meta name="description" content="A locked-in AI per demo -- each AI does exactly what its database&#x27;s demo and working version explain, nothing more, with the PC and tools as its hands. Property of Justin Addam Higgins.">
+<script type="application/ld+json">{&quot;@context&quot;: &quot;https://schema.org&quot;, &quot;@type&quot;: &quot;Dataset&quot;, &quot;name&quot;: &quot;The AI Version for All Demos Database&quot;, &quot;description&quot;: &quot;A locked-in AI per demo -- each AI does exactly what its database&#x27;s demo and working version explain, nothing more, with the PC and tools as its hands.&quot;, &quot;creator&quot;: {&quot;@type&quot;: &quot;Person&quot;, &quot;name&quot;: &quot;Justin Addam Higgins&quot;}, &quot;license&quot;: &quot;https://creativecommons.org/publicdomain/zero/1.0/&quot;, &quot;distribution&quot;: {&quot;@type&quot;: &quot;DataDownload&quot;, &quot;contentUrl&quot;: &quot;data/ai-version-for-all-demos/index.jsonl.gz&quot;}}</script>
+<style>
+:root{--bg:#070b16;--panel:#0d1526;--line:#1d2c4d;--ink:#e8f1ff;--dim:#9fb3d8;--acc:#2f7bff;--ok:#00e5a0;--warn:#ffb020}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Arial,Helvetica,sans-serif;line-height:1.5}
+.wrap{max-width:1060px;margin:0 auto;padding:14px}
+.hero{display:flex;gap:14px;align-items:center;background:linear-gradient(135deg,#0b1e3a,#101a30);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:12px}
+.hero h1{margin:0;font-size:1.5em}.hero p{margin:4px 0;color:var(--dim)}
+.march{display:inline-block;background:#132a5e;border:1px solid var(--acc);color:#cfe2ff;border-radius:999px;padding:2px 10px;font-size:.8em;margin-top:6px}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
+.tab{background:var(--panel);border:1px solid var(--line);color:var(--ink);border-radius:999px;padding:8px 16px;cursor:pointer}
+.tab.on{background:var(--acc);border-color:var(--acc);color:#fff}
+.pane{display:none;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:12px}
+.pane.on{display:block}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+input,select{background:#0a1224;border:1px solid var(--line);color:var(--ink);border-radius:8px;padding:8px 10px}
+button.go{background:var(--acc);border:0;color:#fff;border-radius:8px;padding:8px 14px;cursor:pointer}
+button.merger{background:#0a3d2e;border:1px solid var(--ok)}
+.dim{color:var(--dim)}.mono{font-family:monospace;word-break:break-all}
+.card{border:1px solid var(--line);border-radius:10px;padding:10px;margin:8px 0;background:#0a1224}
+.card h3{margin:0 0 4px;font-size:1.02em}
+.badge{display:inline-block;font-size:.72em;border:1px solid var(--ok);color:var(--ok);border-radius:999px;padding:1px 8px;margin-right:6px}
+.badge.warn{border-color:var(--warn);color:var(--warn)}
+.kv{display:grid;grid-template-columns:minmax(120px,1fr) 3fr;gap:4px 10px;font-size:.9em}
+.kv dt{color:var(--dim)}.kv dd{margin:0}
+.foot{text-align:center;color:var(--dim);font-size:.85em;padding:18px 0}
+a{color:#7fb2ff}
+details{margin-top:6px}summary{cursor:pointer;color:var(--dim)}
+.ok{color:var(--ok)}.bad{color:#ff6b6b}
+#recs .card{max-height:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="hero"><div>
+<h1>The AI Version for All Demos Database</h1>
+<p>A locked-in AI per demo -- each AI does exactly what its database&#x27;s demo and working version explain, nothing more, with the PC and tools as its hands.</p>
+<p class="dim">Records: <b id="stCount">54,506</b> · marching to a million <span class="march">MILLION IN PROGRESS</span></p>
+<p class="dim">Demo anchor coverage: 30,890 demo-lab · 23,554 generator · 62 page-only · all links locally verified 2026-10-21.</p>
+</div></div>
+<div class="tabs" role="tablist">
+<button class="tab on" data-p="archive">Archive</button>
+<button class="tab" data-p="gen">Generator</button>
+<button class="tab" data-p="chat">AI Chat</button>
+<button class="tab" data-p="about">About</button>
+<button class="tab" data-p="demo">&#9654; Demo Lab</button>
+</div>
+<section class="pane on" id="p-archive">
+<div class="row">
+<input id="q" placeholder="Search the archive…" style="flex:1;min-width:200px">
+<button class="go" id="qgo">Search</button><button class="go merger" id="qmerge">All Database Merger</button>
+</div>
+<div id="mergePanel"></div>
+<p class="dim">One record per database in the network — each links the database's working demo. Showing <span id="shown">0</span> of <span id="total">0</span>.</p>
+<div id="recs"></div>
+</section>
+<section class="pane" id="p-gen">
+<h3>Boundless generator</h3>
+<div class="card"><div class="kv">
+<dt>Hard cap</dt><dd>1,000,000,000,000,000 records (one quadrillion) or complete-with-reason, whichever comes first.</dd>
+<dt>Ladder</dt><dd>simple → most competitive → mix-and-match → unmade → top-notch or better → future grade → god-mode</dd>
+<dt>Self-regulation</dt><dd>Throttled to a host-safe rate. Double-checked by the assistant and the generator. Duplicate check on every write. Knows when complete.</dd>
+<dt>Labeling</dt><dd>System-generated output is marked "generated"; assistant-built output is marked "assistant-built" — never mixed.</dd>
+</div></div>
+<div class="row"><button class="go" id="genRun">Run generator self-test (5 sample records)</button></div>
+<div id="genOut" class="mono dim"></div>
+</section>
+<section class="pane" id="p-chat">
+<h3>AI Chat — JAH Demo-Locked AI</h3>
+<p class="dim">JAH Demo-Locked AI: a locked-in AI per demo. It ONLY does what that demo and its working version explain -- try the Demo Lab to see the scope gate allow and deny requests.</p>
+<div class="row"><input id="chatQ" placeholder="Ask about a demo…" style="flex:1;min-width:200px"><button class="go" id="chatGo">Ask</button></div>
+<div id="chatOut"></div>
+</section>
+<section class="pane" id="p-about">
+<h3>About</h3>
+<p>A locked-in AI per demo -- each AI does exactly what its database&#x27;s demo and working version explain, nothing more, with the PC and tools as its hands.</p>
+<p class="dim">Built programmatically from the live manifest (54,506 databases) on 2026-10-21. Every demo link was verified against the local database page bytes before the record shipped: the anchor id is confirmed present in the page file. src is uniformly "assistant-built". Each record is a locked-in AI: five ONLY_DOES capabilities, four DOES_NOT exclusions, PC and tools as hands, a deterministic behavior spec, and a refusal text. The AI does exactly what the demo/working version explains, nothing more.</p>
+<div class="card"><div class="kv">
+<dt>Record kind</dt><dd>locked-in demo AI record</dd>
+<dt>ID prefix</dt><dd class="mono">JAH-DAI-</dd>
+<dt>Database AI</dt><dd>JAH Demo-Locked AI</dd>
+<dt>Teaching ladder</dt><dd>Every record teaches simple → compounded → complex.</dd>
+</div></div>
+</section>
+<section class="pane" id="p-demo">
+<h3>&#9654; Demo Lab — the demo is the verification</h3>
+<p class="dim">The executable demo runs the deterministic scope gate on six sample action requests: three inside the demo scope (ALLOW) and three outside it (DENY). The locked-in AI does exactly what the demo explains -- nothing more.</p>
+<div class="row">
+<label>Record <input id="dFind" placeholder="JAH-DWV-000123 or slug" style="width:220px"></label>
+<button class="go" id="dRun">Run demo on record</button>
+<button class="go" id="dRand">Demo a random record</button>
+</div>
+<div id="dOut" style="margin-top:10px"></div>
+</section>
+<div class="foot">✳ JAH Databases. Property of Justin Addam Higgins (JAH).</div>
+</div>
+<script src="../../core/jahdb.js"></script>
+<script src="../../core/jahdb-dedupe.js"></script>
+<script src="../../core/jahdb-xdb.js"></script>
+<script src="../../core/jahdb-demo.js"></script>
+<script src="../../core/standard-1.0.js"></script>
+<script src="../../core/guide-conv.js"></script>
+<script src="../../core/apex-2.0.js"></script>
+<script src="gen-ai-version-for-all-demos.js"></script>
+<script>
+(function(){'use strict';
+var SLUG="ai-version-for-all-demos", LOCAL='../../data/'+SLUG+'/', GEN_NS="DemoAILockedGen", GEN_FN='demo';
+var $=function(id){return document.getElementById(id);};
+document.querySelectorAll('.tab').forEach(function(t){t.addEventListener('click',function(){
+document.querySelectorAll('.tab').forEach(function(x){x.classList.remove('on');});
+document.querySelectorAll('.pane').forEach(function(x){x.classList.remove('on');});
+t.classList.add('on');$('p-'+t.getAttribute('data-p')).classList.add('on');});});
+var records=[];
+function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+function render(list,limit){var box=$('recs');box.innerHTML='';var n=Math.min(list.length,limit||200);
+for(var i=0;i<n;i++){var r=list[i];var d=document.createElement('div');d.className='card';
+d.innerHTML='<h3>'+esc(r.title)+'</h3><div><span class="badge">'+esc(r.id)+'</span>'+
+'<span class="badge">'+esc(r.demo_kind)+'</span>'+
+(r.verified?'<span class="badge">verified</span>':'<span class="badge warn">unverified</span>')+'</div>'+
+'<div class="kv" style="margin-top:6px"><dt>Demo</dt><dd><a class="mono" href="'+esc(r.demo_url)+'" target="_blank" rel="noopener">'+esc(r.demo_url)+'</a></dd>'+
+'<dt>Target</dt><dd>'+esc(r.target_name)+'</dd><dt>Link check</dt><dd>'+esc(r.link_check)+'</dd>'+
+'<dt>Ladder</dt><dd>'+esc(r.ladder_rank)+'</dd><dt>src</dt><dd>'+esc(r.src)+' · verified '+esc(r.last_verified)+'</dd></div>'+
++'<details><summary>scope lock</summary><div class="kv"><dt>Only does</dt><dd>'+r.only_does.map(esc).join('<br>')+'</dd><dt>Does not</dt><dd>'+r.does_not.map(esc).join('<br>')+'</dd><dt>Hands</dt><dd>'+esc(r.hands.join(', '))+'</dd></div></details>'+'</div>';box.appendChild(d);}
+$('shown').textContent=n;$('total').textContent=list.length;}
+function doSearch(){var q=$('q').value.toLowerCase().trim();
+if(!q){render(records);return;}
+render(records.filter(function(r){return (r.title+' '+r.id+' '+r.target_slug+' '+r.target_name).toLowerCase().indexOf(q)>=0;}));}
+$('qgo').addEventListener('click',doSearch);
+$('q').addEventListener('keydown',function(e){if(e.key==='Enter')doSearch();});
+$('qmerge').addEventListener('click',function(){var p=$('mergePanel');
+p.innerHTML='<div class="card"><b>All Database Merger</b><p class="dim">Merge this database with any other network database. '+
+'Records share the same canon fields (id, title, demo_url, ladder_rank, src, last_verified), so a merge is a straight concatenation with id-dedupe on id_prefix.</p>'+
+'<div class="row"><input id="mSlug" placeholder="other database slug" style="flex:1;min-width:200px"><button class="go" id="mGo">Merge</button></div><div id="mOut" class="mono dim"></div></div>';
+$('mGo').addEventListener('click',function(){var s=$('mSlug').value.trim();
+if(!s){return;}$('mOut').textContent='Merge plan: load ../../data/'+s+'/index.jsonl.gz, concat with this archive, dedupe on id. Run the merge in the repo with the dedupe tool before publishing.';});});
+/* Loader: fetch the gz -> gunzip via DecompressionStream -> parse JSONL */
+function load2(){return fetch(LOCAL+'index.jsonl.gz').then(function(r){if(!r.ok)throw new Error('HTTP '+r.status);
+var ds=new DecompressionStream('gzip');var out=r.body.pipeThrough(ds);
+return new Response(out).text();}).then(function(t){records=t.trim().split('\n').map(function(l){try{return JSON.parse(l);}catch(e){return null;}}).filter(Boolean);
+$('stCount').textContent=records.length.toLocaleString();render(records);})
+.catch(function(e){$('recs').innerHTML='<div class="card bad">Archive failed to load: '+esc(e.message)+'. The data file ships at data/'+SLUG+'/index.jsonl.gz in the merge package.</div>';});}
+load2();
+function findRec(q){q=String(q||'').trim().toLowerCase();if(!q)return null;
+return records.find(function(r){return r.id.toLowerCase()===q||r.target_slug.toLowerCase()===q||r.title.toLowerCase().indexOf(q)>=0;})||null;}
+function runDemo(r){var box=$('dOut');try{var api=window[GEN_NS];var res=api[GEN_FN](r);
+var h='<div class="card"><h3>'+esc(r.title)+' <span class="'+(res.ok?'ok':'bad')+'">'+(res.ok?'DEMO PASS':'DEMO FAIL')+'</span></h3>';
+h+='<div class="kv"><dt>Record</dt><dd class="mono">'+esc(r.id)+'</dd><dt>Demo URL</dt><dd><a class="mono" href="'+esc(r.demo_url)+'" target="_blank" rel="noopener">'+esc(r.demo_url)+'</a></dd></div>';
+if(res.checks){h+='<details open><summary>checks ('+res.checks.filter(function(c){return c.pass;}).length+'/'+res.checks.length+' pass)</summary><ul>';
+res.checks.forEach(function(c){h+='<li class="'+(c.pass?'ok':'bad')+'">'+esc(c.name)+(c.detail?': '+esc(c.detail):'')+'</li>';});h+='</ul></details>';}
+if(res.gates){h+='<details open><summary>scope gates ('+res.gates.filter(function(g){return true;}).length+' samples)</summary><ul>';
+res.gates.forEach(function(g){h+='<li><span class="'+(g.verdict==='ALLOW'?'ok':'bad')+'">'+g.verdict+'</span> '+esc(g.action)+(g.matched.length?' <span class="dim">['+esc(g.matched.join(', '))+']</span>':'')+'</li>';});h+='</ul></details>';}
+h+='</div>';box.innerHTML=h;}catch(e){box.innerHTML='<div class="card bad">Demo error: '+esc(e.message)+'</div>';}}
+$('dRun').addEventListener('click',function(){var r=findRec($('dFind').value);
+$('dOut').innerHTML=r?'': '<div class="card bad">No record found.</div>';if(r)runDemo(r);});
+$('dRand').addEventListener('click',function(){if(records.length)runDemo(records[Math.floor(Math.random()*records.length)]);});
+$('genRun').addEventListener('click',function(){try{var api=window[GEN_NS];
+var sample=records.slice(0,5).map(function(r){return api.demo(r);});
+var okN=sample.filter(function(s){return s.ok;}).length;
+$('genOut').textContent='self-test: '+okN+'/5 sample demos pass · cap='+api.CAP+' · ladder='+api.LADDER.join(' > ');}
+catch(e){$('genOut').textContent='self-test error: '+e.message;}});
+$('chatGo').addEventListener('click',function(){var q=$('chatQ').value.trim();if(!q)return;
+var r=findRec(q.split(' ')[0]);var box=$('chatOut');
+box.innerHTML='<div class="card"><p>'+(r?esc(chatAnswer(r,q)):esc('I am '+"JAH Demo-Locked AI"+'. Ask me about a specific demo — try a record id like JAH-DWV-000001 or a database slug.'))+'</p></div>';});
+function chatAnswer(r,q){return 'The working version for "'+r.target_name+'" is '+r.demo_url+' ('+r.demo_kind+', link '+r.link_check+'). '+
+'It was verified '+r.last_verified+'. Open the Demo Lab tab to re-run the verification demo on this record.';}
+})();
+</script>
+</body>
+</html>
