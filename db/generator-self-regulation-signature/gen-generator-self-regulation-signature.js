@@ -5,7 +5,7 @@ function ri(s,a,b){return a+((s()*(b-a+1))|0);}
 
 function SigRegCreate(opts){
   opts=opts||{};
-  var HARD_CAP=(typeof opts.maxRecords==='number')?opts.maxRecords:1000000000;
+  var HARD_CAP=(typeof opts.maxRecords==='number')?opts.maxRecords:1000000000000;
   var minGapMs=opts.minGapMs||0, costPer=opts.costPer||1;
   var budget=(typeof opts.budget==='number')?opts.budget:Infinity;
   var checkFn=opts.check||function(){return {ok:true,errors:[]};};
@@ -33,7 +33,7 @@ function SigRegCreate(opts){
 
 var PREFIX='JAH-GSRS-';
 var TOPICS=[
- ['The One-Billion Hard Cap','cap','A hard ceiling of 1,000,000,000 records enforced inside the wrapper.'],
+ ['The One-Trillion Hard Cap','cap','A hard ceiling of 1,000,000,000,000 records enforced inside the wrapper.'],
  ['Token-Bucket Throttling','throttle','Minimum gaps between generations so the host is never overloaded.'],
  ['Correctness Verification Gate','correctness','An independent check runs before any record is accepted.'],
  ['Simulated-Content Labeling','labeling','Every generated record is stamped simulated by the framework.'],
@@ -56,7 +56,7 @@ function generate(seed,opts,rnd){
   return {id:id,title:t[0]+' — scenario '+seed,t:t[0]+' — scenario '+seed,g:'Self-Regulation',c:1,
     ladder_rank:ri(rnd,1,15),
     description:t[2]+' Generated scenario '+seed+' exercises this mechanism with seeded parameters.',
-    mechanism:t[1], params:{cap:1000000000, throttle_ms:ri(rnd,0,5000), budget:ri(rnd,100,10000)},
+    mechanism:t[1], params:{cap:1000000000000, throttle_ms:ri(rnd,0,5000), budget:ri(rnd,100,10000)},
     demo:{runtime:'node',code:'var reg=G.SigRegCreate({maxRecords:5});for(var s=1;s<=5;s++)reg.generate(s,function(sd){return {id:"x"+sd};});assert(reg.stats().produced===5,"cap wrapper produced 5");log("scenario cap wrapper ok");',expect:'verified'},
     provenance:'signature',last_verified:'2026-10-21',
     march_marker:'Million-record march in progress: 15 of 1,000,000 records (0.0015%).',_seed:seed};
@@ -66,7 +66,7 @@ function validate(r){
   if(!r||typeof r!=='object')return {ok:false,errors:['not an object']};
   if(!new RegExp('^'+PREFIX.replace(/-/g,'\\-')+'\\d{6}$').test(r.id||''))e.push('id');
   if(!r.mechanism)e.push('mechanism');
-  if(!r.params||r.params.cap!==1000000000)e.push('cap must be 1e9');
+  if(!r.params||r.params.cap!==1000000000000)e.push('cap must be 1e12');
   if(typeof r.ladder_rank!=='number'||r.ladder_rank<1||r.ladder_rank>15)e.push('ladder_rank');
   return {ok:!e.length,errors:e};
 }
