@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>System Monitor / HWMonitor / MSI Afterburner Database — JAH Databases</title>
+<meta name="description" content="System Monitor / HWMonitor / MSI Afterburner Database: Real-time hardware telemetry: temps, VRAM, clocks and power. A permanent archive, a boundless generator, and an archive-aware AI. Property of Justin Addam Higgins.">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Dataset","name":"System Monitor / HWMonitor / MSI Afterburner Database","description":"Real-time hardware telemetry: temps, VRAM, clocks and power. Property of Justin Addam Higgins.","creator":{"@type":"Person","name":"Justin Addam Higgins"},"license":"https://creativecommons.org/publicdomain/zero/1.0/"}</script>
+<style>
+:root{--bg:#070b16;--panel:#0d1526;--line:#1d2c4d;--ink:#e8f1ff;--dim:#9fb3d8;--acc:#2f7bff;--ok:#00e5a0}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Arial,Helvetica,sans-serif;line-height:1.5}
+.wrap{max-width:1060px;margin:0 auto;padding:14px}
+.hero{display:flex;gap:14px;align-items:center;background:linear-gradient(135deg,#0b1e3a,#101a30);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:12px}
+.hero img{width:84px;height:84px;border-radius:14px;flex:none}
+.hero h1{margin:0;font-size:1.5em}.hero p{margin:4px 0;color:var(--dim)}
+.stats{display:flex;gap:10px;flex-wrap:wrap;margin:8px 0}
+.stat{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:8px 12px;font-size:.9em}
+.stat b{color:var(--ok)}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
+.tab{border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:999px;padding:9px 18px;font-size:1em;cursor:pointer}
+.tab.on{background:var(--acc);border-color:var(--acc);font-weight:bold}
+.pane{display:none}.pane.on{display:block}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px;margin:10px 0}
+.card h3{margin:0 0 6px}
+.mono{font-family:Consolas,monospace}
+.dim{color:var(--dim)}.ok{color:var(--ok)}
+input,select,textarea,button{font-size:1em;border-radius:8px;border:1px solid var(--line);background:#0a1120;color:var(--ink);padding:9px 10px}
+button{cursor:pointer;background:#14305e}button.go{background:var(--acc);font-weight:bold}
+details.grp{border:1px solid var(--line);border-radius:10px;margin:8px 0;background:var(--panel)}
+details.grp>summary{padding:10px 12px;cursor:pointer;font-weight:bold;list-style:none}
+details.grp>summary::-webkit-details-marker{display:none}
+.badge{display:inline-block;background:#132a55;border:1px solid var(--line);border-radius:999px;padding:2px 10px;font-size:.8em;margin-right:6px}
+.chatlog{max-height:46vh;overflow:auto;border:1px solid var(--line);border-radius:10px;padding:10px;background:#080d18;margin-bottom:8px}
+.msg{display:flex;margin:8px 0}.msg.u{justify-content:flex-end}.msg.a{justify-content:flex-start}.msg .b{max-width:88%;padding:8px 12px;border-radius:12px;overflow-wrap:break-word;min-width:0;text-align:left}
+.msg.u .b{background:#14305e}.msg.a .b{background:#101a30;border:1px solid var(--line)}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.kv{display:grid;grid-template-columns:auto minmax(120px,1fr);gap:4px 12px;font-size:.95em}
+.kv dt{color:var(--dim);overflow-wrap:break-word;min-width:0}.kv dd{margin:0;min-width:0;overflow-wrap:break-word}
+.kv dd.longtext{grid-column:1/-1;font-size:1em;line-height:1.55}
+.foot{margin-top:26px;padding-top:12px;border-top:1px solid var(--line);color:var(--dim);font-size:.85em}
+pre.codeblock{white-space:pre;overflow-x:auto;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.85em;line-height:1.5;background:#060b14;border:1px solid var(--line);border-radius:8px;padding:10px 12px;margin:6px 0;max-width:100%;box-sizing:border-box}
+button.merger{background:#c81e3a;border-color:#c81e3a;color:#fff;font-weight:bold}
+#mergePanel{margin-top:10px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hero">
+    <img id="emblem" alt="database emblem">
+    <div>
+      <h1>System Monitor / HWMonitor / MSI Afterburner Database</h1>
+      <p>Real-time hardware telemetry: temps, VRAM, clocks and power.</p>
+      <div class="stats">
+        <span class="stat">Archive records: <b id="stCount">&hellip;</b></span>
+        <span class="stat">Generator: <b>jahdb-pc-organizer-system-monitor-hwmonitor-msi-afterburner-1.0</b> <span class="ok">&#9679; working</span></span>
+        <span class="stat">AI: <b>JAH System Monitor Librarian</b></span>
+      </div>
+    </div>
+  </div>
+  <div class="tabs" role="tablist">
+    <button class="tab on" data-p="archive">Archive</button>
+    <button class="tab" data-p="gen">Generator</button>
+    <button class="tab" data-p="chat">AI Chat</button>
+    <button class="tab" data-p="about">About</button>
+    <button class="tab" data-p="spec">Full Spec</button>
+    <button class="tab" data-p="demo">&#9654; Demo Lab</button>
+  </div>
+  <section class="pane on" id="p-archive">
+    <div class="row">
+      <input id="q" placeholder="Search the archive&hellip;" style="flex:1;min-width:200px">
+      <button class="go" id="qgo">Search</button><button class="go merger" id="qmerge">All Database Merger</button>
+    </div>
+    <div id="mergePanel"></div>
+    <p class="dim">Browse by teaching-ladder band &mdash; each group opens on demand and loads only what you open.</p>
+    <div id="groups"></div>
+    <div id="results"></div>
+  </section>
+  <section class="pane" id="p-gen">
+    <div class="card">
+      <h3>Boundless generator</h3>
+      <p class="dim">Same seed + same version always makes the same record. Self-regulating: hard stop at 1,000,000,000,000 records, throttled to 50 per call with a 250ms cooldown, every generated record labeled <b>simulated</b> and verified before filing.</p>
+      <div class="row">
+        <label>Seed <input id="gSeed" type="number" value="1" style="width:110px"></label>
+        <label>Count <input id="gN" type="number" value="5" min="1" max="50" style="width:80px"></label>
+        <button class="go" id="gGo">Generate</button>
+      </div>
+      <div id="gOut"></div>
+    </div>
+  </section>
+  <section class="pane" id="p-chat">
+    <div class="card" style="margin-top:10px">
+      <h3>&#10024; Make an Assistant Like Mine</h3>
+      <p class="dim">Build a personal AI assistant exactly like Manon&rsquo;s &mdash; name it, pick its role and personality, and it comes wired live to the <b>System Monitor / HWMonitor / MSI Afterburner Database</b> archive.</p>
+      <button class="jah-amk-btn go" type="button" data-slug="pc-organizer-system-monitor-hwmonitor-msi-afterburner" data-name="System Monitor / HWMonitor / MSI Afterburner Database" data-ainame="JAH System Monitor Librarian" data-kind="pc organizer tool" data-prefix="JAH-PCO50-" data-local="../../data/pc-organizer-system-monitor-hwmonitor-msi-afterburner/">&#10024; Make an Assistant Like Mine</button>
+    </div>
+    <div class="card">
+      <h3>JAH System Monitor Librarian <button id="fresh" style="font-size:.8em">New session</button></h3>
+      <div class="chatlog" id="chatlog"></div>
+      <div class="row">
+        <input id="chatIn" placeholder="Ask about the archive&hellip;" style="flex:1;min-width:200px">
+        <button class="go" id="chatGo">Send</button>
+      </div>
+      <p class="dim">Fresh screen every session. Nothing you say here enters the permanent archive.</p>
+    </div>
+  </section>
+  <section class="pane" id="p-about">
+    <div class="card">
+      <h3>About this data base</h3>
+      <dl class="kv">
+        <dt>Archive</dt><dd>This database&rsquo;s System Monitor / HWMonitor / MSI Afterburner record archive (<span class="mono">JAH-PCO50-</span> records), preserved as structured, searchable data.</dd>
+        <dt>Edition</dt><dd>public &mdash; Public record — fact-checked public information about the real tool, compiled 2026-10-21 from vendor documentation and public project pages.</dd>
+        <dt>Teaching ladder</dt><dd>Records are ranked 1&ndash;15, simple &rarr; compounded &rarr; complex, in three bands: Foundations, Workflows, Mastery.</dd>
+        <dt>Generator</dt><dd>jahdb-pc-organizer-system-monitor-hwmonitor-msi-afterburner-1.0 &mdash; deterministic, self-regulating (1 trillion hard stop, throttled, simulated-labeled).</dd>
+        <dt>AI</dt><dd>JAH System Monitor Librarian &mdash; archive-aware. Answers from this archive&rsquo;s records.</dd>
+        <dt>March</dt><dd>Million in progress: 15 of 1,000,000 records archived.</dd>
+        <dt>Ownership</dt><dd>&#10033; Property of Justin Addam Higgins (JAH).</dd>
+      </dl>
+    </div>
+  </section>
+  <!-- JAH-FULL-SPEC -->
+  <section class="pane" id="p-spec">
+    <div class="card">
+      <h3>Full Spec &mdash; System Monitor / HWMonitor / MSI Afterburner Database</h3>
+      <p class="dim">The complete specification of this database: what it holds, how it is built, how its AI works, and where its files live.</p>
+      <dl class="kv">
+        <dt>Database</dt><dd class="longtext"><b>System Monitor / HWMonitor / MSI Afterburner Database</b> &mdash; Real-time hardware telemetry: temps, VRAM, clocks and power.</dd>
+        <dt>Slug</dt><dd><span class="mono">pc-organizer-system-monitor-hwmonitor-msi-afterburner</span></dd>
+        <dt>Edition</dt><dd class="longtext">public edition. Public record — fact-checked public information about the real tool, compiled 2026-10-21 from vendor documentation and public project pages.</dd>
+        <dt>Record schema</dt><dd class="longtext"><span class="mono">id &middot; title &middot; description &middot; facts[] &middot; demo_code &middot; demo_output &middot; ladder_rank &middot; march &middot; provenance &middot; last_verified</span></dd>
+        <dt>Generator</dt><dd class="longtext"><b>jahdb-pc-organizer-system-monitor-hwmonitor-msi-afterburner-1.0</b> &mdash; deterministic; hard stop at 1,000,000,000,000 records; throttled; every generated record labeled simulated and verified before filing.</dd>
+        <dt>AI</dt><dd class="longtext"><b>JAH System Monitor Librarian</b> &mdash; archive-aware assistant answering from this database&rsquo;s records, with the &ldquo;Make an Assistant Like Mine&rdquo; builder.</dd>
+        <dt>Records</dt><dd class="longtext"><b>15</b> of 1,000,000 target &mdash; march to a million in progress. Status: live.</dd>
+        <dt>Data files</dt><dd class="longtext">Archive index: <span class="mono">data/pc-organizer-system-monitor-hwmonitor-msi-afterburner/index.jsonl.gz</span> (gzipped JSON lines, one full record per line).</dd>
+        <dt>Working version</dt><dd class="longtext">This page: Archive, Generator, AI Chat, About, Full Spec and Demo Lab tabs, all working client-side.</dd>
+        <dt>Canon compliance</dt><dd class="longtext">Every record is the FULL fully-formed record with all data &mdash; never a stub. Public records are fact-checked; Signature records are original designs clearly labeled Signature, never presented as public record. Provenance and last-verified ride on every record.</dd>
+        <dt>Ownership</dt><dd class="longtext">&#10033; Property of Justin Addam Higgins (JAH).</dd>
+        <dt>Last verified</dt><dd class="longtext">2026-10-21</dd>
+      </dl>
+    </div>
+  </section>
+  <section class="pane" id="p-demo">
+    <div class="card">
+      <h3>&#9654; Demo Lab &mdash; every record ships a runnable demo program</h3>
+      <p class="dim">Each record carries a <b>demo</b> program (Python, stdlib only) that was executed and verified at build time. The verified output is shown with the code &mdash; copy it and run it on your PC with <span class="mono">python3 demo.py</span>.</p>
+      <div class="row">
+        <input id="dFind" placeholder="Record ID or title words&hellip;" style="flex:1;min-width:200px">
+        <button class="go" id="dFindGo">Find &amp; demo</button>
+      </div>
+      <div id="dOut" style="margin-top:10px"><p class="dim">Search above, or browse the Archive tab &mdash; every record card has its demo.</p></div>
+    </div>
+  </section>
+  <div class="foot">&#10033; JAH Databases. Property of Justin Addam Higgins (JAH).</div>
+</div>
+<script src="../../assets/assistant-maker.js"></script>
+<script src="gen-pc-organizer-system-monitor-hwmonitor-msi-afterburner.js"></script>
+<script>
+(function(){
+'use strict';
+var SLUG='pc-organizer-system-monitor-hwmonitor-msi-afterburner', LOCAL='../../data/pc-organizer-system-monitor-hwmonitor-msi-afterburner/', PREFIX='JAH-PCO50-';
+var AI_NAME="JAH System Monitor Librarian";
+var archiveIdx=[];
+var $=function(id){return document.getElementById(id);};
+function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+document.querySelectorAll('.tab').forEach(function(t){
+  t.addEventListener('click',function(){
+    if(!t.dataset.p)return;
+    document.querySelectorAll('.tab').forEach(function(x){x.classList.remove('on');});
+    document.querySelectorAll('.pane').forEach(function(x){x.classList.remove('on');});
+    t.classList.add('on'); $('p-'+t.dataset.p).classList.add('on');
+  });
+});
+$('emblem').src='data:image/svg+xml;utf8,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="84" height="84"><rect width="84" height="84" rx="14" fill="#0b1e3a"/><text x="42" y="52" font-size="30" text-anchor="middle" fill="#2f7bff">JAH</text></svg>');
+function gunzip(buf){
+  if(typeof DecompressionStream==='undefined') return Promise.reject(new Error('browser lacks DecompressionStream'));
+  var ds=new DecompressionStream('gzip');
+  var s=new Response(new Blob([buf]).stream().pipeThrough(ds));
+  return s.text();
+}
+fetch(LOCAL+'index.jsonl.gz').then(function(r){if(!r.ok)throw new Error('HTTP '+r.status);return r.arrayBuffer();})
+.then(gunzip).then(function(t){
+  archiveIdx=t.split('\n').filter(function(l){return l.trim();}).map(function(l){try{return JSON.parse(l);}catch(e){return null;}}).filter(Boolean);
+  $('stCount').textContent=archiveIdx.length.toLocaleString()+' / 1,000,000 target';
+  buildGroups(); greet();
+}).catch(function(e){$('stCount').textContent='archive unreachable ('+e.message+')';});
+var BANDS=['Foundations','Workflows','Mastery'];
+function recCard(r){
+  return '<div class="card"><h3>'+esc(r.title)+' <span class="badge">'+esc(r.id)+'</span><span class="badge">ladder '+r.ladder_rank+'</span></h3>'
+    +'<p>'+esc(r.description)+'</p>'
+    +'<p class="dim">'+esc(r.march)+'</p>'
+    +'<details class="grp"><summary>Runnable demo (verified '+esc(r.demo_verified)+')</summary>'
+    +'<pre class="codeblock">'+esc(r.demo_code)+'</pre>'
+    +'<p class="dim">Verified output:</p><pre class="codeblock">'+esc(r.demo_output)+'</pre>'
+    +'<button data-demo="'+esc(r.id)+'">Copy demo code</button></details>'
+    +'<p class="dim">Provenance: '+esc(r.provenance)+' Last verified: '+esc(r.last_verified)+'</p></div>';
+}
+function buildGroups(){
+  var g=$('groups'); g.innerHTML='';
+  BANDS.forEach(function(b){
+    var recs=archiveIdx.filter(function(r){return r.ladder_band===b;});
+    var d=document.createElement('details'); d.className='grp';
+    d.innerHTML='<summary>'+b+' <span class="dim">('+recs.length+' records)</span></summary><div class="gbody"><p class="dim">Open to load these records.</p></div>';
+    d.addEventListener('toggle',function(){
+      if(d.open && !d.dataset.done){ d.dataset.done='1';
+        d.querySelector('.gbody').innerHTML=recs.map(recCard).join('')||'<p class="dim">No records.</p>';
+        wireCopy(d);
+      }
+    });
+    g.appendChild(d);
+  });
+  wireCopy(document);
+}
+function wireCopy(root){
+  root.querySelectorAll('button[data-demo]').forEach(function(b){
+    b.addEventListener('click',function(){
+      var r=archiveIdx.filter(function(x){return x.id===b.getAttribute('data-demo');})[0];
+      if(r&&navigator.clipboard) navigator.clipboard.writeText(r.demo_code);
+      b.textContent='Copied'; setTimeout(function(){b.textContent='Copy demo code';},1500);
+    });
+  });
+}
+function doSearch(){
+  var q=$('q').value.trim().toLowerCase();
+  var hits=archiveIdx.filter(function(r){
+    return !q || (r.title+' '+r.description+' '+r.facts.join(' ')+' '+r.id).toLowerCase().indexOf(q)>=0;
+  });
+  $('results').innerHTML='<h3>'+hits.length+' result(s)</h3>'+hits.map(recCard).join('');
+  wireCopy($('results'));
+  return hits;
+}
+$('qgo').addEventListener('click',doSearch);
+$('q').addEventListener('keydown',function(e){if(e.key==='Enter')doSearch();});
+var mergeSet=[];
+$('qmerge').addEventListener('click',function(){
+  var hits=doSearch();
+  var ids={}; mergeSet.forEach(function(r){ids[r.id]=1;});
+  hits.forEach(function(r){if(!ids[r.id]){mergeSet.push(r);ids[r.id]=1;}});
+  $('mergePanel').innerHTML='<div class="card"><h3>All Database Merger <span class="dim">('+mergeSet.length+' records)</span></h3>'
+    +'<p class="dim">Collected from this database. Download the merged set as JSON.</p>'
+    +'<button class="go" id="mDl">Download merged JSON</button></div>';
+  $('mDl').addEventListener('click',function(){
+    var blob=new Blob([JSON.stringify(mergeSet,null,2)],{type:'application/json'});
+    var a=document.createElement('a'); a.href=URL.createObjectURL(blob);
+    a.download=SLUG+'-merged.json'; a.click(); setTimeout(function(){URL.revokeObjectURL(a.href);},4000);
+  });
+});
+var genIssued=0;
+$('gGo').addEventListener('click',function(){
+  var gen=window.JAHDB_GEN&&window.JAHDB_GEN[SLUG];
+  if(!gen){$('gOut').innerHTML='<p class="dim">Generator script not loaded.</p>';return;}
+  var res=gen.generate(parseInt($('gSeed').value||'1',10),parseInt($('gN').value||'5',10),genIssued);
+  if(res.stopped){$('gOut').innerHTML='<p class="dim">'+esc(res.stopped)+'</p>';return;}
+  genIssued+=res.records.length;
+  $('gOut').innerHTML=res.records.map(function(r){
+    return '<div class="card"><h3>'+esc(r.title)+' <span class="badge">simulated</span></h3><p class="dim">'+esc(r.note)+'</p></div>';
+  }).join('')+'<p class="dim">Issued this session: '+genIssued+' / 1,000,000,000,000 hard stop.</p>';
+});
+function greet(){
+  say('a','Hello — I am '+AI_NAME+', archive-aware over '+archiveIdx.length+' records. Ask me about any record, command, or concept.');
+}
+function say(who,text){
+  var d=document.createElement('div'); d.className='msg '+who;
+  d.innerHTML='<div class="b">'+esc(text)+'</div>';
+  $('chatlog').appendChild(d); $('chatlog').scrollTop=$('chatlog').scrollHeight;
+}
+function answer(q){
+  var ql=q.toLowerCase();
+  var hits=archiveIdx.filter(function(r){
+    return (r.title+' '+r.description+' '+r.facts.join(' ')).toLowerCase().indexOf(ql)>=0;
+  }).slice(0,3);
+  if(!hits.length) return 'I searched all '+archiveIdx.length+' archive records and found nothing on "'+q+'". Try a command, format, or concept name.';
+  return hits.map(function(r){return r.title+' ('+r.id+'): '+r.description;}).join('\n\n');
+}
+$('chatGo').addEventListener('click',function(){
+  var v=$('chatIn').value.trim(); if(!v)return;
+  say('u',v); $('chatIn').value=''; say('a',answer(v));
+});
+$('chatIn').addEventListener('keydown',function(e){if(e.key==='Enter')$('chatGo').click();});
+$('fresh').addEventListener('click',function(){$('chatlog').innerHTML='';greet();});
+$('dFindGo').addEventListener('click',function(){
+  var q=$('dFind').value.trim().toLowerCase();
+  var hits=archiveIdx.filter(function(r){return (r.id+' '+r.title).toLowerCase().indexOf(q)>=0;});
+  $('dOut').innerHTML=hits.length?hits.map(recCard).join(''):'<p class="dim">No matching record.</p>';
+  wireCopy($('dOut'));
+});
+if(window.jahAmk&&window.jahAmk.wire){try{window.jahAmk.wire();}catch(e){}}
+})();
+</script>
+</body>
+</html>

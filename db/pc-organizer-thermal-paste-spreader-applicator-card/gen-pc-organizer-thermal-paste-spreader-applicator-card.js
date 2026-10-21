@@ -1,0 +1,54 @@
+/* jahdb-pc-organizer-thermal-paste-spreader-applicator-card-1.0 — deterministic boundless generator for Thermal Paste Spreader / Applicator Card Database.
+   Self-regulation (Signature standard): hard stop at 1,000,000,000,000 records;
+   throttled output (<=50 records per call); every generated record labeled
+   "simulated"; correctness verified by validate(); completion detected when the
+   template pool is exhausted for the requested seed space. */
+(function(){'use strict';
+var HARD_STOP=1000000000000;
+var MAX_PER_CALL=50;
+function prng(seed){var a=(seed>>>0)||1;return function(){a|=0;a=(a+0x6D2B79F5)|0;var t=Math.imul(a^(a>>>15),1|a);t=(t+Math.imul(t^(t>>>7),61|t))^t;return((t^(t>>>14))>>>0)/4294967296;};}
+function pick(r,s){return r[(s()*r.length)|0];}
+var CATS=["Paste Basics", "Application Methods", "Spreader Types", "PC Use Cases", "Technique", "Comparisons"];
+var PREFIX='JAH-PCO13-';
+/* Deterministic template pool: [category, title_pattern, detail_pattern] */
+var B=[["Paste Basics", "What Thermal Paste Does Between CPU and Cooler", "Thermal paste (thermal compound, TIM) fills the microscopic gaps between the CPU heatspreader and the cooler base — air is a terrible conductor, and even mirror"], ["Application Methods", "Pea vs Line vs Spread: The Application Methods", "The pea method (a pea-sized dot center) lets cooler pressure spread the paste — simplest and most popular. The line method suits rectangular dies. Manual spread"], ["Spreader Types", "What a Spreader Card Is and When to Use One", "A spreader card is a small flat plastic blade — often included with paste tubes — used to manually spread compound into a thin even layer across the heatspreade"], ["Application Methods", "How Much Paste: The Right Amount by CPU Size", "Mainstream CPUs (like AM5/LGA1700 size): a pea about 4-5 mm — roughly 0.1 g. Large HEDT/threadripper dies: a line or five-dot pattern, more like 0.2-0.3 g. Too "], ["Technique", "Spreader Card Technique: The Thin Even Coat", "The technique: pea of paste center, card held at ~45 degrees, smooth strokes from center outward, one thin pass — then STOP. The layer should be thin enough to "], ["Paste Basics", "Paste Types: Ceramic, Carbon, Metal, and Liquid Metal", "Ceramic/silicone pastes (like Arctic MX-4): safe, non-conductive, the default — 5-8 W/mK. Carbon-based: slightly better, still safe. Metal-based: better still b"], ["PC Use Cases", "Use Case: Mainstream CPU Paste Job", "The standard job: clean both surfaces to shine, pea of ceramic paste center of the heatspreader (or card-spread for proof), mount cooler straight down without s"], ["PC Use Cases", "Use Case: GPU Die Paste (Delidded-Style Care)", "GPU dies are bare silicon — no heatspreader — so paste goes directly on the fragile die. Use a card-spread for guaranteed edge-to-edge coverage (bare dies punis"], ["Technique", "The Cross-Pattern Mounting Sequence", "Cooler screws tighten in a cross (X) pattern, a half-turn at a time, cycling until snug — this seats the cooler flat instead of rocking onto one corner. Rocking"], ["Paste Basics", "How Often to Repaste: The Honest Schedule", "Quality paste lasts 3-5 years before drying meaningfully; cheap paste can dry in 1-2. Repaste when load temps creep up 5-10°C from the baseline with clean fans "], ["Comparisons", "Spreader Card vs Pea vs X-Pattern: Test Results", "Controlled tests consistently show 1-3°C between methods with correct amounts — the spreader's advantage is coverage certainty, not magic degrees. Where spread "], ["Technique", "Cleaning Up: Paste Where It Should Not Be", "Squeeze-out on the board: IPA and lint-free, one-direction wipes, patience — non-conductive paste is messy but harmless. Paste in the socket: the nightmare — do"], ["Spreader Types", "Buying Guide: Paste and Spreader Value", "A 4 g tube of quality ceramic paste (MX-4/MX-6 class) costs 8-12 dollars and does 10-20 applications — paste is the cheapest performance in PC building. Spreade"], ["Technique", "Advanced: Lapping and the Pursuit of Flat", "Lapping — sanding the heatspreader/cooler base flatter with progressively finer grit — can gain 2-5°C on badly concave surfaces, at the cost of warranty and hou"], ["Technique", "The Complete Paste Application Discipline", "The master discipline: surfaces cleaned to shine, paste matched to the job (ceramic default), amount matched to die size, method executed confidently (spread fo"]];
+function generate(seed,opts,rnd){
+  opts=opts||{};rnd=rnd||prng(seed);
+  if(seed>=HARD_STOP)return {error:'HARD_STOP: 1,000,000,000,000 record limit reached',complete:true};
+  var cat=opts.category||pick(CATS,rnd);
+  var pool=B.filter(function(b){return b[0]===cat;});
+  var b=pick(pool.length?pool:B,rnd);
+  var id=PREFIX+String(seed).padStart(6,'0');
+  var title=b[1].replace('{n}',String(ri(rnd,2,48)));
+  return {id:id,title:title,t:title.slice(0,70),g:cat,category:cat,
+    description:b[2].replace('{n}',String(ri(rnd,2,48)))+' This is a simulated record generated by jahdb-pc-organizer-thermal-paste-spreader-applicator-card-1.0.',
+    ladder_rank:ri(rnd,1,15),
+    demo:{language:'python',program:'print("simulated demo for '+id+'")'},
+    provenance:'Simulated record generated by jahdb-pc-organizer-thermal-paste-spreader-applicator-card-1.0 (seed '+seed+'). Labeled simulated per the Signature self-regulation standard.',
+    last_verified:'2026-10-21',
+    march_marker:'March to a million in progress — simulated generation record '+seed+'.',
+    edition:'simulated',simulated:true,_seed:seed,_version:'jahdb-pc-organizer-thermal-paste-spreader-applicator-card-1.0'};
+}
+function ri(s,a,b){return a+((s()*(b-a+1))|0);}
+function validate(r){
+  var e=[];
+  if(!r||typeof r!=='object')return {ok:false,errors:['not an object']};
+  var re=/^JAH\-PCO13\-\d{6}$/;
+  if(!re.test(r.id||''))e.push('id');
+  if(r.title!==undefined&&(typeof r.title!=='string'||!r.title.length))e.push('title');
+  if(typeof r.description!=='string'||r.description.length<20)e.push('description');
+  if(CATS.indexOf(r.category)<0)e.push('category');
+  if(!(r.ladder_rank>=1&&r.ladder_rank<=15))e.push('ladder_rank');
+  if(r.simulated!==true)e.push('simulated-must-be-true');
+  if(r._seed===undefined||r._seed>=HARD_STOP)e.push('seed');
+  return {ok:!e.length,errors:e,complete:r._seed>=B.length*1000};
+}
+function driftCheck(rec,sample){
+  var e=[];
+  (sample||[]).forEach(function(s){ if(s&&s.id===rec.id)e.push('duplicate of archive record '+s.id); });
+  return {ok:!e.length,errors:e};
+}
+var gen={version:'jahdb-pc-organizer-thermal-paste-spreader-applicator-card-1.0',HARD_STOP:HARD_STOP,MAX_PER_CALL:MAX_PER_CALL,generate:generate,validate:validate,driftCheck:driftCheck};
+if(typeof JAHDB!=='undefined'&&JAHDB.registerGenerator)JAHDB.registerGenerator('pc-organizer-thermal-paste-spreader-applicator-card',gen);
+if(typeof module!=='undefined'&&module.exports)module.exports=gen;
+})();

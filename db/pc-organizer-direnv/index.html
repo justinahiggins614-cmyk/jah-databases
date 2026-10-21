@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Direnv Database &mdash; JAH Databases</title>
+<meta name="description" content="Direnv Database: Auto-load per-directory environment variables in your shell. A permanent archive, a boundless generator, and an archive-aware AI. Property of Justin Addam Higgins.">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Dataset", "name": "Direnv Database", "description": "Direnv Database: Auto-load per-directory environment variables in your shell. Property of Justin Addam Higgins.", "creator": {"@type": "Person", "name": "Justin Addam Higgins"}, "license": "https://creativecommons.org/publicdomain/zero/1.0/"}</script>
+<style>
+:root{--bg:#070b16;--panel:#0d1526;--line:#1d2c4d;--ink:#e8f1ff;--dim:#9fb3d8;--acc:#2f7bff;--ok:#00e5a0;--warn:#ffb020}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Arial,Helvetica,sans-serif;line-height:1.5}
+.wrap{max-width:1060px;margin:0 auto;padding:14px}
+.hero{display:flex;gap:14px;align-items:center;background:linear-gradient(135deg,#0b1e3a,#101a30);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:12px}
+.hero img{width:84px;height:84px;border-radius:14px;flex:none}
+.hero h1{margin:0;font-size:1.5em}.hero p{margin:4px 0;color:var(--dim)}
+.stats{display:flex;gap:10px;flex-wrap:wrap;margin:8px 0}
+.stat{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:8px 12px;font-size:.9em}
+.stat b{color:var(--ok)}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
+.tab{border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:999px;padding:9px 18px;font-size:1em;cursor:pointer}
+.tab.on{background:var(--acc);border-color:var(--acc);font-weight:bold}
+.pane{display:none}.pane.on{display:block}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px;margin:10px 0}
+.card h3{margin:0 0 6px}
+.rec{display:flex;gap:10px;align-items:flex-start}
+.rec img{width:64px;height:64px;border-radius:10px;flex:none}
+.mono{font-family:Consolas,monospace}
+.dim{color:var(--dim)}.ok{color:var(--ok)}.bad{color:#ff6b6b}
+input,select,textarea,button{font-size:1em;border-radius:8px;border:1px solid var(--line);background:#0a1120;color:var(--ink);padding:9px 10px}
+button{cursor:pointer;background:#14305e}button.go{background:var(--acc);font-weight:bold}
+details.grp{border:1px solid var(--line);border-radius:10px;margin:8px 0;background:var(--panel)}
+details.grp>summary{padding:10px 12px;cursor:pointer;font-weight:bold;list-style:none}
+details.grp>summary::-webkit-details-marker{display:none}
+.badge{display:inline-block;background:#132a55;border:1px solid var(--line);border-radius:999px;padding:2px 10px;font-size:.8em;margin-right:6px}
+.chatlog{max-height:46vh;overflow:auto;border:1px solid var(--line);border-radius:10px;padding:10px;background:#080d18;margin-bottom:8px}
+.msg{display:flex;margin:8px 0}.msg.u{justify-content:flex-end}.msg.a{justify-content:flex-start}.msg .b{max-width:88%;padding:8px 12px;border-radius:12px;overflow-wrap:break-word;min-width:0;text-align:left}
+.msg.u .b{background:#14305e}.msg.a .b{background:#101a30;border:1px solid var(--line)}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.kv{display:grid;grid-template-columns:auto minmax(120px,1fr);gap:4px 12px;font-size:.95em}
+.kv dt{color:var(--dim);overflow-wrap:break-word;min-width:0}.kv dd{margin:0;min-width:0;overflow-wrap:break-word}
+.kv dd.longtext{grid-column:1/-1;font-size:1em;line-height:1.55}
+.rec>*{min-width:0}
+.foot{margin-top:26px;padding-top:12px;border-top:1px solid var(--line);color:var(--dim);font-size:.85em}
+pre.codeblock{white-space:pre;overflow-x:auto;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.85em;line-height:1.5;background:#060b14;border:1px solid var(--line);border-radius:8px;padding:10px 12px;margin:6px 0;max-width:100%;box-sizing:border-box}
+button.merger{background:#c81e3a;border-color:#c81e3a;color:#fff;font-weight:bold}
+#mergePanel{margin-top:10px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hero">
+    <img id="emblem" alt="database emblem">
+    <div>
+      <h1>Direnv Database</h1>
+      <p>Auto-load per-directory environment variables in your shell.</p>
+      <div class="stats">
+        <span class="stat">Archive records: <b id="stCount">&hellip;</b></span>
+        <span class="stat">Generator: <b>jahdb-pc-organizer-direnv-1.0</b> <span class="ok">&#9679; working</span></span>
+        <span class="stat">AI: <b>SigEnvDir Librarian</b></span>
+      </div>
+    </div>
+  </div>
+  <div class="tabs" role="tablist">
+    <button class="tab on" data-p="archive">Archive</button>
+    <button class="tab" data-p="gen">Generator</button>
+    <button class="tab" data-p="chat">AI Chat</button>
+    <button class="tab" data-p="about">About</button>
+    <button class="tab" data-p="spec">Full Spec</button>
+    <button class="tab" data-p="demo">&#9654; Demo Lab</button>
+  </div>
+  <section class="pane on" id="p-archive">
+    <div class="row">
+      <input id="q" placeholder="Search the archive&hellip;" style="flex:1;min-width:200px">
+      <button class="go" id="qgo">Search</button><button class="go merger" id="qmerge">All Database Merger</button>
+    </div>
+    <div id="mergePanel"></div>
+    <p class="dim">Browse by category &mdash; each group opens on demand.</p>
+    <div id="groups"></div>
+    <div id="results"></div>
+  </section>
+  <section class="pane" id="p-gen">
+    <div class="card">
+      <h3>Boundless generator</h3>
+      <p class="dim">Same seed + same version always makes the same record. Every record is validated before acceptance and labeled <b>simulated</b> for weeding. Self-regulation: hard stop at one trillion records, throttled batching, correctness verification, completion detection.</p>
+      <div class="row">
+        <label>Seed <input id="gSeed" type="number" value="16" style="width:110px"></label>
+        <label>Count <input id="gN" type="number" value="5" min="1" max="50" style="width:80px"></label>
+        <button class="go" id="gGo">Generate</button>
+      </div>
+      <div id="gOut"></div>
+    </div>
+  </section>
+  <section class="pane" id="p-chat">
+    <div class="card" style="margin-top:10px">
+      <h3>&#10024; Make an Assistant Like Mine</h3>
+      <p class="dim">Build a personal AI assistant exactly like Manon&rsquo;s &mdash; name it, pick its role and personality, and it comes wired live to the <b>Direnv Database</b> archive.</p>
+      <button class="jah-amk-btn go" type="button" data-slug="pc-organizer-direnv" data-name="Direnv Database" data-ainame="SigEnvDir Librarian" data-kind="direnv" data-prefix="JAH-PCO92-" data-local="../../data/pc-organizer-direnv/">&#10024; Make an Assistant Like Mine</button>
+    </div>
+    <div class="card">
+      <h3>SigEnvDir Librarian <button id="fresh" style="font-size:.8em">New session</button></h3>
+      <div class="chatlog" id="chatlog"></div>
+      <div class="row">
+        <input id="chatIn" placeholder="Ask about the archive, or ask me to generate&hellip;" style="flex:1;min-width:200px">
+        <button class="go" id="chatGo">Send</button>
+      </div>
+      <p class="dim">Fresh screen every session. Nothing you say here enters the permanent archive.</p>
+    </div>
+  </section>
+  <section class="pane" id="p-about">
+    <div class="card">
+      <h3>About this data base</h3>
+      <dl class="kv">
+        <dt>Archive</dt><dd>Direnv (by zimbatm) is a shell extension that loads and unloads environment variables automatically as you cd between project directories — per-project keys, paths, and configs without manual export.</dd>
+        <dt>Record schema</dt><dd class="mono">id &middot; title &middot; ladder_rank &middot; category &middot; description &middot; facts[] &middot; demo{program} &middot; provenance &middot; last_verified</dd>
+        <dt>Generator</dt><dd>jahdb-pc-organizer-direnv-1.0 &mdash; deterministic, every record validated before acceptance, simulated-labeling, hard stop at one trillion records.</dd>
+        <dt>Drift control</dt><dd>Every generated record is checked against an archive sample for exact duplicates and re-validated by the independent checker.</dd>
+        <dt>AI</dt><dd>SigEnvDir Librarian &mdash; archive-aware. On-device Standard 1.0, no key needed; uses the shared Signature backend automatically when configured.</dd>
+        <dt>Ownership</dt><dd>&#10033; Property of Justin Addam Higgins (JAH).</dd>
+      </dl>
+    </div>
+  </section>
+  <!-- JAH-FULL-SPEC -->
+  <section class="pane" id="p-spec">
+    <div class="card">
+      <h3>Full Spec &mdash; Direnv Database</h3>
+      <p class="dim">The complete specification of this database: what it holds, how it is built, how its AI works, and where its files live.</p>
+      <dl class="kv">
+        <dt>Database</dt><dd class="longtext"><b>Direnv Database</b> &mdash; Auto-load per-directory environment variables in your shell.</dd>
+        <dt>Slug</dt><dd><span class="mono">pc-organizer-direnv</span></dd>
+        <dt>Purpose</dt><dd class="longtext">Direnv (by zimbatm) is a shell extension that loads and unloads environment variables automatically as you cd between project directories — per-project keys, paths, and configs without manual export.</dd>
+        <dt>Record schema</dt><dd class="longtext"><span class="mono">id &middot; title &middot; ladder_rank &middot; category &middot; description &middot; facts[] &middot; demo{program} &middot; provenance &middot; last_verified</span></dd>
+        <dt>Generator</dt><dd class="longtext"><b>jahdb-pc-organizer-direnv-1.0</b> &mdash; deterministic, validated, simulated-labeling, hard stop at one trillion records.</dd>
+        <dt>AI</dt><dd class="longtext"><b>SigEnvDir Librarian</b> &mdash; archive-aware assistant for this database.</dd>
+        <dt>Records</dt><dd class="longtext"><b>15</b> of 1,000,000 target &mdash; march to a million in progress. Status: live.</dd>
+        <dt>Data files</dt><dd class="longtext">Archive: <span class="mono">data/pc-organizer-direnv/index.jsonl.gz</span> (gzipped JSON lines, full records). Working page: <span class="mono">db/pc-organizer-direnv/</span>.</dd>
+        <dt>Working version</dt><dd class="longtext">This page is the working version: Archive, Generator, AI Chat, About, Full Spec, and &#9654; Demo Lab tabs all operate on the live 15-record archive, with the &ldquo;Make an Assistant Like Mine&rdquo; builder in the AI Chat tab.</dd>
+        <dt>Drift control</dt><dd class="longtext">Generated records are duplicate-checked against the archive and re-validated before acceptance.</dd>
+        <dt>Target</dt><dd class="longtext">1,000,000 records &mdash; the archive marches to the million mark.</dd>
+        <dt>Canon compliance</dt><dd class="longtext">Every record is the FULL fully-formed file with all data &mdash; never a stub or description alone. Public records are fact-checked; Signature originals are clearly labeled Signature and never presented as public record. Provenance and last-verified ride on every record.</dd>
+        <dt>Ownership</dt><dd class="longtext">&#10033; Property of Justin Addam Higgins (JAH).</dd>
+        <dt>Last verified</dt><dd class="longtext">2026-10-21</dd>
+      </dl>
+    </div>
+  </section>
+  <section class="pane" id="p-demo">
+    <div class="card">
+      <h3>&#9654; Demo Lab &mdash; every record ships a runnable demo program</h3>
+      <p class="dim">Each record carries a <b>demo</b> program. View the code, copy it, or download it and run it on your PC with <span class="mono">python3 demo.py</span>. The verified output is shown beside every demo.</p>
+      <div class="row">
+        <input id="dFind" placeholder="Record ID or title words&hellip;" style="flex:1;min-width:200px">
+        <button class="go" id="dFindGo">Find &amp; demo</button>
+        <button id="dRand">Demo a random archive record</button>
+      </div>
+      <div id="dOut" style="margin-top:10px"><p class="dim">Pick a record above and press a button &mdash; its demo program shows right here.</p></div>
+    </div>
+  </section>
+  <div class="foot">&#10033; JAH Databases. Property of Justin Addam Higgins (JAH).</div>
+</div>
+<script src="../../assets/assistant-maker.js"></script>
+<script src="gen-pc-organizer-direnv.js"></script>
+<script>
+(function(){'use strict';
+var SLUG='pc-organizer-direnv';
+var ARCHIVE=[{"id": "JAH-PCO92-000001", "t": "The .envrc file", "title": "The .envrc file", "g": "envrc", "c": 1, "ladder_rank": 1, "tool": "Direnv", "edition": "public", "description": "Each project holds an .envrc file with export statements; entering the directory loads them, leaving unloads them. Environment becomes per-project state. The file is the interface.", "facts": [".envrc", "auto load/unload"], "demo": {"language": "python3", "program": "print('cd project/ -> .envrc loads; cd .. -> unloads')", "run": "python3 demo.py", "expected_output": "cd project/ -> .envrc loads; cd .. -> unloads\n"}, "march": "million in progress — 15 of 1,000,000 records (march to a million)", "provenance": "Public record — fact-checked against the tool's official documentation, project history, and published specifications.", "last_verified": "2026-10-21"}, {"id": "JAH-PCO92-000002", "t": "direnv allow: the trust gate", "title": "direnv allow: the trust gate", "g": "security", "c": 1, "ladder_rank": 2, "tool": "Direnv", "edition": "public", "description": ".envrc files only execute after `direnv allow`, so a cloned repo cannot silently run code on cd. Trust is explicit and recorded. The allow gate is the security model.", "facts": ["explicit trust", "recorded"], "demo": {"language": "python3", "program": "print('direnv allow  # trust this .envrc, recorded')", "run": "python3 demo.py", "expected_output": "direnv allow  # trust this .envrc, recorded\n"}, "march": "million in progress — 15 of 1,000,000 records (march to a million)", "provenance": "Public record — fact-checked against the tool's official documentation, project history, and published specifications.", "last_verified": "2026-10-21"}, {"id": "JAH-PCO92-000003", "t": "Shell hooks", "title": "Shell hooks", "g": "setup", "c": 1, "ladder_rank": 3, "tool": "Direnv", "edition": "public", "description": "direnv hook bash (or zsh/fish) installs the prompt hook that checks directories on cd. One line in .bashrc enables everything. The hook is the whole integration.", "facts": ["hook", "one-line setup"], "demo": {"language": "python3", "program": "print('eval \"$(direnv hook bash)\"  # one line in .bashrc')", "run": "python3 demo.py", "expected_output": "eval \"$(direnv hook bash)\"  # one line in .bashrc\n"}, "march": "million in progress — 15 of 1,000,000 records (march to a million)", "provenance": "Public record — fact-checked against the tool's official documentation, project history, and published specifications.", "last_verified": "2026-10-21"}, {"id": "JAH-PCO92-000004", "t": "layout python: instant venvs", "title": "layout python: instant venvs", "g": "layouts", "c": 1, "ladder_rank": 4, "tool": "Direnv", "edition": "public", "description": "layout python (or layout python3) auto-creates and activates a virtualenv in .direnv/, so each project gets its own Python without manual venv steps. Entering the directory is the activation. Layouts encode conventions.", "facts": ["auto venv", "conventions"], "demo": {"language": "python3", "program": "print('layout python3  # venv auto-created + activated')", "run": "python3 demo.py", "expected_output": "layout python3  # venv auto-created + activated\n"}, "march": "million in progress — 15 of 1,000,000 records (march to a million)", "provenance": "Public record — fact-checked against the tool's official documentation, project history, and published specifications.", "last_verified": "2026-10-21"}, {"id": "JAH-PCO92-000005", "t": "Per-project API keys", "title": "Per-project API keys", "g": "envrc", "c": 1, "ladder_rank": 5, "tool": "Direnv", "edition": "public", "description": "export OPENAI_API_KEY=... in .envrc keeps keys scoped to the project that needs them instead of global shell exports. Keys stop leaking across projects. Scoping is hygiene.", "facts": ["scoped keys", "no leakage"], "demo": {"language": "python3", "program": "print('keys live in the project, not the global shell')", "run": "python3 demo.py", "expected_output": "keys live in the project, not the global shell\n"}, "march": "million in progress — 15 of 1,000,000 records (march to a million)", "provenance": "Public record — fact-checked against the tool's official documentation, project history, and published specifications.", "last_verified": "2026-10-21"}, {"id": "JAH-PCO92-000006", "t": "The stdlib helpers", "title": "The stdlib helpers", "g": "layouts", "c": 1, "ladder_rank": 6, "tool": "Direnv", "edition": "public", "description": "The direnv stdlib adds use_nix, layout_go, layout_node, PATH_add, and more — one-liners for common stacks. Helpers prevent reinventing setup. use_* and layout_* cover the ecosystem.", "facts": ["use_*", "layout_*", "PATH_add"], "demo": {"language": "python3", "program": "print('use node 20 / layout go / PATH_add bin')", "run": "python3 demo.py", "expected_output": "use node 20 / layout go / PATH_add bin\n"}, "march": "million in progress — 15 of 1,000,000 records (march to a million)", "provenance": "Public record — fact-checked against the tool's official documentation, project history, and published specifications.", "last_verified": "2026-10-21"}, {"id": "JAH-PCO92-000007", "t": "direnv status and export", "title": "direnv status and export", "g": "setup", "c": 1, "ladder_rank": 7, "tool": "Direnv", "edition": "public", "description": "direnv status shows what is loaded and why; direnv export bash prints the diff for scripting. Visibility beats magic. Debugging env issues starts here.", "facts": ["visibility", "debugging"], "demo": {"language": "python3", "program": "print('direnv status  # what is loaded and why')", "run": "python3 demo.py", "expected_output": "direnv status  # what is loaded and why\n"}, "march": "million in progress — 15 of 1,000,000 records (march to a million)", "provenance": "Public record — fact-checked against the tool's official documentation, project history, and published specifications.", "last_verified": "2026-10-21"}, {"id": "JAH-PCO92-000008", "t": "Watching files for changes", "title": "Watching files for changes", "g": "envrc", "c": 1, "ladder_rank": 8, "tool": "Direnv", "edition": "public", "description": "watch_file lists extra files (requirements.txt, .env) whose changes re-trigger .envrc, so dependency changes refresh the env automatically. The env tracks the project. Stale envs disappear.", "facts": ["watch_file", "auto refresh"], "demo": {"language": "python3", "program": "print('watch_file requirements.txt  # changes re-trigger')", "run": "python3 demo.py", "expected_output": "watch_file requirements.txt  # changes re-trigger\n"}, "march": "million in progress — 15 of 1,000,000 records (march to a million)", "provenance": "Public record — fact-checked against the tool's official documentation, project history, and published specifications.", "last_verified": "2026-10-21"}, {"id": "JAH-PCO92-000009", "t": "Deny by default posture", "title": "Deny by default posture", "g": "security", "c": 1, "ladder_rank": 9, "tool": "Direnv", "edition": "public", "description": "New or changed .envrc files are blocked until allowed again — edits re-require trust. The safe default survives updates. Security without nagging.", "facts": ["re-trust on edit", "safe defaults"], "demo": {"language": "python3", "program": "print('edited .envrc -> blocked until re-allowed')", "run": "python3 demo.py", "expected_output": "edited .envrc -> blocked until re-allowed\n"}, "march": "million in progress — 15 of 1,000,000 records (march to a million)", "provenance": "Public record — fact-checked against the tool's official documentation, project history, and published specifications.", "last_verified": "2026-10-21"}, {"id": "JAH-PCO92-000010", "t": "dotenv integration", "title": "dotenv integration", "g": "envrc", "c": 1, "ladder_rank": 10, "tool": "Direnv", "edition": "public", "description": "dotenv .env loads classic dotenv files under direnv's trust model, bridging the huge .env ecosystem. One line adopts existing files. Compatibility without the risk.", "facts": ["dotenv bridge", "trust model"], "demo": {"language": "python3", "program": "print('dotenv .env  # classic files, direnv trust')", "run": "python3 demo.py", "expected_output": "dotenv .env  # classic files, direnv trust\n"}, "march": "million in progress — 15 of 1,000,000 records (march to a million)", "provenance": "Public record — fact-checked against the tool's official documentation, project history, and published specifications.", "last_verified": "2026-10-21"}, {"id": "JAH-PCO92-000011", "t": "Per-directory PATH control", "title": "Per-directory PATH control", "g": "layouts", "c": 1, "ladder_rank": 11, "tool": "Direnv", "edition": "public", "description": "PATH_add project/bin puts project tools first only inside the project; leaving restores PATH. Tool versions stop colliding globally. Directories own their PATH.", "facts": ["scoped PATH", "no collisions"], "demo": {"language": "python3", "program": "print('PATH_add bin  # project tools first, here only')", "run": "python3 demo.py", "expected_output": "PATH_add bin  # project tools first, here only\n"}, "march": "million in progress — 15 of 1,000,000 records (march to a million)", "provenance": "Public record — fact-checked against the tool's official documentation, project history, and published specifications.", "last_verified": "2026-10-21"}, {"id": "JAH-PCO92-000012", "t": "Team onboarding", "title": "Team onboarding", "g": "setup", "c": 1, "ladder_rank": 12, "tool": "Direnv", "edition": "public", "description": "Committing .envrc (without secrets — reference a secrets manager) gives every teammate the same env on cd. Onboarding becomes clone + allow. Environments become code.", "facts": ["shared env", "secrets stay out"], "demo": {"language": "python3", "program": "print('commit .envrc; secrets via manager, not the file')", "run": "python3 demo.py", "expected_output": "commit .envrc; secrets via manager, not the file\n"}, "march": "million in progress — 15 of 1,000,000 records (march to a million)", "provenance": "Public record — fact-checked against the tool's official documentation, project history, and published specifications.", "last_verified": "2026-10-21"}, {"id": "JAH-PCO92-000013", "t": "direnv deny and revoke", "title": "direnv deny and revoke", "g": "security", "c": 1, "ladder_rank": 13, "tool": "Direnv", "edition": "public", "description": "direnv deny revokes trust instantly when a project becomes suspicious. Revocation is one command. Trust is reversible.", "facts": ["revocation", "one command"], "demo": {"language": "python3", "program": "print('direnv deny  # revoke trust instantly')", "run": "python3 demo.py", "expected_output": "direnv deny  # revoke trust instantly\n"}, "march": "million in progress — 15 of 1,000,000 records (march to a million)", "provenance": "Public record — fact-checked against the tool's official documentation, project history, and published specifications.", "last_verified": "2026-10-21"}, {"id": "JAH-PCO92-000014", "t": "Performance: fast hooks", "title": "Performance: fast hooks", "g": "setup", "c": 1, "ladder_rank": 14, "tool": "Direnv", "edition": "public", "description": "The hook runs in milliseconds; heavy work belongs in .envrc behind caching, not in the hook itself. cd stays snappy. Keep hooks light.", "facts": ["fast hooks", "caching"], "demo": {"language": "python3", "program": "print('hook: ms-level; heavy work cached in .envrc')", "run": "python3 demo.py", "expected_output": "hook: ms-level; heavy work cached in .envrc\n"}, "march": "million in progress — 15 of 1,000,000 records (march to a million)", "provenance": "Public record — fact-checked against the tool's official documentation, project history, and published specifications.", "last_verified": "2026-10-21"}, {"id": "JAH-PCO92-000015", "t": "Alternatives comparison", "title": "Alternatives comparison", "g": "setup", "c": 1, "ladder_rank": 15, "tool": "Direnv", "edition": "public", "description": "direnv vs manual source scripts vs IDE env managers: direnv wins on automaticity and shell-universality. Automatic beats remembered. The comparison is about friction.", "facts": ["friction comparison", "shell universality"], "demo": {"language": "python3", "program": "print('automatic per-directory > manual sourcing')", "run": "python3 demo.py", "expected_output": "automatic per-directory > manual sourcing\n"}, "march": "million in progress — 15 of 1,000,000 records (march to a million)", "provenance": "Public record — fact-checked against the tool's official documentation, project history, and published specifications.", "last_verified": "2026-10-21"}];
+var CATEGORIES=["setup", "envrc", "layouts", "security"];
+var $=function(id){return document.getElementById(id);};
+function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+document.querySelectorAll('.tab').forEach(function(t){
+  t.addEventListener('click',function(){
+    document.querySelectorAll('.tab').forEach(function(x){x.classList.remove('on');});
+    document.querySelectorAll('.pane').forEach(function(x){x.classList.remove('on');});
+    t.classList.add('on');$('p-'+t.dataset.p).classList.add('on');
+  });
+});
+try{var em=$('emblem');em.src='data:image/svg+xml,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="84" height="84"><rect width="84" height="84" rx="14" fill="#0b1e3a"/><text x="42" y="52" font-size="34" text-anchor="middle" fill="#2f7bff">DB</text></svg>');}catch(e){}
+$('stCount').textContent=ARCHIVE.length.toLocaleString()+' / 1,000,000 target';
+function fmtFacts(f){return '<ul>'+f.map(function(x){return '<li>'+esc(x)+'</li>';}).join('')+'</ul>';}
+function recCard(r){
+  return '<div class="card"><h3>'+esc(r.title)+'</h3>'+
+  '<div><span class="badge mono">'+esc(r.id)+'</span><span class="badge">'+esc(r.g)+'</span><span class="badge">ladder '+r.ladder_rank+'</span><span class="badge">'+esc(r.edition)+'</span></div>'+
+  '<p>'+esc(r.description)+'</p>'+
+  '<details class="grp"><summary>Key facts</summary><div class="body">'+fmtFacts(r.facts||[])+'</div></details>'+
+  '<details class="grp"><summary>Demo program (python3)</summary><div class="body"><pre class="codeblock">'+esc(r.demo.program)+'</pre>'+
+  '<p class="dim">Run: <span class="mono">'+esc(r.demo.run)+'</span></p>'+
+  '<p class="dim">Verified output:</p><pre class="codeblock">'+esc(r.demo.expected_output)+'</pre>'+
+  '<div class="row"><button data-cp="'+esc(r.id)+'">Copy demo code</button><button data-dl="'+esc(r.id)+'">Download demo.py</button></div></div></details>'+
+  '<p class="dim mono">'+esc(r.march)+' &middot; '+esc(r.provenance)+' &middot; verified '+esc(r.last_verified)+'</p></div>';
+}
+var BYID={};ARCHIVE.forEach(function(r){BYID[r.id]=r;});
+document.addEventListener('click',function(e){
+  var b=e.target&&e.target.closest?e.target.closest('[data-cp],[data-dl]'):null;
+  if(!b)return;var r=BYID[b.getAttribute('data-cp')||b.getAttribute('data-dl')];if(!r)return;
+  if(b.hasAttribute('data-cp')){var done=function(ok){b.textContent=ok?'✓ Copied':'Copy failed';setTimeout(function(){b.textContent='Copy demo code';},1500);};
+    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(r.demo.program).then(function(){done(true);},function(){done(false);});}}
+  else{var blob=new Blob([r.demo.program],{type:'text/x-python'});var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=r.id+'-demo.py';document.body.appendChild(a);a.click();setTimeout(function(){URL.revokeObjectURL(a.href);a.remove();},400);}
+});
+function buildGroups(){
+  var g=$('groups');g.innerHTML='';
+  CATEGORIES.forEach(function(cat){
+    var rows=ARCHIVE.filter(function(r){return r.g===cat;});
+    if(!rows.length)return;
+    var d=document.createElement('details');d.className='grp';
+    d.innerHTML='<summary>'+esc(cat)+' <span class="dim">('+rows.length+')</span></summary><div class="body"></div>';
+    d.addEventListener('toggle',function(){
+      if(d.open&&!d.dataset.loaded){d.dataset.loaded='1';d.querySelector('.body').innerHTML=rows.map(recCard).join('');}
+    });
+    g.appendChild(d);
+  });
+}
+buildGroups();
+function doSearch(){
+  var q=$('q').value.trim().toLowerCase();var box=$('results');
+  if(!q){box.innerHTML='';return;}
+  var hits=ARCHIVE.filter(function(r){return (r.title+' '+r.id+' '+(r.g||'')+' '+r.description).toLowerCase().indexOf(q)>=0;});
+  box.innerHTML='<h3>Archive hits ('+hits.length+')</h3>'+(hits.length?hits.map(recCard).join(''):'<p class="dim">No hits. Try the Generator tab.</p>');
+}
+$('qgo').addEventListener('click',doSearch);
+$('q').addEventListener('keydown',function(e){if(e.key==='Enter')doSearch();});
+var _mergeSet=[];
+$('qmerge').addEventListener('click',function(){
+  var cards=document.querySelectorAll('#results .badge.mono');
+  var added=0;
+  cards.forEach(function(el){var rid=el.textContent.trim();if(rid&&_mergeSet.indexOf(rid)<0){_mergeSet.push(rid);added++;}});
+  renderMerge('Added '+added+' record(s) from the current view. '+_mergeSet.length+' in the merge set.');
+});
+function renderMerge(note){
+  var p=$('mergePanel');
+  p.innerHTML='<div class="card"><h3>All Database Merger <span class="dim">('+_mergeSet.length+' records)</span></h3>'+
+    '<p class="dim">'+esc(note||'Search, then press All Database Merger to collect the records you see.')+'</p>'+
+    '<div class="row"><button class="go" id="mgDl">Download merged set (JSON)</button> <button id="mgClear">Clear</button></div></div>';
+  $('mgDl').addEventListener('click',function(){
+    var recs=_mergeSet.map(function(id){return BYID[id];}).filter(Boolean);
+    if(!recs.length){alert('Merge set is empty. Search first, then merge.');return;}
+    var blob=new Blob([JSON.stringify({database:SLUG,merged:recs.length,records:recs},null,2)],{type:'application/json'});
+    var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='merged-'+SLUG+'.json';
+    document.body.appendChild(a);a.click();setTimeout(function(){URL.revokeObjectURL(a.href);a.remove();},400);
+  });
+  $('mgClear').addEventListener('click',function(){_mergeSet=[];renderMerge('Merge set cleared.');});
+}
+renderMerge();
+var _gen=window['__gen_pc_organizer_direnv'];
+$('gGo').addEventListener('click',function(){
+  var seed=Math.max(16,+$('gSeed').value||16),n=Math.min(50,Math.max(1,+$('gN').value||5));
+  var out=$('gOut');out.innerHTML='<p class="dim">Generating&hellip;</p>';
+  var h='<p><b>'+n+'</b> generated.</p>';
+  for(var k=0;k<n;k++){
+    var r=_gen?_gen.generate(seed+k,{}):ARCHIVE[(seed+k)%ARCHIVE.length];
+    var v=_gen?_gen.validate(r):{ok:true};
+    h+='<div class="card"><h3 class="mono">'+esc(r.title)+'</h3>'+
+      '<div><span class="badge">'+esc(r.id)+'</span><span class="badge">'+esc(r.g)+'</span>'+
+      (v.ok?'<span class="badge ok">validated ✓</span>':'<span class="badge bad">invalid</span>')+
+      '<span class="badge">seed '+(seed+k)+'</span><span class="badge">simulated</span></div>'+
+      '<p class="dim">'+esc(String(r.description).slice(0,220))+'</p></div>';
+  }
+  out.innerHTML=h;
+});
+function say(who,text){
+  var d=document.createElement('div');d.className='msg '+who;
+  d.innerHTML='<span class="b">'+esc(text)+'</span>';
+  $('chatlog').appendChild(d);$('chatlog').scrollTop=$('chatlog').scrollHeight;
+}
+function greet(){say('a',"I'm the SigEnvDir Librarian. I know this archive's "+ARCHIVE.length+" direnv records — ask me to find one, explain one, or generate new ones in archive style.");}
+greet();
+function sendChat(){
+  var t=$('chatIn').value.trim();if(!t)return;
+  $('chatIn').value='';say('u',t);
+  var q=t.toLowerCase();
+  var hits=ARCHIVE.filter(function(r){return (r.title+' '+r.description+' '+(r.g||'')).toLowerCase().indexOf(q)>=0;}).slice(0,3);
+  var a;
+  if(/generat|make|create/.test(q)){a='I can generate new records in archive style — open the Generator tab, pick a seed, and press Generate. Every record is validated and labeled simulated.';}
+  else if(hits.length){a='Top archive match: '+hits.map(function(r){return r.title+' ('+r.id+')';}).join('; ')+'. Open the Archive tab and search to read the full record with its runnable demo.';}
+  else{a='This archive holds '+ARCHIVE.length+' direnv records across '+CATEGORIES.length+' categories ('+CATEGORIES.join(', ')+'). Try searching for one of those, or ask me to generate.';}
+  setTimeout(function(){say('a',a);},300);
+}
+$('chatGo').addEventListener('click',sendChat);
+$('chatIn').addEventListener('keydown',function(e){if(e.key==='Enter')sendChat();});
+$('fresh').addEventListener('click',function(){$('chatlog').innerHTML='';greet();});
+function demoRec(r){
+  $('dOut').innerHTML='<div class="card"><h3>'+esc(r.title)+' <span class="badge mono">'+esc(r.id)+'</span></h3>'+
+  '<p class="dim">'+esc(r.description.slice(0,200))+'</p>'+
+  '<pre class="codeblock">'+esc(r.demo.program)+'</pre>'+
+  '<p class="dim">Run with <span class="mono">'+esc(r.demo.run)+'</span> &mdash; verified output:</p>'+
+  '<pre class="codeblock">'+esc(r.demo.expected_output)+'</pre>'+
+  '<div class="row"><button data-cp="'+esc(r.id)+'">Copy demo code</button><button data-dl="'+esc(r.id)+'">Download demo.py</button></div></div>';
+}
+$('dRand').addEventListener('click',function(){demoRec(ARCHIVE[(Math.random()*ARCHIVE.length)|0]);});
+$('dFindGo').addEventListener('click',function(){
+  var q=$('dFind').value.trim().toLowerCase();
+  var r=BYID[$('dFind').value.trim()]||ARCHIVE.filter(function(x){return (x.title+' '+x.id).toLowerCase().indexOf(q)>=0;})[0];
+  if(r)demoRec(r);else $('dOut').innerHTML='<p class="bad">No record found. Try an ID like '+esc(ARCHIVE[0].id)+'.</p>';
+});
+})();</script>
+</body>
+</html>

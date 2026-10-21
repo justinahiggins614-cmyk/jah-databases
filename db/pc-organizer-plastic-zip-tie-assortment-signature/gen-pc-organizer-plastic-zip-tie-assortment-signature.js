@@ -1,0 +1,54 @@
+/* jahdb-pc-organizer-plastic-zip-tie-assortment-signature-1.0 — deterministic boundless generator for Signature Plastic Zip-Tie Assortment Database.
+   Self-regulation (Signature standard): hard stop at 1,000,000,000,000 records;
+   throttled output (<=50 records per call); every generated record labeled
+   "simulated"; correctness verified by validate(); completion detected when the
+   template pool is exhausted for the requested seed space. */
+(function(){'use strict';
+var HARD_STOP=1000000000000;
+var MAX_PER_CALL=50;
+function prng(seed){var a=(seed>>>0)||1;return function(){a|=0;a=(a+0x6D2B79F5)|0;var t=Math.imul(a^(a>>>15),1|a);t=(t+Math.imul(t^(t>>>7),61|t))^t;return((t^(t>>>14))>>>0)/4294967296;};}
+function pick(r,s){return r[(s()*r.length)|0];}
+var CATS=["Tie Basics", "Sizes & Strength", "Techniques", "Case Interiors", "Outdoor & Special", "Comparisons"];
+var PREFIX='JAH-PCO5S-';
+/* Deterministic template pool: [category, title_pattern, detail_pattern] */
+var B=[["Signature Design", "The Signature Tie System: Three Sizes, One Rule", "The Signature tie system stocks exactly three ties — 4-inch 18-lb white for thin wires, 8-inch 50-lb black for general bundles, 12-inch 75-lb black for trunks —"], ["Signature Workflow", "Signature Tension Standard: The Wiggle Test", "The Signature tension standard is the wiggle test: after cinching, grip the bundle and try to slide a cable — it should not move, but the jacket should show no "], ["Signature Design", "Signature Flush-Cut Station", "Every Signature bench has a flush-cut station: dedicated flush cutters on a magnetic holder, a small trash cup for tails, and a finger-test reminder card. Tails"], ["Signature Workflow", "Signature Permanent-Run Certification", "Before a run gets zip ties, it must pass certification: is this bundle truly permanent? Will no upgrade touch it for the machine's life? If yes, it gets ties, a"], ["Signature Design", "Signature Releasable Bench Standard", "Signature test benches use releasable ties exclusively — the tab-tab makes every bundle reworkable, and the bench's tie stock is 100 percent releasable so nobod"], ["Signature Design", "Signature Mounting Grid for Desks", "The Signature desk grid is a row of screw-mount tie heads along the desk's back edge on 6-inch centers — a permanent cable raceway. Power cables route through t"], ["Signature Comparison", "Signature vs Standard Tie Practice", "Standard practice grabs whatever tie is handy, yanks it tight, and twists the tail off. Signature practice sizes the tie, wiggle-tests the tension, flush-cuts t"], ["Signature Design", "Signature Heavy-Trunk Specification", "Signature spec for trunks over 1.25 inches diameter: double-ties every 6 inches, cross-tie at each end against axial slide, mounting-head anchors every 12 inche"], ["Signature Workflow", "Signature Tail Discipline: Zero Sharp Edges", "The Signature rule is zero sharp edges in any case a human will service: every tail flush-cut, finger-tested, and any scratch means re-cut. Apprentices learn th"], ["Signature Design", "Signature Color Protocol for Ties", "Signature tie colors carry meaning: black for permanent hidden runs, white for thin-wire bundles, red for 'cut me first' service identification (the ties markin"], ["Signature Maintenance", "Signature Inspection Schedule", "Signature maintenance inspects ties on a schedule: yearly flex tests on all visible ties, heat-zone ties checked every six months, and any tie near a replaced c"], ["Signature Design", "Signature Beaded-Tie Test Kit", "The Signature test-fit kit is a pouch of beaded releasable ties in three sizes — for mocking up routing before committing. Lay out the cable path with beaded ti"], ["Signature Workflow", "Signature Training: The Ten-Tie Drill", "New builders drill ten ties on scrap cable: size it, cinch to wiggle-test, flush-cut, finger-test — ten in a row, timed. Under five minutes with zero defects pa"], ["Signature Design", "Signature Outdoor and Heat-Zone Rules", "Signature rules for hostile zones: UV-black ties only outdoors or near sunlit windows; stainless ties where exhaust heat exceeds nylon's comfort zone; releasabl"], ["Signature Workflow", "The Complete Signature Tie Discipline", "The full Signature tie discipline: three sizes, bundle-picks-smallest rule, wiggle-test tension, flush-cut station, permanence certification, releasable benches"]];
+function generate(seed,opts,rnd){
+  opts=opts||{};rnd=rnd||prng(seed);
+  if(seed>=HARD_STOP)return {error:'HARD_STOP: 1,000,000,000,000 record limit reached',complete:true};
+  var cat=opts.category||pick(CATS,rnd);
+  var pool=B.filter(function(b){return b[0]===cat;});
+  var b=pick(pool.length?pool:B,rnd);
+  var id=PREFIX+String(seed).padStart(6,'0');
+  var title=b[1].replace('{n}',String(ri(rnd,2,48)));
+  return {id:id,title:title,t:title.slice(0,70),g:cat,category:cat,
+    description:b[2].replace('{n}',String(ri(rnd,2,48)))+' This is a simulated record generated by jahdb-pc-organizer-plastic-zip-tie-assortment-signature-1.0.',
+    ladder_rank:ri(rnd,1,15),
+    demo:{language:'python',program:'print("simulated demo for '+id+'")'},
+    provenance:'Simulated record generated by jahdb-pc-organizer-plastic-zip-tie-assortment-signature-1.0 (seed '+seed+'). Labeled simulated per the Signature self-regulation standard.',
+    last_verified:'2026-10-21',
+    march_marker:'March to a million in progress — simulated generation record '+seed+'.',
+    edition:'simulated',simulated:true,_seed:seed,_version:'jahdb-pc-organizer-plastic-zip-tie-assortment-signature-1.0'};
+}
+function ri(s,a,b){return a+((s()*(b-a+1))|0);}
+function validate(r){
+  var e=[];
+  if(!r||typeof r!=='object')return {ok:false,errors:['not an object']};
+  var re=/^JAH\-PCO5S\-\d{6}$/;
+  if(!re.test(r.id||''))e.push('id');
+  if(r.title!==undefined&&(typeof r.title!=='string'||!r.title.length))e.push('title');
+  if(typeof r.description!=='string'||r.description.length<20)e.push('description');
+  if(CATS.indexOf(r.category)<0)e.push('category');
+  if(!(r.ladder_rank>=1&&r.ladder_rank<=15))e.push('ladder_rank');
+  if(r.simulated!==true)e.push('simulated-must-be-true');
+  if(r._seed===undefined||r._seed>=HARD_STOP)e.push('seed');
+  return {ok:!e.length,errors:e,complete:r._seed>=B.length*1000};
+}
+function driftCheck(rec,sample){
+  var e=[];
+  (sample||[]).forEach(function(s){ if(s&&s.id===rec.id)e.push('duplicate of archive record '+s.id); });
+  return {ok:!e.length,errors:e};
+}
+var gen={version:'jahdb-pc-organizer-plastic-zip-tie-assortment-signature-1.0',HARD_STOP:HARD_STOP,MAX_PER_CALL:MAX_PER_CALL,generate:generate,validate:validate,driftCheck:driftCheck};
+if(typeof JAHDB!=='undefined'&&JAHDB.registerGenerator)JAHDB.registerGenerator('pc-organizer-plastic-zip-tie-assortment-signature',gen);
+if(typeof module!=='undefined'&&module.exports)module.exports=gen;
+})();
