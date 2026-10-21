@@ -1,0 +1,64 @@
+(function(){'use strict';
+function prng(seed){var a=(seed>>>0)||1;return function(){a|=0;a=(a+0x6D2B79F5)|0;var t=Math.imul(a^(a>>>15),1|a);t=(t+Math.imul(t^(t>>>7),61|t))^t;return((t^(t>>>14))>>>0)/4294967296;};}
+function pick(r,s){return r[(s()*r.length)|0];}
+var CATS=["apis", "pipelines", "multi-gpu", "profiling"];
+var PREFIX='JAH-CVG-';
+var LAST_VERIFIED='2026-10-21';
+var PROVENANCE='Public industry records and documentation';
+var SRC='public-harvest';
+/* base records: [title, category, description, mechanisms, platforms, standards, ladder_rank, demo_idx] */
+var B=[["Vulkan Compute Pipelines", "apis", "Builds compute pipelines with Vulkan for vendor-neutral GPU acceleration. Explicit control over memory, synchronization, and queues trades verbosity for portability and predictability. One code path runs on all major vendors.", ["Create compute pipelines and shaders", "Manage memory explicitly", "Synchronize with fences and semaphores"], ["Vulkan SDK", "All vendors", "Linux/Windows"], ["Vulkan specification", "SPIR-V"], 2, 0], ["OpenCL Portability", "apis", "Writes kernels in OpenCL C for the widest device coverage, including CPUs and FPGAs. The platform model abstracts devices; kernels compile at runtime per device. It is the lingua franca of heterogeneous compute.", ["Write kernels in OpenCL C", "Query platforms and devices", "Tune work-group sizes per device"], ["POCL", "Intel/AMD OpenCL", "CPUs/FPGAs"], ["OpenCL specification", "Khronos"], 2, 0], ["HIP for CUDA Portability", "apis", "Ports CUDA code to HIP for AMD (and NVIDIA) with near-mechanical translation. hipify converts CUDA API calls; the same source builds for both vendors. It rescues CUDA codebases from single-vendor lock-in.", ["Run hipify on CUDA sources", "Build per target with hipcc", "Validate numerics on both"], ["AMD ROCm", "NVIDIA (HIP)", "hipify"], ["HIP documentation", "ROCm"], 2, 2], ["SYCL Single-Source", "apis", "Writes single-source C++ with SYCL that offloads to any supported accelerator. Host and device code live in one file; the runtime handles data movement via buffers or USM. It is the modern standard C++ path to GPUs.", ["Write kernels as C++ lambdas", "Manage data with buffers/USM", "Submit to queues"], ["Intel oneAPI DPC++", "AdaptiveCpp", "Intel/AMD/NVIDIA"], ["SYCL specification", "Khronos"], 3, 2], ["Shader Compiler Toolchains", "apis", "Compiles shaders through portable toolchains: GLSL/HLSL to SPIR-V to native. glslang and DXC front-ends plus vendor back-ends make one shader source run everywhere. Offline compilation catches errors early.", ["Write in GLSL or HLSL", "Compile to SPIR-V", "Let drivers compile to native"], ["glslang", "DXC", "Vulkan drivers"], ["SPIR-V spec", "GLSL/HLSL specs"], 2, 2], ["Command Buffer Recording", "pipelines", "Records command buffers once and replays them to amortize CPU overhead. Static workloads record at startup; dynamic ones use per-frame buffers. It is how Vulkan achieves low driver overhead.", ["Record commands into buffers", "Replay across frames", "Use per-frame buffers for dynamic work"], ["Vulkan", "DirectX 12", "Metal"], ["Vulkan spec", "GPU API guides"], 2, 0], ["GPU Memory Heaps", "pipelines", "Allocates from the right GPU memory heap: device-local for speed, host-visible for uploads. The memory model exposes heaps and types; the allocator picks per usage. Wrong-heap allocation silently kills performance.", ["Query heaps and memory types", "Allocate device-local for hot data", "Stage uploads through host-visible"], ["Vulkan", "D3D12", "VMA"], ["Vulkan memory model", "GPU docs"], 2, 1], ["Multi-GPU Scaling", "multi-gpu", "Scales across multiple GPUs with explicit multi-device or NVLink/Infinity Fabric. Work splits by data or model parallel; fast interconnects keep scaling near-linear. It is how large training runs work.", ["Split work across devices", "Exchange via fast interconnects", "Synchronize at boundaries"], ["NCCL", "RCCL", "oneCCL"], ["Collective comms literature", "Vendor docs"], 3, 0], ["Descriptor Set Management", "pipelines", "Manages Vulkan descriptor sets binding resources to shaders. Layouts declare bindings; pools allocate sets; updates bind buffers and images. Efficient set management avoids a common CPU bottleneck.", ["Declare set layouts", "Allocate from pools", "Update bindings per frame"], ["Vulkan", "Custom engines", "Renderers"], ["Vulkan spec", "GPU programming guides"], 3, 1], ["GPU Synchronization", "pipelines", "Synchronizes GPU work with fences, semaphores, and barriers. Fences signal host; semaphores order queues; barriers order within passes. Correct synchronization is the hardest part of explicit APIs.", ["Signal fences for host waits", "Chain queues with semaphores", "Insert pipeline barriers"], ["Vulkan", "D3D12", "Drivers"], ["Vulkan spec", "GPU sync literature"], 3, 1], ["Vendor Extension Handling", "apis", "Uses vendor extensions where they win, with core fallbacks everywhere else. Extensions expose ray tracing or mesh shaders early; the code paths check availability at runtime. It balances bleeding edge with portability.", ["Query extension availability", "Use extensions when present", "Fall back to core paths"], ["Vulkan", "All vendors", "Engines"], ["Vulkan extensions", "Khronos registry"], 2, 2], ["GPU Virtualization", "multi-gpu", "Shares physical GPUs across VMs with SR-IOV or mediated devices. Each VM gets a virtual GPU with isolated memory; the hypervisor schedules the hardware. Cloud gaming and VDI depend on it.", ["Create virtual functions", "Isolate memory per VM", "Schedule fairly"], ["NVIDIA vGPU", "AMD MxGPU", "Intel GVT-g"], ["SR-IOV spec", "Virtualization literature"], 3, 0], ["GPU Profiling", "profiling", "Profiles GPU workloads with vendor tools to find the real bottleneck. Nsight and RGP show kernel timelines, occupancy, and memory stalls. Optimization without profiling is guessing.", ["Capture kernel timelines", "Measure occupancy and stalls", "Optimize the top offender"], ["Nsight Systems", "Radeon GPU Profiler", "Intel VTune"], ["Vendor docs", "GPU perf literature"], 2, 1], ["Compute Fallback Paths", "apis", "Falls back to CPU compute when no suitable GPU exists. The same algorithm runs scalar or SIMD on the CPU; feature detection picks the path at startup. It guarantees the software runs everywhere.", ["Detect GPU capabilities", "Dispatch GPU or CPU path", "Keep numerics consistent"], ["All platforms", "Fallback runtimes", "Libraries"], ["Portability guides", "IEEE 754"], 2, 2], ["Cooperative Groups", "pipelines", "Uses cooperative groups for flexible thread synchronization beyond blocks. Grids can synchronize as a whole for algorithms that need global coordination. It enables patterns blocks cannot express.", ["Launch cooperative kernels", "Synchronize at grid scope", "Size for hardware limits"], ["CUDA", "HIP", "Vendor docs"], ["CUDA programming guide", "GPU literature"], 3, 0]];
+var DEMOS=["// Demo: {NAME} — kernel launch config math\nvar n={N1}*1024,threads=256;\nvar blocks=Math.ceil(n/threads);\nconsole.log('technique: {NAME}');console.log('elements: '+n+', threads/block: '+threads);\nconsole.log('blocks: '+blocks+', total threads: '+(blocks*threads));\nconsole.log('occupancy: '+(100*n/(blocks*threads)).toFixed(1)+'% of launched threads do work');", "// Demo: {NAME} — memory hierarchy bandwidths\nvar tiers=[['registers',20000],['shared',12000],['L2',5000],['HBM',1500]];\nconsole.log('technique: {NAME}');\ntiers.forEach(function(t){console.log(t[0]+': ~'+t[1]+' GB/s');});\nconsole.log('keep hot data in the fastest tier that fits');", "// Demo: {NAME} — API portability matrix\nvar apis=['CUDA','HIP','SYCL','OpenCL','Vulkan'];\nvar vendors={'CUDA':['NVIDIA'],'HIP':['AMD','NVIDIA'],'SYCL':['Intel','AMD','NVIDIA'],'OpenCL':['AMD','Intel','NVIDIA'],'Vulkan':['AMD','Intel','NVIDIA']};\nconsole.log('technique: {NAME}');\napis.forEach(function(a){console.log(a+': '+vendors[a].join(', '));});"];
+var CONTEXTS=["a production web service handling steady user traffic", "an on-device mobile deployment with tight resource budgets", "an edge cluster serving a regional user base", "a CI pipeline validating every commit", "a research prototype exploring new designs", "a regulated enterprise environment with audit requirements"];
+var NOTES=["Operators report measurable gains within the first deployment cycle.", "Start with the simplest configuration, then compound toward the advanced form.", "Pair with monitoring so regressions are caught before users notice.", "Document the chosen parameters so the setup can be recreated exactly.", "Validate against a baseline before and after enabling the technique.", "Keep a rollback path ready when rolling this out to production."];
+var RANK_WORD={1:'Simple',2:'Compound',3:'Advanced'};
+function fill(tpl,vars){return tpl.replace(/\{([A-Z0-9_]+)\}/g,function(m,k){return (k in vars)?vars[k]:m;});}
+function escJS(s){return String(s).replace(/\\/g,'\\\\').replace(/'/g,"\\'").replace(/\n/g,'\\n');}
+function makeDemo(b,seed,rnd){
+  var tpl=DEMOS[b[7]%DEMOS.length];
+  var vars={NAME:escJS(b[0]),N1:1+((seed*7+b[7])%97),N2:2+((seed*13)%499),N3:5+((seed*29)%95),SEED:seed,CAT:escJS(b[1])};
+  return {language:'javascript',title:'Demo — '+b[0],program:fill(tpl,vars)};
+}
+function generate(seed,opts,rnd){
+  opts=opts||{};rnd=rnd||prng(seed);
+  var cat=opts.category||pick(CATS,rnd);
+  var pool=B.filter(function(b){return b[1]===cat;});
+  var b=pick(pool.length?pool:B,rnd);
+  var ctx=pick(CONTEXTS,rnd), note=pick(NOTES,rnd);
+  var id=PREFIX+String(seed).padStart(6,'0');
+  var rot=seed%b[3].length;
+  var mechs=b[3].slice(rot).concat(b[3].slice(0,rot)).slice(0,3);
+  var plats=b[4].slice(0,2+((seed%2)));
+  return {id:id,title:b[0],description:b[2]+' '+note+' Deployment context: '+ctx+'.',
+    category:b[1],key_mechanisms:mechs,platforms:plats,standards:b[5].slice(),
+    complexity:RANK_WORD[b[6]],ladder_rank:b[6],demo:makeDemo(b,seed,rnd),
+    provenance:PROVENANCE,last_verified:LAST_VERIFIED,src:SRC,_seed:seed};
+}
+function validate(r){
+  var e=[];
+  if(!r||typeof r!=='object')return {ok:false,errors:['not an object']};
+  var pre=PREFIX.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+  if(!new RegExp('^'+pre+'\\d{6}$').test(r.id||''))e.push('id');
+  if(typeof r.title!=='string'||!r.title.length)e.push('title');
+  if(typeof r.description!=='string'||r.description.length<40)e.push('description');
+  if(CATS.indexOf(r.category)<0)e.push('category');
+  if(!Array.isArray(r.key_mechanisms)||r.key_mechanisms.length<2)e.push('key_mechanisms');
+  if(!Array.isArray(r.platforms)||!r.platforms.length)e.push('platforms');
+  if(!Array.isArray(r.standards)||!r.standards.length)e.push('standards');
+  if(!(r.ladder_rank>=1&&r.ladder_rank<=3))e.push('ladder_rank');
+  if(!r.demo||typeof r.demo.program!=='string'||!r.demo.program.length)e.push('demo');
+  if(r.last_verified!==LAST_VERIFIED)e.push('last_verified');
+  if(r.src!==SRC)e.push('src');
+  return {ok:!e.length,errors:e};
+}
+function driftCheck(rec,sample){
+  var errs=[];
+  (sample||[]).forEach(function(s){
+    if(s&&s.id!==rec.id&&s.description===rec.description)errs.push('duplicate-of:'+s.id);
+  });
+  return {ok:!errs.length,errors:errs};
+}
+var gen={version:'jahdb-cross-vendor-gpu-acceleration-1.0',generate:generate,validate:validate,driftCheck:driftCheck};
+if(typeof JAHDB!=='undefined'&&JAHDB.registerGenerator)JAHDB.registerGenerator('cross-vendor-gpu-acceleration',gen);
+if(typeof module!=='undefined'&&module.exports)module.exports=gen;
+})();

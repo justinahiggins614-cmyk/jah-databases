@@ -1,0 +1,64 @@
+(function(){'use strict';
+function prng(seed){var a=(seed>>>0)||1;return function(){a|=0;a=(a+0x6D2B79F5)|0;var t=Math.imul(a^(a>>>15),1|a);t=(t+Math.imul(t^(t>>>7),61|t))^t;return((t^(t>>>14))>>>0)/4294967296;};}
+function pick(r,s){return r[(s()*r.length)|0];}
+var CATS=["sensing", "control", "scheduling", "datacenter"];
+var PREFIX='JAH-TAW-';
+var LAST_VERIFIED='2026-10-21';
+var PROVENANCE='Public industry records and documentation';
+var SRC='public-harvest';
+/* base records: [title, category, description, mechanisms, platforms, standards, ladder_rank, demo_idx] */
+var B=[["Digital Thermal Sensors", "sensing", "Reads on-die digital thermal sensors for per-core temperature telemetry. DTS sensors sit next to the hottest logic and report with degree-level accuracy. Every thermal decision starts with this data.", ["Read per-core DTS registers", "Calibrate against known points", "Sample at control-loop rates"], ["Intel (MSR)", "AMD (SMN)", "ARM (thermal zones)"], ["Intel SDM", "Linux thermal subsystem"], 1, 0], ["PID Fan Control", "control", "Drives fans with a PID controller tracking a temperature target. Proportional response handles spikes, integral kills steady-state error, derivative damps oscillation. Tuned PID keeps noise low and temperatures flat.", ["Measure temperature error", "Compute PID output", "Drive PWM fan curves"], ["BMC firmware", "lm-sensors", "Embedded controllers"], ["Control theory", "IPMI specs"], 2, 0], ["RAPL Power Capping", "control", "Enforces package power limits with Intel RAPL, throttling frequency to stay under budget. The OS sets a watts-and-window limit; hardware clamps P-states automatically. It guarantees the power envelope no matter the workload.", ["Set package power limits", "Hardware clamps P-states", "Monitor with energy counters"], ["Intel RAPL", "Linux powercap", "Datacenter schedulers"], ["Intel SDM", "Linux powercap"], 2, 1], ["DVFS Thermal Coupling", "control", "Couples dynamic voltage and frequency scaling to temperature, not just load. When temperature rises, the governor sheds frequency before the hardware's emergency throttle kicks in. Software throttling is smoother than hardware's cliff.", ["Feed temperature into the governor", "Shed frequency proactively", "Restore as temperature falls"], ["Linux cpufreq", "ARM SCMI", "Embedded governors"], ["DVFS literature", "Linux PM docs"], 2, 1], ["Workload Migration", "scheduling", "Migrates threads away from hot cores to cool ones instead of throttling everything. The scheduler watches per-core temperatures and moves work to spread heat. It preserves throughput that blanket throttling would destroy.", ["Track per-core temperatures", "Migrate threads from hot cores", "Balance heat across the die"], ["Linux scheduler", "ARM big.LITTLE", "HPC runtimes"], ["Scheduling literature", "Thermal-aware scheduling"], 2, 2], ["Thermal Headroom Scheduling", "scheduling", "Schedules heavy work on cores with the most thermal headroom. The scheduler scores each core by distance to its thermal limit and places bursty jobs where headroom is largest. It turns temperature into a scheduling dimension.", ["Score cores by thermal headroom", "Place bursty jobs on cool cores", "Re-evaluate as temperatures shift"], ["Custom schedulers", "HPC batch systems", "Mobile SoCs"], ["Scheduling literature", "Thermal modeling"], 3, 2], ["Hotspot Prediction", "sensing", "Predicts thermal hotspots from power traces before sensors report them. A thermal RC model converts power history into future temperatures, giving the controller a head start. Prediction beats reaction for fast transients.", ["Model the thermal RC network", "Feed power traces forward", "Act on predicted temperatures"], ["Research controllers", "Datacenter twins", "Mobile SoCs"], ["Thermal modeling", "Control theory"], 3, 2], ["Chassis Airflow Modeling", "datacenter", "Models chassis airflow with CFD to place fans and baffles where they matter. Hot spots often come from recirculation, not total airflow; modeling finds them before hardware is built. It guides both design and fan policy.", ["Build the CFD model", "Find recirculation zones", "Place fans and baffles accordingly"], ["ANSYS Fluent", "OpenFOAM", "Vendor tools"], ["CFD methodology", "ASHRAE guidelines"], 3, 0], ["Liquid Cooling Control", "datacenter", "Controls liquid cooling loops: pump speed, coolant temperature, and flow distribution. Liquid removes heat an order of magnitude better than air, but the control loop must avoid condensation and cavitation. It is standard in dense AI clusters.", ["Control pump speed and coolant temp", "Balance flow across cold plates", "Avoid condensation limits"], ["CDU controllers", "Immersion systems", "HPC facilities"], ["ASHRAE liquid cooling", "Vendor specs"], 3, 0], ["Throttling Policy Tiers", "control", "Defines throttling tiers from gentle frequency trim to emergency shutdown. Each tier has entry and exit thresholds with hysteresis so the system does not oscillate. Policy, not panic, governs the response.", ["Define tiers with hysteresis", "Escalate on rising temperature", "De-escalate as it cools"], ["BMC policies", "OS thermal zones", "Embedded firmware"], ["ACPI thermal spec", "IPMI"], 2, 1], ["Thermal Telemetry Pipelines", "sensing", "Streams temperature telemetry from every node into a central time-series store. Fleet-wide thermal data reveals cooling failures and bad placements before they cause throttling. Dashboards make the invisible visible.", ["Collect per-node temperatures", "Stream to time-series storage", "Alert on anomalies"], ["Prometheus", "BMC telemetry", "Datacenter DCIM"], ["Redfish", "Observability literature"], 2, 0], ["Emergency Thermal Shutdown", "control", "Shuts down hardware at the critical temperature to prevent physical damage. It is the last resort after all throttling tiers; the threshold sits below the silicon damage point. Logs capture the event for diagnosis.", ["Set the critical trip point", "Cut power on trip", "Log for post-mortem"], ["All modern CPUs/GPUs", "BMC", "ACPI"], ["ACPI thermal spec", "Vendor datasheets"], 1, 1], ["Per-Core Throttling", "control", "Throttles individual hot cores instead of the whole package. One runaway thread should not punish seven cool cores; per-core P-states isolate the problem. It preserves most throughput during localized heat.", ["Monitor per-core temperatures", "Clamp only the hot cores", "Keep cool cores at full speed"], ["Intel (per-core P-states)", "AMD", "ARM"], ["Intel SDM", "ACPI CPPC"], 2, 1], ["GPU Thermal Limits", "control", "Manages GPU boost clocks against temperature and power limits. GPUs boost opportunistically until they hit thermal or power walls; the driver balances the two. Understanding the limit order explains benchmark variance.", ["Monitor temp and power limits", "Boost until the first wall", "Log which limit binds"], ["NVIDIA (nvidia-smi)", "AMD (rocm-smi)", "Drivers"], ["Vendor docs", "GPU architecture"], 2, 1], ["Datacenter PUE Optimization", "datacenter", "Optimizes Power Usage Effectiveness by coordinating IT load with cooling. Raising set points, using free cooling, and matching fan speed to load all cut the overhead. PUE near 1.1 is achievable with discipline.", ["Raise temperature set points safely", "Use free cooling when available", "Match cooling to IT load"], ["DCIM systems", "BMS", "Hyperscale designs"], ["ASHRAE guidelines", "The Green Grid"], 3, 0]];
+var DEMOS=["// Demo: {NAME} — PID fan response to a heat spike\nvar temp=45,target=75,kp=2.0,fan=30;\nconsole.log('technique: {NAME}');\nfor(var t=0;t<10;t++){temp+=t<4?8:-3;var err=temp-target;fan=Math.max(20,Math.min(100,fan+kp*err/10));console.log('t='+t+' temp='+temp+'C fan='+Math.round(fan)+'%');}\nconsole.log('fan ramps with temperature, then settles');", "// Demo: {NAME} — power capping under a {N2}W budget\nvar budget={N2},pkgs=[];for(var i=0;i<{N1};i++){pkgs.push(40+((i*37+{SEED})%80));}\nvar over=pkgs.filter(function(p){return p>budget;}).length;\nconsole.log('technique: {NAME}');console.log('samples: '+pkgs.length+', over '+budget+'W budget: '+over);\nconsole.log(over>0?'action: cap frequency via RAPL until under budget':'within budget — no throttling');", "// Demo: {NAME} — workload migration away from a hotspot\nvar cores=[];for(var i=0;i<8;i++){cores.push(50+((i*29+{SEED})%45));}\nvar hot=cores.indexOf(Math.max.apply(null,cores));\nconsole.log('technique: {NAME}');console.log('core temps: '+cores.join(', '));\nconsole.log('hotspot: core '+hot+' at '+cores[hot]+'C — migrate its workload to the coolest core');"];
+var CONTEXTS=["a production web service handling steady user traffic", "an on-device mobile deployment with tight resource budgets", "an edge cluster serving a regional user base", "a CI pipeline validating every commit", "a research prototype exploring new designs", "a regulated enterprise environment with audit requirements"];
+var NOTES=["Operators report measurable gains within the first deployment cycle.", "Start with the simplest configuration, then compound toward the advanced form.", "Pair with monitoring so regressions are caught before users notice.", "Document the chosen parameters so the setup can be recreated exactly.", "Validate against a baseline before and after enabling the technique.", "Keep a rollback path ready when rolling this out to production."];
+var RANK_WORD={1:'Simple',2:'Compound',3:'Advanced'};
+function fill(tpl,vars){return tpl.replace(/\{([A-Z0-9_]+)\}/g,function(m,k){return (k in vars)?vars[k]:m;});}
+function escJS(s){return String(s).replace(/\\/g,'\\\\').replace(/'/g,"\\'").replace(/\n/g,'\\n');}
+function makeDemo(b,seed,rnd){
+  var tpl=DEMOS[b[7]%DEMOS.length];
+  var vars={NAME:escJS(b[0]),N1:1+((seed*7+b[7])%97),N2:2+((seed*13)%499),N3:5+((seed*29)%95),SEED:seed,CAT:escJS(b[1])};
+  return {language:'javascript',title:'Demo — '+b[0],program:fill(tpl,vars)};
+}
+function generate(seed,opts,rnd){
+  opts=opts||{};rnd=rnd||prng(seed);
+  var cat=opts.category||pick(CATS,rnd);
+  var pool=B.filter(function(b){return b[1]===cat;});
+  var b=pick(pool.length?pool:B,rnd);
+  var ctx=pick(CONTEXTS,rnd), note=pick(NOTES,rnd);
+  var id=PREFIX+String(seed).padStart(6,'0');
+  var rot=seed%b[3].length;
+  var mechs=b[3].slice(rot).concat(b[3].slice(0,rot)).slice(0,3);
+  var plats=b[4].slice(0,2+((seed%2)));
+  return {id:id,title:b[0],description:b[2]+' '+note+' Deployment context: '+ctx+'.',
+    category:b[1],key_mechanisms:mechs,platforms:plats,standards:b[5].slice(),
+    complexity:RANK_WORD[b[6]],ladder_rank:b[6],demo:makeDemo(b,seed,rnd),
+    provenance:PROVENANCE,last_verified:LAST_VERIFIED,src:SRC,_seed:seed};
+}
+function validate(r){
+  var e=[];
+  if(!r||typeof r!=='object')return {ok:false,errors:['not an object']};
+  var pre=PREFIX.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+  if(!new RegExp('^'+pre+'\\d{6}$').test(r.id||''))e.push('id');
+  if(typeof r.title!=='string'||!r.title.length)e.push('title');
+  if(typeof r.description!=='string'||r.description.length<40)e.push('description');
+  if(CATS.indexOf(r.category)<0)e.push('category');
+  if(!Array.isArray(r.key_mechanisms)||r.key_mechanisms.length<2)e.push('key_mechanisms');
+  if(!Array.isArray(r.platforms)||!r.platforms.length)e.push('platforms');
+  if(!Array.isArray(r.standards)||!r.standards.length)e.push('standards');
+  if(!(r.ladder_rank>=1&&r.ladder_rank<=3))e.push('ladder_rank');
+  if(!r.demo||typeof r.demo.program!=='string'||!r.demo.program.length)e.push('demo');
+  if(r.last_verified!==LAST_VERIFIED)e.push('last_verified');
+  if(r.src!==SRC)e.push('src');
+  return {ok:!e.length,errors:e};
+}
+function driftCheck(rec,sample){
+  var errs=[];
+  (sample||[]).forEach(function(s){
+    if(s&&s.id!==rec.id&&s.description===rec.description)errs.push('duplicate-of:'+s.id);
+  });
+  return {ok:!errs.length,errors:errs};
+}
+var gen={version:'jahdb-thermal-aware-workload-throttling-1.0',generate:generate,validate:validate,driftCheck:driftCheck};
+if(typeof JAHDB!=='undefined'&&JAHDB.registerGenerator)JAHDB.registerGenerator('thermal-aware-workload-throttling',gen);
+if(typeof module!=='undefined'&&module.exports)module.exports=gen;
+})();

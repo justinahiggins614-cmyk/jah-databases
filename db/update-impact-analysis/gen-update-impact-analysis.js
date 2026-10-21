@@ -1,0 +1,44 @@
+(function(){'use strict';
+function prng(seed){var a=(seed>>>0)||1;return function(){a|=0;a=(a+0x6D2B79F5)|0;var t=Math.imul(a^(a>>>15),1|a);t=(t+Math.imul(t^(t>>>7),61|t))^t;return((t^(t>>>14))>>>0)/4294967296;};}
+function pick(r,s){return r[(s()*r.length)|0];}
+var CATS=["schema", "api", "data", "dependency", "config", "behavior"];
+var PREFIX="JAH-UIA-";
+var FKEYS=["change", "affected", "blast_radius"];
+var RANK_TXT={"1": "the concept in its simplest, most direct form", "2": "the concept compounded with real-world conditions and trade-offs", "3": "the concept at full complexity, orchestrated with neighboring capabilities"};
+var DEMO_TMPL="# Database update impact analysis: {TITLE}\ngraph = {{\"{F1}\": \"{F2}\".split(\";\")}}\nblast, frontier = set(), [\"{F1}\"]\nwhile frontier:\n    n = frontier.pop()\n    for m in graph.get(n, []):\n        if m not in blast:\n            blast.add(m); frontier.append(m)\nprint(\"change:\", \"{F1}\")\nprint(\"blast radius:\", sorted(blast) or \"none\")\nprint(\"assessment:\", \"{F3}\")";
+var SIG_SUFFIX="";
+var PROV="Curated from public documentation of established engineering practice; verified against standard references.";
+var SRC="public-harvest";
+var B=[["schema", "Schema Field Rename Impact", "Renaming a field affects every query, index, and downstream consumer referencing the old name.", "The analysis lists them all before the rename ships, so none are surprised.", "rename field customer_name", "42 queries; 3 indexes; 7 consumers", "medium: contained to consumers"], ["api", "API Version Deprecation Impact", "Deprecating an API version affects all clients still calling it, counted from traffic logs.", "The analysis names the laggards so they can be migrated before the shutdown.", "deprecate API v1", "312 active clients", "large: 312 clients must migrate"], ["data", "Data Backfill Impact", "Backfilling a new field affects write load and may contend with live traffic.", "The analysis schedules the backfill in the quiet hours with throttling.", "backfill field signup_source", "write throughput +35% during backfill", "medium: throttled off-peak"], ["dependency", "Dependency Upgrade Impact", "Upgrading a library affects every service linking it, with behavior deltas per service.", "The analysis runs the dependent test suites before approving the upgrade.", "upgrade lib-x 2.x to 3.x", "14 services; 3 behavior deltas", "large: staged rollout required"], ["config", "Config Default Change Impact", "Changing a default affects every deployment that didn't override it - usually most of them.", "The analysis counts the silent majority relying on the old default.", "change default timeout 30s to 10s", "1,204 deployments on default", "large: most deployments affected"], ["behavior", "Behavior Change in Ranking Impact", "Tweaking the ranking algorithm affects every surface showing ranked results.", "The analysis A/B tests the change before full rollout.", "ranking weight adjustment", "search;feed;recommendations", "large: user-visible everywhere"], ["schema", "Index Addition Impact", "Adding an index affects write latency and storage while speeding reads.", "The analysis weighs the read win against the write cost with production-shaped load.", "add index on (user_id, created)", "write +2ms; storage +8%", "small: net positive"], ["api", "Breaking Change in SDK Impact", "A breaking SDK change affects every app built on it, version by version.", "The analysis maps app versions to required migrations.", "SDK v5 breaking changes", "89 apps on v4", "large: migration guide + codemods"], ["data", "Retention Policy Tightening Impact", "Shortening retention affects historical queries and compliance archives.", "The analysis gets legal sign-off before a single row is purged early.", "retention 7y to 3y", "historical analytics; legal holds", "medium: legal review required"], ["config", "Feature Flag Removal Impact", "Removing a flag affects the code paths it guarded and the teams that owned them.", "The analysis verifies the flag is at 100% rollout before removal.", "remove flag new_checkout", "checkout service; 2 teams", "small: flag at 100%"], ["dependency", "Database Engine Upgrade Impact", "Upgrading the database engine affects queries relying on old planner behavior.", "The analysis runs the query corpus against the new engine in shadow mode.", "engine 14 to 15", "3,412 queries in corpus", "medium: shadow-tested"], ["behavior", "Authentication Flow Change Impact", "Changing login flow affects every user and every integration using SSO.", "The analysis stages the change with opt-in before enforcement.", "new login flow", "all users; 23 SSO integrations", "large: staged opt-in"], ["config", "Cache TTL Reduction Impact", "Shortening TTLs affects origin load and user-perceived latency.", "The analysis models origin capacity before the change lands.", "TTL 1h to 5m", "origin QPS +12x projected", "large: origin must scale first"], ["schema", "New Required Field Impact", "Adding a required field affects every writer that doesn't supply it.", "The analysis backfills a default and phases the requirement in.", "require field country", "17 writers; 2M legacy rows", "medium: phased with backfill"], ["behavior", "Timezone Handling Change Impact", "Changing timezone handling affects every timestamp display and scheduled job.", "The analysis audits every timestamp consumer - the list is always longer than expected.", "UTC-everywhere migration", "displays; cron jobs; reports", "large: full timestamp audit"], ["api", "Rate Limit Tightening Impact", "Tightening rate limits affects the heaviest legitimate users first.", "The analysis identifies top consumers and warns them before enforcement.", "rate limit 1000 to 100/min", "top 50 API consumers", "medium: warn top consumers"], ["config", "Log Format Change Impact", "Changing log formats affects every parser, dashboard, and alert built on the old format.", "The analysis dual-writes both formats during transition.", "JSON log schema v2", "14 parsers; 6 dashboards", "medium: dual-write transition"], ["data", "Encryption Algorithm Migration Impact", "Migrating encryption affects stored data that must be re-encrypted.", "The analysis plans the re-encryption wave with rollback per wave.", "AES-128 to AES-256", "4TB stored data", "large: waved re-encryption"], ["behavior", "UI Layout Overhaul Impact", "Redesigning layout affects user muscle memory and support documentation.", "The analysis pairs the rollout with updated docs and in-app guidance.", "dashboard redesign", "all users; support docs", "large: docs + guidance paired"], ["api", "Deprecation Warning Campaign Impact", "Adding deprecation warnings affects log volume and may alarm users unnecessarily.", "The analysis tunes warning verbosity before the campaign.", "deprecation warnings for v1", "log volume +20%; user tickets", "small: tuned verbosity"]];
+function generate(seed,opts,rnd){
+  opts=opts||{};rnd=rnd||prng(seed);
+  var cat=opts.category||pick(CATS,rnd);
+  var pool=B.filter(function(b){return b[0]===cat;});
+  var b=pick(pool.length?pool:B,rnd);
+  var id=PREFIX+String(seed).padStart(6,'0');
+  var rank=1+(seed%3);
+  var desc=b[2]+' '+b[3]+' Teaching ladder: rank '+rank+' \u2014 '+RANK_TXT[rank]+'.'+SIG_SUFFIX;
+  var prog=DEMO_TMPL.split('{TITLE}').join(b[1]).split('{F1}').join(b[4]).split('{F2}').join(b[5]).split('{F3}').join(b[6]);
+  var r={id:id,title:b[1],description:desc,category:cat,ladder_rank:rank,
+    demo:{kind:'code',title:'Runnable code demo \u2014 '+b[1].slice(0,50),program:prog,language:'python'},
+    provenance:PROV,last_verified:'2026-10-21',src:SRC,_seed:seed};
+  r[FKEYS[0]]=b[4];r[FKEYS[1]]=b[5];r[FKEYS[2]]=b[6];
+  return r;
+}
+function validate(r){
+  var e=[];
+  if(!r||typeof r!=='object')return {ok:false,errors:['not an object']};
+  if(!new RegExp('^'+PREFIX.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+'\\d{6}$').test(r.id||''))e.push('id');
+  if(typeof r.title!=='string'||!r.title.length)e.push('title');
+  if(typeof r.description!=='string'||r.description.indexOf('Teaching ladder: rank')<0)e.push('description');
+  if(CATS.indexOf(r.category)<0)e.push('category');
+  if([1,2,3].indexOf(r.ladder_rank)<0)e.push('ladder_rank');
+  FKEYS.forEach(function(k){if(typeof r[k]!=='string'||!r[k].length)e.push(k);});
+  if(!r.demo||typeof r.demo.program!=='string'||!r.demo.program.length)e.push('demo');
+  if(['public-harvest','signature-generated-completion'].indexOf(r.src)<0)e.push('src');
+  return {ok:!e.length,errors:e};
+}
+var gen={version:"jahdb-update-impact-analysis-1.0",generate:generate,validate:validate};
+if(typeof JAHDB!=='undefined'&&JAHDB.registerGenerator)JAHDB.registerGenerator("update-impact-analysis",gen);
+if(typeof module!=='undefined'&&module.exports)module.exports=gen;
+})();

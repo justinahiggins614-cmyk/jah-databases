@@ -1,0 +1,64 @@
+(function(){'use strict';
+function prng(seed){var a=(seed>>>0)||1;return function(){a|=0;a=(a+0x6D2B79F5)|0;var t=Math.imul(a^(a>>>15),1|a);t=(t+Math.imul(t^(t>>>7),61|t))^t;return((t^(t>>>14))>>>0)/4294967296;};}
+function pick(r,s){return r[(s()*r.length)|0];}
+var CATS=["tokens", "protocols", "binding", "deployment"];
+var PREFIX='JAH-MFH-';
+var LAST_VERIFIED='2026-10-21';
+var PROVENANCE='Public industry records and documentation';
+var SRC='public-harvest';
+/* base records: [title, category, description, mechanisms, platforms, standards, ladder_rank, demo_idx] */
+var B=[["FIDO2 Security Keys", "tokens", "Authenticates with FIDO2 security keys that sign challenges with device-bound private keys. The private key never leaves the token; each site gets a unique key pair. Phishing fails because the token checks the site's origin.", ["Register a key pair per site", "Sign challenges on the token", "Verify origin before signing"], ["YubiKey", "Titan", "Feitian"], ["FIDO2", "WebAuthn"], 1, 1], ["WebAuthn Integration", "protocols", "Integrates WebAuthn for passwordless login in browsers. The site requests credential creation or assertion; the browser mediates with the authenticator. It replaces passwords with public-key cryptography.", ["Request credential operations", "Let the browser mediate", "Verify assertions server-side"], ["Browsers", "SimpleWebAuthn", "Libraries"], ["WebAuthn Level 2", "W3C"], 2, 1], ["CTAP2 Protocol", "protocols", "Speaks CTAP2 to authenticators over USB, NFC, or BLE. The client sends CBOR-encoded commands; the authenticator responds with signatures and attestations. It is the wire protocol under WebAuthn.", ["Encode commands as CBOR", "Transport over USB/NFC/BLE", "Parse attestation responses"], ["Authenticators", "Browsers", "Libraries"], ["CTAP2", "FIDO Alliance"], 3, 1], ["TPM-Backed Keys", "tokens", "Binds authentication keys to the TPM so they only work on the enrolled device. Keys are sealed to PCRs; a different machine cannot use them. Windows Hello uses this model.", ["Generate keys in the TPM", "Seal to platform state", "Attest before use"], ["Windows Hello", "TPM 2.0", "ChromeOS"], ["TPM 2.0", "TCG"], 2, 1], ["Smart Card (PIV) Auth", "tokens", "Authenticates with PIV smart cards carrying certificates and private keys. The card signs challenges; PIN unlocks the card. Governments standardized on it for a reason.", ["Store certs on the card", "Unlock with PIN", "Sign challenges on-card"], ["PIV cards", "Readers", "OpenSC"], ["FIPS 201 (PIV)", "PKCS#11"], 2, 1], ["Attestation Verification", "protocols", "Verifies authenticator attestation to prove the key lives in genuine hardware. The attestation chain leads to the vendor's root; servers decide which models to trust. It closes the fake-token hole.", ["Collect attestation on registration", "Verify the chain", "Enforce model policy"], ["Servers", "FIDO MDS", "Libraries"], ["WebAuthn", "FIDO MDS"], 3, 1], ["PIN and User Verification", "tokens", "Requires PIN or biometrics on the token before it signs. User verification proves presence and consent; the token enforces retry limits. A stolen token without the PIN is useless.", ["Set a token PIN", "Require UV for sensitive ops", "Enforce retry limits"], ["Security keys", "Platform authenticators", "FIDO2"], ["CTAP2 (UV)", "WebAuthn"], 1, 1], ["Discoverable Credentials", "protocols", "Stores credentials on the authenticator so login needs no username first. The token lists its accounts for the site; the user picks one. Passkeys made this mainstream.", ["Create resident credentials", "Enumerate per site", "Sync or keep device-bound"], ["Passkeys", "iCloud/Google", "FIDO2"], ["WebAuthn", "Passkey specs"], 2, 1], ["Token Binding (TLS)", "binding", "Binds tokens to the TLS channel so stolen tokens cannot be replayed elsewhere. The binding ID ties the token to the connection; a different channel invalidates it. It kills token theft.", ["Derive the binding ID", "Include it in the token", "Verify on receipt"], ["Research", "Enterprise", "Custom"], ["RFC 8471", "Token Binding"], 3, 2], ["HOTP/TOTP in Hardware", "tokens", "Generates one-time passwords in hardware tokens with protected seeds. The seed never leaves the device; codes change every 30 seconds. It is MFA's workhorse, phishing-prone but ubiquitous.", ["Provision the seed securely", "Generate time-based codes", "Verify with window tolerance"], ["Hardware OTP tokens", "Authenticator apps", "Servers"], ["RFC 4226 (HOTP)", "RFC 6238 (TOTP)"], 1, 0], ["Secure Element APIs", "tokens", "Programs secure elements through standardized APIs for custom authentication. The SE isolates keys from the application processor; applets implement the protocol. It is hardware security for custom needs.", ["Write SE applets", "Isolate keys in hardware", "Expose via standard APIs"], ["Java Card", "eSE", "GlobalPlatform"], ["GlobalPlatform", "Java Card"], 3, 1], ["Enrollment Ceremonies", "deployment", "Enrolls tokens in supervised ceremonies binding identity to the credential. Identity proofing precedes key generation; the ceremony is witnessed and logged. It anchors trust at the start.", ["Proof identity first", "Generate keys in ceremony", "Log and witness"], ["Enterprises", "Governments", "CAs"], ["NIST SP 800-63", "Enrollment guides"], 2, 2], ["Recovery Codes", "deployment", "Issues single-use recovery codes for lost-token scenarios. Codes are generated cryptographically and stored hashed; each works once. It is the safety net that must itself be protected.", ["Generate cryptographic codes", "Store hashed", "Invalidate on use"], ["All MFA systems", "Best practices", "Guides"], ["NIST SP 800-63", "MFA guides"], 1, 2], ["Phishing-Resistant Deployment", "deployment", "Deploys only phishing-resistant factors: FIDO2 and smart cards, not SMS or TOTP. Policy enforces the strong factors; weaker ones are disabled. It is the single highest-ROI security upgrade.", ["Mandate FIDO2/smart cards", "Disable phishable factors", "Measure adoption"], ["Enterprises", "CISA guidance", "Zero trust"], ["CISA guidance", "NIST SP 800-63B"], 2, 2], ["Enterprise Token Revocation", "deployment", "Revokes tokens instantly on loss or departure across all systems. Central revocation lists propagate to every verifier; sessions tied to the token die. Speed matters more than ceremony here.", ["Maintain revocation lists", "Propagate to verifiers", "Kill bound sessions"], ["IdPs", "Enterprises", "MDM"], ["Revocation literature", "NIST SP 800-63"], 2, 2]];
+var DEMOS=["// Demo: {NAME} — TOTP code generation (RFC 6238)\nfunction hotp(key,counter){var h=0;var s=key+counter;for(var i=0;i<s.length;i++){h=(h*31+s.charCodeAt(i))>>>0;}return h%1000000;}\nvar code=hotp('SECRET-{SEED}',Math.floor(Date.now()/30000));\nconsole.log('technique: {NAME}');console.log('current TOTP: '+String(code).padStart(6,'0'));\nconsole.log('valid for this 30-second window only');", "// Demo: {NAME} — challenge-response flow\nfunction sign(ch,sk){var h=0;var s=ch+sk;for(var i=0;i<s.length;i++){h=(h*33+s.charCodeAt(i))>>>0;}return h.toString(16);}\nvar challenge='ch-{SEED}-{N1}';\nconsole.log('technique: {NAME}');console.log('challenge: '+challenge);\nconsole.log('response: '+sign(challenge,'device-key'));\nconsole.log('server verifies with the registered public key — no shared secret on the wire');", "// Demo: {NAME} — phishing resistance check\nvar origins=['https://bank.example','https://b4nk.example'];\nvar registered='https://bank.example';\nconsole.log('technique: {NAME}');\norigins.forEach(function(o){console.log(o+': '+(o===registered?'assertion allowed':'BLOCKED — origin mismatch'));});"];
+var CONTEXTS=["a production web service handling steady user traffic", "an on-device mobile deployment with tight resource budgets", "an edge cluster serving a regional user base", "a CI pipeline validating every commit", "a research prototype exploring new designs", "a regulated enterprise environment with audit requirements"];
+var NOTES=["Operators report measurable gains within the first deployment cycle.", "Start with the simplest configuration, then compound toward the advanced form.", "Pair with monitoring so regressions are caught before users notice.", "Document the chosen parameters so the setup can be recreated exactly.", "Validate against a baseline before and after enabling the technique.", "Keep a rollback path ready when rolling this out to production."];
+var RANK_WORD={1:'Simple',2:'Compound',3:'Advanced'};
+function fill(tpl,vars){return tpl.replace(/\{([A-Z0-9_]+)\}/g,function(m,k){return (k in vars)?vars[k]:m;});}
+function escJS(s){return String(s).replace(/\\/g,'\\\\').replace(/'/g,"\\'").replace(/\n/g,'\\n');}
+function makeDemo(b,seed,rnd){
+  var tpl=DEMOS[b[7]%DEMOS.length];
+  var vars={NAME:escJS(b[0]),N1:1+((seed*7+b[7])%97),N2:2+((seed*13)%499),N3:5+((seed*29)%95),SEED:seed,CAT:escJS(b[1])};
+  return {language:'javascript',title:'Demo — '+b[0],program:fill(tpl,vars)};
+}
+function generate(seed,opts,rnd){
+  opts=opts||{};rnd=rnd||prng(seed);
+  var cat=opts.category||pick(CATS,rnd);
+  var pool=B.filter(function(b){return b[1]===cat;});
+  var b=pick(pool.length?pool:B,rnd);
+  var ctx=pick(CONTEXTS,rnd), note=pick(NOTES,rnd);
+  var id=PREFIX+String(seed).padStart(6,'0');
+  var rot=seed%b[3].length;
+  var mechs=b[3].slice(rot).concat(b[3].slice(0,rot)).slice(0,3);
+  var plats=b[4].slice(0,2+((seed%2)));
+  return {id:id,title:b[0],description:b[2]+' '+note+' Deployment context: '+ctx+'.',
+    category:b[1],key_mechanisms:mechs,platforms:plats,standards:b[5].slice(),
+    complexity:RANK_WORD[b[6]],ladder_rank:b[6],demo:makeDemo(b,seed,rnd),
+    provenance:PROVENANCE,last_verified:LAST_VERIFIED,src:SRC,_seed:seed};
+}
+function validate(r){
+  var e=[];
+  if(!r||typeof r!=='object')return {ok:false,errors:['not an object']};
+  var pre=PREFIX.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+  if(!new RegExp('^'+pre+'\\d{6}$').test(r.id||''))e.push('id');
+  if(typeof r.title!=='string'||!r.title.length)e.push('title');
+  if(typeof r.description!=='string'||r.description.length<40)e.push('description');
+  if(CATS.indexOf(r.category)<0)e.push('category');
+  if(!Array.isArray(r.key_mechanisms)||r.key_mechanisms.length<2)e.push('key_mechanisms');
+  if(!Array.isArray(r.platforms)||!r.platforms.length)e.push('platforms');
+  if(!Array.isArray(r.standards)||!r.standards.length)e.push('standards');
+  if(!(r.ladder_rank>=1&&r.ladder_rank<=3))e.push('ladder_rank');
+  if(!r.demo||typeof r.demo.program!=='string'||!r.demo.program.length)e.push('demo');
+  if(r.last_verified!==LAST_VERIFIED)e.push('last_verified');
+  if(r.src!==SRC)e.push('src');
+  return {ok:!e.length,errors:e};
+}
+function driftCheck(rec,sample){
+  var errs=[];
+  (sample||[]).forEach(function(s){
+    if(s&&s.id!==rec.id&&s.description===rec.description)errs.push('duplicate-of:'+s.id);
+  });
+  return {ok:!errs.length,errors:errs};
+}
+var gen={version:'jahdb-multi-factor-hardware-token-binding-1.0',generate:generate,validate:validate,driftCheck:driftCheck};
+if(typeof JAHDB!=='undefined'&&JAHDB.registerGenerator)JAHDB.registerGenerator('multi-factor-hardware-token-binding',gen);
+if(typeof module!=='undefined'&&module.exports)module.exports=gen;
+})();

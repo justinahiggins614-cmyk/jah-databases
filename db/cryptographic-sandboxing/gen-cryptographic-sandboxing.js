@@ -1,0 +1,49 @@
+(function(){'use strict';
+function prng(seed){var a=(seed>>>0)||1;return function(){a|=0;a=(a+0x6D2B79F5)|0;var t=Math.imul(a^(a>>>15),1|a);t=(t+Math.imul(t^(t>>>7),61|t))^t;return((t^(t>>>14))>>>0)/4294967296;};}
+function pick(r,s){return r[(s()*r.length)|0];}
+var CATS=["capabilities", "attested", "computation", "containment"];
+var PREFIX='JAH-CRYPTO3-';
+var KIND='cryptographic sandboxing technique';
+var SRC='public-harvest';
+var EDITION='public';
+var ABILITY='cryptographic-sandboxing';
+var ROWS=[{"n": "Capability-based sandboxing", "d": "Capabilities are unforgeable tokens of authority: a sandboxed process holds capabilities only for what it's allowed (this file, that socket), enforced by the kernel or language runtime. No ambient authority — the sandbox can't reach what it was never given. seL4, Capsicum, and object-capability languages build on this.", "m": "Issue fine-grained capabilities at spawn; the kernel/runtime checks each access; no capability = no access, by construction.", "s": {"systems": "seL4, Capsicum, E", "rule": "no ambient authority", "check": "per access"}, "u": "Grant least privilege at spawn; capabilities are the API — design around them.", "demo": "print('sandbox caps: [read /data/in.csv] (only)')\nprint('open(\"/etc/passwd\"): DENIED (no capability) — by construction')"}, {"n": "Attested sandbox launch", "d": "Before trusting a sandbox, attest it: measure its code and policy, verify the measurement, then provision secrets or sensitive work. The sandbox proves what it is before it's trusted with anything — attestation as the sandbox's birth certificate.", "m": "Measure sandbox image + policy; verify against allowlist; provision workload only on success; re-attest on update.", "s": {"measure": "image + policy", "verify": "allowlist", "then": "provision"}, "u": "Attest every sandbox before sensitive work; re-attest after any update.", "demo": "print('sandbox measurement m7f2 verified against allowlist')\nprint('workload provisioned: sensitive batch job starts')"}, {"n": "Encrypted sandbox memory", "d": "The sandbox's memory is encrypted with keys the host doesn't hold (SEV-SNP, TDX): even a compromised hypervisor sees ciphertext. Cryptographic isolation at the hardware layer — the sandbox's thoughts are private even from the machine it runs on.", "m": "Run sandboxes under memory-encrypting TEEs; attest the TEE; the host handles scheduling, never plaintext.", "s": {"tech": "SEV-SNP, TDX", "host_sees": "ciphertext", "attest": "the TEE"}, "u": "Use for sandboxes on untrusted infrastructure; verify attestation before scheduling.", "demo": "print('sandbox under SEV-SNP: memory encrypted')\nprint('compromised hypervisor dump: ciphertext only')"}, {"n": "Proof-carrying sandbox policies", "d": "Sandbox policies (seccomp filters, capability sets) ship with proofs that they enforce the intended isolation: the policy is verified against a model of the kernel interface before installation. A misconfigured filter is caught by proof, not by exploit.", "m": "Model the policy; prove it denies the forbidden actions; install only proved policies; re-prove on change.", "s": {"prove": "policy vs kernel model", "install": "proved policies only", "reprove": "on change"}, "u": "Verify sandbox policies like code; the proof is the configuration review.", "demo": "print('seccomp policy: 312 syscalls analyzed, 41 allowed')\nprint('proof: no allowed path to execve -> INSTALLED')"}, {"n": "Time-boxed cryptographic leases", "d": "Sandbox authority expires: capabilities and decryption keys carry leases, and when the lease lapses the sandbox loses access automatically — no revocation round-trip needed. Time-boxing bounds the damage of a compromised sandbox to the lease window.", "m": "Issue short-lived capabilities/keys; renew on health checks; expiry is automatic and total.", "s": {"lease": "short-lived authority", "renew": "on health", "expire": "automatic"}, "u": "Keep leases short; automate renewal; expiry must need no cooperation from the sandbox.", "demo": "import time\nlease_exp = time.time() + 300\nprint(f'capability lease expires in 300s')\nprint('compromised sandbox at 301s: authority GONE (no revocation needed)')"}, {"n": "Egress-filtered crypto sandboxes", "d": "The sandbox's network is a cryptographic boundary: all egress through an encrypting proxy that only allows attested destinations, with payloads logged (in ciphertext) for audit. Data can't leave except through the approved, observed channel.", "m": "Proxy all egress; allowlist destinations; log encrypted payloads; block everything else by default.", "s": {"egress": "via proxy only", "allow": "attested destinations", "default": "deny"}, "u": "Default-deny egress; the allowlist is the security policy — review it.", "demo": "print('egress attempt: api.vendor.com (allowlisted) -> PROXIED + logged')\nprint('egress attempt: evil.com -> DENIED (default)')"}, {"n": "Deterministic sandbox replay", "d": "Sandbox executions are recorded (inputs, nondeterministic events) and replayable deterministically — a sandbox that misbehaves can be rewound and dissected. The recording is also the audit trail: exactly what the untrusted code did, step by step.", "m": "Record inputs and nondeterminism; replay deterministically for analysis; the recording is the audit log.", "s": {"record": "inputs + events", "replay": "deterministic", "audit": "the recording"}, "u": "Record sandbox runs handling untrusted input; replay for incident analysis.", "demo": "print('sandbox run recorded: 14,204 syscalls')\nprint('incident: replay pinpoints the exploit attempt at syscall 9,001')"}, {"n": "Multi-party sandboxed computation", "d": "Parties contribute private inputs to a sandboxed joint computation: the sandbox runs under MPC or in a TEE, each party attests it, and the result is released only when all attestations verify. Nobody trusts anyone's machine — they trust the attested sandbox.", "m": "Deploy the computation in an attested sandbox/TEE; parties verify attestation; inputs contributed; result released on consensus.", "s": {"trust": "attestation, not machines", "release": "on consensus", "inputs": "private"}, "u": "Use for joint computations among distrustful parties; verify attestations independently.", "demo": "print('3 parties attest sandbox m7f2 -> all verify OK')\nprint('private inputs in; joint result out; no party saw others\\' inputs')"}, {"n": "Sandbox escape detection", "d": "Assume escape attempts: monitors watch for sandbox-boundary violations (unexpected syscalls, capability use anomalies, timing side channels) and kill the sandbox on detection. The sandbox is a containment that reports its own breaches — defense in depth around the boundary.", "m": "Monitor boundary crossings; anomaly-detect on syscall patterns; kill on violation; alert as security incident.", "s": {"watch": "boundary crossings", "detect": "anomalies", "respond": "kill + alert"}, "u": "Monitor every sandbox; treat escape attempts as incidents, not bugs.", "demo": "print('sandbox attempted ptrace() (not in policy)')\nprint('KILLED + security incident opened')"}, {"n": "Compartmentalized crypto services", "d": "Split crypto services into compartments (key handling, protocol logic, I/O) with capabilities between them — a bug in the protocol parser can't reach the keys. Compartmentalization (CHERI, enclave-per-service) limits blast radius by architecture, enforced cryptographically.", "m": "Compartment per function; capabilities for inter-compartment calls; a compromised compartment can't escalate.", "s": {"split": "by function", "enforce": "capabilities / CHERI", "blast": "contained"}, "u": "Compartmentalize by privilege level; the key compartment should be tiny.", "demo": "print('compartments: [parser] [protocol] [key-vault]')\nprint('parser exploited -> cannot reach key-vault (no capability)')"}];
+var IDRE=new RegExp('^'+PREFIX.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+'\\d{6}$');
+function generate(seed,opts,rnd){
+  opts=opts||{};rnd=rnd||prng(seed);
+  var cat=opts.category||pick(CATS,rnd);
+  var row=pick(ROWS,rnd);
+  var id=PREFIX+String(seed).padStart(6,'0');
+  return {id:id,title:row.n,description:row.d,method:row.m,specification:row.s,usage:row.u,
+    category:cat,ladder_rank:1+(seed%3),
+    demo:{language:'python',code:row.demo,run:'python3 demo.py'},
+    provenance:'JAH Databases lane A3 build',src:SRC,edition:EDITION,ability:ABILITY,
+    record_kind:KIND,last_verified:'2026-10-21',_seed:seed};
+}
+function validate(r){
+  var e=[];
+  if(!r||typeof r!=='object')return {ok:false,errors:['not an object']};
+  if(!IDRE.test(r.id||''))e.push('id');
+  if(typeof r.title!=='string'||!r.title.length)e.push('title');
+  if(typeof r.description!=='string'||r.description.length<50)e.push('description');
+  if(typeof r.method!=='string'||!r.method.length)e.push('method');
+  if(!r.specification||typeof r.specification!=='object')e.push('specification');
+  if(typeof r.usage!=='string'||!r.usage.length)e.push('usage');
+  if(CATS.indexOf(r.category)<0)e.push('category');
+  if(!(r.ladder_rank>=1&&r.ladder_rank<=3))e.push('ladder_rank');
+  if(!r.demo||typeof r.demo.code!=='string'||!r.demo.code.length)e.push('demo');
+  if(r.src!==SRC)e.push('src');
+  if(r.last_verified!=='2026-10-21')e.push('last_verified');
+  return {ok:!e.length,errors:e};
+}
+function driftCheck(rec,sample){
+  var e=[];
+  (sample||[]).forEach(function(s){
+    if(s&&s.title===rec.title&&s.id!==rec.id)e.push('duplicate-title');
+  });
+  return {ok:!e.length,errors:e};
+}
+var gen={version:'jahdb-cryptographic-sandboxing-1.0',generate:generate,validate:validate,driftCheck:driftCheck};
+if(typeof JAHDB!=='undefined'&&JAHDB.registerGenerator)JAHDB.registerGenerator('cryptographic-sandboxing',gen);
+if(typeof module!=='undefined'&&module.exports)module.exports=gen;
+})();

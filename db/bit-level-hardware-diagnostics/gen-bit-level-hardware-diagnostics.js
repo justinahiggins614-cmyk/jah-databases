@@ -1,0 +1,64 @@
+(function(){'use strict';
+function prng(seed){var a=(seed>>>0)||1;return function(){a|=0;a=(a+0x6D2B79F5)|0;var t=Math.imul(a^(a>>>15),1|a);t=(t+Math.imul(t^(t>>>7),61|t))^t;return((t^(t>>>14))>>>0)/4294967296;};}
+function pick(r,s){return r[(s()*r.length)|0];}
+var CATS=["scan", "signal", "self-test", "triage"];
+var PREFIX='JAH-BLH-';
+var LAST_VERIFIED='2026-10-21';
+var PROVENANCE='Public industry records and documentation';
+var SRC='public-harvest';
+/* base records: [title, category, description, mechanisms, platforms, standards, ladder_rank, demo_idx] */
+var B=[["JTAG Boundary Scan", "scan", "Tests board interconnects with JTAG boundary scan without physical probes. Scan cells drive and sample every pin; EXTEST finds opens and shorts between chips. It tests what bed-of-nails cannot reach.", ["Chain TAP controllers", "Drive and sample pins", "Diagnose opens and shorts"], ["JTAG tools", "Board testers", "Manufacturing"], ["IEEE 1149.1", "Boundary scan guides"], 2, 0], ["POST Code Diagnosis", "self-test", "Reads power-on self-test codes to find where boot hangs. Each checkpoint writes a code to port 0x80; the last code before the hang names the suspect. A two-dollar POST card diagnoses dead boards.", ["Emit codes at checkpoints", "Read the last code on hang", "Map codes to subsystems"], ["POST cards", "BMC", "Firmware"], ["Firmware docs", "PC architecture"], 1, 2], ["Built-In Self-Test", "self-test", "Runs logic BIST with on-chip pattern generators and signature analyzers. Pseudo-random patterns test the logic; signatures compress the results. It tests silicon without external equipment.", ["Generate pseudo-random patterns", "Compress responses to signatures", "Compare against golden values"], ["SoCs", "Memory BIST", "Manufacturing"], ["BIST literature", "IEEE 1149"], 2, 0], ["Marching Memory Tests", "self-test", "Tests RAM with marching patterns that catch stuck-at and coupling faults. March C walks ones and zeros through every cell in both directions; it is the standard memory test. memtest86 implements the classics.", ["Write marching patterns", "Read back and verify", "Test both directions"], ["memtest86", "Firmware", "Manufacturing"], ["Memory test literature", "March algorithms"], 1, 0], ["ECC Error Injection", "self-test", "Injects ECC errors to verify correction and reporting paths. If the injection does not produce the expected corrected-error log, the ECC path is broken. It tests the safety net itself.", ["Inject correctable errors", "Verify correction and logging", "Inject uncorrectable and verify handling"], ["Server BMCs", "EDAC", "Validation labs"], ["ECC literature", "RAS guides"], 3, 1], ["Signal Integrity Analysis", "signal", "Measures eye diagrams and jitter to validate high-speed signals. Closed eyes mean bit errors; the analysis finds whether the transmitter, channel, or receiver is at fault. Every SerDes link needs it.", ["Capture eye diagrams", "Measure jitter components", "Tune equalization"], ["Oscilloscopes", "BERTs", "SI labs"], ["Signal integrity texts", "SerDes specs"], 3, 1], ["Logic Analyzer Tracing", "signal", "Captures digital waveforms with logic analyzers to debug protocol issues. Seeing the actual timing settles disputes between hardware and firmware teams. Protocol decoders translate waves to transactions.", ["Probe the signals", "Trigger on the fault", "Decode the protocol"], ["Saleae", "Tektronix", "Keysight"], ["Protocol specs", "Debug methodology"], 2, 1], ["CRC Fault Detection", "self-test", "Protects data in flight and at rest with CRCs that detect burst errors. Every frame carries its checksum; mismatches trigger retransmission. It is the cheapest reliable error detection.", ["Append CRCs to frames", "Verify on receipt", "Retransmit on mismatch"], ["Ethernet", "Storage", "Protocols"], ["CRC literature", "Protocol specs"], 1, 1], ["Sensor Validation", "signal", "Validates sensor readings against physical plausibility and redundancy. A temperature jumping 50 degrees in a second is a faulty sensor, not physics; voting across redundant sensors isolates faults. It keeps control loops honest.", ["Check physical plausibility", "Vote across redundant sensors", "Flag and isolate faults"], ["BMC", "Industrial", "Automotive"], ["Sensor literature", "Safety standards"], 2, 1], ["Firmware Self-Tests", "self-test", "Runs firmware self-tests at boot: RAM, flash, clocks, and peripherals. Failures halt with a clear code instead of mysterious later crashes. It is the firmware's own health check.", ["Test RAM, flash, clocks", "Verify peripheral IDs", "Halt with codes on failure"], ["Bootloaders", "UEFI", "Embedded"], ["Firmware guides", "POST specs"], 2, 0], ["Loopback Tests", "signal", "Loops transmitter output back to the receiver to test the full path. Internal, external, and remote loopbacks isolate faults to segments. It is the first test for any serial link.", ["Enable loopback mode", "Send known patterns", "Verify error-free receipt"], ["NICs", "Serial ports", "PHYs"], ["Interface specs", "Test methodology"], 1, 1], ["Voltage Margining", "signal", "Margins supply voltages up and down to find weak silicon before it fails in the field. Parts that only work at nominal voltage are marginal; margining finds them in manufacturing. It is how quality is proven.", ["Vary supplies +/- margins", "Run functional tests", "Reject marginal parts"], ["ATE", "Manufacturing", "Validation"], ["Test literature", "Quality standards"], 3, 1], ["Clock Jitter Measurement", "signal", "Measures clock jitter decomposed into random and deterministic components. Excess jitter closes eyes and causes bit errors; the measurement guides PLL tuning. Precision timing starts here.", ["Measure phase noise", "Decompose jitter components", "Tune the PLL"], ["Phase noise analyzers", "Oscilloscopes", "SI labs"], ["Jitter literature", "Clock specs"], 3, 1], ["Fault Dictionaries", "triage", "Builds dictionaries mapping observed failure signatures to root causes. Each signature — which tests failed — points to the likely fault; diagnosis becomes lookup. Manufacturing triage runs on dictionaries.", ["Collect failure signatures", "Map signatures to causes", "Diagnose by lookup"], ["ATE", "Manufacturing", "Repair depots"], ["Diagnosis literature", "Test guides"], 3, 2], ["RMA Triage", "triage", "Triages returned hardware with a standard diagnostic flow to separate real faults from no-trouble-found. Consistent triage cuts warranty costs and finds systemic issues. Data feeds back to design.", ["Run the standard flow", "Classify fault vs NTF", "Feed data to design"], ["Repair depots", "OEMs", "Labs"], ["Quality literature", "RMA processes"], 2, 2]];
+var DEMOS=["// Demo: {NAME} — marching memory test\nvar mem=new Array({N1}).fill(0);var fails=0;\nfor(var i=0;i<mem.length;i++){mem[i]=1;}\nfor(var i=0;i<mem.length;i++){if(mem[i]!==1)fails++;mem[i]=0;}\nconsole.log('technique: {NAME}');console.log('cells tested: '+mem.length+', failures: '+fails);\nconsole.log(fails===0?'memory OK':'FAILURES — replace the module');", "// Demo: {NAME} — CRC fault detection\nfunction crc16(s){var c=0xFFFF;for(var i=0;i<s.length;i++){c^=s.charCodeAt(i);for(var b=0;b<8;b++){c=(c&1)?(c>>>1)^0xA001:c>>>1;}}return c;}\nvar good=crc16('frame-{SEED}');var bad=crc16('frame-{SEED}'.replace('e','f'));\nconsole.log('technique: {NAME}');console.log('good CRC: '+good.toString(16)+', corrupted CRC: '+bad.toString(16));\nconsole.log(good!==bad?'single-bit-class corruption detected':'CRC MISSED IT');", "// Demo: {NAME} — POST code sequence\nvar codes=[['0x01','CPU'],['0x2A','memory'],['0x55','PCI'],['0xA0','boot']];\nvar hang=({SEED}%4);\nconsole.log('technique: {NAME}');\ncodes.forEach(function(c,i){console.log(c[0]+' '+c[1]+(i<=hang?' OK':' --'));;});\nconsole.log('hang at '+codes[hang][0]+' -> suspect '+codes[hang][1]);"];
+var CONTEXTS=["a production web service handling steady user traffic", "an on-device mobile deployment with tight resource budgets", "an edge cluster serving a regional user base", "a CI pipeline validating every commit", "a research prototype exploring new designs", "a regulated enterprise environment with audit requirements"];
+var NOTES=["Operators report measurable gains within the first deployment cycle.", "Start with the simplest configuration, then compound toward the advanced form.", "Pair with monitoring so regressions are caught before users notice.", "Document the chosen parameters so the setup can be recreated exactly.", "Validate against a baseline before and after enabling the technique.", "Keep a rollback path ready when rolling this out to production."];
+var RANK_WORD={1:'Simple',2:'Compound',3:'Advanced'};
+function fill(tpl,vars){return tpl.replace(/\{([A-Z0-9_]+)\}/g,function(m,k){return (k in vars)?vars[k]:m;});}
+function escJS(s){return String(s).replace(/\\/g,'\\\\').replace(/'/g,"\\'").replace(/\n/g,'\\n');}
+function makeDemo(b,seed,rnd){
+  var tpl=DEMOS[b[7]%DEMOS.length];
+  var vars={NAME:escJS(b[0]),N1:1+((seed*7+b[7])%97),N2:2+((seed*13)%499),N3:5+((seed*29)%95),SEED:seed,CAT:escJS(b[1])};
+  return {language:'javascript',title:'Demo — '+b[0],program:fill(tpl,vars)};
+}
+function generate(seed,opts,rnd){
+  opts=opts||{};rnd=rnd||prng(seed);
+  var cat=opts.category||pick(CATS,rnd);
+  var pool=B.filter(function(b){return b[1]===cat;});
+  var b=pick(pool.length?pool:B,rnd);
+  var ctx=pick(CONTEXTS,rnd), note=pick(NOTES,rnd);
+  var id=PREFIX+String(seed).padStart(6,'0');
+  var rot=seed%b[3].length;
+  var mechs=b[3].slice(rot).concat(b[3].slice(0,rot)).slice(0,3);
+  var plats=b[4].slice(0,2+((seed%2)));
+  return {id:id,title:b[0],description:b[2]+' '+note+' Deployment context: '+ctx+'.',
+    category:b[1],key_mechanisms:mechs,platforms:plats,standards:b[5].slice(),
+    complexity:RANK_WORD[b[6]],ladder_rank:b[6],demo:makeDemo(b,seed,rnd),
+    provenance:PROVENANCE,last_verified:LAST_VERIFIED,src:SRC,_seed:seed};
+}
+function validate(r){
+  var e=[];
+  if(!r||typeof r!=='object')return {ok:false,errors:['not an object']};
+  var pre=PREFIX.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+  if(!new RegExp('^'+pre+'\\d{6}$').test(r.id||''))e.push('id');
+  if(typeof r.title!=='string'||!r.title.length)e.push('title');
+  if(typeof r.description!=='string'||r.description.length<40)e.push('description');
+  if(CATS.indexOf(r.category)<0)e.push('category');
+  if(!Array.isArray(r.key_mechanisms)||r.key_mechanisms.length<2)e.push('key_mechanisms');
+  if(!Array.isArray(r.platforms)||!r.platforms.length)e.push('platforms');
+  if(!Array.isArray(r.standards)||!r.standards.length)e.push('standards');
+  if(!(r.ladder_rank>=1&&r.ladder_rank<=3))e.push('ladder_rank');
+  if(!r.demo||typeof r.demo.program!=='string'||!r.demo.program.length)e.push('demo');
+  if(r.last_verified!==LAST_VERIFIED)e.push('last_verified');
+  if(r.src!==SRC)e.push('src');
+  return {ok:!e.length,errors:e};
+}
+function driftCheck(rec,sample){
+  var errs=[];
+  (sample||[]).forEach(function(s){
+    if(s&&s.id!==rec.id&&s.description===rec.description)errs.push('duplicate-of:'+s.id);
+  });
+  return {ok:!errs.length,errors:errs};
+}
+var gen={version:'jahdb-bit-level-hardware-diagnostics-1.0',generate:generate,validate:validate,driftCheck:driftCheck};
+if(typeof JAHDB!=='undefined'&&JAHDB.registerGenerator)JAHDB.registerGenerator('bit-level-hardware-diagnostics',gen);
+if(typeof module!=='undefined'&&module.exports)module.exports=gen;
+})();

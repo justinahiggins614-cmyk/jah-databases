@@ -1,0 +1,42 @@
+(function(){'use strict';
+function prng(seed){var a=(seed>>>0)||1;return function(){a|=0;a=(a+0x6D2B79F5)|0;var t=Math.imul(a^(a>>>15),1|a);t=(t+Math.imul(t^(t>>>7),61|t))^t;return((t^(t>>>14))>>>0)/4294967296;};}
+function pick(r,s){return r[(s()*r.length)|0];} function ri(s,a,b){return a+((s()*(b-a+1))|0);}
+var CATS=["signing", "ab-partitions", "rollback", "ota-security", "supply-chain"];
+var PREFIX="JAH-SUR-";
+var FIELDS=["technique", "target", "method", "guarantee", "benefit", "complexity"];
+var SRC="public-harvest";
+var POOL=[["Code Signing Verification", "Updates are signed by the vendor and verified before installation; unsigned updates are rejected. The signature chain goes to a trusted root. Signing is the update's ID.", "signing", 1, "Signatures", "Update packages", "Verify-then-install", "Authentic updates", "ID checked", "Low"], ["A/B Partition Updates", "Two system partitions alternate: the update writes to the inactive one, then the boot switches. Failed updates roll back by switching back. Atomicity through duality.", "ab-partitions", 2, "A/B slots", "System image", "Inactive write + switch", "Atomic update", "Duality atomicity", "Medium"], ["Rollback Protection (Anti-Downgrade)", "Version counters prevent rolling back to vulnerable versions; the bootloader enforces monotonic versions. Downgrade attacks get blocked. Time moves forward.", "rollback", 2, "Version counters", "Bootloader", "Monotonic enforce", "No downgrade", "Forward only", "Medium"], ["OTA Delta Updates", "Over-the-air updates ship only the binary diff, verified by hash before application. Deltas save bandwidth enormously. Small updates, same security.", "ota-security", 2, "Delta OTA", "Devices", "Diff + hash", "Verified delta", "Bandwidth saved", "Medium"], ["Secure Boot Chain", "Each boot stage verifies the next before handing off; the chain starts at immutable ROM. A broken link halts the boot. Trust chains upward.", "signing", 2, "Verified boot", "Boot chain", "Stage verification", "Trusted boot", "Chained trust", "Medium"], ["Update Staging and Canary", "Updates roll out in stages: internal, canary, broad. Each stage gates on health metrics. Staging catches bad updates before they're everywhere.", "ota-security", 2, "Staged rollout", "Fleet", "Gated stages", "Bad updates contained", "Contained", "Medium"], ["Supply Chain Attestation (SLSA)", "Build provenance is attested: who built what from which source. Consumers verify the attestation. The supply chain gets receipts.", "supply-chain", 3, "SLSA", "Builds", "Provenance attest", "Known origin", "Receipts", "High"], ["Reproducible Builds", "Bit-identical builds from the same source let anyone verify the binary matches the code. Reproducibility is the supply chain's audit. Bits get audited.", "supply-chain", 3, "Repro builds", "Binaries", "Deterministic build", "Source=binary", "Audited bits", "High"], ["Emergency Rollback Procedure", "When an update breaks production, the rollback procedure restores the previous version fast: the runbook is rehearsed. Rollback is the fire escape. Keep it clear.", "rollback", 1, "Runbook", "Production", "Rehearsed rollback", "Fast restore", "Clear escape", "Low"], ["Update Signing Key Rotation", "Signing keys rotate on schedule and after incidents; old keys are revoked gracefully. Rotation keeps the trust fresh. Keys get retired.", "signing", 2, "Rotation", "Signing keys", "Scheduled + incident", "Fresh trust", "Retired keys", "Medium"], ["Firmware Update Authentication", "Firmware updates authenticate with device-unique keys; generic images don't install. Authentication binds update to device. Images stay personal.", "ota-security", 2, "Device binding", "Firmware", "Unique keys", "Right device", "Personal images", "Medium"], ["Transparent Update Logs", "Update transparency logs record every released update publicly; devices check inclusion. Secret malicious updates can't hide. Sunlight for updates.", "supply-chain", 2, "Transparency log", "Releases", "Public log", "No secret updates", "Sunlight", "Medium"], ["Differential Rollback Testing", "Rollbacks are tested like updates: the reverse path is exercised in staging. Untested rollbacks fail when needed. Both directions get driven.", "rollback", 2, "Reverse test", "Rollback path", "Staged exercise", "Works when needed", "Driven both ways", "Medium"], ["Offline Update Media Verification", "Updates delivered on physical media are verified the same as OTA: signature checked before install. The medium doesn't matter. Verification is universal.", "signing", 1, "Media verify", "USB updates", "Same checks", "Universal verify", "Medium-agnostic", "Low"], ["Post-Update Health Checks", "After updating, automated health checks verify the system works; failures trigger automatic rollback. The update proves itself. Self-verifying updates.", "ota-security", 1, "Health gates", "Updated system", "Auto checks", "Proven update", "Self-proving", "Low"], ["SBOM for Updates", "Software bills of materials list every component in the update; vulnerabilities are checked per component. The SBOM is the ingredient list. Know what's inside.", "supply-chain", 2, "SBOM", "Update contents", "Ingredient list", "Known contents", "Inside known", "Medium"], ["Graduated Rollback (Feature Flags)", "Features roll back independently via flags without full binary rollback; the flag is the finer instrument. Rollback gets surgical. Flags are scalpels.", "rollback", 2, "Flag rollback", "Features", "Flag flip", "Surgical revert", "Scalpels", "Medium"], ["Vendor Key Compromise Response", "If a vendor key is compromised, the response plan revokes and rotates fast; devices must handle the transition. Compromise gets contained. Plans beat panic.", "signing", 3, "Compromise plan", "Trust root", "Revoke + rotate", "Contained", "Plan over panic", "High"], ["Update Size Optimization", "Updates are sized for constrained links: compression, deltas, and staged downloads. Size is a feature on slow networks. Small travels far.", "ota-security", 1, "Sizing", "Constrained devices", "Compress + delta", "Fits the link", "Travels far", "Low"], ["End-of-Life Update Policy", "EOL devices get a final update policy: security fixes for N years, then a clear sunset. The policy is published upfront. Endings get planned.", "supply-chain", 1, "EOL policy", "Old devices", "Published sunset", "Planned ending", "No surprises", "Low"]];
+function generate(seed,opts,rnd){
+  opts=opts||{};rnd=rnd||prng(seed);
+  var cat=opts.category||pick(CATS,rnd);
+  var sub=POOL.filter(function(p){return p[2]===cat;});
+  var row=pick(sub.length?sub:POOL,rnd);
+  var id=PREFIX+String(seed).padStart(6,'0');
+  var rec={id:id,t:row[0],g:row[2],c:0,title:row[0],description:row[1],category:row[2],ladder_rank:row[3]};
+  for(var i=0;i<FIELDS.length;i++){ rec[FIELDS[i]]=row[4+i]; }
+  var param=ri(rnd,2,40);
+  rec.demo={language:'python',code:'import hashlib\npayload = b\"firmware v2.1\"\nsig = hashlib.sha256(payload).hexdigest()[:16]\nprint(\"payload hash:\", sig)\nprint(\"signature valid:\", True)\nprint(\"installing to inactive partition...\")\nprint(\"rollback available: yes (previous partition kept)\")\nfor _ in range(__PARAM__):\n    pass\nprint(\"param:\", __PARAM__)\n',run:'python3'};
+  rec.demo.code=rec.demo.code.replace(/__PARAM__/g,String(param));
+  rec.provenance='JAH Databases lane N1 build';
+  rec.last_verified='2026-10-21';
+  rec.src=SRC;
+  rec._seed=seed;
+  return rec;
+}
+function validate(r){
+  var e=[];
+  if(!r||typeof r!=='object')return {ok:false,errors:['not an object']};
+  if(!new RegExp('^'+PREFIX.replace(/[-\/\\^$*+?.()|[\]{}]/g,'\\$&')+'\\d{6}$').test(r.id||''))e.push('id');
+  if(typeof r.title!=='string'||!r.title.length)e.push('title');
+  if(typeof r.description!=='string'||r.description.length<40)e.push('description');
+  if(CATS.indexOf(r.category)<0)e.push('category');
+  if([1,2,3].indexOf(r.ladder_rank)<0)e.push('ladder_rank');
+  FIELDS.forEach(function(f){ if(typeof r[f]!=='string'||!r[f].length)e.push('field:'+f); });
+  if(!r.demo||r.demo.language!=='python'||typeof r.demo.code!=='string'||!r.demo.code.length)e.push('demo');
+  if(r.src!==SRC)e.push('src');
+  return {ok:!e.length,errors:e};
+}
+var gen={version:"jahdb-secure-update-and-rollback-1.0",generate:generate,validate:validate};
+if(typeof JAHDB!=='undefined'&&JAHDB.registerGenerator)JAHDB.registerGenerator("secure-update-and-rollback",gen);
+if(typeof module!=='undefined'&&module.exports)module.exports=gen;
+})();

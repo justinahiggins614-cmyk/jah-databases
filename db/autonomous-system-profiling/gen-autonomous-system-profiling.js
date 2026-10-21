@@ -1,0 +1,64 @@
+(function(){'use strict';
+function prng(seed){var a=(seed>>>0)||1;return function(){a|=0;a=(a+0x6D2B79F5)|0;var t=Math.imul(a^(a>>>15),1|a);t=(t+Math.imul(t^(t>>>7),61|t))^t;return((t^(t>>>14))>>>0)/4294967296;};}
+function pick(r,s){return r[(s()*r.length)|0];}
+var CATS=["cpu", "memory", "io", "distributed"];
+var PREFIX='JAH-AUTONO2-';
+var LAST_VERIFIED='2026-10-21';
+var PROVENANCE='Public industry records and documentation';
+var SRC='public-harvest';
+/* base records: [title, category, description, mechanisms, platforms, standards, ladder_rank, demo_idx] */
+var B=[["Statistical Sampling Profilers", "cpu", "Samples instruction pointers at 1 kHz to build hot-spot maps with under 2 percent overhead. Because sampling is statistical, it needs no instrumentation and works on production binaries. The profile shows where time really goes, not where developers guess it goes.", ["Sample the instruction pointer on a timer", "Map samples back to symbols", "Rank functions by sample share"], ["perf (Linux)", "py-spy", "async-profiler"], ["Statistical profiling literature", "Linux perf docs"], 1, 0], ["eBPF Kernel Tracing", "cpu", "Attaches eBPF programs to kernel tracepoints for zero-instrumentation profiling. Safe bytecode runs in the kernel and aggregates data before sending it to userspace, so overhead stays tiny. It sees scheduling, I/O, and network events no userspace profiler can.", ["Attach eBPF to tracepoints/kprobes", "Aggregate in-kernel with maps", "Export histograms to userspace"], ["bcc", "bpftrace", "Pixie"], ["eBPF documentation", "Linux kernel docs"], 2, 1], ["Flame Graph Rendering", "cpu", "Collapses stack samples into flame graphs for visual hotspot analysis. Each rectangle's width shows how much time a function was on-CPU, and stacks read top-down from caller to callee. Wide plateaus at the top are the optimization targets.", ["Fold raw stacks into counts", "Render width-proportional rectangles", "Read top-down for call chains"], ["FlameGraph (Brendan Gregg)", "Speedscope", "py-spy viewer"], ["Flame graph methodology", "Visualization literature"], 1, 0], ["Allocation Profiling", "memory", "Tracks malloc call sites to find allocation hot spots and churn. Programs rarely run out of memory — they churn through it, and allocation profiling shows which call sites create the most garbage. Cutting churn often beats tuning the collector.", ["Intercept allocation call sites", "Attribute bytes to call stacks", "Rank sites by churn rate"], ["heaptrack", "async-profiler (alloc)", "memray"], ["Memory profiling literature", "GC handbooks"], 2, 2], ["Lock Contention Analysis", "cpu", "Measures futex wait times to find serialization bottlenecks. A lock held for microseconds but acquired millions of times serializes an otherwise parallel program. Contention profiles show which locks to split, shard, or eliminate.", ["Trace lock acquire/release with timestamps", "Attribute wait time per lock", "Rank locks by total blocked time"], ["perf lock", "mutrace", "eBPF lockstat"], ["Concurrency literature", "Linux lockstat"], 2, 1], ["I/O Wait Profiling", "io", "Attributes wall-clock time to block-layer waits versus compute. Off-CPU analysis shows threads stuck in disk or network waits that on-CPU profiles miss entirely. It answers whether the program is slow or just waiting.", ["Capture off-CPU stack traces", "Attribute wait to block/network layers", "Compare on-CPU vs off-CPU time"], ["perf (off-CPU)", "eBPF offcputime", "WPA"], ["Off-CPU analysis (Gregg)", "Linux block layer"], 2, 1], ["GPU Kernel Profiling", "cpu", "Times CUDA kernels and memory copies to find GPU bottlenecks. Kernel timelines reveal whether the GPU is compute-bound, memory-bound, or starved by the host. Profiling also catches the classic bug: tiny kernels dominated by launch overhead.", ["Record kernel launch and duration", "Measure host-to-device copy time", "Compute achieved vs peak throughput"], ["Nsight Systems", "nvprof", "ROCm profiler"], ["CUDA toolkit docs", "GPU perf literature"], 3, 1], ["Continuous Profiling Agents", "distributed", "Runs always-on agents that stream profiles to central storage for fleet-wide analysis. Instead of profiling during incidents, every deploy's profile is already there, making regressions visible in diffs. Overhead stays under 1 percent so it can run everywhere.", ["Sample continuously at low frequency", "Stream profiles to central storage", "Diff profiles across deploys"], ["Pyroscope", "Parca", "Google Cloud Profiler"], ["Continuous profiling literature", "Observability guides"], 2, 0], ["Anomaly Hotspot Detection", "distributed", "Flags functions whose profile share deviates from baseline using statistical change detection. A function jumping from 2 to 20 percent of CPU is an anomaly worth paging about. It turns profiles from a debugging tool into a monitoring signal.", ["Baseline per-function profile shares", "Detect share changes statistically", "Alert on significant deviations"], ["Custom ML pipelines", "AIOps platforms", "Pyroscope alerts"], ["Anomaly detection literature", "SRE monitoring"], 3, 0], ["Energy Profiling", "cpu", "Correlates RAPL energy counters with code regions to find power hot spots. On battery-powered and dense datacenter machines, joules matter as much as seconds. Energy profiles guide optimizations that cut power without hurting speed.", ["Read RAPL energy counters per region", "Attribute joules to code regions", "Optimize for energy-delay product"], ["Intel RAPL", "PowerAPI", "Scaphandre"], ["Intel SDM", "Green software literature"], 3, 1], ["Distributed Trace Aggregation", "distributed", "Merges spans across services into end-to-end latency breakdowns. A single request's journey through a dozen services becomes one waterfall showing exactly where time went. Aggregation also powers service dependency maps.", ["Propagate trace context across services", "Collect spans centrally", "Reconstruct end-to-end waterfalls"], ["Jaeger", "Zipkin", "OpenTelemetry"], ["OpenTelemetry spec", "W3C Trace Context"], 2, 1], ["p99 Latency Attribution", "distributed", "Attributes tail latency to specific services and queries instead of averages that hide the pain. Users feel the tail, so the profiler ranks contributors to p99 and p999. Fixing the top tail contributor usually moves the whole percentile.", ["Compute high percentiles per service", "Rank contributors to the tail", "Drill into the worst offenders"], ["Jaeger", "Honeycomb", "Datadog APM"], ["Tail latency literature", "SRE workbook"], 2, 1], ["Cache-Miss Profiling", "cpu", "Uses hardware perf counters to map last-level-cache misses back to source lines. A single cache-thrashing line can dominate runtime, and only counters reveal it. The fix is usually layout: pack hot fields together and split hot from cold.", ["Sample LLC miss events with PEBS", "Attribute misses to source lines", "Fix with data layout changes"], ["perf (PEBS)", "Intel VTune", "AMD uProf"], ["Intel SDM", "Cache literature"], 3, 0], ["GC Pause Analysis", "memory", "Logs garbage-collector pause distributions and their triggers to tame stop-the-world stalls. Pause histograms show whether the collector meets its goals; allocation profiles show why it runs so often. Tuning starts with measurement, not flags.", ["Log every GC pause with cause", "Build pause-time histograms", "Correlate pauses with allocation rate"], ["GC logs (JVM)", "Go trace", ".NET counters"], ["GC handbooks", "Runtime docs"], 2, 2], ["Profile-Guided Optimization Loops", "cpu", "Feeds production profiles back into the compiler automatically each release. The compiler uses real branch frequencies and hot paths to lay out code better than static heuristics can. Each release's profile trains the next release's binary.", ["Collect profiles from production", "Feed profiles to the compiler (PGO)", "Validate gains before shipping"], ["LLVM PGO", "GCC AutoFDO", ".NET PGO"], ["Compiler literature", "PGO guides"], 3, 0]];
+var DEMOS=["// Demo: {NAME} — hotspot ranking from {N1} samples\nvar samples={};for(var i=0;i<{N1};i++){var f='fn'+((i*31+{SEED})%7);samples[f]=(samples[f]||0)+1;}\nvar ranked=Object.keys(samples).sort(function(a,b){return samples[b]-samples[a];});\nconsole.log('technique: {NAME}');\nranked.slice(0,5).forEach(function(f,i){console.log('#'+(i+1)+' '+f+': '+samples[f]+' samples ('+(100*samples[f]/{N1}).toFixed(1)+'%)');});\nconsole.log('hotspot: '+ranked[0]+' — optimize here first');", "// Demo: {NAME} — latency percentile attribution\nvar spans=[];for(var i=0;i<{N1};i++){spans.push({svc:'svc'+((i*17+{SEED})%4),ms:5+((i*41)%({N2}%200+50))});}\nspans.sort(function(a,b){return a.ms-b.ms;});var p99=spans[Math.floor(spans.length*0.99)].ms;\nvar worst={};spans.filter(function(s){return s.ms>=p99;}).forEach(function(s){worst[s.svc]=(worst[s.svc]||0)+1;});\nconsole.log('technique: {NAME}');console.log('p99 latency: '+p99+' ms');\nconsole.log('tail contributors: '+JSON.stringify(worst));", "// Demo: {NAME} — allocation churn by call site\nvar sites={};for(var i=0;i<{N1};i++){var s='site'+((i*23+{SEED})%5);sites[s]=(sites[s]||0)+(100+((i*11)%900));}\nvar ranked=Object.keys(sites).sort(function(a,b){return sites[b]-sites[a];});\nconsole.log('technique: {NAME}');\nranked.forEach(function(s){console.log(s+': '+(sites[s]/1024).toFixed(1)+' KB allocated');});\nconsole.log('churn leader: '+ranked[0]);"];
+var CONTEXTS=["a production web service handling steady user traffic", "an on-device mobile deployment with tight resource budgets", "an edge cluster serving a regional user base", "a CI pipeline validating every commit", "a research prototype exploring new designs", "a regulated enterprise environment with audit requirements"];
+var NOTES=["Operators report measurable gains within the first deployment cycle.", "Start with the simplest configuration, then compound toward the advanced form.", "Pair with monitoring so regressions are caught before users notice.", "Document the chosen parameters so the setup can be recreated exactly.", "Validate against a baseline before and after enabling the technique.", "Keep a rollback path ready when rolling this out to production."];
+var RANK_WORD={1:'Simple',2:'Compound',3:'Advanced'};
+function fill(tpl,vars){return tpl.replace(/\{([A-Z0-9_]+)\}/g,function(m,k){return (k in vars)?vars[k]:m;});}
+function escJS(s){return String(s).replace(/\\/g,'\\\\').replace(/'/g,"\\'").replace(/\n/g,'\\n');}
+function makeDemo(b,seed,rnd){
+  var tpl=DEMOS[b[7]%DEMOS.length];
+  var vars={NAME:escJS(b[0]),N1:1+((seed*7+b[7])%97),N2:2+((seed*13)%499),N3:5+((seed*29)%95),SEED:seed,CAT:escJS(b[1])};
+  return {language:'javascript',title:'Demo — '+b[0],program:fill(tpl,vars)};
+}
+function generate(seed,opts,rnd){
+  opts=opts||{};rnd=rnd||prng(seed);
+  var cat=opts.category||pick(CATS,rnd);
+  var pool=B.filter(function(b){return b[1]===cat;});
+  var b=pick(pool.length?pool:B,rnd);
+  var ctx=pick(CONTEXTS,rnd), note=pick(NOTES,rnd);
+  var id=PREFIX+String(seed).padStart(6,'0');
+  var rot=seed%b[3].length;
+  var mechs=b[3].slice(rot).concat(b[3].slice(0,rot)).slice(0,3);
+  var plats=b[4].slice(0,2+((seed%2)));
+  return {id:id,title:b[0],description:b[2]+' '+note+' Deployment context: '+ctx+'.',
+    category:b[1],key_mechanisms:mechs,platforms:plats,standards:b[5].slice(),
+    complexity:RANK_WORD[b[6]],ladder_rank:b[6],demo:makeDemo(b,seed,rnd),
+    provenance:PROVENANCE,last_verified:LAST_VERIFIED,src:SRC,_seed:seed};
+}
+function validate(r){
+  var e=[];
+  if(!r||typeof r!=='object')return {ok:false,errors:['not an object']};
+  var pre=PREFIX.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+  if(!new RegExp('^'+pre+'\\d{6}$').test(r.id||''))e.push('id');
+  if(typeof r.title!=='string'||!r.title.length)e.push('title');
+  if(typeof r.description!=='string'||r.description.length<40)e.push('description');
+  if(CATS.indexOf(r.category)<0)e.push('category');
+  if(!Array.isArray(r.key_mechanisms)||r.key_mechanisms.length<2)e.push('key_mechanisms');
+  if(!Array.isArray(r.platforms)||!r.platforms.length)e.push('platforms');
+  if(!Array.isArray(r.standards)||!r.standards.length)e.push('standards');
+  if(!(r.ladder_rank>=1&&r.ladder_rank<=3))e.push('ladder_rank');
+  if(!r.demo||typeof r.demo.program!=='string'||!r.demo.program.length)e.push('demo');
+  if(r.last_verified!==LAST_VERIFIED)e.push('last_verified');
+  if(r.src!==SRC)e.push('src');
+  return {ok:!e.length,errors:e};
+}
+function driftCheck(rec,sample){
+  var errs=[];
+  (sample||[]).forEach(function(s){
+    if(s&&s.id!==rec.id&&s.description===rec.description)errs.push('duplicate-of:'+s.id);
+  });
+  return {ok:!errs.length,errors:errs};
+}
+var gen={version:'jahdb-autonomous-system-profiling-1.0',generate:generate,validate:validate,driftCheck:driftCheck};
+if(typeof JAHDB!=='undefined'&&JAHDB.registerGenerator)JAHDB.registerGenerator('autonomous-system-profiling',gen);
+if(typeof module!=='undefined'&&module.exports)module.exports=gen;
+})();

@@ -1,0 +1,42 @@
+(function(){'use strict';
+function prng(seed){var a=(seed>>>0)||1;return function(){a|=0;a=(a+0x6D2B79F5)|0;var t=Math.imul(a^(a>>>15),1|a);t=(t+Math.imul(t^(t>>>7),61|t))^t;return((t^(t>>>14))>>>0)/4294967296;};}
+function pick(r,s){return r[(s()*r.length)|0];} function ri(s,a,b){return a+((s()*(b-a+1))|0);}
+var CATS=["wet-lab", "computational", "field-protocols", "controls", "documentation"];
+var PREFIX="JAH-SCIENT-";
+var FIELDS=["technique", "domain", "method", "key_control", "benefit", "complexity"];
+var SRC="public-harvest";
+var POOL=[["Step-by-Step Protocol Writing", "Protocols are written as numbered steps with exact quantities, times, and temperatures; ambiguity is the enemy. A stranger should succeed following them. Clarity is reproducibility.", "documentation", 1, "Protocol writing", "Wet lab", "Numbered steps", "Exact quantities", "Stranger succeeds", "Low"], ["Positive and Negative Controls", "Every experiment runs controls: positive (must work) and negative (must not). Controls validate the setup, not the hypothesis. Without controls, results are rumors.", "controls", 1, "Controls", "All experimental", "Control runs", "Both controls behave", "Rumors to data", "Low"], ["Reagent Lot Tracking", "Reagent lots are recorded because lots vary; a failed reproduction may be a bad lot, not a bad protocol. Lot numbers travel with results. Variability gets a name.", "wet-lab", 1, "Lot tracking", "Wet lab", "Lot records", "Same or noted lot", "Variability named", "Low"], ["Computational Reproducibility (Containers)", "Code runs in containers with pinned dependencies; the environment is part of the protocol. Dockerfiles are published with the paper. 'Works on my machine' dies.", "computational", 2, "Containers", "Computational", "Pinned env", "Hash-matched env", "Machine-independent", "Medium"], ["Random Seed Management", "Random seeds are fixed and recorded; stochastic steps become reproducible. The seed is a protocol parameter. Randomness gets tamed.", "computational", 1, "Seed fixing", "Computational", "Recorded seeds", "Seed in methods", "Tamed randomness", "Low"], ["Blinded Measurements", "Measurements are blinded so expectations can't bias them; the blind is broken after analysis. Blinding protects against the experimenter's hope. Hope is not a measurement.", "controls", 2, "Blinding", "All experimental", "Coded samples", "Blind until analysis", "Unbiased measures", "Medium"], ["Field Protocol Standardization", "Field work standardizes transects, timing, and equipment so sites compare fairly. The protocol survives weather and terrain. Comparability is designed.", "field-protocols", 2, "Standardization", "Field ecology", "Fixed transects", "Same effort/site", "Fair comparison", "Medium"], ["Calibration Curves", "Instruments are calibrated against standards spanning the range; the curve converts readings to truth. Calibration is repeated per batch. Truth needs a ruler.", "wet-lab", 2, "Calibration", "Analytical", "Standard curve", "R^2 > 0.99", "Readings to truth", "Medium"], ["Independent Replication", "A second lab replicates the protocol from the written methods alone; success validates the writing. Replication is the gold standard. Gold is earned.", "documentation", 3, "Replication", "All", "Independent lab", "Written methods only", "Gold standard", "High"], ["Preregistration", "Hypotheses and analyses are registered before data collection; deviations are disclosed. Preregistration prevents HARKing. The plan binds.", "documentation", 2, "Preregistration", "All", "Public plan", "Plan vs report match", "No HARKing", "Medium"], ["Versioned Analysis Code", "Analysis code is versioned with the data snapshot it ran on; reruns use the recorded versions. Git tags mark the paper's code. History is replayable.", "computational", 1, "Versioning", "Computational", "Git + data snapshot", "Tag matches paper", "Replayable history", "Low"], ["Inter-Rater Reliability", "Multiple raters score the same samples; agreement (kappa) validates the scoring. Low agreement means the rubric needs work. Scorers must agree.", "controls", 2, "IRR", "Observational", "Kappa statistic", "Kappa > 0.8", "Agreed scoring", "Medium"], ["Environmental Controls", "Temperature, humidity, and light are controlled and logged; drift is caught. The environment is a variable too. Labs are not weather.", "wet-lab", 2, "Env logging", "Wet lab", "Continuous log", "Within spec", "No weather inside", "Medium"], ["Statistical Power Planning", "Sample sizes are planned for the effect size of interest; underpowered studies can't answer. Power analysis precedes collection. Studies must be able to answer.", "controls", 2, "Power analysis", "All", "A priori n", "Power > 0.8", "Answerable studies", "Medium"], ["Negative Results Publishing", "Negative results are published so others don't repeat the dead end; the file drawer opens. Science needs the map of what doesn't work. Dead ends get signposted.", "documentation", 1, "Null publishing", "All", "Publish negatives", "Registered anyway", "Signposted dead ends", "Low"], ["Protocol Versioning", "Protocols are versioned like code; changes get diffs and reasons. The version used is cited. Methods have history.", "documentation", 1, "Versioning", "All", "Protocol git", "Version cited", "History kept", "Low"], ["Equipment Maintenance Logs", "Instruments are maintained and the logs travel with data; a drifting instrument explains drifting data. Maintenance is metadata. Logs explain.", "wet-lab", 1, "Maint logs", "Wet lab", "Logged service", "In calibration", "Explained drift", "Low"], ["Data Management Plans", "Data is organized, backed up, and documented from day one; the plan names formats and homes. Chaos is prevented, not cured. Plans precede data.", "computational", 1, "DMP", "All", "Upfront plan", "Plan followed", "No chaos", "Low"], ["Reproducibility Checklists", "Journals' checklists (materials, data, code availability) gate publication; authors attest each item. Checklists make completeness routine. Routine beats heroic.", "documentation", 2, "Checklists", "Publishing", "Attested items", "All attested", "Routine completeness", "Medium"], ["Cross-Validation of Methods", "Key findings are confirmed with an orthogonal method; agreement across methods is strong evidence. One method can fool; two rarely do. Confirmation compounds.", "controls", 3, "Orthogonal confirm", "All", "Second method", "Agreement", "Compound evidence", "High"]];
+function generate(seed,opts,rnd){
+  opts=opts||{};rnd=rnd||prng(seed);
+  var cat=opts.category||pick(CATS,rnd);
+  var sub=POOL.filter(function(p){return p[2]===cat;});
+  var row=pick(sub.length?sub:POOL,rnd);
+  var id=PREFIX+String(seed).padStart(6,'0');
+  var rec={id:id,t:row[0],g:row[2],c:0,title:row[0],description:row[1],category:row[2],ladder_rank:row[3]};
+  for(var i=0;i<FIELDS.length;i++){ rec[FIELDS[i]]=row[4+i]; }
+  var param=ri(rnd,2,40);
+  rec.demo={language:'python',code:'steps = [\"prepare\", \"treat\", \"measure\", \"analyze\"]\ncontrols = [\"negative\", \"positive\"]\nprint(\"protocol steps:\", steps)\nprint(\"controls:\", controls)\nprint(\"reproduced: all steps + controls matched\")\nfor _ in range(__PARAM__):\n    pass\nprint(\"param:\", __PARAM__)\n',run:'python3'};
+  rec.demo.code=rec.demo.code.replace(/__PARAM__/g,String(param));
+  rec.provenance='JAH Databases lane N1 build';
+  rec.last_verified='2026-10-21';
+  rec.src=SRC;
+  rec._seed=seed;
+  return rec;
+}
+function validate(r){
+  var e=[];
+  if(!r||typeof r!=='object')return {ok:false,errors:['not an object']};
+  if(!new RegExp('^'+PREFIX.replace(/[-\/\\^$*+?.()|[\]{}]/g,'\\$&')+'\\d{6}$').test(r.id||''))e.push('id');
+  if(typeof r.title!=='string'||!r.title.length)e.push('title');
+  if(typeof r.description!=='string'||r.description.length<40)e.push('description');
+  if(CATS.indexOf(r.category)<0)e.push('category');
+  if([1,2,3].indexOf(r.ladder_rank)<0)e.push('ladder_rank');
+  FIELDS.forEach(function(f){ if(typeof r[f]!=='string'||!r[f].length)e.push('field:'+f); });
+  if(!r.demo||r.demo.language!=='python'||typeof r.demo.code!=='string'||!r.demo.code.length)e.push('demo');
+  if(r.src!==SRC)e.push('src');
+  return {ok:!e.length,errors:e};
+}
+var gen={version:"jahdb-scientific-protocol-reproduction-1.0",generate:generate,validate:validate};
+if(typeof JAHDB!=='undefined'&&JAHDB.registerGenerator)JAHDB.registerGenerator("scientific-protocol-reproduction",gen);
+if(typeof module!=='undefined'&&module.exports)module.exports=gen;
+})();

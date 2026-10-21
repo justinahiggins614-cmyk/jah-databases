@@ -1,0 +1,52 @@
+(function(){'use strict';
+function prng(seed){var a=(seed>>>0)||1;return function(){a|=0;a=(a+0x6D2B79F5)|0;var t=Math.imul(a^(a>>>15),1|a);t=(t+Math.imul(t^(t>>>7),61|t))^t;return((t^(t>>>14))>>>0)/4294967296;};}
+function pick(r,s){return r[(s()*r.length)|0];} function ri(s,a,b){return a+((s()*(b-a+1))|0);}
+var CATS=["vcs", "archives", "sync", "search", "text", "network", "containers", "k8s", "data", "media", "remote", "system"];
+var PREFIX='JAH-INTERA-S-';
+var GENVER='jahdb-interactive-command-cheatsheets-signature-1.0';
+var SRC='signature-generated-completion';
+var EDITION='signature';
+var PROV="Signature-original completion authored for the JAH Databases network; clearly labeled Signature, never presented as public record.";
+var FIELDS=["command", "syntax", "example", "platform"];
+var DEMO_TPL="// $TITLE - interactive cheatsheet lookup\nvar SHEET = { command: \"$COMMAND\", syntax: \"$SYNTAX\", example: \"$EXAMPLE\", platform: \"$PLATFORM\" };\nvar q = (process.argv[2] || \"\").toLowerCase();\nvar hit = !q || SHEET.command.toLowerCase().indexOf(q) >= 0 || SHEET.syntax.toLowerCase().indexOf(q) >= 0;\nconsole.log(\"=== \" + SHEET.command + \" ===\");\nconsole.log(\"Syntax:   \" + SHEET.syntax);\nconsole.log(\"Example:  \" + SHEET.example);\nconsole.log(\"Platform: \" + SHEET.platform);\nconsole.log(hit ? \"MATCH: entry found.\" : \"NO MATCH for query.\");";
+function jsEsc(s){return String(s).replace(/\\/g,'\\\\').replace(/"/g,'\\"').replace(/\n/g,'\\n').replace(/\r/g,'\\r').replace(/\t/g,'\\t');}
+function fillTpl(tpl,vars){return tpl.replace(/\$([A-Za-z0-9_]+)/g,function(m,k){return Object.prototype.hasOwnProperty.call(vars,k)?jsEsc(vars[k]):m;});}
+/* rows: [category, title, description, {fields}] */
+var B=[["remote", "sigcast — broadcast a command to many hosts", "Signature-original: sigcast fans one command out to a host list over multiplexed SSH and folds the outputs into a single table. Invoke it as `sigcast --hosts web1,web2,web3 -- <cmd>`; a concrete run looks like `sigcast --hosts web1,web2 -- uptime`. Runs on Signature runtime.", {"command": "sigcast", "syntax": "sigcast --hosts web1,web2,web3 -- <cmd>", "example": "sigcast --hosts web1,web2 -- uptime", "platform": "Signature runtime"}], ["archives", "sigpack — seal a directory into a signed bundle", "Signature-original: sigpack tars, compresses, and signs a directory in one pass, emitting a .sigpack verifiable with sigverify. Invoke it as `sigpack seal <dir> -o out.sigpack`; a concrete run looks like `sigpack seal ./app -o app.sigpack`. Runs on Signature runtime.", {"command": "sigpack", "syntax": "sigpack seal <dir> -o out.sigpack", "example": "sigpack seal ./app -o app.sigpack", "platform": "Signature runtime"}], ["text", "sigdiff — semantic diff for configs", "Signature-original: sigdiff parses INI, YAML, and JSON configs and diffs their meaning, ignoring key order and comments. Invoke it as `sigdiff old.conf new.conf`; a concrete run looks like `sigdiff app.v1.conf app.v2.conf`. Runs on Signature runtime.", {"command": "sigdiff", "syntax": "sigdiff old.conf new.conf", "example": "sigdiff app.v1.conf app.v2.conf", "platform": "Signature runtime"}], ["system", "sigwatch — rerun on file change", "Signature-original: sigwatch reruns a command whenever watched files change, debounced and with a stable-screen mode. Invoke it as `sigwatch -r \"make\" src/`; a concrete run looks like `sigwatch -r \"go test ./...\" .`. Runs on Signature runtime.", {"command": "sigwatch", "syntax": "sigwatch -r \"make\" src/", "example": "sigwatch -r \"go test ./...\" .", "platform": "Signature runtime"}], ["network", "sigmesh — join the local mesh", "Signature-original: sigmesh enrolls the machine in a zero-config peer mesh and prints its mesh address. Invoke it as `sigmesh join --name node1`; a concrete run looks like `sigmesh join --name laptop`. Runs on Signature runtime.", {"command": "sigmesh", "syntax": "sigmesh join --name node1", "example": "sigmesh join --name laptop", "platform": "Signature runtime"}], ["system", "sigvault — fetch a secret to stdout", "Signature-original: sigvault resolves a secret path from the encrypted vault and prints it once, never caching to disk. Invoke it as `sigvault get <path>`; a concrete run looks like `sigvault get prod/db/password`. Runs on Signature runtime.", {"command": "sigvault", "syntax": "sigvault get <path>", "example": "sigvault get prod/db/password", "platform": "Signature runtime"}], ["system", "sigbench — micro-benchmark a command", "Signature-original: sigbench runs a command N times and reports median, p95, and allocation deltas. Invoke it as `sigbench -n 100 -- <cmd>`; a concrete run looks like `sigbench -n 100 -- jq . data.json`. Runs on Signature runtime.", {"command": "sigbench", "syntax": "sigbench -n 100 -- <cmd>", "example": "sigbench -n 100 -- jq . data.json", "platform": "Signature runtime"}], ["network", "sigroute — trace a URI through the router", "Signature-original: sigroute shows which route rule a URI matches and the handler chain it would invoke. Invoke it as `sigroute match <uri>`; a concrete run looks like `sigroute match /api/v2/users/42`. Runs on Signature runtime.", {"command": "sigroute", "syntax": "sigroute match <uri>", "example": "sigroute match /api/v2/users/42", "platform": "Signature runtime"}], ["sync", "sigsnap — snapshot a directory tree", "Signature-original: sigsnap records content hashes of a tree so later runs can list exactly what changed. Invoke it as `sigsnap take <dir>`; a concrete run looks like `sigsnap take /srv/app`. Runs on Signature runtime.", {"command": "sigsnap", "syntax": "sigsnap take <dir>", "example": "sigsnap take /srv/app", "platform": "Signature runtime"}], ["search", "siglog — query structured logs", "Signature-original: siglog greps JSONL logs by field predicates instead of raw text, e.g. level=error. Invoke it as `siglog \"level=error\" app.jsonl`; a concrete run looks like `siglog \"level=error\" /var/log/app.jsonl`. Runs on Signature runtime.", {"command": "siglog", "syntax": "siglog \"level=error\" app.jsonl", "example": "siglog \"level=error\" /var/log/app.jsonl", "platform": "Signature runtime"}], ["network", "sigport — forward a port through the mesh", "Signature-original: sigport forwards a local port to a mesh peer by name with mutual authentication. Invoke it as `sigport fwd 3000 peer:web:80`; a concrete run looks like `sigport fwd 3000 peer:api:8080`. Runs on Signature runtime.", {"command": "sigport", "syntax": "sigport fwd 3000 peer:web:80", "example": "sigport fwd 3000 peer:api:8080", "platform": "Signature runtime"}], ["system", "sigcap — cap a command’s resources", "Signature-original: sigcap runs a command under strict CPU, memory, and time caps, killing violators cleanly. Invoke it as `sigcap --cpu 50 --mem 512M -- <cmd>`; a concrete run looks like `sigcap --cpu 50 --mem 512M -- make -j8`. Runs on Signature runtime.", {"command": "sigcap", "syntax": "sigcap --cpu 50 --mem 512M -- <cmd>", "example": "sigcap --cpu 50 --mem 512M -- make -j8", "platform": "Signature runtime"}], ["system", "sigckpt — checkpoint a running process", "Signature-original: sigckpt freezes a process to disk and sigckpt restore resumes it, even after reboot. Invoke it as `sigckpt freeze <pid> -o ckpt.bin`; a concrete run looks like `sigckpt freeze 4242 -o job.ckpt`. Runs on Signature runtime.", {"command": "sigckpt", "syntax": "sigckpt freeze <pid> -o ckpt.bin", "example": "sigckpt freeze 4242 -o job.ckpt", "platform": "Signature runtime"}], ["data", "sigfmt — universal format converter", "Signature-original: sigfmt converts between JSON, YAML, TOML, CSV, and MessagePack with schema validation. Invoke it as `sigfmt --from json --to yaml < in.json`; a concrete run looks like `sigfmt --from json --to yaml < cfg.json`. Runs on Signature runtime.", {"command": "sigfmt", "syntax": "sigfmt --from json --to yaml < in.json", "example": "sigfmt --from json --to yaml < cfg.json", "platform": "Signature runtime"}], ["data", "sigask — ask the archive from the shell", "Signature-original: sigask queries the local JAH database archive from the shell and prints the best record. Invoke it as `sigask \"query words\"`; a concrete run looks like `sigask \"p2p mesh sync\"`. Runs on Signature runtime.", {"command": "sigask", "syntax": "sigask \"query words\"", "example": "sigask \"p2p mesh sync\"", "platform": "Signature runtime"}]];
+function demoFor(title,id,f){
+  var vars={TITLE:title,ID:id};
+  for(var k in f){ if(Object.prototype.hasOwnProperty.call(f,k)) vars[k.toUpperCase()]=f[k]; }
+  return fillTpl(DEMO_TPL,vars);
+}
+function generate(seed,opts,rnd){
+  opts=opts||{};rnd=rnd||prng(seed);
+  var cat=opts.category||pick(CATS,rnd);
+  var pool=B.filter(function(b){return b[0]===cat;});
+  var b=pick(pool.length?pool:B,rnd);
+  var id=PREFIX+String(seed).padStart(6,'0');
+  var fields={}; for(var k in b[3]){fields[k]=b[3][k];}
+  return {id:id,t:b[1],title:b[1],g:cat,c:1,category:cat,description:b[2],fields:fields,ladder_rank:1+(seed%3),demo:demoFor(b[1],id,fields),provenance:PROV,src:SRC,last_verified:'2026-10-21',edition:EDITION,_seed:seed};
+}
+function validate(r){
+  var e=[];
+  if(!r||typeof r!=='object')return {ok:false,errors:['not an object']};
+  if(!new RegExp('^'+'JAH\\-INTERA\\-S\\-'+'\\d{6}$').test(r.id||''))e.push('id');
+  if(typeof r.title!=='string'||!r.title.length)e.push('title');
+  if(r.t!==r.title)e.push('t');
+  if(typeof r.description!=='string'||r.description.length<40)e.push('description');
+  if(CATS.indexOf(r.category)<0)e.push('category');
+  if(r.g!==r.category)e.push('g');
+  if(!r.fields||typeof r.fields!=='object')e.push('fields');
+  else{FIELDS.forEach(function(k){if(typeof r.fields[k]!=='string'||!r.fields[k].length)e.push('fields.'+k);});}
+  if(!(r.ladder_rank>=1&&r.ladder_rank<=3))e.push('ladder_rank');
+  if(typeof r.demo!=='string'||r.demo.indexOf('console.log')<0)e.push('demo');
+  if(r.src!==SRC)e.push('src');
+  if(r.edition!==EDITION)e.push('edition');
+  if(r.last_verified!=='2026-10-21')e.push('last_verified');
+  if(typeof r.provenance!=='string'||!r.provenance.length)e.push('provenance');
+  return {ok:!e.length,errors:e};
+}
+var gen={version:GENVER,generate:generate,validate:validate};
+if(typeof JAHDB!=='undefined'&&JAHDB.registerGenerator)JAHDB.registerGenerator('interactive-command-cheatsheets-signature',gen);
+if(typeof module!=='undefined'&&module.exports)module.exports=gen;
+})();

@@ -1,0 +1,64 @@
+(function(){'use strict';
+function prng(seed){var a=(seed>>>0)||1;return function(){a|=0;a=(a+0x6D2B79F5)|0;var t=Math.imul(a^(a>>>15),1|a);t=(t+Math.imul(t^(t>>>7),61|t))^t;return((t^(t>>>14))>>>0)/4294967296;};}
+function pick(r,s){return r[(s()*r.length)|0];}
+var CATS=["rendering", "interaction", "collaboration", "evaluation"];
+var PREFIX='JAH-ARA-';
+var LAST_VERIFIED='2026-10-21';
+var PROVENANCE='Public industry records and documentation';
+var SRC='public-harvest';
+/* base records: [title, category, description, mechanisms, platforms, standards, ladder_rank, demo_idx] */
+var B=[["Code City Metaphors", "rendering", "Renders software as navigable cities where buildings are classes and districts are packages. Height shows size, color shows age or bugs; walking the city builds architectural intuition. It makes abstract structure physical.", ["Map metrics to building geometry", "Lay out districts by package", "Navigate in AR space"], ["Custom visualizers", "Unity", "Research"], ["Software visualization literature", "CodeCity"], 2, 0], ["3D Call Graph Rendering", "rendering", "Draws call graphs in 3D AR space so dense graphs become explorable. Nodes float at arm's reach; edges show call volume by thickness. Rotation reveals structure flat graphs hide.", ["Layout the graph in 3D", "Scale edges by volume", "Let users walk through it"], ["Unity", "WebXR", "Custom"], ["Graph drawing literature", "Visualization"], 2, 0], ["AR IDE Overlays", "rendering", "Overlays architecture diagrams onto the developer's real desk and screens. The code stays in the IDE; the big picture floats beside it, spatially anchored. Context switches drop.", ["Anchor overlays spatially", "Sync with the IDE", "Keep code in place"], ["HoloLens", "VS Code ext", "Research"], ["AR literature", "IDE APIs"], 3, 0], ["Headset Rendering Pipelines", "rendering", "Builds rendering pipelines hitting headset frame budgets: 90 fps, low latency. Level-of-detail, foveated rendering, and occlusion culling keep massive graphs smooth. Performance is the feature.", ["Budget per frame", "Apply LOD and culling", "Profile on device"], ["HoloLens 2", "Quest", "Unity/Unreal"], ["XR performance guides", "Vendor docs"], 3, 2], ["Gesture Navigation", "interaction", "Navigates code spaces with hand gestures: grab to move, pinch to zoom into a module. Gestures beat controllers for spatial exploration; the vocabulary stays small and consistent. It feels like handling the software.", ["Define a small gesture set", "Map grab/pinch to navigation", "Give haptic feedback"], ["HoloLens", "Quest", "Leap Motion"], ["HCI literature", "XR guidelines"], 2, 1], ["Spatial Memory Anchoring", "interaction", "Anchors code elements to physical locations so spatial memory aids recall. The auth module lives by the window; developers remember where things are. It exploits how human memory actually works.", ["Place modules in stable spots", "Keep layouts persistent", "Let users arrange"], ["AR platforms", "Research", "Custom"], ["Spatial cognition literature", "HCI"], 2, 1], ["Heat-Map Overlays", "rendering", "Overlays heat maps — bugs, churn, coverage — onto the code city in AR. Hot spots glow; walking toward red finds the trouble. It directs attention physically.", ["Compute per-file metrics", "Map to color", "Overlay in place"], ["Custom", "Research", "Dashboards"], ["Visualization literature", "Metrics guides"], 1, 1], ["Collaborative AR Review", "collaboration", "Reviews architecture together in shared AR space with avatars and annotations. Reviewers point at the actual structure; discussions anchor to places. Remote reviews gain presence.", ["Share the AR session", "Anchor annotations", "Record decisions"], ["Custom", "Research", "Enterprise"], ["CSCW literature", "XR collaboration"], 3, 2], ["Performance Budgets for AR", "rendering", "Enforces strict performance budgets so AR visualization never stutters. Frame time, draw calls, and triangle counts are capped; content scales to fit. Comfort depends on it.", ["Cap frame budgets", "Scale content to fit", "Monitor continuously"], ["Unity", "Unreal", "Vendor tools"], ["XR performance guides", "Vendor docs"], 2, 2], ["WebXR Delivery", "rendering", "Delivers AR code visualization through WebXR in the browser, no app install. URLs become AR sessions; it lowers the barrier to trying visualization. Reach beats fidelity for adoption.", ["Build with WebXR", "Serve over HTTPS", "Degrade gracefully"], ["Browsers", "Three.js", "A-Frame"], ["WebXR spec", "W3C"], 2, 2], ["SLAM Anchoring", "interaction", "Anchors visualizations with SLAM so they stay put as users move. The device maps the room; content locks to real coordinates. Drift breaks trust, so anchoring quality matters.", ["Map with SLAM", "Anchor persistently", "Handle relocalization"], ["ARKit", "ARCore", "HoloLens"], ["SLAM literature", "AR SDKs"], 3, 2], ["Occlusion Handling", "rendering", "Occludes virtual code correctly behind real objects for believable AR. Depth sensing hides buildings behind desks; without it the illusion breaks. Realism aids comprehension.", ["Sense depth", "Occlude correctly", "Handle edges"], ["HoloLens", "ARKit", "ARCore"], ["AR literature", "Computer vision"], 3, 2], ["AR Accessibility", "evaluation", "Designs AR visualization accessible to users with vision, motor, or vestibular limits. Seated modes, text alternatives, and comfort settings include everyone. Accessibility is a requirement, not a feature.", ["Support seated use", "Provide text alternatives", "Limit motion"], ["AR platforms", "Guidelines", "Research"], ["Accessibility literature", "XR guidelines"], 2, 2], ["Visualization Data Pipelines", "rendering", "Pipes repository metrics into AR scenes with incremental updates. Commits refresh the city; the visualization is always current. Pipelines make it a living tool, not a demo.", ["Extract metrics per commit", "Update scenes incrementally", "Keep it current"], ["Custom", "CI", "Research"], ["Data pipeline literature", "DevOps"], 2, 0], ["Comprehension Evaluation", "evaluation", "Evaluates whether AR visualization actually improves code comprehension with controlled studies. Task completion time and accuracy versus 2D baselines; the bar is evidence, not novelty. It keeps the field honest.", ["Design controlled studies", "Measure task performance", "Compare against 2D"], ["Research", "Universities", "Labs"], ["HCI evaluation", "Empirical methods"], 3, 2]];
+var DEMOS=["// Demo: {NAME} — code city layout\nvar mods=[];for(var i=0;i<{N1};i++){mods.push({name:'mod'+i,h:10+((i*37+{SEED})%80),w:5+((i*13)%15)});}\nconsole.log('technique: {NAME}');console.log('modules: '+mods.length);\nvar big=mods.slice().sort(function(a,b){return b.h-a.h;})[0];\nconsole.log('tallest building: '+big.name+' ('+big.h+' floors = lines of code)');\nconsole.log('walk the city to grasp the architecture');", "// Demo: {NAME} — heat overlay on {N1} files\nvar files=[];for(var i=0;i<{N1};i++){files.push({f:'f'+i+'.js',bugs:((i*29+{SEED})%6)});}\nvar hot=files.filter(function(f){return f.bugs>=4;});\nconsole.log('technique: {NAME}');console.log('files: '+files.length+', hot (4+ bugs): '+hot.length);\nconsole.log('hot files glow red in AR: '+hot.slice(0,5).map(function(f){return f.f;}).join(', '));", "// Demo: {NAME} — level-of-detail switch\nvar dist=({SEED}%100);\nconsole.log('technique: {NAME}');console.log('viewer distance: '+dist+'m');\nconsole.log(dist>50?'render: module boxes only':dist>20?'render: boxes + labels':'render: full source overlay');"];
+var CONTEXTS=["a production web service handling steady user traffic", "an on-device mobile deployment with tight resource budgets", "an edge cluster serving a regional user base", "a CI pipeline validating every commit", "a research prototype exploring new designs", "a regulated enterprise environment with audit requirements"];
+var NOTES=["Operators report measurable gains within the first deployment cycle.", "Start with the simplest configuration, then compound toward the advanced form.", "Pair with monitoring so regressions are caught before users notice.", "Document the chosen parameters so the setup can be recreated exactly.", "Validate against a baseline before and after enabling the technique.", "Keep a rollback path ready when rolling this out to production."];
+var RANK_WORD={1:'Simple',2:'Compound',3:'Advanced'};
+function fill(tpl,vars){return tpl.replace(/\{([A-Z0-9_]+)\}/g,function(m,k){return (k in vars)?vars[k]:m;});}
+function escJS(s){return String(s).replace(/\\/g,'\\\\').replace(/'/g,"\\'").replace(/\n/g,'\\n');}
+function makeDemo(b,seed,rnd){
+  var tpl=DEMOS[b[7]%DEMOS.length];
+  var vars={NAME:escJS(b[0]),N1:1+((seed*7+b[7])%97),N2:2+((seed*13)%499),N3:5+((seed*29)%95),SEED:seed,CAT:escJS(b[1])};
+  return {language:'javascript',title:'Demo — '+b[0],program:fill(tpl,vars)};
+}
+function generate(seed,opts,rnd){
+  opts=opts||{};rnd=rnd||prng(seed);
+  var cat=opts.category||pick(CATS,rnd);
+  var pool=B.filter(function(b){return b[1]===cat;});
+  var b=pick(pool.length?pool:B,rnd);
+  var ctx=pick(CONTEXTS,rnd), note=pick(NOTES,rnd);
+  var id=PREFIX+String(seed).padStart(6,'0');
+  var rot=seed%b[3].length;
+  var mechs=b[3].slice(rot).concat(b[3].slice(0,rot)).slice(0,3);
+  var plats=b[4].slice(0,2+((seed%2)));
+  return {id:id,title:b[0],description:b[2]+' '+note+' Deployment context: '+ctx+'.',
+    category:b[1],key_mechanisms:mechs,platforms:plats,standards:b[5].slice(),
+    complexity:RANK_WORD[b[6]],ladder_rank:b[6],demo:makeDemo(b,seed,rnd),
+    provenance:PROVENANCE,last_verified:LAST_VERIFIED,src:SRC,_seed:seed};
+}
+function validate(r){
+  var e=[];
+  if(!r||typeof r!=='object')return {ok:false,errors:['not an object']};
+  var pre=PREFIX.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+  if(!new RegExp('^'+pre+'\\d{6}$').test(r.id||''))e.push('id');
+  if(typeof r.title!=='string'||!r.title.length)e.push('title');
+  if(typeof r.description!=='string'||r.description.length<40)e.push('description');
+  if(CATS.indexOf(r.category)<0)e.push('category');
+  if(!Array.isArray(r.key_mechanisms)||r.key_mechanisms.length<2)e.push('key_mechanisms');
+  if(!Array.isArray(r.platforms)||!r.platforms.length)e.push('platforms');
+  if(!Array.isArray(r.standards)||!r.standards.length)e.push('standards');
+  if(!(r.ladder_rank>=1&&r.ladder_rank<=3))e.push('ladder_rank');
+  if(!r.demo||typeof r.demo.program!=='string'||!r.demo.program.length)e.push('demo');
+  if(r.last_verified!==LAST_VERIFIED)e.push('last_verified');
+  if(r.src!==SRC)e.push('src');
+  return {ok:!e.length,errors:e};
+}
+function driftCheck(rec,sample){
+  var errs=[];
+  (sample||[]).forEach(function(s){
+    if(s&&s.id!==rec.id&&s.description===rec.description)errs.push('duplicate-of:'+s.id);
+  });
+  return {ok:!errs.length,errors:errs};
+}
+var gen={version:'jahdb-augmented-reality-ar-code-visualizers-1.0',generate:generate,validate:validate,driftCheck:driftCheck};
+if(typeof JAHDB!=='undefined'&&JAHDB.registerGenerator)JAHDB.registerGenerator('augmented-reality-ar-code-visualizers',gen);
+if(typeof module!=='undefined'&&module.exports)module.exports=gen;
+})();

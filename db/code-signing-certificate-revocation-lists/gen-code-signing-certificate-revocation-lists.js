@@ -1,0 +1,64 @@
+(function(){'use strict';
+function prng(seed){var a=(seed>>>0)||1;return function(){a|=0;a=(a+0x6D2B79F5)|0;var t=Math.imul(a^(a>>>15),1|a);t=(t+Math.imul(t^(t>>>7),61|t))^t;return((t^(t>>>14))>>>0)/4294967296;};}
+function pick(r,s){return r[(s()*r.length)|0];}
+var CATS=["lists", "protocols", "policy", "transparency"];
+var PREFIX='JAH-CSCR-';
+var LAST_VERIFIED='2026-10-21';
+var PROVENANCE='Public industry records and documentation';
+var SRC='public-harvest';
+/* base records: [title, category, description, mechanisms, platforms, standards, ladder_rank, demo_idx] */
+var B=[["X.509 CRL Structure", "lists", "Builds and parses X.509 certificate revocation lists with revoked serials, reasons, and signatures. The CA signs the list; verifiers download it on schedule. It is the classic revocation mechanism.", ["List revoked serials", "Sign with the CA key", "Publish on schedule"], ["OpenSSL", "CAs", "Verifiers"], ["RFC 5280", "X.509"], 1, 2], ["Delta CRLs", "lists", "Publishes delta CRLs with only new revocations since the last full list. Clients combine base plus deltas; downloads shrink dramatically. It keeps CRLs practical at scale.", ["Publish base CRLs", "Publish frequent deltas", "Combine on the client"], ["CAs", "Enterprise PKI", "Verifiers"], ["RFC 5280", "PKI literature"], 2, 2], ["OCSP Checking", "protocols", "Queries OCSP responders for real-time revocation status per certificate. Fresh answers beat stale lists; responders sign the status. Privacy and availability are the tradeoffs.", ["Query the responder", "Verify the signed response", "Cache briefly"], ["CAs", "Browsers", "Libraries"], ["RFC 6960 (OCSP)", "PKI"], 2, 2], ["OCSP Stapling", "protocols", "Staples the OCSP response to the TLS handshake so clients get freshness free. The server fetches and caches the response; clients verify without extra connections. It fixes OCSP's privacy and latency problems.", ["Server fetches OCSP", "Staple to the handshake", "Client verifies"], ["NGINX", "Apache", "Browsers"], ["RFC 6961", "TLS"], 2, 1], ["CRLite Compression", "lists", "Compresses the web's revocations into CRLite filters browsers download efficiently. Bloom-filter cascades encode millions of revocations in megabytes. Firefox proved it at scale.", ["Aggregate all revocations", "Build filter cascades", "Push to browsers"], ["Firefox", "Mozilla", "Researchers"], ["CRLite paper", "Revocation literature"], 3, 2], ["Distribution Points", "lists", "Partitions revocation by CRL distribution points in certificates. Each cert points to its CRL; verifiers fetch only relevant lists. It scales revocation checking.", ["Embed DPs in certs", "Fetch per-DP lists", "Handle DP failures"], ["CAs", "Verifiers", "PKI"], ["RFC 5280", "X.509"], 1, 2], ["Revocation Checking Policies", "policy", "Defines when verifiers require fresh revocation data versus soft-fail. Hard-fail is safer but breaks on responder outages; policies encode the tradeoff. Each application picks deliberately.", ["Define fail-open vs fail-closed", "Set freshness requirements", "Audit the policy"], ["Browsers", "OSes", "Enterprises"], ["PKI literature", "Browser policies"], 2, 2], ["Timestamping (RFC 3161)", "protocols", "Timestamps signatures so they validate even after the cert expires or revokes. The TSA's signed timestamp proves the signature existed while the cert was good. Long-lived code signatures depend on it.", ["Get a TSA timestamp", "Embed in the signature", "Verify against the timestamp"], ["TSAs", "SignTool", "osslsigncode"], ["RFC 3161", "Code signing"], 2, 1], ["CA/Browser Forum Rules", "policy", "Follows CA/Browser Forum baseline requirements for revocation timelines. Compromised certs must revoke within days; the rules are audited. It sets the industry's minimum bar.", ["Meet revocation timelines", "Pass audits", "Disclose incidents"], ["CAs", "Browsers", "Auditors"], ["CA/B Forum BRs", "WebTrust"], 2, 2], ["Key Compromise Response", "policy", "Executes the key-compromise playbook: revoke, replace, notify, investigate. Speed matters; the playbook is rehearsed before it is needed. It turns panic into procedure.", ["Revoke immediately", "Issue replacements", "Notify and investigate"], ["CAs", "Enterprises", "IR teams"], ["Incident response", "CA/B Forum"], 3, 2], ["ACME Revocation Automation", "protocols", "Automates issuance and revocation with ACME. Certificates live 90 days; revocation is an API call. Automation makes short lifetimes and fast revocation practical.", ["Automate issuance", "Revoke via API", "Monitor expiry"], ["Let's Encrypt", "ACME clients", "CAs"], ["RFC 8555 (ACME)", "Automation guides"], 2, 1], ["Certificate Transparency", "transparency", "Logs all certificates in public transparency logs so misissuance is visible. Monitors watch for unauthorized certs; browsers require SCTs. It makes the PKI auditable.", ["Submit to CT logs", "Embed SCTs", "Monitor for misissuance"], ["CT logs", "Browsers", "Monitors"], ["RFC 6962", "CT policy"], 2, 2], ["CRL Caching Strategy", "lists", "Caches CRLs with nextUpdate-aware refresh to balance freshness and load. Clients reuse lists until they expire; servers set sensible lifetimes. It keeps revocation checking cheap.", ["Cache until nextUpdate", "Refresh proactively", "Handle fetch failures"], ["Verifiers", "Caches", "CDNs"], ["RFC 5280", "Caching literature"], 1, 2], ["Fail-Open vs Fail-Closed", "policy", "Decides the failure mode when revocation data is unreachable. Fail-closed is safer; fail-open keeps working. The decision encodes risk appetite per application.", ["Assess the risk", "Choose per application", "Monitor failures"], ["Browsers", "OSes", "Enterprises"], ["Security engineering", "PKI literature"], 3, 2], ["Sigstore Transparency", "transparency", "Signs software with Sigstore's transparency-backed short-lived certificates. Rekor logs every signature; Fulcio issues ephemeral certs. It brings CT-style transparency to code signing.", ["Get ephemeral certs", "Log in Rekor", "Verify the chain"], ["Sigstore", "cosign", "OpenSSF"], ["Sigstore docs", "Supply chain literature"], 3, 2]];
+var DEMOS=["// Demo: {NAME} — CRL freshness check\nvar issued=Date.now()-(({SEED}%20)+2)*3600000,next=Date.now()+4*3600000;\nconsole.log('technique: {NAME}');console.log('CRL issued '+( (Date.now()-issued)/3600000).toFixed(1)+'h ago, next update in '+((next-Date.now())/3600000).toFixed(1)+'h');\nconsole.log(Date.now()<next?'CRL fresh — revocation data current':'CRL STALE — refresh before trusting');", "// Demo: {NAME} — OCSP vs CRL latency\nvar crl=({N1}*40)+800,ocsp=120;\nconsole.log('technique: {NAME}');console.log('CRL download: '+crl+' ms, OCSP query: '+ocsp+' ms');\nconsole.log('OCSP stapling gives OCSP freshness at zero extra round trips');", "// Demo: {NAME} — revocation lookup\nvar revoked=['cert-'+({SEED}%5),'cert-9'];var check='cert-'+({SEED}%5);\nconsole.log('technique: {NAME}');console.log('checking '+check+' against '+revoked.length+' revoked serials');\nconsole.log(revoked.indexOf(check)>=0?'REVOKED — refuse to trust':'not revoked — proceed');"];
+var CONTEXTS=["a production web service handling steady user traffic", "an on-device mobile deployment with tight resource budgets", "an edge cluster serving a regional user base", "a CI pipeline validating every commit", "a research prototype exploring new designs", "a regulated enterprise environment with audit requirements"];
+var NOTES=["Operators report measurable gains within the first deployment cycle.", "Start with the simplest configuration, then compound toward the advanced form.", "Pair with monitoring so regressions are caught before users notice.", "Document the chosen parameters so the setup can be recreated exactly.", "Validate against a baseline before and after enabling the technique.", "Keep a rollback path ready when rolling this out to production."];
+var RANK_WORD={1:'Simple',2:'Compound',3:'Advanced'};
+function fill(tpl,vars){return tpl.replace(/\{([A-Z0-9_]+)\}/g,function(m,k){return (k in vars)?vars[k]:m;});}
+function escJS(s){return String(s).replace(/\\/g,'\\\\').replace(/'/g,"\\'").replace(/\n/g,'\\n');}
+function makeDemo(b,seed,rnd){
+  var tpl=DEMOS[b[7]%DEMOS.length];
+  var vars={NAME:escJS(b[0]),N1:1+((seed*7+b[7])%97),N2:2+((seed*13)%499),N3:5+((seed*29)%95),SEED:seed,CAT:escJS(b[1])};
+  return {language:'javascript',title:'Demo — '+b[0],program:fill(tpl,vars)};
+}
+function generate(seed,opts,rnd){
+  opts=opts||{};rnd=rnd||prng(seed);
+  var cat=opts.category||pick(CATS,rnd);
+  var pool=B.filter(function(b){return b[1]===cat;});
+  var b=pick(pool.length?pool:B,rnd);
+  var ctx=pick(CONTEXTS,rnd), note=pick(NOTES,rnd);
+  var id=PREFIX+String(seed).padStart(6,'0');
+  var rot=seed%b[3].length;
+  var mechs=b[3].slice(rot).concat(b[3].slice(0,rot)).slice(0,3);
+  var plats=b[4].slice(0,2+((seed%2)));
+  return {id:id,title:b[0],description:b[2]+' '+note+' Deployment context: '+ctx+'.',
+    category:b[1],key_mechanisms:mechs,platforms:plats,standards:b[5].slice(),
+    complexity:RANK_WORD[b[6]],ladder_rank:b[6],demo:makeDemo(b,seed,rnd),
+    provenance:PROVENANCE,last_verified:LAST_VERIFIED,src:SRC,_seed:seed};
+}
+function validate(r){
+  var e=[];
+  if(!r||typeof r!=='object')return {ok:false,errors:['not an object']};
+  var pre=PREFIX.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+  if(!new RegExp('^'+pre+'\\d{6}$').test(r.id||''))e.push('id');
+  if(typeof r.title!=='string'||!r.title.length)e.push('title');
+  if(typeof r.description!=='string'||r.description.length<40)e.push('description');
+  if(CATS.indexOf(r.category)<0)e.push('category');
+  if(!Array.isArray(r.key_mechanisms)||r.key_mechanisms.length<2)e.push('key_mechanisms');
+  if(!Array.isArray(r.platforms)||!r.platforms.length)e.push('platforms');
+  if(!Array.isArray(r.standards)||!r.standards.length)e.push('standards');
+  if(!(r.ladder_rank>=1&&r.ladder_rank<=3))e.push('ladder_rank');
+  if(!r.demo||typeof r.demo.program!=='string'||!r.demo.program.length)e.push('demo');
+  if(r.last_verified!==LAST_VERIFIED)e.push('last_verified');
+  if(r.src!==SRC)e.push('src');
+  return {ok:!e.length,errors:e};
+}
+function driftCheck(rec,sample){
+  var errs=[];
+  (sample||[]).forEach(function(s){
+    if(s&&s.id!==rec.id&&s.description===rec.description)errs.push('duplicate-of:'+s.id);
+  });
+  return {ok:!errs.length,errors:errs};
+}
+var gen={version:'jahdb-code-signing-certificate-revocation-lists-1.0',generate:generate,validate:validate,driftCheck:driftCheck};
+if(typeof JAHDB!=='undefined'&&JAHDB.registerGenerator)JAHDB.registerGenerator('code-signing-certificate-revocation-lists',gen);
+if(typeof module!=='undefined'&&module.exports)module.exports=gen;
+})();

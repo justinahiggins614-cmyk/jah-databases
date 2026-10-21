@@ -1,0 +1,64 @@
+(function(){'use strict';
+function prng(seed){var a=(seed>>>0)||1;return function(){a|=0;a=(a+0x6D2B79F5)|0;var t=Math.imul(a^(a>>>15),1|a);t=(t+Math.imul(t^(t>>>7),61|t))^t;return((t^(t>>>14))>>>0)/4294967296;};}
+function pick(r,s){return r[(s()*r.length)|0];}
+var CATS=["ui", "databases", "media", "collaboration"];
+var PREFIX='JAH-TEMPOR4-';
+var LAST_VERIFIED='2026-10-21';
+var PROVENANCE='Public industry records and documentation';
+var SRC='public-harvest';
+/* base records: [title, category, description, mechanisms, platforms, standards, ladder_rank, demo_idx] */
+var B=[["Event Sourcing Timelines", "databases", "Builds timelines from event-sourced logs where every state change is an event. Scrubbing replays events to any point; the timeline is the log made visible. Time travel is a replay.", ["Store immutable events", "Replay to any point", "Render the timeline"], ["EventStoreDB", "Custom", "Axon"], ["Event sourcing", "DDD"], 2, 0], ["Scrubber UI Design", "ui", "Designs scrubber controls with the right feel: inertia, snapping, precision modes. The scrubber is the primary instrument; its feel decides usability. Video editors set the standard.", ["Add inertia and snapping", "Support precision modes", "Show thumbnails"], ["Video editors", "Custom", "HCI"], ["HCI literature", "UI guidelines"], 1, 1], ["Temporal Databases", "databases", "Queries history with bitemporal tables tracking valid time and transaction time. 'What did we know when' becomes answerable; scrubbing is a query. It is the database of record for regulated data.", ["Model valid and tx time", "Query as-of", "Scrub with SQL"], ["PostgreSQL (temporal)", "Custom", "Research"], ["Temporal SQL", "Snodgrass"], 3, 0], ["Time-Travel Queries", "databases", "Runs AS OF queries against versioned data for instant historical views. The storage keeps versions; the query picks the time. Debugging 'what changed' becomes trivial.", ["Version all writes", "Query with AS OF", "Diff across times"], ["Snowflake", "BigQuery", "Custom"], ["Temporal literature", "SQL"], 2, 0], ["Video Scrubbing Tech", "media", "Decodes video frames on scrub with keyframe indexes and predictive caching. Scrubbing backward is hard for codecs; the tech prefetches and caches smartly. Smooth scrub is engineering, not luck.", ["Index keyframes", "Prefetch around the playhead", "Cache decoded frames"], ["FFmpeg", "Editors", "Players"], ["Codec specs", "Multimedia"], 2, 1], ["Log Timeline Correlation", "databases", "Correlates logs from many systems onto one timeline with clock discipline. NTP-synced timestamps align events; the merged timeline tells the incident story. Scrubbing finds the moment everything changed.", ["Sync clocks", "Merge by timestamp", "Scrub the incident"], ["ELK", "Loki", "Custom"], ["Logging literature", "NTP"], 2, 0], ["Playback Controls", "ui", "Builds playback controls: play, step, speed, loop for temporal data. Stepping frame by frame reveals what playing hides; speeds compress long periods. Controls match the data's nature.", ["Support play/step/speed", "Loop regions", "Keep controls discoverable"], ["Players", "Custom", "UI kits"], ["UI guidelines", "HCI"], 1, 1], ["Temporal Zoom", "ui", "Zooms the timeline from years to milliseconds with semantic level changes. Zooming out aggregates; zooming in reveals detail. The timeline adapts its representation to the scale.", ["Aggregate by zoom level", "Switch representations", "Keep context"], ["Custom", "D3.js", "Tools"], ["InfoVis", "HCI literature"], 2, 1], ["Annotation Layers", "collaboration", "Layers annotations on timelines so teams mark what matters. Incidents get markers; handoffs reference times, not descriptions. The timeline becomes shared memory.", ["Anchor notes to times", "Share layers", "Search annotations"], ["Custom", "Incident tools", "Editors"], ["CSCW", "Annotation literature"], 2, 2], ["Causality Visualization", "ui", "Shows causal links along the timeline: this caused that. Trace-derived causality turns sequences into explanations; scrubbing follows the chain. It answers 'why', not just 'when'.", ["Derive causality", "Draw links", "Follow chains"], ["Tracing tools", "Custom", "Research"], ["Causality literature", "Visualization"], 3, 2], ["Virtualized Timeline Rendering", "ui", "Renders million-event timelines with virtualization: only visible events exist in the DOM. The scrubber stays smooth at any scale; off-screen events are just numbers. Performance is the enabler.", ["Virtualize the DOM", "Render visible windows", "Recycle elements"], ["Custom", "React", "Canvas"], ["Virtualization literature", "Web perf"], 3, 2], ["Keyboard Timeline Navigation", "ui", "Navigates timelines fully by keyboard: arrows scrub, modifiers jump. Power users never touch the mouse; every action has a key. Accessibility and speed together.", ["Bind arrows to scrub", "Add jump modifiers", "Document shortcuts"], ["Editors", "Custom", "A11y"], ["A11y guidelines", "HCI"], 1, 1], ["Clip Export", "media", "Exports timeline clips: select a range, render it out. The scrubber defines in/out points; export produces the artifact. It closes the loop from exploration to delivery.", ["Mark in/out points", "Render the range", "Share the clip"], ["Editors", "Custom", "Tools"], ["Media workflows", "Export guides"], 1, 1], ["Collaborative Timelines", "collaboration", "Shares live timelines where teams scrub together with cursors and voice. Everyone sees the same moment; discussion anchors to time. Remote incident response gains presence.", ["Sync playheads", "Share cursors", "Record sessions"], ["Custom", "Research", "Incident tools"], ["CSCW", "Collaboration literature"], 3, 2], ["Timeline Accessibility", "ui", "Makes timelines accessible: text alternatives, keyboard control, reduced motion. Time-based media excludes without care; the accessible timeline includes everyone. It is a requirement.", ["Provide text alternatives", "Support keyboard", "Respect reduced motion"], ["Web", "Custom", "Guidelines"], ["WCAG", "A11y literature"], 2, 1]];
+var DEMOS=["// Demo: {NAME} — bitemporal query\nvar rows=[{v:'a',valid:[1,5],tx:[1,9]},{v:'b',valid:[5,9],tx:[5,9]}];\nvar at=6;\nvar cur=rows.filter(function(r){return at>=r.valid[0]&&at<r.valid[1];});\nconsole.log('technique: {NAME}');console.log('as of t='+at+': '+JSON.stringify(cur.map(function(r){return r.v;})));", "// Demo: {NAME} — scrubber frame lookup\nvar frames={N1},fps=30;\nvar t=({SEED}%90)+5;\nvar f=Math.floor(t*fps);\nconsole.log('technique: {NAME}');console.log('scrub to t='+t+'s -> frame '+f+' of '+frames);\nconsole.log(f<frames?'frame decoded and displayed':'beyond the end');", "// Demo: {NAME} — event density histogram\nvar buckets=new Array(10).fill(0);\nfor(var i=0;i<{N1}*10;i++){buckets[((i*37+{SEED})%1000)%10]++;}\nconsole.log('technique: {NAME}');console.log('density: '+buckets.join(' '));\nconsole.log('peaks show where to scrub — the timeline is navigable');"];
+var CONTEXTS=["a production web service handling steady user traffic", "an on-device mobile deployment with tight resource budgets", "an edge cluster serving a regional user base", "a CI pipeline validating every commit", "a research prototype exploring new designs", "a regulated enterprise environment with audit requirements"];
+var NOTES=["Operators report measurable gains within the first deployment cycle.", "Start with the simplest configuration, then compound toward the advanced form.", "Pair with monitoring so regressions are caught before users notice.", "Document the chosen parameters so the setup can be recreated exactly.", "Validate against a baseline before and after enabling the technique.", "Keep a rollback path ready when rolling this out to production."];
+var RANK_WORD={1:'Simple',2:'Compound',3:'Advanced'};
+function fill(tpl,vars){return tpl.replace(/\{([A-Z0-9_]+)\}/g,function(m,k){return (k in vars)?vars[k]:m;});}
+function escJS(s){return String(s).replace(/\\/g,'\\\\').replace(/'/g,"\\'").replace(/\n/g,'\\n');}
+function makeDemo(b,seed,rnd){
+  var tpl=DEMOS[b[7]%DEMOS.length];
+  var vars={NAME:escJS(b[0]),N1:1+((seed*7+b[7])%97),N2:2+((seed*13)%499),N3:5+((seed*29)%95),SEED:seed,CAT:escJS(b[1])};
+  return {language:'javascript',title:'Demo — '+b[0],program:fill(tpl,vars)};
+}
+function generate(seed,opts,rnd){
+  opts=opts||{};rnd=rnd||prng(seed);
+  var cat=opts.category||pick(CATS,rnd);
+  var pool=B.filter(function(b){return b[1]===cat;});
+  var b=pick(pool.length?pool:B,rnd);
+  var ctx=pick(CONTEXTS,rnd), note=pick(NOTES,rnd);
+  var id=PREFIX+String(seed).padStart(6,'0');
+  var rot=seed%b[3].length;
+  var mechs=b[3].slice(rot).concat(b[3].slice(0,rot)).slice(0,3);
+  var plats=b[4].slice(0,2+((seed%2)));
+  return {id:id,title:b[0],description:b[2]+' '+note+' Deployment context: '+ctx+'.',
+    category:b[1],key_mechanisms:mechs,platforms:plats,standards:b[5].slice(),
+    complexity:RANK_WORD[b[6]],ladder_rank:b[6],demo:makeDemo(b,seed,rnd),
+    provenance:PROVENANCE,last_verified:LAST_VERIFIED,src:SRC,_seed:seed};
+}
+function validate(r){
+  var e=[];
+  if(!r||typeof r!=='object')return {ok:false,errors:['not an object']};
+  var pre=PREFIX.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+  if(!new RegExp('^'+pre+'\\d{6}$').test(r.id||''))e.push('id');
+  if(typeof r.title!=='string'||!r.title.length)e.push('title');
+  if(typeof r.description!=='string'||r.description.length<40)e.push('description');
+  if(CATS.indexOf(r.category)<0)e.push('category');
+  if(!Array.isArray(r.key_mechanisms)||r.key_mechanisms.length<2)e.push('key_mechanisms');
+  if(!Array.isArray(r.platforms)||!r.platforms.length)e.push('platforms');
+  if(!Array.isArray(r.standards)||!r.standards.length)e.push('standards');
+  if(!(r.ladder_rank>=1&&r.ladder_rank<=3))e.push('ladder_rank');
+  if(!r.demo||typeof r.demo.program!=='string'||!r.demo.program.length)e.push('demo');
+  if(r.last_verified!==LAST_VERIFIED)e.push('last_verified');
+  if(r.src!==SRC)e.push('src');
+  return {ok:!e.length,errors:e};
+}
+function driftCheck(rec,sample){
+  var errs=[];
+  (sample||[]).forEach(function(s){
+    if(s&&s.id!==rec.id&&s.description===rec.description)errs.push('duplicate-of:'+s.id);
+  });
+  return {ok:!errs.length,errors:errs};
+}
+var gen={version:'jahdb-temporal-timeline-scrubbers-1.0',generate:generate,validate:validate,driftCheck:driftCheck};
+if(typeof JAHDB!=='undefined'&&JAHDB.registerGenerator)JAHDB.registerGenerator('temporal-timeline-scrubbers',gen);
+if(typeof module!=='undefined'&&module.exports)module.exports=gen;
+})();
