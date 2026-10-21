@@ -143,21 +143,50 @@ var JAHDB = (function () {
     return { records: out, failures: fails };
   }
 
-  /* ---------- cross-database sampling (the network) ---------- */
+  /* ---------- cross-database sampling (the network) ----------
+     Returns a Promise of an ARRAY of sampled records (callers unchanged).
+     Failures are NOT silent: the resolved array carries an `.error` string
+     describing what went wrong, the failure is console.warned, and it is
+     recorded in JAHDB.sampleErrors for diagnostics. Sampling is WITHOUT
+     replacement (a partial Fisher-Yates over line positions), so the same
+     source record can never be selected twice in one call. */
+  var sampleErrors = [];
+  function sampleResult(records, error) {
+    var out = records.slice();
+    if (error) {
+      var msg = String(error);
+      try { out.error = msg; } catch (e) {}
+      try { if (typeof console !== 'undefined' && console.warn) console.warn('[JAHDB] sampleOther: ' + msg); } catch (e) {}
+      try {
+        sampleErrors.push({ at: Date.now(), error: msg });
+        if (sampleErrors.length > 50) sampleErrors.shift();
+      } catch (e) {}
+    }
+    return out;
+  }
   function sampleOther(m, slug, n) {
     var db = dbBySlug(m, slug);
     var idx = db && (db.local_index || db.index);
-    if (!idx) return Promise.resolve([]);
+    if (!idx) return Promise.resolve(sampleResult([], 'no index configured for database "' + slug + '" — cross-database sampling unavailable'));
     var url = (/^https?:\/\//i.test(idx) ? '' : dataBase(db)) + idx;
     return fetchGz(url).then(function (t) {
       var lines = t.split('\n').filter(function (l) { return l.trim(); });
-      var rnd = prng(hashStr(slug + Date.now() % 100000));
-      var out = [];
-      for (var i = 0; i < Math.min(n, lines.length); i++) {
-        try { out.push(JSON.parse(lines[(rnd() * lines.length) | 0])); } catch (e) {}
+      if (!lines.length) return sampleResult([], 'index for "' + slug + '" fetched but contained no rows');
+      var rnd = prng(hashStr(slug + (Date.now() % 100000)));
+      var order = [];
+      for (var i = 0; i < lines.length; i++) order.push(i);
+      var k = Math.min(n, lines.length), out = [], bad = 0, p, j, tmp;
+      for (p = 0; p < k; p++) {
+        j = p + ((rnd() * (lines.length - p)) | 0);
+        tmp = order[p]; order[p] = order[j]; order[j] = tmp;
+        try { out.push(JSON.parse(lines[order[p]])); }
+        catch (e) { bad++; }
       }
-      return out;
-    }).catch(function () { return []; });
+      if (!out.length) return sampleResult([], 'index for "' + slug + '" had ' + lines.length + ' lines but none parsed as JSON');
+      return sampleResult(out, bad ? (bad + ' of ' + k + ' sampled lines failed JSON.parse and were skipped') : null);
+    }).catch(function (err) {
+      return sampleResult([], 'failed to fetch/parse index for "' + slug + '": ' + (err && err.message ? err.message : String(err)));
+    });
   }
 
   /* ---------- cross-database query (AI reasoning across the network) ---------- */
@@ -423,7 +452,7 @@ var JAHDB = (function () {
     prng: prng, hashStr: hashStr,
     registerGenerator: registerGenerator, setDemoBuilder: setDemoBuilder, getGenerator: function (slug) { return generators[slug]; },
     runGenerator: runGenerator, batchGenerate: batchGenerate,
-    sampleOther: sampleOther,
+    sampleOther: sampleOther, sampleErrors: sampleErrors,
     crossQuery: crossQuery, crossDbIntent: crossDbIntent, stripCrossIntent: stripCrossIntent,
     newSession: newSession, getSession: getSession,
     recHashGet: recHashGet, recHashSet: recHashSet, recHashClear: recHashClear, recLink: recLink,

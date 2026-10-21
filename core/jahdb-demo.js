@@ -42,7 +42,11 @@ function titleOf(rec) {
 function idOf(rec) { return String(rec.id || rec.api_id || rec.task_id || rec.trajectory_id || rec.record_id || 'rec'); }
 function trunc(s, n) { s = String(s == null ? '' : s); return s.length > n ? s.slice(0, n) + '…' : s; }
 
-var CODE_KEYS = { code: 1, snippet: 1, program: 1, script: 1, source_code: 1, implementation: 1, example_code: 1, solution: 1, query: 1, sample_code: 1 };
+/* `solution` is deliberately NOT a code key: it is display text (the answer),
+   e.g. "x = 4", which is not valid executable JavaScript. Treating it as code
+   produced programs that threw ReferenceError at runtime. Genuine code stored
+   in a `solution` field is still detected via looksLikeCode() below. */
+var CODE_KEYS = { code: 1, snippet: 1, program: 1, script: 1, source_code: 1, implementation: 1, example_code: 1, query: 1, sample_code: 1 };
 var STEP_KEYS = { steps: 1, stages: 1, phases: 1, actions: 1, instructions: 1, procedure: 1, method_steps: 1, rounds: 1 };
 var SKIP_KEYS = { demo: 1 };
 var LONG_SKIP_PREFIX = '_';

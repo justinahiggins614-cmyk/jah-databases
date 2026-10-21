@@ -16,7 +16,13 @@ Usage in a build script:
         hits = gate.check('my-slug', rec['title'])
         if hits:
             continue            # or reseed / regenerate — never write a dupe
+        gate.check_id_and_raise('my-slug', rec['id'])   # refuse already-filed IDs (see below)
         write(rec); gate.admit('my-slug', rec['title'], rec['id'])
+
+ID double-file guard: generators are deterministic, so re-running a seed
+range reproduces the same IDs. check_id()/check_id_and_raise() consult the
+target database's filed index (plus this run's admissions) and refuse IDs
+that are already filed — re-running a range can never double-file records.
 
 Also usable as an audit:
     python3 dedupe_gate.py --audit --repo ~/workspace/jah-databases
@@ -44,6 +50,11 @@ class DedupeGate:
         self.exact_dir = exact_dir
         self._cache = {}          # xx -> {hashhex: [[slug,id],...]}
         self._admitted = {}       # hashhex -> [[slug,id],...] (this run)
+        # repo root derived from <repo>/data/dedupe (for filed-ID lookups)
+        self._repo = os.path.dirname(os.path.dirname(os.path.abspath(exact_dir)))
+        self._manifest_entries = None
+        self._id_sets = {}        # slug -> set(str(id)) already filed
+        self._admitted_ids = set()  # (slug, str(id)) admitted this run
 
     def _shard(self, xx):
         if xx not in self._cache:
@@ -68,6 +79,53 @@ class DedupeGate:
     def admit(self, slug, title, rec_id):
         hx = fnv1a64_hex(norm_title(title))
         self._admitted.setdefault(hx, []).append([slug, rec_id])
+        self._admitted_ids.add((slug, str(rec_id)))
+
+    def _entries(self):
+        if self._manifest_entries is None:
+            try:
+                m = json.load(open(os.path.join(self._repo, "data", "manifest.json")))
+                self._manifest_entries = {e["slug"]: e for e in m.get("databases", [])}
+            except OSError:
+                self._manifest_entries = {}
+        return self._manifest_entries
+
+    def _filed_ids(self, slug):
+        """Set of IDs already filed in slug's local index (cached per run)."""
+        if slug not in self._id_sets:
+            ids = set()
+            e = self._entries().get(slug)
+            if e:
+                p = local_index_path(self._repo, e)
+                if p and os.path.exists(p):
+                    try:
+                        with gzip.open(p, "rt", encoding="utf-8") as f:
+                            head = f.read(2)
+                            f.seek(0)
+                            rows = json.load(f) if head.lstrip().startswith("[") else [
+                                json.loads(l) for l in f if l.strip()]
+                        for r in rows:
+                            if isinstance(r, dict) and r.get("id") is not None:
+                                ids.add(str(r["id"]))
+                    except (OSError, ValueError):
+                        pass
+            self._id_sets[slug] = ids
+        return self._id_sets[slug]
+
+    def check_id(self, slug, rec_id):
+        """True if rec_id is already filed in slug (index or this run)."""
+        rid = str(rec_id)
+        if (slug, rid) in self._admitted_ids:
+            return True
+        return rid in self._filed_ids(slug)
+
+    def check_id_and_raise(self, slug, rec_id):
+        """Refuse already-filed IDs: re-running a seed range reproduces the
+        same IDs (deterministic generators) — this stops double-filing."""
+        if self.check_id(slug, rec_id):
+            raise ValueError(
+                "double-file refused: id %r already filed in %r" % (rec_id, slug))
+        return True
 
     def check_and_raise(self, slug, title):
         hits = self.check(slug, title)

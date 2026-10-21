@@ -50,10 +50,19 @@ function dbEntry(m, slug){
 function parseRows(t){
   var s = String(t||'').trim();
   if(!s) return [];
-  if(s[0]==='['){ try{ var a=JSON.parse(s); return Array.isArray(a)?a:[]; }catch(e){ return []; } }
-  return s.split('\n').filter(function(l){return l.trim();}).map(function(l){
+  if(s[0]==='['){
+    try{ var a=JSON.parse(s); if(Array.isArray(a)) return a; }
+    catch(e){ throw new Error('index content is not valid JSON: '+String(e.message||e).slice(0,120)); }
+    throw new Error('index content parsed but is not an array');
+  }
+  var rows = s.split('\n').filter(function(l){return l.trim();}).map(function(l){
     try{ return JSON.parse(l); }catch(e){ return null; }
   }).filter(Boolean);
+  /* A non-empty index that yields zero parseable rows is corruption, not an
+     empty database — fail loudly so callers (pull/pullFull/verify) surface it
+     instead of silently behaving as if the database were empty. */
+  if(!rows.length) throw new Error('index fetched but contained no parseable JSON rows ('+s.length+' chars received)');
+  return rows;
 }
 function pull(sourceSlug, opts){
   opts = opts||{};

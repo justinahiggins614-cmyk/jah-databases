@@ -14,6 +14,9 @@
       index (bloom shards, then exact shard on a bloom hit). On a duplicate
       it reseeds and retries (up to 200 attempts); if it cannot produce a
       unique title it FAILS HONESTLY instead of emitting a duplicate.
+      If the global index is unreachable, uniqueness cannot be established
+      and generation FAILS CLOSED — it refuses to emit the record unchecked
+      rather than treating "unknown" as "not a duplicate".
    3. JAHDB.dedupe.checkTitle(title) -> Promise<{dupe, hits, checked}> for
       direct use.
 
@@ -106,7 +109,10 @@ function bloomHas(bloom, hashHex){
 function checkTitle(title){
   var h = hashTitle(title), xx = shardOf(h);
   return getBloom(xx).then(function(bloom){
-    if(!bloom) return {dupe:false, hits:null, checked:'unavailable'};
+    /* FAIL CLOSED: if the global index cannot be fetched, uniqueness cannot
+       be established — report dupe:null/checked:'failed', never dupe:false.
+       Callers (generateChecked) must refuse to file unchecked records. */
+    if(!bloom) return {dupe:null, hits:null, checked:'failed', error:'global dedupe bloom shard "'+xx+'" could not be fetched — uniqueness unverifiable'};
     if(!bloomHas(bloom,h)) return {dupe:false, hits:null, checked:'bloom'};
     return getExact(xx).then(function(exact){
       if(!exact||!exact.m) return {dupe:true, hits:null, checked:'bloom-only'};
@@ -116,15 +122,23 @@ function checkTitle(title){
   });
 }
 
-/* ---------- central enforcement: wrap runGenerator (same-db exact) ---------- */
+/* ---------- central enforcement: wrap runGenerator (same-db exact) ----------
+   Batch-uniqueness: a title that passes is ADMITTED to the session set, so a
+   later record in the same generation batch cannot repeat it (previously only
+   generateChecked admitted, leaving the sync path batch-blind). The check is
+   slug-aware: it only applies when the set belongs to the slug being
+   generated, so cross-slug harnesses never false-reject. */
 var origRunGenerator = JAHDB.runGenerator;
 function titleOf(rec){ return rec&&(rec.title||rec.t||rec.name||''); }
 JAHDB.runGenerator = function(slug, seed, opts){
   var r = origRunGenerator(slug, seed, opts);
-  if(r.ok && r.record && sameDbTitles){
+  if(r.ok && r.record && sameDbTitles && (!sameDbSlug || sameDbSlug === slug)){
     var t = titleOf(r.record);
-    if(t && sameDbHas(t)){
-      return {ok:false, errors:['duplicate title already in this database archive: "'+t+'"'], record:r.record};
+    if(t){
+      if(sameDbHas(t)){
+        return {ok:false, errors:['duplicate title already in this database archive: "'+t+'"'], record:r.record};
+      }
+      try{ sameDbTitles.add(normTitle(t)); }catch(e){}
     }
   }
   return r;
@@ -149,6 +163,12 @@ JAHDB.generateChecked = function(slug, seed, opts){
     var t = titleOf(r.record);
     if(!t) return Promise.resolve(r);
     return checkTitle(t).then(function(chk){
+      /* FAIL CLOSED: when the global index is unreachable, uniqueness cannot
+         be established — refuse to emit the record rather than filing it
+         unchecked (the old code treated this as "not a duplicate"). */
+      if(chk.checked === 'failed'){
+        return {ok:false, errors:['whole-system duplicate check FAILED for "'+t+'" — uniqueness cannot be established ('+(chk.error||'dedupe index unreachable')+'). Refusing to generate unchecked.'], record:r.record};
+      }
       if(chk.dupe){
         if(attempt<MAX_TRIES){
           s = (typeof s==='number')? s+1 : s+'#'+attempt;
