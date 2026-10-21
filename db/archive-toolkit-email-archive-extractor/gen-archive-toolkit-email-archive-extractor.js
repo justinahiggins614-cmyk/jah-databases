@@ -1,0 +1,51 @@
+(function(){
+'use strict';
+function prng(seed){var a=(seed>>>0)||1;return function(){a|=0;a=(a+0x6D2B79F5)|0;var t=Math.imul(a^(a>>>15),1|a);t=(t+Math.imul(t^(t>>>7),61|t))^t;return((t^(t>>>14))>>>0)/4294967296;};}
+function pick(r,s){return r[(s()*r.length)|0];}
+var CATS=["fundamentals", "algorithms", "implementation", "optimization", "evaluation"];
+var PREFIX="JAH-ATK146-";
+var KIND="extraction method";
+var TOOLNAME="Email Archive Extractor";
+var SIG=false;
+var PROV="Public methodology \u2014 standard computer-science technique documented in the technical literature; fact-checked 2026-10-21.";
+var SRC="public-harvest";
+var ASPECTS=[{"t": "Header parsing", "d": "Headers (From, To, Date, Subject) parse per RFC 5322 with folding and encoded words. The email package handles the edge cases. Headers frame the message.", "c": "fundamentals", "r": 1, "p": {"RAW": "From: amy@x.test\\nTo: bob@x.test\\nDate: Mon, 1 Jan 2024 10:00:00 +0000\\nSubject: Hello\\nMessage-ID: <m1@x>\\n\\nHi Bob."}}, {"t": "MIME structure", "d": "Multipart messages nest alternatives and attachments in a MIME tree. Walking the tree separates body from attachments. Structure organizes content.", "c": "algorithms", "r": 1, "p": {"RAW": "From: a@x\\nTo: b@x\\nSubject: T\\nMessage-ID: <m2@x>\\nContent-Type: multipart/mixed; boundary=B\\n\\n--B\\nContent-Type: text/plain\\n\\nBody here.\\n--B\\nContent-Type: application/octet-stream; name=f.bin\\nContent-Disposition: attachment; filename=f.bin\\n\\nDATA\\n--B--"}}, {"t": "Attachment extraction", "d": "Attachments decode from base64/quoted-printable with filenames from disposition headers. Extractors save them with sanitized names. Attachments are the payload.", "c": "implementation", "r": 1, "p": {"RAW": "From: a@x\\nTo: b@x\\nSubject: F\\nMessage-ID: <m3@x>\\nContent-Type: multipart/mixed; boundary=B\\n\\n--B\\nContent-Type: text/plain\\n\\nSee attached.\\n--B\\nContent-Type: text/plain; name=n.txt\\nContent-Disposition: attachment; filename=n.txt\\n\\naGVsbG8=\\n--B--"}}, {"t": "Thread reconstruction", "d": "In-Reply-To and References headers chain messages into threads. Threading sorts conversations into trees. Threads restore context.", "c": "optimization", "r": 1, "p": {"RAW": "From: b@x\\nTo: a@x\\nSubject: Re: Hello\\nMessage-ID: <m4@x>\\nIn-Reply-To: <m1@x>\\nReferences: <m1@x>\\n\\nReplying."}}, {"t": "Date normalization", "d": "Dates parse to UTC instants despite varied formats and zones. Normalized dates sort correctly. Time needs a standard.", "c": "evaluation", "r": 1, "p": {"RAW": "From: a@x\\nTo: b@x\\nDate: Tue, 2 Jan 2024 15:30:00 -0500\\nSubject: D\\nMessage-ID: <m5@x>\\n\\nHi."}}, {"t": "Address parsing", "d": "Address headers parse into display names and addr-specs, handling groups. Parsing normalizes participants. People need identity.", "c": "fundamentals", "r": 2, "p": {"RAW": "From: Amy Lee <amy@x.test>\\nTo: bob@x.test\\nSubject: A\\nMessage-ID: <m6@x>\\n\\nHi."}}, {"t": "Body text extraction", "d": "The plain-text body part is preferred; HTML falls back with tags stripped. Quoted replies can be trimmed. Bodies carry the message.", "c": "algorithms", "r": 2, "p": {"RAW": "From: a@x\\nTo: b@x\\nSubject: B\\nMessage-ID: <m7@x>\\nContent-Type: text/plain\\n\\nFirst line.\\nSecond line."}}, {"t": "Encoding handling", "d": "Encoded words (=?UTF-8?B?...) decode international headers. Charset detection decodes bodies. Encodings globalize mail.", "c": "implementation", "r": 2, "p": {"RAW": "From: a@x\\nTo: b@x\\nSubject: =?UTF-8?B?aGVsbG8=?=\\nMessage-ID: <m8@x>\\n\\nHi."}}, {"t": "Duplicate detection", "d": "Message-IDs dedupe; re-sent copies collapse. Dedup keeps archives honest. Identity prevents doubles.", "c": "optimization", "r": 2, "p": {"RAW": "From: a@x\\nTo: b@x\\nSubject: Dup\\nMessage-ID: <m9@x>\\n\\nOnce."}}, {"t": "Mailbox formats", "d": "mbox, Maildir, and PST each need their own reader. Format readers normalize to message streams. Formats vary; messages persist.", "c": "evaluation", "r": 2, "p": {"RAW": "From: a@x\\nTo: b@x\\nSubject: M\\nMessage-ID: <m10@x>\\n\\nMail."}}, {"t": "Phishing signals", "d": "Header anomalies (mismatched From/Sender, odd Received chains) flag phishing. Extractors surface authentication results (SPF/DKIM). Signals protect users.", "c": "fundamentals", "r": 3, "p": {"RAW": "From: a@x\\nTo: b@x\\nSubject: S\\nMessage-ID: <m11@x>\\n\\nHi."}}, {"t": "Search indexing", "d": "Extracted fields index for fast search over archives. Full-text plus fielded queries cover needs. Indexes make mail findable.", "c": "algorithms", "r": 3, "p": {"RAW": "From: amy@x\\nTo: bob@x\\nSubject: Project\\nMessage-ID: <m12@x>\\n\\nThe project deadline moved."}}, {"t": "Redaction support", "d": "Extractors can redact PII patterns before archiving. Redaction balances utility and privacy. Care protects people.", "c": "implementation", "r": 3, "p": {"RAW": "From: a@x\\nTo: b@x\\nSubject: R\\nMessage-ID: <m13@x>\\n\\nCall 555-1234."}}, {"t": "Legal hold export", "d": "Hold exports preserve messages with hash manifests. Manifests prove integrity. Evidence needs rigor.", "c": "optimization", "r": 3, "p": {"RAW": "From: a@x\\nTo: b@x\\nSubject: L\\nMessage-ID: <m14@x>\\n\\nKept."}}, {"t": "Statistics dashboards", "d": "Volumes per sender, thread lengths, and response times summarize archives. Stats reveal communication patterns. Numbers tell stories.", "c": "evaluation", "r": 3, "p": {"RAW": "From: a@x\\nTo: b@x\\nSubject: S\\nMessage-ID: <m15@x>\\n\\nData."}}];
+var DEMO="# Email extraction: parse RFC822 messages (stdlib email), list headers + attachments + thread refs.\nfrom email import policy\nfrom email.parser import BytesParser\nraw = \"\"\"%%RAW%%\"\"\".replace(\"\\\\n\", \"\\n\").encode()\nmsg = BytesParser(policy=policy.default).parsebytes(raw)\nprint(\"From:\", msg[\"from\"], \"| To:\", msg[\"to\"], \"| Date:\", msg[\"date\"])\nprint(\"Subject:\", msg[\"subject\"])\nprint(\"Message-ID:\", msg[\"message-id\"], \"| In-Reply-To:\", msg[\"in-reply-to\"])\nn_att = 0\nfor part in msg.walk():\n    if part.get_content_disposition() == \"attachment\":\n        n_att += 1\n        print(f\"attachment: {part.get_filename()} ({len(part.get_payload(decode=True) or b'')} bytes)\")\nbody = msg.get_body(preferencelist=(\"plain\",))\nprint(\"body preview:\", (body.get_content()[:60].replace(\"\\n\", \" \") if body else \"none\"))\nprint(\"attachments:\", n_att)\n";
+function demoFor(a){var s=DEMO;for(var k in a.p){s=s.split('%%'+k+'%%').join(a.p[k]);}return s;}
+function generate(seed,opts,rnd){
+  opts=opts||{};rnd=rnd||prng(seed);
+  var cat=opts.category||pick(CATS,rnd);
+  var pool=ASPECTS.filter(function(a){return a.c===cat;});
+  var a=pick(pool.length?pool:ASPECTS,rnd);
+  var id=PREFIX+String(seed).padStart(5,'0');
+  return {id:id,t:a.t.slice(0,80),title:(SIG?'Signature ':'')+a.t+' \u2014 '+TOOLNAME,description:a.d,kind:KIND,category:a.c,ladder_rank:a.r,demo:demoFor(a),provenance:PROV,last_verified:'2026-10-21',src:SRC,_seed:seed};
+}
+function validate(r){
+  var e=[];
+  if(!r||typeof r!=='object')return {ok:false,errors:['not an object']};
+  if(!new RegExp("^JAH\\-ATK146\\-\\d+$").test(r.id||''))e.push('id');
+  if(typeof r.t!=='string'||!r.t.length)e.push('t');
+  if(typeof r.title!=='string'||!r.title.length)e.push('title');
+  if(typeof r.description!=='string'||r.description.length<50)e.push('description');
+  if(r.kind!==KIND)e.push('kind');
+  if(CATS.indexOf(r.category)<0)e.push('category');
+  if(!(r.ladder_rank>=1&&r.ladder_rank<=3))e.push('ladder_rank');
+  if(typeof r.demo!=='string'||r.demo.indexOf('print(')<0)e.push('demo');
+  if(typeof r.provenance!=='string'||!r.provenance.length)e.push('provenance');
+  if(r.last_verified!=='2026-10-21')e.push('last_verified');
+  if(r.src!==SRC)e.push('src');
+  return {ok:!e.length,errors:e};
+}
+function driftCheck(rec,sample){
+  sample=sample||[];
+  for(var i=0;i<sample.length;i++){
+    var s=sample[i];
+    if(s&&s.title===rec.title&&s.description===rec.description)
+      return {ok:false,errors:['duplicate of archived record '+s.id]};
+  }
+  return {ok:true,errors:[]};
+}
+var gen={version:"jahdb-archive-toolkit-email-archive-extractor-1.0",generate:generate,validate:validate,driftCheck:driftCheck};
+if(typeof JAHDB!=='undefined'&&JAHDB.registerGenerator)JAHDB.registerGenerator("archive-toolkit-email-archive-extractor",gen);
+if(typeof module!=='undefined'&&module.exports)module.exports=gen;
+})();

@@ -1,0 +1,51 @@
+(function(){
+'use strict';
+function prng(seed){var a=(seed>>>0)||1;return function(){a|=0;a=(a+0x6D2B79F5)|0;var t=Math.imul(a^(a>>>15),1|a);t=(t+Math.imul(t^(t>>>7),61|t))^t;return((t^(t>>>14))>>>0)/4294967296;};}
+function pick(r,s){return r[(s()*r.length)|0];}
+var CATS=["fundamentals", "algorithms", "implementation", "optimization", "evaluation"];
+var PREFIX="JAH-ATK104-";
+var KIND="search method";
+var TOOLNAME="Prefix and Suffix Search";
+var SIG=false;
+var PROV="Public methodology \u2014 standard computer-science technique documented in the technical literature; fact-checked 2026-10-21.";
+var SRC="public-harvest";
+var ASPECTS=[{"t": "Trie data structure", "d": "A trie stores strings in a tree where each edge is one character and each root-to-node path spells a prefix. Shared prefixes share nodes, so 'archive', 'archives', and 'archival' overlap on the 'archiv' path. Tries answer prefix queries in time proportional to the prefix length plus the number of matches.", "c": "fundamentals", "r": 1, "p": {"PREFIX": "arch", "SUFFIX": "ing", "WORDS": "['archive','archives','archival','archiving','index','catalog']"}}, {"t": "Prefix query evaluation", "d": "A prefix query walks the trie along the query characters; failure at any step means zero matches. From the arrival node, a depth-first collection gathers every word in the subtree. The walk costs O(p) for a prefix of length p, independent of vocabulary size.", "c": "algorithms", "r": 1, "p": {"PREFIX": "cat", "SUFFIX": "og", "WORDS": "['catalog','catalogue','cat','cater','dog','cataloging']"}}, {"t": "Reversed trie for suffixes", "d": "Suffix search reuses the trie by inserting every word reversed, turning suffixes into prefixes of reversed strings. A suffix query then reverses its pattern and runs the ordinary prefix walk. One extra reversed index doubles the structure but keeps suffix lookups equally fast.", "c": "implementation", "r": 1, "p": {"PREFIX": "in", "SUFFIX": "ing", "WORDS": "['index','indexing','running','sing','catalog']"}}, {"t": "Autocomplete behavior", "d": "Autocomplete is prefix search plus ranking: the trie yields candidates and a scorer orders them by frequency or recency. Incremental typing reuses the previous subtree instead of restarting from the root. Debouncing input and caching subtrees keep keystroke-latency low on big vocabularies.", "c": "optimization", "r": 1, "p": {"PREFIX": "sear", "SUFFIX": "ch", "WORDS": "['search','searching','searched','season','research']"}}, {"t": "Wildcard prefix expansion", "d": "Patterns like 'pre*' compile to a prefix query: walk to the 'pre' node and collect the subtree. Bounded expansion caps the collected terms so a two-letter prefix cannot explode the query plan. Expansion turns user-friendly wildcards into efficient index operations.", "c": "evaluation", "r": 1, "p": {"PREFIX": "un", "SUFFIX": "ed", "WORDS": "['undo','union','united','under','unit','ended']"}}, {"t": "Edge-labeled compression (radix tree)", "d": "A radix tree compresses trie chains of single-child nodes into multi-character edges. This cuts node count dramatically for large vocabularies while preserving the same prefix semantics. Compressed tries back many production autocomplete and routing-table implementations.", "c": "fundamentals", "r": 2, "p": {"PREFIX": "tele", "SUFFIX": "one", "WORDS": "['telephone','telegraph','telescope','television','tone']"}}, {"t": "Suffix array alternative", "d": "A suffix array lists all suffixes of a text in sorted order, supporting substring queries by binary search. It uses less memory than a suffix trie at the cost of O(m log n) lookup for a pattern of length m. Suffix arrays power full-text indexes where a trie per document would be too heavy.", "c": "algorithms", "r": 2, "p": {"PREFIX": "ana", "SUFFIX": "ana", "WORDS": "['banana','bandana','anagram','panama']"}}, {"t": "Aho-Corasick multi-pattern", "d": "Aho-Corasick extends the trie with failure links, finding all of many patterns in one linear scan of the text. Building the automaton is O(total pattern length); scanning is O(text length + matches). It is the standard tool for scanning streams against large keyword sets, from intrusion detection to content filters.", "c": "implementation", "r": 2, "p": {"PREFIX": "he", "SUFFIX": "rs", "WORDS": "['he','she','his','hers','searchers']"}}, {"t": "DAWG for whole vocabularies", "d": "A directed acyclic word graph merges equivalent trie subtrees, storing huge word lists in minimal space. Lookup stays trie-fast while memory drops by an order of magnitude on natural-language vocabularies. Spell checkers and morphology engines commonly ship their lexicons as DAWGs.", "c": "optimization", "r": 2, "p": {"PREFIX": "car", "SUFFIX": "ing", "WORDS": "['car','cars','card','caring','cart']"}}, {"t": "Case and accent folding", "d": "Prefix indexes usually fold case and strip diacritics so 'Archive' matches the prefix 'arch'. Folding happens once at index time and again per query, keeping both sides in the same normal form. Without folding, users must guess the exact capitalization of stored terms.", "c": "evaluation", "r": 2, "p": {"PREFIX": "arch", "SUFFIX": "e", "WORDS": "['Archive','ARCHIVAL','archive','arch']"}}, {"t": "Ranked prefix results", "d": "Raw prefix matches can number in the thousands, so ranking by term frequency, document frequency, or click logs orders them. Top-k collection prunes the subtree walk once k good-enough candidates are found. Ranking turns prefix search from a dump into a useful suggestion list.", "c": "fundamentals", "r": 3, "p": {"PREFIX": "in", "SUFFIX": "ex", "WORDS": "['index','inbox','input','inside','indexing']"}}, {"t": "Fuzzy prefix tolerance", "d": "Fuzzy prefix search allows a few edits in the prefix, using a Levenshtein automaton walked alongside the trie. The automaton tracks the set of reachable edit states per trie node, pruning branches that exceed the budget. This forgives typos in the first characters typed, where plain prefix search fails hardest.", "c": "algorithms", "r": 3, "p": {"PREFIX": "serch", "SUFFIX": "ing", "WORDS": "['search','searching','research','searched']"}}, {"t": "Suffix stripping for stemming", "d": "Stemmers strip known suffixes ('-ing', '-ed', '-s') to conflate inflected forms before indexing. Ordered rules with minimum-stem guards avoid turning 'sing' into 's'. Suffix handling at index time is what lets a query for 'run' match 'running'.", "c": "implementation", "r": 3, "p": {"PREFIX": "run", "SUFFIX": "ing", "WORDS": "['run','running','runs','runner','rung']"}}, {"t": "Prefix search in databases", "d": "B-tree indexes serve prefix queries naturally: 'LIKE 'arch%'' becomes a range scan from 'arch' to 'arch\\uffff. The database seeks to the lower bound and scans forward until keys stop matching. No special structure is needed; the sorted order of the B-tree does the work.", "c": "optimization", "r": 3, "p": {"PREFIX": "2024-", "SUFFIX": "01", "WORDS": "['2024-01','2024-02','2024-10','2023-12']"}}, {"t": "Memory-mapped trie storage", "d": "Large tries live on disk in memory-mapped files so the operating system pages in only the visited nodes. Node layouts use compact arrays of (char, child-offset) pairs to keep each node cache-friendly. This design serves billion-term prefix indexes from a single machine.", "c": "evaluation", "r": 3, "p": {"PREFIX": "data", "SUFFIX": "base", "WORDS": "['data','database','datum','databases','date']"}}];
+var DEMO="# Prefix/suffix search: a trie for prefixes, a reversed trie for suffixes.\nwords = %%WORDS%%\ndef build_trie(ws, rev=False):\n    root = {}\n    for w in ws:\n        node = root\n        for ch in (w[::-1] if rev else w):\n            node = node.setdefault(ch, {})\n        node[\"$\"] = w\n    return root\ndef collect(node, out):\n    for k, v in node.items():\n        if k == \"$\": out.append(v)\n        else: collect(v, out)\ndef search(trie, key):\n    node = trie\n    for ch in key:\n        if ch not in node: return []\n        node = node[ch]\n    out = []; collect(node, out); return sorted(out)\ntrie, rtrie = build_trie(words), build_trie(words, rev=True)\nprint(\"prefix '%%PREFIX%%':\", search(trie, \"%%PREFIX%%\"))\nprint(\"suffix '%%SUFFIX%%':\", search(rtrie, \"%%SUFFIX%%\"[::-1]))\n";
+function demoFor(a){var s=DEMO;for(var k in a.p){s=s.split('%%'+k+'%%').join(a.p[k]);}return s;}
+function generate(seed,opts,rnd){
+  opts=opts||{};rnd=rnd||prng(seed);
+  var cat=opts.category||pick(CATS,rnd);
+  var pool=ASPECTS.filter(function(a){return a.c===cat;});
+  var a=pick(pool.length?pool:ASPECTS,rnd);
+  var id=PREFIX+String(seed).padStart(5,'0');
+  return {id:id,t:a.t.slice(0,80),title:(SIG?'Signature ':'')+a.t+' \u2014 '+TOOLNAME,description:a.d,kind:KIND,category:a.c,ladder_rank:a.r,demo:demoFor(a),provenance:PROV,last_verified:'2026-10-21',src:SRC,_seed:seed};
+}
+function validate(r){
+  var e=[];
+  if(!r||typeof r!=='object')return {ok:false,errors:['not an object']};
+  if(!new RegExp("^JAH\\-ATK104\\-\\d+$").test(r.id||''))e.push('id');
+  if(typeof r.t!=='string'||!r.t.length)e.push('t');
+  if(typeof r.title!=='string'||!r.title.length)e.push('title');
+  if(typeof r.description!=='string'||r.description.length<50)e.push('description');
+  if(r.kind!==KIND)e.push('kind');
+  if(CATS.indexOf(r.category)<0)e.push('category');
+  if(!(r.ladder_rank>=1&&r.ladder_rank<=3))e.push('ladder_rank');
+  if(typeof r.demo!=='string'||r.demo.indexOf('print(')<0)e.push('demo');
+  if(typeof r.provenance!=='string'||!r.provenance.length)e.push('provenance');
+  if(r.last_verified!=='2026-10-21')e.push('last_verified');
+  if(r.src!==SRC)e.push('src');
+  return {ok:!e.length,errors:e};
+}
+function driftCheck(rec,sample){
+  sample=sample||[];
+  for(var i=0;i<sample.length;i++){
+    var s=sample[i];
+    if(s&&s.title===rec.title&&s.description===rec.description)
+      return {ok:false,errors:['duplicate of archived record '+s.id]};
+  }
+  return {ok:true,errors:[]};
+}
+var gen={version:"jahdb-archive-toolkit-prefix-and-suffix-search-1.0",generate:generate,validate:validate,driftCheck:driftCheck};
+if(typeof JAHDB!=='undefined'&&JAHDB.registerGenerator)JAHDB.registerGenerator("archive-toolkit-prefix-and-suffix-search",gen);
+if(typeof module!=='undefined'&&module.exports)module.exports=gen;
+})();

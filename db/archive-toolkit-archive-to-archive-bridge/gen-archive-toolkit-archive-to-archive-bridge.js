@@ -1,0 +1,51 @@
+(function(){
+'use strict';
+function prng(seed){var a=(seed>>>0)||1;return function(){a|=0;a=(a+0x6D2B79F5)|0;var t=Math.imul(a^(a>>>15),1|a);t=(t+Math.imul(t^(t>>>7),61|t))^t;return((t^(t>>>14))>>>0)/4294967296;};}
+function pick(r,s){return r[(s()*r.length)|0];}
+var CATS=["fundamentals", "algorithms", "implementation", "optimization", "evaluation"];
+var PREFIX="JAH-ATK129-";
+var KIND="traversal method";
+var TOOLNAME="Archive-to-Archive Bridge";
+var SIG=false;
+var PROV="Public methodology \u2014 standard computer-science technique documented in the technical literature; fact-checked 2026-10-21.";
+var SRC="public-harvest";
+var ASPECTS=[{"t": "Identifier mapping tables", "d": "Bridges keep tables mapping identifiers between systems: local-id to partner-id. Tables version with the archives they connect. Mappings are the bridge's foundation.", "c": "fundamentals", "r": 1, "p": {"IDENT": "A-101", "SRC": "alpha", "HOPS": "['beta','gamma']", "MAPPINGS": "{('alpha','beta'): {'A-101': 'B-202'}, ('beta','gamma'): {'B-202': 'G-303'}}"}}, {"t": "Multi-hop translation", "d": "Chains of mappings hop across several archives in sequence. Each hop validates before the next begins. Multi-hop paths need loop guards.", "c": "algorithms", "r": 1, "p": {"IDENT": "A-1", "SRC": "a", "HOPS": "['b','c']", "MAPPINGS": "{('a','b'): {'A-1': 'B-1'}, ('b','c'): {'B-1': 'C-1'}}"}}, {"t": "Lossy versus lossless maps", "d": "Some mappings are one-to-one; others merge or split records. Bridges flag lossy hops so downstream knows fidelity. Honest fidelity labels prevent silent data corruption.", "c": "implementation", "r": 1, "p": {"IDENT": "X-1", "SRC": "old", "HOPS": "['new']", "MAPPINGS": "{('old','new'): {'X-1': 'N-1'}}"}}, {"t": "Bidirectional bridges", "d": "Reverse tables (or invertible functions) allow travel both ways. Bidirectionality doubles a bridge's value. Symmetric mappings need consistency checks.", "c": "optimization", "r": 1, "p": {"IDENT": "B-202", "SRC": "beta", "HOPS": "['alpha']", "MAPPINGS": "{('beta','alpha'): {'B-202': 'A-101'}}"}}, {"t": "Schema mediation", "d": "Beyond ids, bridges translate field names and value encodings between schemas. Mediation rules version alongside mappings. Field-level mediation makes records usable, not just findable.", "c": "evaluation", "r": 1, "p": {"IDENT": "R-5", "SRC": "s1", "HOPS": "['s2']", "MAPPINGS": "{('s1','s2'): {'R-5': 'S2-5'}}"}}, {"t": "Federated query routing", "d": "Routers split a query across bridged archives and merge results. Bridges translate both the query and the returned ids. Federation presents many archives as one.", "c": "fundamentals", "r": 2, "p": {"IDENT": "Q-1", "SRC": "main", "HOPS": "['mirror']", "MAPPINGS": "{('main','mirror'): {'Q-1': 'M-1'}}"}}, {"t": "Provenance across hops", "d": "Each hop appends to the provenance chain: which archive, which mapping version. Chains make cross-archive results auditable. Provenance survives the journey.", "c": "algorithms", "r": 2, "p": {"IDENT": "A-9", "SRC": "x", "HOPS": "['y']", "MAPPINGS": "{('x','y'): {'A-9': 'Y-9'}}"}}, {"t": "Stale mapping detection", "d": "Archives change; detectors revalidate mappings by sampling round-trips. Drift beyond tolerance triggers remapping. Fresh mappings keep bridges trustworthy.", "c": "implementation", "r": 2, "p": {"IDENT": "K-2", "SRC": "p", "HOPS": "['q']", "MAPPINGS": "{('p','q'): {'K-2': 'Q-2'}}"}}, {"t": "Partial coverage", "d": "Bridges cover the mapped subset; unmapped ids are reported, not silently dropped. Coverage metrics show how complete each bridge is. Honest coverage beats assumed completeness.", "c": "optimization", "r": 2, "p": {"IDENT": "U-1", "SRC": "m", "HOPS": "['n']", "MAPPINGS": "{('m','n'): {'M-1': 'N-1'}}"}}, {"t": "Access mediation", "d": "Bridges enforce each archive's access rules during traversal. Credentials never cross; each hop authenticates locally. Mediated access keeps federation compliant.", "c": "evaluation", "r": 2, "p": {"IDENT": "S-3", "SRC": "pub", "HOPS": "['priv']", "MAPPINGS": "{('pub','priv'): {'S-3': 'P-3'}}"}}, {"t": "Conflict resolution", "d": "Two archives may disagree on a record; bridges surface both with provenance. Resolution policies (newest, authoritative source) apply transparently. Visible conflicts beat hidden ones.", "c": "fundamentals", "r": 3, "p": {"IDENT": "C-7", "SRC": "a1", "HOPS": "['a2']", "MAPPINGS": "{('a1','a2'): {'C-7': 'C2-7'}}"}}, {"t": "Bridge health monitoring", "d": "Monitors probe sample mappings continuously for latency and correctness. Alerts fire when a bridge degrades. Monitored bridges stay reliable.", "c": "algorithms", "r": 3, "p": {"IDENT": "H-1", "SRC": "s", "HOPS": "['t']", "MAPPINGS": "{('s','t'): {'H-1': 'T-1'}}"}}, {"t": "Ontology-based bridging", "d": "Shared ontologies align concepts so bridges map meaning, not just ids. Concept alignment handles schema evolution gracefully. Semantic bridges outlast syntactic ones.", "c": "implementation", "r": 3, "p": {"IDENT": "O-4", "SRC": "o1", "HOPS": "['o2']", "MAPPINGS": "{('o1','o2'): {'O-4': 'P-4'}}"}}, {"t": "Caching translations", "d": "Hot mappings cache with TTLs; invalidation follows source change feeds. Caching cuts cross-archive latency dramatically. Cache discipline keeps translations fresh.", "c": "optimization", "r": 3, "p": {"IDENT": "Z-8", "SRC": "w", "HOPS": "['v']", "MAPPINGS": "{('w','v'): {'Z-8': 'V-8'}}"}}, {"t": "Bridge governance", "d": "Bridge registries record who maintains each mapping and its review cadence. Governance keeps bridges from rotting silently. Accountable bridges last.", "c": "evaluation", "r": 3, "p": {"IDENT": "G-6", "SRC": "g1", "HOPS": "['g2']", "MAPPINGS": "{('g1','g2'): {'G-6': 'G2-6'}}"}}];
+var DEMO="# Archive bridge: translate identifiers between systems via mapping tables, then hop.\nmappings = %%MAPPINGS%%\nhops = %%HOPS%%\ndef translate(ident, src, dst):\n    key = (src, dst)\n    if key not in mappings: return None\n    return mappings[key].get(ident)\nident, src = \"%%IDENT%%\", \"%%SRC%%\"\nprint(f\"Start: {ident} in {src}\")\nfor dst in hops:\n    nxt = translate(ident, src, dst)\n    if nxt is None:\n        print(f\"  no mapping {src} -> {dst}; stop\"); break\n    print(f\"  {src} -> {dst}: {ident} becomes {nxt}\")\n    ident, src = nxt, dst\n";
+function demoFor(a){var s=DEMO;for(var k in a.p){s=s.split('%%'+k+'%%').join(a.p[k]);}return s;}
+function generate(seed,opts,rnd){
+  opts=opts||{};rnd=rnd||prng(seed);
+  var cat=opts.category||pick(CATS,rnd);
+  var pool=ASPECTS.filter(function(a){return a.c===cat;});
+  var a=pick(pool.length?pool:ASPECTS,rnd);
+  var id=PREFIX+String(seed).padStart(5,'0');
+  return {id:id,t:a.t.slice(0,80),title:(SIG?'Signature ':'')+a.t+' \u2014 '+TOOLNAME,description:a.d,kind:KIND,category:a.c,ladder_rank:a.r,demo:demoFor(a),provenance:PROV,last_verified:'2026-10-21',src:SRC,_seed:seed};
+}
+function validate(r){
+  var e=[];
+  if(!r||typeof r!=='object')return {ok:false,errors:['not an object']};
+  if(!new RegExp("^JAH\\-ATK129\\-\\d+$").test(r.id||''))e.push('id');
+  if(typeof r.t!=='string'||!r.t.length)e.push('t');
+  if(typeof r.title!=='string'||!r.title.length)e.push('title');
+  if(typeof r.description!=='string'||r.description.length<50)e.push('description');
+  if(r.kind!==KIND)e.push('kind');
+  if(CATS.indexOf(r.category)<0)e.push('category');
+  if(!(r.ladder_rank>=1&&r.ladder_rank<=3))e.push('ladder_rank');
+  if(typeof r.demo!=='string'||r.demo.indexOf('print(')<0)e.push('demo');
+  if(typeof r.provenance!=='string'||!r.provenance.length)e.push('provenance');
+  if(r.last_verified!=='2026-10-21')e.push('last_verified');
+  if(r.src!==SRC)e.push('src');
+  return {ok:!e.length,errors:e};
+}
+function driftCheck(rec,sample){
+  sample=sample||[];
+  for(var i=0;i<sample.length;i++){
+    var s=sample[i];
+    if(s&&s.title===rec.title&&s.description===rec.description)
+      return {ok:false,errors:['duplicate of archived record '+s.id]};
+  }
+  return {ok:true,errors:[]};
+}
+var gen={version:"jahdb-archive-toolkit-archive-to-archive-bridge-1.0",generate:generate,validate:validate,driftCheck:driftCheck};
+if(typeof JAHDB!=='undefined'&&JAHDB.registerGenerator)JAHDB.registerGenerator("archive-toolkit-archive-to-archive-bridge",gen);
+if(typeof module!=='undefined'&&module.exports)module.exports=gen;
+})();

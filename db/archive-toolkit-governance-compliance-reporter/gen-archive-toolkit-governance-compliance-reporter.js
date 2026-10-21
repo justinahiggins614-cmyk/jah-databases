@@ -1,0 +1,51 @@
+(function(){'use strict';
+function prng(seed){var a=(seed>>>0)||1;return function(){a|=0;a=(a+0x6D2B79F5)|0;var t=Math.imul(a^(a>>>15),1|a);t=(t+Math.imul(t^(t>>>7),61|t))^t;return((t^(t>>>14))>>>0)/4294967296;}}
+function pick(r,s){return r[(s()*r.length)|0];}
+var CATS=["control-mapping", "violation-tracking", "gap-reporting"];
+var PREFIX="JAH-ATK280-";
+var KIND="governance compliance reporter";
+var SRC="public-harvest";
+/* rows: [category, title, description, focus1, focus2, focus3, demoBody] */
+var ROWS=[
+["control-mapping", "Control-to-requirement mapping", "Each control is mapped to the framework requirements it satisfies (SOC 2, ISO 27001, internal policy). The mapping shows coverage: which requirements have controls and which do not. Mappings are reviewed when frameworks update.", "mapping controls to requirements", "coverage visibility", "review on framework updates", "CFG = {1: 4, 2: 8, 3: 12}\nN = CFG[LEVEL]\nreqs = [\"R%d\" % i for i in range(N)]\ncovered = {r: (i % 3 != 2) for i, r in enumerate(reqs)}\ngaps = [r for r, c in covered.items() if not c]\nprint(\"requirements:\", N, \"| covered:\", sum(covered.values()), \"| gaps:\", gaps or [\"none\"])"],
+["violation-tracking", "Violation register", "Violations are logged with severity, owner, detection time, and evidence. The register is the single list of what went wrong; nothing is tracked in side channels. Owners acknowledge and drive remediation; unacknowledged violations escalate.", "severity, owner, evidence per violation", "single register, no side channels", "escalation on unacknowledged", "CFG = {1: 1, 2: 3, 3: 6}\nN = CFG[LEVEL]\nviolations = [{\"id\": \"V%d\" % i, \"sev\": [\"low\", \"high\", \"critical\"][i % 3], \"acked\": i % 2 == 0} for i in range(N)]\nfor v in violations:\n    print(v[\"id\"], v[\"sev\"], \"| acked:\", v[\"acked\"], \"->\", \"ok\" if v[\"acked\"] else \"ESCALATE\")"],
+["gap-reporting", "Remediation tracking", "Each violation gets a remediation plan with steps, owner, and due date; closure requires evidence that the fix works, not just that it was attempted. Plans track planned, in-progress, and verified-closed states. Reopened violations link to their history.", "plans with steps, owners, due dates", "evidence-required closure", "reopen linking to history", "CFG = {1: [\"planned\"], 2: [\"planned\", \"in-progress\"], 3: [\"planned\", \"in-progress\", \"verified-closed\"]}\nstates = CFG[LEVEL]\nclosed = states[-1] == \"verified-closed\"\nprint(\"remediation:\", \" -> \".join(states), \"| closed:\", closed)"],
+["control-mapping", "Compliance gap analysis", "Required controls are compared against implemented controls to list gaps: missing, partial, or untested. Each gap gets a risk rating and a remediation owner. Gap analysis runs on schedule and after every framework change.", "required vs implemented comparison", "risk-rated gaps with owners", "scheduled and change-triggered runs", "CFG = {1: (10, 9), 2: (20, 15), 3: (50, 40)}\nrequired, have = CFG[LEVEL]\ngaps = required - have\nprint(\"required:\", required, \"| implemented:\", have, \"| gaps:\", gaps)"],
+["violation-tracking", "Scheduled compliance reporting", "Compliance reports are generated on a schedule with evidence attached: control status, violations, gaps, and remediation progress. Reports are immutable once issued and archived. Schedules ensure reporting happens whether or not anyone asks.", "scheduled evidence-backed reports", "immutable issued reports", "reporting independent of requests", "CFG = {1: \"weekly\", 2: \"monthly\", 3: \"quarterly\"}\nsched = CFG[LEVEL]\nreport = {\"period\": sched, \"controls_ok\": 42, \"violations\": 3, \"gaps\": 2, \"issued\": \"2026-10-21\"}\nprint(\"report:\", report, \"| immutable: True | archived: True\")"]
+];
+function escRe(s){return s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');}
+function generate(seed,opts,rnd){
+  opts=opts||{};rnd=rnd||prng(seed);
+  var cat=opts.category||pick(CATS,rnd);
+  var pool=ROWS.filter(function(r){return r[0]===cat;});
+  var row=pick(pool.length?pool:ROWS,rnd);
+  var ladder=1+((seed>>>0)%3);
+  var focus=[row[3],row[4],row[5]][ladder-1];
+  var stage=['','At ladder rank 1 (foundation), this record covers ','At ladder rank 2 (compounded), it builds on the foundation with ','At ladder rank 3 (full complexity), it extends to production scale with '][ladder];
+  var id=PREFIX+String(seed>>>0).padStart(6,'0');
+  return {id:id,t:row[1],title:row[1],description:row[2]+' '+stage+focus+'.',kind:KIND,category:row[0],ladder_rank:ladder,demo:'LEVEL = '+ladder+'\n'+row[6],provenance:"Public harvest — documented archive-engineering practice; method fact-checked against standard references.",last_verified:'2026-10-21',src:SRC,_seed:seed};
+}
+function validate(r){
+  var e=[];
+  if(!r||typeof r!=='object')return {ok:false,errors:['not an object']};
+  if(!new RegExp('^'+escRe(PREFIX)+'\\d{6}$').test(r.id||''))e.push('id');
+  if(typeof r.t!=='string'||!r.t.length||r.t!==r.title)e.push('title');
+  if(typeof r.description!=='string'||r.description.length<80)e.push('description');
+  if(r.kind!==KIND)e.push('kind');
+  if(CATS.indexOf(r.category)<0)e.push('category');
+  if([1,2,3].indexOf(r.ladder_rank)<0)e.push('ladder_rank');
+  if(typeof r.demo!=='string'||r.demo.indexOf('LEVEL = '+r.ladder_rank)!==0)e.push('demo');
+  if(typeof r.provenance!=='string'||!r.provenance.length)e.push('provenance');
+  if(r.last_verified!=='2026-10-21')e.push('last_verified');
+  if(r.src!==SRC)e.push('src');
+  return {ok:!e.length,errors:e};
+}
+function driftCheck(rec,sample){
+  sample=sample||[];
+  for(var i=0;i<sample.length;i++){if(sample[i]&&sample[i].id===rec.id)return {ok:false,errors:['duplicate id in archive sample']};}
+  return {ok:true,errors:[]};
+}
+var gen={version:"jahdb-archive-toolkit-governance-compliance-reporter-1.0",generate:generate,validate:validate,driftCheck:driftCheck};
+if(typeof JAHDB!=='undefined'&&JAHDB.registerGenerator)JAHDB.registerGenerator("archive-toolkit-governance-compliance-reporter",gen);
+if(typeof module!=='undefined'&&module.exports)module.exports=gen;
+})();

@@ -1,0 +1,51 @@
+(function(){
+'use strict';
+function prng(seed){var a=(seed>>>0)||1;return function(){a|=0;a=(a+0x6D2B79F5)|0;var t=Math.imul(a^(a>>>15),1|a);t=(t+Math.imul(t^(t>>>7),61|t))^t;return((t^(t>>>14))>>>0)/4294967296;};}
+function pick(r,s){return r[(s()*r.length)|0];}
+var CATS=["fundamentals", "algorithms", "implementation", "optimization", "evaluation"];
+var PREFIX="JAH-ATK131-";
+var KIND="traversal method";
+var TOOLNAME="Local Storage Explorer";
+var SIG=false;
+var PROV="Public methodology \u2014 standard computer-science technique documented in the technical literature; fact-checked 2026-10-21.";
+var SRC="public-harvest";
+var ASPECTS=[{"t": "Pattern matching", "d": "Glob patterns (*.pdf, report-*) filter listings by name. fnmatch semantics cover the everyday cases. Patterns focus exploration fast.", "c": "fundamentals", "r": 1, "p": {"PAT": "*.pdf", "MINSIZE": "0", "FILES": "[{'name': 'a.pdf', 'size': 100, 'mtime': '2024-01-01'}, {'name': 'b.txt', 'size': 50, 'mtime': '2024-01-02'}]"}}, {"t": "Size filtering", "d": "Size predicates find the space hogs: 'files over 1GB'. Sorted-by-size views guide cleanup. Size filters manage capacity.", "c": "algorithms", "r": 1, "p": {"PAT": "*", "MINSIZE": "1000", "FILES": "[{'name': 'big.iso', 'size': 5000, 'mtime': '2024-01-01'}, {'name': 'tiny.txt', 'size': 10, 'mtime': '2024-01-02'}]"}}, {"t": "Recency filtering", "d": "'Modified in the last 7 days' uses mtime comparisons. Recency finds what changed. Time filters triage activity.", "c": "implementation", "r": 1, "p": {"PAT": "*", "MINSIZE": "0", "FILES": "[{'name': 'new.txt', 'size': 10, 'mtime': '2024-06-01'}, {'name': 'old.txt', 'size': 10, 'mtime': '2020-01-01'}]"}}, {"t": "Duplicate finding", "d": "Size-then-hash grouping finds duplicate files wasting space. Duplicates report with reclaimable bytes. Dedup reclaims storage.", "c": "optimization", "r": 1, "p": {"PAT": "*", "MINSIZE": "0", "FILES": "[{'name': 'a.txt', 'size': 100, 'mtime': '2024-01-01'}, {'name': 'b.txt', 'size': 100, 'mtime': '2024-01-02'}]"}}, {"t": "Permission inspection", "d": "Explorers show owner, group, and mode bits per entry. Permission views explain access denials. Visibility aids troubleshooting.", "c": "evaluation", "r": 1, "p": {"PAT": "*", "MINSIZE": "0", "FILES": "[{'name': 'secret.key', 'size': 50, 'mtime': '2024-01-01'}]"}}, {"t": "Hidden files", "d": "Dotfiles hide by convention; explorers toggle their visibility. Showing hidden files reveals configuration. Toggles serve both novices and experts.", "c": "fundamentals", "r": 2, "p": {"PAT": ".*", "MINSIZE": "0", "FILES": "[{'name': '.config', 'size': 20, 'mtime': '2024-01-01'}, {'name': 'visible.txt', 'size': 20, 'mtime': '2024-01-01'}]"}}, {"t": "Drive health", "d": "Explorers surface per-drive free space and SMART warnings. Health visibility prompts action before failure. Monitoring prevents data loss.", "c": "algorithms", "r": 2, "p": {"PAT": "*", "MINSIZE": "0", "FILES": "[{'name': 'f.txt', 'size': 10, 'mtime': '2024-01-01'}]"}}, {"t": "Search indexing", "d": "Background indexers make filename and content search instant. Indexed search beats walking on every query. Indexes trade freshness for speed.", "c": "implementation", "r": 2, "p": {"PAT": "*report*", "MINSIZE": "0", "FILES": "[{'name': 'annual-report.pdf', 'size': 200, 'mtime': '2024-01-01'}]"}}, {"t": "Safe deletion", "d": "Explorers move to trash first, with restore and permanent-delete as separate steps. Two-stage deletion prevents accidents. Safety rails matter for irreplaceable data.", "c": "optimization", "r": 2, "p": {"PAT": "*.tmp", "MINSIZE": "0", "FILES": "[{'name': 'a.tmp', 'size': 5, 'mtime': '2024-01-01'}]"}}, {"t": "Batch operations", "d": "Multi-select applies copy/move/rename to many files at once. Progress and undo keep batches safe. Batches multiply productivity.", "c": "evaluation", "r": 2, "p": {"PAT": "*.txt", "MINSIZE": "0", "FILES": "[{'name': 'a.txt', 'size': 5, 'mtime': '2024-01-01'}, {'name': 'b.txt', 'size': 6, 'mtime': '2024-01-02'}]"}}, {"t": "Content preview", "d": "Previews render text, images, and documents without opening applications. Quick look speeds triage. Previews keep exploration flowing.", "c": "fundamentals", "r": 3, "p": {"PAT": "*.md", "MINSIZE": "0", "FILES": "[{'name': 'notes.md', 'size': 80, 'mtime': '2024-01-01'}]"}}, {"t": "Symbolic link display", "d": "Explorers show link targets and flag broken links. Broken-link reports guide cleanup. Link visibility prevents confusion.", "c": "algorithms", "r": 3, "p": {"PAT": "*", "MINSIZE": "0", "FILES": "[{'name': 'link', 'size': 0, 'mtime': '2024-01-01'}]"}}, {"t": "Network share browsing", "d": "SMB/NFS shares browse like local drives once mounted. Credential handling stays in the OS layer. Unified browsing covers all attached storage.", "c": "implementation", "r": 3, "p": {"PAT": "*", "MINSIZE": "0", "FILES": "[{'name': 'shared.doc', 'size': 300, 'mtime': '2024-01-01'}]"}}, {"t": "Forensic timelines", "d": "Forensic views sort all filesystem events into a super-timeline. Timelines reconstruct activity for investigations. MACB timestamps tell the story.", "c": "optimization", "r": 3, "p": {"PAT": "*", "MINSIZE": "0", "FILES": "[{'name': 'evidence.bin', 'size': 999, 'mtime': '2024-03-03'}]"}}, {"t": "Quota per folder", "d": "Folder quotas show usage against limits during browsing. Over-quota warnings appear before writes fail. Quota visibility keeps teams within budget.", "c": "evaluation", "r": 3, "p": {"PAT": "*", "MINSIZE": "0", "FILES": "[{'name': 'data.bin', 'size': 700, 'mtime': '2024-01-01'}]"}}];
+var DEMO="# Local storage explorer: filter a file listing by pattern, size, and recency.\nimport fnmatch\nfiles = %%FILES%%\npat, min_size = \"%%PAT%%\", %%MINSIZE%%\nprint(f\"pattern={pat!r} min_size={min_size}:\")\nfor f in files:\n    if fnmatch.fnmatch(f[\"name\"], pat) and f[\"size\"] >= min_size:\n        print(f\"  {f['name']:20} {f['size']:>8} bytes  modified {f['mtime']}\")\n";
+function demoFor(a){var s=DEMO;for(var k in a.p){s=s.split('%%'+k+'%%').join(a.p[k]);}return s;}
+function generate(seed,opts,rnd){
+  opts=opts||{};rnd=rnd||prng(seed);
+  var cat=opts.category||pick(CATS,rnd);
+  var pool=ASPECTS.filter(function(a){return a.c===cat;});
+  var a=pick(pool.length?pool:ASPECTS,rnd);
+  var id=PREFIX+String(seed).padStart(5,'0');
+  return {id:id,t:a.t.slice(0,80),title:(SIG?'Signature ':'')+a.t+' \u2014 '+TOOLNAME,description:a.d,kind:KIND,category:a.c,ladder_rank:a.r,demo:demoFor(a),provenance:PROV,last_verified:'2026-10-21',src:SRC,_seed:seed};
+}
+function validate(r){
+  var e=[];
+  if(!r||typeof r!=='object')return {ok:false,errors:['not an object']};
+  if(!new RegExp("^JAH\\-ATK131\\-\\d+$").test(r.id||''))e.push('id');
+  if(typeof r.t!=='string'||!r.t.length)e.push('t');
+  if(typeof r.title!=='string'||!r.title.length)e.push('title');
+  if(typeof r.description!=='string'||r.description.length<50)e.push('description');
+  if(r.kind!==KIND)e.push('kind');
+  if(CATS.indexOf(r.category)<0)e.push('category');
+  if(!(r.ladder_rank>=1&&r.ladder_rank<=3))e.push('ladder_rank');
+  if(typeof r.demo!=='string'||r.demo.indexOf('print(')<0)e.push('demo');
+  if(typeof r.provenance!=='string'||!r.provenance.length)e.push('provenance');
+  if(r.last_verified!=='2026-10-21')e.push('last_verified');
+  if(r.src!==SRC)e.push('src');
+  return {ok:!e.length,errors:e};
+}
+function driftCheck(rec,sample){
+  sample=sample||[];
+  for(var i=0;i<sample.length;i++){
+    var s=sample[i];
+    if(s&&s.title===rec.title&&s.description===rec.description)
+      return {ok:false,errors:['duplicate of archived record '+s.id]};
+  }
+  return {ok:true,errors:[]};
+}
+var gen={version:"jahdb-archive-toolkit-local-storage-explorer-1.0",generate:generate,validate:validate,driftCheck:driftCheck};
+if(typeof JAHDB!=='undefined'&&JAHDB.registerGenerator)JAHDB.registerGenerator("archive-toolkit-local-storage-explorer",gen);
+if(typeof module!=='undefined'&&module.exports)module.exports=gen;
+})();

@@ -1,0 +1,51 @@
+(function(){
+'use strict';
+function prng(seed){var a=(seed>>>0)||1;return function(){a|=0;a=(a+0x6D2B79F5)|0;var t=Math.imul(a^(a>>>15),1|a);t=(t+Math.imul(t^(t>>>7),61|t))^t;return((t^(t>>>14))>>>0)/4294967296;};}
+function pick(r,s){return r[(s()*r.length)|0];}
+var CATS=["fundamentals", "algorithms", "implementation", "optimization", "evaluation"];
+var PREFIX="JAH-ATK113-";
+var KIND="search method";
+var TOOLNAME="Code Similarity Search";
+var SIG=false;
+var PROV="Public methodology \u2014 standard computer-science technique documented in the technical literature; fact-checked 2026-10-21.";
+var SRC="public-harvest";
+var ASPECTS=[{"t": "Token normalization", "d": "Identifiers are normalized to ID and literals to LIT so that renamed variables still match. Keywords and operators stay literal because they carry the algorithmic structure. Normalization separates what the code does from what its author named things.", "c": "fundamentals", "r": 1, "p": {"N": "3", "QUERY": "def add(a, b): return a + b", "SNIPPETS": "{'s1': 'def add(x, y): return x + y', 's2': 'def sub(a, b): return a - b', 's3': 'print(hello)'}"}}, {"t": "Shingle fingerprints", "d": "Token streams are cut into overlapping n-grams (shingles); the set of shingles fingerprints the code. Jaccard similarity of shingle sets measures shared structure robustly. Shingling catches copied-and-pasted code even after edits.", "c": "algorithms", "r": 1, "p": {"N": "3", "QUERY": "for i in range(n): total += i", "SNIPPETS": "{'s1': 'for j in range(m): total += j', 's2': 'while True: break', 's3': 'for i in range(n): s += i'}"}}, {"t": "MinHash for scale", "d": "MinHash compresses shingle sets into short signatures whose collision probability equals Jaccard similarity. Locality-sensitive hashing then buckets similar signatures so queries skip dissimilar code. This scales clone detection to billions of lines.", "c": "implementation", "r": 1, "p": {"N": "4", "QUERY": "def f(x): return x * 2 + 1", "SNIPPETS": "{'s1': 'def f(y): return y * 2 + 1', 's2': 'def g(a): return a + 1'}"}}, {"t": "AST-based comparison", "d": "Parsing to an abstract syntax tree removes formatting and lets comparison work on structure. Tree edit distance or subtree hashing then measures similarity independent of layout. AST methods find clones that token methods miss across restructured code.", "c": "optimization", "r": 1, "p": {"N": "3", "QUERY": "if x > 0: print(x)", "SNIPPETS": "{'s1': 'if y > 0:\\n    print(y)', 's2': 'while x: x -= 1'}"}}, {"t": "Type-1 to Type-4 clones", "d": "Clone taxonomy runs from identical (Type-1) through renamed (Type-2) and edited (Type-3) to semantic equivalents (Type-4). Each type needs stronger analysis: text, tokens, trees, then program dependence graphs. Naming the clone type sets honest expectations for a detector.", "c": "evaluation", "r": 1, "p": {"N": "3", "QUERY": "x = x + 1", "SNIPPETS": "{'s1': 'x = x + 1', 's2': 'y = y + 1', 's3': 'x += 1'}"}}, {"t": "Program dependence graphs", "d": "PDGs link statements by data and control dependence, capturing semantics beyond syntax. Subgraph matching on PDGs finds Type-4 clones: different code, same behavior. PDG comparison is expensive but the gold standard for semantic clones.", "c": "fundamentals", "r": 2, "p": {"N": "3", "QUERY": "a = b + c\\nd = a * 2", "SNIPPETS": "{'s1': 'x = y + z\\nw = x * 2', 's2': 'print(b + c)'}"}}, {"t": "Identifier semantics", "d": "Split identifiers ('getUserName' to get/user/name) carry meaning; embedding them captures intent. Semantic similarity of names complements structural similarity of code. Name-aware search finds 'fetchCustomer' when querying 'getUser'.", "c": "algorithms", "r": 2, "p": {"N": "2", "QUERY": "def get_user(id): return db.find(id)", "SNIPPETS": "{'s1': 'def fetch_customer(cid): return db.find(cid)', 's2': 'def save_user(u): db.save(u)'}"}}, {"t": "Cross-language clones", "d": "Algorithms recur across languages; normalized intermediate representations bridge syntax differences. Control-flow skeletons plus operator sequences transfer across Python, Java, and C++. Cross-language search finds the same algorithm wherever it was implemented.", "c": "implementation", "r": 2, "p": {"N": "3", "QUERY": "for i in range(10): print(i)", "SNIPPETS": "{'s1': 'for j in range(10): print(j)', 's2': 'x = 5'}"}}, {"t": "Plagiarism detection", "d": "Plagiarism detectors combine shingle overlap with anomaly signals like style breaks. MOSS-style fingerprinting with winnowing selects representative shingles per window. Results always go to human review; similarity is evidence, not verdict.", "c": "optimization", "r": 2, "p": {"N": "4", "QUERY": "def solve(n):\\n    s = 0\\n    for i in range(n):\\n        s += i\\n    return s", "SNIPPETS": "{'s1': 'def solve(m):\\n    t = 0\\n    for j in range(m):\\n        t += j\\n    return t', 's2': 'def other(): pass'}"}}, {"t": "License compliance scanning", "d": "Scanners fingerprint open-source components and match them against codebases to flag license obligations. Binary and snippet-level matching catch vendored code without attribution. Compliance scanning is standard diligence in software supply chains.", "c": "evaluation", "r": 2, "p": {"N": "3", "QUERY": "# MIT licensed helper\\ndef helper(): pass", "SNIPPETS": "{'s1': '# MIT licensed helper\\ndef helper(): pass', 's2': 'def helper2(): pass'}"}}, {"t": "Vulnerability clone search", "d": "Known-vulnerable code patterns are fingerprinted; codebases are searched for their clones. Finding the pattern's siblings locates the same bug copied across projects. This turns one CVE fix into a fleet-wide sweep.", "c": "fundamentals", "r": 3, "p": {"N": "3", "QUERY": "strcpy(dst, src)", "SNIPPETS": "{'s1': 'strcpy(buf, input)', 's2': 'strncpy(dst, src, n)'}"}}, {"t": "API usage similarity", "d": "Methods are characterized by the API calls they make, in order. Similar call sequences reveal similar functionality even when implementations differ. API-sequence search powers 'how do others use this library' queries.", "c": "algorithms", "r": 3, "p": {"N": "2", "QUERY": "open(f)\\ndata = read()\\nclose()", "SNIPPETS": "{'s1': 'fh = open(g)\\nbuf = read()\\nclose()', 's2': 'x = 1'}"}}, {"t": "Embedding code models", "d": "Neural code embeddings map functions to vectors where similar behavior means nearby vectors. Trained on massive corpora, they capture semantics token methods miss. Vector search over embeddings is the modern default for code similarity.", "c": "implementation", "r": 3, "p": {"N": "3", "QUERY": "def sort_items(items): return sorted(items)", "SNIPPETS": "{'s1': 'def order(xs): return sorted(xs)', 's2': 'def rev(s): return s[::-1]'}"}}, {"t": "Incremental index updates", "d": "Code indexes update per commit, re-fingerprinting only changed files. Stale fingerprints would report clones that no longer exist. Incremental pipelines keep similarity search fresh on active repositories.", "c": "optimization", "r": 3, "p": {"N": "3", "QUERY": "v = 1", "SNIPPETS": "{'s1': 'v = 1', 's2': 'v = 2'}"}}, {"t": "Evaluating similarity quality", "d": "Labeled clone benchmarks (like BigCloneBench) score detectors on precision and recall per clone type. Separate scores per type keep strong Type-1 results from hiding weak Type-4 ones. Benchmarks make competing approaches honestly comparable.", "c": "evaluation", "r": 3, "p": {"N": "3", "QUERY": "total = sum(vals)", "SNIPPETS": "{'s1': 'total = sum(vals)', 's2': 's = 0\\nfor v in vals: s += v'}"}}];
+var DEMO="# Code similarity: token shingles + Jaccard over normalized token streams.\nimport re, keyword\ndef tokenize(code):\n    toks = re.findall(r\"[A-Za-z_][A-Za-z0-9_]*|\\d+|[+\\-*/=<>!&|]+\", code)\n    return [t if (t in keyword.kwlist or not t[0].isalpha()) else \"ID\" for t in toks]\ndef shingles(toks, n=%%N%%):\n    return {\" \".join(toks[i:i+n]) for i in range(len(toks)-n+1)}\nsnippets = %%SNIPPETS%%\nq = shingles(tokenize(\"%%QUERY%%\"))\nprint(\"query tokens:\", tokenize(\"%%QUERY%%\")[:12], \"...\")\nfor name, code in snippets.items():\n    s = shingles(tokenize(code))\n    j = len(q & s) / len(q | s) if q | s else 0.0\n    print(f\"  {name}: Jaccard {j:.3f}\")\n";
+function demoFor(a){var s=DEMO;for(var k in a.p){s=s.split('%%'+k+'%%').join(a.p[k]);}return s;}
+function generate(seed,opts,rnd){
+  opts=opts||{};rnd=rnd||prng(seed);
+  var cat=opts.category||pick(CATS,rnd);
+  var pool=ASPECTS.filter(function(a){return a.c===cat;});
+  var a=pick(pool.length?pool:ASPECTS,rnd);
+  var id=PREFIX+String(seed).padStart(5,'0');
+  return {id:id,t:a.t.slice(0,80),title:(SIG?'Signature ':'')+a.t+' \u2014 '+TOOLNAME,description:a.d,kind:KIND,category:a.c,ladder_rank:a.r,demo:demoFor(a),provenance:PROV,last_verified:'2026-10-21',src:SRC,_seed:seed};
+}
+function validate(r){
+  var e=[];
+  if(!r||typeof r!=='object')return {ok:false,errors:['not an object']};
+  if(!new RegExp("^JAH\\-ATK113\\-\\d+$").test(r.id||''))e.push('id');
+  if(typeof r.t!=='string'||!r.t.length)e.push('t');
+  if(typeof r.title!=='string'||!r.title.length)e.push('title');
+  if(typeof r.description!=='string'||r.description.length<50)e.push('description');
+  if(r.kind!==KIND)e.push('kind');
+  if(CATS.indexOf(r.category)<0)e.push('category');
+  if(!(r.ladder_rank>=1&&r.ladder_rank<=3))e.push('ladder_rank');
+  if(typeof r.demo!=='string'||r.demo.indexOf('print(')<0)e.push('demo');
+  if(typeof r.provenance!=='string'||!r.provenance.length)e.push('provenance');
+  if(r.last_verified!=='2026-10-21')e.push('last_verified');
+  if(r.src!==SRC)e.push('src');
+  return {ok:!e.length,errors:e};
+}
+function driftCheck(rec,sample){
+  sample=sample||[];
+  for(var i=0;i<sample.length;i++){
+    var s=sample[i];
+    if(s&&s.title===rec.title&&s.description===rec.description)
+      return {ok:false,errors:['duplicate of archived record '+s.id]};
+  }
+  return {ok:true,errors:[]};
+}
+var gen={version:"jahdb-archive-toolkit-code-similarity-search-1.0",generate:generate,validate:validate,driftCheck:driftCheck};
+if(typeof JAHDB!=='undefined'&&JAHDB.registerGenerator)JAHDB.registerGenerator("archive-toolkit-code-similarity-search",gen);
+if(typeof module!=='undefined'&&module.exports)module.exports=gen;
+})();

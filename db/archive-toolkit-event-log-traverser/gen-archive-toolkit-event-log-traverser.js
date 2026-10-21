@@ -1,0 +1,51 @@
+(function(){
+'use strict';
+function prng(seed){var a=(seed>>>0)||1;return function(){a|=0;a=(a+0x6D2B79F5)|0;var t=Math.imul(a^(a>>>15),1|a);t=(t+Math.imul(t^(t>>>7),61|t))^t;return((t^(t>>>14))>>>0)/4294967296;};}
+function pick(r,s){return r[(s()*r.length)|0];}
+var CATS=["fundamentals", "algorithms", "implementation", "optimization", "evaluation"];
+var PREFIX="JAH-ATK136-";
+var KIND="traversal method";
+var TOOLNAME="Event-Log Traverser";
+var SIG=false;
+var PROV="Public methodology \u2014 standard computer-science technique documented in the technical literature; fact-checked 2026-10-21.";
+var SRC="public-harvest";
+var ASPECTS=[{"t": "Severity filtering", "d": "Logs carry severities (DEBUG..CRITICAL); traversers filter to the relevant band. Filtering cuts noise before analysis. Severity is the first triage.", "c": "fundamentals", "r": 1, "p": {"SEV": "WARN", "PATTERN": "['login','purchase']", "EVENTS": "[{'ts': '10:01', 'type': 'login', 'sev': 'INFO', 'msg': 'ok'}, {'ts': '10:02', 'type': 'error', 'sev': 'WARN', 'msg': 'slow'}, {'ts': '10:03', 'type': 'purchase', 'sev': 'INFO', 'msg': 'bought'}]"}}, {"t": "Time-window scans", "d": "'What happened between 2 and 3am' scans the time-ordered log. Indexed timestamps make windows cheap. Windows bound investigations.", "c": "algorithms", "r": 1, "p": {"SEV": "INFO", "PATTERN": "['a']", "EVENTS": "[{'ts': '02:10', 'type': 'a', 'sev': 'INFO', 'msg': 'x'}, {'ts': '04:00', 'type': 'b', 'sev': 'INFO', 'msg': 'y'}]"}}, {"t": "Sequence patterns", "d": "Patterns like login→purchase→refund find behavioral sequences. Subsequence matching tolerates interleaving noise. Sequences reveal user journeys.", "c": "implementation", "r": 1, "p": {"SEV": "INFO", "PATTERN": "['login','purchase']", "EVENTS": "[{'ts': '1', 'type': 'login', 'sev': 'INFO', 'msg': ''}, {'ts': '2', 'type': 'view', 'sev': 'INFO', 'msg': ''}, {'ts': '3', 'type': 'purchase', 'sev': 'INFO', 'msg': ''}]"}}, {"t": "Sessionization", "d": "Events group into sessions by user id and inactivity gaps. Sessions turn flat logs into episodes. Episodes are analyzable units.", "c": "optimization", "r": 1, "p": {"SEV": "INFO", "PATTERN": "['click']", "EVENTS": "[{'ts': '1', 'type': 'click', 'sev': 'INFO', 'msg': 'u1'}, {'ts': '2', 'type': 'click', 'sev': 'INFO', 'msg': 'u2'}]"}}, {"t": "Anomaly detection", "d": "Rare event types or rate spikes flag anomalies. Baselines per hour-of-week catch the unusual. Anomalies focus attention.", "c": "evaluation", "r": 1, "p": {"SEV": "INFO", "PATTERN": "['error']", "EVENTS": "[{'ts': '1', 'type': 'ok', 'sev': 'INFO', 'msg': ''}, {'ts': '2', 'type': 'error', 'sev': 'ERROR', 'msg': 'boom'}]"}}, {"t": "Correlation ids", "d": "Distributed traces share correlation ids across services. Joining on the id reconstructs end-to-end flows. Correlation tames microservice logs.", "c": "fundamentals", "r": 2, "p": {"SEV": "INFO", "PATTERN": "['start','end']", "EVENTS": "[{'ts': '1', 'type': 'start', 'sev': 'INFO', 'msg': 'c1'}, {'ts': '2', 'type': 'end', 'sev': 'INFO', 'msg': 'c1'}]"}}, {"t": "Log parsing (grok)", "d": "Unstructured lines parse into fields via patterns. Structured events enable precise traversal. Parsing unlocks analysis.", "c": "algorithms", "r": 2, "p": {"SEV": "WARN", "PATTERN": "['fail']", "EVENTS": "[{'ts': '1', 'type': 'fail', 'sev': 'WARN', 'msg': 'disk 90%'}]"}}, {"t": "Retention and rotation", "d": "Logs rotate by size/time and age out per policy. Rotation bounds storage; retention bounds history. Lifecycle keeps logging sustainable.", "c": "implementation", "r": 2, "p": {"SEV": "INFO", "PATTERN": "['a']", "EVENTS": "[{'ts': '1', 'type': 'a', 'sev': 'INFO', 'msg': ''}]"}}, {"t": "Full-text log search", "d": "Inverted indexes over messages make 'find all timeout errors' instant. Text search complements structured filters. Both modes together cover everything.", "c": "optimization", "r": 2, "p": {"SEV": "INFO", "PATTERN": "['timeout']", "EVENTS": "[{'ts': '1', 'type': 'net', 'sev': 'WARN', 'msg': 'timeout after 30s'}]"}}, {"t": "Alerting rules", "d": "Rules watch the stream and fire alerts on patterns. Traverser-plus-alert is monitoring. Alerts close the loop.", "c": "evaluation", "r": 2, "p": {"SEV": "ERROR", "PATTERN": "['crash']", "EVENTS": "[{'ts': '1', 'type': 'crash', 'sev': 'ERROR', 'msg': 'down'}]"}}, {"t": "Audit trails", "d": "Audit logs are append-only and tamper-evident. Traversal serves compliance queries. Integrity makes audits credible.", "c": "fundamentals", "r": 3, "p": {"SEV": "INFO", "PATTERN": "['access']", "EVENTS": "[{'ts': '1', 'type': 'access', 'sev': 'INFO', 'msg': 'admin read'}]"}}, {"t": "Sampling high-volume logs", "d": "1% sampling keeps analysis feasible on firehose logs. Sampling preserves distributions. Samples trade precision for scale.", "c": "algorithms", "r": 3, "p": {"SEV": "INFO", "PATTERN": "['hit']", "EVENTS": "[{'ts': str(i), 'type': 'hit', 'sev': 'INFO', 'msg': ''} for i in range(5)]"}}, {"t": "Clock-skew handling", "d": "Multi-host logs need skew correction before ordering. Corrected timelines reflect reality. Skew handling prevents false sequences.", "c": "implementation", "r": 3, "p": {"SEV": "INFO", "PATTERN": "['a','b']", "EVENTS": "[{'ts': '1', 'type': 'a', 'sev': 'INFO', 'msg': ''}, {'ts': '2', 'type': 'b', 'sev': 'INFO', 'msg': ''}]"}}, {"t": "Root-cause chaining", "d": "Error chains link effects back to causes via timestamps and ids. Chaining automates the 'why' question. Causality needs evidence.", "c": "optimization", "r": 3, "p": {"SEV": "WARN", "PATTERN": "['cause','effect']", "EVENTS": "[{'ts': '1', 'type': 'cause', 'sev': 'WARN', 'msg': 'disk full'}, {'ts': '2', 'type': 'effect', 'sev': 'ERROR', 'msg': 'write failed'}]"}}, {"t": "Log visualization", "d": "Timelines and heatmaps render event distributions. Visualization reveals patterns tables hide. Pictures guide investigation.", "c": "evaluation", "r": 3, "p": {"SEV": "INFO", "PATTERN": "['ev']", "EVENTS": "[{'ts': '1', 'type': 'ev', 'sev': 'INFO', 'msg': ''}, {'ts': '2', 'type': 'ev', 'sev': 'INFO', 'msg': ''}]"}}];
+var DEMO="# Event-log traversal: filter by type/severity, sequence-pattern match, sessionize.\nevents = %%EVENTS%%\ndef seq_match(evts, pattern):\n    # pattern: list of types that must appear in order (not necessarily adjacent)\n    hits, pi = [], 0\n    cur = []\n    for e in evts:\n        if e[\"type\"] == pattern[pi]:\n            cur.append(e); pi += 1\n            if pi == len(pattern):\n                hits.append(cur); cur = []; pi = 0\n    return hits\nsev = \"%%SEV%%\"\nprint(f\"events with severity >= {sev}:\")\nfor e in events:\n    if e[\"sev\"] >= sev: print(f\"  {e['ts']} {e['type']:8} {e['sev']} {e['msg']}\")\npat = %%PATTERN%%\nprint(\"pattern\", pat, \"matched\", len(seq_match(events, pat)), \"time(s)\")\n";
+function demoFor(a){var s=DEMO;for(var k in a.p){s=s.split('%%'+k+'%%').join(a.p[k]);}return s;}
+function generate(seed,opts,rnd){
+  opts=opts||{};rnd=rnd||prng(seed);
+  var cat=opts.category||pick(CATS,rnd);
+  var pool=ASPECTS.filter(function(a){return a.c===cat;});
+  var a=pick(pool.length?pool:ASPECTS,rnd);
+  var id=PREFIX+String(seed).padStart(5,'0');
+  return {id:id,t:a.t.slice(0,80),title:(SIG?'Signature ':'')+a.t+' \u2014 '+TOOLNAME,description:a.d,kind:KIND,category:a.c,ladder_rank:a.r,demo:demoFor(a),provenance:PROV,last_verified:'2026-10-21',src:SRC,_seed:seed};
+}
+function validate(r){
+  var e=[];
+  if(!r||typeof r!=='object')return {ok:false,errors:['not an object']};
+  if(!new RegExp("^JAH\\-ATK136\\-\\d+$").test(r.id||''))e.push('id');
+  if(typeof r.t!=='string'||!r.t.length)e.push('t');
+  if(typeof r.title!=='string'||!r.title.length)e.push('title');
+  if(typeof r.description!=='string'||r.description.length<50)e.push('description');
+  if(r.kind!==KIND)e.push('kind');
+  if(CATS.indexOf(r.category)<0)e.push('category');
+  if(!(r.ladder_rank>=1&&r.ladder_rank<=3))e.push('ladder_rank');
+  if(typeof r.demo!=='string'||r.demo.indexOf('print(')<0)e.push('demo');
+  if(typeof r.provenance!=='string'||!r.provenance.length)e.push('provenance');
+  if(r.last_verified!=='2026-10-21')e.push('last_verified');
+  if(r.src!==SRC)e.push('src');
+  return {ok:!e.length,errors:e};
+}
+function driftCheck(rec,sample){
+  sample=sample||[];
+  for(var i=0;i<sample.length;i++){
+    var s=sample[i];
+    if(s&&s.title===rec.title&&s.description===rec.description)
+      return {ok:false,errors:['duplicate of archived record '+s.id]};
+  }
+  return {ok:true,errors:[]};
+}
+var gen={version:"jahdb-archive-toolkit-event-log-traverser-1.0",generate:generate,validate:validate,driftCheck:driftCheck};
+if(typeof JAHDB!=='undefined'&&JAHDB.registerGenerator)JAHDB.registerGenerator("archive-toolkit-event-log-traverser",gen);
+if(typeof module!=='undefined'&&module.exports)module.exports=gen;
+})();

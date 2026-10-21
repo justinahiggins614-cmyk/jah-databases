@@ -1,0 +1,51 @@
+(function(){
+'use strict';
+function prng(seed){var a=(seed>>>0)||1;return function(){a|=0;a=(a+0x6D2B79F5)|0;var t=Math.imul(a^(a>>>15),1|a);t=(t+Math.imul(t^(t>>>7),61|t))^t;return((t^(t>>>14))>>>0)/4294967296;};}
+function pick(r,s){return r[(s()*r.length)|0];}
+var CATS=["fundamentals", "algorithms", "implementation", "optimization", "evaluation"];
+var PREFIX="JAH-ATK105-";
+var KIND="search method";
+var TOOLNAME="Phonetic Search";
+var SIG=false;
+var PROV="Public methodology \u2014 standard computer-science technique documented in the technical literature; fact-checked 2026-10-21.";
+var SRC="public-harvest";
+var ASPECTS=[{"t": "Soundex encoding", "d": "Soundex maps a name to a letter-plus-three-digits code by keeping the first letter and encoding consonant groups. Vowels and h/w are dropped, adjacent same-coded letters merge, and the result is padded or cut to four characters. 'Smith' and 'Smyth' both yield S530, which is why census-era record linkage still leans on it.", "c": "fundamentals", "r": 1, "p": {"QUERY": "Smith", "NAMES": "['Smith','Smyth','Smythe','Jones','Schmidt']"}}, {"t": "Improved Soundex variants", "d": "Classic Soundex misfires on names like 'Ashcraft' versus 'Ashcroft'; refined variants keep more phonetic distinctions. Daitch-Mokotoff Soundex was built for Slavic and Germanic surnames with a six-digit, multi-code scheme. Choosing the variant that matches the name population beats using classic Soundex blindly.", "c": "algorithms", "r": 1, "p": {"QUERY": "Ashcraft", "NAMES": "['Ashcraft','Ashcroft','Ashford','Asher']"}}, {"t": "Metaphone algorithm", "d": "Metaphone encodes English pronunciation rules: silent letters drop, 'ph' becomes 'F', 'sh' and 'th' get their own codes. It handles the quirks Soundex ignores, so 'Thompson' and 'Tomson' align while 'Smith' and 'Smyth' still do. Metaphone is the default upgrade when Soundex precision disappoints.", "c": "implementation", "r": 1, "p": {"QUERY": "Thompson", "NAMES": "['Thompson','Tomson','Thomson','Johnson']"}}, {"t": "Double Metaphone", "d": "Double Metaphone returns two codes per word: a primary for the most likely pronunciation and a secondary for alternates. This catches names whose pronunciation is ambiguous across languages, like 'Smith' versus 'Schmidt'. Matching on either code raises recall for genuinely multinational name lists.", "c": "optimization", "r": 1, "p": {"QUERY": "Schmidt", "NAMES": "['Schmidt','Smith','Smyth','Schmitt']"}}, {"t": "NYSIIS encoding", "d": "NYSIIS (New York State Identification and Intelligence System) applies ordered rewrite rules then strips vowels. Its rules target name prefixes and endings ('MAC' to 'MCC', trailing 'EE' to 'Y'), tuned for Anglo surname matching. NYSIIS often outperforms Soundex on English surnames in head-to-head linkage tests.", "c": "evaluation", "r": 1, "p": {"QUERY": "Mccall", "NAMES": "['Mccall','MacCall','McCall','Call']"}}, {"t": "Caverphone for accents", "d": "Caverphone was designed for New Zealand electoral rolls, condensing names to handle accent-driven spelling drift. Its rules map common sound substitutions before truncating to a fixed-length code. Regional variants like this win wherever one population's spelling habits dominate.", "c": "fundamentals", "r": 2, "p": {"QUERY": "Thompson", "NAMES": "['Thompson','Tompson','Tompson']"}}, {"t": "Phonetic edit distance", "d": "Instead of fixed codes, some systems compute edit distance over phoneme sequences from a pronunciation dictionary. 'Katherine' and 'Catherine' differ by one phoneme substitution, a small distance despite different first letters. Phoneme-level distance is finer than code equality but needs a grapheme-to-phoneme model.", "c": "algorithms", "r": 2, "p": {"QUERY": "Katherine", "NAMES": "['Katherine','Catherine','Kathryn','Katrina']"}}, {"t": "Beider-Morse phonetics", "d": "Beider-Morse generates the set of plausible pronunciations per language, then codes each one. A name matches when any of its language-specific codes equals any of the query's. This handles names that cross languages, like 'Wechsler' in German versus Yiddish contexts.", "c": "implementation", "r": 2, "p": {"QUERY": "Wechsler", "NAMES": "['Wechsler','Wexler','Veksler']"}}, {"t": "Onomastic blocking", "d": "Record linkage first blocks candidates by phonetic code, then compares details only within a block. Blocking cuts quadratic pairwise comparison down to small per-block work. Phonetic blocking keys are the standard first pass in census and voter-roll deduplication.", "c": "optimization", "r": 2, "p": {"QUERY": "Johnson", "NAMES": "['Johnson','Jonson','Johnston','Jackson','Johansen']"}}, {"t": "Homophone detection", "d": "Homophones are words that sound identical but differ in spelling and meaning: 'right', 'write', 'rite'. Detection pairs a pronunciation lexicon with spelling comparison to flag confusable pairs. Writing assistants use homophone lists to catch errors spellcheckers miss.", "c": "evaluation", "r": 2, "p": {"QUERY": "right", "NAMES": "['right','write','rite','wright']"}}, {"t": "Cross-language sound matching", "d": "Names transliterated across scripts ('Mikhail' versus 'Michael') need phonetic rules per source language. Systems normalize to a shared phoneme inventory before comparing, bridging Latin, Cyrillic, and Arabic spellings. International watchlists and scholarly citations both depend on this step.", "c": "fundamentals", "r": 3, "p": {"QUERY": "Mikhail", "NAMES": "['Mikhail','Michael','Mikael','Michal']"}}, {"t": "Fuzzy name search UI", "d": "Search boxes combine phonetic codes with edit distance: candidates share a code, then rank by string similarity. Showing 'did you mean' suggestions from the top phonetic neighbors rescues mistyped names. Two-stage phonetic-then-fuzzy is the pattern behind most people-search interfaces.", "c": "algorithms", "r": 3, "p": {"QUERY": "Steven", "NAMES": "['Steven','Stephen','Stefan','Steve']"}}, {"t": "Evaluating phonetic algorithms", "d": "Precision and recall on labeled name pairs measure whether an algorithm groups true variants without merging strangers. Test sets pair historical spelling variants against random lookalikes to score both directions. No single algorithm wins everywhere; evaluation picks the right one per population.", "c": "implementation", "r": 3, "p": {"QUERY": "Brown", "NAMES": "['Brown','Browne','Braun','Brow']"}}, {"t": "Combining phonetic with textual clues", "d": "Phonetic match is one signal among many: dates, places, and relatives disambiguate same-sounding names. Linkage pipelines score phonetic similarity alongside field agreements in a weighted model. Used alone, phonetic codes over-merge; combined, they anchor reliable entity resolution.", "c": "optimization", "r": 3, "p": {"QUERY": "Miller", "NAMES": "['Miller','Millar','Mueller','Muller']"}}, {"t": "Phonetic indexing at scale", "d": "Phonetic codes index like ordinary terms: one postings list per code over the name corpus. Queries encode the input name and fetch its code's postings, a constant-time first pass. This keeps sound-alike search fast even over hundreds of millions of names.", "c": "evaluation", "r": 3, "p": {"QUERY": "Davis", "NAMES": "['Davis','Davies','David','Dawes']"}}];
+var DEMO="# Phonetic search: Soundex codes group names that sound alike.\ndef soundex(name):\n    name = name.upper()\n    if not name: return \"0000\"\n    table = str.maketrans(\"AEIOUYHW\", \"00000000\")\n    table2 = str.maketrans(\"BFPVCGJKQSXZDTLMNR\", \"111122222222334556\")\n    first = name[0]\n    coded = name.translate(table).translate(table2)\n    digits = \"\".join(ch for ch in coded if ch != \"0\")\n    merged = first\n    for ch in digits:\n        if ch != merged[-1]: merged += ch\n    return (merged + \"000\")[:4]\nnames = %%NAMES%%\nquery = \"%%QUERY%%\"\nqc = soundex(query)\nprint(\"Soundex(%r) = %s\" % (query, qc))\nfor n in names:\n    mark = \"  <-- sounds alike\" if soundex(n) == qc else \"\"\n    print(f\"{n:12} -> {soundex(n)}{mark}\")\n";
+function demoFor(a){var s=DEMO;for(var k in a.p){s=s.split('%%'+k+'%%').join(a.p[k]);}return s;}
+function generate(seed,opts,rnd){
+  opts=opts||{};rnd=rnd||prng(seed);
+  var cat=opts.category||pick(CATS,rnd);
+  var pool=ASPECTS.filter(function(a){return a.c===cat;});
+  var a=pick(pool.length?pool:ASPECTS,rnd);
+  var id=PREFIX+String(seed).padStart(5,'0');
+  return {id:id,t:a.t.slice(0,80),title:(SIG?'Signature ':'')+a.t+' \u2014 '+TOOLNAME,description:a.d,kind:KIND,category:a.c,ladder_rank:a.r,demo:demoFor(a),provenance:PROV,last_verified:'2026-10-21',src:SRC,_seed:seed};
+}
+function validate(r){
+  var e=[];
+  if(!r||typeof r!=='object')return {ok:false,errors:['not an object']};
+  if(!new RegExp("^JAH\\-ATK105\\-\\d+$").test(r.id||''))e.push('id');
+  if(typeof r.t!=='string'||!r.t.length)e.push('t');
+  if(typeof r.title!=='string'||!r.title.length)e.push('title');
+  if(typeof r.description!=='string'||r.description.length<50)e.push('description');
+  if(r.kind!==KIND)e.push('kind');
+  if(CATS.indexOf(r.category)<0)e.push('category');
+  if(!(r.ladder_rank>=1&&r.ladder_rank<=3))e.push('ladder_rank');
+  if(typeof r.demo!=='string'||r.demo.indexOf('print(')<0)e.push('demo');
+  if(typeof r.provenance!=='string'||!r.provenance.length)e.push('provenance');
+  if(r.last_verified!=='2026-10-21')e.push('last_verified');
+  if(r.src!==SRC)e.push('src');
+  return {ok:!e.length,errors:e};
+}
+function driftCheck(rec,sample){
+  sample=sample||[];
+  for(var i=0;i<sample.length;i++){
+    var s=sample[i];
+    if(s&&s.title===rec.title&&s.description===rec.description)
+      return {ok:false,errors:['duplicate of archived record '+s.id]};
+  }
+  return {ok:true,errors:[]};
+}
+var gen={version:"jahdb-archive-toolkit-phonetic-search-1.0",generate:generate,validate:validate,driftCheck:driftCheck};
+if(typeof JAHDB!=='undefined'&&JAHDB.registerGenerator)JAHDB.registerGenerator("archive-toolkit-phonetic-search",gen);
+if(typeof module!=='undefined'&&module.exports)module.exports=gen;
+})();

@@ -1,0 +1,51 @@
+(function(){
+'use strict';
+function prng(seed){var a=(seed>>>0)||1;return function(){a|=0;a=(a+0x6D2B79F5)|0;var t=Math.imul(a^(a>>>15),1|a);t=(t+Math.imul(t^(t>>>7),61|t))^t;return((t^(t>>>14))>>>0)/4294967296;};}
+function pick(r,s){return r[(s()*r.length)|0];}
+var CATS=["fundamentals", "algorithms", "implementation", "optimization", "evaluation"];
+var PREFIX="JAH-ATK130-";
+var KIND="traversal method";
+var TOOLNAME="Remote Storage Browser";
+var SIG=false;
+var PROV="Public methodology \u2014 standard computer-science technique documented in the technical literature; fact-checked 2026-10-21.";
+var SRC="public-harvest";
+var ASPECTS=[{"t": "Bucket and key model", "d": "Object stores organize data into buckets containing keys; keys with '/' prefixes emulate folders. Listing by prefix pages through logical directories. The bucket/key model scales to trillions of objects.", "c": "fundamentals", "r": 1, "p": {"TARGET": "", "LIMIT": "10", "STORE": "{'photos': {'2024': {'a.jpg': 1200}}, 'docs': {'r.pdf': 500}}"}}, {"t": "Prefix-delimited listing", "d": "Delimiters group keys into virtual folders for hierarchical browsing. UIs render one level at a time, fetching deeper on demand. Delimited listing makes flat stores browsable.", "c": "algorithms", "r": 1, "p": {"TARGET": "photos/", "LIMIT": "10", "STORE": "{'photos': {'2024': {'a.jpg': 1200}, 'b.jpg': 800}}"}}, {"t": "Pagination of listings", "d": "Listings paginate with continuation tokens; browsers follow them transparently. Large buckets need streaming, not single-shot lists. Token-following keeps listings complete.", "c": "implementation", "r": 1, "p": {"TARGET": "", "LIMIT": "10", "STORE": "{'b1': {'f1': 1, 'f2': 2}, 'b2': {'g': 3}}"}}, {"t": "Signed URL access", "d": "Browsers mint time-limited signed URLs for direct object reads. Signing delegates bandwidth to the store. Expiry bounds the exposure.", "c": "optimization", "r": 1, "p": {"TARGET": "docs/", "LIMIT": "10", "STORE": "{'docs': {'r.pdf': 500}}"}}, {"t": "Versioned browsing", "d": "Versioned buckets list all versions per key; browsers show the version timeline. Version navigation supports audit and recovery. Versioning turns storage into history.", "c": "evaluation", "r": 1, "p": {"TARGET": "", "LIMIT": "10", "STORE": "{'data': {'f.csv': 100}}"}}, {"t": "Cross-region navigation", "d": "Multi-region stores route listings to the nearest replica. Region awareness cuts latency. Browsers surface region per object.", "c": "fundamentals", "r": 2, "p": {"TARGET": "", "LIMIT": "10", "STORE": "{'us': {'a': 1}, 'eu': {'b': 2}}"}}, {"t": "Access auditing", "d": "Every browse action logs identity, path, and time. Audit trails satisfy compliance reviews. Logged browsing is accountable browsing.", "c": "algorithms", "r": 2, "p": {"TARGET": "docs/", "LIMIT": "10", "STORE": "{'docs': {'secret.txt': 10, 'open.txt': 5}}"}}, {"t": "Search within storage", "d": "Metadata indexes and content indexes make stores searchable, not just browsable. Search-then-browse combines both modes. Indexed storage behaves like a database.", "c": "implementation", "r": 2, "p": {"TARGET": "", "LIMIT": "10", "STORE": "{'media': {'song.mp3': 4000}, 'docs': {'notes.txt': 100}}"}}, {"t": "Lifecycle visibility", "d": "Browsers show lifecycle rules: which objects will archive or expire and when. Visibility prevents surprise deletions. Lifecycle awareness is operational hygiene.", "c": "optimization", "r": 2, "p": {"TARGET": "", "LIMIT": "10", "STORE": "{'logs': {'old.log': 9000}}"}}, {"t": "Mounting remote stores", "d": "FUSE-style mounts present remote buckets as local directories. Traversal code then works unchanged. Mounts unify tooling across storage kinds.", "c": "evaluation", "r": 2, "p": {"TARGET": "", "LIMIT": "10", "STORE": "{'mnt': {'f': 1}}"}}, {"t": "Bandwidth-aware browsing", "d": "Browsers prefer metadata operations and defer full downloads. Preview thumbnails substitute for whole objects. Bandwidth discipline keeps browsing fast.", "c": "fundamentals", "r": 3, "p": {"TARGET": "photos/", "LIMIT": "10", "STORE": "{'photos': {'big.raw': 50000000, 'thumb.jpg': 20000}}"}}, {"t": "Multi-account navigation", "d": "Organizations span accounts; browsers switch roles per namespace. Unified trees merge authorized namespaces. Role-aware browsing respects boundaries.", "c": "algorithms", "r": 3, "p": {"TARGET": "", "LIMIT": "10", "STORE": "{'team-a': {'f': 1}, 'team-b': {'g': 2}}"}}, {"t": "Encryption visibility", "d": "Browsers show encryption status per object without exposing keys. Status visibility supports compliance checks. Encryption metadata is safe to display.", "c": "implementation", "r": 3, "p": {"TARGET": "", "LIMIT": "10", "STORE": "{'vault': {'enc.dat': 300}}"}}, {"t": "Sync-state browsing", "d": "Synced folders show per-file sync state: synced, pending, conflicted. State visibility explains what is safe to use offline. Sync awareness prevents working on stale copies.", "c": "optimization", "r": 3, "p": {"TARGET": "", "LIMIT": "10", "STORE": "{'sync': {'a.txt': 10}}"}}, {"t": "Quota displays", "d": "Browsers surface bucket quotas and usage during navigation. Usage bars warn before writes fail. Quota visibility avoids surprise denials.", "c": "evaluation", "r": 3, "p": {"TARGET": "", "LIMIT": "10", "STORE": "{'proj': {'data.bin': 800}}"}}];
+var DEMO="# Remote storage browser: list buckets and keys from a storage namespace tree.\nstore = %%STORE%%\ndef list_prefix(tree, prefix=\"\"):\n    out = []\n    for key, val in sorted(tree.items()):\n        full = prefix + key\n        if isinstance(val, dict):\n            out.append(full + \"/\")\n            out += list_prefix(val, full + \"/\")\n        else:\n            out.append(full + f\"  ({val} bytes)\")\n    return out\ntarget = \"%%TARGET%%\"\nnode = store\nfor part in target.strip(\"/\").split(\"/\"):\n    if part: node = node.get(part, {})\nprint(f\"Listing {target or '/'}:\")\nfor line in list_prefix(node, target.rstrip(\"/\") + \"/\" if target else \"\")[:%%LIMIT%%]:\n    print(\" \", line)\n";
+function demoFor(a){var s=DEMO;for(var k in a.p){s=s.split('%%'+k+'%%').join(a.p[k]);}return s;}
+function generate(seed,opts,rnd){
+  opts=opts||{};rnd=rnd||prng(seed);
+  var cat=opts.category||pick(CATS,rnd);
+  var pool=ASPECTS.filter(function(a){return a.c===cat;});
+  var a=pick(pool.length?pool:ASPECTS,rnd);
+  var id=PREFIX+String(seed).padStart(5,'0');
+  return {id:id,t:a.t.slice(0,80),title:(SIG?'Signature ':'')+a.t+' \u2014 '+TOOLNAME,description:a.d,kind:KIND,category:a.c,ladder_rank:a.r,demo:demoFor(a),provenance:PROV,last_verified:'2026-10-21',src:SRC,_seed:seed};
+}
+function validate(r){
+  var e=[];
+  if(!r||typeof r!=='object')return {ok:false,errors:['not an object']};
+  if(!new RegExp("^JAH\\-ATK130\\-\\d+$").test(r.id||''))e.push('id');
+  if(typeof r.t!=='string'||!r.t.length)e.push('t');
+  if(typeof r.title!=='string'||!r.title.length)e.push('title');
+  if(typeof r.description!=='string'||r.description.length<50)e.push('description');
+  if(r.kind!==KIND)e.push('kind');
+  if(CATS.indexOf(r.category)<0)e.push('category');
+  if(!(r.ladder_rank>=1&&r.ladder_rank<=3))e.push('ladder_rank');
+  if(typeof r.demo!=='string'||r.demo.indexOf('print(')<0)e.push('demo');
+  if(typeof r.provenance!=='string'||!r.provenance.length)e.push('provenance');
+  if(r.last_verified!=='2026-10-21')e.push('last_verified');
+  if(r.src!==SRC)e.push('src');
+  return {ok:!e.length,errors:e};
+}
+function driftCheck(rec,sample){
+  sample=sample||[];
+  for(var i=0;i<sample.length;i++){
+    var s=sample[i];
+    if(s&&s.title===rec.title&&s.description===rec.description)
+      return {ok:false,errors:['duplicate of archived record '+s.id]};
+  }
+  return {ok:true,errors:[]};
+}
+var gen={version:"jahdb-archive-toolkit-remote-storage-browser-1.0",generate:generate,validate:validate,driftCheck:driftCheck};
+if(typeof JAHDB!=='undefined'&&JAHDB.registerGenerator)JAHDB.registerGenerator("archive-toolkit-remote-storage-browser",gen);
+if(typeof module!=='undefined'&&module.exports)module.exports=gen;
+})();

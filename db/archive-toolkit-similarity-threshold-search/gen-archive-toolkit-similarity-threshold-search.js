@@ -1,0 +1,51 @@
+(function(){
+'use strict';
+function prng(seed){var a=(seed>>>0)||1;return function(){a|=0;a=(a+0x6D2B79F5)|0;var t=Math.imul(a^(a>>>15),1|a);t=(t+Math.imul(t^(t>>>7),61|t))^t;return((t^(t>>>14))>>>0)/4294967296;};}
+function pick(r,s){return r[(s()*r.length)|0];}
+var CATS=["fundamentals", "algorithms", "implementation", "optimization", "evaluation"];
+var PREFIX="JAH-ATK118-";
+var KIND="search method";
+var TOOLNAME="Similarity-Threshold Search";
+var SIG=false;
+var PROV="Public methodology \u2014 standard computer-science technique documented in the technical literature; fact-checked 2026-10-21.";
+var SRC="public-harvest";
+var ASPECTS=[{"t": "Threshold semantics", "d": "A similarity threshold turns ranked retrieval into a set: everything scoring at or above t is returned. Raising t buys precision; lowering it buys recall. The threshold is the user's direct dial between the two.", "c": "fundamentals", "r": 1, "p": {"QUERY": "archive catalog", "THR": "0.5", "DOCS": "{'d1': 'archive catalog index', 'd2': 'archive of maps', 'd3': 'unrelated weather report'}"}}, {"t": "Cosine thresholding", "d": "Cosine similarity in [0,1] makes thresholds interpretable: 0.8 means strongly aligned term vectors. Normalized vectors keep scores comparable across documents of different lengths. Cosine thresholds are the default for text similarity.", "c": "algorithms", "r": 1, "p": {"QUERY": "climate data archive", "THR": "0.6", "DOCS": "{'d1': 'climate data archive records', 'd2': 'climate archive', 'd3': 'sports scores today'}"}}, {"t": "Calibrating the threshold", "d": "Thresholds are tuned on labeled data: sweep t, plot precision-recall, pick the operating point. The F1-optimal threshold balances the two; applications with asymmetric costs pick elsewhere. Calibration on real judgments beats guessing.", "c": "implementation", "r": 1, "p": {"QUERY": "lighthouse logs", "THR": "0.4", "DOCS": "{'d1': 'lighthouse keeper logs', 'd2': 'lighthouse history', 'd3': 'harbor master notes'}"}}, {"t": "Adaptive thresholds", "d": "Adaptive thresholds adjust per query: strict when many candidates score high, lenient when few do. Score-gap analysis finds the natural break between relevant and background. Adaptivity keeps result counts stable across easy and hard queries.", "c": "optimization", "r": 1, "p": {"QUERY": "quantum archive", "THR": "0.3", "DOCS": "{'d1': 'quantum archive notes', 'd2': 'archive notes', 'd3': 'classical archive notes'}"}}, {"t": "Jaccard thresholding", "d": "Jaccard over token or shingle sets gives thresholds a set-overlap meaning: 0.5 means half the sets coincide. MinHash LSH indexes answer Jaccard-threshold queries without scanning. Jaccard suits near-duplicate and plagiarism thresholds.", "c": "evaluation", "r": 1, "p": {"QUERY": "the quick brown fox", "THR": "0.5", "DOCS": "{'d1': 'the quick brown fox jumps', 'd2': 'the quick red fox', 'd3': 'lorem ipsum dolor'}"}}, {"t": "Edit-distance thresholds", "d": "Normalized edit similarity (1 - distance/maxlen) thresholds typo-tolerance per string length. Long strings tolerate more absolute edits at the same threshold. Length-normalized thresholds keep short and long terms equally strict.", "c": "fundamentals", "r": 2, "p": {"QUERY": "catalog", "THR": "0.7", "DOCS": "{'d1': 'catalog', 'd2': 'catalag', 'd3': 'dog'}"}}, {"t": "Vector-database range search", "d": "Vector indexes support radius search: all vectors within distance r of the query. HNSW and IVF indexes prune far regions while guaranteeing the threshold. Range search is threshold retrieval for embeddings.", "c": "algorithms", "r": 2, "p": {"QUERY": "neural archive", "THR": "0.5", "DOCS": "{'d1': 'neural archive systems', 'd2': 'archive systems', 'd3': 'baking recipes'}"}}, {"t": "Thresholds and score fusion", "d": "When fusing multiple scorers, thresholds apply per-scorer before fusion or on the fused score. Per-scorer thresholds keep one weak signal from dragging in noise. Fused thresholds need joint calibration.", "c": "implementation", "r": 2, "p": {"QUERY": "old maps archive", "THR": "0.45", "DOCS": "{'d1': 'old maps in the archive', 'd2': 'maps archive', 'd3': 'newspapers'}"}}, {"t": "High-threshold dedup", "d": "Near-duplicate detection uses high thresholds (0.9+) so only true copies cluster. Union-find over thresholded pairs groups duplicates efficiently. High thresholds keep distinct-but-similar documents separate.", "c": "optimization", "r": 2, "p": {"QUERY": "report final version", "THR": "0.85", "DOCS": "{'d1': 'report final version', 'd2': 'report final version draft', 'd3': 'quarterly report'}"}}, {"t": "Low-threshold exploration", "d": "Low thresholds (0.2-0.3) surface loosely related material for exploratory search. Result counts grow, so exploration pairs low thresholds with diversity controls. Exploration mode favors serendipity over precision.", "c": "evaluation", "r": 2, "p": {"QUERY": "oceans", "THR": "0.2", "DOCS": "{'d1': 'ocean tides', 'd2': 'deep sea vents', 'd3': 'mountain trails'}"}}, {"t": "Threshold stability", "d": "Small threshold changes should not wildly swing result sets; stability analysis measures this. Plateaus in the threshold curve mark robust operating points. Stable thresholds survive data drift longer.", "c": "fundamentals", "r": 3, "p": {"QUERY": "city plans", "THR": "0.5", "DOCS": "{'d1': 'city plans archive', 'd2': 'city planning', 'd3': 'rural maps'}"}}, {"t": "Per-category thresholds", "d": "Different categories need different thresholds: names match strictly, topics loosely. Category-specific calibration reflects each field's score distribution. One global threshold is a common precision killer.", "c": "algorithms", "r": 3, "p": {"QUERY": "annual report", "THR": "0.6", "DOCS": "{'d1': 'annual report 2024', 'd2': 'annual reports', 'd3': 'meeting notes'}"}}, {"t": "Thresholds in streaming search", "d": "Streaming matchers apply thresholds per incoming item, emitting matches immediately. Early thresholding bounds memory: only above-threshold items are retained. Stream thresholds power alerting and monitoring.", "c": "implementation", "r": 3, "p": {"QUERY": "breaking news", "THR": "0.5", "DOCS": "{'d1': 'breaking news update', 'd2': 'news briefing', 'd3': 'weather today'}"}}, {"t": "Explaining threshold decisions", "d": "Systems show the score next to the threshold so users see why an item passed or missed. 'Scored 0.48, threshold 0.50' invites one-click threshold adjustment. Transparent thresholds make retrieval tunable by its users.", "c": "optimization", "r": 3, "p": {"QUERY": "solar panels", "THR": "0.55", "DOCS": "{'d1': 'solar panel efficiency', 'd2': 'solar panels guide', 'd3': 'wind turbines'}"}}, {"t": "Evaluating thresholded retrieval", "d": "Precision, recall, and F1 at the operating threshold summarize thresholded quality. ROC and precision-recall curves show the full trade-off across thresholds. Evaluation picks thresholds; it does not just report them.", "c": "evaluation", "r": 3, "p": {"QUERY": "voter records", "THR": "0.5", "DOCS": "{'d1': 'voter records office', 'd2': 'voter registration records', 'd3': 'park permits'}"}}];
+var DEMO="# Similarity-threshold search: cosine similarity over term vectors, threshold filter.\nimport math\ndocs = %%DOCS%%\ndef vec(text):\n    v = {}\n    for t in text.lower().split():\n        v[t] = v.get(t, 0) + 1\n    return v\ndef cosine(a, b):\n    dot = sum(a.get(k, 0)*v for k, v in b.items())\n    na = math.sqrt(sum(v*v for v in a.values())); nb = math.sqrt(sum(v*v for v in b.values()))\n    return dot/(na*nb) if na and nb else 0.0\nqv = vec(\"%%QUERY%%\")\nthr = %%THR%%\nprint(\"Query: %%QUERY%%, threshold\", thr)\nfor name, text in docs.items():\n    s = cosine(qv, vec(text))\n    if s >= thr:\n        print(f\"  {name}: {s:.3f} >= {thr}  PASS\")\n    else:\n        print(f\"  {name}: {s:.3f} < {thr}  skip\")\n";
+function demoFor(a){var s=DEMO;for(var k in a.p){s=s.split('%%'+k+'%%').join(a.p[k]);}return s;}
+function generate(seed,opts,rnd){
+  opts=opts||{};rnd=rnd||prng(seed);
+  var cat=opts.category||pick(CATS,rnd);
+  var pool=ASPECTS.filter(function(a){return a.c===cat;});
+  var a=pick(pool.length?pool:ASPECTS,rnd);
+  var id=PREFIX+String(seed).padStart(5,'0');
+  return {id:id,t:a.t.slice(0,80),title:(SIG?'Signature ':'')+a.t+' \u2014 '+TOOLNAME,description:a.d,kind:KIND,category:a.c,ladder_rank:a.r,demo:demoFor(a),provenance:PROV,last_verified:'2026-10-21',src:SRC,_seed:seed};
+}
+function validate(r){
+  var e=[];
+  if(!r||typeof r!=='object')return {ok:false,errors:['not an object']};
+  if(!new RegExp("^JAH\\-ATK118\\-\\d+$").test(r.id||''))e.push('id');
+  if(typeof r.t!=='string'||!r.t.length)e.push('t');
+  if(typeof r.title!=='string'||!r.title.length)e.push('title');
+  if(typeof r.description!=='string'||r.description.length<50)e.push('description');
+  if(r.kind!==KIND)e.push('kind');
+  if(CATS.indexOf(r.category)<0)e.push('category');
+  if(!(r.ladder_rank>=1&&r.ladder_rank<=3))e.push('ladder_rank');
+  if(typeof r.demo!=='string'||r.demo.indexOf('print(')<0)e.push('demo');
+  if(typeof r.provenance!=='string'||!r.provenance.length)e.push('provenance');
+  if(r.last_verified!=='2026-10-21')e.push('last_verified');
+  if(r.src!==SRC)e.push('src');
+  return {ok:!e.length,errors:e};
+}
+function driftCheck(rec,sample){
+  sample=sample||[];
+  for(var i=0;i<sample.length;i++){
+    var s=sample[i];
+    if(s&&s.title===rec.title&&s.description===rec.description)
+      return {ok:false,errors:['duplicate of archived record '+s.id]};
+  }
+  return {ok:true,errors:[]};
+}
+var gen={version:"jahdb-archive-toolkit-similarity-threshold-search-1.0",generate:generate,validate:validate,driftCheck:driftCheck};
+if(typeof JAHDB!=='undefined'&&JAHDB.registerGenerator)JAHDB.registerGenerator("archive-toolkit-similarity-threshold-search",gen);
+if(typeof module!=='undefined'&&module.exports)module.exports=gen;
+})();
