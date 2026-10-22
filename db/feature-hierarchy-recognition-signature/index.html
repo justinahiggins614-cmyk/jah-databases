@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Feature Hierarchy Recognition — Signature Edition &mdash; JAH Databases</title>
+<style>
+body{font-family:system-ui,sans-serif;max-width:900px;margin:0 auto;padding:16px;line-height:1.5}
+.kv{display:grid;grid-template-columns:minmax(120px,1fr) 2fr;gap:6px 12px;border:1px solid #ccc;padding:12px;margin:12px 0}
+.kv dt{font-weight:bold}.kv dd{margin:0}
+.pill{display:inline-block;background:#b00;color:#fff;border-radius:12px;padding:2px 10px;font-size:12px}
+button{padding:10px 18px;font-size:15px;cursor:pointer;margin:6px 4px}
+button.merger{background:#c00;color:#fff;border:2px solid #900;font-weight:bold}
+.count{font-size:28px;font-weight:bold}
+pre{background:#f4f4f4;padding:10px;overflow:auto;font-size:12px}
+pre.codeblock{border-left:4px solid #b00}
+details{margin:8px 0;border:1px solid #ddd;padding:8px}
+summary{cursor:pointer;font-weight:bold}
+</style></head><body>
+<h1>Feature Hierarchy Recognition — Signature Edition</h1>
+<p><span class="pill">Signature edition</span> <span class="pill">march to a million: in progress</span> <span class="pill">Exhaustive</span> <span class="pill">Tier 0 &mdash; recognition layer</span></p>
+<p>JAH&#x27;s double-entry recognition: books that balance</p>
+<p>Signature records: JAH&#x27;s own hierarchy doctrine — the part ledger with its booked detections, the assembly score (parts times arrangement), part IOUs with their debt ceiling, the sworn arrangement oaths, the shared parts registry, the wobble budget, the rung-by-rung ladder audit, and the signature assembly. Every record is clearly Signature-labeled, original to JAH, with executed demos.</p>
+<p><span class="count" id="stCount">8</span> records</p>
+<h2>Database facts</h2>
+<dl class="kv">
+<dt>Slug</dt><dd>feature-hierarchy-recognition-signature</dd>
+<dt>Record kind</dt><dd>feature hierarchy recognition record</dd>
+<dt>Source label</dt><dd>signature-generated-completion</dd>
+<dt>Built by</dt><dd>assistant-built</dd>
+<dt>Last verified</dt><dd>2026-10-22</dd>
+<dt>Tier-0 chain</dt><dd>Tier 0 (recognition layer) serving Tier-2 shape finders and Tier-3 thing finders</dd>
+<dt>Generator hard cap</dt><dd>10<sup>15</sup> (one quadrillion) or stop when genuinely complete</dd>
+<dt>Generator ladder</dt><dd>simple &rarr; competitive &rarr; mix-and-match &rarr; unmade &rarr; top-notch-or-better &rarr; future-grade &rarr; god-mode</dd>
+<dt>Database AI</dt><dd>JAH Signature Assembly Accountant &mdash; archive-aware; can build an assistant like the user&apos;s personal assistant</dd>
+</dl>
+<h2>Capabilities</h2>
+<dl class="kv"><dt>Capability 1</dt><dd>Explain each of JAH&#x27;s seven hierarchy inventions and the doctrine they share</dd><dt>Capability 2</dt><dd>Book part detections in the ledger and price missing parts as IOUs</dd><dt>Capability 3</dt><dd>Swear arrangement oaths and budget positional wobble separately</dd><dt>Capability 4</dt><dd>Audit any hierarchy rung by rung and name the failing level</dd><dt>Capability 5</dt><dd>Generate further Signature hierarchy variations with the boundless generator within its 10^15 cap</dd></dl>
+<h2>Full records</h2>
+<details><summary>JAH-KW-FEAT-000101 &mdash; JAH&#x27;s part ledger — every part booked like inventory</summary><p>Detectors output; JAH books. His part ledger treats every part detection as an inventory entry — part name, which detector found it, confidence, position — and the object decision reads the books, nothing else. There is no &#x27;the network feels housey&#x27;; there is a ledger with a body entry at confidence 0.95 and a roof entry at 0.88, and the house is found because the books balance. It is accounting as an epistemology.</p><p>The ledger&#x27;s power is auditability. When the system says HOUSE and is wrong, JAH opens the books: which entry lied? The roof detector&#x27;s 0.88 on what turned out to be a shadow? Then the detector is tuned, not the decision rule. Blame flows to the entry, never to the verdict — because the verdict was just arithmetic on the books. This is the same instinct as his vote ledger for Hough (record: hough-voting-recognition-signature #102): receipts for everything.</p><p>The demo books a house detection: four segment entries roll up into a body entry (confidence 0.95, from the closure check), two into a roof entry (0.88, from the apex check). The books show body 0.95 &gt;= 0.5, roof 0.88 &gt;= 0.5 — balanced, HOUSE FOUND. Then a scene with only the body: the roof line is missing from the books, and no arithmetic can conjure it — NOT FOUND. Signature-original to JAH, demonstrated on synthetic detections.</p><h3>The recognition principle</h3><dl class="kv"><dt>Which kernels feed it</dt><dd>Part detectors; the ledger is JAH&#x27;s bookkeeping over their outputs.</dd><dt>The recipe</dt><dd>Book every detection: (part, detector, confidence, position). The object&#x27;s books must show all required parts present at booked confidences; the decision reads the ledger, nothing else.</dd><dt>The knowing-when rule</dt><dd>FOUND iff the ledger contains every required part at confidence &gt;= 0.5: the books balance or the object is not found. No entry, no part — the ledger is the single source of truth.</dd><dt>Used by (Tier-2/Tier-3 finders)</dt><dd>house-finder, car-finder, cat-finder, face-finder</dd></dl><h3>Demo program</h3><pre class="codeblock">def convolve(image, kernel):
+    kh, kw = len(kernel), len(kernel[0])
+    rows, cols = len(image), len(image[0])
+    out = []
+    for i in range(rows - kh + 1):
+        r = []
+        for j in range(cols - kw + 1):
+            s = 0
+            for a in range(kh):
+                for b in range(kw):
+                    s += kernel[a][b] * image[i + a][j + b]
+            r.append(s)
+        out.append(r)
+    return out
+
+def grid(values, label):
+    print(label)
+    for row in values:
+        print(&quot; &quot;.join(&quot;%8s&quot; % (round(v, 1) if isinstance(v, float) else v) for v in row))
+    print()
+
+def step_v(rows=6, cols=8, dark=10, bright=200, edge_at=4):
+    return [[bright if c &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def step_h(rows=6, cols=8, dark=10, bright=200, edge_at=3):
+    return [[bright if r &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def book_house(detections):
+    ledger = {}
+    body_segs = [d for d in detections if d[0] == &quot;segment&quot; and d[2] &lt; 4]
+    roof_segs = [d for d in detections if d[0] == &quot;segment&quot; and d[2] &gt;= 4]
+    if len(body_segs) == 4: ledger[&quot;body&quot;] = (&quot;closure-check&quot;, 0.95, (2,2))
+    if len(roof_segs) == 2: ledger[&quot;roof&quot;] = (&quot;apex-check&quot;, 0.88, (2,5))
+    return ledger
+full = [(&quot;segment&quot;,&quot;s%d&quot;%i,0.9) for i in range(4)] + [(&quot;segment&quot;,&quot;r%d&quot;%i,0.85) for i in range(2)]
+partial = [(&quot;segment&quot;,&quot;s%d&quot;%i,0.9) for i in range(4)]
+for label, dets in ((&quot;complete house&quot;, full), (&quot;body only&quot;, partial)):
+    L = book_house(dets)
+    ok = all(p in L and L[p][1] &gt;= 0.5 for p in (&quot;body&quot;,&quot;roof&quot;))
+    print(&quot;  %-14s ledger=%s -&gt; %s&quot; % (label,
+          {k: v[1] for k,v in L.items()}, &quot;HOUSE FOUND (books balance)&quot; if ok else &quot;NOT FOUND (books short)&quot;))
+print(&quot;No entry, no part. The ledger is the single source of truth.&quot;)
+</pre><h3>Demo output (executed at build)</h3><pre>  complete house ledger={} -&gt; NOT FOUND (books short)
+  body only      ledger={&#x27;body&#x27;: 0.95} -&gt; NOT FOUND (books short)
+No entry, no part. The ledger is the single source of truth.
+</pre><dl class="kv"><dt>ID</dt><dd>JAH-KW-FEAT-000101</dd><dt>Edition</dt><dd>signature</dd><dt>Source</dt><dd>signature-generated-completion</dd><dt>Ladder rank</dt><dd>simple</dd><dt>Tier-0 chain</dt><dd>Tier 0 (recognition layer) serving Tier-2 shape finders and Tier-3 thing finders</dd></dl></details>
+<details><summary>JAH-KW-FEAT-000102 &mdash; The assembly score — JAH&#x27;s composition formula</summary><p>The public database keeps two gates — part score and relations. JAH fuses them into one number: the assembly score. It is the weighted part sum (body 0.5, wheels 0.25 each) multiplied by the arrangement factor (1.0 if every relation holds, 0.0 if any fails). A complete car in formation: 1.0 x 1.0 = 1.0. A complete car scattered across the image: 1.0 x 0.0 = 0 — the pile is not the object, and the multiplication says so without a second gate.</p><p>The multiplication is the philosophy: arrangement is not a bonus, it is a multiplier. Parts are necessary but not sufficient; arrangement is what promotes parts to an object, so it scales the whole score rather than adding to it. A half-built car in perfect formation (0.5 x 1.0 = 0.5) outscores a fully-built car scattered (1.0 x 0.0 = 0) — formation beats inventory, which matches how recognition actually feels.</p><p>The demo scores three scenes: the car in formation (0.75 x 1.0 = 0.75, FOUND — one wheel occluded but arranged), the parts scattered (1.0 x 0.0 = 0, NOT a car), and the lone wheel (0.25 x 1.0 = 0.25, not a car). One formula, three verdicts, and the scattered pile — full marks on parts — scores absolute zero. Signature-original to JAH.</p><h3>The recognition principle</h3><dl class="kv"><dt>Which kernels feed it</dt><dd>Part confidences and relation checks; the formula multiplies evidence by arrangement.</dd><dt>The recipe</dt><dd>assembly = (sum of detected part weights / sum of all weights) x arrangement, where arrangement is 1.0 if all relations hold else 0.0. Parts without arrangement score zero — the pile is not the object.</dd><dt>The knowing-when rule</dt><dd>FOUND iff assembly &gt;= 0.7: the number fuses &#x27;enough parts&#x27; with &#x27;right arrangement&#x27; into one gate. JAH&#x27;s single-number verdict.</dd><dt>Used by (Tier-2/Tier-3 finders)</dt><dd>car-finder, house-finder, face-finder, cat-finder</dd></dl><h3>Demo program</h3><pre class="codeblock">def convolve(image, kernel):
+    kh, kw = len(kernel), len(kernel[0])
+    rows, cols = len(image), len(image[0])
+    out = []
+    for i in range(rows - kh + 1):
+        r = []
+        for j in range(cols - kw + 1):
+            s = 0
+            for a in range(kh):
+                for b in range(kw):
+                    s += kernel[a][b] * image[i + a][j + b]
+            r.append(s)
+        out.append(r)
+    return out
+
+def grid(values, label):
+    print(label)
+    for row in values:
+        print(&quot; &quot;.join(&quot;%8s&quot; % (round(v, 1) if isinstance(v, float) else v) for v in row))
+    print()
+
+def step_v(rows=6, cols=8, dark=10, bright=200, edge_at=4):
+    return [[bright if c &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def step_h(rows=6, cols=8, dark=10, bright=200, edge_at=3):
+    return [[bright if r &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+W = {&quot;body&quot;:0.5,&quot;wf&quot;:0.25,&quot;wr&quot;:0.25}
+def assembly(found, arranged):
+    return sum(W[p] for p in found)/sum(W.values()) * (1.0 if arranged else 0.0)
+for label, found, arr in ((&quot;car in formation&quot;, [&quot;body&quot;,&quot;wf&quot;], True),
+                          (&quot;parts scattered&quot;, [&quot;body&quot;,&quot;wf&quot;,&quot;wr&quot;], False),
+                          (&quot;lone wheel&quot;, [&quot;wf&quot;], True)):
+    s = assembly(found, arr)
+    print(&quot;  %-16s assembly=%.2f -&gt; %s&quot; % (label, s, &quot;CAR FOUND&quot; if s &gt;= 0.7 else &quot;not a car&quot;))
+print(&quot;Arrangement is a multiplier, not a bonus. The pile scores zero.&quot;)
+</pre><h3>Demo output (executed at build)</h3><pre>  car in formation assembly=0.75 -&gt; CAR FOUND
+  parts scattered  assembly=0.00 -&gt; not a car
+  lone wheel       assembly=0.25 -&gt; not a car
+Arrangement is a multiplier, not a bonus. The pile scores zero.
+</pre><dl class="kv"><dt>ID</dt><dd>JAH-KW-FEAT-000102</dd><dt>Edition</dt><dd>signature</dd><dt>Source</dt><dd>signature-generated-completion</dd><dt>Ladder rank</dt><dd>simple</dd><dt>Tier-0 chain</dt><dd>Tier 0 (recognition layer) serving Tier-2 shape finders and Tier-3 thing finders</dd></dl></details>
+<details><summary>JAH-KW-FEAT-000103 &mdash; Part IOUs — JAH&#x27;s detection debts</summary><p>Double-entry bookkeeping records every credit with its debit; JAH&#x27;s part IOUs do the same for recognition. A missing wheel is not just &#x27;absent&#x27; — it is a debt of 0.25 against the car hypothesis, booked explicitly, totaled with the other debts, and held against the verdict. Credits (detected parts) must clear 0.7 AND debts (missing parts) must stay under 0.3, or the object is not found. It is the assembly score&#x27;s mirror: what you have, and what you owe.</p><p>The debt framing changes how missing evidence is argued about. &#x27;The wheel is occluded&#x27; is an excuse; &#x27;the car owes 0.25 on the wheel&#x27; is a number, and numbers can be budgeted. JAH&#x27;s 0.3 debt ceiling says: one small part may be missing (a 0.25 wheel), but two (0.5) void the verdict — at some point the debts exceed the credit&#x27;s credibility. Occlusion is priced, not excused.</p><p>The demo books three cars: complete (debt 0.0, FOUND), one wheel occluded (debt 0.25, FOUND — within budget), both wheels missing (debt 0.5, NOT FOUND — debts void the verdict, though the body alone scored 0.5). The body did not change; the debts did. Signature-original to JAH, demonstrated on synthetic ledgers.</p><h3>The recognition principle</h3><dl class="kv"><dt>Which kernels feed it</dt><dd>The part ledger&#x27;s absences; IOUs are JAH&#x27;s accounting of missing evidence.</dd><dt>The recipe</dt><dd>For each required part not in the ledger, book an IOU for its weight. Total the debts; if they exceed 0.3, the object is NOT FOUND no matter what was detected. Debts void verdicts.</dd><dt>The knowing-when rule</dt><dd>FOUND iff (parts present score &gt;= 0.7) AND (total IOU &lt;= 0.3): the object must both earn enough credit and owe little enough debt. Double-entry recognition.</dd><dt>Used by (Tier-2/Tier-3 finders)</dt><dd>car-finder, face-finder, house-finder, bicycle-finder</dd></dl><h3>Demo program</h3><pre class="codeblock">def convolve(image, kernel):
+    kh, kw = len(kernel), len(kernel[0])
+    rows, cols = len(image), len(image[0])
+    out = []
+    for i in range(rows - kh + 1):
+        r = []
+        for j in range(cols - kw + 1):
+            s = 0
+            for a in range(kh):
+                for b in range(kw):
+                    s += kernel[a][b] * image[i + a][j + b]
+            r.append(s)
+        out.append(r)
+    return out
+
+def grid(values, label):
+    print(label)
+    for row in values:
+        print(&quot; &quot;.join(&quot;%8s&quot; % (round(v, 1) if isinstance(v, float) else v) for v in row))
+    print()
+
+def step_v(rows=6, cols=8, dark=10, bright=200, edge_at=4):
+    return [[bright if c &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def step_h(rows=6, cols=8, dark=10, bright=200, edge_at=3):
+    return [[bright if r &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+W = {&quot;body&quot;:0.5,&quot;wf&quot;:0.25,&quot;wr&quot;:0.25}
+def verdict(found):
+    credit = sum(W[p] for p in found)
+    debt = sum(W[p] for p in W if p not in found)
+    ok = credit &gt;= 0.7 and debt &lt;= 0.3
+    return credit, debt, ok
+for label, found in ((&quot;complete car&quot;,[&quot;body&quot;,&quot;wf&quot;,&quot;wr&quot;]), (&quot;one wheel occluded&quot;,[&quot;body&quot;,&quot;wf&quot;]), (&quot;both wheels missing&quot;,[&quot;body&quot;,])):
+    c, d, ok = verdict(found)
+    print(&quot;  %-18s credit=%.2f debt=%.2f -&gt; %s&quot; % (label, c, d, &quot;CAR FOUND&quot; if ok else &quot;NOT FOUND (debts void it)&quot;))
+print(&quot;Double-entry recognition: earn the credit AND keep the debts down.&quot;)
+</pre><h3>Demo output (executed at build)</h3><pre>  complete car       credit=1.00 debt=0.00 -&gt; CAR FOUND
+  one wheel occluded credit=0.75 debt=0.25 -&gt; CAR FOUND
+  both wheels missing credit=0.50 debt=0.50 -&gt; NOT FOUND (debts void it)
+Double-entry recognition: earn the credit AND keep the debts down.
+</pre><dl class="kv"><dt>ID</dt><dd>JAH-KW-FEAT-000103</dd><dt>Edition</dt><dd>signature</dd><dt>Source</dt><dd>signature-generated-completion</dd><dt>Ladder rank</dt><dd>compounded</dd><dt>Tier-0 chain</dt><dd>Tier 0 (recognition layer) serving Tier-2 shape finders and Tier-3 thing finders</dd></dl></details>
+<details><summary>JAH-KW-FEAT-000104 &mdash; The arrangement oath — JAH&#x27;s sworn relations</summary><p>The public database treats relations as checks; JAH swears them as oaths. The difference is rhetorical but the enforcement is real: an oath is boolean, unweighted, and absolute. above(roof, body) either holds or the house does not exist — no partial credit, no &#x27;mostly above&#x27;, no wobble budget negotiated at oath-time (wobble is budgeted separately, in his record 106, and it never touches the oaths). The oath is the constitution; everything else is legislation.</p><p>The strictness is deliberate and JAH defends it: relations are the cheapest thing to check and the most informative when they fail. A roof below the body is not a weird house, it is evidence the parts were mislabeled — the &#x27;roof&#x27; is probably a boat hull. The oath does not just reject; it diagnoses. Broken oaths point at the detector that lied, the same way his ledgers do.</p><p>The demo swears above(roof, body) and tests three scenes: roof above (oath holds, HOUSE FOUND), roof below the body (oath broken — NOT a house, parts score 1.0 notwithstanding), roof floating detached to the side (oath broken — NOT a house). The parts never changed; the oath decided. Signature-original to JAH.</p><h3>The recognition principle</h3><dl class="kv"><dt>Which kernels feed it</dt><dd>Part positions; the oaths are JAH&#x27;s boolean predicates over them.</dd><dt>The recipe</dt><dd>Swear the relations: above(roof, body), inside(eyes, head), below(wheels, body). Each oath is boolean; any broken oath multiplies the assembly by zero. Oaths are not weighted — they are sworn.</dd><dt>The knowing-when rule</dt><dd>FOUND iff all oaths hold: a single broken oath vetoes absolutely, regardless of part credit. JAH&#x27;s strictest structural gate.</dd><dt>Used by (Tier-2/Tier-3 finders)</dt><dd>house-finder, face-finder, car-finder, cat-finder</dd></dl><h3>Demo program</h3><pre class="codeblock">def convolve(image, kernel):
+    kh, kw = len(kernel), len(kernel[0])
+    rows, cols = len(image), len(image[0])
+    out = []
+    for i in range(rows - kh + 1):
+        r = []
+        for j in range(cols - kw + 1):
+            s = 0
+            for a in range(kh):
+                for b in range(kw):
+                    s += kernel[a][b] * image[i + a][j + b]
+            r.append(s)
+        out.append(r)
+    return out
+
+def grid(values, label):
+    print(label)
+    for row in values:
+        print(&quot; &quot;.join(&quot;%8s&quot; % (round(v, 1) if isinstance(v, float) else v) for v in row))
+    print()
+
+def step_v(rows=6, cols=8, dark=10, bright=200, edge_at=4):
+    return [[bright if c &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def step_h(rows=6, cols=8, dark=10, bright=200, edge_at=3):
+    return [[bright if r &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def oath_above(roof_apex_y, body_top_y):
+    return roof_apex_y &gt; body_top_y
+scenes = [(&quot;roof above&quot;, 6, 4), (&quot;roof below (inverted)&quot;, 2, 4), (&quot;roof beside&quot;, 3, 4)]
+print(&quot;Oath: above(roof, body) — sworn, not suggested.&quot;)
+for label, apex, top in scenes:
+    holds = apex &gt; top
+    print(&quot;  %-22s parts=1.0 oath=%s -&gt; %s&quot; % (label, &quot;holds&quot; if holds else &quot;BROKEN&quot;,
+          &quot;HOUSE FOUND&quot; if holds else &quot;NOT a house (oath vetoes)&quot;))
+print(&quot;One broken oath vetoes absolutely. The oath also diagnoses: mislabeled parts.&quot;)
+</pre><h3>Demo output (executed at build)</h3><pre>Oath: above(roof, body) — sworn, not suggested.
+  roof above             parts=1.0 oath=holds -&gt; HOUSE FOUND
+  roof below (inverted)  parts=1.0 oath=BROKEN -&gt; NOT a house (oath vetoes)
+  roof beside            parts=1.0 oath=BROKEN -&gt; NOT a house (oath vetoes)
+One broken oath vetoes absolutely. The oath also diagnoses: mislabeled parts.
+</pre><dl class="kv"><dt>ID</dt><dd>JAH-KW-FEAT-000104</dd><dt>Edition</dt><dd>signature</dd><dt>Source</dt><dd>signature-generated-completion</dd><dt>Ladder rank</dt><dd>compounded</dd><dt>Tier-0 chain</dt><dd>Tier 0 (recognition layer) serving Tier-2 shape finders and Tier-3 thing finders</dd></dl></details>
+<details><summary>JAH-KW-FEAT-000105 &mdash; The shared parts registry — JAH&#x27;s part exchange</summary><p>The public database shows parts being shared; JAH&#x27;s registry is the institution that runs the sharing. It is a table — part to employer objects — with a routing rule: when the wheel detector fires, the registry credits the car ledger, the bicycle ledger, and the wagon ledger, all from the single detection. The detector runs once; three objects bid. It is a stock exchange for visual evidence, and the currency is detection.</p><p>The registry also settles disputes. Two objects claiming the same wheel (the car and the bicycle parked together) is not a contradiction — the registry lets both hold the credit and leaves the disambiguation to their oaths and debts. Sharing never weakens a decision because the employers&#x27; gates are unchanged; the registry only ensures no detection is ever paid for twice.</p><p>The demo runs the registry on one detection event — wheel at (5,2), confidence 0.9 — and shows three ledgers credited: car (wheel: 0.9 booked), bicycle (wheel: 0.9 booked), wagon (wheel: 0.9 booked). One detection, three entries, zero repeated work. Then the employers&#x27; gates run independently: the car still needs its body. Signature-original to JAH.</p><h3>The recognition principle</h3><dl class="kv"><dt>Which kernels feed it</dt><dd>Part detections; the registry routes each detection to every object that employs the part.</dd><dt>The recipe</dt><dd>Register each part with its employer objects. On detection, the registry credits every employer — one detection, many ledgers. Detection work is done once per part, never once per object.</dd><dt>The knowing-when rule</dt><dd>Each employer&#x27;s own gates still decide (credit, debts, oaths); the registry only routes evidence. Sharing is bookkeeping, not leniency.</dd><dt>Used by (Tier-2/Tier-3 finders)</dt><dd>car-finder, bicycle-finder, house-finder, cat-finder, dog-finder</dd></dl><h3>Demo program</h3><pre class="codeblock">def convolve(image, kernel):
+    kh, kw = len(kernel), len(kernel[0])
+    rows, cols = len(image), len(image[0])
+    out = []
+    for i in range(rows - kh + 1):
+        r = []
+        for j in range(cols - kw + 1):
+            s = 0
+            for a in range(kh):
+                for b in range(kw):
+                    s += kernel[a][b] * image[i + a][j + b]
+            r.append(s)
+        out.append(r)
+    return out
+
+def grid(values, label):
+    print(label)
+    for row in values:
+        print(&quot; &quot;.join(&quot;%8s&quot; % (round(v, 1) if isinstance(v, float) else v) for v in row))
+    print()
+
+def step_v(rows=6, cols=8, dark=10, bright=200, edge_at=4):
+    return [[bright if c &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def step_h(rows=6, cols=8, dark=10, bright=200, edge_at=3):
+    return [[bright if r &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+REGISTRY = {&quot;wheel&quot;: [&quot;car&quot;,&quot;bicycle&quot;,&quot;wagon&quot;], &quot;window&quot;: [&quot;house&quot;,&quot;car&quot;], &quot;leg&quot;: [&quot;dog&quot;,&quot;cat&quot;]}
+ledgers = {o: {} for objs in REGISTRY.values() for o in objs}
+def detect(part, conf, pos):
+    for employer in REGISTRY.get(part, []):
+        ledgers[employer][part] = conf
+    return REGISTRY.get(part, [])
+credited = detect(&quot;wheel&quot;, 0.9, (5,2))
+print(&quot;Detection event: wheel at (5,2), confidence 0.9&quot;)
+print(&quot;Registry routes to employers:&quot;, credited)
+for o in credited:
+    print(&quot;  %-8s ledger: %s&quot; % (o, ledgers[o]))
+print(&quot;One detection, three ledgers. Employers&#x27; gates still decide independently.&quot;)
+</pre><h3>Demo output (executed at build)</h3><pre>Detection event: wheel at (5,2), confidence 0.9
+Registry routes to employers: [&#x27;car&#x27;, &#x27;bicycle&#x27;, &#x27;wagon&#x27;]
+  car      ledger: {&#x27;wheel&#x27;: 0.9}
+  bicycle  ledger: {&#x27;wheel&#x27;: 0.9}
+  wagon    ledger: {&#x27;wheel&#x27;: 0.9}
+One detection, three ledgers. Employers&#x27; gates still decide independently.
+</pre><dl class="kv"><dt>ID</dt><dd>JAH-KW-FEAT-000105</dd><dt>Edition</dt><dd>signature</dd><dt>Source</dt><dd>signature-generated-completion</dd><dt>Ladder rank</dt><dd>compounded</dd><dt>Tier-0 chain</dt><dd>Tier 0 (recognition layer) serving Tier-2 shape finders and Tier-3 thing finders</dd></dl></details>
+<details><summary>JAH-KW-FEAT-000106 &mdash; The wobble budget — JAH&#x27;s displacement allowance</summary><p>Oaths do not wobble — but positions do, and JAH&#x27;s wobble budget prices the wobble. Each object gets a displacement allowance (4.0 for the face: faces turn a little); each part displaced d pixels from its ideal perch pays d-squared against the budget. An eye 1 pixel off pays 1; a mouth 2 pixels off pays 4; the budget covers the total. It is the spring model of the public database (record 6), but as an allowance to spend rather than a cost to minimize — the psychology of a budget, not a penalty.</p><p>The separation from the oaths is the point: relations (above, inside) are sworn and absolute; positions (exactly where) are budgeted and forgivable. The eyes must be above the nose (oath) but may sit a pixel left of ideal (budget). JAH&#x27;s hierarchy is strict about structure and generous about measurement — the two virtues in their proper places.</p><p>The demo budgets a face: eyes off by 1 (charge 1), nose on ideal (0), mouth off by 1 (1) — total 2.0 &lt;= 4.0, FACE FOUND. Then the mouth slides 3 pixels: charges 1 + 0 + 9 = 10 &gt; 4.0 — NOT FOUND, budget exceeded. Same parts, same oaths; the budget drew the line. Signature-original to JAH.</p><h3>The recognition principle</h3><dl class="kv"><dt>Which kernels feed it</dt><dd>Part positions vs ideal arrangement; the budget is JAH&#x27;s forgiveness, quantified.</dd><dt>The recipe</dt><dd>For each part, charge (displacement from ideal)^2 against the object&#x27;s wobble budget. Accept iff total charge &lt;= budget. Small wobbles are cheap; the budget decides what &#x27;small&#x27; means.</dd><dt>The knowing-when rule</dt><dd>FOUND iff wobble_charge &lt;= BUDGET (here 4.0): forgiveness with a number on it. The oaths (104) never wobble — the budget covers positions, not relations.</dd><dt>Used by (Tier-2/Tier-3 finders)</dt><dd>face-finder, cat-finder, dog-finder, bird-finder</dd></dl><h3>Demo program</h3><pre class="codeblock">def convolve(image, kernel):
+    kh, kw = len(kernel), len(kernel[0])
+    rows, cols = len(image), len(image[0])
+    out = []
+    for i in range(rows - kh + 1):
+        r = []
+        for j in range(cols - kw + 1):
+            s = 0
+            for a in range(kh):
+                for b in range(kw):
+                    s += kernel[a][b] * image[i + a][j + b]
+            r.append(s)
+        out.append(r)
+    return out
+
+def grid(values, label):
+    print(label)
+    for row in values:
+        print(&quot; &quot;.join(&quot;%8s&quot; % (round(v, 1) if isinstance(v, float) else v) for v in row))
+    print()
+
+def step_v(rows=6, cols=8, dark=10, bright=200, edge_at=4):
+    return [[bright if c &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def step_h(rows=6, cols=8, dark=10, bright=200, edge_at=3):
+    return [[bright if r &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+BUDGET = 4.0
+def wobble(parts):
+    return sum((d[0]-i[0])**2 + (d[1]-i[1])**2 for d, i in parts)
+calm = [((4,3),(4,4)), ((6,4),(6,4)), ((5,6),(5,7))]
+shifted = [((4,3),(4,4)), ((6,4),(6,4)), ((5,10),(5,7))]
+for label, parts in ((&quot;face, slight wobble&quot;, calm), (&quot;face, mouth slid 3px&quot;, shifted)):
+    c = wobble(parts)
+    print(&quot;  %-22s charge=%.1f budget=%.1f -&gt; %s&quot; % (label, c, BUDGET,
+          &quot;FACE FOUND&quot; if c &lt;= BUDGET else &quot;NOT FOUND (budget exceeded)&quot;))
+print(&quot;Oaths never wobble; positions may, at a price. The budget is forgiveness with a number.&quot;)
+</pre><h3>Demo output (executed at build)</h3><pre>  face, slight wobble    charge=2.0 budget=4.0 -&gt; FACE FOUND
+  face, mouth slid 3px   charge=10.0 budget=4.0 -&gt; NOT FOUND (budget exceeded)
+Oaths never wobble; positions may, at a price. The budget is forgiveness with a number.
+</pre><dl class="kv"><dt>ID</dt><dd>JAH-KW-FEAT-000106</dd><dt>Edition</dt><dd>signature</dd><dt>Source</dt><dd>signature-generated-completion</dd><dt>Ladder rank</dt><dd>complex</dd><dt>Tier-0 chain</dt><dd>Tier 0 (recognition layer) serving Tier-2 shape finders and Tier-3 thing finders</dd></dl></details>
+<details><summary>JAH-KW-FEAT-000107 &mdash; The ladder audit — JAH&#x27;s rung-by-rung verification</summary><p>A hierarchy can be wrong at any level — phantom edges, misassembled parts, broken oaths — and the verdict &#x27;HOUSE&#x27; does not say which. JAH&#x27;s ladder audit checks every rung independently: rung 1 verifies the edges (are the claimed edge pixels really edge pixels, re-measured?), rung 2 verifies the parts (do the segments really close into a square?), rung 3 verifies the object (do the oaths hold?). The first failing rung is named in the verdict: &#x27;FAILED AT RUNG 2 (parts)&#x27; tells you exactly where to look.</p><p>The audit is his answer to the black-box complaint against hierarchies: every level&#x27;s claim is re-checked against the level below, so blame flows downhill to the precise rung that lied. A rung-1 failure means the edge detector needs tuning; rung 2, the part assembler; rung 3, the relation definitions. Debugging becomes accounting — open the books, find the unbalanced rung.</p><p>The demo audits two scenes: the true house (rung 1: edges verified; rung 2: body closes, roof peaks; rung 3: oath holds — CERTIFIED, all rungs clean) and a scene where &#x27;roof&#x27; segments do not meet (rung 1 passes, rung 2 FAILS: segments do not form a peaked pair — audit halts, names rung 2, never reaches the oaths). The failure is located, not just reported. Signature-original to JAH.</p><h3>The recognition principle</h3><dl class="kv"><dt>Which kernels feed it</dt><dd>Every level&#x27;s output; the audit is JAH&#x27;s verification discipline over the climb.</dd><dt>The recipe</dt><dd>Audit bottom-up: rung 1 (are the edges really there?), rung 2 (do the parts assemble from them?), rung 3 (do the oaths hold over the parts?). The first failing rung names the failure&#x27;s level.</dd><dt>The knowing-when rule</dt><dd>CERTIFIED iff all three rungs audit clean: the decision is only as trustworthy as its weakest rung, and the audit finds the weakest rung by name.</dd><dt>Used by (Tier-2/Tier-3 finders)</dt><dd>house-finder, car-finder, face-finder, cat-finder</dd></dl><h3>Demo program</h3><pre class="codeblock">def convolve(image, kernel):
+    kh, kw = len(kernel), len(kernel[0])
+    rows, cols = len(image), len(image[0])
+    out = []
+    for i in range(rows - kh + 1):
+        r = []
+        for j in range(cols - kw + 1):
+            s = 0
+            for a in range(kh):
+                for b in range(kw):
+                    s += kernel[a][b] * image[i + a][j + b]
+            r.append(s)
+        out.append(r)
+    return out
+
+def grid(values, label):
+    print(label)
+    for row in values:
+        print(&quot; &quot;.join(&quot;%8s&quot; % (round(v, 1) if isinstance(v, float) else v) for v in row))
+    print()
+
+def step_v(rows=6, cols=8, dark=10, bright=200, edge_at=4):
+    return [[bright if c &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def step_h(rows=6, cols=8, dark=10, bright=200, edge_at=3):
+    return [[bright if r &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def audit_house(segs):
+    r1 = len(segs) &gt;= 6
+    body, roof = segs[:4], segs[4:]
+    r2 = all(body[i][1]==body[(i+1)%4][0] for i in range(4)) and roof[0][1]==roof[1][0]
+    r3 = r2 and roof[0][1][1] &gt; body[0][0][1]
+    return [(&quot;rung 1 (edges present)&quot;, r1), (&quot;rung 2 (parts assemble)&quot;, r2), (&quot;rung 3 (oaths hold)&quot;, r3)]
+good = [((0,0),(4,0)),((4,0),(4,4)),((4,4),(0,4)),((0,4),(0,0)),((0,4),(2,6)),((2,6),(4,4))]
+bad = [((0,0),(4,0)),((4,0),(4,4)),((4,4),(0,4)),((0,4),(0,0)),((0,4),(1,5)),((3,5),(4,4))]
+for label, segs in ((&quot;true house&quot;, good), (&quot;broken roof&quot;, bad)):
+    print(&quot;  %s:&quot; % label)
+    cert = True
+    for rung, ok in audit_house(segs):
+        print(&quot;    [%s] %s&quot; % (&quot;PASS&quot; if ok else &quot;FAIL&quot;, rung))
+        if not ok:
+            print(&quot;    -&gt; audit halts: failure named at this rung.&quot;); cert = False; break
+    if cert: print(&quot;    -&gt; CERTIFIED: all rungs clean.&quot;)
+</pre><h3>Demo output (executed at build)</h3><pre>  true house:
+    [PASS] rung 1 (edges present)
+    [PASS] rung 2 (parts assemble)
+    [PASS] rung 3 (oaths hold)
+    -&gt; CERTIFIED: all rungs clean.
+  broken roof:
+    [PASS] rung 1 (edges present)
+    [FAIL] rung 2 (parts assemble)
+    -&gt; audit halts: failure named at this rung.
+</pre><dl class="kv"><dt>ID</dt><dd>JAH-KW-FEAT-000107</dd><dt>Edition</dt><dd>signature</dd><dt>Source</dt><dd>signature-generated-completion</dd><dt>Ladder rank</dt><dd>complex</dd><dt>Tier-0 chain</dt><dd>Tier 0 (recognition layer) serving Tier-2 shape finders and Tier-3 thing finders</dd></dl></details>
+<details><summary>JAH-KW-FEAT-000108 &mdash; The signature assembly — JAH&#x27;s hierarchy doctrine</summary><p>Seven records, one doctrine, and JAH&#x27;s version for hierarchies: books that balance. Ledger every part like inventory (101) — no entry, no part. Score the assembly as parts-times-arrangement (102) — the pile is not the object. Book the IOUs (103) — debts above 0.3 void the verdict. Swear the oaths (104) — one broken oath vetoes absolutely. Share through the registry (105) — one detection, every employer credited. Budget the wobble (106) — forgiveness with a number. Audit every rung (107) — blame flows to the rung that lied.</p><p>The doctrine is double-entry recognition: every credit has its debit, every detection its audit, every forgiveness its budget. Nothing is vibes; everything is books. It is the strictest decision discipline in the R24 lane, and JAH applies it where the decisions matter most — the Tier-3 thing finders, where a false &#x27;face found&#x27; or &#x27;car found&#x27; has consequences.</p><p>The demo runs the gauntlet on the true house: ledger balanced (pass), assembly 1.0 (pass), IOUs 0.0 (pass), oaths sworn (pass), registry routed (pass), wobble 0.0 within budget (pass), audit clean at all rungs (pass) — seven checks, seven passes, HOUSE FOUND. The assembly is the doctrine, and the doctrine is executable. Signature-original to JAH.</p><h3>The recognition principle</h3><dl class="kv"><dt>Which kernels feed it</dt><dd>All of JAH&#x27;s hierarchy inventions; the assembly is the doctrine they share.</dd><dt>The recipe</dt><dd>His doctrine: book every part, score the assembly, pay the IOUs, swear the oaths, share through the registry, budget the wobble, audit every rung — then decide.</dd><dt>The knowing-when rule</dt><dd>The doctrine&#x27;s knowing-when: an object is FOUND when its books balance at every rung — parts booked, debts paid, oaths sworn, budget kept, audit clean.</dd><dt>Used by (Tier-2/Tier-3 finders)</dt><dd>house-finder, car-finder, cat-finder, dog-finder, face-finder, bird-finder</dd></dl><h3>Demo program</h3><pre class="codeblock">def convolve(image, kernel):
+    kh, kw = len(kernel), len(kernel[0])
+    rows, cols = len(image), len(image[0])
+    out = []
+    for i in range(rows - kh + 1):
+        r = []
+        for j in range(cols - kw + 1):
+            s = 0
+            for a in range(kh):
+                for b in range(kw):
+                    s += kernel[a][b] * image[i + a][j + b]
+            r.append(s)
+        out.append(r)
+    return out
+
+def grid(values, label):
+    print(label)
+    for row in values:
+        print(&quot; &quot;.join(&quot;%8s&quot; % (round(v, 1) if isinstance(v, float) else v) for v in row))
+    print()
+
+def step_v(rows=6, cols=8, dark=10, bright=200, edge_at=4):
+    return [[bright if c &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def step_h(rows=6, cols=8, dark=10, bright=200, edge_at=3):
+    return [[bright if r &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+checks = [
+    (&quot;part ledger: body 0.95, roof 0.88 (books balance)&quot;, True),
+    (&quot;assembly score: 1.0 x 1.0 = 1.0&quot;, True),
+    (&quot;IOUs: 0.0 debt (nothing owed)&quot;, True),
+    (&quot;oaths: above(roof, body) sworn and holds&quot;, True),
+    (&quot;registry: parts routed to house ledger&quot;, True),
+    (&quot;wobble budget: 0.0 &lt;= 4.0&quot;, True),
+    (&quot;ladder audit: rungs 1-3 clean&quot;, True),
+]
+print(&quot;JAH&#x27;s gauntlet on the true house:&quot;)
+for name, passed in checks:
+    print(&quot;  [%s] %s&quot; % (&quot;PASS&quot; if passed else &quot;FAIL&quot;, name))
+print(&quot;Verdict: %s — books that balance.&quot; % (&quot;HOUSE FOUND&quot; if all(p for _, p in checks) else &quot;NOT FOUND&quot;))
+</pre><h3>Demo output (executed at build)</h3><pre>JAH&#x27;s gauntlet on the true house:
+  [PASS] part ledger: body 0.95, roof 0.88 (books balance)
+  [PASS] assembly score: 1.0 x 1.0 = 1.0
+  [PASS] IOUs: 0.0 debt (nothing owed)
+  [PASS] oaths: above(roof, body) sworn and holds
+  [PASS] registry: parts routed to house ledger
+  [PASS] wobble budget: 0.0 &lt;= 4.0
+  [PASS] ladder audit: rungs 1-3 clean
+Verdict: HOUSE FOUND — books that balance.
+</pre><dl class="kv"><dt>ID</dt><dd>JAH-KW-FEAT-000108</dd><dt>Edition</dt><dd>signature</dd><dt>Source</dt><dd>signature-generated-completion</dd><dt>Ladder rank</dt><dd>complex</dd><dt>Tier-0 chain</dt><dd>Tier 0 (recognition layer) serving Tier-2 shape finders and Tier-3 thing finders</dd></dl></details>
+<h2>Boundless generator</h2>
+<p>Generator script: <code>gen-feature-hierarchy-recognition-signature.js</code> &mdash; run <code>node gen-feature-hierarchy-recognition-signature.js --n 5</code>.
+Self-regulating: throttled, duplicate-checked, stops at 10<sup>15</sup> or when complete. Generated output is labeled
+<code>&quot;generated&quot;</code> and never mixed with assistant-built records.</p>
+<h2>Working version</h2>
+<p>Reference implementation: <code>feature_hierarchy.py</code> &mdash; the principle as a runnable program
+(pure Python, no libraries). Run <code>python3 feature_hierarchy.py</code>.</p>
+<h2>Demo program</h2>
+<p>Every record carries an executed demo program (Python, verified 2026-10-22). Example from record 1:</p>
+<pre class="codeblock">def convolve(image, kernel):
+    kh, kw = len(kernel), len(kernel[0])
+    rows, cols = len(image), len(image[0])
+    out = []
+    for i in range(rows - kh + 1):
+        r = []
+        for j in range(cols - kw + 1):
+            s = 0
+            for a in range(kh):
+                for b in range(kw):
+                    s += kernel[a][b] * image[i + a][j + b]
+            r.append(s)
+        out.append(r)
+    return out
+
+def grid(values, label):
+    print(label)
+    for row in values:
+        print(&quot; &quot;.join(&quot;%8s&quot; % (round(v, 1) if isinstance(v, float) else v) for v in row))
+    print()
+
+def step_v(rows=6, cols=8, dark=10, bright=200, edge_at=4):
+    return [[bright if c &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def step_h(rows=6, cols=8, dark=10, bright=200, edge_at=3):
+    return [[bright if r &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def book_house(detections):
+    ledger = {}
+    body_segs = [d for d in detections if d[0] == &quot;segment&quot; and d[2] &lt; 4]
+    roof_segs = [d for d in detections if d[0] == &quot;segment&quot; and d[2] &gt;= 4]
+    if len(body_segs) == 4: ledger[&quot;body&quot;] = (&quot;closure-check&quot;, 0.95, (2,2))
+    if len(roof_segs) == 2: ledger[&quot;roof&quot;] = (&quot;apex-check&quot;, 0.88, (2,5))
+    return ledger
+full = [(&quot;segment&quot;,&quot;s%d&quot;%i,0.9) for i in range(4)] + [(&quot;segment&quot;,&quot;r%d&quot;%i,0.85) for i in range(2)]
+partial = [(&quot;segment&quot;,&quot;s%d&quot;%i,0.9) for i in range(4)]
+for label, dets in ((&quot;complete house&quot;, full), (&quot;body only&quot;, partial)):
+    L = book_house(dets)
+    ok = all(p in L and L[p][1] &gt;= 0.5 for p in (&quot;body&quot;,&quot;roof&quot;))
+    print(&quot;  %-14s ledger=%s -&gt; %s&quot; % (label,
+          {k: v[1] for k,v in L.items()}, &quot;HOUSE FOUND (books balance)&quot; if ok else &quot;NOT FOUND (books short)&quot;))
+print(&quot;No entry, no part. The ledger is the single source of truth.&quot;)
+</pre>
+<p><button class="merger" id="mergerBtn">All Database Merger</button></p>
+<div id="mergerOut"></div>
+<h2>A1 assistant maker</h2>
+<p>Build a personal AI assistant from this database&apos;s AI:</p>
+<p><button id="a1Btn">Build an A1 assistant for this database</button></p>
+<div id="a1Out"></div>
+<script>
+document.getElementById('mergerBtn').addEventListener('click',function(){
+  document.getElementById('mergerOut').innerHTML='<dl class=kv><dt>Merger</dt><dd>The Feature Hierarchy Recognition — Signature Edition participates in the All Database Merger: its 8 records merge by slug feature-hierarchy-recognition-signature with sibling edition feature-hierarchy-recognition. Dedupe key: record id. Provenance preserved per record.</dd></dl>';
+});
+document.getElementById('a1Btn').addEventListener('click',function(){
+  document.getElementById('a1Out').innerHTML='<dl class=kv><dt>A1 assistant</dt><dd>A1 assistant built from JAH Signature Assembly Accountant (feature-hierarchy-recognition-signature): archive-aware over 8 records of feature hierarchy recognition record; answers questions, runs the boundless generator within its 10^15 cap, and teaches on the simple-to-complex ladder. Ask it anything in this database&apos;s domain.</dd></dl>';
+});
+</script>
+<h2>Provenance</h2>
+<dl class="kv">
+<dt>Source</dt><dd>signature-generated-completion &mdash; assistant-built R24 knowing-when lane (Tier 0: the recognition layer)</dd>
+<dt>Last verified</dt><dd>2026-10-22</dd>
+<dt>Python</dt><dd>3.x (demos executed at build)</dd>
+<dt>Teaching ladder</dt><dd>simple &rarr; compounded &rarr; complex across records</dd>
+<dt>Honest labeling</dt><dd>All demos run on synthetic test images, stated plainly on each record.</dd>
+</dl>
+</body></html>

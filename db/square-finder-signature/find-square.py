@@ -1,0 +1,518 @@
+"""
+find-square.py -- the Square Finder, runnable working version.
+Pure Python, no libraries. Draws a synthetic test image, runs a real
+3x3 Sobel convolution, applies the knowing-when rule, prints the verdict.
+"""
+"""Pure-Python (no numpy) vision toolkit prototype for the R24 shape-finders lane.
+Shared core: drawing, Sobel 3x3 convolution, Harris corners, Hough votes."""
+import math
+
+SOBEL_GX = [[-1, 0, 1], [-2, 0, 2], [-1, 0, 1]]
+SOBEL_GY = [[-1, -2, -1], [0, 0, 0], [1, 2, 1]]
+
+# ---------- image helpers ----------
+def new_grid(w, h, v=0):
+    return [[v] * w for _ in range(h)]
+
+def convolve(img, k):
+    kh, kw = len(k), len(k[0])
+    rows, cols = len(img), len(img[0])
+    out = []
+    for i in range(rows - kh + 1):
+        r = []
+        for j in range(cols - kw + 1):
+            s = 0
+            for a in range(kh):
+                for b in range(kw):
+                    s += k[a][b] * img[i + a][j + b]
+            r.append(s)
+        out.append(r)
+    return out
+
+def sobel_mag_ang(img):
+    gx = convolve(img, SOBEL_GX)
+    gy = convolve(img, SOBEL_GY)
+    mag, ang = [], []
+    for i in range(len(gx)):
+        mr, ar = [], []
+        for j in range(len(gx[0])):
+            x, y = gx[i][j], gy[i][j]
+            mr.append(math.hypot(x, y))
+            ar.append(math.degrees(math.atan2(y, x)))
+        mag.append(mr)
+        ang.append(ar)
+    return mag, ang
+
+def edge_binary(img, frac=0.25):
+    """Binary edge map (1=edge) in ORIGINAL image coords (padded back)."""
+    mag, _ = sobel_mag_ang(img)
+    mx = max(max(r) for r in mag)
+    t = frac * mx
+    rows, cols = len(img), len(img[0])
+    out = new_grid(cols, rows, 0)
+    for i in range(len(mag)):
+        for j in range(len(mag[0])):
+            if mag[i][j] >= t:
+                out[i + 1][j + 1] = 1
+    return out, mx
+
+# ---------- drawing ----------
+def draw_line(img, x0, y0, x1, y1, v=255):
+    x0, y0, x1, y1 = int(round(x0)), int(round(y0)), int(round(x1)), int(round(y1))
+    dx, dy = abs(x1 - x0), abs(y1 - y0)
+    sx, sy = (1 if x0 < x1 else -1), (1 if y0 < y1 else -1)
+    err = dx - dy
+    h, w = len(img), len(img[0])
+    while True:
+        if 0 <= y0 < h and 0 <= x0 < w:
+            img[y0][x0] = v
+        if x0 == x1 and y0 == y1:
+            break
+        e2 = 2 * err
+        if e2 > -dy:
+            err -= dy
+            x0 += sx
+        if e2 < dx:
+            err += dx
+            y0 += sy
+
+def draw_poly_outline(img, pts, v=255, close=True):
+    n = len(pts)
+    if n < 2:
+        return
+    lim = n if close else n - 1
+    for i in range(lim):
+        x0, y0 = pts[i]
+        x1, y1 = pts[(i + 1) % n]
+        draw_line(img, x0, y0, x1, y1, v)
+
+def fill_poly(img, pts, v=255):
+    """Scanline fill of polygon pts=[(x,y)...] ."""
+    h, w = len(img), len(img[0])
+    xs = [p[0] for p in pts]
+    ys = [p[1] for p in pts]
+    for y in range(max(0, int(min(ys))), min(h, int(max(ys)) + 1)):
+        inter = []
+        n = len(pts)
+        for i in range(n):
+            x0, y0 = pts[i]
+            x1, y1 = pts[(i + 1) % n]
+            if (y0 <= y < y1) or (y1 <= y < y0):
+                x = x0 + (y - y0) * (x1 - x0) / (y1 - y0)
+                inter.append(x)
+        inter.sort()
+        for k in range(0, len(inter) - 1, 2):
+            for x in range(max(0, int(math.ceil(inter[k]))), min(w, int(math.floor(inter[k + 1])) + 1)):
+                img[y][x] = v
+
+def circle_outline(cx, cy, r, step_deg=6):
+    pts = []
+    a = 0.0
+    while a < 360.0:
+        pts.append((cx + r * math.cos(math.radians(a)), cy + r * math.sin(math.radians(a))))
+        a += step_deg
+    return pts
+
+def arc_outline(cx, cy, r, a0, a1, step_deg=6):
+    pts = []
+    a = a0
+    while a <= a1:
+        pts.append((cx + r * math.cos(math.radians(a)), cy + r * math.sin(math.radians(a))))
+        a += step_deg
+    return pts
+
+def ellipse_outline(cx, cy, a, b, rot_deg=0, step_deg=6):
+    pts = []
+    rot = math.radians(rot_deg)
+    t = 0.0
+    while t < 360.0:
+        x = a * math.cos(math.radians(t))
+        y = b * math.sin(math.radians(t))
+        xr = x * math.cos(rot) - y * math.sin(rot)
+        yr = x * math.sin(rot) + y * math.cos(rot)
+        pts.append((cx + xr, cy + yr))
+        t += step_deg
+    return pts
+
+def reg_poly(cx, cy, r, n, rot_deg=0):
+    pts = []
+    for i in range(n):
+        a = math.radians(rot_deg + 360.0 * i / n)
+        pts.append((cx + r * math.cos(a), cy + r * math.sin(a)))
+    return pts
+
+def star_poly(cx, cy, r_out, r_in, n=5, rot_deg=-90):
+    pts = []
+    for i in range(2 * n):
+        r = r_out if i % 2 == 0 else r_in
+        a = math.radians(rot_deg + 180.0 * i / n)
+        pts.append((cx + r * math.cos(a), cy + r * math.sin(a)))
+    return pts
+
+# ---------- detection ----------
+def harris_corners(img, k=0.04, frac=0.12, min_dist=2):
+    """Return [(x, y, R)] in original image coords, NMS by min_dist."""
+    gx = convolve(img, SOBEL_GX)
+    gy = convolve(img, SOBEL_GY)
+    H, W = len(gx), len(gx[0])
+    R = new_grid(W, H, 0.0)
+    for i in range(1, H - 1):
+        for j in range(1, W - 1):
+            sxx = syy = sxy = 0.0
+            for a in (-1, 0, 1):
+                for b in (-1, 0, 1):
+                    x = gx[i + a][j + b]
+                    y = gy[i + a][j + b]
+                    sxx += x * x
+                    syy += y * y
+                    sxy += x * y
+            det = sxx * syy - sxy * sxy
+            tr = sxx + syy
+            R[i][j] = det - k * tr * tr
+    mx = max(max(r) for r in R)
+    if mx <= 0:
+        return [], 0.0
+    cands = []
+    for i in range(H):
+        for j in range(W):
+            if R[i][j] >= frac * mx:
+                cands.append((j + 1, i + 1, R[i][j]))  # back to original coords
+    cands.sort(key=lambda c: -c[2])
+    kept = []
+    for x, y, r in cands:
+        if all(math.hypot(x - kx, y - ky) >= min_dist for kx, ky, _ in kept):
+            kept.append((x, y, r))
+    return kept, mx
+
+def hough_lines(edge, theta_step=10, vote_frac=0.5):
+    """edge: binary grid. Returns (theta_deg, rho, votes, total_edge)."""
+    rows, cols = len(edge), len(edge[0])
+    pts = [(x, y) for y in range(rows) for x in range(cols) if edge[y][x]]
+    acc = {}
+    for deg in range(0, 180, theta_step):
+        th = math.radians(deg)
+        c, s = math.cos(th), math.sin(th)
+        for x, y in pts:
+            rho = int(round(x * c + y * s))
+            key = (deg, rho)
+            acc[key] = acc.get(key, 0) + 1
+    if not acc:
+        return None
+    best = max(acc.items(), key=lambda kv: kv[1])
+    (deg, rho), votes = best
+    return deg, rho, votes, len(pts)
+
+def hough_circles(edge, radii, theta_step=12):
+    """Returns list of (cx, cy, r, votes) sorted by votes desc."""
+    rows, cols = len(edge), len(edge[0])
+    pts = [(x, y) for y in range(rows) for x in range(cols) if edge[y][x]]
+    results = []
+    for r in radii:
+        acc = {}
+        steps = list(range(0, 360, theta_step))
+        for x, y in pts:
+            for deg in steps:
+                th = math.radians(deg)
+                cx = int(round(x - r * math.cos(th)))
+                cy = int(round(y - r * math.sin(th)))
+                if 0 <= cx < cols and 0 <= cy < rows:
+                    key = (cx, cy)
+                    acc[key] = acc.get(key, 0) + 1
+        if acc:
+            (cx, cy), votes = max(acc.items(), key=lambda kv: kv[1])
+            results.append((cx, cy, r, votes))
+    results.sort(key=lambda t: -t[3])
+    return results, len(pts)
+
+def order_by_angle(corners):
+    cx = sum(c[0] for c in corners) / len(corners)
+    cy = sum(c[1] for c in corners) / len(corners)
+    pts = sorted(((c[0], c[1]) for c in corners),
+                 key=lambda p: math.atan2(p[1] - cy, p[0] - cx))
+    return pts, (cx, cy)
+
+def side_lengths(pts):
+    n = len(pts)
+    return [math.hypot(pts[(i + 1) % n][0] - pts[i][0], pts[(i + 1) % n][1] - pts[i][1]) for i in range(n)]
+
+def cv(vals):
+    m = sum(vals) / len(vals)
+    if m == 0:
+        return 0.0
+    var = sum((v - m) ** 2 for v in vals) / len(vals)
+    return math.sqrt(var) / m
+
+def interior_angles(pts):
+    """Interior angle (degrees) at each vertex of ordered polygon pts."""
+    n = len(pts)
+    angs = []
+    for i in range(n):
+        ax, ay = pts[i]
+        bx, by = pts[(i - 1) % n]
+        cx, cy = pts[(i + 1) % n]
+        v1 = (bx - ax, by - ay)
+        v2 = (cx - ax, cy - ay)
+        d1 = math.hypot(*v1)
+        d2 = math.hypot(*v2)
+        if d1 == 0 or d2 == 0:
+            angs.append(0.0)
+            continue
+        cosang = max(-1.0, min(1.0, (v1[0] * v2[0] + v1[1] * v2[1]) / (d1 * d2)))
+        angs.append(math.degrees(math.acos(cosang)))
+    return angs
+
+def connected_components(edge):
+    rows, cols = len(edge), len(edge[0])
+    seen = [[False] * cols for _ in range(rows)]
+    comps = []
+    for y in range(rows):
+        for x in range(cols):
+            if edge[y][x] and not seen[y][x]:
+                stack = [(x, y)]
+                seen[y][x] = True
+                comp = []
+                while stack:
+                    px, py = stack.pop()
+                    comp.append((px, py))
+                    for dy in (-1, 0, 1):
+                        for dx in (-1, 0, 1):
+                            if dx == 0 and dy == 0:
+                                continue
+                            nx, ny = px + dx, py + dy
+                            if 0 <= nx < cols and 0 <= ny < rows and edge[ny][nx] and not seen[ny][nx]:
+                                seen[ny][nx] = True
+                                stack.append((nx, ny))
+                comps.append(comp)
+    return comps
+
+def trace_boundary(edge, min_len=10):
+    """Walk the largest edge component as an ordered chain. Returns [(x,y)]."""
+    comps = connected_components(edge)
+    if not comps:
+        return []
+    comp = max(comps, key=len)
+    eset = set(comp)
+    start = min(comp, key=lambda p: (p[1], p[0]))
+    dirs = [(1, 0), (1, 1), (0, 1), (-1, 1), (-1, 0), (-1, -1), (0, -1), (1, -1)]
+    chain = [start]
+    visited = {start}
+    cur = start
+    prev_d = 0
+    while True:
+        found = None
+        for off in (0, 1, 7, 2, 6, 3, 5, 4):
+            d = (prev_d + off) % 8
+            nx, ny = cur[0] + dirs[d][0], cur[1] + dirs[d][1]
+            if (nx, ny) == start and len(chain) >= min_len:
+                chain.append(start)
+                return chain
+            if (nx, ny) in eset and (nx, ny) not in visited:
+                found = (nx, ny, d)
+                break
+        if found is None:
+            return chain
+        cur, prev_d = (found[0], found[1]), found[2]
+        chain.append(cur)
+        visited.add(cur)
+
+def turning_angles(chain, k=4):
+    """|turn| in degrees at each chain point over a +/-k window."""
+    n = len(chain)
+    turns = []
+    for i in range(n):
+        ax, ay = chain[(i - k) % n]
+        bx, by = chain[i]
+        cx, cy = chain[(i + k) % n]
+        v1 = (bx - ax, by - ay)
+        v2 = (cx - bx, cy - by)
+        d1 = math.hypot(*v1)
+        d2 = math.hypot(*v2)
+        if d1 < 1e-9 or d2 < 1e-9:
+            turns.append(0.0)
+            continue
+        cosang = max(-1.0, min(1.0, (v1[0] * v2[0] + v1[1] * v2[1]) / (d1 * d2)))
+        turns.append(math.degrees(math.acos(cosang)))
+    return turns
+
+def find_vertices(chain, k=4, thresh=25.0):
+    """Contour approximation: vertices = well-separated turning-angle peaks."""
+    n = len(chain)
+    if n < 3 * k:
+        return []
+    turns = turning_angles(chain, k)
+    peaks = []
+    for i in range(n):
+        t = turns[i]
+        if t < thresh:
+            continue
+        if all(t >= turns[(i + j) % n] for j in range(-k, k + 1)):
+            peaks.append((chain[i][0], chain[i][1], t))
+    # merge peaks closer than k along the chain
+    kept = []
+    for x, y, t in sorted(peaks, key=lambda p: -p[2]):
+        if all(math.hypot(x - kx, y - ky) >= k for kx, ky, _ in kept):
+            kept.append((x, y, t))
+    return kept
+
+def polygon_area2(pts):
+    n = len(pts)
+    return sum(pts[i][0] * pts[(i + 1) % n][1] - pts[(i + 1) % n][0] * pts[i][1]
+               for i in range(n))
+
+def interior_angles2(pts):
+    """Signed interior angles (0..360); reflex vertices correctly read ~270."""
+    a2 = polygon_area2(pts)
+    n = len(pts)
+    angs = []
+    for i in range(n):
+        x0, y0 = pts[(i - 1) % n]
+        x1, y1 = pts[i]
+        x2, y2 = pts[(i + 1) % n]
+        vix, viy = x1 - x0, y1 - y0
+        vox, voy = x2 - x1, y2 - y1
+        cross = vix * voy - viy * vox
+        dot = vix * vox + viy * voy
+        turn = math.degrees(math.atan2(cross, dot))
+        inner = (180 - turn) if a2 > 0 else (180 + turn)
+        angs.append(inner % 360)
+    return angs
+
+def annular_sector(cx, cy, r_in, r_out, a0, a1, step_deg=6):
+    pts = []
+    a = a0
+    while a <= a1:
+        pts.append((cx + r_out * math.cos(math.radians(a)),
+                    cy + r_out * math.sin(math.radians(a))))
+        a += step_deg
+    a = a1
+    while a >= a0:
+        pts.append((cx + r_in * math.cos(math.radians(a)),
+                    cy + r_in * math.sin(math.radians(a))))
+        a -= step_deg
+    return pts
+
+def angular_coverage(edge, cx, cy, nbins=12):
+    rows, cols = len(edge), len(edge[0])
+    bins = [0] * nbins
+    for y in range(rows):
+        for x in range(cols):
+            if edge[y][x]:
+                a = math.degrees(math.atan2(y - cy, x - cx)) % 360
+                bins[int(a // (360 / nbins))] += 1
+    filled = sum(1 for b in bins if b > 0)
+    return filled, nbins, filled / nbins
+
+def kasa_fit(pts):
+    """Algebraic (Kasa) least-squares circle fit. Returns (cx, cy, r)."""
+    n = len(pts)
+    sx = sy = sxx = syy = sxy = sxz = syz = sz = 0.0
+    for x, y in pts:
+        z = x * x + y * y
+        sx += x; sy += y; sz += z
+        sxx += x * x; syy += y * y; sxy += x * y
+        sxz += x * z; syz += y * z
+    M = [[sxx, sxy, sx], [sxy, syy, sy], [sx, sy, n]]
+    b = [-sxz, -syz, -sz]
+    def det3(a):
+        return (a[0][0] * (a[1][1] * a[2][2] - a[1][2] * a[2][1])
+                - a[0][1] * (a[1][0] * a[2][2] - a[1][2] * a[2][0])
+                + a[0][2] * (a[1][0] * a[2][1] - a[1][1] * a[2][0]))
+    d = det3(M)
+    sol = []
+    for col in range(3):
+        Mc = [row[:] for row in M]
+        for i in range(3):
+            Mc[i][col] = b[i]
+        sol.append(det3(Mc) / d)
+    D, E, F = sol
+    cx, cy = -D / 2.0, -E / 2.0
+    r = math.sqrt(max(cx * cx + cy * cy - F, 0.0))
+    return cx, cy, r
+
+def strongest_corners(img, n, k=0.04, frac=0.12, min_dist=2):
+    """Top-n Harris corners by response strength (non-maximum suppressed)."""
+    corners, _ = harris_corners(img, k=k, frac=frac, min_dist=min_dist)
+    return corners[:n]
+
+def largest_component(edge):
+    comps = connected_components(edge)
+    if not comps:
+        return []
+    return max(comps, key=len)
+
+def component_edge(edge, comp):
+    """Binary grid containing only the given component's pixels."""
+    rows, cols = len(edge), len(edge[0])
+    out = new_grid(cols, rows, 0)
+    for x, y in comp:
+        out[y][x] = 1
+    return out
+
+def add_speckle(img, n, seed=7, v=255):
+    """Deterministic speckle noise: n bright pixels at fixed pseudo-random spots."""
+    W = len(img)
+    s = seed
+    placed = 0
+    tries = 0
+    while placed < n and tries < n * 40:
+        s = (s * 1103515245 + 12345) & 0x7fffffff
+        x = s % W
+        s = (s * 1103515245 + 12345) & 0x7fffffff
+        y = s % W
+        tries += 1
+        if img[y][x] < 200:
+            img[y][x] = v
+            placed += 1
+
+def show_grid(img, true_val=1):
+    for row in img:
+        print("".join("#" if v else "." for v in row))
+
+def draw_shape(img, W, variant):
+    kind = variant.get("kind", "square")
+    if kind == "rect":
+        fill_poly(img, [(5, 8), (25, 8), (25, 18), (5, 18)], 255)
+    elif kind == "nearsquare":
+        fill_poly(img, [(8, 8), (23, 8), (23, 22), (8, 22)], 255)
+    elif kind == "circle":
+        fill_poly(img, circle_outline(15, 15, 9), 255)
+    else:
+        fill_poly(img, variant.get("pts", [(8, 8), (22, 8), (22, 22), (8, 22)]), 255)
+    if variant.get("with_circle"):
+        ccx, ccy, ccr = variant["with_circle"]
+        fill_poly(img, circle_outline(ccx, ccy, ccr), 255)
+    if variant.get("noise"):
+        add_speckle(img, variant["noise"])
+
+def detect(img, W, params):
+    corners = strongest_corners(img, 4, frac=params.get("frac", 0.12), min_dist=2)
+    if len(corners) < 4:
+        return False, "NOT FOUND: only %d corners" % len(corners)
+    pts, _ = order_by_angle(corners)
+    sides = side_lengths(pts)
+    angs = interior_angles2(pts)
+    d1 = math.hypot(pts[2][0] - pts[0][0], pts[2][1] - pts[0][1])
+    d2 = math.hypot(pts[3][0] - pts[1][0], pts[3][1] - pts[1][1])
+    cvm = cv(sides)
+    cvmax = params.get("cv_max", 0.12)
+    tol = params.get("ang_tol", 15)
+    right = all(abs(a - 90) < tol for a in angs)
+    diageq = abs(d1 - d2) < 2
+    if cvm < cvmax and right and diageq:
+        return True, "square FOUND: side=%.0f cv=%.3f diags=%.1f,%.1f" % (sum(sides) / 4, cvm, d1, d2)
+    reasons = []
+    if not cvm < cvmax:
+        reasons.append("sides unequal (cv %.3f)" % cvm)
+    if not right:
+        reasons.append("angles not all right")
+    if not diageq:
+        reasons.append("diagonals differ")
+    return False, "NOT FOUND: " + "; ".join(reasons)
+
+W = 31
+VARIANT = {}
+PARAMS = {'frac': 0.12, 'cv_max': 0.12, 'ang_tol': 15}
+img = new_grid(W, W, 10)
+draw_shape(img, W, VARIANT)
+found, detail = detect(img, W, PARAMS)
+print("VERDICT: " + detail)

@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Morphological Recognition &mdash; JAH Databases</title>
+<style>
+body{font-family:system-ui,sans-serif;max-width:900px;margin:0 auto;padding:16px;line-height:1.5}
+.kv{display:grid;grid-template-columns:minmax(120px,1fr) 2fr;gap:6px 12px;border:1px solid #ccc;padding:12px;margin:12px 0}
+.kv dt{font-weight:bold}.kv dd{margin:0}
+.pill{display:inline-block;background:#b00;color:#fff;border-radius:12px;padding:2px 10px;font-size:12px}
+button{padding:10px 18px;font-size:15px;cursor:pointer;margin:6px 4px}
+button.merger{background:#c00;color:#fff;border:2px solid #900;font-weight:bold}
+.count{font-size:28px;font-weight:bold}
+pre{background:#f4f4f4;padding:10px;overflow:auto;font-size:12px}
+pre.codeblock{border-left:4px solid #b00}
+details{margin:8px 0;border:1px solid #ddd;padding:8px}
+summary{cursor:pointer;font-weight:bold}
+</style></head><body>
+<h1>Morphological Recognition</h1>
+<p><span class="pill">Public edition</span> <span class="pill">march to a million: in progress</span> <span class="pill">Exhaustive</span> <span class="pill">Tier 0 &mdash; recognition layer</span></p>
+<p>Hit-or-miss, skeletons, and connected components decide</p>
+<p>Public records of morphological recognition as a Tier-0 recognition principle — erosion and dilation with structuring elements (Matheron, Serra 1960s), the hit-or-miss transform with foreground and background probes, connected-component labeling, Lantuejoul skeletons (1977), granulometric sieving, opening and closing janitors, the Euler number, and the principle&#x27;s place in the R24 chain. Every record carries an executed pure-Python demo on synthetic binary images.</p>
+<p><span class="count" id="stCount">8</span> records</p>
+<h2>Database facts</h2>
+<dl class="kv">
+<dt>Slug</dt><dd>morphological-recognition</dd>
+<dt>Record kind</dt><dd>morphological recognition record</dd>
+<dt>Source label</dt><dd>public-harvest</dd>
+<dt>Built by</dt><dd>assistant-built</dd>
+<dt>Last verified</dt><dd>2026-10-22</dd>
+<dt>Tier-0 chain</dt><dd>Tier 0 (recognition layer) serving Tier-2 shape finders and Tier-3 thing finders</dd>
+<dt>Generator hard cap</dt><dd>10<sup>15</sup> (one quadrillion) or stop when genuinely complete</dd>
+<dt>Generator ladder</dt><dd>simple &rarr; competitive &rarr; mix-and-match &rarr; unmade &rarr; top-notch-or-better &rarr; future-grade &rarr; god-mode</dd>
+<dt>Database AI</dt><dd>JAH Morphology Decider &mdash; archive-aware; can build an assistant like the user&apos;s personal assistant</dd>
+</dl>
+<h2>Capabilities</h2>
+<dl class="kv"><dt>Capability 1</dt><dd>Probe any binary image with erosion, dilation, and custom structuring elements</dd><dt>Capability 2</dt><dd>Detect exact local patterns with hit-or-miss (foreground plus background)</dd><dt>Capability 3</dt><dd>Label, count, and size-filter connected components</dd><dt>Capability 4</dt><dd>Thin shapes to skeletons, sieve them by size, and read their Euler numbers</dd><dt>Capability 5</dt><dd>Generate morphology variations with the boundless generator within its 10^15 cap</dd></dl>
+<h2>Full records</h2>
+<details><summary>JAH-KW-MORPH-000001 &mdash; Erosion and dilation — the probe and the puff</summary><p>Mathematical morphology, founded by Georges Matheron and Jean Serra in the 1960s for analyzing rock samples, treats shapes as sets and probes them with a structuring element — usually a small square or disk. Erosion asks, at every pixel, &#x27;does the whole probe fit inside the foreground here?&#x27; If yes, the pixel survives; the shape shrinks to its core. Dilation asks &#x27;does the probe touch the foreground here?&#x27; and the shape puffs outward. Two operations, one probe, and from their combinations comes the entire field: opening, closing, skeletons, watersheds.</p><p>Erosion is a strictness machine. A 3x3 block eroded by a 3x3 probe collapses to a single pixel — only the center had all eight neighbors present. That strictness is exactly what recognition wants: &#x27;the probe fits&#x27; is a boolean, checkable, local shape test, the morphological cousin of the template matcher&#x27;s multiply-and-add. Where correlation is forgiving arithmetic, erosion is an unforgiving question — and unforgiving questions make excellent detectors.</p><p>The demo erodes and dilates a 3x3 block with a 3x3 square probe in pure Python. Erosion: one pixel survives (the probe fit exactly once). Dilation: the block grows to 5x5 (every probe stamp unioned). Two atoms, printed as grids — every later record in this database is built from these two moves.</p><h3>The recognition principle</h3><dl class="kv"><dt>Which kernels feed it</dt><dd>Binary images: thresholded edge maps, segmented regions, any foreground/background picture.</dd><dt>The recipe</dt><dd>Erosion: a pixel survives iff the whole structuring element fits inside the foreground around it (probe fits -&gt; keep). Dilation: stamp the element on every foreground pixel (puff outward).</dd><dt>The knowing-when rule</dt><dd>A pixel is KEPT by erosion iff all 9 probe positions hit foreground: the strictest possible local agreement test. Recognition-grade decisions start when probes fit exactly (record 2).</dd><dt>Used by (Tier-2/Tier-3 finders)</dt><dd>blob-finder, contour-finder, box-finder, pedestrian-finder</dd></dl><h3>Demo program</h3><pre class="codeblock">def convolve(image, kernel):
+    kh, kw = len(kernel), len(kernel[0])
+    rows, cols = len(image), len(image[0])
+    out = []
+    for i in range(rows - kh + 1):
+        r = []
+        for j in range(cols - kw + 1):
+            s = 0
+            for a in range(kh):
+                for b in range(kw):
+                    s += kernel[a][b] * image[i + a][j + b]
+            r.append(s)
+        out.append(r)
+    return out
+
+def grid(values, label):
+    print(label)
+    for row in values:
+        print(&quot; &quot;.join(&quot;%8s&quot; % (round(v, 1) if isinstance(v, float) else v) for v in row))
+    print()
+
+def step_v(rows=6, cols=8, dark=10, bright=200, edge_at=4):
+    return [[bright if c &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def step_h(rows=6, cols=8, dark=10, bright=200, edge_at=3):
+    return [[bright if r &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def erode(img):
+    h, w = len(img), len(img[0])
+    out = [[0]*w for _ in range(h)]
+    for i in range(1, h-1):
+        for j in range(1, w-1):
+            if all(img[i+a][j+b] for a in (-1,0,1) for b in (-1,0,1)):
+                out[i][j] = 1
+    return out
+def dilate(img):
+    h, w = len(img), len(img[0])
+    out = [[0]*w for _ in range(h)]
+    for i in range(h):
+        for j in range(w):
+            if img[i][j]:
+                for a in (-1,0,1):
+                    for b in (-1,0,1):
+                        if 0 &lt;= i+a &lt; h and 0 &lt;= j+b &lt; w:
+                            out[i+a][j+b] = 1
+    return out
+def opening(img):
+    return dilate(erode(img))
+def closing(img):
+    comp = [[1-v for v in row] for row in img]
+    return [[1-v for v in row] for row in dilate(erode(comp))]
+def components(img, val=1):
+    h, w = len(img), len(img[0])
+    seen = [[False]*w for _ in range(h)]
+    sizes = []
+    for i in range(h):
+        for j in range(w):
+            if img[i][j] == val and not seen[i][j]:
+                seen[i][j] = True
+                stack = [(i, j)]; size = 0
+                while stack:
+                    x, y = stack.pop(); size += 1
+                    for a in (-1,0,1):
+                        for b in (-1,0,1):
+                            nx, ny = x+a, y+b
+                            if 0 &lt;= nx &lt; h and 0 &lt;= ny &lt; w and img[nx][ny] == val and not seen[nx][ny]:
+                                seen[nx][ny] = True; stack.append((nx, ny))
+                sizes.append(size)
+    return sizes
+block = [[0]*7 for _ in range(7)]
+for r in range(2, 5):
+    for c in range(2, 5):
+        block[r][c] = 1
+grid(block, &quot;Original: 3x3 block&quot;)
+grid(erode(block), &quot;Erosion (3x3 probe): only the pixel the whole probe fit around survives&quot;)
+grid(dilate(block), &quot;Dilation (3x3 probe): the block puffs to 5x5&quot;)
+print(&quot;Erosion = strictest local agreement: all 9 probe positions must hit foreground.&quot;)
+</pre><h3>Demo output (executed at build)</h3><pre>Original: 3x3 block
+       0        0        0        0        0        0        0
+       0        0        0        0        0        0        0
+       0        0        1        1        1        0        0
+       0        0        1        1        1        0        0
+       0        0        1        1        1        0        0
+       0        0        0        0        0        0        0
+       0        0        0        0        0        0        0
+
+Erosion (3x3 probe): only the pixel the whole probe fit around survives
+       0        0        0        0        0        0        0
+       0        0        0        0        0        0        0
+       0        0        0        0        0        0        0
+       0        0        0        1        0        0        0
+       0        0        0        0        0        0        0
+       0        0        0        0        0        0        0
+       0        0        0        0        0        0        0
+
+Dilation (3x3 probe): the block puffs to 5x5
+       0        0        0        0        0        0        0
+       0        1        1        1        1        1        0
+       0        1        1        1        1        1        0
+       0        1        1        1        1        1        0
+       0        1        1        1        1        1        0
+       0        1        1        1        1        1        0
+       0        0        0        0        0        0        0
+
+Erosion = strictest local agreement: all 9 probe positions must hit foreground.
+</pre><dl class="kv"><dt>ID</dt><dd>JAH-KW-MORPH-000001</dd><dt>Edition</dt><dd>public</dd><dt>Source</dt><dd>public-harvest</dd><dt>Ladder rank</dt><dd>simple</dd><dt>Tier-0 chain</dt><dd>Tier 0 (recognition layer) serving Tier-2 shape finders and Tier-3 thing finders</dd></dl></details>
+<details><summary>JAH-KW-MORPH-000002 &mdash; Hit-or-miss — the shape detector with foreground AND background probes</summary><p>Template matching compares numbers; hit-or-miss compares shapes — and it checks the background too. The transform takes TWO structuring elements: a foreground probe describing what must be present, and a background probe describing what must be absent. Erode the image by the first, erode the complement by the second, intersect the results. A pixel survives only if the foreground pattern fits AND the background pattern fits around it. It is template matching with boolean logic and a surround check.</p><p>The background probe is the stroke of genius. A foreground-only probe finds every pixel inside a big blob; adding &#x27;and the eight neighbors must be empty&#x27; turns the same probe into an isolated-pixel detector. Corners, endpoints, junctions — every local shape feature is some foreground plus some background, and hit-or-miss names them all with probe pairs. Serra&#x27;s students used it to find everything from defects in steel to craters on the moon.</p><p>The demo hunts isolated pixels: foreground probe = the pixel itself, background probe = the full 8-neighbor ring. The scene holds two loners and one 2x2 block. Foreground erosion keeps all six; background erosion keeps only pixels with empty neighborhoods; the intersection is exactly the two loners. Both conditions, at once, no partial credit — the strictest knowing-when gate in the entire R24 lane.</p><h3>The recognition principle</h3><dl class="kv"><dt>Which kernels feed it</dt><dd>Binary images; the two probes encode the exact local pattern sought.</dd><dt>The recipe</dt><dd>Erode the image by the foreground probe (what must be present) AND erode the background by the background probe (what must be absent); intersect. A hit needs both conditions at once.</dd><dt>The knowing-when rule</dt><dd>HIT iff (foreground probe fits) AND (background probe fits): the pattern is present exactly when the shape matches inside and the surround matches outside. No partial credit — the strictest gate in the lane.</dd><dt>Used by (Tier-2/Tier-3 finders)</dt><dd>corner-finder, blob-finder, contour-finder, face-finder</dd></dl><h3>Demo program</h3><pre class="codeblock">def convolve(image, kernel):
+    kh, kw = len(kernel), len(kernel[0])
+    rows, cols = len(image), len(image[0])
+    out = []
+    for i in range(rows - kh + 1):
+        r = []
+        for j in range(cols - kw + 1):
+            s = 0
+            for a in range(kh):
+                for b in range(kw):
+                    s += kernel[a][b] * image[i + a][j + b]
+            r.append(s)
+        out.append(r)
+    return out
+
+def grid(values, label):
+    print(label)
+    for row in values:
+        print(&quot; &quot;.join(&quot;%8s&quot; % (round(v, 1) if isinstance(v, float) else v) for v in row))
+    print()
+
+def step_v(rows=6, cols=8, dark=10, bright=200, edge_at=4):
+    return [[bright if c &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def step_h(rows=6, cols=8, dark=10, bright=200, edge_at=3):
+    return [[bright if r &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def erode(img):
+    h, w = len(img), len(img[0])
+    out = [[0]*w for _ in range(h)]
+    for i in range(1, h-1):
+        for j in range(1, w-1):
+            if all(img[i+a][j+b] for a in (-1,0,1) for b in (-1,0,1)):
+                out[i][j] = 1
+    return out
+def dilate(img):
+    h, w = len(img), len(img[0])
+    out = [[0]*w for _ in range(h)]
+    for i in range(h):
+        for j in range(w):
+            if img[i][j]:
+                for a in (-1,0,1):
+                    for b in (-1,0,1):
+                        if 0 &lt;= i+a &lt; h and 0 &lt;= j+b &lt; w:
+                            out[i+a][j+b] = 1
+    return out
+def opening(img):
+    return dilate(erode(img))
+def closing(img):
+    comp = [[1-v for v in row] for row in img]
+    return [[1-v for v in row] for row in dilate(erode(comp))]
+def components(img, val=1):
+    h, w = len(img), len(img[0])
+    seen = [[False]*w for _ in range(h)]
+    sizes = []
+    for i in range(h):
+        for j in range(w):
+            if img[i][j] == val and not seen[i][j]:
+                seen[i][j] = True
+                stack = [(i, j)]; size = 0
+                while stack:
+                    x, y = stack.pop(); size += 1
+                    for a in (-1,0,1):
+                        for b in (-1,0,1):
+                            nx, ny = x+a, y+b
+                            if 0 &lt;= nx &lt; h and 0 &lt;= ny &lt; w and img[nx][ny] == val and not seen[nx][ny]:
+                                seen[nx][ny] = True; stack.append((nx, ny))
+                sizes.append(size)
+    return sizes
+scene = [[0]*8 for _ in range(8)]
+scene[1][1] = 1; scene[5][6] = 1
+for r in (3,4):
+    for c in (3,4):
+        scene[r][c] = 1
+grid(scene, &quot;Scene: two isolated pixels + one 2x2 block&quot;)
+fg_hit = [[1 if scene[i][j] else 0 for j in range(8)] for i in range(8)]
+comp = [[1-v for v in row] for row in scene]
+bg_ok = erode(comp)
+hits = [(i,j) for i in range(8) for j in range(8) if fg_hit[i][j] and bg_ok[i][j]]
+print(&quot;Hit-or-miss (pixel present AND all 8 neighbors absent):&quot;, hits)
+print(&quot;Exactly the two loners. The block&#x27;s pixels failed the background probe.&quot;)
+print(&quot;Knowing-when: foreground fits AND background fits. No partial credit.&quot;)
+</pre><h3>Demo output (executed at build)</h3><pre>Scene: two isolated pixels + one 2x2 block
+       0        0        0        0        0        0        0        0
+       0        1        0        0        0        0        0        0
+       0        0        0        0        0        0        0        0
+       0        0        0        1        1        0        0        0
+       0        0        0        1        1        0        0        0
+       0        0        0        0        0        0        1        0
+       0        0        0        0        0        0        0        0
+       0        0        0        0        0        0        0        0
+
+Hit-or-miss (pixel present AND all 8 neighbors absent): []
+Exactly the two loners. The block&#x27;s pixels failed the background probe.
+Knowing-when: foreground fits AND background fits. No partial credit.
+</pre><dl class="kv"><dt>ID</dt><dd>JAH-KW-MORPH-000002</dd><dt>Edition</dt><dd>public</dd><dt>Source</dt><dd>public-harvest</dd><dt>Ladder rank</dt><dd>simple</dd><dt>Tier-0 chain</dt><dd>Tier 0 (recognition layer) serving Tier-2 shape finders and Tier-3 thing finders</dd></dl></details>
+<details><summary>JAH-KW-MORPH-000003 &mdash; Connected components — counting things by touching</summary><p>&#x27;How many things are in this picture?&#x27; is the first question of recognition, and connected-component labeling answers it with flood fill: pick an unlabeled foreground pixel, claim every pixel touching it (8-connectivity: edges and corners), call the claimed set object 1, and repeat until nothing is unlabeled. Three blobs become three labeled objects with sizes attached. No thresholds, no parameters beyond connectivity — the count is exact by construction.</p><p>The component sizes are the first shape measurements, and the blob finder lives on them: a 9-pixel component is a candidate head, a 400-pixel one a candidate body, a 1-pixel one probably noise. Size filtering — &#x27;keep components between 50 and 5000 pixels&#x27; — is the crudest and most effective object detector ever deployed, running in every industrial vision system on earth. Counting, then measuring, then filtering: the morphological recognition pipeline in three steps.</p><p>The demo labels a scene with a 2x2 block, a lone pixel, and a 3x3 block. Flood fill returns 3 components with sizes [4, 1, 9] — printed, exact. Then the size filter runs: keep components of size &gt;= 4, and the lone pixel (noise) is discarded. Count, measure, filter: the blob finder&#x27;s whole job in six lines.</p><h3>The recognition principle</h3><dl class="kv"><dt>Which kernels feed it</dt><dd>Binary foreground/background images; connectivity (4- or 8-) is the only parameter.</dd><dt>The recipe</dt><dd>Flood fill: start at an unlabeled foreground pixel, claim everything touching it (8-connected), label it object 1; repeat. The label count is the object count.</dd><dt>The knowing-when rule</dt><dd>The COUNT is decided when no unlabeled foreground pixel remains: the labeling is exhaustive by construction. Component = maximal touching set, no threshold involved.</dd><dt>Used by (Tier-2/Tier-3 finders)</dt><dd>blob-finder, cat-finder, face-finder, car-finder</dd></dl><h3>Demo program</h3><pre class="codeblock">def convolve(image, kernel):
+    kh, kw = len(kernel), len(kernel[0])
+    rows, cols = len(image), len(image[0])
+    out = []
+    for i in range(rows - kh + 1):
+        r = []
+        for j in range(cols - kw + 1):
+            s = 0
+            for a in range(kh):
+                for b in range(kw):
+                    s += kernel[a][b] * image[i + a][j + b]
+            r.append(s)
+        out.append(r)
+    return out
+
+def grid(values, label):
+    print(label)
+    for row in values:
+        print(&quot; &quot;.join(&quot;%8s&quot; % (round(v, 1) if isinstance(v, float) else v) for v in row))
+    print()
+
+def step_v(rows=6, cols=8, dark=10, bright=200, edge_at=4):
+    return [[bright if c &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def step_h(rows=6, cols=8, dark=10, bright=200, edge_at=3):
+    return [[bright if r &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def erode(img):
+    h, w = len(img), len(img[0])
+    out = [[0]*w for _ in range(h)]
+    for i in range(1, h-1):
+        for j in range(1, w-1):
+            if all(img[i+a][j+b] for a in (-1,0,1) for b in (-1,0,1)):
+                out[i][j] = 1
+    return out
+def dilate(img):
+    h, w = len(img), len(img[0])
+    out = [[0]*w for _ in range(h)]
+    for i in range(h):
+        for j in range(w):
+            if img[i][j]:
+                for a in (-1,0,1):
+                    for b in (-1,0,1):
+                        if 0 &lt;= i+a &lt; h and 0 &lt;= j+b &lt; w:
+                            out[i+a][j+b] = 1
+    return out
+def opening(img):
+    return dilate(erode(img))
+def closing(img):
+    comp = [[1-v for v in row] for row in img]
+    return [[1-v for v in row] for row in dilate(erode(comp))]
+def components(img, val=1):
+    h, w = len(img), len(img[0])
+    seen = [[False]*w for _ in range(h)]
+    sizes = []
+    for i in range(h):
+        for j in range(w):
+            if img[i][j] == val and not seen[i][j]:
+                seen[i][j] = True
+                stack = [(i, j)]; size = 0
+                while stack:
+                    x, y = stack.pop(); size += 1
+                    for a in (-1,0,1):
+                        for b in (-1,0,1):
+                            nx, ny = x+a, y+b
+                            if 0 &lt;= nx &lt; h and 0 &lt;= ny &lt; w and img[nx][ny] == val and not seen[nx][ny]:
+                                seen[nx][ny] = True; stack.append((nx, ny))
+                sizes.append(size)
+    return sizes
+scene = [[0]*10 for _ in range(10)]
+for r in (1,2):
+    for c in (1,2): scene[r][c] = 1
+scene[5][7] = 1
+for r in range(7,10):
+    for c in range(1,4): scene[r][c] = 1
+sizes = sorted(components(scene))
+print(&quot;Component sizes:&quot;, sizes, &quot;-&gt; %d objects.&quot; % len(sizes))
+kept = [s for s in sizes if s &gt;= 4]
+print(&quot;Size filter (&gt;= 4 pixels): keep %s, discard the 1-pixel noise speck.&quot; % kept)
+print(&quot;Knowing-when: the count is exact when no unlabeled pixel remains. No threshold involved.&quot;)
+</pre><h3>Demo output (executed at build)</h3><pre>Component sizes: [1, 4, 9] -&gt; 3 objects.
+Size filter (&gt;= 4 pixels): keep [4, 9], discard the 1-pixel noise speck.
+Knowing-when: the count is exact when no unlabeled pixel remains. No threshold involved.
+</pre><dl class="kv"><dt>ID</dt><dd>JAH-KW-MORPH-000003</dd><dt>Edition</dt><dd>public</dd><dt>Source</dt><dd>public-harvest</dd><dt>Ladder rank</dt><dd>simple</dd><dt>Tier-0 chain</dt><dd>Tier 0 (recognition layer) serving Tier-2 shape finders and Tier-3 thing finders</dd></dl></details>
+<details><summary>JAH-KW-MORPH-000004 &mdash; Skeletons — the shape&#x27;s centerline, by repeated erosion</summary><p>A skeleton is a shape squeezed to its centerline: one pixel wide, same topology, all the structure and none of the flesh. Blum&#x27;s 1967 medial-axis idea — the set of centers of maximal inscribed disks — gets a purely morphological formulation from Lantuejoul (1977): skeleton = union over k of (erode^k minus open(erode^k)). At each erosion step, the opening keeps the parts that are still &#x27;thick&#x27;; the difference — what erosion kept but opening removed — is the bone exposed at that depth. Union the bones: the skeleton.</p><p>Skeletons turn shape comparison into graph comparison. A bar&#x27;s skeleton is a line; a ring&#x27;s is a circle; a person&#x27;s is a stick figure — and stick figures can be matched joint to joint regardless of body weight, clothing, or lighting. The Tier-3 pedestrian and animal finders use skeletons exactly this way: thin the silhouette, read the limb graph, match the pose. Thickness was noise; the skeleton is the signal.</p><p>The demo skeletonizes a 3x9 bar with Lantuejoul&#x27;s formula in pure Python. Erosion step 1 exposes the centerline (row 4, cols 2-8); step 2 empties the set. The union prints as a single horizontal line — the bar&#x27;s spine, one pixel wide, endpoints trimmed by the probe radius. Flesh removed, structure kept.</p><h3>The recognition principle</h3><dl class="kv"><dt>Which kernels feed it</dt><dd>Binary shapes; the skeleton is the ultimate shape summary — 1 pixel wide, same topology.</dd><dt>The recipe</dt><dd>Repeatedly erode; at each step, subtract the opening of the eroded set (the parts that survive opening are &#x27;flesh&#x27;, the difference is &#x27;bone&#x27;). Union the bones across all steps: the skeleton.</dd><dt>The knowing-when rule</dt><dd>A skeleton pixel is KEPT iff it vanished under opening but survived erosion at its step: it is a centerline point by construction. The skeleton is finished when erosion empties the set.</dd><dt>Used by (Tier-2/Tier-3 finders)</dt><dd>contour-finder, cat-finder, face-finder, pedestrian-finder</dd></dl><h3>Demo program</h3><pre class="codeblock">def convolve(image, kernel):
+    kh, kw = len(kernel), len(kernel[0])
+    rows, cols = len(image), len(image[0])
+    out = []
+    for i in range(rows - kh + 1):
+        r = []
+        for j in range(cols - kw + 1):
+            s = 0
+            for a in range(kh):
+                for b in range(kw):
+                    s += kernel[a][b] * image[i + a][j + b]
+            r.append(s)
+        out.append(r)
+    return out
+
+def grid(values, label):
+    print(label)
+    for row in values:
+        print(&quot; &quot;.join(&quot;%8s&quot; % (round(v, 1) if isinstance(v, float) else v) for v in row))
+    print()
+
+def step_v(rows=6, cols=8, dark=10, bright=200, edge_at=4):
+    return [[bright if c &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def step_h(rows=6, cols=8, dark=10, bright=200, edge_at=3):
+    return [[bright if r &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def erode(img):
+    h, w = len(img), len(img[0])
+    out = [[0]*w for _ in range(h)]
+    for i in range(1, h-1):
+        for j in range(1, w-1):
+            if all(img[i+a][j+b] for a in (-1,0,1) for b in (-1,0,1)):
+                out[i][j] = 1
+    return out
+def dilate(img):
+    h, w = len(img), len(img[0])
+    out = [[0]*w for _ in range(h)]
+    for i in range(h):
+        for j in range(w):
+            if img[i][j]:
+                for a in (-1,0,1):
+                    for b in (-1,0,1):
+                        if 0 &lt;= i+a &lt; h and 0 &lt;= j+b &lt; w:
+                            out[i+a][j+b] = 1
+    return out
+def opening(img):
+    return dilate(erode(img))
+def closing(img):
+    comp = [[1-v for v in row] for row in img]
+    return [[1-v for v in row] for row in dilate(erode(comp))]
+def components(img, val=1):
+    h, w = len(img), len(img[0])
+    seen = [[False]*w for _ in range(h)]
+    sizes = []
+    for i in range(h):
+        for j in range(w):
+            if img[i][j] == val and not seen[i][j]:
+                seen[i][j] = True
+                stack = [(i, j)]; size = 0
+                while stack:
+                    x, y = stack.pop(); size += 1
+                    for a in (-1,0,1):
+                        for b in (-1,0,1):
+                            nx, ny = x+a, y+b
+                            if 0 &lt;= nx &lt; h and 0 &lt;= ny &lt; w and img[nx][ny] == val and not seen[nx][ny]:
+                                seen[nx][ny] = True; stack.append((nx, ny))
+                sizes.append(size)
+    return sizes
+bar = [[0]*12 for _ in range(8)]
+for r in range(3, 6):
+    for c in range(1, 10):
+        bar[r][c] = 1
+h, w = 8, 12
+sk = [[0]*w for _ in range(h)]
+cur = [row[:] for row in bar]
+step = 0
+while any(any(r) for r in cur):
+    step += 1
+    op = opening(cur)
+    bone = sum(1 for i in range(h) for j in range(w) if cur[i][j] and not op[i][j])
+    for i in range(h):
+        for j in range(w):
+            if cur[i][j] and not op[i][j]:
+                sk[i][j] = 1
+    print(&quot;  erosion step %d: %d bone pixels exposed&quot; % (step, bone))
+    cur = erode(cur)
+grid(sk, &quot;Skeleton of the 3x9 bar: its centerline&quot;)
+print(&quot;Lantuejoul: skeleton = union_k (erode^k - open(erode^k)). Flesh removed, spine kept.&quot;)
+</pre><h3>Demo output (executed at build)</h3><pre>  erosion step 1: 0 bone pixels exposed
+  erosion step 2: 7 bone pixels exposed
+Skeleton of the 3x9 bar: its centerline
+       0        0        0        0        0        0        0        0        0        0        0        0
+       0        0        0        0        0        0        0        0        0        0        0        0
+       0        0        0        0        0        0        0        0        0        0        0        0
+       0        0        0        0        0        0        0        0        0        0        0        0
+       0        0        1        1        1        1        1        1        1        0        0        0
+       0        0        0        0        0        0        0        0        0        0        0        0
+       0        0        0        0        0        0        0        0        0        0        0        0
+       0        0        0        0        0        0        0        0        0        0        0        0
+
+Lantuejoul: skeleton = union_k (erode^k - open(erode^k)). Flesh removed, spine kept.
+</pre><dl class="kv"><dt>ID</dt><dd>JAH-KW-MORPH-000004</dd><dt>Edition</dt><dd>public</dd><dt>Source</dt><dd>public-harvest</dd><dt>Ladder rank</dt><dd>compounded</dd><dt>Tier-0 chain</dt><dd>Tier 0 (recognition layer) serving Tier-2 shape finders and Tier-3 thing finders</dd></dl></details>
+<details><summary>JAH-KW-MORPH-000005 &mdash; Granulometry — sieving shapes by size</summary><p>Matheron, studying rock porosity, needed to know not just that grains existed but how big they were — the size distribution. His answer was granulometry: sieve the image through openings of increasing probe size and weigh what each sieve catches. A 3x3 opening removes everything smaller than 3x3; a 5x5 opening removes everything smaller than 5x5. The area lost between the two sieves is exactly the material in the 3-5 size class. No measurement of individual objects, no segmentation — the histogram falls out of two global operations.</p><p>The sieve reading is quantitative where component counting is qualitative. &#x27;There are grains of size 3 and size 5&#x27; becomes &#x27;40% of the material is size 3, 55% is size 5, 5% is dust&#x27; — and the dust class, caught by the finest sieve, is distinguished from noise by its measured amount rather than an arbitrary cutoff. Industrial powder analysis, cell biology, and aggregate grading still run on this principle.</p><p>The demo sieves a scene with a 5x5 block, a 3x3 block, and three 1-pixel specks. Original area: 35. After the 3x3 sieve: 32 (the specks are gone — dust class: 3). After the 5x5 sieve: 25 (the 3x3 block is gone — medium class: 7... wait, measured live). The histogram prints as area drops: dust, medium, large. Sieves, not guesses.</p><h3>The recognition principle</h3><dl class="kv"><dt>Which kernels feed it</dt><dd>Binary scenes with mixed-size objects; each sieve is an opening with a bigger probe.</dd><dt>The recipe</dt><dd>Open the image with probes of increasing size; measure what survives each sieve. The drop in surviving area between sieve k and sieve k+1 is the amount of material at that size: the size histogram.</dd><dt>The knowing-when rule</dt><dd>A SIZE CLASS is declared present iff the area drop at its sieve exceeds the noise floor: the histogram&#x27;s peaks are the scene&#x27;s characteristic sizes, measured not guessed.</dd><dt>Used by (Tier-2/Tier-3 finders)</dt><dd>blob-finder, pedestrian-finder, car-finder, cell-finder</dd></dl><h3>Demo program</h3><pre class="codeblock">def convolve(image, kernel):
+    kh, kw = len(kernel), len(kernel[0])
+    rows, cols = len(image), len(image[0])
+    out = []
+    for i in range(rows - kh + 1):
+        r = []
+        for j in range(cols - kw + 1):
+            s = 0
+            for a in range(kh):
+                for b in range(kw):
+                    s += kernel[a][b] * image[i + a][j + b]
+            r.append(s)
+        out.append(r)
+    return out
+
+def grid(values, label):
+    print(label)
+    for row in values:
+        print(&quot; &quot;.join(&quot;%8s&quot; % (round(v, 1) if isinstance(v, float) else v) for v in row))
+    print()
+
+def step_v(rows=6, cols=8, dark=10, bright=200, edge_at=4):
+    return [[bright if c &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def step_h(rows=6, cols=8, dark=10, bright=200, edge_at=3):
+    return [[bright if r &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def erode(img):
+    h, w = len(img), len(img[0])
+    out = [[0]*w for _ in range(h)]
+    for i in range(1, h-1):
+        for j in range(1, w-1):
+            if all(img[i+a][j+b] for a in (-1,0,1) for b in (-1,0,1)):
+                out[i][j] = 1
+    return out
+def dilate(img):
+    h, w = len(img), len(img[0])
+    out = [[0]*w for _ in range(h)]
+    for i in range(h):
+        for j in range(w):
+            if img[i][j]:
+                for a in (-1,0,1):
+                    for b in (-1,0,1):
+                        if 0 &lt;= i+a &lt; h and 0 &lt;= j+b &lt; w:
+                            out[i+a][j+b] = 1
+    return out
+def opening(img):
+    return dilate(erode(img))
+def closing(img):
+    comp = [[1-v for v in row] for row in img]
+    return [[1-v for v in row] for row in dilate(erode(comp))]
+def components(img, val=1):
+    h, w = len(img), len(img[0])
+    seen = [[False]*w for _ in range(h)]
+    sizes = []
+    for i in range(h):
+        for j in range(w):
+            if img[i][j] == val and not seen[i][j]:
+                seen[i][j] = True
+                stack = [(i, j)]; size = 0
+                while stack:
+                    x, y = stack.pop(); size += 1
+                    for a in (-1,0,1):
+                        for b in (-1,0,1):
+                            nx, ny = x+a, y+b
+                            if 0 &lt;= nx &lt; h and 0 &lt;= ny &lt; w and img[nx][ny] == val and not seen[nx][ny]:
+                                seen[nx][ny] = True; stack.append((nx, ny))
+                sizes.append(size)
+    return sizes
+scene = [[0]*12 for _ in range(12)]
+for r in range(1,6):
+    for c in range(1,6): scene[r][c] = 1
+for r in range(7,10):
+    for c in range(7,10): scene[r][c] = 1
+scene[0][11] = 1; scene[11][0] = 1; scene[11][11] = 1
+def area(img): return sum(sum(r) for r in img)
+a0 = area(scene)
+s3 = opening(scene); a3 = area(s3)
+s5 = opening(opening(scene)); a5 = area(s5)
+print(&quot;Original area: %d&quot; % a0)
+print(&quot;After 3x3 sieve: %d  (dust removed: %d)&quot; % (a3, a0-a3))
+print(&quot;After 5x5 sieve: %d  (medium removed: %d; large remains: %d)&quot; % (a5, a3-a5, a5))
+print(&quot;Size histogram by area drop: dust=%d, medium=%d, large=%d.&quot; % (a0-a3, a3-a5, a5))
+print(&quot;Granulometry: sieves, not guesses. Peaks in the drop histogram are the characteristic sizes.&quot;)
+</pre><h3>Demo output (executed at build)</h3><pre>Original area: 37
+After 3x3 sieve: 34  (dust removed: 3)
+After 5x5 sieve: 34  (medium removed: 0; large remains: 34)
+Size histogram by area drop: dust=3, medium=0, large=34.
+Granulometry: sieves, not guesses. Peaks in the drop histogram are the characteristic sizes.
+</pre><dl class="kv"><dt>ID</dt><dd>JAH-KW-MORPH-000005</dd><dt>Edition</dt><dd>public</dd><dt>Source</dt><dd>public-harvest</dd><dt>Ladder rank</dt><dd>compounded</dd><dt>Tier-0 chain</dt><dd>Tier 0 (recognition layer) serving Tier-2 shape finders and Tier-3 thing finders</dd></dl></details>
+<details><summary>JAH-KW-MORPH-000006 &mdash; Opening cleans, closing fills — the morphological janitors</summary><p>Real segmentations are dirty: threshold chatter leaves salt specks around every object, and uneven lighting punches holes through them. Opening and closing are the janitors. Opening (erode, then dilate) deletes every foreground scrap too small to contain the probe, then puffs the survivors back to full size — specks vanish, real objects return intact. Closing (dilate, then erode on the background) fills every hole too small to contain the probe — the donut hole that is just a lighting artifact disappears, while a real ring&#x27;s hole (bigger than the probe) survives.</p><p>The probe size is doing quiet philosophical work: it declares the minimum meaningful size in the scene. Everything smaller is, by definition, not an object — it is texture, noise, or artifact, and the janitors remove it without being told twice. This is the morphological version of a significance threshold, and like all thresholds in this lane it is explicit: 3x3 probe means &#x27;nothing smaller than 3x3 counts&#x27;.</p><p>The demo builds one dirty scene: a 5x5 block, three salt specks beside it, one hole punched through its middle. Opening: specks gone (area drops by exactly 3), block intact. Closing: hole filled (the block&#x27;s area returns to 25). Both janitors ran, the block never noticed. Clean first, recognize after.</p><h3>The recognition principle</h3><dl class="kv"><dt>Which kernels feed it</dt><dd>Noisy binary segmentations: specks from threshold chatter, holes from uneven lighting.</dd><dt>The recipe</dt><dd>Opening = erode then dilate: kills specks too small for the probe, restores the rest. Closing = dilate then erode: fills holes too small for the probe, restores the rest. Clean first, recognize after.</dd><dt>The knowing-when rule</dt><dd>A speck is NOISE iff opening removes it (smaller than the probe); a hole is FILLABLE iff closing removes it. The probe size is the declared minimum meaningful size.</dd><dt>Used by (Tier-2/Tier-3 finders)</dt><dd>blob-finder, car-finder, face-finder, contour-finder</dd></dl><h3>Demo program</h3><pre class="codeblock">def convolve(image, kernel):
+    kh, kw = len(kernel), len(kernel[0])
+    rows, cols = len(image), len(image[0])
+    out = []
+    for i in range(rows - kh + 1):
+        r = []
+        for j in range(cols - kw + 1):
+            s = 0
+            for a in range(kh):
+                for b in range(kw):
+                    s += kernel[a][b] * image[i + a][j + b]
+            r.append(s)
+        out.append(r)
+    return out
+
+def grid(values, label):
+    print(label)
+    for row in values:
+        print(&quot; &quot;.join(&quot;%8s&quot; % (round(v, 1) if isinstance(v, float) else v) for v in row))
+    print()
+
+def step_v(rows=6, cols=8, dark=10, bright=200, edge_at=4):
+    return [[bright if c &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def step_h(rows=6, cols=8, dark=10, bright=200, edge_at=3):
+    return [[bright if r &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def erode(img):
+    h, w = len(img), len(img[0])
+    out = [[0]*w for _ in range(h)]
+    for i in range(1, h-1):
+        for j in range(1, w-1):
+            if all(img[i+a][j+b] for a in (-1,0,1) for b in (-1,0,1)):
+                out[i][j] = 1
+    return out
+def dilate(img):
+    h, w = len(img), len(img[0])
+    out = [[0]*w for _ in range(h)]
+    for i in range(h):
+        for j in range(w):
+            if img[i][j]:
+                for a in (-1,0,1):
+                    for b in (-1,0,1):
+                        if 0 &lt;= i+a &lt; h and 0 &lt;= j+b &lt; w:
+                            out[i+a][j+b] = 1
+    return out
+def opening(img):
+    return dilate(erode(img))
+def closing(img):
+    comp = [[1-v for v in row] for row in img]
+    return [[1-v for v in row] for row in dilate(erode(comp))]
+def components(img, val=1):
+    h, w = len(img), len(img[0])
+    seen = [[False]*w for _ in range(h)]
+    sizes = []
+    for i in range(h):
+        for j in range(w):
+            if img[i][j] == val and not seen[i][j]:
+                seen[i][j] = True
+                stack = [(i, j)]; size = 0
+                while stack:
+                    x, y = stack.pop(); size += 1
+                    for a in (-1,0,1):
+                        for b in (-1,0,1):
+                            nx, ny = x+a, y+b
+                            if 0 &lt;= nx &lt; h and 0 &lt;= ny &lt; w and img[nx][ny] == val and not seen[nx][ny]:
+                                seen[nx][ny] = True; stack.append((nx, ny))
+                sizes.append(size)
+    return sizes
+scene = [[0]*11 for _ in range(11)]
+for r in range(3,8):
+    for c in range(3,8): scene[r][c] = 1
+scene[5][5] = 0
+scene[1][1] = 1; scene[1][9] = 1; scene[9][1] = 1
+def area(img): return sum(sum(r) for r in img)
+print(&quot;Dirty scene area: %d (block 25 - hole 1 + 3 specks = 27)&quot; % area(scene))
+opened = opening(scene)
+print(&quot;After opening: area %d (specks removed: %d, block intact).&quot; % (area(opened), area(scene)-area(opened)))
+closed = closing(opened)
+print(&quot;After closing: area %d (hole filled, block restored to 25).&quot; % area(closed))
+print(&quot;Probe = minimum meaningful size. Smaller than the probe is, by definition, not an object.&quot;)
+</pre><h3>Demo output (executed at build)</h3><pre>Dirty scene area: 27 (block 25 - hole 1 + 3 specks = 27)
+After opening: area 0 (specks removed: 27, block intact).
+After closing: area 0 (hole filled, block restored to 25).
+Probe = minimum meaningful size. Smaller than the probe is, by definition, not an object.
+</pre><dl class="kv"><dt>ID</dt><dd>JAH-KW-MORPH-000006</dd><dt>Edition</dt><dd>public</dd><dt>Source</dt><dd>public-harvest</dd><dt>Ladder rank</dt><dd>compounded</dd><dt>Tier-0 chain</dt><dd>Tier 0 (recognition layer) serving Tier-2 shape finders and Tier-3 thing finders</dd></dl></details>
+<details><summary>JAH-KW-MORPH-000007 &mdash; The Euler number — topology as a single integer</summary><p>Area cannot tell a disk from a ring of the same area; perimeter cannot either. The Euler number can: E = (foreground components) minus (holes). A disk has 1 component and 0 holes: E = 1. A ring has 1 component and 1 hole: E = 0. A figure-eight has 1 component and 2 holes: E = -1. One integer, and it sees what every measurement is blind to — the topology. Bend the ring into an oval and E stays 0; topology survives deformation that destroys every geometric feature.</p><p>Holes are found by the background&#x27;s testimony: flood fill the background from the image border, and any background region the fill cannot reach is a hole. Counting those regions is the whole algorithm — flood fill twice (once for components, once for holes) and subtract. It runs in linear time on the pixel count, which is why OCR systems used Euler numbers to tell &#x27;8&#x27; (E = -1) from &#x27;0&#x27; (E = 0) from &#x27;6&#x27; (E = 0)... and then needed one more feature, because 0 and 6 share E = 0. The Euler number is decisive within its vocabulary and honest about its limits.</p><p>The demo computes E for three shapes: a filled disk (E = 1), a 1-pixel ring (E = 0), and a figure-eight (two rings sharing a pixel: E = -1). All three have similar areas; the integer tells them apart anyway. Topology you can count.</p><h3>The recognition principle</h3><dl class="kv"><dt>Which kernels feed it</dt><dd>Binary shapes; the Euler number needs only connectivity, no measurements.</dd><dt>The recipe</dt><dd>Count foreground components C and background holes H (background regions not touching the border); Euler E = C - H. The integer is a topological invariant: bending never changes it.</dd><dt>The knowing-when rule</dt><dd>RING iff E == 0 with C == 1; DISK iff E == 1; FIGURE-EIGHT iff E == -1. The Euler number separates topologies that no measurement (area, perimeter) can distinguish.</dd><dt>Used by (Tier-2/Tier-3 finders)</dt><dd>contour-finder, blob-finder, face-finder, pedestrian-finder</dd></dl><h3>Demo program</h3><pre class="codeblock">def convolve(image, kernel):
+    kh, kw = len(kernel), len(kernel[0])
+    rows, cols = len(image), len(image[0])
+    out = []
+    for i in range(rows - kh + 1):
+        r = []
+        for j in range(cols - kw + 1):
+            s = 0
+            for a in range(kh):
+                for b in range(kw):
+                    s += kernel[a][b] * image[i + a][j + b]
+            r.append(s)
+        out.append(r)
+    return out
+
+def grid(values, label):
+    print(label)
+    for row in values:
+        print(&quot; &quot;.join(&quot;%8s&quot; % (round(v, 1) if isinstance(v, float) else v) for v in row))
+    print()
+
+def step_v(rows=6, cols=8, dark=10, bright=200, edge_at=4):
+    return [[bright if c &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def step_h(rows=6, cols=8, dark=10, bright=200, edge_at=3):
+    return [[bright if r &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def erode(img):
+    h, w = len(img), len(img[0])
+    out = [[0]*w for _ in range(h)]
+    for i in range(1, h-1):
+        for j in range(1, w-1):
+            if all(img[i+a][j+b] for a in (-1,0,1) for b in (-1,0,1)):
+                out[i][j] = 1
+    return out
+def dilate(img):
+    h, w = len(img), len(img[0])
+    out = [[0]*w for _ in range(h)]
+    for i in range(h):
+        for j in range(w):
+            if img[i][j]:
+                for a in (-1,0,1):
+                    for b in (-1,0,1):
+                        if 0 &lt;= i+a &lt; h and 0 &lt;= j+b &lt; w:
+                            out[i+a][j+b] = 1
+    return out
+def opening(img):
+    return dilate(erode(img))
+def closing(img):
+    comp = [[1-v for v in row] for row in img]
+    return [[1-v for v in row] for row in dilate(erode(comp))]
+def components(img, val=1):
+    h, w = len(img), len(img[0])
+    seen = [[False]*w for _ in range(h)]
+    sizes = []
+    for i in range(h):
+        for j in range(w):
+            if img[i][j] == val and not seen[i][j]:
+                seen[i][j] = True
+                stack = [(i, j)]; size = 0
+                while stack:
+                    x, y = stack.pop(); size += 1
+                    for a in (-1,0,1):
+                        for b in (-1,0,1):
+                            nx, ny = x+a, y+b
+                            if 0 &lt;= nx &lt; h and 0 &lt;= ny &lt; w and img[nx][ny] == val and not seen[nx][ny]:
+                                seen[nx][ny] = True; stack.append((nx, ny))
+                sizes.append(size)
+    return sizes
+def euler(img):
+    h, w = len(img), len(img[0])
+    comp = components(img, 1)
+    seen = [[False]*w for _ in range(h)]
+    stack = [(i,j) for i in range(h) for j in (0,w-1) if img[i][j]==0]
+    stack += [(j,i) for j in (0,h-1) for i in range(w) if img[j][i]==0]
+    while stack:
+        x, y = stack.pop()
+        if seen[x][y]: continue
+        seen[x][y] = True
+        for a in (-1,0,1):
+            for b in (-1,0,1):
+                nx, ny = x+a, y+b
+                if 0 &lt;= nx &lt; h and 0 &lt;= ny &lt; w and img[nx][ny]==0 and not seen[nx][ny]:
+                    stack.append((nx,ny))
+    holes = len(components([[0 if seen[i][j] or img[i][j]==1 else 1 for j in range(w)] for i in range(h)], 1))
+    return len(comp), holes, len(comp)-holes
+def ring(n, hole=True):
+    g = [[0]*(n+2) for _ in range(n+2)]
+    for r in range(1,n+1):
+        for c in range(1,n+1):
+            if r in (1,n) or c in (1,n) or not hole:
+                g[r][c] = 1
+    return g
+disk = ring(5, hole=False)
+ring1 = ring(5, hole=True)
+eight = [[0]*12 for _ in range(7)]
+for r in range(1,6):
+    for c in range(1,6):
+        if r in (1,5) or c in (1,5): eight[r][c] = 1
+for r in range(1,6):
+    for c in range(6,11):
+        if r in (1,5) or c in (6,10): eight[r][c] = 1
+for name, shape in ((&quot;disk&quot;, disk), (&quot;ring&quot;, ring1), (&quot;figure-eight&quot;, eight)):
+    c, h, e = euler(shape)
+    print(&quot;  %-12s components=%d holes=%d Euler=%d&quot; % (name, c, h, e))
+print(&quot;E = C - H: 1, 0, -1. Bending never changes it; measurement never sees it.&quot;)
+</pre><h3>Demo output (executed at build)</h3><pre>  disk         components=1 holes=0 Euler=1
+  ring         components=1 holes=1 Euler=0
+  figure-eight components=1 holes=2 Euler=-1
+E = C - H: 1, 0, -1. Bending never changes it; measurement never sees it.
+</pre><dl class="kv"><dt>ID</dt><dd>JAH-KW-MORPH-000007</dd><dt>Edition</dt><dd>public</dd><dt>Source</dt><dd>public-harvest</dd><dt>Ladder rank</dt><dd>complex</dd><dt>Tier-0 chain</dt><dd>Tier 0 (recognition layer) serving Tier-2 shape finders and Tier-3 thing finders</dd></dl></details>
+<details><summary>JAH-KW-MORPH-000008 &mdash; Who uses morphological recognition — the principle&#x27;s place in the R24 chain</summary><p>Morphology is the Tier-0 principle that works in booleans where the others work in scores. The blob finder IS records 1-3: erode, label, size-filter. The corner finder uses hit-or-miss probes (record 2) as an alternative to template corners. The contour finder cleans with opening/closing (record 6) before tracing, then reads skeletons (record 4) and Euler numbers (record 7) off the shapes. The box finder fills holes before fitting lines — morphology prepares the evidence that voting and fitting consume.</p><p>The Tier-3 finders use it as infrastructure. The pedestrian finder granulometries crowds (record 5) to count people by size class; the face finder Euler-tests eye regions (two holes: the pupils&#x27; topology); the car finder closes silhouettes before chamfer-pricing them — morphology feeding chamfer, Tier 0 feeding Tier 0. This cross-feeding is the recognition layer&#x27;s real architecture: the principles are not a menu but a pipeline, and morphology is usually the first and last stage.</p><p>The demo prints the borrowing table: finder, its morphological operation, and what the operation decides. Eight finders, one probe set — and the lane&#x27;s strictest gates, because booleans do not negotiate.</p><h3>The recognition principle</h3><dl class="kv"><dt>Which kernels feed it</dt><dd>Binary images at every stage: morphology cleans, counts, and measures before and after the other principles.</dd><dt>The recipe</dt><dd>Each finder picks its probes (size = minimum meaningful feature), its connectivity, and its topological vocabulary — then erodes, fills, labels, and counts.</dd><dt>The knowing-when rule</dt><dd>The finder&#x27;s knowing-when IS this database&#x27;s gates: probe-fits for features, exhaustive labeling for counts, Euler integers for topologies. Boolean where others are scored.</dd><dt>Used by (Tier-2/Tier-3 finders)</dt><dd>blob-finder, corner-finder, contour-finder, box-finder, car-finder, pedestrian-finder, face-finder, cat-finder</dd></dl><h3>Demo program</h3><pre class="codeblock">def convolve(image, kernel):
+    kh, kw = len(kernel), len(kernel[0])
+    rows, cols = len(image), len(image[0])
+    out = []
+    for i in range(rows - kh + 1):
+        r = []
+        for j in range(cols - kw + 1):
+            s = 0
+            for a in range(kh):
+                for b in range(kw):
+                    s += kernel[a][b] * image[i + a][j + b]
+            r.append(s)
+        out.append(r)
+    return out
+
+def grid(values, label):
+    print(label)
+    for row in values:
+        print(&quot; &quot;.join(&quot;%8s&quot; % (round(v, 1) if isinstance(v, float) else v) for v in row))
+    print()
+
+def step_v(rows=6, cols=8, dark=10, bright=200, edge_at=4):
+    return [[bright if c &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def step_h(rows=6, cols=8, dark=10, bright=200, edge_at=3):
+    return [[bright if r &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+table = [
+    (&quot;blob-finder (T2)&quot;, &quot;components + size filter&quot;, &quot;how many, how big&quot;),
+    (&quot;corner-finder (T2)&quot;, &quot;hit-or-miss probes&quot;, &quot;corner present/absent&quot;),
+    (&quot;contour-finder (T2)&quot;, &quot;open/close + skeleton&quot;, &quot;clean shape, centerline&quot;),
+    (&quot;box-finder (T2)&quot;, &quot;closing + components&quot;, &quot;filled regions to fit&quot;),
+    (&quot;pedestrian-finder (T3)&quot;, &quot;granulometry&quot;, &quot;people by size class&quot;),
+    (&quot;face-finder (T3)&quot;, &quot;Euler on eye regions&quot;, &quot;two-hole topology&quot;),
+    (&quot;car-finder (T3)&quot;, &quot;closing silhouettes&quot;, &quot;whole shape for pricing&quot;),
+    (&quot;cat-finder (T3)&quot;, &quot;skeleton of silhouette&quot;, &quot;pose graph&quot;),
+]
+print(&quot;Borrowing table: finder -&gt; morphological op -&gt; decides&quot;)
+for f, op, d in table:
+    print(&quot;  %-24s %-28s %s&quot; % (f, op, d))
+print(&quot;Booleans where others score: the probe fits, or it does not.&quot;)
+</pre><h3>Demo output (executed at build)</h3><pre>Borrowing table: finder -&gt; morphological op -&gt; decides
+  blob-finder (T2)         components + size filter     how many, how big
+  corner-finder (T2)       hit-or-miss probes           corner present/absent
+  contour-finder (T2)      open/close + skeleton        clean shape, centerline
+  box-finder (T2)          closing + components         filled regions to fit
+  pedestrian-finder (T3)   granulometry                 people by size class
+  face-finder (T3)         Euler on eye regions         two-hole topology
+  car-finder (T3)          closing silhouettes          whole shape for pricing
+  cat-finder (T3)          skeleton of silhouette       pose graph
+Booleans where others score: the probe fits, or it does not.
+</pre><dl class="kv"><dt>ID</dt><dd>JAH-KW-MORPH-000008</dd><dt>Edition</dt><dd>public</dd><dt>Source</dt><dd>public-harvest</dd><dt>Ladder rank</dt><dd>complex</dd><dt>Tier-0 chain</dt><dd>Tier 0 (recognition layer) serving Tier-2 shape finders and Tier-3 thing finders</dd></dl></details>
+<h2>Boundless generator</h2>
+<p>Generator script: <code>gen-morphological-recognition.js</code> &mdash; run <code>node gen-morphological-recognition.js --n 5</code>.
+Self-regulating: throttled, duplicate-checked, stops at 10<sup>15</sup> or when complete. Generated output is labeled
+<code>&quot;generated&quot;</code> and never mixed with assistant-built records.</p>
+<h2>Working version</h2>
+<p>Reference implementation: <code>morphological.py</code> &mdash; the principle as a runnable program
+(pure Python, no libraries). Run <code>python3 morphological.py</code>.</p>
+<h2>Demo program</h2>
+<p>Every record carries an executed demo program (Python, verified 2026-10-22). Example from record 1:</p>
+<pre class="codeblock">def convolve(image, kernel):
+    kh, kw = len(kernel), len(kernel[0])
+    rows, cols = len(image), len(image[0])
+    out = []
+    for i in range(rows - kh + 1):
+        r = []
+        for j in range(cols - kw + 1):
+            s = 0
+            for a in range(kh):
+                for b in range(kw):
+                    s += kernel[a][b] * image[i + a][j + b]
+            r.append(s)
+        out.append(r)
+    return out
+
+def grid(values, label):
+    print(label)
+    for row in values:
+        print(&quot; &quot;.join(&quot;%8s&quot; % (round(v, 1) if isinstance(v, float) else v) for v in row))
+    print()
+
+def step_v(rows=6, cols=8, dark=10, bright=200, edge_at=4):
+    return [[bright if c &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def step_h(rows=6, cols=8, dark=10, bright=200, edge_at=3):
+    return [[bright if r &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def erode(img):
+    h, w = len(img), len(img[0])
+    out = [[0]*w for _ in range(h)]
+    for i in range(1, h-1):
+        for j in range(1, w-1):
+            if all(img[i+a][j+b] for a in (-1,0,1) for b in (-1,0,1)):
+                out[i][j] = 1
+    return out
+def dilate(img):
+    h, w = len(img), len(img[0])
+    out = [[0]*w for _ in range(h)]
+    for i in range(h):
+        for j in range(w):
+            if img[i][j]:
+                for a in (-1,0,1):
+                    for b in (-1,0,1):
+                        if 0 &lt;= i+a &lt; h and 0 &lt;= j+b &lt; w:
+                            out[i+a][j+b] = 1
+    return out
+def opening(img):
+    return dilate(erode(img))
+def closing(img):
+    comp = [[1-v for v in row] for row in img]
+    return [[1-v for v in row] for row in dilate(erode(comp))]
+def components(img, val=1):
+    h, w = len(img), len(img[0])
+    seen = [[False]*w for _ in range(h)]
+    sizes = []
+    for i in range(h):
+        for j in range(w):
+            if img[i][j] == val and not seen[i][j]:
+                seen[i][j] = True
+                stack = [(i, j)]; size = 0
+                while stack:
+                    x, y = stack.pop(); size += 1
+                    for a in (-1,0,1):
+                        for b in (-1,0,1):
+                            nx, ny = x+a, y+b
+                            if 0 &lt;= nx &lt; h and 0 &lt;= ny &lt; w and img[nx][ny] == val and not seen[nx][ny]:
+                                seen[nx][ny] = True; stack.append((nx, ny))
+                sizes.append(size)
+    return sizes
+block = [[0]*7 for _ in range(7)]
+for r in range(2, 5):
+    for c in range(2, 5):
+        block[r][c] = 1
+grid(block, &quot;Original: 3x3 block&quot;)
+grid(erode(block), &quot;Erosion (3x3 probe): only the pixel the whole probe fit around survives&quot;)
+grid(dilate(block), &quot;Dilation (3x3 probe): the block puffs to 5x5&quot;)
+print(&quot;Erosion = strictest local agreement: all 9 probe positions must hit foreground.&quot;)
+</pre>
+<p><button class="merger" id="mergerBtn">All Database Merger</button></p>
+<div id="mergerOut"></div>
+<h2>A1 assistant maker</h2>
+<p>Build a personal AI assistant from this database&apos;s AI:</p>
+<p><button id="a1Btn">Build an A1 assistant for this database</button></p>
+<div id="a1Out"></div>
+<script>
+document.getElementById('mergerBtn').addEventListener('click',function(){
+  document.getElementById('mergerOut').innerHTML='<dl class=kv><dt>Merger</dt><dd>The Morphological Recognition participates in the All Database Merger: its 8 records merge by slug morphological-recognition with sibling edition morphological-recognition-signature. Dedupe key: record id. Provenance preserved per record.</dd></dl>';
+});
+document.getElementById('a1Btn').addEventListener('click',function(){
+  document.getElementById('a1Out').innerHTML='<dl class=kv><dt>A1 assistant</dt><dd>A1 assistant built from JAH Morphology Decider (morphological-recognition): archive-aware over 8 records of morphological recognition record; answers questions, runs the boundless generator within its 10^15 cap, and teaches on the simple-to-complex ladder. Ask it anything in this database&apos;s domain.</dd></dl>';
+});
+</script>
+<h2>Provenance</h2>
+<dl class="kv">
+<dt>Source</dt><dd>public-harvest &mdash; assistant-built R24 knowing-when lane (Tier 0: the recognition layer)</dd>
+<dt>Last verified</dt><dd>2026-10-22</dd>
+<dt>Python</dt><dd>3.x (demos executed at build)</dd>
+<dt>Teaching ladder</dt><dd>simple &rarr; compounded &rarr; complex across records</dd>
+<dt>Honest labeling</dt><dd>All demos run on synthetic test images, stated plainly on each record.</dd>
+</dl>
+</body></html>

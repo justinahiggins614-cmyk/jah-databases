@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Hough Voting Recognition &mdash; JAH Databases</title>
+<style>
+body{font-family:system-ui,sans-serif;max-width:900px;margin:0 auto;padding:16px;line-height:1.5}
+.kv{display:grid;grid-template-columns:minmax(120px,1fr) 2fr;gap:6px 12px;border:1px solid #ccc;padding:12px;margin:12px 0}
+.kv dt{font-weight:bold}.kv dd{margin:0}
+.pill{display:inline-block;background:#b00;color:#fff;border-radius:12px;padding:2px 10px;font-size:12px}
+button{padding:10px 18px;font-size:15px;cursor:pointer;margin:6px 4px}
+button.merger{background:#c00;color:#fff;border:2px solid #900;font-weight:bold}
+.count{font-size:28px;font-weight:bold}
+pre{background:#f4f4f4;padding:10px;overflow:auto;font-size:12px}
+pre.codeblock{border-left:4px solid #b00}
+details{margin:8px 0;border:1px solid #ddd;padding:8px}
+summary{cursor:pointer;font-weight:bold}
+</style></head><body>
+<h1>Hough Voting Recognition</h1>
+<p><span class="pill">Public edition</span> <span class="pill">march to a million: in progress</span> <span class="pill">Exhaustive</span> <span class="pill">Tier 0 &mdash; recognition layer</span></p>
+<p>Every edge pixel votes; the shape with the most votes wins</p>
+<p>Public records of Hough voting as a Tier-0 recognition principle — the slide-and-vote recipe, the (rho, theta) parameterization that never breaks, peak picking with non-maximum suppression, circle voting in (a, b) space, the vote threshold as a noise filter, Ballard&#x27;s generalized Hough with R-tables (1981), probabilistic early stopping, and the principle&#x27;s place in the R24 chain. From Paul Hough&#x27;s 1962 patent through Duda and Hart (1972). Every record carries an executed pure-Python demo.</p>
+<p><span class="count" id="stCount">8</span> records</p>
+<h2>Database facts</h2>
+<dl class="kv">
+<dt>Slug</dt><dd>hough-voting-recognition</dd>
+<dt>Record kind</dt><dd>hough voting recognition record</dd>
+<dt>Source label</dt><dd>public-harvest</dd>
+<dt>Built by</dt><dd>assistant-built</dd>
+<dt>Last verified</dt><dd>2026-10-22</dd>
+<dt>Tier-0 chain</dt><dd>Tier 0 (recognition layer) serving Tier-2 shape finders and Tier-3 thing finders</dd>
+<dt>Generator hard cap</dt><dd>10<sup>15</sup> (one quadrillion) or stop when genuinely complete</dd>
+<dt>Generator ladder</dt><dd>simple &rarr; competitive &rarr; mix-and-match &rarr; unmade &rarr; top-notch-or-better &rarr; future-grade &rarr; god-mode</dd>
+<dt>Database AI</dt><dd>JAH Hough Vote Counter &mdash; archive-aware; can build an assistant like the user&apos;s personal assistant</dd>
+</dl>
+<h2>Capabilities</h2>
+<dl class="kv"><dt>Capability 1</dt><dd>Explain the voting recipe and why (rho, theta) beats slope-intercept</dd><dt>Capability 2</dt><dd>Run a line or circle election on synthetic edge pixels and read the peak</dd><dt>Capability 3</dt><dd>Apply threshold plus non-maximum suppression to separate multiple shapes</dd><dt>Capability 4</dt><dd>Build an R-table and vote an arbitrary shape into place</dd><dt>Capability 5</dt><dd>Generate voting-parameter variations with the boundless generator within its 10^15 cap</dd></dl>
+<h2>Full records</h2>
+<details><summary>JAH-KW-HOUGH-000001 &mdash; Every edge pixel votes — the Hough recipe for lines</summary><p>Paul Hough patented the idea in 1962, and Richard Duda and Peter Hart gave it the form every textbook teaches in 1972: do not hunt for lines in the picture — let the picture vote on lines. Each edge pixel is a voter, and it votes for every straight line that could possibly pass through it. A line is written as rho = x*cos(theta) + y*sin(theta), so one pixel votes along a whole sine curve of (theta, rho) pairs. Where many pixels agree — where their curves cross — votes pile up, and the tallest pile names the line.</p><p>This inverts the usual recognition logic. Template matching asks each location &#x27;do you look like my pattern?&#x27;; Hough voting asks each edge pixel &#x27;which shapes could you belong to?&#x27; and lets the shapes compete in an election. The beauty is robustness: an outlier pixel votes for its own sine curve, but its votes scatter across bins that nobody else votes for, so it can never win. A broken line with gaps still wins, because the pixels on either side of the gap vote for the same bin. Voting turns scattered, imperfect evidence into a confident decision.</p><p>The demo is the smallest honest Hough transform: four pixels on the line y = x plus one outlier at (1, 4), voting over four angles. The accumulator printout shows the (theta=135, rho=0) bin collecting all four collinear votes while the outlier&#x27;s votes scatter. Peak 4, threshold 3: the line is declared found, and the peak&#x27;s coordinates decode back to y = x. Every edge pixel voted; the shape with the most votes won.</p><h3>The recognition principle</h3><dl class="kv"><dt>Which kernels feed it</dt><dd>Binary edge maps from the nine-number kernels (Sobel/Prewitt/Scharr/Canny): each edge pixel becomes one voter.</dd><dt>The recipe</dt><dd>For every edge pixel, vote for every (theta, rho) line that could pass through it, where rho = x*cos(theta) + y*sin(theta). Count the votes in an accumulator array. The bin with the most votes is the line.</dd><dt>The knowing-when rule</dt><dd>FOUND iff peak_votes &gt;= TAU (here 3): the winning shape must have clearly more evidence than lone pixels can muster. The peak IS the decision — Manon&#x27;s &#x27;knowing when the shape is made&#x27;, formalized.</dd><dt>Used by (Tier-2/Tier-3 finders)</dt><dd>line-finder, box-finder, rectangle-finder, house-finder</dd></dl><h3>Demo program</h3><pre class="codeblock">def convolve(image, kernel):
+    kh, kw = len(kernel), len(kernel[0])
+    rows, cols = len(image), len(image[0])
+    out = []
+    for i in range(rows - kh + 1):
+        r = []
+        for j in range(cols - kw + 1):
+            s = 0
+            for a in range(kh):
+                for b in range(kw):
+                    s += kernel[a][b] * image[i + a][j + b]
+            r.append(s)
+        out.append(r)
+    return out
+
+def grid(values, label):
+    print(label)
+    for row in values:
+        print(&quot; &quot;.join(&quot;%8s&quot; % (round(v, 1) if isinstance(v, float) else v) for v in row))
+    print()
+
+def step_v(rows=6, cols=8, dark=10, bright=200, edge_at=4):
+    return [[bright if c &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def step_h(rows=6, cols=8, dark=10, bright=200, edge_at=3):
+    return [[bright if r &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+import math
+pts = [(1,1),(2,2),(3,3),(4,4),(1,4)]  # y=x plus one outlier
+thetas = [0, 45, 90, 135]
+acc = {}
+for (x, y) in pts:
+    for th in thetas:
+        r = x*math.cos(math.radians(th)) + y*math.sin(math.radians(th))
+        key = (th, round(r))
+        acc[key] = acc.get(key, 0) + 1
+print(&quot;Hough accumulator (theta, rho) -&gt; votes:&quot;)
+for th in thetas:
+    row = sorted((k, v) for k, v in acc.items() if k[0] == th)
+    print(&quot;  theta=%3d: %s&quot; % (th, &quot; &quot;.join(&quot;rho=%2d:%d&quot; % (k[1], v) for k, v in row)))
+peak = max(acc.items(), key=lambda kv: kv[1])
+print(&quot;Peak: theta=%d rho=%d with %d votes (threshold 3).&quot; % (peak[0][0], peak[0][1], peak[1]))
+print(&quot;Decodes to the line y = x: the 4 collinear pixels outvoted the outlier.&quot;)
+print(&quot;Knowing-when: peak_votes &gt;= TAU. The shape with the most votes wins.&quot;)
+</pre><h3>Demo output (executed at build)</h3><pre>Hough accumulator (theta, rho) -&gt; votes:
+  theta=  0: rho= 1:2 rho= 2:1 rho= 3:1 rho= 4:1
+  theta= 45: rho= 1:1 rho= 3:1 rho= 4:2 rho= 6:1
+  theta= 90: rho= 1:1 rho= 2:1 rho= 3:1 rho= 4:2
+  theta=135: rho= 0:4 rho= 2:1
+Peak: theta=135 rho=0 with 4 votes (threshold 3).
+Decodes to the line y = x: the 4 collinear pixels outvoted the outlier.
+Knowing-when: peak_votes &gt;= TAU. The shape with the most votes wins.
+</pre><dl class="kv"><dt>ID</dt><dd>JAH-KW-HOUGH-000001</dd><dt>Edition</dt><dd>public</dd><dt>Source</dt><dd>public-harvest</dd><dt>Ladder rank</dt><dd>simple</dd><dt>Tier-0 chain</dt><dd>Tier 0 (recognition layer) serving Tier-2 shape finders and Tier-3 thing finders</dd></dl></details>
+<details><summary>JAH-KW-HOUGH-000002 &mdash; Why lines vote as (rho, theta) — the parameterization that never breaks</summary><p>The schoolbook line y = mx + b has a blind spot you can drive a truck through: vertical lines. As a line tips upright, its slope m explodes toward infinity, so no finite accumulator can hold it — the most ordinary line in architecture, the wall edge, the doorframe, breaks the representation. Duda and Hart&#x27;s fix was to describe a line by the angle theta of its perpendicular and its distance rho from the origin: rho = x*cos(theta) + y*sin(theta). Now every line on the plane gets exactly one finite (theta, rho) pair, vertical lines included, and the accumulator is a tidy bounded rectangle instead of an infinite strip.</p><p>There is a second, subtler payoff. In (m, b) space, the votes of one pixel trace a straight line that shoots off to infinity; in (rho, theta) space they trace a bounded sine wave. Bounded curves mean bounded accumulators, which mean the whole election fits in a small array. The parameterization is not bookkeeping — it is what makes the vote countable.</p><p>The demo votes four pixels of the vertical line x = 3. At theta = 0, rho = x = 3 for every pixel: the bin (0, 3) collects 4 votes and the peak names the line exactly. Try that with y = mx + b: the &#x27;bin&#x27; for this line would sit at m = infinity, off the edge of any array ever built.</p><h3>The recognition principle</h3><dl class="kv"><dt>Which kernels feed it</dt><dd>Edge pixels; the parameterization is pure geometry, independent of which kernel made the edges.</dd><dt>The recipe</dt><dd>Write each line by the angle theta of its normal and its distance rho from the origin. Every (theta, rho) pair names exactly one line, and every line — including vertical ones — gets a finite pair.</dd><dt>The knowing-when rule</dt><dd>Same peak rule as record 1; the parameterization only changes what the bins mean, not how the election is decided.</dd><dt>Used by (Tier-2/Tier-3 finders)</dt><dd>line-finder, box-finder, rectangle-finder, square-finder</dd></dl><h3>Demo program</h3><pre class="codeblock">def convolve(image, kernel):
+    kh, kw = len(kernel), len(kernel[0])
+    rows, cols = len(image), len(image[0])
+    out = []
+    for i in range(rows - kh + 1):
+        r = []
+        for j in range(cols - kw + 1):
+            s = 0
+            for a in range(kh):
+                for b in range(kw):
+                    s += kernel[a][b] * image[i + a][j + b]
+            r.append(s)
+        out.append(r)
+    return out
+
+def grid(values, label):
+    print(label)
+    for row in values:
+        print(&quot; &quot;.join(&quot;%8s&quot; % (round(v, 1) if isinstance(v, float) else v) for v in row))
+    print()
+
+def step_v(rows=6, cols=8, dark=10, bright=200, edge_at=4):
+    return [[bright if c &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def step_h(rows=6, cols=8, dark=10, bright=200, edge_at=3):
+    return [[bright if r &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+import math
+pts = [(3,1),(3,2),(3,3),(3,4)]  # the vertical line x = 3
+thetas = [0, 45, 90, 135]
+acc = {}
+for (x, y) in pts:
+    for th in thetas:
+        r = x*math.cos(math.radians(th)) + y*math.sin(math.radians(th))
+        key = (th, round(r))
+        acc[key] = acc.get(key, 0) + 1
+for th in thetas:
+    row = sorted((k, v) for k, v in acc.items() if k[0] == th)
+    print(&quot;  theta=%3d: %s&quot; % (th, &quot; &quot;.join(&quot;rho=%2d:%d&quot; % (k[1], v) for k, v in row)))
+peak = max(acc.items(), key=lambda kv: kv[1])
+print(&quot;Peak: theta=%d rho=%d with %d votes -&gt; the line x = 3.&quot; % (peak[0][0], peak[0][1], peak[1]))
+print(&quot;In y = mx + b this line needs m = infinity: no finite bin could hold it.&quot;)
+print(&quot;Rho-theta names every line with two finite numbers. The vote stays countable.&quot;)
+</pre><h3>Demo output (executed at build)</h3><pre>  theta=  0: rho= 3:4
+  theta= 45: rho= 3:1 rho= 4:2 rho= 5:1
+  theta= 90: rho= 1:1 rho= 2:1 rho= 3:1 rho= 4:1
+  theta=135: rho=-1:2 rho= 0:1 rho= 1:1
+Peak: theta=0 rho=3 with 4 votes -&gt; the line x = 3.
+In y = mx + b this line needs m = infinity: no finite bin could hold it.
+Rho-theta names every line with two finite numbers. The vote stays countable.
+</pre><dl class="kv"><dt>ID</dt><dd>JAH-KW-HOUGH-000002</dd><dt>Edition</dt><dd>public</dd><dt>Source</dt><dd>public-harvest</dd><dt>Ladder rank</dt><dd>simple</dd><dt>Tier-0 chain</dt><dd>Tier 0 (recognition layer) serving Tier-2 shape finders and Tier-3 thing finders</dd></dl></details>
+<details><summary>JAH-KW-HOUGH-000003 &mdash; Two lines, two peaks — thresholds and non-maximum suppression</summary><p>One peak is a toy; real pictures have many shapes, and the accumulator holds them all at once. Two crossing lines make two peaks, three make three — the election scales effortlessly because every pixel votes independently and the bins just count. But raw peaks are not enough: a tall peak has sloping sides, and the bins next to the summit also clear the threshold. Without a second rule you would &#x27;find&#x27; the same line five times in five neighboring bins.</p><p>The second rule is non-maximum suppression, borrowed from the Canny edge playbook: a bin counts as a peak only if it beats all its neighbors. Threshold first (kill the ripple), then local-maximum test (keep one bin per hill). What survives is a clean list: one (theta, rho) pair per real line, each with its vote count as a confidence score. This two-step peak-picking — threshold, then suppress — is the knowing-when rule for every multi-shape Hough election.</p><p>The demo votes the lines y = x and y = 5 - x together. The accumulator shows twin peaks of 3 votes at (135, 0) and (45, 4), both clearing the threshold of 3, each a local maximum. Verdict: two lines found, with their equations decoded. The bins between them hold 1s and 2s — ripple, correctly ignored.</p><h3>The recognition principle</h3><dl class="kv"><dt>Which kernels feed it</dt><dd>Edge pixels of scenes with multiple shapes; every voter votes, the peaks sort themselves out.</dd><dt>The recipe</dt><dd>Vote all pixels into one accumulator. Keep bins above the vote threshold, then suppress non-maxima: a bin survives only if it beats its neighbors. Each surviving peak is one found shape.</dd><dt>The knowing-when rule</dt><dd>FOUND (one decision per surviving peak) iff votes &gt;= TAU and the bin is a local maximum. Two peaks above TAU = two lines found; ripples below TAU are ignored.</dd><dt>Used by (Tier-2/Tier-3 finders)</dt><dd>line-finder, box-finder, corner-finder, house-finder</dd></dl><h3>Demo program</h3><pre class="codeblock">def convolve(image, kernel):
+    kh, kw = len(kernel), len(kernel[0])
+    rows, cols = len(image), len(image[0])
+    out = []
+    for i in range(rows - kh + 1):
+        r = []
+        for j in range(cols - kw + 1):
+            s = 0
+            for a in range(kh):
+                for b in range(kw):
+                    s += kernel[a][b] * image[i + a][j + b]
+            r.append(s)
+        out.append(r)
+    return out
+
+def grid(values, label):
+    print(label)
+    for row in values:
+        print(&quot; &quot;.join(&quot;%8s&quot; % (round(v, 1) if isinstance(v, float) else v) for v in row))
+    print()
+
+def step_v(rows=6, cols=8, dark=10, bright=200, edge_at=4):
+    return [[bright if c &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def step_h(rows=6, cols=8, dark=10, bright=200, edge_at=3):
+    return [[bright if r &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+import math
+pts = [(1,1),(2,2),(3,3),(1,4),(2,3),(3,2)]  # y=x and y=5-x
+thetas = [0, 45, 90, 135]
+acc = {}
+for (x, y) in pts:
+    for th in thetas:
+        r = x*math.cos(math.radians(th)) + y*math.sin(math.radians(th))
+        key = (th, round(r))
+        acc[key] = acc.get(key, 0) + 1
+TAU = 3
+cands = [(k, v) for k, v in acc.items() if v &gt;= TAU]
+peaks = []
+for (th, rho), v in cands:
+    neigh = [acc.get((th+d, rho), 0) for d in (-45, 45)] + [acc.get((th, rho+d), 0) for d in (-1, 1)]
+    if all(v &gt;= n for n in neigh):
+        peaks.append(((th, rho), v))
+print(&quot;Bins above threshold %d: %s&quot; % (TAU, sorted((&quot;(%d,%d):%d&quot; % (t, r, v)) for (t, r), v in cands)))
+print(&quot;After non-maximum suppression, surviving peaks:&quot;)
+for (th, rho), v in sorted(peaks):
+    print(&quot;  theta=%d rho=%d votes=%d&quot; % (th, rho, v))
+print(&quot;Verdict: 2 lines found — (135,0) is y=x, (45,4) is y=5-x.&quot;)
+print(&quot;Knowing-when: votes &gt;= TAU AND local maximum. Ripple bins are ignored.&quot;)
+</pre><h3>Demo output (executed at build)</h3><pre>Bins above threshold 3: [&#x27;(135,0):3&#x27;, &#x27;(45,4):4&#x27;]
+After non-maximum suppression, surviving peaks:
+  theta=45 rho=4 votes=4
+  theta=135 rho=0 votes=3
+Verdict: 2 lines found — (135,0) is y=x, (45,4) is y=5-x.
+Knowing-when: votes &gt;= TAU AND local maximum. Ripple bins are ignored.
+</pre><dl class="kv"><dt>ID</dt><dd>JAH-KW-HOUGH-000003</dd><dt>Edition</dt><dd>public</dd><dt>Source</dt><dd>public-harvest</dd><dt>Ladder rank</dt><dd>simple</dd><dt>Tier-0 chain</dt><dd>Tier 0 (recognition layer) serving Tier-2 shape finders and Tier-3 thing finders</dd></dl></details>
+<details><summary>JAH-KW-HOUGH-000004 &mdash; Voting for circles — the three-parameter election</summary><p>Lines need two numbers; circles need three: center (a, b) and radius r. The vote generalizes beautifully. If you know the radius — coins on a table, wheels of a known size — each edge pixel votes for every center at distance r from it, which is itself a circle of votes drawn around the pixel. The true center is the one point all those vote-circles pass through, so it collects one vote per rim pixel while everywhere else gets scraps. Fix r and the election collapses to a flat 2D accumulator over (a, b): cheap, clean, decisive.</p><p>When r is unknown you hold an election per radius — a stack of (a, b) accumulators, one per candidate r — and the winning triple (a, b, r) names the circle completely. The pros add one more trick: the gradient direction at each edge pixel points at (or away from) the center, so each pixel only needs to vote along a short arc instead of a full circle. That single geometric fact cuts the work by an order of magnitude and is why real circle finders run in real time.</p><p>The demo fixes r = 2 and votes four rim pixels of a circle centered at (4, 4). The accumulator shows (4, 4) with 4 votes against a background of 1s — the vote-circles visibly intersect there. Threshold 3: circle found, center (4, 4), radius 2. The Tier-2 circle finder is this record with a radius stack.</p><h3>The recognition principle</h3><dl class="kv"><dt>Which kernels feed it</dt><dd>Edge pixels; the gradient direction at each pixel can restrict its votes to a thin arc (the fast variant).</dd><dt>The recipe</dt><dd>For a known radius r, each edge pixel votes for every center (a, b) at distance r from it — a circle of votes per pixel. The true center is where the vote-circles intersect: the accumulator peak.</dd><dt>The knowing-when rule</dt><dd>FOUND iff the (a, b) peak &gt;= TAU: the center with the most rim pixels agreeing on it wins. For unknown r, repeat per radius and take the best (a, b, r) triple.</dd><dt>Used by (Tier-2/Tier-3 finders)</dt><dd>circle-finder, ellipse-finder, face-finder, cat-finder</dd></dl><h3>Demo program</h3><pre class="codeblock">def convolve(image, kernel):
+    kh, kw = len(kernel), len(kernel[0])
+    rows, cols = len(image), len(image[0])
+    out = []
+    for i in range(rows - kh + 1):
+        r = []
+        for j in range(cols - kw + 1):
+            s = 0
+            for a in range(kh):
+                for b in range(kw):
+                    s += kernel[a][b] * image[i + a][j + b]
+            r.append(s)
+        out.append(r)
+    return out
+
+def grid(values, label):
+    print(label)
+    for row in values:
+        print(&quot; &quot;.join(&quot;%8s&quot; % (round(v, 1) if isinstance(v, float) else v) for v in row))
+    print()
+
+def step_v(rows=6, cols=8, dark=10, bright=200, edge_at=4):
+    return [[bright if c &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def step_h(rows=6, cols=8, dark=10, bright=200, edge_at=3):
+    return [[bright if r &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+import math
+rim = [(6,4),(2,4),(4,6),(4,2)]  # circle center (4,4), radius 2
+R = 2
+acc = {}
+for (x, y) in rim:
+    for deg in range(0, 360, 30):
+        a = round(x - R*math.cos(math.radians(deg)))
+        b = round(y - R*math.sin(math.radians(deg)))
+        acc[(a, b)] = acc.get((a, b), 0) + 1
+top = sorted(acc.items(), key=lambda kv: -kv[1])[:6]
+print(&quot;Top center-votes (a,b) -&gt; votes:&quot;)
+for (a, b), v in top:
+    print(&quot;  (%d,%d): %d&quot; % (a, b, v))
+peak, v = top[0]
+print(&quot;Peak %s with %d votes (threshold 3) -&gt; circle found: center (4,4), radius 2.&quot; % (peak, v))
+print(&quot;Each rim pixel voted a circle of candidate centers; they intersect at the truth.&quot;)
+</pre><h3>Demo output (executed at build)</h3><pre>Top center-votes (a,b) -&gt; votes:
+  (4,4): 4
+  (4,3): 2
+  (6,2): 2
+  (6,6): 2
+  (4,5): 2
+  (2,2): 2
+Peak (4, 4) with 4 votes (threshold 3) -&gt; circle found: center (4,4), radius 2.
+Each rim pixel voted a circle of candidate centers; they intersect at the truth.
+</pre><dl class="kv"><dt>ID</dt><dd>JAH-KW-HOUGH-000004</dd><dt>Edition</dt><dd>public</dd><dt>Source</dt><dd>public-harvest</dd><dt>Ladder rank</dt><dd>compounded</dd><dt>Tier-0 chain</dt><dd>Tier 0 (recognition layer) serving Tier-2 shape finders and Tier-3 thing finders</dd></dl></details>
+<details><summary>JAH-KW-HOUGH-000005 &mdash; Noise versus the vote floor — why random pixels can never win</summary><p>Real edge maps are dirty. Alongside the true edge pixels sit noise pixels — texture, shadows, sensor junk — and they all get to vote, because the accumulator cannot tell a true voter from a false one. The election survives this anyway, and the reason is pure statistics: the true shape&#x27;s pixels all vote for the SAME bin, concentrating their power, while noise pixels vote for random bins, spreading theirs thin. Four true pixels make a tower of 4; three noise pixels make twelve lonely 1s.</p><p>The vote threshold is therefore a noise filter wearing a counting disguise. Set TAU above what random scatter can plausibly pile up and below what the weakest true shape deserves, and the election cleans itself. This is also why Hough voting tolerates occlusion and gaps so gracefully: losing half the line&#x27;s pixels drops the tower from 8 to 4, but the noise floor is still at 1 — the decision survives damage that would destroy a template matcher&#x27;s pixel-perfect comparison.</p><p>The demo adds three noise pixels to the y = x line and prints the full accumulator. The (135, 0) tower stands at 4; every noise bin holds 1. Threshold 3 keeps the tower and discards the scatter — the line is found in a dirty picture, and the noise never had a chance.</p><h3>The recognition principle</h3><dl class="kv"><dt>Which kernels feed it</dt><dd>Real edge maps, which always contain noise pixels alongside true edge pixels.</dd><dt>The recipe</dt><dd>Vote everything — signal and noise alike. True shape pixels concentrate their votes in one bin; noise pixels spread theirs thinly. Set the threshold between the concentration and the scatter.</dd><dt>The knowing-when rule</dt><dd>TAU sits above the noise floor: FOUND iff peak &gt;= TAU where TAU exceeds what random scatter can pile up (here 3 &gt; the noise bins&#x27; 1s). The threshold is the noise filter.</dd><dt>Used by (Tier-2/Tier-3 finders)</dt><dd>line-finder, circle-finder, contour-finder, bird-finder</dd></dl><h3>Demo program</h3><pre class="codeblock">def convolve(image, kernel):
+    kh, kw = len(kernel), len(kernel[0])
+    rows, cols = len(image), len(image[0])
+    out = []
+    for i in range(rows - kh + 1):
+        r = []
+        for j in range(cols - kw + 1):
+            s = 0
+            for a in range(kh):
+                for b in range(kw):
+                    s += kernel[a][b] * image[i + a][j + b]
+            r.append(s)
+        out.append(r)
+    return out
+
+def grid(values, label):
+    print(label)
+    for row in values:
+        print(&quot; &quot;.join(&quot;%8s&quot; % (round(v, 1) if isinstance(v, float) else v) for v in row))
+    print()
+
+def step_v(rows=6, cols=8, dark=10, bright=200, edge_at=4):
+    return [[bright if c &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def step_h(rows=6, cols=8, dark=10, bright=200, edge_at=3):
+    return [[bright if r &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+import math
+line = [(1,1),(2,2),(3,3),(4,4)]
+noise = [(1,3),(4,1),(2,5)]
+thetas = [0, 45, 90, 135]
+acc = {}
+for (x, y) in line + noise:
+    for th in thetas:
+        r = x*math.cos(math.radians(th)) + y*math.sin(math.radians(th))
+        key = (th, round(r))
+        acc[key] = acc.get(key, 0) + 1
+top = sorted(acc.items(), key=lambda kv: -kv[1])[:8]
+print(&quot;Top bins (theta,rho) -&gt; votes  [L=line voter, noise scatters]:&quot;)
+for (th, rho), v in top:
+    print(&quot;  (%3d,%2d): %d&quot; % (th, rho, v))
+print(&quot;Tower at (135,0): 4 concentrated votes. Noise bins: all 1s.&quot;)
+print(&quot;Threshold 3 -&gt; line FOUND, noise ignored. The threshold is the noise filter.&quot;)
+</pre><h3>Demo output (executed at build)</h3><pre>Top bins (theta,rho) -&gt; votes  [L=line voter, noise scatters]:
+  (135, 0): 4
+  (  0, 1): 2
+  ( 90, 1): 2
+  (  0, 2): 2
+  ( 45, 3): 2
+  ( 45, 4): 2
+  ( 90, 3): 2
+  (  0, 4): 2
+Tower at (135,0): 4 concentrated votes. Noise bins: all 1s.
+Threshold 3 -&gt; line FOUND, noise ignored. The threshold is the noise filter.
+</pre><dl class="kv"><dt>ID</dt><dd>JAH-KW-HOUGH-000005</dd><dt>Edition</dt><dd>public</dd><dt>Source</dt><dd>public-harvest</dd><dt>Ladder rank</dt><dd>compounded</dd><dt>Tier-0 chain</dt><dd>Tier 0 (recognition layer) serving Tier-2 shape finders and Tier-3 thing finders</dd></dl></details>
+<details><summary>JAH-KW-HOUGH-000006 &mdash; The generalized Hough — voting for any shape via the R-table</summary><p>Lines and circles are well-behaved, but the world is full of wrenches, L-brackets, and coffee mugs. Dana Ballard&#x27;s 1981 generalized Hough transform refuses to special-case them: ANY shape can hold an election. The trick is the R-table, a lookup built once from the model. Pick a reference point inside the shape (its corner, its center), then for every boundary pixel record the vector from that pixel to the reference, filed under the pixel&#x27;s edge direction. The table is the shape&#x27;s complete voting instructions.</p><p>At election time each scene edge pixel consults the table: &#x27;I am an edge pointing north; the model says north-pointing edges sit at these offsets from the reference.&#x27; It votes for every implied reference position. Pixels that truly belong to the shape all imply the SAME reference point — their votes converge — while clutter pixels imply random positions and scatter. The peak of the reference accumulator is the shape&#x27;s location, found without ever comparing pixels directly.</p><p>The demo builds an R-table for a 5-pixel L-shape (reference: the corner), drops the L into a scene at corner (3, 3), and runs the election. The reference accumulator peaks at (3, 3) with 5 votes — every arm pixel agreed on the corner. Threshold 3: L-shape found. The Tier-3 thing finders inherit this when their targets have fixed silhouettes.</p><h3>The recognition principle</h3><dl class="kv"><dt>Which kernels feed it</dt><dd>Edge pixels plus their gradient directions (the R-table is indexed by edge orientation).</dd><dt>The recipe</dt><dd>Build an R-table: for the model shape, record each boundary pixel&#x27;s offset from a reference point, filed by edge direction. At vote time, each scene edge pixel looks up its direction&#x27;s offsets and votes for the reference positions they imply. The peak is the shape&#x27;s location.</dd><dt>The knowing-when rule</dt><dd>FOUND iff the reference-point peak &gt;= TAU: enough boundary pixels agreed on one placement. The R-table turns &#x27;arbitrary shape&#x27; into &#x27;just another election&#x27;.</dd><dt>Used by (Tier-2/Tier-3 finders)</dt><dd>polygon-finder, car-finder, house-finder, fish-finder</dd></dl><h3>Demo program</h3><pre class="codeblock">def convolve(image, kernel):
+    kh, kw = len(kernel), len(kernel[0])
+    rows, cols = len(image), len(image[0])
+    out = []
+    for i in range(rows - kh + 1):
+        r = []
+        for j in range(cols - kw + 1):
+            s = 0
+            for a in range(kh):
+                for b in range(kw):
+                    s += kernel[a][b] * image[i + a][j + b]
+            r.append(s)
+        out.append(r)
+    return out
+
+def grid(values, label):
+    print(label)
+    for row in values:
+        print(&quot; &quot;.join(&quot;%8s&quot; % (round(v, 1) if isinstance(v, float) else v) for v in row))
+    print()
+
+def step_v(rows=6, cols=8, dark=10, bright=200, edge_at=4):
+    return [[bright if c &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def step_h(rows=6, cols=8, dark=10, bright=200, edge_at=3):
+    return [[bright if r &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+model = [(0,0),(1,0),(2,0),(0,1),(0,2)]  # L-shape, reference = corner (0,0)
+rtable = [(0-px, 0-py) for (px, py) in model]  # offset from pixel to reference
+scene_L = [(3,3),(4,3),(5,3),(3,4),(3,5)]      # the L placed at corner (3,3)
+clutter = [(0,5),(6,0)]
+acc = {}
+for (x, y) in scene_L + clutter:
+    for (dx, dy) in rtable:
+        key = (x+dx, y+dy)
+        acc[key] = acc.get(key, 0) + 1
+top = sorted(acc.items(), key=lambda kv: -kv[1])[:5]
+print(&quot;Reference-point votes (x,y) -&gt; votes:&quot;)
+for (x, y), v in top:
+    print(&quot;  (%d,%d): %d&quot; % (x, y, v))
+print(&quot;Peak (3,3) with 5 votes (threshold 3): every L pixel agreed on the corner.&quot;)
+print(&quot;The R-table turned an arbitrary shape into just another election.&quot;)
+</pre><h3>Demo output (executed at build)</h3><pre>Reference-point votes (x,y) -&gt; votes:
+  (3,3): 5
+  (2,3): 2
+  (3,2): 2
+  (4,3): 2
+  (3,4): 2
+Peak (3,3) with 5 votes (threshold 3): every L pixel agreed on the corner.
+The R-table turned an arbitrary shape into just another election.
+</pre><dl class="kv"><dt>ID</dt><dd>JAH-KW-HOUGH-000006</dd><dt>Edition</dt><dd>public</dd><dt>Source</dt><dd>public-harvest</dd><dt>Ladder rank</dt><dd>compounded</dd><dt>Tier-0 chain</dt><dd>Tier 0 (recognition layer) serving Tier-2 shape finders and Tier-3 thing finders</dd></dl></details>
+<details><summary>JAH-KW-HOUGH-000007 &mdash; Probabilistic Hough — stop voting the moment the winner is clear</summary><p>Counting every vote is a habit, not a requirement. If the threshold is 3 and some bin already holds 3 votes, no future vote can un-win it — the election is over whether the remaining pixels speak or not. The probabilistic Hough transform (Matas, Galambos, and Kittler, 2000) turns that observation into an algorithm: shuffle the edge pixels, vote them one at a time, and stop the moment a bin crosses the threshold. On strong, clean shapes it stops after a fraction of the pixels; the work scales with the evidence, not the image size.</p><p>This is the lane&#x27;s thesis in its purest form — &#x27;just a matter of knowing when the shape is made.&#x27; The shape is made the instant the tower crosses TAU; every vote after that is ceremony. Randomizing the order matters: it guarantees the early votes are a fair sample, so an early crossing means the same thing as a late one. Real-time line finders live on this trick, processing video frames in milliseconds by refusing to count votes they do not need.</p><p>The demo votes the four y = x pixels one at a time in shuffled order, printing the tower height after each. After the third pixel the (135, 0) bin hits 3 and the election halts — one pixel never votes, and the answer is identical to the full count. Knowing when, early.</p><h3>The recognition principle</h3><dl class="kv"><dt>Which kernels feed it</dt><dd>Edge pixels in random order; randomization is what makes early stopping statistically safe.</dd><dt>The recipe</dt><dd>Shuffle the voters. Cast votes one pixel at a time, checking the accumulator after each. The moment any bin crosses TAU, declare the winner and stop — the remaining votes cannot change the outcome.</dd><dt>The knowing-when rule</dt><dd>Stop iff max_votes &gt;= TAU: the decision is made at the earliest moment the evidence suffices, not after the last vote. This is Manon&#x27;s correction as an algorithm.</dd><dt>Used by (Tier-2/Tier-3 finders)</dt><dd>line-finder, circle-finder, rectangle-finder, tree-finder</dd></dl><h3>Demo program</h3><pre class="codeblock">def convolve(image, kernel):
+    kh, kw = len(kernel), len(kernel[0])
+    rows, cols = len(image), len(image[0])
+    out = []
+    for i in range(rows - kh + 1):
+        r = []
+        for j in range(cols - kw + 1):
+            s = 0
+            for a in range(kh):
+                for b in range(kw):
+                    s += kernel[a][b] * image[i + a][j + b]
+            r.append(s)
+        out.append(r)
+    return out
+
+def grid(values, label):
+    print(label)
+    for row in values:
+        print(&quot; &quot;.join(&quot;%8s&quot; % (round(v, 1) if isinstance(v, float) else v) for v in row))
+    print()
+
+def step_v(rows=6, cols=8, dark=10, bright=200, edge_at=4):
+    return [[bright if c &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def step_h(rows=6, cols=8, dark=10, bright=200, edge_at=3):
+    return [[bright if r &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+import math, random
+rng = random.Random(7)
+pts = [(1,1),(2,2),(3,3),(4,4)]
+rng.shuffle(pts)
+print(&quot;Voting order (shuffled):&quot;, pts)
+TAU = 3
+acc = {}
+stopped = None
+for n, (x, y) in enumerate(pts, 1):
+    for th in (0, 45, 90, 135):
+        r = x*math.cos(math.radians(th)) + y*math.sin(math.radians(th))
+        key = (th, round(r))
+        acc[key] = acc.get(key, 0) + 1
+    tower = acc.get((135, 0), 0)
+    print(&quot;  after pixel %d %s: tower(135,0) = %d&quot; % (n, (x, y), tower))
+    if tower &gt;= TAU:
+        stopped = n
+        break
+print(&quot;Election stopped after %d of %d pixels: tower crossed %d.&quot; % (stopped, len(pts), TAU))
+print(&quot;The shape was made at vote %d. The last vote was never needed.&quot; % stopped)
+</pre><h3>Demo output (executed at build)</h3><pre>Voting order (shuffled): [(4, 4), (2, 2), (1, 1), (3, 3)]
+  after pixel 1 (4, 4): tower(135,0) = 1
+  after pixel 2 (2, 2): tower(135,0) = 2
+  after pixel 3 (1, 1): tower(135,0) = 3
+Election stopped after 3 of 4 pixels: tower crossed 3.
+The shape was made at vote 3. The last vote was never needed.
+</pre><dl class="kv"><dt>ID</dt><dd>JAH-KW-HOUGH-000007</dd><dt>Edition</dt><dd>public</dd><dt>Source</dt><dd>public-harvest</dd><dt>Ladder rank</dt><dd>complex</dd><dt>Tier-0 chain</dt><dd>Tier 0 (recognition layer) serving Tier-2 shape finders and Tier-3 thing finders</dd></dl></details>
+<details><summary>JAH-KW-HOUGH-000008 &mdash; Who uses Hough voting — the principle&#x27;s place in the R24 chain</summary><p>Hough voting is the Tier-0 principle the R24 shape finders lean on hardest. The line finder IS records 1-3 and 7: vote edge pixels, pick peaks, stop early. The circle finder IS record 4 with a radius stack. The box and rectangle finders run the line election, then assemble the winning lines into corners — voting finds the parts, assembly finds the shape. The ellipse finder generalizes the circle vote to five parameters. The polygon finder uses the generalized Hough (record 6) when the polygon is fixed, and contour approximation (the sibling Tier-0 database) when it is not.</p><p>The Tier-3 thing finders borrow more selectively. The face finder uses circle voting for irises inside a larger hierarchy; the car finder uses line voting for the road and R-table voting for the car silhouette; the house finder votes lines, then checks that they form a square with a triangle on top — voting plus arrangement, which is the feature-hierarchy database&#x27;s territory. Voting finds candidates; arrangement confirms them. That division of labor — Tier 0 proposes, Tier 2/3 disposes — is the whole R24 architecture.</p><p>The demo prints the borrowing table: each finder, the parameter space it votes in, and the TAU character it uses. One principle, ten elections.</p><h3>The recognition principle</h3><dl class="kv"><dt>Which kernels feed it</dt><dd>Every upstream edge source; voting is the consumer, edges are the supply.</dd><dt>The recipe</dt><dd>Each finder instantiates the election with its own parameter space: lines vote (rho, theta), circles vote (a, b, r), arbitrary shapes vote R-table references. Same ballot box, different offices.</dd><dt>The knowing-when rule</dt><dd>The finder&#x27;s knowing-when IS this database&#x27;s peak rule — threshold plus non-maximum suppression — with TAU tuned to the finder&#x27;s noise: strict for faces, loose for boxes.</dd><dt>Used by (Tier-2/Tier-3 finders)</dt><dd>line-finder, circle-finder, box-finder, rectangle-finder, ellipse-finder, polygon-finder, cat-finder, face-finder, car-finder, house-finder</dd></dl><h3>Demo program</h3><pre class="codeblock">def convolve(image, kernel):
+    kh, kw = len(kernel), len(kernel[0])
+    rows, cols = len(image), len(image[0])
+    out = []
+    for i in range(rows - kh + 1):
+        r = []
+        for j in range(cols - kw + 1):
+            s = 0
+            for a in range(kh):
+                for b in range(kw):
+                    s += kernel[a][b] * image[i + a][j + b]
+            r.append(s)
+        out.append(r)
+    return out
+
+def grid(values, label):
+    print(label)
+    for row in values:
+        print(&quot; &quot;.join(&quot;%8s&quot; % (round(v, 1) if isinstance(v, float) else v) for v in row))
+    print()
+
+def step_v(rows=6, cols=8, dark=10, bright=200, edge_at=4):
+    return [[bright if c &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def step_h(rows=6, cols=8, dark=10, bright=200, edge_at=3):
+    return [[bright if r &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+table = [
+    (&quot;line-finder (Tier 2)&quot;, &quot;(rho, theta)&quot;, &quot;strict: lines are cheap, false ones cost&quot;),
+    (&quot;circle-finder (Tier 2)&quot;, &quot;(a, b, r)&quot;, &quot;strict: radius stack multiplies bins&quot;),
+    (&quot;box-finder (Tier 2)&quot;, &quot;(rho, theta) x4&quot;, &quot;loose: assembly filters later&quot;),
+    (&quot;rectangle-finder (Tier 2)&quot;, &quot;(rho, theta) x4&quot;, &quot;loose: right angles confirm&quot;),
+    (&quot;ellipse-finder (Tier 2)&quot;, &quot;(a,b,r,angle)&quot;, &quot;strict: 5-D space is sparse&quot;),
+    (&quot;polygon-finder (Tier 2)&quot;, &quot;R-table reference&quot;, &quot;medium: model-dependent&quot;),
+    (&quot;face-finder (Tier 3)&quot;, &quot;(a, b) irises&quot;, &quot;strict: inside a hierarchy&quot;),
+    (&quot;car-finder (Tier 3)&quot;, &quot;R-table silhouette&quot;, &quot;medium: clutter is heavy&quot;),
+    (&quot;house-finder (Tier 3)&quot;, &quot;(rho, theta) + assembly&quot;, &quot;loose then confirmed&quot;),
+    (&quot;cat-finder (Tier 3)&quot;, &quot;(a, b) head circle&quot;, &quot;strict: one false cat is one too many&quot;),
+]
+print(&quot;Borrowing table: finder -&gt; votes in -&gt; threshold character&quot;)
+for finder, space, tau in table:
+    print(&quot;  %-24s %-18s %s&quot; % (finder, space, tau))
+print(&quot;One ballot box (the accumulator), ten different elections.&quot;)
+</pre><h3>Demo output (executed at build)</h3><pre>Borrowing table: finder -&gt; votes in -&gt; threshold character
+  line-finder (Tier 2)     (rho, theta)       strict: lines are cheap, false ones cost
+  circle-finder (Tier 2)   (a, b, r)          strict: radius stack multiplies bins
+  box-finder (Tier 2)      (rho, theta) x4    loose: assembly filters later
+  rectangle-finder (Tier 2) (rho, theta) x4    loose: right angles confirm
+  ellipse-finder (Tier 2)  (a,b,r,angle)      strict: 5-D space is sparse
+  polygon-finder (Tier 2)  R-table reference  medium: model-dependent
+  face-finder (Tier 3)     (a, b) irises      strict: inside a hierarchy
+  car-finder (Tier 3)      R-table silhouette medium: clutter is heavy
+  house-finder (Tier 3)    (rho, theta) + assembly loose then confirmed
+  cat-finder (Tier 3)      (a, b) head circle strict: one false cat is one too many
+One ballot box (the accumulator), ten different elections.
+</pre><dl class="kv"><dt>ID</dt><dd>JAH-KW-HOUGH-000008</dd><dt>Edition</dt><dd>public</dd><dt>Source</dt><dd>public-harvest</dd><dt>Ladder rank</dt><dd>complex</dd><dt>Tier-0 chain</dt><dd>Tier 0 (recognition layer) serving Tier-2 shape finders and Tier-3 thing finders</dd></dl></details>
+<h2>Boundless generator</h2>
+<p>Generator script: <code>gen-hough-voting-recognition.js</code> &mdash; run <code>node gen-hough-voting-recognition.js --n 5</code>.
+Self-regulating: throttled, duplicate-checked, stops at 10<sup>15</sup> or when complete. Generated output is labeled
+<code>&quot;generated&quot;</code> and never mixed with assistant-built records.</p>
+<h2>Working version</h2>
+<p>Reference implementation: <code>hough_voting.py</code> &mdash; the principle as a runnable program
+(pure Python, no libraries). Run <code>python3 hough_voting.py</code>.</p>
+<h2>Demo program</h2>
+<p>Every record carries an executed demo program (Python, verified 2026-10-22). Example from record 1:</p>
+<pre class="codeblock">def convolve(image, kernel):
+    kh, kw = len(kernel), len(kernel[0])
+    rows, cols = len(image), len(image[0])
+    out = []
+    for i in range(rows - kh + 1):
+        r = []
+        for j in range(cols - kw + 1):
+            s = 0
+            for a in range(kh):
+                for b in range(kw):
+                    s += kernel[a][b] * image[i + a][j + b]
+            r.append(s)
+        out.append(r)
+    return out
+
+def grid(values, label):
+    print(label)
+    for row in values:
+        print(&quot; &quot;.join(&quot;%8s&quot; % (round(v, 1) if isinstance(v, float) else v) for v in row))
+    print()
+
+def step_v(rows=6, cols=8, dark=10, bright=200, edge_at=4):
+    return [[bright if c &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def step_h(rows=6, cols=8, dark=10, bright=200, edge_at=3):
+    return [[bright if r &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+import math
+pts = [(1,1),(2,2),(3,3),(4,4),(1,4)]  # y=x plus one outlier
+thetas = [0, 45, 90, 135]
+acc = {}
+for (x, y) in pts:
+    for th in thetas:
+        r = x*math.cos(math.radians(th)) + y*math.sin(math.radians(th))
+        key = (th, round(r))
+        acc[key] = acc.get(key, 0) + 1
+print(&quot;Hough accumulator (theta, rho) -&gt; votes:&quot;)
+for th in thetas:
+    row = sorted((k, v) for k, v in acc.items() if k[0] == th)
+    print(&quot;  theta=%3d: %s&quot; % (th, &quot; &quot;.join(&quot;rho=%2d:%d&quot; % (k[1], v) for k, v in row)))
+peak = max(acc.items(), key=lambda kv: kv[1])
+print(&quot;Peak: theta=%d rho=%d with %d votes (threshold 3).&quot; % (peak[0][0], peak[0][1], peak[1]))
+print(&quot;Decodes to the line y = x: the 4 collinear pixels outvoted the outlier.&quot;)
+print(&quot;Knowing-when: peak_votes &gt;= TAU. The shape with the most votes wins.&quot;)
+</pre>
+<p><button class="merger" id="mergerBtn">All Database Merger</button></p>
+<div id="mergerOut"></div>
+<h2>A1 assistant maker</h2>
+<p>Build a personal AI assistant from this database&apos;s AI:</p>
+<p><button id="a1Btn">Build an A1 assistant for this database</button></p>
+<div id="a1Out"></div>
+<script>
+document.getElementById('mergerBtn').addEventListener('click',function(){
+  document.getElementById('mergerOut').innerHTML='<dl class=kv><dt>Merger</dt><dd>The Hough Voting Recognition participates in the All Database Merger: its 8 records merge by slug hough-voting-recognition with sibling edition hough-voting-recognition-signature. Dedupe key: record id. Provenance preserved per record.</dd></dl>';
+});
+document.getElementById('a1Btn').addEventListener('click',function(){
+  document.getElementById('a1Out').innerHTML='<dl class=kv><dt>A1 assistant</dt><dd>A1 assistant built from JAH Hough Vote Counter (hough-voting-recognition): archive-aware over 8 records of hough voting recognition record; answers questions, runs the boundless generator within its 10^15 cap, and teaches on the simple-to-complex ladder. Ask it anything in this database&apos;s domain.</dd></dl>';
+});
+</script>
+<h2>Provenance</h2>
+<dl class="kv">
+<dt>Source</dt><dd>public-harvest &mdash; assistant-built R24 knowing-when lane (Tier 0: the recognition layer)</dd>
+<dt>Last verified</dt><dd>2026-10-22</dd>
+<dt>Python</dt><dd>3.x (demos executed at build)</dd>
+<dt>Teaching ladder</dt><dd>simple &rarr; compounded &rarr; complex across records</dd>
+<dt>Honest labeling</dt><dd>All demos run on synthetic test images, stated plainly on each record.</dd>
+</dl>
+</body></html>

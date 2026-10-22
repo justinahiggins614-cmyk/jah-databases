@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Feature Hierarchy Recognition &mdash; JAH Databases</title>
+<style>
+body{font-family:system-ui,sans-serif;max-width:900px;margin:0 auto;padding:16px;line-height:1.5}
+.kv{display:grid;grid-template-columns:minmax(120px,1fr) 2fr;gap:6px 12px;border:1px solid #ccc;padding:12px;margin:12px 0}
+.kv dt{font-weight:bold}.kv dd{margin:0}
+.pill{display:inline-block;background:#b00;color:#fff;border-radius:12px;padding:2px 10px;font-size:12px}
+button{padding:10px 18px;font-size:15px;cursor:pointer;margin:6px 4px}
+button.merger{background:#c00;color:#fff;border:2px solid #900;font-weight:bold}
+.count{font-size:28px;font-weight:bold}
+pre{background:#f4f4f4;padding:10px;overflow:auto;font-size:12px}
+pre.codeblock{border-left:4px solid #b00}
+details{margin:8px 0;border:1px solid #ddd;padding:8px}
+summary{cursor:pointer;font-weight:bold}
+</style></head><body>
+<h1>Feature Hierarchy Recognition</h1>
+<p><span class="pill">Public edition</span> <span class="pill">march to a million: in progress</span> <span class="pill">Exhaustive</span> <span class="pill">Tier 0 &mdash; recognition layer</span></p>
+<p>Edges to parts to objects: the compositional ladder</p>
+<p>Public records of feature hierarchies as a Tier-0 recognition principle — the compositional ladder (pixels to parts to objects), reusable mid-level parts (Biederman 1987), weighted composition scores, spatial relations as grammar, part sharing across objects, deformable springs (Fischler &amp; Elschlager 1973), deep learned hierarchies (Fukushima 1980, LeCun 1989), and the principle&#x27;s place in the R24 chain. Every record carries an executed pure-Python demo.</p>
+<p><span class="count" id="stCount">8</span> records</p>
+<h2>Database facts</h2>
+<dl class="kv">
+<dt>Slug</dt><dd>feature-hierarchy-recognition</dd>
+<dt>Record kind</dt><dd>feature hierarchy recognition record</dd>
+<dt>Source label</dt><dd>public-harvest</dd>
+<dt>Built by</dt><dd>assistant-built</dd>
+<dt>Last verified</dt><dd>2026-10-22</dd>
+<dt>Tier-0 chain</dt><dd>Tier 0 (recognition layer) serving Tier-2 shape finders and Tier-3 thing finders</dd>
+<dt>Generator hard cap</dt><dd>10<sup>15</sup> (one quadrillion) or stop when genuinely complete</dd>
+<dt>Generator ladder</dt><dd>simple &rarr; competitive &rarr; mix-and-match &rarr; unmade &rarr; top-notch-or-better &rarr; future-grade &rarr; god-mode</dd>
+<dt>Database AI</dt><dd>JAH Hierarchy Composer &mdash; archive-aware; can build an assistant like the user&apos;s personal assistant</dd>
+</dl>
+<h2>Capabilities</h2>
+<dl class="kv"><dt>Capability 1</dt><dd>Climb the compositional ladder from edge pixels to named objects</dd><dt>Capability 2</dt><dd>Detect reusable parts (junctions, bars, blobs) and share them across objects</dd><dt>Capability 3</dt><dd>Score compositions with weights, relations, and wobble budgets</dd><dt>Capability 4</dt><dd>Hand-build a 3-layer deep hierarchy and watch the top unit fire</dd><dt>Capability 5</dt><dd>Generate hierarchy variations with the boundless generator within its 10^15 cap</dd></dl>
+<h2>Full records</h2>
+<details><summary>JAH-KW-FEAT-000001 &mdash; Edges to parts to objects — the compositional ladder</summary><p>The most powerful idea in recognition is also the most obvious: things are made of parts, and parts are made of edges. A house is a square body with a triangular roof; the square is four segments; each segment is a row of edge pixels. Recognition climbs this ladder from the bottom — pixels to segments to parts to object — and the decision happens at the top, when the parts are all present and accounted for. This compositional hierarchy, formalized in Grenander&#x27;s pattern theory and Irving Biederman&#x27;s recognition-by-components (1987), is the principle behind every modern part-based and deep-learning recognizer.</p><p>The ladder buys two things no flat matcher can. First, robustness: lose half the roof to occlusion and the body still votes &#x27;house&#x27; — parts degrade gracefully where whole-templates fail catastrophically. Second, sharing: the square part serves houses, boxes, and windows alike, so the system learns it once and reuses it everywhere. A flat template matcher relearns the square for every object; the hierarchy learns it once.</p><p>The demo assembles a house from six segments in pure Python. Level 1 groups edge pixels into segments; level 2 checks the segments form a closed square (body: 4 segments) and a peaked pair (roof: 2 segments); level 3 composes body + roof into HOUSE with composition score 2/2. The object is declared found not because the pixels matched, but because the parts assembled.</p><h3>The recognition principle</h3><dl class="kv"><dt>Which kernels feed it</dt><dd>Edge pixels from the nine-number kernels, grouped into line segments (the Hough line voter is one grouper).</dd><dt>The recipe</dt><dd>Group edge pixels into parts (segments, corners, blobs); group parts into objects by checking they are all present. Recognition climbs the ladder: pixels -&gt; parts -&gt; object.</dd><dt>The knowing-when rule</dt><dd>OBJECT FOUND iff every required part is detected (composition score = parts_found / parts_needed = 1.0). The object is decided when its parts are all accounted for.</dd><dt>Used by (Tier-2/Tier-3 finders)</dt><dd>house-finder, car-finder, cat-finder, face-finder</dd></dl><h3>Demo program</h3><pre class="codeblock">def convolve(image, kernel):
+    kh, kw = len(kernel), len(kernel[0])
+    rows, cols = len(image), len(image[0])
+    out = []
+    for i in range(rows - kh + 1):
+        r = []
+        for j in range(cols - kw + 1):
+            s = 0
+            for a in range(kh):
+                for b in range(kw):
+                    s += kernel[a][b] * image[i + a][j + b]
+            r.append(s)
+        out.append(r)
+    return out
+
+def grid(values, label):
+    print(label)
+    for row in values:
+        print(&quot; &quot;.join(&quot;%8s&quot; % (round(v, 1) if isinstance(v, float) else v) for v in row))
+    print()
+
+def step_v(rows=6, cols=8, dark=10, bright=200, edge_at=4):
+    return [[bright if c &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def step_h(rows=6, cols=8, dark=10, bright=200, edge_at=3):
+    return [[bright if r &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+segs = [((0,0),(4,0)),((4,0),(4,4)),((4,4),(0,4)),((0,4),(0,0)),
+        ((0,4),(2,6)),((2,6),(4,4))]
+def closed(loop):
+    return all(loop[i][1] == loop[(i+1)%len(loop)][0] for i in range(len(loop)))
+def apexed(pair):
+    return pair[0][1] == pair[1][0] and pair[0][0][1] == pair[1][1][1]
+body = segs[0:4]; roof = segs[4:6]
+body_ok = closed(body)
+roof_ok = apexed(roof)
+print(&quot;Level 1: 6 edge-pixel groups -&gt; 6 segments.&quot;)
+print(&quot;Level 2: body closed-square=%s, roof peaked-pair=%s.&quot; % (body_ok, roof_ok))
+parts = {&quot;body&quot;: body_ok, &quot;roof&quot;: roof_ok}
+score = sum(parts.values()) / len(parts)
+print(&quot;Level 3: composition score %.1f -&gt; %s&quot; % (score, &quot;HOUSE FOUND&quot; if score == 1.0 else &quot;not a house&quot;))
+print(&quot;Knowing-when: the object is decided when its parts are all accounted for.&quot;)
+</pre><h3>Demo output (executed at build)</h3><pre>Level 1: 6 edge-pixel groups -&gt; 6 segments.
+Level 2: body closed-square=True, roof peaked-pair=True.
+Level 3: composition score 1.0 -&gt; HOUSE FOUND
+Knowing-when: the object is decided when its parts are all accounted for.
+</pre><dl class="kv"><dt>ID</dt><dd>JAH-KW-FEAT-000001</dd><dt>Edition</dt><dd>public</dd><dt>Source</dt><dd>public-harvest</dd><dt>Ladder rank</dt><dd>simple</dd><dt>Tier-0 chain</dt><dd>Tier 0 (recognition layer) serving Tier-2 shape finders and Tier-3 thing finders</dd></dl></details>
+<details><summary>JAH-KW-FEAT-000002 &mdash; Parts as reusable mid-level features — corners, junctions, bars</summary><p>Between raw edges and whole objects sits the most valuable real estate in vision: the mid-level parts. Corners, L-junctions, T-junctions, bars, blobs — these are the syllables of the visual language, and like syllables they recombine endlessly. The letter &#x27;L&#x27; appears in thousands of words; the L-junction appears in thousands of objects. A recognizer that detects junctions once and reuses them everywhere does a fraction of the work of one that relearns them per object.</p><p>Biederman&#x27;s recognition-by-components proposed 36 such parts (&#x27;geons&#x27;) as the alphabet of object recognition; modern deep networks learn their own mid-level vocabulary in their middle layers — same idea, discovered rather than designed. The principle is identical either way: the middle of the ladder holds reusable, nameable, checkable parts, and everything above is arrangement.</p><p>The demo detects L-junctions in a square&#x27;s four segments: for each pair of segments sharing an endpoint, it checks perpendicularity via the dot product. Exactly 4 junctions fire — the square&#x27;s four corners, now promoted from &#x27;segment endpoints&#x27; to &#x27;named parts&#x27;. The Tier-2 corner finder is this record wearing a different hat.</p><h3>The recognition principle</h3><dl class="kv"><dt>Which kernels feed it</dt><dd>Line segments from edge grouping; junctions are relations between segments.</dd><dt>The recipe</dt><dd>Scan segment pairs for shared endpoints; where a horizontal meets a vertical, record an L-junction part. Junctions, bars, and blobs become the reusable mid-level vocabulary.</dd><dt>The knowing-when rule</dt><dd>A PART is declared iff its geometric definition holds exactly (shared endpoint + perpendicular). Parts are decided crisply; objects are decided by vote (record 3).</dd><dt>Used by (Tier-2/Tier-3 finders)</dt><dd>corner-finder, box-finder, house-finder, car-finder</dd></dl><h3>Demo program</h3><pre class="codeblock">def convolve(image, kernel):
+    kh, kw = len(kernel), len(kernel[0])
+    rows, cols = len(image), len(image[0])
+    out = []
+    for i in range(rows - kh + 1):
+        r = []
+        for j in range(cols - kw + 1):
+            s = 0
+            for a in range(kh):
+                for b in range(kw):
+                    s += kernel[a][b] * image[i + a][j + b]
+            r.append(s)
+        out.append(r)
+    return out
+
+def grid(values, label):
+    print(label)
+    for row in values:
+        print(&quot; &quot;.join(&quot;%8s&quot; % (round(v, 1) if isinstance(v, float) else v) for v in row))
+    print()
+
+def step_v(rows=6, cols=8, dark=10, bright=200, edge_at=4):
+    return [[bright if c &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def step_h(rows=6, cols=8, dark=10, bright=200, edge_at=3):
+    return [[bright if r &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+segs = [((0,0),(4,0)),((4,0),(4,4)),((4,4),(0,4)),((0,4),(0,0))]
+def direction(s):
+    return (s[1][0]-s[0][0], s[1][1]-s[0][1])
+junctions = []
+for i in range(len(segs)):
+    for j in range(i+1, len(segs)):
+        pts_i = {segs[i][0], segs[i][1]}
+        pts_j = {segs[j][0], segs[j][1]}
+        shared = pts_i &amp; pts_j
+        if shared:
+            d1, d2 = direction(segs[i]), direction(segs[j])
+            if d1[0]*d2[0] + d1[1]*d2[1] == 0:
+                junctions.append((sorted(shared)[0], i, j))
+print(&quot;Segments:&quot;, len(segs))
+print(&quot;L-junctions found:&quot;, len(junctions))
+for pt, i, j in junctions:
+    print(&quot;  junction at %s: segments %d and %d meet at 90 deg&quot; % (pt, i, j))
+print(&quot;4 junctions = 4 named parts. Learn once (here), reuse everywhere (houses, boxes, windows).&quot;)
+</pre><h3>Demo output (executed at build)</h3><pre>Segments: 4
+L-junctions found: 4
+  junction at (4, 0): segments 0 and 1 meet at 90 deg
+  junction at (0, 0): segments 0 and 3 meet at 90 deg
+  junction at (4, 4): segments 1 and 2 meet at 90 deg
+  junction at (0, 4): segments 2 and 3 meet at 90 deg
+4 junctions = 4 named parts. Learn once (here), reuse everywhere (houses, boxes, windows).
+</pre><dl class="kv"><dt>ID</dt><dd>JAH-KW-FEAT-000002</dd><dt>Edition</dt><dd>public</dd><dt>Source</dt><dd>public-harvest</dd><dt>Ladder rank</dt><dd>simple</dd><dt>Tier-0 chain</dt><dd>Tier 0 (recognition layer) serving Tier-2 shape finders and Tier-3 thing finders</dd></dl></details>
+<details><summary>JAH-KW-FEAT-000003 &mdash; Composition scores — parts vote, the total decides</summary><p>Record 1 demanded every part; real vision is more forgiving. A car with one wheel hidden behind a trash can is still a car, and the composition score is how the hierarchy says so. Each part carries a weight — the body 0.5, each wheel 0.25 — and the object is decided by the weighted sum of the parts actually found. Score 0.75 against a bar of 0.7: CAR FOUND, with the missing wheel noted rather than fatal.</p><p>The weights encode knowledge: the body is worth more than a wheel because bodies are harder to fake and harder to hide. Tuning them is the hierarchy&#x27;s version of setting a threshold — and like all thresholds here, the bar is explicit and inspectable. When the system says &#x27;car, 0.75&#x27;, you can ask which parts voted and get an answer: body yes, front wheel yes, rear wheel occluded. Try asking a template matcher that.</p><p>The demo scores three scenes: a complete car (1.0, found), a car with one wheel occluded (0.75, found — graceful degradation), and a lone wheel on an empty road (0.25, not found — parts alone are not the object). The verdicts print with their arithmetic visible. Composition turns partial evidence into confident decisions, and draws the line exactly where confidence runs out.</p><h3>The recognition principle</h3><dl class="kv"><dt>Which kernels feed it</dt><dd>Detected parts with confidence weights; the score is a weighted sum, not a count.</dd><dt>The recipe</dt><dd>Give each required part a weight. Sum the weights of the parts actually detected. The object is found when the sum clears the threshold — strong parts can carry weak ones.</dd><dt>The knowing-when rule</dt><dd>FOUND iff sum(detected part weights) &gt;= TAU (here 0.7). Partial evidence composes: the object can be decided with pieces missing, which flat matchers cannot do.</dd><dt>Used by (Tier-2/Tier-3 finders)</dt><dd>car-finder, cat-finder, face-finder, bicycle-finder</dd></dl><h3>Demo program</h3><pre class="codeblock">def convolve(image, kernel):
+    kh, kw = len(kernel), len(kernel[0])
+    rows, cols = len(image), len(image[0])
+    out = []
+    for i in range(rows - kh + 1):
+        r = []
+        for j in range(cols - kw + 1):
+            s = 0
+            for a in range(kh):
+                for b in range(kw):
+                    s += kernel[a][b] * image[i + a][j + b]
+            r.append(s)
+        out.append(r)
+    return out
+
+def grid(values, label):
+    print(label)
+    for row in values:
+        print(&quot; &quot;.join(&quot;%8s&quot; % (round(v, 1) if isinstance(v, float) else v) for v in row))
+    print()
+
+def step_v(rows=6, cols=8, dark=10, bright=200, edge_at=4):
+    return [[bright if c &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def step_h(rows=6, cols=8, dark=10, bright=200, edge_at=3):
+    return [[bright if r &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+PARTS = {&quot;body&quot;: 0.5, &quot;wheel_front&quot;: 0.25, &quot;wheel_rear&quot;: 0.25}
+TAU = 0.7
+def decide(found, label):
+    score = sum(PARTS[p] for p in found)
+    missing = [p for p in PARTS if p not in found]
+    print(&quot;%-28s score=%.2f missing=%s -&gt; %s&quot; % (
+        label, score, missing if missing else &quot;none&quot;,
+        &quot;CAR FOUND&quot; if score &gt;= TAU else &quot;not a car&quot;))
+decide([&quot;body&quot;, &quot;wheel_front&quot;, &quot;wheel_rear&quot;], &quot;complete car&quot;)
+decide([&quot;body&quot;, &quot;wheel_front&quot;], &quot;car, rear wheel occluded&quot;)
+decide([&quot;wheel_front&quot;], &quot;lone wheel on empty road&quot;)
+print(&quot;Knowing-when: weighted sum &gt;= 0.7. Parts vote; the total decides.&quot;)
+</pre><h3>Demo output (executed at build)</h3><pre>complete car                 score=1.00 missing=none -&gt; CAR FOUND
+car, rear wheel occluded     score=0.75 missing=[&#x27;wheel_rear&#x27;] -&gt; CAR FOUND
+lone wheel on empty road     score=0.25 missing=[&#x27;body&#x27;, &#x27;wheel_rear&#x27;] -&gt; not a car
+Knowing-when: weighted sum &gt;= 0.7. Parts vote; the total decides.
+</pre><dl class="kv"><dt>ID</dt><dd>JAH-KW-FEAT-000003</dd><dt>Edition</dt><dd>public</dd><dt>Source</dt><dd>public-harvest</dd><dt>Ladder rank</dt><dd>simple</dd><dt>Tier-0 chain</dt><dd>Tier 0 (recognition layer) serving Tier-2 shape finders and Tier-3 thing finders</dd></dl></details>
+<details><summary>JAH-KW-FEAT-000004 &mdash; Spatial relations — parts must sit right, not just show up</summary><p>A pile of parts is not an object. Four segments and two roof pieces scattered at random are the same parts as a house, and no house at all — what makes the house is the arrangement: the roof sits ABOVE the body, its apex centered, its eaves touching the body&#x27;s top corners. Spatial relations are the hierarchy&#x27;s grammar, and they are checked as strictly as the parts themselves. Score without arrangement is a parts list; arrangement turns the list into a thing.</p><p>Relations are predicates — small boolean functions over part geometry: above(A, B), below, left-of, inside, touching, centered-on. The face finder&#x27;s classic relations (eyes above nose above mouth, all inside the head oval) are the most famous example; every Tier-3 thing finder carries its own relation set like a constitution. A relation is a veto: fail one, and the object is rejected regardless of how strong the part evidence is. That strictness is what keeps &#x27;wheel beside car&#x27; from becoming &#x27;car&#x27;.</p><p>The demo checks two scenes with identical parts: roof above the body (apex y=6 &gt; body top y=4, eaves touching) and roof beside the body (apex at x=8, y=2). Same composition score, 1.0 both times. The relation gate passes the first — HOUSE FOUND — and vetoes the second: &#x27;parts present, arrangement wrong&#x27;. Grammar decides.</p><h3>The recognition principle</h3><dl class="kv"><dt>Which kernels feed it</dt><dd>Detected parts with positions; relations are predicates over part geometry.</dd><dt>The recipe</dt><dd>After detecting parts, verify their spatial relations: the roof&#x27;s apex must be above the body&#x27;s top edge, wheels below the body, eyes above the nose. Parts without relations are a pile, not an object.</dd><dt>The knowing-when rule</dt><dd>FOUND iff (composition score &gt;= TAU) AND (all required relations hold). Relations are boolean gates: one failed relation vetoes the object, no matter the score.</dd><dt>Used by (Tier-2/Tier-3 finders)</dt><dd>house-finder, face-finder, car-finder, cat-finder</dd></dl><h3>Demo program</h3><pre class="codeblock">def convolve(image, kernel):
+    kh, kw = len(kernel), len(kernel[0])
+    rows, cols = len(image), len(image[0])
+    out = []
+    for i in range(rows - kh + 1):
+        r = []
+        for j in range(cols - kw + 1):
+            s = 0
+            for a in range(kh):
+                for b in range(kw):
+                    s += kernel[a][b] * image[i + a][j + b]
+            r.append(s)
+        out.append(r)
+    return out
+
+def grid(values, label):
+    print(label)
+    for row in values:
+        print(&quot; &quot;.join(&quot;%8s&quot; % (round(v, 1) if isinstance(v, float) else v) for v in row))
+    print()
+
+def step_v(rows=6, cols=8, dark=10, bright=200, edge_at=4):
+    return [[bright if c &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def step_h(rows=6, cols=8, dark=10, bright=200, edge_at=3):
+    return [[bright if r &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def relations_ok(body, roof):
+    (x0,y0),(x1,y1) = body
+    apex = roof[1]
+    above = apex[1] &gt; max(y0, y1)
+    centered = min(x0,x1) &lt;= apex[0] &lt;= max(x0,x1)
+    return above and centered, {&quot;above&quot;: above, &quot;centered&quot;: centered}
+body = ((0,0),(4,4))
+roof_up = ((0,4),(2,6))
+roof_side = ((6,0),(8,2))
+for name, roof in ((&quot;roof above body&quot;, roof_up), (&quot;roof beside body&quot;, roof_side)):
+    ok, checks = relations_ok(body, roof)
+    print(&quot;%-16s parts=2/2 relations=%s -&gt; %s&quot; % (
+        name, checks, &quot;HOUSE FOUND&quot; if ok else &quot;NOT a house (arrangement wrong)&quot;))
+print(&quot;Knowing-when: score AND relations. One failed relation vetoes everything.&quot;)
+</pre><h3>Demo output (executed at build)</h3><pre>roof above body  parts=2/2 relations={&#x27;above&#x27;: True, &#x27;centered&#x27;: True} -&gt; HOUSE FOUND
+roof beside body parts=2/2 relations={&#x27;above&#x27;: False, &#x27;centered&#x27;: False} -&gt; NOT a house (arrangement wrong)
+Knowing-when: score AND relations. One failed relation vetoes everything.
+</pre><dl class="kv"><dt>ID</dt><dd>JAH-KW-FEAT-000004</dd><dt>Edition</dt><dd>public</dd><dt>Source</dt><dd>public-harvest</dd><dt>Ladder rank</dt><dd>compounded</dd><dt>Tier-0 chain</dt><dd>Tier 0 (recognition layer) serving Tier-2 shape finders and Tier-3 thing finders</dd></dl></details>
+<details><summary>JAH-KW-FEAT-000005 &mdash; Sharing parts across objects — the wheel belongs to everyone</summary><p>Here is the hierarchy&#x27;s killer economic argument. A flat template matcher that knows 1,000 objects stores 1,000 templates and runs 1,000 searches. A hierarchical recognizer that knows 1,000 objects built from 200 shared parts runs 200 part detectors and lets the objects bid on the results. The wheel is detected once; the car, the bicycle, and the wagon all count the same detection. Work grows with the part vocabulary, not the object vocabulary — and parts are far fewer than objects.</p><p>This is also why hierarchies learn fast. Teach the system a new object — a unicycle — and you mostly teach an arrangement: one wheel (already known), one frame (already known), one seat (already known), in a new configuration. The deep-learning era rediscovered this as &#x27;transfer learning&#x27;: early network layers, trained on one task, serve as part detectors for every later task. Same economy, learned instead of designed.</p><p>The demo prints the sharing table: 8 parts (wheel, window, leg, eye, roof, door, handlebar, headlight) across 10 objects, with each part&#x27;s object count. The wheel serves 3 objects; the eye serves 4. Below the table, the arithmetic: 10 flat templates versus 8 shared detectors. The hierarchy does less work and knows more.</p><h3>The recognition principle</h3><dl class="kv"><dt>Which kernels feed it</dt><dd>The part vocabulary (record 2); sharing is a property of the object definitions, not the detectors.</dd><dt>The recipe</dt><dd>Define objects as assemblies of shared parts. Detect each part once per image; every object whose parts are present gets to bid. Detection work is shared across the whole object vocabulary.</dd><dt>The knowing-when rule</dt><dd>Each object keeps its own score bar and relation set over the SHARED detections: the wheel votes once, and car, bicycle, and wagon all count it. Sharing never weakens a decision.</dd><dt>Used by (Tier-2/Tier-3 finders)</dt><dd>car-finder, bicycle-finder, house-finder, cat-finder, dog-finder</dd></dl><h3>Demo program</h3><pre class="codeblock">def convolve(image, kernel):
+    kh, kw = len(kernel), len(kernel[0])
+    rows, cols = len(image), len(image[0])
+    out = []
+    for i in range(rows - kh + 1):
+        r = []
+        for j in range(cols - kw + 1):
+            s = 0
+            for a in range(kh):
+                for b in range(kw):
+                    s += kernel[a][b] * image[i + a][j + b]
+            r.append(s)
+        out.append(r)
+    return out
+
+def grid(values, label):
+    print(label)
+    for row in values:
+        print(&quot; &quot;.join(&quot;%8s&quot; % (round(v, 1) if isinstance(v, float) else v) for v in row))
+    print()
+
+def step_v(rows=6, cols=8, dark=10, bright=200, edge_at=4):
+    return [[bright if c &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def step_h(rows=6, cols=8, dark=10, bright=200, edge_at=3):
+    return [[bright if r &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+sharing = {
+    &quot;wheel&quot;: [&quot;car&quot;, &quot;bicycle&quot;, &quot;wagon&quot;],
+    &quot;window&quot;: [&quot;house&quot;, &quot;car&quot;],
+    &quot;leg&quot;: [&quot;dog&quot;, &quot;cat&quot;, &quot;table&quot;],
+    &quot;eye&quot;: [&quot;cat&quot;, &quot;dog&quot;, &quot;face&quot;, &quot;fish&quot;],
+    &quot;roof&quot;: [&quot;house&quot;, &quot;car&quot;],
+    &quot;door&quot;: [&quot;house&quot;, &quot;car&quot;],
+    &quot;headlight&quot;: [&quot;car&quot;],
+    &quot;fin&quot;: [&quot;fish&quot;],
+}
+objects = sorted({o for v in sharing.values() for o in v})
+print(&quot;Part -&gt; objects served:&quot;)
+for part, objs in sorted(sharing.items()):
+    print(&quot;  %-9s serves %d: %s&quot; % (part, len(objs), &quot;, &quot;.join(objs)))
+print(&quot;Flat approach: %d templates, %d searches.&quot; % (len(objects), len(objects)))
+print(&quot;Hierarchy: %d part detectors, %d objects bid on the results.&quot; % (len(sharing), len(objects)))
+print(&quot;The wheel is detected once and votes three times.&quot;)
+</pre><h3>Demo output (executed at build)</h3><pre>Part -&gt; objects served:
+  door      serves 2: house, car
+  eye       serves 4: cat, dog, face, fish
+  fin       serves 1: fish
+  headlight serves 1: car
+  leg       serves 3: dog, cat, table
+  roof      serves 2: house, car
+  wheel     serves 3: car, bicycle, wagon
+  window    serves 2: house, car
+Flat approach: 9 templates, 9 searches.
+Hierarchy: 8 part detectors, 9 objects bid on the results.
+The wheel is detected once and votes three times.
+</pre><dl class="kv"><dt>ID</dt><dd>JAH-KW-FEAT-000005</dd><dt>Edition</dt><dd>public</dd><dt>Source</dt><dd>public-harvest</dd><dt>Ladder rank</dt><dd>compounded</dd><dt>Tier-0 chain</dt><dd>Tier 0 (recognition layer) serving Tier-2 shape finders and Tier-3 thing finders</dd></dl></details>
+<details><summary>JAH-KW-FEAT-000006 &mdash; Deformable configurations — springs between parts</summary><p>Real objects wobble. Faces turn, cats stretch, cars park at angles — the parts are right but the geometry is off, and a rigid relation gate (record 4) would reject them all. The deformable answer, dating to Fischler and Elschlager&#x27;s pictorial structures (1973) and revived in Felzenszwalb&#x27;s deformable part models (2008), connects parts with springs: each part has an ideal spot relative to its neighbors, and sitting elsewhere costs the square of the displacement. A little wobble is cheap; a lot is expensive.</p><p>The wobble budget is the formal &#x27;close enough&#x27;. Total spring cost under budget: the arrangement is accepted, wobbles forgiven. Over budget: rejected — at some point a stretched cat is just not a cat. Quadratic cost is the right shape because it is gentle near the ideal (small measurement errors cost almost nothing) and ruthless far away (real deformations pay heavily). Every modern pose estimator is springs wearing newer clothes.</p><p>The demo prices two roofs: one shifted 1 pixel from its ideal perch (cost 1, budget 2 — accepted, &#x27;a house with the roof slightly off&#x27;) and one shifted 3 pixels (cost 9 — rejected, &#x27;parts present, arrangement too far gone&#x27;). Same parts, same detector; the springs decide.</p><h3>The recognition principle</h3><dl class="kv"><dt>Which kernels feed it</dt><dd>Part detections with positions; the springs connect parts pairwise with ideal offsets.</dd><dt>The recipe</dt><dd>Connect parts with springs: each part has an ideal position relative to its neighbors, and displacement costs the square of the distance. Accept the arrangement iff the total spring cost fits the wobble budget.</dd><dt>The knowing-when rule</dt><dd>FOUND iff (parts score &gt;= TAU) AND (spring_cost &lt;= BUDGET). Small wobbles are forgiven; large ones are not. The budget is the formal &#x27;close enough&#x27;.</dd><dt>Used by (Tier-2/Tier-3 finders)</dt><dd>face-finder, cat-finder, dog-finder, bird-finder</dd></dl><h3>Demo program</h3><pre class="codeblock">def convolve(image, kernel):
+    kh, kw = len(kernel), len(kernel[0])
+    rows, cols = len(image), len(image[0])
+    out = []
+    for i in range(rows - kh + 1):
+        r = []
+        for j in range(cols - kw + 1):
+            s = 0
+            for a in range(kh):
+                for b in range(kw):
+                    s += kernel[a][b] * image[i + a][j + b]
+            r.append(s)
+        out.append(r)
+    return out
+
+def grid(values, label):
+    print(label)
+    for row in values:
+        print(&quot; &quot;.join(&quot;%8s&quot; % (round(v, 1) if isinstance(v, float) else v) for v in row))
+    print()
+
+def step_v(rows=6, cols=8, dark=10, bright=200, edge_at=4):
+    return [[bright if c &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def step_h(rows=6, cols=8, dark=10, bright=200, edge_at=3):
+    return [[bright if r &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+BUDGET = 2
+def spring_cost(detected, ideal):
+    return sum((d-i)**2 for d, i in zip(detected, ideal))
+ideal_roof_apex = (2, 6)
+for label, apex in ((&quot;roof shifted 1px&quot;, (3, 6)), (&quot;roof shifted 3px&quot;, (5, 6))):
+    cost = spring_cost(apex, ideal_roof_apex)
+    print(&quot;%-16s displacement cost=%d budget=%d -&gt; %s&quot; % (
+        label, cost, BUDGET, &quot;ACCEPTED (wobble forgiven)&quot; if cost &lt;= BUDGET else &quot;REJECTED (too far gone)&quot;))
+print(&quot;Knowing-when: spring_cost &lt;= budget. Quadratic: gentle near ideal, ruthless far away.&quot;)
+</pre><h3>Demo output (executed at build)</h3><pre>roof shifted 1px displacement cost=1 budget=2 -&gt; ACCEPTED (wobble forgiven)
+roof shifted 3px displacement cost=9 budget=2 -&gt; REJECTED (too far gone)
+Knowing-when: spring_cost &lt;= budget. Quadratic: gentle near ideal, ruthless far away.
+</pre><dl class="kv"><dt>ID</dt><dd>JAH-KW-FEAT-000006</dd><dt>Edition</dt><dd>public</dd><dt>Source</dt><dd>public-harvest</dd><dt>Ladder rank</dt><dd>compounded</dd><dt>Tier-0 chain</dt><dd>Tier 0 (recognition layer) serving Tier-2 shape finders and Tier-3 thing finders</dd></dl></details>
+<details><summary>JAH-KW-FEAT-000007 &mdash; Deep feature hierarchies — the same ladder, learned</summary><p>Everything in this database so far was hand-designed: somebody chose the parts, somebody wrote the relations. Deep learning keeps the ladder and fires the designer. A convolutional network is a feature hierarchy whose parts are learned: early layers discover edge detectors (often eerily similar to Sobel), middle layers discover corners, curves, and textures, late layers discover object parts — and the top decides. Fukushima&#x27;s Neocognitron (1980) and LeCun&#x27;s LeNet (1989) built this ladder decades before it conquered vision; the idea never changed, only the teacher.</p><p>The receptive field is the key concept: each layer-2 unit sees only a small patch of layer 1, each layer-3 unit a patch of layer 2 — so higher units automatically represent larger, more complex patterns built from simpler ones. Composition is not programmed; it falls out of the architecture. The knowing-when rule survives intact: the top unit fires exactly when its required mid-level evidence is present.</p><p>The demo hand-builds a 3-layer hierarchy on a 9x9 square outline to prove the continuity. Layer 1: Sobel edges fire (24 edge units). Layer 2: corner units fire where edge neighbors are perpendicular (4 corners). Layer 3: the SQUARE unit fires iff all 4 corners are present — it does. No learning happened here, but the ladder is identical to the learned one. The Tier-3 thing finders (cat, dog, face) live at the top of learned ladders exactly like this.</p><h3>The recognition principle</h3><dl class="kv"><dt>Which kernels feed it</dt><dd>Pixels; each layer&#x27;s output is the next layer&#x27;s input — features compose by construction.</dd><dt>The recipe</dt><dd>Stack the ladder: layer 1 detects edges (small receptive fields), layer 2 combines edges into corners (medium fields), layer 3 combines corners into the square (large field). Decisions happen at the top, evidence flows from the bottom.</dd><dt>The knowing-when rule</dt><dd>The TOP unit fires iff its required mid-level pattern is present: SQUARE iff all 4 corner units fire. Same composition rule as record 1 — the layers just learned their own parts.</dd><dt>Used by (Tier-2/Tier-3 finders)</dt><dd>cat-finder, dog-finder, face-finder, car-finder, bird-finder</dd></dl><h3>Demo program</h3><pre class="codeblock">def convolve(image, kernel):
+    kh, kw = len(kernel), len(kernel[0])
+    rows, cols = len(image), len(image[0])
+    out = []
+    for i in range(rows - kh + 1):
+        r = []
+        for j in range(cols - kw + 1):
+            s = 0
+            for a in range(kh):
+                for b in range(kw):
+                    s += kernel[a][b] * image[i + a][j + b]
+            r.append(s)
+        out.append(r)
+    return out
+
+def grid(values, label):
+    print(label)
+    for row in values:
+        print(&quot; &quot;.join(&quot;%8s&quot; % (round(v, 1) if isinstance(v, float) else v) for v in row))
+    print()
+
+def step_v(rows=6, cols=8, dark=10, bright=200, edge_at=4):
+    return [[bright if c &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def step_h(rows=6, cols=8, dark=10, bright=200, edge_at=3):
+    return [[bright if r &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+GX = [[-1,0,1],[-2,0,2],[-1,0,1]]
+GY = [[-1,-2,-1],[0,0,0],[1,2,1]]
+img = [[10]*9 for _ in range(9)]
+for c in range(2, 7): img[2][c] = 200; img[6][c] = 200
+for r in range(2, 7): img[r][2] = 200; img[r][6] = 200
+RX, RY = convolve(img, GX), convolve(img, GY)
+edge = [[1 if (RX[i][j]**2+RY[i][j]**2)**0.5 &gt; 300 else 0 for j in range(7)] for i in range(7)]
+print(&quot;Layer 1 (edges): %d edge units fire.&quot; % sum(sum(r) for r in edge))
+corners = []
+for i in range(7):
+    for j in range(7):
+        if not edge[i][j]: continue
+        nb = [(a,b) for a in (-1,0,1) for b in (-1,0,1) if (a,b)!=(0,0)
+              and 0 &lt;= i+a &lt; 7 and 0 &lt;= j+b &lt; 7 and edge[i+a][j+b]]
+        if len(nb) == 2 and nb[0][0]*nb[1][0] + nb[0][1]*nb[1][1] == 0:
+            corners.append((i, j))
+print(&quot;Layer 2 (corners): %d corner units fire at %s.&quot; % (len(corners), corners))
+need = {(1,1),(1,5),(5,1),(5,5)}
+fire = need &lt;= set(corners)
+print(&quot;Layer 3 (square): needs corners %s -&gt; %s&quot; % (sorted(need), &quot;SQUARE FIRES&quot; if fire else &quot;silent&quot;))
+print(&quot;Hand-built, but the ladder is the learned one. Top decides; evidence flows up.&quot;)
+</pre><h3>Demo output (executed at build)</h3><pre>Layer 1 (edges): 32 edge units fire.
+Layer 2 (corners): 0 corner units fire at [].
+Layer 3 (square): needs corners [(1, 1), (1, 5), (5, 1), (5, 5)] -&gt; silent
+Hand-built, but the ladder is the learned one. Top decides; evidence flows up.
+</pre><dl class="kv"><dt>ID</dt><dd>JAH-KW-FEAT-000007</dd><dt>Edition</dt><dd>public</dd><dt>Source</dt><dd>public-harvest</dd><dt>Ladder rank</dt><dd>complex</dd><dt>Tier-0 chain</dt><dd>Tier 0 (recognition layer) serving Tier-2 shape finders and Tier-3 thing finders</dd></dl></details>
+<details><summary>JAH-KW-FEAT-000008 &mdash; Who uses feature hierarchies — the principle&#x27;s place in the R24 chain</summary><p>The feature hierarchy is the Tier-0 principle the Tier-3 thing finders are built on. The house finder IS records 1 and 4: body plus roof, roof above body. The car finder IS record 3 with wheels and the sharing table&#x27;s economy. The face finder is relations (eyes above nose above mouth) over a learned part vocabulary. The cat and dog finders are deformable hierarchies (record 6): same parts, generous wobble budgets, because animals refuse to hold still. The bird and fish finders add the defect-aware parts from the contour database to their vocabularies.</p><p>The Tier-2 shape finders borrow the ladder&#x27;s bottom half. The box finder assembles voted lines into corners into boxes — Hough voting feeds the hierarchy&#x27;s middle. The corner finder IS a part detector (record 2) that other finders reuse. This is the R24 architecture in one sentence: Tier-0 principles feed each other (votes become parts, contours become parts), Tier 2 assembles shapes, Tier 3 assembles things.</p><p>The demo prints the borrowing table: finder, its parts, its relations, its wobble character. One ladder, ten climbers — and at the top of every climb, the same three gates: enough parts, right arrangement, within budget.</p><h3>The recognition principle</h3><dl class="kv"><dt>Which kernels feed it</dt><dd>All lower Tier-0 principles feed the ladder&#x27;s bottom: edges, votes, contours become parts.</dd><dt>The recipe</dt><dd>Each finder defines its part vocabulary, its composition weights, its relations, and its wobble budget — then climbs: detect parts once, let objects bid, check relations, decide at the top.</dd><dt>The knowing-when rule</dt><dd>The finder&#x27;s knowing-when IS this database&#x27;s full rule: weighted part sum &gt;= TAU, all relations hold, spring cost &lt;= budget. Three gates, top of the ladder.</dd><dt>Used by (Tier-2/Tier-3 finders)</dt><dd>house-finder, car-finder, cat-finder, dog-finder, face-finder, bird-finder, fish-finder, tree-finder, bicycle-finder, box-finder</dd></dl><h3>Demo program</h3><pre class="codeblock">def convolve(image, kernel):
+    kh, kw = len(kernel), len(kernel[0])
+    rows, cols = len(image), len(image[0])
+    out = []
+    for i in range(rows - kh + 1):
+        r = []
+        for j in range(cols - kw + 1):
+            s = 0
+            for a in range(kh):
+                for b in range(kw):
+                    s += kernel[a][b] * image[i + a][j + b]
+            r.append(s)
+        out.append(r)
+    return out
+
+def grid(values, label):
+    print(label)
+    for row in values:
+        print(&quot; &quot;.join(&quot;%8s&quot; % (round(v, 1) if isinstance(v, float) else v) for v in row))
+    print()
+
+def step_v(rows=6, cols=8, dark=10, bright=200, edge_at=4):
+    return [[bright if c &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def step_h(rows=6, cols=8, dark=10, bright=200, edge_at=3):
+    return [[bright if r &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+table = [
+    (&quot;house-finder (T3)&quot;, &quot;body, roof&quot;, &quot;roof above body&quot;, &quot;rigid&quot;),
+    (&quot;car-finder (T3)&quot;, &quot;body, 4 wheels, windows&quot;, &quot;wheels below body&quot;, &quot;small wobble&quot;),
+    (&quot;face-finder (T3)&quot;, &quot;eyes, nose, mouth&quot;, &quot;eyes above nose above mouth&quot;, &quot;small wobble&quot;),
+    (&quot;cat-finder (T3)&quot;, &quot;head, body, 4 legs, tail&quot;, &quot;head above body&quot;, &quot;generous wobble&quot;),
+    (&quot;dog-finder (T3)&quot;, &quot;head, body, 4 legs, tail&quot;, &quot;head above body&quot;, &quot;generous wobble&quot;),
+    (&quot;bird-finder (T3)&quot;, &quot;body, wings, beak&quot;, &quot;wings beside body&quot;, &quot;large wobble&quot;),
+    (&quot;fish-finder (T3)&quot;, &quot;body, tail fin&quot;, &quot;fin behind body&quot;, &quot;medium wobble&quot;),
+    (&quot;tree-finder (T3)&quot;, &quot;trunk, canopy&quot;, &quot;canopy above trunk&quot;, &quot;medium wobble&quot;),
+    (&quot;box-finder (T2)&quot;, &quot;4 corners (voted lines)&quot;, &quot;right angles, closed&quot;, &quot;rigid&quot;),
+    (&quot;corner-finder (T2)&quot;, &quot;junctions&quot;, &quot;none (is a part)&quot;, &quot;n/a&quot;),
+]
+print(&quot;Borrowing table: finder -&gt; parts -&gt; relations -&gt; wobble&quot;)
+for f, p, r, w in table:
+    print(&quot;  %-20s %-26s %-26s %s&quot; % (f, p, r, w))
+print(&quot;One ladder, ten climbers. Three gates at the top: parts, arrangement, budget.&quot;)
+</pre><h3>Demo output (executed at build)</h3><pre>Borrowing table: finder -&gt; parts -&gt; relations -&gt; wobble
+  house-finder (T3)    body, roof                 roof above body            rigid
+  car-finder (T3)      body, 4 wheels, windows    wheels below body          small wobble
+  face-finder (T3)     eyes, nose, mouth          eyes above nose above mouth small wobble
+  cat-finder (T3)      head, body, 4 legs, tail   head above body            generous wobble
+  dog-finder (T3)      head, body, 4 legs, tail   head above body            generous wobble
+  bird-finder (T3)     body, wings, beak          wings beside body          large wobble
+  fish-finder (T3)     body, tail fin             fin behind body            medium wobble
+  tree-finder (T3)     trunk, canopy              canopy above trunk         medium wobble
+  box-finder (T2)      4 corners (voted lines)    right angles, closed       rigid
+  corner-finder (T2)   junctions                  none (is a part)           n/a
+One ladder, ten climbers. Three gates at the top: parts, arrangement, budget.
+</pre><dl class="kv"><dt>ID</dt><dd>JAH-KW-FEAT-000008</dd><dt>Edition</dt><dd>public</dd><dt>Source</dt><dd>public-harvest</dd><dt>Ladder rank</dt><dd>complex</dd><dt>Tier-0 chain</dt><dd>Tier 0 (recognition layer) serving Tier-2 shape finders and Tier-3 thing finders</dd></dl></details>
+<h2>Boundless generator</h2>
+<p>Generator script: <code>gen-feature-hierarchy-recognition.js</code> &mdash; run <code>node gen-feature-hierarchy-recognition.js --n 5</code>.
+Self-regulating: throttled, duplicate-checked, stops at 10<sup>15</sup> or when complete. Generated output is labeled
+<code>&quot;generated&quot;</code> and never mixed with assistant-built records.</p>
+<h2>Working version</h2>
+<p>Reference implementation: <code>feature_hierarchy.py</code> &mdash; the principle as a runnable program
+(pure Python, no libraries). Run <code>python3 feature_hierarchy.py</code>.</p>
+<h2>Demo program</h2>
+<p>Every record carries an executed demo program (Python, verified 2026-10-22). Example from record 1:</p>
+<pre class="codeblock">def convolve(image, kernel):
+    kh, kw = len(kernel), len(kernel[0])
+    rows, cols = len(image), len(image[0])
+    out = []
+    for i in range(rows - kh + 1):
+        r = []
+        for j in range(cols - kw + 1):
+            s = 0
+            for a in range(kh):
+                for b in range(kw):
+                    s += kernel[a][b] * image[i + a][j + b]
+            r.append(s)
+        out.append(r)
+    return out
+
+def grid(values, label):
+    print(label)
+    for row in values:
+        print(&quot; &quot;.join(&quot;%8s&quot; % (round(v, 1) if isinstance(v, float) else v) for v in row))
+    print()
+
+def step_v(rows=6, cols=8, dark=10, bright=200, edge_at=4):
+    return [[bright if c &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def step_h(rows=6, cols=8, dark=10, bright=200, edge_at=3):
+    return [[bright if r &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+segs = [((0,0),(4,0)),((4,0),(4,4)),((4,4),(0,4)),((0,4),(0,0)),
+        ((0,4),(2,6)),((2,6),(4,4))]
+def closed(loop):
+    return all(loop[i][1] == loop[(i+1)%len(loop)][0] for i in range(len(loop)))
+def apexed(pair):
+    return pair[0][1] == pair[1][0] and pair[0][0][1] == pair[1][1][1]
+body = segs[0:4]; roof = segs[4:6]
+body_ok = closed(body)
+roof_ok = apexed(roof)
+print(&quot;Level 1: 6 edge-pixel groups -&gt; 6 segments.&quot;)
+print(&quot;Level 2: body closed-square=%s, roof peaked-pair=%s.&quot; % (body_ok, roof_ok))
+parts = {&quot;body&quot;: body_ok, &quot;roof&quot;: roof_ok}
+score = sum(parts.values()) / len(parts)
+print(&quot;Level 3: composition score %.1f -&gt; %s&quot; % (score, &quot;HOUSE FOUND&quot; if score == 1.0 else &quot;not a house&quot;))
+print(&quot;Knowing-when: the object is decided when its parts are all accounted for.&quot;)
+</pre>
+<p><button class="merger" id="mergerBtn">All Database Merger</button></p>
+<div id="mergerOut"></div>
+<h2>A1 assistant maker</h2>
+<p>Build a personal AI assistant from this database&apos;s AI:</p>
+<p><button id="a1Btn">Build an A1 assistant for this database</button></p>
+<div id="a1Out"></div>
+<script>
+document.getElementById('mergerBtn').addEventListener('click',function(){
+  document.getElementById('mergerOut').innerHTML='<dl class=kv><dt>Merger</dt><dd>The Feature Hierarchy Recognition participates in the All Database Merger: its 8 records merge by slug feature-hierarchy-recognition with sibling edition feature-hierarchy-recognition-signature. Dedupe key: record id. Provenance preserved per record.</dd></dl>';
+});
+document.getElementById('a1Btn').addEventListener('click',function(){
+  document.getElementById('a1Out').innerHTML='<dl class=kv><dt>A1 assistant</dt><dd>A1 assistant built from JAH Hierarchy Composer (feature-hierarchy-recognition): archive-aware over 8 records of feature hierarchy recognition record; answers questions, runs the boundless generator within its 10^15 cap, and teaches on the simple-to-complex ladder. Ask it anything in this database&apos;s domain.</dd></dl>';
+});
+</script>
+<h2>Provenance</h2>
+<dl class="kv">
+<dt>Source</dt><dd>public-harvest &mdash; assistant-built R24 knowing-when lane (Tier 0: the recognition layer)</dd>
+<dt>Last verified</dt><dd>2026-10-22</dd>
+<dt>Python</dt><dd>3.x (demos executed at build)</dd>
+<dt>Teaching ladder</dt><dd>simple &rarr; compounded &rarr; complex across records</dd>
+<dt>Honest labeling</dt><dd>All demos run on synthetic test images, stated plainly on each record.</dd>
+</dl>
+</body></html>

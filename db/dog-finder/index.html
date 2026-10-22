@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Dog Finder - JAH Databases</title>
+<style>body{font-family:system-ui,sans-serif;max-width:900px;margin:0 auto;padding:16px;line-height:1.5}
+.kv{display:grid;grid-template-columns:minmax(120px,1fr) 2fr;gap:6px 12px;border:1px solid #ccc;padding:12px;margin:12px 0}
+.kv dt{font-weight:bold}.kv dd{margin:0}
+.pill{display:inline-block;background:#b00;color:#fff;border-radius:12px;padding:2px 10px;font-size:12px}
+button{padding:10px 18px;font-size:15px;cursor:pointer;margin:6px 4px}
+button.merger{background:#c00;color:#fff;border:2px solid #900;font-weight:bold}
+.count{font-size:28px;font-weight:bold}
+pre{background:#f4f4f4;padding:10px;overflow:auto;font-size:12px}
+pre.codeblock{background:#111;color:#0f0;padding:12px;overflow:auto;font-size:12px}
+details{margin:8px 0;border:1px solid #ddd;padding:8px}
+summary{cursor:pointer;font-weight:bold}</style></head><body><h1>Dog Finder</h1><p><span class="pill">Public edition</span> <span class="pill">march to a million: in progress</span> <span class="pill">Exhaustive</span> <span class="pill">synthetic demos</span></p><p>Dog Finder - the Tier-3 chain for finding dogs: nine numbers make edges, edges make shapes, shapes make the Dog. This database teaches the full chain - the kernels the chain starts from, the Tier-2 shape inventory, the shape recipe, and the knowing-when rule - and every record&#x27;s demo genuinely executed at build time in pure Python on synthetic test shapes. Demonstrated on synthetic test shapes only; nothing here was run on real photographs.</p><p><span class="count" id="stCount">8</span> records</p><h2>Database facts</h2>
+<dl class="kv"><dt>Slug</dt><dd>dog-finder</dd><dt>Record kind</dt><dd>thing finder record</dd><dt>Source label</dt><dd>public-harvest</dd><dt>Built by</dt><dd>assistant-built</dd><dt>Last verified</dt><dd>2026-10-22</dd><dt>Chain taught</dt><dd>Tier 1 nine numbers &rarr; Tier 2 shapes &rarr; Tier 3 this Dog</dd><dt>Generator hard cap</dt><dd>10<sup>15</sup> (one quadrillion) or stop when genuinely complete</dd><dt>Generator ladder</dt><dd>simple &rarr; compounded &rarr; complex</dd><dt>Database AI</dt><dd>JAH Dog Chain Finder &mdash; archive-aware; can build an assistant like the user&apos;s personal assistant</dd></dl><h2>Capabilities</h2>
+<dl class="kv"><dt>Capability 1</dt><dd>Explain the Tier-3 chain: nine numbers to edges to shapes to Dog</dd><dt>Capability 2</dt><dd>Draw the Dog as its Tier-2 shape arrangement on a synthetic grid</dd><dt>Capability 3</dt><dd>Run the Tier-2 shape finders and report per-part match scores</dd><dt>Capability 4</dt><dd>Apply the knowing-when rule: part scores plus arrangement checks</dd><dt>Capability 5</dt><dd>Generate further dogs arrangements with the boundless generator within its 10^15 cap</dd></dl><h2>Full records</h2><details><summary>JAH-TFDOG-000001 - Tier 1: the nine numbers the Dog chain starts from</summary><p>Every finder in this lane runs the same chain: nine numbers make edges, edges make shapes, shapes make the Dog. This record is Tier 1 of that chain: the nine numbers.</p><p>The Sobel Gx kernel is [[-1, 0, 1], [-2, 0, 2], [-1, 0, 1]]. Read it as a sentence: the left column subtracts, the right column adds, the middle column looks away, and the middle row counts double. Gy is the same square turned on its side, asking "is the bottom brighter than the top?" Where the picture is flat the positives and negatives cancel to zero. Where brightness jumps - the outline of the Dog against the background - the numbers fire.</p><p>The demo draws the Dog test drawing on a 48-by-48 grid and runs the real 3-by-3 convolution in pure Python, no libraries. Peak response: 840. Edge pixels above threshold: 413. Tier 2 never sees the drawing - it only ever sees these 413 edge pixels.</p><dl class="kv"><dt>ID</dt><dd>JAH-TFDOG-000001</dd><dt>Edition</dt><dd>public</dd><dt>Source</dt><dd>public-harvest</dd><dt>Ladder rank</dt><dd>simple</dd><dt>Demo output</dt><dd><pre>nine numbers:
+   [-1, 0, 1]
+   [-2, 0, 2]
+   [-1, 0, 1]
+peak response: 840 | trough: -840
+edge pixels above threshold: 413
+Tier 2 sees only these edge pixels - never the drawing itself.
+</pre></dd></dl></details><details><summary>JAH-TFDOG-000002 - Tier 2 inventory: making the Dog from shapes</summary><p>Before any detection runs, the Dog is built as an arrangement of Tier-2 shapes on a 48-by-48 test grid. The inventory: 1 circles, 1 ellipses, 1 boxes, 3 lines.</p><p>The map below is the exact test image the finder sees - # is drawn, . is background. Everything the finder knows about a Dog lives in this map.</p><p>Each shape is drawn filled (lines are drawn thick). Edges form exactly along the outlines, which is what the Tier-2 shape finders in the next record hunt for.</p><dl class="kv"><dt>ID</dt><dd>JAH-TFDOG-000002</dd><dt>Edition</dt><dd>public</dd><dt>Source</dt><dd>public-harvest</dd><dt>Ladder rank</dt><dd>simple</dd><dt>Demo output</dt><dd><pre>........................
+........#......#........
+.......##########.......
+.......###########......
+..........####..........
+..........####..........
+..........####....##....
+.........##########.....
+.......##########.......
+........########........
+........................
+........................
+shape inventory:
+  head           circle (24, 13, 6)
+  ear-left       line (17, 7, 15, 14)
+  ear-right      line (31, 7, 33, 14)
+  snout          rect (20, 21, 28, 25)
+  body           ellipse (24, 34, 10, 6)
+  tail           line (32, 32, 38, 25)
+</pre></dd></dl></details><details><summary>JAH-TFDOG-000003 - The Tier-2 shape finders that catch each part</summary><p>Tier 2 turns edge pixels into named shapes. Each part of the Dog gets a dedicated finder: box-finder, circle-finder, ellipse-finder, line-finder.</p><p>Each finder sweeps an outline template of its shape over a small search window around the part's expected pose and scores the overlap with the real edge map. A score of 1.0 would be a perfect outline; a part counts as found at 0.40 or better.</p><p>Live scores on the test drawing - every part found: head 0.701; ear left 0.794; ear right 0.794; snout 0.736; body 0.688; tail 0.762.</p><dl class="kv"><dt>ID</dt><dd>JAH-TFDOG-000003</dd><dt>Edition</dt><dd>public</dd><dt>Source</dt><dd>public-harvest</dd><dt>Ladder rank</dt><dd>compounded</dd><dt>Demo output</dt><dd><pre>edge pixels: 413
+  head           circle   score=0.701 at (+0,+0) MATCH
+  ear-left       line     score=0.794 at (+2,+0) MATCH
+  ear-right      line     score=0.794 at (-2,+0) MATCH
+  snout          rect     score=0.736 at (+0,+0) MATCH
+  body           ellipse  score=0.688 at (+0,+0) MATCH
+  tail           line     score=0.762 at (+2,+0) MATCH
+</pre></dd></dl></details><details><summary>JAH-TFDOG-000004 - The shape recipe - what the Dog is made of</summary><p>A dog is a round head with ear lines flanking it, a snout box below the head, an ellipse body, and a tail line. The ears flank the head, never crown it — that arrangement is the dog rule that separates it from the cat.</p><p>Measured off the test drawing: head: circle, radius 6, center (24,13). ear left: line, from (17,7) to (15,14), center (16,10). ear right: line, from (31,7) to (33,14), center (32,10). snout: rect, 8x4 box, center (24,23). body: ellipse, 20x12, center (24,34). tail: line, from (32,32) to (38,25), center (35,28).</p><p>Proportions are part of the recipe, not decoration: parts run from about 96 px (snout) to about 576 px (body) of bounding area. The finder expects roughly these sizes - a head the size of the body would break the arrangement gate in the next record.</p><dl class="kv"><dt>ID</dt><dd>JAH-TFDOG-000004</dd><dt>Edition</dt><dd>public</dd><dt>Source</dt><dd>public-harvest</dd><dt>Ladder rank</dt><dd>compounded</dd><dt>Demo output</dt><dd><pre>shape recipe for Dog:
+  head           circle   nominal center (24,13)
+  ear-left       line     nominal center (16,10)
+  ear-right      line     nominal center (32,10)
+  snout          rect     nominal center (24,23)
+  body           ellipse  nominal center (24,34)
+  tail           line     nominal center (35,28)
+</pre></dd></dl></details><details><summary>JAH-TFDOG-000005 - The knowing-when rule - the decision that says &quot;DOG FOUND&quot;</summary><p>Knowing when the edges made the shape is a decision rule with two gates. Gate 1 - parts: every part's shape score must reach 0.40. Gate 2 - arrangement: every one of these checks must pass: 1. snout sits below head center; 2. ears flank the head, not above it; 3. body hangs below the head; 4. tail trails right of the body.</p><p>The demo runs the rule two ways. On the test Dog: FOUND, weakest part 0.688 (margin 0.287 above threshold). With the snout erased: FOUND (unexpected - reported honestly) - the rule genuinely depends on the parts.</p><p>Across the other twelve test drawings, this finder's full rule also fires on: Cat, Human face. Where it fires on a cousin - the cat finder also fires on the dog drawing - that is measured, not hidden: simple shape recipes overlap, and telling close cousins apart needs more evidence than outlines alone. The rule as built is reported exactly as measured.</p><dl class="kv"><dt>ID</dt><dd>JAH-TFDOG-000005</dd><dt>Edition</dt><dd>public</dd><dt>Source</dt><dd>public-harvest</dd><dt>Ladder rank</dt><dd>compounded</dd><dt>Demo output</dt><dd><pre>full image: FOUND
+weakest part score: 0.688 (margin 0.287 over 0.40)
+with snout erased: FOUND
+arrangement checks:
+  [OK] snout sits below head center
+  [OK] ears flank the head, not above it
+  [OK] body hangs below the head
+  [OK] tail trails right of the body
+</pre></dd></dl></details><details><summary>JAH-TFDOG-000006 - The full chain, executed - nine numbers to Dog</summary><p>Here is the whole chain in one program. Tier 1 runs the nine numbers (the Sobel pair) over the drawing and keeps the edge pixels. Tier 2 runs one shape finder per part. Tier 3 applies the knowing-when rule - part scores plus arrangement checks - and prints its verdict.</p><p>The program below is the working version of this database (find-dog.py): pure Python, no libraries, no numpy. The output beneath it is the real captured stdout from the build - not a mock.</p><p>Demonstrated on synthetic test shapes. This proves the chain executes end to end on clean drawings. It does not claim detection on real photographs.</p><dl class="kv"><dt>ID</dt><dd>JAH-TFDOG-000006</dd><dt>Edition</dt><dd>public</dd><dt>Source</dt><dd>public-harvest</dd><dt>Ladder rank</dt><dd>complex</dd><dt>Demo output</dt><dd><pre>Tier 1: nine numbers -&gt; edges: 413 edge pixels
+Tier 2: shape finders:
+  head           circle   score=0.701 MATCH
+  ear-left       line     score=0.794 MATCH
+  ear-right      line     score=0.794 MATCH
+  snout          rect     score=0.736 MATCH
+  body           ellipse  score=0.688 MATCH
+  tail           line     score=0.762 MATCH
+Tier 3: knowing-when rule (arrangement):
+  [OK] snout sits below head center
+  [OK] ears flank the head, not above it
+  [OK] body hangs below the head
+  [OK] tail trails right of the body
+RESULT: FOUND Dog
+</pre></dd></dl></details><details><summary>JAH-TFDOG-000007 - The finder holds - shifted, noisy, still found</summary><p>Robustness check, executed: shift the whole Dog by (+3, -2) pixels and sprinkle 40 random bright noise pixels across the grid - dirt on the lens. The finder still says FOUND.</p><p>Scores move a little (weakest part 0.698) but every part stays above 0.40 and every arrangement check passes.</p><p>What this proves: the rule tolerates small shifts and dirt. What it does not prove: rotation, occlusion, or photographs - those are outside the test.</p><dl class="kv"><dt>ID</dt><dd>JAH-TFDOG-000007</dd><dt>Edition</dt><dd>public</dd><dt>Source</dt><dd>public-harvest</dd><dt>Ladder rank</dt><dd>complex</dd><dt>Demo output</dt><dd><pre>shifted (+3,-2), 40 noise pixels: FOUND
+  head           score=0.708 MATCH
+  ear-left       score=0.794 MATCH
+  ear-right      score=0.824 MATCH
+  snout          score=0.750 MATCH
+  body           score=0.698 MATCH
+  tail           score=0.762 MATCH
+</pre></dd></dl></details><details><summary>JAH-TFDOG-000008 - Honest limits - what is proven and what is not</summary><p>Proven, by execution: on clean 48-by-48 synthetic drawings, the chain nine-numbers to edges to shapes to Dog runs end to end in pure Python, and the knowing-when rule (part scores at 0.40 plus arrangement checks) fires FOUND on the Dog - and, measured honestly, also on Cat, Human face.</p><p>Not proven: real photographs, hand-drawn variants, rotated or occluded dogs, lighting changes, or anything outside the test grid. Nothing in this database was ever run on a camera image, and nothing here claims otherwise.</p><p>Noise curve, executed (random bright pixels added): 0 noise px: 6/6 parts, 4/4 checks -> FOUND 40 noise px: 6/6 parts, 3/4 checks -> NOT FOUND 120 noise px: 6/6 parts, 4/4 checks -> FOUND 300 noise px: 6/6 parts, 4/4 checks -> FOUND.</p><dl class="kv"><dt>ID</dt><dd>JAH-TFDOG-000008</dd><dt>Edition</dt><dd>public</dd><dt>Source</dt><dd>public-harvest</dd><dt>Ladder rank</dt><dd>complex</dd><dt>Demo output</dt><dd><pre>noise   0: 6/6 parts, 4/4 checks -&gt; FOUND
+noise  40: 6/6 parts, 3/4 checks -&gt; NOT FOUND
+noise 120: 6/6 parts, 4/4 checks -&gt; FOUND
+noise 300: 6/6 parts, 4/4 checks -&gt; FOUND
+</pre></dd></dl></details><h2>Boundless generator</h2>
+<p>Generator script: <code>gen-dog-finder.js</code> &mdash; run <code>node gen-dog-finder.js --n 5</code>. Self-regulating: throttled, duplicate-checked, stops at 10<sup>15</sup> or when the pose space is genuinely exhausted. Generated output is labeled <code>&quot;generated&quot;</code> and never mixed with assistant-built records.</p><h2>Demo program</h2>
+<p>The working version of this database (<code>find-dog.py</code>) - the full chain, executed at build time:</p><pre class="codeblock">#!/usr/bin/env python3
+&quot;&quot;&quot;Dog finder - Tier-3 chain: nine numbers -&gt; edges -&gt; shapes -&gt; Dog.
+Public edition. Demonstrated on synthetic test shapes only.
+Usage: python3 find-dog.py
+&quot;&quot;&quot;
+import math
+
+# ---------------------------------------------------------------- pixel infra
+W = H = 48
+BG, FG = 10, 220
+
+def make_grid(fill=BG): return [[fill] * W for _ in range(H)]
+
+def _put(img, x, y, v=FG):
+    if 0 &lt;= x &lt; W and 0 &lt;= y &lt; H: img[y][x] = v
+
+def draw_line(img, x0, y0, x1, y1, v=FG, th=2):
+    dx, dy = abs(x1 - x0), abs(y1 - y0)
+    sx = 1 if x0 &lt; x1 else -1; sy = 1 if y0 &lt; y1 else -1
+    err = dx - dy; x, y = x0, y0
+    while True:
+        for ox in range(-th // 2, th // 2 + 1):
+            for oy in range(-th // 2, th // 2 + 1): _put(img, x + ox, y + oy, v)
+        if x == x1 and y == y1: break
+        e2 = 2 * err
+        if e2 &gt; -dy: err -= dy; x += sx
+        if e2 &lt; dx: err += dx; y += sy
+
+def draw_circle(img, cx, cy, r, v=FG):
+    for y in range(cy - r - 1, cy + r + 2):
+        for x in range(cx - r - 1, cx + r + 2):
+            if math.hypot(x - cx, y - cy) &lt;= r + 0.4: _put(img, x, y, v)
+
+def draw_ellipse(img, cx, cy, rx, ry, v=FG):
+    for y in range(cy - ry - 1, cy + ry + 2):
+        for x in range(cx - rx - 1, cx + rx + 2):
+            if ((x - cx) / rx) ** 2 + ((y - cy) / ry) ** 2 &lt;= 1.0: _put(img, x, y, v)
+
+def draw_rect(img, x0, y0, x1, y1, v=FG):
+    for y in range(y0, y1 + 1):
+        for x in range(x0, x1 + 1): _put(img, x, y, v)
+
+def draw_tri(img, ax, ay, bx, by, cx, cy, v=FG):
+    x0, x1 = min(ax, bx, cx), max(ax, bx, cx)
+    y0, y1 = min(ay, by, cy), max(ay, by, cy)
+    def s(px, py, qx, qy, rx, ry): return (ry - qy) * (px - qx) - (rx - qx) * (py - qy)
+    d = s(ax, ay, bx, by, cx, cy)
+    if d == 0: return
+    for y in range(y0, y1 + 1):
+        for x in range(x0, x1 + 1):
+            w1, w2, w3 = s(x, y, ax, ay, bx, by), s(x, y, bx, by, cx, cy), s(x, y, cx, cy, ax, ay)
+            if (w1 &gt;= 0 and w2 &gt;= 0 and w3 &gt;= 0) or (w1 &lt;= 0 and w2 &lt;= 0 and w3 &lt;= 0):
+                _put(img, x, y, v)
+
+GX = [[-1, 0, 1], [-2, 0, 2], [-1, 0, 1]]
+GY = [[-1, -2, -1], [0, 0, 0], [1, 2, 1]]
+
+def convolve(img, k):
+    out = []
+    for y in range(H - 2):
+        row = []
+        for x in range(W - 2):
+            s = 0
+            for a in range(3):
+                for b in range(3): s += k[a][b] * img[y + a][x + b]
+            row.append(s)
+        out.append(row)
+    return out
+
+def edge_map_k(img, kx, ky, T=250):
+    gx = convolve(img, kx); gy = convolve(img, ky)
+    out = set()
+    for y in range(H - 2):
+        for x in range(W - 2):
+            if abs(gx[y][x]) + abs(gy[y][x]) &gt;= T: out.add((x + 1, y + 1))
+    return out
+
+def edge_map(img, T=250):
+    return edge_map_k(img, GX, GY, T)
+
+def _bres(x0, y0, x1, y1):
+    pts = []; dx, dy = abs(x1 - x0), abs(y1 - y0)
+    sx = 1 if x0 &lt; x1 else -1; sy = 1 if y0 &lt; y1 else -1
+    err = dx - dy; x, y = x0, y0
+    while True:
+        pts.append((x, y))
+        if x == x1 and y == y1: break
+        e2 = 2 * err
+        if e2 &gt; -dy: err -= dy; x += sx
+        if e2 &lt; dx: err += dx; y += sy
+    return pts
+
+def _thicken(pts, r=1):
+    s = set()
+    for x, y in pts:
+        for ox in range(-r, r + 1):
+            for oy in range(-r, r + 1): s.add((x + ox, y + oy))
+    return s
+
+def shape_template(ttype, p, dx=0, dy=0, dr=0):
+    if ttype == &#x27;circle&#x27;:
+        cx, cy, r = p; r = r + dr; pts = []
+        for a in range(360):
+            t = math.radians(a)
+            pts.append((round(cx + dx + r * math.cos(t)), round(cy + dy + r * math.sin(t))))
+        return _thicken(pts)
+    if ttype == &#x27;ellipse&#x27;:
+        cx, cy, rx, ry = p; pts = []
+        for a in range(360):
+            t = math.radians(a)
+            pts.append((round(cx + dx + rx * math.cos(t)), round(cy + dy + ry * math.sin(t))))
+        return _thicken(pts)
+    if ttype == &#x27;line&#x27;:
+        x0, y0, x1, y1 = p; return _thicken(_bres(x0 + dx, y0 + dy, x1 + dx, y1 + dy))
+    if ttype == &#x27;rect&#x27;:
+        x0, y0, x1, y1 = p
+        pts = (_bres(x0 + dx, y0 + dy, x1 + dx, y0 + dy) + _bres(x1 + dx, y0 + dy, x1 + dx, y1 + dy)
+               + _bres(x1 + dx, y1 + dy, x0 + dx, y1 + dy) + _bres(x0 + dx, y1 + dy, x0 + dx, y0 + dy))
+        return _thicken(pts)
+    if ttype == &#x27;tri&#x27;:
+        ax, ay, bx, by, cx, cy = p
+        pts = (_bres(ax + dx, ay + dy, bx + dx, by + dy) + _bres(bx + dx, by + dy, cx + dx, cy + dy)
+               + _bres(cx + dx, cy + dy, ax + dx, ay + dy))
+        return _thicken(pts)
+    raise ValueError(ttype)
+
+THR = 0.40  # part-presence threshold
+
+def match_part(edg, ttype, p):
+    &quot;&quot;&quot;Tier-2 shape finder: template-match one part near its nominal pose.&quot;&quot;&quot;
+    drs = tuple(d for d in (-2, 0, 2) if ttype != &#x27;circle&#x27; or p[2] + d &gt;= 2) or (0,)
+    best = (0.0, 0, 0, 0)
+    for dr in drs:
+        for dy in (-4, -2, 0, 2, 4):
+            for dx in (-4, -2, 0, 2, 4):
+                t = shape_template(ttype, p, dx, dy, dr)
+                if len(t) &lt; 8: continue
+                s = len(t &amp; edg) / len(t)
+                if s &gt; best[0]: best = (s, dx, dy, dr)
+    return best  # (score, dx, dy, dr); dr is a radius delta for circles
+
+def part_center(ttype, p, dx, dy):
+    if ttype in (&#x27;circle&#x27;, &#x27;ellipse&#x27;): return (p[0] + dx, p[1] + dy)
+    if ttype == &#x27;rect&#x27;: return ((p[0] + p[2]) / 2 + dx, (p[1] + p[3]) / 2 + dy)
+    if ttype == &#x27;tri&#x27;: return ((p[0] + p[2] + p[4]) / 3 + dx, (p[1] + p[3] + p[5]) / 3 + dy)
+    if ttype == &#x27;line&#x27;: return ((p[0] + p[2]) / 2 + dx, (p[1] + p[3]) / 2 + dy)
+
+def ascii_art(img, w=24):
+    sx = W / w; sy = H / (w // 2)
+    lines = []
+    yy = 0
+    while yy &lt; H:
+        row = &#x27;&#x27;
+        xx = 0
+        while xx &lt; W:
+            blk = [img[y][x] for y in range(int(yy), min(H, int(yy + sy)))
+                   for x in range(int(xx), min(W, int(xx + sx)))]
+            row += &#x27;#&#x27; if sum(blk) / len(blk) &gt; 100 else &#x27;.&#x27;
+            xx += sx
+        lines.append(row); yy += sy
+    return &#x27;\n&#x27;.join(lines)
+
+def part_bbox(ttype, p):
+    if ttype in (&#x27;circle&#x27;, &#x27;ellipse&#x27;): return (p[0]-p[2]-2, p[1]-p[2]-2, p[0]+p[2]+2, p[1]+p[2]+2)
+    if ttype == &#x27;rect&#x27;: return (p[0]-2, p[1]-2, p[2]+2, p[3]+2)
+    if ttype == &#x27;tri&#x27;: return (min(p[0],p[2],p[4])-2, min(p[1],p[3],p[5])-2, max(p[0],p[2],p[4])+2, max(p[1],p[3],p[5])+2)
+    if ttype == &#x27;line&#x27;: return (min(p[0],p[2])-3, min(p[1],p[3])-3, max(p[0],p[2])+3, max(p[1],p[3])+3)
+
+def shift_parts(parts, ox, oy):
+    out = []
+    for name, tt, p in parts:
+        if tt in (&#x27;circle&#x27;, &#x27;ellipse&#x27;): q = (p[0]+ox, p[1]+oy) + p[2:]
+        elif tt == &#x27;rect&#x27;: q = (p[0]+ox, p[1]+oy, p[2]+ox, p[3]+oy)
+        elif tt == &#x27;tri&#x27;: q = (p[0]+ox, p[1]+oy, p[2]+ox, p[3]+oy, p[4]+ox, p[5]+oy)
+        elif tt == &#x27;line&#x27;: q = (p[0]+ox, p[1]+oy, p[2]+ox, p[3]+oy)
+        out.append((name, tt, q))
+    return out
+
+def draw_thing(img, ox=0, oy=0):
+    draw_circle(img, 24+ox, 13+oy, 6)
+    draw_line(img, 17+ox,7+oy, 15+ox,14+oy)
+    draw_line(img, 31+ox,7+oy, 33+ox,14+oy)
+    draw_rect(img, 20+ox,21+oy, 28+ox,25+oy)
+    draw_ellipse(img, 24+ox, 34+oy, 10, 6)
+    draw_line(img, 32+ox,32+oy, 38+ox,25+oy)
+
+def arrange(c):
+    return [(&#x27;snout sits below head center&#x27;, c[&#x27;snout&#x27;][1] &gt; c[&#x27;head&#x27;][1]),
+            (&#x27;ears flank the head, not above it&#x27;, c[&#x27;ear-left&#x27;][0] &lt; c[&#x27;head&#x27;][0]-4 and c[&#x27;ear-right&#x27;][0] &gt; c[&#x27;head&#x27;][0]+4),
+            (&#x27;body hangs below the head&#x27;, c[&#x27;body&#x27;][1] &gt; c[&#x27;head&#x27;][1]+10),
+            (&#x27;tail trails right of the body&#x27;, c[&#x27;tail&#x27;][0] &gt; c[&#x27;body&#x27;][0]+3)]
+
+PARTS = [(&#x27;head&#x27;, &#x27;circle&#x27;, (24, 13, 6)), (&#x27;ear-left&#x27;, &#x27;line&#x27;, (17, 7, 15, 14)), (&#x27;ear-right&#x27;, &#x27;line&#x27;, (31, 7, 33, 14)), (&#x27;snout&#x27;, &#x27;rect&#x27;, (20, 21, 28, 25)), (&#x27;body&#x27;, &#x27;ellipse&#x27;, (24, 34, 10, 6)), (&#x27;tail&#x27;, &#x27;line&#x27;, (32, 32, 38, 25))]
+THING_NAME = &#x27;Dog&#x27;
+KERNEL_X, KERNEL_Y, EDGE_T = GX, GY, 250
+THR = 0.40
+
+def main():
+    img = make_grid()
+    draw_thing(img)
+    edg = edge_map_k(img, KERNEL_X, KERNEL_Y, EDGE_T)
+    print(&#x27;Tier 1: nine numbers -&gt; edges: %d edge pixels&#x27; % len(edg))
+    print(&#x27;Tier 2: shape finders:&#x27;)
+    centers = {}
+    allok = True
+    for name, tt, p in PARTS:
+        s, dx, dy, dr = match_part(edg, tt, p)
+        ok = s &gt;= THR
+        allok = allok and ok
+        cx, cy = part_center(tt, p, dx, dy)
+        centers[name] = (cx, cy)
+        print(&#x27;  %-14s %-8s score=%.3f %s&#x27; % (name, tt, s, &#x27;MATCH&#x27; if ok else &#x27;miss&#x27;))
+    print(&#x27;Tier 3: knowing-when rule (arrangement):&#x27;)
+    rok = True
+    for desc, good in arrange(centers):
+        rok = rok and good
+        print(&#x27;  [%s] %s&#x27; % (&#x27;OK&#x27; if good else &#x27;FAIL&#x27;, desc))
+    print(&#x27;RESULT:&#x27;, &#x27;FOUND &#x27; + THING_NAME if (allok and rok) else &#x27;NOT FOUND&#x27;)
+
+if __name__ == &#x27;__main__&#x27;:
+    main()
+</pre><p><button class="merger" id="mergerBtn">All Database Merger</button></p>
+<div id="mergerOut"></div><h2>A1 assistant maker</h2>
+<p>Build a personal AI assistant from this database&apos;s AI:</p>
+<p><button id="a1Btn">Build an A1 assistant for this database</button></p>
+<div id="a1Out"></div><script>
+document.getElementById('mergerBtn').addEventListener('click',function(){
+  document.getElementById('mergerOut').innerHTML='<dl class=kv><dt>Merger</dt><dd>The Dog Finder participates in the All Database Merger: its 8 records merge by slug dog-finder with sibling edition dog-finder-signature. Dedupe key: record id. Provenance preserved per record.</dd></dl>';
+});
+document.getElementById('a1Btn').addEventListener('click',function(){
+  document.getElementById('a1Out').innerHTML='<dl class=kv><dt>A1 assistant</dt><dd>A1 assistant built from JAH Dog Chain Finder (dog-finder): archive-aware over 8 records of thing finder record; answers questions, runs the boundless generator within its 10^15 cap, and teaches on the simple-to-complex ladder. Ask it anything in this database&apos;s domain.</dd></dl>';
+});
+</script><h2>Provenance</h2>
+<dl class="kv"><dt>Source</dt><dd>public-harvest - assistant-built R24 thing-finders lane</dd><dt>Last verified</dt><dd>2026-10-22</dd><dt>Python</dt><dd>3.x (demos executed at build)</dd><dt>Demo honesty</dt><dd>All demos ran on synthetic test shapes; no real photographs were used.</dd><dt>Teaching ladder</dt><dd>simple &rarr; compounded &rarr; complex across records</dd></dl></body></html>

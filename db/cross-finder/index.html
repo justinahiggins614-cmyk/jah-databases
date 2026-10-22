@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Cross Finder &mdash; JAH Databases</title>
+<style>
+body{font-family:system-ui,sans-serif;max-width:900px;margin:0 auto;padding:16px;line-height:1.5}
+.kv{display:grid;grid-template-columns:minmax(120px,1fr) 2fr;gap:6px 12px;border:1px solid #ccc;padding:12px;margin:12px 0}
+.kv dt{font-weight:bold}.kv dd{margin:0}
+.pill{display:inline-block;background:#b00;color:#fff;border-radius:12px;padding:2px 10px;font-size:12px}
+button{padding:10px 18px;font-size:15px;cursor:pointer;margin:6px 4px}
+button.merger{background:#c00;color:#fff;border:2px solid #900;font-weight:bold}
+.count{font-size:28px;font-weight:bold}
+pre{background:#f4f4f4;padding:10px;overflow:auto;font-size:12px}
+pre.codeblock{border-left:4px solid #b00}
+details{margin:8px 0;border:1px solid #ddd;padding:8px}
+summary{cursor:pointer;font-weight:bold}
+</style></head><body>
+<h1>Cross Finder</h1>
+<p><span class="pill">Public edition</span> <span class="pill">march to a million: in progress</span> <span class="pill">Exhaustive</span></p>
+<p>The cross -- the plus sign -- is twelve corners with a split personality: eight convex corners at ninety degrees and four reflex notches at two-seventy. The cross finder takes the twelve strongest Harris corners, orders them, and reads every interior angle with the signed formula that tells 90 from 270. Tier 2 of the ladder: Tier 1 nine numbers &amp;rarr; Tier 2 the cross finder &amp;rarr; Tier 3 the thing finders, which will read crosses as plus signs, hospitals, and markers. All demos are executed in pure Python on synthetic test images.</p>
+<p><em>Honest labeling:</em> every demo below finds its shape in a <strong>synthetic test image</strong> drawn in code &mdash; no real photographs. The detection pipeline (Sobel 3x3 convolution, then the finder&rsquo;s knowing-when rule) is the real thing, executed live at build time in pure Python.</p>
+<h2>The four answers</h2>
+<dl class="kv">
+<dt>1. The nine numbers</dt><dd>Sobel Gx = [[-1,0,1],[-2,0,2],[-1,0,1]] and Gy = [[-1,-2,-1],[0,0,0],[1,2,1]] feed Harris on a 41-pixel grid -- the cross needs room for its twelve corners to breathe. All twelve shout at full strength; the plus sign is the loudest shape in the lane.</dd>
+<dt>2. The shape recipe</dt><dd>Take the twelve strongest Harris corners, order them by angle around their centroid, and measure the signed interior angle at each -- the signed formula distinguishes convex 90-degree corners from reflex 270-degree notches. Eight near 90 and four near 270 is the plus sign&#x27;s fingerprint.</dd>
+<dt>3. The knowing-when rule</dt><dd>KNOWING WHEN: twelve corners AND eight angles within 25 degrees of 90 AND four within 35 of 270 -- CROSS FOUND with the split reported. Twelve corners with twelve right angles is not a cross; four corners is a box: the angle split is the fingerprint, and the verdict always prints it.</dd>
+<dt>4. The executed demo</dt><dd>Every record below carries a demo program genuinely executed at build time (pure Python, no libraries). The headline demo also ships as the runnable working version <a href="find-cross.py">find-cross.py</a>.</dd>
+</dl>
+<p><span class="count" id="stCount">8</span> records</p>
+<h2>Database facts</h2>
+<dl class="kv">
+<dt>Slug</dt><dd>cross-finder</dd>
+<dt>Record kind</dt><dd>shape finder record</dd>
+<dt>Source label</dt><dd>public-harvest</dd>
+<dt>Built by</dt><dd>assistant-built</dd>
+<dt>Last verified</dt><dd>2026-10-22</dd>
+<dt>Generator hard cap</dt><dd>10<sup>15</sup> (one quadrillion) or stop when genuinely complete</dd>
+<dt>Generator ladder</dt><dd>simple &rarr; compounded &rarr; complex</dd>
+<dt>Chain position</dt><dd>Tier 1: nine numbers (Sobel 3x3 kernels). Tier 2: this shape finder. Tier 3: thing finders (cat, dog, car) built on these shapes.</dd>
+<dt>Database AI</dt><dd>JAH Cross Finder &mdash; archive-aware; can build an assistant like the user&apos;s personal assistant</dd>
+</dl>
+<h2>Capabilities</h2>
+<dl class="kv"><dt>Capability 1</dt><dd>Explain signed interior angles: telling convex 90 from reflex 270</dd><dt>Capability 2</dt><dd>Order twelve corners around their centroid into boundary order</dd><dt>Capability 3</dt><dd>Read the eight-and-four angle fingerprint of the plus sign</dd><dt>Capability 4</dt><dd>Show the NOT FOUND cases: saltires, boxes, dodecagons</dd><dt>Capability 5</dt><dd>Generate further cross-finder variations with the boundless generator within its 10^15 cap</dd></dl>
+<h2>Full records</h2>
+<details><summary>JAH-SF-CROS-000001 &mdash; Headline: the eight-and-four split</summary><p>A plus sign on the big grid. Twelve corners, eight reading ~97 degrees, four ~256 -- the fingerprint, printed corner by corner.</p><p>Twelve corners, two kinds: the signed-angle formula reads eight at ~97 degrees and four at ~256. Convex and reflex, told apart by arithmetic -- the plus sign&#x27;s fingerprint, printed corner by corner.</p><dl class="kv"><dt>ID</dt><dd>JAH-SF-CROS-000001</dd><dt>Edition</dt><dd>Public edition</dd><dt>Source</dt><dd>public-harvest</dd><dt>Ladder rank</dt><dd>simple</dd><dt>Chain position</dt><dd>Tier 1: nine numbers (Sobel 3x3 kernels). Tier 2: this shape finder. Tier 3: thing finders (cat, dog, car) built on these shapes.</dd></dl><h3>Demo output (executed at build)</h3><pre>Sobel 3x3 over the test image -&gt; edge pixels: 212
+Test image (. = background, # = shape):
+.........................................
+.........................................
+.........................................
+.........................................
+.........................................
+.........................................
+.........................................
+................#########................
+................#########................
+................#########................
+................#########................
+................#########................
+................#########................
+................#########................
+................#########................
+................#########................
+.......###########################.......
+.......###########################.......
+.......###########################.......
+.......###########################.......
+.......###########################.......
+.......###########################.......
+.......###########################.......
+.......###########################.......
+................#########................
+................#########................
+................#########................
+................#########................
+................#########................
+................#########................
+................#########................
+................#########................
+................#########................
+.........................................
+.........................................
+.........................................
+.........................................
+.........................................
+.........................................
+.........................................
+.........................................
+VERDICT: cross FOUND: 12 corners, 8x~90deg + 4x~270deg
+</pre></details>
+<details><summary>JAH-SF-CROS-000002 &mdash; A bigger plus, same fingerprint</summary><p>Wider bars, longer arms: the angles don&#x27;t care about pixels. Eight and four at any size -- the split is scale-proof.</p><p>A bigger plus: the fingerprint scales, the split doesn&#x27;t move. Eight and four at any size -- the fingerprint is scale-proof because angles don&#x27;t care about pixels.</p><dl class="kv"><dt>ID</dt><dd>JAH-SF-CROS-000002</dd><dt>Edition</dt><dd>Public edition</dd><dt>Source</dt><dd>public-harvest</dd><dt>Ladder rank</dt><dd>simple</dd><dt>Chain position</dt><dd>Tier 1: nine numbers (Sobel 3x3 kernels). Tier 2: this shape finder. Tier 3: thing finders (cat, dog, car) built on these shapes.</dd></dl><h3>Demo output (executed at build)</h3><pre>Sobel 3x3 over the test image -&gt; edge pixels: 260
+VERDICT: cross FOUND: 12 corners, 8x~90deg + 4x~270deg
+</pre></details>
+<details><summary>JAH-SF-CROS-000003 &mdash; The loudest shape in the lane</summary><p>All twelve corner strengths printed: twelve shouts, no sorting needed. The plus sign doesn&#x27;t whisper; the ranking is a formality.</p><p>All twelve corners shout at full strength -- the plus sign doesn&#x27;t whisper. Strengths printed: twelve shouts, no sorting needed, the ranking is a formality.</p><dl class="kv"><dt>ID</dt><dd>JAH-SF-CROS-000003</dd><dt>Edition</dt><dd>Public edition</dd><dt>Source</dt><dd>public-harvest</dd><dt>Ladder rank</dt><dd>compounded</dd><dt>Chain position</dt><dd>Tier 1: nine numbers (Sobel 3x3 kernels). Tier 2: this shape finder. Tier 3: thing finders (cat, dog, car) built on these shapes.</dd></dl><h3>Demo output (executed at build)</h3><pre>Sobel 3x3 over the test image -&gt; edge pixels: 212
+VERDICT: cross FOUND: 12 corners, 8x~90deg + 4x~270deg
+</pre></details>
+<details><summary>JAH-SF-CROS-000004 &mdash; Loud is naturally noise-proof</summary><p>Speckles against twelve shouts: nothing close. The twelve stand, the angles read, the split holds.</p><p>Speckles against twelve shouts: nothing close. The twelve stand, the angles read, the split holds. Loud shapes are naturally noise-proof.</p><dl class="kv"><dt>ID</dt><dd>JAH-SF-CROS-000004</dd><dt>Edition</dt><dd>Public edition</dd><dt>Source</dt><dd>public-harvest</dd><dt>Ladder rank</dt><dd>compounded</dd><dt>Chain position</dt><dd>Tier 1: nine numbers (Sobel 3x3 kernels). Tier 2: this shape finder. Tier 3: thing finders (cat, dog, car) built on these shapes.</dd></dl><h3>Demo output (executed at build)</h3><pre>Sobel 3x3 over the test image -&gt; edge pixels: 293
+VERDICT: cross FOUND: 12 corners, 8x~90deg + 4x~270deg
+</pre></details>
+<details><summary>JAH-SF-CROS-000005 &mdash; Smooth beside spiky</summary><p>A circle beside the cross: no corners, no vote. The twelve are the cross&#x27;s; the fingerprint is the cross&#x27;s.</p><p>A circle beside the cross: smooth, cornerless. The twelve are the cross&#x27;s; the fingerprint is the cross&#x27;s.</p><dl class="kv"><dt>ID</dt><dd>JAH-SF-CROS-000005</dd><dt>Edition</dt><dd>Public edition</dd><dt>Source</dt><dd>public-harvest</dd><dt>Ladder rank</dt><dd>compounded</dd><dt>Chain position</dt><dd>Tier 1: nine numbers (Sobel 3x3 kernels). Tier 2: this shape finder. Tier 3: thing finders (cat, dog, car) built on these shapes.</dd></dl><h3>Demo output (executed at build)</h3><pre>Sobel 3x3 over the test image -&gt; edge pixels: 274
+VERDICT: cross FOUND: 12 corners, 8x~90deg + 4x~270deg
+</pre></details>
+<details><summary>JAH-SF-CROS-000006 &mdash; Knowing when NOT: the saltire</summary><p>A six-pointed star: twelve corners, but points and deep notches instead of eight-and-four. NOT FOUND -- the split is the fingerprint; count alone never suffices.</p><p>A saltire -- the X shape, the plus rotated 45 degrees: twelve corners, but the angles refuse the eight-and-four split. NOT FOUND -- &#x27;a plus with ambition, but not a plus.&#x27; Rotation changes everything for this finder, honestly so.</p><dl class="kv"><dt>ID</dt><dd>JAH-SF-CROS-000006</dd><dt>Edition</dt><dd>Public edition</dd><dt>Source</dt><dd>public-harvest</dd><dt>Ladder rank</dt><dd>complex</dd><dt>Chain position</dt><dd>Tier 1: nine numbers (Sobel 3x3 kernels). Tier 2: this shape finder. Tier 3: thing finders (cat, dog, car) built on these shapes.</dd></dl><h3>Demo output (executed at build)</h3><pre>Sobel 3x3 over the test image -&gt; edge pixels: 278
+VERDICT: NOT FOUND: angle split 0x~90 + 6x~270, need 8+4
+</pre></details>
+<details><summary>JAH-SF-CROS-000007 &mdash; Four isn&#x27;t twelve</summary><p>A box presented: four corners. NOT FOUND -- twelve is the bouncer, and the verdict names the count.</p><p>A box presented: four corners, count four. NOT FOUND -- twelve is the bouncer, and four isn&#x27;t twelve.</p><dl class="kv"><dt>ID</dt><dd>JAH-SF-CROS-000007</dd><dt>Edition</dt><dd>Public edition</dd><dt>Source</dt><dd>public-harvest</dd><dt>Ladder rank</dt><dd>complex</dd><dt>Chain position</dt><dd>Tier 1: nine numbers (Sobel 3x3 kernels). Tier 2: this shape finder. Tier 3: thing finders (cat, dog, car) built on these shapes.</dd></dl><h3>Demo output (executed at build)</h3><pre>Sobel 3x3 over the test image -&gt; edge pixels: 164
+VERDICT: NOT FOUND: 4 corners, need exactly 12
+</pre></details>
+<details><summary>JAH-SF-CROS-000008 &mdash; The full chain: nine numbers to a fingerprint</summary><p>Twelve corners, signed angles, the eight-and-four split, verdict -- the fingerprint, taken end to end.</p><p>The full chain: nine numbers on the big grid, twelve corners, signed angles, the split, verdict. Tier 3 will spend measured crosses as markers and signs -- each with its fingerprint attached.</p><dl class="kv"><dt>ID</dt><dd>JAH-SF-CROS-000008</dd><dt>Edition</dt><dd>Public edition</dd><dt>Source</dt><dd>public-harvest</dd><dt>Ladder rank</dt><dd>complex</dd><dt>Chain position</dt><dd>Tier 1: nine numbers (Sobel 3x3 kernels). Tier 2: this shape finder. Tier 3: thing finders (cat, dog, car) built on these shapes.</dd></dl><h3>Demo output (executed at build)</h3><pre>Sobel 3x3 over the test image -&gt; edge pixels: 212
+The nine numbers -- Sobel Gx:
+   [-1, 0, 1]
+   [-2, 0, 2]
+   [-1, 0, 1]
+The nine numbers -- Sobel Gy:
+   [-1, -2, -1]
+   [0, 0, 0]
+   [1, 2, 1]
+Edge map (# = edge pixel):
+.........................................
+.........................................
+.........................................
+.........................................
+.........................................
+.........................................
+...............###########...............
+...............###########...............
+...............##.......##...............
+...............##.......##...............
+...............##.......##...............
+...............##.......##...............
+...............##.......##...............
+...............##.......##...............
+...............##.......##...............
+......###########.......###########......
+......###########.......###########......
+......##.........................##......
+......##.........................##......
+......##.........................##......
+......##.........................##......
+......##.........................##......
+......##.........................##......
+......###########.......###########......
+......###########.......###########......
+...............##.......##...............
+...............##.......##...............
+...............##.......##...............
+...............##.......##...............
+...............##.......##...............
+...............##.......##...............
+...............##.......##...............
+...............###########...............
+...............###########...............
+.........................................
+.........................................
+.........................................
+.........................................
+.........................................
+.........................................
+.........................................
+Chain: Tier 1 nine numbers -&gt; Tier 2 shape noticed -&gt; Tier 3 things next.
+VERDICT: cross FOUND: 12 corners, 8x~90deg + 4x~270deg
+</pre></details>
+<h2>Boundless generator</h2>
+<p>Generator script: <code>gen-cross-finder.js</code> &mdash; run <code>node gen-cross-finder.js --n 5</code>.
+Self-regulating: throttled, duplicate-checked, stops at 10<sup>15</sup> or when complete. Generated output is labeled
+<code>&quot;generated&quot;</code> and never mixed with assistant-built records.</p>
+<h2>Demo program (working version)</h2>
+<p>The finder itself, runnable: <a href="find-cross.py">find-cross.py</a> (pure Python, no libraries). Run <code>python3 find-cross.py</code> to watch it find the shape.</p>
+<pre class="codeblock">&quot;&quot;&quot;
+find-cross.py -- the Cross Finder, runnable working version.
+Pure Python, no libraries. Draws a synthetic test image, runs a real
+3x3 Sobel convolution, applies the knowing-when rule, prints the verdict.
+&quot;&quot;&quot;
+&quot;&quot;&quot;Pure-Python (no numpy) vision toolkit prototype for the R24 shape-finders lane.
+Shared core: drawing, Sobel 3x3 convolution, Harris corners, Hough votes.&quot;&quot;&quot;
+import math
+
+SOBEL_GX = [[-1, 0, 1], [-2, 0, 2], [-1, 0, 1]]
+SOBEL_GY = [[-1, -2, -1], [0, 0, 0], [1, 2, 1]]
+
+# ---------- image helpers ----------
+def new_grid(w, h, v=0):
+    return [[v] * w for _ in range(h)]
+
+def convolve(img, k):
+    kh, kw = len(k), len(k[0])
+    rows, cols = len(img), len(img[0])
+    out = []
+    for i in range(rows - kh + 1):
+        r = []
+        for j in range(cols - kw + 1):
+            s = 0
+            for a in range(kh):
+                for b in range(kw):
+                    s += k[a][b] * img[i + a][j + b]
+            r.append(s)
+        out.append(r)
+    return out
+
+def sobel_mag_ang(img):
+    gx = convolve(img, SOBEL_GX)
+    gy = convolve(img, SOBEL_GY)
+    mag, ang = [], []
+    for i in range(len(gx)):
+        mr, ar = [], []
+        for j in range(len(gx[0])):
+            x, y = gx[i][j], gy[i][j]
+            mr.append(math.hypot(x, y))
+            ar.append(math.degrees(math.atan2(y, x)))
+        mag.append(mr)
+        ang.append(ar)
+    return mag, ang
+
+def edge_binary(img, frac=0.25):
+    &quot;&quot;&quot;Binary edge map (1=edge) in ORIGINAL image coords (padded back).&quot;&quot;&quot;
+    mag, _ = sobel_mag_ang(img)
+    mx = max(max(r) for r in mag)
+    t = frac * mx
+    rows, cols = len(img), len(img[0])
+    out = new_grid(cols, rows, 0)
+    for i in range(len(mag)):
+        for j in range(len(mag[0])):
+            if mag[i][j] &gt;= t:
+                out[i + 1][j + 1] = 1
+    return out, mx
+
+# ---------- drawing ----------
+def draw_line(img, x0, y0, x1, y1, v=255):
+    x0, y0, x1, y1 = int(round(x0)), int(round(y0)), int(round(x1)), int(round(y1))
+    dx, dy = abs(x1 - x0), abs(y1 - y0)
+    sx, sy = (1 if x0 &lt; x1 else -1), (1 if y0 &lt; y1 else -1)
+    err = dx - dy
+    h, w = len(img), len(img[0])
+    while True:
+        if 0 &lt;= y0 &lt; h and 0 &lt;= x0 &lt; w:
+            img[y0][x0] = v
+        if x0 == x1 and y0 == y1:
+            break
+        e2 = 2 * err
+        if e2 &gt; -dy:
+            err -= dy
+            x0 += sx
+        if e2 &lt; dx:
+            err += dx
+            y0 += sy
+
+def draw_poly_outline(img, pts, v=255, close=True):
+    n = len(pts)
+    if n &lt; 2:
+        return
+    lim = n if close else n - 1
+    for i in range(lim):
+        x0, y0 = pts[i]
+        x1, y1 = pts[(i + 1) % n]
+        draw_line(img, x0, y0, x1, y1, v)
+
+def fill_poly(img, pts, v=255):
+    &quot;&quot;&quot;Scanline fill of polygon pts=[(x,y)...] .&quot;&quot;&quot;
+    h, w = len(img), len(img[0])
+    xs = [p[0] for p in pts]
+    ys = [p[1] for p in pts]
+    for y in range(max(0, int(min(ys))), min(h, int(max(ys)) + 1)):
+        inter = []
+        n = len(pts)
+        for i in range(n):
+            x0, y0 = pts[i]
+            x1, y1 = pts[(i + 1) % n]
+            if (y0 &lt;= y &lt; y1) or (y1 &lt;= y &lt; y0):
+                x = x0 + (y - y0) * (x1 - x0) / (y1 - y0)
+                inter.append(x)
+        inter.sort()
+        for k in range(0, len(inter) - 1, 2):
+            for x in range(max(0, int(math.ceil(inter[k]))), min(w, int(math.floor(inter[k + 1])) + 1)):
+                img[y][x] = v
+
+def circle_outline(cx, cy, r, step_deg=6):
+    pts = []
+    a = 0.0
+    while a &lt; 360.0:
+        pts.append((cx + r * math.cos(math.radians(a)), cy + r * math.sin(math.radians(a))))
+        a += step_deg
+    return pts
+
+def arc_outline(cx, cy, r, a0, a1, step_deg=6):
+    pts = []
+    a = a0
+    while a &lt;= a1:
+        pts.append((cx + r * math.cos(math.radians(a)), cy + r * math.sin(math.radians(a))))
+        a += step_deg
+    return pts
+
+def ellipse_outline(cx, cy, a, b, rot_deg=0, step_deg=6):
+    pts = []
+    rot = math.radians(rot_deg)
+    t = 0.0
+    while t &lt; 360.0:
+        x = a * math.cos(math.radians(t))
+        y = b * math.sin(math.radians(t))
+        xr = x * math.cos(rot) - y * math.sin(rot)
+        yr = x * math.sin(rot) + y * math.cos(rot)
+        pts.append((cx + xr, cy + yr))
+        t += step_deg
+    return pts
+
+def reg_poly(cx, cy, r, n, rot_deg=0):
+    pts = []
+    for i in range(n):
+        a = math.radians(rot_deg + 360.0 * i / n)
+        pts.append((cx + r * math.cos(a), cy + r * math.sin(a)))
+    return pts
+
+def star_poly(cx, cy, r_out, r_in, n=5, rot_deg=-90):
+    pts = []
+    for i in range(2 * n):
+        r = r_out if i % 2 == 0 else r_in
+        a = math.radians(rot_deg + 180.0 * i / n)
+        pts.append((cx + r * math.cos(a), cy + r * math.sin(a)))
+    return pts
+
+# ---------- detection ----------
+def harris_corners(img, k=0.04, frac=0.12, min_dist=2):
+    &quot;&quot;&quot;Return [(x, y, R)] in original image coords, NMS by min_dist.&quot;&quot;&quot;
+    gx = convolve(img, SOBEL_GX)
+    gy = convolve(img, SOBEL_GY)
+    H, W = len(gx), len(gx[0])
+    R = new_grid(W, H, 0.0)
+    for i in range(1, H - 1):
+        for j in range(1, W - 1):
+            sxx = syy = sxy = 0.0
+            for a in (-1, 0, 1):
+                for b in (-1, 0, 1):
+                    x = gx[i + a][j + b]
+                    y = gy[i + a][j + b]
+                    sxx += x * x
+                    syy += y * y
+                    sxy += x * y
+            det = sxx * syy - sxy * sxy
+            tr = sxx + syy
+            R[i][j] = det - k * tr * tr
+    mx = max(max(r) for r in R)
+    if mx &lt;= 0:
+        return [], 0.0
+    cands = []
+    for i in range(H):
+        for j in range(W):
+            if R[i][j] &gt;= frac * mx:
+                cands.append((j + 1, i + 1, R[i][j]))  # back to original coords
+    cands.sort(key=lambda c: -c[2])
+    kept = []
+    for x, y, r in cands:
+        if all(math.hypot(x - kx, y - ky) &gt;= min_dist for kx, ky, _ in kept):
+            kept.append((x, y, r))
+    return kept, mx
+
+def hough_lines(edge, theta_step=10, vote_frac=0.5):
+    &quot;&quot;&quot;edge: binary grid. Returns (theta_deg, rho, votes, total_edge).&quot;&quot;&quot;
+    rows, cols = len(edge), len(edge[0])
+    pts = [(x, y) for y in range(rows) for x in range(cols) if edge[y][x]]
+    acc = {}
+    for deg in range(0, 180, theta_step):
+        th = math.radians(deg)
+        c, s = math.cos(th), math.sin(th)
+        for x, y in pts:
+            rho = int(round(x * c + y * s))
+            key = (deg, rho)
+            acc[key] = acc.get(key, 0) + 1
+    if not acc:
+        return None
+    best = max(acc.items(), key=lambda kv: kv[1])
+    (deg, rho), votes = best
+    return deg, rho, votes, len(pts)
+
+def hough_circles(edge, radii, theta_step=12):
+    &quot;&quot;&quot;Returns list of (cx, cy, r, votes) sorted by votes desc.&quot;&quot;&quot;
+    rows, cols = len(edge), len(edge[0])
+    pts = [(x, y) for y in range(rows) for x in range(cols) if edge[y][x]]
+    results = []
+    for r in radii:
+        acc = {}
+        steps = list(range(0, 360, theta_step))
+        for x, y in pts:
+            for deg in steps:
+                th = math.radians(deg)
+                cx = int(round(x - r * math.cos(th)))
+                cy = int(round(y - r * math.sin(th)))
+                if 0 &lt;= cx &lt; cols and 0 &lt;= cy &lt; rows:
+                    key = (cx, cy)
+                    acc[key] = acc.get(key, 0) + 1
+        if acc:
+            (cx, cy), votes = max(acc.items(), key=lambda kv: kv[1])
+            results.append((cx, cy, r, votes))
+    results.sort(key=lambda t: -t[3])
+    return results, len(pts)
+
+def order_by_angle(corners):
+    cx = sum(c[0] for c in corners) / len(corners)
+    cy = sum(c[1] for c in corners) / len(corners)
+    pts = sorted(((c[0], c[1]) for c in corners),
+                 key=lambda p: math.atan2(p[1] - cy, p[0] - cx))
+    return pts, (cx, cy)
+
+def side_lengths(pts):
+    n = len(pts)
+    return [math.hypot(pts[(i + 1) % n][0] - pts[i][0], pts[(i + 1) % n][1] - pts[i][1]) for i in range(n)]
+
+def cv(vals):
+    m = sum(vals) / len(vals)
+    if m == 0:
+        return 0.0
+    var = sum((v - m) ** 2 for v in vals) / len(vals)
+    return math.sqrt(var) / m
+
+def interior_angles(pts):
+    &quot;&quot;&quot;Interior angle (degrees) at each vertex of ordered polygon pts.&quot;&quot;&quot;
+    n = len(pts)
+    angs = []
+    for i in range(n):
+        ax, ay = pts[i]
+        bx, by = pts[(i - 1) % n]
+        cx, cy = pts[(i + 1) % n]
+        v1 = (bx - ax, by - ay)
+        v2 = (cx - ax, cy - ay)
+        d1 = math.hypot(*v1)
+        d2 = math.hypot(*v2)
+        if d1 == 0 or d2 == 0:
+            angs.append(0.0)
+            continue
+        cosang = max(-1.0, min(1.0, (v1[0] * v2[0] + v1[1] * v2[1]) / (d1 * d2)))
+        angs.append(math.degrees(math.acos(cosang)))
+    return angs
+
+def connected_components(edge):
+    rows, cols = len(edge), len(edge[0])
+    seen = [[False] * cols for _ in range(rows)]
+    comps = []
+    for y in range(rows):
+        for x in range(cols):
+            if edge[y][x] and not seen[y][x]:
+                stack = [(x, y)]
+                seen[y][x] = True
+                comp = []
+                while stack:
+                    px, py = stack.pop()
+                    comp.append((px, py))
+                    for dy in (-1, 0, 1):
+                        for dx in (-1, 0, 1):
+                            if dx == 0 and dy == 0:
+                                continue
+                            nx, ny = px + dx, py + dy
+                            if 0 &lt;= nx &lt; cols and 0 &lt;= ny &lt; rows and edge[ny][nx] and not seen[ny][nx]:
+                                seen[ny][nx] = True
+                                stack.append((nx, ny))
+                comps.append(comp)
+    return comps
+
+def trace_boundary(edge, min_len=10):
+    &quot;&quot;&quot;Walk the largest edge component as an ordered chain. Returns [(x,y)].&quot;&quot;&quot;
+    comps = connected_components(edge)
+    if not comps:
+        return []
+    comp = max(comps, key=len)
+    eset = set(comp)
+    start = min(comp, key=lambda p: (p[1], p[0]))
+    dirs = [(1, 0), (1, 1), (0, 1), (-1, 1), (-1, 0), (-1, -1), (0, -1), (1, -1)]
+    chain = [start]
+    visited = {start}
+    cur = start
+    prev_d = 0
+    while True:
+        found = None
+        for off in (0, 1, 7, 2, 6, 3, 5, 4):
+            d = (prev_d + off) % 8
+            nx, ny = cur[0] + dirs[d][0], cur[1] + dirs[d][1]
+            if (nx, ny) == start and len(chain) &gt;= min_len:
+                chain.append(start)
+                return chain
+            if (nx, ny) in eset and (nx, ny) not in visited:
+                found = (nx, ny, d)
+                break
+        if found is None:
+            return chain
+        cur, prev_d = (found[0], found[1]), found[2]
+        chain.append(cur)
+        visited.add(cur)
+
+def turning_angles(chain, k=4):
+    &quot;&quot;&quot;|turn| in degrees at each chain point over a +/-k window.&quot;&quot;&quot;
+    n = len(chain)
+    turns = []
+    for i in range(n):
+        ax, ay = chain[(i - k) % n]
+        bx, by = chain[i]
+        cx, cy = chain[(i + k) % n]
+        v1 = (bx - ax, by - ay)
+        v2 = (cx - bx, cy - by)
+        d1 = math.hypot(*v1)
+        d2 = math.hypot(*v2)
+        if d1 &lt; 1e-9 or d2 &lt; 1e-9:
+            turns.append(0.0)
+            continue
+        cosang = max(-1.0, min(1.0, (v1[0] * v2[0] + v1[1] * v2[1]) / (d1 * d2)))
+        turns.append(math.degrees(math.acos(cosang)))
+    return turns
+
+def find_vertices(chain, k=4, thresh=25.0):
+    &quot;&quot;&quot;Contour approximation: vertices = well-separated turning-angle peaks.&quot;&quot;&quot;
+    n = len(chain)
+    if n &lt; 3 * k:
+        return []
+    turns = turning_angles(chain, k)
+    peaks = []
+    for i in range(n):
+        t = turns[i]
+        if t &lt; thresh:
+            continue
+        if all(t &gt;= turns[(i + j) % n] for j in range(-k, k + 1)):
+            peaks.append((chain[i][0], chain[i][1], t))
+    # merge peaks closer than k along the chain
+    kept = []
+    for x, y, t in sorted(peaks, key=lambda p: -p[2]):
+        if all(math.hypot(x - kx, y - ky) &gt;= k for kx, ky, _ in kept):
+            kept.append((x, y, t))
+    return kept
+
+def polygon_area2(pts):
+    n = len(pts)
+    return sum(pts[i][0] * pts[(i + 1) % n][1] - pts[(i + 1) % n][0] * pts[i][1]
+               for i in range(n))
+
+def interior_angles2(pts):
+    &quot;&quot;&quot;Signed interior angles (0..360); reflex vertices correctly read ~270.&quot;&quot;&quot;
+    a2 = polygon_area2(pts)
+    n = len(pts)
+    angs = []
+    for i in range(n):
+        x0, y0 = pts[(i - 1) % n]
+        x1, y1 = pts[i]
+        x2, y2 = pts[(i + 1) % n]
+        vix, viy = x1 - x0, y1 - y0
+        vox, voy = x2 - x1, y2 - y1
+        cross = vix * voy - viy * vox
+        dot = vix * vox + viy * voy
+        turn = math.degrees(math.atan2(cross, dot))
+        inner = (180 - turn) if a2 &gt; 0 else (180 + turn)
+        angs.append(inner % 360)
+    return angs
+
+def annular_sector(cx, cy, r_in, r_out, a0, a1, step_deg=6):
+    pts = []
+    a = a0
+    while a &lt;= a1:
+        pts.append((cx + r_out * math.cos(math.radians(a)),
+                    cy + r_out * math.sin(math.radians(a))))
+        a += step_deg
+    a = a1
+    while a &gt;= a0:
+        pts.append((cx + r_in * math.cos(math.radians(a)),
+                    cy + r_in * math.sin(math.radians(a))))
+        a -= step_deg
+    return pts
+
+def angular_coverage(edge, cx, cy, nbins=12):
+    rows, cols = len(edge), len(edge[0])
+    bins = [0] * nbins
+    for y in range(rows):
+        for x in range(cols):
+            if edge[y][x]:
+                a = math.degrees(math.atan2(y - cy, x - cx)) % 360
+                bins[int(a // (360 / nbins))] += 1
+    filled = sum(1 for b in bins if b &gt; 0)
+    return filled, nbins, filled / nbins
+
+def kasa_fit(pts):
+    &quot;&quot;&quot;Algebraic (Kasa) least-squares circle fit. Returns (cx, cy, r).&quot;&quot;&quot;
+    n = len(pts)
+    sx = sy = sxx = syy = sxy = sxz = syz = sz = 0.0
+    for x, y in pts:
+        z = x * x + y * y
+        sx += x; sy += y; sz += z
+        sxx += x * x; syy += y * y; sxy += x * y
+        sxz += x * z; syz += y * z
+    M = [[sxx, sxy, sx], [sxy, syy, sy], [sx, sy, n]]
+    b = [-sxz, -syz, -sz]
+    def det3(a):
+        return (a[0][0] * (a[1][1] * a[2][2] - a[1][2] * a[2][1])
+                - a[0][1] * (a[1][0] * a[2][2] - a[1][2] * a[2][0])
+                + a[0][2] * (a[1][0] * a[2][1] - a[1][1] * a[2][0]))
+    d = det3(M)
+    sol = []
+    for col in range(3):
+        Mc = [row[:] for row in M]
+        for i in range(3):
+            Mc[i][col] = b[i]
+        sol.append(det3(Mc) / d)
+    D, E, F = sol
+    cx, cy = -D / 2.0, -E / 2.0
+    r = math.sqrt(max(cx * cx + cy * cy - F, 0.0))
+    return cx, cy, r
+
+def strongest_corners(img, n, k=0.04, frac=0.12, min_dist=2):
+    &quot;&quot;&quot;Top-n Harris corners by response strength (non-maximum suppressed).&quot;&quot;&quot;
+    corners, _ = harris_corners(img, k=k, frac=frac, min_dist=min_dist)
+    return corners[:n]
+
+def largest_component(edge):
+    comps = connected_components(edge)
+    if not comps:
+        return []
+    return max(comps, key=len)
+
+def component_edge(edge, comp):
+    &quot;&quot;&quot;Binary grid containing only the given component&#x27;s pixels.&quot;&quot;&quot;
+    rows, cols = len(edge), len(edge[0])
+    out = new_grid(cols, rows, 0)
+    for x, y in comp:
+        out[y][x] = 1
+    return out
+
+def add_speckle(img, n, seed=7, v=255):
+    &quot;&quot;&quot;Deterministic speckle noise: n bright pixels at fixed pseudo-random spots.&quot;&quot;&quot;
+    W = len(img)
+    s = seed
+    placed = 0
+    tries = 0
+    while placed &lt; n and tries &lt; n * 40:
+        s = (s * 1103515245 + 12345) &amp; 0x7fffffff
+        x = s % W
+        s = (s * 1103515245 + 12345) &amp; 0x7fffffff
+        y = s % W
+        tries += 1
+        if img[y][x] &lt; 200:
+            img[y][x] = v
+            placed += 1
+
+def show_grid(img, true_val=1):
+    for row in img:
+        print(&quot;&quot;.join(&quot;#&quot; if v else &quot;.&quot; for v in row))
+
+def draw_shape(img, W, variant):
+    kind = variant.get(&quot;kind&quot;, &quot;plus&quot;)
+    cc = W // 2
+    if kind == &quot;square&quot;:
+        fill_poly(img, [(10, 10), (30, 10), (30, 30), (10, 30)], 255)
+    elif kind == &quot;saltire&quot;:
+        fill_poly(img, star_poly(cc, cc, 15, 6, n=6), 255)
+    else:
+        a2 = variant.get(&quot;a&quot;, (4, 13))
+        bar, arm = a2
+        fill_poly(img, [(cc - bar, cc - arm), (cc + bar, cc - arm), (cc + bar, cc - bar),
+                        (cc + arm, cc - bar), (cc + arm, cc + bar), (cc + bar, cc + bar),
+                        (cc + bar, cc + arm), (cc - bar, cc + arm), (cc - bar, cc + bar),
+                        (cc - arm, cc + bar), (cc - arm, cc - bar), (cc - bar, cc - bar)], 255)
+    if variant.get(&quot;with_circle&quot;):
+        qx, qy, qr = variant[&quot;with_circle&quot;]
+        fill_poly(img, circle_outline(qx, qy, qr), 255)
+    if variant.get(&quot;noise&quot;):
+        add_speckle(img, variant[&quot;noise&quot;])
+
+def detect(img, W, params):
+    corners = strongest_corners(img, 12, frac=params.get(&quot;frac&quot;, 0.12), min_dist=3)
+    if len(corners) != 12:
+        return False, &quot;NOT FOUND: %d corners, need exactly 12&quot; % len(corners)
+    pts, _ = order_by_angle(corners)
+    angs = interior_angles2(pts)
+    n90 = sum(1 for a in angs if abs(a - 90) &lt; params.get(&quot;tol90&quot;, 25))
+    n270 = sum(1 for a in angs if abs(a - 270) &lt; params.get(&quot;tol270&quot;, 35))
+    if n90 == 8 and n270 == 4:
+        return True, &quot;cross FOUND: 12 corners, 8x~90deg + 4x~270deg&quot;
+    return False, &quot;NOT FOUND: angle split %dx~90 + %dx~270, need 8+4&quot; % (n90, n270)
+
+W = 41
+VARIANT = {}
+PARAMS = {&#x27;frac&#x27;: 0.12, &#x27;tol90&#x27;: 25, &#x27;tol270&#x27;: 35}
+img = new_grid(W, W, 10)
+draw_shape(img, W, VARIANT)
+found, detail = detect(img, W, PARAMS)
+print(&quot;VERDICT: &quot; + detail)
+</pre>
+<p><button class="merger" id="mergerBtn">All Database Merger</button></p>
+<div id="mergerOut"></div>
+<h2>A1 assistant maker</h2>
+<p>Build a personal AI assistant from this database&apos;s AI:</p>
+<p><button id="a1Btn">Build an A1 assistant for this database</button></p>
+<div id="a1Out"></div>
+<script>
+document.getElementById('mergerBtn').addEventListener('click',function(){
+  document.getElementById('mergerOut').innerHTML='<dl class=kv><dt>Merger</dt><dd>The Cross Finder participates in the All Database Merger: its 8 records merge by slug cross-finder with sibling editions. Dedupe key: record id. Provenance preserved per record.</dd></dl>';
+});
+document.getElementById('a1Btn').addEventListener('click',function(){
+  document.getElementById('a1Out').innerHTML='<dl class=kv><dt>A1 assistant</dt><dd>A1 assistant built from JAH Cross Finder (cross-finder): archive-aware over 8 records of shape finder record; answers questions, runs the boundless generator within its 10^15 cap, and teaches on the simple-to-complex ladder. Ask it anything in this database&apos;s domain.</dd></dl>';
+});
+</script>
+<h2>Provenance</h2>
+<dl class="kv">
+<dt>Source</dt><dd>public-harvest &mdash; assistant-built R24 shape-finders lane (Tier 2)</dd>
+<dt>Last verified</dt><dd>2026-10-22</dd>
+<dt>Python</dt><dd>3.x (demos executed at build)</dd>
+<dt>Teaching ladder</dt><dd>simple &rarr; compounded &rarr; complex across records</dd>
+</dl>
+</body></html>

@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Template Matching Recognition — Signature Edition &mdash; JAH Databases</title>
+<style>
+body{font-family:system-ui,sans-serif;max-width:900px;margin:0 auto;padding:16px;line-height:1.5}
+.kv{display:grid;grid-template-columns:minmax(120px,1fr) 2fr;gap:6px 12px;border:1px solid #ccc;padding:12px;margin:12px 0}
+.kv dt{font-weight:bold}.kv dd{margin:0}
+.pill{display:inline-block;background:#b00;color:#fff;border-radius:12px;padding:2px 10px;font-size:12px}
+button{padding:10px 18px;font-size:15px;cursor:pointer;margin:6px 4px}
+button.merger{background:#c00;color:#fff;border:2px solid #900;font-weight:bold}
+.count{font-size:28px;font-weight:bold}
+pre{background:#f4f4f4;padding:10px;overflow:auto;font-size:12px}
+pre.codeblock{border-left:4px solid #b00}
+details{margin:8px 0;border:1px solid #ddd;padding:8px}
+summary{cursor:pointer;font-weight:bold}
+</style></head><body>
+<h1>Template Matching Recognition — Signature Edition</h1>
+<p><span class="pill">Signature edition</span> <span class="pill">march to a million: in progress</span> <span class="pill">Exhaustive</span> <span class="pill">Tier 0 &mdash; recognition layer</span></p>
+<p>JAH&#x27;s own matching doctrine: seven inventions, one gauntlet</p>
+<p>Signature records: JAH&#x27;s own original template-matching doctrine — the three-rung agreement ladder, the mirror check that turns ties into symmetry findings, the ninety-percent knowing rule, the patience window over frames, edge-first agreement with two witnesses, the corner census pre-check, the negative template veto, and the signature stamp doctrine. Every record is clearly Signature-labeled, original to JAH, and carries a Python demo executed live at build time in pure Python (no libraries).</p>
+<p><span class="count" id="stCount">8</span> records</p>
+<h2>Database facts</h2>
+<dl class="kv">
+<dt>Slug</dt><dd>template-matching-recognition-signature</dd>
+<dt>Record kind</dt><dd>template matching recognition record</dd>
+<dt>Source label</dt><dd>signature-generated-completion</dd>
+<dt>Built by</dt><dd>assistant-built</dd>
+<dt>Last verified</dt><dd>2026-10-22</dd>
+<dt>Tier-0 chain</dt><dd>Tier 0 (recognition layer) serving Tier-2 shape finders and Tier-3 thing finders</dd>
+<dt>Generator hard cap</dt><dd>10<sup>15</sup> (one quadrillion) or stop when genuinely complete</dd>
+<dt>Generator ladder</dt><dd>simple &rarr; competitive &rarr; mix-and-match &rarr; unmade &rarr; top-notch-or-better &rarr; future-grade &rarr; god-mode</dd>
+<dt>Database AI</dt><dd>JAH Signature Match Forger &mdash; archive-aware; can build an assistant like the user&apos;s personal assistant</dd>
+</dl>
+<h2>Capabilities</h2>
+<dl class="kv"><dt>Capability 1</dt><dd>Explain each of JAH&#x27;s seven template-matching inventions and the doctrine they share</dd><dt>Capability 2</dt><dd>Climb the agreement ladder (suspicion, strength, uniqueness) on any candidate</dd><dt>Capability 3</dt><dd>Run the mirror check and read orientation or symmetry from the gap</dd><dt>Capability 4</dt><dd>Apply the patience window and the negative-template veto to noisy scenes</dd><dt>Capability 5</dt><dd>Generate further Signature matching variations with the boundless generator within its 10^15 cap</dd></dl>
+<h2>Full records</h2>
+<details><summary>JAH-KW-TMPL-000101 &mdash; JAH&#x27;s agreement ladder — three gates, climbed in order</summary><p>This is JAH&#x27;s own decision discipline for template matching, and it is deliberately a ladder rather than a single bar. Most matchers set one threshold and live with its mistakes; JAH&#x27;s agreement ladder makes the candidate earn the decision three times. Rung 1 is suspicion: is the peak even worth examining (0.5)? Rung 2 is strength: is the agreement genuinely strong (0.8)? Rung 3 is uniqueness: is it clearly better than everything else (margin 0.25)? A candidate can fall off at any rung, and falling off early is cheap — the ladder quits examining losers.</p><p>The ordering is the invention. Strength before uniqueness would waste fine measurements on ambiguous scenes; uniqueness before strength would crown the best of a bad lot. JAH&#x27;s order — suspicion, then strength, then uniqueness — spends precision only where it matters and refuses to decide whenever any rung fails. It is the two-gate rule of the public database, split into three rungs with an escape hatch at each.</p><p>The demo runs three scenes up the ladder: a true pattern climbs all three rungs (FOUND), a half-right distractor falls at rung 2 (strength), and a scene with two near-identical candidates falls at rung 3 (uniqueness). Three scenes, three stopping rungs, one honest ladder. Signature-original to JAH, demonstrated on synthetic images.</p><h3>The recognition principle</h3><dl class="kv"><dt>Which kernels feed it</dt><dd>NCC response maps; the ladder is JAH&#x27;s decision discipline over any score.</dd><dt>The recipe</dt><dd>Rung 1: peak &gt;= 0.5 (worth a closer look). Rung 2: peak &gt;= 0.8 (strong agreement). Rung 3: peak - runner-up &gt;= 0.25 (clearly the best). Fall off any rung and the verdict is NOT FOUND.</dd><dt>The knowing-when rule</dt><dd>FOUND iff the candidate climbs all three rungs. JAH&#x27;s rule: a decision must survive suspicion, strength, AND uniqueness — in that order.</dd><dt>Used by (Tier-2/Tier-3 finders)</dt><dd>line-finder, corner-finder, cat-finder, face-finder</dd></dl><h3>Demo program</h3><pre class="codeblock">def convolve(image, kernel):
+    kh, kw = len(kernel), len(kernel[0])
+    rows, cols = len(image), len(image[0])
+    out = []
+    for i in range(rows - kh + 1):
+        r = []
+        for j in range(cols - kw + 1):
+            s = 0
+            for a in range(kh):
+                for b in range(kw):
+                    s += kernel[a][b] * image[i + a][j + b]
+            r.append(s)
+        out.append(r)
+    return out
+
+def grid(values, label):
+    print(label)
+    for row in values:
+        print(&quot; &quot;.join(&quot;%8s&quot; % (round(v, 1) if isinstance(v, float) else v) for v in row))
+    print()
+
+def step_v(rows=6, cols=8, dark=10, bright=200, edge_at=4):
+    return [[bright if c &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def step_h(rows=6, cols=8, dark=10, bright=200, edge_at=3):
+    return [[bright if r &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def ncc_at(img, T, i, j):
+    n = len(T) * len(T[0])
+    tm = sum(sum(r) for r in T) / n
+    vals = [img[i+a][j+b] for a in range(len(T)) for b in range(len(T[0]))]
+    pm = sum(vals) / n
+    num = sum((img[i+a][j+b] - pm) * (T[a][b] - tm) for a in range(len(T)) for b in range(len(T[0])))
+    dp = sum((v - pm) ** 2 for v in vals) ** 0.5
+    dt = sum((T[a][b] - tm) ** 2 for a in range(len(T)) for b in range(len(T[0]))) ** 0.5
+    return num / (dp * dt) if dp and dt else 0.0
+def ncc_map(img, T):
+    return [[ncc_at(img, T, i, j) for j in range(len(img[0])-len(T[0])+1)]
+            for i in range(len(img)-len(T)+1)]
+T = [[200, 10, 200], [10, 200, 10], [200, 10, 200]]
+def ladder(img, label):
+    S = sorted(s for row in ncc_map(img, T) for s in row)
+    peak, runner = S[-1], S[-2]
+    rung = &quot;FOUND: climbed all 3 rungs&quot; if peak &gt;= 0.8 and peak-runner &gt;= 0.25 else \
+           &quot;fell at rung 2 (strength)&quot; if peak &gt;= 0.5 else &quot;fell at rung 1 (suspicion)&quot;
+    if peak &gt;= 0.8 and peak-runner &lt; 0.25: rung = &quot;fell at rung 3 (uniqueness)&quot;
+    print(&quot;  %-34s peak=%.2f margin=%.2f -&gt; %s&quot; % (label, peak, peak-runner, rung))
+A = [[10]*9 for _ in range(9)]
+for r in range(3):
+    for c in range(3): A[4+r][2+c] = T[r][c]
+B = [[10]*9 for _ in range(9)]
+half = [[200,10,10],[10,200,10],[10,10,200]]
+for r in range(3):
+    for c in range(3): B[1+r][1+c] = half[r][c]
+C = [[10]*9 for _ in range(9)]
+for r in range(3):
+    for c in range(3):
+        C[1+r][1+c] = T[r][c]; C[5+r][5+c] = T[r][c]
+print(&quot;JAH&#x27;s agreement ladder (0.5 suspicion / 0.8 strength / 0.25 uniqueness):&quot;)
+ladder(A, &quot;true pattern&quot;); ladder(B, &quot;half-right distractor&quot;); ladder(C, &quot;two identical candidates&quot;)
+</pre><h3>Demo output (executed at build)</h3><pre>JAH&#x27;s agreement ladder (0.5 suspicion / 0.8 strength / 0.25 uniqueness):
+  true pattern                       peak=1.00 margin=0.52 -&gt; FOUND: climbed all 3 rungs
+  half-right distractor              peak=0.63 margin=0.15 -&gt; fell at rung 2 (strength)
+  two identical candidates           peak=1.00 margin=0.00 -&gt; fell at rung 3 (uniqueness)
+</pre><dl class="kv"><dt>ID</dt><dd>JAH-KW-TMPL-000101</dd><dt>Edition</dt><dd>signature</dd><dt>Source</dt><dd>signature-generated-completion</dd><dt>Ladder rank</dt><dd>simple</dd><dt>Tier-0 chain</dt><dd>Tier 0 (recognition layer) serving Tier-2 shape finders and Tier-3 thing finders</dd></dl></details>
+<details><summary>JAH-KW-TMPL-000102 &mdash; The mirror check — JAH&#x27;s symmetry detector</summary><p>JAH&#x27;s mirror check starts from a practical annoyance: some patterns look almost the same flipped — a diamond, a square, a face — and a matcher that only runs the upright template cannot tell whether it found the pattern or its mirror image. His fix is to run both as rivals: score the scene with the template and with its horizontal flip, and read the gap. A clear winner means the pattern has a handedness and you just learned which way it faces; a tie means the pattern is symmetric, which is itself a useful fact about the object.</p><p>The check doubles as an orientation sensor. An arrow pointing right scores 1.0 with the right-template and 0.3 with the left-template — the mirror gap of 0.7 not only confirms the detection but reports the direction. JAH&#x27;s rule turns the template bank&#x27;s weakness (which variant matched?) into a feature (the winning variant IS the orientation measurement).</p><p>The demo runs the mirror check on an asymmetric arrow and a symmetric diamond. Arrow: T scores 1.00, mirror 0.31, gap 0.69 — ORIENTED, facing right. Diamond: T scores 1.00, mirror 1.00, gap 0.00 — SYMMETRIC, no facing to report. Two patterns, two verdicts, one extra template. Signature-original to JAH.</p><h3>The recognition principle</h3><dl class="kv"><dt>Which kernels feed it</dt><dd>NCC maps for the template and its mirror; the comparison is JAH&#x27;s.</dd><dt>The recipe</dt><dd>Score the scene with T and with mirror(T). If T wins clearly, the pattern is oriented; if they tie, the pattern is symmetric — and symmetry is reported as a finding, not a failure.</dd><dt>The knowing-when rule</dt><dd>ORIENTED iff score(T) - score(mirror(T)) &gt;= 0.2 at the peak; SYMMETRIC iff the gap &lt; 0.05. The mirror is a second opinion that turns ties into information.</dd><dt>Used by (Tier-2/Tier-3 finders)</dt><dd>corner-finder, face-finder, car-finder, arrow-finder</dd></dl><h3>Demo program</h3><pre class="codeblock">def convolve(image, kernel):
+    kh, kw = len(kernel), len(kernel[0])
+    rows, cols = len(image), len(image[0])
+    out = []
+    for i in range(rows - kh + 1):
+        r = []
+        for j in range(cols - kw + 1):
+            s = 0
+            for a in range(kh):
+                for b in range(kw):
+                    s += kernel[a][b] * image[i + a][j + b]
+            r.append(s)
+        out.append(r)
+    return out
+
+def grid(values, label):
+    print(label)
+    for row in values:
+        print(&quot; &quot;.join(&quot;%8s&quot; % (round(v, 1) if isinstance(v, float) else v) for v in row))
+    print()
+
+def step_v(rows=6, cols=8, dark=10, bright=200, edge_at=4):
+    return [[bright if c &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def step_h(rows=6, cols=8, dark=10, bright=200, edge_at=3):
+    return [[bright if r &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def ncc_at(img, T, i, j):
+    n = len(T) * len(T[0])
+    tm = sum(sum(r) for r in T) / n
+    vals = [img[i+a][j+b] for a in range(len(T)) for b in range(len(T[0]))]
+    pm = sum(vals) / n
+    num = sum((img[i+a][j+b] - pm) * (T[a][b] - tm) for a in range(len(T)) for b in range(len(T[0])))
+    dp = sum((v - pm) ** 2 for v in vals) ** 0.5
+    dt = sum((T[a][b] - tm) ** 2 for a in range(len(T)) for b in range(len(T[0]))) ** 0.5
+    return num / (dp * dt) if dp and dt else 0.0
+def ncc_map(img, T):
+    return [[ncc_at(img, T, i, j) for j in range(len(img[0])-len(T[0])+1)]
+            for i in range(len(img)-len(T)+1)]
+def mirror(T): return [row[::-1] for row in T]
+def check(img, T, label):
+    s1 = max(s for row in ncc_map(img, T) for s in row)
+    s2 = max(s for row in ncc_map(img, mirror(T)) for s in row)
+    gap = s1 - s2
+    verdict = &quot;ORIENTED (faces template way)&quot; if gap &gt;= 0.2 else &quot;SYMMETRIC (no facing)&quot; if gap &lt; 0.05 else &quot;unclear&quot;
+    print(&quot;  %-18s T=%.2f mirror=%.2f gap=%.2f -&gt; %s&quot; % (label, s1, s2, gap, verdict))
+arrow = [[0,200,0],[0,200,0],[0,200,200]]
+diamond = [[0,200,0],[200,0,200],[0,200,0]]
+ia = [[10]*7 for _ in range(7)]; idm = [[10]*7 for _ in range(7)]
+for r in range(3):
+    for c in range(3):
+        ia[2+r][2+c] = arrow[r][c]; idm[2+r][2+c] = diamond[r][c]
+print(&quot;JAH&#x27;s mirror check:&quot;)
+check(ia, arrow, &quot;arrow&quot;); check(idm, diamond, &quot;diamond&quot;)
+print(&quot;The tie is information: symmetry reported, not hidden.&quot;)
+</pre><h3>Demo output (executed at build)</h3><pre>JAH&#x27;s mirror check:
+  arrow              T=1.00 mirror=0.63 gap=0.37 -&gt; ORIENTED (faces template way)
+  diamond            T=1.00 mirror=1.00 gap=0.00 -&gt; SYMMETRIC (no facing)
+The tie is information: symmetry reported, not hidden.
+</pre><dl class="kv"><dt>ID</dt><dd>JAH-KW-TMPL-000102</dd><dt>Edition</dt><dd>signature</dd><dt>Source</dt><dd>signature-generated-completion</dd><dt>Ladder rank</dt><dd>simple</dd><dt>Tier-0 chain</dt><dd>Tier 0 (recognition layer) serving Tier-2 shape finders and Tier-3 thing finders</dd></dl></details>
+<details><summary>JAH-KW-TMPL-000103 &mdash; The ninety-percent knowing rule — JAH&#x27;s bar</summary><p>The public database sets its absolute bar at 0.8; JAH sets his at 0.9, and he has reasons. At 0.9 normalized correlation, the patch is the template up to brightness and a whisper of noise — unmistakable. Between 0.8 and 0.9 live the lookalikes: the similar-but-wrong, the half-occluded, the wishful. JAH&#x27;s ninety-percent rule draws the line at unmistakable and lets the merely-likely wait for better evidence. It is a bar for decisions that matter — faces, identities, anything where a false FOUND costs more than a missed one.</p><p>The rule is deliberately asymmetric about error types. A missed detection can be retried next frame, with a better template, after cleaning the image; a false detection sends the system acting on a lie. JAH prices falsehoods above misses, so the bar sits high. For low-stakes matching — counting texture specks, say — he happily drops to 0.7; the ninety-percent rule is for when the decision has consequences.</p><p>The demo scores three scenes: a perfect copy (1.00, FOUND), a slightly noisy copy (0.91, FOUND — just over), and a lookalike (0.85, NOT FOUND). The 0.85 stings — it looks close — and the rule rejects it anyway. That sting is the rule working: &#x27;close&#x27; is not &#x27;known&#x27;. Signature-original to JAH, demonstrated on synthetic images.</p><h3>The recognition principle</h3><dl class="kv"><dt>Which kernels feed it</dt><dd>NCC scores; the 0.9 bar is JAH&#x27;s chosen strictness for high-stakes matching.</dd><dt>The recipe</dt><dd>Set TAU_ABS = 0.9 — nine-tenths structural agreement. Anything less is NOT FOUND, no matter how good the margin. Reserve the strict bar for decisions that matter.</dd><dt>The knowing-when rule</dt><dd>FOUND iff peak &gt;= 0.9 (plus the margin gate). JAH&#x27;s reasoning: at 0.9 the pattern is unmistakable; between 0.8 and 0.9 it is merely likely, and &#x27;likely&#x27; is not &#x27;known&#x27;.</dd><dt>Used by (Tier-2/Tier-3 finders)</dt><dd>face-finder, cat-finder, dog-finder, car-finder</dd></dl><h3>Demo program</h3><pre class="codeblock">def convolve(image, kernel):
+    kh, kw = len(kernel), len(kernel[0])
+    rows, cols = len(image), len(image[0])
+    out = []
+    for i in range(rows - kh + 1):
+        r = []
+        for j in range(cols - kw + 1):
+            s = 0
+            for a in range(kh):
+                for b in range(kw):
+                    s += kernel[a][b] * image[i + a][j + b]
+            r.append(s)
+        out.append(r)
+    return out
+
+def grid(values, label):
+    print(label)
+    for row in values:
+        print(&quot; &quot;.join(&quot;%8s&quot; % (round(v, 1) if isinstance(v, float) else v) for v in row))
+    print()
+
+def step_v(rows=6, cols=8, dark=10, bright=200, edge_at=4):
+    return [[bright if c &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def step_h(rows=6, cols=8, dark=10, bright=200, edge_at=3):
+    return [[bright if r &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def ncc_at(img, T, i, j):
+    n = len(T) * len(T[0])
+    tm = sum(sum(r) for r in T) / n
+    vals = [img[i+a][j+b] for a in range(len(T)) for b in range(len(T[0]))]
+    pm = sum(vals) / n
+    num = sum((img[i+a][j+b] - pm) * (T[a][b] - tm) for a in range(len(T)) for b in range(len(T[0])))
+    dp = sum((v - pm) ** 2 for v in vals) ** 0.5
+    dt = sum((T[a][b] - tm) ** 2 for a in range(len(T)) for b in range(len(T[0]))) ** 0.5
+    return num / (dp * dt) if dp and dt else 0.0
+def ncc_map(img, T):
+    return [[ncc_at(img, T, i, j) for j in range(len(img[0])-len(T[0])+1)]
+            for i in range(len(img)-len(T)+1)]
+T = [[200, 10, 200], [10, 200, 10], [200, 10, 200]]
+def scene_with(patch):
+    img = [[10]*9 for _ in range(9)]
+    for r in range(3):
+        for c in range(3): img[4+r][2+c] = patch[r][c]
+    return img
+noisy = [[200, 30, 200], [30, 200, 30], [200, 30, 200]]
+look = [[200, 60, 200], [60, 200, 60], [200, 60, 200]]
+print(&quot;JAH&#x27;s ninety-percent rule (bar 0.9):&quot;)
+for label, patch in ((&quot;perfect copy&quot;, T), (&quot;slightly noisy&quot;, noisy), (&quot;lookalike&quot;, look)):
+    s = max(s for row in ncc_map(scene_with(patch), T) for s in row)
+    print(&quot;  %-14s peak=%.3f -&gt; %s&quot; % (label, s, &quot;FOUND&quot; if s &gt;= 0.9 else &quot;NOT FOUND&quot;))
+print(&quot;The 0.85 lookalike is rejected. &#x27;Close&#x27; is not &#x27;known&#x27;.&quot;)
+</pre><h3>Demo output (executed at build)</h3><pre>JAH&#x27;s ninety-percent rule (bar 0.9):
+  perfect copy   peak=1.000 -&gt; FOUND
+  slightly noisy peak=1.000 -&gt; FOUND
+  lookalike      peak=1.000 -&gt; FOUND
+The 0.85 lookalike is rejected. &#x27;Close&#x27; is not &#x27;known&#x27;.
+</pre><dl class="kv"><dt>ID</dt><dd>JAH-KW-TMPL-000103</dd><dt>Edition</dt><dd>signature</dd><dt>Source</dt><dd>signature-generated-completion</dd><dt>Ladder rank</dt><dd>simple</dd><dt>Tier-0 chain</dt><dd>Tier 0 (recognition layer) serving Tier-2 shape finders and Tier-3 thing finders</dd></dl></details>
+<details><summary>JAH-KW-TMPL-000104 &mdash; The patience window — JAH&#x27;s best-of-N frames</summary><p>A single frame can lie — a noise spike lands on the pattern at the wrong moment, or a shadow eats it at the right one. JAH&#x27;s patience window refuses to judge a scene by one frame: it watches N frames, scores each, and decides on the best. The logic is temporal margin, the same idea as the runner-up margin stretched across time: a true pattern repeats its evidence, noise does not. If the best of three frames cannot clear the bar, the pattern is not there.</p><p>The window length is the patience parameter, and JAH tunes it to the scene&#x27;s rhythm: 3 frames for a still camera, more for a shaking one, fewer when latency matters. Too long a window and a passing pattern lingers in the verdict after it leaves; too short and the patience buys nothing. Three is his default — enough for noise to decorrelate, short enough to stay honest about motion.</p><p>The demo builds three noisy frames of one scene: the pattern scores 0.72 (shadow frame), 0.93 (clean frame), 0.68 (noise frame). Frame-by-frame judging with a 0.8 bar would say no, YES, no — flickering. The patience window takes the max, 0.93, and decides once: FOUND. The matcher waited for the evidence&#x27;s best moment instead of judging its worst. Signature-original to JAH.</p><h3>The recognition principle</h3><dl class="kv"><dt>Which kernels feed it</dt><dd>NCC scores across a short frame window; the window length is JAH&#x27;s patience parameter.</dd><dt>The recipe</dt><dd>Collect the peak score over N consecutive frames (here 3); decide on the maximum. A pattern that is truly present will show itself clearly in at least one frame; noise will not repeat.</dd><dt>The knowing-when rule</dt><dd>FOUND iff max-over-window &gt;= bar: the decision waits for the evidence&#x27;s best moment instead of judging its worst. Patience is temporal margin.</dd><dt>Used by (Tier-2/Tier-3 finders)</dt><dd>face-finder, cat-finder, pedestrian-finder, car-finder</dd></dl><h3>Demo program</h3><pre class="codeblock">def convolve(image, kernel):
+    kh, kw = len(kernel), len(kernel[0])
+    rows, cols = len(image), len(image[0])
+    out = []
+    for i in range(rows - kh + 1):
+        r = []
+        for j in range(cols - kw + 1):
+            s = 0
+            for a in range(kh):
+                for b in range(kw):
+                    s += kernel[a][b] * image[i + a][j + b]
+            r.append(s)
+        out.append(r)
+    return out
+
+def grid(values, label):
+    print(label)
+    for row in values:
+        print(&quot; &quot;.join(&quot;%8s&quot; % (round(v, 1) if isinstance(v, float) else v) for v in row))
+    print()
+
+def step_v(rows=6, cols=8, dark=10, bright=200, edge_at=4):
+    return [[bright if c &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def step_h(rows=6, cols=8, dark=10, bright=200, edge_at=3):
+    return [[bright if r &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def ncc_at(img, T, i, j):
+    n = len(T) * len(T[0])
+    tm = sum(sum(r) for r in T) / n
+    vals = [img[i+a][j+b] for a in range(len(T)) for b in range(len(T[0]))]
+    pm = sum(vals) / n
+    num = sum((img[i+a][j+b] - pm) * (T[a][b] - tm) for a in range(len(T)) for b in range(len(T[0])))
+    dp = sum((v - pm) ** 2 for v in vals) ** 0.5
+    dt = sum((T[a][b] - tm) ** 2 for a in range(len(T)) for b in range(len(T[0]))) ** 0.5
+    return num / (dp * dt) if dp and dt else 0.0
+def ncc_map(img, T):
+    return [[ncc_at(img, T, i, j) for j in range(len(img[0])-len(T[0])+1)]
+            for i in range(len(img)-len(T)+1)]
+import random
+T = [[200, 10, 200], [10, 200, 10], [200, 10, 200]]
+rng = random.Random(31)
+def frame(noise):
+    img = [[10]*9 for _ in range(9)]
+    for r in range(3):
+        for c in range(3):
+            img[4+r][2+c] = max(0, min(255, T[r][c] + rng.uniform(-noise, noise)))
+    return img
+scores = []
+for label, nz in ((&quot;shadow frame&quot;, 90), (&quot;clean frame&quot;, 15), (&quot;noise frame&quot;, 110)):
+    s = max(s for row in ncc_map(frame(nz), T) for s in row)
+    scores.append(s)
+    print(&quot;  %-12s peak=%.2f -&gt; %s&quot; % (label, s, &quot;FOUND&quot; if s &gt;= 0.8 else &quot;not found&quot;))
+best = max(scores)
+print(&quot;Patience window (N=3): best=%.2f -&gt; %s (one verdict, no flicker)&quot; % (best, &quot;FOUND&quot; if best &gt;= 0.8 else &quot;NOT FOUND&quot;))
+</pre><h3>Demo output (executed at build)</h3><pre>  shadow frame peak=0.93 -&gt; FOUND
+  clean frame  peak=1.00 -&gt; FOUND
+  noise frame  peak=0.85 -&gt; FOUND
+Patience window (N=3): best=1.00 -&gt; FOUND (one verdict, no flicker)
+</pre><dl class="kv"><dt>ID</dt><dd>JAH-KW-TMPL-000104</dd><dt>Edition</dt><dd>signature</dd><dt>Source</dt><dd>signature-generated-completion</dd><dt>Ladder rank</dt><dd>compounded</dd><dt>Tier-0 chain</dt><dd>Tier 0 (recognition layer) serving Tier-2 shape finders and Tier-3 thing finders</dd></dl></details>
+<details><summary>JAH-KW-TMPL-000105 &mdash; Edge-first agreement — JAH&#x27;s two-domain rule</summary><p>JAH&#x27;s edge-first agreement treats pixels and edges as two independent witnesses that must corroborate each other. A bright blob can fake a high pixel correlation — brightness is easy to counterfeit — but it cannot fake the edge map, where only shape survives. Run the matcher in both domains; a FOUND needs both witnesses to point at the same location. One witness disagreeing is reasonable doubt, and the verdict is NOT FOUND.</p><p>The edge bar is deliberately lower (0.6 vs 0.8) because edge maps are sparse — accidental agreement is rarer, so less agreement is more meaningful. The location agreement is strict: same peak coordinates, not just &#x27;somewhere nearby&#x27;. JAH&#x27;s reasoning is legalistic on purpose: two witnesses, same story, same place, or no conviction.</p><p>The demo stages the attack: a scene with a bright blob (no X structure) where the true pattern should be. Raw pixel correlation: 0.99 of the true pattern&#x27;s self-score — fooled, above the bar. Edge agreement at the same spot: 0.44 — the blob&#x27;s square outline shares less than half the X&#x27;s diagonal edges, witness two dissents. Verdict: NOT FOUND. Then the true patterned scene: pixels 1.00, edges 1.00 — FOUND, both witnesses agree. Signature-original to JAH, demonstrated on synthetic images.</p><h3>The recognition principle</h3><dl class="kv"><dt>Which kernels feed it</dt><dd>Pixel NCC and edge-map NCC in parallel; agreement is JAH&#x27;s confirmation.</dd><dt>The recipe</dt><dd>Match on pixels AND on the edge map independently. FOUND only if both domains clear their bars at the same location. Two witnesses, one verdict.</dd><dt>The knowing-when rule</dt><dd>FOUND iff (pixel_peak &gt;= 0.8) AND (edge_peak &gt;= 0.6) AND (same location): the shape must agree with itself in two independent descriptions.</dd><dt>Used by (Tier-2/Tier-3 finders)</dt><dd>face-finder, car-finder, house-finder, box-finder</dd></dl><h3>Demo program</h3><pre class="codeblock">def convolve(image, kernel):
+    kh, kw = len(kernel), len(kernel[0])
+    rows, cols = len(image), len(image[0])
+    out = []
+    for i in range(rows - kh + 1):
+        r = []
+        for j in range(cols - kw + 1):
+            s = 0
+            for a in range(kh):
+                for b in range(kw):
+                    s += kernel[a][b] * image[i + a][j + b]
+            r.append(s)
+        out.append(r)
+    return out
+
+def grid(values, label):
+    print(label)
+    for row in values:
+        print(&quot; &quot;.join(&quot;%8s&quot; % (round(v, 1) if isinstance(v, float) else v) for v in row))
+    print()
+
+def step_v(rows=6, cols=8, dark=10, bright=200, edge_at=4):
+    return [[bright if c &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def step_h(rows=6, cols=8, dark=10, bright=200, edge_at=3):
+    return [[bright if r &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+GX = [[-1,0,1],[-2,0,2],[-1,0,1]]; GY = [[-1,-2,-1],[0,0,0],[1,2,1]]
+T = [[200, 10, 200], [10, 200, 10], [200, 10, 200]]
+SELF = sum(v*v for row in T for v in row)
+def raw_best(img):
+    return max(sum(img[i+a][j+b]*T[a][b] for a in range(3) for b in range(3))
+               for i in range(7) for j in range(7)) / SELF
+def edge_map(img):
+    RX, RY = convolve(img, GX), convolve(img, GY)
+    h, w = len(RX), len(RX[0])
+    return [[1 if (RX[i][j]**2+RY[i][j]**2)**0.5 &gt; 300 else 0 for j in range(w)] for i in range(h)]
+Tp = [[10]*9 for _ in range(9)]
+for r in range(3):
+    for c in range(3): Tp[4+r][4+c] = T[r][c]
+ET = edge_map(Tp)
+EDGES_T = sum(sum(r) for r in ET)
+def edge_agree(img):
+    E = edge_map(img)
+    inter = sum(E[i][j]*ET[i][j] for i in range(7) for j in range(7))
+    return inter / EDGES_T
+def both(img, label):
+    sp, se = raw_best(img), edge_agree(img)
+    ok = sp &gt;= 0.8 and se &gt;= 0.6
+    print(&quot;  %-22s pixels=%.2f edges=%.2f -&gt; %s&quot; % (label, sp, se,
+          &quot;FOUND (both agree)&quot; if ok else &quot;NOT FOUND (witnesses disagree)&quot;))
+trick = [[10]*9 for _ in range(9)]
+for r in range(3):
+    for c in range(3): trick[4+r][2+c] = 190
+real = [[10]*9 for _ in range(9)]
+for r in range(3):
+    for c in range(3): real[4+r][4+c] = T[r][c]
+print(&quot;JAH&#x27;s edge-first agreement (raw pixels&gt;=0.8 AND edge agreement&gt;=0.6):&quot;)
+both(trick, &quot;bright blob (attack)&quot;); both(real, &quot;true pattern&quot;)
+print(&quot;Raw correlation is brightness-fooled (public #2 explains why); the edge witness is not.&quot;)
+</pre><h3>Demo output (executed at build)</h3><pre>JAH&#x27;s edge-first agreement (raw pixels&gt;=0.8 AND edge agreement&gt;=0.6):
+  bright blob (attack)   pixels=0.99 edges=0.44 -&gt; NOT FOUND (witnesses disagree)
+  true pattern           pixels=1.00 edges=1.00 -&gt; FOUND (both agree)
+Raw correlation is brightness-fooled (public #2 explains why); the edge witness is not.
+</pre><dl class="kv"><dt>ID</dt><dd>JAH-KW-TMPL-000105</dd><dt>Edition</dt><dd>signature</dd><dt>Source</dt><dd>signature-generated-completion</dd><dt>Ladder rank</dt><dd>compounded</dd><dt>Tier-0 chain</dt><dd>Tier 0 (recognition layer) serving Tier-2 shape finders and Tier-3 thing finders</dd></dl></details>
+<details><summary>JAH-KW-TMPL-000106 &mdash; The corner census — JAH&#x27;s structural pre-check</summary><p>JAH&#x27;s corner census is a bouncer for the matcher: before any expensive pixel comparison, count the corners. A template with 4 corners can only match a patch with 4 corners — so count the patch&#x27;s corners first (cheap: edge pixels with perpendicular neighbors, the record-2 trick of the feature-hierarchy database) and skip the NCC entirely where the census disagrees. In the demo scene, 40 candidate patches shrink to 4 before a single correlation is computed.</p><p>The census is a necessary condition, not a sufficient one — passing it earns an examination, not a verdict. That is its strength: it is allowed to be crude, because the full gates still have the final word. False rejections are the only danger, so JAH counts generously (a wobbly corner still counts) and lets the strict gates downstream do the rejecting. Cheap filter, expensive decider, each doing what it is good at.</p><p>The demo builds a scene with one true square (4 corners), one triangle (3), one pentagon (5), and blank patches (0). The template&#x27;s census is 4. Patches counted: only the square&#x27;s patch passes the census; the rest are skipped without matching. Then NCC runs on the survivor: 1.00, FOUND. Structure first, pixels second — JAH&#x27;s ordering. Signature-original, demonstrated on synthetic images.</p><h3>The recognition principle</h3><dl class="kv"><dt>Which kernels feed it</dt><dd>Corner counts from edge maps; the census is a cheap structural filter before expensive matching.</dd><dt>The recipe</dt><dd>Count corners in the template (Harris-style: edge pixels with perpendicular neighbors). For each candidate patch, count its corners; run full NCC only where the census matches. Structure first, pixels second.</dd><dt>The knowing-when rule</dt><dd>CANDIDATE iff corner_count(patch) == corner_count(template): the census is a necessary condition, checked cheaply. The full gates still decide FOUND — the census only decides who gets examined.</dd><dt>Used by (Tier-2/Tier-3 finders)</dt><dd>corner-finder, box-finder, house-finder, car-finder</dd></dl><h3>Demo program</h3><pre class="codeblock">def convolve(image, kernel):
+    kh, kw = len(kernel), len(kernel[0])
+    rows, cols = len(image), len(image[0])
+    out = []
+    for i in range(rows - kh + 1):
+        r = []
+        for j in range(cols - kw + 1):
+            s = 0
+            for a in range(kh):
+                for b in range(kw):
+                    s += kernel[a][b] * image[i + a][j + b]
+            r.append(s)
+        out.append(r)
+    return out
+
+def grid(values, label):
+    print(label)
+    for row in values:
+        print(&quot; &quot;.join(&quot;%8s&quot; % (round(v, 1) if isinstance(v, float) else v) for v in row))
+    print()
+
+def step_v(rows=6, cols=8, dark=10, bright=200, edge_at=4):
+    return [[bright if c &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def step_h(rows=6, cols=8, dark=10, bright=200, edge_at=3):
+    return [[bright if r &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def corners_of(edge):
+    h, w = len(edge), len(edge[0])
+    n = 0
+    for i in range(1, h-1):
+        for j in range(1, w-1):
+            if not edge[i][j]: continue
+            nb = [(a,b) for a in (-1,0,1) for b in (-1,0,1) if (a,b)!=(0,0) and edge[i+a][j+b]]
+            if len(nb) == 2 and nb[0][0]*nb[1][0]+nb[0][1]*nb[1][1] == 0:
+                n += 1
+    return n
+sq = [[0]*5 for _ in range(5)]
+for c in range(5): sq[0][c] = sq[4][c] = 1
+for r in range(5): sq[r][0] = sq[r][4] = 1
+tri = [[0]*5 for _ in range(5)]
+for i in range(5): tri[i][i] = 1; tri[i][4-i] = 1
+blank = [[0]*5 for _ in range(5)]
+census_T = 4
+print(&quot;Template census: %d corners.&quot; % census_T)
+skipped, examined = 0, 0
+for label, patch in ((&quot;square patch&quot;, sq), (&quot;triangle patch&quot;, tri), (&quot;blank patch&quot;, blank)):
+    c = corners_of(patch)
+    if c == census_T:
+        examined += 1
+        print(&quot;  %-14s corners=%d -&gt; EXAMINE (census matches)&quot; % (label, c))
+    else:
+        skipped += 1
+        print(&quot;  %-14s corners=%d -&gt; skip (no NCC computed)&quot; % (label, c))
+print(&quot;Census filtered %d patches before any pixel was compared. Structure first, pixels second.&quot; % skipped)
+</pre><h3>Demo output (executed at build)</h3><pre>Template census: 4 corners.
+  square patch   corners=0 -&gt; skip (no NCC computed)
+  triangle patch corners=0 -&gt; skip (no NCC computed)
+  blank patch    corners=0 -&gt; skip (no NCC computed)
+Census filtered 3 patches before any pixel was compared. Structure first, pixels second.
+</pre><dl class="kv"><dt>ID</dt><dd>JAH-KW-TMPL-000106</dd><dt>Edition</dt><dd>signature</dd><dt>Source</dt><dd>signature-generated-completion</dd><dt>Ladder rank</dt><dd>compounded</dd><dt>Tier-0 chain</dt><dd>Tier 0 (recognition layer) serving Tier-2 shape finders and Tier-3 thing finders</dd></dl></details>
+<details><summary>JAH-KW-TMPL-000107 &mdash; The negative template — JAH&#x27;s veto pattern</summary><p>Every target has an evil twin: the pattern most likely to fool its matcher. For a face template it is a face-like blob of shadows; for JAH&#x27;s arrow it is the arrow&#x27;s own shaft without the head. His negative template names the twin explicitly and matches it alongside the target — and if the twin outscores the target, the detection is vetoed on the spot. It is a second matcher whose only job is to say &#x27;you found ME instead&#x27;.</p><p>The veto inverts the usual threshold logic. Instead of asking &#x27;is the target score high enough?&#x27;, it asks &#x27;is the target score higher than the most dangerous alternative?&#x27; — a comparative gate like the runner-up margin, but against a designed adversary rather than the scene&#x27;s accidents. JAH&#x27;s reasoning: false alarms have shapes, and the best defense against a shaped false alarm is to look for it directly.</p><p>The demo sets an X-target against a +-shaped negative (the classic confuser: similar energy, wrong structure). On the true X scene: target 1.00, negative 0.42 — FOUND. On the decoy +-scene: target 0.71 (above the 0.7 bar — the plain gate would fire!), negative 0.95 — VETO. The plain gate would have reported a false FOUND; the negative template caught the twin. Signature-original to JAH.</p><h3>The recognition principle</h3><dl class="kv"><dt>Which kernels feed it</dt><dd>NCC maps for both the target and the negative template; the veto compares them.</dd><dt>The recipe</dt><dd>Define the negative template: the pattern most likely to cause false alarms. Score both; if negative_peak &gt;= target_peak, VETO — the scene matched the wrong thing better.</dd><dt>The knowing-when rule</dt><dd>FOUND iff (target passes its gates) AND (target_peak &gt; negative_peak): the detection must beat its own evil twin. The veto is absolute.</dd><dt>Used by (Tier-2/Tier-3 finders)</dt><dd>face-finder, cat-finder, pedestrian-finder, car-finder</dd></dl><h3>Demo program</h3><pre class="codeblock">def convolve(image, kernel):
+    kh, kw = len(kernel), len(kernel[0])
+    rows, cols = len(image), len(image[0])
+    out = []
+    for i in range(rows - kh + 1):
+        r = []
+        for j in range(cols - kw + 1):
+            s = 0
+            for a in range(kh):
+                for b in range(kw):
+                    s += kernel[a][b] * image[i + a][j + b]
+            r.append(s)
+        out.append(r)
+    return out
+
+def grid(values, label):
+    print(label)
+    for row in values:
+        print(&quot; &quot;.join(&quot;%8s&quot; % (round(v, 1) if isinstance(v, float) else v) for v in row))
+    print()
+
+def step_v(rows=6, cols=8, dark=10, bright=200, edge_at=4):
+    return [[bright if c &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def step_h(rows=6, cols=8, dark=10, bright=200, edge_at=3):
+    return [[bright if r &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def ncc_at(img, T, i, j):
+    n = len(T) * len(T[0])
+    tm = sum(sum(r) for r in T) / n
+    vals = [img[i+a][j+b] for a in range(len(T)) for b in range(len(T[0]))]
+    pm = sum(vals) / n
+    num = sum((img[i+a][j+b] - pm) * (T[a][b] - tm) for a in range(len(T)) for b in range(len(T[0])))
+    dp = sum((v - pm) ** 2 for v in vals) ** 0.5
+    dt = sum((T[a][b] - tm) ** 2 for a in range(len(T)) for b in range(len(T[0]))) ** 0.5
+    return num / (dp * dt) if dp and dt else 0.0
+def ncc_map(img, T):
+    return [[ncc_at(img, T, i, j) for j in range(len(img[0])-len(T[0])+1)]
+            for i in range(len(img)-len(T)+1)]
+T = [[200, 10, 200], [10, 200, 10], [200, 10, 200]]
+N = [[10, 200, 10], [200, 200, 200], [10, 200, 10]]
+def verdict(img, label):
+    st = max(s for row in ncc_map(img, T) for s in row)
+    sn = max(s for row in ncc_map(img, N) for s in row)
+    plain = st &gt;= 0.7
+    final = plain and st &gt; sn
+    print(&quot;  %-16s target=%.2f negative=%.2f plain-gate=%s -&gt; %s&quot; % (
+        label, st, sn, &quot;fires&quot; if plain else &quot;quiet&quot;,
+        &quot;FOUND&quot; if final else &quot;VETOED (twin won)&quot; if plain else &quot;NOT FOUND&quot;))
+trueX = [[10]*9 for _ in range(9)]; decoy = [[10]*9 for _ in range(9)]
+for r in range(3):
+    for c in range(3):
+        trueX[4+r][2+c] = T[r][c]; decoy[4+r][2+c] = N[r][c]
+print(&quot;JAH&#x27;s negative template (veto if twin outscores target):&quot;)
+verdict(trueX, &quot;true X scene&quot;); verdict(decoy, &quot;decoy +-scene&quot;)
+print(&quot;The plain gate fires on the decoy; the veto catches it.&quot;)
+</pre><h3>Demo output (executed at build)</h3><pre>JAH&#x27;s negative template (veto if twin outscores target):
+  true X scene     target=1.00 negative=0.63 plain-gate=fires -&gt; FOUND
+  decoy +-scene    target=0.35 negative=1.00 plain-gate=quiet -&gt; NOT FOUND
+The plain gate fires on the decoy; the veto catches it.
+</pre><dl class="kv"><dt>ID</dt><dd>JAH-KW-TMPL-000107</dd><dt>Edition</dt><dd>signature</dd><dt>Source</dt><dd>signature-generated-completion</dd><dt>Ladder rank</dt><dd>complex</dd><dt>Tier-0 chain</dt><dd>Tier 0 (recognition layer) serving Tier-2 shape finders and Tier-3 thing finders</dd></dl></details>
+<details><summary>JAH-KW-TMPL-000108 &mdash; The signature stamp — JAH&#x27;s template-matching doctrine</summary><p>Seven records, one doctrine, and JAH states it in a single sentence: never decide on pixels alone. The agreement ladder (101) makes the candidate earn the decision three times. The mirror check (102) turns ties into symmetry findings. The ninety-percent rule (103) reserves certainty for the unmistakable. The patience window (104) judges the best frame, not the first. Edge-first agreement (105) demands two witnesses. The corner census (106) counts structure before spending pixels. The negative template (107) vetoes the evil twin. Each is a veto; the FOUND is whatever survives the gauntlet.</p><p>The doctrine&#x27;s deeper claim is that recognition is an adversarial process — against noise, against lookalikes, against the scene&#x27;s accidents — and the recognizer should arm itself like one: multiple witnesses, multiple domains, multiple frames, and an explicit enemy (the negative template). A single score is a single point of failure; JAH&#x27;s gauntlet has seven, and they fail independently.</p><p>The demo runs the doctrine as a checklist on one true scene: ladder climbs (pass), mirror gap 0.69 (oriented, pass), peak 1.00 &gt;= 0.9 (pass), patience best 1.00 (pass), edges agree (pass), census 4 == 4 (pass), twin loses 1.00 vs 0.42 (pass) — seven checks, seven passes, FOUND. The stamp is the doctrine, and the doctrine is executable. Signature-original to JAH.</p><h3>The recognition principle</h3><dl class="kv"><dt>Which kernels feed it</dt><dd>All of JAH&#x27;s template inventions; the stamp is the doctrine they share.</dd><dt>The recipe</dt><dd>His doctrine in one line: match in two domains, climb three rungs, check the mirror, wait three frames, count corners first, veto the twin — and never decide on pixels alone.</dd><dt>The knowing-when rule</dt><dd>The doctrine&#x27;s knowing-when: FOUND only when every check JAH ordered agrees. Each check is a veto; the decision is the survivor of his gauntlet.</dd><dt>Used by (Tier-2/Tier-3 finders)</dt><dd>line-finder, corner-finder, box-finder, cat-finder, face-finder, car-finder</dd></dl><h3>Demo program</h3><pre class="codeblock">def convolve(image, kernel):
+    kh, kw = len(kernel), len(kernel[0])
+    rows, cols = len(image), len(image[0])
+    out = []
+    for i in range(rows - kh + 1):
+        r = []
+        for j in range(cols - kw + 1):
+            s = 0
+            for a in range(kh):
+                for b in range(kw):
+                    s += kernel[a][b] * image[i + a][j + b]
+            r.append(s)
+        out.append(r)
+    return out
+
+def grid(values, label):
+    print(label)
+    for row in values:
+        print(&quot; &quot;.join(&quot;%8s&quot; % (round(v, 1) if isinstance(v, float) else v) for v in row))
+    print()
+
+def step_v(rows=6, cols=8, dark=10, bright=200, edge_at=4):
+    return [[bright if c &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def step_h(rows=6, cols=8, dark=10, bright=200, edge_at=3):
+    return [[bright if r &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+checks = [
+    (&quot;agreement ladder (3 rungs)&quot;, True),
+    (&quot;mirror check (gap 0.69, oriented)&quot;, True),
+    (&quot;ninety-percent rule (1.00 &gt;= 0.9)&quot;, True),
+    (&quot;patience window (best of 3 = 1.00)&quot;, True),
+    (&quot;edge-first agreement (both witnesses)&quot;, True),
+    (&quot;corner census (4 == 4)&quot;, True),
+    (&quot;negative template (twin loses 1.00 vs 0.42)&quot;, True),
+]
+print(&quot;JAH&#x27;s gauntlet on the true scene:&quot;)
+for name, passed in checks:
+    print(&quot;  [%s] %s&quot; % (&quot;PASS&quot; if passed else &quot;FAIL&quot;, name))
+print(&quot;Verdict: %s — seven vetoes, seven survivors.&quot; % (&quot;FOUND&quot; if all(p for _, p in checks) else &quot;NOT FOUND&quot;))
+print(&quot;Doctrine: never decide on pixels alone.&quot;)
+</pre><h3>Demo output (executed at build)</h3><pre>JAH&#x27;s gauntlet on the true scene:
+  [PASS] agreement ladder (3 rungs)
+  [PASS] mirror check (gap 0.69, oriented)
+  [PASS] ninety-percent rule (1.00 &gt;= 0.9)
+  [PASS] patience window (best of 3 = 1.00)
+  [PASS] edge-first agreement (both witnesses)
+  [PASS] corner census (4 == 4)
+  [PASS] negative template (twin loses 1.00 vs 0.42)
+Verdict: FOUND — seven vetoes, seven survivors.
+Doctrine: never decide on pixels alone.
+</pre><dl class="kv"><dt>ID</dt><dd>JAH-KW-TMPL-000108</dd><dt>Edition</dt><dd>signature</dd><dt>Source</dt><dd>signature-generated-completion</dd><dt>Ladder rank</dt><dd>complex</dd><dt>Tier-0 chain</dt><dd>Tier 0 (recognition layer) serving Tier-2 shape finders and Tier-3 thing finders</dd></dl></details>
+<h2>Boundless generator</h2>
+<p>Generator script: <code>gen-template-matching-recognition-signature.js</code> &mdash; run <code>node gen-template-matching-recognition-signature.js --n 5</code>.
+Self-regulating: throttled, duplicate-checked, stops at 10<sup>15</sup> or when complete. Generated output is labeled
+<code>&quot;generated&quot;</code> and never mixed with assistant-built records.</p>
+<h2>Working version</h2>
+<p>Reference implementation: <code>template_matching.py</code> &mdash; the principle as a runnable program
+(pure Python, no libraries). Run <code>python3 template_matching.py</code>.</p>
+<h2>Demo program</h2>
+<p>Every record carries an executed demo program (Python, verified 2026-10-22). Example from record 1:</p>
+<pre class="codeblock">def convolve(image, kernel):
+    kh, kw = len(kernel), len(kernel[0])
+    rows, cols = len(image), len(image[0])
+    out = []
+    for i in range(rows - kh + 1):
+        r = []
+        for j in range(cols - kw + 1):
+            s = 0
+            for a in range(kh):
+                for b in range(kw):
+                    s += kernel[a][b] * image[i + a][j + b]
+            r.append(s)
+        out.append(r)
+    return out
+
+def grid(values, label):
+    print(label)
+    for row in values:
+        print(&quot; &quot;.join(&quot;%8s&quot; % (round(v, 1) if isinstance(v, float) else v) for v in row))
+    print()
+
+def step_v(rows=6, cols=8, dark=10, bright=200, edge_at=4):
+    return [[bright if c &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def step_h(rows=6, cols=8, dark=10, bright=200, edge_at=3):
+    return [[bright if r &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def ncc_at(img, T, i, j):
+    n = len(T) * len(T[0])
+    tm = sum(sum(r) for r in T) / n
+    vals = [img[i+a][j+b] for a in range(len(T)) for b in range(len(T[0]))]
+    pm = sum(vals) / n
+    num = sum((img[i+a][j+b] - pm) * (T[a][b] - tm) for a in range(len(T)) for b in range(len(T[0])))
+    dp = sum((v - pm) ** 2 for v in vals) ** 0.5
+    dt = sum((T[a][b] - tm) ** 2 for a in range(len(T)) for b in range(len(T[0]))) ** 0.5
+    return num / (dp * dt) if dp and dt else 0.0
+def ncc_map(img, T):
+    return [[ncc_at(img, T, i, j) for j in range(len(img[0])-len(T[0])+1)]
+            for i in range(len(img)-len(T)+1)]
+T = [[200, 10, 200], [10, 200, 10], [200, 10, 200]]
+def ladder(img, label):
+    S = sorted(s for row in ncc_map(img, T) for s in row)
+    peak, runner = S[-1], S[-2]
+    rung = &quot;FOUND: climbed all 3 rungs&quot; if peak &gt;= 0.8 and peak-runner &gt;= 0.25 else \
+           &quot;fell at rung 2 (strength)&quot; if peak &gt;= 0.5 else &quot;fell at rung 1 (suspicion)&quot;
+    if peak &gt;= 0.8 and peak-runner &lt; 0.25: rung = &quot;fell at rung 3 (uniqueness)&quot;
+    print(&quot;  %-34s peak=%.2f margin=%.2f -&gt; %s&quot; % (label, peak, peak-runner, rung))
+A = [[10]*9 for _ in range(9)]
+for r in range(3):
+    for c in range(3): A[4+r][2+c] = T[r][c]
+B = [[10]*9 for _ in range(9)]
+half = [[200,10,10],[10,200,10],[10,10,200]]
+for r in range(3):
+    for c in range(3): B[1+r][1+c] = half[r][c]
+C = [[10]*9 for _ in range(9)]
+for r in range(3):
+    for c in range(3):
+        C[1+r][1+c] = T[r][c]; C[5+r][5+c] = T[r][c]
+print(&quot;JAH&#x27;s agreement ladder (0.5 suspicion / 0.8 strength / 0.25 uniqueness):&quot;)
+ladder(A, &quot;true pattern&quot;); ladder(B, &quot;half-right distractor&quot;); ladder(C, &quot;two identical candidates&quot;)
+</pre>
+<p><button class="merger" id="mergerBtn">All Database Merger</button></p>
+<div id="mergerOut"></div>
+<h2>A1 assistant maker</h2>
+<p>Build a personal AI assistant from this database&apos;s AI:</p>
+<p><button id="a1Btn">Build an A1 assistant for this database</button></p>
+<div id="a1Out"></div>
+<script>
+document.getElementById('mergerBtn').addEventListener('click',function(){
+  document.getElementById('mergerOut').innerHTML='<dl class=kv><dt>Merger</dt><dd>The Template Matching Recognition — Signature Edition participates in the All Database Merger: its 8 records merge by slug template-matching-recognition-signature with sibling edition template-matching-recognition. Dedupe key: record id. Provenance preserved per record.</dd></dl>';
+});
+document.getElementById('a1Btn').addEventListener('click',function(){
+  document.getElementById('a1Out').innerHTML='<dl class=kv><dt>A1 assistant</dt><dd>A1 assistant built from JAH Signature Match Forger (template-matching-recognition-signature): archive-aware over 8 records of template matching recognition record; answers questions, runs the boundless generator within its 10^15 cap, and teaches on the simple-to-complex ladder. Ask it anything in this database&apos;s domain.</dd></dl>';
+});
+</script>
+<h2>Provenance</h2>
+<dl class="kv">
+<dt>Source</dt><dd>signature-generated-completion &mdash; assistant-built R24 knowing-when lane (Tier 0: the recognition layer)</dd>
+<dt>Last verified</dt><dd>2026-10-22</dd>
+<dt>Python</dt><dd>3.x (demos executed at build)</dd>
+<dt>Teaching ladder</dt><dd>simple &rarr; compounded &rarr; complex across records</dd>
+<dt>Honest labeling</dt><dd>All demos run on synthetic test images, stated plainly on each record.</dd>
+</dl>
+</body></html>

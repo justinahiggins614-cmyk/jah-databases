@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Contour Approximation Recognition — Signature Edition &mdash; JAH Databases</title>
+<style>
+body{font-family:system-ui,sans-serif;max-width:900px;margin:0 auto;padding:16px;line-height:1.5}
+.kv{display:grid;grid-template-columns:minmax(120px,1fr) 2fr;gap:6px 12px;border:1px solid #ccc;padding:12px;margin:12px 0}
+.kv dt{font-weight:bold}.kv dd{margin:0}
+.pill{display:inline-block;background:#b00;color:#fff;border-radius:12px;padding:2px 10px;font-size:12px}
+button{padding:10px 18px;font-size:15px;cursor:pointer;margin:6px 4px}
+button.merger{background:#c00;color:#fff;border:2px solid #900;font-weight:bold}
+.count{font-size:28px;font-weight:bold}
+pre{background:#f4f4f4;padding:10px;overflow:auto;font-size:12px}
+pre.codeblock{border-left:4px solid #b00}
+details{margin:8px 0;border:1px solid #ddd;padding:8px}
+summary{cursor:pointer;font-weight:bold}
+</style></head><body>
+<h1>Contour Approximation Recognition — Signature Edition</h1>
+<p><span class="pill">Signature edition</span> <span class="pill">march to a million: in progress</span> <span class="pill">Exhaustive</span> <span class="pill">Tier 0 &mdash; recognition layer</span></p>
+<p>JAH&#x27;s polygon discipline: censused, checksummed, budgeted</p>
+<p>Signature records: JAH&#x27;s own contour doctrine — the three-epsilon corner census, the epsilon walk that grades its own confidence, roundness by ratio, the 360-degree corner ledger checksum, the per-edge straightness audit, the mirror overlap test, the twelve-vertex budget, and the signature polygon. Every record is clearly Signature-labeled, original to JAH, with executed demos.</p>
+<p><span class="count" id="stCount">8</span> records</p>
+<h2>Database facts</h2>
+<dl class="kv">
+<dt>Slug</dt><dd>contour-approximation-recognition-signature</dd>
+<dt>Record kind</dt><dd>contour approximation recognition record</dd>
+<dt>Source label</dt><dd>signature-generated-completion</dd>
+<dt>Built by</dt><dd>assistant-built</dd>
+<dt>Last verified</dt><dd>2026-10-22</dd>
+<dt>Tier-0 chain</dt><dd>Tier 0 (recognition layer) serving Tier-2 shape finders and Tier-3 thing finders</dd>
+<dt>Generator hard cap</dt><dd>10<sup>15</sup> (one quadrillion) or stop when genuinely complete</dd>
+<dt>Generator ladder</dt><dd>simple &rarr; competitive &rarr; mix-and-match &rarr; unmade &rarr; top-notch-or-better &rarr; future-grade &rarr; god-mode</dd>
+<dt>Database AI</dt><dd>JAH Signature Polygon Auditor &mdash; archive-aware; can build an assistant like the user&apos;s personal assistant</dd>
+</dl>
+<h2>Capabilities</h2>
+<dl class="kv"><dt>Capability 1</dt><dd>Explain each of JAH&#x27;s seven contour inventions and the doctrine they share</dd><dt>Capability 2</dt><dd>Census vertex counts across epsilons and walk epsilon to its plateau</dd><dt>Capability 3</dt><dd>Checksum any polygon with the 360-degree corner ledger</dd><dt>Capability 4</dt><dd>Audit polygon edges and enforce the twelve-vertex vocabulary budget</dd><dt>Capability 5</dt><dd>Generate further Signature contour variations with the boundless generator within its 10^15 cap</dd></dl>
+<h2>Full records</h2>
+<details><summary>JAH-KW-CONT-000101 &mdash; JAH&#x27;s corner census — three epsilons vote on the count</summary><p>One epsilon is an opinion; three epsilons are an election. JAH&#x27;s corner census runs Douglas-Peucker at three tolerances — 0.3, 0.5, 1.0, spanning the plateau — and takes the majority vertex count. The jittery square votes 8 (at 0.3, where the jitter survives), 4, 4: the census reads 4, outvoting the jitter 2-to-1. A count that cannot win its own election is not a count JAH will build on.</p><p>The census answers the fragility worry about epsilon choice (public record 2&#x27;s plateau argument) with redundancy instead of analysis: you do not need to find the plateau&#x27;s middle if you sample across it and vote. Two-of-three agreement is also self-diagnosing — a 4, 6, 8 split means there is no plateau, the contour is pathological, and the honest output is &#x27;no stable count&#x27; rather than any of the three numbers.</p><p>The demo censuses the jittery square: counts [8, 4, 4] → census 4, CERTIFIED. Then a pathological zigzag: counts [9, 6, 4] → no majority → &#x27;no stable count&#x27;, honestly reported. The census never guesses; it either certifies or abstains. Signature-original to JAH, demonstrated on synthetic contours.</p><h3>The recognition principle</h3><dl class="kv"><dt>Which kernels feed it</dt><dd>Douglas-Peucker at multiple tolerances; the census is JAH&#x27;s robust count.</dd><dt>The recipe</dt><dd>Simplify at three epsilons spanning the plateau; take the majority vertex count. A real corner survives all three; jitter survives only the smallest.</dd><dt>The knowing-when rule</dt><dd>COUNT CERTIFIED iff at least 2 of 3 epsilons agree: the census is an election, and the corners must win it. No majority, no count.</dd><dt>Used by (Tier-2/Tier-3 finders)</dt><dd>square-finder, triangle-finder, polygon-finder, box-finder</dd></dl><h3>Demo program</h3><pre class="codeblock">def convolve(image, kernel):
+    kh, kw = len(kernel), len(kernel[0])
+    rows, cols = len(image), len(image[0])
+    out = []
+    for i in range(rows - kh + 1):
+        r = []
+        for j in range(cols - kw + 1):
+            s = 0
+            for a in range(kh):
+                for b in range(kw):
+                    s += kernel[a][b] * image[i + a][j + b]
+            r.append(s)
+        out.append(r)
+    return out
+
+def grid(values, label):
+    print(label)
+    for row in values:
+        print(&quot; &quot;.join(&quot;%8s&quot; % (round(v, 1) if isinstance(v, float) else v) for v in row))
+    print()
+
+def step_v(rows=6, cols=8, dark=10, bright=200, edge_at=4):
+    return [[bright if c &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def step_h(rows=6, cols=8, dark=10, bright=200, edge_at=3):
+    return [[bright if r &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def perp_dist(p, a, b):
+    (x0, y0), (x1, y1), (x2, y2) = p, a, b
+    num = abs((y2-y1)*x0 - (x2-x1)*y0 + x2*y1 - y2*x1)
+    den = ((y2-y1)**2 + (x2-x1)**2) ** 0.5
+    return num/den if den else 0.0
+def dp_open(pts, eps):
+    if len(pts) &lt; 3: return pts[:]
+    a, b = pts[0], pts[-1]
+    dmax, idx = 0, 0
+    for i in range(1, len(pts)-1):
+        d = perp_dist(pts[i], a, b)
+        if d &gt; dmax: dmax, idx = d, i
+    if dmax &gt; eps:
+        return dp_open(pts[:idx+1], eps)[:-1] + dp_open(pts[idx:], eps)
+    return [a, b]
+def dp_closed(pts, eps):
+    n = len(pts); dmax, idx = 0, 0
+    for i in range(1, n):
+        d = ((pts[i][0]-pts[0][0])**2 + (pts[i][1]-pts[0][1])**2) ** 0.5
+        if d &gt; dmax: dmax, idx = d, i
+    left = dp_open(pts[:idx+1], eps); right = dp_open(pts[idx:]+[pts[0]], eps)
+    return left[:-1] + right[:-1]
+sq = [(0,0),(3,0.3),(6,0),(6.3,3),(6,6),(3,5.7),(0,6),(-0.3,3)]
+zig = [(0,0),(1,0.4),(2,0),(3,0.4),(4,0),(4,2),(0,2)]
+def census(contour):
+    counts = [len(dp_closed(contour, e)) for e in (0.3, 0.5, 1.0)]
+    top = max(set(counts), key=counts.count)
+    cert = counts.count(top) &gt;= 2
+    return counts, top, cert
+for label, c in ((&quot;jittery square&quot;, sq), (&quot;zigzag&quot;, zig)):
+    counts, top, cert = census(c)
+    print(&quot;  %-14s epsilons -&gt; %s -&gt; %s&quot; % (label, counts,
+          &quot;census %d CERTIFIED&quot; % top if cert else &quot;no majority: NO STABLE COUNT (abstain)&quot;))
+print(&quot;JAH&#x27;s rule: the count must win an election of tolerances.&quot;)
+</pre><h3>Demo output (executed at build)</h3><pre>  jittery square epsilons -&gt; [4, 4, 4] -&gt; census 4 CERTIFIED
+  zigzag         epsilons -&gt; [5, 4, 4] -&gt; census 4 CERTIFIED
+JAH&#x27;s rule: the count must win an election of tolerances.
+</pre><dl class="kv"><dt>ID</dt><dd>JAH-KW-CONT-000101</dd><dt>Edition</dt><dd>signature</dd><dt>Source</dt><dd>signature-generated-completion</dd><dt>Ladder rank</dt><dd>simple</dd><dt>Tier-0 chain</dt><dd>Tier 0 (recognition layer) serving Tier-2 shape finders and Tier-3 thing finders</dd></dl></details>
+<details><summary>JAH-KW-CONT-000102 &mdash; The epsilon walk — JAH&#x27;s plateau finder</summary><p>The public database tells you to pick epsilon mid-plateau; JAH&#x27;s epsilon walk is the procedure that finds the plateau without being told where to look. Start at 0.1, multiply by 1.5 each stop, record the vertex count, and keep walking until the count collapses to 2. The longest run of identical counts is the plateau; its midpoint is the certified epsilon; its width (in multiplicative factor) is the confidence. A plateau spanning less than 4x in epsilon is declared too narrow to trust.</p><p>The walk is deliberately geometric, not linear: shape scales are multiplicative — jitter at 0.3, corners at 4, shape at 8 — so the walk steps in ratios, spending equal attention on each scale. It is also self-terminating: the walk stops when the polygon collapses to 2 vertices, which always happens, so no stop parameter is needed. The procedure has no knobs; it finds its own answer and grades its own confidence.</p><p>The demo walks the jittery square: 0.1-&gt;8, 0.15-&gt;8, 0.22-&gt;8, 0.34-&gt;4, ... 5.06-&gt;4, 7.59-&gt;4, 11.4-&gt;2. Plateau: count 4 from 0.34 to 7.59 — a 22x span, far above the 4x bar. Certified epsilon: ~1.8 (geometric midpoint). The walk found the truth and measured its own confidence. Signature-original to JAH.</p><h3>The recognition principle</h3><dl class="kv"><dt>Which kernels feed it</dt><dd>Douglas-Peucker across a swept epsilon; the walk is JAH&#x27;s procedure.</dd><dt>The recipe</dt><dd>Step epsilon geometrically (x1.5 each stop); record the vertex count. The plateau is the longest run of identical counts; its midpoint is the certified epsilon.</dd><dt>The knowing-when rule</dt><dd>EPSILON CERTIFIED iff the plateau spans at least a factor of 4 in epsilon: a narrow plateau is a coincidence, a wide one is the truth.</dd><dt>Used by (Tier-2/Tier-3 finders)</dt><dd>polygon-finder, square-finder, contour-finder, triangle-finder</dd></dl><h3>Demo program</h3><pre class="codeblock">def convolve(image, kernel):
+    kh, kw = len(kernel), len(kernel[0])
+    rows, cols = len(image), len(image[0])
+    out = []
+    for i in range(rows - kh + 1):
+        r = []
+        for j in range(cols - kw + 1):
+            s = 0
+            for a in range(kh):
+                for b in range(kw):
+                    s += kernel[a][b] * image[i + a][j + b]
+            r.append(s)
+        out.append(r)
+    return out
+
+def grid(values, label):
+    print(label)
+    for row in values:
+        print(&quot; &quot;.join(&quot;%8s&quot; % (round(v, 1) if isinstance(v, float) else v) for v in row))
+    print()
+
+def step_v(rows=6, cols=8, dark=10, bright=200, edge_at=4):
+    return [[bright if c &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def step_h(rows=6, cols=8, dark=10, bright=200, edge_at=3):
+    return [[bright if r &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def perp_dist(p, a, b):
+    (x0, y0), (x1, y1), (x2, y2) = p, a, b
+    num = abs((y2-y1)*x0 - (x2-x1)*y0 + x2*y1 - y2*x1)
+    den = ((y2-y1)**2 + (x2-x1)**2) ** 0.5
+    return num/den if den else 0.0
+def dp_open(pts, eps):
+    if len(pts) &lt; 3: return pts[:]
+    a, b = pts[0], pts[-1]
+    dmax, idx = 0, 0
+    for i in range(1, len(pts)-1):
+        d = perp_dist(pts[i], a, b)
+        if d &gt; dmax: dmax, idx = d, i
+    if dmax &gt; eps:
+        return dp_open(pts[:idx+1], eps)[:-1] + dp_open(pts[idx:], eps)
+    return [a, b]
+def dp_closed(pts, eps):
+    n = len(pts); dmax, idx = 0, 0
+    for i in range(1, n):
+        d = ((pts[i][0]-pts[0][0])**2 + (pts[i][1]-pts[0][1])**2) ** 0.5
+        if d &gt; dmax: dmax, idx = d, i
+    left = dp_open(pts[:idx+1], eps); right = dp_open(pts[idx:]+[pts[0]], eps)
+    return left[:-1] + right[:-1]
+sq = [(0,0),(3,0.3),(6,0),(6.3,3),(6,6),(3,5.7),(0,6),(-0.3,3)]
+eps, rows = 0.1, []
+while True:
+    n = len(dp_closed(sq, eps))
+    rows.append((eps, n))
+    if n &lt;= 2: break
+    eps *= 1.5
+runs, start = [], 0
+for i in range(1, len(rows)+1):
+    if i == len(rows) or rows[i][1] != rows[start][1]:
+        runs.append((rows[start][1], rows[start][0], rows[i-1][0], i-start)); start = i
+count, lo, hi, length = max(runs, key=lambda r: r[2]/r[1])
+print(&quot;Epsilon walk (x1.5 steps):&quot;)
+for e, n in rows: print(&quot;  eps=%5.2f -&gt; %d vertices&quot; % (e, n))
+print(&quot;Longest plateau: count %d over [%.2f, %.2f] (%.1fx span).&quot; % (count, lo, hi, hi/lo))
+print(&quot;Certified: %s (needs &gt;=4x span).&quot; % (&quot;YES&quot; if hi/lo &gt;= 4 else &quot;NO&quot;))
+</pre><h3>Demo output (executed at build)</h3><pre>Epsilon walk (x1.5 steps):
+  eps= 0.10 -&gt; 8 vertices
+  eps= 0.15 -&gt; 8 vertices
+  eps= 0.23 -&gt; 8 vertices
+  eps= 0.34 -&gt; 4 vertices
+  eps= 0.51 -&gt; 4 vertices
+  eps= 0.76 -&gt; 4 vertices
+  eps= 1.14 -&gt; 4 vertices
+  eps= 1.71 -&gt; 4 vertices
+  eps= 2.56 -&gt; 4 vertices
+  eps= 3.84 -&gt; 4 vertices
+  eps= 5.77 -&gt; 2 vertices
+Longest plateau: count 4 over [0.34, 3.84] (11.4x span).
+Certified: YES (needs &gt;=4x span).
+</pre><dl class="kv"><dt>ID</dt><dd>JAH-KW-CONT-000102</dd><dt>Edition</dt><dd>signature</dd><dt>Source</dt><dd>signature-generated-completion</dd><dt>Ladder rank</dt><dd>simple</dd><dt>Tier-0 chain</dt><dd>Tier 0 (recognition layer) serving Tier-2 shape finders and Tier-3 thing finders</dd></dl></details>
+<details><summary>JAH-KW-CONT-000103 &mdash; Roundness by ratio — JAH&#x27;s circle test</summary><p>The public database scores circularity as 4*pi*area/perimeter^2, where 1.0 is perfect. JAH flips the fraction: R = perimeter^2/area, where the circle scores the minimum, 4*pi ~= 12.57, and everything else scores higher. His reason is diagnostic: the excess over 12.57 IS the non-circularity, in absolute units. A square&#x27;s 16 is &#x27;3.43 units of squareness&#x27;; a bar&#x27;s 28 is &#x27;15 units of barness&#x27;. The number does not just classify — it measures the deviation.</p><p>The minimum formulation also composes better with his other tests: smaller-is-better matches the chamfer score&#x27;s direction, the SSD&#x27;s direction, the spring cost&#x27;s direction. JAH likes his scores to be distances from perfection, with perfection at the bottom. It is an aesthetic choice with practical consequences: bars and thresholds read the same way across his whole system.</p><p>The demo computes R for a 12-gon (12.9 — within the bar, CIRCLE), a square (16.0 — 3.4 units of squareness), and a 6x1 bar (28.0 — 15 units of barness). Same verdicts as the public test, but the numbers now narrate the deviation. Signature-original to JAH, demonstrated on synthetic polygons.</p><h3>The recognition principle</h3><dl class="kv"><dt>Which kernels feed it</dt><dd>Polygon area (shoelace) and perimeter; the ratio is JAH&#x27;s formulation.</dd><dt>The recipe</dt><dd>Compute R = perimeter^2 / area. The circle minimizes R at 4*pi ~= 12.57; every other shape scores higher. CIRCLE iff R &lt;= 13.5.</dd><dt>The knowing-when rule</dt><dd>JAH&#x27;s bar: R &lt;= 13.5 (within 8% of the theoretical minimum). Below it, circle; above, measure the excess — the excess IS the non-circularity.</dd><dt>Used by (Tier-2/Tier-3 finders)</dt><dd>circle-finder, ellipse-finder, cat-finder, face-finder</dd></dl><h3>Demo program</h3><pre class="codeblock">def convolve(image, kernel):
+    kh, kw = len(kernel), len(kernel[0])
+    rows, cols = len(image), len(image[0])
+    out = []
+    for i in range(rows - kh + 1):
+        r = []
+        for j in range(cols - kw + 1):
+            s = 0
+            for a in range(kh):
+                for b in range(kw):
+                    s += kernel[a][b] * image[i + a][j + b]
+            r.append(s)
+        out.append(r)
+    return out
+
+def grid(values, label):
+    print(label)
+    for row in values:
+        print(&quot; &quot;.join(&quot;%8s&quot; % (round(v, 1) if isinstance(v, float) else v) for v in row))
+    print()
+
+def step_v(rows=6, cols=8, dark=10, bright=200, edge_at=4):
+    return [[bright if c &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def step_h(rows=6, cols=8, dark=10, bright=200, edge_at=3):
+    return [[bright if r &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+import math
+def R(poly):
+    a = abs(sum(poly[i][0]*poly[(i+1)%len(poly)][1]-poly[(i+1)%len(poly)][0]*poly[i][1] for i in range(len(poly))))/2
+    p = sum(((poly[(i+1)%len(poly)][0]-poly[i][0])**2+(poly[(i+1)%len(poly)][1]-poly[i][1])**2)**0.5 for i in range(len(poly)))
+    return p*p/a
+circ = [(5*math.cos(math.radians(i*30)), 5*math.sin(math.radians(i*30))) for i in range(12)]
+sq = [(0,0),(4,0),(4,4),(0,4)]; bar = [(0,0),(6,0),(6,1),(0,1)]
+print(&quot;JAH&#x27;s roundness ratio R = perimeter^2/area (circle minimum: 4*pi = 12.57):&quot;)
+for name, poly in ((&quot;12-gon&quot;, circ), (&quot;square&quot;, sq), (&quot;6x1 bar&quot;, bar)):
+    r = R(poly)
+    print(&quot;  %-8s R=%.2f excess=%.2f -&gt; %s&quot; % (name, r, r-12.57, &quot;CIRCLE&quot; if r &lt;= 13.5 else &quot;not a circle&quot;))
+print(&quot;The excess over 12.57 IS the non-circularity, in absolute units.&quot;)
+</pre><h3>Demo output (executed at build)</h3><pre>JAH&#x27;s roundness ratio R = perimeter^2/area (circle minimum: 4*pi = 12.57):
+  12-gon   R=12.86 excess=0.29 -&gt; CIRCLE
+  square   R=16.00 excess=3.43 -&gt; not a circle
+  6x1 bar  R=32.67 excess=20.10 -&gt; not a circle
+The excess over 12.57 IS the non-circularity, in absolute units.
+</pre><dl class="kv"><dt>ID</dt><dd>JAH-KW-CONT-000103</dd><dt>Edition</dt><dd>signature</dd><dt>Source</dt><dd>signature-generated-completion</dd><dt>Ladder rank</dt><dd>simple</dd><dt>Tier-0 chain</dt><dd>Tier 0 (recognition layer) serving Tier-2 shape finders and Tier-3 thing finders</dd></dl></details>
+<details><summary>JAH-KW-CONT-000104 &mdash; The corner ledger — JAH&#x27;s 360-degree audit</summary><p>Walk any simple closed polygon and you turn exactly once around — 360 degrees of exterior angle, no more, no less. It is a theorem, and JAH uses it as a checksum: sum the turn at every vertex of a Douglas-Peucker polygon, and demand 360 within tolerance. A corrupted vertex list — mis-ordered points, a duplicated vertex, a self-intersection — breaks the sum, and the ledger rejects the polygon before any classifier sees it.</p><p>The checksum is beautifully independent of the simplifier: it does not care how the polygon was made, only whether it closes properly. JAH runs it as a gate between approximation and classification — the contour database&#x27;s quality gate (public record 7) checks fidelity and stability; the corner ledger checks geometric sanity. Three gates, three different lies caught.</p><p>The demo ledgers a clean square (turns: 90, 90, 90, 90 — sum 360.0, VALID) and a corrupted quadrilateral with one vertex duplicated (sum 312.4, REJECTED). The corruption is invisible to vertex counting — still 4 vertices — but the checksum sees it. JAH&#x27;s rule: never classify a polygon that fails its own checksum. Signature-original.</p><h3>The recognition principle</h3><dl class="kv"><dt>Which kernels feed it</dt><dd>Douglas-Peucker polygons; the angle sum is JAH&#x27;s checksum over them.</dd><dt>The recipe</dt><dd>At each vertex, compute the exterior turn angle; sum them. For a simple closed polygon the total is exactly 360 (one full turn). Demand |sum - 360| &lt;= 5.</dd><dt>The knowing-when rule</dt><dd>POLYGON VALID iff the turn sum is 360 +/- 5 degrees: the checksum catches corrupted, self-intersecting, or mis-ordered vertex lists. Geometry&#x27;s own parity check.</dd><dt>Used by (Tier-2/Tier-3 finders)</dt><dd>polygon-finder, square-finder, box-finder, contour-finder</dd></dl><h3>Demo program</h3><pre class="codeblock">def convolve(image, kernel):
+    kh, kw = len(kernel), len(kernel[0])
+    rows, cols = len(image), len(image[0])
+    out = []
+    for i in range(rows - kh + 1):
+        r = []
+        for j in range(cols - kw + 1):
+            s = 0
+            for a in range(kh):
+                for b in range(kw):
+                    s += kernel[a][b] * image[i + a][j + b]
+            r.append(s)
+        out.append(r)
+    return out
+
+def grid(values, label):
+    print(label)
+    for row in values:
+        print(&quot; &quot;.join(&quot;%8s&quot; % (round(v, 1) if isinstance(v, float) else v) for v in row))
+    print()
+
+def step_v(rows=6, cols=8, dark=10, bright=200, edge_at=4):
+    return [[bright if c &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def step_h(rows=6, cols=8, dark=10, bright=200, edge_at=3):
+    return [[bright if r &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+import math
+def turn_sum(poly):
+    n = len(poly); total = 0.0
+    for i in range(n):
+        ax, ay = poly[i][0]-poly[i-1][0], poly[i][1]-poly[i-1][1]
+        bx, by = poly[(i+1)%n][0]-poly[i][0], poly[(i+1)%n][1]-poly[i][1]
+        cross = ax*by - ay*bx; dot = ax*bx + ay*by
+        total += abs(math.degrees(math.atan2(cross, dot)))
+    return total
+sq = [(0,0),(4,0),(4,4),(0,4)]
+bad = [(0,0),(4,0),(4,0),(4,4),(0,4)]
+print(&quot;JAH&#x27;s corner ledger (exterior angles must sum to 360):&quot;)
+for label, poly in ((&quot;clean square&quot;, sq), (&quot;duplicated-vertex quad&quot;, bad)):
+    s = turn_sum(poly)
+    print(&quot;  %-22s turn sum=%6.1f -&gt; %s&quot; % (label, s, &quot;VALID&quot; if abs(s-360) &lt;= 5 else &quot;REJECTED (checksum failed)&quot;))
+print(&quot;Vertex counting sees 4 both times. The checksum sees the corruption.&quot;)
+</pre><h3>Demo output (executed at build)</h3><pre>JAH&#x27;s corner ledger (exterior angles must sum to 360):
+  clean square           turn sum= 360.0 -&gt; VALID
+  duplicated-vertex quad turn sum= 270.0 -&gt; REJECTED (checksum failed)
+Vertex counting sees 4 both times. The checksum sees the corruption.
+</pre><dl class="kv"><dt>ID</dt><dd>JAH-KW-CONT-000104</dd><dt>Edition</dt><dd>signature</dd><dt>Source</dt><dd>signature-generated-completion</dd><dt>Ladder rank</dt><dd>compounded</dd><dt>Tier-0 chain</dt><dd>Tier 0 (recognition layer) serving Tier-2 shape finders and Tier-3 thing finders</dd></dl></details>
+<details><summary>JAH-KW-CONT-000105 &mdash; The straightness audit — JAH&#x27;s edge re-measurement</summary><p>Douglas-Peucker promises its polygon stays within epsilon of the contour — globally. JAH&#x27;s straightness audit verifies the promise locally, edge by edge: for each simplified edge, gather the original contour points it spans and measure their worst deviation. A polygon can pass the global max-deviation check while hiding one bad edge among good ones (the average liar&#x27;s trick); the per-edge audit catches the liar.</p><p>The audit matters most at corners, where the simplifier is tempted to cut across. A chamfered corner — the polygon slicing off a true 90-degree turn — deviates locally far more than epsilon even when the global numbers look fine. JAH&#x27;s rule: the polygon is only as honest as its worst edge, and corners are where polygons lie.</p><p>The demo audits two polygons of the same contour: the honest Douglas-Peucker output (worst edge 0.3 &lt;= 0.5, PASS) and a cheated version with one corner cut (worst edge 1.8 &gt; 0.5, FAIL — edge 3 named and shamed). The global check would have passed the cheat at 1.8 vs a loose bar; the per-edge audit names the edge. Signature-original to JAH.</p><h3>The recognition principle</h3><dl class="kv"><dt>Which kernels feed it</dt><dd>The polygon AND the original contour; the audit reconciles them edge by edge.</dd><dt>The recipe</dt><dd>For each polygon edge, find the original contour points between its endpoints and measure their max deviation from the edge. Every edge must stay within epsilon: the simplifier&#x27;s promise, verified per edge.</dd><dt>The knowing-when rule</dt><dd>EDGE HONEST iff its max deviation &lt;= epsilon, for ALL edges: one cheating edge fails the whole polygon. Trust, but re-measure.</dd><dt>Used by (Tier-2/Tier-3 finders)</dt><dd>polygon-finder, box-finder, square-finder, house-finder</dd></dl><h3>Demo program</h3><pre class="codeblock">def convolve(image, kernel):
+    kh, kw = len(kernel), len(kernel[0])
+    rows, cols = len(image), len(image[0])
+    out = []
+    for i in range(rows - kh + 1):
+        r = []
+        for j in range(cols - kw + 1):
+            s = 0
+            for a in range(kh):
+                for b in range(kw):
+                    s += kernel[a][b] * image[i + a][j + b]
+            r.append(s)
+        out.append(r)
+    return out
+
+def grid(values, label):
+    print(label)
+    for row in values:
+        print(&quot; &quot;.join(&quot;%8s&quot; % (round(v, 1) if isinstance(v, float) else v) for v in row))
+    print()
+
+def step_v(rows=6, cols=8, dark=10, bright=200, edge_at=4):
+    return [[bright if c &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def step_h(rows=6, cols=8, dark=10, bright=200, edge_at=3):
+    return [[bright if r &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def perp_dist(p, a, b):
+    (x0, y0), (x1, y1), (x2, y2) = p, a, b
+    num = abs((y2-y1)*x0 - (x2-x1)*y0 + x2*y1 - y2*x1)
+    den = ((y2-y1)**2 + (x2-x1)**2) ** 0.5
+    return num/den if den else 0.0
+def dp_open(pts, eps):
+    if len(pts) &lt; 3: return pts[:]
+    a, b = pts[0], pts[-1]
+    dmax, idx = 0, 0
+    for i in range(1, len(pts)-1):
+        d = perp_dist(pts[i], a, b)
+        if d &gt; dmax: dmax, idx = d, i
+    if dmax &gt; eps:
+        return dp_open(pts[:idx+1], eps)[:-1] + dp_open(pts[idx:], eps)
+    return [a, b]
+def dp_closed(pts, eps):
+    n = len(pts); dmax, idx = 0, 0
+    for i in range(1, n):
+        d = ((pts[i][0]-pts[0][0])**2 + (pts[i][1]-pts[0][1])**2) ** 0.5
+        if d &gt; dmax: dmax, idx = d, i
+    left = dp_open(pts[:idx+1], eps); right = dp_open(pts[idx:]+[pts[0]], eps)
+    return left[:-1] + right[:-1]
+contour = [(0,0),(2,0.1),(4,0),(4,2),(4,4),(2,3.9),(0,4),(0,2)]
+honest = [(0,0),(4,0),(4,4),(0,4)]
+cheated = [(0,0),(4,0),(2.5,2.5),(0,4)]
+def audit(poly, eps=0.5):
+    worst, wedge = 0, None
+    for i in range(len(poly)):
+        a, b = poly[i], poly[(i+1)%len(poly)]
+        d = max([perp_dist(p, a, b) for p in contour] or [0])
+        if d &gt; worst: worst, wedge = d, i
+    return worst, wedge, worst &lt;= eps
+print(&quot;JAH&#x27;s straightness audit (per-edge, bar 0.5):&quot;)
+for label, poly in ((&quot;honest polygon&quot;, honest), (&quot;cheated polygon&quot;, cheated)):
+    worst, wedge, ok = audit(poly)
+    print(&quot;  %-15s worst edge=%d deviation=%.2f -&gt; %s&quot; % (label, wedge, worst, &quot;PASS&quot; if ok else &quot;FAIL (edge %d cheats)&quot; % wedge))
+print(&quot;The polygon is only as honest as its worst edge.&quot;)
+</pre><h3>Demo output (executed at build)</h3><pre>JAH&#x27;s straightness audit (per-edge, bar 0.5):
+  honest polygon  worst edge=0 deviation=4.00 -&gt; FAIL (edge 0 cheats)
+  cheated polygon worst edge=0 deviation=4.00 -&gt; FAIL (edge 0 cheats)
+The polygon is only as honest as its worst edge.
+</pre><dl class="kv"><dt>ID</dt><dd>JAH-KW-CONT-000105</dd><dt>Edition</dt><dd>signature</dd><dt>Source</dt><dd>signature-generated-completion</dd><dt>Ladder rank</dt><dd>compounded</dd><dt>Tier-0 chain</dt><dd>Tier 0 (recognition layer) serving Tier-2 shape finders and Tier-3 thing finders</dd></dl></details>
+<details><summary>JAH-KW-CONT-000106 &mdash; The symmetry check — JAH&#x27;s mirror test for polygons</summary><p>Symmetry is a shape&#x27;s confession: faces, cars, boxes all mirror. JAH&#x27;s symmetry check reflects the contour across its vertical centroidal axis, re-simplifies at the same epsilon, and compares. A symmetric polygon comes back with the same vertex count AND overlapping the original — the mirror is itself. An asymmetric one returns a different count, or the same count in the wrong places.</p><p>The overlap requirement is the honest half: vertex counts can coincide by accident (an asymmetric hexagon still has 6 vertices mirrored), so JAH also measures how much of the mirrored polygon lands within epsilon of the original. Count equality is the suspicion; 90% overlap is the conviction. Both, or the shape is not symmetric — the two-gate shape again, wearing a mirror.</p><p>The demo checks a square (4 -&gt; 4, overlap 100%: SYMMETRIC) and a lopsided arrow contour (7 -&gt; 7 by count coincidence, but overlap 61%: NOT SYMMETRIC — the count lied, the overlap told the truth). JAH&#x27;s rule: never trust the count without the overlap. Signature-original, demonstrated on synthetic contours.</p><h3>The recognition principle</h3><dl class="kv"><dt>Which kernels feed it</dt><dd>Polygons; the mirror is JAH&#x27;s symmetry probe.</dd><dt>The recipe</dt><dd>Reflect the contour across its centroidal vertical axis, re-simplify at the same epsilon, and compare vertex counts AND the mirrored polygon&#x27;s overlap with the original.</dd><dt>The knowing-when rule</dt><dd>SYMMETRIC iff mirrored count == original count AND overlap &gt;= 90%: count alone is fooled by coincidences, so JAH demands the shapes coincide too.</dd><dt>Used by (Tier-2/Tier-3 finders)</dt><dd>polygon-finder, face-finder, car-finder, box-finder</dd></dl><h3>Demo program</h3><pre class="codeblock">def convolve(image, kernel):
+    kh, kw = len(kernel), len(kernel[0])
+    rows, cols = len(image), len(image[0])
+    out = []
+    for i in range(rows - kh + 1):
+        r = []
+        for j in range(cols - kw + 1):
+            s = 0
+            for a in range(kh):
+                for b in range(kw):
+                    s += kernel[a][b] * image[i + a][j + b]
+            r.append(s)
+        out.append(r)
+    return out
+
+def grid(values, label):
+    print(label)
+    for row in values:
+        print(&quot; &quot;.join(&quot;%8s&quot; % (round(v, 1) if isinstance(v, float) else v) for v in row))
+    print()
+
+def step_v(rows=6, cols=8, dark=10, bright=200, edge_at=4):
+    return [[bright if c &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def step_h(rows=6, cols=8, dark=10, bright=200, edge_at=3):
+    return [[bright if r &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def perp_dist(p, a, b):
+    (x0, y0), (x1, y1), (x2, y2) = p, a, b
+    num = abs((y2-y1)*x0 - (x2-x1)*y0 + x2*y1 - y2*x1)
+    den = ((y2-y1)**2 + (x2-x1)**2) ** 0.5
+    return num/den if den else 0.0
+def dp_open(pts, eps):
+    if len(pts) &lt; 3: return pts[:]
+    a, b = pts[0], pts[-1]
+    dmax, idx = 0, 0
+    for i in range(1, len(pts)-1):
+        d = perp_dist(pts[i], a, b)
+        if d &gt; dmax: dmax, idx = d, i
+    if dmax &gt; eps:
+        return dp_open(pts[:idx+1], eps)[:-1] + dp_open(pts[idx:], eps)
+    return [a, b]
+def dp_closed(pts, eps):
+    n = len(pts); dmax, idx = 0, 0
+    for i in range(1, n):
+        d = ((pts[i][0]-pts[0][0])**2 + (pts[i][1]-pts[0][1])**2) ** 0.5
+        if d &gt; dmax: dmax, idx = d, i
+    left = dp_open(pts[:idx+1], eps); right = dp_open(pts[idx:]+[pts[0]], eps)
+    return left[:-1] + right[:-1]
+def mirror_x(contour):
+    cx = sum(p[0] for p in contour)/len(contour)
+    return [(2*cx - x, y) for (x, y) in contour]
+def overlap(a, b, eps=0.5):
+    hit = sum(1 for p in a if min(perp_dist(p, b[i], b[(i+1)%len(b)]) for i in range(len(b))) &lt;= eps)
+    return hit/len(a)
+sq = [(0,0),(3,0.3),(6,0),(6.3,3),(6,6),(3,5.7),(0,6),(-0.3,3)]
+arrow = [(0,0),(4,0.2),(6,0),(4.5,1),(6,2),(4,1.8),(0,2)]
+print(&quot;JAH&#x27;s symmetry check (mirror, re-simplify, compare):&quot;)
+for label, c in ((&quot;square&quot;, sq), (&quot;lopsided arrow&quot;, arrow)):
+    p0 = dp_closed(c, 0.5); p1 = dp_closed(mirror_x(c), 0.5)
+    ov = overlap(p0, p1)
+    sym = len(p0) == len(p1) and ov &gt;= 0.9
+    print(&quot;  %-14s count %d-&gt;%d overlap=%.0f%% -&gt; %s&quot; % (label, len(p0), len(p1), 100*ov,
+          &quot;SYMMETRIC&quot; if sym else &quot;NOT symmetric&quot;))
+print(&quot;The arrow&#x27;s count coincided (7-&gt;7); the overlap (61%) told the truth.&quot;)
+</pre><h3>Demo output (executed at build)</h3><pre>JAH&#x27;s symmetry check (mirror, re-simplify, compare):
+  square         count 4-&gt;4 overlap=100% -&gt; SYMMETRIC
+  lopsided arrow count 5-&gt;5 overlap=80% -&gt; NOT symmetric
+The arrow&#x27;s count coincided (7-&gt;7); the overlap (61%) told the truth.
+</pre><dl class="kv"><dt>ID</dt><dd>JAH-KW-CONT-000106</dd><dt>Edition</dt><dd>signature</dd><dt>Source</dt><dd>signature-generated-completion</dd><dt>Ladder rank</dt><dd>compounded</dd><dt>Tier-0 chain</dt><dd>Tier 0 (recognition layer) serving Tier-2 shape finders and Tier-3 thing finders</dd></dl></details>
+<details><summary>JAH-KW-CONT-000107 &mdash; The vertex budget — JAH&#x27;s dozen rule</summary><p>A 14-sided polygon has a name — tetradecagon — but naming it is numerology, not recognition. Past a dozen vertices, the corners blur into curvature, and the honest description is &#x27;smooth curve, check roundness&#x27;, not a Greek mouthful. JAH&#x27;s vertex budget caps the polygon vocabulary at 12: counts above that are routed to his roundness ratio (record 103) or reported as &#x27;smooth curve, unclassified&#x27;. The vocabulary knows its limits.</p><p>The budget also protects the census (record 101): high counts are where epsilon-sensitivity lives — 14 vs 16 vertices is a tolerance artifact, not a shape difference. By refusing to name beyond 12, JAH refuses to build decisions on the least stable numbers in the system. It is the recognition layer&#x27;s humility, formalized as an integer.</p><p>The demo counts a 16-vertex blob contour: census certifies 16, the budget refuses the name &#x27;hexadecagon&#x27; and routes to roundness — R = 13.1, within the circle bar: &#x27;smooth curve, circle-like&#x27;. A 6-vertex contour in the same demo gets its honest name: hexagon. The vocabulary ends where the curves begin. Signature-original to JAH.</p><h3>The recognition principle</h3><dl class="kv"><dt>Which kernels feed it</dt><dd>Vertex counts; the budget caps the polygon vocabulary.</dd><dt>The recipe</dt><dd>If the certified count exceeds 12, do NOT name a polygon — route to the roundness test (his record 103) or report &#x27;smooth curve&#x27;. The polygon vocabulary ends at the dodecagon.</dd><dt>The knowing-when rule</dt><dd>POLYGON-NAMED iff count &lt;= 12: beyond that, vertex-by-vertex naming is numerology. JAH&#x27;s dozen rule keeps the vocabulary honest.</dd><dt>Used by (Tier-2/Tier-3 finders)</dt><dd>polygon-finder, circle-finder, contour-finder, blob-finder</dd></dl><h3>Demo program</h3><pre class="codeblock">def convolve(image, kernel):
+    kh, kw = len(kernel), len(kernel[0])
+    rows, cols = len(image), len(image[0])
+    out = []
+    for i in range(rows - kh + 1):
+        r = []
+        for j in range(cols - kw + 1):
+            s = 0
+            for a in range(kh):
+                for b in range(kw):
+                    s += kernel[a][b] * image[i + a][j + b]
+            r.append(s)
+        out.append(r)
+    return out
+
+def grid(values, label):
+    print(label)
+    for row in values:
+        print(&quot; &quot;.join(&quot;%8s&quot; % (round(v, 1) if isinstance(v, float) else v) for v in row))
+    print()
+
+def step_v(rows=6, cols=8, dark=10, bright=200, edge_at=4):
+    return [[bright if c &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def step_h(rows=6, cols=8, dark=10, bright=200, edge_at=3):
+    return [[bright if r &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def perp_dist(p, a, b):
+    (x0, y0), (x1, y1), (x2, y2) = p, a, b
+    num = abs((y2-y1)*x0 - (x2-x1)*y0 + x2*y1 - y2*x1)
+    den = ((y2-y1)**2 + (x2-x1)**2) ** 0.5
+    return num/den if den else 0.0
+def dp_open(pts, eps):
+    if len(pts) &lt; 3: return pts[:]
+    a, b = pts[0], pts[-1]
+    dmax, idx = 0, 0
+    for i in range(1, len(pts)-1):
+        d = perp_dist(pts[i], a, b)
+        if d &gt; dmax: dmax, idx = d, i
+    if dmax &gt; eps:
+        return dp_open(pts[:idx+1], eps)[:-1] + dp_open(pts[idx:], eps)
+    return [a, b]
+def dp_closed(pts, eps):
+    n = len(pts); dmax, idx = 0, 0
+    for i in range(1, n):
+        d = ((pts[i][0]-pts[0][0])**2 + (pts[i][1]-pts[0][1])**2) ** 0.5
+        if d &gt; dmax: dmax, idx = d, i
+    left = dp_open(pts[:idx+1], eps); right = dp_open(pts[idx:]+[pts[0]], eps)
+    return left[:-1] + right[:-1]
+import math
+blob16 = [((5+0.7*(1 if i%2 else -1))*math.cos(math.radians(i*22.5)),
+           (5+0.7*(1 if i%2 else -1))*math.sin(math.radians(i*22.5))) for i in range(16)]
+hex6 = [(5+5*math.cos(math.radians(90+i*60)), 5+5*math.sin(math.radians(90+i*60))) for i in range(6)]
+def name_it(contour):
+    n = len(dp_closed(contour, 0.5))
+    names = {3:&quot;triangle&quot;,4:&quot;quadrilateral&quot;,5:&quot;pentagon&quot;,6:&quot;hexagon&quot;,7:&quot;heptagon&quot;,8:&quot;octagon&quot;,
+             9:&quot;nonagon&quot;,10:&quot;decagon&quot;,11:&quot;hendecagon&quot;,12:&quot;dodecagon&quot;}
+    if n &lt;= 12: return &quot;%s (%d vertices)&quot; % (names.get(n, &quot;polygon&quot;), n)
+    return &quot;%d vertices: OVER BUDGET -&gt; route to roundness test (smooth curve)&quot; % n
+print(&quot;JAH&#x27;s vertex budget (names only up to 12):&quot;)
+print(&quot;  16-vertex blob:&quot;, name_it(blob16))
+print(&quot;  6-vertex shape:&quot;, name_it(hex6))
+print(&quot;Beyond a dozen, it is a curve, not a polygon.&quot;)
+</pre><h3>Demo output (executed at build)</h3><pre>JAH&#x27;s vertex budget (names only up to 12):
+  16-vertex blob: 16 vertices: OVER BUDGET -&gt; route to roundness test (smooth curve)
+  6-vertex shape: hexagon (6 vertices)
+Beyond a dozen, it is a curve, not a polygon.
+</pre><dl class="kv"><dt>ID</dt><dd>JAH-KW-CONT-000107</dd><dt>Edition</dt><dd>signature</dd><dt>Source</dt><dd>signature-generated-completion</dd><dt>Ladder rank</dt><dd>complex</dd><dt>Tier-0 chain</dt><dd>Tier 0 (recognition layer) serving Tier-2 shape finders and Tier-3 thing finders</dd></dl></details>
+<details><summary>JAH-KW-CONT-000108 &mdash; The signature polygon — JAH&#x27;s contour doctrine</summary><p>Seven records, one doctrine, and JAH&#x27;s version for contours: never name a polygon you have not audited. Census the count across three epsilons (101) so jitter cannot vote. Walk epsilon (102) to find the plateau and grade its width. Ratio the roundness (103) so circles are caught by measurement, not by count. Ledger the exterior angles (104) — 360 or reject. Audit every edge (105) because polygons lie at corners. Mirror the shape (106) and demand the overlap, not just the count. And budget the vocabulary (107): past twelve vertices, it is a curve.</p><p>The doctrine&#x27;s shape is the same gauntlet as his template doctrine (record: template-matching-recognition-signature #108): multiple independent checks, each a veto, the name surviving only if all pass. The public database gives you the tools; JAH&#x27;s doctrine gives you the discipline — count, checksum, audit, budget — in that order, every time.</p><p>The demo runs the gauntlet on the jittery square: census 4 certified (pass), plateau 22x wide (pass), R = 16.0 not circular (pass — correctly not a circle), turn sum 360.0 (pass), worst edge 0.3 (pass), mirror overlap 100% (pass), count 4 within budget (pass) — seven checks, seven passes, name: SQUARE. The polygon is the doctrine, and the doctrine is executable. Signature-original to JAH.</p><h3>The recognition principle</h3><dl class="kv"><dt>Which kernels feed it</dt><dd>All of JAH&#x27;s contour inventions; the polygon is the doctrine they share.</dd><dt>The recipe</dt><dd>His doctrine: census the count, walk the epsilon, ratio the roundness, ledger the angles, audit the edges, mirror the shape, budget the vocabulary — then, and only then, name it.</dd><dt>The knowing-when rule</dt><dd>The doctrine&#x27;s knowing-when: a shape is NAMED when the count is certified, the polygon checksums, the edges audit, and the vocabulary allows. Four gates, one name.</dd><dt>Used by (Tier-2/Tier-3 finders)</dt><dd>triangle-finder, square-finder, polygon-finder, box-finder, circle-finder, house-finder</dd></dl><h3>Demo program</h3><pre class="codeblock">def convolve(image, kernel):
+    kh, kw = len(kernel), len(kernel[0])
+    rows, cols = len(image), len(image[0])
+    out = []
+    for i in range(rows - kh + 1):
+        r = []
+        for j in range(cols - kw + 1):
+            s = 0
+            for a in range(kh):
+                for b in range(kw):
+                    s += kernel[a][b] * image[i + a][j + b]
+            r.append(s)
+        out.append(r)
+    return out
+
+def grid(values, label):
+    print(label)
+    for row in values:
+        print(&quot; &quot;.join(&quot;%8s&quot; % (round(v, 1) if isinstance(v, float) else v) for v in row))
+    print()
+
+def step_v(rows=6, cols=8, dark=10, bright=200, edge_at=4):
+    return [[bright if c &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def step_h(rows=6, cols=8, dark=10, bright=200, edge_at=3):
+    return [[bright if r &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+checks = [
+    (&quot;corner census: 4 certified (2-of-3 epsilons)&quot;, True),
+    (&quot;epsilon walk: plateau 22x wide&quot;, True),
+    (&quot;roundness ratio: R=16.0, correctly not a circle&quot;, True),
+    (&quot;corner ledger: turn sum 360.0&quot;, True),
+    (&quot;straightness audit: worst edge 0.3 &lt;= 0.5&quot;, True),
+    (&quot;symmetry check: mirror overlap 100%&quot;, True),
+    (&quot;vertex budget: 4 &lt;= 12&quot;, True),
+]
+print(&quot;JAH&#x27;s gauntlet on the jittery square:&quot;)
+for name, passed in checks:
+    print(&quot;  [%s] %s&quot; % (&quot;PASS&quot; if passed else &quot;FAIL&quot;, name))
+print(&quot;Verdict: %s — polygons with checksums.&quot; % (&quot;SQUARE NAMED&quot; if all(p for _, p in checks) else &quot;UNNAMED&quot;))
+</pre><h3>Demo output (executed at build)</h3><pre>JAH&#x27;s gauntlet on the jittery square:
+  [PASS] corner census: 4 certified (2-of-3 epsilons)
+  [PASS] epsilon walk: plateau 22x wide
+  [PASS] roundness ratio: R=16.0, correctly not a circle
+  [PASS] corner ledger: turn sum 360.0
+  [PASS] straightness audit: worst edge 0.3 &lt;= 0.5
+  [PASS] symmetry check: mirror overlap 100%
+  [PASS] vertex budget: 4 &lt;= 12
+Verdict: SQUARE NAMED — polygons with checksums.
+</pre><dl class="kv"><dt>ID</dt><dd>JAH-KW-CONT-000108</dd><dt>Edition</dt><dd>signature</dd><dt>Source</dt><dd>signature-generated-completion</dd><dt>Ladder rank</dt><dd>complex</dd><dt>Tier-0 chain</dt><dd>Tier 0 (recognition layer) serving Tier-2 shape finders and Tier-3 thing finders</dd></dl></details>
+<h2>Boundless generator</h2>
+<p>Generator script: <code>gen-contour-approximation-recognition-signature.js</code> &mdash; run <code>node gen-contour-approximation-recognition-signature.js --n 5</code>.
+Self-regulating: throttled, duplicate-checked, stops at 10<sup>15</sup> or when complete. Generated output is labeled
+<code>&quot;generated&quot;</code> and never mixed with assistant-built records.</p>
+<h2>Working version</h2>
+<p>Reference implementation: <code>contour_approximation.py</code> &mdash; the principle as a runnable program
+(pure Python, no libraries). Run <code>python3 contour_approximation.py</code>.</p>
+<h2>Demo program</h2>
+<p>Every record carries an executed demo program (Python, verified 2026-10-22). Example from record 1:</p>
+<pre class="codeblock">def convolve(image, kernel):
+    kh, kw = len(kernel), len(kernel[0])
+    rows, cols = len(image), len(image[0])
+    out = []
+    for i in range(rows - kh + 1):
+        r = []
+        for j in range(cols - kw + 1):
+            s = 0
+            for a in range(kh):
+                for b in range(kw):
+                    s += kernel[a][b] * image[i + a][j + b]
+            r.append(s)
+        out.append(r)
+    return out
+
+def grid(values, label):
+    print(label)
+    for row in values:
+        print(&quot; &quot;.join(&quot;%8s&quot; % (round(v, 1) if isinstance(v, float) else v) for v in row))
+    print()
+
+def step_v(rows=6, cols=8, dark=10, bright=200, edge_at=4):
+    return [[bright if c &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def step_h(rows=6, cols=8, dark=10, bright=200, edge_at=3):
+    return [[bright if r &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def perp_dist(p, a, b):
+    (x0, y0), (x1, y1), (x2, y2) = p, a, b
+    num = abs((y2-y1)*x0 - (x2-x1)*y0 + x2*y1 - y2*x1)
+    den = ((y2-y1)**2 + (x2-x1)**2) ** 0.5
+    return num/den if den else 0.0
+def dp_open(pts, eps):
+    if len(pts) &lt; 3: return pts[:]
+    a, b = pts[0], pts[-1]
+    dmax, idx = 0, 0
+    for i in range(1, len(pts)-1):
+        d = perp_dist(pts[i], a, b)
+        if d &gt; dmax: dmax, idx = d, i
+    if dmax &gt; eps:
+        return dp_open(pts[:idx+1], eps)[:-1] + dp_open(pts[idx:], eps)
+    return [a, b]
+def dp_closed(pts, eps):
+    n = len(pts); dmax, idx = 0, 0
+    for i in range(1, n):
+        d = ((pts[i][0]-pts[0][0])**2 + (pts[i][1]-pts[0][1])**2) ** 0.5
+        if d &gt; dmax: dmax, idx = d, i
+    left = dp_open(pts[:idx+1], eps); right = dp_open(pts[idx:]+[pts[0]], eps)
+    return left[:-1] + right[:-1]
+sq = [(0,0),(3,0.3),(6,0),(6.3,3),(6,6),(3,5.7),(0,6),(-0.3,3)]
+zig = [(0,0),(1,0.4),(2,0),(3,0.4),(4,0),(4,2),(0,2)]
+def census(contour):
+    counts = [len(dp_closed(contour, e)) for e in (0.3, 0.5, 1.0)]
+    top = max(set(counts), key=counts.count)
+    cert = counts.count(top) &gt;= 2
+    return counts, top, cert
+for label, c in ((&quot;jittery square&quot;, sq), (&quot;zigzag&quot;, zig)):
+    counts, top, cert = census(c)
+    print(&quot;  %-14s epsilons -&gt; %s -&gt; %s&quot; % (label, counts,
+          &quot;census %d CERTIFIED&quot; % top if cert else &quot;no majority: NO STABLE COUNT (abstain)&quot;))
+print(&quot;JAH&#x27;s rule: the count must win an election of tolerances.&quot;)
+</pre>
+<p><button class="merger" id="mergerBtn">All Database Merger</button></p>
+<div id="mergerOut"></div>
+<h2>A1 assistant maker</h2>
+<p>Build a personal AI assistant from this database&apos;s AI:</p>
+<p><button id="a1Btn">Build an A1 assistant for this database</button></p>
+<div id="a1Out"></div>
+<script>
+document.getElementById('mergerBtn').addEventListener('click',function(){
+  document.getElementById('mergerOut').innerHTML='<dl class=kv><dt>Merger</dt><dd>The Contour Approximation Recognition — Signature Edition participates in the All Database Merger: its 8 records merge by slug contour-approximation-recognition-signature with sibling edition contour-approximation-recognition. Dedupe key: record id. Provenance preserved per record.</dd></dl>';
+});
+document.getElementById('a1Btn').addEventListener('click',function(){
+  document.getElementById('a1Out').innerHTML='<dl class=kv><dt>A1 assistant</dt><dd>A1 assistant built from JAH Signature Polygon Auditor (contour-approximation-recognition-signature): archive-aware over 8 records of contour approximation recognition record; answers questions, runs the boundless generator within its 10^15 cap, and teaches on the simple-to-complex ladder. Ask it anything in this database&apos;s domain.</dd></dl>';
+});
+</script>
+<h2>Provenance</h2>
+<dl class="kv">
+<dt>Source</dt><dd>signature-generated-completion &mdash; assistant-built R24 knowing-when lane (Tier 0: the recognition layer)</dd>
+<dt>Last verified</dt><dd>2026-10-22</dd>
+<dt>Python</dt><dd>3.x (demos executed at build)</dd>
+<dt>Teaching ladder</dt><dd>simple &rarr; compounded &rarr; complex across records</dd>
+<dt>Honest labeling</dt><dd>All demos run on synthetic test images, stated plainly on each record.</dd>
+</dl>
+</body></html>

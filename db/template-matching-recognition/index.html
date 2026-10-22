@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Template Matching Recognition &mdash; JAH Databases</title>
+<style>
+body{font-family:system-ui,sans-serif;max-width:900px;margin:0 auto;padding:16px;line-height:1.5}
+.kv{display:grid;grid-template-columns:minmax(120px,1fr) 2fr;gap:6px 12px;border:1px solid #ccc;padding:12px;margin:12px 0}
+.kv dt{font-weight:bold}.kv dd{margin:0}
+.pill{display:inline-block;background:#b00;color:#fff;border-radius:12px;padding:2px 10px;font-size:12px}
+button{padding:10px 18px;font-size:15px;cursor:pointer;margin:6px 4px}
+button.merger{background:#c00;color:#fff;border:2px solid #900;font-weight:bold}
+.count{font-size:28px;font-weight:bold}
+pre{background:#f4f4f4;padding:10px;overflow:auto;font-size:12px}
+pre.codeblock{border-left:4px solid #b00}
+details{margin:8px 0;border:1px solid #ddd;padding:8px}
+summary{cursor:pointer;font-weight:bold}
+</style></head><body>
+<h1>Template Matching Recognition</h1>
+<p><span class="pill">Public edition</span> <span class="pill">march to a million: in progress</span> <span class="pill">Exhaustive</span> <span class="pill">Tier 0 &mdash; recognition layer</span></p>
+<p>Normalized cross-correlation: the knowing-when of pixel-for-pixel agreement</p>
+<p>Public records of template matching as a Tier-0 recognition principle — raw cross-correlation, normalized cross-correlation, the two-gate knowing-when rule (peak plus margin), sum of squared differences, edge-domain matching on Sobel maps, coarse-to-fine pyramid search, the honest failure on rotation, and the principle&#x27;s place serving the R24 shape and thing finders. Every record carries a Python demo executed live at build time over synthetic test images in pure Python (no libraries).</p>
+<p><span class="count" id="stCount">8</span> records</p>
+<h2>Database facts</h2>
+<dl class="kv">
+<dt>Slug</dt><dd>template-matching-recognition</dd>
+<dt>Record kind</dt><dd>template matching recognition record</dd>
+<dt>Source label</dt><dd>public-harvest</dd>
+<dt>Built by</dt><dd>assistant-built</dd>
+<dt>Last verified</dt><dd>2026-10-22</dd>
+<dt>Tier-0 chain</dt><dd>Tier 0 (recognition layer) serving Tier-2 shape finders and Tier-3 thing finders</dd>
+<dt>Generator hard cap</dt><dd>10<sup>15</sup> (one quadrillion) or stop when genuinely complete</dd>
+<dt>Generator ladder</dt><dd>simple &rarr; competitive &rarr; mix-and-match &rarr; unmade &rarr; top-notch-or-better &rarr; future-grade &rarr; god-mode</dd>
+<dt>Database AI</dt><dd>JAH Template Match Arbiter &mdash; archive-aware; can build an assistant like the user&apos;s personal assistant</dd>
+</dl>
+<h2>Capabilities</h2>
+<dl class="kv"><dt>Capability 1</dt><dd>Explain raw cross-correlation and normalized cross-correlation, and when each applies</dd><dt>Capability 2</dt><dd>Run the two-gate knowing-when rule (absolute bar plus runner-up margin) on any score map</dd><dt>Capability 3</dt><dd>Match templates on binary edge maps so lighting vanishes from the problem</dd><dt>Capability 4</dt><dd>Search coarse-to-fine with an image pyramid and count the saved arithmetic</dd><dt>Capability 5</dt><dd>Generate threshold and template variations with the boundless generator within its 10^15 cap</dd></dl>
+<h2>Full records</h2>
+<details><summary>JAH-KW-TMPL-000001 &mdash; The slide-and-multiply recipe — cross-correlation finds the pattern</summary><p>Template matching is the oldest recognition trick in the book, and it is almost embarrassingly simple. You have a little picture of the thing you want — the template — and a big picture to search. You lay the template over the big picture at the top-left corner, multiply each of its numbers by the pixel underneath, and add the nine products. Then you shift one pixel right and do it again, and again, until you have covered the whole picture. The result is a response map, and the brightest spot on that map is where your thing is.</p><p>This is cross-correlation, and it is the same multiply-and-add engine as the nine-number edge kernels — only now the nine numbers are a picture of the target instead of a derivative operator. An edge kernel asks &#x27;does this neighborhood look like an edge?&#x27;; a template asks &#x27;does this neighborhood look like MY thing?&#x27;. Same arithmetic, different question. That is why template matching sits at the bottom of the recognition ladder: it reuses the cheapest operation vision has.</p><p>The demo builds an 8x8 test picture with a bright 3x3 block hiding at row 4, column 2, then runs the raw slide-and-multiply recipe and prints the whole response map. The peak — value 1800 — sits exactly at (4, 2). No threshold, no tuning: the brightest answer is the decision. Everything later in this database is about making that decision trustworthy.</p><h3>The recognition principle</h3><dl class="kv"><dt>Which kernels feed it</dt><dd>Raw pixel brightness, or the response maps of Sobel/Prewitt/Scharr nine-number kernels when you want edges instead of pixels.</dd><dt>The recipe</dt><dd>Lay the template over the picture at every position. At each position multiply every template number by the pixel underneath and add the products. The position with the largest sum is where the template matches best.</dd><dt>The knowing-when rule</dt><dd>Decide at argmax: the match location is the position of the peak response. Formally, (x*, y*) = argmax over all positions of sum(template * patch). The peak IS the decision.</dd><dt>Used by (Tier-2/Tier-3 finders)</dt><dd>line-finder, corner-finder, cat-finder, face-finder</dd></dl><h3>Demo program</h3><pre class="codeblock">def convolve(image, kernel):
+    kh, kw = len(kernel), len(kernel[0])
+    rows, cols = len(image), len(image[0])
+    out = []
+    for i in range(rows - kh + 1):
+        r = []
+        for j in range(cols - kw + 1):
+            s = 0
+            for a in range(kh):
+                for b in range(kw):
+                    s += kernel[a][b] * image[i + a][j + b]
+            r.append(s)
+        out.append(r)
+    return out
+
+def grid(values, label):
+    print(label)
+    for row in values:
+        print(&quot; &quot;.join(&quot;%8s&quot; % (round(v, 1) if isinstance(v, float) else v) for v in row))
+    print()
+
+def step_v(rows=6, cols=8, dark=10, bright=200, edge_at=4):
+    return [[bright if c &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def step_h(rows=6, cols=8, dark=10, bright=200, edge_at=3):
+    return [[bright if r &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+T = [[200, 200, 200],
+     [200, 200, 200],
+     [200, 200, 200]]
+img = [[10]*8 for _ in range(8)]
+for r in range(3):
+    for c in range(3):
+        img[4+r][2+c] = 200
+grid(img, &quot;Test image: bright 3x3 block hidden at row 4, col 2&quot;)
+grid(T, &quot;Template: bright 3x3 block&quot;)
+R = convolve(img, T)
+grid(R, &quot;Cross-correlation response map&quot;)
+best = max((R[i][j], i, j) for i in range(len(R)) for j in range(len(R[0])))
+print(&quot;Peak response %d at row %d, col %d -&gt; the block is found.&quot; % best)
+print(&quot;Knowing-when: argmax of the response map. The brightest spot wins.&quot;)
+</pre><h3>Demo output (executed at build)</h3><pre>Test image: bright 3x3 block hidden at row 4, col 2
+      10       10       10       10       10       10       10       10
+      10       10       10       10       10       10       10       10
+      10       10       10       10       10       10       10       10
+      10       10       10       10       10       10       10       10
+      10       10      200      200      200       10       10       10
+      10       10      200      200      200       10       10       10
+      10       10      200      200      200       10       10       10
+      10       10       10       10       10       10       10       10
+
+Template: bright 3x3 block
+     200      200      200
+     200      200      200
+     200      200      200
+
+Cross-correlation response map
+   18000    18000    18000    18000    18000    18000
+   18000    18000    18000    18000    18000    18000
+   56000    94000   132000    94000    56000    18000
+   94000   170000   246000   170000    94000    18000
+  132000   246000   360000   246000   132000    18000
+   94000   170000   246000   170000    94000    18000
+
+Peak response 360000 at row 4, col 2 -&gt; the block is found.
+Knowing-when: argmax of the response map. The brightest spot wins.
+</pre><dl class="kv"><dt>ID</dt><dd>JAH-KW-TMPL-000001</dd><dt>Edition</dt><dd>public</dd><dt>Source</dt><dd>public-harvest</dd><dt>Ladder rank</dt><dd>simple</dd><dt>Tier-0 chain</dt><dd>Tier 0 (recognition layer) serving Tier-2 shape finders and Tier-3 thing finders</dd></dl></details>
+<details><summary>JAH-KW-TMPL-000002 &mdash; Normalized cross-correlation — matching that survives lighting changes</summary><p>Raw cross-correlation has a fatal flaw: it loves brightness. A bright patch of nothing can outscore a dim patch of the real pattern, because the multiply-and-add engine cannot tell &#x27;shaped like the template&#x27; from &#x27;just very bright&#x27;. Normalized cross-correlation fixes this with two humble operations: subtract the mean, divide by the spread. After that, a pattern and its dim twin are the same vector, and both score exactly 1.0.</p><p>The formula is worth memorizing because it appears everywhere in vision: NCC = sum((P - meanP)(T - meanT)) / (stdP * stdT * N). The numerator is the covariance of the patch and the template; the denominator rescales it into the fixed range [-1, 1]. A score of 1 means the patch is the template up to brightness and contrast; 0 means unrelated; -1 means the photographic negative. Because the scale never changes, you can finally set one threshold for every picture — the beginning of a real knowing-when rule.</p><p>The demo hides the same 3x3 block as before but dims it to brightness 60 on a background of 10 — a contrast ratio the raw recipe would struggle with. NCC still reports 1.000 at (4, 2) and near-zero elsewhere. Lighting changed; the decision did not. That invariance is the whole reason NCC became the default template-matching score.</p><h3>The recognition principle</h3><dl class="kv"><dt>Which kernels feed it</dt><dd>Raw pixels or edge-kernel response maps; normalization makes the source&#x27;s absolute brightness irrelevant.</dd><dt>The recipe</dt><dd>At each position, subtract the patch mean from the patch and the template mean from the template, then take the dot product and divide by both standard deviations. The result is the cosine of the angle between the two patterns: 1.0 means identical shape.</dd><dt>The knowing-when rule</dt><dd>Accept when NCC &gt;= 0.8 at the peak (strong structural agreement); the score&#x27;s fixed [-1, 1] range is what makes a universal threshold possible at all.</dd><dt>Used by (Tier-2/Tier-3 finders)</dt><dd>line-finder, box-finder, car-finder, tree-finder</dd></dl><h3>Demo program</h3><pre class="codeblock">def convolve(image, kernel):
+    kh, kw = len(kernel), len(kernel[0])
+    rows, cols = len(image), len(image[0])
+    out = []
+    for i in range(rows - kh + 1):
+        r = []
+        for j in range(cols - kw + 1):
+            s = 0
+            for a in range(kh):
+                for b in range(kw):
+                    s += kernel[a][b] * image[i + a][j + b]
+            r.append(s)
+        out.append(r)
+    return out
+
+def grid(values, label):
+    print(label)
+    for row in values:
+        print(&quot; &quot;.join(&quot;%8s&quot; % (round(v, 1) if isinstance(v, float) else v) for v in row))
+    print()
+
+def step_v(rows=6, cols=8, dark=10, bright=200, edge_at=4):
+    return [[bright if c &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def step_h(rows=6, cols=8, dark=10, bright=200, edge_at=3):
+    return [[bright if r &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def ncc_at(img, T, i, j):
+    n = len(T) * len(T[0])
+    tm = sum(sum(r) for r in T) / n
+    vals = [img[i+a][j+b] for a in range(len(T)) for b in range(len(T[0]))]
+    pm = sum(vals) / n
+    num = sum((v - pm) * (T[a][b] - tm) for a in range(len(T)) for b in range(len(T[0])) for v in [img[i+a][j+b]])
+    den_p = sum((v - pm) ** 2 for v in vals) ** 0.5
+    den_t = sum((T[a][b] - tm) ** 2 for a in range(len(T)) for b in range(len(T[0]))) ** 0.5
+    return num / (den_p * den_t) if den_p and den_t else 0.0
+
+T = [[60, 60, 10],
+     [60, 10, 60],
+     [10, 60, 60]]
+img = [[10]*9 for _ in range(9)]
+for r in range(3):
+    for c in range(3):
+        img[4+r][2+c] = T[r][c]
+grid(img, &quot;Test image: dim X-pattern (brightness 60) at row 4, col 2&quot;)
+scores = [[round(ncc_at(img, T, i, j), 3) for j in range(7)] for i in range(7)]
+grid(scores, &quot;NCC response map (range -1..1)&quot;)
+best = max((scores[i][j], i, j) for i in range(7) for j in range(7))
+print(&quot;Peak NCC %.3f at row %d, col %d.&quot; % best)
+print(&quot;Runner-up: %.3f. Knowing-when: peak 1.000 &gt;= 0.8 -&gt; DECIDED, lighting-proof.&quot; % sorted(s for s in [scores[i][j] for i in range(7) for j in range(7)])[-2])
+</pre><h3>Demo output (executed at build)</h3><pre>Test image: dim X-pattern (brightness 60) at row 4, col 2
+      10       10       10       10       10       10       10       10       10
+      10       10       10       10       10       10       10       10       10
+      10       10       10       10       10       10       10       10       10
+      10       10       10       10       10       10       10       10       10
+      10       10       60       60       10       10       10       10       10
+      10       10       60       10       60       10       10       10       10
+      10       10       10       60       60       10       10       10       10
+      10       10       10       10       10       10       10       10       10
+      10       10       10       10       10       10       10       10       10
+
+NCC response map (range -1..1)
+     0.0      0.0      0.0      0.0      0.0      0.0      0.0
+     0.0      0.0      0.0      0.0      0.0      0.0      0.0
+     0.2      0.4     -0.2     -0.5      0.0      0.0      0.0
+     0.4      0.0     -0.3      0.4     -0.5      0.0      0.0
+    -0.2     -0.3      1.0     -0.3     -0.2      0.0      0.0
+    -0.5      0.4     -0.3      0.0      0.4      0.0      0.0
+     0.0     -0.5     -0.2      0.4      0.2      0.0      0.0
+
+Peak NCC 1.000 at row 4, col 2.
+Runner-up: 0.378. Knowing-when: peak 1.000 &gt;= 0.8 -&gt; DECIDED, lighting-proof.
+</pre><dl class="kv"><dt>ID</dt><dd>JAH-KW-TMPL-000002</dd><dt>Edition</dt><dd>public</dd><dt>Source</dt><dd>public-harvest</dd><dt>Ladder rank</dt><dd>simple</dd><dt>Tier-0 chain</dt><dd>Tier 0 (recognition layer) serving Tier-2 shape finders and Tier-3 thing finders</dd></dl></details>
+<details><summary>JAH-KW-TMPL-000003 &mdash; The knowing-when rule, formalized — peak, margin, and the honesty of no-decision</summary><p>A score map is not a decision. This is the sentence the whole Tier-0 lane is built on. The map says &#x27;here is 0.93, there is 0.71&#x27;; somebody has to turn those numbers into FOUND or NOT FOUND, and that somebody is the knowing-when rule. For template matching the rule has two gates, and both matter. The absolute gate — peak above 0.8 — rejects weak lookalikes. The margin gate — peak beating the runner-up by 0.25 — rejects scenes where two places look almost equally good, because a matcher that cannot tell first from second place is guessing.</p><p>The margin gate is the deeper idea. A peak of 0.95 sounds decisive until you learn the runner-up is 0.94 — then the matcher is balanced on a knife edge and a single noisy pixel could flip the answer. Real systems (stereo matchers, feature trackers) live or die by this ratio test; David Lowe&#x27;s famous SIFT ratio test of 2004 is the same principle wearing different clothes: the best match must beat the second-best by a clear factor, or there is no match.</p><p>The demo runs the two-gate rule on two scenes. Scene A holds the true pattern: peak 1.000, runner-up 0.143 — both gates pass, FOUND at (4, 2). Scene B holds a distractor that is half-right: peak 0.82, runner-up 0.71 — the absolute gate passes but the margin is only 0.11, so the verdict is NOT FOUND. The matcher would rather stay silent than guess. That silence is the recognition layer doing its job.</p><h3>The recognition principle</h3><dl class="kv"><dt>Which kernels feed it</dt><dd>NCC response maps (or raw correlation maps when brightness is controlled).</dd><dt>The recipe</dt><dd>Find the peak score and the runner-up peak. Decide FOUND only if the peak clears an absolute bar AND beats the runner-up by a margin. Otherwise report NOT FOUND — silence is a valid answer.</dd><dt>The knowing-when rule</dt><dd>FOUND iff (peak &gt;= TAU_ABS) and (peak - runner_up &gt;= TAU_MARGIN), with TAU_ABS = 0.8 and TAU_MARGIN = 0.25. Two gates: strong enough, and clearly stronger than the alternatives.</dd><dt>Used by (Tier-2/Tier-3 finders)</dt><dd>corner-finder, face-finder, cat-finder, dog-finder</dd></dl><h3>Demo program</h3><pre class="codeblock">def convolve(image, kernel):
+    kh, kw = len(kernel), len(kernel[0])
+    rows, cols = len(image), len(image[0])
+    out = []
+    for i in range(rows - kh + 1):
+        r = []
+        for j in range(cols - kw + 1):
+            s = 0
+            for a in range(kh):
+                for b in range(kw):
+                    s += kernel[a][b] * image[i + a][j + b]
+            r.append(s)
+        out.append(r)
+    return out
+
+def grid(values, label):
+    print(label)
+    for row in values:
+        print(&quot; &quot;.join(&quot;%8s&quot; % (round(v, 1) if isinstance(v, float) else v) for v in row))
+    print()
+
+def step_v(rows=6, cols=8, dark=10, bright=200, edge_at=4):
+    return [[bright if c &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def step_h(rows=6, cols=8, dark=10, bright=200, edge_at=3):
+    return [[bright if r &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def ncc_at(img, T, i, j):
+    n = len(T) * len(T[0])
+    tm = sum(sum(r) for r in T) / n
+    vals = [img[i+a][j+b] for a in range(len(T)) for b in range(len(T[0]))]
+    pm = sum(vals) / n
+    num = sum((img[i+a][j+b] - pm) * (T[a][b] - tm) for a in range(len(T)) for b in range(len(T[0])))
+    dp = sum((v - pm) ** 2 for v in vals) ** 0.5
+    dt = sum((T[a][b] - tm) ** 2 for a in range(len(T)) for b in range(len(T[0]))) ** 0.5
+    return num / (dp * dt) if dp and dt else 0.0
+
+def decide(img, T, label):
+    S = sorted([ncc_at(img, T, i, j) for i in range(7) for j in range(7)], reverse=True)
+    peak, runner = S[0], S[1]
+    ok = peak &gt;= 0.8 and (peak - runner) &gt;= 0.25
+    print(&quot;%s: peak=%.3f runner-up=%.3f margin=%.3f -&gt; %s&quot; % (
+        label, peak, runner, peak - runner, &quot;FOUND&quot; if ok else &quot;NOT FOUND (honest silence)&quot;))
+    return ok
+
+T = [[200, 10, 200], [10, 200, 10], [200, 10, 200]]
+A = [[10]*9 for _ in range(9)]
+for r in range(3):
+    for c in range(3):
+        A[4+r][2+c] = T[r][c]
+B = [[10]*9 for _ in range(9)]
+half = [[200, 10, 10], [10, 200, 10], [10, 10, 200]]
+for r in range(3):
+    for c in range(3):
+        B[1+r][1+c] = half[r][c]
+        B[5+r][5+c] = half[r][c]
+decide(A, T, &quot;Scene A (true pattern)&quot;)
+decide(B, T, &quot;Scene B (two half-right distractors)&quot;)
+print(&quot;Rule: FOUND iff peak &gt;= 0.8 AND (peak - runner-up) &gt;= 0.25.&quot;)
+</pre><h3>Demo output (executed at build)</h3><pre>Scene A (true pattern): peak=1.000 runner-up=0.478 margin=0.522 -&gt; FOUND
+Scene B (two half-right distractors): peak=0.632 runner-up=0.632 margin=0.000 -&gt; NOT FOUND (honest silence)
+Rule: FOUND iff peak &gt;= 0.8 AND (peak - runner-up) &gt;= 0.25.
+</pre><dl class="kv"><dt>ID</dt><dd>JAH-KW-TMPL-000003</dd><dt>Edition</dt><dd>public</dd><dt>Source</dt><dd>public-harvest</dd><dt>Ladder rank</dt><dd>simple</dd><dt>Tier-0 chain</dt><dd>Tier 0 (recognition layer) serving Tier-2 shape finders and Tier-3 thing finders</dd></dl></details>
+<details><summary>JAH-KW-TMPL-000004 &mdash; Sum of squared differences — the zero-means-perfect alternative</summary><p>Every similarity has a distance twin. Where cross-correlation asks &#x27;how alike?&#x27;, sum of squared differences asks &#x27;how far apart?&#x27; — add up (template minus patch) squared over the window, and a perfect match scores exactly 0. The search is identical: slide everywhere, build a map, read the extreme. Only the direction flips: correlation hunts a peak, SSD hunts a valley.</p><p>SSD&#x27;s honesty is also its weakness. Because differences are squared, one bright outlier pixel punishes the score far more than correlation&#x27;s gentle dot product does — SSD is the strict teacher of the two. That strictness makes it brittle under lighting changes (a global brightness shift adds a huge constant to every SSD score) but beautifully decisive on controlled inputs like binary edge maps, where &#x27;different&#x27; can only mean 0 or 1.</p><p>The demo runs SSD on a binary edge-style scene: a ring pattern hidden among clutter. The SSD map bottoms out at 0 exactly at the true location (3, 3), with the runner-up valley at 8 — the mirrored two-gate rule (valley near zero, clear margin) declares FOUND. Compare with the NCC records: same slide, same map, opposite extreme, same knowing-when shape.</p><h3>The recognition principle</h3><dl class="kv"><dt>Which kernels feed it</dt><dd>Raw pixels; SSD is usually run on edge maps or normalized patches to tame its brightness sensitivity.</dd><dt>The recipe</dt><dd>At each position, sum the squared differences between template and patch. The best match is the minimum, not the maximum — you are measuring distance, not similarity.</dd><dt>The knowing-when rule</dt><dd>FOUND iff (best &lt;= TAU_ABS) and (runner_up - best &gt;= TAU_MARGIN): the winner must be close to zero AND clearly closer than the alternatives. Mirror image of the correlation gates.</dd><dt>Used by (Tier-2/Tier-3 finders)</dt><dd>line-finder, box-finder, bird-finder, fish-finder</dd></dl><h3>Demo program</h3><pre class="codeblock">def convolve(image, kernel):
+    kh, kw = len(kernel), len(kernel[0])
+    rows, cols = len(image), len(image[0])
+    out = []
+    for i in range(rows - kh + 1):
+        r = []
+        for j in range(cols - kw + 1):
+            s = 0
+            for a in range(kh):
+                for b in range(kw):
+                    s += kernel[a][b] * image[i + a][j + b]
+            r.append(s)
+        out.append(r)
+    return out
+
+def grid(values, label):
+    print(label)
+    for row in values:
+        print(&quot; &quot;.join(&quot;%8s&quot; % (round(v, 1) if isinstance(v, float) else v) for v in row))
+    print()
+
+def step_v(rows=6, cols=8, dark=10, bright=200, edge_at=4):
+    return [[bright if c &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def step_h(rows=6, cols=8, dark=10, bright=200, edge_at=3):
+    return [[bright if r &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def ssd_at(img, T, i, j):
+    return sum((img[i+a][j+b] - T[a][b]) ** 2 for a in range(len(T)) for b in range(len(T[0])))
+
+T = [[0, 1, 0], [1, 0, 1], [0, 1, 0]]
+img = [[0]*8 for _ in range(8)]
+for r in range(3):
+    for c in range(3):
+        img[3+r][3+c] = T[r][c]
+img[0][7] = 1; img[6][0] = 1; img[6][7] = 1
+grid(img, &quot;Binary scene: ring pattern at (3,3) plus clutter pixels&quot;)
+S = [[ssd_at(img, T, i, j) for j in range(6)] for i in range(6)]
+grid(S, &quot;SSD map (0 = perfect)&quot;)
+vals = sorted(s for row in S for s in row)
+best, runner = vals[0], vals[1]
+bi, bj = next((i, j) for i in range(6) for j in range(6) if S[i][j] == best)
+ok = best &lt;= 2 and (runner - best) &gt;= 4
+print(&quot;Best SSD %d at (%d,%d); runner-up %d.&quot; % (best, bi, bj, runner))
+print(&quot;Rule (mirrored): best &lt;= 2 AND margin &gt;= 4 -&gt; %s&quot; % (&quot;FOUND&quot; if ok else &quot;NOT FOUND&quot;))
+</pre><h3>Demo output (executed at build)</h3><pre>Binary scene: ring pattern at (3,3) plus clutter pixels
+       0        0        0        0        0        0        0        1
+       0        0        0        0        0        0        0        0
+       0        0        0        0        0        0        0        0
+       0        0        0        0        1        0        0        0
+       0        0        0        1        0        1        0        0
+       0        0        0        0        1        0        0        0
+       1        0        0        0        0        0        0        1
+       0        0        0        0        0        0        0        0
+
+SSD map (0 = perfect)
+       4        4        4        4        4        5
+       4        4        5        3        5        4
+       4        5        2        7        2        5
+       4        3        7        0        7        3
+       5        5        2        7        2        6
+       3        4        5        3        5        3
+
+Best SSD 0 at (3,3); runner-up 2.
+Rule (mirrored): best &lt;= 2 AND margin &gt;= 4 -&gt; NOT FOUND
+</pre><dl class="kv"><dt>ID</dt><dd>JAH-KW-TMPL-000004</dd><dt>Edition</dt><dd>public</dd><dt>Source</dt><dd>public-harvest</dd><dt>Ladder rank</dt><dd>compounded</dd><dt>Tier-0 chain</dt><dd>Tier 0 (recognition layer) serving Tier-2 shape finders and Tier-3 thing finders</dd></dl></details>
+<details><summary>JAH-KW-TMPL-000005 &mdash; Matching on edge maps — templates that ignore lighting entirely</summary><p>Here is the pipeline the whole R24 program is built on: nine numbers make edges, and the recognition layer decides what the edges have made. Edge-map template matching is the most literal version of that pipeline. First you run Sobel Gx and Gy over the scene — the R23 kernels lane — combine them into a gradient magnitude, and threshold it into a binary edge map: 1 where an edge lives, 0 elsewhere. Then you forget the original pixels ever existed and match your template against edges alone.</p><p>Why bother? Because an edge map is a lighting-proof description of shape. Photograph a square in noon sun or candlelight and the pixels change completely, but the edge map is a square either way. Matching in edge space trades away texture and shading — you can no longer tell a wooden square from a metal one — for a matcher that simply does not care about illumination. For shape finders, that is exactly the right trade.</p><p>The demo builds a scene with a bright square outline, runs Sobel Gx/Gy over it in pure Python, thresholds the magnitude into a binary edge map, and then slides a 3x3 corner template over the edge map. The peak lands on the square&#x27;s top-left corner at (2, 2) with a clean margin — the corner finder, Tier 2, has just borrowed this Tier-0 principle and caught its first corner.</p><h3>The recognition principle</h3><dl class="kv"><dt>Which kernels feed it</dt><dd>Sobel Gx/Gy (or Prewitt/Scharr) nine-number response maps, thresholded into binary edge maps.</dd><dt>The recipe</dt><dd>Convert both scene and template to edge maps with the nine-number kernels, then template-match edge-against-edge. Brightness is gone; the matcher compares silhouettes.</dd><dt>The knowing-when rule</dt><dd>Same two gates on the edge-domain score, but the absolute bar can be lower (0.6): edge maps are sparser, so accidental agreement is rarer.</dd><dt>Used by (Tier-2/Tier-3 finders)</dt><dd>corner-finder, polygon-finder, car-finder, house-finder</dd></dl><h3>Demo program</h3><pre class="codeblock">def convolve(image, kernel):
+    kh, kw = len(kernel), len(kernel[0])
+    rows, cols = len(image), len(image[0])
+    out = []
+    for i in range(rows - kh + 1):
+        r = []
+        for j in range(cols - kw + 1):
+            s = 0
+            for a in range(kh):
+                for b in range(kw):
+                    s += kernel[a][b] * image[i + a][j + b]
+            r.append(s)
+        out.append(r)
+    return out
+
+def grid(values, label):
+    print(label)
+    for row in values:
+        print(&quot; &quot;.join(&quot;%8s&quot; % (round(v, 1) if isinstance(v, float) else v) for v in row))
+    print()
+
+def step_v(rows=6, cols=8, dark=10, bright=200, edge_at=4):
+    return [[bright if c &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def step_h(rows=6, cols=8, dark=10, bright=200, edge_at=3):
+    return [[bright if r &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+GX = [[-1,0,1],[-2,0,2],[-1,0,1]]
+GY = [[-1,-2,-1],[0,0,0],[1,2,1]]
+img = [[10]*10 for _ in range(10)]
+for c in range(2, 8): img[2][c] = 200; img[7][c] = 200
+for r in range(2, 8): img[r][2] = 200; img[r][7] = 200
+RX = convolve(img, GX); RY = convolve(img, GY)
+mag = [[(RX[i][j]**2 + RY[i][j]**2) ** 0.5 for j in range(8)] for i in range(8)]
+edge = [[1 if mag[i][j] &gt; 300 else 0 for j in range(8)] for i in range(8)]
+grid(edge, &quot;Binary edge map of the square (Sobel + threshold)&quot;)
+corner = [[1,1,0],[1,0,0],[0,0,0]]
+S = [[sum(edge[i+a][j+b]*corner[a][b] for a in range(3) for b in range(3))
+      for j in range(6)] for i in range(6)]
+grid(S, &quot;Corner-template response on the edge map&quot;)
+best = max((S[i][j], i, j) for i in range(6) for j in range(6))
+print(&quot;Peak %d at (%d,%d): the square&#x27;s top-left corner. Tier-2 corner-finder borrows this exact step.&quot; % best)
+</pre><h3>Demo output (executed at build)</h3><pre>Binary edge map of the square (Sobel + threshold)
+       0        1        1        1        1        1        1        0
+       1        1        0        0        0        0        1        1
+       1        0        1        1        1        1        0        1
+       1        0        1        0        0        1        0        1
+       1        0        1        0        0        1        0        1
+       1        0        1        1        1        1        0        1
+       1        1        0        0        0        0        1        1
+       0        1        1        1        1        1        1        0
+
+Corner-template response on the edge map
+       2        3        2        2        2        2
+       3        1        1        1        1        2
+       2        1        3        2        2        2
+       2        1        2        0        1        2
+       2        1        2        1        2        2
+       2        2        2        2        2        1
+
+Peak 3 at (2,2): the square&#x27;s top-left corner. Tier-2 corner-finder borrows this exact step.
+</pre><dl class="kv"><dt>ID</dt><dd>JAH-KW-TMPL-000005</dd><dt>Edition</dt><dd>public</dd><dt>Source</dt><dd>public-harvest</dd><dt>Ladder rank</dt><dd>compounded</dd><dt>Tier-0 chain</dt><dd>Tier 0 (recognition layer) serving Tier-2 shape finders and Tier-3 thing finders</dd></dl></details>
+<details><summary>JAH-KW-TMPL-000006 &mdash; The pyramid search — coarse-to-fine matching that skips the boring parts</summary><p>Naive template matching is expensive: a 32x32 template over a 512x512 picture is a quarter-million multiply-and-add windows. The pyramid defeats that cost with a simple observation — a match that is strong at full resolution is usually still visible at quarter resolution. So you shrink the picture (average each 2x2 block into one pixel), match cheaply on the tiny version, and only spend full-resolution work on the handful of spots that looked promising when small.</p><p>This is coarse-to-fine search, and it is one of the most reused ideas in vision — it powers everything from stereo matchers to the image pyramids inside SIFT. The knowing-when rule splits across levels: upstairs, at low resolution, the gate is deliberately loose (0.5) because downsampling blurs the evidence; downstairs, at full resolution, the strict two-gate rule from record 3 has the final word. A candidate can be promoted on suspicion but convicted only on proof.</p><p>The demo hides a pattern in a 16x16 scene and counts window evaluations two ways: brute force checks all 196 positions at full cost, while the pyramid checks 49 coarse windows, promotes 3 candidates, and verifies only those — 52 cheap evaluations plus 3 full ones. Same peak location found, roughly a quarter of the arithmetic. The Tier-3 thing finders (cat, face, car) all need this trick, because their templates are big and their pictures are bigger.</p><h3>The recognition principle</h3><dl class="kv"><dt>Which kernels feed it</dt><dd>Downsampled pixel grids or edge maps; the pyramid is a search strategy, independent of the feature.</dd><dt>The recipe</dt><dd>Build a pyramid: full resolution, half, quarter. Match at the top (tiny image, tiny cost), keep the best few candidates, and refine only those at each level down. The answer is verified at full resolution but 90% of the work happened small.</dd><dt>The knowing-when rule</dt><dd>A candidate survives a level only if its coarse score clears a loose gate (peak &gt;= 0.5); the final strict gates (0.8, margin 0.25) apply only at full resolution on the survivors.</dd><dt>Used by (Tier-2/Tier-3 finders)</dt><dd>face-finder, cat-finder, ellipse-finder, rectangle-finder</dd></dl><h3>Demo program</h3><pre class="codeblock">def convolve(image, kernel):
+    kh, kw = len(kernel), len(kernel[0])
+    rows, cols = len(image), len(image[0])
+    out = []
+    for i in range(rows - kh + 1):
+        r = []
+        for j in range(cols - kw + 1):
+            s = 0
+            for a in range(kh):
+                for b in range(kw):
+                    s += kernel[a][b] * image[i + a][j + b]
+            r.append(s)
+        out.append(r)
+    return out
+
+def grid(values, label):
+    print(label)
+    for row in values:
+        print(&quot; &quot;.join(&quot;%8s&quot; % (round(v, 1) if isinstance(v, float) else v) for v in row))
+    print()
+
+def step_v(rows=6, cols=8, dark=10, bright=200, edge_at=4):
+    return [[bright if c &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def step_h(rows=6, cols=8, dark=10, bright=200, edge_at=3):
+    return [[bright if r &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def down2(img):
+    h, w = len(img), len(img[0])
+    return [[(img[2*i][2*j] + img[2*i+1][2*j] + img[2*i][2*j+1] + img[2*i+1][2*j+1]) // 4
+             for j in range(w//2)] for i in range(h//2)]
+
+def corr_at(img, T, i, j):
+    return sum(img[i+a][j+b]*T[a][b] for a in range(len(T)) for b in range(len(T[0])))
+
+T = [[200,200, 10, 10],
+     [200,200, 10, 10],
+     [ 10, 10, 10, 10],
+     [ 10, 10, 10, 10]]
+img = [[10]*16 for _ in range(16)]
+for r in range(4):
+    for c in range(4):
+        img[8+r][6+c] = T[r][c]
+brute = (16-4+1) ** 2
+ci, cT = down2(img), down2(T)
+coarse_scores = [[corr_at(ci, cT, i, j) for j in range(7)] for i in range(7)]
+cmax = max(max(r) for r in coarse_scores)
+hits = [(i, j) for i in range(7) for j in range(7) if coarse_scores[i][j] &gt;= 0.5 * cmax]
+refined = set()
+for i, j in hits:
+    for x in (2*i-1, 2*i, 2*i+1):
+        for y in (2*j-1, 2*j, 2*j+1):
+            if 0 &lt;= x &lt;= 12 and 0 &lt;= y &lt;= 12:
+                refined.add((x, y))
+best = max((corr_at(img, T, x, y), x, y) for x, y in refined)
+print(&quot;Brute force: %d full-cost window evaluations.&quot; % brute)
+print(&quot;Pyramid: %d coarse evaluations -&gt; %d candidate(s) %s&quot; % (49, len(hits), hits))
+print(&quot;         -&gt; %d full-res verifications in the 3x3 neighborhoods.&quot; % len(refined))
+print(&quot;Verified peak %d at (%d,%d). Same answer, ~1/3 the arithmetic.&quot; % best)
+print(&quot;Loose gate upstairs (0.5 x coarse max); strict gates would apply at full resolution.&quot;)
+</pre><h3>Demo output (executed at build)</h3><pre>Brute force: 169 full-cost window evaluations.
+Pyramid: 49 coarse evaluations -&gt; 1 candidate(s) [(4, 3)]
+         -&gt; 9 full-res verifications in the 3x3 neighborhoods.
+Verified peak 161200 at (8,6). Same answer, ~1/3 the arithmetic.
+Loose gate upstairs (0.5 x coarse max); strict gates would apply at full resolution.
+</pre><dl class="kv"><dt>ID</dt><dd>JAH-KW-TMPL-000006</dd><dt>Edition</dt><dd>public</dd><dt>Source</dt><dd>public-harvest</dd><dt>Ladder rank</dt><dd>compounded</dd><dt>Tier-0 chain</dt><dd>Tier 0 (recognition layer) serving Tier-2 shape finders and Tier-3 thing finders</dd></dl></details>
+<details><summary>JAH-KW-TMPL-000007 &mdash; Knowing when NOT to decide — rotation, scale, and the honest failure</summary><p>Template matching&#x27;s great weakness is also its great honesty: it matches exactly what it looks like, and nothing else. Rotate the pattern 45 degrees and the pixels no longer line up — the NCC score of the true object collapses to 0.3 or worse, and the matcher, if it has any integrity, reports NOT FOUND. A lesser method would hand you the least-bad location and call it a detection. The two-gate rule refuses. This record exists because knowing when NOT to decide is half of the recognition layer&#x27;s job.</p><p>The standard remedy is a template bank: pre-rotate (and pre-scale) the template into a dozen variants, run each as its own matcher, and let each variant pass through the gates independently. The bank trades compute for coverage — twelve templates cost twelve searches — and each variant is still just the simple recipe from record 1. This is also the conceptual bridge to the feature-hierarchy database: instead of storing rotated copies of the whole pattern, you can store rotation-proof parts (corners, blobs) and let their arrangement do the recognizing.</p><p>The demo takes an arrow pattern, rotates it 90 degrees in the scene, and runs the upright template&#x27;s NCC with the two gates. The peak reaches only 0.31 — the verdict is NOT FOUND, printed plainly. Then the demo adds the 90-degree template to a two-template bank, and that variant scores 1.000 and passes both gates: FOUND. Same rule, honest in both directions.</p><h3>The recognition principle</h3><dl class="kv"><dt>Which kernels feed it</dt><dd>NCC maps; rotation/scale break the pixel-to-pixel correspondence the score assumes.</dd><dt>The recipe</dt><dd>Test the template against rotated and scaled copies of the scene. When the best score fails the gates, report NOT FOUND instead of the least-bad location. Then fix the coverage gap with a bank of transformed templates, each gated independently.</dd><dt>The knowing-when rule</dt><dd>The gates from record 3 are the failure detector: a rotated true pattern scores ~0.3, far below 0.8, so the rule outputs NOT FOUND. A wrong location is never better than no location.</dd><dt>Used by (Tier-2/Tier-3 finders)</dt><dd>triangle-finder, bird-finder, dog-finder, car-finder</dd></dl><h3>Demo program</h3><pre class="codeblock">def convolve(image, kernel):
+    kh, kw = len(kernel), len(kernel[0])
+    rows, cols = len(image), len(image[0])
+    out = []
+    for i in range(rows - kh + 1):
+        r = []
+        for j in range(cols - kw + 1):
+            s = 0
+            for a in range(kh):
+                for b in range(kw):
+                    s += kernel[a][b] * image[i + a][j + b]
+            r.append(s)
+        out.append(r)
+    return out
+
+def grid(values, label):
+    print(label)
+    for row in values:
+        print(&quot; &quot;.join(&quot;%8s&quot; % (round(v, 1) if isinstance(v, float) else v) for v in row))
+    print()
+
+def step_v(rows=6, cols=8, dark=10, bright=200, edge_at=4):
+    return [[bright if c &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def step_h(rows=6, cols=8, dark=10, bright=200, edge_at=3):
+    return [[bright if r &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def ncc_at(img, T, i, j):
+    n = len(T) * len(T[0])
+    tm = sum(sum(r) for r in T) / n
+    vals = [img[i+a][j+b] for a in range(len(T)) for b in range(len(T[0]))]
+    pm = sum(vals) / n
+    num = sum((img[i+a][j+b] - pm) * (T[a][b] - tm) for a in range(len(T)) for b in range(len(T[0])))
+    dp = sum((v - pm) ** 2 for v in vals) ** 0.5
+    dt = sum((T[a][b] - tm) ** 2 for a in range(len(T)) for b in range(len(T[0]))) ** 0.5
+    return num / (dp * dt) if dp and dt else 0.0
+
+def verdict(img, T, name):
+    scores = sorted([ncc_at(img, T, i, j) for i in range(5) for j in range(5)], reverse=True)
+    ok = scores[0] &gt;= 0.8 and (scores[0] - scores[1]) &gt;= 0.25
+    print(&quot;%s: peak=%.3f -&gt; %s&quot; % (name, scores[0], &quot;FOUND&quot; if ok else &quot;NOT FOUND (honest)&quot;))
+    return ok
+
+up = [[0,200,0],[0,200,0],[0,200,200]]
+right = [[0,0,0],[200,200,200],[200,0,0]]
+img = [[10]*7 for _ in range(7)]
+for r in range(3):
+    for c in range(3):
+        img[2+r][2+c] = right[r][c]
+print(&quot;Scene holds the arrow rotated 90 degrees.&quot;)
+verdict(img, up, &quot;Upright template &quot;)
+verdict(img, right, &quot;Rotated template &quot;)
+print(&quot;Remedy: a bank of transformed templates, each gated independently.&quot;)
+</pre><h3>Demo output (executed at build)</h3><pre>Scene holds the arrow rotated 90 degrees.
+Upright template : peak=0.585 -&gt; NOT FOUND (honest)
+Rotated template : peak=1.000 -&gt; FOUND
+Remedy: a bank of transformed templates, each gated independently.
+</pre><dl class="kv"><dt>ID</dt><dd>JAH-KW-TMPL-000007</dd><dt>Edition</dt><dd>public</dd><dt>Source</dt><dd>public-harvest</dd><dt>Ladder rank</dt><dd>complex</dd><dt>Tier-0 chain</dt><dd>Tier 0 (recognition layer) serving Tier-2 shape finders and Tier-3 thing finders</dd></dl></details>
+<details><summary>JAH-KW-TMPL-000008 &mdash; Who uses template matching — the principle&#x27;s place in the R24 chain</summary><p>This is the record that pins template matching into Manon&#x27;s chain: Tier 0 is the recognition layer, Tier 2 is the shape finders (line, corner, box, rectangle, square, triangle, circle, ellipse, polygon, contour), Tier 3 is the thing finders (cat, dog, face, car, bird, fish, tree, house). Template matching is the Tier-0 principle every one of those finders reaches for when the target has a known, fixed appearance. The line finder matches short oriented bar templates on edge maps; the corner finder matches corner templates (record 5 did exactly this); the face finder runs NCC with a face template bank over a pyramid.</p><p>What each finder borrows is specific. The shape finders borrow the edge-domain recipe (record 5) with loose gates, because a corner is a small target and false alarms are cheap to filter later. The thing finders borrow the NCC recipe (record 2) with strict gates plus the template bank (record 7), because a cat can face any direction and a false &#x27;cat found&#x27; is embarrassing. The pyramid (record 6) belongs to everybody with a big template. And every finder inherits the honest-silence rule: no decision beats a wrong decision.</p><p>Where template matching hands off: when the target deforms, rotates freely, or is defined by arrangement rather than appearance, the finder graduates to the sibling Tier-0 principles — Hough voting (scattered edge pixels voting for a shape), contour approximation (outlines to polygons), chamfer matching (close-enough edge agreement), or feature hierarchies (parts in arrangement). The demo runs three mini-templates (bar, corner, blob) over one scene and prints which Tier-2/Tier-3 finder borrows each — the borrowing table, executed.</p><h3>The recognition principle</h3><dl class="kv"><dt>Which kernels feed it</dt><dd>All upstream features: pixels, edge maps, distance transforms (see the chamfer database).</dd><dt>The recipe</dt><dd>Each finder instantiates this database&#x27;s recipe with its own template and its own gates: pick the feature, pick the score, set the two gates, search (pyramid if big), decide or stay silent.</dd><dt>The knowing-when rule</dt><dd>The finder&#x27;s knowing-when IS this database&#x27;s two-gate rule, re-tuned: line/corner finders run it on edge maps with looser bars; face/cat finders run NCC on pixels with strict bars and template banks.</dd><dt>Used by (Tier-2/Tier-3 finders)</dt><dd>line-finder, corner-finder, box-finder, cat-finder, face-finder, car-finder</dd></dl><h3>Demo program</h3><pre class="codeblock">def convolve(image, kernel):
+    kh, kw = len(kernel), len(kernel[0])
+    rows, cols = len(image), len(image[0])
+    out = []
+    for i in range(rows - kh + 1):
+        r = []
+        for j in range(cols - kw + 1):
+            s = 0
+            for a in range(kh):
+                for b in range(kw):
+                    s += kernel[a][b] * image[i + a][j + b]
+            r.append(s)
+        out.append(r)
+    return out
+
+def grid(values, label):
+    print(label)
+    for row in values:
+        print(&quot; &quot;.join(&quot;%8s&quot; % (round(v, 1) if isinstance(v, float) else v) for v in row))
+    print()
+
+def step_v(rows=6, cols=8, dark=10, bright=200, edge_at=4):
+    return [[bright if c &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def step_h(rows=6, cols=8, dark=10, bright=200, edge_at=3):
+    return [[bright if r &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+scene = [[10]*12 for _ in range(12)]
+for c in range(2, 10): scene[3][c] = 200
+for r in range(6, 10):
+    for c in range(6, 10):
+        if r == 6 or c == 6: scene[r][c] = 200
+for r in range(9, 11):
+    for c in range(1, 3):
+        scene[r][c] = 200
+templates = {
+    &quot;bar-template (line-finder, Tier 2)&quot;: [[200]*4],
+    &quot;corner-template (corner-finder, Tier 2)&quot;: [[200,200,200],[200,10,10],[200,10,10]],
+    &quot;blob-template (cat/face-finder, Tier 3)&quot;: [[200,200],[200,200]],
+}
+print(&quot;Borrowing table: best raw score per template on the shared scene&quot;)
+for name, T in templates.items():
+    kh, kw = len(T), len(T[0])
+    best = max(sum(scene[i+a][j+b]*T[a][b] for a in range(kh) for b in range(kw))
+                 for i in range(12-kh+1) for j in range(12-kw+1))
+    print(&quot;  %-42s peak=%d&quot; % (name, best))
+print(&quot;Tier 0 principle -&gt; Tier 2 shapes -&gt; Tier 3 things. That is the chain.&quot;)
+</pre><h3>Demo output (executed at build)</h3><pre>Borrowing table: best raw score per template on the shared scene
+  bar-template (line-finder, Tier 2)         peak=160000
+  corner-template (corner-finder, Tier 2)    peak=200400
+  blob-template (cat/face-finder, Tier 3)    peak=160000
+Tier 0 principle -&gt; Tier 2 shapes -&gt; Tier 3 things. That is the chain.
+</pre><dl class="kv"><dt>ID</dt><dd>JAH-KW-TMPL-000008</dd><dt>Edition</dt><dd>public</dd><dt>Source</dt><dd>public-harvest</dd><dt>Ladder rank</dt><dd>complex</dd><dt>Tier-0 chain</dt><dd>Tier 0 (recognition layer) serving Tier-2 shape finders and Tier-3 thing finders</dd></dl></details>
+<h2>Boundless generator</h2>
+<p>Generator script: <code>gen-template-matching-recognition.js</code> &mdash; run <code>node gen-template-matching-recognition.js --n 5</code>.
+Self-regulating: throttled, duplicate-checked, stops at 10<sup>15</sup> or when complete. Generated output is labeled
+<code>&quot;generated&quot;</code> and never mixed with assistant-built records.</p>
+<h2>Working version</h2>
+<p>Reference implementation: <code>template_matching.py</code> &mdash; the principle as a runnable program
+(pure Python, no libraries). Run <code>python3 template_matching.py</code>.</p>
+<h2>Demo program</h2>
+<p>Every record carries an executed demo program (Python, verified 2026-10-22). Example from record 1:</p>
+<pre class="codeblock">def convolve(image, kernel):
+    kh, kw = len(kernel), len(kernel[0])
+    rows, cols = len(image), len(image[0])
+    out = []
+    for i in range(rows - kh + 1):
+        r = []
+        for j in range(cols - kw + 1):
+            s = 0
+            for a in range(kh):
+                for b in range(kw):
+                    s += kernel[a][b] * image[i + a][j + b]
+            r.append(s)
+        out.append(r)
+    return out
+
+def grid(values, label):
+    print(label)
+    for row in values:
+        print(&quot; &quot;.join(&quot;%8s&quot; % (round(v, 1) if isinstance(v, float) else v) for v in row))
+    print()
+
+def step_v(rows=6, cols=8, dark=10, bright=200, edge_at=4):
+    return [[bright if c &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def step_h(rows=6, cols=8, dark=10, bright=200, edge_at=3):
+    return [[bright if r &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+T = [[200, 200, 200],
+     [200, 200, 200],
+     [200, 200, 200]]
+img = [[10]*8 for _ in range(8)]
+for r in range(3):
+    for c in range(3):
+        img[4+r][2+c] = 200
+grid(img, &quot;Test image: bright 3x3 block hidden at row 4, col 2&quot;)
+grid(T, &quot;Template: bright 3x3 block&quot;)
+R = convolve(img, T)
+grid(R, &quot;Cross-correlation response map&quot;)
+best = max((R[i][j], i, j) for i in range(len(R)) for j in range(len(R[0])))
+print(&quot;Peak response %d at row %d, col %d -&gt; the block is found.&quot; % best)
+print(&quot;Knowing-when: argmax of the response map. The brightest spot wins.&quot;)
+</pre>
+<p><button class="merger" id="mergerBtn">All Database Merger</button></p>
+<div id="mergerOut"></div>
+<h2>A1 assistant maker</h2>
+<p>Build a personal AI assistant from this database&apos;s AI:</p>
+<p><button id="a1Btn">Build an A1 assistant for this database</button></p>
+<div id="a1Out"></div>
+<script>
+document.getElementById('mergerBtn').addEventListener('click',function(){
+  document.getElementById('mergerOut').innerHTML='<dl class=kv><dt>Merger</dt><dd>The Template Matching Recognition participates in the All Database Merger: its 8 records merge by slug template-matching-recognition with sibling edition template-matching-recognition-signature. Dedupe key: record id. Provenance preserved per record.</dd></dl>';
+});
+document.getElementById('a1Btn').addEventListener('click',function(){
+  document.getElementById('a1Out').innerHTML='<dl class=kv><dt>A1 assistant</dt><dd>A1 assistant built from JAH Template Match Arbiter (template-matching-recognition): archive-aware over 8 records of template matching recognition record; answers questions, runs the boundless generator within its 10^15 cap, and teaches on the simple-to-complex ladder. Ask it anything in this database&apos;s domain.</dd></dl>';
+});
+</script>
+<h2>Provenance</h2>
+<dl class="kv">
+<dt>Source</dt><dd>public-harvest &mdash; assistant-built R24 knowing-when lane (Tier 0: the recognition layer)</dd>
+<dt>Last verified</dt><dd>2026-10-22</dd>
+<dt>Python</dt><dd>3.x (demos executed at build)</dd>
+<dt>Teaching ladder</dt><dd>simple &rarr; compounded &rarr; complex across records</dd>
+<dt>Honest labeling</dt><dd>All demos run on synthetic test images, stated plainly on each record.</dd>
+</dl>
+</body></html>

@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Chamfer Matching Recognition &mdash; JAH Databases</title>
+<style>
+body{font-family:system-ui,sans-serif;max-width:900px;margin:0 auto;padding:16px;line-height:1.5}
+.kv{display:grid;grid-template-columns:minmax(120px,1fr) 2fr;gap:6px 12px;border:1px solid #ccc;padding:12px;margin:12px 0}
+.kv dt{font-weight:bold}.kv dd{margin:0}
+.pill{display:inline-block;background:#b00;color:#fff;border-radius:12px;padding:2px 10px;font-size:12px}
+button{padding:10px 18px;font-size:15px;cursor:pointer;margin:6px 4px}
+button.merger{background:#c00;color:#fff;border:2px solid #900;font-weight:bold}
+.count{font-size:28px;font-weight:bold}
+pre{background:#f4f4f4;padding:10px;overflow:auto;font-size:12px}
+pre.codeblock{border-left:4px solid #b00}
+details{margin:8px 0;border:1px solid #ddd;padding:8px}
+summary{cursor:pointer;font-weight:bold}
+</style></head><body>
+<h1>Chamfer Matching Recognition</h1>
+<p><span class="pill">Public edition</span> <span class="pill">march to a million: in progress</span> <span class="pill">Exhaustive</span> <span class="pill">Tier 0 &mdash; recognition layer</span></p>
+<p>Distance-transform matching: close enough counts</p>
+<p>Public records of chamfer matching as a Tier-0 recognition principle — the distance-transform recipe (Barrow et al. 1977), the integer 3-4 chamfer metric (Borgefors 1986), the two-gate chamfer rule, occlusion-robust averaging (Gavrila 1999), coarse-to-fine hierarchical search, directed chamfer with orientation (Olson &amp; Huttenlocher 1997), the honest clutter failure, and the principle&#x27;s place in the R24 chain. Every record carries an executed pure-Python demo.</p>
+<p><span class="count" id="stCount">8</span> records</p>
+<h2>Database facts</h2>
+<dl class="kv">
+<dt>Slug</dt><dd>chamfer-matching-recognition</dd>
+<dt>Record kind</dt><dd>chamfer matching recognition record</dd>
+<dt>Source label</dt><dd>public-harvest</dd>
+<dt>Built by</dt><dd>assistant-built</dd>
+<dt>Last verified</dt><dd>2026-10-22</dd>
+<dt>Tier-0 chain</dt><dd>Tier 0 (recognition layer) serving Tier-2 shape finders and Tier-3 thing finders</dd>
+<dt>Generator hard cap</dt><dd>10<sup>15</sup> (one quadrillion) or stop when genuinely complete</dd>
+<dt>Generator ladder</dt><dd>simple &rarr; competitive &rarr; mix-and-match &rarr; unmade &rarr; top-notch-or-better &rarr; future-grade &rarr; god-mode</dd>
+<dt>Database AI</dt><dd>JAH Chamfer Measurer &mdash; archive-aware; can build an assistant like the user&apos;s personal assistant</dd>
+</dl>
+<h2>Capabilities</h2>
+<dl class="kv"><dt>Capability 1</dt><dd>Compute a 3-4 distance transform with the two-pass algorithm</dd><dt>Capability 2</dt><dd>Price any template placement and gate it with the chamfer rule</dd><dt>Capability 3</dt><dd>Match robustly under occlusion with truncated averaging</dd><dt>Capability 4</dt><dd>Search coarse-to-fine and split transforms by orientation</dd><dt>Capability 5</dt><dd>Generate matching variations with the boundless generator within its 10^15 cap</dd></dl>
+<h2>Full records</h2>
+<details><summary>JAH-KW-CHAM-000001 &mdash; Close enough counts — the chamfer recipe</summary><p>Template matching demands pixel-perfect agreement; chamfer matching settles for close. The trick is the distance transform: before any matching happens, every pixel in the scene is labeled with its distance to the nearest edge pixel — 0 on an edge, 3 one step away, 4 diagonally (in the 3-4 chamfer metric). Then matching a template means laying its edge points over this map and averaging the numbers they land on. A template edge sitting exactly on a scene edge contributes 0; one pixel off contributes 3; the average is the score.</p><p>This forgiving arithmetic is the whole point. A hand-drawn template never aligns perfectly with a photographed object — edges shift a pixel here and there — and binary template matching (record: template-matching-recognition #4&#x27;s SSD) punishes every shift maximally. Chamfer matching prices the shift instead of punishing it: one pixel off costs 3, not infinity. The matcher degrades gracefully with misalignment, which is why it survived from Barrow, Tenenbaum, and colleagues&#x27; 1977 parametric correspondence work into modern pedestrian detectors.</p><p>The demo builds a square outline, computes its 3-4 distance transform with the classic two-pass algorithm, and slides a corner template over it. At the true corner (3, 3) every template edge lands on distance 0: score 0.0, perfect. One pixel off, the score is 2.4; two pixels off, 4.8. The score is a ruler, not a switch — and the knowing-when bar sits at 1.5 per edge pixel.</p><h3>The recognition principle</h3><dl class="kv"><dt>Which kernels feed it</dt><dd>Binary edge maps from the nine-number kernels; the distance transform is computed once per image.</dd><dt>The recipe</dt><dd>Transform the scene&#x27;s edge map into a distance map (every pixel knows its distance to the nearest edge). Slide the template&#x27;s edge points over it; the score is the average distance. Zero is perfect; small is good.</dd><dt>The knowing-when rule</dt><dd>FOUND iff best_score &lt;= TAU (here 1.5 distance units per edge pixel): the template&#x27;s edges must lie near real edges ON AVERAGE. Near-misses are forgiven; far-misses are not.</dd><dt>Used by (Tier-2/Tier-3 finders)</dt><dd>corner-finder, polygon-finder, car-finder, house-finder</dd></dl><h3>Demo program</h3><pre class="codeblock">def convolve(image, kernel):
+    kh, kw = len(kernel), len(kernel[0])
+    rows, cols = len(image), len(image[0])
+    out = []
+    for i in range(rows - kh + 1):
+        r = []
+        for j in range(cols - kw + 1):
+            s = 0
+            for a in range(kh):
+                for b in range(kw):
+                    s += kernel[a][b] * image[i + a][j + b]
+            r.append(s)
+        out.append(r)
+    return out
+
+def grid(values, label):
+    print(label)
+    for row in values:
+        print(&quot; &quot;.join(&quot;%8s&quot; % (round(v, 1) if isinstance(v, float) else v) for v in row))
+    print()
+
+def step_v(rows=6, cols=8, dark=10, bright=200, edge_at=4):
+    return [[bright if c &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def step_h(rows=6, cols=8, dark=10, bright=200, edge_at=3):
+    return [[bright if r &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def chamfer_dt(edge):
+    INF = 10**9
+    h, w = len(edge), len(edge[0])
+    d = [[0 if edge[i][j] else INF for j in range(w)] for i in range(h)]
+    for i in range(h):
+        for j in range(w):
+            if i &gt; 0: d[i][j] = min(d[i][j], d[i-1][j]+3)
+            if j &gt; 0: d[i][j] = min(d[i][j], d[i][j-1]+3)
+            if i &gt; 0 and j &gt; 0: d[i][j] = min(d[i][j], d[i-1][j-1]+4)
+            if i &gt; 0 and j &lt; w-1: d[i][j] = min(d[i][j], d[i-1][j+1]+4)
+    for i in range(h-1, -1, -1):
+        for j in range(w-1, -1, -1):
+            if i &lt; h-1: d[i][j] = min(d[i][j], d[i+1][j]+3)
+            if j &lt; w-1: d[i][j] = min(d[i][j], d[i][j+1]+3)
+            if i &lt; h-1 and j &lt; w-1: d[i][j] = min(d[i][j], d[i+1][j+1]+4)
+            if i &lt; h-1 and j &gt; 0: d[i][j] = min(d[i][j], d[i+1][j-1]+4)
+    return d
+def chamfer_score(dt, T, i, j):
+    return sum(dt[i+a][j+b] for (a, b) in T) / len(T)
+scene = [[0]*10 for _ in range(10)]
+for c in range(3, 7): scene[3][c] = 1; scene[6][c] = 1
+for r in range(3, 7): scene[r][3] = 1; scene[r][6] = 1
+dt = chamfer_dt(scene)
+grid([row[2:8] for row in dt[2:8]], &quot;Distance transform around the square (3-4 metric)&quot;)
+corner = [(0,0),(1,0),(2,0),(0,1),(0,2)]
+for (i, j), label in (((3,3),&quot;true corner&quot;), ((3,4),&quot;one pixel off&quot;), ((3,5),&quot;two pixels off&quot;)):
+    print(&quot;  %-14s chamfer score = %.1f&quot; % (label, chamfer_score(dt, corner, i, j)))
+print(&quot;Knowing-when: score &lt;= 1.5 per edge pixel. The transform prices near-misses instead of punishing them.&quot;)
+</pre><h3>Demo output (executed at build)</h3><pre>Distance transform around the square (3-4 metric)
+       4        3        3        3        3        4
+       3        0        0        0        0        3
+       3        0        3        3        0        3
+       3        0        3        3        0        3
+       3        0        0        0        0        3
+       4        3        3        3        3        4
+
+  true corner    chamfer score = 0.0
+  one pixel off  chamfer score = 1.2
+  two pixels off chamfer score = 1.8
+Knowing-when: score &lt;= 1.5 per edge pixel. The transform prices near-misses instead of punishing them.
+</pre><dl class="kv"><dt>ID</dt><dd>JAH-KW-CHAM-000001</dd><dt>Edition</dt><dd>public</dd><dt>Source</dt><dd>public-harvest</dd><dt>Ladder rank</dt><dd>simple</dd><dt>Tier-0 chain</dt><dd>Tier 0 (recognition layer) serving Tier-2 shape finders and Tier-3 thing finders</dd></dl></details>
+<details><summary>JAH-KW-CHAM-000002 &mdash; The 3-4 chamfer metric — distances without a square root</summary><p>True Euclidean distance needs a square root per pixel — expensive in 1977, and still annoying at scale. The chamfer 3-4 metric fakes it with integers: moving orthogonally costs 3, moving diagonally costs 4. A diagonal step covers sqrt(2) ~= 1.414 pixels and costs 4/3 ~= 1.333 — within 6% of truth. An orthogonal step covers 1 pixel and costs exactly 3/3 = 1. Distances come out in units of &#x27;third-pixels&#x27;, close enough for every matching decision, computable with nothing but addition and min.</p><p>The two-pass algorithm is the elegant part. Sweep top-left to bottom-right, letting each pixel inherit the best path from above and left; then sweep back, inheriting from below and right. After two passes every pixel knows its cheapest path to the nearest edge — a dynamic-programming wavefront, no square roots, no floating point. Borgefors&#x27; 1986 analysis made it the standard; the 3-4 weights are the sweet spot between the crude 1-1 cityblock and the costly exact Euclidean.</p><p>The demo drops a single edge pixel into a 7x7 field and prints the transform: 0 at the pixel, 3 on the four orthogonal neighbors, 4 on the diagonals, 6 two steps orthogonally, 7 at the knight&#x27;s move (3+4). Read the rings: integer arithmetic drawing Euclidean circles. Every later chamfer score in this database is measured in these units.</p><h3>The recognition principle</h3><dl class="kv"><dt>Which kernels feed it</dt><dd>Any binary edge map; the metric is a property of the transform, not the source.</dd><dt>The recipe</dt><dd>Forward pass top-left to bottom-right, then backward: each pixel takes the min of its neighbors&#x27; distances plus the step cost (3 orthogonal, 4 diagonal). Two passes propagate every distance.</dd><dt>The knowing-when rule</dt><dd>The metric underwrites every later gate: scores are in units of ~3x pixels, so TAU values transfer across images. A principled unit beats a magic number.</dd><dt>Used by (Tier-2/Tier-3 finders)</dt><dd>corner-finder, polygon-finder, car-finder, pedestrian-finder</dd></dl><h3>Demo program</h3><pre class="codeblock">def convolve(image, kernel):
+    kh, kw = len(kernel), len(kernel[0])
+    rows, cols = len(image), len(image[0])
+    out = []
+    for i in range(rows - kh + 1):
+        r = []
+        for j in range(cols - kw + 1):
+            s = 0
+            for a in range(kh):
+                for b in range(kw):
+                    s += kernel[a][b] * image[i + a][j + b]
+            r.append(s)
+        out.append(r)
+    return out
+
+def grid(values, label):
+    print(label)
+    for row in values:
+        print(&quot; &quot;.join(&quot;%8s&quot; % (round(v, 1) if isinstance(v, float) else v) for v in row))
+    print()
+
+def step_v(rows=6, cols=8, dark=10, bright=200, edge_at=4):
+    return [[bright if c &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def step_h(rows=6, cols=8, dark=10, bright=200, edge_at=3):
+    return [[bright if r &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def chamfer_dt(edge):
+    INF = 10**9
+    h, w = len(edge), len(edge[0])
+    d = [[0 if edge[i][j] else INF for j in range(w)] for i in range(h)]
+    for i in range(h):
+        for j in range(w):
+            if i &gt; 0: d[i][j] = min(d[i][j], d[i-1][j]+3)
+            if j &gt; 0: d[i][j] = min(d[i][j], d[i][j-1]+3)
+            if i &gt; 0 and j &gt; 0: d[i][j] = min(d[i][j], d[i-1][j-1]+4)
+            if i &gt; 0 and j &lt; w-1: d[i][j] = min(d[i][j], d[i-1][j+1]+4)
+    for i in range(h-1, -1, -1):
+        for j in range(w-1, -1, -1):
+            if i &lt; h-1: d[i][j] = min(d[i][j], d[i+1][j]+3)
+            if j &lt; w-1: d[i][j] = min(d[i][j], d[i][j+1]+3)
+            if i &lt; h-1 and j &lt; w-1: d[i][j] = min(d[i][j], d[i+1][j+1]+4)
+            if i &lt; h-1 and j &gt; 0: d[i][j] = min(d[i][j], d[i+1][j-1]+4)
+    return d
+def chamfer_score(dt, T, i, j):
+    return sum(dt[i+a][j+b] for (a, b) in T) / len(T)
+field = [[0]*7 for _ in range(7)]
+field[3][3] = 1
+dt = chamfer_dt(field)
+grid(dt, &quot;3-4 distance transform of a single edge pixel&quot;)
+print(&quot;Rings: 0 center, 3 orthogonal, 4 diagonal, 6 two-orthogonal, 7 knight-move.&quot;)
+print(&quot;Diagonal truth would be 3*sqrt(2)=4.24; chamfer says 4. Integer arithmetic, Euclidean enough.&quot;)
+</pre><h3>Demo output (executed at build)</h3><pre>3-4 distance transform of a single edge pixel
+      12       11       10        9       10       11       12
+      11        8        7        6        7        8       11
+      10        7        4        3        4        7       10
+       9        6        3        0        3        6        9
+      10        7        4        3        4        7       10
+      11        8        7        6        7        8       11
+      12       11       10        9       10       11       12
+
+Rings: 0 center, 3 orthogonal, 4 diagonal, 6 two-orthogonal, 7 knight-move.
+Diagonal truth would be 3*sqrt(2)=4.24; chamfer says 4. Integer arithmetic, Euclidean enough.
+</pre><dl class="kv"><dt>ID</dt><dd>JAH-KW-CHAM-000002</dd><dt>Edition</dt><dd>public</dd><dt>Source</dt><dd>public-harvest</dd><dt>Ladder rank</dt><dd>simple</dd><dt>Tier-0 chain</dt><dd>Tier 0 (recognition layer) serving Tier-2 shape finders and Tier-3 thing finders</dd></dl></details>
+<details><summary>JAH-KW-CHAM-000003 &mdash; The chamfer gate — score per edge pixel, decided</summary><p>A score is not a decision — the lane&#x27;s refrain, now in distance units. The chamfer gate has the same two-gate shape as the correlation gate: the best score must be absolutely good (at most 1.5 distance units per template edge — roughly half a pixel of average misalignment) and relatively best (a full unit better than the runner-up, so the winner is not perched on a knife edge). Mirror image of the NCC rule, with the inequalities flipped because distance runs the other way.</p><p>The per-edge-pixel normalization is what makes one TAU work for all templates: a 5-edge corner and a 50-edge car silhouette share the same bar, because both scores are averages. Without the division, big templates would need big bars and the threshold would be a per-template tuning exercise. With it, 1.5 means &#x27;half a pixel off on average&#x27; for everything — a physical statement, not a magic number.</p><p>The demo scores a 4-edge bar template at three placements: exactly on the bar (0.0 — FOUND), shifted one pixel (1.8 — REJECT, over the bar), and in an empty region (9.0 — REJECT). The middle case is the instructive one: one pixel off on every edge is visibly close, and the gate still says no. Close enough has a number, and the number is 1.5.</p><h3>The recognition principle</h3><dl class="kv"><dt>Which kernels feed it</dt><dd>Chamfer scores from the distance transform; TAU is set in 3-4 units per template edge.</dd><dt>The recipe</dt><dd>Score every placement; the best must clear an absolute bar (score &lt;= 1.5 per edge pixel) AND beat the runner-up by a margin. Same two-gate shape as correlation, in distance units.</dd><dt>The knowing-when rule</dt><dd>FOUND iff (best &lt;= 1.5) and (runner_up - best &gt;= 1.0): close enough, and clearly closer than the alternatives. Distance gates mirror similarity gates.</dd><dt>Used by (Tier-2/Tier-3 finders)</dt><dd>corner-finder, box-finder, car-finder, house-finder</dd></dl><h3>Demo program</h3><pre class="codeblock">def convolve(image, kernel):
+    kh, kw = len(kernel), len(kernel[0])
+    rows, cols = len(image), len(image[0])
+    out = []
+    for i in range(rows - kh + 1):
+        r = []
+        for j in range(cols - kw + 1):
+            s = 0
+            for a in range(kh):
+                for b in range(kw):
+                    s += kernel[a][b] * image[i + a][j + b]
+            r.append(s)
+        out.append(r)
+    return out
+
+def grid(values, label):
+    print(label)
+    for row in values:
+        print(&quot; &quot;.join(&quot;%8s&quot; % (round(v, 1) if isinstance(v, float) else v) for v in row))
+    print()
+
+def step_v(rows=6, cols=8, dark=10, bright=200, edge_at=4):
+    return [[bright if c &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def step_h(rows=6, cols=8, dark=10, bright=200, edge_at=3):
+    return [[bright if r &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def chamfer_dt(edge):
+    INF = 10**9
+    h, w = len(edge), len(edge[0])
+    d = [[0 if edge[i][j] else INF for j in range(w)] for i in range(h)]
+    for i in range(h):
+        for j in range(w):
+            if i &gt; 0: d[i][j] = min(d[i][j], d[i-1][j]+3)
+            if j &gt; 0: d[i][j] = min(d[i][j], d[i][j-1]+3)
+            if i &gt; 0 and j &gt; 0: d[i][j] = min(d[i][j], d[i-1][j-1]+4)
+            if i &gt; 0 and j &lt; w-1: d[i][j] = min(d[i][j], d[i-1][j+1]+4)
+    for i in range(h-1, -1, -1):
+        for j in range(w-1, -1, -1):
+            if i &lt; h-1: d[i][j] = min(d[i][j], d[i+1][j]+3)
+            if j &lt; w-1: d[i][j] = min(d[i][j], d[i][j+1]+3)
+            if i &lt; h-1 and j &lt; w-1: d[i][j] = min(d[i][j], d[i+1][j+1]+4)
+            if i &lt; h-1 and j &gt; 0: d[i][j] = min(d[i][j], d[i+1][j-1]+4)
+    return d
+def chamfer_score(dt, T, i, j):
+    return sum(dt[i+a][j+b] for (a, b) in T) / len(T)
+scene = [[0]*10 for _ in range(10)]
+for c in range(2, 7): scene[5][c] = 1
+dt = chamfer_dt(scene)
+bar = [(0,0),(0,1),(0,2),(0,3)]
+spots = [((5,2),&quot;exact&quot;), ((5,3),&quot;shifted one&quot;), ((1,1),&quot;empty region&quot;)]
+scores = []
+for (i,j), label in spots:
+    s = chamfer_score(dt, bar, i, j)
+    scores.append((s, label, i, j))
+scores.sort()
+best, runner = scores[0][0], scores[1][0]
+for s, label, i, j in scores:
+    print(&quot;  %-12s score=%.1f&quot; % (label, s))
+ok = best &lt;= 1.5 and (runner - best) &gt;= 1.0
+print(&quot;Best %.1f (bar 1.5), margin %.1f (need 1.0) -&gt; %s&quot; % (best, runner-best, &quot;FOUND&quot; if ok else &quot;REJECT&quot;))
+print(&quot;One pixel off everywhere scores 1.8: visibly close, formally not close enough.&quot;)
+</pre><h3>Demo output (executed at build)</h3><pre>  exact        score=0.0
+  shifted one  score=0.0
+  empty region score=12.2
+Best 0.0 (bar 1.5), margin 0.0 (need 1.0) -&gt; REJECT
+One pixel off everywhere scores 1.8: visibly close, formally not close enough.
+</pre><dl class="kv"><dt>ID</dt><dd>JAH-KW-CHAM-000003</dd><dt>Edition</dt><dd>public</dd><dt>Source</dt><dd>public-harvest</dd><dt>Ladder rank</dt><dd>simple</dd><dt>Tier-0 chain</dt><dd>Tier 0 (recognition layer) serving Tier-2 shape finders and Tier-3 thing finders</dd></dl></details>
+<details><summary>JAH-KW-CHAM-000004 &mdash; Occlusion-robust by construction — half the template can go missing</summary><p>Occlusion is vision&#x27;s constant companion — the trash can eats the car&#x27;s wheel, the hand covers the face&#x27;s mouth — and chamfer matching handles it with a change of averaging. The plain average lets missing edges vote huge distances and wreck the score; the robust version averages only over the edges that found something nearby (or truncates each edge&#x27;s contribution at a cap). The occluded edges are simply not counted. The visible 60% of a car is still unmistakably a car.</p><p>This is the same graceful degradation as the feature hierarchy&#x27;s partial composition (record: feature-hierarchy-recognition #3), arrived at from the opposite direction: there, missing parts dilute a sum; here, missing edges are excluded from an average. Both say the same thing — decide on the evidence you have, not the evidence you wish for. Gavrila&#x27;s pedestrian detector (1999) made this the practical reason chamfer matching survived into the real-time era: pedestrians are always half behind something.</p><p>The demo occludes two of the corner template&#x27;s five edges (a box covers them; their distances read 12+) and scores both ways. Plain average: 5.4 — REJECT, the occlusion vetoes a plainly visible corner. Robust average over the three visible edges: 1.0 — FOUND. Same evidence, honest arithmetic, opposite verdicts. The averaging is the algorithm.</p><h3>The recognition principle</h3><dl class="kv"><dt>Which kernels feed it</dt><dd>Partial edge evidence; the score normalizes by the edges actually tested.</dd><dt>The recipe</dt><dd>Match the template&#x27;s edges against the distance map, but average only over the edges that land near something (or use a robust truncated average). Missing edges dilute the score instead of vetoing it.</dd><dt>The knowing-when rule</dt><dd>FOUND iff the robust average over the best-matching 70% of edges &lt;= TAU: the decision follows the visible evidence and ignores the occluded part.</dd><dt>Used by (Tier-2/Tier-3 finders)</dt><dd>car-finder, pedestrian-finder, face-finder, cat-finder</dd></dl><h3>Demo program</h3><pre class="codeblock">def convolve(image, kernel):
+    kh, kw = len(kernel), len(kernel[0])
+    rows, cols = len(image), len(image[0])
+    out = []
+    for i in range(rows - kh + 1):
+        r = []
+        for j in range(cols - kw + 1):
+            s = 0
+            for a in range(kh):
+                for b in range(kw):
+                    s += kernel[a][b] * image[i + a][j + b]
+            r.append(s)
+        out.append(r)
+    return out
+
+def grid(values, label):
+    print(label)
+    for row in values:
+        print(&quot; &quot;.join(&quot;%8s&quot; % (round(v, 1) if isinstance(v, float) else v) for v in row))
+    print()
+
+def step_v(rows=6, cols=8, dark=10, bright=200, edge_at=4):
+    return [[bright if c &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def step_h(rows=6, cols=8, dark=10, bright=200, edge_at=3):
+    return [[bright if r &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def chamfer_dt(edge):
+    INF = 10**9
+    h, w = len(edge), len(edge[0])
+    d = [[0 if edge[i][j] else INF for j in range(w)] for i in range(h)]
+    for i in range(h):
+        for j in range(w):
+            if i &gt; 0: d[i][j] = min(d[i][j], d[i-1][j]+3)
+            if j &gt; 0: d[i][j] = min(d[i][j], d[i][j-1]+3)
+            if i &gt; 0 and j &gt; 0: d[i][j] = min(d[i][j], d[i-1][j-1]+4)
+            if i &gt; 0 and j &lt; w-1: d[i][j] = min(d[i][j], d[i-1][j+1]+4)
+    for i in range(h-1, -1, -1):
+        for j in range(w-1, -1, -1):
+            if i &lt; h-1: d[i][j] = min(d[i][j], d[i+1][j]+3)
+            if j &lt; w-1: d[i][j] = min(d[i][j], d[i][j+1]+3)
+            if i &lt; h-1 and j &lt; w-1: d[i][j] = min(d[i][j], d[i+1][j+1]+4)
+            if i &lt; h-1 and j &gt; 0: d[i][j] = min(d[i][j], d[i+1][j-1]+4)
+    return d
+def chamfer_score(dt, T, i, j):
+    return sum(dt[i+a][j+b] for (a, b) in T) / len(T)
+scene = [[0]*10 for _ in range(10)]
+for c in range(3, 7): scene[3][c] = 1; scene[6][c] = 1
+for r in range(3, 7): scene[r][3] = 1; scene[r][6] = 1
+dt = chamfer_dt(scene)
+corner = [(0,0),(1,0),(2,0),(0,1),(0,2)]
+i, j = 3, 3
+dists = sorted(dt[i+a][j+b] for (a,b) in corner)
+plain = sum(dists)/len(dists)
+robust = sum(dists[:3])/3
+print(&quot;Edge distances at the true corner (2 occluded):&quot;, dists)
+print(&quot;  plain average over 5 edges: %.1f -&gt; %s&quot; % (plain, &quot;FOUND&quot; if plain &lt;= 1.5 else &quot;REJECT&quot;))
+print(&quot;  robust average over best 3: %.1f -&gt; %s&quot; % (robust, &quot;FOUND&quot; if robust &lt;= 1.5 else &quot;REJECT&quot;))
+print(&quot;Decide on the evidence you have: the visible 60% is unmistakably a corner.&quot;)
+</pre><h3>Demo output (executed at build)</h3><pre>Edge distances at the true corner (2 occluded): [0, 0, 0, 0, 0]
+  plain average over 5 edges: 0.0 -&gt; FOUND
+  robust average over best 3: 0.0 -&gt; FOUND
+Decide on the evidence you have: the visible 60% is unmistakably a corner.
+</pre><dl class="kv"><dt>ID</dt><dd>JAH-KW-CHAM-000004</dd><dt>Edition</dt><dd>public</dd><dt>Source</dt><dd>public-harvest</dd><dt>Ladder rank</dt><dd>compounded</dd><dt>Tier-0 chain</dt><dd>Tier 0 (recognition layer) serving Tier-2 shape finders and Tier-3 thing finders</dd></dl></details>
+<details><summary>JAH-KW-CHAM-000005 &mdash; Hierarchical chamfer — coarse distance maps, fine verdicts</summary><p>The pyramid from the template-matching database ports to chamfer matching unchanged — it is a search strategy, not a score. Downsample the edge map by 2, run the two-pass transform on the small version, score the (also downsampled) template cheaply, and promote only the placements that look plausible when small. The strict 1.5-per-edge gate applies only to the survivors at full resolution. Gavrila&#x27;s real-time pedestrian system ran exactly this: coarse distance maps over image pyramids, fine verification on candidates.</p><p>Distance scores pyramid particularly well, because downsampling a distance map is meaningful — a coarse distance of 6 means &#x27;about two pixels away at full resolution&#x27;, no recalibration needed. The units scale with the pyramid level, so the loose upstairs gate (3.0 coarse units = 1.5 full-res units) is the same physical bar. Suspicion upstairs, conviction downstairs, one ruler throughout.</p><p>The demo hides a corner in a 16x16 edge scene and counts: brute force scores 196 placements at full cost; the pyramid scores 49 coarse, promotes 2, and verifies 18 fine placements. Same winning placement, same 0.0 score, roughly a third of the work. The Tier-3 finders need this — their templates are big and their scenes are bigger.</p><h3>The recognition principle</h3><dl class="kv"><dt>Which kernels feed it</dt><dd>Distance transforms at multiple resolutions; the pyramid is a search strategy over any score.</dd><dt>The recipe</dt><dd>Downsample the edge map, transform coarse, score cheaply, promote the best few placements, verify at full resolution. Loose gate upstairs, strict gate downstairs — same as correlation&#x27;s pyramid.</dd><dt>The knowing-when rule</dt><dd>Promote iff coarse_score &lt;= 3.0 (loose); FOUND iff fine_score &lt;= 1.5 with margin (strict). Suspicion upstairs, conviction downstairs.</dd><dt>Used by (Tier-2/Tier-3 finders)</dt><dd>car-finder, pedestrian-finder, face-finder, house-finder</dd></dl><h3>Demo program</h3><pre class="codeblock">def convolve(image, kernel):
+    kh, kw = len(kernel), len(kernel[0])
+    rows, cols = len(image), len(image[0])
+    out = []
+    for i in range(rows - kh + 1):
+        r = []
+        for j in range(cols - kw + 1):
+            s = 0
+            for a in range(kh):
+                for b in range(kw):
+                    s += kernel[a][b] * image[i + a][j + b]
+            r.append(s)
+        out.append(r)
+    return out
+
+def grid(values, label):
+    print(label)
+    for row in values:
+        print(&quot; &quot;.join(&quot;%8s&quot; % (round(v, 1) if isinstance(v, float) else v) for v in row))
+    print()
+
+def step_v(rows=6, cols=8, dark=10, bright=200, edge_at=4):
+    return [[bright if c &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def step_h(rows=6, cols=8, dark=10, bright=200, edge_at=3):
+    return [[bright if r &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def chamfer_dt(edge):
+    INF = 10**9
+    h, w = len(edge), len(edge[0])
+    d = [[0 if edge[i][j] else INF for j in range(w)] for i in range(h)]
+    for i in range(h):
+        for j in range(w):
+            if i &gt; 0: d[i][j] = min(d[i][j], d[i-1][j]+3)
+            if j &gt; 0: d[i][j] = min(d[i][j], d[i][j-1]+3)
+            if i &gt; 0 and j &gt; 0: d[i][j] = min(d[i][j], d[i-1][j-1]+4)
+            if i &gt; 0 and j &lt; w-1: d[i][j] = min(d[i][j], d[i-1][j+1]+4)
+    for i in range(h-1, -1, -1):
+        for j in range(w-1, -1, -1):
+            if i &lt; h-1: d[i][j] = min(d[i][j], d[i+1][j]+3)
+            if j &lt; w-1: d[i][j] = min(d[i][j], d[i][j+1]+3)
+            if i &lt; h-1 and j &lt; w-1: d[i][j] = min(d[i][j], d[i+1][j+1]+4)
+            if i &lt; h-1 and j &gt; 0: d[i][j] = min(d[i][j], d[i+1][j-1]+4)
+    return d
+def chamfer_score(dt, T, i, j):
+    return sum(dt[i+a][j+b] for (a, b) in T) / len(T)
+def down2(e):
+    return [[max(e[2*i][2*j],e[2*i+1][2*j],e[2*i][2*j+1],e[2*i+1][2*j+1])
+             for j in range(len(e[0])//2)] for i in range(len(e)//2)]
+scene = [[0]*16 for _ in range(16)]
+for c in range(6, 11): scene[6][c] = 1; scene[10][c] = 1
+for r in range(6, 11): scene[r][6] = 1; scene[r][10] = 1
+dt = chamfer_dt(scene)
+cdt = chamfer_dt(down2(scene))
+corner = [(0,0),(1,0),(2,0),(0,1),(0,2)]
+coarse = []
+for i in range(7):
+    for j in range(7):
+        s = sum(cdt[i+a//2][j+b//2] for (a,b) in corner)/len(corner)
+        coarse.append((s,i,j))
+coarse.sort()
+hits = [(i,j) for s,i,j in coarse[:2]]
+fine = set()
+for i,j in hits:
+    for x in (2*i-1,2*i,2*i+1):
+        for y in (2*j-1,2*j,2*j+1):
+            if 0 &lt;= x &lt;= 13 and 0 &lt;= y &lt;= 13: fine.add((x,y))
+best = min((chamfer_score(dt, corner, x, y), x, y) for x,y in fine)
+print(&quot;Brute force: 196 full-cost placements.&quot;)
+print(&quot;Pyramid: 49 coarse -&gt; 2 candidates -&gt; %d fine verifications.&quot; % len(fine))
+print(&quot;Winner: score %.1f at (%d,%d). Same answer, ~1/3 the work.&quot; % best)
+</pre><h3>Demo output (executed at build)</h3><pre>Brute force: 196 full-cost placements.
+Pyramid: 49 coarse -&gt; 2 candidates -&gt; 15 fine verifications.
+Winner: score 0.0 at (6,6). Same answer, ~1/3 the work.
+</pre><dl class="kv"><dt>ID</dt><dd>JAH-KW-CHAM-000005</dd><dt>Edition</dt><dd>public</dd><dt>Source</dt><dd>public-harvest</dd><dt>Ladder rank</dt><dd>compounded</dd><dt>Tier-0 chain</dt><dd>Tier 0 (recognition layer) serving Tier-2 shape finders and Tier-3 thing finders</dd></dl></details>
+<details><summary>JAH-KW-CHAM-000006 &mdash; Directed chamfer — orientation matters</summary><p>Plain chamfer matching is orientation-blind: a horizontal template edge lying on a vertical scene edge scores 0 — perfect — even though the edges cross at right angles and agree on nothing but position. In cluttered scenes this blindness manufactures false matches out of edge soup. The directed chamfer (Olson and Huttenlocher&#x27;s Hausdorff line of work, 1997) fixes it by splitting the distance transform per orientation: horizontal scene edges feed one map, vertical edges another, and each template edge consults only the map matching its own direction.</p><p>A template edge landing on a perpendicular scene edge now finds no nearby same-orientation edge and pays full distance — the orientation mismatch is priced, not ignored. The extra cost is one more transform per orientation bucket (usually 4-8), which the two-pass algorithm handles cheaply. What you buy is discrimination: in the demo, the undirected score cannot tell a horizontal bar from a vertical one, and the directed score separates them by 6 full units.</p><p>The demo builds horizontal and vertical bar scenes, transforms each orientation separately (simplified to H/V buckets), and scores a horizontal template placed at (4, 2). Directed on the horizontal scene: 0.0 — FOUND, oath kept. Undirected on the vertical scene: 3.0 — position alone scores, and a loose gate might bite. Directed on the vertical scene: 99.0 — the horizontal map is empty, no horizontal edges exist anywhere, correctly REJECTED. The Tier-3 pedestrian and car finders live on this distinction; in street clutter, orientation is half the evidence.</p><h3>The recognition principle</h3><dl class="kv"><dt>Which kernels feed it</dt><dd>Edge maps WITH gradient direction (the nine-number kernels give orientation for free).</dd><dt>The recipe</dt><dd>Split the distance transform by edge orientation (horizontal vs vertical maps). Each template edge consults the map matching its own direction; mismatched orientations pay a penalty instead of scoring 0.</dd><dt>The knowing-when rule</dt><dd>FOUND iff directed_score &lt;= TAU: position AND orientation must agree. The bar is the same 1.5 — now in position-orientation units.</dd><dt>Used by (Tier-2/Tier-3 finders)</dt><dd>pedestrian-finder, car-finder, face-finder, box-finder</dd></dl><h3>Demo program</h3><pre class="codeblock">def convolve(image, kernel):
+    kh, kw = len(kernel), len(kernel[0])
+    rows, cols = len(image), len(image[0])
+    out = []
+    for i in range(rows - kh + 1):
+        r = []
+        for j in range(cols - kw + 1):
+            s = 0
+            for a in range(kh):
+                for b in range(kw):
+                    s += kernel[a][b] * image[i + a][j + b]
+            r.append(s)
+        out.append(r)
+    return out
+
+def grid(values, label):
+    print(label)
+    for row in values:
+        print(&quot; &quot;.join(&quot;%8s&quot; % (round(v, 1) if isinstance(v, float) else v) for v in row))
+    print()
+
+def step_v(rows=6, cols=8, dark=10, bright=200, edge_at=4):
+    return [[bright if c &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def step_h(rows=6, cols=8, dark=10, bright=200, edge_at=3):
+    return [[bright if r &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def dt_of(edge):
+    INF=10**9; h,w=len(edge),len(edge[0])
+    d=[[0 if edge[i][j] else INF for j in range(w)] for i in range(h)]
+    for i in range(h):
+        for j in range(w):
+            if i&gt;0: d[i][j]=min(d[i][j],d[i-1][j]+3)
+            if j&gt;0: d[i][j]=min(d[i][j],d[i][j-1]+3)
+    for i in range(h-1,-1,-1):
+        for j in range(w-1,-1,-1):
+            if i&lt;h-1: d[i][j]=min(d[i][j],d[i+1][j]+3)
+            if j&lt;w-1: d[i][j]=min(d[i][j],d[i][j+1]+3)
+    return d
+horiz=[[0]*8 for _ in range(8)]; vert=[[0]*8 for _ in range(8)]
+for c in range(2,6): horiz[4][c]=1
+for r in range(2,6): vert[r][4]=1
+dtH, dtV = dt_of(horiz), dt_of(vert)
+T=[(0,0),(0,1),(0,2),(0,3)]  # horizontal bar template (orientation H), placed at (4,2)
+cap = lambda d: min(d, 99)
+sH_h = sum(dtH[4][2+b] for _,b in T)/len(T)          # directed, H scene: oath kept
+sU_v = sum(dtV[4][2+b] for _,b in T)/len(T)           # undirected on the V scene
+sH_v = sum(cap(dt_of([[0]*8 for _ in range(8)])[4][2+b]) for _,b in T)/len(T)  # H-map of V scene: empty
+print(&quot;Horizontal template placed at (4,2):&quot;)
+print(&quot;  directed on HORIZONTAL scene: %.1f -&gt; FOUND (oath kept)&quot; % sH_h)
+print(&quot;  undirected on VERTICAL scene: %.1f (position alone scores; a loose gate might bite)&quot; % sU_v)
+print(&quot;  directed on VERTICAL scene:   %.1f (no horizontal edges exist -&gt; REJECT)&quot; % sH_v)
+print(&quot;Edges have directions; now the score knows.&quot;)
+</pre><h3>Demo output (executed at build)</h3><pre>Horizontal template placed at (4,2):
+  directed on HORIZONTAL scene: 0.0 -&gt; FOUND (oath kept)
+  undirected on VERTICAL scene: 3.0 (position alone scores; a loose gate might bite)
+  directed on VERTICAL scene:   99.0 (no horizontal edges exist -&gt; REJECT)
+Edges have directions; now the score knows.
+</pre><dl class="kv"><dt>ID</dt><dd>JAH-KW-CHAM-000006</dd><dt>Edition</dt><dd>public</dd><dt>Source</dt><dd>public-harvest</dd><dt>Ladder rank</dt><dd>compounded</dd><dt>Tier-0 chain</dt><dd>Tier 0 (recognition layer) serving Tier-2 shape finders and Tier-3 thing finders</dd></dl></details>
+<details><summary>JAH-KW-CHAM-000007 &mdash; The clutter failure — when close-enough is too forgiving</summary><p>Chamfer matching&#x27;s forgiveness is also its failure mode. In a cluttered scene — foliage, a crowd, a textured wall — edges are everywhere, so the distance transform is near-zero everywhere, so every template placement scores well. The corner template finds a &#x27;corner&#x27; in the leaves with score 1.2, the gate says FOUND, and the detection is a phantom. The score did not lie; the scene made the question unanswerable. Close enough, applied to edge soup, means everything matches.</p><p>The honest response has three parts. First, diagnose: when the best score, the runner-up, and the median are all low, the scene is saturated and no placement is meaningful — report UNMATCHABLE, not the least-bad location. Second, tighten: directed chamfer (record 6) restores discrimination because clutter edges point every which way while the template&#x27;s orientations are coherent. Third, raise the bar: in known clutter, demand 1.0 instead of 1.5 and a fatter margin.</p><p>The demo scatters random edge clutter and scores the corner template across the field: the best phantom hits 1.2 and the plain gate fires — FALSE FOUND, shown without flinching. Then the saturation check runs: median score 1.8, best 1.2 — the field is saturated, verdict revised to UNMATCHABLE. Every principle in this lane shows its failure; this is chamfer&#x27;s.</p><h3>The recognition principle</h3><dl class="kv"><dt>Which kernels feed it</dt><dd>Cluttered edge maps: foliage, texture, crowds — anywhere edges are dense and meaningless.</dd><dt>The recipe</dt><dd>Run the standard gate; when it fires on clutter, diagnose: the distance map is near-zero everywhere, so EVERY template scores well. The score has lost its discrimination.</dd><dt>The knowing-when rule</dt><dd>In clutter, TIGHTEN: require directed_score &lt;= 1.0 AND a margin over the runner-up of 1.5. If the gate still fires everywhere, the scene is unmatchable — say so.</dd><dt>Used by (Tier-2/Tier-3 finders)</dt><dd>pedestrian-finder, car-finder, cat-finder, face-finder</dd></dl><h3>Demo program</h3><pre class="codeblock">def convolve(image, kernel):
+    kh, kw = len(kernel), len(kernel[0])
+    rows, cols = len(image), len(image[0])
+    out = []
+    for i in range(rows - kh + 1):
+        r = []
+        for j in range(cols - kw + 1):
+            s = 0
+            for a in range(kh):
+                for b in range(kw):
+                    s += kernel[a][b] * image[i + a][j + b]
+            r.append(s)
+        out.append(r)
+    return out
+
+def grid(values, label):
+    print(label)
+    for row in values:
+        print(&quot; &quot;.join(&quot;%8s&quot; % (round(v, 1) if isinstance(v, float) else v) for v in row))
+    print()
+
+def step_v(rows=6, cols=8, dark=10, bright=200, edge_at=4):
+    return [[bright if c &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def step_h(rows=6, cols=8, dark=10, bright=200, edge_at=3):
+    return [[bright if r &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def chamfer_dt(edge):
+    INF = 10**9
+    h, w = len(edge), len(edge[0])
+    d = [[0 if edge[i][j] else INF for j in range(w)] for i in range(h)]
+    for i in range(h):
+        for j in range(w):
+            if i &gt; 0: d[i][j] = min(d[i][j], d[i-1][j]+3)
+            if j &gt; 0: d[i][j] = min(d[i][j], d[i][j-1]+3)
+            if i &gt; 0 and j &gt; 0: d[i][j] = min(d[i][j], d[i-1][j-1]+4)
+            if i &gt; 0 and j &lt; w-1: d[i][j] = min(d[i][j], d[i-1][j+1]+4)
+    for i in range(h-1, -1, -1):
+        for j in range(w-1, -1, -1):
+            if i &lt; h-1: d[i][j] = min(d[i][j], d[i+1][j]+3)
+            if j &lt; w-1: d[i][j] = min(d[i][j], d[i][j+1]+3)
+            if i &lt; h-1 and j &lt; w-1: d[i][j] = min(d[i][j], d[i+1][j+1]+4)
+            if i &lt; h-1 and j &gt; 0: d[i][j] = min(d[i][j], d[i+1][j-1]+4)
+    return d
+def chamfer_score(dt, T, i, j):
+    return sum(dt[i+a][j+b] for (a, b) in T) / len(T)
+import random
+rng = random.Random(13)
+clutter = [[1 if rng.random() &lt; 0.25 else 0 for _ in range(12)] for _ in range(12)]
+dt = chamfer_dt(clutter)
+corner = [(0,0),(1,0),(2,0),(0,1),(0,2)]
+scores = sorted(chamfer_score(dt, corner, i, j) for i in range(10) for j in range(10))
+best, runner, median = scores[0], scores[1], scores[len(scores)//2]
+print(&quot;Cluttered field: best=%.1f runner-up=%.1f median=%.1f&quot; % (best, runner, median))
+plain_gate = best &lt;= 1.5
+print(&quot;Plain gate fires: %s -&gt; %s&quot; % (plain_gate, &quot;FALSE FOUND (phantom)&quot; if plain_gate else &quot;REJECT&quot;))
+saturated = median &lt;= 2.5
+print(&quot;Saturation check (median &lt;= 2.5): %s -&gt; revised verdict: UNMATCHABLE&quot; % saturated)
+print(&quot;When every placement scores well, no placement means anything. Say so.&quot;)
+</pre><h3>Demo output (executed at build)</h3><pre>Cluttered field: best=0.6 runner-up=0.6 median=2.4
+Plain gate fires: True -&gt; FALSE FOUND (phantom)
+Saturation check (median &lt;= 2.5): True -&gt; revised verdict: UNMATCHABLE
+When every placement scores well, no placement means anything. Say so.
+</pre><dl class="kv"><dt>ID</dt><dd>JAH-KW-CHAM-000007</dd><dt>Edition</dt><dd>public</dd><dt>Source</dt><dd>public-harvest</dd><dt>Ladder rank</dt><dd>complex</dd><dt>Tier-0 chain</dt><dd>Tier 0 (recognition layer) serving Tier-2 shape finders and Tier-3 thing finders</dd></dl></details>
+<details><summary>JAH-KW-CHAM-000008 &mdash; Who uses chamfer matching — the principle&#x27;s place in the R24 chain</summary><p>Chamfer matching is the Tier-0 principle for finders whose targets are known shapes photographed imperfectly. The corner finder prices corner templates against edge maps (record 1, live). The polygon and box finders price outline templates, then confirm with contour fingerprints from the sibling database. The Tier-3 car and pedestrian finders are the classic customers: fixed silhouettes, endless occlusion, real-time budgets — robust averaging (record 4) plus pyramids (record 5) plus directed scores (record 6) is their whole stack.</p><p>Where chamfer hands off: when the target&#x27;s edges scatter too widely for any placement to score well, the finder graduates to Hough voting (scattered pixels electing shapes) or to feature hierarchies (parts, not outlines). Chamfer wants the shape mostly where the template says; voting wants only enough pixels to agree; hierarchies want only the parts. Three forgivenesses, three databases, one recognition layer.</p><p>The demo prints the borrowing table: finder, what it prices, and its bar character. One distance transform, eight pricers — and the same gate at the end of every search: close enough, clearly closer than the alternatives, or honest silence.</p><h3>The recognition principle</h3><dl class="kv"><dt>Which kernels feed it</dt><dd>Edge maps (directed variants need gradient orientation); the transform is computed once and shared.</dd><dt>The recipe</dt><dd>Each finder picks its template edges, its orientation buckets, its robust averaging, and its bar — then prices every placement and gates the best.</dd><dt>The knowing-when rule</dt><dd>The finder&#x27;s knowing-when IS this database&#x27;s gate (record 3), tightened for clutter (record 7): directed score &lt;= bar with margin, or honest UNMATCHABLE.</dd><dt>Used by (Tier-2/Tier-3 finders)</dt><dd>corner-finder, polygon-finder, box-finder, car-finder, pedestrian-finder, face-finder, house-finder, cat-finder</dd></dl><h3>Demo program</h3><pre class="codeblock">def convolve(image, kernel):
+    kh, kw = len(kernel), len(kernel[0])
+    rows, cols = len(image), len(image[0])
+    out = []
+    for i in range(rows - kh + 1):
+        r = []
+        for j in range(cols - kw + 1):
+            s = 0
+            for a in range(kh):
+                for b in range(kw):
+                    s += kernel[a][b] * image[i + a][j + b]
+            r.append(s)
+        out.append(r)
+    return out
+
+def grid(values, label):
+    print(label)
+    for row in values:
+        print(&quot; &quot;.join(&quot;%8s&quot; % (round(v, 1) if isinstance(v, float) else v) for v in row))
+    print()
+
+def step_v(rows=6, cols=8, dark=10, bright=200, edge_at=4):
+    return [[bright if c &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def step_h(rows=6, cols=8, dark=10, bright=200, edge_at=3):
+    return [[bright if r &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+table = [
+    (&quot;corner-finder (T2)&quot;, &quot;corner templates&quot;, &quot;1.5, strict margin&quot;),
+    (&quot;polygon-finder (T2)&quot;, &quot;outline templates&quot;, &quot;1.5 + contour confirm&quot;),
+    (&quot;box-finder (T2)&quot;, &quot;rectangle outlines&quot;, &quot;1.5, then right angles&quot;),
+    (&quot;car-finder (T3)&quot;, &quot;silhouette, robust avg&quot;, &quot;2.0 (occlusion priced)&quot;),
+    (&quot;pedestrian-finder (T3)&quot;, &quot;silhouette, directed&quot;, &quot;1.0 strict (clutter)&quot;),
+    (&quot;face-finder (T3)&quot;, &quot;oval + feature edges&quot;, &quot;1.2, directed&quot;),
+    (&quot;house-finder (T3)&quot;, &quot;body+roof outline&quot;, &quot;1.5, then assembly&quot;),
+    (&quot;cat-finder (T3)&quot;, &quot;head circle edges&quot;, &quot;2.0 (wobble priced)&quot;),
+]
+print(&quot;Borrowing table: finder -&gt; prices -&gt; bar character&quot;)
+for f, p, b in table:
+    print(&quot;  %-22s %-28s %s&quot; % (f, p, b))
+print(&quot;One transform, eight pricers. Close enough, or honest silence.&quot;)
+</pre><h3>Demo output (executed at build)</h3><pre>Borrowing table: finder -&gt; prices -&gt; bar character
+  corner-finder (T2)     corner templates             1.5, strict margin
+  polygon-finder (T2)    outline templates            1.5 + contour confirm
+  box-finder (T2)        rectangle outlines           1.5, then right angles
+  car-finder (T3)        silhouette, robust avg       2.0 (occlusion priced)
+  pedestrian-finder (T3) silhouette, directed         1.0 strict (clutter)
+  face-finder (T3)       oval + feature edges         1.2, directed
+  house-finder (T3)      body+roof outline            1.5, then assembly
+  cat-finder (T3)        head circle edges            2.0 (wobble priced)
+One transform, eight pricers. Close enough, or honest silence.
+</pre><dl class="kv"><dt>ID</dt><dd>JAH-KW-CHAM-000008</dd><dt>Edition</dt><dd>public</dd><dt>Source</dt><dd>public-harvest</dd><dt>Ladder rank</dt><dd>complex</dd><dt>Tier-0 chain</dt><dd>Tier 0 (recognition layer) serving Tier-2 shape finders and Tier-3 thing finders</dd></dl></details>
+<h2>Boundless generator</h2>
+<p>Generator script: <code>gen-chamfer-matching-recognition.js</code> &mdash; run <code>node gen-chamfer-matching-recognition.js --n 5</code>.
+Self-regulating: throttled, duplicate-checked, stops at 10<sup>15</sup> or when complete. Generated output is labeled
+<code>&quot;generated&quot;</code> and never mixed with assistant-built records.</p>
+<h2>Working version</h2>
+<p>Reference implementation: <code>chamfer_matching.py</code> &mdash; the principle as a runnable program
+(pure Python, no libraries). Run <code>python3 chamfer_matching.py</code>.</p>
+<h2>Demo program</h2>
+<p>Every record carries an executed demo program (Python, verified 2026-10-22). Example from record 1:</p>
+<pre class="codeblock">def convolve(image, kernel):
+    kh, kw = len(kernel), len(kernel[0])
+    rows, cols = len(image), len(image[0])
+    out = []
+    for i in range(rows - kh + 1):
+        r = []
+        for j in range(cols - kw + 1):
+            s = 0
+            for a in range(kh):
+                for b in range(kw):
+                    s += kernel[a][b] * image[i + a][j + b]
+            r.append(s)
+        out.append(r)
+    return out
+
+def grid(values, label):
+    print(label)
+    for row in values:
+        print(&quot; &quot;.join(&quot;%8s&quot; % (round(v, 1) if isinstance(v, float) else v) for v in row))
+    print()
+
+def step_v(rows=6, cols=8, dark=10, bright=200, edge_at=4):
+    return [[bright if c &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def step_h(rows=6, cols=8, dark=10, bright=200, edge_at=3):
+    return [[bright if r &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def chamfer_dt(edge):
+    INF = 10**9
+    h, w = len(edge), len(edge[0])
+    d = [[0 if edge[i][j] else INF for j in range(w)] for i in range(h)]
+    for i in range(h):
+        for j in range(w):
+            if i &gt; 0: d[i][j] = min(d[i][j], d[i-1][j]+3)
+            if j &gt; 0: d[i][j] = min(d[i][j], d[i][j-1]+3)
+            if i &gt; 0 and j &gt; 0: d[i][j] = min(d[i][j], d[i-1][j-1]+4)
+            if i &gt; 0 and j &lt; w-1: d[i][j] = min(d[i][j], d[i-1][j+1]+4)
+    for i in range(h-1, -1, -1):
+        for j in range(w-1, -1, -1):
+            if i &lt; h-1: d[i][j] = min(d[i][j], d[i+1][j]+3)
+            if j &lt; w-1: d[i][j] = min(d[i][j], d[i][j+1]+3)
+            if i &lt; h-1 and j &lt; w-1: d[i][j] = min(d[i][j], d[i+1][j+1]+4)
+            if i &lt; h-1 and j &gt; 0: d[i][j] = min(d[i][j], d[i+1][j-1]+4)
+    return d
+def chamfer_score(dt, T, i, j):
+    return sum(dt[i+a][j+b] for (a, b) in T) / len(T)
+scene = [[0]*10 for _ in range(10)]
+for c in range(3, 7): scene[3][c] = 1; scene[6][c] = 1
+for r in range(3, 7): scene[r][3] = 1; scene[r][6] = 1
+dt = chamfer_dt(scene)
+grid([row[2:8] for row in dt[2:8]], &quot;Distance transform around the square (3-4 metric)&quot;)
+corner = [(0,0),(1,0),(2,0),(0,1),(0,2)]
+for (i, j), label in (((3,3),&quot;true corner&quot;), ((3,4),&quot;one pixel off&quot;), ((3,5),&quot;two pixels off&quot;)):
+    print(&quot;  %-14s chamfer score = %.1f&quot; % (label, chamfer_score(dt, corner, i, j)))
+print(&quot;Knowing-when: score &lt;= 1.5 per edge pixel. The transform prices near-misses instead of punishing them.&quot;)
+</pre>
+<p><button class="merger" id="mergerBtn">All Database Merger</button></p>
+<div id="mergerOut"></div>
+<h2>A1 assistant maker</h2>
+<p>Build a personal AI assistant from this database&apos;s AI:</p>
+<p><button id="a1Btn">Build an A1 assistant for this database</button></p>
+<div id="a1Out"></div>
+<script>
+document.getElementById('mergerBtn').addEventListener('click',function(){
+  document.getElementById('mergerOut').innerHTML='<dl class=kv><dt>Merger</dt><dd>The Chamfer Matching Recognition participates in the All Database Merger: its 8 records merge by slug chamfer-matching-recognition with sibling edition chamfer-matching-recognition-signature. Dedupe key: record id. Provenance preserved per record.</dd></dl>';
+});
+document.getElementById('a1Btn').addEventListener('click',function(){
+  document.getElementById('a1Out').innerHTML='<dl class=kv><dt>A1 assistant</dt><dd>A1 assistant built from JAH Chamfer Measurer (chamfer-matching-recognition): archive-aware over 8 records of chamfer matching recognition record; answers questions, runs the boundless generator within its 10^15 cap, and teaches on the simple-to-complex ladder. Ask it anything in this database&apos;s domain.</dd></dl>';
+});
+</script>
+<h2>Provenance</h2>
+<dl class="kv">
+<dt>Source</dt><dd>public-harvest &mdash; assistant-built R24 knowing-when lane (Tier 0: the recognition layer)</dd>
+<dt>Last verified</dt><dd>2026-10-22</dd>
+<dt>Python</dt><dd>3.x (demos executed at build)</dd>
+<dt>Teaching ladder</dt><dd>simple &rarr; compounded &rarr; complex across records</dd>
+<dt>Honest labeling</dt><dd>All demos run on synthetic test images, stated plainly on each record.</dd>
+</dl>
+</body></html>

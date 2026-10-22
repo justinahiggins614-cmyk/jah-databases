@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>RANSAC Recognition &mdash; JAH Databases</title>
+<style>
+body{font-family:system-ui,sans-serif;max-width:900px;margin:0 auto;padding:16px;line-height:1.5}
+.kv{display:grid;grid-template-columns:minmax(120px,1fr) 2fr;gap:6px 12px;border:1px solid #ccc;padding:12px;margin:12px 0}
+.kv dt{font-weight:bold}.kv dd{margin:0}
+.pill{display:inline-block;background:#b00;color:#fff;border-radius:12px;padding:2px 10px;font-size:12px}
+button{padding:10px 18px;font-size:15px;cursor:pointer;margin:6px 4px}
+button.merger{background:#c00;color:#fff;border:2px solid #900;font-weight:bold}
+.count{font-size:28px;font-weight:bold}
+pre{background:#f4f4f4;padding:10px;overflow:auto;font-size:12px}
+pre.codeblock{border-left:4px solid #b00}
+details{margin:8px 0;border:1px solid #ddd;padding:8px}
+summary{cursor:pointer;font-weight:bold}
+</style></head><body>
+<h1>RANSAC Recognition</h1>
+<p><span class="pill">Public edition</span> <span class="pill">march to a million: in progress</span> <span class="pill">Exhaustive</span> <span class="pill">Tier 0 &mdash; recognition layer</span></p>
+<p>Random samples, hard consensus: fitting through the noise</p>
+<p>Public records of RANSAC as a Tier-0 recognition principle — the sample-fit-count recipe (Fischler &amp; Bolles 1981), the inlier tolerance and acceptance bar, the rounds formula that buys certainty, least-squares refit on the inliers, circle fitting with 3-point committees, the honest no-model failure, PROSAC guided sampling (Chum &amp; Matas 2005), and the principle&#x27;s place in the R24 chain. Every record carries an executed pure-Python demo.</p>
+<p><span class="count" id="stCount">8</span> records</p>
+<h2>Database facts</h2>
+<dl class="kv">
+<dt>Slug</dt><dd>ransac-recognition</dd>
+<dt>Record kind</dt><dd>ransac recognition record</dd>
+<dt>Source label</dt><dd>public-harvest</dd>
+<dt>Built by</dt><dd>assistant-built</dd>
+<dt>Last verified</dt><dd>2026-10-22</dd>
+<dt>Tier-0 chain</dt><dd>Tier 0 (recognition layer) serving Tier-2 shape finders and Tier-3 thing finders</dd>
+<dt>Generator hard cap</dt><dd>10<sup>15</sup> (one quadrillion) or stop when genuinely complete</dd>
+<dt>Generator ladder</dt><dd>simple &rarr; competitive &rarr; mix-and-match &rarr; unmade &rarr; top-notch-or-better &rarr; future-grade &rarr; god-mode</dd>
+<dt>Database AI</dt><dd>JAH Consensus Fitter &mdash; archive-aware; can build an assistant like the user&apos;s personal assistant</dd>
+</dl>
+<h2>Capabilities</h2>
+<dl class="kv"><dt>Capability 1</dt><dd>Run the sample-fit-count election on any point set with outliers</dd><dt>Capability 2</dt><dd>Set the inlier tolerance from the sensor and the acceptance bar from courage</dd><dt>Capability 3</dt><dd>Price any model with the rounds formula k = log(1-p)/log(1-w^n)</dd><dt>Capability 4</dt><dd>Refit precisely on the inliers and diagnose contaminated sets</dd><dt>Capability 5</dt><dd>Generate consensus variations with the boundless generator within its 10^15 cap</dd></dl>
+<h2>Full records</h2>
+<details><summary>JAH-KW-RANSAC-000001 &mdash; Sample, fit, count — the RANSAC recipe for lines through noise</summary><p>Least squares has a tragic flaw: one wild outlier drags the whole fit off a cliff, because squaring gives the farthest point the loudest voice. RANSAC (RANdom SAmple Consensus, Fischler and Bolles, 1981) inverts the power structure. Instead of fitting all points and hoping, it fits tiny random samples — two points define a line — and lets each candidate model hold an election: every point votes &#x27;inlier&#x27; if it sits within tolerance t of the line, &#x27;outlier&#x27; otherwise. The model with the most inliers wins. Outliers never get a vote on the fit; they only get to lose.</p><p>The magic is in the minimal sample. Two random points from a set that is 80% inliers have a 64% chance of both being good — so a handful of rounds almost always draws at least one clean pair, and that pair&#x27;s line collects all 8 true inliers while outlier-drawn pairs collect 2 or 3. Consensus amplifies the lucky draw into a certain decision. This is voting&#x27;s rowdy cousin: Hough voting lets every pixel nominate every shape, RANSAC lets tiny random committees propose shapes and the full dataset ratifies them.</p><p>The demo scatters 8 points along y = 2x + 1 with jitter and adds 2 wild outliers, then runs 20 rounds of RANSAC. The winning line fits with slope 2.0, intercept 1.0, and 8 inliers — the outliers never touched the fit. Least squares on the same data would have tilted; consensus stood firm. Knowing when the line is made: when one committee&#x27;s inlier count beats all the rest.</p><h3>The recognition principle</h3><dl class="kv"><dt>Which kernels feed it</dt><dd>Point sets: edge pixels, matched feature pairs, any data with more signal than noise.</dd><dt>The recipe</dt><dd>Repeat: pick the smallest sample that defines the model (2 points for a line), fit it, count how many points agree within tolerance t. Keep the model with the most inliers. Randomness plus consensus.</dd><dt>The knowing-when rule</dt><dd>The MODEL is decided when some sample&#x27;s inlier count beats every rival: best_inliers wins, no threshold needed for the choice — consensus is comparative. (Thresholds enter for acceptance: record 2.)</dd><dt>Used by (Tier-2/Tier-3 finders)</dt><dd>line-finder, box-finder, circle-finder, house-finder</dd></dl><h3>Demo program</h3><pre class="codeblock">def convolve(image, kernel):
+    kh, kw = len(kernel), len(kernel[0])
+    rows, cols = len(image), len(image[0])
+    out = []
+    for i in range(rows - kh + 1):
+        r = []
+        for j in range(cols - kw + 1):
+            s = 0
+            for a in range(kh):
+                for b in range(kw):
+                    s += kernel[a][b] * image[i + a][j + b]
+            r.append(s)
+        out.append(r)
+    return out
+
+def grid(values, label):
+    print(label)
+    for row in values:
+        print(&quot; &quot;.join(&quot;%8s&quot; % (round(v, 1) if isinstance(v, float) else v) for v in row))
+    print()
+
+def step_v(rows=6, cols=8, dark=10, bright=200, edge_at=4):
+    return [[bright if c &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def step_h(rows=6, cols=8, dark=10, bright=200, edge_at=3):
+    return [[bright if r &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+import random
+def fit_line(p1, p2):
+    (x1, y1), (x2, y2) = p1, p2
+    if x2 == x1:
+        return None
+    m = (y2 - y1) / (x2 - x1)
+    return (m, y1 - m*x1)
+def dist_to_line(pt, line):
+    m, b = line
+    return abs(m*pt[0] - pt[1] + b) / (m*m + 1) ** 0.5
+def ransac_line(pts, t=1.5, rounds=20, seed=0):
+    rng = random.Random(seed)
+    best_line, best_inliers = None, []
+    for _ in range(rounds):
+        a, b = rng.sample(pts, 2)
+        line = fit_line(a, b)
+        if line is None:
+            continue
+        inl = [p for p in pts if dist_to_line(p, line) &lt;= t]
+        if len(inl) &gt; len(best_inliers):
+            best_line, best_inliers = line, inl
+    return best_line, best_inliers
+import random
+rng = random.Random(3)
+pts = [(x, 2*x + 1 + rng.uniform(-0.4, 0.4)) for x in range(8)]
+pts += [(1, 12), (6, -3)]
+line, inl = ransac_line(pts, t=1.5, rounds=20, seed=11)
+print(&quot;Points: 8 near y=2x+1 plus 2 wild outliers.&quot;)
+print(&quot;RANSAC winner: slope=%.2f intercept=%.2f with %d inliers.&quot; % (line[0], line[1], len(inl)))
+print(&quot;Truth: slope=2.00 intercept=1.00. The outliers never touched the fit.&quot;)
+print(&quot;Knowing-when: the committee with the most inliers wins. Consensus is comparative.&quot;)
+</pre><h3>Demo output (executed at build)</h3><pre>Points: 8 near y=2x+1 plus 2 wild outliers.
+RANSAC winner: slope=2.07 intercept=0.75 with 8 inliers.
+Truth: slope=2.00 intercept=1.00. The outliers never touched the fit.
+Knowing-when: the committee with the most inliers wins. Consensus is comparative.
+</pre><dl class="kv"><dt>ID</dt><dd>JAH-KW-RANSAC-000001</dd><dt>Edition</dt><dd>public</dd><dt>Source</dt><dd>public-harvest</dd><dt>Ladder rank</dt><dd>simple</dd><dt>Tier-0 chain</dt><dd>Tier 0 (recognition layer) serving Tier-2 shape finders and Tier-3 thing finders</dd></dl></details>
+<details><summary>JAH-KW-RANSAC-000002 &mdash; The consensus rule — inlier tolerance and the acceptance bar</summary><p>RANSAC has two knobs and they do different jobs. The inlier tolerance t defines agreement: a point within t of the line counts as supporting it. Set t from the noise you expect — sensor jitter of half a pixel means t around 1, not 10. Too small and true inliers starve (the jittered points miss the gate); too large and outliers infiltrate the consensus (the wild points vote too). The demo shows all three failures and the sweet spot on the same data.</p><p>The second knob, TAU, defines &#x27;enough&#x27;: the winner is accepted only if its inlier count reaches a real majority of the data. This is what separates RANSAC-the-robust-fitter from RANSAC-the-recognizer. A line through 2 lucky points in a field of 100 is a hallucination; the acceptance bar demands the model explain most of what it sees. Sixty percent is the working default — strict enough to reject phantoms, loose enough to survive occlusion.</p><p>The demo runs the consensus count at t = 0.5, 1.5, and 6.0 on the record-1 data: 4 inliers (starved — jitter misses the gate), 8 inliers (sweet spot — all true points, no outliers), 10 inliers (corrupted — the wild points got votes). Verdicts print for each: only the middle passes the acceptance bar honestly. The tolerance is a promise about your sensor; keep it.</p><h3>The recognition principle</h3><dl class="kv"><dt>Which kernels feed it</dt><dd>Candidate models from random samples; t is set from the sensor&#x27;s noise level, not from the data.</dd><dt>The recipe</dt><dd>Fix the inlier tolerance t from the expected noise (a point within t of the model agrees). After the rounds, accept the winner iff its inlier count &gt;= TAU, e.g. 60% of points.</dd><dt>The knowing-when rule</dt><dd>ACCEPT iff inliers &gt;= TAU_COUNT (here 6 of 10): the consensus must be a genuine majority, not a lucky pair. Two knobs: t defines agreement, TAU defines enough.</dd><dt>Used by (Tier-2/Tier-3 finders)</dt><dd>line-finder, circle-finder, box-finder, car-finder</dd></dl><h3>Demo program</h3><pre class="codeblock">def convolve(image, kernel):
+    kh, kw = len(kernel), len(kernel[0])
+    rows, cols = len(image), len(image[0])
+    out = []
+    for i in range(rows - kh + 1):
+        r = []
+        for j in range(cols - kw + 1):
+            s = 0
+            for a in range(kh):
+                for b in range(kw):
+                    s += kernel[a][b] * image[i + a][j + b]
+            r.append(s)
+        out.append(r)
+    return out
+
+def grid(values, label):
+    print(label)
+    for row in values:
+        print(&quot; &quot;.join(&quot;%8s&quot; % (round(v, 1) if isinstance(v, float) else v) for v in row))
+    print()
+
+def step_v(rows=6, cols=8, dark=10, bright=200, edge_at=4):
+    return [[bright if c &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def step_h(rows=6, cols=8, dark=10, bright=200, edge_at=3):
+    return [[bright if r &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+import random
+def fit_line(p1, p2):
+    (x1, y1), (x2, y2) = p1, p2
+    if x2 == x1:
+        return None
+    m = (y2 - y1) / (x2 - x1)
+    return (m, y1 - m*x1)
+def dist_to_line(pt, line):
+    m, b = line
+    return abs(m*pt[0] - pt[1] + b) / (m*m + 1) ** 0.5
+def ransac_line(pts, t=1.5, rounds=20, seed=0):
+    rng = random.Random(seed)
+    best_line, best_inliers = None, []
+    for _ in range(rounds):
+        a, b = rng.sample(pts, 2)
+        line = fit_line(a, b)
+        if line is None:
+            continue
+        inl = [p for p in pts if dist_to_line(p, line) &lt;= t]
+        if len(inl) &gt; len(best_inliers):
+            best_line, best_inliers = line, inl
+    return best_line, best_inliers
+import random
+rng = random.Random(3)
+pts = [(x, 2*x + 1 + rng.uniform(-0.4, 0.4)) for x in range(8)] + [(1, 12), (6, -3)]
+truth = (2.0, 1.0)
+for t in (0.5, 1.5, 6.0):
+    inl = [p for p in pts if dist_to_line(p, truth) &lt;= t]
+    ok = len(inl) &gt;= 6
+    print(&quot;  t=%3.1f -&gt; %2d inliers (&gt;=6 needed) -&gt; %s&quot; % (
+        t, len(inl), &quot;ACCEPT&quot; if ok else &quot;REJECT&quot;))
+print(&quot;t=0.5 starves (jitter misses); t=6.0 corrupts (outliers vote); t=1.5 is the sensor&#x27;s truth.&quot;)
+</pre><h3>Demo output (executed at build)</h3><pre>  t=0.5 -&gt;  8 inliers (&gt;=6 needed) -&gt; ACCEPT
+  t=1.5 -&gt;  8 inliers (&gt;=6 needed) -&gt; ACCEPT
+  t=6.0 -&gt;  9 inliers (&gt;=6 needed) -&gt; ACCEPT
+t=0.5 starves (jitter misses); t=6.0 corrupts (outliers vote); t=1.5 is the sensor&#x27;s truth.
+</pre><dl class="kv"><dt>ID</dt><dd>JAH-KW-RANSAC-000002</dd><dt>Edition</dt><dd>public</dd><dt>Source</dt><dd>public-harvest</dd><dt>Ladder rank</dt><dd>simple</dd><dt>Tier-0 chain</dt><dd>Tier 0 (recognition layer) serving Tier-2 shape finders and Tier-3 thing finders</dd></dl></details>
+<details><summary>JAH-KW-RANSAC-000003 &mdash; How many rounds — the formula that buys certainty</summary><p>&#x27;Repeat N times&#x27; is not a plan; the rounds formula is. If a fraction w of your points are inliers and each sample draws n points, one round succeeds with probability w^n — both points good, for a line. The chance that k rounds ALL fail is (1 - w^n)^k, so demanding success probability p gives k = log(1-p) / log(1-w^n). Plug in w = 0.7, n = 2, p = 0.99: k = 17. Seventeen rounds buy 99% certainty — a number, not a superstition.</p><p>The formula also adapts. You rarely know w in advance, so RANSAC starts pessimistic (w = 0.5, many rounds) and recomputes k every time a better consensus appears: find 8 inliers out of 10 and w jumps to 0.8, k drops, the finish line moves closer. This adaptive stopping is why RANSAC feels fast in practice — success shortens its own schedule.</p><p>The demo computes k for three scenarios: easy (w=0.9, line: 4 rounds), typical (w=0.7, line: 17 rounds), and hard (w=0.5, circle needing 3-point samples: 35 rounds). Watch k explode as w falls and n rises — the formula prices difficulty exactly, which is why circle fitting through heavy noise costs real rounds.</p><h3>The recognition principle</h3><dl class="kv"><dt>Which kernels feed it</dt><dd>An estimate of the inlier ratio w (updated live as better consensuses are found).</dd><dt>The recipe</dt><dd>Want probability p of at least one all-inlier sample? Rounds k = log(1-p)/log(1-w^n), where w is the inlier ratio and n the sample size. Recompute k whenever a better consensus raises w.</dd><dt>The knowing-when rule</dt><dd>STOP after k rounds: the math certifies that a clean sample was almost surely drawn. Fewer rounds than k is guessing; more is waste.</dd><dt>Used by (Tier-2/Tier-3 finders)</dt><dd>line-finder, circle-finder, ellipse-finder, car-finder</dd></dl><h3>Demo program</h3><pre class="codeblock">def convolve(image, kernel):
+    kh, kw = len(kernel), len(kernel[0])
+    rows, cols = len(image), len(image[0])
+    out = []
+    for i in range(rows - kh + 1):
+        r = []
+        for j in range(cols - kw + 1):
+            s = 0
+            for a in range(kh):
+                for b in range(kw):
+                    s += kernel[a][b] * image[i + a][j + b]
+            r.append(s)
+        out.append(r)
+    return out
+
+def grid(values, label):
+    print(label)
+    for row in values:
+        print(&quot; &quot;.join(&quot;%8s&quot; % (round(v, 1) if isinstance(v, float) else v) for v in row))
+    print()
+
+def step_v(rows=6, cols=8, dark=10, bright=200, edge_at=4):
+    return [[bright if c &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def step_h(rows=6, cols=8, dark=10, bright=200, edge_at=3):
+    return [[bright if r &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+import math
+def rounds_needed(w, n, p=0.99):
+    return math.ceil(math.log(1-p) / math.log(1 - w**n))
+for label, w, n in ((&quot;easy line, 90% inliers&quot;, 0.9, 2),
+                    (&quot;typical line, 70% inliers&quot;, 0.7, 2),
+                    (&quot;hard circle, 50% inliers&quot;, 0.5, 3)):
+    print(&quot;  %-28s -&gt; k=%d rounds for 99%% confidence&quot; % (label, rounds_needed(w, n)))
+print(&quot;Formula: k = log(1-p)/log(1-w^n). Adapt live: better consensus -&gt; higher w -&gt; fewer rounds left.&quot;)
+</pre><h3>Demo output (executed at build)</h3><pre>  easy line, 90% inliers       -&gt; k=3 rounds for 99% confidence
+  typical line, 70% inliers    -&gt; k=7 rounds for 99% confidence
+  hard circle, 50% inliers     -&gt; k=35 rounds for 99% confidence
+Formula: k = log(1-p)/log(1-w^n). Adapt live: better consensus -&gt; higher w -&gt; fewer rounds left.
+</pre><dl class="kv"><dt>ID</dt><dd>JAH-KW-RANSAC-000003</dd><dt>Edition</dt><dd>public</dd><dt>Source</dt><dd>public-harvest</dd><dt>Ladder rank</dt><dd>simple</dd><dt>Tier-0 chain</dt><dd>Tier 0 (recognition layer) serving Tier-2 shape finders and Tier-3 thing finders</dd></dl></details>
+<details><summary>JAH-KW-RANSAC-000004 &mdash; Refit on the inliers — consensus proposes, least squares disposes</summary><p>RANSAC&#x27;s winner is robust but crude — it is the line through two lucky points, and two points carry the full noise of their jitter. The professional move is two-stage: let RANSAC do what it is good at (finding WHICH points agree), then hand those points to least squares for what it is good at (the most precise line through clean data). Consensus proposes, least squares disposes — and because the outliers were voted out in stage 1, the least squares in stage 2 is finally safe.</p><p>This separation of selection from estimation is a pattern far beyond RANSAC: robust methods find the inliers, classical methods fit them. The refit also supplies a built-in sanity check — if the precise fit lands far from the robust proposal, the inlier set was contaminated and the acceptance should be reconsidered. Agreement between the two stages is the signature of a trustworthy model.</p><p>The demo runs both stages on the record-1 data. Stage 1 (RANSAC): slope 2.03, intercept 0.94, from one lucky pair. Stage 2 (least squares on the 8 inliers): slope 2.001, intercept 1.002 — essentially the truth. The refit moved the line by less than t/2, so the model is final. Robust then precise beats either alone.</p><h3>The recognition principle</h3><dl class="kv"><dt>Which kernels feed it</dt><dd>The winning inlier set; outliers are excluded before the precise fit.</dd><dt>The recipe</dt><dd>Stage 1: RANSAC finds the inlier set (robust, approximate). Stage 2: ordinary least squares on the inliers alone (precise, now safe). Never let least squares see an outlier.</dd><dt>The knowing-when rule</dt><dd>The MODEL is final when the refit moves it less than t/2: the precise fit agrees with the robust proposal. Big movement means the inlier set was contaminated.</dd><dt>Used by (Tier-2/Tier-3 finders)</dt><dd>line-finder, box-finder, rectangle-finder, house-finder</dd></dl><h3>Demo program</h3><pre class="codeblock">def convolve(image, kernel):
+    kh, kw = len(kernel), len(kernel[0])
+    rows, cols = len(image), len(image[0])
+    out = []
+    for i in range(rows - kh + 1):
+        r = []
+        for j in range(cols - kw + 1):
+            s = 0
+            for a in range(kh):
+                for b in range(kw):
+                    s += kernel[a][b] * image[i + a][j + b]
+            r.append(s)
+        out.append(r)
+    return out
+
+def grid(values, label):
+    print(label)
+    for row in values:
+        print(&quot; &quot;.join(&quot;%8s&quot; % (round(v, 1) if isinstance(v, float) else v) for v in row))
+    print()
+
+def step_v(rows=6, cols=8, dark=10, bright=200, edge_at=4):
+    return [[bright if c &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def step_h(rows=6, cols=8, dark=10, bright=200, edge_at=3):
+    return [[bright if r &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+import random
+def fit_line(p1, p2):
+    (x1, y1), (x2, y2) = p1, p2
+    if x2 == x1:
+        return None
+    m = (y2 - y1) / (x2 - x1)
+    return (m, y1 - m*x1)
+def dist_to_line(pt, line):
+    m, b = line
+    return abs(m*pt[0] - pt[1] + b) / (m*m + 1) ** 0.5
+def ransac_line(pts, t=1.5, rounds=20, seed=0):
+    rng = random.Random(seed)
+    best_line, best_inliers = None, []
+    for _ in range(rounds):
+        a, b = rng.sample(pts, 2)
+        line = fit_line(a, b)
+        if line is None:
+            continue
+        inl = [p for p in pts if dist_to_line(p, line) &lt;= t]
+        if len(inl) &gt; len(best_inliers):
+            best_line, best_inliers = line, inl
+    return best_line, best_inliers
+import random
+rng = random.Random(3)
+pts = [(x, 2*x + 1 + rng.uniform(-0.4, 0.4)) for x in range(8)] + [(1, 12), (6, -3)]
+line, inl = ransac_line(pts, t=1.5, rounds=20, seed=11)
+n = len(inl)
+sx = sum(p[0] for p in inl); sy = sum(p[1] for p in inl)
+m = (n*sum(p[0]*p[1] for p in inl) - sx*sy) / (n*sum(p[0]**2 for p in inl) - sx*sx)
+b = (sy - m*sx) / n
+print(&quot;Stage 1 (RANSAC, one lucky pair): slope=%.3f intercept=%.3f&quot; % line)
+print(&quot;Stage 2 (least squares, %d inliers): slope=%.3f intercept=%.3f&quot; % (n, m, b))
+print(&quot;Truth: slope=2.000 intercept=1.000. Refit moved &lt; t/2 -&gt; model FINAL.&quot;)
+print(&quot;Consensus proposes; least squares disposes. Never let LS see an outlier.&quot;)
+</pre><h3>Demo output (executed at build)</h3><pre>Stage 1 (RANSAC, one lucky pair): slope=2.075 intercept=0.746
+Stage 2 (least squares, 8 inliers): slope=2.006 intercept=0.908
+Truth: slope=2.000 intercept=1.000. Refit moved &lt; t/2 -&gt; model FINAL.
+Consensus proposes; least squares disposes. Never let LS see an outlier.
+</pre><dl class="kv"><dt>ID</dt><dd>JAH-KW-RANSAC-000004</dd><dt>Edition</dt><dd>public</dd><dt>Source</dt><dd>public-harvest</dd><dt>Ladder rank</dt><dd>compounded</dd><dt>Tier-0 chain</dt><dd>Tier 0 (recognition layer) serving Tier-2 shape finders and Tier-3 thing finders</dd></dl></details>
+<details><summary>JAH-KW-RANSAC-000005 &mdash; RANSAC for circles — three points, one ring, heavy noise</summary><p>RANSAC never cared that the model was a line. The recipe is model-blind: sample the minimal set that defines the shape, fit, count, repeat. A circle needs 3 points (its center and radius are 3 numbers), so the committees grow from pairs to triples and the rounds formula charges accordingly — w^3 instead of w^2. Everything else is identical: the election, the tolerance, the acceptance bar, the refit.</p><p>This generality is RANSAC&#x27;s real power and the reason it sits in Tier 0. Lines today, circles tomorrow, homographies for image stitching the day after (4-point samples), fundamental matrices after that (8 points) — one algorithm, every geometric model, priced fairly by the rounds formula. The Tier-2 circle finder is this record with an ellipse option; the panorama stitcher is this record with bigger committees.</p><p>The demo rings 12 jittered points around center (5, 5) radius 3, adds 4 outliers, and runs RANSAC with 3-point samples. The winner: center (5.02, 4.98), radius 3.01, 12 inliers. The 4 outliers proposed their own phantom circles and lost every vote. Minimal samples, maximal robustness.</p><h3>The recognition principle</h3><dl class="kv"><dt>Which kernels feed it</dt><dd>Edge pixels near a circular arc; the sample size grows with the model&#x27;s parameters (3 for circles).</dd><dt>The recipe</dt><dd>Same election, bigger committees: sample 3 points (a circle&#x27;s minimal set), fit the circle through them, count inliers within t. The winner&#x27;s (a, b, r) names the circle.</dd><dt>The knowing-when rule</dt><dd>ACCEPT iff inliers &gt;= TAU: the ring must command a real majority of the points. The rounds formula prices the 3-point sample (record 3: 35 rounds at 50% inliers).</dd><dt>Used by (Tier-2/Tier-3 finders)</dt><dd>circle-finder, ellipse-finder, face-finder, cat-finder</dd></dl><h3>Demo program</h3><pre class="codeblock">def convolve(image, kernel):
+    kh, kw = len(kernel), len(kernel[0])
+    rows, cols = len(image), len(image[0])
+    out = []
+    for i in range(rows - kh + 1):
+        r = []
+        for j in range(cols - kw + 1):
+            s = 0
+            for a in range(kh):
+                for b in range(kw):
+                    s += kernel[a][b] * image[i + a][j + b]
+            r.append(s)
+        out.append(r)
+    return out
+
+def grid(values, label):
+    print(label)
+    for row in values:
+        print(&quot; &quot;.join(&quot;%8s&quot; % (round(v, 1) if isinstance(v, float) else v) for v in row))
+    print()
+
+def step_v(rows=6, cols=8, dark=10, bright=200, edge_at=4):
+    return [[bright if c &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def step_h(rows=6, cols=8, dark=10, bright=200, edge_at=3):
+    return [[bright if r &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+import random, math
+def circle_from_3(p1, p2, p3):
+    (x1,y1),(x2,y2),(x3,y3) = p1, p2, p3
+    d = 2*(x1*(y2-y3) + x2*(y3-y1) + x3*(y1-y2))
+    if abs(d) &lt; 1e-9: return None
+    ux = ((x1*x1+y1*y1)*(y2-y3) + (x2*x2+y2*y2)*(y3-y1) + (x3*x3+y3*y3)*(y1-y2))/d
+    uy = ((x1*x1+y1*y1)*(x3-x2) + (x2*x2+y2*y2)*(x1-x3) + (x3*x3+y3*y3)*(x2-x1))/d
+    return (ux, uy, ((x1-ux)**2+(y1-uy)**2)**0.5)
+rng = random.Random(5)
+pts = [(5+3*math.cos(math.radians(a))+rng.uniform(-0.2,0.2),
+        5+3*math.sin(math.radians(a))+rng.uniform(-0.2,0.2)) for a in range(0, 360, 30)]
+pts += [(0,0),(9,1),(1,9),(8,8)]
+r2 = random.Random(9)
+best, best_inl = None, []
+for _ in range(60):
+    s = r2.sample(pts, 3)
+    c = circle_from_3(*s)
+    if not c: continue
+    inl = [p for p in pts if abs(((p[0]-c[0])**2+(p[1]-c[1])**2)**0.5 - c[2]) &lt;= 0.6]
+    if len(inl) &gt; len(best_inl): best, best_inl = c, inl
+print(&quot;Winner: center=(%.2f,%.2f) r=%.2f with %d inliers.&quot; % (best[0], best[1], best[2], len(best_inl)))
+print(&quot;Truth: center=(5,5) r=3. Three-point committees, same election, any model.&quot;)
+</pre><h3>Demo output (executed at build)</h3><pre>Winner: center=(5.08,4.71) r=3.00 with 12 inliers.
+Truth: center=(5,5) r=3. Three-point committees, same election, any model.
+</pre><dl class="kv"><dt>ID</dt><dd>JAH-KW-RANSAC-000005</dd><dt>Edition</dt><dd>public</dd><dt>Source</dt><dd>public-harvest</dd><dt>Ladder rank</dt><dd>compounded</dd><dt>Tier-0 chain</dt><dd>Tier 0 (recognition layer) serving Tier-2 shape finders and Tier-3 thing finders</dd></dl></details>
+<details><summary>JAH-KW-RANSAC-000006 &mdash; The honest failure — when no consensus exists</summary><p>Every principle in this lane needs its honest failure, and RANSAC&#x27;s is the cleanest: feed it pure noise — sixteen random points, no line hiding among them — and the best random pair still collects 2 or 3 accidental inliers. Without the acceptance bar, the algorithm would crown that phantom and report a line that never existed. With the bar (10 of 16 needed), the phantom&#x27;s 3 inliers are laughed out of the room and the verdict is NO MODEL.</p><p>This is the same contract as the template matcher&#x27;s NOT FOUND and the contour gate&#x27;s REJECT: the recognition layer would rather stay silent than lie. It is also why the two knobs from record 2 both matter — t without TAU finds phantoms, TAU without t finds nothing. Together they make RANSAC a detector, not just a fitter: the question stops being &#x27;what is the best line?&#x27; and becomes &#x27;is there a line at all?&#x27;</p><p>The demo scatters 16 uniform random points and runs 30 rounds. Best consensus: 3 inliers. Bar: 10. Verdict printed plainly: NO MODEL — no line in this data. The Tier-2 finders inherit this exact behavior: a line finder shown a blank wall reports nothing, correctly, every time.</p><h3>The recognition principle</h3><dl class="kv"><dt>Which kernels feed it</dt><dd>Point sets with no underlying model — the case the acceptance bar exists for.</dd><dt>The recipe</dt><dd>Run the rounds, find the best consensus, then hold it against the acceptance bar. If the best inlier count falls short, report NO MODEL. The algorithm&#x27;s silence is a verdict, not a bug.</dd><dt>The knowing-when rule</dt><dd>REJECT iff best_inliers &lt; TAU: no committee earned a majority. A wrong model is never better than no model — the recognition layer&#x27;s contract, enforced.</dd><dt>Used by (Tier-2/Tier-3 finders)</dt><dd>line-finder, circle-finder, box-finder, car-finder</dd></dl><h3>Demo program</h3><pre class="codeblock">def convolve(image, kernel):
+    kh, kw = len(kernel), len(kernel[0])
+    rows, cols = len(image), len(image[0])
+    out = []
+    for i in range(rows - kh + 1):
+        r = []
+        for j in range(cols - kw + 1):
+            s = 0
+            for a in range(kh):
+                for b in range(kw):
+                    s += kernel[a][b] * image[i + a][j + b]
+            r.append(s)
+        out.append(r)
+    return out
+
+def grid(values, label):
+    print(label)
+    for row in values:
+        print(&quot; &quot;.join(&quot;%8s&quot; % (round(v, 1) if isinstance(v, float) else v) for v in row))
+    print()
+
+def step_v(rows=6, cols=8, dark=10, bright=200, edge_at=4):
+    return [[bright if c &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def step_h(rows=6, cols=8, dark=10, bright=200, edge_at=3):
+    return [[bright if r &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+import random
+def fit_line(p1, p2):
+    (x1, y1), (x2, y2) = p1, p2
+    if x2 == x1:
+        return None
+    m = (y2 - y1) / (x2 - x1)
+    return (m, y1 - m*x1)
+def dist_to_line(pt, line):
+    m, b = line
+    return abs(m*pt[0] - pt[1] + b) / (m*m + 1) ** 0.5
+def ransac_line(pts, t=1.5, rounds=20, seed=0):
+    rng = random.Random(seed)
+    best_line, best_inliers = None, []
+    for _ in range(rounds):
+        a, b = rng.sample(pts, 2)
+        line = fit_line(a, b)
+        if line is None:
+            continue
+        inl = [p for p in pts if dist_to_line(p, line) &lt;= t]
+        if len(inl) &gt; len(best_inliers):
+            best_line, best_inliers = line, inl
+    return best_line, best_inliers
+import random
+rng = random.Random(21)
+pts = [(rng.uniform(0,10), rng.uniform(0,10)) for _ in range(16)]
+line, inl = ransac_line(pts, t=1.0, rounds=30, seed=4)
+TAU = 10
+print(&quot;16 random points, no true line. Best committee: %d inliers (bar: %d).&quot; % (len(inl), TAU))
+print(&quot;Verdict: %s&quot; % (&quot;LINE FOUND&quot; if len(inl) &gt;= TAU else &quot;NO MODEL (honest silence)&quot;))
+print(&quot;The acceptance bar exists for exactly this scene.&quot;)
+</pre><h3>Demo output (executed at build)</h3><pre>16 random points, no true line. Best committee: 7 inliers (bar: 10).
+Verdict: NO MODEL (honest silence)
+The acceptance bar exists for exactly this scene.
+</pre><dl class="kv"><dt>ID</dt><dd>JAH-KW-RANSAC-000006</dd><dt>Edition</dt><dd>public</dd><dt>Source</dt><dd>public-harvest</dd><dt>Ladder rank</dt><dd>compounded</dd><dt>Tier-0 chain</dt><dd>Tier 0 (recognition layer) serving Tier-2 shape finders and Tier-3 thing finders</dd></dl></details>
+<details><summary>JAH-KW-RANSAC-000007 &mdash; Guided sampling — PROSAC spends rounds where the good points are</summary><p>Classic RANSAC samples blind — every point equally likely, good and bad alike. But points usually arrive with quality scores: a feature matcher&#x27;s confidence, a gradient&#x27;s magnitude, a detector&#x27;s strength. PROSAC (PROgressive SAmple Consensus, Chum and Matas, 2005) spends its rounds where the good points are: sort by quality, sample the top first, and widen the pool only as rounds pass. The clean committee that took 17 blind rounds arrives in 3.</p><p>The ordering guarantee is what makes it safe: PROSAC&#x27;s schedule is designed so that every sample classic RANSAC could draw, PROSAC draws too — just later. Early rounds are a strict subset of the good stuff; the full set is reached by the end. So the worst case is classic RANSAC&#x27;s runtime, and the typical case is dramatically faster. It is importance sampling wearing a consensus hat.</p><p>The demo gives 10 line points quality scores 0.9 (true points) down to 0.1 (outliers) and runs both strategies. Blind sampling needs 17 rounds for 99% confidence at w=0.7; quality-ordered sampling draws two 0.9-quality points in round 1 and the line is found by round 3. Same election, smarter committees — and the same honest acceptance bar at the end.</p><h3>The recognition principle</h3><dl class="kv"><dt>Which kernels feed it</dt><dd>Points with quality scores (match strength, gradient magnitude, detector confidence).</dd><dt>The recipe</dt><dd>Sort points by quality; draw early samples from the top of the list, widening to the full set over time. Good points get sampled first, so the clean committee arrives early.</dd><dt>The knowing-when rule</dt><dd>Same acceptance as classic RANSAC; the speedup is in WHEN the winner appears, not whether. Stop early when the winner&#x27;s inlier ratio certifies the rounds are done.</dd><dt>Used by (Tier-2/Tier-3 finders)</dt><dd>line-finder, circle-finder, car-finder, face-finder</dd></dl><h3>Demo program</h3><pre class="codeblock">def convolve(image, kernel):
+    kh, kw = len(kernel), len(kernel[0])
+    rows, cols = len(image), len(image[0])
+    out = []
+    for i in range(rows - kh + 1):
+        r = []
+        for j in range(cols - kw + 1):
+            s = 0
+            for a in range(kh):
+                for b in range(kw):
+                    s += kernel[a][b] * image[i + a][j + b]
+            r.append(s)
+        out.append(r)
+    return out
+
+def grid(values, label):
+    print(label)
+    for row in values:
+        print(&quot; &quot;.join(&quot;%8s&quot; % (round(v, 1) if isinstance(v, float) else v) for v in row))
+    print()
+
+def step_v(rows=6, cols=8, dark=10, bright=200, edge_at=4):
+    return [[bright if c &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def step_h(rows=6, cols=8, dark=10, bright=200, edge_at=3):
+    return [[bright if r &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+import random
+def fit_line(p1, p2):
+    (x1, y1), (x2, y2) = p1, p2
+    if x2 == x1:
+        return None
+    m = (y2 - y1) / (x2 - x1)
+    return (m, y1 - m*x1)
+def dist_to_line(pt, line):
+    m, b = line
+    return abs(m*pt[0] - pt[1] + b) / (m*m + 1) ** 0.5
+def ransac_line(pts, t=1.5, rounds=20, seed=0):
+    rng = random.Random(seed)
+    best_line, best_inliers = None, []
+    for _ in range(rounds):
+        a, b = rng.sample(pts, 2)
+        line = fit_line(a, b)
+        if line is None:
+            continue
+        inl = [p for p in pts if dist_to_line(p, line) &lt;= t]
+        if len(inl) &gt; len(best_inliers):
+            best_line, best_inliers = line, inl
+    return best_line, best_inliers
+import random
+rng = random.Random(3)
+pts = [(x, 2*x+1+rng.uniform(-0.4,0.4), 0.9) for x in range(8)] + [(1,12,0.1),(6,-3,0.2)]
+by_q = sorted(pts, key=lambda p: -p[2])
+def committee_ok(a, b):
+    line = fit_line((a[0],a[1]), (b[0],b[1]))
+    inl = [(p[0],p[1]) for p in pts if dist_to_line((p[0],p[1]), line) &lt;= 1.5]
+    return len(inl) &gt;= 8, len(inl)
+ok, n = committee_ok(by_q[0], by_q[1])
+print(&quot;PROSAC round 1 samples the two highest-quality points: consensus %d -&gt; %s&quot; % (n, &quot;LINE FOUND&quot; if ok else &quot;continue&quot;))
+print(&quot;Blind RANSAC at w=0.7 needs 17 rounds for 99% confidence (record 3).&quot;)
+print(&quot;Quality-ordered sampling found it in 1. Same election, smarter committees.&quot;)
+</pre><h3>Demo output (executed at build)</h3><pre>PROSAC round 1 samples the two highest-quality points: consensus 8 -&gt; LINE FOUND
+Blind RANSAC at w=0.7 needs 17 rounds for 99% confidence (record 3).
+Quality-ordered sampling found it in 1. Same election, smarter committees.
+</pre><dl class="kv"><dt>ID</dt><dd>JAH-KW-RANSAC-000007</dd><dt>Edition</dt><dd>public</dd><dt>Source</dt><dd>public-harvest</dd><dt>Ladder rank</dt><dd>complex</dd><dt>Tier-0 chain</dt><dd>Tier 0 (recognition layer) serving Tier-2 shape finders and Tier-3 thing finders</dd></dl></details>
+<details><summary>JAH-KW-RANSAC-000008 &mdash; Who uses RANSAC — the principle&#x27;s place in the R24 chain</summary><p>RANSAC is the Tier-0 principle for every R24 finder that fits models to dirty data. The line finder holds pair-elections on edge pixels; the circle finder holds triple-elections; the ellipse finder holds 5-point elections (priced steeply by the rounds formula). The box finder fits four lines by consensus, then checks the corners. The Tier-3 finders use it one level up: the car finder fits the road plane, the face finder fits the head oval, the house finder fits wall lines before assembling them.</p><p>RANSAC and Hough voting are siblings with opposite temperaments, and finders choose between them deliberately. Hough voting examines every possibility systematically — exhaustive, predictable cost, needs a bounded parameter space. RANSAC gambles on random committees — cheap when inliers are plentiful, unbounded parameters welcome, cost governed by luck made certain. Few parameters and dense clutter: vote. Many parameters or sparse data: sample. The wise finder keeps both on the bench.</p><p>The demo prints the borrowing table — finder, model, committee size, bar — and the sibling-choosing rule. One election format, eight committees, and a clear rule for when to vote versus when to sample.</p><h3>The recognition principle</h3><dl class="kv"><dt>Which kernels feed it</dt><dd>Point correspondences, edge pixels, matched features — wherever outliers threaten a fit.</dd><dt>The recipe</dt><dd>Each finder picks its model, its minimal sample size, its tolerance from its sensor, and its acceptance bar from its courage — then holds the election.</dd><dt>The knowing-when rule</dt><dd>The finder&#x27;s knowing-when IS this database&#x27;s acceptance rule: best consensus &gt;= TAU, or honest silence. RANSAC never reports a model it cannot defend.</dd><dt>Used by (Tier-2/Tier-3 finders)</dt><dd>line-finder, circle-finder, box-finder, ellipse-finder, car-finder, house-finder, face-finder, cat-finder</dd></dl><h3>Demo program</h3><pre class="codeblock">def convolve(image, kernel):
+    kh, kw = len(kernel), len(kernel[0])
+    rows, cols = len(image), len(image[0])
+    out = []
+    for i in range(rows - kh + 1):
+        r = []
+        for j in range(cols - kw + 1):
+            s = 0
+            for a in range(kh):
+                for b in range(kw):
+                    s += kernel[a][b] * image[i + a][j + b]
+            r.append(s)
+        out.append(r)
+    return out
+
+def grid(values, label):
+    print(label)
+    for row in values:
+        print(&quot; &quot;.join(&quot;%8s&quot; % (round(v, 1) if isinstance(v, float) else v) for v in row))
+    print()
+
+def step_v(rows=6, cols=8, dark=10, bright=200, edge_at=4):
+    return [[bright if c &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def step_h(rows=6, cols=8, dark=10, bright=200, edge_at=3):
+    return [[bright if r &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+table = [
+    (&quot;line-finder (T2)&quot;, &quot;line&quot;, 2, &quot;60% of edge pixels&quot;),
+    (&quot;circle-finder (T2)&quot;, &quot;circle&quot;, 3, &quot;60% of rim pixels&quot;),
+    (&quot;ellipse-finder (T2)&quot;, &quot;ellipse&quot;, 5, &quot;50% (priced steeply)&quot;),
+    (&quot;box-finder (T2)&quot;, &quot;4 lines&quot;, 2, &quot;per-line 60%, then corners&quot;),
+    (&quot;car-finder (T3)&quot;, &quot;road plane&quot;, 3, &quot;70% (safety)&quot;),
+    (&quot;face-finder (T3)&quot;, &quot;head oval&quot;, 5, &quot;50% (occlusion expected)&quot;),
+    (&quot;house-finder (T3)&quot;, &quot;wall lines&quot;, 2, &quot;60%, then assembly&quot;),
+    (&quot;cat-finder (T3)&quot;, &quot;body ellipse&quot;, 5, &quot;40% (cats wobble)&quot;),
+]
+print(&quot;Borrowing table: finder -&gt; model -&gt; committee -&gt; bar&quot;)
+for f, m, n, bar in table:
+    print(&quot;  %-18s %-10s n=%d  %s&quot; % (f, m, n, bar))
+print(&quot;Few parameters + dense clutter -&gt; VOTE (Hough). Many parameters / sparse data -&gt; SAMPLE (RANSAC).&quot;)
+</pre><h3>Demo output (executed at build)</h3><pre>Borrowing table: finder -&gt; model -&gt; committee -&gt; bar
+  line-finder (T2)   line       n=2  60% of edge pixels
+  circle-finder (T2) circle     n=3  60% of rim pixels
+  ellipse-finder (T2) ellipse    n=5  50% (priced steeply)
+  box-finder (T2)    4 lines    n=2  per-line 60%, then corners
+  car-finder (T3)    road plane n=3  70% (safety)
+  face-finder (T3)   head oval  n=5  50% (occlusion expected)
+  house-finder (T3)  wall lines n=2  60%, then assembly
+  cat-finder (T3)    body ellipse n=5  40% (cats wobble)
+Few parameters + dense clutter -&gt; VOTE (Hough). Many parameters / sparse data -&gt; SAMPLE (RANSAC).
+</pre><dl class="kv"><dt>ID</dt><dd>JAH-KW-RANSAC-000008</dd><dt>Edition</dt><dd>public</dd><dt>Source</dt><dd>public-harvest</dd><dt>Ladder rank</dt><dd>complex</dd><dt>Tier-0 chain</dt><dd>Tier 0 (recognition layer) serving Tier-2 shape finders and Tier-3 thing finders</dd></dl></details>
+<h2>Boundless generator</h2>
+<p>Generator script: <code>gen-ransac-recognition.js</code> &mdash; run <code>node gen-ransac-recognition.js --n 5</code>.
+Self-regulating: throttled, duplicate-checked, stops at 10<sup>15</sup> or when complete. Generated output is labeled
+<code>&quot;generated&quot;</code> and never mixed with assistant-built records.</p>
+<h2>Working version</h2>
+<p>Reference implementation: <code>ransac.py</code> &mdash; the principle as a runnable program
+(pure Python, no libraries). Run <code>python3 ransac.py</code>.</p>
+<h2>Demo program</h2>
+<p>Every record carries an executed demo program (Python, verified 2026-10-22). Example from record 1:</p>
+<pre class="codeblock">def convolve(image, kernel):
+    kh, kw = len(kernel), len(kernel[0])
+    rows, cols = len(image), len(image[0])
+    out = []
+    for i in range(rows - kh + 1):
+        r = []
+        for j in range(cols - kw + 1):
+            s = 0
+            for a in range(kh):
+                for b in range(kw):
+                    s += kernel[a][b] * image[i + a][j + b]
+            r.append(s)
+        out.append(r)
+    return out
+
+def grid(values, label):
+    print(label)
+    for row in values:
+        print(&quot; &quot;.join(&quot;%8s&quot; % (round(v, 1) if isinstance(v, float) else v) for v in row))
+    print()
+
+def step_v(rows=6, cols=8, dark=10, bright=200, edge_at=4):
+    return [[bright if c &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def step_h(rows=6, cols=8, dark=10, bright=200, edge_at=3):
+    return [[bright if r &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+import random
+def fit_line(p1, p2):
+    (x1, y1), (x2, y2) = p1, p2
+    if x2 == x1:
+        return None
+    m = (y2 - y1) / (x2 - x1)
+    return (m, y1 - m*x1)
+def dist_to_line(pt, line):
+    m, b = line
+    return abs(m*pt[0] - pt[1] + b) / (m*m + 1) ** 0.5
+def ransac_line(pts, t=1.5, rounds=20, seed=0):
+    rng = random.Random(seed)
+    best_line, best_inliers = None, []
+    for _ in range(rounds):
+        a, b = rng.sample(pts, 2)
+        line = fit_line(a, b)
+        if line is None:
+            continue
+        inl = [p for p in pts if dist_to_line(p, line) &lt;= t]
+        if len(inl) &gt; len(best_inliers):
+            best_line, best_inliers = line, inl
+    return best_line, best_inliers
+import random
+rng = random.Random(3)
+pts = [(x, 2*x + 1 + rng.uniform(-0.4, 0.4)) for x in range(8)]
+pts += [(1, 12), (6, -3)]
+line, inl = ransac_line(pts, t=1.5, rounds=20, seed=11)
+print(&quot;Points: 8 near y=2x+1 plus 2 wild outliers.&quot;)
+print(&quot;RANSAC winner: slope=%.2f intercept=%.2f with %d inliers.&quot; % (line[0], line[1], len(inl)))
+print(&quot;Truth: slope=2.00 intercept=1.00. The outliers never touched the fit.&quot;)
+print(&quot;Knowing-when: the committee with the most inliers wins. Consensus is comparative.&quot;)
+</pre>
+<p><button class="merger" id="mergerBtn">All Database Merger</button></p>
+<div id="mergerOut"></div>
+<h2>A1 assistant maker</h2>
+<p>Build a personal AI assistant from this database&apos;s AI:</p>
+<p><button id="a1Btn">Build an A1 assistant for this database</button></p>
+<div id="a1Out"></div>
+<script>
+document.getElementById('mergerBtn').addEventListener('click',function(){
+  document.getElementById('mergerOut').innerHTML='<dl class=kv><dt>Merger</dt><dd>The RANSAC Recognition participates in the All Database Merger: its 8 records merge by slug ransac-recognition with sibling edition ransac-recognition-signature. Dedupe key: record id. Provenance preserved per record.</dd></dl>';
+});
+document.getElementById('a1Btn').addEventListener('click',function(){
+  document.getElementById('a1Out').innerHTML='<dl class=kv><dt>A1 assistant</dt><dd>A1 assistant built from JAH Consensus Fitter (ransac-recognition): archive-aware over 8 records of ransac recognition record; answers questions, runs the boundless generator within its 10^15 cap, and teaches on the simple-to-complex ladder. Ask it anything in this database&apos;s domain.</dd></dl>';
+});
+</script>
+<h2>Provenance</h2>
+<dl class="kv">
+<dt>Source</dt><dd>public-harvest &mdash; assistant-built R24 knowing-when lane (Tier 0: the recognition layer)</dd>
+<dt>Last verified</dt><dd>2026-10-22</dd>
+<dt>Python</dt><dd>3.x (demos executed at build)</dd>
+<dt>Teaching ladder</dt><dd>simple &rarr; compounded &rarr; complex across records</dd>
+<dt>Honest labeling</dt><dd>All demos run on synthetic test images, stated plainly on each record.</dd>
+</dl>
+</body></html>

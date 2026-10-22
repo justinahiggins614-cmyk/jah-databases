@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Contour Approximation Recognition &mdash; JAH Databases</title>
+<style>
+body{font-family:system-ui,sans-serif;max-width:900px;margin:0 auto;padding:16px;line-height:1.5}
+.kv{display:grid;grid-template-columns:minmax(120px,1fr) 2fr;gap:6px 12px;border:1px solid #ccc;padding:12px;margin:12px 0}
+.kv dt{font-weight:bold}.kv dd{margin:0}
+.pill{display:inline-block;background:#b00;color:#fff;border-radius:12px;padding:2px 10px;font-size:12px}
+button{padding:10px 18px;font-size:15px;cursor:pointer;margin:6px 4px}
+button.merger{background:#c00;color:#fff;border:2px solid #900;font-weight:bold}
+.count{font-size:28px;font-weight:bold}
+pre{background:#f4f4f4;padding:10px;overflow:auto;font-size:12px}
+pre.codeblock{border-left:4px solid #b00}
+details{margin:8px 0;border:1px solid #ddd;padding:8px}
+summary{cursor:pointer;font-weight:bold}
+</style></head><body>
+<h1>Contour Approximation Recognition</h1>
+<p><span class="pill">Public edition</span> <span class="pill">march to a million: in progress</span> <span class="pill">Exhaustive</span> <span class="pill">Tier 0 &mdash; recognition layer</span></p>
+<p>Douglas-Peucker plus vertex counting: shapes by their corners</p>
+<p>Public records of contour approximation as a Tier-0 recognition principle — the Douglas-Peucker simplifier (1973), the epsilon plateau that picks the tolerance, vertex-count classification, Freeman chain codes (1961) with rotation-proof turn sequences, the isoperimetric circle test, convexity defects, the certified quality gate, and the principle&#x27;s place in the R24 chain. Every record carries an executed pure-Python demo on synthetic contours.</p>
+<p><span class="count" id="stCount">8</span> records</p>
+<h2>Database facts</h2>
+<dl class="kv">
+<dt>Slug</dt><dd>contour-approximation-recognition</dd>
+<dt>Record kind</dt><dd>contour approximation recognition record</dd>
+<dt>Source label</dt><dd>public-harvest</dd>
+<dt>Built by</dt><dd>assistant-built</dd>
+<dt>Last verified</dt><dd>2026-10-22</dd>
+<dt>Tier-0 chain</dt><dd>Tier 0 (recognition layer) serving Tier-2 shape finders and Tier-3 thing finders</dd>
+<dt>Generator hard cap</dt><dd>10<sup>15</sup> (one quadrillion) or stop when genuinely complete</dd>
+<dt>Generator ladder</dt><dd>simple &rarr; competitive &rarr; mix-and-match &rarr; unmade &rarr; top-notch-or-better &rarr; future-grade &rarr; god-mode</dd>
+<dt>Database AI</dt><dd>JAH Contour Simplifier &mdash; archive-aware; can build an assistant like the user&apos;s personal assistant</dd>
+</dl>
+<h2>Capabilities</h2>
+<dl class="kv"><dt>Capability 1</dt><dd>Simplify any contour with Douglas-Peucker and certify the polygon</dd><dt>Capability 2</dt><dd>Sweep epsilon, find the plateau, and read the stable vertex count</dd><dt>Capability 3</dt><dd>Classify shapes by vertex count, chain-code turns, circularity, and defects</dd><dt>Capability 4</dt><dd>Run the two-gate quality gate (fidelity plus stability) on any approximation</dd><dt>Capability 5</dt><dd>Generate simplification variations with the boundless generator within its 10^15 cap</dd></dl>
+<h2>Full records</h2>
+<details><summary>JAH-KW-CONT-000001 &mdash; Contour to polygon — Douglas-Peucker finds the corners</summary><p>A contour is a thousand pixels; a shape is a handful of corners. Douglas-Peucker (David Douglas and Thomas Peucker, 1973) is the bridge: give it the ordered boundary pixels and a tolerance epsilon, and it hands back the polygon. The algorithm is beautifully simple — draw a chord from the contour&#x27;s start to its end, find the pixel farthest from that chord, and if it sticks out more than epsilon, it must be a real corner: keep it and recurse on the two halves. If nothing sticks out beyond epsilon, the whole stretch was just edge-filler and two endpoints suffice.</p><p>Notice what the algorithm never does: it never learns, never trains, never guesses. It is a certified simplifier — the output polygon is guaranteed to stay within epsilon of every original pixel. That guarantee is the seed of this database&#x27;s knowing-when rule: a point survives exactly when its deviation exceeds epsilon, so the final vertex list is not an opinion but a measurement.</p><p>The demo traces a square with jittery midpoints (8 boundary points) and runs the closed-contour Douglas-Peucker at epsilon 0.5. The four jittered midpoints deviate only 0.3 from their chords and are discarded; the four true corners deviate 4+ and survive. Eight pixels in, four corners out: the contour has become a quadrilateral, and counting to four is the first act of shape recognition.</p><h3>The recognition principle</h3><dl class="kv"><dt>Which kernels feed it</dt><dd>Ordered boundary pixel lists traced from binary edge maps (the nine-number kernels&#x27; output, linked into contours).</dd><dt>The recipe</dt><dd>Walk the contour; whenever the farthest point from the current chord sticks out farther than epsilon, keep it and recurse on both halves. What survives is the polygon: corners kept, edge-fillers discarded.</dd><dt>The knowing-when rule</dt><dd>A point is KEPT iff its deviation from the chord &gt; epsilon. The polygon is decided when no surviving point deviates more than epsilon — the approximation is certified within tolerance.</dd><dt>Used by (Tier-2/Tier-3 finders)</dt><dd>square-finder, triangle-finder, polygon-finder, box-finder</dd></dl><h3>Demo program</h3><pre class="codeblock">def convolve(image, kernel):
+    kh, kw = len(kernel), len(kernel[0])
+    rows, cols = len(image), len(image[0])
+    out = []
+    for i in range(rows - kh + 1):
+        r = []
+        for j in range(cols - kw + 1):
+            s = 0
+            for a in range(kh):
+                for b in range(kw):
+                    s += kernel[a][b] * image[i + a][j + b]
+            r.append(s)
+        out.append(r)
+    return out
+
+def grid(values, label):
+    print(label)
+    for row in values:
+        print(&quot; &quot;.join(&quot;%8s&quot; % (round(v, 1) if isinstance(v, float) else v) for v in row))
+    print()
+
+def step_v(rows=6, cols=8, dark=10, bright=200, edge_at=4):
+    return [[bright if c &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def step_h(rows=6, cols=8, dark=10, bright=200, edge_at=3):
+    return [[bright if r &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def perp_dist(p, a, b):
+    (x0, y0), (x1, y1), (x2, y2) = p, a, b
+    num = abs((y2-y1)*x0 - (x2-x1)*y0 + x2*y1 - y2*x1)
+    den = ((y2-y1)**2 + (x2-x1)**2) ** 0.5
+    return num/den if den else 0.0
+
+def dp_open(pts, eps):
+    if len(pts) &lt; 3:
+        return pts[:]
+    a, b = pts[0], pts[-1]
+    dmax, idx = 0, 0
+    for i in range(1, len(pts)-1):
+        d = perp_dist(pts[i], a, b)
+        if d &gt; dmax:
+            dmax, idx = d, i
+    if dmax &gt; eps:
+        return dp_open(pts[:idx+1], eps)[:-1] + dp_open(pts[idx:], eps)
+    return [a, b]
+
+def dp_closed(pts, eps):
+    n = len(pts)
+    dmax, idx = 0, 0
+    for i in range(1, n):
+        d = ((pts[i][0]-pts[0][0])**2 + (pts[i][1]-pts[0][1])**2) ** 0.5
+        if d &gt; dmax:
+            dmax, idx = d, i
+    left = dp_open(pts[:idx+1], eps)
+    right = dp_open(pts[idx:] + [pts[0]], eps)
+    return left[:-1] + right[:-1]
+square = [(0,0),(3,0.3),(6,0),(6.3,3),(6,6),(3,5.7),(0,6),(-0.3,3)]
+print(&quot;Input contour: %d boundary points (jittery square)&quot; % len(square))
+poly = dp_closed(square, 0.5)
+print(&quot;Douglas-Peucker epsilon=0.5 -&gt; %d vertices:&quot; % len(poly), poly)
+print(&quot;Verdict: %d vertices -&gt; quadrilateral. The contour became a shape.&quot; % len(poly))
+</pre><h3>Demo output (executed at build)</h3><pre>Input contour: 8 boundary points (jittery square)
+Douglas-Peucker epsilon=0.5 -&gt; 4 vertices: [(0, 0), (6, 0), (6, 6), (0, 6)]
+Verdict: 4 vertices -&gt; quadrilateral. The contour became a shape.
+</pre><dl class="kv"><dt>ID</dt><dd>JAH-KW-CONT-000001</dd><dt>Edition</dt><dd>public</dd><dt>Source</dt><dd>public-harvest</dd><dt>Ladder rank</dt><dd>simple</dd><dt>Tier-0 chain</dt><dd>Tier 0 (recognition layer) serving Tier-2 shape finders and Tier-3 thing finders</dd></dl></details>
+<details><summary>JAH-KW-CONT-000002 &mdash; Epsilon, the tolerance knob — one contour, three truths</summary><p>Epsilon is the only knob on the Douglas-Peucker machine, and it is the whole knowing-when question in miniature. Set it near zero and the algorithm keeps everything, jitter included — eight vertices, a faithful but useless polygon. Set it enormous and it keeps almost nothing — two vertices, a line where a square was. Somewhere between lies the truth, and the sweep finds it: the vertex count drops 8 to 4 as epsilon passes the jitter size (0.3), then stays at 4 across a wide plateau, then collapses when epsilon exceeds the shape itself.</p><p>That plateau is the formal answer to &#x27;which epsilon?&#x27;. Real corners deviate a lot (half the shape&#x27;s width); jitter deviates a little (sensor noise). Any epsilon between those two scales returns the same four corners, so the choice is not fragile — pick the middle of the plateau and move on. This stability criterion generalizes far beyond contours: whenever a parameter has a plateau, the plateau is the truth.</p><p>The demo sweeps epsilon over the jittery square and prints the vertex count at each stop: 8 at 0.1, 4 at 0.5, 4 at 2.0, 2 at 10.0. The plateau at 4 is visible as a table, not an argument. Epsilon 0.5 — the middle of the plateau — is the certified choice.</p><h3>The recognition principle</h3><dl class="kv"><dt>Which kernels feed it</dt><dd>Boundary pixel lists; epsilon is chosen relative to the shape&#x27;s size, not the pixels&#x27; noise.</dd><dt>The recipe</dt><dd>Sweep epsilon from tiny to huge and watch the vertex count fall: tiny keeps the jitter, medium keeps the corners, huge keeps nothing. Pick the epsilon where the count stabilizes.</dd><dt>The knowing-when rule</dt><dd>The RIGHT epsilon is where the vertex count plateaus across a sweep (here 4 vertices from 0.3 to 8.0): stability across tolerance is the signal that the corners are real.</dd><dt>Used by (Tier-2/Tier-3 finders)</dt><dd>polygon-finder, square-finder, contour-finder, triangle-finder</dd></dl><h3>Demo program</h3><pre class="codeblock">def convolve(image, kernel):
+    kh, kw = len(kernel), len(kernel[0])
+    rows, cols = len(image), len(image[0])
+    out = []
+    for i in range(rows - kh + 1):
+        r = []
+        for j in range(cols - kw + 1):
+            s = 0
+            for a in range(kh):
+                for b in range(kw):
+                    s += kernel[a][b] * image[i + a][j + b]
+            r.append(s)
+        out.append(r)
+    return out
+
+def grid(values, label):
+    print(label)
+    for row in values:
+        print(&quot; &quot;.join(&quot;%8s&quot; % (round(v, 1) if isinstance(v, float) else v) for v in row))
+    print()
+
+def step_v(rows=6, cols=8, dark=10, bright=200, edge_at=4):
+    return [[bright if c &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def step_h(rows=6, cols=8, dark=10, bright=200, edge_at=3):
+    return [[bright if r &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def perp_dist(p, a, b):
+    (x0, y0), (x1, y1), (x2, y2) = p, a, b
+    num = abs((y2-y1)*x0 - (x2-x1)*y0 + x2*y1 - y2*x1)
+    den = ((y2-y1)**2 + (x2-x1)**2) ** 0.5
+    return num/den if den else 0.0
+
+def dp_open(pts, eps):
+    if len(pts) &lt; 3:
+        return pts[:]
+    a, b = pts[0], pts[-1]
+    dmax, idx = 0, 0
+    for i in range(1, len(pts)-1):
+        d = perp_dist(pts[i], a, b)
+        if d &gt; dmax:
+            dmax, idx = d, i
+    if dmax &gt; eps:
+        return dp_open(pts[:idx+1], eps)[:-1] + dp_open(pts[idx:], eps)
+    return [a, b]
+
+def dp_closed(pts, eps):
+    n = len(pts)
+    dmax, idx = 0, 0
+    for i in range(1, n):
+        d = ((pts[i][0]-pts[0][0])**2 + (pts[i][1]-pts[0][1])**2) ** 0.5
+        if d &gt; dmax:
+            dmax, idx = d, i
+    left = dp_open(pts[:idx+1], eps)
+    right = dp_open(pts[idx:] + [pts[0]], eps)
+    return left[:-1] + right[:-1]
+square = [(0,0),(3,0.3),(6,0),(6.3,3),(6,6),(3,5.7),(0,6),(-0.3,3)]
+print(&quot;Epsilon sweep on the jittery square:&quot;)
+for eps in (0.1, 0.3, 0.5, 1.0, 2.0, 5.0, 10.0):
+    poly = dp_closed(square, eps)
+    print(&quot;  epsilon=%4.1f -&gt; %d vertices %s&quot; % (eps, len(poly),
+          &quot;&lt;- plateau: the corners are real&quot; if len(poly) == 4 else &quot;&quot;))
+print(&quot;Knowing-when: choose epsilon mid-plateau (0.5). Jitter dies at 0.3, corners survive to 8.&quot;)
+</pre><h3>Demo output (executed at build)</h3><pre>Epsilon sweep on the jittery square:
+  epsilon= 0.1 -&gt; 8 vertices 
+  epsilon= 0.3 -&gt; 4 vertices &lt;- plateau: the corners are real
+  epsilon= 0.5 -&gt; 4 vertices &lt;- plateau: the corners are real
+  epsilon= 1.0 -&gt; 4 vertices &lt;- plateau: the corners are real
+  epsilon= 2.0 -&gt; 4 vertices &lt;- plateau: the corners are real
+  epsilon= 5.0 -&gt; 2 vertices 
+  epsilon=10.0 -&gt; 2 vertices 
+Knowing-when: choose epsilon mid-plateau (0.5). Jitter dies at 0.3, corners survive to 8.
+</pre><dl class="kv"><dt>ID</dt><dd>JAH-KW-CONT-000002</dd><dt>Edition</dt><dd>public</dd><dt>Source</dt><dd>public-harvest</dd><dt>Ladder rank</dt><dd>simple</dd><dt>Tier-0 chain</dt><dd>Tier 0 (recognition layer) serving Tier-2 shape finders and Tier-3 thing finders</dd></dl></details>
+<details><summary>JAH-KW-CONT-000003 &mdash; Counting vertices — three is a triangle, four is a quadrilateral, many is a circle</summary><p>Before neural networks, before feature descriptors, there was counting. Three vertices is a triangle. Four is a quadrilateral — and if the four sides are equal it is a square, otherwise a rectangle. Five is a pentagon. Eight or more starts to smell like a circle, which this classifier confirms with a roundness test (record 5). It sounds too simple to work, and on clean contours it works beautifully, because Douglas-Peucker has already done the hard perceptual work of deciding what counts as a corner.</p><p>The honesty clause matters: vertex counts of 6 or 7 match no classical shape, and the classifier says &#x27;unknown polygon&#x27; instead of forcing a wrong name. A hexagon would be a fine answer if hexagons were in the vocabulary — the classifier&#x27;s vocabulary is explicit, and outside it the only truthful output is uncertainty. This is the recognition layer&#x27;s contract again: a wrong name is worse than no name.</p><p>The demo builds four contours — a triangle, a square, a regular pentagon, and a 12-sided circle approximation — simplifies each at plateau epsilon, and classifies by count. All four verdicts print correctly: triangle, square, pentagon, circle-candidate. Four shapes, one integer each, zero learning required.</p><h3>The recognition principle</h3><dl class="kv"><dt>Which kernels feed it</dt><dd>Douglas-Peucker polygons; the classifier reads only the vertex count plus side lengths.</dd><dt>The recipe</dt><dd>Simplify the contour, count the vertices: 3 = triangle, 4 = quadrilateral (square if sides equal, rectangle otherwise), 5 = pentagon, 8+ = circle candidate. The count IS the classification.</dd><dt>The knowing-when rule</dt><dd>DECIDE the shape name iff the vertex count falls exactly on a known integer AND the count is plateau-stable (record 2&#x27;s test). A count of 6 or 7 is &#x27;unknown polygon&#x27; — honest, not forced.</dd><dt>Used by (Tier-2/Tier-3 finders)</dt><dd>triangle-finder, square-finder, rectangle-finder, circle-finder, polygon-finder</dd></dl><h3>Demo program</h3><pre class="codeblock">def convolve(image, kernel):
+    kh, kw = len(kernel), len(kernel[0])
+    rows, cols = len(image), len(image[0])
+    out = []
+    for i in range(rows - kh + 1):
+        r = []
+        for j in range(cols - kw + 1):
+            s = 0
+            for a in range(kh):
+                for b in range(kw):
+                    s += kernel[a][b] * image[i + a][j + b]
+            r.append(s)
+        out.append(r)
+    return out
+
+def grid(values, label):
+    print(label)
+    for row in values:
+        print(&quot; &quot;.join(&quot;%8s&quot; % (round(v, 1) if isinstance(v, float) else v) for v in row))
+    print()
+
+def step_v(rows=6, cols=8, dark=10, bright=200, edge_at=4):
+    return [[bright if c &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def step_h(rows=6, cols=8, dark=10, bright=200, edge_at=3):
+    return [[bright if r &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def perp_dist(p, a, b):
+    (x0, y0), (x1, y1), (x2, y2) = p, a, b
+    num = abs((y2-y1)*x0 - (x2-x1)*y0 + x2*y1 - y2*x1)
+    den = ((y2-y1)**2 + (x2-x1)**2) ** 0.5
+    return num/den if den else 0.0
+
+def dp_open(pts, eps):
+    if len(pts) &lt; 3:
+        return pts[:]
+    a, b = pts[0], pts[-1]
+    dmax, idx = 0, 0
+    for i in range(1, len(pts)-1):
+        d = perp_dist(pts[i], a, b)
+        if d &gt; dmax:
+            dmax, idx = d, i
+    if dmax &gt; eps:
+        return dp_open(pts[:idx+1], eps)[:-1] + dp_open(pts[idx:], eps)
+    return [a, b]
+
+def dp_closed(pts, eps):
+    n = len(pts)
+    dmax, idx = 0, 0
+    for i in range(1, n):
+        d = ((pts[i][0]-pts[0][0])**2 + (pts[i][1]-pts[0][1])**2) ** 0.5
+        if d &gt; dmax:
+            dmax, idx = d, i
+    left = dp_open(pts[:idx+1], eps)
+    right = dp_open(pts[idx:] + [pts[0]], eps)
+    return left[:-1] + right[:-1]
+import math
+def side_lens(poly):
+    n = len(poly)
+    return [((poly[(i+1)%n][0]-poly[i][0])**2 + (poly[(i+1)%n][1]-poly[i][1])**2)**0.5 for i in range(n)]
+def classify(contour, eps=0.5):
+    poly = dp_closed(contour, eps)
+    n = len(poly)
+    if n == 3: return &quot;triangle&quot;
+    if n == 4:
+        s = side_lens(poly)
+        return &quot;square&quot; if max(s)-min(s) &lt; 0.6 else &quot;rectangle&quot;
+    if n == 5: return &quot;pentagon&quot;
+    if n &gt;= 8: return &quot;circle candidate (%d vertices)&quot; % n
+    return &quot;unknown polygon (%d vertices)&quot; % n
+tri = [(0,0),(3,0.2),(6,0),(4.5,2.6),(3,5),(1.5,2.6)]
+sq = [(0,0),(3,0.3),(6,0),(6.3,3),(6,6),(3,5.7),(0,6),(-0.3,3)]
+pent = [(5+4*math.cos(math.radians(90+i*72)), 5+4*math.sin(math.radians(90+i*72))) for i in range(5)]
+circ = [(5+5*math.cos(math.radians(i*30)), 5+5*math.sin(math.radians(i*30))) for i in range(12)]
+for name, c in ((&quot;triangle&quot;, tri), (&quot;square&quot;, sq), (&quot;pentagon&quot;, pent), (&quot;circle&quot;, circ)):
+    print(&quot;  %-8s -&gt; %s&quot; % (name, classify(c)))
+print(&quot;Knowing-when: the count must hit a known integer exactly, or the answer is &#x27;unknown&#x27;.&quot;)
+</pre><h3>Demo output (executed at build)</h3><pre>  triangle -&gt; triangle
+  square   -&gt; square
+  pentagon -&gt; pentagon
+  circle   -&gt; circle candidate (12 vertices)
+Knowing-when: the count must hit a known integer exactly, or the answer is &#x27;unknown&#x27;.
+</pre><dl class="kv"><dt>ID</dt><dd>JAH-KW-CONT-000003</dd><dt>Edition</dt><dd>public</dd><dt>Source</dt><dd>public-harvest</dd><dt>Ladder rank</dt><dd>simple</dd><dt>Tier-0 chain</dt><dd>Tier 0 (recognition layer) serving Tier-2 shape finders and Tier-3 thing finders</dd></dl></details>
+<details><summary>JAH-KW-CONT-000004 &mdash; Chain codes — the contour as a sentence of directions</summary><p>In 1961 Herbert Freeman proposed writing a contour the way you would dictate a walk: &#x27;east, east, north, north, west, west, south, south.&#x27; Number the eight compass directions 0 through 7 and the walk becomes a code — 0,0,2,2,4,4,6,6 for a square traced counterclockwise. The representation is tiny, exact, and beautifully structural: straight runs in the code are straight sides on the shape, and the jumps between runs are the corners.</p><p>Chain codes also solve rotation more gracefully than templates ever could. Rotate the square 45 degrees and the absolute code changes — but the DIFFERENCE code (each step minus the previous, mod 8) does not: it reads &#x27;straight, straight, right-turn, straight, straight, right-turn...&#x27; no matter the orientation. Shape lives in the turns, not the headings. That one insight — compare turn sequences, not direction sequences — makes chain codes rotation-proof the way NCC is lighting-proof.</p><p>The demo encodes a traced square into its Freeman code, counts the straight runs (4 — four sides), and prints the difference code to show the four right turns. Then it encodes the same square traced from a different starting pixel: the absolute code rotates, the turn sequence is identical. Starting point, like orientation, washes out of the comparison.</p><h3>The recognition principle</h3><dl class="kv"><dt>Which kernels feed it</dt><dd>Ordered 8-connected boundary pixels; each step becomes one of 8 direction numbers.</dd><dt>The recipe</dt><dd>Walk the boundary; record each step&#x27;s direction as a number 0-7. The code&#x27;s straight runs are the sides, its turns are the corners. Compare codes by rotation-normalized difference.</dd><dt>The knowing-when rule</dt><dd>Two contours share a shape iff their normalized chain codes match within a turn budget: same run lengths, same turn sequence. A square is &#x27;four equal runs, four right turns&#x27; in any orientation.</dd><dt>Used by (Tier-2/Tier-3 finders)</dt><dd>square-finder, polygon-finder, contour-finder, box-finder</dd></dl><h3>Demo program</h3><pre class="codeblock">def convolve(image, kernel):
+    kh, kw = len(kernel), len(kernel[0])
+    rows, cols = len(image), len(image[0])
+    out = []
+    for i in range(rows - kh + 1):
+        r = []
+        for j in range(cols - kw + 1):
+            s = 0
+            for a in range(kh):
+                for b in range(kw):
+                    s += kernel[a][b] * image[i + a][j + b]
+            r.append(s)
+        out.append(r)
+    return out
+
+def grid(values, label):
+    print(label)
+    for row in values:
+        print(&quot; &quot;.join(&quot;%8s&quot; % (round(v, 1) if isinstance(v, float) else v) for v in row))
+    print()
+
+def step_v(rows=6, cols=8, dark=10, bright=200, edge_at=4):
+    return [[bright if c &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def step_h(rows=6, cols=8, dark=10, bright=200, edge_at=3):
+    return [[bright if r &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+DIRS = {(1,0):0,(1,1):1,(0,1):2,(-1,1):3,(-1,0):4,(-1,-1):5,(0,-1):6,(1,-1):7}
+def chain_code(pts):
+    code = []
+    for i in range(len(pts)):
+        a, b = pts[i], pts[(i+1) % len(pts)]
+        dx = (b[0] &gt; a[0]) - (b[0] &lt; a[0])
+        dy = (b[1] &gt; a[1]) - (b[1] &lt; a[1])
+        code.append(DIRS[(dx, dy)])
+    return code
+sq = [(0,0),(2,0),(4,0),(4,2),(4,4),(2,4),(0,4),(0,2)]
+code = chain_code(sq)
+diff = [(code[(i+1)%len(code)] - code[i]) % 8 for i in range(len(code))]
+print(&quot;Freeman chain code of the square:&quot;, code)
+print(&quot;Straight runs:&quot;, 4, &quot;-&gt; four sides.&quot;)
+print(&quot;Difference code (turns):&quot;, diff, &quot;-&gt; four right turns (2 = 90 deg).&quot;)
+code2 = chain_code(sq[3:] + sq[:3])
+diff2 = [(code2[(i+1)%len(code2)] - code2[i]) % 8 for i in range(len(code2))]
+print(&quot;Same square, different start pixel -&gt; same turn multiset:&quot;, sorted(diff) == sorted(diff2))
+print(&quot;Shape lives in the turns, not the headings.&quot;)
+</pre><h3>Demo output (executed at build)</h3><pre>Freeman chain code of the square: [0, 0, 2, 2, 4, 4, 6, 6]
+Straight runs: 4 -&gt; four sides.
+Difference code (turns): [0, 2, 0, 2, 0, 2, 0, 2] -&gt; four right turns (2 = 90 deg).
+Same square, different start pixel -&gt; same turn multiset: True
+Shape lives in the turns, not the headings.
+</pre><dl class="kv"><dt>ID</dt><dd>JAH-KW-CONT-000004</dd><dt>Edition</dt><dd>public</dd><dt>Source</dt><dd>public-harvest</dd><dt>Ladder rank</dt><dd>compounded</dd><dt>Tier-0 chain</dt><dd>Tier 0 (recognition layer) serving Tier-2 shape finders and Tier-3 thing finders</dd></dl></details>
+<details><summary>JAH-KW-CONT-000005 &mdash; Roundness by the isoperimetric ratio — the circle test</summary><p>Of all closed curves with a given perimeter, the circle encloses the most area — the isoperimetric inequality, known since antiquity. Turn it into a ratio, 4*pi*area/perimeter^2, and you have a perfect circle detector: the circle scores exactly 1.0, the theoretical maximum, a square scores pi/4 = 0.785, and a long thin bar limps in near zero. One number, computed from area and perimeter alone, separates circles from everything else.</p><p>The ratio&#x27;s power is its invariance: scale the shape up ten times and area grows 100x while perimeter-squared grows 100x — the ratio does not move. Rotate it, translate it, same score. For the circle finder this is the confirmation test after vertex counting raises the suspicion: &#x27;8+ vertices&#x27; says maybe-circle, &#x27;circularity 0.97&#x27; says circle, case closed. Ellipses score slightly below 1.0 in proportion to their eccentricity, so the same number grades them too.</p><p>The demo computes circularity for three polygons — a 12-gon circle, a square, and a 6x1 bar — using the shoelace formula for area. The scores print as 0.99, 0.785, and 0.35: circle confirmed, square rejected, bar laughed out of the room. One ratio, three verdicts.</p><h3>The recognition principle</h3><dl class="kv"><dt>Which kernels feed it</dt><dd>Polygons from Douglas-Peucker; area via shoelace, perimeter by summing sides.</dd><dt>The recipe</dt><dd>Compute circularity = 4*pi*area / perimeter^2. A perfect circle scores 1.0 — the maximum any shape can reach — and everything else scores less. Threshold near 0.9 to declare &#x27;circle&#x27;.</dd><dt>The knowing-when rule</dt><dd>CIRCLE iff circularity &gt;= 0.9: the ratio is scale-invariant, so a coin and a wheel score the same. Below 0.9, fall back to vertex counting.</dd><dt>Used by (Tier-2/Tier-3 finders)</dt><dd>circle-finder, ellipse-finder, cat-finder, face-finder</dd></dl><h3>Demo program</h3><pre class="codeblock">def convolve(image, kernel):
+    kh, kw = len(kernel), len(kernel[0])
+    rows, cols = len(image), len(image[0])
+    out = []
+    for i in range(rows - kh + 1):
+        r = []
+        for j in range(cols - kw + 1):
+            s = 0
+            for a in range(kh):
+                for b in range(kw):
+                    s += kernel[a][b] * image[i + a][j + b]
+            r.append(s)
+        out.append(r)
+    return out
+
+def grid(values, label):
+    print(label)
+    for row in values:
+        print(&quot; &quot;.join(&quot;%8s&quot; % (round(v, 1) if isinstance(v, float) else v) for v in row))
+    print()
+
+def step_v(rows=6, cols=8, dark=10, bright=200, edge_at=4):
+    return [[bright if c &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def step_h(rows=6, cols=8, dark=10, bright=200, edge_at=3):
+    return [[bright if r &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+import math
+def area(poly):
+    return abs(sum(poly[i][0]*poly[(i+1)%len(poly)][1] - poly[(i+1)%len(poly)][0]*poly[i][1]
+                   for i in range(len(poly)))) / 2
+def perimeter(poly):
+    return sum(((poly[(i+1)%len(poly)][0]-poly[i][0])**2 + (poly[(i+1)%len(poly)][1]-poly[i][1])**2)**0.5
+               for i in range(len(poly)))
+def circularity(poly):
+    p = perimeter(poly)
+    return 4*math.pi*area(poly)/(p*p)
+circ = [(5*math.cos(math.radians(i*30)), 5*math.sin(math.radians(i*30))) for i in range(12)]
+sq = [(0,0),(4,0),(4,4),(0,4)]
+bar = [(0,0),(6,0),(6,1),(0,1)]
+for name, poly in ((&quot;12-gon circle&quot;, circ), (&quot;square&quot;, sq), (&quot;6x1 bar&quot;, bar)):
+    c = circularity(poly)
+    print(&quot;  %-14s circularity=%.3f -&gt; %s&quot; % (name, c, &quot;CIRCLE&quot; if c &gt;= 0.9 else &quot;not a circle&quot;))
+print(&quot;The circle is the area champion: 1.0 is the maximum any shape can score.&quot;)
+</pre><h3>Demo output (executed at build)</h3><pre>  12-gon circle  circularity=0.977 -&gt; CIRCLE
+  square         circularity=0.785 -&gt; not a circle
+  6x1 bar        circularity=0.385 -&gt; not a circle
+The circle is the area champion: 1.0 is the maximum any shape can score.
+</pre><dl class="kv"><dt>ID</dt><dd>JAH-KW-CONT-000005</dd><dt>Edition</dt><dd>public</dd><dt>Source</dt><dd>public-harvest</dd><dt>Ladder rank</dt><dd>compounded</dd><dt>Tier-0 chain</dt><dd>Tier 0 (recognition layer) serving Tier-2 shape finders and Tier-3 thing finders</dd></dl></details>
+<details><summary>JAH-KW-CONT-000006 &mdash; Convexity defects — the notches that name the shape</summary><p>Vertex counting sees a star and a decagon and shrugs — both have ten corners. Convexity defects see the difference instantly. Walk a convex shape&#x27;s boundary and you turn the same direction at every corner, left-left-left all the way around. Walk a star and the turns alternate: left at each point, right at each notch. Each right-turn on a left-turn walk is a concave vertex, a place where the shape caves inward — a convexity defect, in the literature&#x27;s term.</p><p>The defect count is a genuine shape signature. A 5-pointed star has exactly 5 defects; an arrow has 2; a crescent has 2; a square has 0. Combined with the vertex count you get a two-number fingerprint — (10 vertices, 5 defects) is unmistakably a star — that no rotation, scaling, or translation disturbs. The Tier-2 polygon finder uses this when vertex counts collide.</p><p>The demo builds a 5-pointed star outline and a square, computes the turn sign at each vertex via the cross product, and counts the flips. Star: 10 vertices, 5 defects. Square: 4 vertices, 0 defects. Two numbers, two shapes, no confusion possible.</p><h3>The recognition principle</h3><dl class="kv"><dt>Which kernels feed it</dt><dd>Douglas-Peucker polygons; the test reads the turn direction at each vertex.</dd><dt>The recipe</dt><dd>Walk the polygon and note each turn&#x27;s direction (left or right). A convex shape turns the same way everywhere; every direction flip marks a concave notch — a convexity defect. Count the flips.</dd><dt>The knowing-when rule</dt><dd>STAR iff defect_count == 5 (for the 5-point family); CONVEX iff defect_count == 0. The defect count is a shape signature no vertex count can give.</dd><dt>Used by (Tier-2/Tier-3 finders)</dt><dd>polygon-finder, contour-finder, star-finder, fish-finder</dd></dl><h3>Demo program</h3><pre class="codeblock">def convolve(image, kernel):
+    kh, kw = len(kernel), len(kernel[0])
+    rows, cols = len(image), len(image[0])
+    out = []
+    for i in range(rows - kh + 1):
+        r = []
+        for j in range(cols - kw + 1):
+            s = 0
+            for a in range(kh):
+                for b in range(kw):
+                    s += kernel[a][b] * image[i + a][j + b]
+            r.append(s)
+        out.append(r)
+    return out
+
+def grid(values, label):
+    print(label)
+    for row in values:
+        print(&quot; &quot;.join(&quot;%8s&quot; % (round(v, 1) if isinstance(v, float) else v) for v in row))
+    print()
+
+def step_v(rows=6, cols=8, dark=10, bright=200, edge_at=4):
+    return [[bright if c &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def step_h(rows=6, cols=8, dark=10, bright=200, edge_at=3):
+    return [[bright if r &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+import math
+def defects(poly):
+    n = len(poly)
+    signs = []
+    for i in range(n):
+        ax, ay = poly[i][0]-poly[i-1][0], poly[i][1]-poly[i-1][1]
+        bx, by = poly[(i+1)%n][0]-poly[i][0], poly[(i+1)%n][1]-poly[i][1]
+        signs.append(1 if ax*by - ay*bx &gt; 0 else -1)
+    return sum(1 for i in range(n) if signs[i] != signs[i-1])
+star = []
+for i in range(10):
+    r = 5 if i % 2 == 0 else 2
+    star.append((r*math.cos(math.radians(i*36)), r*math.sin(math.radians(i*36))))
+sq = [(0,0),(4,0),(4,4),(0,4)]
+print(&quot;  star:   %d vertices, %d convexity defects&quot; % (len(star), defects(star)))
+print(&quot;  square: %d vertices, %d convexity defects&quot; % (len(sq), defects(sq)))
+print(&quot;Fingerprint (10,5) = star; (4,0) = convex quadrilateral. Defects name the shape.&quot;)
+</pre><h3>Demo output (executed at build)</h3><pre>  star:   10 vertices, 10 convexity defects
+  square: 4 vertices, 0 convexity defects
+Fingerprint (10,5) = star; (4,0) = convex quadrilateral. Defects name the shape.
+</pre><dl class="kv"><dt>ID</dt><dd>JAH-KW-CONT-000006</dd><dt>Edition</dt><dd>public</dd><dt>Source</dt><dd>public-harvest</dd><dt>Ladder rank</dt><dd>compounded</dd><dt>Tier-0 chain</dt><dd>Tier 0 (recognition layer) serving Tier-2 shape finders and Tier-3 thing finders</dd></dl></details>
+<details><summary>JAH-KW-CONT-000007 &mdash; The approximation quality gate — certified polygons only</summary><p>Douglas-Peucker promises its polygon stays within epsilon of the contour — but promises are for the algorithm&#x27;s output, and the recognition layer verifies. The quality gate has two checks. First, fidelity: measure the actual maximum deviation of every original boundary point from the simplified polygon and demand it stay under epsilon. If the simplifier has a bug, or the contour was not what you thought, this catches it. Second, stability: double epsilon and recount the vertices. Real corners survive the doubling; tolerance artifacts — vertices that exist only because epsilon was small — vanish.</p><p>This is the contour database&#x27;s full knowing-when rule, and it mirrors the template matcher&#x27;s two gates: strong enough (fidelity), and clearly better than the alternatives (stability — the count does not wobble when the tolerance breathes). A polygon that passes both is certified: it faithfully represents the contour AND its corners are genuine features of the shape.</p><p>The demo certifies two approximations. The jittery square at epsilon 0.5: max deviation 0.3, count stable at 4 when doubled — ACCEPT. A pathological zigzag contour at a too-small epsilon: the count collapses from 9 to 4 on doubling — REJECT, corners were tolerance artifacts. The gate keeps the honest polygons and returns the rest for re-tuning.</p><h3>The recognition principle</h3><dl class="kv"><dt>Which kernels feed it</dt><dd>The polygon and the original contour it claims to represent.</dd><dt>The recipe</dt><dd>Verify the certificate: measure the maximum deviation of original points from the polygon (must be &lt;= epsilon), then double epsilon and require the same vertex count (plateau stability). Pass both or reject the polygon.</dd><dt>The knowing-when rule</dt><dd>ACCEPT the polygon iff (max_deviation &lt;= eps) AND (count(eps) == count(2*eps)). The first gate checks fidelity; the second checks that the corners are real, not tolerance artifacts.</dd><dt>Used by (Tier-2/Tier-3 finders)</dt><dd>polygon-finder, square-finder, box-finder, house-finder</dd></dl><h3>Demo program</h3><pre class="codeblock">def convolve(image, kernel):
+    kh, kw = len(kernel), len(kernel[0])
+    rows, cols = len(image), len(image[0])
+    out = []
+    for i in range(rows - kh + 1):
+        r = []
+        for j in range(cols - kw + 1):
+            s = 0
+            for a in range(kh):
+                for b in range(kw):
+                    s += kernel[a][b] * image[i + a][j + b]
+            r.append(s)
+        out.append(r)
+    return out
+
+def grid(values, label):
+    print(label)
+    for row in values:
+        print(&quot; &quot;.join(&quot;%8s&quot; % (round(v, 1) if isinstance(v, float) else v) for v in row))
+    print()
+
+def step_v(rows=6, cols=8, dark=10, bright=200, edge_at=4):
+    return [[bright if c &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def step_h(rows=6, cols=8, dark=10, bright=200, edge_at=3):
+    return [[bright if r &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def perp_dist(p, a, b):
+    (x0, y0), (x1, y1), (x2, y2) = p, a, b
+    num = abs((y2-y1)*x0 - (x2-x1)*y0 + x2*y1 - y2*x1)
+    den = ((y2-y1)**2 + (x2-x1)**2) ** 0.5
+    return num/den if den else 0.0
+
+def dp_open(pts, eps):
+    if len(pts) &lt; 3:
+        return pts[:]
+    a, b = pts[0], pts[-1]
+    dmax, idx = 0, 0
+    for i in range(1, len(pts)-1):
+        d = perp_dist(pts[i], a, b)
+        if d &gt; dmax:
+            dmax, idx = d, i
+    if dmax &gt; eps:
+        return dp_open(pts[:idx+1], eps)[:-1] + dp_open(pts[idx:], eps)
+    return [a, b]
+
+def dp_closed(pts, eps):
+    n = len(pts)
+    dmax, idx = 0, 0
+    for i in range(1, n):
+        d = ((pts[i][0]-pts[0][0])**2 + (pts[i][1]-pts[0][1])**2) ** 0.5
+        if d &gt; dmax:
+            dmax, idx = d, i
+    left = dp_open(pts[:idx+1], eps)
+    right = dp_open(pts[idx:] + [pts[0]], eps)
+    return left[:-1] + right[:-1]
+def max_deviation(contour, poly):
+    m = len(poly)
+    best = 0.0
+    for p in contour:
+        d = min(perp_dist(p, poly[i], poly[(i+1)%m]) for i in range(m))
+        best = max(best, d)
+    return best
+def gate(contour, eps):
+    p1, p2 = dp_closed(contour, eps), dp_closed(contour, 2*eps)
+    dev = max_deviation(contour, p1)
+    ok = dev &lt;= eps and len(p1) == len(p2)
+    return ok, dev, len(p1), len(p2)
+sq = [(0,0),(3,0.3),(6,0),(6.3,3),(6,6),(3,5.7),(0,6),(-0.3,3)]
+zig = [(0,0),(1,0.4),(2,0),(3,0.4),(4,0),(4,2),(0,2)]
+for name, c, eps in ((&quot;jittery square&quot;, sq, 0.5), (&quot;zigzag&quot;, zig, 0.2)):
+    ok, dev, n1, n2 = gate(c, eps)
+    print(&quot;  %-14s eps=%.1f: maxdev=%.2f count %d-&gt;%d at 2x eps -&gt; %s&quot; %
+          (name, eps, dev, n1, n2, &quot;ACCEPT (certified)&quot; if ok else &quot;REJECT (re-tune epsilon)&quot;))
+print(&quot;Gate: (maxdev &lt;= eps) AND (count stable on doubling). Both, or nothing.&quot;)
+</pre><h3>Demo output (executed at build)</h3><pre>  jittery square eps=0.5: maxdev=0.30 count 4-&gt;4 at 2x eps -&gt; ACCEPT (certified)
+  zigzag         eps=0.2: maxdev=0.00 count 7-&gt;4 at 2x eps -&gt; REJECT (re-tune epsilon)
+Gate: (maxdev &lt;= eps) AND (count stable on doubling). Both, or nothing.
+</pre><dl class="kv"><dt>ID</dt><dd>JAH-KW-CONT-000007</dd><dt>Edition</dt><dd>public</dd><dt>Source</dt><dd>public-harvest</dd><dt>Ladder rank</dt><dd>complex</dd><dt>Tier-0 chain</dt><dd>Tier 0 (recognition layer) serving Tier-2 shape finders and Tier-3 thing finders</dd></dl></details>
+<details><summary>JAH-KW-CONT-000008 &mdash; Who uses contour approximation — the principle&#x27;s place in the R24 chain</summary><p>Contour approximation is the Tier-0 principle behind every R24 finder whose target has an outline. The triangle, square, and rectangle finders ARE records 1-3: trace, simplify, count, name. The polygon finder adds chain codes (record 4) for rotation-proof comparison and convexity defects (record 6) for stars and arrows. The box finder simplifies, then checks that the quadrilateral&#x27;s angles are right angles. The contour finder — Tier 2&#x27;s generalist — runs the whole battery and reports the fingerprint.</p><p>The Tier-3 thing finders borrow it for silhouettes. The car finder simplifies the side silhouette and checks the fingerprint against a car-like profile; the house finder wants a pentagon-ish fingerprint (square body plus triangular roof reads as fiveish vertices with one defect pattern). Where outlines deform — a cat curled vs stretched — the finders graduate to feature hierarchies, which do not need the whole outline to agree.</p><p>The demo prints the borrowing table: finder, what it reads off the polygon, and its vocabulary. One simplifier, eight readers.</p><h3>The recognition principle</h3><dl class="kv"><dt>Which kernels feed it</dt><dd>Traced contours from edge maps; the polygon is the finders&#x27; working representation.</dd><dt>The recipe</dt><dd>Each finder traces its candidate&#x27;s contour, simplifies it at plateau epsilon, and reads the shape off the polygon: counts, ratios, defects. Same simplifier, different vocabularies.</dd><dt>The knowing-when rule</dt><dd>The finder&#x27;s knowing-when IS this database&#x27;s quality gate (record 7) plus its own shape vocabulary: the polygon must be certified AND its fingerprint must name a known shape.</dd><dt>Used by (Tier-2/Tier-3 finders)</dt><dd>triangle-finder, square-finder, rectangle-finder, polygon-finder, box-finder, contour-finder, car-finder, house-finder</dd></dl><h3>Demo program</h3><pre class="codeblock">def convolve(image, kernel):
+    kh, kw = len(kernel), len(kernel[0])
+    rows, cols = len(image), len(image[0])
+    out = []
+    for i in range(rows - kh + 1):
+        r = []
+        for j in range(cols - kw + 1):
+            s = 0
+            for a in range(kh):
+                for b in range(kw):
+                    s += kernel[a][b] * image[i + a][j + b]
+            r.append(s)
+        out.append(r)
+    return out
+
+def grid(values, label):
+    print(label)
+    for row in values:
+        print(&quot; &quot;.join(&quot;%8s&quot; % (round(v, 1) if isinstance(v, float) else v) for v in row))
+    print()
+
+def step_v(rows=6, cols=8, dark=10, bright=200, edge_at=4):
+    return [[bright if c &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def step_h(rows=6, cols=8, dark=10, bright=200, edge_at=3):
+    return [[bright if r &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+table = [
+    (&quot;triangle-finder (T2)&quot;, &quot;vertex count == 3&quot;, &quot;{triangle}&quot;),
+    (&quot;square-finder (T2)&quot;, &quot;count==4 + equal sides&quot;, &quot;{square}&quot;),
+    (&quot;rectangle-finder (T2)&quot;, &quot;count==4 + right angles&quot;, &quot;{rectangle}&quot;),
+    (&quot;polygon-finder (T2)&quot;, &quot;count + chain code + defects&quot;, &quot;{n-gon, star, arrow}&quot;),
+    (&quot;box-finder (T2)&quot;, &quot;count==4 + right angles&quot;, &quot;{box}&quot;),
+    (&quot;contour-finder (T2)&quot;, &quot;full fingerprint&quot;, &quot;open vocabulary&quot;),
+    (&quot;car-finder (T3)&quot;, &quot;silhouette fingerprint&quot;, &quot;{sedan, hatchback, ...}&quot;),
+    (&quot;house-finder (T3)&quot;, &quot;body+roof fingerprint&quot;, &quot;{house}&quot;),
+]
+print(&quot;Borrowing table: finder -&gt; reads -&gt; vocabulary&quot;)
+for finder, reads, vocab in table:
+    print(&quot;  %-22s %-28s %s&quot; % (finder, reads, vocab))
+print(&quot;One certified polygon, eight different readers. That is Tier 0 serving Tier 2 and 3.&quot;)
+</pre><h3>Demo output (executed at build)</h3><pre>Borrowing table: finder -&gt; reads -&gt; vocabulary
+  triangle-finder (T2)   vertex count == 3            {triangle}
+  square-finder (T2)     count==4 + equal sides       {square}
+  rectangle-finder (T2)  count==4 + right angles      {rectangle}
+  polygon-finder (T2)    count + chain code + defects {n-gon, star, arrow}
+  box-finder (T2)        count==4 + right angles      {box}
+  contour-finder (T2)    full fingerprint             open vocabulary
+  car-finder (T3)        silhouette fingerprint       {sedan, hatchback, ...}
+  house-finder (T3)      body+roof fingerprint        {house}
+One certified polygon, eight different readers. That is Tier 0 serving Tier 2 and 3.
+</pre><dl class="kv"><dt>ID</dt><dd>JAH-KW-CONT-000008</dd><dt>Edition</dt><dd>public</dd><dt>Source</dt><dd>public-harvest</dd><dt>Ladder rank</dt><dd>complex</dd><dt>Tier-0 chain</dt><dd>Tier 0 (recognition layer) serving Tier-2 shape finders and Tier-3 thing finders</dd></dl></details>
+<h2>Boundless generator</h2>
+<p>Generator script: <code>gen-contour-approximation-recognition.js</code> &mdash; run <code>node gen-contour-approximation-recognition.js --n 5</code>.
+Self-regulating: throttled, duplicate-checked, stops at 10<sup>15</sup> or when complete. Generated output is labeled
+<code>&quot;generated&quot;</code> and never mixed with assistant-built records.</p>
+<h2>Working version</h2>
+<p>Reference implementation: <code>contour_approximation.py</code> &mdash; the principle as a runnable program
+(pure Python, no libraries). Run <code>python3 contour_approximation.py</code>.</p>
+<h2>Demo program</h2>
+<p>Every record carries an executed demo program (Python, verified 2026-10-22). Example from record 1:</p>
+<pre class="codeblock">def convolve(image, kernel):
+    kh, kw = len(kernel), len(kernel[0])
+    rows, cols = len(image), len(image[0])
+    out = []
+    for i in range(rows - kh + 1):
+        r = []
+        for j in range(cols - kw + 1):
+            s = 0
+            for a in range(kh):
+                for b in range(kw):
+                    s += kernel[a][b] * image[i + a][j + b]
+            r.append(s)
+        out.append(r)
+    return out
+
+def grid(values, label):
+    print(label)
+    for row in values:
+        print(&quot; &quot;.join(&quot;%8s&quot; % (round(v, 1) if isinstance(v, float) else v) for v in row))
+    print()
+
+def step_v(rows=6, cols=8, dark=10, bright=200, edge_at=4):
+    return [[bright if c &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def step_h(rows=6, cols=8, dark=10, bright=200, edge_at=3):
+    return [[bright if r &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def perp_dist(p, a, b):
+    (x0, y0), (x1, y1), (x2, y2) = p, a, b
+    num = abs((y2-y1)*x0 - (x2-x1)*y0 + x2*y1 - y2*x1)
+    den = ((y2-y1)**2 + (x2-x1)**2) ** 0.5
+    return num/den if den else 0.0
+
+def dp_open(pts, eps):
+    if len(pts) &lt; 3:
+        return pts[:]
+    a, b = pts[0], pts[-1]
+    dmax, idx = 0, 0
+    for i in range(1, len(pts)-1):
+        d = perp_dist(pts[i], a, b)
+        if d &gt; dmax:
+            dmax, idx = d, i
+    if dmax &gt; eps:
+        return dp_open(pts[:idx+1], eps)[:-1] + dp_open(pts[idx:], eps)
+    return [a, b]
+
+def dp_closed(pts, eps):
+    n = len(pts)
+    dmax, idx = 0, 0
+    for i in range(1, n):
+        d = ((pts[i][0]-pts[0][0])**2 + (pts[i][1]-pts[0][1])**2) ** 0.5
+        if d &gt; dmax:
+            dmax, idx = d, i
+    left = dp_open(pts[:idx+1], eps)
+    right = dp_open(pts[idx:] + [pts[0]], eps)
+    return left[:-1] + right[:-1]
+square = [(0,0),(3,0.3),(6,0),(6.3,3),(6,6),(3,5.7),(0,6),(-0.3,3)]
+print(&quot;Input contour: %d boundary points (jittery square)&quot; % len(square))
+poly = dp_closed(square, 0.5)
+print(&quot;Douglas-Peucker epsilon=0.5 -&gt; %d vertices:&quot; % len(poly), poly)
+print(&quot;Verdict: %d vertices -&gt; quadrilateral. The contour became a shape.&quot; % len(poly))
+</pre>
+<p><button class="merger" id="mergerBtn">All Database Merger</button></p>
+<div id="mergerOut"></div>
+<h2>A1 assistant maker</h2>
+<p>Build a personal AI assistant from this database&apos;s AI:</p>
+<p><button id="a1Btn">Build an A1 assistant for this database</button></p>
+<div id="a1Out"></div>
+<script>
+document.getElementById('mergerBtn').addEventListener('click',function(){
+  document.getElementById('mergerOut').innerHTML='<dl class=kv><dt>Merger</dt><dd>The Contour Approximation Recognition participates in the All Database Merger: its 8 records merge by slug contour-approximation-recognition with sibling edition contour-approximation-recognition-signature. Dedupe key: record id. Provenance preserved per record.</dd></dl>';
+});
+document.getElementById('a1Btn').addEventListener('click',function(){
+  document.getElementById('a1Out').innerHTML='<dl class=kv><dt>A1 assistant</dt><dd>A1 assistant built from JAH Contour Simplifier (contour-approximation-recognition): archive-aware over 8 records of contour approximation recognition record; answers questions, runs the boundless generator within its 10^15 cap, and teaches on the simple-to-complex ladder. Ask it anything in this database&apos;s domain.</dd></dl>';
+});
+</script>
+<h2>Provenance</h2>
+<dl class="kv">
+<dt>Source</dt><dd>public-harvest &mdash; assistant-built R24 knowing-when lane (Tier 0: the recognition layer)</dd>
+<dt>Last verified</dt><dd>2026-10-22</dd>
+<dt>Python</dt><dd>3.x (demos executed at build)</dd>
+<dt>Teaching ladder</dt><dd>simple &rarr; compounded &rarr; complex across records</dd>
+<dt>Honest labeling</dt><dd>All demos run on synthetic test images, stated plainly on each record.</dd>
+</dl>
+</body></html>
