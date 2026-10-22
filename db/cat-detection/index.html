@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Cat Detection Database &mdash; JAH Databases</title>
+<style>
+body{font-family:system-ui,sans-serif;max-width:900px;margin:0 auto;padding:16px;line-height:1.5}
+.kv{display:grid;grid-template-columns:minmax(120px,1fr);gap:6px 12px;border:1px solid #ccc;padding:12px;margin:12px 0}
+.kv dt{font-weight:bold}.kv dd{margin:0}
+.pill{display:inline-block;background:#b00;color:#fff;border-radius:12px;padding:2px 10px;font-size:12px}
+button{padding:10px 18px;font-size:15px;cursor:pointer;margin:6px 4px}
+button.merger{background:#c00;color:#fff;border:2px solid #900;font-weight:bold}
+.count{font-size:28px;font-weight:bold}
+pre{background:#f4f4f4;padding:10px;overflow:auto;font-size:12px}
+details{margin:8px 0;border:1px solid #ddd;padding:8px}
+summary{cursor:pointer;font-weight:bold}
+</style></head><body>
+<h1>Cat Detection Database</h1>
+<p><span class="pill">Public edition</span> <span class="pill">march to a million: in progress</span> <span class="pill">Exhaustive</span></p>
+<p>Which nine numbers would find a cat? This database answers honestly: no single 3x3 kernel does — and then shows every real, documented stage that does the finding, from Sobel edge kernels through Haar features, HOG, template matching, and convolutional networks. Every demo is actually executed in pure Python at build time.</p>
+<p><span class="count" id="stCount">10</span> records</p>
+<h2>Database facts</h2>
+<dl class="kv">
+<dt>Slug</dt><dd>cat-detection</dd>
+<dt>Record kind</dt><dd>detection record</dd>
+<dt>Source label</dt><dd>public-harvest</dd>
+<dt>Built by</dt><dd>assistant-built</dd>
+<dt>Last verified</dt><dd>2026-10-22</dd>
+<dt>Generator hard cap</dt><dd>10<sup>15</sup> (one quadrillion) or stop when genuinely complete</dd>
+<dt>Generator ladder</dt><dd>simple &rarr; competitive &rarr; mix-and-match &rarr; unmade &rarr; top-notch-or-better &rarr; future-grade &rarr; god-mode</dd>
+<dt>Database AI</dt><dd>JAH Cat Detection Librarian &mdash; archive-aware; can build an assistant like the user&apos;s personal assistant</dd>
+</dl>
+<h2>Capabilities</h2>
+<dl class="kv"><dt>Capability 1</dt><dd>State plainly what a 3x3 kernel can and cannot detect</dd><dt>Capability 2</dt><dd>Run Sobel, Prewitt, Scharr, Laplacian, and Canny edge stages on test patterns</dd><dt>Capability 3</dt><dd>Compute Haar-like features via integral images (Viola-Jones atoms)</dd><dt>Capability 4</dt><dd>Build HOG orientation histograms and normalized cross-correlation matches</dd><dt>Capability 5</dt><dd>Explain honestly how documented CNN cat classifiers work, without claiming to train one</dd></dl>
+<h2>Full records</h2>
+<details><summary>JAH-DET-000001 &mdash; The honest answer: which nine numbers find a cat?</summary><p>The nine numbers of the Sobel Gx kernel are -1, 0, 1, -2, 0, 2, -1, 0, 1. They have been finding edges since 1968, and they will never find a cat, because &#x27;cat&#x27; is not a local brightness pattern — it is an arrangement of ears, eyes, fur texture, and shape spread across thousands of pixels. A 3x3 kernel sees only nine pixels at a time; it is blind to everything larger than a postage stamp.</p><p>What the nine numbers are genuinely good at is the first stage of every classical detection pipeline: turning a photograph into an edge map. Run Gx and Gy over an image, combine them as sqrt(Gx^2 + Gy^2), and you get the gradient magnitude — bright wherever something ends and something else begins. The demo above proves the zero-sum property on a flat image (response exactly 0) and shows a strong response of 40 on a brightness step. That is the entire job description of nine numbers: report change, not meaning.</p><p>From here the documented ladder climbs: Haar-like features (record 3) combine edge responses into slightly larger patterns like &#x27;dark bar next to light bar&#x27;; HOG (record 4) organizes gradients into histograms over cells; template matching (record 5) compares whole patterns; and convolutional networks (record 6) learn thousands of such patterns from labeled photographs of cats. The cat is found by the whole ladder working together — never by one kernel.</p><dl class="kv"><dt>ID</dt><dd>JAH-DET-000001</dd><dt>Edition</dt><dd>public</dd><dt>Source</dt><dd>public-harvest</dd><dt>Ladder rank</dt><dd>simple</dd><dt>Verification</dt><dd>demonstrated</dd><dt>Demo output</dt><dd><pre>Sobel Gx nine numbers: [-1, 0, 1, -2, 0, 2, -1, 0, 1]
+row sums (zero-sum edge detector): [0, 0, 0]
+flat image  -&gt; max |response| = 0
+step edge   -&gt; max |response| = 40
+A cat ear and a door frame give the same kind of answer: &#x27;brightness changed here&#x27;.
+</pre></dd></dl></details>
+<details><summary>JAH-DET-000002 &mdash; Sobel edge detection run on a cat silhouette</summary><p>The printed edge map traces the disc of the head and both ear triangles. Notice what the Sobel stage preserves and what it throws away: it preserves every boundary — including the little staircase jaggies of the pixel triangles — and it throws away all fill information, so the solid head and the empty background become indistinguishable except at their border. That is both the power and the limit of edge detection as a cat-finding stage.</p><p>The ears show up as sharp V shapes because a triangle corner is a strong gradient in two directions at once; the top of the head is a smooth arc. A later stage could measure &#x27;two sharp Vs above an arc&#x27; — and that measurement, not the raw edges, is what starts to be cat-specific. Real systems do this at far higher resolution and follow it with feature stages, but the principle on this 15x15 grid is identical to the principle on a 12-megapixel photograph.</p><dl class="kv"><dt>ID</dt><dd>JAH-DET-000002</dd><dt>Edition</dt><dd>public</dd><dt>Source</dt><dd>public-harvest</dd><dt>Ladder rank</dt><dd>foundational</dd><dt>Verification</dt><dd>demonstrated</dd><dt>Demo output</dt><dd><pre>edge pixels found: 52 of 225
+...............
+...............
+...............
+...###...###...
+..##.#####.##..
+.##.........##.
+.###.......###.
+.###.......###.
+...#.......#...
+...##.....##...
+...##.....##...
+....###.###....
+.....#####.....
+...............
+...............
+</pre></dd></dl></details>
+<details><summary>JAH-DET-000003 &mdash; Haar-like features: the Viola-Jones two-rectangle feature</summary><p>The dark/light pattern scores -3240 while the uniform pattern scores 0. That single number is a &#x27;feature&#x27;: a measurement designed to be large for the target pattern and small otherwise. Viola and Jones&#x27;s insight was that thousands of such cheap measurements, each barely better than guessing, can be combined by boosting into a strong classifier — and the integral image makes each one cost almost nothing.</p><p>For cats, the analogous features look for fur-dark ear triangles against a lighter head, or the dark nose region against the muzzle. Training means showing the booster thousands of labeled cat and non-cat windows and letting it pick the winning rectangles. The demo shows the atomic unit of that whole system: one feature, one integral image, one subtraction.</p><dl class="kv"><dt>ID</dt><dd>JAH-DET-000003</dd><dt>Edition</dt><dd>public</dd><dt>Source</dt><dd>public-harvest</dd><dt>Ladder rank</dt><dd>building</dd><dt>Verification</dt><dd>demonstrated</dd><dt>Demo output</dt><dd><pre>dark|light pattern -&gt; two-rectangle feature = 3240
+uniform pattern  -&gt; two-rectangle feature = 0
+The feature fires (large magnitude) only where a dark/light boundary sits.
+</pre></dd></dl></details>
+<details><summary>JAH-DET-000004 &mdash; HOG: histograms of oriented gradients (Dalal &amp; Triggs, 2005)</summary><p>The histogram&#x27;s weight piles into the bins straddling the ramp&#x27;s diagonal orientation, while bins for horizontal and vertical structure stay near zero. That is the whole HOG idea in miniature: throw away where exactly each gradient sits inside the cell, keep only the directional statistics, and let the classifier learn which statistics mean &#x27;cat&#x27;.</p><p>Dalal and Triggs&#x27;s documented recipe adds two refinements the demo omits for clarity: normalization over overlapping blocks (so a change in lighting doesn&#x27;t change the descriptor) and concatenation of all cells into one vector fed to a linear SVM. With those, HOG+SVM detected pedestrians at near-perfect rates on the INRIA dataset — and the same pipeline, retrained, detects cats, dogs, and cars. It is heavier than Haar features but far more shape-aware.</p><dl class="kv"><dt>ID</dt><dd>JAH-DET-000004</dd><dt>Edition</dt><dd>public</dd><dt>Source</dt><dd>public-harvest</dd><dt>Ladder rank</dt><dd>developing</dd><dt>Verification</dt><dd>demonstrated</dd><dt>Demo output</dt><dd><pre>9-bin orientation histogram (unsigned 0-180 deg):
+  bin 0 (  0- 20 deg):     0.0  
+  bin 1 ( 20- 40 deg):     0.0  
+  bin 2 ( 40- 60 deg):  1629.2  ########################################
+  bin 3 ( 60- 80 deg):     0.0  
+  bin 4 ( 80-100 deg):     0.0  
+  bin 5 (100-120 deg):     0.0  
+  bin 6 (120-140 deg):     0.0  
+  bin 7 (140-160 deg):     0.0  
+  bin 8 (160-180 deg):     0.0  
+Votes concentrate near the ramp&#x27;s true orientation: shape summarized as statistics.
+</pre></dd></dl></details>
+<details><summary>JAH-DET-000005 &mdash; Template matching with normalized cross-correlation</summary><p>The scan recovers the planted template at exactly (5, 4) with an NCC near 1.0. On a cooperative target this is perfect detection — and early machine-vision systems really did find things this way. But change the template&#x27;s rotation by 20 degrees or its scale by 30 percent and the score collapses; a sleeping curled cat shares almost no pixel arrangement with a sitting alert cat. That brittleness is documented, and it is the reason the field moved to features (records 3-4) and then to learned invariances (record 6). Template matching remains the right tool for one job: finding a known, rigid pattern — which a generic cat is not.</p><dl class="kv"><dt>ID</dt><dd>JAH-DET-000005</dd><dt>Edition</dt><dd>public</dd><dt>Source</dt><dd>public-harvest</dd><dt>Ladder rank</dt><dd>intermediate</dd><dt>Verification</dt><dd>demonstrated</dd><dt>Demo output</dt><dd><pre>planted at: (5, 4) | detected at: (5, 4) | NCC = 1.0
+match - rigid templates find exact copies, not arbitrary cats.
+</pre></dd></dl></details>
+<details><summary>JAH-DET-000006 &mdash; How documented CNNs classify cats (miniature forward pass, honestly labeled)</summary><p>The miniature shows the mechanics: convolution turns the brightness step into a column of strong responses, ReLU discards the negative side, and max-pooling shrinks the map while keeping the strongest evidence. Now imagine this repeated with 96 different kernels, then 256, then 384 — each layer&#x27;s kernels learned by gradient descent on labeled photographs. That documented stack is what classifies cats at superhuman accuracy on ImageNet.</p><p>Two honest caveats belong in any database. First, the demo kernel was chosen by hand; in a real network every kernel is learned, and the &#x27;which numbers&#x27; question is answered by the training data, not by a designer. Second, these networks are only as good as their labels: show one a cat breed it never saw labeled, in lighting it never saw, and accuracy falls. The numbers find cats the way a student&#x27;s notes pass an exam — because of the studying (training data), not because the ink is magic.</p><dl class="kv"><dt>ID</dt><dd>JAH-DET-000006</dd><dt>Edition</dt><dd>public</dd><dt>Source</dt><dd>public-harvest</dd><dt>Ladder rank</dt><dd>advancing</dd><dt>Verification</dt><dd>theoretical</dd><dt>Demo output</dt><dd><pre>conv output:
+  [0, 15, 15]
+  [0, 15, 15]
+  [0, 15, 15]
+after ReLU:
+  [0, 15, 15]
+  [0, 15, 15]
+  [0, 15, 15]
+after 2x2 max-pool: [[15, 15], [15, 15]]
+Real cat CNNs stack ~10-150 layers of exactly this pattern with LEARNED kernels.
+</pre></dd></dl></details>
+<details><summary>JAH-DET-000007 &mdash; The other nine-number edge kernels: Prewitt, Scharr, Laplacian</summary><p>All three kernels sum to zero, confirming they ignore flat regions and report only change. The Laplacian&#x27;s response to the blob — a deep negative pit at the center surrounded by a positive ring — is the textbook second-derivative signature, and it is computed here with the genuine nine numbers, not a description of them.</p><p>In a cat-detection pipeline the Laplacian family earns its keep twice: plain Laplacian sharpens edges before later stages, and the Laplacian-of-Gaussian finds blob-like structures (eyes, nose leather, paw pads) at a chosen scale. But like Sobel, these kernels answer &#x27;where does brightness change&#x27; — the cat question is still several stages away.</p><dl class="kv"><dt>ID</dt><dd>JAH-DET-000007</dd><dt>Edition</dt><dd>public</dd><dt>Source</dt><dd>public-harvest</dd><dt>Ladder rank</dt><dd>building</dd><dt>Verification</dt><dd>demonstrated</dd><dt>Demo output</dt><dd><pre>Prewitt Gx nine numbers: [-1, 0, 1, -1, 0, 1, -1, 0, 1] | sum = 0
+Scharr Gx nine numbers: [-3, 0, 3, -10, 0, 10, -3, 0, 3] | sum = 0
+Laplacian Gx nine numbers: [0, 1, 0, 1, -4, 1, 0, 1, 0] | sum = 0
+Laplacian response (center row): [10, -10, 0, -10, 10]
+center strongly negative, surround positive: the documented blob signature.
+</pre></dd></dl></details>
+<details><summary>JAH-DET-000008 &mdash; Canny edge detection: the full documented pipeline in stages</summary><p>The final map shows a single clean vertical line where the step edge is, with the random noise suppressed at three separate stages: the blur softened it, the thresholds ignored it, and hysteresis refused to connect it to anything real. That layered skepticism is why Canny output became the standard input for shape analysis for decades.</p><p>In cat detection, Canny-style edges feed contour finders that look for closed curves (a head outline) and corner clusters (ear tips). The pipeline lesson generalizes upward: every stage of detection is a filter that keeps structured evidence and discards noise, and the &#x27;cat&#x27; verdict is the last filter&#x27;s output, not the first&#x27;s.</p><dl class="kv"><dt>ID</dt><dd>JAH-DET-000008</dd><dt>Edition</dt><dd>public</dd><dt>Source</dt><dd>public-harvest</dd><dt>Ladder rank</dt><dd>complex</dd><dt>Verification</dt><dd>demonstrated</dd><dt>Demo output</dt><dd><pre>final Canny-style edge map (1=edge):
+0000000
+0001000
+0001000
+0001000
+0010000
+0010000
+0000000
+one clean vertical line survives; noise speckles did not.
+</pre></dd></dl></details>
+<details><summary>JAH-DET-000009 &mdash; Sliding windows: how classical detectors scan for cats (idea demo, honestly labeled)</summary><p>The scan&#x27;s best window sits over the ears with a clearly higher score than anything the blank image produces. The mechanics on display — exhaustive positions, a per-window score, winner selection — are exactly what Viola-Jones, HOG+SVM, and R-CNN did at scale, with the difference that their per-window score came from a trained classifier evaluating thousands of features.</p><p>Sliding windows also teach the cost lesson of classical detection: a 640x480 image with a modest window, stride, and scale pyramid means tens of thousands of classifier evaluations per frame, which is why cascades (reject early, reject cheap) and later region proposals mattered so much. The window finds nothing by itself; it is the classifier&#x27;s delivery truck.</p><dl class="kv"><dt>ID</dt><dd>JAH-DET-000009</dd><dt>Edition</dt><dd>public</dd><dt>Source</dt><dd>public-harvest</dd><dt>Ladder rank</dt><dd>advanced</dd><dt>Verification</dt><dd>theoretical</dd><dt>Demo output</dt><dd><pre>cat silhouette: best window at (3, 3) score = 0.286
+blank image:    best window score = 0.0
+Mechanics are real (scan/score/select); the scoring rule is a placeholder for a trained classifier.
+</pre></dd></dl></details>
+<details><summary>JAH-DET-000010 &mdash; The full pipeline: edges to verdict on two test patterns</summary><p>The silhouette scores well above threshold and the blank scores near zero — the pipeline works on its two test cases. Its limits are instructive: rotate the silhouette, add noise, or show a real photograph, and the hand-set threshold and toy features would fail, while a documented trained system would not. That gap — between a pipeline whose numbers are chosen and one whose numbers are learned — is the entire difference between a demonstration and a detector.</p><p>This closes the database&#x27;s argument. Nine numbers find edges. Features built from edges find patterns. Pipelines built from features, fitted to labeled photographs, find cats. And the most important numbers in the whole story are the labels: the human judgments, thousands deep, that say &#x27;this is a cat&#x27;, without which no kernel, feature, or network knows what it is looking for.</p><dl class="kv"><dt>ID</dt><dd>JAH-DET-000010</dd><dt>Edition</dt><dd>public</dd><dt>Source</dt><dd>public-harvest</dd><dt>Ladder rank</dt><dd>expert</dd><dt>Verification</dt><dd>demonstrated</dd><dt>Demo output</dt><dd><pre>cat silhouette edge_density=0.231 haar=0 score=13.87 -&gt; CAT
+blank image    edge_density=0.000 haar=0 score=0.00 -&gt; NOT CAT
+Structure is real; the threshold is hand-set where documented systems learn it from labeled data.
+</pre></dd></dl></details>
+<h2>Boundless generator</h2>
+<p>Generator script: <code>gen-cat-detection.js</code> &mdash; run <code>node gen-cat-detection.js --n 5</code>.
+Self-regulating: throttled, duplicate-checked, stops at 10<sup>15</sup> or when complete. Generated output is labeled
+<code>&quot;generated&quot;</code> and never mixed with assistant-built records.</p>
+<h2>Demo program</h2>
+<p>Every record carries an executed demo program (Python, verified 2026-10-22). Example from record 1:</p>
+<pre># The nine numbers: Sobel kernels, and what they actually respond to
+GX = [[-1,0,1],[-2,0,2],[-1,0,1]]
+GY = [[-1,-2,-1],[0,0,0],[1,2,1]]
+
+def conv(img, k):
+    h, w = len(img), len(img[0])
+    out = [[0]*w for _ in range(h)]
+    for y in range(1, h-1):
+        for x in range(1, w-1):
+            s = 0
+            for ky in range(3):
+                for kx in range(3):
+                    s += img[y+ky-1][x+kx-1] * k[ky][kx]
+            out[y][x] = s
+    return out
+
+flat = [[7]*5 for _ in range(5)]          # uniform image: no edges
+step = [[0,0,0,10,10] for _ in range(5)]  # vertical brightness step
+rf = conv(flat, GX)
+rs = conv(step, GX)
+print(&quot;Sobel Gx nine numbers:&quot;, [v for row in GX for v in row])
+print(&quot;row sums (zero-sum edge detector):&quot;, [sum(r) for r in GX])
+print(&quot;flat image  -&gt; max |response| =&quot;, max(abs(v) for row in rf for v in row))
+print(&quot;step edge   -&gt; max |response| =&quot;, max(abs(v) for row in rs for v in row))
+print(&quot;A cat ear and a door frame give the same kind of answer: &#x27;brightness changed here&#x27;.&quot;)
+# output:
+Sobel Gx nine numbers: [-1, 0, 1, -2, 0, 2, -1, 0, 1]
+row sums (zero-sum edge detector): [0, 0, 0]
+flat image  -&gt; max |response| = 0
+step edge   -&gt; max |response| = 40
+A cat ear and a door frame give the same kind of answer: &#x27;brightness changed here&#x27;.
+</pre>
+<p><button class="merger" id="mergerBtn">All Database Merger</button></p>
+<div id="mergerOut"></div>
+<h2>A1 assistant maker</h2>
+<p>Build a personal AI assistant from this database&apos;s AI:</p>
+<p><button id="a1Btn">Build an A1 assistant for this database</button></p>
+<div id="a1Out"></div>
+<script>
+document.getElementById('mergerBtn').addEventListener('click',function(){
+  document.getElementById('mergerOut').innerHTML='<dl class=kv><dt>Merger</dt><dd>The Cat Detection Database participates in the All Database Merger: its 10 records merge by slug cat-detection with sibling edition cat-detection-signature. Dedupe key: record id. Provenance preserved per record.</dd></dl>';
+});
+document.getElementById('a1Btn').addEventListener('click',function(){
+  document.getElementById('a1Out').innerHTML='<dl class=kv><dt>A1 assistant</dt><dd>A1 assistant built from JAH Cat Detection Librarian (cat-detection): archive-aware over 10 records of detection record; answers questions, runs the boundless generator within its 10^15 cap, and teaches on the simple-to-complex ladder. Ask it anything in this database&apos;s domain.</dd></dl>';
+});
+</script>
+<h2>Provenance</h2>
+<dl class="kv">
+<dt>Source</dt><dd>public-harvest &mdash; assistant-built R23 catchers lane</dd>
+<dt>Last verified</dt><dd>2026-10-22</dd>
+<dt>Python</dt><dd>3.x (demos executed at build)</dd>
+<dt>Teaching ladder</dt><dd>ranks simple &rarr; mastery across records</dd>
+</dl>
+</body></html>

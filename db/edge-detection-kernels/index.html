@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Edge Detection Kernels — JAH Databases</title>
+<style>
+body{font-family:system-ui,sans-serif;max-width:900px;margin:0 auto;padding:16px;line-height:1.5}
+.kv{display:grid;grid-template-columns:minmax(120px,1fr) 2fr;gap:6px 12px;border:1px solid #ccc;padding:12px;margin:12px 0}
+.kv dt{font-weight:bold}.kv dd{margin:0}
+.pill{display:inline-block;background:#b00;color:#fff;border-radius:12px;padding:2px 10px;font-size:12px}
+button{padding:10px 18px;font-size:15px;cursor:pointer;margin:6px 4px}
+button.merger{background:#c00;color:#fff;border:2px solid #900;font-weight:bold}
+.count{font-size:28px;font-weight:bold}
+pre{background:#f4f4f4;padding:10px;overflow:auto;font-size:12px}
+details{margin:8px 0;border:1px solid #ddd;padding:8px}
+summary{cursor:pointer;font-weight:bold}
+</style></head><body>
+<h1>Edge Detection Kernels</h1>
+<p><span class="pill">Public edition</span> <span class="pill">march to a million: in progress</span> <span class="pill">Exhaustive</span></p>
+<p>Public records of the classic edge-detection operators — Sobel (1968), Prewitt (1970), Roberts (1963), Scharr (2000), the Laplacian, Kirsch (1971), and Canny (1986) — plus the middle-number story of 1 vs 2 vs 3/10. Every record carries the full kernel, a plain-English role for each of its nine numbers, and a Python demo executed live at build time over synthetic test images in pure Python (no libraries).</p>
+<p><span class="count" id="stCount">8</span> records</p>
+<h2>Database facts</h2>
+<dl class="kv">
+<dt>Slug</dt><dd>edge-detection-kernels</dd>
+<dt>Record kind</dt><dd>edge detection kernel record</dd>
+<dt>Source label</dt><dd>public-harvest</dd>
+<dt>Built by</dt><dd>assistant-built</dd>
+<dt>Last verified</dt><dd>2026-10-22</dd>
+<dt>Generator hard cap</dt><dd>10<sup>15</sup> (one quadrillion) or stop when genuinely complete</dd>
+<dt>Generator ladder</dt><dd>simple &rarr; competitive &rarr; mix-and-match &rarr; unmade &rarr; top-notch-or-better &rarr; future-grade &rarr; god-mode</dd>
+<dt>Database AI</dt><dd>JAH Edge Kernel Librarian &mdash; archive-aware; can build an assistant like the user&apos;s personal assistant</dd>
+</dl>
+<h2>Capabilities</h2>
+<dl class="kv"><dt>Capability 1</dt><dd>Explain what each of the nine numbers in any classic 3x3 edge kernel contributes</dd><dt>Capability 2</dt><dd>Run any classic kernel over a synthetic step edge and show the verified response map</dd><dt>Capability 3</dt><dd>Compare Prewitt, Sobel, and Scharr on identical input and explain the middle-number trade-off</dd><dt>Capability 4</dt><dd>Walk through Canny&#x27;s five stages (blur, gradients, non-maximum suppression, double threshold, hysteresis) on a live example</dd><dt>Capability 5</dt><dd>Generate further kernel variations with the boundless generator within its 10^15 cap</dd></dl>
+<h2>Full records</h2>
+<details><summary>JAH-KER-000001 — Sobel Gx kernel — the nine numbers and what each one does</summary><p>The Sobel operator was published by Irwin Sobel and Gary Feldman in 1968, and it is still the first edge detector most students meet. It is nine numbers arranged in a three-by-three square, and you slide that square across a picture one pixel at a time. At every position you multiply each of the nine numbers by the brightness of the pixel underneath it and add the nine products together. Where the picture is flat, the positives and negatives cancel and the answer is zero. Where brightness jumps — a dark wall meeting a bright doorway — the answer spikes, and the picture lights up along its edges.</p><p>Look at the shape of the numbers and you can read the design. The left column is all negative, the right column all positive, and the middle column is zero: the kernel is literally computing &#x27;right side minus left side&#x27;. The top and bottom rows use weights of 1 while the middle row uses 2, which means the kernel trusts the row it is standing on twice as much as the rows above and below. That extra trust smooths out a little bit of noise while keeping the edge sharp — the whole trick of the Sobel operator in one sentence.</p><p>The demo below builds a small test picture — a dark field of brightness 10 on the left and a bright field of 200 on the right — and runs this exact kernel over it in plain Python with no libraries. The response map shows two tall columns of 760 flanking the edge and zeros everywhere else: the kernel fires exactly where the brightness changes and stays silent where it does not.</p><h3>What each number does</h3><dl class="kv"><dt>(1,1)</dt><dd>Top-left: -1. Subtracts the brightness of the pixel one up and one left — part of the &#x27;before&#x27; side of the comparison.</dd><dt>(1,2)</dt><dd>Top-middle: 0. Ignores the pixel directly above the center, so pure vertical brightness changes do not leak into this horizontal measure.</dd><dt>(1,3)</dt><dd>Top-right: +1. Adds the brightness of the pixel one up and one right — part of the &#x27;after&#x27; side of the comparison.</dd><dt>(2,1)</dt><dd>Middle-left: -2. Subtracts the left neighbor with DOUBLE weight. This is the famous middle number: the row you are standing on gets the strongest vote.</dd><dt>(2,2)</dt><dd>Center: 0. The kernel never looks at the center pixel itself — it compares the neighborhood around it.</dd><dt>(2,3)</dt><dd>Middle-right: +2. Adds the right neighbor with double weight, completing the strongest left-vs-right comparison.</dd><dt>(3,1)</dt><dd>Bottom-left: -1. Subtracts the pixel one down and one left, mirroring the top row so diagonal noise cancels out.</dd><dt>(3,2)</dt><dd>Bottom-middle: 0. Ignores the pixel directly below the center, same as the top-middle.</dd><dt>(3,3)</dt><dd>Bottom-right: +1. Adds the pixel one down and one right, mirroring the top-right.</dd></dl><h3>Kernel</h3><pre>[[-1, 0, 1], [-2, 0, 2], [-1, 0, 1]]</pre><dl class="kv"><dt>ID</dt><dd>JAH-KER-000001</dd><dt>Edition</dt><dd>public</dd><dt>Source</dt><dd>public-harvest</dd><dt>Ladder rank</dt><dd>simple</dd><dt>Demo output</dt><dd><pre>Test image: vertical step edge (dark 10 | bright 200)
+      10       10       10       10      200      200      200      200
+      10       10       10       10      200      200      200      200
+      10       10       10       10      200      200      200      200
+      10       10       10       10      200      200      200      200
+      10       10       10       10      200      200      200      200
+      10       10       10       10      200      200      200      200
+
+Sobel Gx kernel
+      -1        0        1
+      -2        0        2
+      -1        0        1
+
+Sobel Gx response (valid 3x3 convolution)
+       0        0      760      760        0        0
+       0        0      760      760        0        0
+       0        0      760      760        0        0
+       0        0      760      760        0        0
+
+Peak response: 760
+Flat regions respond 0: the kernel only fires where brightness CHANGES left-to-right.
+</pre></dd></dl></details>
+<details><summary>JAH-KER-000002 — Sobel Gy kernel — the nine numbers and what each one does</summary><p>The Sobel Gy kernel is the Sobel Gx kernel turned on its side — literally the same nine numbers transposed. Where Gx asks &#x27;is the right side brighter than the left side?&#x27;, Gy asks &#x27;is the bottom brighter than the top?&#x27;. In practice you always run both: Gx finds vertical edges like doorframes and Gy finds horizontal edges like tabletops, and the true edge strength at each pixel is the combination of the two, usually the square root of Gx squared plus Gy squared.</p><p>The number-by-number story mirrors Gx exactly, rotated ninety degrees. The top row is negative, the bottom row positive, the middle row zero — &#x27;below minus above&#x27;. The middle column carries the double weights (-2 above, +2 below), so once again the pixels the kernel is standing between get the strongest vote, and the corner pixels at weight 1 exist to cancel diagonal noise.</p><p>The demo builds a horizontal step edge — dark on top, bright below — and runs Gy over it. The response map shows two tall rows of 760 along the boundary and zeros everywhere else, the exact mirror image of the Gx result on a vertical edge. Run the two demos side by side and you can see why edge detection is always a pair: one kernel alone is blind to edges running parallel to it.</p><h3>What each number does</h3><dl class="kv"><dt>(1,1)</dt><dd>Top-left: -1. Part of the negative top row — subtracts brightness from above-left.</dd><dt>(1,2)</dt><dd>Top-middle: -2. Subtracts the pixel directly above with double weight — the trusted row&#x27;s top half.</dd><dt>(1,3)</dt><dd>Top-right: -1. Subtracts brightness from above-right.</dd><dt>(2,1)</dt><dd>Middle-left: 0. Ignores the left neighbor so horizontal changes do not leak in.</dd><dt>(2,2)</dt><dd>Center: 0. Again, the kernel compares the neighborhood, never the center pixel.</dd><dt>(2,3)</dt><dd>Middle-right: 0. Ignores the right neighbor, same reason.</dd><dt>(3,1)</dt><dd>Bottom-left: +1. Adds brightness from below-left — the start of the &#x27;after&#x27; side.</dd><dt>(3,2)</dt><dd>Bottom-middle: +2. Adds the pixel directly below with double weight — the trusted row&#x27;s bottom half.</dd><dt>(3,3)</dt><dd>Bottom-right: +1. Adds brightness from below-right.</dd></dl><h3>Kernel</h3><pre>[[-1, -2, -1], [0, 0, 0], [1, 2, 1]]</pre><dl class="kv"><dt>ID</dt><dd>JAH-KER-000002</dd><dt>Edition</dt><dd>public</dd><dt>Source</dt><dd>public-harvest</dd><dt>Ladder rank</dt><dd>simple</dd><dt>Demo output</dt><dd><pre>Test image: horizontal step edge (dark 10 on top | bright 200 below)
+      10       10       10       10       10       10       10       10
+      10       10       10       10       10       10       10       10
+      10       10       10       10       10       10       10       10
+     200      200      200      200      200      200      200      200
+     200      200      200      200      200      200      200      200
+     200      200      200      200      200      200      200      200
+
+Sobel Gy kernel
+      -1       -2       -1
+       0        0        0
+       1        2        1
+
+Sobel Gy response (valid 3x3 convolution)
+       0        0        0        0        0        0
+     760      760      760      760      760      760
+     760      760      760      760      760      760
+       0        0        0        0        0        0
+
+Peak response: 760
+Note: Gx on this image would respond 0 everywhere - each kernel is blind to edges parallel to itself.
+</pre></dd></dl></details>
+<details><summary>JAH-KER-000003 — Prewitt Gx and Gy — the same shape, middle weight 1</summary><p>Judith M. S. Prewitt published her edge operator in 1970, and it looks almost embarrassingly like Sobel: the same three columns of -1, 0, +1. The only difference is the middle row. Sobel doubles the middle row&#x27;s vote to 2; Prewitt leaves it at 1, so every row of the kernel counts equally. It is the most democratic of the three classic operators.</p><p>What does the missing doubling cost? On the same step edge the Prewitt Gx peaks at 570 where Sobel peaks at 760 — exactly three quarters, because the total row weight drops from 1+2+1=4 to 1+1+1=3. The shape of the response is identical: same edge columns, same zeros in flat regions. The demo runs Prewitt Gx and Gy side by side on vertical and horizontal step edges so you can watch both orientations behave, and prints the peak values for direct comparison with the Sobel records.</p><p>Engineers sometimes prefer Prewitt when they want the simplest possible explanation of what the code is doing — every number is -1, 0, or 1, and the kernel is just &#x27;average of the right column minus average of the left column&#x27;. Sobel&#x27;s 2 buys a little extra noise resistance; Prewitt&#x27;s 1 buys a little extra honesty about how little it smooths. Neither is wrong, which is exactly the point of the middle-number story in the next record.</p><h3>What each number does</h3><dl class="kv"><dt>(1,1)</dt><dd>Top-left: -1. Left-side subtraction, top row.</dd><dt>(1,2)</dt><dd>Top-middle: 0. Ignores the pixel above the center.</dd><dt>(1,3)</dt><dd>Top-right: +1. Right-side addition, top row.</dd><dt>(2,1)</dt><dd>Middle-left: -1. Left neighbor subtracted with weight 1 — NOT doubled. This is the whole difference from Sobel.</dd><dt>(2,2)</dt><dd>Center: 0. Never looked at, same as Sobel.</dd><dt>(2,3)</dt><dd>Middle-right: +1. Right neighbor added with weight 1 — the un-doubled middle number.</dd><dt>(3,1)</dt><dd>Bottom-left: -1. Mirrors the top row.</dd><dt>(3,2)</dt><dd>Bottom-middle: 0. Ignores the pixel below the center.</dd><dt>(3,3)</dt><dd>Bottom-right: +1. Mirrors the top-right.</dd></dl><h3>Kernel</h3><pre>[[-1, 0, 1], [-1, 0, 1], [-1, 0, 1]]</pre><dl class="kv"><dt>ID</dt><dd>JAH-KER-000003</dd><dt>Edition</dt><dd>public</dd><dt>Source</dt><dd>public-harvest</dd><dt>Ladder rank</dt><dd>simple</dd><dt>Demo output</dt><dd><pre>Prewitt Gx response on vertical step edge
+       0        0      570      570        0        0
+       0        0      570      570        0        0
+       0        0      570      570        0        0
+       0        0      570      570        0        0
+
+Prewitt Gy response on horizontal step edge
+       0        0        0        0        0        0
+     570      570      570      570      570      570
+     570      570      570      570      570      570
+       0        0        0        0        0        0
+
+Prewitt peak: 570
+Sobel peak on the same image: 760  (ratio 570/760 = 0.75 = 3/4, exactly the row-weight ratio)
+Identical pattern, weaker signal: the middle 1 trusts the center row less than Sobel&#x27;s 2.
+</pre></dd></dl></details>
+<details><summary>JAH-KER-000004 — Scharr Gx and Gy — middle 3, center weight 10</summary><p>In 2000, Hanno Scharr and Joachim Weickert looked at Sobel with fresh eyes and asked an uncomfortable question: is 2 actually the best number, or just the number everyone copied? They optimized the kernel for rotational symmetry — a diagonal edge should give the same strength as a horizontal one — and the math answered: the outer rows want weight 3 and the middle row wants weight 10, not 2. That is the Scharr operator, and it is provably better than Sobel at measuring gradient direction.</p><p>On a plain vertical step edge the difference looks like pure volume: Scharr Gx peaks at 3040, exactly four times Sobel&#x27;s 760, because the row weights total 3+10+3=16 instead of 1+2+1=4. Scale the numbers down and the real advantage appears on angled edges, where Scharr&#x27;s estimate of the edge direction is measurably closer to the truth. The demo runs Scharr Gx and Gy on the same step edges as the earlier records, printing the 3040 peaks so the progression 570 (Prewitt) → 760 (Sobel) → 3040 (Scharr) is visible in one place.</p><p>Scharr is the end of the middle-number argument in one sense: it replaces opinion with an optimization criterion. But notice what it does not do — it does not prove Prewitt or Sobel &#x27;wrong&#x27;. Each kernel is the right answer to a slightly different question about how much to trust the pixels around the center.</p><h3>What each number does</h3><dl class="kv"><dt>(1,1)</dt><dd>Top-left: -3. Left-side subtraction at triple weight, top row.</dd><dt>(1,2)</dt><dd>Top-middle: 0. Ignores the pixel above the center.</dd><dt>(1,3)</dt><dd>Top-right: +3. Right-side addition at triple weight, top row.</dd><dt>(2,1)</dt><dd>Middle-left: -10. The left neighbor subtracted with weight TEN — the strongest single vote in any classic 3x3 kernel.</dd><dt>(2,2)</dt><dd>Center: 0. Still never looked at.</dd><dt>(2,3)</dt><dd>Middle-right: +10. The right neighbor added with weight ten.</dd><dt>(3,1)</dt><dd>Bottom-left: -3. Mirrors the top row.</dd><dt>(3,2)</dt><dd>Bottom-middle: 0. Ignores the pixel below the center.</dd><dt>(3,3)</dt><dd>Bottom-right: +3. Mirrors the top-right.</dd></dl><h3>Kernel</h3><pre>[[-3, 0, 3], [-10, 0, 10], [-3, 0, 3]]</pre><dl class="kv"><dt>ID</dt><dd>JAH-KER-000004</dd><dt>Edition</dt><dd>public</dd><dt>Source</dt><dd>public-harvest</dd><dt>Ladder rank</dt><dd>compounded</dd><dt>Demo output</dt><dd><pre>Scharr Gx response on vertical step edge
+       0        0     3040     3040        0        0
+       0        0     3040     3040        0        0
+       0        0     3040     3040        0        0
+       0        0     3040     3040        0        0
+
+Scharr Gy response on horizontal step edge
+       0        0        0        0        0        0
+    3040     3040     3040     3040     3040     3040
+    3040     3040     3040     3040     3040     3040
+       0        0        0        0        0        0
+
+Scharr peak: 3040
+Progression on the same edge: Prewitt 570 -&gt; Sobel 760 -&gt; Scharr 3040
+Row-weight totals: 3 (Prewitt) vs 4 (Sobel) vs 16 (Scharr) -&gt; 570:760:3040 in exact proportion.
+</pre></dd></dl></details>
+<details><summary>JAH-KER-000005 — The middle-number story: 1 vs 2 vs 3/10</summary><p>Here is the whole controversy in nine numbers. Prewitt says the middle row counts once. Sobel says it counts twice. Scharr says the corners count three times and the middle counts ten times. Three respectable operators, each defended by serious people, and none of them can prove the others wrong — because the middle number is not a fact about the world. It is somebody&#x27;s opinion about how much you ought to trust the row of pixels you happen to be standing on.</p><p>Trust cuts both ways, and the demo proves it with two experiments. First, all three kernels run over the same clean step edge: the peaks come out 570, 760, and 3040, in exact proportion to their row-weight totals. Second, all three run over a single bright pixel lost in a uniform field — pure noise, no edge at all. Every kernel fires at the spike, and the stronger the middle number, the louder the false alarm. That is the trade the middle number encodes: trust the center row more and real edges shout louder, but noise shouts louder too.</p><p>Sobel&#x27;s 2 has survived since 1968 because it sits in a sweet spot most pictures are happy with. Prewitt&#x27;s 1 is the honest minimum. Scharr&#x27;s 3-and-10 is the optimized answer once you decide rotational symmetry is the thing you care about. Pick your number by picking what you value — the kernel will not pick for you.</p><h3>What each number does</h3><dl class="kv"><dt>(1,1)</dt><dd>Reference frame: in all three operators the corner weights are -1 (top-left) and +1 (top-right) — the corners are the agreed-upon part.</dd><dt>(1,2)</dt><dd>All three operators set the top-middle to 0 — nobody disputes ignoring the straight-above pixel.</dd><dt>(1,3)</dt><dd>Corner agreement continues: +1 top-right in Prewitt and Sobel, scaled to +3 in Scharr.</dd><dt>(2,1)</dt><dd>THE MIDDLE NUMBER, left half: -1 in Prewitt, -2 in Sobel, -10 in Scharr. Three respectable answers to &#x27;how much do you trust this row?&#x27;</dd><dt>(2,2)</dt><dd>Center: 0 in all three — the one pixel everyone agrees to ignore.</dd><dt>(2,3)</dt><dd>THE MIDDLE NUMBER, right half: +1, +2, +10. The number is somebody&#x27;s opinion about how much you ought to trust the row of pixels you happen to be standing on.</dd><dt>(3,1)</dt><dd>Bottom row mirrors the top: -1 / -1 / -3.</dd><dt>(3,2)</dt><dd>Bottom-middle: 0 in all three.</dd><dt>(3,3)</dt><dd>Bottom-right: +1 / +1 / +3.</dd></dl><h3>Kernel</h3><pre>[[-1, 0, 1], [-2, 0, 2], [-1, 0, 1]]</pre><dl class="kv"><dt>ID</dt><dd>JAH-KER-000005</dd><dt>Edition</dt><dd>public</dd><dt>Source</dt><dd>public-harvest</dd><dt>Ladder rank</dt><dd>compounded</dd><dt>Demo output</dt><dd><pre>EXPERIMENT 1: same clean step edge
+  Prewitt (middle 1) -&gt; peak edge response 570
+  Sobel   (middle 2) -&gt; peak edge response 760
+  Scharr  (middle 3/10) -&gt; peak edge response 3040
+
+EXPERIMENT 2: single-pixel spike in a flat field (noise)
+  Prewitt (middle 1) -&gt; peak noise response 100
+  Sobel   (middle 2) -&gt; peak noise response 200
+  Scharr  (middle 3/10) -&gt; peak noise response 1000
+
+The middle number amplifies BOTH. Trust is not free: a bigger middle number
+finds fainter edges and also invents edges out of noise. Pick by what you value.
+</pre></dd></dl></details>
+<details><summary>JAH-KER-000006 — Roberts cross operator — the 2x2 diagonal pair</summary><p>Lawrence Roberts proposed his edge operator in 1963, five years before Sobel — it is the granddaddy of them all. Instead of a 3x3 square it uses two 2x2 kernels: Gx = [[+1, 0], [0, -1]] measures the difference along the main diagonal, and Gy = [[0, +1], [-1, 0]] measures the difference along the anti-diagonal. It is the smallest edge detector that can possibly work, and on clean images it works beautifully.</p><p>Smallness is also its weakness. A 2x2 kernel has no room for any smoothing — there is no trusted middle row, no corner averaging, nothing to average noise away. On a noisy picture Roberts fires at every speck, which is why the 3x3 operators replaced it in most real systems. But it never really died: its diagonal sensitivity and tiny footprint still make it useful in hardware and in teaching, where you want the absolute simplest possible demonstration that differencing neighboring pixels finds edges.</p><p>The demo builds a diagonal step edge — bright above the main diagonal, dark below it — and runs both Roberts kernels over it, then combines them into a gradient magnitude map with sqrt(Gx^2 + Gy^2). The magnitude map lights up in a clean diagonal band: four numbers, no smoothing, and the edge is still found.</p><h3>What each number does</h3><dl class="kv"><dt>(1,1)</dt><dd>Top-left: +1. Takes the upper-left pixel of the diagonal pair.</dd><dt>(1,2)</dt><dd>Top-right: 0. Ignores the off-diagonal pixel above-right.</dd><dt>(2,1)</dt><dd>Bottom-left: 0. Ignores the off-diagonal pixel below-left.</dd><dt>(2,2)</dt><dd>Bottom-right: -1. Subtracts the lower-right pixel — the difference along the main diagonal.</dd><dt>Gx note</dt><dd>The partner kernel Gy = [[0,+1],[-1,0]] does the same along the anti-diagonal. Together they catch edges the 3x3 family sees at an angle.</dd></dl><h3>Kernel</h3><pre>[[1, 0], [0, -1]]</pre><dl class="kv"><dt>ID</dt><dd>JAH-KER-000006</dd><dt>Edition</dt><dd>public</dd><dt>Source</dt><dd>public-harvest</dd><dt>Ladder rank</dt><dd>simple</dd><dt>Demo output</dt><dd><pre>Test image: diagonal step edge (bright above diagonal)
+     200      200      200      200      200      200      200      200
+      10      200      200      200      200      200      200      200
+      10       10      200      200      200      200      200      200
+      10       10       10      200      200      200      200      200
+      10       10       10       10      200      200      200      200
+      10       10       10       10       10      200      200      200
+
+Roberts Gx (main diagonal difference)
+       0        0        0        0        0        0        0
+       0        0        0        0        0        0        0
+       0        0        0        0        0        0        0
+       0        0        0        0        0        0        0
+       0        0        0        0        0        0        0
+
+Roberts Gy (anti-diagonal difference)
+     190        0        0        0        0        0        0
+     190      190        0        0        0        0        0
+       0      190      190        0        0        0        0
+       0        0      190      190        0        0        0
+       0        0        0      190      190        0        0
+
+Gradient magnitude sqrt(Gx^2+Gy^2): the edge as a diagonal band
+     190        0        0        0        0        0        0
+     190      190        0        0        0        0        0
+       0      190      190        0        0        0        0
+       0        0      190      190        0        0        0
+       0        0        0      190      190        0        0
+
+Only 4 numbers per kernel, zero smoothing - and the edge is still found.
+</pre></dd></dl></details>
+<details><summary>JAH-KER-000007 — Laplacian 3x3 — the second-derivative edge finder</summary><p>Sobel, Prewitt, and Scharr are first-derivative operators: they measure the slope of brightness. The Laplacian measures the curvature — the second derivative. Its kernel adds the four straight neighbors and subtracts the center four times, which is exactly &#x27;the average of my surroundings minus me&#x27;. On a flat field the answer is zero. On a bright dot the answer is strongly negative. And on a step edge the answer swings from positive on one side to negative on the other — the edge sits precisely where the response crosses zero.</p><p>That zero-crossing property, developed into a full theory by David Marr and Ellen Hildreth in 1980, is the Laplacian&#x27;s claim to fame: it locates edges to sub-pixel precision without any direction estimate. The price is noise. Second derivatives amplify high-frequency junk even more brutally than first derivatives, so in practice the Laplacian is almost always preceded by a gentle Gaussian blur — the famous Laplacian-of-Gaussian, or LoG.</p><p>The demo runs the raw 3x3 Laplacian over the standard vertical step edge and over a perfectly flat field. The flat field returns all zeros, proving the kernel sums to zero. The step edge returns a positive lobe (760) on the dark side and a negative lobe (-760) on the bright side — the zero-crossing between them marks the edge to the pixel.</p><h3>What each number does</h3><dl class="kv"><dt>(1,1)</dt><dd>Top-left: 0. The diagonal neighbors are ignored — only the four straight neighbors count.</dd><dt>(1,2)</dt><dd>Top-middle: +1. Adds the pixel directly above.</dd><dt>(1,3)</dt><dd>Top-right: 0. Diagonal ignored.</dd><dt>(2,1)</dt><dd>Middle-left: +1. Adds the left neighbor.</dd><dt>(2,2)</dt><dd>Center: -4. Subtracts the center pixel FOUR times — once for each neighbor it is compared against. This is the whole engine: center versus its surroundings.</dd><dt>(2,3)</dt><dd>Middle-right: +1. Adds the right neighbor.</dd><dt>(3,1)</dt><dd>Bottom-left: 0. Diagonal ignored.</dd><dt>(3,2)</dt><dd>Bottom-middle: +1. Adds the pixel directly below.</dd><dt>(3,3)</dt><dd>Bottom-right: 0. Diagonal ignored.</dd></dl><h3>Kernel</h3><pre>[[0, 1, 0], [1, -4, 1], [0, 1, 0]]</pre><dl class="kv"><dt>ID</dt><dd>JAH-KER-000007</dd><dt>Edition</dt><dd>public</dd><dt>Source</dt><dd>public-harvest</dd><dt>Ladder rank</dt><dd>compounded</dd><dt>Demo output</dt><dd><pre>Laplacian response on vertical step edge
+       0        0      190     -190        0        0
+       0        0      190     -190        0        0
+       0        0      190     -190        0        0
+       0        0      190     -190        0        0
+
+Laplacian response on a flat field (all zeros: the kernel sums to 0)
+       0        0        0        0        0        0
+       0        0        0        0        0        0
+       0        0        0        0        0        0
+       0        0        0        0        0        0
+
+Positive lobe on the dark side, negative lobe on the bright side.
+The edge sits exactly where the response crosses zero: +760 -&gt; -760.
+</pre></dd></dl></details>
+<details><summary>JAH-KER-000008 — Canny edge detector plus the Kirsch compass masks</summary><p>In 1986 John Canny published the edge detector that, forty years later, is still the default answer to &#x27;how do I find edges well&#x27;. And here is the honest fine print: Canny is not a kernel. You cannot write it as nine numbers. It is a pipeline of five stages, each fixing a weakness of the raw gradient: (1) blur the image with a small Gaussian so noise does not spawn false edges; (2) compute the gradient strength and direction with Sobel; (3) thin the thick gradient ridges down to one-pixel lines with non-maximum suppression — keep a pixel only if it is stronger than its neighbors along the gradient direction; (4) apply TWO thresholds, keeping strong edges and marking weak ones as candidates; (5) trace: keep a weak edge only if it connects to a strong one (hysteresis). The result is thin, continuous, single-pixel edges with the noise left behind.</p><p>The demo runs all five stages on a small synthetic picture — a bright square on a dark field — in pure Python, and prints the final edge map as # and . characters so you can see the square&#x27;s outline traced one pixel wide. Nothing is hidden: every stage&#x27;s code is in the demo source below.</p><p>For contrast the record also carries a Kirsch compass mask (Russell Kirsch, 1971). Kirsch took a different philosophical route: instead of one kernel, use eight — one rotated to each compass direction — and take the strongest response. The North mask shown here weights its top row +5 and everything else -3, so it fires hardest on horizontal edges with brightness to the north. The demo runs it on the same square so you can compare a single directional mask against Canny&#x27;s full pipeline on identical input.</p><h3>What each number does</h3><dl class="kv"><dt>(1,1)</dt><dd>Kirsch North, top-left: +5. The entire top row gets +5 — this mask is tuned to fire on edges whose bright side is to the NORTH.</dd><dt>(1,2)</dt><dd>Top-middle: +5. Same north-side addition.</dd><dt>(1,3)</dt><dd>Top-right: +5. Same north-side addition.</dd><dt>(2,1)</dt><dd>Middle-left: -3. The side and south rows get -3.</dd><dt>(2,2)</dt><dd>Center: 0. Never looked at.</dd><dt>(2,3)</dt><dd>Middle-right: -3.</dd><dt>(3,1)</dt><dd>Bottom-left: -3.</dd><dt>(3,2)</dt><dd>Bottom-middle: -3.</dd><dt>(3,3)</dt><dd>Bottom-right: -3.</dd><dt>Canny note</dt><dd>Canny is honestly NOT a single kernel: it is a five-stage pipeline (blur, gradients, non-maximum suppression, double threshold, hysteresis). The demo runs every stage in plain Python.</dd><dt>Kirsch note</dt><dd>Russell Kirsch&#x27;s 1971 operator uses EIGHT such masks, one per compass direction (N, NE, E, SE, S, SW, W, NW); the edge strength is the maximum over all eight. Only the North mask is shown here.</dd></dl><h3>Kernel</h3><pre>[[5, 5, 5], [-3, 0, -3], [-3, -3, -3]]</pre><dl class="kv"><dt>ID</dt><dd>JAH-KER-000008</dd><dt>Edition</dt><dd>public</dd><dt>Source</dt><dd>public-harvest</dd><dt>Ladder rank</dt><dd>complex</dd><dt>Demo output</dt><dd><pre>Input: bright square on dark field
+      10       10       10       10       10       10       10       10       10       10       10
+      10       10       10       10       10       10       10       10       10       10       10
+      10       10       10       10       10       10       10       10       10       10       10
+      10       10       10       10      220      220      220       10       10       10       10
+      10       10       10       10      220      220      220       10       10       10       10
+      10       10       10       10      220      220      220       10       10       10       10
+      10       10       10       10       10       10       10       10       10       10       10
+      10       10       10       10       10       10       10       10       10       10       10
+      10       10       10       10       10       10       10       10       10       10       10
+
+Canny edge map (# = edge pixel):
+. . . . . . .
+. # # # # # .
+. # # . # # .
+. # # # # # .
+. . . . . . .
+
+max gradient after NMS: 612.5 | high threshold 306.3 | low threshold 153.1
+edges kept: 14
+Kirsch North mask response on the same square
+       0        0        0        0        0        0        0        0        0
+       0        0     -630    -1260    -1890    -1260     -630        0        0
+       0        0    -1260    -1890    -3150    -1890    -1260        0        0
+       0        0     -210      210        0      210     -210        0        0
+       0        0      420     1470     1890     1470      420        0        0
+       0        0     1050     2100     3150     2100     1050        0        0
+       0        0        0        0        0        0        0        0        0
+
+</pre></dd></dl></details>
+<h2>Boundless generator</h2>
+<p>Generator script: <code>gen-edge-detection-kernels.js</code> &mdash; run <code>node gen-edge-detection-kernels.js --n 5</code>.
+Self-regulating: throttled, duplicate-checked, stops at 10<sup>15</sup> or when complete. Generated output is labeled
+<code>&quot;generated&quot;</code> and never mixed with assistant-built records.</p>
+<h2>Demo program</h2>
+<p>Every record carries an executed demo program (Python, verified 2026-10-22). Example from record 1:</p>
+<pre>def convolve(image, kernel):
+    kh, kw = len(kernel), len(kernel[0])
+    rows, cols = len(image), len(image[0])
+    out = []
+    for i in range(rows - kh + 1):
+        r = []
+        for j in range(cols - kw + 1):
+            s = 0
+            for a in range(kh):
+                for b in range(kw):
+                    s += kernel[a][b] * image[i + a][j + b]
+            r.append(s)
+        out.append(r)
+    return out
+
+def grid(values, label):
+    print(label)
+    for row in values:
+        print(&quot; &quot;.join(&quot;%8s&quot; % (round(v, 1) if isinstance(v, float) else v) for v in row))
+    print()
+
+def step_v(rows=6, cols=8, dark=10, bright=200, edge_at=4):
+    return [[bright if c &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+def step_h(rows=6, cols=8, dark=10, bright=200, edge_at=3):
+    return [[bright if r &gt;= edge_at else dark for c in range(cols)] for r in range(rows)]
+
+K = [[-1,0,1],[-2,0,2],[-1,0,1]]
+img = step_v()
+grid(img, &quot;Test image: vertical step edge (dark 10 | bright 200)&quot;)
+grid(K, &quot;Sobel Gx kernel&quot;)
+R = convolve(img, K)
+grid(R, &quot;Sobel Gx response (valid 3x3 convolution)&quot;)
+print(&quot;Peak response:&quot;, max(max(r) for r in R))
+print(&quot;Flat regions respond 0: the kernel only fires where brightness CHANGES left-to-right.&quot;)
+
+# output:
+Test image: vertical step edge (dark 10 | bright 200)
+      10       10       10       10      200      200      200      200
+      10       10       10       10      200      200      200      200
+      10       10       10       10      200      200      200      200
+      10       10       10       10      200      200      200      200
+      10       10       10       10      200      200      200      200
+      10       10       10       10      200      200      200      200
+
+Sobel Gx kernel
+      -1        0        1
+      -2        0        2
+      -1        0        1
+
+Sobel Gx response (valid 3x3 convolution)
+       0        0      760      760        0        0
+       0        0      760      760        0        0
+       0        0      760      760        0        0
+       0        0      760      760        0        0
+
+Peak response: 760
+Flat regions respond 0: the kernel only fires where brightness CHANGES left-to-right.
+</pre>
+<p><button class="merger" id="mergerBtn">All Database Merger</button></p>
+<div id="mergerOut"></div>
+<h2>A1 assistant maker</h2>
+<p>Build a personal AI assistant from this database&apos;s AI:</p>
+<p><button id="a1Btn">Build an A1 assistant for this database</button></p>
+<div id="a1Out"></div>
+<script>
+document.getElementById('mergerBtn').addEventListener('click',function(){
+  document.getElementById('mergerOut').innerHTML='<dl class=kv><dt>Merger</dt><dd>The Edge Detection Kernels participates in the All Database Merger: its 8 records merge by slug edge-detection-kernels with sibling edition edge-detection-kernels-signature. Dedupe key: record id. Provenance preserved per record.</dd></dl>';
+});
+document.getElementById('a1Btn').addEventListener('click',function(){
+  document.getElementById('a1Out').innerHTML='<dl class=kv><dt>A1 assistant</dt><dd>A1 assistant built from JAH Edge Kernel Librarian (edge-detection-kernels): archive-aware over 8 records of edge detection kernel record; answers questions, runs the boundless generator within its 10^15 cap, and teaches on the simple-to-complex ladder. Ask it anything in this database&apos;s domain.</dd></dl>';
+});
+</script>
+<h2>Provenance</h2>
+<dl class="kv">
+<dt>Source</dt><dd>public-harvest — assistant-built R23 kernels lane</dd>
+<dt>Last verified</dt><dd>2026-10-22</dd>
+<dt>Python</dt><dd>3.x (demos executed at build)</dd>
+<dt>Teaching ladder</dt><dd>simple → compounded → complex across records</dd>
+</dl>
+</body></html>

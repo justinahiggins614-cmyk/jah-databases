@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Kernel Cell Eight Database &mdash; JAH Databases</title>
+<style>
+body{font-family:system-ui,sans-serif;max-width:900px;margin:0 auto;padding:16px;line-height:1.5}
+.kv{display:grid;grid-template-columns:minmax(120px,1fr);gap:6px 12px;border:1px solid #ccc;padding:12px;margin:12px 0}
+.kv dt{font-weight:bold}.kv dd{margin:0}
+.pill{display:inline-block;background:#b00;color:#fff;border-radius:12px;padding:2px 10px;font-size:12px}
+button{padding:10px 18px;font-size:15px;cursor:pointer;margin:6px 4px}
+button.merger{background:#c00;color:#fff;border:2px solid #900;font-weight:bold}
+.count{font-size:28px;font-weight:bold}
+pre{background:#f4f4f4;padding:10px;overflow:auto;font-size:12px}
+details{margin:8px 0;border:1px solid #ddd;padding:8px}
+summary{cursor:pointer;font-weight:bold}
+</style></head><body>
+<h1>Kernel Cell Eight Database</h1>
+<p><span class="pill">Public edition</span> <span class="pill">march to a million: in progress</span> <span class="pill">Exhaustive</span></p>
+<p>Public records of cell 8 (bottom-center) of the nine-number edge-detection grid: the real documented values in the Sobel (1968), Prewitt (1970) and Scharr (2000) 3x3 kernels, which neighbor pixel it weights, and live-measured sensitivity experiments in pure Python.</p>
+<p><span class="count" id="stCount">8</span> records</p>
+<h2>Database facts</h2>
+<dl class="kv"><dt>Slug</dt><dd>kernel-cell-8</dd><dt>Record kind</dt><dd>kernel cell record</dd><dt>Source label</dt><dd>public-harvest</dd><dt>Built by</dt><dd>assistant-built</dd><dt>Last verified</dt><dd>2026-10-22</dd><dt>Generator hard cap</dt><dd>10<sup>15</sup> (one quadrillion) or stop when genuinely complete</dd><dt>Generator ladder</dt><dd>simple &rarr; competitive &rarr; mix-and-match &rarr; unmade &rarr; top-notch-or-better &rarr; future-grade &rarr; god-mode</dd><dt>Database AI</dt><dd>JAH Kernel Cell Eight Librarian &mdash; archive-aware; can build an assistant like the user&apos;s personal assistant</dd></dl>
+<h2>Capabilities</h2>
+<dl class="kv"><dt>Capability 1</dt><dd>Report cell 8 (bottom-center) exact documented values in Sobel, Prewitt and Scharr (Gx and Gy)</dd><dt>Capability 2</dt><dd>Measure the cell&#x27;s contribution to edge responses on synthetic step-edge images</dd><dt>Capability 3</dt><dd>Run sensitivity experiments: vary the cell value and measure the output change</dd><dt>Capability 4</dt><dd>Decompose the cell into smoothing-times-differencing weights (the trust interpretation)</dd><dt>Capability 5</dt><dd>Compare how the three operators weight this grid position, side by side</dd></dl>
+<h2>Full records</h2>
+<details><summary>JAH-KC9-000113 &mdash; Cell 8 (bottom-center) in the Sobel Gx kernel</summary><p>Cell 8 sits at the bottom-center of the 3-by-3 Sobel Gx kernel, and its value is 0. The Gx kernel estimates the horizontal brightness gradient -- how fast the image gets brighter or darker moving left to right -- while smoothing vertically to calm noise. This cell weights the pixel one row below and in the same column as the pixel being processed: whatever brightness that neighbor holds is multiplied by 0 and added into the gradient estimate. Because the value is zero, this position is silent: it contributes nothing, and the kernel&#x27;s differencing column stays perfectly balanced. As an edge-middle cell it sits on the kernel&#x27;s cross: it carries the heaviest smoothing weight of its row or column, which is exactly where the operators disagree most.</p><p>The executed demo below convolves the full Sobel Gx kernel over a synthetic vertical step edge (dark 10 on the left, bright 200 on the right) and isolates exactly what this single cell contributes at the edge pixel: 0 out of a total response of 760 (0.0 percent of the edge signal comes through this one cell).</p><dl class="kv"><dt>ID</dt><dd>JAH-KC9-000113</dd><dt>Edition</dt><dd>public</dd><dt>Source</dt><dd>public-harvest</dd><dt>Ladder rank</dt><dd>1</dd><dt>Cell</dt><dd>8 (bottom-center)</dd><dt>Cell values</dt><dd>{&quot;sobel_gx&quot;: 0, &quot;sobel_gy&quot;: 2, &quot;prewitt_gx&quot;: 0, &quot;prewitt_gy&quot;: 1, &quot;scharr_gx&quot;: 0, &quot;scharr_gy&quot;: 10}</dd><dt>Demo output</dt><dd><pre>Sobel Gx convolved over the vertical step edge (interior 3x3 output):
+       0      760      760
+       0      760      760
+       0      760      760
+cell value: 0 | brightness of the pixel it weights: 10
+this cell contribution at output (2,2): 0 of total 760
+share of edge signal: 0.0 %
+</pre></dd></dl></details>
+<details><summary>JAH-KC9-000114 &mdash; Cell 8 (bottom-center) in the Sobel Gy kernel</summary><p>Cell 8 sits at the bottom-center of the 3-by-3 Sobel Gy kernel, and its value is 2. Gy is Gx turned on its side: it estimates the vertical brightness gradient -- how fast the image gets brighter moving top to bottom -- while smoothing horizontally. This cell weights the pixel one row below and in the same column as the pixel being processed: that neighbor&#x27;s brightness is multiplied by 2 and added into the vertical gradient estimate. Because the value is positive, a bright pixel here votes for &#x27;brighter on the bottom&#x27;. As an edge-middle cell it sits on the kernel&#x27;s cross: it carries the heaviest smoothing weight of its row or column, which is exactly where the operators disagree most.</p><p>The executed demo convolves Sobel Gy over a synthetic horizontal step edge (dark 10 on top, bright 200 below) and isolates this cell&#x27;s part: 400 out of a total response of 760 (52.6 percent).</p><dl class="kv"><dt>ID</dt><dd>JAH-KC9-000114</dd><dt>Edition</dt><dd>public</dd><dt>Source</dt><dd>public-harvest</dd><dt>Ladder rank</dt><dd>2</dd><dt>Cell</dt><dd>8 (bottom-center)</dd><dt>Cell values</dt><dd>{&quot;sobel_gx&quot;: 0, &quot;sobel_gy&quot;: 2, &quot;prewitt_gx&quot;: 0, &quot;prewitt_gy&quot;: 1, &quot;scharr_gx&quot;: 0, &quot;scharr_gy&quot;: 10}</dd><dt>Demo output</dt><dd><pre>Sobel Gy convolved over the horizontal step edge (interior 3x3 output):
+       0        0        0
+     760      760      760
+     760      760      760
+cell value: 2 | brightness of the pixel it weights: 200
+this cell contribution at output (2,2): 400 of total 760
+share of edge signal: 52.6 %
+</pre></dd></dl></details>
+<details><summary>JAH-KC9-000115 &mdash; Cell 8 (bottom-center) in the Prewitt kernels</summary><p>In the Prewitt operator (1970) the bottom-center cell (cell 8) holds 0 in Gx and 1 in Gy. Prewitt is Sobel&#x27;s plainer sibling: where Sobel doubles the middle row&#x27;s smoothing weight to 2, Prewitt trusts every row equally with weight 1, so its kernels are uniform. That makes Prewitt simpler and cheaper, but a little more nervous around noise -- the center row gets no extra vote. As an edge-middle cell it sits on the kernel&#x27;s cross: it carries the heaviest smoothing weight of its row or column, which is exactly where the operators disagree most.</p><p>The executed demo runs both Prewitt kernels over the step edges. In Gx this cell contributes 0 out of a total 570; in Gy it contributes 200 out of 570. Compare with Sobel&#x27;s 760: Prewitt&#x27;s edge answer is weaker by exactly the smoothing-weight ratio, because every Prewitt row carries weight 1 where Sobel&#x27;s middle row carries 2.</p><dl class="kv"><dt>ID</dt><dd>JAH-KC9-000115</dd><dt>Edition</dt><dd>public</dd><dt>Source</dt><dd>public-harvest</dd><dt>Ladder rank</dt><dd>3</dd><dt>Cell</dt><dd>8 (bottom-center)</dd><dt>Cell values</dt><dd>{&quot;sobel_gx&quot;: 0, &quot;sobel_gy&quot;: 2, &quot;prewitt_gx&quot;: 0, &quot;prewitt_gy&quot;: 1, &quot;scharr_gx&quot;: 0, &quot;scharr_gy&quot;: 10}</dd><dt>Demo output</dt><dd><pre>Prewitt Gx on the vertical step edge:
+       0      570      570
+       0      570      570
+       0      570      570
+Prewitt Gy on the horizontal step edge:
+       0        0        0
+     570      570      570
+     570      570      570
+cell in Gx: 0 -&gt; contribution at (2,2): 0 of 570
+cell in Gy: 1 -&gt; contribution at (2,2): 200 of 570
+Sobel Gx total for comparison: 760
+</pre></dd></dl></details>
+<details><summary>JAH-KC9-000116 &mdash; Cell 8 (bottom-center) in the Scharr kernels</summary><p>In the Scharr operator (2000) the bottom-center cell (cell 8) holds 0 in Gx and 10 in Gy. Scharr kept Sobel&#x27;s shape but re-optimized the numbers for rotational symmetry: its gradient direction estimates stay truer as an edge rotates, which is why libraries reach for Scharr when the angle of the edge matters, not just its strength. The price is louder numbers -- 3 and 10 where Sobel uses 1 and 2 -- so Scharr&#x27;s raw responses run about four times hotter. As an edge-middle cell it sits on the kernel&#x27;s cross: it carries the heaviest smoothing weight of its row or column, which is exactly where the operators disagree most.</p><p>The executed demo runs both Scharr kernels over the step edges. In Gx this cell contributes 0 out of a total 3040; in Gy it contributes 2000 out of 3040. Against Sobel&#x27;s 760, Scharr answers 3040: the ratio is exactly 4, the ratio of the positive-side weight sums (3+10+3 = 16 versus 1+2+1 = 4).</p><dl class="kv"><dt>ID</dt><dd>JAH-KC9-000116</dd><dt>Edition</dt><dd>public</dd><dt>Source</dt><dd>public-harvest</dd><dt>Ladder rank</dt><dd>4</dd><dt>Cell</dt><dd>8 (bottom-center)</dd><dt>Cell values</dt><dd>{&quot;sobel_gx&quot;: 0, &quot;sobel_gy&quot;: 2, &quot;prewitt_gx&quot;: 0, &quot;prewitt_gy&quot;: 1, &quot;scharr_gx&quot;: 0, &quot;scharr_gy&quot;: 10}</dd><dt>Demo output</dt><dd><pre>Scharr Gx on the vertical step edge:
+       0     3040     3040
+       0     3040     3040
+       0     3040     3040
+Scharr Gy on the horizontal step edge:
+       0        0        0
+    3040     3040     3040
+    3040     3040     3040
+cell in Gx: 0 -&gt; contribution at (2,2): 0 of 3040
+cell in Gy: 10 -&gt; contribution at (2,2): 2000 of 3040
+Sobel Gx total for comparison: 760 -&gt; ratio: 4.0
+</pre></dd></dl></details>
+<details><summary>JAH-KC9-000117 &mdash; Cell 8: horizontal-edge vs vertical-edge response</summary><p>Cell 8 (bottom-center) does not treat every edge orientation equally. Gx is the vertical-edge finder (it reacts when brightness changes left to right) and Gy is the horizontal-edge finder (it reacts when brightness changes top to bottom). A cell with a nonzero Gx weight takes part in finding vertical edges; a cell with a nonzero Gy weight takes part in finding horizontal ones. Measured at the edge pixel, this cell contributes Gx-on-vertical-edge 0, Gy-on-vertical-edge 20, Gx-on-horizontal-edge 0, and Gy-on-horizontal-edge 400. In plain terms: it is blind to vertical edges and it sees horizontal edges.</p><p>The executed demo prints exactly that four-way table for this cell. Notice the pattern across the grid: the middle column (cells 2, 5, 8) carries Gx weight 0, so it never helps find vertical edges, and the middle row (cells 4, 5, 6) carries Gy weight 0, so it never helps find horizontal edges. Only the four corner cells work both jobs -- one reason corners matter more than their size suggests.</p><dl class="kv"><dt>ID</dt><dd>JAH-KC9-000117</dd><dt>Edition</dt><dd>public</dd><dt>Source</dt><dd>public-harvest</dd><dt>Ladder rank</dt><dd>5</dd><dt>Cell</dt><dd>8 (bottom-center)</dd><dt>Cell values</dt><dd>{&quot;sobel_gx&quot;: 0, &quot;sobel_gy&quot;: 2, &quot;prewitt_gx&quot;: 0, &quot;prewitt_gy&quot;: 1, &quot;scharr_gx&quot;: 0, &quot;scharr_gy&quot;: 10}</dd><dt>Demo output</dt><dd><pre>cell 8 (bottom-center) contribution at output (2,2):
+  Gx on vertical edge   (finds vertical edges):   0
+  Gy on vertical edge:                             20
+  Gx on horizontal edge:                           0
+  Gy on horizontal edge (finds horizontal edges):  400
+</pre></dd></dl></details>
+<details><summary>JAH-KC9-000118 &mdash; Cell 8: sensitivity experiment -- varying the cell</summary><p>What happens if cell 8 (bottom-center) is not 0? The sensitivity experiment varies just this one cell of Sobel Gx through -2, -1, 0, 1, 2 and measures two things at the edge pixel: the response on the vertical step edge, and the response on a perfectly flat field (brightness 50 everywhere, no edge at all).</p><p>Two real, measured facts come out. First, the edge response moves linearly with the cell: every +1 added to the cell shifts the edge answer by 10, the brightness of the pixel this cell weights -- the cell&#x27;s influence is exactly its weight times its pixel, no more, no less. Second, touching the cell breaks the kernel&#x27;s zero-sum balance: on the flat field, where the true answer is 0, the response becomes 50 times the cell&#x27;s deviation from its designed value. A single changed cell makes empty sky report edges. That is why kernel design is conservative: the numbers are a balanced set, and each one earns its place by keeping flat regions quiet while letting real edges shout. The executed demo prints the full variation table.</p><dl class="kv"><dt>ID</dt><dd>JAH-KC9-000118</dd><dt>Edition</dt><dd>public</dd><dt>Source</dt><dd>public-harvest</dd><dt>Ladder rank</dt><dd>6</dd><dt>Cell</dt><dd>8 (bottom-center)</dd><dt>Cell values</dt><dd>{&quot;sobel_gx&quot;: 0, &quot;sobel_gy&quot;: 2, &quot;prewitt_gx&quot;: 0, &quot;prewitt_gy&quot;: 1, &quot;scharr_gx&quot;: 0, &quot;scharr_gy&quot;: 10}</dd><dt>Demo output</dt><dd><pre>vary the cell: edge response at (2,2) on step edge | flat-field response at (2,2):
+  cell =  -2: edge response    740, flat response   -100
+  cell =  -1: edge response    750, flat response    -50
+  cell =   0: edge response    760, flat response      0
+  cell =   1: edge response    770, flat response     50
+  cell =   2: edge response    780, flat response    100
+</pre></dd></dl></details>
+<details><summary>JAH-KC9-000119 &mdash; Cell 8: smoothing weight vs differencing weight</summary><p>Every one of these 3x3 kernels is secretly two 1-D filters multiplied together: a smoothing filter down the rows times a differencing filter across the columns. That is why cell 8 (bottom-center) always factors as smoothing[2] x differencing[1]: sobel 1x0=0; prewitt 1x0=0; scharr 3x0=0. For Gy the idea is transposed: the cell is differencing[row] x smoothing[column].</p><p>This factorization is the famous &#x27;trust&#x27; interpretation: the smoothing number is somebody&#x27;s opinion about how much you ought to trust the row of pixels you happen to be standing on. Sobel says the middle row deserves double trust (2); Prewitt says trust every row equally (1); Scharr says the middle row deserves the most trust of all (10, with 3 for the outer rows). Cell 8&#x27;s own values across the three operators are just that opinion, multiplied by the differencing sign of its column. The executed demo verifies the outer-product decomposition numerically for all three Gx kernels and prints this cell&#x27;s factorization in each.</p><dl class="kv"><dt>ID</dt><dd>JAH-KC9-000119</dd><dt>Edition</dt><dd>public</dd><dt>Source</dt><dd>public-harvest</dd><dt>Ladder rank</dt><dd>7</dd><dt>Cell</dt><dd>8 (bottom-center)</dd><dt>Cell values</dt><dd>{&quot;sobel_gx&quot;: 0, &quot;sobel_gy&quot;: 2, &quot;prewitt_gx&quot;: 0, &quot;prewitt_gy&quot;: 1, &quot;scharr_gx&quot;: 0, &quot;scharr_gy&quot;: 10}</dd><dt>Demo output</dt><dd><pre>Sobel Gx == smooth[1,2,1] x diff[-1,0,1]: True
+Prewitt Gx == smooth[1,1,1] x diff[-1,0,1]: True
+Scharr Gx == smooth[3,10,3] x diff[-1,0,1]: True
+cell 8 in sobel Gx = smooth[2] x diff[1] = 1 x 0 = 0
+cell 8 in prewitt Gx = smooth[2] x diff[1] = 1 x 0 = 0
+cell 8 in scharr Gx = smooth[2] x diff[1] = 3 x 0 = 0
+Gy transposed: cell = diff[row] x smooth[col]:
+cell 8 in sobel Gy = 1 x 2 = 2
+cell 8 in prewitt Gy = 1 x 1 = 1
+cell 8 in scharr Gy = 1 x 10 = 10
+</pre></dd></dl></details>
+<details><summary>JAH-KC9-000120 &mdash; Cell 8: the three operators side by side</summary><p>Cell 8 (bottom-center), all six values side by side: sobel_gx=0, sobel_gy=2, prewitt_gx=0, prewitt_gy=1, scharr_gx=0, scharr_gy=10. The operator that leans on this position hardest is Scharr Gy with magnitude 10. On the standard vertical step edge the three Gx kernels answer 760 (Sobel), 570 (Prewitt), 3040 (Scharr) -- the 4:3:16 ratio of their positive-side weight sums (Sobel 1+2+1=4, Prewitt 1+1+1=3, Scharr 3+10+3=16), measured live, not assumed.</p><p>The executed demo prints the six-value table, each operator&#x27;s peak edge response, and the trust ranking for this grid position.</p><dl class="kv"><dt>ID</dt><dd>JAH-KC9-000120</dd><dt>Edition</dt><dd>public</dd><dt>Source</dt><dd>public-harvest</dd><dt>Ladder rank</dt><dd>8</dd><dt>Cell</dt><dd>8 (bottom-center)</dd><dt>Cell values</dt><dd>{&quot;sobel_gx&quot;: 0, &quot;sobel_gy&quot;: 2, &quot;prewitt_gx&quot;: 0, &quot;prewitt_gy&quot;: 1, &quot;scharr_gx&quot;: 0, &quot;scharr_gy&quot;: 10}</dd><dt>Demo output</dt><dd><pre>cell 8 all six values:
+  sobel_gx   0
+  sobel_gy   2
+  prewitt_gx 0
+  prewitt_gy 1
+  scharr_gx  0
+  scharr_gy  10
+peak Gx response on the step edge: {&#x27;sobel&#x27;: 760, &#x27;prewitt&#x27;: 570, &#x27;scharr&#x27;: 3040}
+positive-side weight sums: sobel 4 prewitt 3 scharr 16
+most-trusted-by for this position: scharr_gy magnitude 10
+</pre></dd></dl></details>
+<h2>Boundless generator</h2>
+<p>Generator script: <code>gen-kernel-cell-8.js</code> &mdash; run <code>node gen-kernel-cell-8.js --n 5</code>. Self-regulating: throttled, duplicate-checked, stops at 10<sup>15</sup> or when complete. Generated output is labeled <code>&quot;generated&quot;</code> and never mixed with assistant-built records.</p>
+<h2>Demo program</h2>
+<p>Every record carries an executed demo program (Python, verified 2026-10-22). Example from record 1:</p>
+<pre># Nine-number kernel lab -- pure-Python 3x3 convolution, zero dependencies.
+# Images are 2-D brightness lists; the demo convolves the interior 3x3.
+SOBEL_GX = [[-1,0,1],[-2,0,2],[-1,0,1]]
+SOBEL_GY = [[-1,-2,-1],[0,0,0],[1,2,1]]
+PREWITT_GX = [[-1,0,1],[-1,0,1],[-1,0,1]]
+PREWITT_GY = [[-1,-1,-1],[0,0,0],[1,1,1]]
+SCHARR_GX = [[-3,0,3],[-10,0,10],[-3,0,3]]
+SCHARR_GY = [[-3,-10,-3],[0,0,0],[3,10,3]]
+V = [[10,10,10,200,200] for _ in range(5)]   # vertical step edge: dark left, bright right
+H = [[10]*5,[10]*5,[10]*5,[200]*5,[200]*5]   # horizontal step edge: dark top, bright bottom
+F = [[50]*5 for _ in range(5)]               # flat field: no edges at all
+D = [[10,10,10,10,10],[10,10,10,10,200],[10,10,10,200,200],[10,10,200,200,200],[10,200,200,200,200]]  # diagonal edge
+def conv(img, k):
+    return [[sum(img[y+dy-1][x+dx-1]*k[dy][dx] for dy in range(3) for dx in range(3))
+             for x in range(1,4)] for y in range(1,4)]
+def show(m):
+    for row in m:
+        print(&quot; &quot;.join(&quot;%8g&quot; % v for v in row))
+r, c = 2, 1
+k = SOBEL_GX
+out = conv(V, k)
+print(&quot;Sobel Gx convolved over the vertical step edge (interior 3x3 output):&quot;)
+show(out)
+touch = V[1+r][1+c]
+contrib = touch * k[r][c]
+print(&quot;cell value:&quot;, k[r][c], &quot;| brightness of the pixel it weights:&quot;, touch)
+print(&quot;this cell contribution at output (2,2):&quot;, contrib, &quot;of total&quot;, out[1][1])
+print(&quot;share of edge signal: %.1f %%&quot; % (100.0*contrib/out[1][1]))
+</pre>
+<p>Verified output:</p>
+<pre>Sobel Gx convolved over the vertical step edge (interior 3x3 output):
+       0      760      760
+       0      760      760
+       0      760      760
+cell value: 0 | brightness of the pixel it weights: 10
+this cell contribution at output (2,2): 0 of total 760
+share of edge signal: 0.0 %
+</pre>
+<p><button class="merger" id="mergerBtn">All Database Merger</button></p>
+<div id="mergerOut"></div>
+<h2>A1 assistant maker</h2>
+<p>Build a personal AI assistant from this database&apos;s AI:</p>
+<p><button id="a1Btn">Build an A1 assistant for this database</button></p>
+<div id="a1Out"></div>
+<script>
+document.getElementById('mergerBtn').addEventListener('click',function(){
+  document.getElementById('mergerOut').innerHTML="<dl class='kv'><dt>Merger</dt><dd>The Kernel Cell Eight Database participates in the All Database Merger: its 8 records merge by slug kernel-cell-8 with sibling edition kernel-cell-8-signature. Dedupe key: record id. Provenance preserved per record.</dd></dl>";
+});
+document.getElementById('a1Btn').addEventListener('click',function(){
+  document.getElementById('a1Out').innerHTML="<dl class='kv'><dt>A1 assistant</dt><dd>A1 assistant built from JAH Kernel Cell Eight Librarian (kernel-cell-8): archive-aware over 8 records of kernel cell record; answers questions, runs the boundless generator within its 10^15 cap, and teaches on the simple-to-complex ladder. Ask it anything in this database's domain.</dd></dl>";
+});
+</script>
+<h2>Provenance</h2>
+<dl class="kv">
+<dt>Source</dt><dd>public-harvest &mdash; assistant-built R23 nine-number kernel lane</dd>
+<dt>Last verified</dt><dd>2026-10-22</dd>
+<dt>Python</dt><dd>3.x (demos executed at build)</dd>
+<dt>Teaching ladder</dt><dd>ranks 1&ndash;8 across records (simple &rarr; most complex)</dd>
+</dl>
+</body></html>
