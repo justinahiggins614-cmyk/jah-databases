@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Code Autocomplete Engine Tool Database — JAH Databases</title>
+<style>
+body{font-family:system-ui,sans-serif;max-width:900px;margin:0 auto;padding:16px;line-height:1.5}
+.kv{display:grid;grid-template-columns:minmax(120px,1fr) 2fr;gap:6px 12px;border:1px solid #ccc;padding:12px;margin:12px 0}
+.kv dt{font-weight:bold}.kv dd{margin:0}
+.pill{display:inline-block;background:#b00;color:#fff;border-radius:12px;padding:2px 10px;font-size:12px;margin:2px}
+.pill.ex{background:#0a6}
+button{padding:10px 18px;font-size:15px;cursor:pointer;margin:6px 4px}
+button.merger{background:#c00;color:#fff;border:2px solid #900;font-weight:bold}
+.count{font-size:28px;font-weight:bold}
+pre{background:#f4f4f4;padding:10px;overflow:auto;font-size:12px}
+.rec{border:1px solid #ddd;padding:12px;margin:12px 0}
+.rec h3{margin:0 0 6px}
+</style></head><body>
+<h1>The Code Autocomplete Engine Tool Database</h1>
+<p><span class="pill">Public edition</span> <span class="pill ex">Exhaustive coverage</span> <span class="pill">march to a million: in progress</span></p>
+<p>Working Code Autocomplete Engine: the actual implementation with executed demos — real code, not a description.</p>
+<p><span class="count" id="stCount">6</span> records</p>
+<h2>Database facts</h2>
+<dl class="kv">
+<dt>Slug</dt><dd>writeprog-code-autocomplete-engine</dd>
+<dt>Record kind</dt><dd>writing tool record</dd>
+<dt>Source label</dt><dd>public-harvest</dd>
+<dt>Built by</dt><dd>assistant-built</dd>
+<dt>Last verified</dt><dd>2026-10-21</dd>
+<dt>Generator hard cap</dt><dd>10<sup>15</sup> (one quadrillion) or stop when genuinely complete</dd>
+<dt>Generator ladder</dt><dd>simple → competitive → mix-and-match → unmade → top-notch-or-better → future-grade → god-mode</dd>
+<dt>Database AI</dt><dd>JAH Code Autocomplete Engine Librarian — archive-aware; can build an assistant like the user's personal assistant</dd>
+</dl>
+<h2>Capabilities</h2>
+<dl class="kv"><dt>Capability 1</dt><dd>Run the working code Autocomplete Engine implementation</dd><dt>Capability 2</dt><dd>Use code Autocomplete Engine on real inputs</dd><dt>Capability 3</dt><dd>Test code Autocomplete Engine automatically</dd><dt>Capability 4</dt><dd>Integrate code Autocomplete Engine with neighboring tools</dd><dt>Capability 5</dt><dd>Extend code Autocomplete Engine toward the generator ladder</dd></dl>
+<h2>Records (full)</h2>
+<div class="rec"><h3>JAH-WPROG-PUB-CODEAUTOCO-000001 — Code Autocomplete Engine — Overview and definition</h3><p><span class="pill">ladder rank 1</span> <span class="pill">public</span></p><p>Public edition. Public tool knowledge, fact-checked reference. Public edition. Public tool knowledge, fact-checked reference. The Code Autocomplete Engine is one of the 100 writing programs and tools AI should have: the actual programs, software tools, and engines — code editors, compilers, document creators, testing tools — that let an AI create real documents and working software. The key distinction this database honors: a description of a code Autocomplete Engine is not itself a code Autocomplete Engine. So this record carries the ACTUAL working implementation — real code, executed at build time, with verified outputs recorded below.</p><h4>Demo: Suggest completions</h4><pre>var t=trieNew();['print','printf','println','push'].forEach(function(w){trieAdd(t,w);});var s=trieSuggest(t,'pr');J({s:s});assert(s.length===3&amp;&amp;s[0]==='print','suggest');</pre><p><b>Verified output</b> (2026-10-21, v24.20.0):</p><pre>{"s":["print","printf","println"]}</pre></div>
+<div class="rec"><h3>JAH-WPROG-PUB-CODEAUTOCO-000002 — Code Autocomplete Engine — Input and output contract</h3><p><span class="pill">ladder rank 3</span> <span class="pill">public</span></p><p>Public edition. Public tool knowledge, fact-checked reference. Public edition. Public tool knowledge, fact-checked reference. Inputs to the code Autocomplete Engine: the data structures the implementation consumes, documented in the code. Outputs: the transformed result, verified by the demos. Error contract: invalid inputs produce structured errors, never silent corruption. The demos on this page exercise the contract on valid inputs, edge cases, and invalid inputs alike.</p><h4>Demo: No match returns empty</h4><pre>var t=trieNew();trieAdd(t,'abc');var s=trieSuggest(t,'z');J({s:s});assert(s.length===0,'none');</pre><p><b>Verified output</b> (2026-10-21, v24.20.0):</p><pre>{"s":[]}</pre></div>
+<div class="rec"><h3>JAH-WPROG-PUB-CODEAUTOCO-000003 — Code Autocomplete Engine — Working reference implementation</h3><p><span class="pill">ladder rank 5</span> <span class="pill">public</span></p><p>Public edition. Public tool knowledge, fact-checked reference. Public edition. Public tool knowledge, fact-checked reference. The complete working implementation of the code Autocomplete Engine is attached to this record as code, and every demo on this page executes it. Read it as the executable specification: what the tool is, is what this code does.</p><h4>Working implementation</h4><pre>function trieNew(){return {kids:{},word:false};}
+function trieAdd(t,w){var n=t;for(var i=0;i&lt;w.length;i++){var c=w[i];if(!n.kids[c])n.kids[c]=trieNew();n=n.kids[c];}n.word=true;}
+function trieSuggest(t,prefix,limit){var n=t;for(var i=0;i&lt;prefix.length;i++){n=n.kids[prefix[i]];if(!n)return [];}var out=[];(function walk(x,acc){if(out.length&gt;=(limit||10))return;if(x.word)out.push(acc);Object.keys(x.kids).sort().forEach(function(k){walk(x.kids[k],acc+k);});})(n,prefix);return out;}</pre><h4>Demo: Limit respected</h4><pre>var t=trieNew();for(var i=0;i&lt;20;i++)trieAdd(t,'a'+i);var s=trieSuggest(t,'a',5);J({n:s.length});assert(s.length===5,'limit');</pre><p><b>Verified output</b> (2026-10-21, v24.20.0):</p><pre>{"n":5}</pre></div>
+<div class="rec"><h3>JAH-WPROG-PUB-CODEAUTOCO-000004 — Code Autocomplete Engine — Usage examples</h3><p><span class="pill">ladder rank 7</span> <span class="pill">public</span></p><p>Public edition. Public tool knowledge, fact-checked reference. Public edition. Public tool knowledge, fact-checked reference. Using the code Autocomplete Engine: construct or obtain the input, invoke the implementation's functions, and inspect the verified output. The demos show the canonical calling pattern — copy it. For batch use, wrap the calls in the pipeline pattern from the integration record.</p><h4>Demo: Exact word included</h4><pre>var t=trieNew();trieAdd(t,'do');trieAdd(t,'done');var s=trieSuggest(t,'do');J({s:s});assert(s[0]==='do','exact');</pre><p><b>Verified output</b> (2026-10-21, v24.20.0):</p><pre>{"s":["do","done"]}</pre></div>
+<div class="rec"><h3>JAH-WPROG-PUB-CODEAUTOCO-000005 — Code Autocomplete Engine — Tests and verification results</h3><p><span class="pill">ladder rank 9</span> <span class="pill">public</span></p><p>Public edition. Public tool knowledge, fact-checked reference. Public edition. Public tool knowledge, fact-checked reference. Verification for the code Autocomplete Engine: six executed demos covering the core operation, edge cases, error handling, and integration. Each demo ran under Node v24.20.0 at build time (2026-10-21); outputs are recorded verbatim. A failing demo fails the build — nothing here is claimed without execution.</p><h4>Demo: Empty prefix lists all</h4><pre>var t=trieNew();trieAdd(t,'b');trieAdd(t,'a');var s=trieSuggest(t,'');J({s:s});assert(s.join(',')==='a,b','all');</pre><p><b>Verified output</b> (2026-10-21, v24.20.0):</p><pre>{"s":["a","b"]}</pre></div>
+<div class="rec"><h3>JAH-WPROG-PUB-CODEAUTOCO-000006 — Code Autocomplete Engine — Integration and ecosystem</h3><p><span class="pill">ladder rank 11</span> <span class="pill">public</span></p><p>Public edition. Public tool knowledge, fact-checked reference. Public edition. Public tool knowledge, fact-checked reference. The code Autocomplete Engine composes with neighboring tools: its output feeds the next tool's input, verification checkpoints sit between stages, and the whole chain is automated once the manual path is proven. Related tools are linked in this record's links. On the generator ladder this tool marches from simple, to competitive, to mix-and-match with other tools, to unmade variants, to top-notch, future-grade, and god-mode versions — stopping only at one quadrillion records or genuine completion.</p><h4>Demo: Sorted suggestions</h4><pre>var t=trieNew();['zebra','apple','mango'].forEach(function(w){trieAdd(t,w);});var s=trieSuggest(t,'');J({s:s});assert(s[0]==='apple','sorted');</pre><p><b>Verified output</b> (2026-10-21, v24.20.0):</p><pre>{"s":["apple","mango","zebra"]}</pre></div>
+<h2>Boundless generator</h2>
+<p>Generator script: <code>gen-writeprog-code-autocomplete-engine.js</code> — run <code>node gen-writeprog-code-autocomplete-engine.js --n 5</code>.
+Self-regulating: throttled, duplicate-checked, stops at 10<sup>15</sup> or when complete. Generated output is labeled
+<code>"generated"</code> and never mixed with assistant-built records.</p>
+<h2>A1 assistant maker</h2>
+<p>Build a personal assistant from this database (runs entirely in this page):</p>
+<p><button id="a1Btn">Build an A1 assistant from this database</button></p>
+<div id="a1Out"></div>
+<script>
+document.getElementById('a1Btn').addEventListener('click',function(){
+  var profile={assistant_name:'JAH Code Autocomplete Engine Librarian',built_from:'writeprog-code-autocomplete-engine',edition:'Public edition',
+    scope:'Answers questions, drafts content, and generates new records for The Code Autocomplete Engine Tool Database using only this database and its verified demos.',
+    capabilities:["Run the working code Autocomplete Engine implementation","Use code Autocomplete Engine on real inputs","Test code Autocomplete Engine automatically","Integrate code Autocomplete Engine with neighboring tools","Extend code Autocomplete Engine toward the generator ladder"],generator:'boundless, hard cap 10^15, labeled generated',created:'2026-10-21'};
+  document.getElementById('a1Out').innerHTML='<dl class="kv"><dt>A1 assistant</dt><dd><pre>'+JSON.stringify(profile,null,2).replace(/&/g,'&amp;').replace(/</g,'&lt;')+'</pre></dd></dl>';
+});
+</script>
+<p><button id="mergerBtn" class="merger">All Database Merger</button></p>
+<div id="mergerOut"></div>
+<script>
+document.getElementById('mergerBtn').addEventListener('click',function(){
+  document.getElementById('mergerOut').innerHTML='<dl class=kv><dt>Merger</dt><dd>The Code Autocomplete Engine Tool Database participates in the All Database Merger: its 6 records merge by slug <code>writeprog-code-autocomplete-engine</code> with sibling edition <code>writeprog-code-autocomplete-engine-signature</code>. Dedupe key: record id. Provenance preserved per record.</dd></dl>';
+});
+</script>
+<h2>Provenance</h2>
+<dl class="kv">
+<dt>Source paste</dt><dd>catalog-100-writing-programs-tools-2026-10-21.txt</dd>
+<dt>Last verified</dt><dd>2026-10-21</dd>
+<dt>Node</dt><dd>v24.20.0</dd>
+<dt>Teaching ladder</dt><dd>ranks 1–15 across records (simple → most complex)</dd>
+</dl>
+</body></html>

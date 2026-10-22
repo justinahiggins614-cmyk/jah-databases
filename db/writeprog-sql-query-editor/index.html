@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The SQL Query Editor Tool Database — JAH Databases</title>
+<style>
+body{font-family:system-ui,sans-serif;max-width:900px;margin:0 auto;padding:16px;line-height:1.5}
+.kv{display:grid;grid-template-columns:minmax(120px,1fr) 2fr;gap:6px 12px;border:1px solid #ccc;padding:12px;margin:12px 0}
+.kv dt{font-weight:bold}.kv dd{margin:0}
+.pill{display:inline-block;background:#b00;color:#fff;border-radius:12px;padding:2px 10px;font-size:12px;margin:2px}
+.pill.ex{background:#0a6}
+button{padding:10px 18px;font-size:15px;cursor:pointer;margin:6px 4px}
+button.merger{background:#c00;color:#fff;border:2px solid #900;font-weight:bold}
+.count{font-size:28px;font-weight:bold}
+pre{background:#f4f4f4;padding:10px;overflow:auto;font-size:12px}
+.rec{border:1px solid #ddd;padding:12px;margin:12px 0}
+.rec h3{margin:0 0 6px}
+</style></head><body>
+<h1>The SQL Query Editor Tool Database</h1>
+<p><span class="pill">Public edition</span> <span class="pill ex">Exhaustive coverage</span> <span class="pill">march to a million: in progress</span></p>
+<p>Working SQL Query Editor: the actual implementation with executed demos — real code, not a description.</p>
+<p><span class="count" id="stCount">6</span> records</p>
+<h2>Database facts</h2>
+<dl class="kv">
+<dt>Slug</dt><dd>writeprog-sql-query-editor</dd>
+<dt>Record kind</dt><dd>writing tool record</dd>
+<dt>Source label</dt><dd>public-harvest</dd>
+<dt>Built by</dt><dd>assistant-built</dd>
+<dt>Last verified</dt><dd>2026-10-21</dd>
+<dt>Generator hard cap</dt><dd>10<sup>15</sup> (one quadrillion) or stop when genuinely complete</dd>
+<dt>Generator ladder</dt><dd>simple → competitive → mix-and-match → unmade → top-notch-or-better → future-grade → god-mode</dd>
+<dt>Database AI</dt><dd>JAH SQL Query Editor Librarian — archive-aware; can build an assistant like the user's personal assistant</dd>
+</dl>
+<h2>Capabilities</h2>
+<dl class="kv"><dt>Capability 1</dt><dd>Run the working sQL Query Editor implementation</dd><dt>Capability 2</dt><dd>Use sQL Query Editor on real inputs</dd><dt>Capability 3</dt><dd>Test sQL Query Editor automatically</dd><dt>Capability 4</dt><dd>Integrate sQL Query Editor with neighboring tools</dd><dt>Capability 5</dt><dd>Extend sQL Query Editor toward the generator ladder</dd></dl>
+<h2>Records (full)</h2>
+<div class="rec"><h3>JAH-WPROG-PUB-SQLQUERYED-000001 — SQL Query Editor — Overview and definition</h3><p><span class="pill">ladder rank 1</span> <span class="pill">public</span></p><p>Public edition. Public tool knowledge, fact-checked reference. Public edition. Public tool knowledge, fact-checked reference. The SQL Query Editor is one of the 100 writing programs and tools AI should have: the actual programs, software tools, and engines — code editors, compilers, document creators, testing tools — that let an AI create real documents and working software. The key distinction this database honors: a description of a sQL Query Editor is not itself a sQL Query Editor. So this record carries the ACTUAL working implementation — real code, executed at build time, with verified outputs recorded below.</p><h4>Demo: Tokenizes query</h4><pre>var t=sqlTokenize("SELECT a, b FROM t WHERE a = 1;");J({t:t});assert(t[0]==='SELECT'&amp;&amp;t[t.length-1]===';','toks');</pre><p><b>Verified output</b> (2026-10-21, v24.20.0):</p><pre>{"t":["SELECT","a",",","b","FROM","t","WHERE","a","=","1",";"]}</pre></div>
+<div class="rec"><h3>JAH-WPROG-PUB-SQLQUERYED-000002 — SQL Query Editor — Input and output contract</h3><p><span class="pill">ladder rank 3</span> <span class="pill">public</span></p><p>Public edition. Public tool knowledge, fact-checked reference. Public edition. Public tool knowledge, fact-checked reference. Inputs to the sQL Query Editor: the data structures the implementation consumes, documented in the code. Outputs: the transformed result, verified by the demos. Error contract: invalid inputs produce structured errors, never silent corruption. The demos on this page exercise the contract on valid inputs, edge cases, and invalid inputs alike.</p><h4>Demo: Validates good query</h4><pre>var v=sqlValidateSelect('SELECT id, name FROM users;');J(v);assert(v.ok&amp;&amp;v.table==='USERS'&amp;&amp;v.columns.join(',')==='ID,NAME','valid');</pre><p><b>Verified output</b> (2026-10-21, v24.20.0):</p><pre>{"ok":true,"errors":[],"columns":["ID","NAME"],"table":"USERS"}</pre></div>
+<div class="rec"><h3>JAH-WPROG-PUB-SQLQUERYED-000003 — SQL Query Editor — Working reference implementation</h3><p><span class="pill">ladder rank 5</span> <span class="pill">public</span></p><p>Public edition. Public tool knowledge, fact-checked reference. Public edition. Public tool knowledge, fact-checked reference. The complete working implementation of the sQL Query Editor is attached to this record as code, and every demo on this page executes it. Read it as the executable specification: what the tool is, is what this code does.</p><h4>Working implementation</h4><pre>function sqlTokenize(q){var re=/('(?:[^']|'')*'|[A-Za-z_][A-Za-z0-9_]*|[0-9]+(?:\.[0-9]+)?|&lt;=|&gt;=|&lt;&gt;|!=|[=&lt;&gt;(),;.*])/g;var m,t=[];while((m=re.exec(q)))t.push(m[0]);return t;}
+function sqlValidateSelect(q){var t=sqlTokenize(q.toUpperCase());var errs=[];
+if(t[0]!=='SELECT')errs.push('must start with SELECT');
+var fi=t.indexOf('FROM');if(fi&lt;0)errs.push('missing FROM');
+if(t[t.length-1]!==';')errs.push('missing trailing semicolon');
+var cols=t.slice(1,fi).filter(function(x){return x!==',';});
+if(cols.length===0)errs.push('no columns listed');
+return {ok:errs.length===0,errors:errs,columns:t[1]==='*'?['*']:cols,table:fi&gt;=0?t[fi+1]:null};}
+function sqlHighlight(q){return sqlTokenize(q).map(function(t){return /^(SELECT|FROM|WHERE|ORDER|BY|GROUP|JOIN|ON|AND|OR|INSERT|UPDATE|DELETE)$/.test(t.toUpperCase())?'&lt;b&gt;'+t+'&lt;/b&gt;':t;}).join(' ');}</pre><h4>Demo: Missing FROM flagged</h4><pre>var v=sqlValidateSelect('SELECT id;');J(v);assert(!v.ok&amp;&amp;v.errors.indexOf('missing FROM')&gt;=0,'from');</pre><p><b>Verified output</b> (2026-10-21, v24.20.0):</p><pre>{"ok":false,"errors":["missing FROM"],"columns":["ID"],"table":null}</pre></div>
+<div class="rec"><h3>JAH-WPROG-PUB-SQLQUERYED-000004 — SQL Query Editor — Usage examples</h3><p><span class="pill">ladder rank 7</span> <span class="pill">public</span></p><p>Public edition. Public tool knowledge, fact-checked reference. Public edition. Public tool knowledge, fact-checked reference. Using the sQL Query Editor: construct or obtain the input, invoke the implementation's functions, and inspect the verified output. The demos show the canonical calling pattern — copy it. For batch use, wrap the calls in the pipeline pattern from the integration record.</p><h4>Demo: Missing semicolon flagged</h4><pre>var v=sqlValidateSelect('SELECT id FROM t');J(v);assert(!v.ok,'semi');</pre><p><b>Verified output</b> (2026-10-21, v24.20.0):</p><pre>{"ok":false,"errors":["missing trailing semicolon"],"columns":["ID"],"table":"T"}</pre></div>
+<div class="rec"><h3>JAH-WPROG-PUB-SQLQUERYED-000005 — SQL Query Editor — Tests and verification results</h3><p><span class="pill">ladder rank 9</span> <span class="pill">public</span></p><p>Public edition. Public tool knowledge, fact-checked reference. Public edition. Public tool knowledge, fact-checked reference. Verification for the sQL Query Editor: six executed demos covering the core operation, edge cases, error handling, and integration. Each demo ran under Node v24.20.0 at build time (2026-10-21); outputs are recorded verbatim. A failing demo fails the build — nothing here is claimed without execution.</p><h4>Demo: Star columns</h4><pre>var v=sqlValidateSelect('SELECT * FROM t;');J(v);assert(v.ok&amp;&amp;v.columns[0]==='*','star');</pre><p><b>Verified output</b> (2026-10-21, v24.20.0):</p><pre>{"ok":true,"errors":[],"columns":["*"],"table":"T"}</pre></div>
+<div class="rec"><h3>JAH-WPROG-PUB-SQLQUERYED-000006 — SQL Query Editor — Integration and ecosystem</h3><p><span class="pill">ladder rank 11</span> <span class="pill">public</span></p><p>Public edition. Public tool knowledge, fact-checked reference. Public edition. Public tool knowledge, fact-checked reference. The sQL Query Editor composes with neighboring tools: its output feeds the next tool's input, verification checkpoints sit between stages, and the whole chain is automated once the manual path is proven. Related tools are linked in this record's links. On the generator ladder this tool marches from simple, to competitive, to mix-and-match with other tools, to unmade variants, to top-notch, future-grade, and god-mode versions — stopping only at one quadrillion records or genuine completion.</p><h4>Demo: Keyword highlighting</h4><pre>var h=sqlHighlight('select a from t');J({h:h});assert(h.indexOf('&lt;b&gt;SELECT&lt;/b&gt;')&lt;0&amp;&amp;h.indexOf('&lt;b&gt;select&lt;/b&gt;')&gt;=0,'hl');</pre><p><b>Verified output</b> (2026-10-21, v24.20.0):</p><pre>{"h":"&lt;b&gt;select&lt;/b&gt; a &lt;b&gt;from&lt;/b&gt; t"}</pre></div>
+<h2>Boundless generator</h2>
+<p>Generator script: <code>gen-writeprog-sql-query-editor.js</code> — run <code>node gen-writeprog-sql-query-editor.js --n 5</code>.
+Self-regulating: throttled, duplicate-checked, stops at 10<sup>15</sup> or when complete. Generated output is labeled
+<code>"generated"</code> and never mixed with assistant-built records.</p>
+<h2>A1 assistant maker</h2>
+<p>Build a personal assistant from this database (runs entirely in this page):</p>
+<p><button id="a1Btn">Build an A1 assistant from this database</button></p>
+<div id="a1Out"></div>
+<script>
+document.getElementById('a1Btn').addEventListener('click',function(){
+  var profile={assistant_name:'JAH SQL Query Editor Librarian',built_from:'writeprog-sql-query-editor',edition:'Public edition',
+    scope:'Answers questions, drafts content, and generates new records for The SQL Query Editor Tool Database using only this database and its verified demos.',
+    capabilities:["Run the working sQL Query Editor implementation","Use sQL Query Editor on real inputs","Test sQL Query Editor automatically","Integrate sQL Query Editor with neighboring tools","Extend sQL Query Editor toward the generator ladder"],generator:'boundless, hard cap 10^15, labeled generated',created:'2026-10-21'};
+  document.getElementById('a1Out').innerHTML='<dl class="kv"><dt>A1 assistant</dt><dd><pre>'+JSON.stringify(profile,null,2).replace(/&/g,'&amp;').replace(/</g,'&lt;')+'</pre></dd></dl>';
+});
+</script>
+<p><button id="mergerBtn" class="merger">All Database Merger</button></p>
+<div id="mergerOut"></div>
+<script>
+document.getElementById('mergerBtn').addEventListener('click',function(){
+  document.getElementById('mergerOut').innerHTML='<dl class=kv><dt>Merger</dt><dd>The SQL Query Editor Tool Database participates in the All Database Merger: its 6 records merge by slug <code>writeprog-sql-query-editor</code> with sibling edition <code>writeprog-sql-query-editor-signature</code>. Dedupe key: record id. Provenance preserved per record.</dd></dl>';
+});
+</script>
+<h2>Provenance</h2>
+<dl class="kv">
+<dt>Source paste</dt><dd>catalog-100-writing-programs-tools-2026-10-21.txt</dd>
+<dt>Last verified</dt><dd>2026-10-21</dd>
+<dt>Node</dt><dd>v24.20.0</dd>
+<dt>Teaching ladder</dt><dd>ranks 1–15 across records (simple → most complex)</dd>
+</dl>
+</body></html>

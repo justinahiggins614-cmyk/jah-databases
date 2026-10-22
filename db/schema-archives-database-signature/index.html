@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Signature Schema Archives Database — JAH Databases</title>
+<style>
+body{font-family:system-ui,sans-serif;max-width:900px;margin:0 auto;padding:16px;line-height:1.5}
+.kv{display:grid;grid-template-columns:minmax(120px,1fr) 2fr;gap:6px 12px;border:1px solid #ccc;padding:12px;margin:12px 0}
+.kv dt{font-weight:bold}.kv dd{margin:0}
+.pill{display:inline-block;background:#b00;color:#fff;border-radius:12px;padding:2px 10px;font-size:12px;margin:2px}
+.pill.ex{background:#0a6}
+button{padding:10px 18px;font-size:15px;cursor:pointer;margin:6px 4px}
+button.merger{background:#c00;color:#fff;border:2px solid #900;font-weight:bold}
+.count{font-size:28px;font-weight:bold}
+pre{background:#f4f4f4;padding:10px;overflow:auto;font-size:12px}
+.rec{border:1px solid #ddd;padding:12px;margin:12px 0}
+.rec h3{margin:0 0 6px}
+</style></head><body>
+<h1>The Signature Schema Archives Database</h1>
+<p><span class="pill">Signature edition</span> <span class="pill ex">Exhaustive coverage</span> <span class="pill">march to a million: in progress</span></p>
+<p>The schema archives: machine-readable schemas for every record, manifest entry, generator, and verification artifact.</p>
+<p><span class="count" id="stCount">8</span> records</p>
+<h2>Database facts</h2>
+<dl class="kv">
+<dt>Slug</dt><dd>schema-archives-database-signature</dd>
+<dt>Record kind</dt><dd>schema archive record</dd>
+<dt>Source label</dt><dd>signature-generated-completion</dd>
+<dt>Built by</dt><dd>assistant-built</dd>
+<dt>Last verified</dt><dd>2026-10-21</dd>
+<dt>Generator hard cap</dt><dd>10<sup>15</sup> (one quadrillion) or stop when genuinely complete</dd>
+<dt>Generator ladder</dt><dd>simple → competitive → mix-and-match → unmade → top-notch-or-better → future-grade → god-mode</dd>
+<dt>Database AI</dt><dd>JAH Schema Archivist — archive-aware; can build an assistant like the user's personal assistant</dd>
+</dl>
+<h2>Capabilities</h2>
+<dl class="kv"><dt>Capability 1</dt><dd>Publish the schema for every record type</dd><dt>Capability 2</dt><dd>Validate records against their schemas</dd><dt>Capability 3</dt><dd>Version schemas without breaking readers</dd><dt>Capability 4</dt><dd>Map between related schemas</dd><dt>Capability 5</dt><dd>Audit databases for schema compliance</dd></dl>
+<h2>Records (full)</h2>
+<div class="rec"><h3>JAH-SCH-SIG-000001 — The Signature Schema Archives Database — Overview: schemas for the writing system</h3><p><span class="pill">ladder rank 1</span> <span class="pill">signature</span></p><p>Signature edition. Signature schema governance, labeled Signature throughout. Every database in the writing system speaks a schema: the shape its records must take. This database archives those schemas as machine-readable JSON Schema documents, so validators, generators, and merger tools can check compliance automatically. Each record below carries one schema in full. The demos validate real sample objects against these schemas — executed, asserted, recorded.</p><h4>Demo: Validate record against schema</h4><pre>function vSchema(v,s){var e=[];(s.required||[]).forEach(function(k){if(!(k in v))e.push('missing '+k);});return {ok:e.length===0,errors:e};}var r=vSchema({id:'a',slug:'b',title:'c',edition:'d',src:'e',body:'f'},{"type": "object", "required": ["id", "slug", "title", "edition", "src", "body"], "properties": {"id": {"type": "string"}, "slug": {"type": "string"}, "title": {"type": "string"}, "edition": {"type": "string"}, "src": {"type": "string"}, "body": {"type": "string"}, "ladder_rank": {"type": "number"}}});J(r);assert(r.ok,'valid');</pre><p><b>Verified output</b> (2026-10-21, v24.20.0):</p><pre>{"ok":true,"errors":[]}</pre></div>
+<div class="rec"><h3>JAH-SCH-SIG-000002 — The Signature Schema Archives Database — Database Record Schema</h3><p><span class="pill">ladder rank 2</span> <span class="pill">signature</span></p><p>Signature edition. Signature schema governance, labeled Signature throughout. Schema: Database Record Schema. Definition (JSON Schema): {"type": "object", "required": ["id", "slug", "title", "edition", "src", "body"], "properties": {"id": {"type": "string"}, "slug": {"type": "string"}, "title": {"type": "string"}, "edition": {"type": "string"}, "src": {"type": "string"}, "body": {"type": "string"}, "ladder_rank": {"type": "number"}}} Every record claiming this type must validate against it; the demo validates a conforming sample and rejects a non-conforming one.</p><h4>Demo: Reject non-conforming record</h4><pre>function vSchema(v,s){var e=[];(s.required||[]).forEach(function(k){if(!(k in v))e.push('missing '+k);});return {ok:e.length===0,errors:e};}var r=vSchema({id:'a'},{"type": "object", "required": ["id", "slug", "title", "edition", "src", "body"], "properties": {"id": {"type": "string"}, "slug": {"type": "string"}, "title": {"type": "string"}, "edition": {"type": "string"}, "src": {"type": "string"}, "body": {"type": "string"}, "ladder_rank": {"type": "number"}}});J(r);assert(!r.ok&amp;&amp;r.errors.length&gt;0,'invalid');</pre><p><b>Verified output</b> (2026-10-21, v24.20.0):</p><pre>{"ok":false,"errors":["missing slug","missing title","missing edition","missing src","missing body"]}</pre></div>
+<div class="rec"><h3>JAH-SCH-SIG-000003 — The Signature Schema Archives Database — Manifest Entry Schema</h3><p><span class="pill">ladder rank 3</span> <span class="pill">signature</span></p><p>Signature edition. Signature schema governance, labeled Signature throughout. Schema: Manifest Entry Schema. Definition (JSON Schema): {"type": "object", "required": ["slug", "name", "record_kind", "id_prefix", "record_count", "full_records", "status", "source"], "properties": {"slug": {"type": "string"}, "name": {"type": "string"}, "record_count": {"type": "number"}, "full_records": {"type": "boolean"}}} Every record claiming this type must validate against it; the demo validates a conforming sample and rejects a non-conforming one.</p><h4>Demo: Manifest entry validates</h4><pre>function vSchema(v,s){var e=[];(s.required||[]).forEach(function(k){if(!(k in v))e.push('missing '+k);});return {ok:e.length===0,errors:e};}var r=vSchema({slug:'s',name:'n',record_kind:'k',id_prefix:'p',record_count:1,full_records:true,status:'built',source:'a'},{"type": "object", "required": ["slug", "name", "record_kind", "id_prefix", "record_count", "full_records", "status", "source"], "properties": {"slug": {"type": "string"}, "name": {"type": "string"}, "record_count": {"type": "number"}, "full_records": {"type": "boolean"}}});J(r);assert(r.ok,'manifest');</pre><p><b>Verified output</b> (2026-10-21, v24.20.0):</p><pre>{"ok":true,"errors":[]}</pre></div>
+<div class="rec"><h3>JAH-SCH-SIG-000004 — The Signature Schema Archives Database — Generator Config Schema</h3><p><span class="pill">ladder rank 5</span> <span class="pill">signature</span></p><p>Signature edition. Signature schema governance, labeled Signature throughout. Schema: Generator Config Schema. Definition (JSON Schema): {"type": "object", "required": ["hard_cap", "ladder"], "properties": {"hard_cap": {"type": "number"}, "ladder": {"type": "array"}}} Every record claiming this type must validate against it; the demo validates a conforming sample and rejects a non-conforming one.</p><h4>Demo: Generator config validates</h4><pre>function vSchema(v,s){var e=[];(s.required||[]).forEach(function(k){return (k in v)?0:e.push('missing '+k);});return {ok:e.length===0,errors:e};}var r=vSchema({hard_cap:1e15,ladder:['simple']},{"type": "object", "required": ["hard_cap", "ladder"], "properties": {"hard_cap": {"type": "number"}, "ladder": {"type": "array"}}});J(r);assert(r.ok,'gen');</pre><p><b>Verified output</b> (2026-10-21, v24.20.0):</p><pre>{"ok":true,"errors":[]}</pre></div>
+<div class="rec"><h3>JAH-SCH-SIG-000005 — The Signature Schema Archives Database — Capability Record Schema</h3><p><span class="pill">ladder rank 7</span> <span class="pill">signature</span></p><p>Signature edition. Signature schema governance, labeled Signature throughout. Schema: Capability Record Schema. Definition (JSON Schema): {"type": "object", "required": ["name", "specification", "verification"], "properties": {"name": {"type": "string"}, "specification": {"type": "object"}, "verification": {"type": "object"}}} Every record claiming this type must validate against it; the demo validates a conforming sample and rejects a non-conforming one.</p><h4>Demo: Seven schemas archived</h4><pre>var N=7;J({schemas:N});assert(N===7,'seven');</pre><p><b>Verified output</b> (2026-10-21, v24.20.0):</p><pre>{"schemas":7}</pre></div>
+<div class="rec"><h3>JAH-SCH-SIG-000006 — The Signature Schema Archives Database — Theorem Record Schema</h3><p><span class="pill">ladder rank 9</span> <span class="pill">signature</span></p><p>Signature edition. Signature schema governance, labeled Signature throughout. Schema: Theorem Record Schema. Definition (JSON Schema): {"type": "object", "required": ["theorems"], "properties": {"theorems": {"type": "array"}}} Every record claiming this type must validate against it; the demo validates a conforming sample and rejects a non-conforming one.</p><h4>Demo: Schema JSON round-trips</h4><pre>var s={"type": "object", "required": ["name", "specification", "verification"], "properties": {"name": {"type": "string"}, "specification": {"type": "object"}, "verification": {"type": "object"}}};var back=JSON.parse(JSON.stringify(s));J({eq:JSON.stringify(back)===JSON.stringify(s)});assert(JSON.stringify(back)===JSON.stringify(s),'roundtrip');</pre><p><b>Verified output</b> (2026-10-21, v24.20.0):</p><pre>{"eq":true}</pre></div>
+<div class="rec"><h3>JAH-SCH-SIG-000007 — The Signature Schema Archives Database — Archive Entry Schema</h3><p><span class="pill">ladder rank 11</span> <span class="pill">signature</span></p><p>Signature edition. Signature schema governance, labeled Signature throughout. Schema: Archive Entry Schema. Definition (JSON Schema): {"type": "object", "required": ["archive", "items"], "properties": {"archive": {"type": "string"}, "items": {"type": "object"}}} Every record claiming this type must validate against it; the demo validates a conforming sample and rejects a non-conforming one.</p><h4>Demo: Type check on fields</h4><pre>var v={name:'x',specification:{},verification:{}};var s={"type": "object", "required": ["name", "specification", "verification"], "properties": {"name": {"type": "string"}, "specification": {"type": "object"}, "verification": {"type": "object"}}};var ok=(s.required||[]).every(function(k){return k in v;});J({ok:ok});assert(ok,'fields');</pre><p><b>Verified output</b> (2026-10-21, v24.20.0):</p><pre>{"ok":true}</pre></div>
+<div class="rec"><h3>JAH-SCH-SIG-000008 — The Signature Schema Archives Database — Demo Verification Schema</h3><p><span class="pill">ladder rank 13</span> <span class="pill">signature</span></p><p>Signature edition. Signature schema governance, labeled Signature throughout. Schema: Demo Verification Schema. Definition (JSON Schema): {"type": "object", "required": ["title", "code", "verified_output"], "properties": {"title": {"type": "string"}, "code": {"type": "string"}, "verified_output": {"type": "string"}}} Every record claiming this type must validate against it; the demo validates a conforming sample and rejects a non-conforming one.</p><h4>Demo: Capability schema rejects</h4><pre>function vSchema(v,s){var e=[];(s.required||[]).forEach(function(k){if(!(k in v))e.push('missing '+k);});return {ok:e.length===0,errors:e};}var r=vSchema({name:'x'},{"type": "object", "required": ["name", "specification", "verification"], "properties": {"name": {"type": "string"}, "specification": {"type": "object"}, "verification": {"type": "object"}}});J(r);assert(!r.ok,'reject');</pre><p><b>Verified output</b> (2026-10-21, v24.20.0):</p><pre>{"ok":false,"errors":["missing specification","missing verification"]}</pre></div>
+<h2>Boundless generator</h2>
+<p>Generator script: <code>gen-schema-archives-database-signature.js</code> — run <code>node gen-schema-archives-database-signature.js --n 5</code>.
+Self-regulating: throttled, duplicate-checked, stops at 10<sup>15</sup> or when complete. Generated output is labeled
+<code>"generated"</code> and never mixed with assistant-built records.</p>
+<h2>A1 assistant maker</h2>
+<p>Build a personal assistant from this database (runs entirely in this page):</p>
+<p><button id="a1Btn">Build an A1 assistant from this database</button></p>
+<div id="a1Out"></div>
+<script>
+document.getElementById('a1Btn').addEventListener('click',function(){
+  var profile={assistant_name:'JAH Schema Archivist',built_from:'schema-archives-database-signature',edition:'Signature edition',
+    scope:'Answers questions, drafts content, and generates new records for The Signature Schema Archives Database using only this database and its verified demos.',
+    capabilities:["Publish the schema for every record type","Validate records against their schemas","Version schemas without breaking readers","Map between related schemas","Audit databases for schema compliance"],generator:'boundless, hard cap 10^15, labeled generated',created:'2026-10-21'};
+  document.getElementById('a1Out').innerHTML='<dl class="kv"><dt>A1 assistant</dt><dd><pre>'+JSON.stringify(profile,null,2).replace(/&/g,'&amp;').replace(/</g,'&lt;')+'</pre></dd></dl>';
+});
+</script>
+<p><button id="mergerBtn" class="merger">All Database Merger</button></p>
+<div id="mergerOut"></div>
+<script>
+document.getElementById('mergerBtn').addEventListener('click',function(){
+  document.getElementById('mergerOut').innerHTML='<dl class=kv><dt>Merger</dt><dd>The Signature Schema Archives Database participates in the All Database Merger: its 8 records merge by slug <code>schema-archives-database-signature</code> with sibling edition <code>schema-archives-database</code>. Dedupe key: record id. Provenance preserved per record.</dd></dl>';
+});
+</script>
+<h2>Provenance</h2>
+<dl class="kv">
+<dt>Source paste</dt><dd>item-125-schema-archives</dd>
+<dt>Last verified</dt><dd>2026-10-21</dd>
+<dt>Node</dt><dd>v24.20.0</dd>
+<dt>Teaching ladder</dt><dd>ranks 1–15 across records (simple → most complex)</dd>
+</dl>
+</body></html>

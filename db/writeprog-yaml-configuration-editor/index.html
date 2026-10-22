@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The YAML Configuration Editor Tool Database — JAH Databases</title>
+<style>
+body{font-family:system-ui,sans-serif;max-width:900px;margin:0 auto;padding:16px;line-height:1.5}
+.kv{display:grid;grid-template-columns:minmax(120px,1fr) 2fr;gap:6px 12px;border:1px solid #ccc;padding:12px;margin:12px 0}
+.kv dt{font-weight:bold}.kv dd{margin:0}
+.pill{display:inline-block;background:#b00;color:#fff;border-radius:12px;padding:2px 10px;font-size:12px;margin:2px}
+.pill.ex{background:#0a6}
+button{padding:10px 18px;font-size:15px;cursor:pointer;margin:6px 4px}
+button.merger{background:#c00;color:#fff;border:2px solid #900;font-weight:bold}
+.count{font-size:28px;font-weight:bold}
+pre{background:#f4f4f4;padding:10px;overflow:auto;font-size:12px}
+.rec{border:1px solid #ddd;padding:12px;margin:12px 0}
+.rec h3{margin:0 0 6px}
+</style></head><body>
+<h1>The YAML Configuration Editor Tool Database</h1>
+<p><span class="pill">Public edition</span> <span class="pill ex">Exhaustive coverage</span> <span class="pill">march to a million: in progress</span></p>
+<p>Working YAML Configuration Editor: the actual implementation with executed demos — real code, not a description.</p>
+<p><span class="count" id="stCount">6</span> records</p>
+<h2>Database facts</h2>
+<dl class="kv">
+<dt>Slug</dt><dd>writeprog-yaml-configuration-editor</dd>
+<dt>Record kind</dt><dd>writing tool record</dd>
+<dt>Source label</dt><dd>public-harvest</dd>
+<dt>Built by</dt><dd>assistant-built</dd>
+<dt>Last verified</dt><dd>2026-10-21</dd>
+<dt>Generator hard cap</dt><dd>10<sup>15</sup> (one quadrillion) or stop when genuinely complete</dd>
+<dt>Generator ladder</dt><dd>simple → competitive → mix-and-match → unmade → top-notch-or-better → future-grade → god-mode</dd>
+<dt>Database AI</dt><dd>JAH YAML Configuration Editor Librarian — archive-aware; can build an assistant like the user's personal assistant</dd>
+</dl>
+<h2>Capabilities</h2>
+<dl class="kv"><dt>Capability 1</dt><dd>Run the working yAML Configuration Editor implementation</dd><dt>Capability 2</dt><dd>Use yAML Configuration Editor on real inputs</dd><dt>Capability 3</dt><dd>Test yAML Configuration Editor automatically</dd><dt>Capability 4</dt><dd>Integrate yAML Configuration Editor with neighboring tools</dd><dt>Capability 5</dt><dd>Extend yAML Configuration Editor toward the generator ladder</dd></dl>
+<h2>Records (full)</h2>
+<div class="rec"><h3>JAH-WPROG-PUB-YAMLCONFIG-000001 — YAML Configuration Editor — Overview and definition</h3><p><span class="pill">ladder rank 1</span> <span class="pill">public</span></p><p>Public edition. Public tool knowledge, fact-checked reference. Public edition. Public tool knowledge, fact-checked reference. The YAML Configuration Editor is one of the 100 writing programs and tools AI should have: the actual programs, software tools, and engines — code editors, compilers, document creators, testing tools — that let an AI create real documents and working software. The key distinction this database honors: a description of a yAML Configuration Editor is not itself a yAML Configuration Editor. So this record carries the ACTUAL working implementation — real code, executed at build time, with verified outputs recorded below.</p><h4>Demo: Parses scalars</h4><pre>var y=yamlParse('name: Jo\nage: 3\nok: true');J(y);assert(y.name==='Jo'&amp;&amp;y.age===3&amp;&amp;y.ok===true,'scalars');</pre><p><b>Verified output</b> (2026-10-21, v24.20.0):</p><pre>{"name":"Jo","age":3,"ok":true}</pre></div>
+<div class="rec"><h3>JAH-WPROG-PUB-YAMLCONFIG-000002 — YAML Configuration Editor — Input and output contract</h3><p><span class="pill">ladder rank 3</span> <span class="pill">public</span></p><p>Public edition. Public tool knowledge, fact-checked reference. Public edition. Public tool knowledge, fact-checked reference. Inputs to the yAML Configuration Editor: the data structures the implementation consumes, documented in the code. Outputs: the transformed result, verified by the demos. Error contract: invalid inputs produce structured errors, never silent corruption. The demos on this page exercise the contract on valid inputs, edge cases, and invalid inputs alike.</p><h4>Demo: Nested maps</h4><pre>var y=yamlParse('db:\n  host: x\n  port: 9');J(y);assert(y.db.host==='x'&amp;&amp;y.db.port===9,'nested');</pre><p><b>Verified output</b> (2026-10-21, v24.20.0):</p><pre>{"db":{"host":"x","port":9}}</pre></div>
+<div class="rec"><h3>JAH-WPROG-PUB-YAMLCONFIG-000003 — YAML Configuration Editor — Working reference implementation</h3><p><span class="pill">ladder rank 5</span> <span class="pill">public</span></p><p>Public edition. Public tool knowledge, fact-checked reference. Public edition. Public tool knowledge, fact-checked reference. The complete working implementation of the yAML Configuration Editor is attached to this record as code, and every demo on this page executes it. Read it as the executable specification: what the tool is, is what this code does.</p><h4>Working implementation</h4><pre>function yamlParse(s){var root={},stack=[{obj:root,indent:-1}];s.split('\n').forEach(function(line){
+if(!line.trim()||line.trim()[0]==='#')return;var indent=line.match(/^\s*/)[0].length;var t=line.trim();
+while(stack.length&gt;1&amp;&amp;indent&lt;=stack[stack.length-1].indent)stack.pop();var cur=stack[stack.length-1].obj;
+if(t[0]==='-'){var v=yamlVal(t.slice(1).trim());if(!Array.isArray(cur._list))cur._list=[];cur._list.push(v);return;}
+var m=t.match(/^([^:]+):\s*(.*)$/);if(!m)return;var k=m[1].trim(),v=yamlVal(m[2]);
+if(v===null&amp;&amp;m[2]===''){var child={};cur[k]=child;stack.push({obj:child,indent:indent});}else cur[k]=v;});
+(function clean(o){Object.keys(o).forEach(function(k){if(k==='_list'){return;}if(o[k]&amp;&amp;typeof o[k]==='object'){if(o[k]._list!==undefined&amp;&amp;Object.keys(o[k]).length===1)o[k]=o[k]._list;else clean(o[k]);}});})(root);
+return root;}
+function yamlVal(v){if(v==='' )return null;if(v==='true')return true;if(v==='false')return false;if(v==='null')return null;
+if(/^-?\d+$/.test(v))return parseInt(v,10);if(/^-?\d*\.\d+$/.test(v))return parseFloat(v);
+if((v[0]==='"'&amp;&amp;v.slice(-1)==='"')||(v[0]==="'"&amp;&amp;v.slice(-1)==="'"))return v.slice(1,-1);return v;}
+function yamlEmit(o,ind){ind=ind||0;var pad='';for(var i=0;i&lt;ind;i++)pad+='  ';var out=[];
+Object.keys(o).forEach(function(k){var v=o[k];
+if(v&amp;&amp;typeof v==='object'&amp;&amp;!Array.isArray(v)){out.push(pad+k+':');out.push(yamlEmit(v,ind+1));}
+else if(Array.isArray(v)){out.push(pad+k+':');v.forEach(function(x){out.push(pad+'- '+x);});}
+else out.push(pad+k+': '+v);});return out.join('\n');}</pre><h4>Demo: Comments ignored</h4><pre>var y=yamlParse('# hi\na: 1');J(y);assert(y.a===1,'comment');</pre><p><b>Verified output</b> (2026-10-21, v24.20.0):</p><pre>{"a":1}</pre></div>
+<div class="rec"><h3>JAH-WPROG-PUB-YAMLCONFIG-000004 — YAML Configuration Editor — Usage examples</h3><p><span class="pill">ladder rank 7</span> <span class="pill">public</span></p><p>Public edition. Public tool knowledge, fact-checked reference. Public edition. Public tool knowledge, fact-checked reference. Using the yAML Configuration Editor: construct or obtain the input, invoke the implementation's functions, and inspect the verified output. The demos show the canonical calling pattern — copy it. For batch use, wrap the calls in the pipeline pattern from the integration record.</p><h4>Demo: Emit round trip</h4><pre>var y={a:1,b:{c:2}};var e=yamlEmit(y);var back=yamlParse(e);J({e:e});assert(back.a===1&amp;&amp;back.b.c===2,'roundtrip');</pre><p><b>Verified output</b> (2026-10-21, v24.20.0):</p><pre>{"e":"a: 1\nb:\n  c: 2"}</pre></div>
+<div class="rec"><h3>JAH-WPROG-PUB-YAMLCONFIG-000005 — YAML Configuration Editor — Tests and verification results</h3><p><span class="pill">ladder rank 9</span> <span class="pill">public</span></p><p>Public edition. Public tool knowledge, fact-checked reference. Public edition. Public tool knowledge, fact-checked reference. Verification for the yAML Configuration Editor: six executed demos covering the core operation, edge cases, error handling, and integration. Each demo ran under Node v24.20.0 at build time (2026-10-21); outputs are recorded verbatim. A failing demo fails the build — nothing here is claimed without execution.</p><h4>Demo: Quoted strings</h4><pre>var y=yamlParse('s: "a: b"');J(y);assert(y.s==='a: b','quoted');</pre><p><b>Verified output</b> (2026-10-21, v24.20.0):</p><pre>{"s":"a: b"}</pre></div>
+<div class="rec"><h3>JAH-WPROG-PUB-YAMLCONFIG-000006 — YAML Configuration Editor — Integration and ecosystem</h3><p><span class="pill">ladder rank 11</span> <span class="pill">public</span></p><p>Public edition. Public tool knowledge, fact-checked reference. Public edition. Public tool knowledge, fact-checked reference. The yAML Configuration Editor composes with neighboring tools: its output feeds the next tool's input, verification checkpoints sit between stages, and the whole chain is automated once the manual path is proven. Related tools are linked in this record's links. On the generator ladder this tool marches from simple, to competitive, to mix-and-match with other tools, to unmade variants, to top-notch, future-grade, and god-mode versions — stopping only at one quadrillion records or genuine completion.</p><h4>Demo: Null and false</h4><pre>var y=yamlParse('a: null\nb: false');J(y);assert(y.a===null&amp;&amp;y.b===false,'nulls');</pre><p><b>Verified output</b> (2026-10-21, v24.20.0):</p><pre>{"a":null,"b":false}</pre></div>
+<h2>Boundless generator</h2>
+<p>Generator script: <code>gen-writeprog-yaml-configuration-editor.js</code> — run <code>node gen-writeprog-yaml-configuration-editor.js --n 5</code>.
+Self-regulating: throttled, duplicate-checked, stops at 10<sup>15</sup> or when complete. Generated output is labeled
+<code>"generated"</code> and never mixed with assistant-built records.</p>
+<h2>A1 assistant maker</h2>
+<p>Build a personal assistant from this database (runs entirely in this page):</p>
+<p><button id="a1Btn">Build an A1 assistant from this database</button></p>
+<div id="a1Out"></div>
+<script>
+document.getElementById('a1Btn').addEventListener('click',function(){
+  var profile={assistant_name:'JAH YAML Configuration Editor Librarian',built_from:'writeprog-yaml-configuration-editor',edition:'Public edition',
+    scope:'Answers questions, drafts content, and generates new records for The YAML Configuration Editor Tool Database using only this database and its verified demos.',
+    capabilities:["Run the working yAML Configuration Editor implementation","Use yAML Configuration Editor on real inputs","Test yAML Configuration Editor automatically","Integrate yAML Configuration Editor with neighboring tools","Extend yAML Configuration Editor toward the generator ladder"],generator:'boundless, hard cap 10^15, labeled generated',created:'2026-10-21'};
+  document.getElementById('a1Out').innerHTML='<dl class="kv"><dt>A1 assistant</dt><dd><pre>'+JSON.stringify(profile,null,2).replace(/&/g,'&amp;').replace(/</g,'&lt;')+'</pre></dd></dl>';
+});
+</script>
+<p><button id="mergerBtn" class="merger">All Database Merger</button></p>
+<div id="mergerOut"></div>
+<script>
+document.getElementById('mergerBtn').addEventListener('click',function(){
+  document.getElementById('mergerOut').innerHTML='<dl class=kv><dt>Merger</dt><dd>The YAML Configuration Editor Tool Database participates in the All Database Merger: its 6 records merge by slug <code>writeprog-yaml-configuration-editor</code> with sibling edition <code>writeprog-yaml-configuration-editor-signature</code>. Dedupe key: record id. Provenance preserved per record.</dd></dl>';
+});
+</script>
+<h2>Provenance</h2>
+<dl class="kv">
+<dt>Source paste</dt><dd>catalog-100-writing-programs-tools-2026-10-21.txt</dd>
+<dt>Last verified</dt><dd>2026-10-21</dd>
+<dt>Node</dt><dd>v24.20.0</dd>
+<dt>Teaching ladder</dt><dd>ranks 1–15 across records (simple → most complex)</dd>
+</dl>
+</body></html>

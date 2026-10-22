@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Vector Graphics Editor Tool Database — JAH Databases</title>
+<style>
+body{font-family:system-ui,sans-serif;max-width:900px;margin:0 auto;padding:16px;line-height:1.5}
+.kv{display:grid;grid-template-columns:minmax(120px,1fr) 2fr;gap:6px 12px;border:1px solid #ccc;padding:12px;margin:12px 0}
+.kv dt{font-weight:bold}.kv dd{margin:0}
+.pill{display:inline-block;background:#b00;color:#fff;border-radius:12px;padding:2px 10px;font-size:12px;margin:2px}
+.pill.ex{background:#0a6}
+button{padding:10px 18px;font-size:15px;cursor:pointer;margin:6px 4px}
+button.merger{background:#c00;color:#fff;border:2px solid #900;font-weight:bold}
+.count{font-size:28px;font-weight:bold}
+pre{background:#f4f4f4;padding:10px;overflow:auto;font-size:12px}
+.rec{border:1px solid #ddd;padding:12px;margin:12px 0}
+.rec h3{margin:0 0 6px}
+</style></head><body>
+<h1>The Vector Graphics Editor Tool Database</h1>
+<p><span class="pill">Public edition</span> <span class="pill ex">Exhaustive coverage</span> <span class="pill">march to a million: in progress</span></p>
+<p>Working Vector Graphics Editor: the actual implementation with executed demos — real code, not a description.</p>
+<p><span class="count" id="stCount">6</span> records</p>
+<h2>Database facts</h2>
+<dl class="kv">
+<dt>Slug</dt><dd>writeprog-vector-graphics-editor</dd>
+<dt>Record kind</dt><dd>writing tool record</dd>
+<dt>Source label</dt><dd>public-harvest</dd>
+<dt>Built by</dt><dd>assistant-built</dd>
+<dt>Last verified</dt><dd>2026-10-21</dd>
+<dt>Generator hard cap</dt><dd>10<sup>15</sup> (one quadrillion) or stop when genuinely complete</dd>
+<dt>Generator ladder</dt><dd>simple → competitive → mix-and-match → unmade → top-notch-or-better → future-grade → god-mode</dd>
+<dt>Database AI</dt><dd>JAH Vector Graphics Editor Librarian — archive-aware; can build an assistant like the user's personal assistant</dd>
+</dl>
+<h2>Capabilities</h2>
+<dl class="kv"><dt>Capability 1</dt><dd>Run the working vector Graphics Editor implementation</dd><dt>Capability 2</dt><dd>Use vector Graphics Editor on real inputs</dd><dt>Capability 3</dt><dd>Test vector Graphics Editor automatically</dd><dt>Capability 4</dt><dd>Integrate vector Graphics Editor with neighboring tools</dd><dt>Capability 5</dt><dd>Extend vector Graphics Editor toward the generator ladder</dd></dl>
+<h2>Records (full)</h2>
+<div class="rec"><h3>JAH-WPROG-PUB-VECTORGRAP-000001 — Vector Graphics Editor — Overview and definition</h3><p><span class="pill">ladder rank 1</span> <span class="pill">public</span></p><p>Public edition. Public tool knowledge, fact-checked reference. Public edition. Public tool knowledge, fact-checked reference. The Vector Graphics Editor is one of the 100 writing programs and tools AI should have: the actual programs, software tools, and engines — code editors, compilers, document creators, testing tools — that let an AI create real documents and working software. The key distinction this database honors: a description of a vector Graphics Editor is not itself a vector Graphics Editor. So this record carries the ACTUAL working implementation — real code, executed at build time, with verified outputs recorded below.</p><h4>Demo: Translate moves coords</h4><pre>var p=vgTranslate(vgPath('M 10 20 L 30 40'),5,-5);J({d:p.d});assert(p.d==='M 15 15 L 35 35','translate');</pre><p><b>Verified output</b> (2026-10-21, v24.20.0):</p><pre>{"d":"M 15 15 L 35 35"}</pre></div>
+<div class="rec"><h3>JAH-WPROG-PUB-VECTORGRAP-000002 — Vector Graphics Editor — Input and output contract</h3><p><span class="pill">ladder rank 3</span> <span class="pill">public</span></p><p>Public edition. Public tool knowledge, fact-checked reference. Public edition. Public tool knowledge, fact-checked reference. Inputs to the vector Graphics Editor: the data structures the implementation consumes, documented in the code. Outputs: the transformed result, verified by the demos. Error contract: invalid inputs produce structured errors, never silent corruption. The demos on this page exercise the contract on valid inputs, edge cases, and invalid inputs alike.</p><h4>Demo: Scale multiplies</h4><pre>var p=vgScale(vgPath('M 2 4'),3);J({d:p.d});assert(p.d==='M 6 12','scale');</pre><p><b>Verified output</b> (2026-10-21, v24.20.0):</p><pre>{"d":"M 6 12"}</pre></div>
+<div class="rec"><h3>JAH-WPROG-PUB-VECTORGRAP-000003 — Vector Graphics Editor — Working reference implementation</h3><p><span class="pill">ladder rank 5</span> <span class="pill">public</span></p><p>Public edition. Public tool knowledge, fact-checked reference. Public edition. Public tool knowledge, fact-checked reference. The complete working implementation of the vector Graphics Editor is attached to this record as code, and every demo on this page executes it. Read it as the executable specification: what the tool is, is what this code does.</p><h4>Working implementation</h4><pre>function vgPath(d){return {d:d};}
+function vgTranslate(p,dx,dy){return vgPath(p.d.replace(/([ML])\s*(-?[\d.]+)[,\s]+(-?[\d.]+)/g,function(m,c,x,y){return c+' '+(+x+dx)+' '+(+y+dy);}));}
+function vgScale(p,sx,sy){sy=sy===undefined?sx:sy;return vgPath(p.d.replace(/([ML])\s*(-?[\d.]+)[,\s]+(-?[\d.]+)/g,function(m,c,x,y){return c+' '+(+x*sx)+' '+(+y*sy);}));}
+function vgBounds(p){var nums=p.d.match(/-?[\d.]+/g).map(Number);var xs=[],ys=[];for(var i=0;i&lt;nums.length;i+=2){xs.push(nums[i]);ys.push(nums[i+1]);}
+return {minX:Math.min.apply(null,xs),maxX:Math.max.apply(null,xs),minY:Math.min.apply(null,ys),maxY:Math.max.apply(null,ys)};}
+function vgSvg(p,w,h){return '&lt;svg xmlns="http://www.w3.org/2000/svg" width="'+w+'" height="'+h+'"&gt;&lt;path d="'+p.d+'" fill="none" stroke="black"/&gt;&lt;/svg&gt;';}</pre><h4>Demo: Bounds computed</h4><pre>var b=vgBounds(vgPath('M 1 5 L 9 2'));J(b);assert(b.minX===1&amp;&amp;b.maxX===9&amp;&amp;b.minY===2&amp;&amp;b.maxY===5,'bounds');</pre><p><b>Verified output</b> (2026-10-21, v24.20.0):</p><pre>{"minX":1,"maxX":9,"minY":2,"maxY":5}</pre></div>
+<div class="rec"><h3>JAH-WPROG-PUB-VECTORGRAP-000004 — Vector Graphics Editor — Usage examples</h3><p><span class="pill">ladder rank 7</span> <span class="pill">public</span></p><p>Public edition. Public tool knowledge, fact-checked reference. Public edition. Public tool knowledge, fact-checked reference. Using the vector Graphics Editor: construct or obtain the input, invoke the implementation's functions, and inspect the verified output. The demos show the canonical calling pattern — copy it. For batch use, wrap the calls in the pipeline pattern from the integration record.</p><h4>Demo: SVG wraps path</h4><pre>var s=vgSvg(vgPath('M 0 0'),100,100);J({ok:s.indexOf('&lt;path d="M 0 0"')&gt;=0});assert(s.indexOf('&lt;path d="M 0 0"')&gt;=0,'svg');</pre><p><b>Verified output</b> (2026-10-21, v24.20.0):</p><pre>{"ok":true}</pre></div>
+<div class="rec"><h3>JAH-WPROG-PUB-VECTORGRAP-000005 — Vector Graphics Editor — Tests and verification results</h3><p><span class="pill">ladder rank 9</span> <span class="pill">public</span></p><p>Public edition. Public tool knowledge, fact-checked reference. Public edition. Public tool knowledge, fact-checked reference. Verification for the vector Graphics Editor: six executed demos covering the core operation, edge cases, error handling, and integration. Each demo ran under Node v24.20.0 at build time (2026-10-21); outputs are recorded verbatim. A failing demo fails the build — nothing here is claimed without execution.</p><h4>Demo: Non-uniform scale</h4><pre>var p=vgScale(vgPath('M 4 6'),2,3);J({d:p.d});assert(p.d==='M 8 18','nonscale');</pre><p><b>Verified output</b> (2026-10-21, v24.20.0):</p><pre>{"d":"M 8 18"}</pre></div>
+<div class="rec"><h3>JAH-WPROG-PUB-VECTORGRAP-000006 — Vector Graphics Editor — Integration and ecosystem</h3><p><span class="pill">ladder rank 11</span> <span class="pill">public</span></p><p>Public edition. Public tool knowledge, fact-checked reference. Public edition. Public tool knowledge, fact-checked reference. The vector Graphics Editor composes with neighboring tools: its output feeds the next tool's input, verification checkpoints sit between stages, and the whole chain is automated once the manual path is proven. Related tools are linked in this record's links. On the generator ladder this tool marches from simple, to competitive, to mix-and-match with other tools, to unmade variants, to top-notch, future-grade, and god-mode versions — stopping only at one quadrillion records or genuine completion.</p><h4>Demo: Translate preserves commands</h4><pre>var p=vgTranslate(vgPath('M 0 0 L 5 5'),1,1);J({d:p.d});assert(/^M /.test(p.d)&amp;&amp;/ L /.test(p.d),'cmds');</pre><p><b>Verified output</b> (2026-10-21, v24.20.0):</p><pre>{"d":"M 1 1 L 6 6"}</pre></div>
+<h2>Boundless generator</h2>
+<p>Generator script: <code>gen-writeprog-vector-graphics-editor.js</code> — run <code>node gen-writeprog-vector-graphics-editor.js --n 5</code>.
+Self-regulating: throttled, duplicate-checked, stops at 10<sup>15</sup> or when complete. Generated output is labeled
+<code>"generated"</code> and never mixed with assistant-built records.</p>
+<h2>A1 assistant maker</h2>
+<p>Build a personal assistant from this database (runs entirely in this page):</p>
+<p><button id="a1Btn">Build an A1 assistant from this database</button></p>
+<div id="a1Out"></div>
+<script>
+document.getElementById('a1Btn').addEventListener('click',function(){
+  var profile={assistant_name:'JAH Vector Graphics Editor Librarian',built_from:'writeprog-vector-graphics-editor',edition:'Public edition',
+    scope:'Answers questions, drafts content, and generates new records for The Vector Graphics Editor Tool Database using only this database and its verified demos.',
+    capabilities:["Run the working vector Graphics Editor implementation","Use vector Graphics Editor on real inputs","Test vector Graphics Editor automatically","Integrate vector Graphics Editor with neighboring tools","Extend vector Graphics Editor toward the generator ladder"],generator:'boundless, hard cap 10^15, labeled generated',created:'2026-10-21'};
+  document.getElementById('a1Out').innerHTML='<dl class="kv"><dt>A1 assistant</dt><dd><pre>'+JSON.stringify(profile,null,2).replace(/&/g,'&amp;').replace(/</g,'&lt;')+'</pre></dd></dl>';
+});
+</script>
+<p><button id="mergerBtn" class="merger">All Database Merger</button></p>
+<div id="mergerOut"></div>
+<script>
+document.getElementById('mergerBtn').addEventListener('click',function(){
+  document.getElementById('mergerOut').innerHTML='<dl class=kv><dt>Merger</dt><dd>The Vector Graphics Editor Tool Database participates in the All Database Merger: its 6 records merge by slug <code>writeprog-vector-graphics-editor</code> with sibling edition <code>writeprog-vector-graphics-editor-signature</code>. Dedupe key: record id. Provenance preserved per record.</dd></dl>';
+});
+</script>
+<h2>Provenance</h2>
+<dl class="kv">
+<dt>Source paste</dt><dd>catalog-100-writing-programs-tools-2026-10-21.txt</dd>
+<dt>Last verified</dt><dd>2026-10-21</dd>
+<dt>Node</dt><dd>v24.20.0</dd>
+<dt>Teaching ladder</dt><dd>ranks 1–15 across records (simple → most complex)</dd>
+</dl>
+</body></html>

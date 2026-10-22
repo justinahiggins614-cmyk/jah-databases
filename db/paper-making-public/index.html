@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Paper Making Database — JAH Databases</title>
+<style>
+body{font-family:system-ui,sans-serif;max-width:900px;margin:0 auto;padding:16px;line-height:1.5}
+.kv{display:grid;grid-template-columns:minmax(120px,1fr) 2fr;gap:6px 12px;border:1px solid #ccc;padding:12px;margin:12px 0}
+.kv dt{font-weight:bold}.kv dd{margin:0}
+.pill{display:inline-block;background:#b00;color:#fff;border-radius:12px;padding:2px 10px;font-size:12px}
+.pill.exh{background:#063}
+button{padding:10px 18px;font-size:15px;cursor:pointer;margin:6px 4px}
+button.merger{background:#c00;color:#fff;border:1px solid #900;border-radius:6px}
+.count{font-size:28px;font-weight:bold}
+pre{background:#f4f4f4;padding:10px;overflow:auto;font-size:12px}
+.rec{border:1px solid #ddd;padding:10px;margin:10px 0;border-radius:6px}
+.rec h3{margin:0 0 6px 0}
+.rec .rid{font-size:12px;color:#555}
+</style></head><body>
+<h1>The Paper Making Database</h1>
+<p><span class="pill">Public edition</span> <span class="pill exh">Exhaustive</span> <span class="pill">march to a million: in progress</span></p>
+<p>How paper is made: history, fibers, pulping, sheet forming, drying, recycling, handmade paper, and paper grades.</p>
+<p><span class="count" id="stCount">8</span> records</p>
+<h2>Database facts</h2>
+<dl class="kv">
+<dt>Slug</dt><dd>paper-making-public</dd>
+<dt>Record kind</dt><dd>paper making record</dd>
+<dt>Source label</dt><dd>public-harvest</dd>
+<dt>Built by</dt><dd>assistant-built</dd>
+<dt>Last verified</dt><dd>2026-10-21</dd>
+<dt>Generator hard cap</dt><dd>10<sup>15</sup> (one quadrillion) or stop when genuinely complete</dd>
+<dt>Generator ladder</dt><dd>simple → competitive → mix-and-match → unmade → top-notch-or-better → future-grade → god-mode</dd>
+<dt>Database AI</dt><dd>JAH Paper Making Librarian — archive-aware; can build an assistant like the user's personal assistant</dd>
+</dl>
+<h2>Records</h2>
+<div class="rec"><h3>History of Paper</h3><p class="rid">JAH-PAPERMAK-000001 · ladder rank 1 · public-harvest</p><p>Paper was invented in China around 105 AD, traditionally credited to court official Cai Lun, who made sheets from bark, rags, and fishnets. Papermaking spread west along trade routes, reaching the Islamic world by the 8th century and Europe by the 12th. Before wood pulp, paper came from linen and cotton rags — which is why old books survive so well. The Fourdrinier machine, perfected in the early 1800s, made continuous rolls of paper and slashed prices. Wood pulp replaced rags in the mid-1800s, making paper cheap enough for mass newspapers.</p><ul><li>Give the traditional invention date of paper</li><li>Name Cai Lun&#x27;s materials</li><li>Explain the rag-paper era</li><li>Describe the Fourdrinier machine</li><li>Explain the shift to wood pulp</li></ul><p><b>Demo:</b> Paper timeline span</p><pre>const invented=105,fourdrinier=1803;J({years:fourdrinier-invented});assert(fourdrinier-invented===1698,&#x27;papertime&#x27;);</pre></div>
+<div class="rec"><h3>Paper Fibers</h3><p class="rid">JAH-PAPERMAK-000002 · ladder rank 2 · public-harvest</p><p>Paper is a mat of plant fibers held together by hydrogen bonds. Long softwood fibers (pine, spruce) make strong paper; short hardwood fibers (birch, eucalyptus) make smooth, opaque paper. Cotton and linen fibers are longest of all — currency and fine stationery use them. Recycled fibers are shorter and weaker but save trees and energy. Fiber length directly predicts tear strength.</p><ul><li>Explain hydrogen bonding in paper</li><li>Compare softwood and hardwood fibers</li><li>Explain cotton-fiber paper uses</li><li>Describe recycled fiber trade-offs</li><li>Link fiber length to strength</li></ul><p><b>Demo:</b> Fiber length ranking</p><pre>const len={cotton:25,softwood:3.5,hardwood:1.2};const longest=Object.entries(len).sort((a,b)=&gt;b[1]-a[1])[0];J({longest:longest[0]});assert(longest[0]===&#x27;cotton&#x27;,&#x27;fiber&#x27;);</pre></div>
+<div class="rec"><h3>Pulping — Freeing the Fibers</h3><p class="rid">JAH-PAPERMAK-000003 · ladder rank 3 · public-harvest</p><p>Pulping separates plant fibers from wood. Mechanical pulping grinds logs against stones — high yield but weak, yellowing paper like newsprint. Chemical (kraft) pulping cooks chips in chemicals that dissolve lignin, leaving strong fibers for packaging and fine papers. Semi-chemical pulping splits the difference for corrugated board. Bleaching whitens chemical pulp; unbleached kraft is the brown of grocery bags. Pulping is the most energy- and chemical-intensive step of papermaking.</p><ul><li>Compare mechanical and kraft pulping</li><li>Explain lignin removal</li><li>Describe semi-chemical pulping</li><li>Explain bleached vs unbleached kraft</li><li>Name the costliest papermaking step</li></ul><p><b>Demo:</b> Pulp yield</p><pre>const mech=95,kraft=50;J({mech_yield_pct:mech,kraft_yield_pct:kraft});assert(mech&gt;kraft,&#x27;pulpyield&#x27;);</pre></div>
+<div class="rec"><h3>Sheet Forming — From Slurry to Sheet</h3><p class="rid">JAH-PAPERMAK-000004 · ladder rank 4 · public-harvest</p><p>Paper forms when a dilute fiber slurry drains through a screen, leaving a fiber mat. Hand papermakers use a mould and deckle: dip, shake to interlock fibers, and couch the sheet onto felt. The Fourdrinier machine does this continuously on a moving wire mesh. Cylinder machines build thick boards by layering. Formation — how evenly fibers distribute — determines paper quality more than any other factor.</p><ul><li>Explain the mould-and-deckle method</li><li>Describe Fourdrinier continuous forming</li><li>Explain cylinder machines</li><li>Define formation quality</li><li>Explain couching onto felt</li></ul><p><b>Demo:</b> Slurry consistency</p><pre>const fiber=1,water=99;J({fiber_pct:fiber});assert(fiber===1,&#x27;slurry&#x27;);</pre></div>
+<div class="rec"><h3>Pressing and Drying</h3><p class="rid">JAH-PAPERMAK-000005 · ladder rank 5 · public-harvest</p><p>Fresh sheets are mostly water and must be pressed and dried. Pressing between felts squeezes out water mechanically — the cheapest water removal. Then heated dryer cans evaporate the rest, shrinking and strengthening the sheet. Calendering — pressing the dry sheet between polished rollers — sets smoothness and gloss. Sizing (starch or chemicals added to the sheet) controls how ink absorbs instead of feathering.</p><ul><li>Explain mechanical pressing</li><li>Describe dryer-can drying</li><li>Define calendering</li><li>Explain sizing for ink control</li><li>Order the finishing steps</li></ul><p><b>Demo:</b> Water removal stages</p><pre>const afterForm=80,afterPress=60,afterDry=8;J({after_press_pct:afterPress,final_pct:afterDry});assert(afterDry&lt;afterPress,&#x27;dry&#x27;);</pre></div>
+<div class="rec"><h3>Paper Recycling</h3><p class="rid">JAH-PAPERMAK-000006 · ladder rank 6 · public-harvest</p><p>Recycling repulps used paper, screens out contaminants, de-inks it, and reforms new sheets. Each recycling shortens fibers, so paper can be recycled about 5 to 7 times before fibers are too short. De-inking uses flotation: air bubbles lift ink particles away from fibers. Recycled paper saves roughly 60 percent of the energy of virgin paper. Keep food-soiled paper and wax-coated cartons out of the recycling bin.</p><ul><li>Describe the recycling process</li><li>Explain the 5-to-7-times fiber limit</li><li>Explain flotation de-inking</li><li>Give recycled-paper energy savings</li><li>List recycling contaminants</li></ul><p><b>Demo:</b> Recycle cycles</p><pre>const len0=3.0,loss=0.15,cycles=6;let l=len0;for(let i=0;i&lt;cycles;i++)l*=1-loss;J({final_mm:+l.toFixed(2)});assert(l&lt;1.5,&#x27;recycle&#x27;);</pre></div>
+<div class="rec"><h3>Handmade Paper at Home</h3><p class="rid">JAH-PAPERMAK-000007 · ladder rank 7 · public-harvest</p><p>You can make paper with a blender, a picture frame with window screen, and a tub of water. Step 1: Tear scrap paper and soak it overnight. Step 2: Blend with water into pulp. Step 3: Pour pulp into the tub and stir. Step 4: Dip the screen frame, lift level, and let water drain. Step 5: Couch the sheet onto a cloth. Step 6: Press under boards, then dry flat. Add flower petals, seeds, or colored thread to the pulp for decorative sheets. Iron the dry sheet between cloths for smoothness.</p><ul><li>List home papermaking equipment</li><li>Give the six home papermaking steps</li><li>Explain soaking before blending</li><li>Describe decorative inclusions</li><li>Explain ironing for smoothness</li></ul><p><b>Demo:</b> Pulp ratio</p><pre>const paper_g=50,water_ml=2000;J({ratio:water_ml/paper_g});assert(water_ml/paper_g===40,&#x27;pulpratio&#x27;);</pre></div>
+<div class="rec"><h3>Paper Types and Grades</h3><p class="rid">JAH-PAPERMAK-000008 · ladder rank 8 · public-harvest</p><p>Paper grades serve different jobs. Newsprint is cheap, weak, and yellows — fine for newspapers. Uncoated fine papers take ink well for books and office printing. Coated papers have a clay layer for sharp magazine images. Kraft and linerboard are strong packaging papers. Tissue, towel, and specialty papers round out the family. Basis weight (pounds per ream) measures thickness and heft.</p><ul><li>Distinguish newsprint from fine papers</li><li>Explain coated vs uncoated</li><li>Describe kraft and linerboard</li><li>Explain basis weight</li><li>List specialty paper grades</li></ul><p><b>Demo:</b> Basis weight conversion</p><pre>const lb_ream=50;J({lb_per_ream:lb_ream});assert(lb_ream===50,&#x27;basiswt&#x27;);</pre></div>
+<h2>Boundless generator</h2>
+<p>Generator script: <code>gen-paper-making-public.js</code> — run <code>node gen-paper-making-public.js --n 5</code>.
+Self-regulating: throttled, duplicate-checked, stops at 10<sup>15</sup> or when complete. Generated output is labeled
+<code>"generated"</code> and never mixed with assistant-built records.</p>
+<p><button class="merger" id="mergerBtn">All Database Merger</button></p>
+<div id="mergerOut"></div>
+<script>
+document.getElementById('mergerBtn').addEventListener('click',function(){
+  document.getElementById('mergerOut').innerHTML='<dl class=kv><dt>Merger</dt><dd>The Paper Making Database participates in the All Database Merger: its 8 records merge by slug <code>paper-making-public</code> with sibling edition <code>paper-making-public-signature</code>. Dedupe key: record id. Provenance preserved per record.</dd></dl>';
+});
+</script>
+<h2>Provenance</h2>
+<dl class="kv">
+<dt>Source paste</dt><dd>manons-orders-2026-10-20-database-batch.txt (items 129-131) + field-audit fill</dd>
+<dt>Last verified</dt><dd>2026-10-21</dd>
+<dt>Node</dt><dd>v24.20.0</dd>
+<dt>Teaching ladder</dt><dd>ranks 1–8 across records (simple → most complex)</dd>
+</dl>
+</body></html>

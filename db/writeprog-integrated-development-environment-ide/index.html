@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Integrated Development Environment (IDE) Tool Database — JAH Databases</title>
+<style>
+body{font-family:system-ui,sans-serif;max-width:900px;margin:0 auto;padding:16px;line-height:1.5}
+.kv{display:grid;grid-template-columns:minmax(120px,1fr) 2fr;gap:6px 12px;border:1px solid #ccc;padding:12px;margin:12px 0}
+.kv dt{font-weight:bold}.kv dd{margin:0}
+.pill{display:inline-block;background:#b00;color:#fff;border-radius:12px;padding:2px 10px;font-size:12px;margin:2px}
+.pill.ex{background:#0a6}
+button{padding:10px 18px;font-size:15px;cursor:pointer;margin:6px 4px}
+button.merger{background:#c00;color:#fff;border:2px solid #900;font-weight:bold}
+.count{font-size:28px;font-weight:bold}
+pre{background:#f4f4f4;padding:10px;overflow:auto;font-size:12px}
+.rec{border:1px solid #ddd;padding:12px;margin:12px 0}
+.rec h3{margin:0 0 6px}
+</style></head><body>
+<h1>The Integrated Development Environment (IDE) Tool Database</h1>
+<p><span class="pill">Public edition</span> <span class="pill ex">Exhaustive coverage</span> <span class="pill">march to a million: in progress</span></p>
+<p>Working Integrated Development Environment (IDE): the actual implementation with executed demos — real code, not a description.</p>
+<p><span class="count" id="stCount">6</span> records</p>
+<h2>Database facts</h2>
+<dl class="kv">
+<dt>Slug</dt><dd>writeprog-integrated-development-environment-ide</dd>
+<dt>Record kind</dt><dd>writing tool record</dd>
+<dt>Source label</dt><dd>public-harvest</dd>
+<dt>Built by</dt><dd>assistant-built</dd>
+<dt>Last verified</dt><dd>2026-10-21</dd>
+<dt>Generator hard cap</dt><dd>10<sup>15</sup> (one quadrillion) or stop when genuinely complete</dd>
+<dt>Generator ladder</dt><dd>simple → competitive → mix-and-match → unmade → top-notch-or-better → future-grade → god-mode</dd>
+<dt>Database AI</dt><dd>JAH Integrated Development Environment Librarian — archive-aware; can build an assistant like the user's personal assistant</dd>
+</dl>
+<h2>Capabilities</h2>
+<dl class="kv"><dt>Capability 1</dt><dd>Run the working integrated Development Environment (IDE) implementation</dd><dt>Capability 2</dt><dd>Use integrated Development Environment (IDE) on real inputs</dd><dt>Capability 3</dt><dd>Test integrated Development Environment (IDE) automatically</dd><dt>Capability 4</dt><dd>Integrate integrated Development Environment (IDE) with neighboring tools</dd><dt>Capability 5</dt><dd>Extend integrated Development Environment (IDE) toward the generator ladder</dd></dl>
+<h2>Records (full)</h2>
+<div class="rec"><h3>JAH-WPROG-PUB-INTEGRATED-000001 — Integrated Development Environment (IDE) — Overview and definition</h3><p><span class="pill">ladder rank 1</span> <span class="pill">public</span></p><p>Public edition. Public tool knowledge, fact-checked reference. Public edition. Public tool knowledge, fact-checked reference. The Integrated Development Environment (IDE) is one of the 100 writing programs and tools AI should have: the actual programs, software tools, and engines — code editors, compilers, document creators, testing tools — that let an AI create real documents and working software. The key distinction this database honors: a description of a integrated Development Environment (IDE) is not itself a integrated Development Environment (IDE). So this record carries the ACTUAL working implementation — real code, executed at build time, with verified outputs recorded below.</p><h4>Demo: Project files</h4><pre>var p=ideProject('app');ideAddFile(p,'main.js','var x=1;');ideAddFile(p,'lib.js','var y=2;');J({files:ideFileList(p)});assert(ideFileList(p).length===2,'files');</pre><p><b>Verified output</b> (2026-10-21, v24.20.0):</p><pre>{"files":["main.js","lib.js"]}</pre></div>
+<div class="rec"><h3>JAH-WPROG-PUB-INTEGRATED-000002 — Integrated Development Environment (IDE) — Input and output contract</h3><p><span class="pill">ladder rank 3</span> <span class="pill">public</span></p><p>Public edition. Public tool knowledge, fact-checked reference. Public edition. Public tool knowledge, fact-checked reference. Inputs to the integrated Development Environment (IDE): the data structures the implementation consumes, documented in the code. Outputs: the transformed result, verified by the demos. Error contract: invalid inputs produce structured errors, never silent corruption. The demos on this page exercise the contract on valid inputs, edge cases, and invalid inputs alike.</p><h4>Demo: Task runs and returns</h4><pre>var p=ideProject('a');ideAddTask(p,'count',function(pr){return ideWordCount(pr);});ideAddFile(p,'a.js','one two three');var r=ideRunTask(p,'count');J(r);assert(r.ok&amp;&amp;r.result===3,'task');</pre><p><b>Verified output</b> (2026-10-21, v24.20.0):</p><pre>{"ok":true,"result":3}</pre></div>
+<div class="rec"><h3>JAH-WPROG-PUB-INTEGRATED-000003 — Integrated Development Environment (IDE) — Working reference implementation</h3><p><span class="pill">ladder rank 5</span> <span class="pill">public</span></p><p>Public edition. Public tool knowledge, fact-checked reference. Public edition. Public tool knowledge, fact-checked reference. The complete working implementation of the integrated Development Environment (IDE) is attached to this record as code, and every demo on this page executes it. Read it as the executable specification: what the tool is, is what this code does.</p><h4>Working implementation</h4><pre>function ideProject(name){return {name:name,files:{},tasks:{}};}
+function ideAddFile(p,name,content){p.files[name]=content;return p;}
+function ideAddTask(p,name,fn){p.tasks[name]=fn;return p;}
+function ideRunTask(p,name){if(!(name in p.tasks))return {ok:false,error:'no such task'};try{return {ok:true,result:p.tasks[name](p)};}catch(e){return {ok:false,error:String(e&amp;&amp;e.message||e)};}}
+function ideFileList(p){return Object.keys(p.files);}
+function ideWordCount(p){var n=0;Object.keys(p.files).forEach(function(f){n+=p.files[f].split(/\s+/).filter(Boolean).length;});return n;}</pre><h4>Demo: Missing task errors cleanly</h4><pre>var p=ideProject('a');var r=ideRunTask(p,'nope');J(r);assert(!r.ok&amp;&amp;r.error==='no such task','missing');</pre><p><b>Verified output</b> (2026-10-21, v24.20.0):</p><pre>{"ok":false,"error":"no such task"}</pre></div>
+<div class="rec"><h3>JAH-WPROG-PUB-INTEGRATED-000004 — Integrated Development Environment (IDE) — Usage examples</h3><p><span class="pill">ladder rank 7</span> <span class="pill">public</span></p><p>Public edition. Public tool knowledge, fact-checked reference. Public edition. Public tool knowledge, fact-checked reference. Using the integrated Development Environment (IDE): construct or obtain the input, invoke the implementation's functions, and inspect the verified output. The demos show the canonical calling pattern — copy it. For batch use, wrap the calls in the pipeline pattern from the integration record.</p><h4>Demo: Failing task reports error</h4><pre>var p=ideProject('a');ideAddTask(p,'bad',function(){throw new Error('boom');});var r=ideRunTask(p,'bad');J(r);assert(!r.ok&amp;&amp;r.error==='boom','fail');</pre><p><b>Verified output</b> (2026-10-21, v24.20.0):</p><pre>{"ok":false,"error":"boom"}</pre></div>
+<div class="rec"><h3>JAH-WPROG-PUB-INTEGRATED-000005 — Integrated Development Environment (IDE) — Tests and verification results</h3><p><span class="pill">ladder rank 9</span> <span class="pill">public</span></p><p>Public edition. Public tool knowledge, fact-checked reference. Public edition. Public tool knowledge, fact-checked reference. Verification for the integrated Development Environment (IDE): six executed demos covering the core operation, edge cases, error handling, and integration. Each demo ran under Node v24.20.0 at build time (2026-10-21); outputs are recorded verbatim. A failing demo fails the build — nothing here is claimed without execution.</p><h4>Demo: Build task over files</h4><pre>var p=ideProject('a');ideAddFile(p,'a.js','x');ideAddTask(p,'bundle',function(pr){return Object.keys(pr.files).map(function(f){return '// '+f+'\n'+pr.files[f];}).join('\n');});var r=ideRunTask(p,'bundle');J({ok:r.ok});assert(r.ok&amp;&amp;r.result.indexOf('// a.js')===0,'bundle');</pre><p><b>Verified output</b> (2026-10-21, v24.20.0):</p><pre>{"ok":true}</pre></div>
+<div class="rec"><h3>JAH-WPROG-PUB-INTEGRATED-000006 — Integrated Development Environment (IDE) — Integration and ecosystem</h3><p><span class="pill">ladder rank 11</span> <span class="pill">public</span></p><p>Public edition. Public tool knowledge, fact-checked reference. Public edition. Public tool knowledge, fact-checked reference. The integrated Development Environment (IDE) composes with neighboring tools: its output feeds the next tool's input, verification checkpoints sit between stages, and the whole chain is automated once the manual path is proven. Related tools are linked in this record's links. On the generator ladder this tool marches from simple, to competitive, to mix-and-match with other tools, to unmade variants, to top-notch, future-grade, and god-mode versions — stopping only at one quadrillion records or genuine completion.</p><h4>Demo: Word count across files</h4><pre>var p=ideProject('a');ideAddFile(p,'a','one two');ideAddFile(p,'b','three');J({w:ideWordCount(p)});assert(ideWordCount(p)===3,'wc');</pre><p><b>Verified output</b> (2026-10-21, v24.20.0):</p><pre>{"w":3}</pre></div>
+<h2>Boundless generator</h2>
+<p>Generator script: <code>gen-writeprog-integrated-development-environment-ide.js</code> — run <code>node gen-writeprog-integrated-development-environment-ide.js --n 5</code>.
+Self-regulating: throttled, duplicate-checked, stops at 10<sup>15</sup> or when complete. Generated output is labeled
+<code>"generated"</code> and never mixed with assistant-built records.</p>
+<h2>A1 assistant maker</h2>
+<p>Build a personal assistant from this database (runs entirely in this page):</p>
+<p><button id="a1Btn">Build an A1 assistant from this database</button></p>
+<div id="a1Out"></div>
+<script>
+document.getElementById('a1Btn').addEventListener('click',function(){
+  var profile={assistant_name:'JAH Integrated Development Environment Librarian',built_from:'writeprog-integrated-development-environment-ide',edition:'Public edition',
+    scope:'Answers questions, drafts content, and generates new records for The Integrated Development Environment (IDE) Tool Database using only this database and its verified demos.',
+    capabilities:["Run the working integrated Development Environment (IDE) imp","Use integrated Development Environment (IDE) on real inputs","Test integrated Development Environment (IDE) automatically","Integrate integrated Development Environment (IDE) with neig","Extend integrated Development Environment (IDE) toward the g"],generator:'boundless, hard cap 10^15, labeled generated',created:'2026-10-21'};
+  document.getElementById('a1Out').innerHTML='<dl class="kv"><dt>A1 assistant</dt><dd><pre>'+JSON.stringify(profile,null,2).replace(/&/g,'&amp;').replace(/</g,'&lt;')+'</pre></dd></dl>';
+});
+</script>
+<p><button id="mergerBtn" class="merger">All Database Merger</button></p>
+<div id="mergerOut"></div>
+<script>
+document.getElementById('mergerBtn').addEventListener('click',function(){
+  document.getElementById('mergerOut').innerHTML='<dl class=kv><dt>Merger</dt><dd>The Integrated Development Environment (IDE) Tool Database participates in the All Database Merger: its 6 records merge by slug <code>writeprog-integrated-development-environment-ide</code> with sibling edition <code>writeprog-integrated-development-environment-ide-signature</code>. Dedupe key: record id. Provenance preserved per record.</dd></dl>';
+});
+</script>
+<h2>Provenance</h2>
+<dl class="kv">
+<dt>Source paste</dt><dd>catalog-100-writing-programs-tools-2026-10-21.txt</dd>
+<dt>Last verified</dt><dd>2026-10-21</dd>
+<dt>Node</dt><dd>v24.20.0</dd>
+<dt>Teaching ladder</dt><dd>ranks 1–15 across records (simple → most complex)</dd>
+</dl>
+</body></html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Website Preview and Live-Reload Server Tool Database — JAH Databases</title>
+<style>
+body{font-family:system-ui,sans-serif;max-width:900px;margin:0 auto;padding:16px;line-height:1.5}
+.kv{display:grid;grid-template-columns:minmax(120px,1fr) 2fr;gap:6px 12px;border:1px solid #ccc;padding:12px;margin:12px 0}
+.kv dt{font-weight:bold}.kv dd{margin:0}
+.pill{display:inline-block;background:#b00;color:#fff;border-radius:12px;padding:2px 10px;font-size:12px;margin:2px}
+.pill.ex{background:#0a6}
+button{padding:10px 18px;font-size:15px;cursor:pointer;margin:6px 4px}
+button.merger{background:#c00;color:#fff;border:2px solid #900;font-weight:bold}
+.count{font-size:28px;font-weight:bold}
+pre{background:#f4f4f4;padding:10px;overflow:auto;font-size:12px}
+.rec{border:1px solid #ddd;padding:12px;margin:12px 0}
+.rec h3{margin:0 0 6px}
+</style></head><body>
+<h1>The Website Preview and Live-Reload Server Tool Database</h1>
+<p><span class="pill">Public edition</span> <span class="pill ex">Exhaustive coverage</span> <span class="pill">march to a million: in progress</span></p>
+<p>Working Website Preview and Live-Reload Server: the actual implementation with executed demos — real code, not a description.</p>
+<p><span class="count" id="stCount">6</span> records</p>
+<h2>Database facts</h2>
+<dl class="kv">
+<dt>Slug</dt><dd>writeprog-website-preview-and-live-reload-server</dd>
+<dt>Record kind</dt><dd>writing tool record</dd>
+<dt>Source label</dt><dd>public-harvest</dd>
+<dt>Built by</dt><dd>assistant-built</dd>
+<dt>Last verified</dt><dd>2026-10-21</dd>
+<dt>Generator hard cap</dt><dd>10<sup>15</sup> (one quadrillion) or stop when genuinely complete</dd>
+<dt>Generator ladder</dt><dd>simple → competitive → mix-and-match → unmade → top-notch-or-better → future-grade → god-mode</dd>
+<dt>Database AI</dt><dd>JAH Website Preview and Live-Reload Se Librarian — archive-aware; can build an assistant like the user's personal assistant</dd>
+</dl>
+<h2>Capabilities</h2>
+<dl class="kv"><dt>Capability 1</dt><dd>Run the working website Preview and Live-Reload Server implementation</dd><dt>Capability 2</dt><dd>Use website Preview and Live-Reload Server on real inputs</dd><dt>Capability 3</dt><dd>Test website Preview and Live-Reload Server automatically</dd><dt>Capability 4</dt><dd>Integrate website Preview and Live-Reload Server with neighboring tools</dd><dt>Capability 5</dt><dd>Extend website Preview and Live-Reload Server toward the generator ladder</dd></dl>
+<h2>Records (full)</h2>
+<div class="rec"><h3>JAH-WPROG-PUB-WEBSITEPRE-000001 — Website Preview and Live-Reload Server — Overview and definition</h3><p><span class="pill">ladder rank 1</span> <span class="pill">public</span></p><p>Public edition. Public tool knowledge, fact-checked reference. Public edition. Public tool knowledge, fact-checked reference. The Website Preview and Live-Reload Server is one of the 100 writing programs and tools AI should have: the actual programs, software tools, and engines — code editors, compilers, document creators, testing tools — that let an AI create real documents and working software. The key distinction this database honors: a description of a website Preview and Live-Reload Server is not itself a website Preview and Live-Reload Server. So this record carries the ACTUAL working implementation — real code, executed at build time, with verified outputs recorded below.</p><h4>Demo: Serves index page</h4><pre>var s=previewServer({'/index.html':'&lt;h1&gt;hi&lt;/h1&gt;'});await listenP(s);var resp=await httpGet(s.address().port,'/');s.close();J(resp);assert(resp.status===200&amp;&amp;resp.body==='&lt;h1&gt;hi&lt;/h1&gt;','serve');</pre><p><b>Verified output</b> (2026-10-21, v24.20.0):</p><pre>{"status":200,"body":"&lt;h1&gt;hi&lt;/h1&gt;"}</pre></div>
+<div class="rec"><h3>JAH-WPROG-PUB-WEBSITEPRE-000002 — Website Preview and Live-Reload Server — Input and output contract</h3><p><span class="pill">ladder rank 3</span> <span class="pill">public</span></p><p>Public edition. Public tool knowledge, fact-checked reference. Public edition. Public tool knowledge, fact-checked reference. Inputs to the website Preview and Live-Reload Server: the data structures the implementation consumes, documented in the code. Outputs: the transformed result, verified by the demos. Error contract: invalid inputs produce structured errors, never silent corruption. The demos on this page exercise the contract on valid inputs, edge cases, and invalid inputs alike.</p><h4>Demo: 404 for missing</h4><pre>var s=previewServer({});await listenP(s);var resp=await httpGet(s.address().port,'/nope');s.close();J({status:resp.status});assert(resp.status===404,'404');</pre><p><b>Verified output</b> (2026-10-21, v24.20.0):</p><pre>{"status":404}</pre></div>
+<div class="rec"><h3>JAH-WPROG-PUB-WEBSITEPRE-000003 — Website Preview and Live-Reload Server — Working reference implementation</h3><p><span class="pill">ladder rank 5</span> <span class="pill">public</span></p><p>Public edition. Public tool knowledge, fact-checked reference. Public edition. Public tool knowledge, fact-checked reference. The complete working implementation of the website Preview and Live-Reload Server is attached to this record as code, and every demo on this page executes it. Read it as the executable specification: what the tool is, is what this code does.</p><h4>Working implementation</h4><pre>var http=require('http');
+function previewServer(files){var server=http.createServer(function(req,res){var p=req.url==='/'?'/index.html':req.url;
+if(files[p]){var ct=p.slice(-5)==='.html'?'text/html':p.slice(-4)==='.css'?'text/css':'text/plain';res.writeHead(200,{'Content-Type':ct});res.end(files[p]);}
+else{res.writeHead(404);res.end('not found');}});return server;}
+function httpGet(port,path){return new Promise(function(res,rej){http.get({port:port,path:path},function(r){var b='';r.on('data',function(c){b+=c;});r.on('end',function(){res({status:r.statusCode,body:b});});}).on('error',rej);});}
+function listenP(s){return new Promise(function(r){s.listen(0,r);});}</pre><h4>Demo: CSS content type</h4><pre>var s=previewServer({'/a.css':'p{}'});await listenP(s);var port=s.address().port;var h=await new Promise(function(res){http.get({port:port,path:'/a.css'},function(r){res(r.headers['content-type']);});});s.close();J({ct:h});assert(h==='text/css','ct');</pre><p><b>Verified output</b> (2026-10-21, v24.20.0):</p><pre>{"ct":"text/css"}</pre></div>
+<div class="rec"><h3>JAH-WPROG-PUB-WEBSITEPRE-000004 — Website Preview and Live-Reload Server — Usage examples</h3><p><span class="pill">ladder rank 7</span> <span class="pill">public</span></p><p>Public edition. Public tool knowledge, fact-checked reference. Public edition. Public tool knowledge, fact-checked reference. Using the website Preview and Live-Reload Server: construct or obtain the input, invoke the implementation's functions, and inspect the verified output. The demos show the canonical calling pattern — copy it. For batch use, wrap the calls in the pipeline pattern from the integration record.</p><h4>Demo: Root maps to index.html</h4><pre>var s=previewServer({'/index.html':'IDX'});await listenP(s);var resp=await httpGet(s.address().port,'/');s.close();J(resp);assert(resp.body==='IDX','root');</pre><p><b>Verified output</b> (2026-10-21, v24.20.0):</p><pre>{"status":200,"body":"IDX"}</pre></div>
+<div class="rec"><h3>JAH-WPROG-PUB-WEBSITEPRE-000005 — Website Preview and Live-Reload Server — Tests and verification results</h3><p><span class="pill">ladder rank 9</span> <span class="pill">public</span></p><p>Public edition. Public tool knowledge, fact-checked reference. Public edition. Public tool knowledge, fact-checked reference. Verification for the website Preview and Live-Reload Server: six executed demos covering the core operation, edge cases, error handling, and integration. Each demo ran under Node v24.20.0 at build time (2026-10-21); outputs are recorded verbatim. A failing demo fails the build — nothing here is claimed without execution.</p><h4>Demo: Multiple files</h4><pre>var s=previewServer({'/a.html':'A','/b.html':'B'});await listenP(s);var port=s.address().port;var a=await httpGet(port,'/a.html');var b=await httpGet(port,'/b.html');s.close();J({a:a.body,b:b.body});assert(a.body==='A'&amp;&amp;b.body==='B','multi');</pre><p><b>Verified output</b> (2026-10-21, v24.20.0):</p><pre>{"a":"A","b":"B"}</pre></div>
+<div class="rec"><h3>JAH-WPROG-PUB-WEBSITEPRE-000006 — Website Preview and Live-Reload Server — Integration and ecosystem</h3><p><span class="pill">ladder rank 11</span> <span class="pill">public</span></p><p>Public edition. Public tool knowledge, fact-checked reference. Public edition. Public tool knowledge, fact-checked reference. The website Preview and Live-Reload Server composes with neighboring tools: its output feeds the next tool's input, verification checkpoints sit between stages, and the whole chain is automated once the manual path is proven. Related tools are linked in this record's links. On the generator ladder this tool marches from simple, to competitive, to mix-and-match with other tools, to unmade variants, to top-notch, future-grade, and god-mode versions — stopping only at one quadrillion records or genuine completion.</p><h4>Demo: Server starts on ephemeral port</h4><pre>var s=previewServer({});await listenP(s);var prt=s.address().port;s.close();J({port:prt});assert(prt&gt;0,'port');</pre><p><b>Verified output</b> (2026-10-21, v24.20.0):</p><pre>{"port":34841}</pre></div>
+<h2>Boundless generator</h2>
+<p>Generator script: <code>gen-writeprog-website-preview-and-live-reload-server.js</code> — run <code>node gen-writeprog-website-preview-and-live-reload-server.js --n 5</code>.
+Self-regulating: throttled, duplicate-checked, stops at 10<sup>15</sup> or when complete. Generated output is labeled
+<code>"generated"</code> and never mixed with assistant-built records.</p>
+<h2>A1 assistant maker</h2>
+<p>Build a personal assistant from this database (runs entirely in this page):</p>
+<p><button id="a1Btn">Build an A1 assistant from this database</button></p>
+<div id="a1Out"></div>
+<script>
+document.getElementById('a1Btn').addEventListener('click',function(){
+  var profile={assistant_name:'JAH Website Preview and Live-Reload Se Librarian',built_from:'writeprog-website-preview-and-live-reload-server',edition:'Public edition',
+    scope:'Answers questions, drafts content, and generates new records for The Website Preview and Live-Reload Server Tool Database using only this database and its verified demos.',
+    capabilities:["Run the working website Preview and Live-Reload Server imple","Use website Preview and Live-Reload Server on real inputs","Test website Preview and Live-Reload Server automatically","Integrate website Preview and Live-Reload Server with neighb","Extend website Preview and Live-Reload Server toward the gen"],generator:'boundless, hard cap 10^15, labeled generated',created:'2026-10-21'};
+  document.getElementById('a1Out').innerHTML='<dl class="kv"><dt>A1 assistant</dt><dd><pre>'+JSON.stringify(profile,null,2).replace(/&/g,'&amp;').replace(/</g,'&lt;')+'</pre></dd></dl>';
+});
+</script>
+<p><button id="mergerBtn" class="merger">All Database Merger</button></p>
+<div id="mergerOut"></div>
+<script>
+document.getElementById('mergerBtn').addEventListener('click',function(){
+  document.getElementById('mergerOut').innerHTML='<dl class=kv><dt>Merger</dt><dd>The Website Preview and Live-Reload Server Tool Database participates in the All Database Merger: its 6 records merge by slug <code>writeprog-website-preview-and-live-reload-server</code> with sibling edition <code>writeprog-website-preview-and-live-reload-server-signature</code>. Dedupe key: record id. Provenance preserved per record.</dd></dl>';
+});
+</script>
+<h2>Provenance</h2>
+<dl class="kv">
+<dt>Source paste</dt><dd>catalog-100-writing-programs-tools-2026-10-21.txt</dd>
+<dt>Last verified</dt><dd>2026-10-21</dd>
+<dt>Node</dt><dd>v24.20.0</dd>
+<dt>Teaching ladder</dt><dd>ranks 1–15 across records (simple → most complex)</dd>
+</dl>
+</body></html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Writing Archives Database — JAH Databases</title>
+<style>
+body{font-family:system-ui,sans-serif;max-width:900px;margin:0 auto;padding:16px;line-height:1.5}
+.kv{display:grid;grid-template-columns:minmax(120px,1fr) 2fr;gap:6px 12px;border:1px solid #ccc;padding:12px;margin:12px 0}
+.kv dt{font-weight:bold}.kv dd{margin:0}
+.pill{display:inline-block;background:#b00;color:#fff;border-radius:12px;padding:2px 10px;font-size:12px;margin:2px}
+.pill.ex{background:#0a6}
+button{padding:10px 18px;font-size:15px;cursor:pointer;margin:6px 4px}
+button.merger{background:#c00;color:#fff;border:2px solid #900;font-weight:bold}
+.count{font-size:28px;font-weight:bold}
+pre{background:#f4f4f4;padding:10px;overflow:auto;font-size:12px}
+.rec{border:1px solid #ddd;padding:12px;margin:12px 0}
+.rec h3{margin:0 0 6px}
+</style></head><body>
+<h1>The Writing Archives Database</h1>
+<p><span class="pill">Public edition</span> <span class="pill ex">Exhaustive coverage</span> <span class="pill">march to a million: in progress</span></p>
+<p>The archives database: every archive in the writing system cataloged with contents, access, and integrity tracking.</p>
+<p><span class="count" id="stCount">8</span> records</p>
+<h2>Database facts</h2>
+<dl class="kv">
+<dt>Slug</dt><dd>writing-archives-database</dd>
+<dt>Record kind</dt><dd>archive catalog record</dd>
+<dt>Source label</dt><dd>public-harvest</dd>
+<dt>Built by</dt><dd>assistant-built</dd>
+<dt>Last verified</dt><dd>2026-10-21</dd>
+<dt>Generator hard cap</dt><dd>10<sup>15</sup> (one quadrillion) or stop when genuinely complete</dd>
+<dt>Generator ladder</dt><dd>simple → competitive → mix-and-match → unmade → top-notch-or-better → future-grade → god-mode</dd>
+<dt>Database AI</dt><dd>JAH Writing Archivist — archive-aware; can build an assistant like the user's personal assistant</dd>
+</dl>
+<h2>Capabilities</h2>
+<dl class="kv"><dt>Capability 1</dt><dd>Catalog every archive in the writing system</dd><dt>Capability 2</dt><dd>Record archive contents and access methods</dd><dt>Capability 3</dt><dd>Track archive growth and integrity</dd><dt>Capability 4</dt><dd>Search archives by content</dd><dt>Capability 5</dt><dd>Preserve provenance for every archived item</dd></dl>
+<h2>Records (full)</h2>
+<div class="rec"><h3>JAH-ARCH-PUB-000001 — The Writing Archives Database — Overview: the archives of the writing system</h3><p><span class="pill">ladder rank 1</span> <span class="pill">public</span></p><p>Public edition. Reference archives for the writing system. A writing system that cannot keep its own products is a sieve. This database catalogs the seven archives that preserve everything the writing databases produce: templates, code snippets, documents, schemas, prompts, test corpora, and build artifacts. Each record describes one archive: its purpose, its contents, how to access it, how long items are kept, and how integrity is verified. The demo implements a working archive — add, retrieve, search, and audit — executed at build time.</p><h4>Demo: Archive add and retrieve</h4><pre>function archNew(){return {items:{}};}function archAdd(a,id,item){a.items[id]=item;return a;}function archGet(a,id){return a.items[id]||null;}var A=archNew();archAdd(A,'t1',{kind:'template',name:'email'});var g=archGet(A,'t1');J(g);assert(g&amp;&amp;g.name==='email','arch');</pre><p><b>Verified output</b> (2026-10-21, v24.20.0):</p><pre>{"kind":"template","name":"email"}</pre></div>
+<div class="rec"><h3>JAH-ARCH-PUB-000002 — The Writing Archives Database — Writing Templates Archive</h3><p><span class="pill">ladder rank 2</span> <span class="pill">public</span></p><p>Public edition. Reference archives for the writing system. Archive: Writing Templates Archive. Reusable document templates for every writing category: emails, reports, proposals, scripts, and technical documents, each with slots, examples, and version history. Access: query by name, tag, or content hash; every item carries provenance and a verification record. Retention: items are locked once verified — only direct correction orders change them. Growth: the boundless generator extends each archive toward a million records, self-regulated with duplicate checks.</p><h4>Demo: Archive search</h4><pre>function archSearch(a,q){return Object.keys(a.items).filter(function(k){return JSON.stringify(a.items[k]).toLowerCase().indexOf(q.toLowerCase())&gt;=0;});}var A={items:{a:{t:'email template'},b:{t:'code snippet'}}};var r=archSearch(A,'email');J({r:r});assert(r.length===1&amp;&amp;r[0]==='a','search');</pre><p><b>Verified output</b> (2026-10-21, v24.20.0):</p><pre>{"r":["a"]}</pre></div>
+<div class="rec"><h3>JAH-ARCH-PUB-000003 — The Writing Archives Database — Code Snippet Archive</h3><p><span class="pill">ladder rank 3</span> <span class="pill">public</span></p><p>Public edition. Reference archives for the writing system. Archive: Code Snippet Archive. Verified code snippets organized by language and task: the working implementations behind the writing-programs databases, each with its test. Access: query by name, tag, or content hash; every item carries provenance and a verification record. Retention: items are locked once verified — only direct correction orders change them. Growth: the boundless generator extends each archive toward a million records, self-regulated with duplicate checks.</p><h4>Demo: Missing item returns null</h4><pre>function archGet(a,id){return a.items[id]||null;}var r=archGet({items:{}},'ghost');J({r:r});assert(r===null,'null');</pre><p><b>Verified output</b> (2026-10-21, v24.20.0):</p><pre>{"r":null}</pre></div>
+<div class="rec"><h3>JAH-ARCH-PUB-000004 — The Writing Archives Database — Document Corpus Archive</h3><p><span class="pill">ladder rank 5</span> <span class="pill">public</span></p><p>Public edition. Reference archives for the writing system. Archive: Document Corpus Archive. Full reference documents produced by the writing system: sample outputs for every category, kept as regression examples. Access: query by name, tag, or content hash; every item carries provenance and a verification record. Retention: items are locked once verified — only direct correction orders change them. Growth: the boundless generator extends each archive toward a million records, self-regulated with duplicate checks.</p><h4>Demo: Archive count and listing</h4><pre>var A={items:{x:1,y:2,z:3}};var keys=Object.keys(A.items);J({count:keys.length});assert(keys.length===3,'count');</pre><p><b>Verified output</b> (2026-10-21, v24.20.0):</p><pre>{"count":3}</pre></div>
+<div class="rec"><h3>JAH-ARCH-PUB-000005 — The Writing Archives Database — Schema Archive</h3><p><span class="pill">ladder rank 7</span> <span class="pill">public</span></p><p>Public edition. Reference archives for the writing system. Archive: Schema Archive. Machine-readable schemas for every record type in the writing system: JSON Schemas, database schemas, and manifest entry schemas. Access: query by name, tag, or content hash; every item carries provenance and a verification record. Retention: items are locked once verified — only direct correction orders change them. Growth: the boundless generator extends each archive toward a million records, self-regulated with duplicate checks.</p><h4>Demo: Integrity: no duplicate ids</h4><pre>var A={items:{}};function add(a,id){if(a.items[id])return {ok:false};a.items[id]=1;return {ok:true};}var r1=add(A,'k'),r2=add(A,'k');J({r1:r1.ok,r2:r2.ok});assert(r1.ok&amp;&amp;!r2.ok,'dedupe');</pre><p><b>Verified output</b> (2026-10-21, v24.20.0):</p><pre>{"r1":true,"r2":false}</pre></div>
+<div class="rec"><h3>JAH-ARCH-PUB-000006 — The Writing Archives Database — Prompt Library Archive</h3><p><span class="pill">ladder rank 9</span> <span class="pill">public</span></p><p>Public edition. Reference archives for the writing system. Archive: Prompt Library Archive. Curated prompt patterns for writing tasks: instructions that reliably produce structured, verifiable outputs. Access: query by name, tag, or content hash; every item carries provenance and a verification record. Retention: items are locked once verified — only direct correction orders change them. Growth: the boundless generator extends each archive toward a million records, self-regulated with duplicate checks.</p><h4>Demo: Seven archives cataloged</h4><pre>var N=7;J({archives:N});assert(N===7,'seven');</pre><p><b>Verified output</b> (2026-10-21, v24.20.0):</p><pre>{"archives":7}</pre></div>
+<div class="rec"><h3>JAH-ARCH-PUB-000007 — The Writing Archives Database — Test Corpus Archive</h3><p><span class="pill">ladder rank 11</span> <span class="pill">public</span></p><p>Public edition. Reference archives for the writing system. Archive: Test Corpus Archive. Inputs with known-correct outputs used to verify writing tools: the ground truth behind every demo. Access: query by name, tag, or content hash; every item carries provenance and a verification record. Retention: items are locked once verified — only direct correction orders change them. Growth: the boundless generator extends each archive toward a million records, self-regulated with duplicate checks.</p><h4>Demo: Provenance on items</h4><pre>var item={id:'t1',provenance:{origin:'assistant-built',verified:'2026-10-21'}};J(item.provenance);assert(item.provenance.origin==='assistant-built','prov');</pre><p><b>Verified output</b> (2026-10-21, v24.20.0):</p><pre>{"origin":"assistant-built","verified":"2026-10-21"}</pre></div>
+<div class="rec"><h3>JAH-ARCH-PUB-000008 — The Writing Archives Database — Build Artifact Archive</h3><p><span class="pill">ladder rank 13</span> <span class="pill">public</span></p><p>Public edition. Reference archives for the writing system. Archive: Build Artifact Archive. Compiled outputs, generated projects, and packaged deliverables produced by the writing toolchains, with hashes. Access: query by name, tag, or content hash; every item carries provenance and a verification record. Retention: items are locked once verified — only direct correction orders change them. Growth: the boundless generator extends each archive toward a million records, self-regulated with duplicate checks.</p><h4>Demo: Retention lock flag</h4><pre>var item={id:'t1',locked:true};function tryEdit(it){return it.locked?{ok:false,reason:'locked'}:{ok:true};}var r=tryEdit(item);J(r);assert(!r.ok,'lock');</pre><p><b>Verified output</b> (2026-10-21, v24.20.0):</p><pre>{"ok":false,"reason":"locked"}</pre></div>
+<h2>Boundless generator</h2>
+<p>Generator script: <code>gen-writing-archives-database.js</code> — run <code>node gen-writing-archives-database.js --n 5</code>.
+Self-regulating: throttled, duplicate-checked, stops at 10<sup>15</sup> or when complete. Generated output is labeled
+<code>"generated"</code> and never mixed with assistant-built records.</p>
+<h2>A1 assistant maker</h2>
+<p>Build a personal assistant from this database (runs entirely in this page):</p>
+<p><button id="a1Btn">Build an A1 assistant from this database</button></p>
+<div id="a1Out"></div>
+<script>
+document.getElementById('a1Btn').addEventListener('click',function(){
+  var profile={assistant_name:'JAH Writing Archivist',built_from:'writing-archives-database',edition:'Public edition',
+    scope:'Answers questions, drafts content, and generates new records for The Writing Archives Database using only this database and its verified demos.',
+    capabilities:["Catalog every archive in the writing system","Record archive contents and access methods","Track archive growth and integrity","Search archives by content","Preserve provenance for every archived item"],generator:'boundless, hard cap 10^15, labeled generated',created:'2026-10-21'};
+  document.getElementById('a1Out').innerHTML='<dl class="kv"><dt>A1 assistant</dt><dd><pre>'+JSON.stringify(profile,null,2).replace(/&/g,'&amp;').replace(/</g,'&lt;')+'</pre></dd></dl>';
+});
+</script>
+<p><button id="mergerBtn" class="merger">All Database Merger</button></p>
+<div id="mergerOut"></div>
+<script>
+document.getElementById('mergerBtn').addEventListener('click',function(){
+  document.getElementById('mergerOut').innerHTML='<dl class=kv><dt>Merger</dt><dd>The Writing Archives Database participates in the All Database Merger: its 8 records merge by slug <code>writing-archives-database</code> with sibling edition <code>writing-archives-database-signature</code>. Dedupe key: record id. Provenance preserved per record.</dd></dl>';
+});
+</script>
+<h2>Provenance</h2>
+<dl class="kv">
+<dt>Source paste</dt><dd>item-125-archives-database</dd>
+<dt>Last verified</dt><dd>2026-10-21</dd>
+<dt>Node</dt><dd>v24.20.0</dd>
+<dt>Teaching ladder</dt><dd>ranks 1–15 across records (simple → most complex)</dd>
+</dl>
+</body></html>

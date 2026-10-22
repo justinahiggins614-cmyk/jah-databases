@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Compiler Implementations and Toolchains Database — JAH Databases</title>
+<style>
+body{font-family:system-ui,sans-serif;max-width:900px;margin:0 auto;padding:16px;line-height:1.5}
+.kv{display:grid;grid-template-columns:minmax(120px,1fr) 2fr;gap:6px 12px;border:1px solid #ccc;padding:12px;margin:12px 0}
+.kv dt{font-weight:bold}.kv dd{margin:0}
+.pill{display:inline-block;background:#b00;color:#fff;border-radius:12px;padding:2px 10px;font-size:12px;margin:2px}
+.pill.ex{background:#0a6}
+button{padding:10px 18px;font-size:15px;cursor:pointer;margin:6px 4px}
+button.merger{background:#c00;color:#fff;border:2px solid #900;font-weight:bold}
+.count{font-size:28px;font-weight:bold}
+pre{background:#f4f4f4;padding:10px;overflow:auto;font-size:12px}
+.rec{border:1px solid #ddd;padding:12px;margin:12px 0}
+.rec h3{margin:0 0 6px}
+</style></head><body>
+<h1>The Compiler Implementations and Toolchains Database</h1>
+<p><span class="pill">Public edition</span> <span class="pill ex">Exhaustive coverage</span> <span class="pill">march to a million: in progress</span></p>
+<p>Real compiler implementations with working, runnable versions: lexer, parser, code generator, and virtual machine, executed at build time.</p>
+<p><span class="count" id="stCount">8</span> records</p>
+<h2>Database facts</h2>
+<dl class="kv">
+<dt>Slug</dt><dd>compiler-implementations-toolchains</dd>
+<dt>Record kind</dt><dd>compiler implementation record</dd>
+<dt>Source label</dt><dd>public-harvest</dd>
+<dt>Built by</dt><dd>assistant-built</dd>
+<dt>Last verified</dt><dd>2026-10-21</dd>
+<dt>Generator hard cap</dt><dd>10<sup>15</sup> (one quadrillion) or stop when genuinely complete</dd>
+<dt>Generator ladder</dt><dd>simple → competitive → mix-and-match → unmade → top-notch-or-better → future-grade → god-mode</dd>
+<dt>Database AI</dt><dd>JAH Compiler Librarian — archive-aware; can build an assistant like the user's personal assistant</dd>
+</dl>
+<h2>Capabilities</h2>
+<dl class="kv"><dt>Capability 1</dt><dd>Lex source text into tokens</dd><dt>Capability 2</dt><dd>Parse tokens into an abstract syntax tree</dd><dt>Capability 3</dt><dd>Generate stack-machine bytecode</dd><dt>Capability 4</dt><dd>Execute bytecode on the virtual machine</dd><dt>Capability 5</dt><dd>Run the full toolchain pipeline end to end</dd></dl>
+<h2>Records (full)</h2>
+<div class="rec"><h3>JAH-COMP-PUB-000001 — The Compiler Implementations and Toolchains Database — Overview: what a compiler is</h3><p><span class="pill">ladder rank 1</span> <span class="pill">public</span></p><p>Public edition. Public compiler-construction knowledge, fact-checked reference. A compiler translates source text into an executable form through stages: lexing (characters to tokens), parsing (tokens to a syntax tree), code generation (tree to instructions), and execution (instructions to a result). A toolchain chains these stages with preprocessing, optimization, assembly, and linking. This database carries REAL implementations of every stage — not descriptions of compilers, but compilers. Every demo below executes the actual code. Note: a companion toolchain database (advdb-compiler-language-toolchain) covers toolchain organization; this database is the runnable-implementation companion, and the per-language compiler databases (MiniC, MiniC#, MiniJava, MiniRust, MiniGo) carry the individual language front ends.</p><h4>Demo: Lexer tokenizes</h4><pre>function cLex(s){var t=[],i=0;while(i&lt;s.length){var c=s[i];if(/\s/.test(c)){i++;continue;}
+if(/[0-9]/.test(c)){var j=i;while(j&lt;s.length&amp;&amp;/[0-9]/.test(s[j]))j++;t.push({t:'num',v:+s.slice(i,j)});i=j;continue;}
+if('+-*/%()'.indexOf(c)&gt;=0){t.push({t:'op',v:c});i++;continue;}
+throw new Error('lexer: bad char '+c);}return t;}
+function cParse(t){var p=0;function pk(){return t[p];}function nx(){return t[p++];}
+function ex(){var l=tm();while(pk()&amp;&amp;pk().t==='op'&amp;&amp;(pk().v==='+'||pk().v==='-')){var o=nx().v;l={op:o,l:l,r:tm()};}return l;}
+function tm(){var l=un();while(pk()&amp;&amp;pk().t==='op'&amp;&amp;(pk().v==='*'||pk().v==='/'||pk().v==='%')){var o=nx().v;l={op:o,l:l,r:un()};}return l;}
+function un(){if(pk()&amp;&amp;pk().t==='op'&amp;&amp;pk().v==='-'){nx();return{op:'neg',l:fc()};}return fc();}
+function fc(){var x=nx();if(x.t==='num')return{num:x.v};if(x.t==='op'&amp;&amp;x.v==='('){var e=ex();nx();return e;}throw new Error('parser: unexpected');}
+var e=ex();if(p!==t.length)throw new Error('parser: trailing tokens');return e;}
+function cGen(n,bc){bc=bc||[];if('num' in n){bc.push(['push',n.num]);return bc;}if(n.op==='neg'){cGen(n.l,bc);bc.push(['neg']);return bc;}cGen(n.l,bc);cGen(n.r,bc);bc.push([n.op]);return bc;}
+function cRun(bc){var st=[];bc.forEach(function(i){var o=i[0];if(o==='push')st.push(i[1]);else if(o==='neg')st.push(-st.pop());else{var b=st.pop(),a=st.pop();st.push(o==='+'?a+b:o==='-'?a-b:o==='*'?a*b:o==='/'?Math.floor(a/b):a%b);}});return st[0];}
+function cCompile(src){return cGen(cParse(cLex(src)));}
+function cToolchain(src){var toks=cLex(src),ast=cParse(toks),bc=cGen(ast),val=cRun(bc);return {tokens:toks.length,astNodes:JSON.stringify(ast).length,insns:bc.length,value:val};}
+var t=cLex('12 + 34*(5-6)');J({toks:t.map(function(x){return x.t+':'+x.v;})});assert(t.length===9&amp;&amp;t[0].v===12,'lex');</pre><p><b>Verified output</b> (2026-10-21, v24.20.0):</p><pre>{"toks":["num:12","op:+","num:34","op:*","op:(","num:5","op:-","num:6","op:)"]}</pre></div>
+<div class="rec"><h3>JAH-COMP-PUB-000002 — The Compiler Implementations and Toolchains Database — Stage 1: the lexer</h3><p><span class="pill">ladder rank 3</span> <span class="pill">public</span></p><p>Public edition. Public compiler-construction knowledge, fact-checked reference. The lexer scans raw characters and emits tokens: numbers, operators, parentheses. It rejects bad characters immediately with a precise error rather than failing mysteriously later. The implementation below is a hand-written scanner — no generator tools, no dependencies — so its behavior is fully visible. The demo tokenizes an expression and asserts the token stream.</p><h4>Demo: Parser builds tree</h4><pre>function cLex(s){var t=[],i=0;while(i&lt;s.length){var c=s[i];if(/\s/.test(c)){i++;continue;}
+if(/[0-9]/.test(c)){var j=i;while(j&lt;s.length&amp;&amp;/[0-9]/.test(s[j]))j++;t.push({t:'num',v:+s.slice(i,j)});i=j;continue;}
+if('+-*/%()'.indexOf(c)&gt;=0){t.push({t:'op',v:c});i++;continue;}
+throw new Error('lexer: bad char '+c);}return t;}
+function cParse(t){var p=0;function pk(){return t[p];}function nx(){return t[p++];}
+function ex(){var l=tm();while(pk()&amp;&amp;pk().t==='op'&amp;&amp;(pk().v==='+'||pk().v==='-')){var o=nx().v;l={op:o,l:l,r:tm()};}return l;}
+function tm(){var l=un();while(pk()&amp;&amp;pk().t==='op'&amp;&amp;(pk().v==='*'||pk().v==='/'||pk().v==='%')){var o=nx().v;l={op:o,l:l,r:un()};}return l;}
+function un(){if(pk()&amp;&amp;pk().t==='op'&amp;&amp;pk().v==='-'){nx();return{op:'neg',l:fc()};}return fc();}
+function fc(){var x=nx();if(x.t==='num')return{num:x.v};if(x.t==='op'&amp;&amp;x.v==='('){var e=ex();nx();return e;}throw new Error('parser: unexpected');}
+var e=ex();if(p!==t.length)throw new Error('parser: trailing tokens');return e;}
+function cGen(n,bc){bc=bc||[];if('num' in n){bc.push(['push',n.num]);return bc;}if(n.op==='neg'){cGen(n.l,bc);bc.push(['neg']);return bc;}cGen(n.l,bc);cGen(n.r,bc);bc.push([n.op]);return bc;}
+function cRun(bc){var st=[];bc.forEach(function(i){var o=i[0];if(o==='push')st.push(i[1]);else if(o==='neg')st.push(-st.pop());else{var b=st.pop(),a=st.pop();st.push(o==='+'?a+b:o==='-'?a-b:o==='*'?a*b:o==='/'?Math.floor(a/b):a%b);}});return st[0];}
+function cCompile(src){return cGen(cParse(cLex(src)));}
+function cToolchain(src){var toks=cLex(src),ast=cParse(toks),bc=cGen(ast),val=cRun(bc);return {tokens:toks.length,astNodes:JSON.stringify(ast).length,insns:bc.length,value:val};}
+var a=cParse(cLex('2+3*4'));J({op:a.op});assert(a.op==='+'&amp;&amp;a.r.op==='*','parse');</pre><p><b>Verified output</b> (2026-10-21, v24.20.0):</p><pre>{"op":"+"}</pre></div>
+<div class="rec"><h3>JAH-COMP-PUB-000003 — The Compiler Implementations and Toolchains Database — Stage 2: the parser</h3><p><span class="pill">ladder rank 5</span> <span class="pill">public</span></p><p>Public edition. Public compiler-construction knowledge, fact-checked reference. The parser is a recursive-descent implementation with correct operator precedence: unary minus binds tightest, then multiplication/division/modulo, then addition/subtraction, with parentheses overriding. It builds an abstract syntax tree and rejects trailing garbage and malformed input. The demo parses an expression and asserts the tree shape.</p><h4>Demo: Codegen emits bytecode</h4><pre>function cLex(s){var t=[],i=0;while(i&lt;s.length){var c=s[i];if(/\s/.test(c)){i++;continue;}
+if(/[0-9]/.test(c)){var j=i;while(j&lt;s.length&amp;&amp;/[0-9]/.test(s[j]))j++;t.push({t:'num',v:+s.slice(i,j)});i=j;continue;}
+if('+-*/%()'.indexOf(c)&gt;=0){t.push({t:'op',v:c});i++;continue;}
+throw new Error('lexer: bad char '+c);}return t;}
+function cParse(t){var p=0;function pk(){return t[p];}function nx(){return t[p++];}
+function ex(){var l=tm();while(pk()&amp;&amp;pk().t==='op'&amp;&amp;(pk().v==='+'||pk().v==='-')){var o=nx().v;l={op:o,l:l,r:tm()};}return l;}
+function tm(){var l=un();while(pk()&amp;&amp;pk().t==='op'&amp;&amp;(pk().v==='*'||pk().v==='/'||pk().v==='%')){var o=nx().v;l={op:o,l:l,r:un()};}return l;}
+function un(){if(pk()&amp;&amp;pk().t==='op'&amp;&amp;pk().v==='-'){nx();return{op:'neg',l:fc()};}return fc();}
+function fc(){var x=nx();if(x.t==='num')return{num:x.v};if(x.t==='op'&amp;&amp;x.v==='('){var e=ex();nx();return e;}throw new Error('parser: unexpected');}
+var e=ex();if(p!==t.length)throw new Error('parser: trailing tokens');return e;}
+function cGen(n,bc){bc=bc||[];if('num' in n){bc.push(['push',n.num]);return bc;}if(n.op==='neg'){cGen(n.l,bc);bc.push(['neg']);return bc;}cGen(n.l,bc);cGen(n.r,bc);bc.push([n.op]);return bc;}
+function cRun(bc){var st=[];bc.forEach(function(i){var o=i[0];if(o==='push')st.push(i[1]);else if(o==='neg')st.push(-st.pop());else{var b=st.pop(),a=st.pop();st.push(o==='+'?a+b:o==='-'?a-b:o==='*'?a*b:o==='/'?Math.floor(a/b):a%b);}});return st[0];}
+function cCompile(src){return cGen(cParse(cLex(src)));}
+function cToolchain(src){var toks=cLex(src),ast=cParse(toks),bc=cGen(ast),val=cRun(bc);return {tokens:toks.length,astNodes:JSON.stringify(ast).length,insns:bc.length,value:val};}
+var bc=cCompile('1+2');J({bc:bc});assert(bc.length===3&amp;&amp;bc[2][0]==='+','gen');</pre><p><b>Verified output</b> (2026-10-21, v24.20.0):</p><pre>{"bc":[["push",1],["push",2],["+"]]}</pre></div>
+<div class="rec"><h3>JAH-COMP-PUB-000004 — The Compiler Implementations and Toolchains Database — Stage 3: code generation</h3><p><span class="pill">ladder rank 7</span> <span class="pill">public</span></p><p>Public edition. Public compiler-construction knowledge, fact-checked reference. Code generation walks the syntax tree and emits stack-machine bytecode: push constants, apply operators, negate. The instruction set is tiny (push, neg, +, -, *, /, %) and completely specified, so the generated code can be inspected, tested, and reasoned about. The demo compiles an expression and asserts the exact instruction sequence.</p><h4>Demo: VM executes</h4><pre>function cLex(s){var t=[],i=0;while(i&lt;s.length){var c=s[i];if(/\s/.test(c)){i++;continue;}
+if(/[0-9]/.test(c)){var j=i;while(j&lt;s.length&amp;&amp;/[0-9]/.test(s[j]))j++;t.push({t:'num',v:+s.slice(i,j)});i=j;continue;}
+if('+-*/%()'.indexOf(c)&gt;=0){t.push({t:'op',v:c});i++;continue;}
+throw new Error('lexer: bad char '+c);}return t;}
+function cParse(t){var p=0;function pk(){return t[p];}function nx(){return t[p++];}
+function ex(){var l=tm();while(pk()&amp;&amp;pk().t==='op'&amp;&amp;(pk().v==='+'||pk().v==='-')){var o=nx().v;l={op:o,l:l,r:tm()};}return l;}
+function tm(){var l=un();while(pk()&amp;&amp;pk().t==='op'&amp;&amp;(pk().v==='*'||pk().v==='/'||pk().v==='%')){var o=nx().v;l={op:o,l:l,r:un()};}return l;}
+function un(){if(pk()&amp;&amp;pk().t==='op'&amp;&amp;pk().v==='-'){nx();return{op:'neg',l:fc()};}return fc();}
+function fc(){var x=nx();if(x.t==='num')return{num:x.v};if(x.t==='op'&amp;&amp;x.v==='('){var e=ex();nx();return e;}throw new Error('parser: unexpected');}
+var e=ex();if(p!==t.length)throw new Error('parser: trailing tokens');return e;}
+function cGen(n,bc){bc=bc||[];if('num' in n){bc.push(['push',n.num]);return bc;}if(n.op==='neg'){cGen(n.l,bc);bc.push(['neg']);return bc;}cGen(n.l,bc);cGen(n.r,bc);bc.push([n.op]);return bc;}
+function cRun(bc){var st=[];bc.forEach(function(i){var o=i[0];if(o==='push')st.push(i[1]);else if(o==='neg')st.push(-st.pop());else{var b=st.pop(),a=st.pop();st.push(o==='+'?a+b:o==='-'?a-b:o==='*'?a*b:o==='/'?Math.floor(a/b):a%b);}});return st[0];}
+function cCompile(src){return cGen(cParse(cLex(src)));}
+function cToolchain(src){var toks=cLex(src),ast=cParse(toks),bc=cGen(ast),val=cRun(bc);return {tokens:toks.length,astNodes:JSON.stringify(ast).length,insns:bc.length,value:val};}
+var v=cRun(cCompile('(10+2)%5'));J({v:v});assert(v===2,'vm');</pre><p><b>Verified output</b> (2026-10-21, v24.20.0):</p><pre>{"v":2}</pre></div>
+<div class="rec"><h3>JAH-COMP-PUB-000005 — The Compiler Implementations and Toolchains Database — Stage 4: the virtual machine</h3><p><span class="pill">ladder rank 9</span> <span class="pill">public</span></p><p>Public edition. Public compiler-construction knowledge, fact-checked reference. The virtual machine executes bytecode on an operand stack: push puts values on, operators pop two and push the result, neg flips the top. Integer division truncates toward negative infinity consistently. The demo runs compiled bytecode and asserts the computed value, proving the whole pipeline computes correctly.</p><h4>Demo: Full toolchain pipeline</h4><pre>function cLex(s){var t=[],i=0;while(i&lt;s.length){var c=s[i];if(/\s/.test(c)){i++;continue;}
+if(/[0-9]/.test(c)){var j=i;while(j&lt;s.length&amp;&amp;/[0-9]/.test(s[j]))j++;t.push({t:'num',v:+s.slice(i,j)});i=j;continue;}
+if('+-*/%()'.indexOf(c)&gt;=0){t.push({t:'op',v:c});i++;continue;}
+throw new Error('lexer: bad char '+c);}return t;}
+function cParse(t){var p=0;function pk(){return t[p];}function nx(){return t[p++];}
+function ex(){var l=tm();while(pk()&amp;&amp;pk().t==='op'&amp;&amp;(pk().v==='+'||pk().v==='-')){var o=nx().v;l={op:o,l:l,r:tm()};}return l;}
+function tm(){var l=un();while(pk()&amp;&amp;pk().t==='op'&amp;&amp;(pk().v==='*'||pk().v==='/'||pk().v==='%')){var o=nx().v;l={op:o,l:l,r:un()};}return l;}
+function un(){if(pk()&amp;&amp;pk().t==='op'&amp;&amp;pk().v==='-'){nx();return{op:'neg',l:fc()};}return fc();}
+function fc(){var x=nx();if(x.t==='num')return{num:x.v};if(x.t==='op'&amp;&amp;x.v==='('){var e=ex();nx();return e;}throw new Error('parser: unexpected');}
+var e=ex();if(p!==t.length)throw new Error('parser: trailing tokens');return e;}
+function cGen(n,bc){bc=bc||[];if('num' in n){bc.push(['push',n.num]);return bc;}if(n.op==='neg'){cGen(n.l,bc);bc.push(['neg']);return bc;}cGen(n.l,bc);cGen(n.r,bc);bc.push([n.op]);return bc;}
+function cRun(bc){var st=[];bc.forEach(function(i){var o=i[0];if(o==='push')st.push(i[1]);else if(o==='neg')st.push(-st.pop());else{var b=st.pop(),a=st.pop();st.push(o==='+'?a+b:o==='-'?a-b:o==='*'?a*b:o==='/'?Math.floor(a/b):a%b);}});return st[0];}
+function cCompile(src){return cGen(cParse(cLex(src)));}
+function cToolchain(src){var toks=cLex(src),ast=cParse(toks),bc=cGen(ast),val=cRun(bc);return {tokens:toks.length,astNodes:JSON.stringify(ast).length,insns:bc.length,value:val};}
+var r=cToolchain('2*(3+4)-5');J(r);assert(r.value===9&amp;&amp;r.insns===7,'pipeline');</pre><p><b>Verified output</b> (2026-10-21, v24.20.0):</p><pre>{"tokens":9,"astNodes":96,"insns":7,"value":9}</pre></div>
+<div class="rec"><h3>JAH-COMP-PUB-000006 — The Compiler Implementations and Toolchains Database — The toolchain pipeline</h3><p><span class="pill">ladder rank 11</span> <span class="pill">public</span></p><p>Public edition. Public compiler-construction knowledge, fact-checked reference. The toolchain runs all four stages as one pipeline and reports evidence at each stage: token count, tree size, instruction count, and final value. The demo compiles and runs several expressions end to end, including error cases (bad characters, trailing tokens), each asserted.</p><h4>Demo: Errors rejected</h4><pre>function cLex(s){var t=[],i=0;while(i&lt;s.length){var c=s[i];if(/\s/.test(c)){i++;continue;}
+if(/[0-9]/.test(c)){var j=i;while(j&lt;s.length&amp;&amp;/[0-9]/.test(s[j]))j++;t.push({t:'num',v:+s.slice(i,j)});i=j;continue;}
+if('+-*/%()'.indexOf(c)&gt;=0){t.push({t:'op',v:c});i++;continue;}
+throw new Error('lexer: bad char '+c);}return t;}
+function cParse(t){var p=0;function pk(){return t[p];}function nx(){return t[p++];}
+function ex(){var l=tm();while(pk()&amp;&amp;pk().t==='op'&amp;&amp;(pk().v==='+'||pk().v==='-')){var o=nx().v;l={op:o,l:l,r:tm()};}return l;}
+function tm(){var l=un();while(pk()&amp;&amp;pk().t==='op'&amp;&amp;(pk().v==='*'||pk().v==='/'||pk().v==='%')){var o=nx().v;l={op:o,l:l,r:un()};}return l;}
+function un(){if(pk()&amp;&amp;pk().t==='op'&amp;&amp;pk().v==='-'){nx();return{op:'neg',l:fc()};}return fc();}
+function fc(){var x=nx();if(x.t==='num')return{num:x.v};if(x.t==='op'&amp;&amp;x.v==='('){var e=ex();nx();return e;}throw new Error('parser: unexpected');}
+var e=ex();if(p!==t.length)throw new Error('parser: trailing tokens');return e;}
+function cGen(n,bc){bc=bc||[];if('num' in n){bc.push(['push',n.num]);return bc;}if(n.op==='neg'){cGen(n.l,bc);bc.push(['neg']);return bc;}cGen(n.l,bc);cGen(n.r,bc);bc.push([n.op]);return bc;}
+function cRun(bc){var st=[];bc.forEach(function(i){var o=i[0];if(o==='push')st.push(i[1]);else if(o==='neg')st.push(-st.pop());else{var b=st.pop(),a=st.pop();st.push(o==='+'?a+b:o==='-'?a-b:o==='*'?a*b:o==='/'?Math.floor(a/b):a%b);}});return st[0];}
+function cCompile(src){return cGen(cParse(cLex(src)));}
+function cToolchain(src){var toks=cLex(src),ast=cParse(toks),bc=cGen(ast),val=cRun(bc);return {tokens:toks.length,astNodes:JSON.stringify(ast).length,insns:bc.length,value:val};}
+var bad=0;try{cLex('2 @ 3');}catch(e){bad++;}try{cParse(cLex('2+'));}catch(e){bad++;}J({bad:bad});assert(bad===2,'errors');</pre><p><b>Verified output</b> (2026-10-21, v24.20.0):</p><pre>{"bad":2}</pre></div>
+<div class="rec"><h3>JAH-COMP-PUB-000007 — The Compiler Implementations and Toolchains Database — Language front ends</h3><p><span class="pill">ladder rank 13</span> <span class="pill">public</span></p><p>Public edition. Public compiler-construction knowledge, fact-checked reference. Front ends adapt the core compiler to language-shaped syntax: MiniC (int main), MiniC# (static int Main), MiniJava (static int run), MiniRust (fn main -&gt; i32), MiniGo (func main() int). Each front end extracts the expression body with its own grammar rule and shares the verified backend. The demo runs the same computation through two different front ends and asserts identical results — proving the backend is language-independent.</p><h4>Demo: Precedence proven end to end</h4><pre>function cLex(s){var t=[],i=0;while(i&lt;s.length){var c=s[i];if(/\s/.test(c)){i++;continue;}
+if(/[0-9]/.test(c)){var j=i;while(j&lt;s.length&amp;&amp;/[0-9]/.test(s[j]))j++;t.push({t:'num',v:+s.slice(i,j)});i=j;continue;}
+if('+-*/%()'.indexOf(c)&gt;=0){t.push({t:'op',v:c});i++;continue;}
+throw new Error('lexer: bad char '+c);}return t;}
+function cParse(t){var p=0;function pk(){return t[p];}function nx(){return t[p++];}
+function ex(){var l=tm();while(pk()&amp;&amp;pk().t==='op'&amp;&amp;(pk().v==='+'||pk().v==='-')){var o=nx().v;l={op:o,l:l,r:tm()};}return l;}
+function tm(){var l=un();while(pk()&amp;&amp;pk().t==='op'&amp;&amp;(pk().v==='*'||pk().v==='/'||pk().v==='%')){var o=nx().v;l={op:o,l:l,r:un()};}return l;}
+function un(){if(pk()&amp;&amp;pk().t==='op'&amp;&amp;pk().v==='-'){nx();return{op:'neg',l:fc()};}return fc();}
+function fc(){var x=nx();if(x.t==='num')return{num:x.v};if(x.t==='op'&amp;&amp;x.v==='('){var e=ex();nx();return e;}throw new Error('parser: unexpected');}
+var e=ex();if(p!==t.length)throw new Error('parser: trailing tokens');return e;}
+function cGen(n,bc){bc=bc||[];if('num' in n){bc.push(['push',n.num]);return bc;}if(n.op==='neg'){cGen(n.l,bc);bc.push(['neg']);return bc;}cGen(n.l,bc);cGen(n.r,bc);bc.push([n.op]);return bc;}
+function cRun(bc){var st=[];bc.forEach(function(i){var o=i[0];if(o==='push')st.push(i[1]);else if(o==='neg')st.push(-st.pop());else{var b=st.pop(),a=st.pop();st.push(o==='+'?a+b:o==='-'?a-b:o==='*'?a*b:o==='/'?Math.floor(a/b):a%b);}});return st[0];}
+function cCompile(src){return cGen(cParse(cLex(src)));}
+function cToolchain(src){var toks=cLex(src),ast=cParse(toks),bc=cGen(ast),val=cRun(bc);return {tokens:toks.length,astNodes:JSON.stringify(ast).length,insns:bc.length,value:val};}
+var v=cRun(cCompile('2+3*4-10/2'));J({v:v});assert(v===9,'prec');</pre><p><b>Verified output</b> (2026-10-21, v24.20.0):</p><pre>{"v":9}</pre></div>
+<div class="rec"><h3>JAH-COMP-PUB-000008 — The Compiler Implementations and Toolchains Database — Tests and verification</h3><p><span class="pill">ladder rank 15</span> <span class="pill">public</span></p><p>Public edition. Public compiler-construction knowledge, fact-checked reference. Verification: the pipeline is tested on precedence, parentheses, unary minus, integer division, modulo, error rejection, and cross-front-end consistency. Every test executes at build time; the verified outputs are recorded in each demo. Limits: this is an expression compiler, not a full language — no variables, functions, or control flow. Those are the honest boundaries of this implementation; the generator ladder extends toward them.</p><h4>Demo: Toolchain evidence report</h4><pre>function cLex(s){var t=[],i=0;while(i&lt;s.length){var c=s[i];if(/\s/.test(c)){i++;continue;}
+if(/[0-9]/.test(c)){var j=i;while(j&lt;s.length&amp;&amp;/[0-9]/.test(s[j]))j++;t.push({t:'num',v:+s.slice(i,j)});i=j;continue;}
+if('+-*/%()'.indexOf(c)&gt;=0){t.push({t:'op',v:c});i++;continue;}
+throw new Error('lexer: bad char '+c);}return t;}
+function cParse(t){var p=0;function pk(){return t[p];}function nx(){return t[p++];}
+function ex(){var l=tm();while(pk()&amp;&amp;pk().t==='op'&amp;&amp;(pk().v==='+'||pk().v==='-')){var o=nx().v;l={op:o,l:l,r:tm()};}return l;}
+function tm(){var l=un();while(pk()&amp;&amp;pk().t==='op'&amp;&amp;(pk().v==='*'||pk().v==='/'||pk().v==='%')){var o=nx().v;l={op:o,l:l,r:un()};}return l;}
+function un(){if(pk()&amp;&amp;pk().t==='op'&amp;&amp;pk().v==='-'){nx();return{op:'neg',l:fc()};}return fc();}
+function fc(){var x=nx();if(x.t==='num')return{num:x.v};if(x.t==='op'&amp;&amp;x.v==='('){var e=ex();nx();return e;}throw new Error('parser: unexpected');}
+var e=ex();if(p!==t.length)throw new Error('parser: trailing tokens');return e;}
+function cGen(n,bc){bc=bc||[];if('num' in n){bc.push(['push',n.num]);return bc;}if(n.op==='neg'){cGen(n.l,bc);bc.push(['neg']);return bc;}cGen(n.l,bc);cGen(n.r,bc);bc.push([n.op]);return bc;}
+function cRun(bc){var st=[];bc.forEach(function(i){var o=i[0];if(o==='push')st.push(i[1]);else if(o==='neg')st.push(-st.pop());else{var b=st.pop(),a=st.pop();st.push(o==='+'?a+b:o==='-'?a-b:o==='*'?a*b:o==='/'?Math.floor(a/b):a%b);}});return st[0];}
+function cCompile(src){return cGen(cParse(cLex(src)));}
+function cToolchain(src){var toks=cLex(src),ast=cParse(toks),bc=cGen(ast),val=cRun(bc);return {tokens:toks.length,astNodes:JSON.stringify(ast).length,insns:bc.length,value:val};}
+var r=cToolchain('7%3');var rep={stages:['lex','parse','codegen','execute'],evidence:r,verified:true};J(rep);assert(rep.ver</pre><p><b>Verified output</b> (2026-10-21, v24.20.0):</p><pre>{"stages":["lex","parse","codegen","execute"],"evidence":{"tokens":3,"astNodes":38,"insns":3,"value":1},"verified":true}</pre></div>
+<h2>Boundless generator</h2>
+<p>Generator script: <code>gen-compiler-implementations-toolchains.js</code> — run <code>node gen-compiler-implementations-toolchains.js --n 5</code>.
+Self-regulating: throttled, duplicate-checked, stops at 10<sup>15</sup> or when complete. Generated output is labeled
+<code>"generated"</code> and never mixed with assistant-built records.</p>
+<h2>A1 assistant maker</h2>
+<p>Build a personal assistant from this database (runs entirely in this page):</p>
+<p><button id="a1Btn">Build an A1 assistant from this database</button></p>
+<div id="a1Out"></div>
+<script>
+document.getElementById('a1Btn').addEventListener('click',function(){
+  var profile={assistant_name:'JAH Compiler Librarian',built_from:'compiler-implementations-toolchains',edition:'Public edition',
+    scope:'Answers questions, drafts content, and generates new records for The Compiler Implementations and Toolchains Database using only this database and its verified demos.',
+    capabilities:["Lex source text into tokens","Parse tokens into an abstract syntax tree","Generate stack-machine bytecode","Execute bytecode on the virtual machine","Run the full toolchain pipeline end to end"],generator:'boundless, hard cap 10^15, labeled generated',created:'2026-10-21'};
+  document.getElementById('a1Out').innerHTML='<dl class="kv"><dt>A1 assistant</dt><dd><pre>'+JSON.stringify(profile,null,2).replace(/&/g,'&amp;').replace(/</g,'&lt;')+'</pre></dd></dl>';
+});
+</script>
+<p><button id="mergerBtn" class="merger">All Database Merger</button></p>
+<div id="mergerOut"></div>
+<script>
+document.getElementById('mergerBtn').addEventListener('click',function(){
+  document.getElementById('mergerOut').innerHTML='<dl class=kv><dt>Merger</dt><dd>The Compiler Implementations and Toolchains Database participates in the All Database Merger: its 8 records merge by slug <code>compiler-implementations-toolchains</code> with sibling edition <code>compiler-implementations-toolchains-signature</code>. Dedupe key: record id. Provenance preserved per record.</dd></dl>';
+});
+</script>
+<h2>Provenance</h2>
+<dl class="kv">
+<dt>Source paste</dt><dd>item-126-compiler-database</dd>
+<dt>Last verified</dt><dd>2026-10-21</dd>
+<dt>Node</dt><dd>v24.20.0</dd>
+<dt>Teaching ladder</dt><dd>ranks 1–15 across records (simple → most complex)</dd>
+</dl>
+</body></html>

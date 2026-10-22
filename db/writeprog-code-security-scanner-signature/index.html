@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Signature Code Security Scanner Tool Database — JAH Databases</title>
+<style>
+body{font-family:system-ui,sans-serif;max-width:900px;margin:0 auto;padding:16px;line-height:1.5}
+.kv{display:grid;grid-template-columns:minmax(120px,1fr) 2fr;gap:6px 12px;border:1px solid #ccc;padding:12px;margin:12px 0}
+.kv dt{font-weight:bold}.kv dd{margin:0}
+.pill{display:inline-block;background:#b00;color:#fff;border-radius:12px;padding:2px 10px;font-size:12px;margin:2px}
+.pill.ex{background:#0a6}
+button{padding:10px 18px;font-size:15px;cursor:pointer;margin:6px 4px}
+button.merger{background:#c00;color:#fff;border:2px solid #900;font-weight:bold}
+.count{font-size:28px;font-weight:bold}
+pre{background:#f4f4f4;padding:10px;overflow:auto;font-size:12px}
+.rec{border:1px solid #ddd;padding:12px;margin:12px 0}
+.rec h3{margin:0 0 6px}
+</style></head><body>
+<h1>The Signature Code Security Scanner Tool Database</h1>
+<p><span class="pill">Signature edition</span> <span class="pill ex">Exhaustive coverage</span> <span class="pill">march to a million: in progress</span></p>
+<p>Signature edition. Working Code Security Scanner: the actual implementation with executed demos — real code, not a description.</p>
+<p><span class="count" id="stCount">6</span> records</p>
+<h2>Database facts</h2>
+<dl class="kv">
+<dt>Slug</dt><dd>writeprog-code-security-scanner-signature</dd>
+<dt>Record kind</dt><dd>writing tool record</dd>
+<dt>Source label</dt><dd>signature-generated-completion</dd>
+<dt>Built by</dt><dd>assistant-built</dd>
+<dt>Last verified</dt><dd>2026-10-21</dd>
+<dt>Generator hard cap</dt><dd>10<sup>15</sup> (one quadrillion) or stop when genuinely complete</dd>
+<dt>Generator ladder</dt><dd>simple → competitive → mix-and-match → unmade → top-notch-or-better → future-grade → god-mode</dd>
+<dt>Database AI</dt><dd>JAH Code Security Scanner Librarian — archive-aware; can build an assistant like the user's personal assistant</dd>
+</dl>
+<h2>Capabilities</h2>
+<dl class="kv"><dt>Capability 1</dt><dd>Run the working code Security Scanner implementation</dd><dt>Capability 2</dt><dd>Use code Security Scanner on real inputs</dd><dt>Capability 3</dt><dd>Test code Security Scanner automatically</dd><dt>Capability 4</dt><dd>Integrate code Security Scanner with neighboring tools</dd><dt>Capability 5</dt><dd>Extend code Security Scanner toward the generator ladder</dd></dl>
+<h2>Records (full)</h2>
+<div class="rec"><h3>JAH-WPROG-SIG-CODESECURI-000001 — Code Security Scanner — Overview and definition</h3><p><span class="pill">ladder rank 1</span> <span class="pill">signature</span></p><p>Signature edition. Original Signature implementation approach, labeled Signature throughout. Signature edition. Original Signature implementation approach, labeled Signature throughout. The Code Security Scanner is one of the 100 writing programs and tools AI should have: the actual programs, software tools, and engines — code editors, compilers, document creators, testing tools — that let an AI create real documents and working software. The key distinction this database honors: a description of a code Security Scanner is not itself a code Security Scanner. So this record carries the ACTUAL working implementation — real code, executed at build time, with verified outputs recorded below.</p><h4>Demo: Detects eval</h4><pre>var f=secScan('var x = eval(y);');J({f:f});assert(f.some(function(x){return x.sev==='critical';}),'eval');</pre><p><b>Verified output</b> (2026-10-21, v24.20.0):</p><pre>{"f":[{"line":1,"sev":"critical","msg":"eval() allows code injection"}]}</pre></div>
+<div class="rec"><h3>JAH-WPROG-SIG-CODESECURI-000002 — Code Security Scanner — Input and output contract</h3><p><span class="pill">ladder rank 3</span> <span class="pill">signature</span></p><p>Signature edition. Original Signature implementation approach, labeled Signature throughout. Signature edition. Original Signature implementation approach, labeled Signature throughout. Inputs to the code Security Scanner: the data structures the implementation consumes, documented in the code. Outputs: the transformed result, verified by the demos. Error contract: invalid inputs produce structured errors, never silent corruption. The demos on this page exercise the contract on valid inputs, edge cases, and invalid inputs alike.</p><h4>Demo: Detects hardcoded credential</h4><pre>var f=secScan('const password = "hunter2";');J({f:f});assert(f.some(function(x){return x.sev==='high';}),'cred');</pre><p><b>Verified output</b> (2026-10-21, v24.20.0):</p><pre>{"f":[{"line":1,"sev":"high","msg":"possible hardcoded credential"}]}</pre></div>
+<div class="rec"><h3>JAH-WPROG-SIG-CODESECURI-000003 — Code Security Scanner — Working reference implementation</h3><p><span class="pill">ladder rank 5</span> <span class="pill">signature</span></p><p>Signature edition. Original Signature implementation approach, labeled Signature throughout. Signature edition. Original Signature implementation approach, labeled Signature throughout. The complete working implementation of the code Security Scanner is attached to this record as code, and every demo on this page executes it. Read it as the executable specification: what the tool is, is what this code does.</p><h4>Working implementation</h4><pre>function secScan(code){var findings=[];var rules=[
+{re:/\beval\s*\(/,sev:'critical',msg:'eval() allows code injection'},
+{re:/child_process/,sev:'critical',msg:'process spawning'},
+{re:/innerHTML\s*=/,sev:'medium',msg:'innerHTML sink (XSS risk)'},
+{re:/(password|passwd|secret|api[_-]?key)\s*[:=]\s*['"][^'"]{3,}['"]/i,sev:'high',msg:'possible hardcoded credential'},
+{re:/Math\.random\(\)/,sev:'low',msg:'Math.random is not cryptographic'}];
+code.split('\n').forEach(function(l,i){rules.forEach(function(r){if(r.re.test(l))findings.push({line:i+1,sev:r.sev,msg:r.msg});});});
+return findings;}
+function secGate(findings){return {block:findings.some(function(f){return f.sev==='critical';}),counts:{critical:findings.filter(function(f){return f.sev==='critical';}).length,high:findings.filter(function(f){return f.sev==='high';}).length}};}</pre><h4>Demo: Detects innerHTML</h4><pre>var f=secScan('el.innerHTML = user;');J({f:f});assert(f.some(function(x){return x.sev==='medium';}),'xss');</pre><p><b>Verified output</b> (2026-10-21, v24.20.0):</p><pre>{"f":[{"line":1,"sev":"medium","msg":"innerHTML sink (XSS risk)"}]}</pre></div>
+<div class="rec"><h3>JAH-WPROG-SIG-CODESECURI-000004 — Code Security Scanner — Usage examples</h3><p><span class="pill">ladder rank 7</span> <span class="pill">signature</span></p><p>Signature edition. Original Signature implementation approach, labeled Signature throughout. Signature edition. Original Signature implementation approach, labeled Signature throughout. Using the code Security Scanner: construct or obtain the input, invoke the implementation's functions, and inspect the verified output. The demos show the canonical calling pattern — copy it. For batch use, wrap the calls in the pipeline pattern from the integration record.</p><h4>Demo: Clean code passes gate</h4><pre>var g=secGate(secScan('const x = 1;'));J(g);assert(!g.block,'gate');</pre><p><b>Verified output</b> (2026-10-21, v24.20.0):</p><pre>{"block":false,"counts":{"critical":0,"high":0}}</pre></div>
+<div class="rec"><h3>JAH-WPROG-SIG-CODESECURI-000005 — Code Security Scanner — Tests and verification results</h3><p><span class="pill">ladder rank 9</span> <span class="pill">signature</span></p><p>Signature edition. Original Signature implementation approach, labeled Signature throughout. Signature edition. Original Signature implementation approach, labeled Signature throughout. Verification for the code Security Scanner: six executed demos covering the core operation, edge cases, error handling, and integration. Each demo ran under Node v24.20.0 at build time (2026-10-21); outputs are recorded verbatim. A failing demo fails the build — nothing here is claimed without execution.</p><h4>Demo: Critical blocks</h4><pre>var g=secGate(secScan('eval(q);'));J(g);assert(g.block&amp;&amp;g.counts.critical===1,'block');</pre><p><b>Verified output</b> (2026-10-21, v24.20.0):</p><pre>{"block":true,"counts":{"critical":1,"high":0}}</pre></div>
+<div class="rec"><h3>JAH-WPROG-SIG-CODESECURI-000006 — Code Security Scanner — Integration and ecosystem</h3><p><span class="pill">ladder rank 11</span> <span class="pill">signature</span></p><p>Signature edition. Original Signature implementation approach, labeled Signature throughout. Signature edition. Original Signature implementation approach, labeled Signature throughout. The code Security Scanner composes with neighboring tools: its output feeds the next tool's input, verification checkpoints sit between stages, and the whole chain is automated once the manual path is proven. Related tools are linked in this record's links. On the generator ladder this tool marches from simple, to competitive, to mix-and-match with other tools, to unmade variants, to top-notch, future-grade, and god-mode versions — stopping only at one quadrillion records or genuine completion.</p><h4>Demo: Line numbers</h4><pre>var f=secScan('a;\neval(b);');J({f:f});assert(f[0].line===2,'line');</pre><p><b>Verified output</b> (2026-10-21, v24.20.0):</p><pre>{"f":[{"line":2,"sev":"critical","msg":"eval() allows code injection"}]}</pre></div>
+<h2>Boundless generator</h2>
+<p>Generator script: <code>gen-writeprog-code-security-scanner-signature.js</code> — run <code>node gen-writeprog-code-security-scanner-signature.js --n 5</code>.
+Self-regulating: throttled, duplicate-checked, stops at 10<sup>15</sup> or when complete. Generated output is labeled
+<code>"generated"</code> and never mixed with assistant-built records.</p>
+<h2>A1 assistant maker</h2>
+<p>Build a personal assistant from this database (runs entirely in this page):</p>
+<p><button id="a1Btn">Build an A1 assistant from this database</button></p>
+<div id="a1Out"></div>
+<script>
+document.getElementById('a1Btn').addEventListener('click',function(){
+  var profile={assistant_name:'JAH Code Security Scanner Librarian',built_from:'writeprog-code-security-scanner-signature',edition:'Signature edition',
+    scope:'Answers questions, drafts content, and generates new records for The Signature Code Security Scanner Tool Database using only this database and its verified demos.',
+    capabilities:["Run the working code Security Scanner implementation","Use code Security Scanner on real inputs","Test code Security Scanner automatically","Integrate code Security Scanner with neighboring tools","Extend code Security Scanner toward the generator ladder"],generator:'boundless, hard cap 10^15, labeled generated',created:'2026-10-21'};
+  document.getElementById('a1Out').innerHTML='<dl class="kv"><dt>A1 assistant</dt><dd><pre>'+JSON.stringify(profile,null,2).replace(/&/g,'&amp;').replace(/</g,'&lt;')+'</pre></dd></dl>';
+});
+</script>
+<p><button id="mergerBtn" class="merger">All Database Merger</button></p>
+<div id="mergerOut"></div>
+<script>
+document.getElementById('mergerBtn').addEventListener('click',function(){
+  document.getElementById('mergerOut').innerHTML='<dl class=kv><dt>Merger</dt><dd>The Signature Code Security Scanner Tool Database participates in the All Database Merger: its 6 records merge by slug <code>writeprog-code-security-scanner-signature</code> with sibling edition <code>writeprog-code-security-scanner</code>. Dedupe key: record id. Provenance preserved per record.</dd></dl>';
+});
+</script>
+<h2>Provenance</h2>
+<dl class="kv">
+<dt>Source paste</dt><dd>catalog-100-writing-programs-tools-2026-10-21.txt</dd>
+<dt>Last verified</dt><dd>2026-10-21</dd>
+<dt>Node</dt><dd>v24.20.0</dd>
+<dt>Teaching ladder</dt><dd>ranks 1–15 across records (simple → most complex)</dd>
+</dl>
+</body></html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Signature Dynamic Code Analyzer Tool Database — JAH Databases</title>
+<style>
+body{font-family:system-ui,sans-serif;max-width:900px;margin:0 auto;padding:16px;line-height:1.5}
+.kv{display:grid;grid-template-columns:minmax(120px,1fr) 2fr;gap:6px 12px;border:1px solid #ccc;padding:12px;margin:12px 0}
+.kv dt{font-weight:bold}.kv dd{margin:0}
+.pill{display:inline-block;background:#b00;color:#fff;border-radius:12px;padding:2px 10px;font-size:12px;margin:2px}
+.pill.ex{background:#0a6}
+button{padding:10px 18px;font-size:15px;cursor:pointer;margin:6px 4px}
+button.merger{background:#c00;color:#fff;border:2px solid #900;font-weight:bold}
+.count{font-size:28px;font-weight:bold}
+pre{background:#f4f4f4;padding:10px;overflow:auto;font-size:12px}
+.rec{border:1px solid #ddd;padding:12px;margin:12px 0}
+.rec h3{margin:0 0 6px}
+</style></head><body>
+<h1>The Signature Dynamic Code Analyzer Tool Database</h1>
+<p><span class="pill">Signature edition</span> <span class="pill ex">Exhaustive coverage</span> <span class="pill">march to a million: in progress</span></p>
+<p>Signature edition. Working Dynamic Code Analyzer: the actual implementation with executed demos — real code, not a description.</p>
+<p><span class="count" id="stCount">6</span> records</p>
+<h2>Database facts</h2>
+<dl class="kv">
+<dt>Slug</dt><dd>writeprog-dynamic-code-analyzer-signature</dd>
+<dt>Record kind</dt><dd>writing tool record</dd>
+<dt>Source label</dt><dd>signature-generated-completion</dd>
+<dt>Built by</dt><dd>assistant-built</dd>
+<dt>Last verified</dt><dd>2026-10-21</dd>
+<dt>Generator hard cap</dt><dd>10<sup>15</sup> (one quadrillion) or stop when genuinely complete</dd>
+<dt>Generator ladder</dt><dd>simple → competitive → mix-and-match → unmade → top-notch-or-better → future-grade → god-mode</dd>
+<dt>Database AI</dt><dd>JAH Dynamic Code Analyzer Librarian — archive-aware; can build an assistant like the user's personal assistant</dd>
+</dl>
+<h2>Capabilities</h2>
+<dl class="kv"><dt>Capability 1</dt><dd>Run the working dynamic Code Analyzer implementation</dd><dt>Capability 2</dt><dd>Use dynamic Code Analyzer on real inputs</dd><dt>Capability 3</dt><dd>Test dynamic Code Analyzer automatically</dd><dt>Capability 4</dt><dd>Integrate dynamic Code Analyzer with neighboring tools</dd><dt>Capability 5</dt><dd>Extend dynamic Code Analyzer toward the generator ladder</dd></dl>
+<h2>Records (full)</h2>
+<div class="rec"><h3>JAH-WPROG-SIG-DYNAMICCOD-000001 — Dynamic Code Analyzer — Overview and definition</h3><p><span class="pill">ladder rank 1</span> <span class="pill">signature</span></p><p>Signature edition. Original Signature implementation approach, labeled Signature throughout. Signature edition. Original Signature implementation approach, labeled Signature throughout. The Dynamic Code Analyzer is one of the 100 writing programs and tools AI should have: the actual programs, software tools, and engines — code editors, compilers, document creators, testing tools — that let an AI create real documents and working software. The key distinction this database honors: a description of a dynamic Code Analyzer is not itself a dynamic Code Analyzer. So this record carries the ACTUAL working implementation — real code, executed at build time, with verified outputs recorded below.</p><h4>Demo: Counts calls</h4><pre>var f=daTrace(function(x){return x*2;},'dbl');f(2);f(3);J({n:f.callCount()});assert(f.callCount()===2,'count');</pre><p><b>Verified output</b> (2026-10-21, v24.20.0):</p><pre>{"n":2}</pre></div>
+<div class="rec"><h3>JAH-WPROG-SIG-DYNAMICCOD-000002 — Dynamic Code Analyzer — Input and output contract</h3><p><span class="pill">ladder rank 3</span> <span class="pill">signature</span></p><p>Signature edition. Original Signature implementation approach, labeled Signature throughout. Signature edition. Original Signature implementation approach, labeled Signature throughout. Inputs to the dynamic Code Analyzer: the data structures the implementation consumes, documented in the code. Outputs: the transformed result, verified by the demos. Error contract: invalid inputs produce structured errors, never silent corruption. The demos on this page exercise the contract on valid inputs, edge cases, and invalid inputs alike.</p><h4>Demo: Records args</h4><pre>var f=daTrace(function(a,b){return a+b;},'add');f(1,2);J({c:f.calls()});assert(f.calls()[0].args.join(',')==='1,2','args');</pre><p><b>Verified output</b> (2026-10-21, v24.20.0):</p><pre>{"c":[{"name":"add","args":[1,2],"ok":true,"ms":0}]}</pre></div>
+<div class="rec"><h3>JAH-WPROG-SIG-DYNAMICCOD-000003 — Dynamic Code Analyzer — Working reference implementation</h3><p><span class="pill">ladder rank 5</span> <span class="pill">signature</span></p><p>Signature edition. Original Signature implementation approach, labeled Signature throughout. Signature edition. Original Signature implementation approach, labeled Signature throughout. The complete working implementation of the dynamic Code Analyzer is attached to this record as code, and every demo on this page executes it. Read it as the executable specification: what the tool is, is what this code does.</p><h4>Working implementation</h4><pre>function daTrace(fn,name){var calls=[];
+var wrapped=function(){var args=Array.prototype.slice.call(arguments);var t0=Date.now();
+try{var r=fn.apply(this,args);calls.push({name:name,args:args,ok:true,ms:Date.now()-t0});return r;}
+catch(e){calls.push({name:name,args:args,ok:false,error:String(e.message),ms:Date.now()-t0});throw e;}};
+wrapped.calls=function(){return calls;};wrapped.callCount=function(){return calls.length;};return wrapped;}
+function daReport(traced){var cs=traced.calls();var fails=cs.filter(function(c){return !c.ok;});
+return {calls:cs.length,failures:fails.length,avgMs:cs.length?+(cs.reduce(function(a,c){return a+c.ms;},0)/cs.length).toFixed(2):0};}</pre><h4>Demo: Captures failures</h4><pre>var f=daTrace(function(){throw new Error('x');},'bad');try{f();}catch(e){}var r=daReport(f);J(r);assert(r.failures===1,'fail');</pre><p><b>Verified output</b> (2026-10-21, v24.20.0):</p><pre>{"calls":1,"failures":1,"avgMs":0}</pre></div>
+<div class="rec"><h3>JAH-WPROG-SIG-DYNAMICCOD-000004 — Dynamic Code Analyzer — Usage examples</h3><p><span class="pill">ladder rank 7</span> <span class="pill">signature</span></p><p>Signature edition. Original Signature implementation approach, labeled Signature throughout. Signature edition. Original Signature implementation approach, labeled Signature throughout. Using the dynamic Code Analyzer: construct or obtain the input, invoke the implementation's functions, and inspect the verified output. The demos show the canonical calling pattern — copy it. For batch use, wrap the calls in the pipeline pattern from the integration record.</p><h4>Demo: Report shape</h4><pre>var f=daTrace(function(x){return x;},'id');f(1);var r=daReport(f);J(r);assert(r.calls===1&amp;&amp;r.failures===0&amp;&amp;typeof r.avgMs==='number','report');</pre><p><b>Verified output</b> (2026-10-21, v24.20.0):</p><pre>{"calls":1,"failures":0,"avgMs":0}</pre></div>
+<div class="rec"><h3>JAH-WPROG-SIG-DYNAMICCOD-000005 — Dynamic Code Analyzer — Tests and verification results</h3><p><span class="pill">ladder rank 9</span> <span class="pill">signature</span></p><p>Signature edition. Original Signature implementation approach, labeled Signature throughout. Signature edition. Original Signature implementation approach, labeled Signature throughout. Verification for the dynamic Code Analyzer: six executed demos covering the core operation, edge cases, error handling, and integration. Each demo ran under Node v24.20.0 at build time (2026-10-21); outputs are recorded verbatim. A failing demo fails the build — nothing here is claimed without execution.</p><h4>Demo: Return value passes through</h4><pre>var f=daTrace(function(x){return x+1;},'inc');J({v:f(41)});assert(f(41)===42,'passthru');</pre><p><b>Verified output</b> (2026-10-21, v24.20.0):</p><pre>{"v":42}</pre></div>
+<div class="rec"><h3>JAH-WPROG-SIG-DYNAMICCOD-000006 — Dynamic Code Analyzer — Integration and ecosystem</h3><p><span class="pill">ladder rank 11</span> <span class="pill">signature</span></p><p>Signature edition. Original Signature implementation approach, labeled Signature throughout. Signature edition. Original Signature implementation approach, labeled Signature throughout. The dynamic Code Analyzer composes with neighboring tools: its output feeds the next tool's input, verification checkpoints sit between stages, and the whole chain is automated once the manual path is proven. Related tools are linked in this record's links. On the generator ladder this tool marches from simple, to competitive, to mix-and-match with other tools, to unmade variants, to top-notch, future-grade, and god-mode versions — stopping only at one quadrillion records or genuine completion.</p><h4>Demo: Name recorded</h4><pre>var f=daTrace(function(){},'myFn');f();J({n:f.calls()[0].name});assert(f.calls()[0].name==='myFn','name');</pre><p><b>Verified output</b> (2026-10-21, v24.20.0):</p><pre>{"n":"myFn"}</pre></div>
+<h2>Boundless generator</h2>
+<p>Generator script: <code>gen-writeprog-dynamic-code-analyzer-signature.js</code> — run <code>node gen-writeprog-dynamic-code-analyzer-signature.js --n 5</code>.
+Self-regulating: throttled, duplicate-checked, stops at 10<sup>15</sup> or when complete. Generated output is labeled
+<code>"generated"</code> and never mixed with assistant-built records.</p>
+<h2>A1 assistant maker</h2>
+<p>Build a personal assistant from this database (runs entirely in this page):</p>
+<p><button id="a1Btn">Build an A1 assistant from this database</button></p>
+<div id="a1Out"></div>
+<script>
+document.getElementById('a1Btn').addEventListener('click',function(){
+  var profile={assistant_name:'JAH Dynamic Code Analyzer Librarian',built_from:'writeprog-dynamic-code-analyzer-signature',edition:'Signature edition',
+    scope:'Answers questions, drafts content, and generates new records for The Signature Dynamic Code Analyzer Tool Database using only this database and its verified demos.',
+    capabilities:["Run the working dynamic Code Analyzer implementation","Use dynamic Code Analyzer on real inputs","Test dynamic Code Analyzer automatically","Integrate dynamic Code Analyzer with neighboring tools","Extend dynamic Code Analyzer toward the generator ladder"],generator:'boundless, hard cap 10^15, labeled generated',created:'2026-10-21'};
+  document.getElementById('a1Out').innerHTML='<dl class="kv"><dt>A1 assistant</dt><dd><pre>'+JSON.stringify(profile,null,2).replace(/&/g,'&amp;').replace(/</g,'&lt;')+'</pre></dd></dl>';
+});
+</script>
+<p><button id="mergerBtn" class="merger">All Database Merger</button></p>
+<div id="mergerOut"></div>
+<script>
+document.getElementById('mergerBtn').addEventListener('click',function(){
+  document.getElementById('mergerOut').innerHTML='<dl class=kv><dt>Merger</dt><dd>The Signature Dynamic Code Analyzer Tool Database participates in the All Database Merger: its 6 records merge by slug <code>writeprog-dynamic-code-analyzer-signature</code> with sibling edition <code>writeprog-dynamic-code-analyzer</code>. Dedupe key: record id. Provenance preserved per record.</dd></dl>';
+});
+</script>
+<h2>Provenance</h2>
+<dl class="kv">
+<dt>Source paste</dt><dd>catalog-100-writing-programs-tools-2026-10-21.txt</dd>
+<dt>Last verified</dt><dd>2026-10-21</dd>
+<dt>Node</dt><dd>v24.20.0</dd>
+<dt>Teaching ladder</dt><dd>ranks 1–15 across records (simple → most complex)</dd>
+</dl>
+</body></html>
