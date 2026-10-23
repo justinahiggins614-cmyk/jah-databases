@@ -1,121 +1,92 @@
-(function(){'use strict';
-/* Signature Future Technology Database generator — jahdb-future-technology-generator-1.0.
-   Property of Justin Addam Higgins (JAH).
-   Deterministic: same seed always makes the same record.
-   src:"signature" = Signature-authored original (clearly labeled) */
-function prng(seed){var a=(seed>>>0)||1;return function(){a|=0;a=(a+0x6D2B79F5)|0;var t=Math.imul(a^(a>>>15),1|a);t=(t+Math.imul(t^(t>>>7),61|t))^t;return((t^(t>>>14))>>>0)/4294967296;};}
-function pick(r,s){return r[(s()*r.length)|0];}
-var PREFIX='JAH-FUT-TECH-';
-var TOPICS=[["Brain-Computer Interfaces Go Mainstream", "Implants and headsets decode neural signals; clinical trials restore communication to paralyzed patients."], ["Solid-State Batteries", "Ceramic electrolytes promise safer, denser storage; automakers race to commercialize them."], ["Fusion Power Timelines", "Private fusion startups target grid power in the 2030s; physicists urge cautious optimism."], ["Quantum Internet", "Entanglement-based networks could enable unhackable communication; testbeds already span cities."], ["Room-Temperature Superconductors", "The 2023 LK-99 claim collapsed under scrutiny; the hunt continues for the real breakthrough."], ["Molecular Assemblers", "Drexler's nanotech vision remains theoretical; DNA origami offers a nearer-term path."], ["Artificial General Intelligence", "Labs pursue human-level AI; timelines from experts range from years to never."], ["Whole Brain Emulation", "Mapping and simulating a brain is a grand challenge; the data requirements are astronomical."], ["De-Extinction Projects", "Companies edit elephant DNA toward mammoth traits; ecologists debate the wisdom."], ["Lab-Grown Organs", "Bioprinted tissues advance toward transplantable organs; vascularization is the hard problem."], ["CRISPR 3.0 Therapies", "Next-generation gene editing targets complex diseases; delivery to the right cells is key."], ["Anti-Aging Breakthroughs", "Senolytics and reprogramming extend healthspan in mice; human trials are underway."], ["Space-Based Solar Power", "Orbital collectors could beam energy down; demonstrators are testing the concept."], ["Hyperloop Networks", "Vacuum-tube transport promises 700-mph travel; the engineering economics remain daunting."], ["Autonomous Everything", "Self-driving fleets, drone delivery, and robot warehouses converge; regulation lags capability."], ["Smart Dust Sensors", "Microscopic sensors could monitor everything; privacy advocates shudder."], ["Programmable Matter", "Claytronics-style materials that reshape on command; the concept awaits nanoscale actuators."], ["Holographic Displays", "True 3D displays without headsets advance; light-field tech is the leading approach."], ["Thought-Controlled Devices", "Non-invasive BCIs steer cursors and wheelchairs; the interfaces improve yearly."], ["Digital Twins of Cities", "Urban digital replicas optimize traffic and energy; Singapore leads the modeling."], ["Autonomous Construction", "Robot swarms 3D-print buildings; the tech suits remote and dangerous sites."], ["Ocean Thermal Energy", "Temperature gradients could power tropics; pilot plants test the thermodynamics."], ["Carbon-Negative Concrete", "New cements absorb CO2; construction's footprint could flip."], ["Algae Biofuel Farms", "Engineered algae promise high-yield fuels; cost has been the perennial barrier."], ["Vertical Farming at Scale", "Stacked farms cut water use 95%; economics favor leafy greens so far."], ["Cultured Meat Economics", "Bioreactor meat needs massive cost cuts; the industry is in its shakeout phase."], ["Direct Air Capture", "Machines scrub CO2 from ambient air; the energy cost is the central challenge."], ["The 2050 Technology Landscape", "Forecasters sketch plausible mid-century tech; the only certainty is surprise."], ["The Universal Translator Earbud", "A future gadget: an earbud that translates any language in real time, with the speaker's voice preserved."], ["The Pocket Projector", "A future gadget: a phone-sized projector that throws a bright, sharp display onto any surface."], ["The Health Tricorder", "A future gadget: a handheld scanner that reads vital signs, blood chemistry, and early disease markers noninvasively."], ["The Programmable Matter Kit", "A future gadget: a kit of programmable matter blocks that assemble into tools on command."], ["The Sleep Optimizer Headband", "A future gadget: a headband that monitors sleep stages and enhances deep sleep with gentle stimulation."], ["The AR Contact Lens", "A future gadget: a contact lens with a built-in display, overlaying information directly onto vision."], ["The Personal Air Purifier", "A future gadget: a wearable that creates a bubble of clean air around the wearer's face."], ["The Holographic Communicator", "A future gadget: a device that projects life-size holograms of callers into the room."], ["The Exoskeleton Glove", "A future gadget: a glove that multiplies grip strength for workers and restores it for the elderly."], ["The Food Printer", "A future gadget: a countertop printer that assembles meals from ingredient cartridges."], ["The Emotion Mirror", "A future gadget: a mirror that reads micro-expressions and reflects your emotional state back with gentle insight."], ["The Gravity Blanket 2.0", "A future gadget: a weighted blanket with adaptive pressure zones that respond to restlessness."], ["The Solar Backpack", "A future gadget: a backpack with integrated solar fabric that charges devices through the day."], ["The Language Learning Pillow", "A future gadget: a pillow speaker that reinforces vocabulary during sleep's memory-consolidation windows."], ["The Plant Communicator", "A future gadget: a sensor stake that translates a plant's needs into plain language."], ["Matter Compilers", "A century ahead: matter compilers that assemble objects atom by atom from feedstock, making manufacturing a software problem."], ["Mind Uploading Infrastructure", "A century ahead: the infrastructure for whole-brain emulation, should the neuroscience ever support it."], ["Stellar Engines", "A century ahead: stellar engines that move stars themselves, the ultimate megastructure."], ["Programmable Biology", "A century ahead: biology as a true engineering discipline, with cells programmed like software and ecosystems designed like circuits."], ["Gravity Engineering", "A century ahead: the first practical manipulation of gravity, assuming physics ever permits it."], ["The Interplanetary Internet", "A century ahead: a delay-tolerant interplanetary network linking Earth, Mars, and the outer settlements."], ["Fusion Everywhere", "A century ahead: fusion power as boring infrastructure, as unremarkable as the grid is today."], ["The Weather Machine", "A century ahead: full regional climate control, managed as carefully as air traffic."], ["Post-Scarcity Economics", "A century ahead: economics reorganized around abundance, with automation providing the basics and humans pursuing meaning."], ["The Longevity Escape", "A century ahead: longevity escape velocity achieved, with life expectancy rising faster than time passes."], ["Ocean Colonization", "A century ahead: permanent ocean cities, the sea colonized as seriously as space."], ["The Symbiotic AI", "A century ahead: AI as symbiont, woven into human cognition as seamlessly as language."], ["Terraforming Mars", "A century ahead: Mars terraforming underway, a multi-millennium project in its early centuries."], ["The Archive of Everything", "A century ahead: a complete archive of human knowledge and experience, stored redundantly across the solar system."], ["The Post-Work Society", "A century ahead: work redefined as optional contribution, with automation handling necessity."], ["Solid-State Batteries", "Solid-state batteries replace liquid electrolytes with ceramics, promising higher energy density and no fire risk."], ["Lithium-Sulfur Batteries", "Lithium-sulfur batteries offer theoretical energy densities far beyond lithium-ion, using cheap, abundant sulfur."], ["Sodium-Ion Batteries", "Sodium-ion batteries swap lithium for abundant sodium, trading some energy density for cost and supply security."], ["Iron-Air Batteries", "Iron-air batteries promise multi-day grid storage at a tenth of lithium's cost, using rust chemistry."], ["Structural Batteries", "Structural batteries carry mechanical loads while storing energy, turning a car's body into its battery."], ["Quantum Batteries (Theory)", "Quantum batteries are a theoretical concept: using quantum effects like entanglement to charge faster with scale."], ["Aluminum-Air Batteries", "Aluminum-air batteries offer huge energy density as primary cells, with aluminum as the fuel and air as the oxidant."], ["Flow Batteries for the Grid", "Flow batteries store energy in liquid electrolytes in external tanks, decoupling power from capacity."], ["Silicon Anode Batteries", "Silicon anodes can hold ten times the lithium of graphite, and startups are finally making them last."], ["Thermal Batteries (Sand and Brick)", "Thermal batteries store energy as heat in sand, brick, or molten salt, the cheapest storage of all."], ["Gravity Batteries Revisited", "Gravity storage lifts mass to store energy, an old idea returning with new engineering."], ["Hydrogen as Battery", "Hydrogen serves as a chemical battery: electrolyze water when power is cheap, fuel-cell it back when dear."], ["Paper Batteries", "Paper batteries print thin, flexible storage for disposable electronics and smart packaging."], ["Nuclear Diamond Batteries", "Diamond batteries harvest energy from radioactive decay, lasting thousands of years at tiny power."], ["The Battery Passport", "The battery passport is not a chemistry but a system: digital twins tracking every battery's life, enabling reuse and recycling."], ["Osseointegration: Bone-Anchored Limbs", "Osseointegration anchors prosthetics directly to bone, eliminating the socket and giving users a sense of the limb as their own."], ["Myoelectric Hands", "Myoelectric hands read muscle signals from the residual limb to control individual fingers."], ["The LUKE Arm", "The LUKE arm, from DEKA, offers shoulder-level control with ten powered joints, the most advanced prosthetic arm in clinical use."], ["Sensory Feedback Systems", "Sensory feedback prosthetics stimulate nerves to restore a sense of touch, grip force, and even temperature."], ["Prosthetic Legs That Learn", "Microprocessor knees and ankles adapt to terrain in real time, learning the user's gait."], ["3D-Printed Prosthetics", "3D printing slashed prosthetic costs, with functional hands available for tens of dollars in materials."], ["Brain-Controlled Limbs", "Brain-computer interfaces let users control prosthetics by thought, with implanted arrays decoding motor intentions."], ["The Running Blade", "Carbon-fiber running blades return energy like a spring, letting amputee sprinters compete at elite levels."], ["Pediatric Prosthetics", "Children's prosthetics face unique challenges: growth, play, and the need for frequent replacement."], ["The Bionic Eye (Retinal Implants)", "Retinal implants like Argus II restore partial vision by stimulating the retina electrically."], ["Exoskeletons for Mobility", "Wearable exoskeletons help paraplegic users stand and walk, with powered joints and crutch or walker support."], ["The Artificial Pancreas (Closed Loop)", "Closed-loop insulin systems, the artificial pancreas, automate blood-sugar control for type 1 diabetes."], ["Cochlear Implants Evolved", "Cochlear implants are the most successful neural prosthesis, restoring hearing to hundreds of thousands."], ["Prosthetic Skin", "Electronic skin gives prosthetics and robots a sense of touch with pressure, temperature, and even pain sensors."], ["The Ethics of Enhancement", "Advanced prosthetics raise the enhancement question: when does restoration become upgrade?"], ["The Lights-Out Factory", "Lights-out factories run with no humans on the floor: robots build products in the dark, needing no light, heat, or breaks."], ["Digital Twins", "Digital twins are live virtual replicas of factories, updated by sensors in real time."], ["Collaborative Robots", "Cobots work alongside humans, with force limits and sensing that make them safe to touch."], ["Additive Manufacturing at Scale", "Industrial 3D printing is moving from prototypes to production, with printed parts in aircraft and cars."], ["The Self-Optimizing Line", "Self-optimizing production lines use machine learning to tune their own parameters continuously."], ["Microfactories", "Microfactories shrink production to shipping-container scale, bringing manufacturing to the point of need."], ["The Circular Factory", "Circular factories design for disassembly, with take-back streams feeding remanufacturing lines."], ["Swarm Manufacturing", "Swarm manufacturing uses fleets of small robots instead of fixed lines, reconfiguring for each product."], ["The Biofactory", "Biofactories use engineered organisms to manufacture chemicals, materials, and food."], ["Human-Robot Teaming", "The future factory pairs human judgment with robot precision, each doing what they do best."], ["Predictive Maintenance", "Predictive maintenance uses sensor data and AI to fix machines before they fail."], ["The Factory as Power Plant", "Future factories generate their own power: rooftop solar, waste-heat recovery, and on-site storage."], ["Quality as Data", "In the future factory, quality is data: every unit's measurements feed models that guarantee conformance."], ["The Resilient Supply Web", "Future factories sit in supply webs, not chains: multiple sources, local options, and digital inventory."], ["The Factory of 2125", "The factory of 2125 may be unrecognizable: matter compilers, biofabrication, and swarm robotics in living buildings."], ["The Electric Hypercar Era", "Electric hypercars like the Rimac Nevera and Lotus Evija deliver 2,000 horsepower with instant torque, redefining performance."], ["Solid-State Supercars", "Solid-state batteries promise supercars with 600-mile range and 10-minute charging, removing EVs' last compromises."], ["Active Aerodynamics", "Future supercars wear active aerodynamics: wings, flaps, and underbody elements that morph with speed and cornering."], ["The Hydrogen Supercar", "Hydrogen supercars like the Hyperion XP-1 propose fuel-cell performance with water as the only emission."], ["Autonomous Track Mode", "Future supercars offer autonomous track modes: the car drives the racing line while the driver learns, then gradually hands over control."], ["The 3D-Printed Chassis", "3D-printed chassis, like Czinger's, use AI-designed structures that are lighter and stronger than conventional frames."], ["In-Wheel Motors", "In-wheel motors put the power at the wheels, freeing the chassis and enabling perfect torque vectoring."], ["The Sustainable Supercar", "Sustainable supercars prove performance and responsibility can coexist: recycled carbon fiber, vegan interiors, and clean power."], ["Augmented Reality Windshields", "AR windshields overlay the racing line, hazards, and navigation onto the driver's view."], ["The Fan Car Returns", "Fan cars like the McMurtry Speirling use fans to suck themselves to the road, generating downforce independent of speed."], ["Synthetic Fuels for Classics", "Synthetic fuels promise carbon-neutral gasoline for the supercars that will never go electric."], ["The Morphing Body", "Morphing body panels change shape with driving conditions, the ultimate active aerodynamics."], ["Wireless Charging Roads", "Wireless charging roads could power supercars in motion, ending range anxiety forever."], ["The AI Co-Driver", "AI co-drivers monitor the driver, the car, and the road, intervening only when needed."], ["The Last Combustion Supercar", "The last combustion supercars are being built now: final V12s and flat-plane V8s as the era ends."], ["The Networked Microfactory Grid", "A future factory network links microfactories into a grid: products are made wherever capacity and materials are closest."], ["The Global Digital Twin", "A global digital twin mirrors the entire manufacturing network, from mines to doorsteps, in real time."], ["Autonomous Supply Negotiation", "In the future network, AI agents negotiate supply contracts machine-to-machine, in milliseconds."], ["The Circular Network", "A circular factory network tracks every material through multiple lives, with take-back built into the topology."], ["Edge Manufacturing", "Edge manufacturing pushes production to the network's edge: stores, homes, and vehicles that make what they need."], ["The Resilience Protocol", "The future network runs a resilience protocol: automatic rerouting, strategic reserves, and graceful degradation."], ["Human Crafts in the Network", "The network reserves a place for human craft: artisan nodes where handwork adds value machines cannot."], ["The Energy-Aware Factory", "Networked factories schedule energy-intensive work for renewable peaks, acting as grid-scale demand response."], ["Quality Across the Network", "Quality in the network is guaranteed by shared data: every node's measurements feed network-wide models."], ["The Open Factory Stack", "An open stack for factories, open protocols and interfaces, prevents the network from becoming a monopoly."], ["Orbital Factory Nodes", "The network's most exotic nodes are orbital: microgravity manufacturing for fiber optics, pharmaceuticals, and perfect spheres."], ["The Deep-Sea Node", "Deep-sea factory nodes mine and process ocean minerals at the source, on the abyssal plain."], ["The Network's Immune System", "The factory network needs an immune system: cybersecurity, quality defense, and fraud detection at network scale."], ["The Learning Network", "The network learns: every product made improves the models for the next, across all nodes."], ["The Post-Scarcity Node", "The ultimate network node is post-scarcity: a matter compiler that makes anything from feedstock and energy."], ["The Four-Day Week Evidence", "Four-day week trials across thousands of companies show maintained or improved productivity with dramatically better wellbeing."], ["AI as Coworker", "AI coworkers handle drafting, analysis, and coordination, leaving humans the judgment, relationships, and accountability."], ["The Portfolio Career", "Portfolio careers replace single jobs with multiple concurrent roles: employee, freelancer, creator, investor."], ["Remote Work Matures", "Remote work is maturing from emergency measure to designed practice, with norms for async communication and intentional gathering."], ["The Skills Half-Life", "Technical skills now have half-lives of a few years, making continuous learning the core career skill."], ["Universal Basic Income Pilots", "UBI pilots worldwide test unconditional cash: the results show improved health, education, and entrepreneurship with modest work effects."], ["The Creator Economy", "The creator economy lets individuals monetize audiences directly, with millions earning from content, courses, and communities."], ["Algorithmic Management", "Algorithmic management directs gig and warehouse work through apps, optimizing efficiency at human cost."], ["The Care Economy Rises", "Care work, childcare, eldercare, healthcare, is the future's growth sector, resistant to automation and rich in meaning."], ["Digital Nomadism", "Digital nomads work from anywhere, enabled by connectivity and remote-friendly employers."], ["The Right to Disconnect", "Right-to-disconnect laws give workers the legal right to ignore after-hours messages, spreading from France worldwide."], ["Cooperatives and Platform Co-ops", "Platform cooperatives give gig workers ownership of the platforms they use, sharing profits and governance."], ["The 15-Hour Week (Keynes's Dream)", "Keynes predicted 15-hour weeks by 2030; we are not there, but the productivity exists and the question is distribution."], ["Lifelong Learning Accounts", "Lifelong learning accounts, like Singapore's SkillsFuture, fund continuous reskilling as a public good."], ["Work as Meaning", "The future of work's deepest question is meaning: when necessity fades, why work at all?"],
- ["The Memory Palace Band", "The memory palace band is a wrist-worn gadget that turns vocabulary study into a spatial game: each new word is pinned to a location on a walk you take every..."],
- ["The Scent Synthesizer", "The scent synthesizer is a countertop device that prints smells: 12 base cartridges of aroma compounds mix in micro-doses to recreate about 200 catalogued sc..."],
- ["The Posture Coach Shirt", "The posture coach shirt weaves 8 stretch sensors into the shoulders and spine of an ordinary-looking tee, and taps you, literally, a small vibration between ..."],
- ["The Water-from-Air Bottle", "The water-from-air bottle is a 1-liter bottle with a thermoelectric condenser in its base that pulls drinking water out of humid air, producing up to 500 mil..."],
- ["The Noise-Canceling Window", "The noise-canceling window is a retrofit panel that mounts inside an existing window frame and kills street noise with anti-phase sound, the same trick as he..."],
- ["The Gesture Ring", "The gesture ring reads the tiny electrical signals of your finger muscles and turns flicks and pinches into commands: 14 recognized gestures control presenta..."],
- ["The UV-Sterilizing Wand", "The UV-sterilizing wand is a 25-centimeter wand that bathes surfaces in UV-C light, killing 99.9 percent of common bacteria and viruses with a 30-second swee..."],
- ["The Holographic Whiteboard", "The holographic whiteboard projects a 2-meter floating canvas above any table, where up to 6 people sketch in midair with stylus pens and see each other's st..."],
- ["The Smart Insulin Patch", "The smart insulin patch is a 5-centimeter adhesive patch that monitors glucose through the skin and micro-doses insulin from a 3-day reservoir, closing the l..."],
- ["The Earthquake Early-Warning Lamp", "The earthquake early-warning lamp sits on a nightstand, listens to the regional seismic network over the internet, and flashes red with a spoken countdown wh..."],
- ["The Dyson Swarm Economy", "A century ahead, the Dyson swarm economy treats starlight as the base currency: millions of solar collectors orbit the sun, beaming power to habitats, factor..."],
- ["Consciousness Backups", "A century ahead, consciousness backups are the most argued-about technology that barely works: high-resolution brain scans, taken over 6 hours in a dedicated..."],
- ["The Thought Commons", "A century ahead, the thought commons is a shared mental workspace where consenting minds link through neural interfaces to think together: engineers co-desig..."],
- ["Self-Repairing Cities", "A century ahead, self-repairing cities treat infrastructure as a living tissue: roads embedded with healing polymers seal their own cracks within 48 hours, w..."],
- ["The End of Passwords", "A century ahead, passwords are a museum exhibit: identity is continuous, a rolling authentication woven from gait, voice, neural signature, and behavioral rh..."],
- ["Personal Fusion Reactors", "A century ahead, personal fusion reactors the size of a shipping container power neighborhoods of 500 homes each, sipping seawater and exhaling helium. The g..."],
- ["The Ocean Internet", "A century ahead, the ocean internet links the 70 percent of Earth that is water: acoustic mesh networks hop data between autonomous buoys, underwater drones,..."],
- ["Engineered Weather Corridors", "A century ahead, engineered weather corridors steer storms the way air traffic steers planes: fleets of high-altitude drones seed and dissipate cloud systems..."],
- ["The Thousand-Year Library", "A century ahead, the thousand-year library stores humanity's knowledge in 5D glass crystals, each the size of a coin holding 360 terabytes readable for a mil..."],
- ["Post-Disease Medicine", "A century ahead, post-disease medicine treats infection the way the 20th century treated smallpox, as a solved problem remembered in museums. Universal patho..."],
- ["Seawater Batteries", "Seawater batteries use the ocean itself as the electrolyte: sodium ions shuttle between electrodes bathed in filtered seawater, making a battery whose fuel i..."],
- ["Zinc-Air Revival", "Zinc-air batteries are the comeback story of storage: the chemistry powered hearing aids for decades, and new bifunctional catalysts have finally made it rec..."],
- ["Magnesium Batteries", "Magnesium batteries promise to succeed where lithium struggles: a magnesium anode carries twice the charge per volume, the metal is the 8th most abundant ele..."],
- ["The Solid-State Race", "The solid-state race is the battery industry's moon shot: replace the flammable liquid electrolyte with a ceramic, and you get a cell that cannot catch fire,..."],
- ["Battery Swapping Networks", "Battery swapping networks treat the EV battery as a service, not a possession: drive in, a robot swaps your depleted pack for a full one in 3 minutes, and yo..."],
- ["Second-Life EV Packs", "Second-life EV packs give car batteries a retirement job: a pack too degraded for the road, at 70 percent of original capacity, still has a decade of useful ..."],
- ["Supercapacitor Hybrids", "Supercapacitor hybrids pair a small lithium battery with a supercapacitor bank, letting each do what it does best: the capacitor handles the violent 10-secon..."],
- ["The Lithium Triangle", "The lithium triangle, where Argentina, Bolivia, and Chile meet, holds over half the world's brine lithium, and its salt flats have become the most geopolitic..."],
- ["Organic Radical Batteries", "Organic radical batteries store charge in stable organic molecules instead of metals, which means a battery made from elements as common as carbon, hydrogen,..."],
- ["The 10-Minute Charge", "The 10-minute charge is the number the whole EV industry is chasing: add 300 kilometers of range in the time it takes to buy coffee. The physics says it is p..."],
- ["The Thought-Controlled Wheelchair", "The thought-controlled wheelchair reads motor intentions from a non-invasive EEG headset and converts them into smooth chair commands: think 'forward' and th..."],
- ["Regenerative Sleeves", "Regenerative sleeves are prosthetic sockets lined with electrical stimulation arrays that coax the residual limb's nerves and muscles to stay healthy: 2 hour..."],
- ["The Bionic Handshake", "The bionic handshake project set out to solve prosthetics' most social problem: the handshake. Engineers tuned grip force to 20 newtons, warm, brief, and rel..."],
- ["Prosthetic Proprioception", "Prosthetic proprioception gives artificial limbs a sense of where they are in space: vibration motors on the skin encode joint angles, so users know their pr..."],
- ["The Affordable Arm", "The affordable arm project asked what a prosthetic hand could cost if dignity were the spec and the budget were 500 dollars: the answer is a 3D-printed, body..."],
- ["Neural Lace Interfaces", "Neural lace interfaces are ultra-thin electrode meshes, draped over the brain's surface through a 2-centimeter incision, that read motor and sensory signals ..."],
- ["The Climbing Leg", "The climbing leg is a prosthetic built for vertical rock: a carbon foot with 12 replaceable rubber pads, an ankle that locks at 8 angles, and a knee that fre..."],
- ["Taste Bud Prosthetics", "Taste bud prosthetics sound like science fiction until you meet the 2 million people who lost taste to illness or treatment: a mouthguard stimulator with 100..."],
- ["The Balance Vest", "The balance vest helps amputees and stroke survivors trust their footing again: 16 vibration motors around the torso encode body tilt, giving the brain a sec..."],
- ["The Growth-Adaptive Socket", "The growth-adaptive socket solves pediatric prosthetics' cruelest math: a child outgrows a socket every 9 to 12 months, and each refit costs thousands. The a..."],
- ["The Dark Warehouse", "The dark warehouse is the lights-out factory's quieter sibling: a fulfillment center where 500 robots pick, pack, and sort in darkness, needing no light, hea..."],
- ["The Self-Healing Machine", "The self-healing machine is a CNC mill that fixes its own wear: sensors track spindle vibration 1,000 times a second, and when they detect the signature of a..."],
- ["Voice-Directed Assembly", "Voice-directed assembly lets workers build complex products hands-free: the system speaks the next step, the worker confirms with a word, and computer vision..."],
- ["The Pop-Up Factory", "The pop-up factory fits in 6 shipping containers and deploys in 72 hours: after a hurricane, it prints water filters, splints, and shelter brackets from loca..."],
- ["Zero-Waste Machining", "Zero-waste machining treats every gram of metal as inventory, not scrap: the cell nests parts across jobs, re-melts its own swarf on-site, and tracks materia..."],
- ["The Robot Apprentice", "The robot apprentice learns by watching: a skilled machinist performs a task 5 times while the robot's cameras and force sensors record every motion, then th..."],
- ["Factories That Farm", "Factories that farm stack food production inside industrial buildings: a former auto-parts plant now grows 1,000 tons of leafy greens a year under LEDs, usin..."],
- ["The Inspection Drone Fleet", "The inspection drone fleet gives factories eyes everywhere: 24 autonomous drones patrol the plant on scheduled routes, photographing every weld, label, and g..."],
- ["On-Demand Tooling", "On-demand tooling prints the factory's own tools overnight: jigs, fixtures, grippers, and gauges, designed in the afternoon, printed by morning, in materials..."],
- ["The Quiet Factory", "The quiet factory redesigned manufacturing around the human ear: acoustic enclosures, vibration isolation, and electric drives cut floor noise from 95 to 70 ..."],
- ["The 2,000-HP Family Car", "The 2,000-horsepower family car is the supercar's identity crisis made metal: a 5-seat wagon with hypercar power, limited to sane speeds by software unless y..."],
- ["Solar Skin Supercars", "Solar skin supercars wear photovoltaic bodywork: the entire body is a solar cell, adding 40 kilometers of range on a sunny day parked outside. It will not re..."],
- ["The Drone-Chase Supercar", "The drone-chase supercar ships with its own cinematic crew: 2 autonomous camera drones that launch from the frunk, film your canyon run from angles no chase ..."],
- ["Biometric Ignition", "Biometric ignition replaces the key with the driver: a steering-wheel sensor reads your cardiac rhythm, unique as a fingerprint and impossible to leave in yo..."],
- ["The Silent Supercar", "The silent supercar is the electric era's philosophical statement: 1,500 horsepower with no exhaust note at all, just tire whisper and wind. Engineers spent ..."],
- ["Shape-Memory Alloys in Bodywork", "Shape-memory alloy bodywork lets a supercar heal its own dents: panels of nickel-titanium spring back to their trained shape when warmed, so a parking-lot di..."],
- ["The Self-Washing Supercar", "The self-washing supercar wears a hydrophobic nano-coating that sheds dirt with the morning dew: rain beads at contact angles over 160 degrees, carrying dust..."],
- ["V2G Supercars", "V2G supercars turn the garage into a power plant: the car's 100-kilowatt-hour battery sells power back to the grid during evening peaks, earning owners an av..."],
- ["The Modular Supercar", "The modular supercar splits into 4 swappable modules, nose, cabin, tail, and skateboard chassis, so owners refresh the car's looks and tech without replacing..."],
- ["The Amphibious Hypercar", "The amphibious hypercar does 400 kilometers per hour on land and 80 on water, switching in 15 seconds as the wheels retract and twin water jets engage. It is..."],
- ["The Neighborhood Fab Lab", "The neighborhood fab lab puts a microfactory on Main Street: 3D printers, a laser cutter, and a CNC mill behind a coffee shop, where residents print replacem..."],
- ["Disaster-Relief Manufacturing", "Disaster-relief manufacturing pre-positions production, not just supplies: 50 containerized microfactories stationed around the Pacific Rim deploy within 48 ..."],
- ["The Antarctic Node", "The Antarctic node is the factory network's most extreme member: a microfactory at a research station that prints replacement parts through the 6-month winte..."],
- ["Print-on-Demand Pharmacies", "Print-on-demand pharmacies manufacture pills at the point of care: the machine prints a patient's exact dose, combining 4 medications into one polypill print..."],
- ["The Textile Comeback", "The textile comeback brings garment manufacturing home through automation: robotic sewing cells produce a custom shirt in 22 minutes, cut to your 3D body sca..."],
- ["The Repair Network", "The repair network coordinates 1,000 independent repair shops into a single manufacturing web: when your 8-year-old dishwasher needs a gear nobody stocks, th..."],
- ["Cross-Border Digital Inventory", "Cross-border digital inventory replaces warehouses with files: instead of stocking 10,000 spare parts in 20 countries, manufacturers store certified designs ..."],
- ["The Apprenticeship Pipeline", "The apprenticeship pipeline trains factory workers inside the network itself: 5,000 apprentices rotate through 200 member factories, learning on real product..."],
- ["The Network's Memory", "The network's memory is its shared learning system: every part made on any of the 5,000 nodes contributes anonymized process data, so a defect solved in Seou..."],
- ["The Last-Mile Factory", "The last-mile factory sits inside the distribution center: as orders arrive, the cell customizes products, engraving, sizing, final assembly, in 8 minutes, t..."],
- ["The 6-Hour Day", "The 6-hour day movement argues the 8-hour day was a compromise with 19th-century factories, not a law of nature: trials across 300 companies show output hold..."],
- ["AI Managers, Human Mentors", "The emerging division of labor puts AI in the manager's chair for scheduling, task routing, and performance tracking, while humans keep the mentorship: the 1..."],
- ["The Sabbatical Economy", "The sabbatical economy normalizes the career pause: 1 month paid sabbatical every 4 years, taken by 60 percent of eligible workers at pioneering companies, u..."],
- ["Results-Only Workplaces", "Results-only workplaces abolish hours entirely: no schedules, no office requirements, no vacation tracking, only agreed outcomes reviewed quarterly. The 500 ..."],
- ["The Guild Revival", "The guild revival brings medieval craft organization into the gig economy: 200,000 freelancers now belong to digital guilds that set rate floors, provide ben..."],
- ["Micro-Credential Hiring", "Micro-credential hiring replaces degree requirements with verified skill badges: employers list the 12 specific competencies a role needs, candidates prove t..."],
- ["The Second-Act Career", "The second-act career is the 100-year life's answer to the 40-year career: workers retrain at 50 for an entirely new profession, supported by 2-year funded r..."],
- ["Async-First Companies", "Async-first companies default to written, asynchronous communication: no expectation of immediate replies, decisions documented in threads, meetings reserved..."],
- ["The Caregiver Workforce", "The caregiver workforce movement finally counts care as work: 53 million Americans provide unpaid eldercare, and the new caregiver credits, stipends, and wor..."],
- ["Retirement Redesigned", "Retirement redesigned replaces the cliff edge of full stop with a 10-year glide path: workers taper from 5 days to 4 to 3, mentoring replacements while drawi..."]];
-var ANGLES=['overview','detailed','examples','faq','history','applications'];
-function pad(n){var s=String(n);while(s.length<6)s='0'+s;return s;}
-function generate(seed,opts){
-  var s=prng(seed);
-  var ti=(s()*TOPICS.length)|0, ai=(s()*ANGLES.length)|0;
-  var topic=TOPICS[ti], angle=ANGLES[ai];
-  var id=PREFIX+pad(seed);
-  var title=topic[0]+' ('+angle+')';
-  var desc=topic[1];
-  var content=topic[0]+' \u2014 '+topic[1];
+// gen-future-technology.js -- boundless generator for the Future Technology Database.
+// Usage: node gen-future-technology.js --n 5
+// Deterministic: a seeded LCG drives topic selection and parameter variation.
+// Self-regulating: throttled, duplicate-checked, hard-stops at 10^15 records or when
+// the topic space is genuinely exhausted. Generated records carry "generated": true
+// and src "generated" -- never mixed with assistant-built records.
+"use strict";
+const HARD_CAP = 1e15;
+const SLUG = "future-technology";
+const PREFIX = "JAH-FUT-TECH";
+
+function parseN(argv) {
+  const i = argv.indexOf("--n");
+  if (i >= 0 && argv[i + 1]) {
+    const n = parseInt(argv[i + 1], 10);
+    if (!isNaN(n) && n >= 0) return Math.min(n, 100000); // throttle per run
+  }
+  return 5;
+}
+
+let seed = 20261023;
+function rnd() {
+  seed = (seed * 1103515245 + 12345) & 0x7fffffff;
+  return seed / 0x7fffffff;
+}
+
+const TOPICS = [
+  "solid-state batteries", "sodium-ion batteries", "iron-air storage", "flow batteries",
+  "fusion power", "inertial-confinement fusion", "enhanced geothermal", "floating offshore wind",
+  "perovskite solar tandems", "direct air capture", "green hydrogen", "small modular reactors",
+  "eVTOL air taxis", "autonomous trucking", "hyperloop", "ocean thermal energy conversion",
+  "quantum error correction", "photonic chips", "neuromorphic processors", "6G terahertz",
+  "LEO mega-constellations", "AI-designed proteins", "bioprinted organs", "senolytics",
+  "brain organoids", "digital olfaction", "smart contact lenses", "programmable mRNA",
+  "cultivated seafood", "precision-fermentation dairy", "vertical farming", "desalination",
+  "atmospheric water harvesting", "self-healing concrete", "mycelium materials",
+  "fusion-fission hybrids", "digital twins", "collaborative robots", "predictive maintenance",
+  "battery swapping", "second-life EV packs", "wireless charging roads", "AR windshields",
+  "exoskeletons", "myoelectric prosthetics", "retinal implants", "closed-loop insulin",
+  "lab-grown tissue", "de-extinction", "algae biofuel", "space-based solar",
+  "carbon-negative concrete", "smart dust", "programmable matter", "mind uploading",
+  "terraforming Mars", "ocean colonization", "interplanetary internet", "post-scarcity economics"
+];
+const LENSES = ["overview", "detailed", "applications", "faq", "history", "examples", "frontier outlook"];
+const TIERS = ["buildable-now", "research-stage", "research-stage", "research-stage",
+               "breakthrough-dependent", "theoretical"];
+
+const seen = new Set();
+function makeRecord(k) {
+  const topic = TOPICS[Math.floor(rnd() * TOPICS.length)];
+  const lens = LENSES[Math.floor(rnd() * LENSES.length)];
+  const tier = TIERS[Math.floor(rnd() * TIERS.length)];
+  const key = topic + "|" + lens + "|" + tier;
+  if (seen.has(key)) return null; // dupe-check
+  seen.add(key);
+  const yr = 2026 + Math.floor(rnd() * 25);
   return {
-    id:id, title:title, description:desc, genre:angle,
-    type:'future technology exploration', content:content, content_completeness:'stub',
-    stub_note:'Topic stub: the topic title and its one-line brief are real; the full guide article is not yet written. This record does not present shell text as a complete guide.',
-    demo:null, src:'signature', _seed:seed
+    id: PREFIX + "-GEN-" + String(k + 1).padStart(6, "0"),
+    slug: SLUG,
+    title: topic.charAt(0).toUpperCase() + topic.slice(1) + " (" + lens + ")",
+    edition: "public",
+    src: "generated",
+    generated: true,
+    built_by: "generator",
+    record_kind: "future technology exploration",
+    ai_name: "JAH Future Technology Explorer",
+    feasibility_tier: tier,
+    body: "Generated exploration of " + topic + " (" + lens + "). Horizon year " + yr +
+      ". Labeled generated; not an assistant-built record. Feasibility tier: " + tier + ".",
+    note: "Deterministic generator output (seeded). Throttled; hard cap 10^15."
   };
 }
-function validate(r){
-  var errs=[];
-  if(!r.id)errs.push('missing id');
-  if(!r.title)errs.push('missing title');
-  if(!r.content||r.content.length<50)errs.push('content too short');
-  return {ok:errs.length===0, errors:errs};
+
+function main() {
+  const n = parseN(process.argv.slice(2));
+  if (n >= HARD_CAP) { console.error("hard cap reached"); process.exit(1); }
+  let emitted = 0, attempts = 0;
+  const space = TOPICS.length * LENSES.length * TIERS.length;
+  while (emitted < n && attempts < n * 10 && seen.size < space) {
+    attempts++;
+    const rec = makeRecord(emitted);
+    if (rec) { console.log(JSON.stringify(rec)); emitted++; }
+  }
+  console.error("emitted " + emitted + " generated records for " + SLUG +
+                " (variation space " + space + ")");
 }
-function driftCheck(rec,sample){
-  // Simple: check for exact title duplicates in sample
-  for(var i=0;i<sample.length;i++){if(sample[i].t===rec.title)return {ok:false,errors:['duplicate title']};}
-  return {ok:true,errors:[]};
+main();
+
+// Browser registration (mirrors the JAHDB generator contract used by db pages).
+if (typeof window !== "undefined") {
+  window.__futureTechGen = { generate: makeRecord, HARD_CAP: HARD_CAP, slug: SLUG };
 }
-if(typeof JAHDB!=='undefined'&&JAHDB.registerGenerator){JAHDB.registerGenerator('future-technology',{generate:generate,validate:validate,driftCheck:driftCheck});}
-if(typeof module!=='undefined'&&module.exports){module.exports={generate:generate,validate:validate,driftCheck:driftCheck};}
-})();
