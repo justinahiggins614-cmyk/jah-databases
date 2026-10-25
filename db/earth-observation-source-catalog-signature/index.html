@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Signature Earth Observation Source Catalog Database — JAH Databases</title>
+<meta name="description" content="Signature Earth Observation Source Catalog Database — A catalog of Earth observation data sources, satellite collections, and environmental services, and how to search them, without claiming any dataset has been harvested.">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Dataset","name":"Signature Earth Observation Source Catalog Database","description":"A catalog of Earth observation data sources, satellite collections, and environmental services, and how to search them, without claiming any dataset has been harvested.","creator":{"@type":"Person","name":"Justin Addam Higgins"},"license":"https://creativecommons.org/publicdomain/zero/1.0/","distribution":{"@context":"https://schema.org","@type":"DataDownload","contentUrl":"https://justinahiggins614-cmyk.github.io/jah-databases-data-2/data/earth-observation-source-catalog-signature/index.jsonl.gz"}}</script>
+<style>
+:root{--bg:#070b16;--panel:#0d1526;--line:#1d2c4d;--ink:#e8f1ff;--dim:#9fb3d8;--acc:#2f7bff;--ok:#00e5a0;--warn:#ffb020}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Arial,Helvetica,sans-serif;line-height:1.55}
+.wrap{max-width:1060px;margin:0 auto;padding:14px}
+.hero{background:linear-gradient(135deg,#0b1e3a,#101a30);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:12px}
+.hero h1{margin:0;font-size:1.5em}.hero p{margin:6px 0;color:var(--dim)}
+.pill{display:inline-block;background:#132a55;border:1px solid var(--line);border-radius:999px;padding:2px 12px;font-size:.82em;margin:2px 6px 2px 0;color:var(--ink)}
+.pill.pub{background:#0f2f1d;border-color:#3fae6a;color:#c9f2d8}
+.pill.sig{background:#2a1a3d;border-color:#7a4fb5;color:#e8d5ff}
+.pill.march{background:#3a2a08;border-color:#c98f1b;color:#ffe1a1}
+.pill.exh{background:#2a1a3d;border-color:#7a4fb5;color:#e8d5ff}
+.stats{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0}
+.stat{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:8px 12px;font-size:.9em}
+.stat b{color:var(--ok)}
+.count{font-size:26px;font-weight:bold;color:var(--ok)}
+h2{margin:22px 0 8px;font-size:1.15em}
+.kv{display:grid;grid-template-columns:minmax(120px,1fr);gap:6px 14px;border:1px solid var(--line);border-radius:10px;padding:12px;background:var(--panel);font-size:.95em}
+.kv dt{color:var(--dim);font-weight:bold}.kv dd{margin:0;overflow-wrap:break-word}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:10px 0}
+input,button{font-size:1em;border-radius:8px;border:1px solid var(--line);background:#0a1120;color:var(--ink);padding:9px 12px}
+button{cursor:pointer;background:#14305e}button.go{background:var(--acc);font-weight:bold}
+button.merger{background:#c81e3a;border-color:#c81e3a;color:#fff;font-weight:bold}
+details.tier{border:1px solid var(--line);border-radius:10px;margin:10px 0;background:var(--panel)}
+details.tier>summary{padding:12px;cursor:pointer;font-weight:bold;font-size:1.05em;list-style:none}
+details.tier>summary::-webkit-details-marker{display:none}
+details.rec{border:1px solid var(--line);border-radius:8px;margin:8px;background:#0a1120}
+details.rec>summary{padding:9px 12px;cursor:pointer;list-style:none}
+details.rec>summary::-webkit-details-marker{display:none}
+details.rec>summary:hover{background:#101a30}
+.recbody{padding:4px 14px 12px}
+.recbody h4{margin:14px 0 4px;color:var(--ok);font-size:1em}
+.recbody p{margin:6px 0}
+.tierpill{font-size:.75em;border-radius:999px;padding:1px 9px;margin-left:8px;border:1px solid var(--line);background:#132a55}
+pre.codeblock{white-space:pre;overflow-x:auto;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.82em;line-height:1.5;background:#060b14;border:1px solid var(--line);border-left:4px solid var(--ok);border-radius:8px;padding:10px 12px;margin:8px 0;max-width:100%}
+.dim{color:var(--dim)}.mono{font-family:Consolas,monospace}
+.foot{margin-top:26px;padding-top:12px;border-top:1px solid var(--line);color:var(--dim);font-size:.85em}
+#mergerOut .card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:10px;margin:8px 0}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hero">
+    <h1>Signature Earth Observation Source Catalog Database</h1>
+    <p><span class="pill sig">Signature edition</span><span class="pill march">march to a million: in progress</span><span class="pill exh">Exhaustive</span></p>
+    <p>A catalog of Earth observation data sources, satellite collections, and environmental services, and how to search them, without claiming any dataset has been harvested. Every record is a full catalog record carrying all twenty required source fields, in plain sentences. Dataset records are honestly marked not yet ingested: this database catalogs the catalog, it does not claim to hold the datasets.</p>
+    <div class="stats">
+      <span class="stat">Archive records: <b id="stCount">…</b></span>
+      <span class="stat">Generator: <b>jahdb-earth-observation-source-catalog-signature-1.0</b> <span style="color:var(--ok)">● working</span></span>
+      <span class="stat">AI: <b>Signature JAH Earth Observation Source Catalog Guide</b></span>
+      <span class="stat">Target: <b>14 of 1,000,000</b> <span class="dim">(march to a million: in progress)</span></span>
+    </div>
+  </div>
+
+  <h2>Database facts</h2>
+  <dl class="kv">
+    <dt>Slug</dt><dd class="mono">earth-observation-source-catalog-signature</dd>
+    <dt>Record kind</dt><dd>source catalog record</dd>
+    <dt>Source label</dt><dd class="mono">signature-generated-completion</dd>
+    <dt>Built by</dt><dd>assistant-built</dd>
+    <dt>Edition</dt><dd>Signature edition — Signature-compiled companion records, labeled as Signature, never presented as established public fact</dd>
+    <dt>Generator hard cap</dt><dd>10<sup>15</sup> (one quadrillion) records, or stop when genuinely complete; throttled, duplicate-checked, self-regulating</dd>
+    <dt>Teaching ladder</dt><dd>simple &#8594; compounded &#8594; complex</dd>
+    <dt>Feasibility tiers</dt><dd>signature</dd>
+    <dt>Database AI</dt><dd>Signature JAH Earth Observation Source Catalog Guide — archive-aware; can build an assistant like the user personal assistant</dd>
+    <dt>Last verified</dt><dd>2026-10-25</dd>
+    <dt>Ownership</dt><dd>&#10035; Property of Justin Addam Higgins (JAH).</dd>
+  </dl>
+
+  <h2>Full spec</h2>
+  <p>The governing specification for this database: <span class="mono">JAH-SPEC-970196</span> (spec text held by the coordinator; no deep link is stated here).</p>
+
+  <p><span class="count" id="stCount2">14</span> records <span class="dim">(populated from the live archive index)</span></p>
+  <div class="row">
+    <input id="q" placeholder="Search titles, bodies, IDs…" style="flex:1;min-width:200px">
+    <button class="go" id="qgo">Search</button>
+    <button id="qclear">Clear</button>
+    <button class="merger" id="qmerge">All Database Merger</button>
+  </div>
+  <div id="mergerOut"></div>
+  <div id="tiers"><p class="dim">Loading the archive index…</p></div>
+
+  <h2>Boundless generator</h2>
+  <p class="dim">Generator script: <code>gen-earth-observation-source-catalog-signature.js</code> — run <code>node gen-earth-observation-source-catalog-signature.js --n 5</code>. Seeded and deterministic; throttled; duplicate-checked; hard-stops at 10<sup>15</sup> or when the topic space is genuinely exhausted. Generated records carry <code>src: "generated"</code> and are never mixed with assistant-built records.</p>
+
+  <h2>Provenance</h2>
+  <dl class="kv">
+    <dt>Source</dt><dd class="mono">signature-generated-completion — assistant-built source-catalog database, gap-expansion round 29</dd>
+    <dt>Data</dt><dd><a href="https://justinahiggins614-cmyk.github.io/jah-databases-data-2/data/earth-observation-source-catalog-signature/index.jsonl.gz">index.jsonl.gz</a> (14 full records, gzipped JSON lines)</dd>
+    <dt>Catalog home</dt><dd>https://www.earthdata.nasa.gov/</dd>
+    <dt>Python</dt><dd>3.x (all demos executed at build)</dd>
+  </dl>
+
+  <div class="foot">&#10035; JAH Databases. Property of Justin Addam Higgins (JAH). March to a million: in progress.</div>
+</div>
+<script src="../../core/jahdb.js"></script>
+<script src="../../core/jahdb-dedupe.js"></script>
+<script src="../../core/jahdb-xdb.js"></script>
+<script src="../../assets/assistant-maker.js"></script>
+<script src="gen-earth-observation-source-catalog-signature.js"></script>
+<script>
+(function(){
+'use strict';
+var DATA_URL='https://justinahiggins614-cmyk.github.io/jah-databases-data-2/data/earth-observation-source-catalog-signature/index.jsonl.gz';
+var TIER_ORDER=['signature'];
+var TIER_LABEL={'signature':'Signature'};
+var $=function(id){return document.getElementById(id);};
+var RECS=[];
+function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+function recHTML(r){
+  var tier=r.feasibility_tier||'signature';
+  var body=r.body||'';
+  return '<details class="rec" id="rec-'+esc(r.id)+'"><summary><span class="mono">'+esc(r.id)+
+    '</span> &mdash; '+esc(r.title)+'<span class="tierpill">'+esc(TIER_LABEL[tier]||tier)+
+    '</span><span class="dim"> &middot; ladder '+esc(r.ladder_rank)+'</span></summary>'+
+    '<div class="recbody">'+body+
+    '<h4>Demo program (executed at build)</h4><details><summary class="dim">Show code</summary><pre class="codeblock">'+esc(r.demo_code||'')+'</pre></details>'+
+    '<h4>Demo output</h4><pre class="codeblock">'+esc(r.demo_output||'')+'</pre>'+
+    '<p class="dim">Feasibility: <span class="mono">'+esc(tier)+'</span> &middot; Edition: '+esc(r.edition||'')+
+    ' &middot; Source: <span class="mono">'+esc(r.src||'')+'</span></p></div></details>';
+}
+function buildTiers(){
+  var box=$('tiers'); box.innerHTML='';
+  TIER_ORDER.forEach(function(tier){
+    var rows=RECS.filter(function(r){return (r.feasibility_tier||'signature')===tier;});
+    if(!rows.length) return;
+    var d=document.createElement('details'); d.className='tier'; d.dataset.tier=tier;
+    d.open=true;
+    d.innerHTML='<summary>'+esc(TIER_LABEL[tier])+' <span class="dim">('+rows.length+')</span></summary><div class="tierbody"></div>';
+    d.querySelector('.tierbody').innerHTML=rows.map(recHTML).join('');
+    box.appendChild(d);
+  });
+}
+function setCount(n){
+  $('stCount').textContent=n.toLocaleString()+' / 1,000,000 target';
+  $('stCount2').textContent=n.toLocaleString();
+}
+function deepOpen(){
+  try{
+    var m=(location.hash||'').match(/#rec=([A-Za-z0-9-]+)/);
+    if(!m) return;
+    var id=m[1], el=document.getElementById('rec-'+id);
+    if(!el) return;
+    var tier=el.closest('details.tier'); if(tier) tier.open=true;
+    el.open=true;
+    setTimeout(function(){ el.scrollIntoView({block:'start'}); }, 60);
+  }catch(e){}
+}
+function doSearch(){
+  var q=$('q').value.trim().toLowerCase(); var n=0;
+  document.querySelectorAll('details.rec').forEach(function(el){
+    var r=RECS.filter(function(x){return 'rec-'+x.id===el.id;})[0];
+    var hit=!q||((r.title+' '+r.id+' '+(r.body||'')).toLowerCase().indexOf(q)>=0);
+    el.style.display=hit?'':'none'; if(hit) n++;
+  });
+  document.querySelectorAll('details.tier').forEach(function(t){
+    var vis=t.querySelectorAll('details.rec:not([style*="none"])').length;
+    t.style.display=vis?'':'none';
+    if(q&&vis) t.open=true;
+  });
+  setCount(q?n:RECS.length);
+  if(q) $('stCount').textContent=n.toLocaleString()+' matching / '+RECS.length.toLocaleString()+' total';
+}
+function fetchText(url){
+  if(window.JAHDB&&JAHDB.fetchGz) return JAHDB.fetchGz(url);
+  return fetch(url).then(function(res){
+    if(!res.ok) throw new Error('HTTP '+res.status);
+    var ds=new DecompressionStream('gzip');
+    return new Response(res.body.pipeThrough(ds)).text();
+  });
+}
+fetchText(DATA_URL).then(function(t){
+  RECS=t.split('\n').filter(function(l){return l.trim();}).map(function(l){try{return JSON.parse(l);}catch(e){return null;}}).filter(Boolean);
+  buildTiers();
+  setCount(RECS.length);
+  deepOpen();
+}).catch(function(e){
+  $('tiers').innerHTML='<p style="color:#ff6b6b">Archive unreachable: '+esc(e.message)+'</p>';
+  $('stCount').textContent='archive unreachable';
+});
+$('qgo').addEventListener('click',doSearch);
+$('q').addEventListener('keydown',function(e){if(e.key==='Enter')doSearch();});
+$('qclear').addEventListener('click',function(){$('q').value='';doSearch();});
+$('qmerge').addEventListener('click',function(){
+  var vis=[];
+  document.querySelectorAll('details.rec').forEach(function(el){
+    if(el.style.display==='none') return;
+    var r=RECS.filter(function(x){return 'rec-'+x.id===el.id;})[0];
+    if(r) vis.push(r);
+  });
+  var blob=new Blob([JSON.stringify({database:'earth-observation-source-catalog-signature',merged:vis.length,records:vis},null,2)],{type:'application/json'});
+  var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='merged-earth-observation-source-catalog-signature.json';
+  document.body.appendChild(a);a.click();setTimeout(function(){URL.revokeObjectURL(a.href);a.remove();},500);
+  $('mergerOut').innerHTML='<div class="card"><b>All Database Merger</b><p class="dim">Merged '+vis.length+' visible records into <span class="mono">merged-earth-observation-source-catalog-signature.json</span> (downloaded). Dedupe key: record id. Provenance preserved per record.</p></div>';
+});
+window.addEventListener('hashchange',deepOpen);
+})();
+</script>
+</body>
+</html>
