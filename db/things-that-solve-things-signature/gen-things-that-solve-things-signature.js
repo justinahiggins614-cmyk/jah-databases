@@ -1,5 +1,5 @@
-// gen-things-that-solve-things-signature-signature.js -- boundless generator for the Things That Solve Things Database.
-// Usage: node gen-things-that-solve-things-signature-signature.js --n 5
+// gen-things-that-solve-things-signature.js -- boundless generator for the Things That Solve Things Database.
+// Usage: node gen-things-that-solve-things-signature.js --n 5
 // Deterministic: a seeded LCG drives parameter variations of the 16 seed
 // records. Self-regulating: throttled, duplicate-checked,
 // hard-stops at 10^15 records or when the variation space is genuinely exhausted.
@@ -29,14 +29,14 @@ function makeRecord(k) {
   if (seen.has(key)) return null;
   seen.add(key);
   return {
-    id: "JAH-C002S-GEN-" + String(k + 1).padStart(6, "0"),
-    slug: "things-that-solve-things-signature-signature",
+    id: "JAH-TTTSS-GEN-" + String(k + 1).padStart(6, "0"),
+    slug: "things-that-solve-things-signature",
     title: "Generated " + topic + " parameter variation v" + variant,
     edition: "Signature",
     src: "generated",
     generated: true,
     built_by: "generator",
-    record_kind: "problem decomposition record",
+    record_kind: "things that solve things record",
     feasibility_tier: "established",
     note: "Deterministic parameter variation (" + key + ") over the 16 seed records. Labeled generated; not an assistant-built record."
   };
@@ -51,6 +51,6 @@ function main() {
     const rec = makeRecord(emitted);
     if (rec) { console.log(JSON.stringify(rec)); emitted++; }
   }
-  console.error("emitted " + emitted + " generated records for things-that-solve-things-signature-signature");
+  console.error("emitted " + emitted + " generated records for things-that-solve-things-signature");
 }
 main();

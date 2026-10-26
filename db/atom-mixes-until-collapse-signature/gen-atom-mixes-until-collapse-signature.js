@@ -36,7 +36,7 @@ function makeRecord(k) {
     src: "generated",
     generated: true,
     built_by: "generator",
-    record_kind: "problem decomposition record",
+    record_kind: "atom mix algorithm record",
     feasibility_tier: "established",
     note: "Deterministic parameter variation (" + key + ") over the 22 seed records. Labeled generated; not an assistant-built record."
   };

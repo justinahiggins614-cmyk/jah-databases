@@ -36,7 +36,7 @@ function makeRecord(k) {
     src: "generated",
     generated: true,
     built_by: "generator",
-    record_kind: "problem decomposition record",
+    record_kind: "things that solve things record",
     feasibility_tier: "established",
     note: "Deterministic parameter variation (" + key + ") over the 16 seed records. Labeled generated; not an assistant-built record."
   };
