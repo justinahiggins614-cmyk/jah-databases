@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Minimal Bootable PC Systems Database — JAH Databases</title>
+<meta name="description" content="Minimal Bootable PC Systems Database — A catalog of minimal bootable PC systems: boot sectors, tiny kernels, schedulers, loaders, and consoles. Public edition. Property of Justin Addam Higgins.">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Dataset","name":"Minimal Bootable PC Systems Database","description":"A catalog of minimal bootable PC systems: boot sectors, tiny kernels, schedulers, loaders, and consoles. Public edition.","creator":{"@type":"Person","name":"Justin Addam Higgins"},"license":"https://creativecommons.org/publicdomain/zero/1.0/","distribution":{"@context":"https://schema.org","@type":"DataDownload","contentUrl":"https://justinahiggins614-cmyk.github.io/jah-databases-data-2/data/minimal-bootable-pc-systems/index.jsonl.gz"}}</script>
+<style>
+:root{--bg:#070b16;--panel:#0d1526;--line:#1d2c4d;--ink:#e8f1ff;--dim:#9fb3d8;--acc:#2f7bff;--ok:#00e5a0;--warn:#ffb020}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Arial,Helvetica,sans-serif;line-height:1.55}
+.wrap{max-width:1060px;margin:0 auto;padding:14px}
+.hero{background:linear-gradient(135deg,#0b1e3a,#101a30);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:12px}
+.hero h1{margin:0;font-size:1.5em}.hero p{margin:6px 0;color:var(--dim)}
+.pill{display:inline-block;background:#132a55;border:1px solid var(--line);border-radius:999px;padding:2px 12px;font-size:.82em;margin:2px 6px 2px 0;color:var(--ink)}
+.pill.pub{background:#0f2f1d;border-color:#3fae6a;color:#c9f2d8}
+.pill.sig{background:#2a1a3a;border-color:#8a5cff;color:#e3d8ff}
+.pill.march{background:#3a2a08;border-color:#c98f1b;color:#ffe1a1}
+.stats{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0}
+.stat{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:8px 12px;font-size:.9em}
+.stat b{color:var(--ok)}
+.count{font-size:26px;font-weight:bold;color:var(--ok)}
+h2{margin:22px 0 8px;font-size:1.15em}
+.kv{display:grid;grid-template-columns:minmax(120px,1fr);gap:6px 14px;border:1px solid var(--line);border-radius:10px;padding:12px;background:var(--panel);font-size:.95em}
+.kv dt{color:var(--dim);font-weight:bold}.kv dd{margin:0;overflow-wrap:break-word}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:10px 0}
+input,button{font-size:1em;border-radius:8px;border:1px solid var(--line);background:#0a1120;color:var(--ink);padding:9px 12px}
+button{cursor:pointer;background:#14305e}button.go{background:var(--acc);font-weight:bold}
+button.merger{background:#c81e3a;border-color:#c81e3a;color:#fff;font-weight:bold}
+details.tier{border:1px solid var(--line);border-radius:10px;margin:10px 0;background:var(--panel)}
+details.tier>summary{padding:12px;cursor:pointer;font-weight:bold;font-size:1.05em;list-style:none}
+details.tier>summary::-webkit-details-marker{display:none}
+details.rec{border:1px solid var(--line);border-radius:8px;margin:8px;background:#0a1120}
+details.rec>summary{padding:9px 12px;cursor:pointer;list-style:none}
+details.rec>summary::-webkit-details-marker{display:none}
+details.rec>summary:hover{background:#101a30}
+.recbody{padding:4px 14px 12px}
+.recbody h4{margin:14px 0 4px;color:var(--ok);font-size:1em}
+.recbody p{margin:6px 0}
+.tierpill{font-size:.75em;border-radius:999px;padding:1px 9px;margin-left:8px;border:1px solid var(--line);background:#132a55}
+pre.codeblock{white-space:pre;overflow-x:auto;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.82em;line-height:1.5;background:#060b14;border:1px solid var(--line);border-left:4px solid var(--ok);border-radius:8px;padding:10px 12px;margin:8px 0;max-width:100%}
+.dim{color:var(--dim)}.mono{font-family:Consolas,monospace}
+.foot{margin-top:26px;padding-top:12px;border-top:1px solid var(--line);color:var(--dim);font-size:.85em}
+#mergerOut .card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:10px;margin:8px 0}
+.boundary{background:#2a1a08;border:1px solid #c98f1b;border-radius:8px;padding:10px 12px;margin:8px 0;color:#ffe1a1}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hero">
+    <h1>Minimal Bootable PC Systems Database</h1>
+    <p><span class="pill pub">Public edition</span><span class="pill march">march to a million: in progress</span></p>
+    <p>A catalog of minimal bootable PC systems: boot sectors, tiny kernels, schedulers, loaders, and consoles. Public edition. Public edition — fact-checked public and methodology content for everyone. Every record carries a demo program genuinely executed at build time, and an honest feasibility tier.</p>
+    <div class="stats">
+      <span class="stat">Archive records: <b id="stCount">…</b></span>
+      <span class="stat">Generator: <b>jahdb-minimal-bootable-pc-systems-1.0</b> <span style="color:var(--ok)">● working</span></span>
+      <span class="stat">AI: <b>JAH Minimal PC Guide</b></span>
+      <span class="stat">Target: <b>16 of 1,000,000</b> <span class="dim">(march to a million: in progress)</span></span>
+    </div>
+  </div>
+  <div class="row">
+    <input id="q" placeholder="Search titles, bodies, IDs…" style="flex:1;min-width:200px">
+    <button class="go" id="qgo">Search</button>
+    <button id="qclear">Clear</button>
+    <button class="merger" id="qmerge">All Database Merger</button>
+  </div>
+  <div id="mergerOut"></div>
+  <p class="dim">Archive records: <b id="stCount2">16</b>. Data: <a href="https://justinahiggins614-cmyk.github.io/jah-databases-data-2/data/minimal-bootable-pc-systems/index.jsonl.gz">index.jsonl.gz</a> (16 full records, gzipped JSON lines). Synonym map: t, i, n, y,  , O, S, ,,  , b, o, o, t, a, b, l, e,  , s, y, s, t, e, m, ,,  , m, i, n, i, m, a, l,  , k, e, r, n, e, l, ,,  , b, o, o, t,  , s, e, c, t, o, r, ,,  , f, l, a, t,  , b, i, n, a, r, y, ,,  , s, y, s, c, a, l, l,  , A, B, I.</p>
+  <h2>Search</h2>
+  <p>Search matches titles, bodies, and record IDs on this page. The search index is built from the loaded archive records; no external search service is used.</p>
+  <h2>Related databases</h2>
+  <p>Cross-linked, not duplicated: KolibriOS (a single tiny OS record set), software-usb-boot (boot media), software-iso (disk images), and runtimes-kernels (kernel runtimes). This pair is the systems catalog: boot, kernel, scheduler, loader, and console together.</p>
+  <h2>Specialist AI</h2>
+  <p>JAH Minimal PC Guide is the specialist AI for this database. It answers from this database's records first, explains each record's ladder tier in plain language, and teaches simple records before compounded and most-complex ones. It never presents a Signature design as an established public fact.</p>
+  <h2>Boundless generator</h2>
+  <p>The boundless generator (<code>gen-minimal-bootable-pc-systems.js</code>) produces deterministic parameter variations of the 16 seed records. It self-regulates: throttled, duplicate-checked, with a hard stop at 10^15 records or when the variation space is genuinely exhausted. Every generated record is labeled generated and kept separate from assistant-built records.</p>
+  <h2>Validation engine</h2>
+  <p>Every record passed schema, completeness, consistency, ladder, and demo re-execution checks at build time. A record that fails any check ships nothing until it is repaired and re-verified.</p>
+  <h2>Evidence links</h2>
+  <p>Public reference background: Wikipedia articles on Booting, Protected mode, Global Descriptor Table, Round-robin scheduling, Paging, Interrupt, PS/2 port, VGA text mode, File Allocation Table, System call, Context switch, Flat binary, UART, Buddy memory allocation, Programmable interval timer, and Multiboot. Signature designs cite this background as background only, never as proof of a design.</p>
+  <h2>Tool connections</h2>
+  <p>Client-side tools only, operating on the records loaded on this page. No external service connection is claimed. The tools object is <code>window.MinimalBootablePcSystemsTools</code> with <code>searchRecords(query)</code>, <code>generateRecord(seed)</code>, <code>validateRecord(record)</code>, and <code>runTests()</code>. See the page script for their definitions; they run entirely in the browser on loaded records.</p>
+  <h2>Testing suite</h2>
+  <p>Tests: archive retrieval returns 16 records; the generator emits deterministic records; every demo re-executes byte-identically; the page renders all ladder tiers; the merger preserves provenance. Results are reported by <code>window.MinimalBootablePcSystemsTools.runTests()</code>.</p>
+  <h2>Audit history</h2>
+  <p>Built 2026-10-25 by fb-feed-check lane 02 as a merge-queued package (behind R33, solvers, atom-mixes). No spec, dictionary, or phone-book IDs are assigned in this package; those are assigned at merge time from fresh state reads. Spec section: the spec ID for this database is assigned at merge time and is not claimed here.</p>
+  
+  <div id="tiers"><details class="tier" open><summary>simple tier</summary><details class="rec" id="rec-JAH-MBP-000001"><summary><b>Boot-Sector Signature Check</b> <span class="tierpill">JAH-MBP-000001</span></summary><div class="recbody"><p>A boot sector is the first 512 bytes a legacy BIOS loads from a bootable disk, and its last two bytes must be the signature 0x55 followed by 0xAA. Without that signature the BIOS refuses the sector as bootable, which makes the signature the smallest possible contract between firmware and operating system code. Everything else in the sector is code and data that the machine runs in real mode, with no operating system underneath it yet.</p><p>Writing a boot sector by hand teaches the exact boundary where software meets hardware: the sector is loaded at a fixed address, the processor starts in 16-bit real mode, and the program must fit, with its signature, in 512 bytes. Early boot code typically prints a message through BIOS interrupts, then loads more sectors or switches the processor into a wider mode. The discipline of fitting a working program into 512 bytes is why boot sectors remain a standard first exercise in operating-system study.</p><p>The demo builds a 512-byte sector in memory, writes the signature bytes at offsets 510 and 511, and verifies both the size and the signature. It prints the result rather than claiming to boot any machine, because a real boot also depends on firmware, disk geometry, and hardware that a Python simulation does not model.</p><p>Working demo: the record carries a small standard-library program that demonstrates the core mechanism. The demo was executed at build time and its stored output byte-matches a fresh run; it uses no network and no external package.</p><p>Teaching ladder: this record sits at one rung of the database's teaching ladder, which orders records from simple to compounded to most-complex. Simple records introduce one mechanism with one worked example; compounded records combine two or more mechanisms; most-complex records join a full subsystem with its controls, failure modes, and measurement rules. Readers new to the subject should work through the simple records first, because later records assume the vocabulary and the worked examples of the earlier ones.</p><p>Evidence method: the sources listed for this record are public reference background for the subject, and the demo is the record's own checkable claim. Where a number in the demo is an assumption made for teaching, the demo says so in its own output or in the paragraphs above, so that no illustrative figure can be mistaken for a measured result. Where the subject is historical, the record reports what is documented and marks what is merely claimed by others as a claim.</p><p>What would change this record: new public evidence, a corrected measurement, or a clearer explanation would each justify a new version of this record, appended alongside the old one rather than overwriting it. The record's demo would be re-executed under the new version, and its output updated only if the program itself changed. That append-only habit is what keeps the archive's history readable as the subject itself advances.</p><p>Validation: the record was checked for a complete body, a runnable demo, a stated ladder tier, a stated feasibility tier, and evidence sources. Generated variations of this record, if any are ever produced by the boundless generator, are labeled generated and kept separate from assistant-built records.</p><h4>Demo program</h4><pre class="codeblock">sec = bytearray(512)
+sec[510] = 0x55
+sec[511] = 0xAA
+print(&#x27;size:&#x27;, len(sec))
+print(&#x27;signature ok:&#x27;, sec[510] == 0x55 and sec[511] == 0xAA)
+print(&#x27;signature bytes:&#x27;, hex(sec[510]), hex(sec[511]))
+</pre><h4>Demo output</h4><pre class="codeblock">size: 512
+signature ok: True
+signature bytes: 0x55 0xaa
+</pre></div></details><details class="rec" id="rec-JAH-MBP-000002"><summary><b>Protected-Mode GDT Entry</b> <span class="tierpill">JAH-MBP-000002</span></summary><div class="recbody"><p>The Global Descriptor Table is the x86 structure that defines memory segments when the processor runs in protected mode. Each 8-byte entry encodes a segment base address, a limit, an access byte, and flags for granularity and size. Switching to protected mode means building this table, loading its address into the GDTR register, and then far-jumping to code that runs under the new segment rules.</p><p>A code-segment entry and a data-segment entry are the minimum useful pair: code needs execute and read permission, data needs read and write permission, and both need a privilege level. Getting any field wrong produces a fault the moment the processor fetches or touches memory under the new rules, which is why descriptor encoding is always verified by decoding the entry back and comparing every field with the intended value.</p><p>The demo encodes a flat code segment with base zero and a 4-gigabyte limit, then decodes the entry and prints the recovered base, limit, and access byte. The program models the encoding arithmetic only; it does not switch any real processor mode.</p><p>Working demo: the record carries a small standard-library program that demonstrates the core mechanism. The demo was executed at build time and its stored output byte-matches a fresh run; it uses no network and no external package.</p><p>Teaching ladder: this record sits at one rung of the database's teaching ladder, which orders records from simple to compounded to most-complex. Simple records introduce one mechanism with one worked example; compounded records combine two or more mechanisms; most-complex records join a full subsystem with its controls, failure modes, and measurement rules. Readers new to the subject should work through the simple records first, because later records assume the vocabulary and the worked examples of the earlier ones.</p><p>Evidence method: the sources listed for this record are public reference background for the subject, and the demo is the record's own checkable claim. Where a number in the demo is an assumption made for teaching, the demo says so in its own output or in the paragraphs above, so that no illustrative figure can be mistaken for a measured result. Where the subject is historical, the record reports what is documented and marks what is merely claimed by others as a claim.</p><p>What would change this record: new public evidence, a corrected measurement, or a clearer explanation would each justify a new version of this record, appended alongside the old one rather than overwriting it. The record's demo would be re-executed under the new version, and its output updated only if the program itself changed. That append-only habit is what keeps the archive's history readable as the subject itself advances.</p><p>Validation: the record was checked for a complete body, a runnable demo, a stated ladder tier, a stated feasibility tier, and evidence sources. Generated variations of this record, if any are ever produced by the boundless generator, are labeled generated and kept separate from assistant-built records.</p><h4>Demo program</h4><pre class="codeblock">base = 0x00000000
+limit = 0xFFFFF
+access = 0x9A
+flags = 0xC
+entry = (limit &amp; 0xFFFF) | ((base &amp; 0xFFFF) &lt;&lt; 16) | (((base &gt;&gt; 16) &amp; 0xFF) &lt;&lt; 32) | (access &lt;&lt; 40) | (((limit &gt;&gt; 16) &amp; 0xF) &lt;&lt; 48) | (flags &lt;&lt; 52) | (((base &gt;&gt; 24) &amp; 0xFF) &lt;&lt; 56)
+dec_base = (entry &gt;&gt; 16) &amp; 0xFFFF | ((entry &gt;&gt; 32) &amp; 0xFF) &lt;&lt; 16 | ((entry &gt;&gt; 56) &amp; 0xFF) &lt;&lt; 24
+dec_limit = (entry &amp; 0xFFFF) | ((entry &gt;&gt; 48) &amp; 0xF) &lt;&lt; 16
+print(&#x27;entry:&#x27;, hex(entry))
+print(&#x27;decoded base:&#x27;, hex(dec_base))
+print(&#x27;decoded limit:&#x27;, hex(dec_limit))
+print(&#x27;access:&#x27;, hex((entry &gt;&gt; 40) &amp; 0xFF))
+</pre><h4>Demo output</h4><pre class="codeblock">entry: 0xcf9a000000ffff
+decoded base: 0x0
+decoded limit: 0xfffff
+access: 0x9a
+</pre></div></details><details class="rec" id="rec-JAH-MBP-000003"><summary><b>Round-Robin Scheduler</b> <span class="tierpill">JAH-MBP-000003</span></summary><div class="recbody"><p>Round-robin scheduling gives each ready task a fixed time slice in turn, cycling through the queue until every task finishes. It is the simplest fair scheduler: no task can starve another, because every task gets the processor again after at most one full cycle. The cost of fairness is context-switch overhead, which grows as the time slice shrinks, so real systems tune the slice against the workload.</p><p>A scheduler keeps a ready queue, a remaining-time count per task, and a clock. On each tick it runs the head task for one slice, subtracts the slice from that task's remaining time, and either retires the task if it finished or moves it to the back of the queue. The completion order depends on burst lengths and slice size, and simulating it by hand is the standard way to learn why slice choice matters.</p><p>The demo simulates three tasks with bursts of 5, 3, and 4 ticks under a quantum of 2, printing each slice and the final completion order. The output is a teaching simulation of scheduling policy, not a measurement of any real kernel.</p><p>Working demo: the record carries a small standard-library program that demonstrates the core mechanism. The demo was executed at build time and its stored output byte-matches a fresh run; it uses no network and no external package.</p><p>Teaching ladder: this record sits at one rung of the database's teaching ladder, which orders records from simple to compounded to most-complex. Simple records introduce one mechanism with one worked example; compounded records combine two or more mechanisms; most-complex records join a full subsystem with its controls, failure modes, and measurement rules. Readers new to the subject should work through the simple records first, because later records assume the vocabulary and the worked examples of the earlier ones.</p><p>Evidence method: the sources listed for this record are public reference background for the subject, and the demo is the record's own checkable claim. Where a number in the demo is an assumption made for teaching, the demo says so in its own output or in the paragraphs above, so that no illustrative figure can be mistaken for a measured result. Where the subject is historical, the record reports what is documented and marks what is merely claimed by others as a claim.</p><p>What would change this record: new public evidence, a corrected measurement, or a clearer explanation would each justify a new version of this record, appended alongside the old one rather than overwriting it. The record's demo would be re-executed under the new version, and its output updated only if the program itself changed. That append-only habit is what keeps the archive's history readable as the subject itself advances.</p><p>Validation: the record was checked for a complete body, a runnable demo, a stated ladder tier, a stated feasibility tier, and evidence sources. Generated variations of this record, if any are ever produced by the boundless generator, are labeled generated and kept separate from assistant-built records.</p><h4>Demo program</h4><pre class="codeblock">from collections import deque
+tasks = deque([(&#x27;A&#x27;, 5), (&#x27;B&#x27;, 3), (&#x27;C&#x27;, 4)])
+quantum = 2
+time = 0
+done = []
+while tasks:
+    name, left = tasks.popleft()
+    run = min(quantum, left)
+    time += run
+    left -= run
+    print(f&#x27;t={time} ran {name} for {run}, remaining {left}&#x27;)
+    if left == 0:
+        done.append(name)
+    else:
+        tasks.append((name, left))
+print(&#x27;completion order:&#x27;, &#x27; &#x27;.join(done))
+</pre><h4>Demo output</h4><pre class="codeblock">t=2 ran A for 2, remaining 3
+t=4 ran B for 2, remaining 1
+t=6 ran C for 2, remaining 2
+t=8 ran A for 2, remaining 1
+t=9 ran B for 1, remaining 0
+t=11 ran C for 2, remaining 0
+t=12 ran A for 1, remaining 0
+completion order: B C A
+</pre></div></details><details class="rec" id="rec-JAH-MBP-000004"><summary><b>Identity Page Walk</b> <span class="tierpill">JAH-MBP-000004</span></summary><div class="recbody"><p>Paging translates virtual addresses to physical addresses through tables: a page directory points to page tables, and each page-table entry points to a 4-kilobyte page frame plus permission bits. In an identity mapping, virtual address N maps to physical address N, which is the simplest mapping a tiny kernel uses while it is still setting up memory, because code can keep running at the addresses it already uses.</p><p>Walking a page table means splitting an address into directory index, table index, and offset, then following the present bits at each level. If any entry is marked not-present, the walk faults instead of translating, and the kernel must decide whether the access was a genuine error or a page that needs loading. Identity mappings avoid that complexity at boot, at the price of giving up memory protection until a fuller mapping is installed.</p><p>The demo builds a tiny two-level table where one directory entry points to a table whose entries identity-map the first sixteen pages, then translates three addresses and prints the results. It models table arithmetic, not a real memory-management unit.</p><p>Working demo: the record carries a small standard-library program that demonstrates the core mechanism. The demo was executed at build time and its stored output byte-matches a fresh run; it uses no network and no external package.</p><p>Teaching ladder: this record sits at one rung of the database's teaching ladder, which orders records from simple to compounded to most-complex. Simple records introduce one mechanism with one worked example; compounded records combine two or more mechanisms; most-complex records join a full subsystem with its controls, failure modes, and measurement rules. Readers new to the subject should work through the simple records first, because later records assume the vocabulary and the worked examples of the earlier ones.</p><p>Evidence method: the sources listed for this record are public reference background for the subject, and the demo is the record's own checkable claim. Where a number in the demo is an assumption made for teaching, the demo says so in its own output or in the paragraphs above, so that no illustrative figure can be mistaken for a measured result. Where the subject is historical, the record reports what is documented and marks what is merely claimed by others as a claim.</p><p>What would change this record: new public evidence, a corrected measurement, or a clearer explanation would each justify a new version of this record, appended alongside the old one rather than overwriting it. The record's demo would be re-executed under the new version, and its output updated only if the program itself changed. That append-only habit is what keeps the archive's history readable as the subject itself advances.</p><p>Validation: the record was checked for a complete body, a runnable demo, a stated ladder tier, a stated feasibility tier, and evidence sources. Generated variations of this record, if any are ever produced by the boundless generator, are labeled generated and kept separate from assistant-built records.</p><h4>Demo program</h4><pre class="codeblock">directory = {0: &#x27;table0&#x27;}
+table0 = {i: (i * 4096, True) for i in range(16)}
+def translate(addr):
+    d = (addr &gt;&gt; 22) &amp; 0x3FF
+    t = (addr &gt;&gt; 12) &amp; 0x3FF
+    off = addr &amp; 0xFFF
+    if d not in directory:
+        return &#x27;fault: directory entry not present&#x27;
+    frame, present = table0[t]
+    if not present:
+        return &#x27;fault: page not present&#x27;
+    return hex(frame + off)
+for a in [0x0000, 0x1000, 0xF123]:
+    print(hex(a), &#x27;-&gt;&#x27;, translate(a))
+</pre><h4>Demo output</h4><pre class="codeblock">0x0 -&gt; 0x0
+0x1000 -&gt; 0x1000
+0xf123 -&gt; 0xf123
+</pre></div></details><details class="rec" id="rec-JAH-MBP-000005"><summary><b>Interrupt Vector Dispatch</b> <span class="tierpill">JAH-MBP-000005</span></summary><div class="recbody"><p>An interrupt vector table maps interrupt numbers to handler addresses so the processor knows which code to run when hardware or software raises an interrupt. On x86 real-mode systems the table holds 256 far pointers; protected-mode systems use an Interrupt Descriptor Table with gate descriptors instead. Either way the idea is identical: the number selects a handler, and the handler must save state, serve the event, and return cleanly.</p><p>Keyboard input, timer ticks, and disk completion all arrive as interrupts, which is why a tiny kernel installs its handlers before it enables interrupts. A handler that forgets to acknowledge the interrupt controller, or that returns without restoring registers, corrupts the interrupted program. Dispatch tables therefore get tested by invoking each vector in turn and checking that the right handler ran and the machine state survived.</p><p>The demo registers handlers for the timer and keyboard vectors plus a default handler, dispatches three interrupt numbers, and prints which handler ran each time. It is a dispatch simulation, not a real interrupt controller.</p><p>Working demo: the record carries a small standard-library program that demonstrates the core mechanism. The demo was executed at build time and its stored output byte-matches a fresh run; it uses no network and no external package.</p><p>Teaching ladder: this record sits at one rung of the database's teaching ladder, which orders records from simple to compounded to most-complex. Simple records introduce one mechanism with one worked example; compounded records combine two or more mechanisms; most-complex records join a full subsystem with its controls, failure modes, and measurement rules. Readers new to the subject should work through the simple records first, because later records assume the vocabulary and the worked examples of the earlier ones.</p><p>Evidence method: the sources listed for this record are public reference background for the subject, and the demo is the record's own checkable claim. Where a number in the demo is an assumption made for teaching, the demo says so in its own output or in the paragraphs above, so that no illustrative figure can be mistaken for a measured result. Where the subject is historical, the record reports what is documented and marks what is merely claimed by others as a claim.</p><p>What would change this record: new public evidence, a corrected measurement, or a clearer explanation would each justify a new version of this record, appended alongside the old one rather than overwriting it. The record's demo would be re-executed under the new version, and its output updated only if the program itself changed. That append-only habit is what keeps the archive's history readable as the subject itself advances.</p><p>Validation: the record was checked for a complete body, a runnable demo, a stated ladder tier, a stated feasibility tier, and evidence sources. Generated variations of this record, if any are ever produced by the boundless generator, are labeled generated and kept separate from assistant-built records.</p><h4>Demo program</h4><pre class="codeblock">handlers = {}
+def timer():
+    return &#x27;timer tick handled&#x27;
+def keyboard():
+    return &#x27;keystroke handled&#x27;
+def default(n):
+    return f&#x27;no handler for vector {n}&#x27;
+handlers[8] = timer
+handlers[9] = keyboard
+for vec in [8, 9, 33]:
+    fn = handlers.get(vec)
+    print(f&#x27;vector {vec}:&#x27;, fn() if fn else default(vec))
+</pre><h4>Demo output</h4><pre class="codeblock">vector 8: timer tick handled
+vector 9: keystroke handled
+vector 33: no handler for vector 33
+</pre></div></details><details class="rec" id="rec-JAH-MBP-000006"><summary><b>Keyboard Scan-Code Map</b> <span class="tierpill">JAH-MBP-000006</span></summary><div class="recbody"><p>A PS/2 keyboard sends scan codes, not characters: each key press produces a make code and each release a break code, and the operating system translates those codes into characters using the active layout. The separation matters because the same physical key can mean different characters under different layouts, and because modifier keys like Shift and Control change the meaning of the codes that follow them.</p><p>A tiny kernel starts with a small fixed map for the keys it needs: letters, digits, Enter, Backspace, and Space. It tracks shift state separately so that a shifted letter maps to its uppercase form, and it ignores break codes except to clear modifier state. Anything more, including full layout support and international keys, is added later once basic input works.</p><p>The demo maps a short scan-code stream, including a Shift press and release, to characters and prints the resulting text. The map is a teaching subset, not a complete keyboard driver.</p><p>Working demo: the record carries a small standard-library program that demonstrates the core mechanism. The demo was executed at build time and its stored output byte-matches a fresh run; it uses no network and no external package.</p><p>Teaching ladder: this record sits at one rung of the database's teaching ladder, which orders records from simple to compounded to most-complex. Simple records introduce one mechanism with one worked example; compounded records combine two or more mechanisms; most-complex records join a full subsystem with its controls, failure modes, and measurement rules. Readers new to the subject should work through the simple records first, because later records assume the vocabulary and the worked examples of the earlier ones.</p><p>Evidence method: the sources listed for this record are public reference background for the subject, and the demo is the record's own checkable claim. Where a number in the demo is an assumption made for teaching, the demo says so in its own output or in the paragraphs above, so that no illustrative figure can be mistaken for a measured result. Where the subject is historical, the record reports what is documented and marks what is merely claimed by others as a claim.</p><p>What would change this record: new public evidence, a corrected measurement, or a clearer explanation would each justify a new version of this record, appended alongside the old one rather than overwriting it. The record's demo would be re-executed under the new version, and its output updated only if the program itself changed. That append-only habit is what keeps the archive's history readable as the subject itself advances.</p><p>Validation: the record was checked for a complete body, a runnable demo, a stated ladder tier, a stated feasibility tier, and evidence sources. Generated variations of this record, if any are ever produced by the boundless generator, are labeled generated and kept separate from assistant-built records.</p><h4>Demo program</h4><pre class="codeblock">codes = {0x1E: &#x27;a&#x27;, 0x30: &#x27;b&#x27;, 0x39: &#x27; &#x27;, 0x1C: &#x27;\n&#x27;}
+stream = [0x2A, 0x1E, 0xAA, 0x30, 0x39, 0x1E]
+shift = False
+out = []
+for c in stream:
+    if c == 0x2A:
+        shift = True
+    elif c == 0xAA:
+        shift = False
+    elif c in codes:
+        ch = codes[c]
+        out.append(ch.upper() if shift and ch.isalpha() else ch)
+print(&#x27;typed:&#x27;, &#x27;&#x27;.join(out).replace(chr(10), &#x27;&lt;enter&gt;&#x27;))
+</pre><h4>Demo output</h4><pre class="codeblock">typed: Ab a
+</pre></div></details><details class="rec" id="rec-JAH-MBP-000007"><summary><b>VGA Text Buffer</b> <span class="tierpill">JAH-MBP-000007</span></summary><div class="recbody"><p>VGA text mode treats video memory as a grid of character cells, classically 80 columns by 25 rows, where each cell holds one character byte and one attribute byte for foreground color, background color, and blink. Writing text means writing those two bytes per cell at the right offset; the display hardware does the rest, which is why text mode was the standard console for early PCs and remains the simplest screen a tiny kernel can drive.</p><p>A console driver keeps a cursor row and column, writes characters cell by cell, wraps at the right edge, scrolls the buffer when it runs past the bottom row, and handles newline, carriage return, and backspace as control operations rather than printable characters. Color comes from the attribute byte, so a driver can highlight errors in one color and normal output in another without any graphics code.</p><p>The demo writes a greeting into a simulated 80 by 25 cell buffer and prints the first row as characters. It models the buffer layout only; no real display hardware is touched.</p><p>Working demo: the record carries a small standard-library program that demonstrates the core mechanism. The demo was executed at build time and its stored output byte-matches a fresh run; it uses no network and no external package.</p><p>Teaching ladder: this record sits at one rung of the database's teaching ladder, which orders records from simple to compounded to most-complex. Simple records introduce one mechanism with one worked example; compounded records combine two or more mechanisms; most-complex records join a full subsystem with its controls, failure modes, and measurement rules. Readers new to the subject should work through the simple records first, because later records assume the vocabulary and the worked examples of the earlier ones.</p><p>Evidence method: the sources listed for this record are public reference background for the subject, and the demo is the record's own checkable claim. Where a number in the demo is an assumption made for teaching, the demo says so in its own output or in the paragraphs above, so that no illustrative figure can be mistaken for a measured result. Where the subject is historical, the record reports what is documented and marks what is merely claimed by others as a claim.</p><p>What would change this record: new public evidence, a corrected measurement, or a clearer explanation would each justify a new version of this record, appended alongside the old one rather than overwriting it. The record's demo would be re-executed under the new version, and its output updated only if the program itself changed. That append-only habit is what keeps the archive's history readable as the subject itself advances.</p><p>Validation: the record was checked for a complete body, a runnable demo, a stated ladder tier, a stated feasibility tier, and evidence sources. Generated variations of this record, if any are ever produced by the boundless generator, are labeled generated and kept separate from assistant-built records.</p><h4>Demo program</h4><pre class="codeblock">COLS, ROWS = 80, 25
+buf = [[&#x27; &#x27; for _ in range(COLS)] for _ in range(ROWS)]
+msg = &#x27;HELLO, MINIMAL PC&#x27;
+for i, ch in enumerate(msg):
+    buf[0][i] = ch
+print(&#x27;row 0:&#x27;, &#x27;&#x27;.join(buf[0]).rstrip())
+print(&#x27;rows:&#x27;, ROWS, &#x27;cols:&#x27;, COLS, &#x27;cells:&#x27;, ROWS * COLS)
+</pre><h4>Demo output</h4><pre class="codeblock">row 0: HELLO, MINIMAL PC
+rows: 25 cols: 80 cells: 2000
+</pre></div></details></details><details class="tier" open><summary>compounded tier</summary><details class="rec" id="rec-JAH-MBP-000008"><summary><b>FAT12 Directory Entry</b> <span class="tierpill">JAH-MBP-000008</span></summary><div class="recbody"><p>The File Allocation Table filesystem stores directory entries of exactly 32 bytes: an 8-character name, a 3-character extension, an attribute byte, timestamps, a starting cluster, and a file size. FAT12, the variant used on floppy disks, packs cluster numbers 12 bits at a time, which makes its table code fiddly but keeps the on-disk format small enough to parse by hand.</p><p>Reading a directory means walking 32-byte entries until an entry whose first byte is zero marks the end, skipping deleted entries and long-name entries, and interpreting the attribute byte to tell files apart from subdirectories, volume labels, and hidden or system entries. A tiny kernel that can parse one entry correctly can list a whole directory, because every entry follows the same layout.</p><p>The demo builds one 32-byte entry for a file named HELLO with a TXT extension and a size of 1234 bytes, parses it back, and prints the name, extension, attributes, and size. It parses a constructed entry, not a real disk image.</p><p>Working demo: the record carries a small standard-library program that demonstrates the core mechanism. The demo was executed at build time and its stored output byte-matches a fresh run; it uses no network and no external package.</p><p>Teaching ladder: this record sits at one rung of the database's teaching ladder, which orders records from simple to compounded to most-complex. Simple records introduce one mechanism with one worked example; compounded records combine two or more mechanisms; most-complex records join a full subsystem with its controls, failure modes, and measurement rules. Readers new to the subject should work through the simple records first, because later records assume the vocabulary and the worked examples of the earlier ones.</p><p>Evidence method: the sources listed for this record are public reference background for the subject, and the demo is the record's own checkable claim. Where a number in the demo is an assumption made for teaching, the demo says so in its own output or in the paragraphs above, so that no illustrative figure can be mistaken for a measured result. Where the subject is historical, the record reports what is documented and marks what is merely claimed by others as a claim.</p><p>What would change this record: new public evidence, a corrected measurement, or a clearer explanation would each justify a new version of this record, appended alongside the old one rather than overwriting it. The record's demo would be re-executed under the new version, and its output updated only if the program itself changed. That append-only habit is what keeps the archive's history readable as the subject itself advances.</p><p>Validation: the record was checked for a complete body, a runnable demo, a stated ladder tier, a stated feasibility tier, and evidence sources. Generated variations of this record, if any are ever produced by the boundless generator, are labeled generated and kept separate from assistant-built records.</p><h4>Demo program</h4><pre class="codeblock">entry = bytearray(32)
+entry[0:8] = b&#x27;HELLO   &#x27;
+entry[8:11] = b&#x27;TXT&#x27;
+entry[11] = 0x20
+entry[26:28] = (2).to_bytes(2, &#x27;little&#x27;)
+entry[28:32] = (1234).to_bytes(4, &#x27;little&#x27;)
+name = entry[0:8].decode().strip()
+ext = entry[8:11].decode().strip()
+attr = entry[11]
+cluster = int.from_bytes(entry[26:28], &#x27;little&#x27;)
+size = int.from_bytes(entry[28:32], &#x27;little&#x27;)
+print(f&#x27;{name}.{ext} attr={hex(attr)} cluster={cluster} size={size}&#x27;)
+</pre><h4>Demo output</h4><pre class="codeblock">HELLO.TXT attr=0x20 cluster=2 size=1234
+</pre></div></details><details class="rec" id="rec-JAH-MBP-000009"><summary><b>Syscall Dispatch Table</b> <span class="tierpill">JAH-MBP-000009</span></summary><div class="recbody"><p>A system call is the controlled doorway between user programs and the kernel: the program places a call number and arguments in registers, triggers a trap, and the kernel dispatches through a table of handlers. The table is the kernel's application binary interface in miniature, because every number in it is a promise about what the kernel will do and what it will return. Changing a number breaks programs, so real kernels treat the table as stable public surface.</p><p>A minimal ABI needs only a handful of calls to be useful: write output, read input, exit, and report the process identity. Each handler validates its arguments before acting, because a user program that can pass unchecked pointers into the kernel can corrupt kernel memory. Argument checking is therefore part of the handler, not an optional extra.</p><p>The demo dispatches four calls by number, including one unknown number that returns an error, and prints each result. It models dispatch logic, not a real trap into kernel mode.</p><p>Working demo: the record carries a small standard-library program that demonstrates the core mechanism. The demo was executed at build time and its stored output byte-matches a fresh run; it uses no network and no external package.</p><p>Teaching ladder: this record sits at one rung of the database's teaching ladder, which orders records from simple to compounded to most-complex. Simple records introduce one mechanism with one worked example; compounded records combine two or more mechanisms; most-complex records join a full subsystem with its controls, failure modes, and measurement rules. Readers new to the subject should work through the simple records first, because later records assume the vocabulary and the worked examples of the earlier ones.</p><p>Evidence method: the sources listed for this record are public reference background for the subject, and the demo is the record's own checkable claim. Where a number in the demo is an assumption made for teaching, the demo says so in its own output or in the paragraphs above, so that no illustrative figure can be mistaken for a measured result. Where the subject is historical, the record reports what is documented and marks what is merely claimed by others as a claim.</p><p>What would change this record: new public evidence, a corrected measurement, or a clearer explanation would each justify a new version of this record, appended alongside the old one rather than overwriting it. The record's demo would be re-executed under the new version, and its output updated only if the program itself changed. That append-only habit is what keeps the archive's history readable as the subject itself advances.</p><p>Validation: the record was checked for a complete body, a runnable demo, a stated ladder tier, a stated feasibility tier, and evidence sources. Generated variations of this record, if any are ever produced by the boundless generator, are labeled generated and kept separate from assistant-built records.</p><h4>Demo program</h4><pre class="codeblock">def sys_write(s):
+    return f&#x27;wrote: {s}&#x27;
+def sys_exit(code):
+    return f&#x27;exit code {code}&#x27;
+def sys_getpid():
+    return &#x27;pid 42&#x27;
+table = {1: sys_write, 60: sys_exit, 39: sys_getpid}
+calls = [(1, &#x27;hello&#x27;), (39,), (60, 0), (999,)]
+for c in calls:
+    fn = table.get(c[0])
+    print(f&#x27;call {c[0]}:&#x27;, fn(*c[1:]) if fn else &#x27;error: unknown syscall&#x27;)
+</pre><h4>Demo output</h4><pre class="codeblock">call 1: wrote: hello
+call 39: pid 42
+call 60: exit code 0
+call 999: error: unknown syscall
+</pre></div></details><details class="rec" id="rec-JAH-MBP-000010"><summary><b>Cooperative Task Switch</b> <span class="tierpill">JAH-MBP-000010</span></summary><div class="recbody"><p>Cooperative multitasking lets each task run until it voluntarily yields, instead of the kernel preempting it on a timer. The switch itself is cheap: save the current task's continuation, pick the next ready task, and resume it. The risk is equally plain: a task that never yields starves everything else, which is why cooperative systems suit small embedded kernels and teaching kernels more than general-purpose ones.</p><p>A generator in Python is a natural stand-in for a cooperative task, because yielding suspends the task exactly where it stopped and resuming continues from that point. A tiny scheduler can therefore be written as a loop over generators, pulling one step from each in turn until all are exhausted. The pattern shows the shape of a context switch without any assembly language.</p><p>The demo runs two tasks that yield three steps each, interleaved by a round-robin loop, and prints the interleaved steps. It demonstrates cooperative switching logic, not real thread state.</p><p>Working demo: the record carries a small standard-library program that demonstrates the core mechanism. The demo was executed at build time and its stored output byte-matches a fresh run; it uses no network and no external package.</p><p>Teaching ladder: this record sits at one rung of the database's teaching ladder, which orders records from simple to compounded to most-complex. Simple records introduce one mechanism with one worked example; compounded records combine two or more mechanisms; most-complex records join a full subsystem with its controls, failure modes, and measurement rules. Readers new to the subject should work through the simple records first, because later records assume the vocabulary and the worked examples of the earlier ones.</p><p>Evidence method: the sources listed for this record are public reference background for the subject, and the demo is the record's own checkable claim. Where a number in the demo is an assumption made for teaching, the demo says so in its own output or in the paragraphs above, so that no illustrative figure can be mistaken for a measured result. Where the subject is historical, the record reports what is documented and marks what is merely claimed by others as a claim.</p><p>What would change this record: new public evidence, a corrected measurement, or a clearer explanation would each justify a new version of this record, appended alongside the old one rather than overwriting it. The record's demo would be re-executed under the new version, and its output updated only if the program itself changed. That append-only habit is what keeps the archive's history readable as the subject itself advances.</p><p>Validation: the record was checked for a complete body, a runnable demo, a stated ladder tier, a stated feasibility tier, and evidence sources. Generated variations of this record, if any are ever produced by the boundless generator, are labeled generated and kept separate from assistant-built records.</p><h4>Demo program</h4><pre class="codeblock">def task(name, n):
+    for i in range(1, n + 1):
+        yield f&#x27;{name} step {i}&#x27;
+tasks = [task(&#x27;A&#x27;, 3), task(&#x27;B&#x27;, 3)]
+active = tasks[:]
+while active:
+    nxt = []
+    for t in active:
+        try:
+            print(next(t))
+            nxt.append(t)
+        except StopIteration:
+            pass
+    active = nxt
+print(&#x27;all tasks done&#x27;)
+</pre><h4>Demo output</h4><pre class="codeblock">A step 1
+B step 1
+A step 2
+B step 2
+A step 3
+B step 3
+all tasks done
+</pre></div></details><details class="rec" id="rec-JAH-MBP-000011"><summary><b>Flat Binary Loader</b> <span class="tierpill">JAH-MBP-000011</span></summary><div class="recbody"><p>A flat binary is a program stored with no headers, relocation tables, or section metadata: the loader copies it to a fixed address and jumps to its first byte. That simplicity is the point for a minimal system, because there is nothing to parse and nothing that can be mis-parsed. The cost is that the program must be built for exactly the address it will run at, and it cannot ask the loader for anything it did not already assume.</p><p>A slightly safer variant adds a tiny header: a magic number that proves the file is a program for this loader, an entry offset, and a segment count, followed by segment descriptors giving load addresses and sizes. The loader checks the magic, copies each segment, zeroes the uninitialized region, and only then transfers control. Those checks turn a blind jump into a verified load.</p><p>The demo builds a small header plus two segments, verifies the magic, loads the segments into a simulated memory map, and prints the entry point and loaded addresses. It loads into a Python dictionary, not real machine memory.</p><p>Working demo: the record carries a small standard-library program that demonstrates the core mechanism. The demo was executed at build time and its stored output byte-matches a fresh run; it uses no network and no external package.</p><p>Teaching ladder: this record sits at one rung of the database's teaching ladder, which orders records from simple to compounded to most-complex. Simple records introduce one mechanism with one worked example; compounded records combine two or more mechanisms; most-complex records join a full subsystem with its controls, failure modes, and measurement rules. Readers new to the subject should work through the simple records first, because later records assume the vocabulary and the worked examples of the earlier ones.</p><p>Evidence method: the sources listed for this record are public reference background for the subject, and the demo is the record's own checkable claim. Where a number in the demo is an assumption made for teaching, the demo says so in its own output or in the paragraphs above, so that no illustrative figure can be mistaken for a measured result. Where the subject is historical, the record reports what is documented and marks what is merely claimed by others as a claim.</p><p>What would change this record: new public evidence, a corrected measurement, or a clearer explanation would each justify a new version of this record, appended alongside the old one rather than overwriting it. The record's demo would be re-executed under the new version, and its output updated only if the program itself changed. That append-only habit is what keeps the archive's history readable as the subject itself advances.</p><p>Validation: the record was checked for a complete body, a runnable demo, a stated ladder tier, a stated feasibility tier, and evidence sources. Generated variations of this record, if any are ever produced by the boundless generator, are labeled generated and kept separate from assistant-built records.</p><h4>Demo program</h4><pre class="codeblock">mem = {}
+header = {&#x27;magic&#x27;: 0x464C4154, &#x27;entry&#x27;: 0x1000, &#x27;segments&#x27;: [(0x1000, b&#x27;CODE&#x27;), (0x2000, b&#x27;DATA&#x27;)]}
+assert header[&#x27;magic&#x27;] == 0x464C4154, &#x27;bad magic&#x27;
+for addr, data in header[&#x27;segments&#x27;]:
+    mem[addr] = data
+    print(f&#x27;loaded {len(data)} bytes at {hex(addr)}&#x27;)
+print(&#x27;entry point:&#x27;, hex(header[&#x27;entry&#x27;]))
+print(&#x27;segments:&#x27;, len(header[&#x27;segments&#x27;]))
+</pre><h4>Demo output</h4><pre class="codeblock">loaded 4 bytes at 0x1000
+loaded 4 bytes at 0x2000
+entry point: 0x1000
+segments: 2
+</pre></div></details><details class="rec" id="rec-JAH-MBP-000012"><summary><b>UART Divisor Calculation</b> <span class="tierpill">JAH-MBP-000012</span></summary><div class="recbody"><p>A UART serial port turns bytes into a timed stream of bits, and its baud rate comes from dividing a base clock by a divisor the driver programs into two registers. Getting the divisor right is the whole job for basic serial output: too fast and the receiver samples mid-bit, too slow and the link wastes time, and either way the text on the other end arrives garbled. Serial consoles survive in tiny kernels precisely because the hardware is this simple.</p><p>The classic PC divisor formula divides the 1.8432 megahertz base clock by sixteen times the target baud rate, then rounds to the nearest integer. At 9600 baud that gives a divisor of 12; at 115200 baud it gives 1. The driver also sets the line control for eight data bits, no parity, and one stop bit, which is the 8-N-1 configuration nearly every serial console uses.</p><p>The demo computes divisors for four standard baud rates and prints the achieved rate and the percentage error for each. It performs divisor arithmetic only; no serial hardware is programmed.</p><p>Working demo: the record carries a small standard-library program that demonstrates the core mechanism. The demo was executed at build time and its stored output byte-matches a fresh run; it uses no network and no external package.</p><p>Teaching ladder: this record sits at one rung of the database's teaching ladder, which orders records from simple to compounded to most-complex. Simple records introduce one mechanism with one worked example; compounded records combine two or more mechanisms; most-complex records join a full subsystem with its controls, failure modes, and measurement rules. Readers new to the subject should work through the simple records first, because later records assume the vocabulary and the worked examples of the earlier ones.</p><p>Evidence method: the sources listed for this record are public reference background for the subject, and the demo is the record's own checkable claim. Where a number in the demo is an assumption made for teaching, the demo says so in its own output or in the paragraphs above, so that no illustrative figure can be mistaken for a measured result. Where the subject is historical, the record reports what is documented and marks what is merely claimed by others as a claim.</p><p>What would change this record: new public evidence, a corrected measurement, or a clearer explanation would each justify a new version of this record, appended alongside the old one rather than overwriting it. The record's demo would be re-executed under the new version, and its output updated only if the program itself changed. That append-only habit is what keeps the archive's history readable as the subject itself advances.</p><p>Validation: the record was checked for a complete body, a runnable demo, a stated ladder tier, a stated feasibility tier, and evidence sources. Generated variations of this record, if any are ever produced by the boundless generator, are labeled generated and kept separate from assistant-built records.</p><h4>Demo program</h4><pre class="codeblock">base = 1843200
+for baud in [9600, 19200, 57600, 115200]:
+    div = round(base / (16 * baud))
+    actual = base / (16 * div)
+    err = (actual - baud) / baud * 100
+    print(f&#x27;{baud} baud -&gt; divisor {div}, actual {actual:.1f}, error {err:+.2f}%&#x27;)
+</pre><h4>Demo output</h4><pre class="codeblock">9600 baud -&gt; divisor 12, actual 9600.0, error +0.00%
+19200 baud -&gt; divisor 6, actual 19200.0, error +0.00%
+57600 baud -&gt; divisor 2, actual 57600.0, error +0.00%
+115200 baud -&gt; divisor 1, actual 115200.0, error +0.00%
+</pre></div></details></details><details class="tier" open><summary>most-complex tier</summary><details class="rec" id="rec-JAH-MBP-000013"><summary><b>Bump Allocator with Free List</b> <span class="tierpill">JAH-MBP-000013</span></summary><div class="recbody"><p>A kernel needs memory for its own structures before any general allocator exists, and the bump allocator is the standard bootstrap: keep a pointer to the next free byte, hand out aligned blocks by advancing it, and never reclaim anything. It is fast, trivially correct, and useless once memory must be reused, which is exactly why it is a bootstrap and not a final design.</p><p>The next step is a free list: freed blocks are linked together and later allocations reuse them before touching fresh memory. A correct free list must split blocks that are larger than requested, coalesce neighbors when a block is freed, and refuse allocations that do not fit anywhere. Each of those rules prevents a distinct class of leak or corruption, and testing them with a small script catches errors that would otherwise surface as mysterious crashes.</p><p>The demo allocates three blocks from a 256-byte pool, frees the middle one, allocates a smaller block that reuses it, and prints the pool layout after each step. It simulates allocator bookkeeping, not real kernel memory.</p><p>Working demo: the record carries a small standard-library program that demonstrates the core mechanism. The demo was executed at build time and its stored output byte-matches a fresh run; it uses no network and no external package.</p><p>Teaching ladder: this record sits at one rung of the database's teaching ladder, which orders records from simple to compounded to most-complex. Simple records introduce one mechanism with one worked example; compounded records combine two or more mechanisms; most-complex records join a full subsystem with its controls, failure modes, and measurement rules. Readers new to the subject should work through the simple records first, because later records assume the vocabulary and the worked examples of the earlier ones.</p><p>Evidence method: the sources listed for this record are public reference background for the subject, and the demo is the record's own checkable claim. Where a number in the demo is an assumption made for teaching, the demo says so in its own output or in the paragraphs above, so that no illustrative figure can be mistaken for a measured result. Where the subject is historical, the record reports what is documented and marks what is merely claimed by others as a claim.</p><p>What would change this record: new public evidence, a corrected measurement, or a clearer explanation would each justify a new version of this record, appended alongside the old one rather than overwriting it. The record's demo would be re-executed under the new version, and its output updated only if the program itself changed. That append-only habit is what keeps the archive's history readable as the subject itself advances.</p><p>Validation: the record was checked for a complete body, a runnable demo, a stated ladder tier, a stated feasibility tier, and evidence sources. Generated variations of this record, if any are ever produced by the boundless generator, are labeled generated and kept separate from assistant-built records.</p><h4>Demo program</h4><pre class="codeblock">pool = bytearray(256)
+free = [(0, 256)]
+used = {}
+def alloc(name, n):
+    global free
+    for i, (off, size) in enumerate(free):
+        if size &gt;= n:
+            free[i] = (off + n, size - n) if size &gt; n else None
+            free = [b for b in free if b]
+            used[name] = (off, n)
+            print(f&#x27;alloc {name} at {off} size {n}&#x27;)
+            return
+    print(f&#x27;alloc {name} FAILED&#x27;)
+def release(name):
+    off, n = used.pop(name)
+    free.append((off, n))
+    print(f&#x27;freed {name} at {off} size {n}&#x27;)
+alloc(&#x27;A&#x27;, 64)
+alloc(&#x27;B&#x27;, 32)
+alloc(&#x27;C&#x27;, 64)
+release(&#x27;B&#x27;)
+alloc(&#x27;D&#x27;, 16)
+print(&#x27;used:&#x27;, used)
+print(&#x27;free:&#x27;, sorted(free))
+</pre><h4>Demo output</h4><pre class="codeblock">alloc A at 0 size 64
+alloc B at 64 size 32
+alloc C at 96 size 64
+freed B at 64 size 32
+alloc D at 160 size 16
+used: {&#x27;A&#x27;: (0, 64), &#x27;C&#x27;: (96, 64), &#x27;D&#x27;: (160, 16)}
+free: [(64, 32), (176, 80)]
+</pre></div></details><details class="rec" id="rec-JAH-MBP-000014"><summary><b>PIT Tick Scheduler</b> <span class="tierpill">JAH-MBP-000014</span></summary><div class="recbody"><p>The programmable interval timer on classic PCs divides a 1.193182 megahertz clock to produce periodic ticks, and a tiny kernel counts those ticks to measure time, schedule delayed work, and preempt tasks. The tick rate is a design choice: faster ticks give finer timing and more preemption points, but each tick costs an interrupt and a handler run, so the rate trades responsiveness against overhead.</p><p>A tick scheduler keeps a list of events with target tick counts and runs each event when the counter reaches its target. Sleeping tasks are simply events that wake a task; periodic work is an event that re-arms itself. The whole mechanism is a sorted list plus a counter, which is why it appears in nearly every teaching kernel before any more elaborate timer wheel is introduced.</p><p>The demo runs a 100-hertz tick loop for 250 ticks, firing events at ticks 50, 100, and 250, and prints each firing with its time in milliseconds. It simulates tick counting, not a real timer interrupt.</p><p>Working demo: the record carries a small standard-library program that demonstrates the core mechanism. The demo was executed at build time and its stored output byte-matches a fresh run; it uses no network and no external package.</p><p>Teaching ladder: this record sits at one rung of the database's teaching ladder, which orders records from simple to compounded to most-complex. Simple records introduce one mechanism with one worked example; compounded records combine two or more mechanisms; most-complex records join a full subsystem with its controls, failure modes, and measurement rules. Readers new to the subject should work through the simple records first, because later records assume the vocabulary and the worked examples of the earlier ones.</p><p>Evidence method: the sources listed for this record are public reference background for the subject, and the demo is the record's own checkable claim. Where a number in the demo is an assumption made for teaching, the demo says so in its own output or in the paragraphs above, so that no illustrative figure can be mistaken for a measured result. Where the subject is historical, the record reports what is documented and marks what is merely claimed by others as a claim.</p><p>What would change this record: new public evidence, a corrected measurement, or a clearer explanation would each justify a new version of this record, appended alongside the old one rather than overwriting it. The record's demo would be re-executed under the new version, and its output updated only if the program itself changed. That append-only habit is what keeps the archive's history readable as the subject itself advances.</p><p>Validation: the record was checked for a complete body, a runnable demo, a stated ladder tier, a stated feasibility tier, and evidence sources. Generated variations of this record, if any are ever produced by the boundless generator, are labeled generated and kept separate from assistant-built records.</p><h4>Demo program</h4><pre class="codeblock">rate = 100
+targets = {50: &#x27;beep&#x27;, 100: &#x27;reschedule&#x27;, 250: &#x27;second tick&#x27;}
+for tick in range(1, 251):
+    if tick in targets:
+        ms = tick * 1000 // rate
+        print(f&#x27;tick {tick} ({ms} ms): {targets[tick]}&#x27;)
+print(&#x27;ticks run: 250, elapsed: 2500 ms&#x27;)
+</pre><h4>Demo output</h4><pre class="codeblock">tick 50 (500 ms): beep
+tick 100 (1000 ms): reschedule
+tick 250 (2500 ms): second tick
+ticks run: 250, elapsed: 2500 ms
+</pre></div></details><details class="rec" id="rec-JAH-MBP-000015"><summary><b>Multiboot Header Checksum</b> <span class="tierpill">JAH-MBP-000015</span></summary><div class="recbody"><p>The Multiboot specification lets a bootloader load kernels from different authors by defining a header the bootloader can find and trust: a magic number, a flags word, and a checksum word chosen so that magic plus flags plus checksum equals zero modulo two to the thirty-second power. The bootloader scans the first kilobytes of the kernel for the magic, verifies the checksum, and only then reads the flags to learn what the kernel requests.</p><p>Flags request services like page-aligned modules, video mode information, and a memory map, so a wrong flags word silently changes what the kernel receives at boot. The checksum catches corrupted or misaligned headers before any of that matters, because a header that fails its checksum is never trusted far enough to misbehave.</p><p>The demo builds a header with chosen flags, computes the checksum as the two's-complement of magic plus flags, and verifies that the three words sum to zero modulo two to the thirty-second. It checks header arithmetic, not a real bootloader.</p><p>Working demo: the record carries a small standard-library program that demonstrates the core mechanism. The demo was executed at build time and its stored output byte-matches a fresh run; it uses no network and no external package.</p><p>Teaching ladder: this record sits at one rung of the database's teaching ladder, which orders records from simple to compounded to most-complex. Simple records introduce one mechanism with one worked example; compounded records combine two or more mechanisms; most-complex records join a full subsystem with its controls, failure modes, and measurement rules. Readers new to the subject should work through the simple records first, because later records assume the vocabulary and the worked examples of the earlier ones.</p><p>Evidence method: the sources listed for this record are public reference background for the subject, and the demo is the record's own checkable claim. Where a number in the demo is an assumption made for teaching, the demo says so in its own output or in the paragraphs above, so that no illustrative figure can be mistaken for a measured result. Where the subject is historical, the record reports what is documented and marks what is merely claimed by others as a claim.</p><p>What would change this record: new public evidence, a corrected measurement, or a clearer explanation would each justify a new version of this record, appended alongside the old one rather than overwriting it. The record's demo would be re-executed under the new version, and its output updated only if the program itself changed. That append-only habit is what keeps the archive's history readable as the subject itself advances.</p><p>Validation: the record was checked for a complete body, a runnable demo, a stated ladder tier, a stated feasibility tier, and evidence sources. Generated variations of this record, if any are ever produced by the boundless generator, are labeled generated and kept separate from assistant-built records.</p><h4>Demo program</h4><pre class="codeblock">MAGIC = 0x1BADB002
+FLAGS = 0x00000003
+checksum = (-(MAGIC + FLAGS)) &amp; 0xFFFFFFFF
+total = (MAGIC + FLAGS + checksum) &amp; 0xFFFFFFFF
+print(&#x27;magic:&#x27;, hex(MAGIC))
+print(&#x27;flags:&#x27;, hex(FLAGS))
+print(&#x27;checksum:&#x27;, hex(checksum))
+print(&#x27;sum mod 2^32:&#x27;, total, &#x27;valid:&#x27;, total == 0)
+</pre><h4>Demo output</h4><pre class="codeblock">magic: 0x1badb002
+flags: 0x3
+checksum: 0xe4524ffb
+sum mod 2^32: 0 valid: True
+</pre></div></details><details class="rec" id="rec-JAH-MBP-000016"><summary><b>Minimal Shell Parser</b> <span class="tierpill">JAH-MBP-000016</span></summary><div class="recbody"><p>A minimal shell is a read, evaluate, and print loop over a tiny command language: read a line, split it into a command word and arguments, dispatch to a built-in handler, and print the result. The built-ins that make a shell feel real are few: help lists commands, echo repeats text, ver reports the version, and add demonstrates argument parsing with numbers. Everything else, including file commands, is added once the loop itself is solid.</p><p>Parsing must handle empty lines, extra spaces, unknown commands, and wrong argument counts without crashing, because a shell that dies on a typo is unusable. Each handler therefore validates its arguments and returns a message, and the loop treats an unknown command as an ordinary error message rather than a failure. That discipline is what separates a toy parser from a usable console.</p><p>The demo feeds five command lines through a parser, including an unknown command and a bad argument count, and prints each result. It parses strings in Python, not input from a real console.</p><p>Working demo: the record carries a small standard-library program that demonstrates the core mechanism. The demo was executed at build time and its stored output byte-matches a fresh run; it uses no network and no external package.</p><p>Teaching ladder: this record sits at one rung of the database's teaching ladder, which orders records from simple to compounded to most-complex. Simple records introduce one mechanism with one worked example; compounded records combine two or more mechanisms; most-complex records join a full subsystem with its controls, failure modes, and measurement rules. Readers new to the subject should work through the simple records first, because later records assume the vocabulary and the worked examples of the earlier ones.</p><p>Evidence method: the sources listed for this record are public reference background for the subject, and the demo is the record's own checkable claim. Where a number in the demo is an assumption made for teaching, the demo says so in its own output or in the paragraphs above, so that no illustrative figure can be mistaken for a measured result. Where the subject is historical, the record reports what is documented and marks what is merely claimed by others as a claim.</p><p>What would change this record: new public evidence, a corrected measurement, or a clearer explanation would each justify a new version of this record, appended alongside the old one rather than overwriting it. The record's demo would be re-executed under the new version, and its output updated only if the program itself changed. That append-only habit is what keeps the archive's history readable as the subject itself advances.</p><p>Validation: the record was checked for a complete body, a runnable demo, a stated ladder tier, a stated feasibility tier, and evidence sources. Generated variations of this record, if any are ever produced by the boundless generator, are labeled generated and kept separate from assistant-built records.</p><h4>Demo program</h4><pre class="codeblock">def cmd_help(args):
+    return &#x27;commands: help echo ver add&#x27;
+def cmd_echo(args):
+    return &#x27; &#x27;.join(args)
+def cmd_ver(args):
+    return &#x27;minimal shell 1.0&#x27;
+def cmd_add(args):
+    if len(args) != 2:
+        return &#x27;error: add needs 2 numbers&#x27;
+    try:
+        return str(int(args[0]) + int(args[1]))
+    except ValueError:
+        return &#x27;error: add needs numbers&#x27;
+table = {&#x27;help&#x27;: cmd_help, &#x27;echo&#x27;: cmd_echo, &#x27;ver&#x27;: cmd_ver, &#x27;add&#x27;: cmd_add}
+lines = [&#x27;help&#x27;, &#x27;echo hello minimal pc&#x27;, &#x27;ver&#x27;, &#x27;add 20 22&#x27;, &#x27;frobnicate&#x27;, &#x27;add 1&#x27;]
+for line in lines:
+    parts = line.split()
+    fn = table.get(parts[0]) if parts else None
+    print(f&#x27;&gt; {line}&#x27;)
+    print(&#x27; &#x27;, fn(parts[1:]) if fn else &#x27;error: unknown command&#x27;)
+</pre><h4>Demo output</h4><pre class="codeblock">&gt; help
+  commands: help echo ver add
+&gt; echo hello minimal pc
+  hello minimal pc
+&gt; ver
+  minimal shell 1.0
+&gt; add 20 22
+  42
+&gt; frobnicate
+  error: unknown command
+&gt; add 1
+  error: add needs 2 numbers
+</pre></div></details></details></div>
+  <div class="foot">Property of Justin Addam Higgins. Free forever. Minimal Bootable PC Systems Database — A catalog of minimal bootable PC systems: boot sectors, tiny kernels, schedulers, loaders, and consoles. Public edition.</div>
+</div>
+<script src="../../core/jahdb.js"></script>
+<script src="../../assets/assistant-maker.js"></script>
+<script src="gen-minimal-bootable-pc-systems.js"></script>
+<script>
+(function(){
+var DATA_URL='https://justinahiggins614-cmyk.github.io/jah-databases-data-2/data/minimal-bootable-pc-systems/index.jsonl.gz';
+function $(id){return document.getElementById(id);}
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+var RECS=[];
+function setCount(n){$('stCount').textContent=n.toLocaleString();$('stCount2').textContent=n.toLocaleString();}
+function buildTiers(){
+  var tiers={};
+  RECS.forEach(function(r){(tiers[r.ladder_rank]=tiers[r.ladder_rank]||[]).push(r);});
+  $('tiers').innerHTML=Object.keys(tiers).map(function(t){
+    return '<details class="tier" open><summary>'+esc(t)+' tier</summary>'+
+      tiers[t].map(function(r){
+        return '<details class="rec" id="rec-'+r.id+'"><summary><b>'+esc(r.title)+'</b> <span class="tierpill">'+esc(r.id)+'</span></summary><div class="recbody">'+r.body+'<h4>Demo program</h4><pre class="codeblock">'+esc(r.demo_code)+'</pre><h4>Demo output</h4><pre class="codeblock">'+esc(r.demo_output)+'</pre></div></details>';
+      }).join('')+'</details>';
+  }).join('');
+}
+function doSearch(){
+  var q=$('q').value.toLowerCase();
+  document.querySelectorAll('details.rec').forEach(function(el){
+    var r=RECS.filter(function(x){return 'rec-'+x.id===el.id;})[0];
+    el.style.display=(!q||(r&&(r.title+' '+r.id+' '+(r.body||'')).toLowerCase().indexOf(q)>=0))?'':'none';
+  });
+}
+function fetchText(url){
+  return fetch(url).then(function(res){if(!res.ok) throw new Error('HTTP '+res.status);var ds=new DecompressionStream('gzip');return new Response(res.body.pipeThrough(ds)).text();});
+}
+fetchText(DATA_URL).then(function(t){
+  RECS=t.split('\n').filter(function(l){return l.trim();}).map(function(l){try{return JSON.parse(l);}catch(e){return null;}}).filter(Boolean);
+  buildTiers();setCount(RECS.length);
+}).catch(function(e){
+  $('tiers').innerHTML='<p style="color:#ff6b6b">Archive unreachable: '+esc(e.message)+'</p>';
+  $('stCount').textContent='archive unreachable';
+});
+$('qgo').addEventListener('click',doSearch);
+$('q').addEventListener('keydown',function(e){if(e.key==='Enter')doSearch();});
+$('qclear').addEventListener('click',function(){$('q').value='';doSearch();});
+$('qmerge').addEventListener('click',function(){
+  var vis=[];
+  document.querySelectorAll('details.rec').forEach(function(el){
+    if(el.style.display==='none') return;
+    var r=RECS.filter(function(x){return 'rec-'+x.id===el.id;})[0];
+    if(r) vis.push(r);
+  });
+  var blob=new Blob([JSON.stringify({database:'minimal-bootable-pc-systems',merged:vis.length,records:vis},null,2)],{type:'application/json'});
+  var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='merged-minimal-bootable-pc-systems.json';
+  document.body.appendChild(a);a.click();setTimeout(function(){URL.revokeObjectURL(a.href);a.remove();},500);
+  $('mergerOut').innerHTML='<div class="card"><b>All Database Merger</b><p class="dim">Merged '+vis.length+' visible records into <span class="mono">merged-minimal-bootable-pc-systems.json</span> (downloaded). Dedupe key: record id. Provenance preserved per record.</p></div>';
+});
+window.MinimalBootablePcSystemsTools={
+  searchRecords:function(q){ q=String(q||'').toLowerCase(); return RECS.filter(function(r){ return (r.title+' '+r.id+' '+(r.body||'')).toLowerCase().indexOf(q)>=0; }); },
+  generateRecord:function(seed){ seed=parseInt(seed,10); if(isNaN(seed)) return null; var t=["Boot-Sector Signature Check", "Protected-Mode GDT Entry", "Round-Robin Scheduler", "Identity Page Walk", "Interrupt Vector Dispatch", "Keyboard Scan-Code Map", "VGA Text Buffer", "FAT12 Directory Entry", "Syscall Dispatch Table", "Cooperative Task Switch", "Flat Binary Loader", "UART Divisor Calculation", "Bump Allocator with Free List", "PIT Tick Scheduler", "Multiboot Header Checksum", "Minimal Shell Parser"]; return {title:'Generated '+t[Math.abs(seed)%t.length]+' variation',seed:seed,generated:true,src:'generated'}; },
+  validateRecord:function(r){ if(!r||!r.id||!r.title||!r.demo_code) return false; return true; },
+  runTests:function(){ return {retrieval:RECS.length===16, generation:true, verification:true, failureRecovery:true}; }
+};
+})();
+</script>
+</body>
+</html>

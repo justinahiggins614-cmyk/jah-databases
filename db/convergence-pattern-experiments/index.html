@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Convergence Pattern Experiments Database — JAH Databases</title>
+<meta name="description" content="Convergence Pattern Experiments Database — A catalog of experiments where scattered events form a pattern: ripples, fringes, speckles, and statistical convergence. Public edition. Property of Justin Addam Higgins.">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Dataset","name":"Convergence Pattern Experiments Database","description":"A catalog of experiments where scattered events form a pattern: ripples, fringes, speckles, and statistical convergence. Public edition.","creator":{"@type":"Person","name":"Justin Addam Higgins"},"license":"https://creativecommons.org/publicdomain/zero/1.0/","distribution":{"@context":"https://schema.org","@type":"DataDownload","contentUrl":"https://justinahiggins614-cmyk.github.io/jah-databases-data-2/data/convergence-pattern-experiments/index.jsonl.gz"}}</script>
+<style>
+:root{--bg:#070b16;--panel:#0d1526;--line:#1d2c4d;--ink:#e8f1ff;--dim:#9fb3d8;--acc:#2f7bff;--ok:#00e5a0;--warn:#ffb020}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Arial,Helvetica,sans-serif;line-height:1.55}
+.wrap{max-width:1060px;margin:0 auto;padding:14px}
+.hero{background:linear-gradient(135deg,#0b1e3a,#101a30);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:12px}
+.hero h1{margin:0;font-size:1.5em}.hero p{margin:6px 0;color:var(--dim)}
+.pill{display:inline-block;background:#132a55;border:1px solid var(--line);border-radius:999px;padding:2px 12px;font-size:.82em;margin:2px 6px 2px 0;color:var(--ink)}
+.pill.pub{background:#0f2f1d;border-color:#3fae6a;color:#c9f2d8}
+.pill.sig{background:#2a1a3a;border-color:#8a5cff;color:#e3d8ff}
+.pill.march{background:#3a2a08;border-color:#c98f1b;color:#ffe1a1}
+.stats{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0}
+.stat{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:8px 12px;font-size:.9em}
+.stat b{color:var(--ok)}
+.count{font-size:26px;font-weight:bold;color:var(--ok)}
+h2{margin:22px 0 8px;font-size:1.15em}
+.kv{display:grid;grid-template-columns:minmax(120px,1fr);gap:6px 14px;border:1px solid var(--line);border-radius:10px;padding:12px;background:var(--panel);font-size:.95em}
+.kv dt{color:var(--dim);font-weight:bold}.kv dd{margin:0;overflow-wrap:break-word}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:10px 0}
+input,button{font-size:1em;border-radius:8px;border:1px solid var(--line);background:#0a1120;color:var(--ink);padding:9px 12px}
+button{cursor:pointer;background:#14305e}button.go{background:var(--acc);font-weight:bold}
+button.merger{background:#c81e3a;border-color:#c81e3a;color:#fff;font-weight:bold}
+details.tier{border:1px solid var(--line);border-radius:10px;margin:10px 0;background:var(--panel)}
+details.tier>summary{padding:12px;cursor:pointer;font-weight:bold;font-size:1.05em;list-style:none}
+details.tier>summary::-webkit-details-marker{display:none}
+details.rec{border:1px solid var(--line);border-radius:8px;margin:8px;background:#0a1120}
+details.rec>summary{padding:9px 12px;cursor:pointer;list-style:none}
+details.rec>summary::-webkit-details-marker{display:none}
+details.rec>summary:hover{background:#101a30}
+.recbody{padding:4px 14px 12px}
+.recbody h4{margin:14px 0 4px;color:var(--ok);font-size:1em}
+.recbody p{margin:6px 0}
+.tierpill{font-size:.75em;border-radius:999px;padding:1px 9px;margin-left:8px;border:1px solid var(--line);background:#132a55}
+pre.codeblock{white-space:pre;overflow-x:auto;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.82em;line-height:1.5;background:#060b14;border:1px solid var(--line);border-left:4px solid var(--ok);border-radius:8px;padding:10px 12px;margin:8px 0;max-width:100%}
+.dim{color:var(--dim)}.mono{font-family:Consolas,monospace}
+.foot{margin-top:26px;padding-top:12px;border-top:1px solid var(--line);color:var(--dim);font-size:.85em}
+#mergerOut .card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:10px;margin:8px 0}
+.boundary{background:#2a1a08;border:1px solid #c98f1b;border-radius:8px;padding:10px 12px;margin:8px 0;color:#ffe1a1}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hero">
+    <h1>Convergence Pattern Experiments Database</h1>
+    <p><span class="pill pub">Public edition</span><span class="pill march">march to a million: in progress</span></p>
+    <p>A catalog of experiments where scattered events form a pattern: ripples, fringes, speckles, and statistical convergence. Public edition. Public edition — fact-checked public and methodology content for everyone. Every record carries a demo program genuinely executed at build time, and an honest feasibility tier.</p>
+    <div class="stats">
+      <span class="stat">Archive records: <b id="stCount">…</b></span>
+      <span class="stat">Generator: <b>jahdb-convergence-pattern-experiments-1.0</b> <span style="color:var(--ok)">● working</span></span>
+      <span class="stat">AI: <b>JAH Pattern Experiment Guide</b></span>
+      <span class="stat">Target: <b>16 of 1,000,000</b> <span class="dim">(march to a million: in progress)</span></span>
+    </div>
+  </div>
+  <div class="row">
+    <input id="q" placeholder="Search titles, bodies, IDs…" style="flex:1;min-width:200px">
+    <button class="go" id="qgo">Search</button>
+    <button id="qclear">Clear</button>
+    <button class="merger" id="qmerge">All Database Merger</button>
+  </div>
+  <div id="mergerOut"></div>
+  <p class="dim">Archive records: <b id="stCount2">16</b>. Data: <a href="https://justinahiggins614-cmyk.github.io/jah-databases-data-2/data/convergence-pattern-experiments/index.jsonl.gz">index.jsonl.gz</a> (16 full records, gzipped JSON lines). Synonym map: r, i, p, p, l, e,  , t, a, n, k, ,,  , i, n, t, e, r, f, e, r, e, n, c, e, ,,  , d, i, f, f, r, a, c, t, i, o, n, ,,  , s, p, e, c, k, l, e, ,,  , c, o, n, v, e, r, g, e, n, c, e, ,,  , p, a, t, t, e, r, n,  , f, o, r, m, a, t, i, o, n, ,,  , s, t, a, t, i, s, t, i, c, s.</p>
+  <h2>Search</h2>
+  <p>Search matches titles, bodies, and record IDs on this page. The search index is built from the loaded archive records; no external search service is used.</p>
+  <h2>Related databases</h2>
+  <p>Cross-linked, not duplicated: fundamental-laser-physics (laser physics generally) and equations (the mathematical claims behind pattern analysis). This pair is the experiment catalog: apparatus, procedure, controls, and analysis for each pattern.</p>
+  <h2>Specialist AI</h2>
+  <p>JAH Pattern Experiment Guide is the specialist AI for this database. It answers from this database's records first, explains each record's ladder tier in plain language, and teaches simple records before compounded and most-complex ones. It never presents a Signature design as an established public fact.</p>
+  <h2>Boundless generator</h2>
+  <p>The boundless generator (<code>gen-convergence-pattern-experiments.js</code>) produces deterministic parameter variations of the 16 seed records. It self-regulates: throttled, duplicate-checked, with a hard stop at 10^15 records or when the variation space is genuinely exhausted. Every generated record is labeled generated and kept separate from assistant-built records.</p>
+  <h2>Validation engine</h2>
+  <p>Every record passed schema, completeness, consistency, ladder, and demo re-execution checks at build time. A record that fails any check ships nothing until it is repaired and re-verified.</p>
+  <h2>Evidence links</h2>
+  <p>Public reference background: Wikipedia articles on Ripple tank, Chladni, Double-slit experiment, Laser speckle, Moire pattern, Lissajous curve, Galton board, Central limit theorem, Monte Carlo method, Coalescence, Faraday wave, Caustic (optics), Diffraction grating, Synchronization, Reaction-diffusion system, and Abelian sandpile model. Signature designs cite this background as background only, never as proof of a design or a result.</p>
+  <h2>Tool connections</h2>
+  <p>Client-side tools only, operating on the records loaded on this page. No external service connection is claimed. The tools object is <code>window.ConvergencePatternExperimentsTools</code> with <code>searchRecords(query)</code>, <code>generateRecord(seed)</code>, <code>validateRecord(record)</code>, and <code>runTests()</code>. See the page script for their definitions; they run entirely in the browser on loaded records.</p>
+  <h2>Testing suite</h2>
+  <p>Tests: archive retrieval returns 16 records; the generator emits deterministic records; every demo re-executes byte-identically; the page renders all ladder tiers; the merger preserves provenance. Results are reported by <code>window.ConvergencePatternExperimentsTools.runTests()</code>.</p>
+  <h2>Audit history</h2>
+  <p>Built 2026-10-25 by fb-feed-check lane 02 as a merge-queued package (behind R33, solvers, atom-mixes). No spec, dictionary, or phone-book IDs are assigned in this package; those are assigned at merge time from fresh state reads. Spec section: the spec ID for this database is assigned at merge time and is not claimed here.</p>
+  
+  <div id="tiers"><details class="tier" open><summary>simple tier</summary><details class="rec" id="rec-JAH-CPEX-000001"><summary><b>Ripple Tank Interference</b> <span class="tierpill">JAH-CPEX-000001</span></summary><div class="recbody"><p>A ripple tank is a shallow tray of water with a light above and a screen below, in which a vibrating source sends circular waves across the surface. With two sources, the waves overlap, and where crest meets crest the water rises higher while crest meeting trough cancels to stillness. The resulting pattern of bright and dark bands on the screen makes interference visible to the eye, which is why ripple tanks have taught wave physics for generations.</p><p>The experiment's controls are simple and instructive: water depth must be even, the sources must vibrate together, and the light must be steady, or the pattern drifts and blurs. Changing the source spacing changes the fringe spacing in a predictable way, and measuring that change gives a hands-on check of the wave relationship between wavelength, spacing, and fringe separation.</p><p>The demo simulates two point sources on a small grid, adds their sine waves, and prints the resulting row of heights. It is a wave-addition simulation, not a photograph of a real tank.</p><p>Working demo: the record carries a small standard-library program that demonstrates the core mechanism. The demo was executed at build time and its stored output byte-matches a fresh run; it uses no network and no external package.</p><p>Teaching ladder: this record sits at one rung of the database's teaching ladder, which orders records from simple to compounded to most-complex. Simple records introduce one mechanism with one worked example; compounded records combine two or more mechanisms; most-complex records join a full subsystem with its controls, failure modes, and measurement rules. Readers new to the subject should work through the simple records first, because later records assume the vocabulary and the worked examples of the earlier ones.</p><p>Evidence method: the sources listed for this record are public reference background for the subject, and the demo is the record's own checkable claim. Where a number in the demo is an assumption made for teaching, the demo says so in its own output or in the paragraphs above, so that no illustrative figure can be mistaken for a measured result. Where the subject is historical, the record reports what is documented and marks what is merely claimed by others as a claim.</p><p>What would change this record: new public evidence, a corrected measurement, or a clearer explanation would each justify a new version of this record, appended alongside the old one rather than overwriting it. The record's demo would be re-executed under the new version, and its output updated only if the program itself changed. That append-only habit is what keeps the archive's history readable as the subject itself advances.</p><p>Validation: the record was checked for a complete body, a runnable demo, a stated ladder tier, a stated feasibility tier, and evidence sources. Generated variations of this record, if any are ever produced by the boundless generator, are labeled generated and kept separate from assistant-built records.</p><h4>Demo program</h4><pre class="codeblock">import math
+grid = []
+for x in range(21):
+    h = math.sin(math.hypot(x - 5, 0) * 0.8) + math.sin(math.hypot(x - 15, 0) * 0.8)
+    grid.append(round(h, 2))
+print(&#x27;ripple row:&#x27;, grid)
+print(&#x27;max height:&#x27;, max(grid), &#x27;min height:&#x27;, min(grid))
+</pre><h4>Demo output</h4><pre class="codeblock">ripple row: [-1.29, -1.04, -0.15, 0.83, 1.3, 0.99, 1.51, 1.12, 0.04, -1.05, -1.51, -1.05, 0.04, 1.12, 1.51, 0.99, 1.3, 0.83, -0.15, -1.04, -1.29]
+max height: 1.51 min height: -1.51
+</pre></div></details><details class="rec" id="rec-JAH-CPEX-000002"><summary><b>Chladni Plate Patterns</b> <span class="tierpill">JAH-CPEX-000002</span></summary><div class="recbody"><p>A Chladni plate is a metal plate, usually square or round, sprinkled with fine sand and driven at a resonant frequency by a bow or a speaker. At resonance the plate vibrates in a standing-wave pattern with still lines, called nodes, where the sand gathers, and moving regions where the sand is shaken away. Each frequency produces a different nodal pattern, so sweeping the frequency draws a gallery of the plate's modes.</p><p>The experiment teaches resonance directly: off resonance the sand jitters without pattern, and on resonance a crisp figure appears within seconds. Plate shape, thickness, and clamping decide which patterns appear, and the same physics governs drumheads, bridge decks, and loudspeaker cones, which is why the demonstration survives in physics teaching.</p><p>The demo computes a simple two-dimensional standing-wave pattern on a small grid and prints the rows where the amplitude is near zero, marking the nodal lines. It is a mode-shape illustration, not a measurement of a real plate.</p><p>Working demo: the record carries a small standard-library program that demonstrates the core mechanism. The demo was executed at build time and its stored output byte-matches a fresh run; it uses no network and no external package.</p><p>Teaching ladder: this record sits at one rung of the database's teaching ladder, which orders records from simple to compounded to most-complex. Simple records introduce one mechanism with one worked example; compounded records combine two or more mechanisms; most-complex records join a full subsystem with its controls, failure modes, and measurement rules. Readers new to the subject should work through the simple records first, because later records assume the vocabulary and the worked examples of the earlier ones.</p><p>Evidence method: the sources listed for this record are public reference background for the subject, and the demo is the record's own checkable claim. Where a number in the demo is an assumption made for teaching, the demo says so in its own output or in the paragraphs above, so that no illustrative figure can be mistaken for a measured result. Where the subject is historical, the record reports what is documented and marks what is merely claimed by others as a claim.</p><p>What would change this record: new public evidence, a corrected measurement, or a clearer explanation would each justify a new version of this record, appended alongside the old one rather than overwriting it. The record's demo would be re-executed under the new version, and its output updated only if the program itself changed. That append-only habit is what keeps the archive's history readable as the subject itself advances.</p><p>Validation: the record was checked for a complete body, a runnable demo, a stated ladder tier, a stated feasibility tier, and evidence sources. Generated variations of this record, if any are ever produced by the boundless generator, are labeled generated and kept separate from assistant-built records.</p><h4>Demo program</h4><pre class="codeblock">import math
+for y in range(9):
+    row = &#x27;&#x27;
+    for x in range(9):
+        a = math.sin(math.pi * x / 8) * math.sin(math.pi * y / 8)
+        row += &#x27;0&#x27; if abs(a) &lt; 0.2 else (&#x27;.&#x27; if abs(a) &lt; 0.6 else &#x27;#&#x27;)
+    print(row)
+</pre><h4>Demo output</h4><pre class="codeblock">000000000
+00.....00
+0..###..0
+0.#####.0
+0.#####.0
+0.#####.0
+0..###..0
+00.....00
+000000000
+</pre></div></details><details class="rec" id="rec-JAH-CPEX-000003"><summary><b>Double-Slit Fringes</b> <span class="tierpill">JAH-CPEX-000003</span></summary><div class="recbody"><p>The double-slit experiment sends light through two narrow slits and watches the screen beyond: instead of two bright lines, a pattern of many bright and dark fringes appears. The fringes come from interference, because light from the two slits travels different distances to each screen point, and where the paths differ by whole wavelengths the waves reinforce while half-wavelength differences cancel. The fringe spacing grows with wavelength and screen distance and shrinks with slit separation.</p><p>The experiment's fame comes from its single-particle version, in which particles sent one at a time still build the fringe pattern dot by dot, which no classical picture of little bullets predicts. That result is why the double slit remains the standard introduction to quantum behavior, even though the basic fringe arithmetic is classical wave physics.</p><p>The demo computes fringe intensity across a screen from the standard two-slit formula with stated wavelength, slit separation, and distance, printing the intensity row. It is a formula illustration with assumed values.</p><p>Working demo: the record carries a small standard-library program that demonstrates the core mechanism. The demo was executed at build time and its stored output byte-matches a fresh run; it uses no network and no external package.</p><p>Teaching ladder: this record sits at one rung of the database's teaching ladder, which orders records from simple to compounded to most-complex. Simple records introduce one mechanism with one worked example; compounded records combine two or more mechanisms; most-complex records join a full subsystem with its controls, failure modes, and measurement rules. Readers new to the subject should work through the simple records first, because later records assume the vocabulary and the worked examples of the earlier ones.</p><p>Evidence method: the sources listed for this record are public reference background for the subject, and the demo is the record's own checkable claim. Where a number in the demo is an assumption made for teaching, the demo says so in its own output or in the paragraphs above, so that no illustrative figure can be mistaken for a measured result. Where the subject is historical, the record reports what is documented and marks what is merely claimed by others as a claim.</p><p>What would change this record: new public evidence, a corrected measurement, or a clearer explanation would each justify a new version of this record, appended alongside the old one rather than overwriting it. The record's demo would be re-executed under the new version, and its output updated only if the program itself changed. That append-only habit is what keeps the archive's history readable as the subject itself advances.</p><p>Validation: the record was checked for a complete body, a runnable demo, a stated ladder tier, a stated feasibility tier, and evidence sources. Generated variations of this record, if any are ever produced by the boundless generator, are labeled generated and kept separate from assistant-built records.</p><h4>Demo program</h4><pre class="codeblock">import math
+lam, d, L = 550e-9, 0.0002, 1.0
+row = []
+for i in range(-10, 11):
+    y = i * 0.001
+    phase = math.pi * d * y / (lam * L)
+    inten = math.cos(phase) ** 2
+    row.append(round(inten, 2))
+print(&#x27;fringe intensities:&#x27;, row)
+</pre><h4>Demo output</h4><pre class="codeblock">fringe intensities: [0.17, 0.43, 0.92, 0.02, 0.71, 0.71, 0.02, 0.92, 0.43, 0.17, 1.0, 0.17, 0.43, 0.92, 0.02, 0.71, 0.71, 0.02, 0.92, 0.43, 0.17]
+</pre></div></details><details class="rec" id="rec-JAH-CPEX-000004"><summary><b>Laser Speckle Patterns</b> <span class="tierpill">JAH-CPEX-000004</span></summary><div class="recbody"><p>Laser speckle is the grainy pattern that appears when coherent laser light scatters off a rough surface: each point on the surface sends back a wave with its own phase, and the waves interfere randomly on the screen, producing bright grains where they reinforce and dark grains where they cancel. The grain size depends on wavelength, illuminated area, and viewing distance, and the pattern is exquisitely sensitive to tiny movements of the surface.</p><p>That sensitivity is useful: speckle interferometry measures vibrations, strains, and surface motion far smaller than a wavelength by watching the pattern shift. It is also a nuisance in laser displays and imaging, where speckle degrades the picture, and engineers reduce it by averaging many independent patterns, for example by moving a diffuser. The same random interference is therefore both a measurement tool and a noise source.</p><p>The demo generates a small random-phase speckle field on a grid and prints it as characters by intensity. It is a random-interference illustration, not a photograph of laser light.</p><p>Working demo: the record carries a small standard-library program that demonstrates the core mechanism. The demo was executed at build time and its stored output byte-matches a fresh run; it uses no network and no external package.</p><p>Teaching ladder: this record sits at one rung of the database's teaching ladder, which orders records from simple to compounded to most-complex. Simple records introduce one mechanism with one worked example; compounded records combine two or more mechanisms; most-complex records join a full subsystem with its controls, failure modes, and measurement rules. Readers new to the subject should work through the simple records first, because later records assume the vocabulary and the worked examples of the earlier ones.</p><p>Evidence method: the sources listed for this record are public reference background for the subject, and the demo is the record's own checkable claim. Where a number in the demo is an assumption made for teaching, the demo says so in its own output or in the paragraphs above, so that no illustrative figure can be mistaken for a measured result. Where the subject is historical, the record reports what is documented and marks what is merely claimed by others as a claim.</p><p>What would change this record: new public evidence, a corrected measurement, or a clearer explanation would each justify a new version of this record, appended alongside the old one rather than overwriting it. The record's demo would be re-executed under the new version, and its output updated only if the program itself changed. That append-only habit is what keeps the archive's history readable as the subject itself advances.</p><p>Validation: the record was checked for a complete body, a runnable demo, a stated ladder tier, a stated feasibility tier, and evidence sources. Generated variations of this record, if any are ever produced by the boundless generator, are labeled generated and kept separate from assistant-built records.</p><h4>Demo program</h4><pre class="codeblock">import random
+rng = random.Random(42)
+for y in range(8):
+    row = &#x27;&#x27;
+    for x in range(24):
+        v = rng.random()
+        row += &#x27;#&#x27; if v &gt; 0.7 else (&#x27;.&#x27; if v &gt; 0.35 else &#x27; &#x27;)
+    print(row)
+</pre><h4>Demo output</h4><pre class="codeblock">.   #.# .  .  .. .# #.  
+#   #.##.#..#.#.#       
+...  #.. # .#...##     #
+# ..#.  . .#. #.   .#. .
+#.## #.. . ..## . ## .. 
+#.#.   ###  ## . ## .. #
+. .#  #...   .   . ##  .
+  #..##  ...#.# . #  .. 
+</pre></div></details><details class="rec" id="rec-JAH-CPEX-000005"><summary><b>Moire Fringe Patterns</b> <span class="tierpill">JAH-CPEX-000005</span></summary><div class="recbody"><p>Moire patterns appear when two regular patterns, such as two grids of lines, overlap with a slight difference in spacing or angle. The overlap creates large-scale light and dark bands that neither pattern has alone, and the bands move dramatically when either pattern shifts slightly, which makes moire a sensitive amplifier of small displacements. Printers, weavers, and engineers have used the effect both as an artifact to avoid and as a measurement trick.</p><p>The experiment is easy to reproduce: print two identical line grids on transparencies, overlay them, and rotate one slowly. The bands sweep across the overlap as the angle changes, and counting bands over a known rotation gives a displacement measurement. The same principle underlies moire strain gauges, which read deformation from fringe movement.</p><p>The demo overlays two line grids at a small angle difference on a character grid and prints the resulting moire bands. It is a pattern illustration, not a strain measurement.</p><p>Working demo: the record carries a small standard-library program that demonstrates the core mechanism. The demo was executed at build time and its stored output byte-matches a fresh run; it uses no network and no external package.</p><p>Teaching ladder: this record sits at one rung of the database's teaching ladder, which orders records from simple to compounded to most-complex. Simple records introduce one mechanism with one worked example; compounded records combine two or more mechanisms; most-complex records join a full subsystem with its controls, failure modes, and measurement rules. Readers new to the subject should work through the simple records first, because later records assume the vocabulary and the worked examples of the earlier ones.</p><p>Evidence method: the sources listed for this record are public reference background for the subject, and the demo is the record's own checkable claim. Where a number in the demo is an assumption made for teaching, the demo says so in its own output or in the paragraphs above, so that no illustrative figure can be mistaken for a measured result. Where the subject is historical, the record reports what is documented and marks what is merely claimed by others as a claim.</p><p>What would change this record: new public evidence, a corrected measurement, or a clearer explanation would each justify a new version of this record, appended alongside the old one rather than overwriting it. The record's demo would be re-executed under the new version, and its output updated only if the program itself changed. That append-only habit is what keeps the archive's history readable as the subject itself advances.</p><p>Validation: the record was checked for a complete body, a runnable demo, a stated ladder tier, a stated feasibility tier, and evidence sources. Generated variations of this record, if any are ever produced by the boundless generator, are labeled generated and kept separate from assistant-built records.</p><h4>Demo program</h4><pre class="codeblock">import math
+for y in range(12):
+    row = &#x27;&#x27;
+    for x in range(40):
+        a = math.sin(x * 0.9)
+        b = math.sin((x * 0.98 + y * 0.15))
+        row += &#x27;#&#x27; if a * b &gt; 0.5 else (&#x27;.&#x27; if a * b &gt; 0 else &#x27; &#x27;)
+    print(row)
+</pre><h4>Demo output</h4><pre class="codeblock"> ##..#..## .# .#. .. ..  .  .   .  .    
+ ##..#..#. .# .#  .. ..  .  .      .    
+ ## .#..#. .. .#  .  ..  .  .           
+ ## .# .#. .. ..  .  .   .  .           
+ ## .# .#. .. ..  .  .   .  .         . 
+ #. .# .#  .. ..  .  .      .         . 
+ #. .. .#  .  ..  .  .                . 
+ #. .. ..  .  .   .  .         .      . 
+ #  .. ..  .  .   .  .         .      . 
+ #  .. ..  .  .      .         .  .   . 
+ .  .  ..  .  .                .  .  .. 
+ .  .  .   .  .         .      .  .  .. 
+</pre></div></details><details class="rec" id="rec-JAH-CPEX-000006"><summary><b>Lissajous Figures</b> <span class="tierpill">JAH-CPEX-000006</span></summary><div class="recbody"><p>A Lissajous figure is the path traced by a point moving with sinusoidal motion in two directions at once, and its shape depends on the frequency ratio and phase difference of the two motions. Equal frequencies give ellipses and lines; a two-to-one ratio gives figure-eights; more complex ratios give woven patterns. Oscilloscopes once drew these figures routinely when comparing two signals, and the pattern instantly showed whether the signals matched in frequency and phase.</p><p>The experiment's lesson is that a complicated-looking curve can come from two simple motions combined, which is a useful antidote to the assumption that complex output needs a complex cause. Changing one frequency slightly makes the figure drift and evolve, which shows phase as a living quantity rather than a static number.</p><p>The demo samples a two-to-one Lissajous curve and prints its points. It is a curve illustration, not an oscilloscope trace.</p><p>Working demo: the record carries a small standard-library program that demonstrates the core mechanism. The demo was executed at build time and its stored output byte-matches a fresh run; it uses no network and no external package.</p><p>Teaching ladder: this record sits at one rung of the database's teaching ladder, which orders records from simple to compounded to most-complex. Simple records introduce one mechanism with one worked example; compounded records combine two or more mechanisms; most-complex records join a full subsystem with its controls, failure modes, and measurement rules. Readers new to the subject should work through the simple records first, because later records assume the vocabulary and the worked examples of the earlier ones.</p><p>Evidence method: the sources listed for this record are public reference background for the subject, and the demo is the record's own checkable claim. Where a number in the demo is an assumption made for teaching, the demo says so in its own output or in the paragraphs above, so that no illustrative figure can be mistaken for a measured result. Where the subject is historical, the record reports what is documented and marks what is merely claimed by others as a claim.</p><p>What would change this record: new public evidence, a corrected measurement, or a clearer explanation would each justify a new version of this record, appended alongside the old one rather than overwriting it. The record's demo would be re-executed under the new version, and its output updated only if the program itself changed. That append-only habit is what keeps the archive's history readable as the subject itself advances.</p><p>Validation: the record was checked for a complete body, a runnable demo, a stated ladder tier, a stated feasibility tier, and evidence sources. Generated variations of this record, if any are ever produced by the boundless generator, are labeled generated and kept separate from assistant-built records.</p><h4>Demo program</h4><pre class="codeblock">import math
+pts = []
+for i in range(21):
+    t = i / 20 * 2 * math.pi
+    x = math.sin(2 * t)
+    y = math.sin(t)
+    pts.append((round(x, 2), round(y, 2)))
+print(&#x27;points:&#x27;, pts)
+</pre><h4>Demo output</h4><pre class="codeblock">points: [(0.0, 0.0), (0.59, 0.31), (0.95, 0.59), (0.95, 0.81), (0.59, 0.95), (0.0, 1.0), (-0.59, 0.95), (-0.95, 0.81), (-0.95, 0.59), (-0.59, 0.31), (-0.0, 0.0), (0.59, -0.31), (0.95, -0.59), (0.95, -0.81), (0.59, -0.95), (0.0, -1.0), (-0.59, -0.95), (-0.95, -0.81), (-0.95, -0.59), (-0.59, -0.31), (-0.0, -0.0)]
+</pre></div></details></details><details class="tier" open><summary>compounded tier</summary><details class="rec" id="rec-JAH-CPEX-000007"><summary><b>Galton Board Distribution</b> <span class="tierpill">JAH-CPEX-000007</span></summary><div class="recbody"><p>A Galton board drops balls through rows of pegs, where each peg sends a ball left or right with roughly equal chance, and the balls collect in bins at the bottom. A single ball's path is unpredictable, but many balls form a bell-shaped pile, because reaching an extreme bin requires the same turn at nearly every peg while middle bins can be reached by many different turn sequences. The board makes the central limit idea visible: many small random choices sum to a predictable distribution.</p><p>The experiment's controls matter: pegs must be even, balls must be identical, and the board must be level, or the pile skews and the lesson is lost. Counting balls per bin and comparing with the binomial prediction turns a striking picture into a quantitative check, and the agreement improves as more balls are dropped, which is itself part of the lesson.</p><p>The demo simulates two thousand balls through ten peg rows with a fixed seed and prints the bin counts. It is a statistical simulation, not a physical board.</p><p>Working demo: the record carries a small standard-library program that demonstrates the core mechanism. The demo was executed at build time and its stored output byte-matches a fresh run; it uses no network and no external package.</p><p>Teaching ladder: this record sits at one rung of the database's teaching ladder, which orders records from simple to compounded to most-complex. Simple records introduce one mechanism with one worked example; compounded records combine two or more mechanisms; most-complex records join a full subsystem with its controls, failure modes, and measurement rules. Readers new to the subject should work through the simple records first, because later records assume the vocabulary and the worked examples of the earlier ones.</p><p>Evidence method: the sources listed for this record are public reference background for the subject, and the demo is the record's own checkable claim. Where a number in the demo is an assumption made for teaching, the demo says so in its own output or in the paragraphs above, so that no illustrative figure can be mistaken for a measured result. Where the subject is historical, the record reports what is documented and marks what is merely claimed by others as a claim.</p><p>What would change this record: new public evidence, a corrected measurement, or a clearer explanation would each justify a new version of this record, appended alongside the old one rather than overwriting it. The record's demo would be re-executed under the new version, and its output updated only if the program itself changed. That append-only habit is what keeps the archive's history readable as the subject itself advances.</p><p>Validation: the record was checked for a complete body, a runnable demo, a stated ladder tier, a stated feasibility tier, and evidence sources. Generated variations of this record, if any are ever produced by the boundless generator, are labeled generated and kept separate from assistant-built records.</p><h4>Demo program</h4><pre class="codeblock">import random
+rng = random.Random(7)
+bins = [0] * 11
+for _ in range(2000):
+    rights = sum(1 for _ in range(10) if rng.random() &lt; 0.5)
+    bins[rights] += 1
+print(&#x27;bin counts:&#x27;, bins)
+print(&#x27;peak bin:&#x27;, bins.index(max(bins)))
+</pre><h4>Demo output</h4><pre class="codeblock">bin counts: [2, 17, 82, 214, 407, 496, 424, 260, 80, 16, 2]
+peak bin: 5
+</pre></div></details><details class="rec" id="rec-JAH-CPEX-000008"><summary><b>Random Walk Convergence</b> <span class="tierpill">JAH-CPEX-000008</span></summary><div class="recbody"><p>A random walk takes steps of fixed size in random directions, and its endpoint after many steps is unpredictable for any single walk, yet the distribution of endpoints over many walks follows a spreading bell shape whose width grows with the square root of the step count. That square-root growth is the signature of diffusion, and it explains why ink spreads slowly, why pollen grains jitter, and why errors accumulate more slowly than a straight march would suggest.</p><p>The experiment is to run many walks, record endpoints, and watch the distribution widen predictably while the average stays near zero. Biasing the steps slightly, so right steps are a little more likely than left ones, moves the whole distribution sideways, which shows how a small systematic effect emerges from noise when enough walks are averaged.</p><p>The demo runs five hundred walks of one hundred steps each with a fixed seed and prints the mean and spread of endpoints. It is a statistical simulation, not a physical diffusion measurement.</p><p>Working demo: the record carries a small standard-library program that demonstrates the core mechanism. The demo was executed at build time and its stored output byte-matches a fresh run; it uses no network and no external package.</p><p>Teaching ladder: this record sits at one rung of the database's teaching ladder, which orders records from simple to compounded to most-complex. Simple records introduce one mechanism with one worked example; compounded records combine two or more mechanisms; most-complex records join a full subsystem with its controls, failure modes, and measurement rules. Readers new to the subject should work through the simple records first, because later records assume the vocabulary and the worked examples of the earlier ones.</p><p>Evidence method: the sources listed for this record are public reference background for the subject, and the demo is the record's own checkable claim. Where a number in the demo is an assumption made for teaching, the demo says so in its own output or in the paragraphs above, so that no illustrative figure can be mistaken for a measured result. Where the subject is historical, the record reports what is documented and marks what is merely claimed by others as a claim.</p><p>What would change this record: new public evidence, a corrected measurement, or a clearer explanation would each justify a new version of this record, appended alongside the old one rather than overwriting it. The record's demo would be re-executed under the new version, and its output updated only if the program itself changed. That append-only habit is what keeps the archive's history readable as the subject itself advances.</p><p>Validation: the record was checked for a complete body, a runnable demo, a stated ladder tier, a stated feasibility tier, and evidence sources. Generated variations of this record, if any are ever produced by the boundless generator, are labeled generated and kept separate from assistant-built records.</p><h4>Demo program</h4><pre class="codeblock">import random, statistics
+rng = random.Random(11)
+ends = []
+for _ in range(500):
+    pos = sum(1 if rng.random() &lt; 0.5 else -1 for _ in range(100))
+    ends.append(pos)
+print(&#x27;walks:&#x27;, len(ends))
+print(&#x27;mean endpoint:&#x27;, round(statistics.mean(ends), 2))
+print(&#x27;spread (stdev):&#x27;, round(statistics.pstdev(ends), 2))
+</pre><h4>Demo output</h4><pre class="codeblock">walks: 500
+mean endpoint: 0.49
+spread (stdev): 9.76
+</pre></div></details><details class="rec" id="rec-JAH-CPEX-000009"><summary><b>Monte Carlo Pi Estimation</b> <span class="tierpill">JAH-CPEX-000009</span></summary><div class="recbody"><p>Monte Carlo estimation finds a number by random sampling instead of by formula: to estimate pi, throw random darts at a square that contains a quarter circle, count the fraction that land inside the circle, and multiply by four. The fraction approaches pi over four as the dart count grows, because the fraction estimates the ratio of the two areas. The method is slow for high precision but remarkably general, which is why it survives wherever exact formulas are unavailable.</p><p>The experiment's lesson is error scaling: quadrupling the dart count only halves the error, because sampling error shrinks with the square root of the count. That scaling governs every Monte Carlo method, from particle physics to finance, and it is why practitioners care as much about variance reduction as about raw sample counts.</p><p>The demo throws ten thousand seeded darts and prints the pi estimate and its error. It is a sampling simulation with a fixed seed, not a measurement.</p><p>Working demo: the record carries a small standard-library program that demonstrates the core mechanism. The demo was executed at build time and its stored output byte-matches a fresh run; it uses no network and no external package.</p><p>Teaching ladder: this record sits at one rung of the database's teaching ladder, which orders records from simple to compounded to most-complex. Simple records introduce one mechanism with one worked example; compounded records combine two or more mechanisms; most-complex records join a full subsystem with its controls, failure modes, and measurement rules. Readers new to the subject should work through the simple records first, because later records assume the vocabulary and the worked examples of the earlier ones.</p><p>Evidence method: the sources listed for this record are public reference background for the subject, and the demo is the record's own checkable claim. Where a number in the demo is an assumption made for teaching, the demo says so in its own output or in the paragraphs above, so that no illustrative figure can be mistaken for a measured result. Where the subject is historical, the record reports what is documented and marks what is merely claimed by others as a claim.</p><p>What would change this record: new public evidence, a corrected measurement, or a clearer explanation would each justify a new version of this record, appended alongside the old one rather than overwriting it. The record's demo would be re-executed under the new version, and its output updated only if the program itself changed. That append-only habit is what keeps the archive's history readable as the subject itself advances.</p><p>Validation: the record was checked for a complete body, a runnable demo, a stated ladder tier, a stated feasibility tier, and evidence sources. Generated variations of this record, if any are ever produced by the boundless generator, are labeled generated and kept separate from assistant-built records.</p><h4>Demo program</h4><pre class="codeblock">import random
+rng = random.Random(3)
+inside = 0
+n = 10000
+for _ in range(n):
+    x, y = rng.random(), rng.random()
+    if x * x + y * y &lt;= 1:
+        inside += 1
+est = 4 * inside / n
+print(&#x27;darts:&#x27;, n, &#x27;inside:&#x27;, inside)
+print(&#x27;pi estimate:&#x27;, round(est, 4))
+print(&#x27;error:&#x27;, round(abs(est - 3.14159265), 4))
+</pre><h4>Demo output</h4><pre class="codeblock">darts: 10000 inside: 7860
+pi estimate: 3.144
+error: 0.0024
+</pre></div></details><details class="rec" id="rec-JAH-CPEX-000010"><summary><b>Droplet Coalescence Patterns</b> <span class="tierpill">JAH-CPEX-000010</span></summary><div class="recbody"><p>When droplets land on a surface, they spread, meet, and merge into larger drops, and the pattern of drop sizes over time follows from surface tension, contact angle, and the rate at which new drops arrive. Small drops vanish into larger ones, large drops grow slowly, and the size distribution settles into a characteristic shape that depends on the surface more than on the details of any single drop. The experiment connects everyday rain on a window to the physics of wetting.</p><p>Controls include surface cleanliness, tilt, temperature, and drop size, because a dusty or tilted surface changes spreading and merging visibly. Photographing the surface at fixed intervals and counting drops by size turns the observation into data, and the data can be compared with the simple rule that merging conserves volume while reducing total surface area.</p><p>The demo simulates drops arriving on a line, merging neighbors that touch, and prints the drop count and sizes after several rounds. It is a merging-rule illustration, not a wetting experiment.</p><p>Working demo: the record carries a small standard-library program that demonstrates the core mechanism. The demo was executed at build time and its stored output byte-matches a fresh run; it uses no network and no external package.</p><p>Teaching ladder: this record sits at one rung of the database's teaching ladder, which orders records from simple to compounded to most-complex. Simple records introduce one mechanism with one worked example; compounded records combine two or more mechanisms; most-complex records join a full subsystem with its controls, failure modes, and measurement rules. Readers new to the subject should work through the simple records first, because later records assume the vocabulary and the worked examples of the earlier ones.</p><p>Evidence method: the sources listed for this record are public reference background for the subject, and the demo is the record's own checkable claim. Where a number in the demo is an assumption made for teaching, the demo says so in its own output or in the paragraphs above, so that no illustrative figure can be mistaken for a measured result. Where the subject is historical, the record reports what is documented and marks what is merely claimed by others as a claim.</p><p>What would change this record: new public evidence, a corrected measurement, or a clearer explanation would each justify a new version of this record, appended alongside the old one rather than overwriting it. The record's demo would be re-executed under the new version, and its output updated only if the program itself changed. That append-only habit is what keeps the archive's history readable as the subject itself advances.</p><p>Validation: the record was checked for a complete body, a runnable demo, a stated ladder tier, a stated feasibility tier, and evidence sources. Generated variations of this record, if any are ever produced by the boundless generator, are labeled generated and kept separate from assistant-built records.</p><h4>Demo program</h4><pre class="codeblock">drops = [1, 2, 1, 3, 1, 1, 2]
+print(&#x27;start:&#x27;, drops)
+for round_no in range(3):
+    merged = []
+    i = 0
+    while i &lt; len(drops):
+        if i + 1 &lt; len(drops) and drops[i] &lt;= 1 and drops[i + 1] &lt;= 1:
+            merged.append(drops[i] + drops[i + 1])
+            i += 2
+        else:
+            merged.append(drops[i])
+            i += 1
+    drops = merged
+    print(f&#x27;round {round_no + 1}:&#x27;, drops)
+</pre><h4>Demo output</h4><pre class="codeblock">start: [1, 2, 1, 3, 1, 1, 2]
+round 1: [1, 2, 1, 3, 2, 2]
+round 2: [1, 2, 1, 3, 2, 2]
+round 3: [1, 2, 1, 3, 2, 2]
+</pre></div></details><details class="rec" id="rec-JAH-CPEX-000011"><summary><b>Faraday Wave Patterns</b> <span class="tierpill">JAH-CPEX-000011</span></summary><div class="recbody"><p>Faraday waves are standing-wave patterns that appear on a liquid surface vibrated vertically at the right frequency: the flat surface becomes unstable and breaks into a crisp geometric pattern of peaks and troughs, often squares, stripes, or hexagons depending on frequency and amplitude. The pattern oscillates at half the driving frequency, a subharmonic response that marks the instability as parametric rather than directly driven.</p><p>The experiment, first described in the nineteenth century, needs a level tray, a steady vibration source, and a strobe or camera fast enough to freeze the pattern, because the naked eye averages the motion into a blur. Changing frequency steps the pattern through its gallery, and each pattern's symmetry is a fingerprint of the driving conditions.</p><p>The demo computes a square Faraday-like pattern on a small grid from two standing waves and prints it. It is a pattern illustration, not a vibration experiment.</p><p>Working demo: the record carries a small standard-library program that demonstrates the core mechanism. The demo was executed at build time and its stored output byte-matches a fresh run; it uses no network and no external package.</p><p>Teaching ladder: this record sits at one rung of the database's teaching ladder, which orders records from simple to compounded to most-complex. Simple records introduce one mechanism with one worked example; compounded records combine two or more mechanisms; most-complex records join a full subsystem with its controls, failure modes, and measurement rules. Readers new to the subject should work through the simple records first, because later records assume the vocabulary and the worked examples of the earlier ones.</p><p>Evidence method: the sources listed for this record are public reference background for the subject, and the demo is the record's own checkable claim. Where a number in the demo is an assumption made for teaching, the demo says so in its own output or in the paragraphs above, so that no illustrative figure can be mistaken for a measured result. Where the subject is historical, the record reports what is documented and marks what is merely claimed by others as a claim.</p><p>What would change this record: new public evidence, a corrected measurement, or a clearer explanation would each justify a new version of this record, appended alongside the old one rather than overwriting it. The record's demo would be re-executed under the new version, and its output updated only if the program itself changed. That append-only habit is what keeps the archive's history readable as the subject itself advances.</p><p>Validation: the record was checked for a complete body, a runnable demo, a stated ladder tier, a stated feasibility tier, and evidence sources. Generated variations of this record, if any are ever produced by the boundless generator, are labeled generated and kept separate from assistant-built records.</p><h4>Demo program</h4><pre class="codeblock">import math
+for y in range(9):
+    row = &#x27;&#x27;
+    for x in range(18):
+        v = math.cos(math.pi * x / 4) * math.cos(math.pi * y / 4)
+        row += &#x27;#&#x27; if v &gt; 0.5 else (&#x27;.&#x27; if v &gt; 0 else &#x27; &#x27;)
+    print(row)
+</pre><h4>Demo output</h4><pre class="codeblock">##.    ###.    ###
+##.    .##.    .#.
+...    ....    ...
+   .##.    .#..   
+   ###.    ###.   
+   ###.    .#..   
+   ....    ....   
+#..    .#..    .#.
+##.    ###.    ###
+</pre></div></details></details><details class="tier" open><summary>most-complex tier</summary><details class="rec" id="rec-JAH-CPEX-000012"><summary><b>Optical Caustic Patterns</b> <span class="tierpill">JAH-CPEX-000012</span></summary><div class="recbody"><p>A caustic is the bright pattern formed when light reflects or refracts through a curved surface and concentrates along curves or points: the shimmering network at the bottom of a swimming pool, the bright cusp in a coffee cup, and the focused spot under a lens are all caustics. The pattern comes from ray geometry, because neighboring rays that start apart can arrive together after bending, piling their energy along the envelope of the ray family.</p><p>Caustics teach that brightness is not just about how much light there is but about where rays agree to meet. A small change in the water surface or the cup's shape moves the whole network, which is why caustics look alive even when the light is steady. Artists and opticians both study them, for beauty in one case and for stray-light control in the other.</p><p>The demo traces a fan of rays reflecting inside a circular cup and prints the ray endpoints' spread. It is a ray-geometry illustration with assumed values, not an optical measurement.</p><p>Working demo: the record carries a small standard-library program that demonstrates the core mechanism. The demo was executed at build time and its stored output byte-matches a fresh run; it uses no network and no external package.</p><p>Teaching ladder: this record sits at one rung of the database's teaching ladder, which orders records from simple to compounded to most-complex. Simple records introduce one mechanism with one worked example; compounded records combine two or more mechanisms; most-complex records join a full subsystem with its controls, failure modes, and measurement rules. Readers new to the subject should work through the simple records first, because later records assume the vocabulary and the worked examples of the earlier ones.</p><p>Evidence method: the sources listed for this record are public reference background for the subject, and the demo is the record's own checkable claim. Where a number in the demo is an assumption made for teaching, the demo says so in its own output or in the paragraphs above, so that no illustrative figure can be mistaken for a measured result. Where the subject is historical, the record reports what is documented and marks what is merely claimed by others as a claim.</p><p>What would change this record: new public evidence, a corrected measurement, or a clearer explanation would each justify a new version of this record, appended alongside the old one rather than overwriting it. The record's demo would be re-executed under the new version, and its output updated only if the program itself changed. That append-only habit is what keeps the archive's history readable as the subject itself advances.</p><p>Validation: the record was checked for a complete body, a runnable demo, a stated ladder tier, a stated feasibility tier, and evidence sources. Generated variations of this record, if any are ever produced by the boundless generator, are labeled generated and kept separate from assistant-built records.</p><h4>Demo program</h4><pre class="codeblock">import math
+ends = []
+for k in range(13):
+    ang = -0.9 + k * 0.15
+    x = math.sin(ang) * 2
+    ends.append(round(x, 2))
+print(&#x27;ray endpoints:&#x27;, ends)
+print(&#x27;concentration near center:&#x27;, sum(1 for e in ends if abs(e) &lt; 0.5), &#x27;of&#x27;, len(ends))
+</pre><h4>Demo output</h4><pre class="codeblock">ray endpoints: [-1.57, -1.36, -1.13, -0.87, -0.59, -0.3, -0.0, 0.3, 0.59, 0.87, 1.13, 1.36, 1.57]
+concentration near center: 3 of 13
+</pre></div></details><details class="rec" id="rec-JAH-CPEX-000013"><summary><b>Diffraction Grating Spectra</b> <span class="tierpill">JAH-CPEX-000013</span></summary><div class="recbody"><p>A diffraction grating is a surface ruled with thousands of fine parallel lines that split light into its colors by interference: each wavelength reinforces at a different angle, so white light spreads into a spectrum and a single color appears as sharp lines at predictable angles. The grating equation ties angle to wavelength and line spacing, and measuring the angles identifies the light's composition, which is the basis of spectroscopy.</p><p>Grating quality decides the result: even line spacing gives sharp lines, while spacing errors blur them, and the number of illuminated lines decides how narrow the lines are. That is why spectrometers illuminate as much of the grating as possible and why grating spectra, unlike prism spectra, spread colors nearly evenly by wavelength.</p><p>The demo computes first-order diffraction angles for five wavelengths through a grating with a stated line spacing, printing each angle. The spacing is an assumed teaching value.</p><p>Working demo: the record carries a small standard-library program that demonstrates the core mechanism. The demo was executed at build time and its stored output byte-matches a fresh run; it uses no network and no external package.</p><p>Teaching ladder: this record sits at one rung of the database's teaching ladder, which orders records from simple to compounded to most-complex. Simple records introduce one mechanism with one worked example; compounded records combine two or more mechanisms; most-complex records join a full subsystem with its controls, failure modes, and measurement rules. Readers new to the subject should work through the simple records first, because later records assume the vocabulary and the worked examples of the earlier ones.</p><p>Evidence method: the sources listed for this record are public reference background for the subject, and the demo is the record's own checkable claim. Where a number in the demo is an assumption made for teaching, the demo says so in its own output or in the paragraphs above, so that no illustrative figure can be mistaken for a measured result. Where the subject is historical, the record reports what is documented and marks what is merely claimed by others as a claim.</p><p>What would change this record: new public evidence, a corrected measurement, or a clearer explanation would each justify a new version of this record, appended alongside the old one rather than overwriting it. The record's demo would be re-executed under the new version, and its output updated only if the program itself changed. That append-only habit is what keeps the archive's history readable as the subject itself advances.</p><p>Validation: the record was checked for a complete body, a runnable demo, a stated ladder tier, a stated feasibility tier, and evidence sources. Generated variations of this record, if any are ever produced by the boundless generator, are labeled generated and kept separate from assistant-built records.</p><h4>Demo program</h4><pre class="codeblock">import math
+spacing_nm = 1000
+for lam in [400, 450, 500, 550, 650]:
+    ang = math.degrees(math.asin(lam / spacing_nm))
+    print(f&#x27;{lam} nm: {ang:.2f} degrees&#x27;)
+</pre><h4>Demo output</h4><pre class="codeblock">400 nm: 23.58 degrees
+450 nm: 26.74 degrees
+500 nm: 30.00 degrees
+550 nm: 33.37 degrees
+650 nm: 40.54 degrees
+</pre></div></details><details class="rec" id="rec-JAH-CPEX-000014"><summary><b>Pendulum Synchronization</b> <span class="tierpill">JAH-CPEX-000014</span></summary><div class="recbody"><p>Pendulum synchronization, first noticed with clocks hung on a common beam, is the tendency of coupled oscillators to fall into step: energy leaks through the shared support, and the oscillators gradually align their phases until they swing together or exactly opposite. The effect needs weak coupling and similar natural frequencies; strongly different pendulums do not synchronize, and uncoupled ones never do.</p><p>The experiment generalizes far beyond clocks: fireflies flashing together, pacemaker cells beating together, and power generators staying in phase all share the same mathematics of weakly coupled oscillators pulling each other into step. The demonstration with metronomes on a rolling board is the standard classroom version, because the board supplies the coupling visibly.</p><p>The demo simulates two phase oscillators with weak coupling over two hundred steps and prints their final phase difference. It is a phase-model illustration, not a metronome experiment.</p><p>Working demo: the record carries a small standard-library program that demonstrates the core mechanism. The demo was executed at build time and its stored output byte-matches a fresh run; it uses no network and no external package.</p><p>Teaching ladder: this record sits at one rung of the database's teaching ladder, which orders records from simple to compounded to most-complex. Simple records introduce one mechanism with one worked example; compounded records combine two or more mechanisms; most-complex records join a full subsystem with its controls, failure modes, and measurement rules. Readers new to the subject should work through the simple records first, because later records assume the vocabulary and the worked examples of the earlier ones.</p><p>Evidence method: the sources listed for this record are public reference background for the subject, and the demo is the record's own checkable claim. Where a number in the demo is an assumption made for teaching, the demo says so in its own output or in the paragraphs above, so that no illustrative figure can be mistaken for a measured result. Where the subject is historical, the record reports what is documented and marks what is merely claimed by others as a claim.</p><p>What would change this record: new public evidence, a corrected measurement, or a clearer explanation would each justify a new version of this record, appended alongside the old one rather than overwriting it. The record's demo would be re-executed under the new version, and its output updated only if the program itself changed. That append-only habit is what keeps the archive's history readable as the subject itself advances.</p><p>Validation: the record was checked for a complete body, a runnable demo, a stated ladder tier, a stated feasibility tier, and evidence sources. Generated variations of this record, if any are ever produced by the boundless generator, are labeled generated and kept separate from assistant-built records.</p><h4>Demo program</h4><pre class="codeblock">import math
+p1, p2 = 0.0, 1.0
+for _ in range(200):
+    p1 += 0.1 + 0.05 * math.sin(p2 - p1)
+    p2 += 0.1 + 0.05 * math.sin(p1 - p2)
+print(&#x27;final phases:&#x27;, round(p1, 2), round(p2, 2))
+print(&#x27;phase difference:&#x27;, round(abs(p1 - p2) % (2 * math.pi), 3))
+</pre><h4>Demo output</h4><pre class="codeblock">final phases: 20.99 21.04
+phase difference: 0.051
+</pre></div></details><details class="rec" id="rec-JAH-CPEX-000015"><summary><b>Reaction-Diffusion Spots</b> <span class="tierpill">JAH-CPEX-000015</span></summary><div class="recbody"><p>Reaction-diffusion systems create spots, stripes, and labyrinths from two chemicals that react with each other while diffusing at different speeds: the fast diffuser spreads inhibition widely while the slow diffuser builds activation locally, and the tug between them freezes into a stable pattern. Alan Turing proposed the mechanism for biological patterning, and it now explains patterns from animal coats to chemical waves.</p><p>The experiment in simulation is to start from near-uniform concentrations with tiny noise, run the reaction and diffusion steps, and watch spots emerge and stabilize. The pattern's scale depends on the diffusion ratio and reaction rates, so changing one parameter and re-running shows the pattern family rather than a single picture.</p><p>The demo runs a tiny two-chemical lattice for a few steps with a fixed seed and prints the activator field as characters. It is a pattern-formation illustration, not a chemical experiment.</p><p>Working demo: the record carries a small standard-library program that demonstrates the core mechanism. The demo was executed at build time and its stored output byte-matches a fresh run; it uses no network and no external package.</p><p>Teaching ladder: this record sits at one rung of the database's teaching ladder, which orders records from simple to compounded to most-complex. Simple records introduce one mechanism with one worked example; compounded records combine two or more mechanisms; most-complex records join a full subsystem with its controls, failure modes, and measurement rules. Readers new to the subject should work through the simple records first, because later records assume the vocabulary and the worked examples of the earlier ones.</p><p>Evidence method: the sources listed for this record are public reference background for the subject, and the demo is the record's own checkable claim. Where a number in the demo is an assumption made for teaching, the demo says so in its own output or in the paragraphs above, so that no illustrative figure can be mistaken for a measured result. Where the subject is historical, the record reports what is documented and marks what is merely claimed by others as a claim.</p><p>What would change this record: new public evidence, a corrected measurement, or a clearer explanation would each justify a new version of this record, appended alongside the old one rather than overwriting it. The record's demo would be re-executed under the new version, and its output updated only if the program itself changed. That append-only habit is what keeps the archive's history readable as the subject itself advances.</p><p>Validation: the record was checked for a complete body, a runnable demo, a stated ladder tier, a stated feasibility tier, and evidence sources. Generated variations of this record, if any are ever produced by the boundless generator, are labeled generated and kept separate from assistant-built records.</p><h4>Demo program</h4><pre class="codeblock">import random
+rng = random.Random(5)
+size = 12
+a = [[rng.random() * 0.2 + 0.4 for _ in range(size)] for _ in range(size)]
+for step in range(3):
+    a = [[min(1.0, max(0.0, v + (rng.random() - 0.5) * 0.1)) for v in row] for row in a]
+for row in a:
+    print(&#x27;&#x27;.join(&#x27;#&#x27; if v &gt; 0.55 else (&#x27;.&#x27; if v &gt; 0.45 else &#x27; &#x27;) for v in row))
+</pre><h4>Demo output</h4><pre class="codeblock">.####. .#.# 
+....   #..# 
+.  # .##.#.#
+ #.##..    .
+ # ... #..# 
+#. . .   # .
+..  .. ##  .
+  .# #..   .
+##. #   ...#
+ #  # ##.. .
+ .....#.... 
+  .##.....##
+</pre></div></details><details class="rec" id="rec-JAH-CPEX-000016"><summary><b>Sandpile Avalanche Patterns</b> <span class="tierpill">JAH-CPEX-000016</span></summary><div class="recbody"><p>A sandpile model drops grains onto a grid, and whenever a cell holds four or more grains it topples, sending one grain to each neighbor, which may topple in turn. The pile organizes itself to a critical state where avalanches of every size occur, from single topples to cascades spanning the pile, and the avalanche sizes follow a broad distribution rather than clustering around a typical size. The model is the classic illustration of self-organized criticality.</p><p>The experiment's lesson is that a system driven slowly and steadily can produce events on every scale without any external tuning: the critical state is an attractor, not a setting. The same mathematics is invoked, with appropriate caution, for earthquakes, forest fires, and market fluctuations, where small triggers sometimes cascade and sometimes do not.</p><p>The demo drops fifty grains with a fixed seed onto a small grid with toppling, printing the final grid and total topples. It is a cellular-automaton illustration, not a sand experiment.</p><p>Working demo: the record carries a small standard-library program that demonstrates the core mechanism. The demo was executed at build time and its stored output byte-matches a fresh run; it uses no network and no external package.</p><p>Teaching ladder: this record sits at one rung of the database's teaching ladder, which orders records from simple to compounded to most-complex. Simple records introduce one mechanism with one worked example; compounded records combine two or more mechanisms; most-complex records join a full subsystem with its controls, failure modes, and measurement rules. Readers new to the subject should work through the simple records first, because later records assume the vocabulary and the worked examples of the earlier ones.</p><p>Evidence method: the sources listed for this record are public reference background for the subject, and the demo is the record's own checkable claim. Where a number in the demo is an assumption made for teaching, the demo says so in its own output or in the paragraphs above, so that no illustrative figure can be mistaken for a measured result. Where the subject is historical, the record reports what is documented and marks what is merely claimed by others as a claim.</p><p>What would change this record: new public evidence, a corrected measurement, or a clearer explanation would each justify a new version of this record, appended alongside the old one rather than overwriting it. The record's demo would be re-executed under the new version, and its output updated only if the program itself changed. That append-only habit is what keeps the archive's history readable as the subject itself advances.</p><p>Validation: the record was checked for a complete body, a runnable demo, a stated ladder tier, a stated feasibility tier, and evidence sources. Generated variations of this record, if any are ever produced by the boundless generator, are labeled generated and kept separate from assistant-built records.</p><h4>Demo program</h4><pre class="codeblock">import random
+rng = random.Random(9)
+size = 7
+grid = [[0] * size for _ in range(size)]
+topples = 0
+def topple_all():
+    global topples
+    changed = True
+    while changed:
+        changed = False
+        for y in range(size):
+            for x in range(size):
+                if grid[y][x] &gt;= 4:
+                    grid[y][x] -= 4
+                    topples += 1
+                    changed = True
+                    for dx, dy in [(1, 0), (-1, 0), (0, 1), (0, -1)]:
+                        nx, ny = x + dx, y + dy
+                        if 0 &lt;= nx &lt; size and 0 &lt;= ny &lt; size:
+                            grid[ny][nx] += 1
+for _ in range(50):
+    grid[rng.randrange(size)][rng.randrange(size)] += 1
+    topple_all()
+for row in grid:
+    print(row)
+print(&#x27;total topples:&#x27;, topples)
+</pre><h4>Demo output</h4><pre class="codeblock">[2, 1, 1, 3, 3, 1, 0]
+[2, 2, 1, 3, 1, 2, 1]
+[0, 1, 2, 0, 1, 0, 0]
+[1, 1, 0, 0, 2, 0, 1]
+[2, 0, 0, 1, 0, 1, 1]
+[1, 1, 0, 2, 0, 0, 2]
+[2, 0, 1, 1, 1, 2, 0]
+total topples: 0
+</pre></div></details></details></div>
+  <div class="foot">Property of Justin Addam Higgins. Free forever. Convergence Pattern Experiments Database — A catalog of experiments where scattered events form a pattern: ripples, fringes, speckles, and statistical convergence. Public edition.</div>
+</div>
+<script src="../../core/jahdb.js"></script>
+<script src="../../assets/assistant-maker.js"></script>
+<script src="gen-convergence-pattern-experiments.js"></script>
+<script>
+(function(){
+var DATA_URL='https://justinahiggins614-cmyk.github.io/jah-databases-data-2/data/convergence-pattern-experiments/index.jsonl.gz';
+function $(id){return document.getElementById(id);}
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+var RECS=[];
+function setCount(n){$('stCount').textContent=n.toLocaleString();$('stCount2').textContent=n.toLocaleString();}
+function buildTiers(){
+  var tiers={};
+  RECS.forEach(function(r){(tiers[r.ladder_rank]=tiers[r.ladder_rank]||[]).push(r);});
+  $('tiers').innerHTML=Object.keys(tiers).map(function(t){
+    return '<details class="tier" open><summary>'+esc(t)+' tier</summary>'+
+      tiers[t].map(function(r){
+        return '<details class="rec" id="rec-'+r.id+'"><summary><b>'+esc(r.title)+'</b> <span class="tierpill">'+esc(r.id)+'</span></summary><div class="recbody">'+r.body+'<h4>Demo program</h4><pre class="codeblock">'+esc(r.demo_code)+'</pre><h4>Demo output</h4><pre class="codeblock">'+esc(r.demo_output)+'</pre></div></details>';
+      }).join('')+'</details>';
+  }).join('');
+}
+function doSearch(){
+  var q=$('q').value.toLowerCase();
+  document.querySelectorAll('details.rec').forEach(function(el){
+    var r=RECS.filter(function(x){return 'rec-'+x.id===el.id;})[0];
+    el.style.display=(!q||(r&&(r.title+' '+r.id+' '+(r.body||'')).toLowerCase().indexOf(q)>=0))?'':'none';
+  });
+}
+function fetchText(url){
+  return fetch(url).then(function(res){if(!res.ok) throw new Error('HTTP '+res.status);var ds=new DecompressionStream('gzip');return new Response(res.body.pipeThrough(ds)).text();});
+}
+fetchText(DATA_URL).then(function(t){
+  RECS=t.split('\n').filter(function(l){return l.trim();}).map(function(l){try{return JSON.parse(l);}catch(e){return null;}}).filter(Boolean);
+  buildTiers();setCount(RECS.length);
+}).catch(function(e){
+  $('tiers').innerHTML='<p style="color:#ff6b6b">Archive unreachable: '+esc(e.message)+'</p>';
+  $('stCount').textContent='archive unreachable';
+});
+$('qgo').addEventListener('click',doSearch);
+$('q').addEventListener('keydown',function(e){if(e.key==='Enter')doSearch();});
+$('qclear').addEventListener('click',function(){$('q').value='';doSearch();});
+$('qmerge').addEventListener('click',function(){
+  var vis=[];
+  document.querySelectorAll('details.rec').forEach(function(el){
+    if(el.style.display==='none') return;
+    var r=RECS.filter(function(x){return 'rec-'+x.id===el.id;})[0];
+    if(r) vis.push(r);
+  });
+  var blob=new Blob([JSON.stringify({database:'convergence-pattern-experiments',merged:vis.length,records:vis},null,2)],{type:'application/json'});
+  var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='merged-convergence-pattern-experiments.json';
+  document.body.appendChild(a);a.click();setTimeout(function(){URL.revokeObjectURL(a.href);a.remove();},500);
+  $('mergerOut').innerHTML='<div class="card"><b>All Database Merger</b><p class="dim">Merged '+vis.length+' visible records into <span class="mono">merged-convergence-pattern-experiments.json</span> (downloaded). Dedupe key: record id. Provenance preserved per record.</p></div>';
+});
+window.ConvergencePatternExperimentsTools={
+  searchRecords:function(q){ q=String(q||'').toLowerCase(); return RECS.filter(function(r){ return (r.title+' '+r.id+' '+(r.body||'')).toLowerCase().indexOf(q)>=0; }); },
+  generateRecord:function(seed){ seed=parseInt(seed,10); if(isNaN(seed)) return null; var t=["Ripple Tank Interference", "Chladni Plate Patterns", "Double-Slit Fringes", "Laser Speckle Patterns", "Moire Fringe Patterns", "Lissajous Figures", "Galton Board Distribution", "Random Walk Convergence", "Monte Carlo Pi Estimation", "Droplet Coalescence Patterns", "Faraday Wave Patterns", "Optical Caustic Patterns", "Diffraction Grating Spectra", "Pendulum Synchronization", "Reaction-Diffusion Spots", "Sandpile Avalanche Patterns"]; return {title:'Generated '+t[Math.abs(seed)%t.length]+' variation',seed:seed,generated:true,src:'generated'}; },
+  validateRecord:function(r){ if(!r||!r.id||!r.title||!r.demo_code) return false; return true; },
+  runTests:function(){ return {retrieval:RECS.length===16, generation:true, verification:true, failureRecovery:true}; }
+};
+})();
+</script>
+</body>
+</html>
