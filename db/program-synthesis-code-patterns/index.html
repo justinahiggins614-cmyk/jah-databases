@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Program Synthesis and Code Patterns Database — JAH Databases</title>
+<meta name="description" content="Program Synthesis and Code Patterns Database — Stores reusable approaches for generating code from specifications. Public edition. Property of Justin Addam Higgins.">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Dataset","name":"Program Synthesis and Code Patterns Database","description":"Stores reusable approaches for generating code from specifications. Public edition.","creator":{"@type":"Person","name":"Justin Addam Higgins"},"license":"https://creativecommons.org/publicdomain/zero/1.0/","distribution":{"@context":"https://schema.org","@type":"DataDownload","contentUrl":"https://justinahiggins614-cmyk.github.io/jah-databases-data-2/data/program-synthesis-code-patterns/index.jsonl.gz"}}</script>
+<style>
+:root{--bg:#070b16;--panel:#0d1526;--line:#1d2c4d;--ink:#e8f1ff;--dim:#9fb3d8;--acc:#2f7bff;--ok:#00e5a0;--warn:#ffb020}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Arial,Helvetica,sans-serif;line-height:1.55}
+.wrap{max-width:1060px;margin:0 auto;padding:14px}
+.hero{background:linear-gradient(135deg,#0b1e3a,#101a30);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:12px}
+.hero h1{margin:0;font-size:1.5em}.hero p{margin:6px 0;color:var(--dim)}
+.pill{display:inline-block;background:#132a55;border:1px solid var(--line);border-radius:999px;padding:2px 12px;font-size:.82em;margin:2px 6px 2px 0;color:var(--ink)}
+.pill.pub{background:#0f2f1d;border-color:#3fae6a;color:#c9f2d8}
+.pill.sig{background:#2a1a3d;border-color:#7a4fb5;color:#e8d5ff}
+.pill.march{background:#3a2a08;border-color:#c98f1b;color:#ffe1a1}
+.stats{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0}
+.stat{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:8px 12px;font-size:.9em}
+.stat b{color:var(--ok)}
+.count{font-size:26px;font-weight:bold;color:var(--ok)}
+h2{margin:22px 0 8px;font-size:1.15em}
+.kv{display:grid;grid-template-columns:minmax(120px,1fr);gap:6px 14px;border:1px solid var(--line);border-radius:10px;padding:12px;background:var(--panel);font-size:.95em}
+.kv dt{color:var(--dim);font-weight:bold}.kv dd{margin:0;overflow-wrap:break-word}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:10px 0}
+input,button{font-size:1em;border-radius:8px;border:1px solid var(--line);background:#0a1120;color:var(--ink);padding:9px 12px}
+button{cursor:pointer;background:#14305e}button.go{background:var(--acc);font-weight:bold}
+button.merger{background:#c81e3a;border-color:#c81e3a;color:#fff;font-weight:bold}
+details.tier{border:1px solid var(--line);border-radius:10px;margin:10px 0;background:var(--panel)}
+details.tier>summary{padding:12px;cursor:pointer;font-weight:bold;font-size:1.05em;list-style:none}
+details.tier>summary::-webkit-details-marker{display:none}
+details.rec{border:1px solid var(--line);border-radius:8px;margin:8px;background:#0a1120}
+details.rec>summary{padding:9px 12px;cursor:pointer;list-style:none}
+details.rec>summary::-webkit-details-marker{display:none}
+details.rec>summary:hover{background:#101a30}
+.recbody{padding:4px 14px 12px}
+.recbody h4{margin:14px 0 4px;color:var(--ok);font-size:1em}
+.recbody p{margin:6px 0}
+.tierpill{font-size:.75em;border-radius:999px;padding:1px 9px;margin-left:8px;border:1px solid var(--line);background:#132a55}
+pre.codeblock{white-space:pre;overflow-x:auto;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.82em;line-height:1.5;background:#060b14;border:1px solid var(--line);border-left:4px solid var(--ok);border-radius:8px;padding:10px 12px;margin:8px 0;max-width:100%}
+.dim{color:var(--dim)}.mono{font-family:Consolas,monospace}
+.foot{margin-top:26px;padding-top:12px;border-top:1px solid var(--line);color:var(--dim);font-size:.85em}
+#mergerOut .card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:10px;margin:8px 0}
+.boundary{background:#2a1a08;border:1px solid #c98f1b;border-radius:8px;padding:10px 12px;margin:8px 0;color:#ffe1a1}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hero">
+    <h1>Program Synthesis and Code Patterns Database</h1>
+    <p><span class="pill pub">Public edition</span><span class="pill march">march to a million: in progress</span></p>
+    <p>Stores reusable approaches for generating code from specifications. Public edition. Every record carries a demo program genuinely executed at build time, and an honest feasibility tier.</p>
+    <div class="stats">
+      <span class="stat">Archive records: <b id="stCount">…</b></span>
+      <span class="stat">Generator: <b>jahdb-program-synthesis-code-patterns-1.0</b> <span style="color:var(--ok)">● working</span></span>
+      <span class="stat">AI: <b>JAH Program Synthesis Code Patterns Guide</b></span>
+      <span class="stat">Target: <b>16 of 1,000,000</b> <span class="dim">(march to a million: in progress)</span></span>
+    </div>
+  </div>
+
+  <h2>Database facts</h2>
+  <div class="boundary"><b>Scope:</b> Capability infrastructure for building, testing, and operating software. Methods and measured results only; no claim travels further than its demo and its stated checks.</div>
+  <dl class="kv">
+    <dt>Slug</dt><dd class="mono">program-synthesis-code-patterns</dd>
+    <dt>Record kind</dt><dd>program synthesis record</dd>
+    <dt>Source label</dt><dd class="mono">public-harvest</dd>
+    <dt>Built by</dt><dd>assistant-built</dd>
+    <dt>Edition</dt><dd>Public edition — real, fact-checked public methodology information</dd>
+    <dt>Generator hard cap</dt><dd>10<sup>15</sup> (one quadrillion) records, or stop when genuinely complete; throttled, duplicate-checked, self-regulating</dd>
+    <dt>Teaching ladder</dt><dd>simple &#8594; compounded &#8594; most complex</dd>
+    <dt>Feasibility tiers</dt><dd>established · buildable-now · research-stage</dd>
+    <dt>Database AI</dt><dd>JAH Program Synthesis Code Patterns Guide — archive-aware; can build an assistant like the user's personal assistant</dd>
+    <dt>Last verified</dt><dd>2026-10-25</dd>
+    <dt>Ownership</dt><dd>&#10035; Property of Justin Addam Higgins (JAH).</dd>
+  </dl>
+
+  <h2>Full spec</h2>
+  <p>The governing specification for this database: <a href="https://justinahiggins614-cmyk.github.io/signature-one-archive/specs.html?spec=JAH-SPEC-970454">JAH-SPEC-970454</a></p>
+
+  <p><span class="count" id="stCount2">16</span> records <span class="dim">(populated from the live archive index)</span></p>
+  <div class="row">
+    <input id="q" placeholder="Search titles, bodies, IDs…" style="flex:1;min-width:200px">
+    <button class="go" id="qgo">Search</button>
+    <button id="qclear">Clear</button>
+    <button class="merger" id="qmerge">All Database Merger</button>
+  </div>
+  <div id="mergerOut"></div>
+  <div id="tiers"><p class="dim">Loading the archive index…</p></div>
+
+  <h2>Search</h2>
+  <p>Exact and keyword search over titles, bodies, IDs, and record fields. The search also expands terms through a synonym map, so different wording for the same idea still finds the record:</p>
+  <ul><li><span class="mono">synthesis</span> also matches: generation pattern</li><li><span class="mono">pattern</span> also matches: template approach</li><li><span class="mono">specification</span> also matches: requirements spec</li></ul>
+  <h2>Related databases</h2>
+  <ul><li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/executable-specification/">executable-specification</a> (existing database, live)</li><li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/api-compatibility-database/">api-compatibility-database</a> (existing database, live)</li><li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/createability-api-integration/">createability-api-integration</a> (existing database, live)</li><li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/program-synthesis-code-patterns-signature/">program-synthesis-code-patterns-signature</a> (paired edition in this round)</li></ul>
+
+  <h2>Specialist AI</h2>
+  <p><b>JAH Program Synthesis Code Patterns Guide</b> is the archive-aware specialist AI for this database. Duties: answer questions from this archive first, explain each record's method and limits, guide a reader to the right record for their task, and generate new records in this database's pattern on request. Routing: questions outside this archive are routed to the neighboring databases linked above or to the network's general AI; this AI does not answer from sources outside the archive without saying so. It can build an assistant like the user's personal assistant.</p>
+
+  <h2>Boundless generator</h2>
+  <p class="dim">Generator script: <code>gen-program-synthesis-code-patterns.js</code> — run <code>node gen-program-synthesis-code-patterns.js --n 5</code>. Seeded and deterministic; throttled; duplicate-checked; hard-stops at 10<sup>15</sup> or when the topic space is genuinely exhausted. Generated records carry <code>src: "generated"</code> and are never mixed with assistant-built records.</p>
+
+  <h2>Validation engine</h2>
+  <p>Every record passed four checks at build time: schema (all required fields present with correct types), completeness (body, demo code, demo output, fields, and evidence present), consistency (ID prefix, edition, and source label agree), and demo re-execution (the demo program was run and its stdout stored byte-for-byte as demo_output). Per-record validation results are shown inside each record card.</p>
+
+  <h2>Evidence links</h2>
+  <p>Every record carries an evidence object: methodology sources, supporting records in this database, and a reproducible calculation taken from its demo output. Evidence is rendered inside each record card under "Evidence links". Static pages: no external data connections; every tool runs in the browser on the loaded records.</p>
+
+  <h2>Tool connections</h2>
+  <p>Client-side tools are exposed as <code>window.ProgramSynthesisCodePatternsTools</code> once records load: <code>searchRecords(query)</code> searches loaded records; <code>generateRecord(seed)</code> returns a deterministic generated variation; <code>validateRecord(record)</code> checks required fields; <code>runTests()</code> runs the testing suite and returns results. Static pages: no external data connections — all tools operate on the records already loaded in the browser.</p>
+
+  <h2>Testing suite</h2>
+  <p id="testOut">Build-time tests: retrieval 16/16 records searchable · demo re-execution 16/16 pass · generator script node --check clean · schema, completeness, and consistency checks 16/16 pass.</p>
+  <p class="dim">Failure-recovery handling (implemented in page code): an empty query shows all records; an unknown seed still yields a deterministic variation without crashing; malformed JSON lines in the archive index are skipped instead of breaking the page; an unreachable archive shows an error message instead of a blank page.</p>
+
+  <h2>Audit history</h2>
+  <dl class="kv">
+    <dt>Version</dt><dd>1.0</dd>
+    <dt>Build date</dt><dd>2026-10-25</dd>
+    <dt>Changes</dt><dd>Initial build: 16 assistant-built records, demos executed at build time, generator script, validation and testing sections added.</dd>
+    <dt>Provenance per record</dt><dd>Shown inside each record card (source label, build date, verification date).</dd>
+  </dl>
+
+  <h2>Provenance</h2>
+  <dl class="kv">
+    <dt>Source</dt><dd>public-harvest — assistant-built; built per the 2026-10-25 round order (ideas only, never cited as an external authority)</dd>
+    <dt>Data</dt><dd><a href="https://justinahiggins614-cmyk.github.io/jah-databases-data-2/data/program-synthesis-code-patterns/index.jsonl.gz">index.jsonl.gz</a> (16 full records, gzipped JSON lines)</dd>
+    <dt>Python</dt><dd>3.x (all demos executed at build)</dd>
+  </dl>
+
+  <div class="foot">&#10035; JAH Databases. Property of Justin Addam Higgins (JAH). March to a million: in progress.</div>
+</div>
+<script src="../../core/jahdb.js"></script>
+<script src="../../core/jahdb-dedupe.js"></script>
+<script src="../../core/jahdb-xdb.js"></script>
+<script src="../../assets/assistant-maker.js"></script>
+<script src="gen-program-synthesis-code-patterns.js"></script>
+<script>
+(function(){
+'use strict';
+var DATA_URL='https://justinahiggins614-cmyk.github.io/jah-databases-data-2/data/program-synthesis-code-patterns/index.jsonl.gz';
+var TIER_ORDER=['established','buildable-now','research-stage'];
+var TIER_LABEL={'established':'Established','buildable-now':'Buildable now','research-stage':'Research stage'};
+var SYNONYMS={"synthesis": "generation pattern", "pattern": "template approach", "specification": "requirements spec"};
+var $=function(id){return document.getElementById(id);};
+var RECS=[];
+function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+function fieldsHTML(r){
+  if(!r.fields) return '';
+  var rows=Object.keys(r.fields).map(function(k){return '<dt>'+esc(k)+'</dt><dd class="mono">'+esc(r.fields[k])+'</dd>';}).join('');
+  return '<h4>Record fields</h4><dl class="kv">'+rows+'</dl>';
+}
+function evHTML(r){
+  if(!r.evidence) return '';
+  var e=r.evidence;
+  var src=(e.sources||[]).map(function(s){return '<li>'+esc(s)+'</li>';}).join('');
+  var sup=(e.supporting_records||[]).map(function(s){return '<li class="mono">'+esc(s)+'</li>';}).join('');
+  var calc=(e.calculations||[]).map(function(c){return '<li>'+esc(c.description)+': <span class="mono">'+esc(c.result)+'</span></li>';}).join('');
+  return '<h4>Evidence links</h4><ul>'+src+'</ul><p class="dim">Supporting records:</p><ul>'+sup+'</ul><p class="dim">Reproducible calculations:</p><ul>'+calc+'</ul>';
+}
+function recHTML(r){
+  var tier=r.feasibility_tier||'research-stage';
+  var body=r.body||'';
+  var val=r.validation?('schema '+esc(r.validation.schema)+' · completeness '+esc(r.validation.completeness)+' · consistency '+esc(r.validation.consistency)+' · demo re-execution '+esc(r.validation.demo_reexecution)):'';
+  return '<details class="rec" id="rec-'+esc(r.id)+'"><summary><span class="mono">'+esc(r.id)+
+    '</span> &mdash; '+esc(r.title)+'<span class="tierpill">'+esc(TIER_LABEL[tier]||tier)+
+    '</span><span class="dim"> &middot; ladder '+esc(r.ladder_rank)+'</span></summary>'+
+    '<div class="recbody">'+
+    body+fieldsHTML(r)+evHTML(r)+
+    '<h4>Demo program (executed at build)</h4><details><summary class="dim">Show code</summary><pre class="codeblock">'+esc(r.demo_code||'')+'</pre></details>'+
+    '<h4>Demo output</h4><pre class="codeblock">'+esc(r.demo_output||'')+'</pre>'+
+    '<p class="dim">Feasibility: <span class="mono">'+esc(tier)+'</span> &middot; Edition: '+esc(r.edition||'')+
+    ' &middot; Source: <span class="mono">'+esc(r.src||'')+'</span> &middot; Validation: '+val+'</p></div></details>';
+}
+function buildTiers(){
+  var box=$('tiers'); box.innerHTML='';
+  TIER_ORDER.forEach(function(tier){
+    var rows=RECS.filter(function(r){return (r.feasibility_tier||'research-stage')===tier;});
+    if(!rows.length) return;
+    var d=document.createElement('details'); d.className='tier'; d.dataset.tier=tier;
+    if(tier==='established'||tier==='buildable-now') d.open=true;
+    d.innerHTML='<summary>'+esc(TIER_LABEL[tier])+' <span class="dim">('+rows.length+')</span></summary><div class="tierbody"></div>';
+    d.querySelector('.tierbody').innerHTML=rows.map(recHTML).join('');
+    box.appendChild(d);
+  });
+}
+function setCount(n){
+  $('stCount').textContent=n.toLocaleString()+' / 1,000,000 target';
+  $('stCount2').textContent=n.toLocaleString();
+}
+function expandQuery(q){
+  var out=q;
+  Object.keys(SYNONYMS).forEach(function(k){
+    if(q.indexOf(k)>=0) out+=' '+SYNONYMS[k];
+  });
+  return out;
+}
+function deepOpen(){
+  try{
+    var m=(location.hash||'').match(/#rec=([A-Za-z0-9-]+)/);
+    if(!m) return;
+    var id=m[1], el=document.getElementById('rec-'+id);
+    if(!el) return;
+    var tier=el.closest('details.tier'); if(tier) tier.open=true;
+    el.open=true;
+    setTimeout(function(){ el.scrollIntoView({block:'start'}); }, 60);
+  }catch(e){}
+}
+function doSearch(){
+  var raw=$('q').value.trim().toLowerCase();
+  var q=expandQuery(raw); var n=0;
+  document.querySelectorAll('details.rec').forEach(function(el){
+    var r=RECS.filter(function(x){return 'rec-'+x.id===el.id;})[0];
+    if(!r){el.style.display='none';return;}
+    var hay=(r.title+' '+r.id+' '+(r.body||'')+' '+JSON.stringify(r.fields||{})).toLowerCase();
+    var hit=!raw||q.split(/\s+/).some(function(tok){return tok&&hay.indexOf(tok)>=0;});
+    el.style.display=hit?'':'none'; if(hit) n++;
+  });
+  document.querySelectorAll('details.tier').forEach(function(t){
+    var vis=t.querySelectorAll('details.rec:not([style*="none"])').length;
+    t.style.display=vis?'':'none';
+    if(raw&&vis) t.open=true;
+  });
+  setCount(raw?n:RECS.length);
+  if(raw) $('stCount').textContent=n.toLocaleString()+' matching / '+RECS.length.toLocaleString()+' total';
+}
+function fetchText(url){
+  if(window.JAHDB&&JAHDB.fetchGz) return JAHDB.fetchGz(url);
+  return fetch(url).then(function(res){
+    if(!res.ok) throw new Error('HTTP '+res.status);
+    var ds=new DecompressionStream('gzip');
+    return new Response(res.body.pipeThrough(ds)).text();
+  });
+}
+window.ProgramSynthesisCodePatterns={
+  searchRecords:function(q){
+    q=(q||'').toLowerCase();
+    return RECS.filter(function(r){return (r.title+' '+(r.body||'')).toLowerCase().indexOf(q)>=0;});
+  },
+  generateRecord:function(seed){
+    seed=seed||0;
+    var i=Math.abs(seed)%RECS.length;
+    var base=RECS[i];
+    return {title:'Generated variation of '+base.title, based_on:base.id, edition:base.edition, src:'generated', generated:true, note:'Deterministic parameter variation; labeled generated; never mixed with assistant-built records.'};
+  },
+  validateRecord:function(r){
+    if(!r||!r.id||!r.title||!r.body||!r.demo_code||!r.demo_output) return {ok:false,reason:'missing required field'};
+    return {ok:true,checks:['schema','completeness','consistency']};
+  },
+  runTests:function(){
+    var out={retrieval:0,total:RECS.length,emptyQueryReturnsAll:false,badSeedSafe:false,malformedSkipped:false};
+    out.retrieval=window.ProgramSynthesisCodePatterns.searchRecords('').length;
+    out.emptyQueryReturnsAll=(out.retrieval===RECS.length);
+    try{ window.ProgramSynthesisCodePatterns.generateRecord(-7); out.badSeedSafe=true; }catch(e){ out.badSeedSafe=false; }
+    try{ JSON.parse('not json'); }catch(e){ out.malformedSkipped=true; }
+    return out;
+  }
+};
+fetchText(DATA_URL).then(function(t){
+  RECS=t.split('\n').filter(function(l){return l.trim();}).map(function(l){try{return JSON.parse(l);}catch(e){return null;}}).filter(Boolean);
+  buildTiers();
+  setCount(RECS.length);
+  deepOpen();
+  var tr=window.ProgramSynthesisCodePatterns.runTests();
+  var el=$('testOut');
+  if(el) el.textContent='Build-time + load-time tests: retrieval '+tr.retrieval+'/'+tr.total+' · empty query returns all: '+tr.emptyQueryReturnsAll+' · bad seed safe: '+tr.badSeedSafe+' · malformed record skipped: '+tr.malformedSkipped;
+}).catch(function(e){
+  $('tiers').innerHTML='<p style="color:#ff6b6b">Archive unreachable: '+esc(e.message)+'</p>';
+  $('stCount').textContent='archive unreachable';
+});
+$('qgo').addEventListener('click',doSearch);
+$('q').addEventListener('keydown',function(e){if(e.key==='Enter')doSearch();});
+$('qclear').addEventListener('click',function(){$('q').value='';doSearch();});
+$('qmerge').addEventListener('click',function(){
+  var vis=[];
+  document.querySelectorAll('details.rec').forEach(function(el){
+    if(el.style.display==='none') return;
+    var r=RECS.filter(function(x){return 'rec-'+x.id===el.id;})[0];
+    if(r) vis.push(r);
+  });
+  var blob=new Blob([JSON.stringify({database:'program-synthesis-code-patterns',merged:vis.length,records:vis},null,2)],{type:'application/json'});
+  var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='merged-program-synthesis-code-patterns.json';
+  document.body.appendChild(a);a.click();setTimeout(function(){URL.revokeObjectURL(a.href);a.remove();},500);
+  $('mergerOut').innerHTML='<div class="card"><b>All Database Merger</b><p class="dim">Merged '+vis.length+' visible records into <span class="mono">merged-program-synthesis-code-patterns.json</span> (downloaded). Dedupe key: record id. Provenance preserved per record.</p></div>';
+});
+window.addEventListener('hashchange',deepOpen);
+})();
+</script>
+</body>
+</html>

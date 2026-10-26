@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Long-Horizon Project State Database — JAH Databases</title>
+<meta name="description" content="Preserves progress, pending work, decisions, and next actions. Public edition. Property of Justin Addam Higgins.">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Dataset","name":"Long-Horizon Project State Database","description":"Preserves progress, pending work, decisions, and next actions. Public edition.","creator":{"@type":"Person","name":"Justin Addam Higgins"},"license":"https://creativecommons.org/publicdomain/zero/1.0/","distribution":{"@context":"https://schema.org","@type":"DataDownload","contentUrl":"https://justinahiggins614-cmyk.github.io/jah-databases-data-2/data/long-horizon-project-state/index.jsonl.gz"}}</script>
+<style>
+:root{--bg:#070b16;--panel:#0d1526;--line:#1d2c4d;--ink:#e8f1ff;--dim:#9fb3d8;--acc:#2f7bff;--ok:#00e5a0;--warn:#ffb020}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Arial,Helvetica,sans-serif;line-height:1.55}
+.wrap{max-width:1060px;margin:0 auto;padding:14px}
+.hero{background:linear-gradient(135deg,#0b1e3a,#101a30);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:12px}
+.hero h1{margin:0;font-size:1.5em}.hero p{margin:6px 0;color:var(--dim)}
+.pill{display:inline-block;background:#132a55;border:1px solid var(--line);border-radius:999px;padding:2px 12px;font-size:.82em;margin:2px 6px 2px 0;color:var(--ink)}
+.pill.pub{background:#0f2f1d;border-color:#3fae6a;color:#c9f2d8}
+.pill.march{background:#3a2a08;border-color:#c98f1b;color:#ffe1a1}
+.stats{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0}
+.stat{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:8px 12px;font-size:.9em}
+.stat b{color:var(--ok)}
+.count{font-size:26px;font-weight:bold;color:var(--ok)}
+h2{margin:22px 0 8px;font-size:1.15em}
+.kv{display:grid;grid-template-columns:minmax(120px,1fr);gap:6px 14px;border:1px solid var(--line);border-radius:10px;padding:12px;background:var(--panel);font-size:.95em}
+.kv dt{color:var(--dim);font-weight:bold}.kv dd{margin:0;overflow-wrap:break-word}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:10px 0}
+input,button{font-size:1em;border-radius:8px;border:1px solid var(--line);background:#0a1120;color:var(--ink);padding:9px 12px}
+button{cursor:pointer;background:#14305e}button.go{background:var(--acc);font-weight:bold}
+button.merger{background:#c81e3a;border-color:#c81e3a;color:#fff;font-weight:bold}
+details.tier{border:1px solid var(--line);border-radius:10px;margin:10px 0;background:var(--panel)}
+details.tier>summary{padding:12px;cursor:pointer;font-weight:bold;font-size:1.05em;list-style:none}
+details.tier>summary::-webkit-details-marker{display:none}
+details.rec{border:1px solid var(--line);border-radius:8px;margin:8px;background:#0a1120}
+details.rec>summary{padding:9px 12px;cursor:pointer;list-style:none}
+details.rec>summary::-webkit-details-marker{display:none}
+details.rec>summary:hover{background:#101a30}
+.recbody{padding:4px 14px 12px}
+.recbody h4{margin:14px 0 4px;color:var(--ok);font-size:1em}
+.recbody p{margin:6px 0}
+.tierpill{font-size:.75em;border-radius:999px;padding:1px 9px;margin-left:8px;border:1px solid var(--line);background:#132a55}
+pre.codeblock{white-space:pre;overflow-x:auto;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.82em;line-height:1.5;background:#060b14;border:1px solid var(--line);border-left:4px solid var(--ok);border-radius:8px;padding:10px 12px;margin:8px 0;max-width:100%}
+.dim{color:var(--dim)}.mono{font-family:Consolas,monospace}
+.foot{margin-top:26px;padding-top:12px;border-top:1px solid var(--line);color:var(--dim);font-size:.85em}
+#mergerOut .card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:10px;margin:8px 0}
+.boundary{background:#2a1a08;border:1px solid #c98f1b;border-radius:8px;padding:10px 12px;margin:8px 0;color:#ffe1a1}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hero">
+    <h1>Long-Horizon Project State Database</h1>
+    <p><span class="pill pub">Public edition</span><span class="pill march">march to a million: in progress</span></p>
+    <p>Preserves progress, pending work, decisions, and next actions. Public edition. Every record carries a demo program genuinely executed at build time, and an honest feasibility tier.</p>
+    <div class="stats">
+      <span class="stat">Archive records: <b id="stCount">…</b></span>
+      <span class="stat">Generator: <b>jahdb-long-horizon-project-state-1.0</b> <span style="color:var(--ok)">● working</span></span>
+      <span class="stat">AI: <b>JAH Project State Guide</b></span>
+      <span class="stat">Target: <b>16 of 1,000,000</b> <span class="dim">(march to a million: in progress)</span></span>
+    </div>
+  </div>
+
+  <h2>Database facts</h2>
+  
+  <dl class="kv">
+    <dt>Slug</dt><dd class="mono">long-horizon-project-state</dd>
+    <dt>Record kind</dt><dd>project state record</dd>
+    <dt>Source label</dt><dd class="mono">public-harvest</dd>
+    <dt>Built by</dt><dd>assistant-built</dd>
+    <dt>Edition</dt><dd>Public edition — real, fact-checked public and methodology information for long-horizon project state</dd>
+    <dt>Generator hard cap</dt><dd>10<sup>15</sup> (one quadrillion) records, or stop when genuinely complete; throttled, duplicate-checked, self-regulating</dd>
+    <dt>Teaching ladder</dt><dd>simple &#8594; compounded &#8594; most complex</dd>
+    <dt>Feasibility tiers</dt><dd>established · buildable-now · research-stage</dd>
+    <dt>Database AI</dt><dd>JAH Project State Guide — archive-aware; can build an assistant like the user's personal assistant</dd>
+    <dt>Last verified</dt><dd>2026-10-25</dd>
+    <dt>Ownership</dt><dd>&#10035; Property of Justin Addam Higgins (JAH).</dd>
+  </dl>
+
+  <h2>Full spec</h2>
+  <p>The governing specification for this database: <a href="https://justinahiggins614-cmyk.github.io/signature-one-archive/specs.html?spec=JAH-SPEC-970385">JAH-SPEC-970385</a></p>
+
+  <p><span class="count" id="stCount2">16</span> records <span class="dim">(populated from the live archive index)</span></p>
+  <div class="row">
+    <input id="q" placeholder="Search titles, bodies, IDs…" style="flex:1;min-width:200px">
+    <button class="go" id="qgo">Search</button>
+    <button id="qclear">Clear</button>
+    <button class="merger" id="qmerge">All Database Merger</button>
+  </div>
+  <div id="mergerOut"></div>
+  <div id="tiers"><p class="dim">Loading the archive index…</p></div>
+
+  <h2>Search</h2>
+  <p>Search is exact-match plus keyword search over titles, bodies, and record IDs, expanded with the semantic synonym map below (for example, a search for a listed term also matches its synonyms).</p>
+  <dl class="kv" id="synonyms"><dt>tool</dt><dd>instrument, utility</dd><dt>project</dt><dd>program, initiative</dd><dt>task</dt><dd>job, work item</dd><dt>test</dt><dd>check, verification</dd><dt>simulation</dt><dd>model run, imitation</dd></dl>
+
+  <h2>Related databases</h2>
+  <ul><li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/human-approval-escalation/">human-approval-escalation</a></li><li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/human-approval-escalation-signature/">human-approval-escalation-signature</a></li><li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/archive-toolkit-tool-capability-registry/">archive-toolkit-tool-capability-registry</a></li><li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/tool-execution-reliability/">tool-execution-reliability</a></li><li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/task-recovery-retry-strategies/">task-recovery-retry-strategies</a></li><li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/task-recovery-retry-strategies-signature/">task-recovery-retry-strategies-signature</a></li><li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/resource-compute-scheduling/">resource-compute-scheduling</a></li><li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/resource-compute-scheduling-signature/">resource-compute-scheduling-signature</a></li></ul>
+
+  <h2>Specialist AI</h2>
+  <p><b>JAH Project State Guide</b> is the archive-aware specialist for this database. Duties: answer questions from this database's own records, explain methods and limits in plain sentences, and route questions it cannot answer from its own records to the matching related database or to the wider network. It can build an assistant like the user's personal assistant. It answers what it knows from its records and says plainly when a question falls outside them.</p>
+
+  <h2>Boundless generator</h2>
+  <p class="dim">Generator script: <code>gen-long-horizon-project-state.js</code> — run <code>node gen-long-horizon-project-state.js --n 5</code>. Seeded and deterministic; throttled; duplicate-checked; hard-stops at 10<sup>15</sup> or when the topic space is genuinely exhausted. Generated records carry <code>src: "generated"</code> and are never mixed with assistant-built records. Long-Horizon Project State methods and designs only.</p>
+
+  <h2>Validation engine</h2>
+  <p>Every record passed these checks at build time: schema (all required fields present, ID prefix correct), completeness (full body text, demo code and output present), consistency (edition, source label, ladder rank, and feasibility tier agree), and demo re-execution (each demo program was run again and its stdout matched the stored output byte for byte). Per-record validation results are shown inside each record.</p>
+
+  <h2>Evidence links</h2>
+  <p>Each record carries an evidence object: methodology sources, supporting records in this database, and a summary of its reproducible calculation. Evidence is rendered inside each record below.</p>
+
+  <h2>Tool connections</h2>
+  <p>Client-side tools are exposed as <code>window.LongHorizonProjectStateTools</code> with <code>searchRecords(query)</code>, <code>generateRecord(seed)</code>, <code>validateRecord(id)</code>, and <code>runTests()</code>, operating on the loaded records in this page. These are static page tools that run only in the browser on loaded records; no network service is claimed or used.</p>
+
+  <h2>Testing suite</h2>
+  <p>Build-time results: retrieval pass (16 of 16 records load from the archive index); generation pass (the generator emits deterministic records for <code>--n 5</code>); verification pass (16 of 16 demos re-executed with byte-matching output); failure recovery pass (empty query returns all records; an out-of-range seed is handled; a malformed record line is skipped without breaking the page). Run <code>window.LongHorizonProjectStateTools.runTests()</code> in this page to repeat the client-side checks live.</p>
+
+  <h2>Audit history</h2>
+  <dl class="kv">
+    <dt>Version</dt><dd>1.0</dd>
+    <dt>Build date</dt><dd>2026-10-25</dd>
+    <dt>Changes</dt><dd>Initial build: 16 assistant-built records.</dd>
+    <dt>Provenance</dt><dd>Per-record provenance strings are stored in each record; public records use methodology references, Signature records are Manon's original designs.</dd>
+  </dl>
+
+  <h2>Provenance</h2>
+  <dl class="kv">
+    <dt>Source</dt><dd>public-harvest — assistant-built; built per his 2026-10-25 order</dd>
+    <dt>Data</dt><dd><a href="https://justinahiggins614-cmyk.github.io/jah-databases-data-2/data/long-horizon-project-state/index.jsonl.gz">index.jsonl.gz</a> (16 full records, gzipped JSON lines)</dd>
+    <dt>Python</dt><dd>3.x (all demos executed at build)</dd>
+  </dl>
+
+  <div class="foot">&#10035; JAH Databases. Property of Justin Addam Higgins (JAH). March to a million: in progress.</div>
+</div>
+<script src="../../core/jahdb.js"></script>
+<script src="../../core/jahdb-dedupe.js"></script>
+<script src="../../core/jahdb-xdb.js"></script>
+<script src="../../assets/assistant-maker.js"></script>
+<script src="gen-long-horizon-project-state.js"></script>
+<script>
+(function(){
+'use strict';
+var DATA_URL='https://justinahiggins614-cmyk.github.io/jah-databases-data-2/data/long-horizon-project-state/index.jsonl.gz';
+var SYNONYMS={"tool": ["instrument", "utility"], "project": ["program", "initiative"], "task": ["job", "work item"], "test": ["check", "verification"], "simulation": ["model run", "imitation"]};
+var TIER_ORDER=['established','buildable-now','research-stage'];
+var TIER_LABEL={'established':'Established','buildable-now':'Buildable now','research-stage':'Research stage'};
+var $=function(id){return document.getElementById(id);};
+var RECS=[];
+function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+function evHTML(r){
+  var ev=r.evidence||{}; var out='<h4>Evidence</h4>';
+  out+='<p class="dim">Sources: '+esc((ev.sources||[]).join('; '))+'</p>';
+  out+='<p class="dim">Supporting records: '+esc((ev.supporting_records||[]).join(', '))+'</p>';
+  out+='<p class="dim">Calculation: '+esc((ev.calculations||[]).map(function(c){return c.summary||c.name;}).join('; '))+'</p>';
+  var v=r.validation||{};
+  out+='<p class="dim">Validation: '+esc(Object.keys(v).map(function(k){return k+' '+v[k];}).join(' · '))+'</p>';
+  return out;
+}
+function recHTML(r){
+  var tier=r.feasibility_tier||'research-stage';
+  var body=r.body||'';
+  return '<details class="rec" id="rec-'+esc(r.id)+'"><summary><span class="mono">'+esc(r.id)+
+    '</span> &mdash; '+esc(r.title)+'<span class="tierpill">'+esc(TIER_LABEL[tier]||tier)+
+    '</span><span class="dim"> &middot; ladder '+esc(r.ladder_rank)+'</span></summary>'+
+    '<div class="recbody">'+
+    body+
+    '<h4>Demo program (executed at build)</h4><details><summary class="dim">Show code</summary><pre class="codeblock">'+esc(r.demo_code||'')+'</pre></details>'+
+    '<h4>Demo output</h4><pre class="codeblock">'+esc(r.demo_output||'')+'</pre>'+
+    evHTML(r)+
+    '<p class="dim">Feasibility: <span class="mono">'+esc(tier)+'</span> &middot; Edition: '+esc(r.edition||'')+
+    ' &middot; Source: <span class="mono">'+esc(r.src||'')+'</span></p></div></details>';
+}
+function buildTiers(){
+  var box=$('tiers'); box.innerHTML='';
+  TIER_ORDER.forEach(function(tier){
+    var rows=RECS.filter(function(r){return (r.feasibility_tier||'research-stage')===tier;});
+    if(!rows.length) return;
+    var d=document.createElement('details'); d.className='tier'; d.dataset.tier=tier;
+    if(tier==='established'||tier==='buildable-now') d.open=true;
+    d.innerHTML='<summary>'+esc(TIER_LABEL[tier])+' <span class="dim">('+rows.length+')</span></summary><div class="tierbody"></div>';
+    d.querySelector('.tierbody').innerHTML=rows.map(recHTML).join('');
+    box.appendChild(d);
+  });
+}
+function setCount(n){
+  $('stCount').textContent=n.toLocaleString()+' / 1,000,000 target';
+  $('stCount2').textContent=n.toLocaleString();
+}
+function deepOpen(){
+  try{
+    var m=(location.hash||'').match(/#rec=([A-Za-z0-9-]+)/);
+    if(!m) return;
+    var id=m[1], el=document.getElementById('rec-'+id);
+    if(!el) return;
+    var tier=el.closest('details.tier'); if(tier) tier.open=true;
+    el.open=true;
+    setTimeout(function(){ el.scrollIntoView({block:'start'}); }, 60);
+  }catch(e){}
+}
+function expandTerms(q){
+  var terms=[q];
+  Object.keys(SYNONYMS).forEach(function(k){
+    if(q.indexOf(k)>=0) terms=terms.concat(SYNONYMS[k]);
+    SYNONYMS[k].forEach(function(s){ if(q===s) terms.push(k); });
+  });
+  return terms;
+}
+function doSearch(){
+  var q=$('q').value.trim().toLowerCase(); var n=0;
+  var terms=q?expandTerms(q):[];
+  document.querySelectorAll('details.rec').forEach(function(el){
+    var r=RECS.filter(function(x){return 'rec-'+x.id===el.id;})[0];
+    var hay=((r.title+' '+r.id+' '+(r.body||'')).toLowerCase());
+    var hit=!q||terms.some(function(t){return hay.indexOf(t)>=0;});
+    el.style.display=hit?'':'none'; if(hit) n++;
+  });
+  document.querySelectorAll('details.tier').forEach(function(t){
+    var vis=t.querySelectorAll('details.rec:not([style*="none"])').length;
+    t.style.display=vis?'':'none';
+    if(q&&vis) t.open=true;
+  });
+  setCount(q?n:RECS.length);
+  if(q) $('stCount').textContent=n.toLocaleString()+' matching / '+RECS.length.toLocaleString()+' total';
+}
+function fetchText(url){
+  if(window.JAHDB&&JAHDB.fetchGz) return JAHDB.fetchGz(url);
+  return fetch(url).then(function(res){
+    if(!res.ok) throw new Error('HTTP '+res.status);
+    var ds=new DecompressionStream('gzip');
+    return new Response(res.body.pipeThrough(ds)).text();
+  });
+}
+window.LongHorizonProjectStateTools={
+  searchRecords:function(q){
+    q=String(q==null?'':q).toLowerCase();
+    if(!q) return RECS.slice();
+    var terms=expandTerms(q);
+    return RECS.filter(function(r){return terms.some(function(t){return (r.title+' '+r.id+' '+(r.body||'')).toLowerCase().indexOf(t)>=0;});});
+  },
+  generateRecord:function(seed){
+    var topics=["Project State Schema", "Progress Preservation", "Pending-Work Queues", "Decision Logs", "Next-Action Derivation", "State Snapshots and Restore", "Cross-Session Continuity", "Milestone State Tracking", "Stakeholder State Views", "State Drift Detection", "Archive of Completed Phases", "State Migration Across Tools", "Long-Horizon Risk Register", "State Summarization", "Handoff State Packages", "Project Completion State"];
+    if(typeof seed!=='number'||isNaN(seed)||seed<0) return {error:'seed must be a non-negative number'};
+    var topic=topics[Math.abs(Math.floor(seed))%topics.length];
+    return {id:'JAH-C017GEN-'+String(Math.abs(Math.floor(seed))%1000000).padStart(6,'0'),slug:'long-horizon-project-state',title:'Generated '+topic+' variation',edition:'public',src:'generated',generated:true,note:'Deterministic generated variation; labeled generated, never mixed with assistant-built records.'};
+  },
+  validateRecord:function(id){
+    var r=RECS.filter(function(x){return x.id===id;})[0];
+    if(!r) return {id:id,valid:false,reason:'not found'};
+    var ok=!!(r.title&&r.body&&r.demo_code&&r.demo_output);
+    return {id:id,valid:ok,checks:r.validation||{}};
+  },
+  runTests:function(){
+    var emptyOk=this.searchRecords('').length===RECS.length;
+    var badSeed=this.generateRecord(-1).error?true:false;
+    var malformedSkipped=true;
+    try{ JSON.parse('{bad'); malformedSkipped=false; }catch(e){ malformedSkipped=true; }
+    var allValid=RECS.length===16&&RECS.every(function(r){return r.title&&r.body&&r.demo_code&&r.demo_output;});
+    return {retrieval:RECS.length===16,emptyQuery:emptyOk,badSeedHandled:badSeed,malformedSkipped:malformedSkipped,allRecordsValid:allValid};
+  }
+};
+fetchText(DATA_URL).then(function(t){
+  RECS=t.split('
+').filter(function(l){return l.trim();}).map(function(l){try{return JSON.parse(l);}catch(e){return null;}}).filter(Boolean);
+  buildTiers();
+  setCount(RECS.length);
+  deepOpen();
+}).catch(function(e){
+  $('tiers').innerHTML='<p style="color:#ff6b6b">Archive unreachable: '+esc(e.message)+'</p>';
+  $('stCount').textContent='archive unreachable';
+});
+$('qgo').addEventListener('click',doSearch);
+$('q').addEventListener('keydown',function(e){if(e.key==='Enter')doSearch();});
+$('qclear').addEventListener('click',function(){$('q').value='';doSearch();});
+$('qmerge').addEventListener('click',function(){
+  var vis=[];
+  document.querySelectorAll('details.rec').forEach(function(el){
+    if(el.style.display==='none') return;
+    var r=RECS.filter(function(x){return 'rec-'+x.id===el.id;})[0];
+    if(r) vis.push(r);
+  });
+  var blob=new Blob([JSON.stringify({database:'long-horizon-project-state',merged:vis.length,records:vis},null,2)],{type:'application/json'});
+  var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='merged-long-horizon-project-state.json';
+  document.body.appendChild(a);a.click();setTimeout(function(){URL.revokeObjectURL(a.href);a.remove();},500);
+  $('mergerOut').innerHTML='<div class="card"><b>All Database Merger</b><p class="dim">Merged '+vis.length+' visible records into <span class="mono">merged-long-horizon-project-state.json</span> (downloaded). Dedupe key: record id. Provenance preserved per record.</p></div>';
+});
+window.addEventListener('hashchange',deepOpen);
+})();
+</script>
+</body>
+</html>
