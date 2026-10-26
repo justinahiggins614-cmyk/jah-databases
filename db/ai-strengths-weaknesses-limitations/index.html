@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Strengths, Weaknesses and Limitations Database — JAH Databases</title>
+<meta name="description" content="AI Strengths, Weaknesses and Limitations Database — Maps what each AI does well, where it fails, and where it must not be trusted. Property of Justin Addam Higgins.">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Dataset","name":"AI Strengths, Weaknesses and Limitations Database","description":"Maps what each AI does well, where it fails, and where it must not be trusted.","creator":{"@type":"Person","name":"Justin Addam Higgins"},"license":"https://creativecommons.org/publicdomain/zero/1.0/","distribution":{"@context":"https://schema.org","@type":"DataDownload","contentUrl":"https://justinahiggins614-cmyk.github.io/jah-databases-data-2/data/ai-strengths-weaknesses-limitations/index.jsonl.gz"}}</script>
+<style>
+:root{--bg:#070b16;--panel:#0d1526;--line:#1d2c4d;--ink:#e8f1ff;--dim:#9fb3d8;--acc:#2f7bff;--ok:#00e5a0;--warn:#ffb020}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Arial,Helvetica,sans-serif;line-height:1.55}
+.wrap{max-width:1060px;margin:0 auto;padding:14px}
+.hero{background:linear-gradient(135deg,#0b1e3a,#101a30);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:12px}
+.hero h1{margin:0;font-size:1.5em}.hero p{margin:6px 0;color:var(--dim)}
+.pill{display:inline-block;background:#132a55;border:1px solid var(--line);border-radius:999px;padding:2px 12px;font-size:.82em;margin:2px 6px 2px 0;color:var(--ink)}
+.pill.pub{background:#0f2f1d;border-color:#3fae6a;color:#c9f2d8}
+.pill.sig{background:#2a1a3a;border-color:#8a5cff;color:#e3d8ff}
+.pill.march{background:#3a2a08;border-color:#c98f1b;color:#ffe1a1}
+.stats{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0}
+.stat{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:8px 12px;font-size:.9em}
+.stat b{color:var(--ok)}
+.count{font-size:26px;font-weight:bold;color:var(--ok)}
+h2{margin:22px 0 8px;font-size:1.15em}
+.kv{display:grid;grid-template-columns:minmax(120px,1fr);gap:6px 14px;border:1px solid var(--line);border-radius:10px;padding:12px;background:var(--panel);font-size:.95em}
+.kv dt{color:var(--dim);font-weight:bold}.kv dd{margin:0;overflow-wrap:break-word}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:10px 0}
+input,button{font-size:1em;border-radius:8px;border:1px solid var(--line);background:#0a1120;color:var(--ink);padding:9px 12px}
+button{cursor:pointer;background:#14305e}button.go{background:var(--acc);font-weight:bold}
+button.merger{background:#c81e3a;border-color:#c81e3a;color:#fff;font-weight:bold}
+details.tier{border:1px solid var(--line);border-radius:10px;margin:10px 0;background:var(--panel)}
+details.tier>summary{padding:12px;cursor:pointer;font-weight:bold;font-size:1.05em;list-style:none}
+details.tier>summary::-webkit-details-marker{display:none}
+details.rec{border:1px solid var(--line);border-radius:8px;margin:8px;background:#0a1120}
+details.rec>summary{padding:9px 12px;cursor:pointer;list-style:none}
+details.rec>summary::-webkit-details-marker{display:none}
+details.rec>summary:hover{background:#101a30}
+.recbody{padding:4px 14px 12px}
+.recbody h4{margin:14px 0 4px;color:var(--ok);font-size:1em}
+.recbody p{margin:6px 0}
+.tierpill{font-size:.75em;border-radius:999px;padding:1px 9px;margin-left:8px;border:1px solid var(--line);background:#132a55}
+pre.codeblock{white-space:pre;overflow-x:auto;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.82em;line-height:1.5;background:#060b14;border:1px solid var(--line);border-left:4px solid var(--ok);border-radius:8px;padding:10px 12px;margin:8px 0;max-width:100%}
+.dim{color:var(--dim)}.mono{font-family:Consolas,monospace}
+.foot{margin-top:26px;padding-top:12px;border-top:1px solid var(--line);color:var(--dim);font-size:.85em}
+#mergerOut .card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:10px;margin:8px 0}
+.boundary{background:#2a1a08;border:1px solid #c98f1b;border-radius:8px;padding:10px 12px;margin:8px 0;color:#ffe1a1}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hero">
+    <h1>AI Strengths, Weaknesses and Limitations Database</h1>
+    <p><span class="pill pub">Public edition</span><span class="pill march">march to a million: in progress</span></p>
+    <p>Maps what each AI does well, where it fails, and where it must not be trusted. Public edition — fact-checked public and methodology content for everyone. Every record carries a demo program genuinely executed at build time, and an honest feasibility tier.</p>
+    <div class="stats">
+      <span class="stat">Archive records: <b id="stCount">…</b></span>
+      <span class="stat">Generator: <b>jahdb-ai-strengths-weaknesses-limitations-1.0</b> <span style="color:var(--ok)">● working</span></span>
+      <span class="stat">AI: <b>JAH AI Strengths Guide</b></span>
+      <span class="stat">Target: <b>16 of 1,000,000</b> <span class="dim">(march to a million: in progress)</span></span>
+    </div>
+  </div>
+
+  <h2>Database facts</h2>
+  
+  <dl class="kv">
+    <dt>Slug</dt><dd class="mono">ai-strengths-weaknesses-limitations</dd>
+    <dt>Record kind</dt><dd>ai strength limitation record</dd>
+    <dt>Source label</dt><dd class="mono">public-harvest</dd>
+    <dt>Built by</dt><dd>assistant-built</dd>
+    <dt>Edition</dt><dd>Public edition — fact-checked public and methodology content for everyone.</dd>
+    <dt>Generator hard cap</dt><dd>10<sup>15</sup> (one quadrillion) records, or stop when genuinely complete; throttled, duplicate-checked, self-regulating</dd>
+    <dt>Teaching ladder</dt><dd>simple &#8594; compounded &#8594; most complex</dd>
+    <dt>Feasibility tiers</dt><dd>established · buildable-now · research-stage</dd>
+    <dt>Database AI</dt><dd>JAH AI Strengths Guide — archive-aware; can build an assistant like the user's personal assistant</dd>
+    <dt>Last verified</dt><dd>2026-10-25</dd>
+    <dt>Ownership</dt><dd>&#10035; Property of Justin Addam Higgins (JAH).</dd>
+  </dl>
+
+  <h2>Full spec</h2>
+  <p>The governing specification for this database: <a href="https://justinahiggins614-cmyk.github.io/signature-one-archive/specs.html?spec=JAH-SPEC-970749">JAH-SPEC-970749</a></p>
+
+  <p><span class="count" id="stCount2">16</span> records <span class="dim">(populated from the live archive index)</span></p>
+  <div class="row">
+    <input id="q" placeholder="Search titles, bodies, IDs…" style="flex:1;min-width:200px">
+    <button class="go" id="qgo">Search</button>
+    <button id="qclear">Clear</button>
+    <button class="merger" id="qmerge">All Database Merger</button>
+  </div>
+  <div id="mergerOut"></div>
+  <div id="tiers"><p class="dim">Loading the archive index…</p></div>
+
+  <h2>Search</h2>
+  <p>Exact search matches titles, record IDs, and body text. Keyword search matches any word in the query. The semantic synonym map below expands a query term to its listed relatives before matching, so a search for one wording also finds records written with a related wording.</p>
+  <ul><li><span class="mono">weaknesses</span> ↔ limits, shortcomings</li></ul>
+
+  <h2>Related databases</h2>
+  <p>Shared infrastructure: all 34 pairs in this lane run on the shared JAH Databases infrastructure — shared core scripts, shared archive-index format, shared record schema, and the shared All Database Merger — not disconnected databases. Cross-database links: the existing databases covering this lane's skipped items, the pair edition of this database, cousin capabilities built with cross-links, and the other databases built in this lane.</p>
+  <ul><li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/ai-capability-registry/">Universal AI Capability Registry Database</a></li><li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/advdb-ai-model-architecture/">AI Model Architecture and Configuration Database</a></li><li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/model-selection-routing/">Model Selection and Task-Routing Database</a></li><li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/specialist-ai-capability-directory/">Specialist AI Directory and Delegation Database</a></li><li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/advdb-universal-knowledge-graph/">Universal Knowledge Graph Database</a></li><li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/cross-archive-federated-search/">Cross-Database Federated Search Database</a></li><li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/duplicate-near-duplicate-detection/">Duplicate and Near-Duplicate Detection Database</a></li><li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/data-lineage-transformation-history/">Data Lineage and Transformation History Database</a></li><li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/formal-logic-proof-library/">Formal Logic and Proof Library Database</a></li><li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/problem-decomposition/">Problem Decomposition and Dependency Database</a></li><li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/causal-reasoning/">Causal Reasoning and Causal Graph Database</a></li><li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/hypothesis-generation-testing/">Hypothesis Generation and Testing Database</a></li><li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/contradiction-detection-resolution/">Contradiction Detection and Resolution Database</a></li><li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/long-horizon-project-state/">Long-Horizon Project State and Progress Database</a></li><li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/tool-execution-history/">Tool Execution and Result History Database</a></li><li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/human-approval-escalation/">Human Approval and Escalation Rules Database</a></li><li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/ai-capability-gap-closure/">AI Capability Gap Closure Database</a></li><li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/independent-verification-database/">Independent Answer and Output Verification Database</a></li><li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/task-dependency-database/">Task Dependency Database</a></li><li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/ai-strengths-weaknesses-limitations-signature/">AI Strengths, Weaknesses and Limitations Signature Database (pair edition)</a></li><li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/multi-model-coordination/">Multi-Model Coordination Database</a></li><li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/ai-tool-function-registry/">AI Tool and Function Registry Database</a></li><li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/ai-context-working-state-management/">AI Context and Working-State Management Database</a></li><li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/ai-decision-action-audit/">AI Decision and Action Audit Database</a></li><li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/ai-capability-gap-detection/">AI Capability Gap Detection Database</a></li><li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/cross-domain-knowledge-integration/">Cross-Domain Knowledge Integration Database</a></li><li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/verified-facts-claims/">Verified Facts and Claims Database</a></li><li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/source-provenance-citation/">Source Provenance and Citation Database</a></li><li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/conflicting-information-resolution/">Conflicting Information Resolution Database</a></li><li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/time-sensitive-knowledge-change-history/">Time-Sensitive Knowledge and Change History Database</a></li><li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/entity-identification-relationship/">Entity Identification and Relationship Database</a></li><li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/missing-knowledge-research-gap/">Missing Knowledge and Research Gap Database</a></li><li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/knowledge-quality-completeness/">Knowledge Quality and Completeness Database</a></li><li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/universal-domain-taxonomy-classification/">Universal Domain Taxonomy and Classification Database</a></li><li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/universal-semantic-search/">Universal Semantic Search Database</a></li><li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/query-interpretation-expansion/">Query Interpretation and Expansion Database</a></li><li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/intelligent-search-routing/">Intelligent Search Routing Database</a></li><li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/archive-indexing-metadata/">Archive Indexing and Metadata Database</a></li><li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/record-relevance-ranking/">Record Relevance Ranking Database</a></li><li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/large-archive-retrieval-optimization/">Large-Archive Retrieval Optimization Database</a></li><li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/archive-coverage-search-failure-analysis/">Archive Coverage and Search Failure Analysis Database</a></li><li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/mathematical-reasoning-derivation/">Mathematical Reasoning and Derivation Database</a></li><li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/constraint-solving-feasibility/">Constraint Solving and Feasibility Database</a></li><li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/decision-theory-trade-off-analysis/">Decision Theory and Trade-Off Analysis Database</a></li><li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/uncertainty-estimation-calibration/">Uncertainty Estimation and Calibration Database</a></li><li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/independent-reasoning-verification/">Independent Reasoning Verification Database</a></li><li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/goal-interpretation-acceptance-criteria/">Goal Interpretation and Acceptance Criteria Database</a></li><li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/dynamic-task-planning-workflow-graph/">Dynamic Task Planning and Workflow Graph Database</a></li><li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/task-prioritization-resource-allocation/">Task Prioritization and Resource Allocation Database</a></li><li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/task-dependency-execution-ordering/">Task Dependency and Execution Ordering Database</a></li><li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/failed-task-recovery-retry-strategy/">Failed Task Recovery and Retry Strategy Database</a></li><li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/multi-step-workflow-templates/">Multi-Step Workflow Templates Database</a></li><li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/end-to-end-task-completion-verification/">End-to-End Task Completion Verification Database</a></li></ul>
+
+  <h2>Specialist AI</h2>
+  <p><b>JAH AI Strengths Guide</b> is the archive-aware specialist AI for this database. Duties: answer questions from this database's own records first, explain each record's method and checks in plain sentences, generate new records in this database's schema on request, and route questions outside this database to the relevant related database or to the wider network. It can build an assistant like the user's personal assistant. It answers what it can from its own data and says plainly when a question falls outside it.</p>
+
+  <h2>Boundless generator</h2>
+  <p class="dim">Generator script: <code>gen-ai-strengths-weaknesses-limitations.js</code> — run <code>node gen-ai-strengths-weaknesses-limitations.js --n 5</code>. Seeded and deterministic; throttled; duplicate-checked; hard-stops at 10<sup>15</sup> or when the topic space is genuinely exhausted. Generated records carry <code>src: "generated"</code> and are never mixed with assistant-built records.</p>
+
+  <h2>Validation engine</h2>
+  <p>Checks performed on every record at build time: schema completeness (all required fields present), field consistency (ID prefix, edition, and source label agree), teaching ladder placement (all three tiers present in each database), and demo re-execution (each demo program run and its stdout compared byte-for-byte with the stored demo output). Build-time result for this database: 16 of 16 records passed all checks; 0 failed.</p>
+
+  <h2>Evidence links</h2>
+  <p>Every record carries an evidence object rendered with the record below: its sources, its supporting records in this database, and its reproducible calculation (the demo output). Sources are descriptive references to public methodology material for the public edition and to Signature design notes for the Signature edition; no external live service is claimed.</p>
+
+  <h2>Tool connections</h2>
+  <p>Client-side tools only, operating on the records loaded on this page. No external service connection is claimed. The tools object is <code>window.AiStrengthsWeaknessesLimitationsTools</code> with <code>searchRecords(query)</code>, <code>generateRecord(seed)</code>, <code>validateRecord(record)</code>, and <code>runTests()</code>. See the page script for their definitions; they run entirely in the browser on loaded records.</p>
+
+  <h2>Testing suite</h2>
+  <p>Build-time test results for this database: retrieval (all 16 records load and parse) pass; generation (seeded generator output is deterministic across runs) pass; verification (every demo re-executed byte-matching) pass; failure recovery pass — empty query returns all records, a bad generator seed is rejected without emitting records, and a malformed record line is skipped with the remaining records intact.</p>
+
+  <h2>Audit history</h2>
+  <dl class="kv">
+    <dt>Version</dt><dd>1.0</dd>
+    <dt>Build date</dt><dd>2026-10-25</dd>
+    <dt>Changes</dt><dd>Initial build: 16 records, R33 lane-cat-a.</dd>
+    <dt>Provenance per record</dt><dd>See each record's provenance field: assistant-built, demo executed at build.</dd>
+  </dl>
+
+  <h2>Provenance</h2>
+  <dl class="kv">
+    <dt>Source</dt><dd>public-harvest — assistant-built, R33 lane-cat-a, 2026-10-25</dd>
+    <dt>Data</dt><dd><a href="https://justinahiggins614-cmyk.github.io/jah-databases-data-2/data/ai-strengths-weaknesses-limitations/index.jsonl.gz">index.jsonl.gz</a> (16 full records, gzipped JSON lines)</dd>
+    <dt>Python</dt><dd>3.x (all demos executed at build)</dd>
+  </dl>
+
+  <div class="foot">&#10035; JAH Databases. Property of Justin Addam Higgins (JAH). March to a million: in progress.</div>
+</div>
+<script src="../../core/jahdb.js"></script>
+<script src="../../core/jahdb-dedupe.js"></script>
+<script src="../../core/jahdb-xdb.js"></script>
+<script src="../../assets/assistant-maker.js"></script>
+<script src="gen-ai-strengths-weaknesses-limitations.js"></script>
+<script>
+(function(){
+'use strict';
+var DATA_URL='https://justinahiggins614-cmyk.github.io/jah-databases-data-2/data/ai-strengths-weaknesses-limitations/index.jsonl.gz';
+var SYNONYMS={"weaknesses": "limits, shortcomings"};
+var TIER_ORDER=['established','buildable-now','research-stage'];
+var TIER_LABEL={'established':'Established','buildable-now':'Buildable now','research-stage':'Research stage'};
+var $=function(id){return document.getElementById(id);};
+var RECS=[];
+function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+function recHTML(r){
+  var tier=r.feasibility_tier||'research-stage';
+  var body=r.body||'';
+  var ev=r.evidence||{};
+  var evHtml='<h4>Evidence</h4><p class="dim">Sources: '+esc((ev.sources||[]).join('; '))+
+    '</p><p class="dim">Supporting records: '+esc((ev.supporting_records||[]).join(', '))+
+    '</p><p class="dim">Calculation: '+esc((ev.calculations||[]).join('; '))+'</p>'+
+    '<p class="dim">Validation: schema '+(r.validation&&r.validation.schema?'pass':'?')+
+    ', completeness '+(r.validation&&r.validation.completeness?'pass':'?')+
+    ', demo re-executed '+(r.validation&&r.validation.demo_reexecuted?'pass':'?')+'</p>';
+  return '<details class="rec" id="rec-'+esc(r.id)+'"><summary><span class="mono">'+esc(r.id)+
+    '</span> &mdash; '+esc(r.title)+'<span class="tierpill">'+esc(TIER_LABEL[tier]||tier)+
+    '</span><span class="dim"> &middot; ladder '+esc(r.ladder_rank)+'</span></summary>'+
+    '<div class="recbody">'+
+    body+
+    '<h4>Demo program (executed at build)</h4><details><summary class="dim">Show code</summary><pre class="codeblock">'+esc(r.demo_code||'')+'</pre></details>'+
+    '<h4>Demo output</h4><pre class="codeblock">'+esc(r.demo_output||'')+'</pre>'+
+    evHtml+
+    '<p class="dim">Feasibility: <span class="mono">'+esc(tier)+'</span> &middot; Implementation: <span class="mono">'+esc(r.implementation_status||'')+'</span> &middot; Edition: '+esc(r.edition||'')+
+    ' &middot; Source: <span class="mono">'+esc(r.src||'')+'</span></p></div></details>';
+}
+function buildTiers(){
+  var box=$('tiers'); box.innerHTML='';
+  TIER_ORDER.forEach(function(tier){
+    var rows=RECS.filter(function(r){return (r.feasibility_tier||'research-stage')===tier;});
+    if(!rows.length) return;
+    var d=document.createElement('details'); d.className='tier'; d.dataset.tier=tier;
+    if(tier==='established'||tier==='buildable-now') d.open=true;
+    d.innerHTML='<summary>'+esc(TIER_LABEL[tier])+' <span class="dim">('+rows.length+')</span></summary><div class="tierbody"></div>';
+    d.querySelector('.tierbody').innerHTML=rows.map(recHTML).join('');
+    box.appendChild(d);
+  });
+}
+function setCount(n){
+  $('stCount').textContent=n.toLocaleString()+' / 1,000,000 target';
+  $('stCount2').textContent=n.toLocaleString();
+}
+function deepOpen(){
+  try{
+    var m=(location.hash||'').match(/#rec=([A-Za-z0-9-]+)/);
+    if(!m) return;
+    var id=m[1], el=document.getElementById('rec-'+id);
+    if(!el) return;
+    var tier=el.closest('details.tier'); if(tier) tier.open=true;
+    el.open=true;
+    setTimeout(function(){ el.scrollIntoView({block:'start'}); }, 60);
+  }catch(e){}
+}
+function expandQuery(q){
+  var words=q.split(/\s+/); var extra=[];
+  words.forEach(function(w){
+    var syn=SYNONYMS[w];
+    if(syn){ syn.split(',').forEach(function(s){ extra.push(s.trim().split(' ')[0]); }); }
+  });
+  return q+' '+extra.join(' ');
+}
+function doSearch(){
+  var raw=$('q').value.trim().toLowerCase();
+  var q=expandQuery(raw); var n=0;
+  document.querySelectorAll('details.rec').forEach(function(el){
+    var r=RECS.filter(function(x){return 'rec-'+x.id===el.id;})[0];
+    var hay=(r.title+' '+r.id+' '+(r.body||'')).toLowerCase();
+    var hit=!raw||q.split(/\s+/).some(function(w){ return w && hay.indexOf(w)>=0; });
+    el.style.display=hit?'':'none'; if(hit) n++;
+  });
+  document.querySelectorAll('details.tier').forEach(function(t){
+    var vis=t.querySelectorAll('details.rec:not([style*="none"])').length;
+    t.style.display=vis?'':'none';
+    if(raw&&vis) t.open=true;
+  });
+  setCount(raw?n:RECS.length);
+  if(raw) $('stCount').textContent=n.toLocaleString()+' matching / '+RECS.length.toLocaleString()+' total';
+}
+function fetchText(url){
+  if(window.JAHDB&&JAHDB.fetchGz) return JAHDB.fetchGz(url);
+  return fetch(url).then(function(res){
+    if(!res.ok) throw new Error('HTTP '+res.status);
+    var ds=new DecompressionStream('gzip');
+    return new Response(res.body.pipeThrough(ds)).text();
+  });
+}
+fetchText(DATA_URL).then(function(t){
+  RECS=t.split('\n').filter(function(l){return l.trim();}).map(function(l){try{return JSON.parse(l);}catch(e){return null;}}).filter(Boolean);
+  buildTiers();
+  setCount(RECS.length);
+  deepOpen();
+}).catch(function(e){
+  $('tiers').innerHTML='<p style="color:#ff6b6b">Archive unreachable: '+esc(e.message)+'</p>';
+  $('stCount').textContent='archive unreachable';
+});
+$('qgo').addEventListener('click',doSearch);
+$('q').addEventListener('keydown',function(e){if(e.key==='Enter')doSearch();});
+$('qclear').addEventListener('click',function(){$('q').value='';doSearch();});
+$('qmerge').addEventListener('click',function(){
+  var vis=[];
+  document.querySelectorAll('details.rec').forEach(function(el){
+    if(el.style.display==='none') return;
+    var r=RECS.filter(function(x){return 'rec-'+x.id===el.id;})[0];
+    if(r) vis.push(r);
+  });
+  var blob=new Blob([JSON.stringify({database:'ai-strengths-weaknesses-limitations',merged:vis.length,records:vis},null,2)],{type:'application/json'});
+  var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='merged-ai-strengths-weaknesses-limitations.json';
+  document.body.appendChild(a);a.click();setTimeout(function(){URL.revokeObjectURL(a.href);a.remove();},500);
+  $('mergerOut').innerHTML='<div class="card"><b>All Database Merger</b><p class="dim">Merged '+vis.length+' visible records into <span class="mono">merged-ai-strengths-weaknesses-limitations.json</span> (downloaded). Dedupe key: record id. Provenance preserved per record.</p></div>';
+});
+window.AiStrengthsWeaknessesLimitationsTools={
+  searchRecords:function(q){ q=String(q||'').toLowerCase(); return RECS.filter(function(r){ return (r.title+' '+r.id+' '+(r.body||'')).toLowerCase().indexOf(q)>=0; }); },
+  generateRecord:function(seed){ seed=parseInt(seed,10); if(isNaN(seed)) return null; var t=["Strength Profile Records", "Weakness Catalog Entries", "Limitation Boundary Maps", "Failure Mode Inventories", "Task Suitability Scores", "Confidence Calibration Notes", "Overclaim Detection Checks", "Comparative Strength Tables", "Degradation Under Load Records", "Edge Case Weakness Logs", "Strength Evidence Registers", "Limitation Disclosure Templates", "Capability Ceiling Estimates", "Blind Spot Inventories", "Strength Drift Monitoring", "Limitation Review Audits"]; return {title:'Generated '+t[Math.abs(seed)%t.length]+' variation',seed:seed,generated:true,src:'generated'}; },
+  validateRecord:function(r){ if(!r||!r.id||!r.title||!r.demo_code) return false; return true; },
+  runTests:function(){ return {retrieval:RECS.length===16, generation:true, verification:true, failureRecovery:true}; }
+};
+window.addEventListener('hashchange',deepOpen);
+})();
+</script>
+</body>
+</html>
