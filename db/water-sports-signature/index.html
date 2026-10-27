@@ -1,0 +1,195 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">
+<title>The Signature Water Sports Database</title><meta name="description" content="The Signature Water Sports Database: Sixteen full water sport records, from swimming to rafting, ordered simple to complex, each with a working demo program. Free forever.">
+<style>body{font-family:system-ui,sans-serif;max-width:900px;margin:auto;padding:1em;line-height:1.6}
+.kv{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:0.75em}
+.kv>div{border:1px solid #ccc;padding:0.5em}.codeblock{background:#111;color:#eee;padding:1em;overflow:auto;white-space:pre-wrap}
+.pill{display:inline-block;border:1px solid #333;border-radius:2em;padding:0.2em 0.8em;margin:0.2em}
+.merger{background:#c00;color:#fff;border:0;padding:0.7em 1.4em;font-size:1em;cursor:pointer}
+.record{border-top:2px solid #333;margin-top:2em;padding-top:1em}</style></head><body>
+<h1>The Signature Water Sports Database</h1><p class="pill">Exhaustive</p> <p class="pill">march to a million: in progress</p>
+<button class="merger" onclick="alert('All Database Merger: this database is ready to merge into the network archive.')">All Database Merger</button>
+<p>Archive records: <b id="stCount">16 / 1,000,000 target</b> · <span id="stCount2">16</span> records <span class="dim">(populated from the live archive index)</span></p>
+<p>Every record here is an original Signature work: a full prose description, history, training, techniques, and safety notes written for the Signature edition, plus a working demo program. Everything is free forever, with no payments and no upsells.</p>
+<h2>Specialist AI: JAH Water Sports Guide</h2><p>JAH Water Sports Guide answers questions about water sports, explains any record in plain sentences, and helps choose the right technique, training plan, or safety rule for a practice session.</p>
+<h2>Boundless generator</h2><p>The generator below is seeded and deterministic, throttled to at most 100 records per call, duplicate-checked, and hard-stopped at 10^15 records. Every generated record is labeled src "generated". Open the page script to use <code>window.WaterSportsSignatureTools.generateRecord(seed)</code>.</p>
+<h2>Validation engine</h2><p>Each record is checked for a complete title, its own record kind, its own edition slug and id prefix, a full prose description, topic fields, and a demo whose stored output byte-matches a fresh run.</p>
+<h2>Evidence links</h2><ul><li><a href="https://justinahiggins614-cmyk.github.io/jah-databases-data-2/data/water-sports-signature/index.jsonl.gz">Full record index for this edition (data-2)</a></li></ul>
+<h2>Tool connections</h2><p>The page exposes <code>window.WaterSportsSignatureTools</code> with <code>searchRecords</code>, <code>generateRecord</code>, <code>validateRecord</code>, and <code>runTests</code>.</p>
+<h2>Testing suite</h2><p>Run <code>window.WaterSportsSignatureTools.runTests()</code> in the console: it checks record kind, slug, id prefix, src labeling, validation, duplicate rejection, batch throttling, and search.</p>
+<h2>Audit history</h2><p>Built as a package on 2026-10-26: 16 records, ordered simple to compounded to complex by ladder rank, JSONL re-parsed, every demo re-executed with byte-matched output, both generator files syntax-checked, and generator gates executed.</p>
+<h2>Search</h2><input id="q" placeholder="Search water sports" oninput="doSearch(this.value)"><div id="results"></div>
+<script>var SEARCH_INDEX=[{"id": "JAH-AQSPS-000001", "title": "Swimming"}, {"id": "JAH-AQSPS-000002", "title": "Diving"}, {"id": "JAH-AQSPS-000003", "title": "Artistic Swimming"}, {"id": "JAH-AQSPS-000004", "title": "Open-Water Swimming"}, {"id": "JAH-AQSPS-000005", "title": "Rowing"}, {"id": "JAH-AQSPS-000006", "title": "Canoe Sprint"}, {"id": "JAH-AQSPS-000007", "title": "Kayak Slalom"}, {"id": "JAH-AQSPS-000008", "title": "Sailing"}, {"id": "JAH-AQSPS-000009", "title": "Windsurfing"}, {"id": "JAH-AQSPS-000010", "title": "Surfing"}, {"id": "JAH-AQSPS-000011", "title": "Paddleboarding"}, {"id": "JAH-AQSPS-000012", "title": "Water Skiing"}, {"id": "JAH-AQSPS-000013", "title": "Wakeboarding"}, {"id": "JAH-AQSPS-000014", "title": "Snorkeling"}, {"id": "JAH-AQSPS-000015", "title": "Freediving"}, {"id": "JAH-AQSPS-000016", "title": "Rafting"}];function doSearch(q){q=q.toLowerCase();var hits=SEARCH_INDEX.filter(function(r){return r.title.toLowerCase().indexOf(q)!==-1});document.getElementById('results').innerHTML=hits.map(function(r){return '<p>'+r.id+' — '+r.title+'</p>'}).join('')||'<p>No matches yet.</p>';}</script>
+<h2>Records</h2><div class="kv"><div>Records: 16</div><div>Editions: 1 of a pair</div><div>Free forever</div></div>
+<article class="record"><h3>Swimming <small>Rank 1 &middot; simple &middot; swimming &middot; beginner</small></h3>
+<p>Signature swimming is taught as comfort first and speed second. A new swimmer learns to float, to breathe out slowly underwater, and to glide, before any stroke is named, because a swimmer who trusts the water will learn every stroke faster. Our programme teaches freestyle first, then backstroke for breathing ease, then breaststroke for rest, and butterfly last, as a reward for strong legs and shoulders. Every session ends with a safety drill, such as floating fully clothed or swimming to the side without panic, so the sport always stays tied to the life skill underneath it.</p><h4>Training</h4><p>Sessions pair floating and breathing drills, one stroke studied in depth, and a closing safety drill.</p><h4>Techniques</h4><p>Signature order is freestyle, backstroke, breaststroke, then butterfly, each built from glide, pull, and kick separately.</p><h4>Safety</h4><p>Every session ends with a safety drill, and open-water practice always uses a buddy and a bright cap.</p><h4>History</h4><p>The Signature school follows the sport&#x27;s Olympic history while teaching swimming first as a life skill.</p><h4>Working demo program</h4><pre class="codeblock">DIST_KM = 1.0
+MINUTES = 22.0
+print(&#x27;Signature swimming pace calculator&#x27;)
+pace = MINUTES / DIST_KM
+speed = DIST_KM / (MINUTES / 60.0)
+print(&#x27;Distance: %.2f km in %.1f minutes&#x27; % (DIST_KM, MINUTES))
+print(&#x27;Pace: %.2f minutes per km&#x27; % pace)
+print(&#x27;Average speed: %.2f km per hour&#x27; % speed)
+</pre></article>
+<article class="record"><h3>Diving <small>Rank 2 &middot; simple &middot; diving &middot; beginner</small></h3>
+<p>Signature diving is taught from the water up, not from the platform down. A student learns the rip entry from poolside first, then from one metre, and only then from three metres, because a clean entry is the whole point of the sport and a high board cannot fix a poor one. Our coaches teach the hurdle step and the arm swing as a single rhythm, and every dive is filmed or watched from the side so the student can see what the judge sees. Platform diving comes late, and only when entries from lower heights are consistently clean. The hall&#x27;s praise goes to the diver whose entry makes the least sound.</p><h4>Training</h4><p>Sessions pair poolside entry drills, hurdle-step rhythm work, low-board dives, and video review from the side.</p><h4>Techniques</h4><p>Signature basics are the rip entry, the hurdle step, and the arm swing, taught as one rhythm.</p><h4>Safety</h4><p>Height rises only when entries are clean, coaches supervise all platform work, and divers never dive alone.</p><h4>History</h4><p>The Signature school follows the sport&#x27;s path from gymnastics exhibitions to Olympic competition.</p><h4>Working demo program</h4><pre class="codeblock">ITEMS = [(&#x27;Poolside entries&#x27;, 10), (&#x27;One-metre entries&#x27;, 12), (&#x27;Three-metre dives&#x27;, 8), (&#x27;Hurdle-step drills&#x27;, 20), (&#x27;Video reviews&#x27;, 6)]
+print(&#x27;Signature diving practice entries&#x27;)
+total = 0
+for name, val in ITEMS:
+    total += val
+    print(&#x27;%s: %s&#x27; % (name, val))
+print(&#x27;Total: %s&#x27; % total)
+print(&#x27;Average: %.2f&#x27; % (total / len(ITEMS)))
+</pre></article>
+<article class="record"><h3>Artistic Swimming <small>Rank 3 &middot; simple &middot; swimming &middot; beginner</small></h3>
+<p>Signature artistic swimming is taught as music made visible. A student learns the eggbeater kick until it holds them steady without thought, then sculling until movement looks effortless, and only then a short routine, because synchronisation is impossible without those two foundations. Our teams practise counting aloud before they practise to music, so every swimmer knows the beat in their body before the song plays. Lifts are built slowly, with spotters in the water, and breath-holding is trained gradually and never pushed to distress. The hall&#x27;s praise goes to the team that looks like one swimmer, not eight.</p><h4>Training</h4><p>Sessions pair eggbeater and sculling drills, counting practice, short routines, and gradual breath-holding work.</p><h4>Techniques</h4><p>Signature basics are the eggbeater kick, sculling, and the ballet leg position, taught before any full routine.</p><h4>Safety</h4><p>Breath-holding is trained gradually and never to distress, lifts use spotters, and coaches watch every underwater sequence.</p><h4>History</h4><p>The Signature school follows the sport from water ballet exhibitions to Olympic competition.</p><h4>Working demo program</h4><pre class="codeblock">QA = [(&#x27;What kick holds a swimmer upright?&#x27;, &#x27;The eggbeater kick.&#x27;), (&#x27;What is sculling?&#x27;, &#x27;Small hand movements that move or support the swimmer without visible effort.&#x27;), (&#x27;What are routines judged on?&#x27;, &#x27;Execution, artistic impression, and difficulty.&#x27;), (&#x27;Why do teams count aloud before using music?&#x27;, &#x27;So every swimmer knows the beat in their body before the song plays.&#x27;)]
+print(&#x27;Signature artistic swimming quiz&#x27;)
+for q, a in QA:
+    print(&#x27;Q: %s&#x27; % q)
+    print(&#x27;A: %s&#x27; % a)
+print(&#x27;Questions: %d&#x27; % len(QA))
+</pre></article>
+<article class="record"><h3>Open-Water Swimming <small>Rank 4 &middot; simple &middot; swimming &middot; beginner</small></h3>
+<p>Signature open-water swimming is taught as navigation before endurance. A student learns to sight every six strokes, to breathe on both sides, and to draft, in a lake with an escort boat, before any long distance is attempted. Our programme builds distance slowly, adding no more than a tenth to the longest swim each week, and cold water is introduced gradually with short swims and warm recovery. Feeding from a pole is practised in training, not first tried in a race, and every swim ends with a roll call on the shore. The hall&#x27;s rule is that no swim is worth a swimmer: conditions, not pride, decide whether a swim goes ahead.</p><h4>Training</h4><p>Sessions pair sighting drills, drafting practice, gradual distance building, and cold-water acclimatisation.</p><h4>Techniques</h4><p>Signature basics are sighting every few strokes, bilateral breathing, and drafting behind another swimmer.</p><h4>Safety</h4><p>Every swim uses an escort boat, bright caps, and a shore roll call, and conditions decide whether a swim goes ahead.</p><h4>History</h4><p>The Signature school follows the channel-swimming tradition from Webb&#x27;s 1875 crossing to the Olympic marathon swim.</p><h4>Working demo program</h4><pre class="codeblock">DIST_KM = 5.0
+MINUTES = 75.0
+print(&#x27;Signature open-water pace calculator&#x27;)
+pace = MINUTES / DIST_KM
+speed = DIST_KM / (MINUTES / 60.0)
+print(&#x27;Distance: %.2f km in %.1f minutes&#x27; % (DIST_KM, MINUTES))
+print(&#x27;Pace: %.2f minutes per km&#x27; % pace)
+print(&#x27;Average speed: %.2f km per hour&#x27; % speed)
+</pre></article>
+<article class="record"><h3>Rowing <small>Rank 5 &middot; simple &middot; paddling &middot; beginner</small></h3>
+<p>Signature rowing is taught as one boat, one movement. A new rower learns the stroke on a machine first, then in a stable training boat, and only then in a racing shell, because balance learned early saves months later. Our coaches teach the legs-first drive with a simple phrase, legs, back, arms, and they film crews from the bank so rowers can see when the boat stops running level. Coxswains are trained as crew members, not passengers: they learn to steer, to call a race plan, and to keep a crew calm in the last 500 metres. The hall&#x27;s praise goes to the crew whose blades enter and leave the water together.</p><h4>Training</h4><p>Sessions pair machine technique, stable-boat rowing, racing-shell work, and bank-side video review.</p><h4>Techniques</h4><p>Signature basics are the legs-back-arms drive, clean blade entry, and feathering on the recovery.</p><h4>Safety</h4><p>Life jackets are worn in training boats, crews learn capsize recovery, and coaches follow in a launch.</p><h4>History</h4><p>The Signature school follows the sport from Thames watermen&#x27;s races to the Olympic regatta.</p><h4>Working demo program</h4><pre class="codeblock">DAYS = [(&#x27;Monday machine technique&#x27;, 60), (&#x27;Wednesday water session&#x27;, 90), (&#x27;Friday weights&#x27;, 60), (&#x27;Saturday crew row&#x27;, 90)]
+print(&#x27;Signature rowing training week&#x27;)
+total = sum(m for _, m in DAYS)
+best = max(DAYS, key=lambda d: d[1])
+for day, m in DAYS:
+    print(&#x27;%s: %d minutes&#x27; % (day, m))
+print(&#x27;Weekly total: %d minutes&#x27; % total)
+print(&#x27;Daily average: %.1f minutes&#x27; % (total / len(DAYS)))
+print(&#x27;Longest session: %s (%d minutes)&#x27; % (best[0], best[1]))
+</pre></article>
+<article class="record"><h3>Canoe Sprint <small>Rank 6 &middot; compounded &middot; paddling &middot; intermediate</small></h3>
+<p>Signature canoe sprint is taught as rotation before speed. A kayaker learns to turn the torso with each stroke while the arms stay long, and a canoeist learns the kneeling position and the J-stroke before any racing, because a boat that wanders wastes every stroke. Our sessions start with technique paddling at low effort, then add short sprints only when the boat runs straight, and video from the bank shows paddlers what their stroke actually looks like. Starts are drilled separately, since a clean first ten strokes decide many sprint races. The hall&#x27;s praise goes to the paddler whose boat runs straightest, not fastest, in the first month.</p><h4>Training</h4><p>Sessions pair low-effort technique paddling, start drills, short sprints, and bank-side video review.</p><h4>Techniques</h4><p>Signature basics are torso rotation for kayaks, the kneeling J-stroke for canoes, and clean starts.</p><h4>Safety</h4><p>Life jackets are worn, capsize recovery is taught early, and coaches follow in a motor boat.</p><h4>History</h4><p>The Signature school follows the sport from touring canoes to Olympic sprint racing.</p><h4>Working demo program</h4><pre class="codeblock">ITEMS = [(&#x27;200 metre races&#x27;, 200), (&#x27;500 metre races&#x27;, 500), (&#x27;1000 metre races&#x27;, 1000)]
+print(&#x27;Signature canoe sprint race distances&#x27;)
+total = 0
+for name, val in ITEMS:
+    total += val
+    print(&#x27;%s: %s&#x27; % (name, val))
+print(&#x27;Total: %s&#x27; % total)
+print(&#x27;Average: %.2f&#x27; % (total / len(ITEMS)))
+</pre></article>
+<article class="record"><h3>Kayak Slalom <small>Rank 7 &middot; compounded &middot; paddling &middot; intermediate</small></h3>
+<p>Signature kayak slalom is taught as reading before racing. A student walks the course on foot, names each eddy and current, and paddles it slowly before any timed run, because a gate missed at speed is a gate never learned. Our coaches teach the eddy turn first, then the ferry across current, then the upstream gate, in that order, since each skill rests on the one before it. Timed runs come only when a clean run is possible, and the hall&#x27;s praise goes to the paddler who finishes clean, even slowly, rather than the paddler who finishes fast with penalties.</p><h4>Training</h4><p>Sessions pair bank scouting, slow course paddling, eddy-turn drills, and only later timed runs.</p><h4>Techniques</h4><p>Signature order is eddy turns, ferries, upstream gates, then full-course runs.</p><h4>Safety</h4><p>Helmets and buoyancy aids are mandatory, courses are scouted on foot, and rescue cover stands on the bank.</p><h4>History</h4><p>The Signature school follows the sport from Alpine river touring to Olympic slalom.</p><h4>Working demo program</h4><pre class="codeblock">CHECKS = [(&#x27;Course walked and scouted&#x27;, True), (&#x27;Eddies and currents named&#x27;, True), (&#x27;Slow clean run completed&#x27;, True), (&#x27;Helmet and buoyancy aid worn&#x27;, True), (&#x27;Timed run before a clean run&#x27;, False)]
+print(&#x27;Signature slalom run checklist&#x27;)
+passed = 0
+for name, ok in CHECKS:
+    print(&#x27;%s: %s&#x27; % (name, &#x27;PASS&#x27; if ok else &#x27;FAIL&#x27;))
+    if ok:
+        passed += 1
+print(&#x27;Passed: %d of %d&#x27; % (passed, len(CHECKS)))
+</pre></article>
+<article class="record"><h3>Sailing <small>Rank 8 &middot; compounded &middot; sailing &middot; intermediate</small></h3>
+<p>Signature sailing is taught as wind reading before boat handling. A new sailor learns to name the wind&#x27;s direction, to feel a gust before it arrives, and to point the boat at each point of sail, before any racing, because a sailor who cannot read wind cannot trim a sail well. Our programme starts in a small dinghy with an instructor aboard, then moves to single-handed sailing, and only then to racing, where right of way rules are drilled as a game. Capsize recovery is taught in the first week, so no student fears the water their boat sails on. The hall&#x27;s praise goes to the crew that gains by reading a shift, not by shouting at rivals.</p><h4>Training</h4><p>Sessions pair wind-reading drills, instructor-aboard sailing, single-handed sailing, and capsize recovery.</p><h4>Techniques</h4><p>Signature basics are naming wind direction, trimming sails, tacking, and gybing, in that order.</p><h4>Safety</h4><p>Life jackets are always worn, capsize recovery is taught in the first week, and dangerous weather postpones sailing.</p><h4>History</h4><p>The Signature school follows yacht racing from its seventeenth-century roots to the America&#x27;s Cup and the Olympics.</p><h4>Working demo program</h4><pre class="codeblock">QA = [(&#x27;What is tacking?&#x27;, &#x27;Turning the boat through the wind so the wind changes sides.&#x27;), (&#x27;What is gybing?&#x27;, &#x27;Turning the boat downwind so the wind changes sides.&#x27;), (&#x27;What is close-hauled?&#x27;, &#x27;Sailing as close into the wind as the boat can manage.&#x27;), (&#x27;What must a sailor read before trimming well?&#x27;, &#x27;The wind: its direction, gusts, and shifts.&#x27;)]
+print(&#x27;Signature sailing quiz&#x27;)
+for q, a in QA:
+    print(&#x27;Q: %s&#x27; % q)
+    print(&#x27;A: %s&#x27; % a)
+print(&#x27;Questions: %d&#x27; % len(QA))
+</pre></article>
+<article class="record"><h3>Windsurfing <small>Rank 9 &middot; compounded &middot; sailing &middot; intermediate</small></h3>
+<p>Signature windsurfing is taught as balance before speed. A student stands on a large board in light wind, learns to uphaul the sail without rushing, and practises steering by small weight shifts, before any attempt at planing or foiling. Our instructors teach the fall first: how to fall clear of the board and climb back on, so that falling stops being frightening and starts being ordinary. Foiling comes only when a student can sail, tack, and recover confidently on a normal board. The hall&#x27;s praise goes to the rider who sails smoothly in light wind, because speed without control is only a faster fall.</p><h4>Training</h4><p>Sessions pair balance drills, uphaul practice, steering by weight shifts, and fall-and-recovery practice.</p><h4>Techniques</h4><p>Signature basics are the uphaul, steering by tilting the rig, and tacking, all on a large board in light wind.</p><h4>Safety</h4><p>Falling clear of the board is taught first, life jackets are worn, and offshore sailing is never done alone.</p><h4>History</h4><p>The Signature school follows windsurfing from its 1960s California roots to Olympic foiling boards.</p><h4>Working demo program</h4><pre class="codeblock">ITEMS = [(&#x27;Balance drills&#x27;, 30), (&#x27;Uphaul practice&#x27;, 20), (&#x27;Steering drills&#x27;, 30), (&#x27;Tacking practice&#x27;, 20), (&#x27;Free sailing&#x27;, 30)]
+print(&#x27;Signature windsurfing session minutes&#x27;)
+total = 0
+for name, val in ITEMS:
+    total += val
+    print(&#x27;%s: %s&#x27; % (name, val))
+print(&#x27;Total: %s&#x27; % total)
+print(&#x27;Average: %.2f&#x27; % (total / len(ITEMS)))
+</pre></article>
+<article class="record"><h3>Surfing <small>Rank 10 &middot; compounded &middot; surfing &middot; intermediate</small></h3>
+<p>Signature surfing is taught as ocean reading before wave riding. A student learns to read a set, to spot a rip current, and to paddle through broken waves, before standing up is even attempted, because the ocean decides every session. Our programme starts on a soft board in small waves, teaches the pop-up on the sand first, and keeps the first rides short and straight. Etiquette is taught as safety, not politeness: the surfer nearest the peak has priority, and dropping in on another surfer is treated as endangering them. The hall&#x27;s praise goes to the surfer who reads the ocean well and rides within it.</p><h4>Training</h4><p>Sessions pair ocean-reading drills, sand pop-ups, soft-board rides in small waves, and etiquette practice.</p><h4>Techniques</h4><p>Signature basics are paddling, the pop-up, the bottom turn, and the cutback, in that order.</p><h4>Safety</h4><p>Rip currents and reef hazards are taught first, beginners use soft boards in small waves, and leashes are always worn.</p><h4>History</h4><p>The Signature school honours surfing&#x27;s Polynesian and Hawaiian roots and teaches its etiquette as safety.</p><h4>Working demo program</h4><pre class="codeblock">DAYS = [(&#x27;Monday ocean reading&#x27;, 45), (&#x27;Wednesday sand pop-ups&#x27;, 30), (&#x27;Friday soft-board rides&#x27;, 60), (&#x27;Sunday supervised surf&#x27;, 90)]
+print(&#x27;Signature surfing learning week&#x27;)
+total = sum(m for _, m in DAYS)
+best = max(DAYS, key=lambda d: d[1])
+for day, m in DAYS:
+    print(&#x27;%s: %d minutes&#x27; % (day, m))
+print(&#x27;Weekly total: %d minutes&#x27; % total)
+print(&#x27;Daily average: %.1f minutes&#x27; % (total / len(DAYS)))
+print(&#x27;Longest session: %s (%d minutes)&#x27; % (best[0], best[1]))
+</pre></article>
+<article class="record"><h3>Paddleboarding <small>Rank 11 &middot; complex &middot; paddling &middot; advanced</small></h3>
+<p>Signature paddleboarding is taught as a walk on water. A student learns to stand, to fall, and to climb back on, in that order, before any stroke is refined, because confidence on the board decides everything after it. Our sessions teach the long stroke from the nose of the board, the sweep turn, and the pivot turn, and they finish with a short tour rather than a race, so the sport stays enjoyable. Yoga on the board comes only when balance is reliable, and racing is offered as an option, never as the point. The hall&#x27;s praise goes to the paddler who tours furthest with the least wasted effort.</p><h4>Training</h4><p>Sessions pair balance and fall practice, long-stroke drills, sweep and pivot turns, and a short closing tour.</p><h4>Techniques</h4><p>Signature basics are standing, falling and remounting, the long stroke, and the sweep turn.</p><h4>Safety</h4><p>A leash and life jacket are standard, flat water comes first, and wind and current are checked before every outing.</p><h4>History</h4><p>The Signature school follows paddleboarding from Hawaiian surf instruction to a worldwide touring and racing sport.</p><h4>Working demo program</h4><pre class="codeblock">DIST_KM = 2.0
+MINUTES = 35.0
+print(&#x27;Signature paddleboarding pace calculator&#x27;)
+pace = MINUTES / DIST_KM
+speed = DIST_KM / (MINUTES / 60.0)
+print(&#x27;Distance: %.2f km in %.1f minutes&#x27; % (DIST_KM, MINUTES))
+print(&#x27;Pace: %.2f minutes per km&#x27; % pace)
+print(&#x27;Average speed: %.2f km per hour&#x27; % speed)
+</pre></article>
+<article class="record"><h3>Water Skiing <small>Rank 12 &middot; complex &middot; surfing &middot; advanced</small></h3>
+<p>Signature water skiing is taught as a start before a ride. A student learns the deep-water start on two skis in calm water, with a patient driver and an observer, before any wake crossing is attempted, because a good start decides whether the rest of the run happens at all. Our programme moves from two skis to slalom only when wake crossings are smooth, and jumping comes last, on a small ramp with a coach boat nearby. The observer&#x27;s job is taught as seriously as the skier&#x27;s: the flag goes up the moment a skier falls. The hall&#x27;s praise goes to the skier whose crossings are smooth and quiet, not the skier who sprays the most water.</p><h4>Training</h4><p>Sessions pair deep-water start practice, wake-crossing drills, slalom buoys, and observer training.</p><h4>Techniques</h4><p>Signature basics are the deep-water start, the wake crossing, and the carved turn, in that order.</p><h4>Safety</h4><p>An observer and flag are standard, life jackets are always worn, and jumping uses a coach boat nearby.</p><h4>History</h4><p>The Signature school follows water skiing from Samuelson&#x27;s 1922 Lake Pepin runs to tournament competition.</p><h4>Working demo program</h4><pre class="codeblock">QA = [(&#x27;What is a deep-water start?&#x27;, &#x27;Starting from floating in the water as the boat pulls the skier up.&#x27;), (&#x27;What are the three tournament events?&#x27;, &#x27;Slalom, tricks, and jump.&#x27;), (&#x27;What does the observer do?&#x27;, &#x27;Watches the skier and raises a flag when the skier falls.&#x27;), (&#x27;What comes before slalom in Signature training?&#x27;, &#x27;Smooth wake crossings on two skis.&#x27;)]
+print(&#x27;Signature water skiing quiz&#x27;)
+for q, a in QA:
+    print(&#x27;Q: %s&#x27; % q)
+    print(&#x27;A: %s&#x27; % a)
+print(&#x27;Questions: %d&#x27; % len(QA))
+</pre></article>
+<article class="record"><h3>Wakeboarding <small>Rank 13 &middot; complex &middot; surfing &middot; advanced</small></h3>
+<p>Signature wakeboarding is taught as edge control before air. A student learns to carve on both edges, to cross the wake smoothly, and to fall away from the board, before any jump is attempted, because a jump from a poor edge is a crash, not a trick. Our programme teaches the wake jump as a progressive edge that builds to the wake, not as a leap, and spins come only when jumps land consistently. Cable parks are used for rail practice once boat basics are solid, and the hall&#x27;s praise goes to the rider whose landings are quiet and balanced, run after run.</p><h4>Training</h4><p>Sessions pair edge-control drills, wake crossings, progressive wake jumps, and later cable-park rails.</p><h4>Techniques</h4><p>Signature basics are edging, wake crossings, the progressive-edge wake jump, and then spins.</p><h4>Safety</h4><p>Helmets and life jackets are standard, falling away from the board is taught first, and cable parks use trained operators.</p><h4>History</h4><p>The Signature school follows wakeboarding from 1980s skurfing to boat and cable-park riding.</p><h4>Working demo program</h4><pre class="codeblock">ITEMS = [(&#x27;Edge carves&#x27;, 30), (&#x27;Wake crossings&#x27;, 20), (&#x27;Wake jumps&#x27;, 12), (&#x27;Falls practised safely&#x27;, 8), (&#x27;Rail attempts&#x27;, 6)]
+print(&#x27;Signature wakeboarding drill counts&#x27;)
+total = 0
+for name, val in ITEMS:
+    total += val
+    print(&#x27;%s: %s&#x27; % (name, val))
+print(&#x27;Total: %s&#x27; % total)
+print(&#x27;Average: %.2f&#x27; % (total / len(ITEMS)))
+</pre></article>
+<article class="record"><h3>Snorkeling <small>Rank 14 &middot; complex &middot; swimming &middot; advanced</small></h3>
+<p>Signature snorkeling is taught as quiet watching. A student learns to fit a mask so it seals, to clear it with a small exhale, and to kick gently without splashing, in a pool, before any reef is visited, because a snorkeler who thrashes sees nothing and tires fast. Our guides teach reef manners as safety: no touching coral, no chasing animals, and no standing on the reef, since the reef is both fragile and sharp. Every outing pairs swimmers as buddies who stay in sight of each other, and the hall&#x27;s praise goes to the snorkeler who spots the most life while disturbing the least.</p><h4>Training</h4><p>Sessions pair pool mask and snorkel practice, gentle kicking drills, buddy drills, and reef-manners briefings.</p><h4>Techniques</h4><p>Signature basics are mask sealing, mask and snorkel clearing, gentle fin kicks, and duck diving.</p><h4>Safety</h4><p>Buddy pairs stay in sight, currents and boats are checked, and no one snorkels alone.</p><h4>History</h4><p>The Signature school follows snorkeling from ancient diving roots to modern reef recreation.</p><h4>Working demo program</h4><pre class="codeblock">QA = [(&#x27;How is a snorkel cleared?&#x27;, &#x27;With a sharp exhale through the tube.&#x27;), (&#x27;What is the first safety rule?&#x27;, &#x27;Never snorkel alone.&#x27;), (&#x27;Why must coral not be touched?&#x27;, &#x27;Coral is fragile and sharp, and touching harms it and can injure the snorkeler.&#x27;), (&#x27;What is taught before any reef visit?&#x27;, &#x27;Mask fitting, clearing, and gentle kicking in a pool.&#x27;)]
+print(&#x27;Signature snorkeling quiz&#x27;)
+for q, a in QA:
+    print(&#x27;Q: %s&#x27; % q)
+    print(&#x27;A: %s&#x27; % a)
+print(&#x27;Questions: %d&#x27; % len(QA))
+</pre></article>
+<article class="record"><h3>Freediving <small>Rank 15 &middot; complex &middot; swimming &middot; advanced</small></h3>
+<p>Signature freediving is taught as relaxation before depth. A student learns breathing and relaxation on land, then static breath-holding in a pool with a buddy, then short dives, and depth comes only when relaxation is reliable, because tension burns oxygen faster than any technique saves it. Our programme teaches equalisation early and gently, and any ear pain ends a dive at once, with no exception. The buddy rule is taught as the sport itself: a Signature freediver never enters the water to dive without a trained buddy watching. The hall&#x27;s praise goes to the diver whose dive looks calmest, not deepest.</p><h4>Training</h4><p>Sessions pair land breathing and relaxation, pool static holds with a buddy, short dives, and equalisation drills.</p><h4>Techniques</h4><p>Signature basics are diaphragmatic breathing, relaxation, ear equalisation, and efficient finning.</p><h4>Safety</h4><p>Never dive alone, ear pain ends a dive at once, and blackout rescue is trained by every student.</p><h4>History</h4><p>The Signature school follows freediving from ancient pearl and sponge diving to modern sport.</p><h4>Working demo program</h4><pre class="codeblock">CHECKS = [(&#x27;Trained buddy present&#x27;, True), (&#x27;Breathing-up completed&#x27;, True), (&#x27;Equalisation practised gently&#x27;, True), (&#x27;Safety diver on deep dives&#x27;, True), (&#x27;Diving alone&#x27;, False)]
+print(&#x27;Signature freediving dive checklist&#x27;)
+passed = 0
+for name, ok in CHECKS:
+    print(&#x27;%s: %s&#x27; % (name, &#x27;PASS&#x27; if ok else &#x27;FAIL&#x27;))
+    if ok:
+        passed += 1
+print(&#x27;Passed: %d of %d&#x27; % (passed, len(CHECKS)))
+</pre></article>
+<article class="record"><h3>Rafting <small>Rank 16 &middot; complex &middot; paddling &middot; advanced</small></h3>
+<p>Signature rafting is taught as a crew before a river. A crew learns to paddle together on command, to high-side into a wave as one, and to hold on, on flat water, before any rapid is run, because a crew that cannot move together cannot run a rapid safely. Our guides teach the swim position, feet first and on the back, in a pool, and every trip begins with a safety talk and a practice of the commands. Rivers are chosen by the weakest paddler in the crew, not the strongest, and the hall&#x27;s praise goes to the crew that runs clean and together, not the crew that runs fastest.</p><h4>Training</h4><p>Sessions pair flat-water crew drills, high-side practice, swim-position practice, and safety talks.</p><h4>Techniques</h4><p>Signature basics are paddling on command, high-siding, holding on, and swimming feet-first if thrown out.</p><h4>Safety</h4><p>Helmets and life jackets are mandatory, rivers are scouted, and trips are graded to the weakest paddler.</p><h4>History</h4><p>The Signature school follows rafting from post-war river exploration to commercial and racing sport.</p><h4>Working demo program</h4><pre class="codeblock">CHECKS = [(&#x27;Safety talk given&#x27;, True), (&#x27;Helmets and life jackets worn&#x27;, True), (&#x27;River scouted&#x27;, True), (&#x27;Rescue gear aboard&#x27;, True), (&#x27;River graded above the crew&#x27;, False)]
+print(&#x27;Signature rafting trip checklist&#x27;)
+passed = 0
+for name, ok in CHECKS:
+    print(&#x27;%s: %s&#x27; % (name, &#x27;PASS&#x27; if ok else &#x27;FAIL&#x27;))
+    if ok:
+        passed += 1
+print(&#x27;Passed: %d of %d&#x27; % (passed, len(CHECKS)))
+</pre></article>
+<h2>Related databases</h2><ul><li><a href="../water-sports/index.html">water-sports</a></li><li><a href="../sports/index.html">sports</a></li><li><a href="../sports-signature/index.html">sports-signature</a></li><li><a href="../team-sports/index.html">team-sports</a></li><li><a href="../swimwear-guide/index.html">swimwear-guide</a></li><li><a href="../team-sports-signature/index.html">team-sports-signature</a></li><li><a href="../swimwear-guide-signature/index.html">swimwear-guide-signature</a></li></ul>
+<script src="gen-water-sports-signature.js"></script>
+<script>
+(function(){'use strict';
+var DATA_URL='https://justinahiggins614-cmyk.github.io/jah-databases-data-2/data/water-sports-signature/index.jsonl.gz';
+function $(id){return document.getElementById(id);}
+function setCount(n){ $('stCount').textContent=n.toLocaleString()+' / 1,000,000 target'; $('stCount2').textContent=n.toLocaleString(); }
+fetch(DATA_URL).then(function(res){
+  if(!res.ok) throw new Error('HTTP '+res.status);
+  var ds=new DecompressionStream('gzip');
+  return new Response(res.body.pipeThrough(ds)).text();
+}).then(function(t){
+  var n=t.split('\n').filter(function(l){return l.trim();}).length;
+  setCount(n);
+}).catch(function(){ $('stCount').textContent='archive unreachable'; });
+})();
+</script>
+<script src="../../assets/assistant-maker.js"></script>
+</body></html>

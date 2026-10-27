@@ -1,0 +1,199 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">
+<title>The Signature Combat Sports Database</title><meta name="description" content="The Signature Combat Sports Database: Sixteen full combat sport records, from judo to escrima and kali, ordered simple to complex, each with a working demo program. Free forever.">
+<style>body{font-family:system-ui,sans-serif;max-width:900px;margin:auto;padding:1em;line-height:1.6}
+.kv{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:0.75em}
+.kv>div{border:1px solid #ccc;padding:0.5em}.codeblock{background:#111;color:#eee;padding:1em;overflow:auto;white-space:pre-wrap}
+.pill{display:inline-block;border:1px solid #333;border-radius:2em;padding:0.2em 0.8em;margin:0.2em}
+.merger{background:#c00;color:#fff;border:0;padding:0.7em 1.4em;font-size:1em;cursor:pointer}
+.record{border-top:2px solid #333;margin-top:2em;padding-top:1em}</style></head><body>
+<h1>The Signature Combat Sports Database</h1><p class="pill">Exhaustive</p> <p class="pill">march to a million: in progress</p>
+<button class="merger" onclick="alert('All Database Merger: this database is ready to merge into the network archive.')">All Database Merger</button>
+<p>Archive records: <b id="stCount">16 / 1,000,000 target</b> · <span id="stCount2">16</span> records <span class="dim">(populated from the live archive index)</span></p>
+<p>Every record here is an original Signature work: a full prose description, history, training, techniques, and safety notes written for the Signature edition, plus a working demo program. Everything is free forever, with no payments and no upsells.</p>
+<h2>Specialist AI: JAH Combat Sports Guide</h2><p>JAH Combat Sports Guide answers questions about combat sports, explains any record in plain sentences, and helps choose the right technique, training plan, or safety rule for a practice session.</p>
+<h2>Boundless generator</h2><p>The generator below is seeded and deterministic, throttled to at most 100 records per call, duplicate-checked, and hard-stopped at 10^15 records. Every generated record is labeled src "generated". Open the page script to use <code>window.CombatSportsSignatureTools.generateRecord(seed)</code>.</p>
+<h2>Validation engine</h2><p>Each record is checked for a complete title, its own record kind, its own edition slug and id prefix, a full prose description, topic fields, and a demo whose stored output byte-matches a fresh run.</p>
+<h2>Evidence links</h2><ul><li><a href="https://justinahiggins614-cmyk.github.io/jah-databases-data-2/data/combat-sports-signature/index.jsonl.gz">Full record index for this edition (data-2)</a></li></ul>
+<h2>Tool connections</h2><p>The page exposes <code>window.CombatSportsSignatureTools</code> with <code>searchRecords</code>, <code>generateRecord</code>, <code>validateRecord</code>, and <code>runTests</code>.</p>
+<h2>Testing suite</h2><p>Run <code>window.CombatSportsSignatureTools.runTests()</code> in the console: it checks record kind, slug, id prefix, src labeling, validation, duplicate rejection, batch throttling, and search.</p>
+<h2>Audit history</h2><p>Built as a package on 2026-10-26: 16 records, ordered simple to compounded to complex by ladder rank, JSONL re-parsed, every demo re-executed with byte-matched output, both generator files syntax-checked, and generator gates executed.</p>
+<h2>Search</h2><input id="q" placeholder="Search combat sports" oninput="doSearch(this.value)"><div id="results"></div>
+<script>var SEARCH_INDEX=[{"id": "JAH-CMBS-000001", "title": "Judo"}, {"id": "JAH-CMBS-000002", "title": "Taekwondo"}, {"id": "JAH-CMBS-000003", "title": "Karate"}, {"id": "JAH-CMBS-000004", "title": "Aikido"}, {"id": "JAH-CMBS-000005", "title": "Muay Thai"}, {"id": "JAH-CMBS-000006", "title": "Capoeira"}, {"id": "JAH-CMBS-000007", "title": "Sambo"}, {"id": "JAH-CMBS-000008", "title": "Krav Maga"}, {"id": "JAH-CMBS-000009", "title": "Sumo"}, {"id": "JAH-CMBS-000010", "title": "Kendo"}, {"id": "JAH-CMBS-000011", "title": "Brazilian Jiu-Jitsu"}, {"id": "JAH-CMBS-000012", "title": "Mixed Martial Arts"}, {"id": "JAH-CMBS-000013", "title": "Savate"}, {"id": "JAH-CMBS-000014", "title": "Kung Fu"}, {"id": "JAH-CMBS-000015", "title": "Pencak Silat"}, {"id": "JAH-CMBS-000016", "title": "Escrima and Kali"}];function doSearch(q){q=q.toLowerCase();var hits=SEARCH_INDEX.filter(function(r){return r.title.toLowerCase().indexOf(q)!==-1});document.getElementById('results').innerHTML=hits.map(function(r){return '<p>'+r.id+' — '+r.title+'</p>'}).join('')||'<p>No matches yet.</p>';}</script>
+<h2>Records</h2><div class="kv"><div>Records: 16</div><div>Editions: 1 of a pair</div><div>Free forever</div></div>
+<article class="record"><h3>Judo <small>Rank 1 &middot; simple &middot; grappling &middot; beginner</small></h3>
+<p>Signature judo is our own school of the gentle way, built on the same truth that balance decides everything. A Signature judoka trains falling as a daily habit, not a warm-up, and treats every grip as a question: where is the partner&#x27;s weight, and where is it going next? Our sessions open with slow, cooperative throwing drills in which the thrower must land the partner softly, and only then move to free practice where both players may attack. We keep the contest scores as a training language rather than a goal, so that a student learns to read a match the way a reader reads a page, one shift of weight at a time.</p><h4>History</h4><p>The Signature school traces its line to the Kodokan idea that maximum efficiency with mutual welfare beats brute strength, and restates it for a modern training hall.</p><h4>Training</h4><p>A week pairs two throwing sessions with one groundwork session and one falling-and-mobility session, so no student throws hard before they can fall well.</p><h4>Techniques</h4><p>Signature emphasis falls on foot sweeps and hip throws that need timing more than size, plus pins that control without pain.</p><h4>Safety</h4><p>Tapping ends every hold instantly, and any throw that cannot be landed softly is not practised at speed.</p><h4>Working demo program</h4><pre class="codeblock">DAYS = [(&#x27;Monday throws&#x27;, 60), (&#x27;Wednesday groundwork&#x27;, 60), (&#x27;Friday falling and mobility&#x27;, 45), (&#x27;Saturday free practice&#x27;, 75)]
+print(&#x27;Signature judo weekly plan&#x27;)
+total = sum(m for _, m in DAYS)
+best = max(DAYS, key=lambda d: d[1])
+for day, m in DAYS:
+    print(&#x27;%s: %d minutes&#x27; % (day, m))
+print(&#x27;Weekly total: %d minutes&#x27; % total)
+print(&#x27;Daily average: %.1f minutes&#x27; % (total / len(DAYS)))
+print(&#x27;Longest session: %s (%d minutes)&#x27; % (best[0], best[1]))
+</pre></article>
+<article class="record"><h3>Taekwondo <small>Rank 2 &middot; simple &middot; striking &middot; beginner</small></h3>
+<p>Signature taekwondo keeps the high kick but rebuilds the lesson around it: a kick is only good if the kicker is still standing well after it lands. Our students drill the chamber, the hip turn, and the return to guard as one movement, and they practise kicking to a pad held at three heights so the body learns control before power. Sparring in our hall uses the same scoring language as the sport, but a round is won in training by clean technique and calm footwork, not by chasing points. Patterns are treated as moving lessons in balance, and breaking is practised only as a test of focus on a board that gives way cleanly.</p><h4>Training</h4><p>Each session opens with hip mobility and balance work, then pad rounds at low, middle, and high targets, then controlled sparring.</p><h4>Techniques</h4><p>Signature drills stress the roundhouse and side kick first, because both teach chamber, hip rotation, and recovery in one action.</p><h4>Safety</h4><p>Head contact in training is light and controlled, pads and guards are always worn, and any kick that loses balance is repeated slowly.</p><h4>Competitions</h4><p>Students may enter sport competition, but the hall&#x27;s own test is a pattern and pad round judged on control, not on points.</p><h4>Working demo program</h4><pre class="codeblock">ITEMS = [(&#x27;Low roundhouse kicks&#x27;, 24), (&#x27;Middle roundhouse kicks&#x27;, 24), (&#x27;Side kicks&#x27;, 16), (&#x27;Back kicks&#x27;, 12), (&#x27;Axe kicks&#x27;, 8)]
+print(&#x27;Signature taekwondo pad-round tally&#x27;)
+total = 0
+for name, val in ITEMS:
+    total += val
+    print(&#x27;%s: %s&#x27; % (name, val))
+print(&#x27;Total: %s&#x27; % total)
+print(&#x27;Average: %.2f&#x27; % (total / len(ITEMS)))
+</pre></article>
+<article class="record"><h3>Karate <small>Rank 3 &middot; simple &middot; striking &middot; beginner</small></h3>
+<p>Signature karate begins from stillness. Before any punch is thrown, our students learn to stand, breathe, and bow properly, because a technique thrown from a poor stance is a wasted movement. The hall teaches one kata deeply before adding another, and each kata is walked slowly, then at speed, then against an imagined opponent, so the student understands why each block turns the way it does. Sparring stays light and controlled, and the highest praise in our hall goes to the student who stops a technique exactly on target without touching hard. Power matters, but it is always the servant of control.</p><h4>Training</h4><p>A session divides into stance and breathing work, basics in lines, one kata studied in depth, and light controlled sparring.</p><h4>Techniques</h4><p>Signature basics stress the straight punch from a settled hip, the front kick, and three blocks practised until they need no thought.</p><h4>Safety</h4><p>All sparring contact is controlled and stopped on target; protective gear is worn, and hard contact ends the round.</p><h4>History</h4><p>The Signature line honours the Okinawan roots of the art and the Japanese styles that carried it worldwide, while teaching it as character training first.</p><h4>Working demo program</h4><pre class="codeblock">CHECKS = [(&#x27;Bow and stance work done&#x27;, True), (&#x27;Basics drilled in lines&#x27;, True), (&#x27;Kata practised slowly then at speed&#x27;, True), (&#x27;Controlled sparring with gear&#x27;, True), (&#x27;Hard contact used&#x27;, False)]
+print(&#x27;Signature karate session checklist&#x27;)
+passed = 0
+for name, ok in CHECKS:
+    print(&#x27;%s: %s&#x27; % (name, &#x27;PASS&#x27; if ok else &#x27;FAIL&#x27;))
+    if ok:
+        passed += 1
+print(&#x27;Passed: %d of %d&#x27; % (passed, len(CHECKS)))
+</pre></article>
+<article class="record"><h3>Aikido <small>Rank 4 &middot; simple &middot; grappling &middot; beginner</small></h3>
+<p>Signature aikido is taught as a study of entering and turning. Our first lesson is not a throw at all but a walk: stepping off the line of an attack while staying upright and calm. From there, students learn one wrist control deeply, then a throw that uses the same entry, so the art grows as a small family of movements rather than a long list. There is no contest in our hall, and progress is measured by how softly a partner can be brought down and how safely they can fall. The wooden sword appears early, not as a weapon to master but as a teacher of distance: it shows at once when a student is standing too close or too far.</p><h4>Training</h4><p>Sessions pair entry footwork with one throw or pin, and every technique is practised on both sides of the body.</p><h4>Techniques</h4><p>Signature emphasis falls on the entering throw and the wrist turn, both taught from the same off-line step.</p><h4>Safety</h4><p>Falling skill is practised every session, locks are applied slowly, and tapping stops everything immediately.</p><h4>History</h4><p>The Signature school follows Ueshiba&#x27;s principle of blending with force rather than opposing it, restated for a modern cooperative hall.</p><h4>Working demo program</h4><pre class="codeblock">ITEMS = [(&#x27;Entry steps&#x27;, 40), (&#x27;Wrist turns&#x27;, 24), (&#x27;Entering throws&#x27;, 16), (&#x27;Rolling falls&#x27;, 20), (&#x27;Sword distance drills&#x27;, 16)]
+print(&#x27;Signature aikido technique repetitions&#x27;)
+total = 0
+for name, val in ITEMS:
+    total += val
+    print(&#x27;%s: %s&#x27; % (name, val))
+print(&#x27;Total: %s&#x27; % total)
+print(&#x27;Average: %.2f&#x27; % (total / len(ITEMS)))
+</pre></article>
+<article class="record"><h3>Muay Thai <small>Rank 5 &middot; simple &middot; striking &middot; beginner</small></h3>
+<p>Signature muay Thai keeps the eight limbs but teaches them as a rhythm first and a fight second. A new student spends weeks on the teep and the round kick to the pad before any sparring, because those two tools teach distance, hip turn, and recovery. Clinch work in our hall is practised slowly, with partners learning to balance and off-balance each other before knees are added at all. The wai kru is taught as a mark of respect for teachers and training partners, and fitness rounds are built so that a student of any age can finish them. Sparring stays technical and light, and the coach stops any round that turns into a contest of toughness.</p><h4>Training</h4><p>A Signature week mixes pad rounds, bag rounds, clinch balance drills, skipping, and one technical sparring session.</p><h4>Techniques</h4><p>The teep and the round kick come first, then elbows and knees from the clinch, always from a balanced stance.</p><h4>Safety</h4><p>Sparring is technical and light, shin guards and gloves are always worn, and coaches stop rounds that escalate.</p><h4>History</h4><p>The Signature school honours the Thai tradition and the wai kru ritual while teaching the art as a fitness and self-defence discipline.</p><h4>Working demo program</h4><pre class="codeblock">PARTS = [(&#x27;Round kicks landed clean&#x27;, 18, 1.0), (&#x27;Teeps landed clean&#x27;, 14, 1.0), (&#x27;Clinch knees landed clean&#x27;, 10, 1.0), (&#x27;Elbow drills completed&#x27;, 12, 1.0)]
+print(&#x27;Signature muay Thai pad-round score&#x27;)
+total = 0.0
+for name, pts, w in PARTS:
+    contrib = pts * w
+    total += contrib
+    print(&#x27;%s: %s points x weight %.2f = %.2f&#x27; % (name, pts, w, contrib))
+print(&#x27;Weighted total: %.2f&#x27; % total)
+</pre></article>
+<article class="record"><h3>Capoeira <small>Rank 6 &middot; compounded &middot; striking &middot; intermediate</small></h3>
+<p>Signature capoeira is taught as a conversation before it is taught as a contest. A new student learns the ginga until it feels like walking, then one dodge and one kick, and then enters the roda to play a slow game in which the aim is to keep moving, not to hit. Music is not background in our hall: every student learns to play the berimbau and to sing a chorus, because the music sets the speed of the game and tells players when to enter and leave. Acrobatics come late, only when the base steps are strong, and the highest praise goes to the player whose game makes their partner look good.</p><h4>Training</h4><p>Classes divide into ginga and dodge drills, music practice, slow roda games, and only later acrobatics.</p><h4>Techniques</h4><p>Signature basics are the ginga, one esquiva dodge, the queixada kick, and the au cartwheel, in that order.</p><h4>Safety</h4><p>Roda games are controlled, kicks are placed rather than driven through, and the music leader may stop a game that turns rough.</p><h4>History</h4><p>The Signature school honours capoeira&#x27;s Afro-Brazilian roots and teaches its history plainly, including the era when it was banned.</p><h4>Working demo program</h4><pre class="codeblock">DAYS = [(&#x27;Monday ginga and dodges&#x27;, 60), (&#x27;Wednesday music and singing&#x27;, 45), (&#x27;Friday slow roda games&#x27;, 60), (&#x27;Saturday movement and acrobatics&#x27;, 45)]
+print(&#x27;Signature capoeira weekly practice&#x27;)
+total = sum(m for _, m in DAYS)
+best = max(DAYS, key=lambda d: d[1])
+for day, m in DAYS:
+    print(&#x27;%s: %d minutes&#x27; % (day, m))
+print(&#x27;Weekly total: %d minutes&#x27; % total)
+print(&#x27;Daily average: %.1f minutes&#x27; % (total / len(DAYS)))
+print(&#x27;Longest session: %s (%d minutes)&#x27; % (best[0], best[1]))
+</pre></article>
+<article class="record"><h3>Sambo <small>Rank 7 &middot; compounded &middot; grappling &middot; intermediate</small></h3>
+<p>Signature sambo is taught as practical grappling for people who need to stay on their feet. Our students begin with jacket grips and foot sweeps, because control of the jacket decides most exchanges, and they learn leg locks only after they can fall, pin, and escape a pin reliably. Training alternates between throw rounds, ground rounds, and wrestling-style leg-attack rounds, so no student becomes a specialist in only one phase. Combat elements are taught as self-defence principles, such as keeping distance and escaping a grip, rather than as a fighting sport. The hall rule is simple: a technique that only works on a partner who is not resisting is not yet a technique.</p><h4>Training</h4><p>A Signature week pairs throw rounds, ground rounds, and leg-attack rounds, with breakfalls in every session.</p><h4>Techniques</h4><p>Jacket throws and foot sweeps come first, then pins and escapes, then leg locks, which are applied slowly.</p><h4>Safety</h4><p>Leg locks are taught late, applied gradually, and stopped by tapping; no lock is ever forced through resistance.</p><h4>History</h4><p>The Signature school follows the Soviet systematisation of folk wrestling and judo into a practical grappling art.</p><h4>Working demo program</h4><pre class="codeblock">ITEMS = [(&#x27;Jacket grip drills&#x27;, 40), (&#x27;Foot sweeps&#x27;, 30), (&#x27;Pin escapes&#x27;, 24), (&#x27;Leg-lock entries (slow)&#x27;, 16), (&#x27;Breakfalls&#x27;, 40)]
+print(&#x27;Signature sambo weekly repetitions&#x27;)
+total = 0
+for name, val in ITEMS:
+    total += val
+    print(&#x27;%s: %s&#x27; % (name, val))
+print(&#x27;Total: %s&#x27; % total)
+print(&#x27;Average: %.2f&#x27; % (total / len(ITEMS)))
+</pre></article>
+<article class="record"><h3>Krav Maga <small>Rank 8 &middot; compounded &middot; striking &middot; intermediate</small></h3>
+<p>Signature krav maga is built on one sentence: the best fight is the one you never have. Our classes open with awareness drills, such as spotting exits and reading a street, before any physical technique is taught, and de-escalation is practised as a skill with words, not as a lecture. Physical training keeps only a small set of tools: a palm strike, a knee, an elbow, and escapes from the most common grabs and chokes, drilled until they work when the student is tired and surprised. Weapon material is taught late, slowly, and honestly, with the plain warning that no empty-hand defence against a weapon is reliable. The hall never sells confidence it cannot back with practice.</p><h4>Training</h4><p>Sessions divide into awareness work, de-escalation practice, pad drills under fatigue, and scenario practice.</p><h4>Techniques</h4><p>Signature tools are few by design: palm strike, knee, elbow, and escapes from grabs and chokes.</p><h4>Safety</h4><p>All contact uses pads or cooperative partners, weapon drills use training weapons, and no technique is promised as reliable against a real weapon.</p><h4>History</h4><p>The Signature school follows Lichtenfeld&#x27;s practical method while teaching it as civilian self-defence with avoidance first.</p><h4>Working demo program</h4><pre class="codeblock">QA = [(&#x27;What is taught first in Signature krav maga?&#x27;, &#x27;Awareness and avoidance, including spotting exits and reading a street.&#x27;), (&#x27;What is practised as a skill, not a lecture?&#x27;, &#x27;De-escalation with words.&#x27;), (&#x27;Are weapon defences promised as reliable?&#x27;, &#x27;No. They are taught honestly, with the warning that no empty-hand defence against a weapon is reliable.&#x27;), (&#x27;How many core physical tools does the Signature school keep?&#x27;, &#x27;A small set: palm strike, knee, elbow, and escapes from grabs and chokes.&#x27;)]
+print(&#x27;Signature krav maga principles quiz&#x27;)
+for q, a in QA:
+    print(&#x27;Q: %s&#x27; % q)
+    print(&#x27;A: %s&#x27; % a)
+print(&#x27;Questions: %d&#x27; % len(QA))
+</pre></article>
+<article class="record"><h3>Sumo <small>Rank 9 &middot; compounded &middot; grappling &middot; intermediate</small></h3>
+<p>Signature sumo is taught as a study of the first step. In our hall, two students face each other in a marked circle and the whole lesson is the charge: low hips, driving legs, and hands that meet the opponent before the opponent meets you. Weight is never the lesson, and our classes use weight classes so that smaller students learn technique instead of being pushed aside. Ritual is taught with respect: salt, bowing, and the leg stomp are explained as part of a living Japanese tradition, not copied as costume. Bouts are short, refereed, and followed by a bow, and the coach&#x27;s praise goes to the wrestler who wins by balance and timing rather than by bulk.</p><h4>Training</h4><p>Sessions pair charge drills, pushing drills, belt-grip practice, and short refereed bouts in a marked circle.</p><h4>Techniques</h4><p>Signature emphasis falls on the low charge, the thrust, and the sidestep, all of which reward timing over size.</p><h4>Safety</h4><p>Weight classes are used in training, falls are practised on soft ground, and bouts stop at once on a clean ring-out.</p><h4>History</h4><p>The Signature school honours sumo&#x27;s ancient Japanese roots and teaches its rituals as a living tradition.</p><h4>Working demo program</h4><pre class="codeblock">ROWS = [(&#x27;Charge distance (steps)&#x27;, 2, 3), (&#x27;Typical bout length (seconds)&#x27;, 5, 30), (&#x27;Push drills per session&#x27;, 20, 30)]
+print(&#x27;Signature sumo bout measures&#x27;)
+for label, a, b in ROWS:
+    print(&#x27;%s: %s vs %s, difference %s&#x27; % (label, a, b, abs(a - b)))
+</pre></article>
+<article class="record"><h3>Kendo <small>Rank 10 &middot; compounded &middot; weapon art &middot; intermediate</small></h3>
+<p>Signature kendo begins with the bow and the foot. Students learn to advance and retreat without crossing their feet, to hold the shinai correctly, and to shout the target as they cut, because a silent cut is treated as an unfinished one. Our hall teaches kata with wooden swords early, since kata shows distance and timing more plainly than free practice does. Free matches use the same two-point rule as the wider art, and referees judge posture and spirit beside the strike itself. The highest praise in our hall goes to the student whose cut is straight, loud, and balanced, whether or not it scores.</p><h4>Training</h4><p>Sessions divide into footwork, suburi cutting practice, kata with wooden swords, and free practice in armour.</p><h4>Techniques</h4><p>Signature basics are the head cut, wrist cut, and torso cut, each shouted and driven by footwork.</p><h4>Safety</h4><p>Armour is always worn for free practice, shinai are inspected for splinters, and thrusts to the throat are practised only under supervision.</p><h4>History</h4><p>The Signature school follows the samurai sword tradition into its modern sport form, taught as character training.</p><h4>Working demo program</h4><pre class="codeblock">ITEMS = [(&#x27;Head cuts&#x27;, 30), (&#x27;Wrist cuts&#x27;, 20), (&#x27;Torso cuts&#x27;, 20), (&#x27;Footwork advances&#x27;, 40), (&#x27;Kata repetitions&#x27;, 6)]
+print(&#x27;Signature kendo cutting practice&#x27;)
+total = 0
+for name, val in ITEMS:
+    total += val
+    print(&#x27;%s: %s&#x27; % (name, val))
+print(&#x27;Total: %s&#x27; % total)
+print(&#x27;Average: %.2f&#x27; % (total / len(ITEMS)))
+</pre></article>
+<article class="record"><h3>Brazilian Jiu-Jitsu <small>Rank 11 &middot; complex &middot; grappling &middot; advanced</small></h3>
+<p>Signature jiu-jitsu is taught position before submission. A new student learns to survive underneath, then to escape, then to hold a dominant position, and only then to finish, because a finish attempted from a poor position teaches nothing. Our classes open with a positional game in which one student must hold a position for a minute while the other escapes, and submissions are introduced slowly, with tapping treated as a normal part of learning rather than a defeat. Sparring is the centre of the art, but it is graded: beginners roll lightly, and no round is worth an injury. The hall&#x27;s rule is that the best student is the one everyone wants to train with.</p><h4>Training</h4><p>Sessions pair a positional game, a technique of the week, and graded live sparring, with beginners rolling lightly.</p><h4>Techniques</h4><p>Signature order is survival, escape, position, then submission, starting from guard, side control, mount, and back control.</p><h4>Safety</h4><p>Tapping ends every hold instantly, sparring intensity is graded by experience, and no submission is forced through resistance.</p><h4>History</h4><p>The Signature school follows the Brazilian development of judo groundwork into a live-tested ground art.</p><h4>Working demo program</h4><pre class="codeblock">DAYS = [(&#x27;Monday survival and escapes&#x27;, 60), (&#x27;Wednesday positional games&#x27;, 60), (&#x27;Friday submissions (slow)&#x27;, 45), (&#x27;Saturday open sparring&#x27;, 60)]
+print(&#x27;Signature jiu-jitsu weekly plan&#x27;)
+total = sum(m for _, m in DAYS)
+best = max(DAYS, key=lambda d: d[1])
+for day, m in DAYS:
+    print(&#x27;%s: %d minutes&#x27; % (day, m))
+print(&#x27;Weekly total: %d minutes&#x27; % total)
+print(&#x27;Daily average: %.1f minutes&#x27; % (total / len(DAYS)))
+print(&#x27;Longest session: %s (%d minutes)&#x27; % (best[0], best[1]))
+</pre></article>
+<article class="record"><h3>Mixed Martial Arts <small>Rank 12 &middot; complex &middot; striking &middot; advanced</small></h3>
+<p>Signature mixed martial arts is taught as three arts learned in turn, never as a single brawl. A student first builds a striking base, then learns wrestling takedowns and how to stop them, then ground grappling, and only then combines the phases in controlled drills. Our hall never runs hard sparring for beginners: striking sparring is technical and light, grappling sparring is graded, and full combination sparring comes only after months of single-phase practice. Weight classes and medical sense are taught as part of the sport, not as paperwork, and the coach&#x27;s first lesson is that the cage rewards the athlete who stays calm across all three phases.</p><h4>Training</h4><p>A Signature week rotates striking, wrestling, and grappling days, with combination drills only after single-phase fundamentals are solid.</p><h4>Techniques</h4><p>The three phases are striking, wrestling takedowns and defence, and ground grappling, each trained separately before combining.</p><h4>Safety</h4><p>Beginner sparring is technical and light, grappling is graded by experience, and hard sparring is reserved for prepared students.</p><h4>History</h4><p>The Signature school follows the sport&#x27;s path from early unregulated contests to a regulated multi-discipline sport.</p><h4>Working demo program</h4><pre class="codeblock">CHECKS = [(&#x27;Striking base solid&#x27;, True), (&#x27;Takedown defence practised&#x27;, True), (&#x27;Ground escapes reliable&#x27;, True), (&#x27;Technical sparring completed&#x27;, True), (&#x27;Hard sparring before fundamentals&#x27;, False)]
+print(&#x27;Signature mixed martial arts readiness checklist&#x27;)
+passed = 0
+for name, ok in CHECKS:
+    print(&#x27;%s: %s&#x27; % (name, &#x27;PASS&#x27; if ok else &#x27;FAIL&#x27;))
+    if ok:
+        passed += 1
+print(&#x27;Passed: %d of %d&#x27; % (passed, len(CHECKS)))
+</pre></article>
+<article class="record"><h3>Savate <small>Rank 13 &middot; complex &middot; striking &middot; advanced</small></h3>
+<p>Signature savate is taught as fencing with the feet. Our students learn to move on the balls of their feet, to kick long and return to guard, and to treat the shoe as a precise tool rather than a heavy one. The first kicks taught are the low fouette to the leg and the chasse to the body, because both teach distance without exposing the kicker. Boxing hands are drilled beside the kicks from the start, so the art never becomes legs alone. Cane work appears as a companion study for advanced students, and the hall&#x27;s praise goes to the fighter whose footwork makes their kicks look easy.</p><h4>Training</h4><p>Sessions pair footwork drills, kicking on pads, boxing hands, and controlled sparring in shoes.</p><h4>Techniques</h4><p>Signature basics are the low fouette, the chasse side kick, and the revers turning kick, all returned to guard.</p><h4>Safety</h4><p>Sparring is controlled, shoes are inspected, and protective gear is always worn.</p><h4>History</h4><p>The Signature school follows the French formalisation of street kicking and boxing into an elegant sport.</p><h4>Working demo program</h4><pre class="codeblock">ITEMS = [(&#x27;Low fouette kicks&#x27;, 30), (&#x27;Chasse kicks&#x27;, 24), (&#x27;Revers kicks&#x27;, 16), (&#x27;Boxing combinations&#x27;, 20), (&#x27;Footwork rounds&#x27;, 6)]
+print(&#x27;Signature savate kicking drills&#x27;)
+total = 0
+for name, val in ITEMS:
+    total += val
+    print(&#x27;%s: %s&#x27; % (name, val))
+print(&#x27;Total: %s&#x27; % total)
+print(&#x27;Average: %.2f&#x27; % (total / len(ITEMS)))
+</pre></article>
+<article class="record"><h3>Kung Fu <small>Rank 14 &middot; complex &middot; striking &middot; advanced</small></h3>
+<p>Signature kung fu is taught as a long road walked slowly. A student holds the horse stance until the legs stop shaking, learns one form deeply before a second is added, and practises each movement first for posture, then for power, then for application with a partner. Our hall teaches the staff before the sword, because the staff teaches distance and two-handed coordination plainly. Health practice sits beside fighting practice: breathing and stretching close every session, and the teacher&#x27;s praise goes to the student whose form is steady after a year, not to the student who learns fastest in a month.</p><h4>Training</h4><p>Sessions divide into stance holding, basics, one form studied in depth, partner application, and closing breathing work.</p><h4>Techniques</h4><p>Signature basics are the horse stance, bow stance, straight punch, front kick, and staff work before sword work.</p><h4>Safety</h4><p>Weapons are practised with training versions first, partner drills are cooperative, and stance work is built up gradually.</p><h4>History</h4><p>The Signature school honours the temple, village, and opera roots of the Chinese arts while teaching them as a health and fighting discipline.</p><h4>Working demo program</h4><pre class="codeblock">ITEMS = [(&#x27;Horse stance&#x27;, 10), (&#x27;Bow stance&#x27;, 8), (&#x27;Empty stance&#x27;, 5), (&#x27;Form repetitions&#x27;, 6), (&#x27;Staff drills&#x27;, 12)]
+print(&#x27;Signature kung fu stance minutes&#x27;)
+total = 0
+for name, val in ITEMS:
+    total += val
+    print(&#x27;%s: %s&#x27; % (name, val))
+print(&#x27;Total: %s&#x27; % total)
+print(&#x27;Average: %.2f&#x27; % (total / len(ITEMS)))
+</pre></article>
+<article class="record"><h3>Pencak Silat <small>Rank 15 &middot; complex &middot; striking &middot; advanced</small></h3>
+<p>Signature silat is taught as flowing water: low, continuous, and hard to catch. A student learns the low stances and the sidestep first, because silat&#x27;s defence is movement rather than blocking, and then chains a sweep to a lock so the art is practised as combinations, not single techniques. Music and artistic forms are taught beside the sport form, so students understand that the dance-like movements carry real entries and exits. Weapons appear late and only as a study of distance, with training versions. The hall&#x27;s rule is that a silat player who stops moving has already lost the exchange.</p><h4>Training</h4><p>Sessions pair low-stance work, sidestep and sweep drills, combination chains, and artistic forms with music.</p><h4>Techniques</h4><p>Signature basics are the low stance, the sidestep, the sweep, and a lock chained after the sweep.</p><h4>Safety</h4><p>Sparring is controlled, sweeps are practised on mats, and weapons use training versions only.</p><h4>History</h4><p>The Signature school honours silat&#x27;s island roots and its recognition as living cultural heritage.</p><h4>Working demo program</h4><pre class="codeblock">DAYS = [(&#x27;Monday low stances&#x27;, 45), (&#x27;Wednesday sweeps and locks&#x27;, 60), (&#x27;Friday combinations&#x27;, 60), (&#x27;Saturday artistic forms&#x27;, 45)]
+print(&#x27;Signature silat weekly practice&#x27;)
+total = sum(m for _, m in DAYS)
+best = max(DAYS, key=lambda d: d[1])
+for day, m in DAYS:
+    print(&#x27;%s: %d minutes&#x27; % (day, m))
+print(&#x27;Weekly total: %d minutes&#x27; % total)
+print(&#x27;Daily average: %.1f minutes&#x27; % (total / len(DAYS)))
+print(&#x27;Longest session: %s (%d minutes)&#x27; % (best[0], best[1]))
+</pre></article>
+<article class="record"><h3>Escrima and Kali <small>Rank 16 &middot; complex &middot; weapon art &middot; advanced</small></h3>
+<p>Signature escrima begins with one stick and one angle. A student learns the first downward angle until it is clean, then its mirror, then the two woven together, because the art is built from pairs, not from lists. Partner flow drills come early but slowly: partners exchange strikes at a speed where both can keep the pattern going, and speed rises only when the pattern survives it. Knife work uses training blades and is taught as a study of respect for the blade&#x27;s danger, never as a trick. The hall&#x27;s praise goes to the student whose flow never breaks, even when the pattern changes without warning.</p><h4>Training</h4><p>Sessions pair solo angle drills, sinawali weaving, slow partner flow, and footwork triangles.</p><h4>Techniques</h4><p>Signature basics are the first two angles, their weave, and the triangle step that moves the body off the line.</p><h4>Safety</h4><p>Sparring uses padded sticks and protective gear, blades are training versions only, and flow speed rises only when the pattern holds.</p><h4>History</h4><p>The Signature school follows the Filipino family schools that systematised stick, blade, and empty-hand work.</p><h4>Working demo program</h4><pre class="codeblock">ITEMS = [(&#x27;Angle one&#x27;, 40), (&#x27;Angle two&#x27;, 40), (&#x27;Sinawali weave cycles&#x27;, 24), (&#x27;Triangle steps&#x27;, 30), (&#x27;Slow flow exchanges&#x27;, 20)]
+print(&#x27;Signature escrima angle repetitions&#x27;)
+total = 0
+for name, val in ITEMS:
+    total += val
+    print(&#x27;%s: %s&#x27; % (name, val))
+print(&#x27;Total: %s&#x27; % total)
+print(&#x27;Average: %.2f&#x27; % (total / len(ITEMS)))
+</pre></article>
+<h2>Related databases</h2><ul><li><a href="../combat-sports/index.html">combat-sports</a></li><li><a href="../sports/index.html">sports</a></li><li><a href="../sports-signature/index.html">sports-signature</a></li><li><a href="../combat-boxing/index.html">combat-boxing</a></li><li><a href="../combat-kickboxing/index.html">combat-kickboxing</a></li><li><a href="../combat-wrestling/index.html">combat-wrestling</a></li><li><a href="../combat-catch-wrestling/index.html">combat-catch-wrestling</a></li><li><a href="../combat-fencing/index.html">combat-fencing</a></li><li><a href="../combat-medieval-wrestling/index.html">combat-medieval-wrestling</a></li><li><a href="../combat-boxing-signature/index.html">combat-boxing-signature</a></li><li><a href="../combat-kickboxing-signature/index.html">combat-kickboxing-signature</a></li><li><a href="../combat-wrestling-signature/index.html">combat-wrestling-signature</a></li><li><a href="../combat-catch-wrestling-signature/index.html">combat-catch-wrestling-signature</a></li><li><a href="../combat-fencing-signature/index.html">combat-fencing-signature</a></li><li><a href="../combat-medieval-wrestling-signature/index.html">combat-medieval-wrestling-signature</a></li></ul>
+<script src="gen-combat-sports-signature.js"></script>
+<script>
+(function(){'use strict';
+var DATA_URL='https://justinahiggins614-cmyk.github.io/jah-databases-data-2/data/combat-sports-signature/index.jsonl.gz';
+function $(id){return document.getElementById(id);}
+function setCount(n){ $('stCount').textContent=n.toLocaleString()+' / 1,000,000 target'; $('stCount2').textContent=n.toLocaleString(); }
+fetch(DATA_URL).then(function(res){
+  if(!res.ok) throw new Error('HTTP '+res.status);
+  var ds=new DecompressionStream('gzip');
+  return new Response(res.body.pipeThrough(ds)).text();
+}).then(function(t){
+  var n=t.split('\n').filter(function(l){return l.trim();}).length;
+  setCount(n);
+}).catch(function(){ $('stCount').textContent='archive unreachable'; });
+})();
+</script>
+<script src="../../assets/assistant-maker.js"></script>
+</body></html>

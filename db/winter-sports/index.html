@@ -1,0 +1,198 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">
+<title>The Winter Sports Database</title><meta name="description" content="The Winter Sports Database: Sixteen full winter sport records, from alpine skiing to snowshoeing, ordered simple to complex, each with a working demo program. Free forever.">
+<style>body{font-family:system-ui,sans-serif;max-width:900px;margin:auto;padding:1em;line-height:1.6}
+.kv{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:0.75em}
+.kv>div{border:1px solid #ccc;padding:0.5em}.codeblock{background:#111;color:#eee;padding:1em;overflow:auto;white-space:pre-wrap}
+.pill{display:inline-block;border:1px solid #333;border-radius:2em;padding:0.2em 0.8em;margin:0.2em}
+.merger{background:#c00;color:#fff;border:0;padding:0.7em 1.4em;font-size:1em;cursor:pointer}
+.record{border-top:2px solid #333;margin-top:2em;padding-top:1em}</style></head><body>
+<h1>The Winter Sports Database</h1><p class="pill">Exhaustive</p> <p class="pill">march to a million: in progress</p>
+<button class="merger" onclick="alert('All Database Merger: this database is ready to merge into the network archive.')">All Database Merger</button>
+<p>Archive records: <b id="stCount">16 / 1,000,000 target</b> · <span id="stCount2">16</span> records <span class="dim">(populated from the live archive index)</span></p>
+<p>Every record here is the full, fully-formed file: a full prose description, history, rules, techniques, training, safety, and competition notes where they apply, plus a working demo program. Everything is free forever, with no payments and no upsells.</p>
+<h2>Specialist AI: JAH Winter Sports Guide</h2><p>JAH Winter Sports Guide answers questions about winter sports, explains any record in plain sentences, and helps choose the right technique, training plan, or safety rule for a practice session.</p>
+<h2>Boundless generator</h2><p>The generator below is seeded and deterministic, throttled to at most 100 records per call, duplicate-checked, and hard-stopped at 10^15 records. Every generated record is labeled src "generated". Open the page script to use <code>window.WinterSportsTools.generateRecord(seed)</code>.</p>
+<h2>Validation engine</h2><p>Each record is checked for a complete title, its own record kind, its own edition slug and id prefix, a full prose description, topic fields, and a demo whose stored output byte-matches a fresh run.</p>
+<h2>Evidence links</h2><ul><li><a href="https://justinahiggins614-cmyk.github.io/jah-databases-data-2/data/winter-sports/index.jsonl.gz">Full record index for this edition (data-2)</a></li></ul>
+<h2>Tool connections</h2><p>The page exposes <code>window.WinterSportsTools</code> with <code>searchRecords</code>, <code>generateRecord</code>, <code>validateRecord</code>, and <code>runTests</code>.</p>
+<h2>Testing suite</h2><p>Run <code>window.WinterSportsTools.runTests()</code> in the console: it checks record kind, slug, id prefix, src labeling, validation, duplicate rejection, batch throttling, and search.</p>
+<h2>Audit history</h2><p>Built as a package on 2026-10-26: 16 records, ordered simple to compounded to complex by ladder rank, JSONL re-parsed, every demo re-executed with byte-matched output, both generator files syntax-checked, and generator gates executed.</p>
+<h2>Search</h2><input id="q" placeholder="Search winter sports" oninput="doSearch(this.value)"><div id="results"></div>
+<script>var SEARCH_INDEX=[{"id": "JAH-WIN-000001", "title": "Alpine Skiing"}, {"id": "JAH-WIN-000002", "title": "Cross-Country Skiing"}, {"id": "JAH-WIN-000003", "title": "Ski Jumping"}, {"id": "JAH-WIN-000004", "title": "Snowboarding"}, {"id": "JAH-WIN-000005", "title": "Biathlon"}, {"id": "JAH-WIN-000006", "title": "Bobsleigh"}, {"id": "JAH-WIN-000007", "title": "Luge"}, {"id": "JAH-WIN-000008", "title": "Skeleton"}, {"id": "JAH-WIN-000009", "title": "Speed Skating"}, {"id": "JAH-WIN-000010", "title": "Short-Track Speed Skating"}, {"id": "JAH-WIN-000011", "title": "Figure Skating"}, {"id": "JAH-WIN-000012", "title": "Curling"}, {"id": "JAH-WIN-000013", "title": "Freestyle Skiing"}, {"id": "JAH-WIN-000014", "title": "Ski Mountaineering"}, {"id": "JAH-WIN-000015", "title": "Ice Climbing"}, {"id": "JAH-WIN-000016", "title": "Snowshoeing"}];function doSearch(q){q=q.toLowerCase();var hits=SEARCH_INDEX.filter(function(r){return r.title.toLowerCase().indexOf(q)!==-1});document.getElementById('results').innerHTML=hits.map(function(r){return '<p>'+r.id+' — '+r.title+'</p>'}).join('')||'<p>No matches yet.</p>';}</script>
+<h2>Records</h2><div class="kv"><div>Records: 16</div><div>Editions: 1 of a pair</div><div>Free forever</div></div>
+<article class="record"><h3>Alpine Skiing <small>Rank 1 &middot; simple &middot; skiing &middot; beginner</small></h3>
+<p>Alpine skiing is racing and skiing downhill on marked courses, and it is the best-known form of skiing, practised at resorts worldwide. Racers compete in downhill, super-G, giant slalom, and slalom, which differ by course length, gate spacing, and speed, with downhill the fastest and slalom the most technical. Recreational skiers use the same skills at gentler grades: edging, carving turns, controlling speed, and stopping safely. Alpine skiing has been an Olympic sport since 1936, and its World Cup circuit, first held in 1967, is the sport&#x27;s leading annual competition. Helmets are standard, and avalanche awareness matters when skiing beyond marked runs.</p><h4>History</h4><p>Alpine skiing grew from Alpine travel and military skiing in the nineteenth century and became a resort sport and Olympic discipline in the twentieth.</p><h4>Rules</h4><p>Racers pass gates in order and are timed; missing a gate disqualifies a run, and the fastest combined or single-run time wins.</p><h4>Techniques</h4><p>Carving turns, edging, pole plants, and speed control through turn shape are the core skills.</p><h4>Safety</h4><p>Helmets are standard, bindings release in falls, and off-piste skiing requires avalanche training and equipment.</p><h4>Working demo program</h4><pre class="codeblock">ITEMS = [(&#x27;Downhill gates (approx metres apart)&#x27;, 25), (&#x27;Super-G gates (approx metres apart)&#x27;, 25), (&#x27;Giant slalom gates (approx metres apart)&#x27;, 12), (&#x27;Slalom gates (approx metres apart)&#x27;, 10)]
+print(&#x27;Alpine skiing disciplines gate spacing&#x27;)
+total = 0
+for name, val in ITEMS:
+    total += val
+    print(&#x27;%s: %s&#x27; % (name, val))
+print(&#x27;Total: %s&#x27; % total)
+print(&#x27;Average: %.2f&#x27; % (total / len(ITEMS)))
+</pre></article>
+<article class="record"><h3>Cross-Country Skiing <small>Rank 2 &middot; simple &middot; skiing &middot; beginner</small></h3>
+<p>Cross-country skiing is skiing across flat and rolling terrain on narrow skis, using striding, skating, and double-poling techniques, and it is both a racing sport and a winter travel method. Racers compete in sprint, individual, pursuit, mass start, and relay events over courses from about one kilometre to fifty kilometres, using classic technique in prepared tracks or skate technique on groomed snow. The sport trains the whole body and rewards efficiency, since races are long and energy must last. Cross-country skiing has been an Olympic sport since the first Winter Games in 1924, and its leading events include the Olympic programme, the World Championships, and the World Cup.</p><h4>History</h4><p>Cross-country skiing grew from Scandinavian winter travel and military skiing, and it has been an Olympic sport since Chamonix 1924.</p><h4>Rules</h4><p>Classic races run in prepared tracks and skate races on groomed snow, with mass starts, pursuits, and relays among the formats.</p><h4>Techniques</h4><p>Diagonal stride, double poling, kick double-pole, and skate techniques including V1 and V2 are the core skills.</p><h4>Training</h4><p>Training pairs technique sessions with long endurance skis, roller skiing in summer, and strength work.</p><h4>Working demo program</h4><pre class="codeblock">DIST_KM = 10.0
+MINUTES = 45.0
+print(&#x27;Cross-country pace calculator&#x27;)
+pace = MINUTES / DIST_KM
+speed = DIST_KM / (MINUTES / 60.0)
+print(&#x27;Distance: %.2f km in %.1f minutes&#x27; % (DIST_KM, MINUTES))
+print(&#x27;Pace: %.2f minutes per km&#x27; % pace)
+print(&#x27;Average speed: %.2f km per hour&#x27; % speed)
+</pre></article>
+<article class="record"><h3>Ski Jumping <small>Rank 3 &middot; simple &middot; skiing &middot; beginner</small></h3>
+<p>Ski jumping is launching from a ramp and flying as far as possible before landing, judged on distance and style. Jumpers race down an inrun in a crouched position, take off from the edge of the table, lean forward into a V-shaped ski position in flight, and land in a telemark position with one ski ahead of the other. Hills are sized by their construction point, from normal hills of about ninety metres to ski flying hills above two hundred metres, and judges score style alongside distance points. Ski jumping has been an Olympic sport since 1924, and its leading events include the World Cup and the Four Hills Tournament, first held in 1953.</p><h4>History</h4><p>Ski jumping grew in Norway in the nineteenth century and has been an Olympic sport since the first Winter Games in 1924.</p><h4>Rules</h4><p>Points combine distance and style marks from five judges, with the highest and lowest style marks discarded.</p><h4>Techniques</h4><p>The inrun crouch, the take-off, the V-style flight position, and the telemark landing are the core phases.</p><h4>Safety</h4><p>Jumpers progress from small hills to large ones only when landings are clean, and coaches supervise all jumping.</p><h4>Working demo program</h4><pre class="codeblock">ITEMS = [(&#x27;Normal hill size (metres)&#x27;, 90), (&#x27;Large hill size (metres)&#x27;, 120), (&#x27;Ski flying hill size (metres)&#x27;, 200), (&#x27;Style judges per jump&#x27;, 5)]
+print(&#x27;Ski jumping hill sizes&#x27;)
+total = 0
+for name, val in ITEMS:
+    total += val
+    print(&#x27;%s: %s&#x27; % (name, val))
+print(&#x27;Total: %s&#x27; % total)
+print(&#x27;Average: %.2f&#x27; % (total / len(ITEMS)))
+</pre></article>
+<article class="record"><h3>Snowboarding <small>Rank 4 &middot; simple &middot; snow &middot; beginner</small></h3>
+<p>Snowboarding is riding down snow on a single wide board, with both feet bound sideways, and it grew from surfing and skateboarding influences in the 1960s and 1970s. Riders compete in parallel giant slalom, snowboard cross, halfpipe, slopestyle, and big air, which differ by racing, jumping, and trick judging, and recreational riders carve groomed runs and ride parks. The core skills are edge control on heel and toe sides, carving turns, and jumping and landing with balance. Snowboarding entered the Olympic Games in 1998, and its leading events include the Olympic programme, the World Cup, and the X Games.</p><h4>History</h4><p>Snowboarding grew from early boards such as the Snurfer in the 1960s and became a resort and Olympic sport in the 1990s.</p><h4>Rules</h4><p>Parallel giant slalom is head-to-head racing, snowboard cross races four riders at once, and halfpipe, slopestyle, and big air are judged on tricks.</p><h4>Techniques</h4><p>Heel-side and toe-side edges, carving, ollies, grabs, and spins are the core skills.</p><h4>Safety</h4><p>Helmets and wrist guards are standard, beginners learn on gentle slopes, and park features are progressed by size.</p><h4>Working demo program</h4><pre class="codeblock">DAYS = [(&#x27;Monday heel and toe edges&#x27;, 90), (&#x27;Wednesday linked turns&#x27;, 90), (&#x27;Friday park basics&#x27;, 60), (&#x27;Sunday guided riding&#x27;, 120)]
+print(&#x27;Snowboarding learning week&#x27;)
+total = sum(m for _, m in DAYS)
+best = max(DAYS, key=lambda d: d[1])
+for day, m in DAYS:
+    print(&#x27;%s: %d minutes&#x27; % (day, m))
+print(&#x27;Weekly total: %d minutes&#x27; % total)
+print(&#x27;Daily average: %.1f minutes&#x27; % (total / len(DAYS)))
+print(&#x27;Longest session: %s (%d minutes)&#x27; % (best[0], best[1]))
+</pre></article>
+<article class="record"><h3>Biathlon <small>Rank 5 &middot; simple &middot; skiing &middot; beginner</small></h3>
+<p>Biathlon pairs cross-country skiing with rifle shooting, and it grew from Scandinavian military ski patrols into one of the Winter Olympic Games&#x27; most watched sports. Athletes ski loops and stop at a range to shoot five targets, skiing a penalty loop for each miss in most formats, and races include sprint, pursuit, individual, mass start, and relay events. The sport&#x27;s drama comes from the switch between all-out skiing and the stillness shooting demands, since a racing heart makes a steady rifle hard to hold. Biathlon has been an Olympic sport since 1960 for men and 1992 for women, and its World Cup is the sport&#x27;s leading annual circuit.</p><h4>History</h4><p>Biathlon grew from military ski patrol competitions and entered the Olympic Games at Squaw Valley in 1960.</p><h4>Rules</h4><p>Athletes shoot five targets at each range visit, and each miss costs a penalty loop or added time, depending on the format.</p><h4>Techniques</h4><p>Skiing technique, range routine, breathing control, and trigger control under fatigue are the core skills.</p><h4>Safety</h4><p>Rifles are handled only on the range under supervision, and shooting is taught as a disciplined, safety-first skill.</p><h4>Working demo program</h4><pre class="codeblock">PARTS = [(&#x27;Targets hit&#x27;, 4, 1.0), (&#x27;Targets missed&#x27;, 1, 1.0), (&#x27;Penalty loops per miss&#x27;, 1, 1.0)]
+print(&#x27;Biathlon penalty simulator&#x27;)
+total = 0.0
+for name, pts, w in PARTS:
+    contrib = pts * w
+    total += contrib
+    print(&#x27;%s: %s points x weight %.2f = %.2f&#x27; % (name, pts, w, contrib))
+print(&#x27;Weighted total: %.2f&#x27; % total)
+</pre></article>
+<article class="record"><h3>Bobsleigh <small>Rank 6 &middot; compounded &middot; sliding &middot; intermediate</small></h3>
+<p>Bobsleigh is racing a sled down an ice track, in which a crew pushes the sled at the start, loads in, and steers through banked curves at high speed. Two-person and four-person sleds race on the same tracks, and the start push is so important that teams recruit sprinters and train explosive starts. The driver steers with rings or a steering mechanism, while brakemen help push and brake at the finish, and races are decided by combined times over several runs. Bobsleigh has been an Olympic sport since 1924, and its tracks, such as St Moritz in Switzerland, are among the sport&#x27;s most famous venues.</p><h4>History</h4><p>Bobsleigh grew from tobogganing at St Moritz in the late nineteenth century and has been an Olympic sport since 1924.</p><h4>Rules</h4><p>Two-person and four-person events are decided by combined times over several runs, and the fastest total wins.</p><h4>Techniques</h4><p>The explosive start push, clean loading, and precise steering through banked curves are the core skills.</p><h4>Safety</h4><p>Helmets are mandatory, tracks are inspected, and crews progress from slower starts to full-speed runs.</p><h4>Working demo program</h4><pre class="codeblock">ITEMS = [(&#x27;Two-person crew&#x27;, 2), (&#x27;Four-person crew&#x27;, 4), (&#x27;Runs in an Olympic event&#x27;, 4), (&#x27;Crew roles (driver, brakemen)&#x27;, 3)]
+print(&#x27;Bobsleigh crew sizes&#x27;)
+total = 0
+for name, val in ITEMS:
+    total += val
+    print(&#x27;%s: %s&#x27; % (name, val))
+print(&#x27;Total: %s&#x27; % total)
+print(&#x27;Average: %.2f&#x27; % (total / len(ITEMS)))
+</pre></article>
+<article class="record"><h3>Luge <small>Rank 7 &middot; compounded &middot; sliding &middot; intermediate</small></h3>
+<p>Luge is racing a small sled down an ice track feet-first, lying on the back, and it is the fastest of the sliding sports, with speeds above 130 kilometres per hour on some tracks. Athletes start by paddling with spiked gloves on the ice, then lie back and steer with small leg and shoulder movements and by pressing on the sled&#x27;s runners. Singles and doubles events are raced, and doubles pairs lie one atop the other, and races are decided by combined times over several runs. Luge has been an Olympic sport since 1964, and its tracks include famous venues such as Oberhof in Germany and Lake Placid in the United States.</p><h4>History</h4><p>Luge grew from Alpine sledding traditions and became an Olympic sport at Innsbruck in 1964.</p><h4>Rules</h4><p>Singles and doubles events are decided by combined times over several runs, and the fastest total wins.</p><h4>Techniques</h4><p>The paddling start, the flat lying position, and steering by small leg and shoulder pressures are the core skills.</p><h4>Safety</h4><p>Helmets and protective gear are mandatory, athletes progress from slower starts, and tracks are inspected before racing.</p><h4>Working demo program</h4><pre class="codeblock">ROWS = [(&#x27;100 km per hour to metres per second&#x27;, 100, 0.2778), (&#x27;120 km per hour to metres per second&#x27;, 120, 0.2778), (&#x27;140 km per hour to metres per second&#x27;, 140, 0.2778)]
+print(&#x27;Luge speed conversions&#x27;)
+for label, val, factor in ROWS:
+    print(&#x27;%s: %.2f -&gt; %.2f&#x27; % (label, val, val * factor))
+</pre></article>
+<article class="record"><h3>Skeleton <small>Rank 8 &middot; compounded &middot; sliding &middot; intermediate</small></h3>
+<p>Skeleton is racing a small sled down an ice track head-first, lying face-down, and it is the oldest of the sliding sports in Olympic history, having appeared at St Moritz in 1928 and 1948 before returning permanently in 2002. Athletes sprint beside the sled, dive onto it, and steer with small body movements and by dragging a toe, reaching high speeds on the same tracks used by bobsleigh and luge. Races are decided by combined times over several runs, and the sport demands sprinting power, courage, and precise line choice through banked curves. Skeleton is raced by men and women in singles events, and team events pair skeleton with bobsleigh athletes.</p><h4>History</h4><p>Skeleton was raced at St Moritz in 1928 and 1948 as the Cresta Run&#x27;s Olympic cousin, then returned permanently at Salt Lake City in 2002.</p><h4>Rules</h4><p>Singles events are decided by combined times over several runs, and the fastest total wins.</p><h4>Techniques</h4><p>The sprint start, the dive onto the sled, and steering by body movement and toe drag are the core skills.</p><h4>Safety</h4><p>Helmets and protective gear are mandatory, athletes progress from slower starts, and tracks are inspected before racing.</p><h4>Working demo program</h4><pre class="codeblock">DAYS = [(&#x27;Monday sprint starts&#x27;, 45), (&#x27;Wednesday dive-on drills&#x27;, 45), (&#x27;Friday slow-track runs&#x27;, 60), (&#x27;Saturday full runs&#x27;, 60)]
+print(&#x27;Skeleton training week&#x27;)
+total = sum(m for _, m in DAYS)
+best = max(DAYS, key=lambda d: d[1])
+for day, m in DAYS:
+    print(&#x27;%s: %d minutes&#x27; % (day, m))
+print(&#x27;Weekly total: %d minutes&#x27; % total)
+print(&#x27;Daily average: %.1f minutes&#x27; % (total / len(DAYS)))
+print(&#x27;Longest session: %s (%d minutes)&#x27; % (best[0], best[1]))
+</pre></article>
+<article class="record"><h3>Speed Skating <small>Rank 9 &middot; compounded &middot; skating &middot; intermediate</small></h3>
+<p>Speed skating is racing on ice over oval tracks, in which skaters race in pairs against the clock in long-track events or in packs in short-track events, and long-track races run from 500 metres to 10000 metres. Long-track skaters race in lanes and change lanes each lap on the back straight, while mass-start races put many skaters on the ice together. The sport demands a deep crouched position, long powerful pushes, and efficient cornering, and its leading events include the Olympic Games, the World Championships, and the World Cup. Speed skating has been an Olympic sport since 1924, and its most famous venue is the high-altitude rink at Calgary, known for fast ice.</p><h4>History</h4><p>Speed skating grew from Dutch canal skating and became an Olympic sport at Chamonix in 1924, with women&#x27;s events added in 1960.</p><h4>Rules</h4><p>Long-track races are timed in pairs with lane changes each lap, and mass-start races are pack races decided by finish order and points.</p><h4>Techniques</h4><p>The deep crouch, the long side push, the arm swing, and cornering on crossovers are the core skills.</p><h4>Training</h4><p>Training pairs ice sessions with cycling, weights, and dry-land imitation drills that rehearse the skating position.</p><h4>Working demo program</h4><pre class="codeblock">DIST_KM = 5.0
+MINUTES = 6.5
+print(&#x27;Speed skating pace calculator&#x27;)
+pace = MINUTES / DIST_KM
+speed = DIST_KM / (MINUTES / 60.0)
+print(&#x27;Distance: %.2f km in %.1f minutes&#x27; % (DIST_KM, MINUTES))
+print(&#x27;Pace: %.2f minutes per km&#x27; % pace)
+print(&#x27;Average speed: %.2f km per hour&#x27; % speed)
+</pre></article>
+<article class="record"><h3>Short-Track Speed Skating <small>Rank 10 &middot; compounded &middot; skating &middot; intermediate</small></h3>
+<p>Short-track speed skating is pack racing on a small ice oval, in which four to six skaters race together over distances from 500 metres to 5000 metres in relays, with passing, strategy, and pack tactics deciding races. Races are fast and physical, with skaters leaning deep into corners, touching the ice with a hand for balance, and passing on the outside or inside when a gap opens. Falls and disqualifications are common, since pack racing at speed leaves little room, and relay teams exchange by pushing the next skater. Short-track became an Olympic sport in 1992, and its leading events include the Olympic programme and the World Championships.</p><h4>History</h4><p>Short-track grew from pack racing on small rinks and became an Olympic sport at Albertville in 1992.</p><h4>Rules</h4><p>Pack races are decided by finish order, and skaters are disqualified for impeding, pushing, or cutting inside markers.</p><h4>Techniques</h4><p>Deep cornering, hand-to-ice balance, drafting, and passing on gaps are the core skills.</p><h4>Safety</h4><p>Helmets, gloves, and cut-resistant suits are standard, and rink padding protects skaters who fall into the boards.</p><h4>Working demo program</h4><pre class="codeblock">PARTS = [(&#x27;Skater one laps&#x27;, 3, 1.0), (&#x27;Skater two laps&#x27;, 3, 1.0), (&#x27;Skater three laps&#x27;, 3, 1.0), (&#x27;Skater four laps&#x27;, 3, 1.0)]
+print(&#x27;Short-track relay exchange simulator&#x27;)
+total = 0.0
+for name, pts, w in PARTS:
+    contrib = pts * w
+    total += contrib
+    print(&#x27;%s: %s points x weight %.2f = %.2f&#x27; % (name, pts, w, contrib))
+print(&#x27;Weighted total: %.2f&#x27; % total)
+</pre></article>
+<article class="record"><h3>Figure Skating <small>Rank 11 &middot; complex &middot; skating &middot; advanced</small></h3>
+<p>Figure skating is performing jumps, spins, and step sequences on ice to music, judged on technical execution and artistic presentation, and it is one of the Winter Games&#x27; most watched sports. Singles skaters perform short and free programmes, pairs combine lifts, throws, and synchronised jumps, and ice dancers perform pattern dances and free dances without overhead lifts or jumps. Jumps are named by their take-off edge and rotation, from the single axel to the quadruple jumps now landed by leading skaters, and spins range from upright spins to sit spins and layback spins. Figure skating has been an Olympic sport since 1908, first at the Summer Games, and its leading events include the Olympic programme, the World Championships, and the Grand Prix series.</p><h4>History</h4><p>Figure skating grew from nineteenth-century skating clubs and became an Olympic sport at London in 1908, before the Winter Games existed.</p><h4>Rules</h4><p>Programmes are scored for technical elements and programme components, with deductions for falls and errors.</p><h4>Techniques</h4><p>Jumps, spins, step sequences, and for pairs, lifts and throws, are the core elements.</p><h4>Training</h4><p>Training pairs ice sessions with off-ice jumps, ballet, strength, and flexibility work.</p><h4>Working demo program</h4><pre class="codeblock">ROWS = [[&#x27;Single&#x27;, &#x27;1 rotation&#x27;], [&#x27;Double&#x27;, &#x27;2 rotations&#x27;], [&#x27;Triple&#x27;, &#x27;3 rotations&#x27;], [&#x27;Quadruple&#x27;, &#x27;4 rotations&#x27;]]
+print(&#x27;Figure skating jump rotations&#x27;)
+for row in ROWS:
+    print(&#x27; | &#x27;.join(str(x) for x in row))
+print(&#x27;Rows: %d&#x27; % len(ROWS))
+</pre></article>
+<article class="record"><h3>Curling <small>Rank 12 &middot; complex &middot; snow &middot; advanced</small></h3>
+<p>Curling is sliding granite stones across ice toward a target called the house, while teammates sweep the ice ahead of a moving stone to control its speed and curl. Teams of four take turns delivering stones, and the skip directs strategy from the far end, calling shots such as draws, guards, and takeouts, while sweepers judge weight and line. Points are scored for each stone closer to the centre than the opponent&#x27;s best stone, and games usually run eight or ten ends. Curling has been an Olympic sport since 1998, though it appeared at the first Winter Games in 1924, and its leading events include the Olympic programme and the World Championships.</p><h4>History</h4><p>Curling grew in Scotland from the sixteenth century, with stones slid on frozen lochs, and it became an Olympic sport at Nagano in 1998.</p><h4>Rules</h4><p>Each team delivers eight stones per end, points go to stones closer to the centre than the opponent&#x27;s best, and games run eight or ten ends.</p><h4>Techniques</h4><p>The slide delivery, releasing with a turn, sweeping for weight and line, and calling shots are the core skills.</p><h4>Strategy</h4><p>Guards protect stones, draws seek the house, takeouts remove opponents&#x27; stones, and the skip plans each end.</p><h4>Working demo program</h4><pre class="codeblock">PARTS = [(&#x27;Team A stones closer than best opponent stone&#x27;, 2, 1.0), (&#x27;Team B stones closer than best opponent stone&#x27;, 0, 1.0)]
+print(&#x27;Curling end score simulator&#x27;)
+total = 0.0
+for name, pts, w in PARTS:
+    contrib = pts * w
+    total += contrib
+    print(&#x27;%s: %s points x weight %.2f = %.2f&#x27; % (name, pts, w, contrib))
+print(&#x27;Weighted total: %.2f&#x27; % total)
+</pre></article>
+<article class="record"><h3>Freestyle Skiing <small>Rank 13 &middot; complex &middot; skiing &middot; advanced</small></h3>
+<p>Freestyle skiing covers the aerial and mogul disciplines of skiing, in which athletes jump, spin, and flip off kickers, ski through mogul fields, and race through courses with jumps. Mogul skiing judges turns through bumps, two jumps, and speed; aerials judges jumps off large kickers for height, form, and landing; and ski cross races four skiers head-to-head over jumps and banked turns. The sport grew from freestyle exhibitions in the 1960s and 1970s and entered the Olympic Games in 1992, with slopestyle and big air added later. Training pairs trampoline and water-ramp practice with on-snow sessions, so aerial skills are learned safely before snow.</p><h4>History</h4><p>Freestyle skiing grew from 1960s and 1970s exhibitions and became an Olympic sport at Albertville in 1992.</p><h4>Rules</h4><p>Moguls are judged on turns, jumps, and speed; aerials on height, form, and landing; ski cross by finish order.</p><h4>Techniques</h4><p>Mogul turns, aerial take-offs and landings, grabs, spins, and flips are the core skills.</p><h4>Safety</h4><p>Trampoline and water-ramp training precede snow aerials, helmets are mandatory, and features progress by size.</p><h4>Working demo program</h4><pre class="codeblock">DAYS = [(&#x27;Monday trampoline&#x27;, 60), (&#x27;Wednesday mogul turns&#x27;, 60), (&#x27;Friday water-ramp jumps&#x27;, 60), (&#x27;Saturday on-snow session&#x27;, 90)]
+print(&#x27;Freestyle skiing training week&#x27;)
+total = sum(m for _, m in DAYS)
+best = max(DAYS, key=lambda d: d[1])
+for day, m in DAYS:
+    print(&#x27;%s: %d minutes&#x27; % (day, m))
+print(&#x27;Weekly total: %d minutes&#x27; % total)
+print(&#x27;Daily average: %.1f minutes&#x27; % (total / len(DAYS)))
+print(&#x27;Longest session: %s (%d minutes)&#x27; % (best[0], best[1]))
+</pre></article>
+<article class="record"><h3>Ski Mountaineering <small>Rank 14 &middot; complex &middot; skiing &middot; advanced</small></h3>
+<p>Ski mountaineering is travelling through mountains on skis, climbing with skins attached to the ski bases for grip and then descending, and it combines ski touring, mountaineering, and racing. Races run over marked mountain courses with climbs, descents, and transitions between skinning and skiing, and recreational ski touring covers the same skills at a gentler pace. The sport demands route finding, avalanche awareness, fitness for long climbs, and confident descending in varied snow. Ski mountaineering entered the Olympic programme at Milano Cortina 2026, and its leading events include the World Cup and the World Championships.</p><h4>History</h4><p>Ski mountaineering grew from Alpine winter travel and military ski patrols and became an organised racing sport in the twentieth century.</p><h4>Rules</h4><p>Races run over mountain courses with climbs, descents, and transitions, and athletes must carry safety equipment.</p><h4>Techniques</h4><p>Skinning uphill, kick turns, transitions, and descending in varied snow are the core skills.</p><h4>Safety</h4><p>Avalanche training, transceiver, shovel, and probe are mandatory, and routes are chosen by conditions.</p><h4>Working demo program</h4><pre class="codeblock">DIST_KM = 8.0
+MINUTES = 120.0
+print(&#x27;Ski mountaineering pace calculator&#x27;)
+pace = MINUTES / DIST_KM
+speed = DIST_KM / (MINUTES / 60.0)
+print(&#x27;Distance: %.2f km in %.1f minutes&#x27; % (DIST_KM, MINUTES))
+print(&#x27;Pace: %.2f minutes per km&#x27; % pace)
+print(&#x27;Average speed: %.2f km per hour&#x27; % speed)
+</pre></article>
+<article class="record"><h3>Ice Climbing <small>Rank 15 &middot; complex &middot; snow &middot; advanced</small></h3>
+<p>Ice climbing is climbing frozen waterfalls and ice formations with ice axes and crampons, and it is practised as a mountain skill, a recreation, and a competition sport on artificial ice structures. Climbers swing axes into the ice, place their crampon points, and move upward with efficient, balanced technique, and competition ice climbing races athletes up artificial walls and overhangs. The sport demands cold-weather clothing, rope and protection skills, and the ability to read ice, which varies from soft and plastic to hard and brittle with temperature. Ice climbing competitions are run by the international climbing federation, and the sport&#x27;s leading events include the World Cup.</p><h4>History</h4><p>Ice climbing grew from Alpine mountaineering in the nineteenth century and became a competition sport on artificial structures in the twentieth.</p><h4>Rules</h4><p>Competition climbing is timed or judged on height reached, and climbers use two axes and crampons on artificial or natural ice.</p><h4>Techniques</h4><p>Swinging axes cleanly, placing crampon points, and moving with balance and efficiency are the core skills.</p><h4>Safety</h4><p>Helmets are mandatory, ropes and protection are used, and ice is assessed for temperature and stability before climbing.</p><h4>Working demo program</h4><pre class="codeblock">DAYS = [(&#x27;Monday axe technique&#x27;, 60), (&#x27;Wednesday indoor ice wall&#x27;, 60), (&#x27;Friday rope skills&#x27;, 45), (&#x27;Sunday outdoor ice&#x27;, 120)]
+print(&#x27;Ice climbing training week&#x27;)
+total = sum(m for _, m in DAYS)
+best = max(DAYS, key=lambda d: d[1])
+for day, m in DAYS:
+    print(&#x27;%s: %d minutes&#x27; % (day, m))
+print(&#x27;Weekly total: %d minutes&#x27; % total)
+print(&#x27;Daily average: %.1f minutes&#x27; % (total / len(DAYS)))
+print(&#x27;Longest session: %s (%d minutes)&#x27; % (best[0], best[1]))
+</pre></article>
+<article class="record"><h3>Snowshoeing <small>Rank 16 &middot; complex &middot; snow &middot; advanced</small></h3>
+<p>Snowshoeing is walking on snow with snowshoes, which spread the walker&#x27;s weight so they do not sink deeply, and it is one of the oldest winter travel methods, used for hunting, trapping, and travel across snowy regions. Modern snowshoes are light frames with decking and bindings, and they are used for winter hiking, trail running, and racing, with races from short sprints to long distance events. The core skills are walking with a wider gait, climbing and descending in snowshoes, and navigating winter trails, and snowshoeing is accessible to beginners, since it builds directly on walking. Snowshoe races are run by national federations, and the sport appears at winter multi-sport events.</p><h4>History</h4><p>Snowshoeing is ancient, used by Indigenous peoples of North America and by travellers across snowy regions for thousands of years.</p><h4>Rules</h4><p>Snowshoe races run over marked courses, and racers must wear snowshoes for the whole course.</p><h4>Techniques</h4><p>Walking with a wider gait, climbing with toe crampons, and descending with control are the core skills.</p><h4>Safety</h4><p>Layers, weather checks, and avalanche awareness on steep terrain are standard, and groups carry navigation gear.</p><h4>Working demo program</h4><pre class="codeblock">DIST_KM = 4.0
+MINUTES = 75.0
+print(&#x27;Snowshoeing pace calculator&#x27;)
+pace = MINUTES / DIST_KM
+speed = DIST_KM / (MINUTES / 60.0)
+print(&#x27;Distance: %.2f km in %.1f minutes&#x27; % (DIST_KM, MINUTES))
+print(&#x27;Pace: %.2f minutes per km&#x27; % pace)
+print(&#x27;Average speed: %.2f km per hour&#x27; % speed)
+</pre></article>
+<h2>Related databases</h2><ul><li><a href="../winter-sports-signature/index.html">winter-sports-signature</a></li><li><a href="../sports/index.html">sports</a></li><li><a href="../sports-signature/index.html">sports-signature</a></li><li><a href="../team-sports/index.html">team-sports</a></li><li><a href="../individual-sports/index.html">individual-sports</a></li><li><a href="../team-sports-signature/index.html">team-sports-signature</a></li><li><a href="../individual-sports-signature/index.html">individual-sports-signature</a></li></ul>
+<script src="gen-winter-sports.js"></script>
+<script>
+(function(){'use strict';
+var DATA_URL='https://justinahiggins614-cmyk.github.io/jah-databases-data-2/data/winter-sports/index.jsonl.gz';
+function $(id){return document.getElementById(id);}
+function setCount(n){ $('stCount').textContent=n.toLocaleString()+' / 1,000,000 target'; $('stCount2').textContent=n.toLocaleString(); }
+fetch(DATA_URL).then(function(res){
+  if(!res.ok) throw new Error('HTTP '+res.status);
+  var ds=new DecompressionStream('gzip');
+  return new Response(res.body.pipeThrough(ds)).text();
+}).then(function(t){
+  var n=t.split('\n').filter(function(l){return l.trim();}).length;
+  setCount(n);
+}).catch(function(){ $('stCount').textContent='archive unreachable'; });
+})();
+</script>
+<script src="../../assets/assistant-maker.js"></script>
+</body></html>

@@ -1,0 +1,186 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">
+<title>The Racquet Sports Database</title><meta name="description" content="The Racquet Sports Database: Sixteen full racquet sport records, from badminton to qianball, ordered simple to complex, each with a working demo program. Free forever.">
+<style>body{font-family:system-ui,sans-serif;max-width:900px;margin:auto;padding:1em;line-height:1.6}
+.kv{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:0.75em}
+.kv>div{border:1px solid #ccc;padding:0.5em}.codeblock{background:#111;color:#eee;padding:1em;overflow:auto;white-space:pre-wrap}
+.pill{display:inline-block;border:1px solid #333;border-radius:2em;padding:0.2em 0.8em;margin:0.2em}
+.merger{background:#c00;color:#fff;border:0;padding:0.7em 1.4em;font-size:1em;cursor:pointer}
+.record{border-top:2px solid #333;margin-top:2em;padding-top:1em}</style></head><body>
+<h1>The Racquet Sports Database</h1><p class="pill">Exhaustive</p> <p class="pill">march to a million: in progress</p>
+<button class="merger" onclick="alert('All Database Merger: this database is ready to merge into the network archive.')">All Database Merger</button>
+<p>Archive records: <b id="stCount">16 / 1,000,000 target</b> · <span id="stCount2">16</span> records <span class="dim">(populated from the live archive index)</span></p>
+<p>Every record here is the full, fully-formed file: a full prose description, history, rules, techniques, training, safety, and competition notes where they apply, plus a working demo program. Everything is free forever, with no payments and no upsells.</p>
+<h2>Specialist AI: JAH Racquet Sports Guide</h2><p>JAH Racquet Sports Guide answers questions about racquet sports, explains any record in plain sentences, and helps choose the right technique, training plan, or safety rule for a practice session.</p>
+<h2>Boundless generator</h2><p>The generator below is seeded and deterministic, throttled to at most 100 records per call, duplicate-checked, and hard-stopped at 10^15 records. Every generated record is labeled src "generated". Open the page script to use <code>window.RacquetSportsTools.generateRecord(seed)</code>.</p>
+<h2>Validation engine</h2><p>Each record is checked for a complete title, its own record kind, its own edition slug and id prefix, a full prose description, topic fields, and a demo whose stored output byte-matches a fresh run.</p>
+<h2>Evidence links</h2><ul><li><a href="https://justinahiggins614-cmyk.github.io/jah-databases-data-2/data/racquet-sports/index.jsonl.gz">Full record index for this edition (data-2)</a></li></ul>
+<h2>Tool connections</h2><p>The page exposes <code>window.RacquetSportsTools</code> with <code>searchRecords</code>, <code>generateRecord</code>, <code>validateRecord</code>, and <code>runTests</code>.</p>
+<h2>Testing suite</h2><p>Run <code>window.RacquetSportsTools.runTests()</code> in the console: it checks record kind, slug, id prefix, src labeling, validation, duplicate rejection, batch throttling, and search.</p>
+<h2>Audit history</h2><p>Built as a package on 2026-10-26: 16 records, ordered simple to compounded to complex by ladder rank, JSONL re-parsed, every demo re-executed with byte-matched output, both generator files syntax-checked, and generator gates executed.</p>
+<h2>Search</h2><input id="q" placeholder="Search racquet sports" oninput="doSearch(this.value)"><div id="results"></div>
+<script>var SEARCH_INDEX=[{"id": "JAH-RAQ-000001", "title": "Badminton"}, {"id": "JAH-RAQ-000002", "title": "Squash"}, {"id": "JAH-RAQ-000003", "title": "Table Tennis"}, {"id": "JAH-RAQ-000004", "title": "Padel"}, {"id": "JAH-RAQ-000005", "title": "Pickleball"}, {"id": "JAH-RAQ-000006", "title": "Racquetball"}, {"id": "JAH-RAQ-000007", "title": "Basque Pelota"}, {"id": "JAH-RAQ-000008", "title": "Jai Alai"}, {"id": "JAH-RAQ-000009", "title": "Real Tennis"}, {"id": "JAH-RAQ-000010", "title": "Soft Tennis"}, {"id": "JAH-RAQ-000011", "title": "Beach Tennis"}, {"id": "JAH-RAQ-000012", "title": "Platform Tennis"}, {"id": "JAH-RAQ-000013", "title": "Speedminton"}, {"id": "JAH-RAQ-000014", "title": "Matkot"}, {"id": "JAH-RAQ-000015", "title": "Frescobol"}, {"id": "JAH-RAQ-000016", "title": "Qianball"}];function doSearch(q){q=q.toLowerCase();var hits=SEARCH_INDEX.filter(function(r){return r.title.toLowerCase().indexOf(q)!==-1});document.getElementById('results').innerHTML=hits.map(function(r){return '<p>'+r.id+' — '+r.title+'</p>'}).join('')||'<p>No matches yet.</p>';}</script>
+<h2>Records</h2><div class="kv"><div>Records: 16</div><div>Editions: 1 of a pair</div><div>Free forever</div></div>
+<article class="record"><h3>Badminton <small>Rank 1 &middot; simple &middot; racquet sport &middot; beginner</small></h3>
+<p>Badminton is a racquet sport played with a shuttlecock, in which players hit the shuttlecock over a net, and it is the fastest racquet sport, with smashes recorded above 400 kilometres per hour. Singles and doubles are played on a court with a net 1.55 metres high at the posts, and matches are best of three games to 21 points, with a two-point lead needed at 20-all and a cap at 30. The sport demands footwork, deception, and control of clears, drops, smashes, and net shots, and it is played indoors, since wind disturbs the light shuttlecock. Badminton has been an Olympic sport since 1992, and its leading events include the Olympic programme, the World Championships, and the Thomas and Uber Cups for teams.</p><h4>History</h4><p>Badminton grew from battledore games in Britain and India in the nineteenth century and became an Olympic sport at Barcelona in 1992.</p><h4>Rules</h4><p>Matches are best of three games to 21 points, with a two-point lead needed and a cap at 30, and the shuttlecock must pass over the net into the opponent&#x27;s court.</p><h4>Techniques</h4><p>Clears, drops, smashes, drives, and net shots, linked by fast footwork and deception, are the core skills.</p><h4>Training</h4><p>Training pairs footwork drills, multi-shuttle feeding, and match play, with strength and agility work.</p><h4>Working demo program</h4><pre class="codeblock">PARTS = [(&#x27;Clears won&#x27;, 6, 1.0), (&#x27;Smashes won&#x27;, 5, 1.0), (&#x27;Drops won&#x27;, 4, 1.0), (&#x27;Net shots won&#x27;, 3, 1.0), (&#x27;Opponent errors&#x27;, 3, 1.0)]
+print(&#x27;Badminton game score simulator&#x27;)
+total = 0.0
+for name, pts, w in PARTS:
+    contrib = pts * w
+    total += contrib
+    print(&#x27;%s: %s points x weight %.2f = %.2f&#x27; % (name, pts, w, contrib))
+print(&#x27;Weighted total: %.2f&#x27; % total)
+</pre></article>
+<article class="record"><h3>Squash <small>Rank 2 &middot; simple &middot; racquet sport &middot; beginner</small></h3>
+<p>Squash is a racquet sport played in a four-walled court, in which two players take turns hitting a small rubber ball against the front wall, and the ball may bounce once on the floor between hits. Rallies are fast and physical, since the ball stays in play off the walls and players must move quickly in a small space, and matches are best of five games to 11 points, with a two-point lead needed. The sport rewards length, width, and deception: deep rails to the back, cross-courts, drops to the front, and boasts off the side wall. Squash has a professional tour and world championships, and it will join the Olympic programme at Los Angeles 2028.</p><h4>History</h4><p>Squash grew from rackets at Harrow School in nineteenth-century England and became a worldwide professional sport with a world tour.</p><h4>Rules</h4><p>Matches are best of five games to 11 points, the ball may bounce once, and players must avoid interfering with each other, with lets and strokes called when they do.</p><h4>Techniques</h4><p>Rails, cross-courts, drops, boasts, and volleys, linked by movement to the T position at the court&#x27;s centre, are the core skills.</p><h4>Safety</h4><p>Eye protection is standard, courts are kept clear, and players call lets rather than playing through interference.</p><h4>Working demo program</h4><pre class="codeblock">PARTS = [(&#x27;Rails won&#x27;, 4, 1.0), (&#x27;Drops won&#x27;, 3, 1.0), (&#x27;Cross-courts won&#x27;, 2, 1.0), (&#x27;Boasts won&#x27;, 1, 1.0), (&#x27;Opponent errors&#x27;, 1, 1.0)]
+print(&#x27;Squash game score simulator&#x27;)
+total = 0.0
+for name, pts, w in PARTS:
+    contrib = pts * w
+    total += contrib
+    print(&#x27;%s: %s points x weight %.2f = %.2f&#x27; % (name, pts, w, contrib))
+print(&#x27;Weighted total: %.2f&#x27; % total)
+</pre></article>
+<article class="record"><h3>Table Tennis <small>Rank 3 &middot; simple &middot; racquet sport &middot; beginner</small></h3>
+<p>Table tennis is a racquet sport played on a table divided by a net, in which players hit a light celluloid or plastic ball with small paddles, and it is one of the fastest ball sports, with rallies decided in fractions of a second. Games run to 11 points with a two-point lead, matches are usually best of five or seven games, and serves alternate every two points, or every point after deuce. Spin is the sport&#x27;s central skill: topspin, backspin, sidespin, and no-spin serves and returns change the ball&#x27;s bounce and flight, and players read spin from the opponent&#x27;s paddle angle and contact. Table tennis has been an Olympic sport since 1988, and its leading events include the Olympic programme and the World Championships.</p><h4>History</h4><p>Table tennis grew from parlour games in late nineteenth-century Britain and became an Olympic sport at Seoul in 1988.</p><h4>Rules</h4><p>Games run to 11 points with a two-point lead, serves alternate every two points, and the ball must bounce on the server&#x27;s side and then the receiver&#x27;s side.</p><h4>Techniques</h4><p>Forehand and backhand drives, pushes, loops, blocks, and flicks, all with spin variation, are the core skills.</p><h4>Training</h4><p>Training pairs multi-ball feeding, footwork, serve practice, and match play.</p><h4>Working demo program</h4><pre class="codeblock">QA = [(&#x27;How many points win a game?&#x27;, &#x27;Eleven points, with a two-point lead.&#x27;), (&#x27;When do serves alternate every point?&#x27;, &#x27;After deuce, when the score reaches 10-all.&#x27;), (&#x27;What is topspin?&#x27;, &#x27;Forward rotation that makes the ball dip and bounce forward.&#x27;), (&#x27;How is spin read?&#x27;, &quot;From the opponent&#x27;s paddle angle and contact on the ball.&quot;)]
+print(&#x27;Table tennis quiz&#x27;)
+for q, a in QA:
+    print(&#x27;Q: %s&#x27; % q)
+    print(&#x27;A: %s&#x27; % a)
+print(&#x27;Questions: %d&#x27; % len(QA))
+</pre></article>
+<article class="record"><h3>Padel <small>Rank 4 &middot; simple &middot; racquet sport &middot; beginner</small></h3>
+<p>Padel is a racquet sport played in an enclosed court with walls, in which pairs hit a ball over a net using solid paddles, and the ball may bounce off the walls, which stay in play. Courts are smaller than tennis courts, about twenty metres by ten, and the walls, usually glass, let players play rebounds, which makes rallies long and tactical. Scoring follows tennis, with games, sets, and matches, and serves are underarm, which keeps rallies accessible to beginners. Padel grew rapidly in Spain and Latin America and then worldwide, and its leading events include the World Padel Championship and professional tour events.</p><h4>History</h4><p>Padel was created in Mexico in the 1960s by Enrique Corcuera and grew rapidly in Spain from the 1980s onward.</p><h4>Rules</h4><p>Scoring follows tennis, serves are underarm, and the ball may rebound off the walls, which stay in play after bouncing on the court.</p><h4>Techniques</h4><p>Wall rebounds, lobs, bandejas, viboras, and net volleys are the core skills, with doubles positioning central.</p><h4>Training</h4><p>Training pairs wall-rebound drills, doubles positioning, and match play.</p><h4>Working demo program</h4><pre class="codeblock">DAYS = [(&#x27;Monday wall rebounds&#x27;, 60), (&#x27;Wednesday doubles positioning&#x27;, 60), (&#x27;Friday lobs and bandejas&#x27;, 45), (&#x27;Sunday match play&#x27;, 90)]
+print(&#x27;Padel learning week&#x27;)
+total = sum(m for _, m in DAYS)
+best = max(DAYS, key=lambda d: d[1])
+for day, m in DAYS:
+    print(&#x27;%s: %d minutes&#x27; % (day, m))
+print(&#x27;Weekly total: %d minutes&#x27; % total)
+print(&#x27;Daily average: %.1f minutes&#x27; % (total / len(DAYS)))
+print(&#x27;Longest session: %s (%d minutes)&#x27; % (best[0], best[1]))
+</pre></article>
+<article class="record"><h3>Pickleball <small>Rank 5 &middot; simple &middot; racquet sport &middot; beginner</small></h3>
+<p>Pickleball is a paddle sport played on a court smaller than a tennis court, with a perforated plastic ball and solid paddles, and it is one of the fastest-growing sports in the world. Players serve underarm diagonally, the ball must bounce once on each side before volleys are allowed, and volleys are forbidden inside the non-volley zone, called the kitchen, near the net. Games usually run to 11 points with a two-point lead, and doubles is the most popular form, with dinking, soft shots into the kitchen, as a central tactic. Pickleball was created in the United States in 1965 and grew rapidly from the 2010s onward, with professional tours and national championships.</p><h4>History</h4><p>Pickleball was created on Bainbridge Island, Washington, in 1965 by Joel Pritchard, Bill Bell, and Barney McCallum.</p><h4>Rules</h4><p>The serve is underarm and diagonal, the ball must bounce once per side before volleys, and volleys are forbidden in the kitchen.</p><h4>Techniques</h4><p>Dinks, drops, drives, lobs, and volleys are the core skills, with kitchen play central to doubles.</p><h4>Training</h4><p>Training pairs dinking drills, third-shot drops, and match play, and the sport is accessible to beginners.</p><h4>Working demo program</h4><pre class="codeblock">PARTS = [(&#x27;Dinks won&#x27;, 4, 1.0), (&#x27;Third-shot drops won&#x27;, 3, 1.0), (&#x27;Drives won&#x27;, 2, 1.0), (&#x27;Lobs won&#x27;, 1, 1.0), (&#x27;Opponent errors&#x27;, 1, 1.0)]
+print(&#x27;Pickleball game score simulator&#x27;)
+total = 0.0
+for name, pts, w in PARTS:
+    contrib = pts * w
+    total += contrib
+    print(&#x27;%s: %s points x weight %.2f = %.2f&#x27; % (name, pts, w, contrib))
+print(&#x27;Weighted total: %.2f&#x27; % total)
+</pre></article>
+<article class="record"><h3>Racquetball <small>Rank 6 &middot; compounded &middot; racquet sport &middot; intermediate</small></h3>
+<p>Racquetball is a racquet sport played in a four-walled court, in which players hit a hollow rubber ball against the front wall, and the ball may hit side walls and the ceiling, which stay in play. Unlike squash, the ball may bounce more than once in some forms and the ceiling is in play, which makes rallies fast and angles wide, and the sport uses a short racquet and a bouncier ball than squash. Games usually run to 15 points with a two-point lead, and matches are best of three games, with the third, if needed, to 11. Racquetball grew in the United States in the mid-twentieth century and has professional tours and world championships.</p><h4>History</h4><p>Racquetball grew in the United States in the 1940s and 1950s from paddleball and became an organised sport with a professional tour.</p><h4>Rules</h4><p>Games run to 15 points with a two-point lead, the ball may hit the side walls and ceiling, and the serve must reach the front wall and land beyond the short line.</p><h4>Techniques</h4><p>Ceiling balls, passing shots, pinch shots into corners, and kill shots low on the front wall are the core skills.</p><h4>Safety</h4><p>Eye protection is mandatory in organised play, and players avoid swinging at a ball when an opponent is in the way.</p><h4>Working demo program</h4><pre class="codeblock">QA = [(&#x27;What is in play in racquetball that is not in squash?&#x27;, &#x27;The ceiling: ceiling balls are a central shot.&#x27;), (&#x27;How many points win a game?&#x27;, &#x27;Fifteen points, with a two-point lead.&#x27;), (&#x27;What is a pinch shot?&#x27;, &#x27;A shot hit into a corner so it dies low on the front wall.&#x27;), (&#x27;What safety rule is mandatory?&#x27;, &#x27;Eye protection in organised play.&#x27;)]
+print(&#x27;Racquetball quiz&#x27;)
+for q, a in QA:
+    print(&#x27;Q: %s&#x27; % q)
+    print(&#x27;A: %s&#x27; % a)
+print(&#x27;Questions: %d&#x27; % len(QA))
+</pre></article>
+<article class="record"><h3>Basque Pelota <small>Rank 7 &middot; compounded &middot; racquet sport &middot; intermediate</small></h3>
+<p>Basque pelota is a family of ball games from the Basque Country, played against a wall called a fronton, in which players hit a ball with a hand, a wooden bat, a basket-like cesta, or a racquet, depending on the modality. The best-known form outside the region is jai alai, played with a cesta, but the family also includes hand pelota, played bare-handed, and pala, played with a wooden bat. Games are usually played to a set score, and the ball, made with a core and wound wool, is hard and fast, so players wear helmets in some modalities. Pelota is a central part of Basque culture, with frontons in villages and towns across the region, and its leading events include world championships.</p><h4>History</h4><p>Basque pelota grew from medieval handball games in the Basque Country and became a defining cultural sport with many modalities.</p><h4>Rules</h4><p>Players hit the ball against the fronton, and the ball must land within the court markings; modalities differ in equipment and scoring.</p><h4>Techniques</h4><p>Hand strikes, bat strikes, cesta catches and throws, and reading rebounds off the wall are the core skills.</p><h4>Safety</h4><p>Helmets are worn in fast modalities, and beginners start with softer balls and shorter courts.</p><h4>Working demo program</h4><pre class="codeblock">ROWS = [[&#x27;Hand pelota&#x27;, &#x27;Bare hand&#x27;], [&#x27;Pala&#x27;, &#x27;Wooden bat&#x27;], [&#x27;Cesta (jai alai)&#x27;, &#x27;Basket scoop&#x27;], [&#x27;Remonte&#x27;, &#x27;Curved basket&#x27;], [&#x27;Xare&#x27;, &#x27;Small net racquet&#x27;]]
+print(&#x27;Basque pelota modalities&#x27;)
+for row in ROWS:
+    print(&#x27; | &#x27;.join(str(x) for x in row))
+print(&#x27;Rows: %d&#x27; % len(ROWS))
+</pre></article>
+<article class="record"><h3>Jai Alai <small>Rank 8 &middot; compounded &middot; racquet sport &middot; intermediate</small></h3>
+<p>Jai alai is the fastest ball game in the world, played with a cesta, a long curved basket strapped to the hand, in which players catch a hard ball and hurl it against a fronton wall at speeds above 300 kilometres per hour. The ball, called a pelota, is made with a hard core and wound wool, and players must catch and throw in one continuous motion, without holding or juggling. Jai alai is played in a large three-walled court. The sport&#x27;s leading events include professional seasons in the Basque Country and exhibition play elsewhere.</p><h4>History</h4><p>Jai alai developed in the Basque Country as cesta punta and spread to Florida and Latin America in the twentieth century.</p><h4>Rules</h4><p>Players catch and throw in one continuous motion, the ball must hit the fronton within bounds, and holding or juggling is a fault.</p><h4>Techniques</h4><p>Catching in the cesta, throwing with a full swing, and reading high rebounds are the core skills.</p><h4>Safety</h4><p>Helmets are mandatory, the ball is hard and very fast, and spectators sit behind protective screening.</p><h4>Working demo program</h4><pre class="codeblock">ROWS = [(&#x27;200 km per hour to metres per second&#x27;, 200, 0.2778), (&#x27;250 km per hour to metres per second&#x27;, 250, 0.2778), (&#x27;300 km per hour to metres per second&#x27;, 300, 0.2778)]
+print(&#x27;Jai alai speed conversions&#x27;)
+for label, val, factor in ROWS:
+    print(&#x27;%s: %.2f -&gt; %.2f&#x27; % (label, val, val * factor))
+</pre></article>
+<article class="record"><h3>Real Tennis <small>Rank 9 &middot; compounded &middot; racquet sport &middot; intermediate</small></h3>
+<p>Real tennis, also called court tennis, is the original racquet sport, played in an indoor court with walls, galleries, and sloped roofs, in which players hit a ball with a wooden racquet and may use the walls and openings as part of play. The court is complex, with a net, a tambour, a grille, and galleries with openings, and balls that enter certain openings score, which makes strategy unlike any other racquet sport. Scoring follows the old tennis system, with points, games, and sets, and the sport keeps traditions such as the chase, in which a point is replayed from the position where a ball stopped. Real tennis is played at a small number of historic courts worldwide, and its leading event is the world championship.</p><h4>History</h4><p>Real tennis developed from medieval French jeu de paume and became the court sport of European royalty, with Henry VIII among its famous players.</p><h4>Rules</h4><p>Scoring follows the old tennis system, balls may use walls and galleries, and the chase replays points from where a ball stopped.</p><h4>Techniques</h4><p>Reading wall rebounds, placing balls into openings, and serving with cut are the core skills.</p><h4>Training</h4><p>Training pairs wall drills, serve practice, and match play on the complex court.</p><h4>Working demo program</h4><pre class="codeblock">ROWS = [[&#x27;Tambour&#x27;, &#x27;Sloped wall buttress&#x27;], [&#x27;Grille&#x27;, &#x27;Scoring opening&#x27;], [&#x27;Dedans&#x27;, &#x27;Gallery behind the server&#x27;], [&#x27;Hazard&#x27;, &#x27;Gallery behind the receiver&#x27;], [&#x27;Net&#x27;, &#x27;Divides the court&#x27;]]
+print(&#x27;Real tennis court features&#x27;)
+for row in ROWS:
+    print(&#x27; | &#x27;.join(str(x) for x in row))
+print(&#x27;Rows: %d&#x27; % len(ROWS))
+</pre></article>
+<article class="record"><h3>Soft Tennis <small>Rank 10 &middot; compounded &middot; racquet sport &middot; intermediate</small></h3>
+<p>Soft tennis is a racquet sport played with a soft rubber ball and a light racquet, and it is widely played in Asia, particularly in Japan, Korea, and Taiwan, as well as in schools worldwide. The game resembles tennis but uses a softer, lighter ball that flies more slowly and bounces differently, and matches are played as singles and doubles with scoring to four games in a set format. Soft tennis rewards soft hands, spin, and placement over power, and its equipment is lighter and cheaper than tennis equipment, which helped it spread in schools. The sport&#x27;s leading events include the Asian Games, where it has appeared since 1994, and the World Soft Tennis Championships.</p><h4>History</h4><p>Soft tennis developed in Japan in the late nineteenth century as a school adaptation of tennis and spread across Asia.</p><h4>Rules</h4><p>Matches are played in sets to four games, with singles and doubles, and the soft ball&#x27;s flight rewards placement and spin.</p><h4>Techniques</h4><p>Soft volleys, sliced groundstrokes, lobs, and drop shots are the core skills.</p><h4>Training</h4><p>Training pairs soft-ball rallies, placement drills, and match play, and the sport suits school programmes.</p><h4>Working demo program</h4><pre class="codeblock">PARTS = [(&#x27;Placement winners&#x27;, 5, 1.0), (&#x27;Drop shots won&#x27;, 3, 1.0), (&#x27;Lobs won&#x27;, 2, 1.0), (&#x27;Volleys won&#x27;, 3, 1.0), (&#x27;Opponent errors&#x27;, 2, 1.0)]
+print(&#x27;Soft tennis set score simulator&#x27;)
+total = 0.0
+for name, pts, w in PARTS:
+    contrib = pts * w
+    total += contrib
+    print(&#x27;%s: %s points x weight %.2f = %.2f&#x27; % (name, pts, w, contrib))
+print(&#x27;Weighted total: %.2f&#x27; % total)
+</pre></article>
+<article class="record"><h3>Beach Tennis <small>Rank 11 &middot; complex &middot; racquet sport &middot; advanced</small></h3>
+<p>Beach tennis is a racquet sport played on sand, in which players hit a depressurised ball over a net with solid paddles, and it blends tennis, beach volleyball, and badminton. The game is played as doubles on a sand court with a net 1.7 metres high, volleys are central since the ball must not bounce, and scoring follows tennis with no-ad games in most events. Beach tennis rewards quick feet in sand, soft hands at the net, and lobs over opponents, and it is played at beaches and beach clubs worldwide. The sport&#x27;s leading events include the World Championships run by the international tennis federation, and it grew rapidly in Brazil and Italy.</p><h4>History</h4><p>Beach tennis grew in Italy and Brazil in the 1970s and 1980s and became an organised international sport in the 2000s.</p><h4>Rules</h4><p>Doubles is the main form, the ball must not bounce, volleys are central, and scoring follows tennis with no-ad games.</p><h4>Techniques</h4><p>Sand footwork, volleys, smashes, and lobs are the core skills.</p><h4>Safety</h4><p>Sun protection and hydration are essential, courts are checked for debris, and warm-ups precede play.</p><h4>Working demo program</h4><pre class="codeblock">DAYS = [(&#x27;Monday sand footwork&#x27;, 45), (&#x27;Wednesday volleys&#x27;, 45), (&#x27;Friday lobs and smashes&#x27;, 45), (&#x27;Sunday beach match play&#x27;, 90)]
+print(&#x27;Beach tennis learning week&#x27;)
+total = sum(m for _, m in DAYS)
+best = max(DAYS, key=lambda d: d[1])
+for day, m in DAYS:
+    print(&#x27;%s: %d minutes&#x27; % (day, m))
+print(&#x27;Weekly total: %d minutes&#x27; % total)
+print(&#x27;Daily average: %.1f minutes&#x27; % (total / len(DAYS)))
+print(&#x27;Longest session: %s (%d minutes)&#x27; % (best[0], best[1]))
+</pre></article>
+<article class="record"><h3>Platform Tennis <small>Rank 12 &middot; complex &middot; racquet sport &middot; advanced</small></h3>
+<p>Platform tennis is a racquet sport played on a raised, fenced platform court with a wire mesh, in which players hit a sponge rubber ball with solid paddles, and the ball may rebound off the wire screens, which stay in play. Courts are smaller than tennis courts and are heated in winter, so the sport is played year-round outdoors in cold climates, particularly in the northeastern United States. The game is played as doubles, scoring follows tennis, and the screens make rallies long and tactical, since players retrieve balls off the wire. Platform tennis grew in the United States in the 1920s and has national championships and a professional tour.</p><h4>History</h4><p>Platform tennis was created in New York in 1928 by James Cogswell and Fessenden Blanchard as a winter paddle game.</p><h4>Rules</h4><p>Doubles is the form, scoring follows tennis, and the ball may rebound off the wire screens after bouncing on the court.</p><h4>Techniques</h4><p>Screen rebounds, lobs, overheads, and doubles positioning are the core skills.</p><h4>Safety</h4><p>Courts are checked for screen and surface, warm clothing is worn in winter, and warm-ups precede play.</p><h4>Working demo program</h4><pre class="codeblock">QA = [(&#x27;When was platform tennis created?&#x27;, &#x27;In 1928, in New York.&#x27;), (&#x27;What stays in play?&#x27;, &#x27;The wire screens: the ball may rebound off them after bouncing.&#x27;), (&#x27;What ball is used?&#x27;, &#x27;A sponge rubber ball.&#x27;), (&#x27;Why is the sport played year-round?&#x27;, &#x27;Courts are raised platforms, often heated, so winter play is possible.&#x27;)]
+print(&#x27;Platform tennis quiz&#x27;)
+for q, a in QA:
+    print(&#x27;Q: %s&#x27; % q)
+    print(&#x27;A: %s&#x27; % a)
+print(&#x27;Questions: %d&#x27; % len(QA))
+</pre></article>
+<article class="record"><h3>Speedminton <small>Rank 13 &middot; complex &middot; racquet sport &middot; advanced</small></h3>
+<p>Speedminton, also called crossminton, is a racquet sport played without a net, in which players hit a shuttlecock-like speeder across a distance, indoors or outdoors, day or night with glowing speeders. Players stand in squares marked on the ground, hit the speeder back and forth, and score when the opponent fails to return it into the square, and the game is played as singles and doubles. The sport was created in Germany in 2001 and grew as a recreational and competitive game that needs little equipment and no net, which makes it playable in parks, gyms, and beaches. Its leading events include world championships, and night play with fluorescent equipment is a distinctive feature.</p><h4>History</h4><p>Speedminton was created in Berlin in 2001 by Bill Brandes and grew as a net-free racquet game playable almost anywhere.</p><h4>Rules</h4><p>Players hit the speeder into the opponent&#x27;s square, and points are scored when a return fails or lands outside.</p><h4>Techniques</h4><p>Overhead clears, drives, and drop shots, with footwork between squares, are the core skills.</p><h4>Training</h4><p>Training pairs rally drills, footwork, and match play, and the sport suits schools and parks.</p><h4>Working demo program</h4><pre class="codeblock">ITEMS = [(&#x27;Overhead clears&#x27;, 30), (&#x27;Drives&#x27;, 24), (&#x27;Drop shots&#x27;, 16), (&#x27;Footwork moves&#x27;, 40), (&#x27;Rallies played&#x27;, 12)]
+print(&#x27;Speedminton rally drill counts&#x27;)
+total = 0
+for name, val in ITEMS:
+    total += val
+    print(&#x27;%s: %s&#x27; % (name, val))
+print(&#x27;Total: %s&#x27; % total)
+print(&#x27;Average: %.2f&#x27; % (total / len(ITEMS)))
+</pre></article>
+<article class="record"><h3>Matkot <small>Rank 14 &middot; complex &middot; racquet sport &middot; advanced</small></h3>
+<p>Matkot is a beach paddle game from Israel, played on sand with wooden or carbon paddles and a small rubber ball, in which pairs rally the ball back and forth without a net, keeping the rally alive as long as possible. Unlike most racquet sports, matkot is traditionally non-competitive: there is no scoring, and the aim is a long, enjoyable rally rather than winning a point, though competitive forms have since developed. The game is a fixture of Israeli beaches, particularly in Tel Aviv, and it rewards soft hands, control, and rhythm. Matkot&#x27;s leading events include beach tournaments, and its culture values long rallies and sportsmanship over results.</p><h4>History</h4><p>Matkot developed on Israeli beaches in the twentieth century and became a defining beach culture of Tel Aviv.</p><h4>Rules</h4><p>Traditional matkot has no scoring and no net: pairs rally to keep the ball alive as long as possible.</p><h4>Techniques</h4><p>Soft hands, control, rhythm, and placement are the core skills.</p><h4>Training</h4><p>Training pairs rally drills and rhythm practice, and the game suits all ages.</p><h4>Working demo program</h4><pre class="codeblock">ITEMS = [(&#x27;Beginner rally target&#x27;, 10), (&#x27;Intermediate rally target&#x27;, 25), (&#x27;Advanced rally target&#x27;, 50), (&#x27;Long rally target&#x27;, 100)]
+print(&#x27;Matkot rally targets&#x27;)
+total = 0
+for name, val in ITEMS:
+    total += val
+    print(&#x27;%s: %s&#x27; % (name, val))
+print(&#x27;Total: %s&#x27; % total)
+print(&#x27;Average: %.2f&#x27; % (total / len(ITEMS)))
+</pre></article>
+<article class="record"><h3>Frescobol <small>Rank 15 &middot; complex &middot; racquet sport &middot; advanced</small></h3>
+<p>Frescobol is a beach paddle game from Brazil, played on sand with wooden paddles and a rubber ball, in which pairs rally cooperatively, without a net, aiming for long, fast, and beautiful rallies. Like matkot, frescobol is traditionally non-competitive: partners work together to keep the ball in play, and the quality of a rally is judged by its speed, rhythm, and beauty rather than by points. Frescobol developed on the beaches of Rio de Janeiro in the 1940s and 1950s and remains a fixture of Brazilian beach culture, with clubs and tournaments that judge rallies rather than winners. The game rewards soft hands, quick reactions, and partnership.</p><h4>History</h4><p>Frescobol developed on Rio de Janeiro&#x27;s beaches in the 1940s and 1950s and became a defining Brazilian beach game.</p><h4>Rules</h4><p>Traditional frescobol has no scoring and no net: partners rally cooperatively and are judged on rally quality.</p><h4>Techniques</h4><p>Fast soft hands, quick reactions, and cooperative placement are the core skills.</p><h4>Training</h4><p>Training pairs rally drills and rhythm practice, and the game suits all ages.</p><h4>Working demo program</h4><pre class="codeblock">QA = [(&#x27;Where did frescobol develop?&#x27;, &#x27;On the beaches of Rio de Janeiro in the 1940s and 1950s.&#x27;), (&#x27;Is frescobol traditionally competitive?&#x27;, &#x27;No. Partners rally cooperatively and are judged on rally quality.&#x27;), (&#x27;What judges a rally?&#x27;, &#x27;Its speed, rhythm, and beauty.&#x27;), (&#x27;What equipment is used?&#x27;, &#x27;Wooden paddles and a rubber ball, on sand, without a net.&#x27;)]
+print(&#x27;Frescobol quiz&#x27;)
+for q, a in QA:
+    print(&#x27;Q: %s&#x27; % q)
+    print(&#x27;A: %s&#x27; % a)
+print(&#x27;Questions: %d&#x27; % len(QA))
+</pre></article>
+<article class="record"><h3>Qianball <small>Rank 16 &middot; complex &middot; racquet sport &middot; advanced</small></h3>
+<p>Qianball is a racquet sport from China, played on a court with a net, in which players hit a ball with a special racquet whose strings are replaced by a soft net bag, and the ball must be caught and thrown in a continuous motion. The sport was developed in China in the 1990s and combines elements of tennis, badminton, and handball, with the bag racquet giving the ball a distinctive soft catch and throw. Qianball is played as singles and doubles, with scoring similar to tennis, and it is practised in schools and clubs in China and in a growing number of other countries. Its leading events include world championships, and the sport&#x27;s soft equipment makes it accessible to beginners.</p><h4>History</h4><p>Qianball was developed in China in the 1990s and spread through schools and clubs as a soft-equipment racquet sport.</p><h4>Rules</h4><p>Players catch and throw the ball with a bag racquet in a continuous motion, and scoring follows a tennis-like system.</p><h4>Techniques</h4><p>Catching in the bag, throwing with control, placement, and footwork are the core skills.</p><h4>Training</h4><p>Training pairs catch-and-throw drills, placement practice, and match play.</p><h4>Working demo program</h4><pre class="codeblock">DAYS = [(&#x27;Monday catch and throw&#x27;, 45), (&#x27;Wednesday placement&#x27;, 45), (&#x27;Friday footwork&#x27;, 30), (&#x27;Saturday match play&#x27;, 60)]
+print(&#x27;Qianball learning week&#x27;)
+total = sum(m for _, m in DAYS)
+best = max(DAYS, key=lambda d: d[1])
+for day, m in DAYS:
+    print(&#x27;%s: %d minutes&#x27; % (day, m))
+print(&#x27;Weekly total: %d minutes&#x27; % total)
+print(&#x27;Daily average: %.1f minutes&#x27; % (total / len(DAYS)))
+print(&#x27;Longest session: %s (%d minutes)&#x27; % (best[0], best[1]))
+</pre></article>
+<h2>Related databases</h2><ul><li><a href="../racquet-sports-signature/index.html">racquet-sports-signature</a></li><li><a href="../sports/index.html">sports</a></li><li><a href="../sports-signature/index.html">sports-signature</a></li><li><a href="../tennis/index.html">tennis</a></li><li><a href="../tennis-signature/index.html">tennis-signature</a></li></ul>
+<script src="gen-racquet-sports.js"></script>
+<script>
+(function(){'use strict';
+var DATA_URL='https://justinahiggins614-cmyk.github.io/jah-databases-data-2/data/racquet-sports/index.jsonl.gz';
+function $(id){return document.getElementById(id);}
+function setCount(n){ $('stCount').textContent=n.toLocaleString()+' / 1,000,000 target'; $('stCount2').textContent=n.toLocaleString(); }
+fetch(DATA_URL).then(function(res){
+  if(!res.ok) throw new Error('HTTP '+res.status);
+  var ds=new DecompressionStream('gzip');
+  return new Response(res.body.pipeThrough(ds)).text();
+}).then(function(t){
+  var n=t.split('\n').filter(function(l){return l.trim();}).length;
+  setCount(n);
+}).catch(function(){ $('stCount').textContent='archive unreachable'; });
+})();
+</script>
+<script src="../../assets/assistant-maker.js"></script>
+</body></html>

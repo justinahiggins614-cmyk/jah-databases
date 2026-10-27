@@ -1,0 +1,197 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">
+<title>The Water Sports Database</title><meta name="description" content="The Water Sports Database: Sixteen full water sport records, from swimming to rafting, ordered simple to complex, each with a working demo program. Free forever.">
+<style>body{font-family:system-ui,sans-serif;max-width:900px;margin:auto;padding:1em;line-height:1.6}
+.kv{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:0.75em}
+.kv>div{border:1px solid #ccc;padding:0.5em}.codeblock{background:#111;color:#eee;padding:1em;overflow:auto;white-space:pre-wrap}
+.pill{display:inline-block;border:1px solid #333;border-radius:2em;padding:0.2em 0.8em;margin:0.2em}
+.merger{background:#c00;color:#fff;border:0;padding:0.7em 1.4em;font-size:1em;cursor:pointer}
+.record{border-top:2px solid #333;margin-top:2em;padding-top:1em}</style></head><body>
+<h1>The Water Sports Database</h1><p class="pill">Exhaustive</p> <p class="pill">march to a million: in progress</p>
+<button class="merger" onclick="alert('All Database Merger: this database is ready to merge into the network archive.')">All Database Merger</button>
+<p>Archive records: <b id="stCount">16 / 1,000,000 target</b> · <span id="stCount2">16</span> records <span class="dim">(populated from the live archive index)</span></p>
+<p>Every record here is the full, fully-formed file: a full prose description, history, rules, techniques, training, safety, and competition notes where they apply, plus a working demo program. Everything is free forever, with no payments and no upsells.</p>
+<h2>Specialist AI: JAH Water Sports Guide</h2><p>JAH Water Sports Guide answers questions about water sports, explains any record in plain sentences, and helps choose the right technique, training plan, or safety rule for a practice session.</p>
+<h2>Boundless generator</h2><p>The generator below is seeded and deterministic, throttled to at most 100 records per call, duplicate-checked, and hard-stopped at 10^15 records. Every generated record is labeled src "generated". Open the page script to use <code>window.WaterSportsTools.generateRecord(seed)</code>.</p>
+<h2>Validation engine</h2><p>Each record is checked for a complete title, its own record kind, its own edition slug and id prefix, a full prose description, topic fields, and a demo whose stored output byte-matches a fresh run.</p>
+<h2>Evidence links</h2><ul><li><a href="https://justinahiggins614-cmyk.github.io/jah-databases-data-2/data/water-sports/index.jsonl.gz">Full record index for this edition (data-2)</a></li></ul>
+<h2>Tool connections</h2><p>The page exposes <code>window.WaterSportsTools</code> with <code>searchRecords</code>, <code>generateRecord</code>, <code>validateRecord</code>, and <code>runTests</code>.</p>
+<h2>Testing suite</h2><p>Run <code>window.WaterSportsTools.runTests()</code> in the console: it checks record kind, slug, id prefix, src labeling, validation, duplicate rejection, batch throttling, and search.</p>
+<h2>Audit history</h2><p>Built as a package on 2026-10-26: 16 records, ordered simple to compounded to complex by ladder rank, JSONL re-parsed, every demo re-executed with byte-matched output, both generator files syntax-checked, and generator gates executed.</p>
+<h2>Search</h2><input id="q" placeholder="Search water sports" oninput="doSearch(this.value)"><div id="results"></div>
+<script>var SEARCH_INDEX=[{"id": "JAH-AQSP-000001", "title": "Swimming"}, {"id": "JAH-AQSP-000002", "title": "Diving"}, {"id": "JAH-AQSP-000003", "title": "Artistic Swimming"}, {"id": "JAH-AQSP-000004", "title": "Open-Water Swimming"}, {"id": "JAH-AQSP-000005", "title": "Rowing"}, {"id": "JAH-AQSP-000006", "title": "Canoe Sprint"}, {"id": "JAH-AQSP-000007", "title": "Kayak Slalom"}, {"id": "JAH-AQSP-000008", "title": "Sailing"}, {"id": "JAH-AQSP-000009", "title": "Windsurfing"}, {"id": "JAH-AQSP-000010", "title": "Surfing"}, {"id": "JAH-AQSP-000011", "title": "Paddleboarding"}, {"id": "JAH-AQSP-000012", "title": "Water Skiing"}, {"id": "JAH-AQSP-000013", "title": "Wakeboarding"}, {"id": "JAH-AQSP-000014", "title": "Snorkeling"}, {"id": "JAH-AQSP-000015", "title": "Freediving"}, {"id": "JAH-AQSP-000016", "title": "Rafting"}];function doSearch(q){q=q.toLowerCase();var hits=SEARCH_INDEX.filter(function(r){return r.title.toLowerCase().indexOf(q)!==-1});document.getElementById('results').innerHTML=hits.map(function(r){return '<p>'+r.id+' — '+r.title+'</p>'}).join('')||'<p>No matches yet.</p>';}</script>
+<h2>Records</h2><div class="kv"><div>Records: 16</div><div>Editions: 1 of a pair</div><div>Free forever</div></div>
+<article class="record"><h3>Swimming <small>Rank 1 &middot; simple &middot; swimming &middot; beginner</small></h3>
+<p>Swimming is the sport of moving through water using strokes, and its four competitive strokes are freestyle, backstroke, breaststroke, and butterfly, swum in pools of 25 or 50 metres and in open water. Freestyle is the fastest stroke and the stroke of the freestyle events, backstroke is swum on the back, breaststroke keeps the arms and legs moving symmetrically, and butterfly drives both arms over the water together with a dolphin kick. Olympic swimming includes distances from 50 metres to 1500 metres plus relays and medley events that combine all four strokes. Learning to swim is also a life skill, and most programmes teach floating, breathing, and water safety before racing technique.</p><h4>History</h4><p>Competitive swimming grew in nineteenth-century Britain and entered the first modern Olympic Games at Athens in 1896, with women&#x27;s events added in 1912.</p><h4>Rules</h4><p>Swimmers must touch the wall at each turn as their stroke requires, stay in their lane, and start from the blocks on the starting signal.</p><h4>Techniques</h4><p>Freestyle uses an alternating arm pull with a flutter kick; breaststroke pairs a frog kick with a symmetrical pull; butterfly pairs a double-arm pull with a dolphin kick.</p><h4>Safety</h4><p>Pools are supervised by lifeguards, beginners learn floating and breathing first, and open-water swimming always uses a buddy and a visible swim cap.</p><h4>Working demo program</h4><pre class="codeblock">DIST_KM = 1.5
+MINUTES = 30.0
+print(&#x27;Swimming pace calculator&#x27;)
+pace = MINUTES / DIST_KM
+speed = DIST_KM / (MINUTES / 60.0)
+print(&#x27;Distance: %.2f km in %.1f minutes&#x27; % (DIST_KM, MINUTES))
+print(&#x27;Pace: %.2f minutes per km&#x27; % pace)
+print(&#x27;Average speed: %.2f km per hour&#x27; % speed)
+</pre></article>
+<article class="record"><h3>Diving <small>Rank 2 &middot; simple &middot; diving &middot; beginner</small></h3>
+<p>Diving is the sport of leaping from a springboard or platform and entering the water with control, judged on approach, take-off, flight, and entry. Springboard events use boards at one and three metres that bend and add height, while platform events use fixed platforms at ten metres, and divers perform forward, backward, reverse, inward, twisting, and armstand dives. Judges score each dive for form and for the rip entry, in which the diver&#x27;s hands slice the water so cleanly that little splash rises. Diving has been an Olympic sport since 1904 for men and 1912 for women, and synchronised diving, in which two divers mirror each other, joined the Games in 2000.</p><h4>History</h4><p>Diving grew from gymnastics and swimming exhibitions in Europe in the nineteenth century and became an Olympic sport at St Louis in 1904.</p><h4>Rules</h4><p>Judges score the approach, take-off, flight, and entry, and the rip entry, a clean hands-first slice with little splash, is the ideal finish.</p><h4>Techniques</h4><p>Dive groups are forward, backward, reverse, inward, twisting, and armstand, each combined with somersaults and twists.</p><h4>Safety</h4><p>Divers progress from poolside and one-metre practice to higher boards only when entries are clean, and coaches supervise all platform work.</p><h4>Working demo program</h4><pre class="codeblock">PARTS = [(&#x27;Approach and take-off&#x27;, 8.0, 1.0), (&#x27;Flight form&#x27;, 8.5, 1.0), (&#x27;Entry (rip)&#x27;, 9.0, 1.0), (&#x27;Difficulty&#x27;, 3.0, 1.0)]
+print(&#x27;Diving score simulator&#x27;)
+total = 0.0
+for name, pts, w in PARTS:
+    contrib = pts * w
+    total += contrib
+    print(&#x27;%s: %s points x weight %.2f = %.2f&#x27; % (name, pts, w, contrib))
+print(&#x27;Weighted total: %.2f&#x27; % total)
+</pre></article>
+<article class="record"><h3>Artistic Swimming <small>Rank 3 &middot; simple &middot; swimming &middot; beginner</small></h3>
+<p>Artistic swimming, formerly called synchronised swimming, is a sport in which swimmers perform choreographed routines to music, combining swimming, dance, and gymnastics in the water. Athletes perform lifts, spins, and figures in unison, holding their breath through long underwater sequences and keeping their legs above the surface in eggbeater-supported positions. Routines are judged on execution, artistic impression, and difficulty, and the sport includes solo, duet, and team events. Artistic swimming became an Olympic sport for women in 1984, and a mixed duet was added for Paris 2024, with men joining Olympic competition for the first time.</p><h4>History</h4><p>Artistic swimming grew from water ballet exhibitions in the early twentieth century and reached the Olympic Games at Los Angeles in 1984.</p><h4>Rules</h4><p>Routines are judged on execution, artistic impression, and difficulty, and swimmers must stay synchronised with each other and with the music.</p><h4>Techniques</h4><p>The eggbeater kick supports the body upright, sculling moves the swimmer without visible effort, and lifts raise one swimmer above the surface.</p><h4>Training</h4><p>Training pairs pool choreography with land flexibility, strength work, and breath-holding practice.</p><h4>Working demo program</h4><pre class="codeblock">DAYS = [(&#x27;Monday figures and sculling&#x27;, 90), (&#x27;Wednesday routine choreography&#x27;, 90), (&#x27;Friday lifts and strength&#x27;, 60), (&#x27;Saturday full routine&#x27;, 90)]
+print(&#x27;Artistic swimming training week&#x27;)
+total = sum(m for _, m in DAYS)
+best = max(DAYS, key=lambda d: d[1])
+for day, m in DAYS:
+    print(&#x27;%s: %d minutes&#x27; % (day, m))
+print(&#x27;Weekly total: %d minutes&#x27; % total)
+print(&#x27;Daily average: %.1f minutes&#x27; % (total / len(DAYS)))
+print(&#x27;Longest session: %s (%d minutes)&#x27; % (best[0], best[1]))
+</pre></article>
+<article class="record"><h3>Open-Water Swimming <small>Rank 4 &middot; simple &middot; swimming &middot; beginner</small></h3>
+<p>Open-water swimming is swimming in lakes, rivers, and seas rather than pools, and its Olympic event is the marathon swim of ten kilometres. Open-water swimmers must sight, lifting their eyes to a buoy or landmark while swimming freestyle, draft behind other swimmers to save energy, and cope with currents, waves, cold, and changing visibility. Races range from one-kilometre community swims to channel crossings, and the English Channel, about 33 kilometres at its narrowest, is the most famous long swim in the world. Safety rules require escort boats, bright caps, and water-temperature checks, and wetsuits are required or forbidden by temperature rules in many events.</p><h4>History</h4><p>Long open-water swimming became famous with Matthew Webb&#x27;s first unaided English Channel crossing in 1875, and the ten-kilometre marathon swim joined the Olympic Games in 2008.</p><h4>Rules</h4><p>Olympic marathon swimming covers ten kilometres, usually as laps of a marked course, and swimmers may take feed from poles held out by their coaches.</p><h4>Techniques</h4><p>Sighting lifts the eyes forward every few strokes, drafting saves energy behind another swimmer, and bilateral breathing keeps the swimmer aware on both sides.</p><h4>Safety</h4><p>Escort boats, bright caps, buddy swimming, and water-temperature checks are standard, and cold-water swims require acclimatisation.</p><h4>Working demo program</h4><pre class="codeblock">DIST_KM = 10.0
+MINUTES = 120.0
+print(&#x27;Open-water pace calculator&#x27;)
+pace = MINUTES / DIST_KM
+speed = DIST_KM / (MINUTES / 60.0)
+print(&#x27;Distance: %.2f km in %.1f minutes&#x27; % (DIST_KM, MINUTES))
+print(&#x27;Pace: %.2f minutes per km&#x27; % pace)
+print(&#x27;Average speed: %.2f km per hour&#x27; % speed)
+</pre></article>
+<article class="record"><h3>Rowing <small>Rank 5 &middot; simple &middot; paddling &middot; beginner</small></h3>
+<p>Rowing is the sport of propelling a boat with oars, in which rowers sit facing backward and drive with their legs, then their backs, then their arms. Sweep rowing gives each rower one oar, while sculling gives each rower two, and boats range from the single scull to the eight, which carries a coxswain who steers and calls the race plan. Olympic rowing races run 2000 metres on a straight, buoyed course with six lanes, and the sport&#x27;s leading events include the Olympic regatta, the World Rowing Championships, and the Oxford and Cambridge Boat Race, first raced in 1829. Rowing trains the whole body and rewards crews that move as one.</p><h4>History</h4><p>Rowing as a sport grew from watermen&#x27;s races on the Thames and university racing in the nineteenth century, and it has been an Olympic sport since 1900.</p><h4>Rules</h4><p>Olympic races run 2000 metres in lanes, and crews must stay in their lane; the coxswain steers and directs the crew.</p><h4>Techniques</h4><p>The stroke sequence is legs, back, arms on the drive and arms, back, legs on the recovery, with the blade squared and feathered cleanly.</p><h4>Training</h4><p>Training pairs water sessions with rowing-machine work, weights, and running, and crews drill timing until the boat runs level.</p><h4>Working demo program</h4><pre class="codeblock">ITEMS = [(&#x27;Single scull rowers&#x27;, 1), (&#x27;Double scull rowers&#x27;, 2), (&#x27;Coxless pair rowers&#x27;, 2), (&#x27;Coxless four rowers&#x27;, 4), (&#x27;Eight rowers&#x27;, 8), (&#x27;Eight plus coxswain people&#x27;, 9)]
+print(&#x27;Rowing crew boat sizes&#x27;)
+total = 0
+for name, val in ITEMS:
+    total += val
+    print(&#x27;%s: %s&#x27; % (name, val))
+print(&#x27;Total: %s&#x27; % total)
+print(&#x27;Average: %.2f&#x27; % (total / len(ITEMS)))
+</pre></article>
+<article class="record"><h3>Canoe Sprint <small>Rank 6 &middot; compounded &middot; paddling &middot; intermediate</small></h3>
+<p>Canoe sprint is racing on flat water over straight courses, in which athletes race kayaks, paddled seated with a double blade, and canoes, paddled kneeling with a single blade. Olympic sprint distances are 200, 500, and 1000 metres, raced in lanes on a straight course, and boats range from singles to fours. Kayak paddlers sit and rotate their torso with each stroke, while canoe paddlers kneel on one knee and steer with a J-stroke that keeps the boat straight. Canoe sprint has been an Olympic sport since 1936, and its world championships and World Cup are the sport&#x27;s leading events outside the Games.</p><h4>History</h4><p>Canoe sprint grew from touring and racing canoes in the nineteenth century and entered the Olympic Games at Berlin in 1936.</p><h4>Rules</h4><p>Races run in lanes over 200, 500, or 1000 metres, and boats must stay in their lane; false starts are penalised.</p><h4>Techniques</h4><p>Kayak strokes rotate the torso with a double blade; canoe strokes drive from a kneeling position with a single blade and a steering J-stroke.</p><h4>Safety</h4><p>Life jackets are worn in training, paddlers learn capsize recovery, and coaches follow in a motor boat.</p><h4>Working demo program</h4><pre class="codeblock">DIST_KM = 1.0
+MINUTES = 4.0
+print(&#x27;Canoe sprint pace calculator&#x27;)
+pace = MINUTES / DIST_KM
+speed = DIST_KM / (MINUTES / 60.0)
+print(&#x27;Distance: %.2f km in %.1f minutes&#x27; % (DIST_KM, MINUTES))
+print(&#x27;Pace: %.2f minutes per km&#x27; % pace)
+print(&#x27;Average speed: %.2f km per hour&#x27; % speed)
+</pre></article>
+<article class="record"><h3>Kayak Slalom <small>Rank 7 &middot; compounded &middot; paddling &middot; intermediate</small></h3>
+<p>Kayak slalom is racing down a whitewater course through hanging gates, in which paddlers must pass green gates downstream and red gates upstream, against the clock, with time penalties for touched or missed gates. Courses are built on natural rivers or artificial channels, and the sport demands reading moving water, precise boat control, and the ability to turn in eddies and currents. Canoe slalom, in which athletes kneel in a canoe, shares the course and the rules, and kayak cross, a head-to-head event over drops and gates, joined the Olympic programme at Paris 2024. Slalom has been an Olympic sport since 1972, and its world championships are the sport&#x27;s leading annual event.</p><h4>History</h4><p>Canoe slalom grew from Alpine river touring in the 1920s and 1930s and entered the Olympic Games at Munich in 1972.</p><h4>Rules</h4><p>Paddlers pass downstream gates in order and upstream gates against the current; touching a gate adds two seconds and missing one adds fifty seconds.</p><h4>Techniques</h4><p>Reading water, eddy turns, ferries across current, and precise strokes in moving water are the core skills.</p><h4>Safety</h4><p>Helmets and buoyancy aids are mandatory, courses are scouted on foot before racing, and rescue cover stands on the bank.</p><h4>Working demo program</h4><pre class="codeblock">PARTS = [(&#x27;Run time (seconds)&#x27;, 95, 1.0), (&#x27;Gate touches x 2 seconds&#x27;, 2, 2.0), (&#x27;Missed gates x 50 seconds&#x27;, 0, 50.0)]
+print(&#x27;Kayak slalom time simulator&#x27;)
+total = 0.0
+for name, pts, w in PARTS:
+    contrib = pts * w
+    total += contrib
+    print(&#x27;%s: %s points x weight %.2f = %.2f&#x27; % (name, pts, w, contrib))
+print(&#x27;Weighted total: %.2f&#x27; % total)
+</pre></article>
+<article class="record"><h3>Sailing <small>Rank 8 &middot; compounded &middot; sailing &middot; intermediate</small></h3>
+<p>Sailing is the sport of racing wind-powered boats, in which crews trim sails, steer, and read wind and water to reach marks faster than their rivals. Racing classes range from small single-handed dinghies such as the ILCA to large keelboats and foiling catamarans, and races run windward-leeward courses around marks, with the fastest boat winning. Sailors must understand points of sail, from close-hauled into the wind to running before it, right of way rules, and how to read gusts, shifts, and tides. Sailing has been an Olympic sport since 1900, and its leading events include the Olympic regatta, the America&#x27;s Cup, first raced in 1851, and round-the-world races.</p><h4>History</h4><p>Yacht racing grew in Britain and the Netherlands in the seventeenth century, and the America&#x27;s Cup, first raced in 1851, is the oldest international sporting trophy.</p><h4>Rules</h4><p>Racing rules give right of way by tack and position, and boats that break a rule may take a penalty turn or retire.</p><h4>Techniques</h4><p>Trimming sails, steering a steady course, tacking through the wind, and gybing downwind are the core skills.</p><h4>Safety</h4><p>Life jackets are worn, crews learn capsize recovery in dinghies, and races are postponed in dangerous weather.</p><h4>Working demo program</h4><pre class="codeblock">ROWS = [(&#x27;10 knots to km per hour&#x27;, 10, 1.852), (&#x27;15 knots to km per hour&#x27;, 15, 1.852), (&#x27;20 knots to km per hour&#x27;, 20, 1.852)]
+print(&#x27;Sailing wind conversions&#x27;)
+for label, val, factor in ROWS:
+    print(&#x27;%s: %.2f -&gt; %.2f&#x27; % (label, val, val * factor))
+</pre></article>
+<article class="record"><h3>Windsurfing <small>Rank 9 &middot; compounded &middot; sailing &middot; intermediate</small></h3>
+<p>Windsurfing is riding a board powered by a sail attached to a mast that the rider holds, steering by tilting the rig and shifting weight rather than by a rudder. The rider stands on a board, holds a boom attached to the mast, and leans the sail to steer, accelerate, and turn, and modern boards range from beginner boards with a daggerboard to foiling boards that lift above the water. Windsurfing entered the Olympic Games in 1984, and its modern Olympic class uses a foiling board that races at high speed. The sport rewards balance, wind reading, and the ability to recover from falls, and it is practised on lakes, bays, and seas worldwide.</p><h4>History</h4><p>Windsurfing was developed in California in the 1960s and spread worldwide as a recreational and racing sport, reaching the Olympic Games in 1984.</p><h4>Rules</h4><p>Racing follows sailing&#x27;s right of way rules, and Olympic windsurfing races run windward-leeward courses on foiling boards.</p><h4>Techniques</h4><p>Steering comes from tilting the rig and shifting weight, and the uphaul lifts the sail from the water after a fall.</p><h4>Safety</h4><p>Life jackets and helmets are worn in strong wind, beginners learn in light wind on a large board, and riders never sail alone offshore.</p><h4>Working demo program</h4><pre class="codeblock">DAYS = [(&#x27;Monday balance on board&#x27;, 60), (&#x27;Wednesday uphaul and steering&#x27;, 60), (&#x27;Friday tacking practice&#x27;, 45), (&#x27;Sunday light-wind sailing&#x27;, 90)]
+print(&#x27;Windsurfing learning week&#x27;)
+total = sum(m for _, m in DAYS)
+best = max(DAYS, key=lambda d: d[1])
+for day, m in DAYS:
+    print(&#x27;%s: %d minutes&#x27; % (day, m))
+print(&#x27;Weekly total: %d minutes&#x27; % total)
+print(&#x27;Daily average: %.1f minutes&#x27; % (total / len(DAYS)))
+print(&#x27;Longest session: %s (%d minutes)&#x27; % (best[0], best[1]))
+</pre></article>
+<article class="record"><h3>Surfing <small>Rank 10 &middot; compounded &middot; surfing &middot; intermediate</small></h3>
+<p>Surfing is riding waves standing on a board, and it grew from the wave-riding traditions of Polynesia, where surfing was practised in Hawaii long before European contact. Modern surfing uses shortboards for sharp turns, longboards for graceful walking and nose riding, and a range of boards between them, and surfers paddle out, catch a wave, pop to their feet, and ride along its face. Competitive surfing is judged on the difficulty, variety, speed, power, and flow of manoeuvres, and surfing entered the Olympic Games at Tokyo 2020. Surf etiquette gives priority to the surfer closest to the breaking part of the wave, and reading waves, currents, and reefs is part of the sport&#x27;s safety.</p><h4>History</h4><p>Surfing was practised in Hawaii for centuries before European contact, was revived in the twentieth century, and entered the Olympic Games at Tokyo 2020.</p><h4>Rules</h4><p>Competitive heats are judged on difficulty, variety, speed, power, and flow, and etiquette gives priority to the surfer nearest the peak.</p><h4>Techniques</h4><p>Paddling, the pop-up to the feet, bottom turns, cutbacks, and riding along the wave face are the core skills.</p><h4>Safety</h4><p>Surfers learn rip currents, reef and rock hazards, and leash use, and beginners start on soft boards in small waves.</p><h4>Working demo program</h4><pre class="codeblock">PARTS = [(&#x27;Wave one best manoeuvre&#x27;, 7.5, 1.0), (&#x27;Wave two best manoeuvre&#x27;, 8.0, 1.0), (&#x27;Flow and variety bonus&#x27;, 1.0, 1.0)]
+print(&#x27;Surfing heat score simulator&#x27;)
+total = 0.0
+for name, pts, w in PARTS:
+    contrib = pts * w
+    total += contrib
+    print(&#x27;%s: %s points x weight %.2f = %.2f&#x27; % (name, pts, w, contrib))
+print(&#x27;Weighted total: %.2f&#x27; % total)
+</pre></article>
+<article class="record"><h3>Paddleboarding <small>Rank 11 &middot; complex &middot; paddling &middot; advanced</small></h3>
+<p>Paddleboarding, in its modern stand-up form, is standing on a large board and propelling it with a single long paddle, and it is practised on lakes, rivers, bays, and calm seas. Stand-up paddleboarding grew from surf instructors in Hawaii who stood on longboards and paddled with canoe paddles, and it is now raced over sprint, technical, and distance courses, as well as practised for fitness, touring, and yoga on the board. The core skills are balance, a long efficient stroke that starts at the nose of the board, steering with the paddle, and falling and climbing back on safely. Boards are rigid or inflatable, and inflatable boards pack down for travel, which helped the sport spread quickly.</p><h4>History</h4><p>Stand-up paddleboarding grew from Hawaiian surf instruction in the twentieth century and spread worldwide in the 2000s as inflatable boards made it portable.</p><h4>Rules</h4><p>Racing includes sprint, technical, and distance events, and riders must round marks and stay standing except after falls.</p><h4>Techniques</h4><p>The stroke reaches forward, plants fully, and pulls past the feet, with steering done by paddling on one side or with a sweep stroke.</p><h4>Safety</h4><p>A leash and a life jacket are standard, beginners start on flat water, and wind and current are checked before every outing.</p><h4>Working demo program</h4><pre class="codeblock">DIST_KM = 3.0
+MINUTES = 45.0
+print(&#x27;Paddleboarding pace calculator&#x27;)
+pace = MINUTES / DIST_KM
+speed = DIST_KM / (MINUTES / 60.0)
+print(&#x27;Distance: %.2f km in %.1f minutes&#x27; % (DIST_KM, MINUTES))
+print(&#x27;Pace: %.2f minutes per km&#x27; % pace)
+print(&#x27;Average speed: %.2f km per hour&#x27; % speed)
+</pre></article>
+<article class="record"><h3>Water Skiing <small>Rank 12 &middot; complex &middot; surfing &middot; advanced</small></h3>
+<p>Water skiing is being towed behind a boat on skis, and it grew from early twentieth-century experiments in which skiers adapted snow skis and then purpose-built skis for water. In its classic form, a skier on two skis is pulled up from a deep-water start, then crosses the boat&#x27;s wake and carves turns, and advanced skiers use a single slalom ski, jump off a ramp, or perform tricks on short trick skis. Tournament water skiing has three events, slalom, tricks, and jump, each scored separately, and the sport is practised on lakes and calm rivers worldwide. A trained observer and a spotter&#x27;s flag are standard safety practice, since the driver cannot watch the skier and the water ahead at once.</p><h4>History</h4><p>Water skiing was invented in the 1920s, with Ralph Samuelson credited with the first successful runs on Lake Pepin in Minnesota in 1922.</p><h4>Rules</h4><p>Tournament skiing has slalom, tricks, and jump events, each scored separately, and overall titles combine all three.</p><h4>Techniques</h4><p>The deep-water start, crossing the wake, edging, and carving turns are the core skills, with slalom adding buoy courses.</p><h4>Safety</h4><p>An observer watches the skier, a flag signals a fallen skier, and life jackets are always worn.</p><h4>Working demo program</h4><pre class="codeblock">ITEMS = [(&#x27;Slalom buoys in a course&#x27;, 6), (&#x27;Trick passes&#x27;, 2), (&#x27;Jump attempts&#x27;, 3), (&#x27;Events in overall title&#x27;, 3)]
+print(&#x27;Water skiing tournament events&#x27;)
+total = 0
+for name, val in ITEMS:
+    total += val
+    print(&#x27;%s: %s&#x27; % (name, val))
+print(&#x27;Total: %s&#x27; % total)
+print(&#x27;Average: %.2f&#x27; % (total / len(ITEMS)))
+</pre></article>
+<article class="record"><h3>Wakeboarding <small>Rank 13 &middot; complex &middot; surfing &middot; advanced</small></h3>
+<p>Wakeboarding is riding a board behind a boat, using the boat&#x27;s wake as a ramp for jumps and tricks, and it grew from a blend of water skiing, snowboarding, and surfing in the 1980s. Riders stand sideways on a short board with bindings, hold a tow rope, and carve across the wake, jumping from it and performing spins, grabs, and flips. Cable parks, in which an overhead cable tows riders around a course with rails and kickers, let riders practise without a boat and have spread the sport to inland lakes. Wakeboarding is judged on the difficulty, execution, and variety of tricks, and its leading events include world championships and cable-park competitions.</p><h4>History</h4><p>Wakeboarding grew in the 1980s from skurfing, a blend of surfing and water skiing, and it spread through boat and cable-park riding.</p><h4>Rules</h4><p>Competitions are judged on trick difficulty, execution, and variety, with runs scored on the best tricks landed cleanly.</p><h4>Techniques</h4><p>Carving, edging, wake jumps, spins, grabs, and rail tricks are the core skills, with the wake used as a ramp.</p><h4>Safety</h4><p>Helmets and life jackets are standard, riders learn to fall away from the board, and cable parks use trained operators.</p><h4>Working demo program</h4><pre class="codeblock">DAYS = [(&#x27;Monday board control&#x27;, 45), (&#x27;Wednesday wake crossings&#x27;, 45), (&#x27;Friday wake jumps&#x27;, 45), (&#x27;Sunday cable park session&#x27;, 60)]
+print(&#x27;Wakeboarding learning week&#x27;)
+total = sum(m for _, m in DAYS)
+best = max(DAYS, key=lambda d: d[1])
+for day, m in DAYS:
+    print(&#x27;%s: %d minutes&#x27; % (day, m))
+print(&#x27;Weekly total: %d minutes&#x27; % total)
+print(&#x27;Daily average: %.1f minutes&#x27; % (total / len(DAYS)))
+print(&#x27;Longest session: %s (%d minutes)&#x27; % (best[0], best[1]))
+</pre></article>
+<article class="record"><h3>Snorkeling <small>Rank 14 &middot; complex &middot; swimming &middot; advanced</small></h3>
+<p>Snorkeling is swimming at the surface while breathing through a snorkel and watching underwater life through a mask, and it is one of the most accessible ways to explore reefs, lakes, and bays. A snorkeler wears a mask, a snorkel, and usually fins, floats face-down, and breathes slowly through the tube while kicking gently, and the sport needs no tanks or special training beyond basic swimming and mask clearing. Snorkeling is practised on coral reefs worldwide, and its safety rules are simple: never snorkel alone, check currents and boat traffic, and keep a distance from coral and marine animals. Guided snorkeling tours are common in reef regions, and they pair access with briefings on reef care.</p><h4>History</h4><p>Snorkeling grew from ancient breath-hold diving and early mask and tube designs, and it became a mass recreation with modern mask, snorkel, and fin sets in the twentieth century.</p><h4>Rules</h4><p>Snorkeling has no competition rules; its norms are never snorkel alone, check currents and boats, and do not touch coral or animals.</p><h4>Techniques</h4><p>Mask clearing, snorkel clearing with a sharp exhale, gentle fin kicks, and duck diving below the surface are the core skills.</p><h4>Safety</h4><p>Never snorkel alone, wear a life vest if unsure, and leave the water when currents strengthen or weather changes.</p><h4>Working demo program</h4><pre class="codeblock">CHECKS = [(&#x27;Buddy present&#x27;, True), (&#x27;Currents and boats checked&#x27;, True), (&#x27;Mask and snorkel fitted&#x27;, True), (&#x27;Life vest available&#x27;, True), (&#x27;Snorkeling alone&#x27;, False)]
+print(&#x27;Snorkeling safety checklist&#x27;)
+passed = 0
+for name, ok in CHECKS:
+    print(&#x27;%s: %s&#x27; % (name, &#x27;PASS&#x27; if ok else &#x27;FAIL&#x27;))
+    if ok:
+        passed += 1
+print(&#x27;Passed: %d of %d&#x27; % (passed, len(CHECKS)))
+</pre></article>
+<article class="record"><h3>Freediving <small>Rank 15 &middot; complex &middot; swimming &middot; advanced</small></h3>
+<p>Freediving is diving underwater on a single breath, without tanks, and it is practised as a sport, a recreation, and a traditional fishing and gathering method. Competitive freediving includes depth disciplines, in which divers descend along a line, and pool disciplines, in which divers swim as far as possible or hold their breath as long as possible underwater. Freedivers train breath-holding, equalisation of the ears, relaxation, and efficient finning, and the sport&#x27;s safety rule is absolute: never dive alone, because a blackout underwater can only be answered by a trained buddy. Modern freediving&#x27;s leading competitions are run by international federations, and depth records are measured in metres along a line.</p><h4>History</h4><p>Freediving is ancient, from pearl divers and sponge divers to modern sport, and competitive freediving was organised in the twentieth century with depth and pool disciplines.</p><h4>Rules</h4><p>Depth disciplines are measured in metres along a line, pool disciplines measure distance or time, and every dive is watched by safety divers.</p><h4>Techniques</h4><p>Diaphragmatic breathing, relaxation, ear equalisation, and efficient finning are the core skills.</p><h4>Safety</h4><p>Never dive alone is the absolute rule, and blackout rescue is trained by every freediver and safety diver.</p><h4>Working demo program</h4><pre class="codeblock">ITEMS = [(&#x27;Minimum buddies per dive&#x27;, 1), (&#x27;Safety divers on a deep dive&#x27;, 2), (&#x27;Breathing-up minutes before a dive&#x27;, 2), (&#x27;Rest minutes between deep dives&#x27;, 5)]
+print(&#x27;Freediving safety numbers&#x27;)
+total = 0
+for name, val in ITEMS:
+    total += val
+    print(&#x27;%s: %s&#x27; % (name, val))
+print(&#x27;Total: %s&#x27; % total)
+print(&#x27;Average: %.2f&#x27; % (total / len(ITEMS)))
+</pre></article>
+<article class="record"><h3>Rafting <small>Rank 16 &middot; complex &middot; paddling &middot; advanced</small></h3>
+<p>Rafting is running rivers in inflatable rafts, crewed by paddlers under a guide who steers with a long oar or calls paddle commands, and rivers are graded from class one, easy moving water, to class six, unrunnable. Commercial rafting runs guided trips on rivers worldwide, while sport rafting races crews down courses and through slalom gates on whitewater. The core skills are paddling together on command, leaning into waves, holding on in rapids, and swimming safely if thrown out, and guides are trained in river rescue. Rafting is both a recreation and a racing sport, with world championships run by the international rafting federation.</p><h4>History</h4><p>Modern rafting grew from river exploration and military surplus rafts after the Second World War and became a commercial and racing sport from the 1970s onward.</p><h4>Rules</h4><p>Rivers are graded from class one to class six, and sport rafting races include downriver, slalom, and sprint events.</p><h4>Techniques</h4><p>Paddling on command, high-siding into waves, holding on, and swimming to safety are the core skills.</p><h4>Safety</h4><p>Helmets and life jackets are mandatory, rivers are scouted, guides carry rescue gear, and swimmers float feet-first downstream.</p><h4>Working demo program</h4><pre class="codeblock">ROWS = [[&#x27;Class 1&#x27;, &#x27;Easy moving water&#x27;], [&#x27;Class 2&#x27;, &#x27;Straightforward rapids&#x27;], [&#x27;Class 3&#x27;, &#x27;Moderate, irregular waves&#x27;], [&#x27;Class 4&#x27;, &#x27;Intense, powerful rapids&#x27;], [&#x27;Class 5&#x27;, &#x27;Extremely difficult&#x27;], [&#x27;Class 6&#x27;, &#x27;Unrunnable&#x27;]]
+print(&#x27;River difficulty grades&#x27;)
+for row in ROWS:
+    print(&#x27; | &#x27;.join(str(x) for x in row))
+print(&#x27;Rows: %d&#x27; % len(ROWS))
+</pre></article>
+<h2>Related databases</h2><ul><li><a href="../water-sports-signature/index.html">water-sports-signature</a></li><li><a href="../sports/index.html">sports</a></li><li><a href="../sports-signature/index.html">sports-signature</a></li><li><a href="../team-sports/index.html">team-sports</a></li><li><a href="../swimwear-guide/index.html">swimwear-guide</a></li><li><a href="../team-sports-signature/index.html">team-sports-signature</a></li><li><a href="../swimwear-guide-signature/index.html">swimwear-guide-signature</a></li></ul>
+<script src="gen-water-sports.js"></script>
+<script>
+(function(){'use strict';
+var DATA_URL='https://justinahiggins614-cmyk.github.io/jah-databases-data-2/data/water-sports/index.jsonl.gz';
+function $(id){return document.getElementById(id);}
+function setCount(n){ $('stCount').textContent=n.toLocaleString()+' / 1,000,000 target'; $('stCount2').textContent=n.toLocaleString(); }
+fetch(DATA_URL).then(function(res){
+  if(!res.ok) throw new Error('HTTP '+res.status);
+  var ds=new DecompressionStream('gzip');
+  return new Response(res.body.pipeThrough(ds)).text();
+}).then(function(t){
+  var n=t.split('\n').filter(function(l){return l.trim();}).length;
+  setCount(n);
+}).catch(function(){ $('stCount').textContent='archive unreachable'; });
+})();
+</script>
+<script src="../../assets/assistant-maker.js"></script>
+</body></html>

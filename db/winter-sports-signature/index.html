@@ -1,0 +1,198 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">
+<title>The Signature Winter Sports Database</title><meta name="description" content="The Signature Winter Sports Database: Sixteen full winter sport records, from alpine skiing to snowshoeing, ordered simple to complex, each with a working demo program. Free forever.">
+<style>body{font-family:system-ui,sans-serif;max-width:900px;margin:auto;padding:1em;line-height:1.6}
+.kv{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:0.75em}
+.kv>div{border:1px solid #ccc;padding:0.5em}.codeblock{background:#111;color:#eee;padding:1em;overflow:auto;white-space:pre-wrap}
+.pill{display:inline-block;border:1px solid #333;border-radius:2em;padding:0.2em 0.8em;margin:0.2em}
+.merger{background:#c00;color:#fff;border:0;padding:0.7em 1.4em;font-size:1em;cursor:pointer}
+.record{border-top:2px solid #333;margin-top:2em;padding-top:1em}</style></head><body>
+<h1>The Signature Winter Sports Database</h1><p class="pill">Exhaustive</p> <p class="pill">march to a million: in progress</p>
+<button class="merger" onclick="alert('All Database Merger: this database is ready to merge into the network archive.')">All Database Merger</button>
+<p>Archive records: <b id="stCount">16 / 1,000,000 target</b> · <span id="stCount2">16</span> records <span class="dim">(populated from the live archive index)</span></p>
+<p>Every record here is an original Signature work: a full prose description, history, training, techniques, and safety notes written for the Signature edition, plus a working demo program. Everything is free forever, with no payments and no upsells.</p>
+<h2>Specialist AI: JAH Winter Sports Guide</h2><p>JAH Winter Sports Guide answers questions about winter sports, explains any record in plain sentences, and helps choose the right technique, training plan, or safety rule for a practice session.</p>
+<h2>Boundless generator</h2><p>The generator below is seeded and deterministic, throttled to at most 100 records per call, duplicate-checked, and hard-stopped at 10^15 records. Every generated record is labeled src "generated". Open the page script to use <code>window.WinterSportsSignatureTools.generateRecord(seed)</code>.</p>
+<h2>Validation engine</h2><p>Each record is checked for a complete title, its own record kind, its own edition slug and id prefix, a full prose description, topic fields, and a demo whose stored output byte-matches a fresh run.</p>
+<h2>Evidence links</h2><ul><li><a href="https://justinahiggins614-cmyk.github.io/jah-databases-data-2/data/winter-sports-signature/index.jsonl.gz">Full record index for this edition (data-2)</a></li></ul>
+<h2>Tool connections</h2><p>The page exposes <code>window.WinterSportsSignatureTools</code> with <code>searchRecords</code>, <code>generateRecord</code>, <code>validateRecord</code>, and <code>runTests</code>.</p>
+<h2>Testing suite</h2><p>Run <code>window.WinterSportsSignatureTools.runTests()</code> in the console: it checks record kind, slug, id prefix, src labeling, validation, duplicate rejection, batch throttling, and search.</p>
+<h2>Audit history</h2><p>Built as a package on 2026-10-26: 16 records, ordered simple to compounded to complex by ladder rank, JSONL re-parsed, every demo re-executed with byte-matched output, both generator files syntax-checked, and generator gates executed.</p>
+<h2>Search</h2><input id="q" placeholder="Search winter sports" oninput="doSearch(this.value)"><div id="results"></div>
+<script>var SEARCH_INDEX=[{"id": "JAH-WINS-000001", "title": "Alpine Skiing"}, {"id": "JAH-WINS-000002", "title": "Cross-Country Skiing"}, {"id": "JAH-WINS-000003", "title": "Ski Jumping"}, {"id": "JAH-WINS-000004", "title": "Snowboarding"}, {"id": "JAH-WINS-000005", "title": "Biathlon"}, {"id": "JAH-WINS-000006", "title": "Bobsleigh"}, {"id": "JAH-WINS-000007", "title": "Luge"}, {"id": "JAH-WINS-000008", "title": "Skeleton"}, {"id": "JAH-WINS-000009", "title": "Speed Skating"}, {"id": "JAH-WINS-000010", "title": "Short-Track Speed Skating"}, {"id": "JAH-WINS-000011", "title": "Figure Skating"}, {"id": "JAH-WINS-000012", "title": "Curling"}, {"id": "JAH-WINS-000013", "title": "Freestyle Skiing"}, {"id": "JAH-WINS-000014", "title": "Ski Mountaineering"}, {"id": "JAH-WINS-000015", "title": "Ice Climbing"}, {"id": "JAH-WINS-000016", "title": "Snowshoeing"}];function doSearch(q){q=q.toLowerCase();var hits=SEARCH_INDEX.filter(function(r){return r.title.toLowerCase().indexOf(q)!==-1});document.getElementById('results').innerHTML=hits.map(function(r){return '<p>'+r.id+' — '+r.title+'</p>'}).join('')||'<p>No matches yet.</p>';}</script>
+<h2>Records</h2><div class="kv"><div>Records: 16</div><div>Editions: 1 of a pair</div><div>Free forever</div></div>
+<article class="record"><h3>Alpine Skiing <small>Rank 1 &middot; simple &middot; skiing &middot; beginner</small></h3>
+<p>Signature alpine skiing is taught as turn shape before speed. A student learns to stop, then to turn, then to link turns, on a gentle slope, before any steep run, because speed control lives in the shape of the turn, not in braking. Our instructors teach carving as a quiet edge change, and they film students from the side so each skier can see whether their skis are truly parallel. Racing comes only when linked turns are reliable, and the hall&#x27;s praise goes to the skier whose turns are round and calm at any speed.</p><h4>Training</h4><p>Sessions pair stopping drills, single turns, linked turns, and video review from the side.</p><h4>Techniques</h4><p>Signature basics are stopping, turning, linking turns, and carving through edge change.</p><h4>Safety</h4><p>Helmets are always worn, bindings are checked, and off-piste skiing requires avalanche training.</p><h4>History</h4><p>The Signature school follows alpine skiing from Alpine travel to resort sport and Olympic racing.</p><h4>Working demo program</h4><pre class="codeblock">DAYS = [(&#x27;Monday stopping and turning&#x27;, 90), (&#x27;Wednesday linked turns&#x27;, 90), (&#x27;Friday carving drills&#x27;, 90), (&#x27;Sunday guided slope skiing&#x27;, 120)]
+print(&#x27;Signature alpine skiing learning week&#x27;)
+total = sum(m for _, m in DAYS)
+best = max(DAYS, key=lambda d: d[1])
+for day, m in DAYS:
+    print(&#x27;%s: %d minutes&#x27; % (day, m))
+print(&#x27;Weekly total: %d minutes&#x27; % total)
+print(&#x27;Daily average: %.1f minutes&#x27; % (total / len(DAYS)))
+print(&#x27;Longest session: %s (%d minutes)&#x27; % (best[0], best[1]))
+</pre></article>
+<article class="record"><h3>Cross-Country Skiing <small>Rank 2 &middot; simple &middot; skiing &middot; beginner</small></h3>
+<p>Signature cross-country skiing is taught as glide before effort. A student learns to balance on one ski and glide, then to add the pole plant, then to link strides, because a skier who cannot glide wastes every push. Our programme teaches classic technique first, since the track guides the ski, and skate technique only when balance is reliable. Waxing is taught as a practical skill from the first month, and long skis build slowly, adding distance week by week. The hall&#x27;s praise goes to the skier whose stride looks effortless after an hour, not the skier who starts fastest.</p><h4>Training</h4><p>Sessions pair balance and glide drills, classic technique, skate technique, and gradually longer skis.</p><h4>Techniques</h4><p>Signature basics are the glide, the pole plant, the diagonal stride, and double poling.</p><h4>Safety</h4><p>Layers and weather checks are standard, skiers carry a phone and food on long outings, and groups stay together.</p><h4>History</h4><p>The Signature school follows the sport from Scandinavian winter travel to Olympic racing.</p><h4>Working demo program</h4><pre class="codeblock">DIST_KM = 5.0
+MINUTES = 30.0
+print(&#x27;Signature cross-country pace calculator&#x27;)
+pace = MINUTES / DIST_KM
+speed = DIST_KM / (MINUTES / 60.0)
+print(&#x27;Distance: %.2f km in %.1f minutes&#x27; % (DIST_KM, MINUTES))
+print(&#x27;Pace: %.2f minutes per km&#x27; % pace)
+print(&#x27;Average speed: %.2f km per hour&#x27; % speed)
+</pre></article>
+<article class="record"><h3>Ski Jumping <small>Rank 3 &middot; simple &middot; skiing &middot; beginner</small></h3>
+<p>Signature ski jumping is taught as a landing before a flight. A student practises the telemark landing on flat ground, then from small jumps, and only then on a small hill, because a jump is only as good as its landing. Our coaches teach the inrun crouch as stillness, not speed, and the take-off as a forward lean timed to the table&#x27;s edge. Flight position is built in stages, and hill size rises only when landings are consistently clean. The hall&#x27;s praise goes to the jumper whose landing is quiet and balanced, whatever the distance.</p><h4>Training</h4><p>Sessions pair telemark landing drills, inrun crouch practice, small-hill jumps, and video review.</p><h4>Techniques</h4><p>Signature basics are the crouch, the take-off lean, the V-style flight, and the telemark landing.</p><h4>Safety</h4><p>Hill size rises only when landings are clean, and coaches supervise every jump.</p><h4>History</h4><p>The Signature school follows ski jumping from nineteenth-century Norway to the Four Hills Tournament.</p><h4>Working demo program</h4><pre class="codeblock">CHECKS = [(&#x27;Telemark landing practised on ground&#x27;, True), (&#x27;Inrun crouch steady&#x27;, True), (&#x27;Small-hill landings clean&#x27;, True), (&#x27;Coach supervision present&#x27;, True), (&#x27;Large hill before clean landings&#x27;, False)]
+print(&#x27;Signature ski jumping readiness checklist&#x27;)
+passed = 0
+for name, ok in CHECKS:
+    print(&#x27;%s: %s&#x27; % (name, &#x27;PASS&#x27; if ok else &#x27;FAIL&#x27;))
+    if ok:
+        passed += 1
+print(&#x27;Passed: %d of %d&#x27; % (passed, len(CHECKS)))
+</pre></article>
+<article class="record"><h3>Snowboarding <small>Rank 4 &middot; simple &middot; snow &middot; beginner</small></h3>
+<p>Signature snowboarding is taught as edge before air. A student learns to stop on each edge, then to link turns, then to carve, on a gentle slope, before any park feature is attempted, because every trick rests on edge control. Our instructors teach falling safely, with wrists protected and arms tucked, as a first lesson, so that falls stop being frightening. Park features are progressed by size, from small boxes to jumps, and only when riding is reliable. The hall&#x27;s praise goes to the rider whose turns are smooth and whose landings are quiet.</p><h4>Training</h4><p>Sessions pair edge drills, linked turns, carving, safe falling, and gradual park progression.</p><h4>Techniques</h4><p>Signature basics are heel-side and toe-side edges, linked turns, carving, and the ollie.</p><h4>Safety</h4><p>Helmets and wrist guards are always worn, falling safely is taught first, and park features grow by size.</p><h4>History</h4><p>The Signature school follows snowboarding from the Snurfer to Olympic competition.</p><h4>Working demo program</h4><pre class="codeblock">ITEMS = [(&#x27;Heel-side stops&#x27;, 20), (&#x27;Toe-side stops&#x27;, 20), (&#x27;Linked turns&#x27;, 30), (&#x27;Carved turns&#x27;, 20), (&#x27;Ollies&#x27;, 12)]
+print(&#x27;Signature snowboarding drill counts&#x27;)
+total = 0
+for name, val in ITEMS:
+    total += val
+    print(&#x27;%s: %s&#x27; % (name, val))
+print(&#x27;Total: %s&#x27; % total)
+print(&#x27;Average: %.2f&#x27; % (total / len(ITEMS)))
+</pre></article>
+<article class="record"><h3>Biathlon <small>Rank 5 &middot; simple &middot; skiing &middot; beginner</small></h3>
+<p>Signature biathlon is taught as stillness inside speed. A student learns to ski, then to shoot, then to combine them, and the range routine is drilled until it survives a racing heart: ski in, settle, breathe out, shoot, leave. Our programme teaches shooting on the range only, with strict handling rules, and penalty loops are practised as part of racing, not as punishment. Breathing control is trained deliberately, since the last breath before a shot decides it. The hall&#x27;s praise goes to the athlete who shoots clean after skiing hard, because that is the whole sport in one moment.</p><h4>Training</h4><p>Sessions pair ski technique, range routine drills, breathing control, and combined ski-and-shoot sessions.</p><h4>Techniques</h4><p>Signature basics are the range routine, breathing out before the shot, and steady trigger control.</p><h4>Safety</h4><p>Rifles are handled only on the range under supervision, and safety rules are taught before any shooting.</p><h4>History</h4><p>The Signature school follows biathlon from military ski patrols to Olympic competition.</p><h4>Working demo program</h4><pre class="codeblock">QA = [(&#x27;How many targets are shot at each range visit?&#x27;, &#x27;Five targets.&#x27;), (&#x27;What does a miss cost in most formats?&#x27;, &#x27;A penalty loop.&#x27;), (&quot;What is the sport&#x27;s central difficulty?&quot;, &#x27;Shooting steadily with a racing heart after hard skiing.&#x27;), (&#x27;Where are rifles handled?&#x27;, &#x27;Only on the range, under supervision.&#x27;)]
+print(&#x27;Signature biathlon quiz&#x27;)
+for q, a in QA:
+    print(&#x27;Q: %s&#x27; % q)
+    print(&#x27;A: %s&#x27; % a)
+print(&#x27;Questions: %d&#x27; % len(QA))
+</pre></article>
+<article class="record"><h3>Bobsleigh <small>Rank 6 &middot; compounded &middot; sliding &middot; intermediate</small></h3>
+<p>Signature bobsleigh is taught as a start before a slide. A crew practises the push on dry land until every step lands together, then loads into a stationary sled, then runs a slow track, because a fast sled with a poor start is already beaten. Our programme teaches steering as small, early movements, since late steering on ice only makes the sled swing wider. Braking is drilled as seriously as pushing, and the hall&#x27;s praise goes to the crew whose start is silent and together, with no wasted step.</p><h4>Training</h4><p>Sessions pair dry-land push drills, loading practice, slow-track runs, and steering drills.</p><h4>Techniques</h4><p>Signature basics are the explosive push, clean loading, and small early steering movements.</p><h4>Safety</h4><p>Helmets are mandatory, tracks are inspected, and full-speed runs come only after slow-track practice.</p><h4>History</h4><p>The Signature school follows bobsleigh from St Moritz tobogganing to Olympic racing.</p><h4>Working demo program</h4><pre class="codeblock">DAYS = [(&#x27;Monday push drills&#x27;, 60), (&#x27;Wednesday loading practice&#x27;, 45), (&#x27;Friday slow-track runs&#x27;, 60), (&#x27;Saturday full runs&#x27;, 60)]
+print(&#x27;Signature bobsleigh training week&#x27;)
+total = sum(m for _, m in DAYS)
+best = max(DAYS, key=lambda d: d[1])
+for day, m in DAYS:
+    print(&#x27;%s: %d minutes&#x27; % (day, m))
+print(&#x27;Weekly total: %d minutes&#x27; % total)
+print(&#x27;Daily average: %.1f minutes&#x27; % (total / len(DAYS)))
+print(&#x27;Longest session: %s (%d minutes)&#x27; % (best[0], best[1]))
+</pre></article>
+<article class="record"><h3>Luge <small>Rank 7 &middot; compounded &middot; sliding &middot; intermediate</small></h3>
+<p>Signature luge is taught as stillness at speed. A student learns the lying position on a dry sled, then the paddling start, then slow-track runs, because any movement on the sled at speed changes its line. Our coaches teach steering as pressure, not as turning: a small leg press, a small shoulder press, and the sled answers. Doubles pairs practise lying together on dry land until the pair moves as one body. The hall&#x27;s praise goes to the slider whose run looks motionless, because stillness is what speed rewards.</p><h4>Training</h4><p>Sessions pair dry-sled position work, paddling starts, slow-track runs, and steering-pressure drills.</p><h4>Techniques</h4><p>Signature basics are the flat lying position, the paddling start, and steering by small pressures.</p><h4>Safety</h4><p>Helmets and protective gear are mandatory, and full-speed runs come only after slow-track practice.</p><h4>History</h4><p>The Signature school follows luge from Alpine sledding to Olympic competition.</p><h4>Working demo program</h4><pre class="codeblock">QA = [(&#x27;How does a luger lie on the sled?&#x27;, &#x27;On the back, feet first.&#x27;), (&#x27;How is the sled steered?&#x27;, &#x27;By small leg and shoulder pressures on the runners.&#x27;), (&#x27;How does a luge run start?&#x27;, &#x27;By paddling with spiked gloves on the ice.&#x27;), (&#x27;What is taught before full-speed runs?&#x27;, &#x27;Slow-track runs and the still lying position.&#x27;)]
+print(&#x27;Signature luge quiz&#x27;)
+for q, a in QA:
+    print(&#x27;Q: %s&#x27; % q)
+    print(&#x27;A: %s&#x27; % a)
+print(&#x27;Questions: %d&#x27; % len(QA))
+</pre></article>
+<article class="record"><h3>Skeleton <small>Rank 8 &middot; compounded &middot; sliding &middot; intermediate</small></h3>
+<p>Signature skeleton is taught as a dive before a slide. A student practises the sprint and dive onto a stationary sled until the movement is automatic, then runs slow tracks, because a poor dive ruins the run before the first curve. Our coaches teach steering as weight, not as wrestling: a shift of the shoulders, a drag of the toe, and the sled follows. Head-first position is built gradually, with neck strength work, and the hall&#x27;s praise goes to the slider whose dive is quiet and whose run is calm.</p><h4>Training</h4><p>Sessions pair sprint starts, dive-on drills, slow-track runs, and neck strength work.</p><h4>Techniques</h4><p>Signature basics are the sprint, the dive onto the sled, and steering by body weight and toe drag.</p><h4>Safety</h4><p>Helmets and protective gear are mandatory, neck strength is built gradually, and full-speed runs come last.</p><h4>History</h4><p>The Signature school follows skeleton from St Moritz to its permanent Olympic return in 2002.</p><h4>Working demo program</h4><pre class="codeblock">ITEMS = [(&#x27;Sprint starts&#x27;, 20), (&#x27;Dive-on repetitions&#x27;, 16), (&#x27;Slow-track runs&#x27;, 6), (&#x27;Neck strength sets&#x27;, 4), (&#x27;Video reviews&#x27;, 4)]
+print(&#x27;Signature skeleton drill counts&#x27;)
+total = 0
+for name, val in ITEMS:
+    total += val
+    print(&#x27;%s: %s&#x27; % (name, val))
+print(&#x27;Total: %s&#x27; % total)
+print(&#x27;Average: %.2f&#x27; % (total / len(ITEMS)))
+</pre></article>
+<article class="record"><h3>Speed Skating <small>Rank 9 &middot; compounded &middot; skating &middot; intermediate</small></h3>
+<p>Signature speed skating is taught as position before power. A student learns the deep crouch on dry land, then the side push on ice at low speed, then cornering, because power added to a poor position only wastes energy. Our coaches film skaters from the side so each athlete can see whether their crouch holds through a lap, and long skates build slowly, since endurance in the crouch is the sport&#x27;s hidden demand. The hall&#x27;s praise goes to the skater whose position never rises, even in the last lap.</p><h4>Training</h4><p>Sessions pair dry-land crouch work, low-speed push drills, cornering, and gradually longer skates.</p><h4>Techniques</h4><p>Signature basics are the deep crouch, the long side push, and crossover cornering.</p><h4>Safety</h4><p>Helmets are worn in pack training, blades are guarded off the ice, and falls are practised on soft ice edges.</p><h4>History</h4><p>The Signature school follows speed skating from Dutch canals to Olympic ovals.</p><h4>Working demo program</h4><pre class="codeblock">DIST_KM = 1.5
+MINUTES = 2.2
+print(&#x27;Signature speed skating pace calculator&#x27;)
+pace = MINUTES / DIST_KM
+speed = DIST_KM / (MINUTES / 60.0)
+print(&#x27;Distance: %.2f km in %.1f minutes&#x27; % (DIST_KM, MINUTES))
+print(&#x27;Pace: %.2f minutes per km&#x27; % pace)
+print(&#x27;Average speed: %.2f km per hour&#x27; % speed)
+</pre></article>
+<article class="record"><h3>Short-Track Speed Skating <small>Rank 10 &middot; compounded &middot; skating &middot; intermediate</small></h3>
+<p>Signature short-track is taught as pack awareness before passing. A student learns to skate in a group, to hold a line through corners, and to read when a gap opens, before any passing is attempted, because a pass attempted blind is a fall for two skaters. Our sessions drill relay exchanges by push until the exchange is smooth at speed, and disqualification rules are taught as tactics: knowing what is illegal keeps a skater in the race. The hall&#x27;s praise goes to the skater who passes cleanly and leaves room, not the skater who forces a gap.</p><h4>Training</h4><p>Sessions pair pack skating, cornering drills, relay exchange practice, and passing drills on open gaps.</p><h4>Techniques</h4><p>Signature basics are pack lines, deep cornering with hand-to-ice balance, drafting, and clean passing.</p><h4>Safety</h4><p>Helmets, gloves, and cut-resistant suits are standard, and rink padding protects falls.</p><h4>History</h4><p>The Signature school follows short-track from small-rink pack racing to Olympic competition.</p><h4>Working demo program</h4><pre class="codeblock">CHECKS = [(&#x27;Pack lines practised&#x27;, True), (&#x27;Relay exchanges smooth&#x27;, True), (&#x27;Disqualification rules known&#x27;, True), (&#x27;Protective gear worn&#x27;, True), (&#x27;Blind passing attempted&#x27;, False)]
+print(&#x27;Signature short-track race checklist&#x27;)
+passed = 0
+for name, ok in CHECKS:
+    print(&#x27;%s: %s&#x27; % (name, &#x27;PASS&#x27; if ok else &#x27;FAIL&#x27;))
+    if ok:
+        passed += 1
+print(&#x27;Passed: %d of %d&#x27; % (passed, len(CHECKS)))
+</pre></article>
+<article class="record"><h3>Figure Skating <small>Rank 11 &middot; complex &middot; skating &middot; advanced</small></h3>
+<p>Signature figure skating is taught as edges before jumps. A student learns to hold an edge, to turn cleanly, and to spin upright, before any jump is attempted, because a jump launched from a poor edge cannot be landed well. Our programme pairs ice sessions with ballet and off-ice jump training, and programmes are built one element at a time, with music chosen after the elements are solid. Falls are treated as information, not failure, and the hall&#x27;s praise goes to the skater whose programme flows as one piece, not as a list of tricks.</p><h4>Training</h4><p>Sessions pair edge work, spin practice, off-ice jumps, ballet, and programme building one element at a time.</p><h4>Techniques</h4><p>Signature basics are edge holding, clean turns, upright spins, and then jumps, in that order.</p><h4>Safety</h4><p>Jump landings are built gradually, off-ice training reduces ice impact, and coaches supervise all jump practice.</p><h4>History</h4><p>The Signature school follows figure skating from nineteenth-century clubs to Olympic competition.</p><h4>Working demo program</h4><pre class="codeblock">DAYS = [(&#x27;Monday edges and turns&#x27;, 60), (&#x27;Wednesday spins&#x27;, 45), (&#x27;Friday off-ice jumps and ballet&#x27;, 60), (&#x27;Saturday programme run&#x27;, 60)]
+print(&#x27;Signature figure skating training week&#x27;)
+total = sum(m for _, m in DAYS)
+best = max(DAYS, key=lambda d: d[1])
+for day, m in DAYS:
+    print(&#x27;%s: %d minutes&#x27; % (day, m))
+print(&#x27;Weekly total: %d minutes&#x27; % total)
+print(&#x27;Daily average: %.1f minutes&#x27; % (total / len(DAYS)))
+print(&#x27;Longest session: %s (%d minutes)&#x27; % (best[0], best[1]))
+</pre></article>
+<article class="record"><h3>Curling <small>Rank 12 &middot; complex &middot; snow &middot; advanced</small></h3>
+<p>Signature curling is taught as weight before strategy. A student learns to slide and release a stone with consistent weight, then to sweep, then to call simple shots, because strategy built on unreliable weight is only guessing. Our programme teaches sweeping as judgement: sweepers watch the stone&#x27;s line and speed and decide together, rather than sweeping on every shot. The skip&#x27;s role is taught as communication, not command, and the hall&#x27;s praise goes to the team whose stones finish where they were called, end after end.</p><h4>Training</h4><p>Sessions pair slide delivery drills, weight practice, sweeping judgement, and simple called shots.</p><h4>Techniques</h4><p>Signature basics are the slide, the release with turn, sweeping, and the draw shot.</p><h4>Safety</h4><p>Sliders are worn correctly, stones are handled with care, and players keep clear of moving stones.</p><h4>History</h4><p>The Signature school follows curling from Scottish lochs to Olympic competition.</p><h4>Working demo program</h4><pre class="codeblock">QA = [(&#x27;What is the house?&#x27;, &#x27;The target of concentric circles at each end of the sheet.&#x27;), (&#x27;What do sweepers do?&#x27;, &#x27;Sweep the ice ahead of a moving stone to control its speed and curl.&#x27;), (&#x27;What is a draw?&#x27;, &#x27;A shot that stops in the house.&#x27;), (&#x27;What is a takeout?&#x27;, &quot;A shot that removes an opponent&#x27;s stone.&quot;)]
+print(&#x27;Signature curling quiz&#x27;)
+for q, a in QA:
+    print(&#x27;Q: %s&#x27; % q)
+    print(&#x27;A: %s&#x27; % a)
+print(&#x27;Questions: %d&#x27; % len(QA))
+</pre></article>
+<article class="record"><h3>Freestyle Skiing <small>Rank 13 &middot; complex &middot; skiing &middot; advanced</small></h3>
+<p>Signature freestyle skiing is taught as a landing before a trick. A student learns to land from small jumps, then to spin on a trampoline, then to take a trick to a water ramp, and only then to snow, because a trick learned on snow first is learned with fear. Our coaches teach mogul turns as short, round, and quiet, and aerials as height first and rotation second, since height gives time to land well. The hall&#x27;s praise goes to the skier whose landing is balanced and whose run flows, whatever the trick&#x27;s difficulty.</p><h4>Training</h4><p>Sessions pair trampoline work, mogul turn drills, water-ramp jumps, and on-snow sessions.</p><h4>Techniques</h4><p>Signature basics are landings, mogul turns, trampoline spins, and water-ramp jumps, in that order.</p><h4>Safety</h4><p>Water ramps precede snow aerials, helmets are mandatory, and features progress by size.</p><h4>History</h4><p>The Signature school follows freestyle skiing from 1960s exhibitions to Olympic competition.</p><h4>Working demo program</h4><pre class="codeblock">ITEMS = [(&#x27;Trampoline spins&#x27;, 20), (&#x27;Mogul turns&#x27;, 40), (&#x27;Water-ramp jumps&#x27;, 12), (&#x27;On-snow jumps&#x27;, 8), (&#x27;Landings practised&#x27;, 30)]
+print(&#x27;Signature freestyle drill counts&#x27;)
+total = 0
+for name, val in ITEMS:
+    total += val
+    print(&#x27;%s: %s&#x27; % (name, val))
+print(&#x27;Total: %s&#x27; % total)
+print(&#x27;Average: %.2f&#x27; % (total / len(ITEMS)))
+</pre></article>
+<article class="record"><h3>Ski Mountaineering <small>Rank 14 &middot; complex &middot; skiing &middot; advanced</small></h3>
+<p>Signature ski mountaineering is taught as a mountain decision before a mountain climb. A student learns to read a forecast, to test snow, and to turn back, before any summit is attempted, because the mountain does not reward persistence. Our programme teaches skinning and kick turns on gentle slopes, transitions until they are fast and calm, and descending in varied snow, in that order. Avalanche training comes first, not last, and every tour carries transceiver, shovel, and probe, with the group practising rescue before the season. The hall&#x27;s praise goes to the party that returns safely, whatever the summit.</p><h4>Training</h4><p>Sessions pair avalanche training, skinning drills, transition practice, and descending in varied snow.</p><h4>Techniques</h4><p>Signature basics are skinning, kick turns, transitions, and descending, in that order.</p><h4>Safety</h4><p>Avalanche training and rescue practice come first, safety gear is always carried, and turning back is taught as skill.</p><h4>History</h4><p>The Signature school follows ski mountaineering from Alpine travel to Olympic competition.</p><h4>Working demo program</h4><pre class="codeblock">CHECKS = [(&#x27;Forecast and snow checked&#x27;, True), (&#x27;Transceiver, shovel, probe carried&#x27;, True), (&#x27;Rescue practised this season&#x27;, True), (&#x27;Group stays together&#x27;, True), (&#x27;Summit before safety&#x27;, False)]
+print(&#x27;Signature ski tour checklist&#x27;)
+passed = 0
+for name, ok in CHECKS:
+    print(&#x27;%s: %s&#x27; % (name, &#x27;PASS&#x27; if ok else &#x27;FAIL&#x27;))
+    if ok:
+        passed += 1
+print(&#x27;Passed: %d of %d&#x27; % (passed, len(CHECKS)))
+</pre></article>
+<article class="record"><h3>Ice Climbing <small>Rank 15 &middot; complex &middot; snow &middot; advanced</small></h3>
+<p>Signature ice climbing is taught as placement before power. A student learns to swing an axe once and place it cleanly, to set crampon points without kicking wildly, and to rest on straight arms, on an indoor wall, before any frozen waterfall is attempted. Our instructors teach reading ice as a first skill: soft ice takes a gentle swing, brittle ice takes patience, and bad ice means no climb. Rope skills and rescue are taught beside climbing, not after it, and the hall&#x27;s praise goes to the climber whose swings are few and whose movement is calm.</p><h4>Training</h4><p>Sessions pair axe placement drills, crampon work, indoor wall climbing, and rope skills.</p><h4>Techniques</h4><p>Signature basics are the clean axe swing, crampon placement, and resting on straight arms.</p><h4>Safety</h4><p>Helmets are mandatory, ropes and protection are always used, and bad ice means no climb.</p><h4>History</h4><p>The Signature school follows ice climbing from Alpine mountaineering to competition.</p><h4>Working demo program</h4><pre class="codeblock">ITEMS = [(&#x27;Clean axe placements&#x27;, 40), (&#x27;Crampon placements&#x27;, 40), (&#x27;Rest positions held&#x27;, 12), (&#x27;Rope drills&#x27;, 8), (&#x27;Indoor routes&#x27;, 6)]
+print(&#x27;Signature ice climbing drill counts&#x27;)
+total = 0
+for name, val in ITEMS:
+    total += val
+    print(&#x27;%s: %s&#x27; % (name, val))
+print(&#x27;Total: %s&#x27; % total)
+print(&#x27;Average: %.2f&#x27; % (total / len(ITEMS)))
+</pre></article>
+<article class="record"><h3>Snowshoeing <small>Rank 16 &middot; complex &middot; snow &middot; advanced</small></h3>
+<p>Signature snowshoeing is taught as walking, then winter. A student learns to fit bindings, to walk with a wider gait, and to turn without tripping, on flat ground, before any trail is attempted, because snowshoes punish a normal walking stride. Our programme teaches climbing with toe crampons, descending with short steps, and breaking trail in turns, so the group shares the hardest work. Navigation and layers are taught from the first outing, and the hall&#x27;s praise goes to the walker who finishes warm, dry, and unhurried, whatever the distance.</p><h4>Training</h4><p>Sessions pair binding and gait practice, flat-ground walking, climbing and descending, and trail navigation.</p><h4>Techniques</h4><p>Signature basics are the wider gait, toe-crampon climbing, and controlled descending.</p><h4>Safety</h4><p>Layers and weather checks are standard, avalanche awareness applies on steep terrain, and groups carry navigation gear.</p><h4>History</h4><p>The Signature school follows snowshoeing from ancient winter travel to modern racing and hiking.</p><h4>Working demo program</h4><pre class="codeblock">DIST_KM = 3.0
+MINUTES = 60.0
+print(&#x27;Signature snowshoeing pace calculator&#x27;)
+pace = MINUTES / DIST_KM
+speed = DIST_KM / (MINUTES / 60.0)
+print(&#x27;Distance: %.2f km in %.1f minutes&#x27; % (DIST_KM, MINUTES))
+print(&#x27;Pace: %.2f minutes per km&#x27; % pace)
+print(&#x27;Average speed: %.2f km per hour&#x27; % speed)
+</pre></article>
+<h2>Related databases</h2><ul><li><a href="../winter-sports/index.html">winter-sports</a></li><li><a href="../sports/index.html">sports</a></li><li><a href="../sports-signature/index.html">sports-signature</a></li><li><a href="../team-sports/index.html">team-sports</a></li><li><a href="../individual-sports/index.html">individual-sports</a></li><li><a href="../team-sports-signature/index.html">team-sports-signature</a></li><li><a href="../individual-sports-signature/index.html">individual-sports-signature</a></li></ul>
+<script src="gen-winter-sports-signature.js"></script>
+<script>
+(function(){'use strict';
+var DATA_URL='https://justinahiggins614-cmyk.github.io/jah-databases-data-2/data/winter-sports-signature/index.jsonl.gz';
+function $(id){return document.getElementById(id);}
+function setCount(n){ $('stCount').textContent=n.toLocaleString()+' / 1,000,000 target'; $('stCount2').textContent=n.toLocaleString(); }
+fetch(DATA_URL).then(function(res){
+  if(!res.ok) throw new Error('HTTP '+res.status);
+  var ds=new DecompressionStream('gzip');
+  return new Response(res.body.pipeThrough(ds)).text();
+}).then(function(t){
+  var n=t.split('\n').filter(function(l){return l.trim();}).length;
+  setCount(n);
+}).catch(function(){ $('stCount').textContent='archive unreachable'; });
+})();
+</script>
+<script src="../../assets/assistant-maker.js"></script>
+</body></html>
