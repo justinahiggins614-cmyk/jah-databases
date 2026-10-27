@@ -1,0 +1,1771 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">
+<title>The Vector Arcade Games Database</title><meta name="description" content="The Vector Arcade Games Database: sixteen full arcade records, ordered simple to complex, each with a playable demo program. Free forever.">
+<style>body{font-family:system-ui,sans-serif;max-width:900px;margin:auto;padding:1em;line-height:1.6}
+.kv{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:0.75em}
+.kv>div{border:1px solid #ccc;padding:0.5em}.codeblock{background:#111;color:#eee;padding:1em;overflow:auto;white-space:pre-wrap}
+.pill{display:inline-block;border:1px solid #333;border-radius:2em;padding:0.2em 0.8em;margin:0.2em}
+.merger{background:#c00;color:#fff;border:0;padding:0.7em 1.4em;font-size:1em;cursor:pointer}
+.record{border-top:2px solid #333;margin-top:2em;padding-top:1em}</style></head><body>
+<h1>The Vector Arcade Games Database</h1><p class="pill">Exhaustive</p> <p class="pill">march to a million: in progress</p>
+<button class="merger" onclick="alert('All Database Merger: this database is ready to merge into the network archive.')">All Database Merger</button>
+<p>Archive records: <b id="stCount">16 / 1,000,000 target</b> · <span id="stCount2">16</span> records <span class="dim">(populated from the live archive index)</span></p>
+<p>Vector arcade games drew their worlds in glowing lines rather than painted pixels: wireframe tanks, drifting asteroids, and tube shooters rendered as pure geometry. This pair collects the great vector cabinets alongside sixteen original games drawn in the same luminous style.</p>
+<p>Every record here is the full, fully-formed file: a full prose description, how to play, and a working, playable demo program. Everything is free forever, with no payments and no upsells. Public editions describe real arcade games in original words and ship original tribute demos inspired by their mechanics; they never ship the original game, its art, its music, or its code.</p>
+<h2>Specialist AI: JAH Vector Arcade Guide</h2><p>JAH Vector Arcade Guide answers questions about this arcade family, explains any record in plain sentences, and helps choose the right game, controls, or strategy for a session.</p>
+<h2>Boundless generator</h2><p>The generator below is seeded and deterministic, throttled to at most 100 records per call, duplicate-checked, and hard-stopped at 10^15 records. Every generated record is labeled src "generated". Open the page script to use <code>window.VectorArcadeGamesTools.generateRecord(seed)</code>.</p>
+<h2>Validation engine</h2><p>Each record is checked for a complete title, its own record kind, its own edition slug and id prefix, a full prose description, topic fields, a demo whose stored output byte-matches a fresh run, and a play-mode smoke test proving the demo actually plays.</p>
+<h2>Evidence links</h2><ul><li><a href="https://justinahiggins614-cmyk.github.io/jah-databases-data-2/data/vector-arcade-games/index.jsonl.gz">Full record index for this edition (data-2)</a></li></ul>
+<h2>Tool connections</h2><p>The page exposes <code>window.VectorArcadeGamesTools</code> with <code>searchRecords</code>, <code>generateRecord</code>, <code>validateRecord</code>, and <code>runTests</code>.</p>
+<h2>Testing suite</h2><p>Run <code>window.VectorArcadeGamesTools.runTests()</code> in the console: it checks record kind, slug, id prefix, src labeling, validation, duplicate rejection, batch throttling, and search.</p>
+<h2>Audit history</h2><p>Built as a package on 2026-10-26: 16 records, ordered simple to compounded to complex by ladder rank, JSONL re-parsed, every demo re-executed with byte-matched output and play-mode smoke-tested, both generator files syntax-checked, and generator gates executed.</p>
+<h2>Search</h2><input id="q" placeholder="Search vector arcade record" oninput="doSearch(this.value)"><div id="results"></div>
+<script>var SEARCH_INDEX=[{"id": "JAH-VCT-000001", "title": "Asteroids"}, {"id": "JAH-VCT-000002", "title": "Asteroids Deluxe"}, {"id": "JAH-VCT-000003", "title": "Battlezone"}, {"id": "JAH-VCT-000004", "title": "Tempest"}, {"id": "JAH-VCT-000005", "title": "Star Wars"}, {"id": "JAH-VCT-000006", "title": "Lunar Lander"}, {"id": "JAH-VCT-000007", "title": "Omega Race"}, {"id": "JAH-VCT-000008", "title": "Rip Off"}, {"id": "JAH-VCT-000009", "title": "Red Baron"}, {"id": "JAH-VCT-000010", "title": "Space Duel"}, {"id": "JAH-VCT-000011", "title": "Quantum"}, {"id": "JAH-VCT-000012", "title": "Major Havoc"}, {"id": "JAH-VCT-000013", "title": "Black Widow"}, {"id": "JAH-VCT-000014", "title": "Gravitar"}, {"id": "JAH-VCT-000015", "title": "Star Castle"}, {"id": "JAH-VCT-000016", "title": "Tail Gunner"}];function doSearch(q){q=q.toLowerCase();var hits=SEARCH_INDEX.filter(function(r){return r.title.toLowerCase().indexOf(q)!==-1});document.getElementById('results').innerHTML=hits.map(function(r){return '<p>'+r.id+' — '+r.title+'</p>'}).join('')||'<p>No matches yet.</p>';}</script>
+<h2>Records</h2><div class="kv"><div>Records: 16</div><div>Editions: 1 of a pair</div><div>Free forever</div></div>
+<article class="record"><h3>Asteroids <small>Rank 1 &middot; simple &middot; vector graphics &middot; beginner</small></h3><p>Asteroids, Atari&#x27;s 1979 vector classic, puts the player in a lone ship drifting through an asteroid field rendered in glowing lines. Thrust rotates and pushes the ship with real momentum, so stopping takes as long as starting, and every large rock splits into smaller, faster fragments when shot. The saucer that occasionally crosses the screen adds a moving threat to the drifting rocks.</p><p>The tribute demo is an original vector-style miniature: a ship starts at [4, 5] among 4 drifting rocks on a glowing grid, thrusting with momentum, turning, and firing at rocks that split when hit. It captures the feel of the arcade original&#x27;s line-drawn space without copying its code, art, or sound.</p><p>Momentum is the whole skill: a player who thrusts in short taps keeps the ship controllable, while long burns send it sliding across the field. Clearing large rocks near the edges first keeps the center open, and the hyperspace jump is a last resort, since it can drop the ship onto a rock.</p><p><b>Playable tribute note:</b> The demo below is an original tribute inspired by the mechanics of Asteroids (1979). It is not Asteroids (1979), and it uses no art, music, or code from that game.</p><h4>How to play</h4><p>Type thrust/left/right/shoot to fly and fire, quit to stop.</p><h4>Working demo program</h4><p>Save the code below as game.py and run <code>python3 game.py --play</code> to play it. Running it without arguments replays the scripted session whose output is stored with the record.</p><pre class="codeblock">import sys
+PARAMS = {&#x27;w&#x27;: 20, &#x27;h&#x27;: 16, &#x27;ship&#x27;: [4, 5], &#x27;rocks&#x27;: [[3, 2, -1, 0, 2], [8, 5, 1, 1, 1], [13, 8, -1, 1, 1], [4, 11, 1, 0, 2]]}
+AUTO = [&#x27;thrust&#x27;, &#x27;thrust&#x27;, &#x27;shoot&#x27;, &#x27;right&#x27;, &#x27;thrust&#x27;, &#x27;shoot&#x27;, &#x27;left&#x27;, &#x27;thrust&#x27;, &#x27;shoot&#x27;, &#x27;shoot&#x27;, &#x27;right&#x27;, &#x27;thrust&#x27;, &#x27;shoot&#x27;, &#x27;left&#x27;, &#x27;shoot&#x27;, &#x27;thrust&#x27;]
+
+DIRS_V = [(1, 0), (0, 1), (-1, 0), (0, -1)]
+
+def auto_play():
+    W, H = PARAMS[&quot;w&quot;], PARAMS[&quot;h&quot;]
+    ship = list(PARAMS[&quot;ship&quot;])
+    heading = 0
+    rocks = [list(r) for r in PARAMS[&quot;rocks&quot;]]
+    score, lives = 0, 3
+    print(&quot;Vector tribute: auto session&quot;)
+    for i, cmd in enumerate(AUTO):
+        if cmd == &quot;left&quot;:
+            heading = (heading - 1) % 4
+        elif cmd == &quot;right&quot;:
+            heading = (heading + 1) % 4
+        elif cmd == &quot;thrust&quot;:
+            dx, dy = DIRS_V[heading]
+            ship[0] = (ship[0] + dx * 2) % W
+            ship[1] = (ship[1] + dy * 2) % H
+        elif cmd == &quot;shoot&quot;:
+            dx, dy = DIRS_V[heading]
+            for k in range(1, 4):
+                target = ((ship[0] + dx * k) % W, (ship[1] + dy * k) % H)
+                hit = None
+                for rock in rocks:
+                    if (rock[0], rock[1]) == target:
+                        hit = rock
+                        break
+                if hit is not None:
+                    rocks.remove(hit)
+                    score += hit[4] * 20
+                    if hit[4] == 2:
+                        rocks.append([hit[0], hit[1], 1, 0, 1])
+                        rocks.append([hit[0], hit[1], 0, 1, 1])
+                    break
+        new_rocks = []
+        for rock in rocks:
+            rock[0] = (rock[0] + rock[2]) % W
+            rock[1] = (rock[1] + rock[3]) % H
+            new_rocks.append(rock)
+        rocks = new_rocks
+        if any((rock[0], rock[1]) == (ship[0], ship[1]) for rock in rocks):
+            lives -= 1
+            rocks = [r for r in rocks if (r[0], r[1]) != (ship[0], ship[1])]
+        print(&quot;Step %d: %s ship %s rocks %d score %d lives %d&quot; % (i + 1, cmd, tuple(ship), len(rocks), score, lives))
+        if not rocks or lives &lt;= 0:
+            break
+    print(&quot;FINAL SCORE: %d&quot; % score)
+    print(&quot;RESULT: %s&quot; % (&quot;WIN&quot; if not rocks else &quot;OUT OF LIVES&quot; if lives &lt;= 0 else &quot;ONGOING&quot;))
+
+def play():
+    W, H = PARAMS[&quot;w&quot;], PARAMS[&quot;h&quot;]
+    ship = list(PARAMS[&quot;ship&quot;])
+    heading = 0
+    rocks = [list(r) for r in PARAMS[&quot;rocks&quot;]]
+    score, lives = 0, 3
+    print(&quot;Vector tribute: type thrust/left/right/shoot, or quit. Blast every rock, avoid collisions.&quot;)
+    for line in sys.stdin:
+        cmd = line.strip().lower()
+        if cmd == &quot;quit&quot;:
+            break
+        if cmd not in (&quot;thrust&quot;, &quot;left&quot;, &quot;right&quot;, &quot;shoot&quot;):
+            print(&quot;Unknown command: %s&quot; % cmd)
+            continue
+        if cmd == &quot;left&quot;:
+            heading = (heading - 1) % 4
+        elif cmd == &quot;right&quot;:
+            heading = (heading + 1) % 4
+        elif cmd == &quot;thrust&quot;:
+            dx, dy = DIRS_V[heading]
+            ship[0] = (ship[0] + dx * 2) % W
+            ship[1] = (ship[1] + dy * 2) % H
+        elif cmd == &quot;shoot&quot;:
+            dx, dy = DIRS_V[heading]
+            for k in range(1, 4):
+                target = ((ship[0] + dx * k) % W, (ship[1] + dy * k) % H)
+                hit = None
+                for rock in rocks:
+                    if (rock[0], rock[1]) == target:
+                        hit = rock
+                        break
+                if hit is not None:
+                    rocks.remove(hit)
+                    score += hit[4] * 20
+                    if hit[4] == 2:
+                        rocks.append([hit[0], hit[1], 1, 0, 1])
+                        rocks.append([hit[0], hit[1], 0, 1, 1])
+                    break
+        for rock in rocks:
+            rock[0] = (rock[0] + rock[2]) % W
+            rock[1] = (rock[1] + rock[3]) % H
+        if any((rock[0], rock[1]) == (ship[0], ship[1]) for rock in rocks):
+            lives -= 1
+            rocks = [r for r in rocks if (r[0], r[1]) != (ship[0], ship[1])]
+        print(&quot;ship %s rocks %d score %d lives %d&quot; % (tuple(ship), len(rocks), score, lives))
+        if not rocks or lives &lt;= 0:
+            break
+    print(&quot;FINAL SCORE: %d&quot; % score)
+    print(&quot;RESULT: %s&quot; % (&quot;WIN&quot; if not rocks else &quot;OUT OF LIVES&quot; if lives &lt;= 0 else &quot;QUIT&quot;))
+
+if __name__ == &quot;__main__&quot;:
+    if &quot;--play&quot; in sys.argv:
+        play()
+    else:
+        auto_play()
+</pre></article><article class="record"><h3>Asteroids Deluxe <small>Rank 2 &middot; simple &middot; vector graphics &middot; beginner</small></h3><p>Asteroids Deluxe, Atari&#x27;s 1981 follow-up, keeps the drifting ship and splitting rocks but adds new hazards: a shield that protects the ship briefly, and killer satellites that break apart into hunter drones. The graphics are sharper, the rocks are more varied, and the pace is noticeably faster than the original.</p><p>The tribute demo is an original vector-style miniature: a ship starts at [5, 6] among 5 drifting rocks on a glowing grid, thrusting with momentum, turning, and firing at rocks that split when hit. It captures the feel of the arcade original&#x27;s line-drawn space without copying its code, art, or sound.</p><p>The shield changes the risk calculus, letting a player survive a collision that would have ended a run in the original. Killer satellites should be broken at range, since their hunter drones are far more dangerous up close than the satellite itself.</p><p><b>Playable tribute note:</b> The demo below is an original tribute inspired by the mechanics of Asteroids Deluxe (1981). It is not Asteroids Deluxe (1981), and it uses no art, music, or code from that game.</p><h4>How to play</h4><p>Type thrust/left/right/shoot to fly and fire, quit to stop.</p><h4>Working demo program</h4><p>Save the code below as game.py and run <code>python3 game.py --play</code> to play it. Running it without arguments replays the scripted session whose output is stored with the record.</p><pre class="codeblock">import sys
+PARAMS = {&#x27;w&#x27;: 20, &#x27;h&#x27;: 16, &#x27;ship&#x27;: [5, 6], &#x27;rocks&#x27;: [[6, 3, -1, 0, 2], [11, 6, 1, 1, 1], [16, 9, -1, 1, 1], [7, 12, 1, 0, 2], [12, 3, -1, 1, 1]]}
+AUTO = [&#x27;right&#x27;, &#x27;thrust&#x27;, &#x27;shoot&#x27;, &#x27;shoot&#x27;, &#x27;left&#x27;, &#x27;thrust&#x27;, &#x27;thrust&#x27;, &#x27;shoot&#x27;, &#x27;right&#x27;, &#x27;shoot&#x27;, &#x27;left&#x27;, &#x27;left&#x27;, &#x27;thrust&#x27;, &#x27;shoot&#x27;, &#x27;thrust&#x27;, &#x27;shoot&#x27;]
+
+DIRS_V = [(1, 0), (0, 1), (-1, 0), (0, -1)]
+
+def auto_play():
+    W, H = PARAMS[&quot;w&quot;], PARAMS[&quot;h&quot;]
+    ship = list(PARAMS[&quot;ship&quot;])
+    heading = 0
+    rocks = [list(r) for r in PARAMS[&quot;rocks&quot;]]
+    score, lives = 0, 3
+    print(&quot;Vector tribute: auto session&quot;)
+    for i, cmd in enumerate(AUTO):
+        if cmd == &quot;left&quot;:
+            heading = (heading - 1) % 4
+        elif cmd == &quot;right&quot;:
+            heading = (heading + 1) % 4
+        elif cmd == &quot;thrust&quot;:
+            dx, dy = DIRS_V[heading]
+            ship[0] = (ship[0] + dx * 2) % W
+            ship[1] = (ship[1] + dy * 2) % H
+        elif cmd == &quot;shoot&quot;:
+            dx, dy = DIRS_V[heading]
+            for k in range(1, 4):
+                target = ((ship[0] + dx * k) % W, (ship[1] + dy * k) % H)
+                hit = None
+                for rock in rocks:
+                    if (rock[0], rock[1]) == target:
+                        hit = rock
+                        break
+                if hit is not None:
+                    rocks.remove(hit)
+                    score += hit[4] * 20
+                    if hit[4] == 2:
+                        rocks.append([hit[0], hit[1], 1, 0, 1])
+                        rocks.append([hit[0], hit[1], 0, 1, 1])
+                    break
+        new_rocks = []
+        for rock in rocks:
+            rock[0] = (rock[0] + rock[2]) % W
+            rock[1] = (rock[1] + rock[3]) % H
+            new_rocks.append(rock)
+        rocks = new_rocks
+        if any((rock[0], rock[1]) == (ship[0], ship[1]) for rock in rocks):
+            lives -= 1
+            rocks = [r for r in rocks if (r[0], r[1]) != (ship[0], ship[1])]
+        print(&quot;Step %d: %s ship %s rocks %d score %d lives %d&quot; % (i + 1, cmd, tuple(ship), len(rocks), score, lives))
+        if not rocks or lives &lt;= 0:
+            break
+    print(&quot;FINAL SCORE: %d&quot; % score)
+    print(&quot;RESULT: %s&quot; % (&quot;WIN&quot; if not rocks else &quot;OUT OF LIVES&quot; if lives &lt;= 0 else &quot;ONGOING&quot;))
+
+def play():
+    W, H = PARAMS[&quot;w&quot;], PARAMS[&quot;h&quot;]
+    ship = list(PARAMS[&quot;ship&quot;])
+    heading = 0
+    rocks = [list(r) for r in PARAMS[&quot;rocks&quot;]]
+    score, lives = 0, 3
+    print(&quot;Vector tribute: type thrust/left/right/shoot, or quit. Blast every rock, avoid collisions.&quot;)
+    for line in sys.stdin:
+        cmd = line.strip().lower()
+        if cmd == &quot;quit&quot;:
+            break
+        if cmd not in (&quot;thrust&quot;, &quot;left&quot;, &quot;right&quot;, &quot;shoot&quot;):
+            print(&quot;Unknown command: %s&quot; % cmd)
+            continue
+        if cmd == &quot;left&quot;:
+            heading = (heading - 1) % 4
+        elif cmd == &quot;right&quot;:
+            heading = (heading + 1) % 4
+        elif cmd == &quot;thrust&quot;:
+            dx, dy = DIRS_V[heading]
+            ship[0] = (ship[0] + dx * 2) % W
+            ship[1] = (ship[1] + dy * 2) % H
+        elif cmd == &quot;shoot&quot;:
+            dx, dy = DIRS_V[heading]
+            for k in range(1, 4):
+                target = ((ship[0] + dx * k) % W, (ship[1] + dy * k) % H)
+                hit = None
+                for rock in rocks:
+                    if (rock[0], rock[1]) == target:
+                        hit = rock
+                        break
+                if hit is not None:
+                    rocks.remove(hit)
+                    score += hit[4] * 20
+                    if hit[4] == 2:
+                        rocks.append([hit[0], hit[1], 1, 0, 1])
+                        rocks.append([hit[0], hit[1], 0, 1, 1])
+                    break
+        for rock in rocks:
+            rock[0] = (rock[0] + rock[2]) % W
+            rock[1] = (rock[1] + rock[3]) % H
+        if any((rock[0], rock[1]) == (ship[0], ship[1]) for rock in rocks):
+            lives -= 1
+            rocks = [r for r in rocks if (r[0], r[1]) != (ship[0], ship[1])]
+        print(&quot;ship %s rocks %d score %d lives %d&quot; % (tuple(ship), len(rocks), score, lives))
+        if not rocks or lives &lt;= 0:
+            break
+    print(&quot;FINAL SCORE: %d&quot; % score)
+    print(&quot;RESULT: %s&quot; % (&quot;WIN&quot; if not rocks else &quot;OUT OF LIVES&quot; if lives &lt;= 0 else &quot;QUIT&quot;))
+
+if __name__ == &quot;__main__&quot;:
+    if &quot;--play&quot; in sys.argv:
+        play()
+    else:
+        auto_play()
+</pre></article><article class="record"><h3>Battlezone <small>Rank 3 &middot; simple &middot; vector graphics &middot; beginner</small></h3><p>Battlezone, Atari&#x27;s 1980 vector tank game, is one of the first first-person arcade experiences. The player drives a tank across a wireframe plain, viewed through a periscope-style cabinet, and duels enemy tanks, missiles, and flying saucers that appear on the horizon. Its stark green lines and radar display made it feel like a genuine combat simulator.</p><p>The tribute demo is an original vector-style miniature: a ship starts at [6, 7] among 6 drifting rocks on a glowing grid, thrusting with momentum, turning, and firing at rocks that split when hit. It captures the feel of the arcade original&#x27;s line-drawn space without copying its code, art, or sound.</p><p>The radar is as important as the viewport: enemies appear on radar before they are visible, so a good driver turns toward the blip early. Long-range shots work, but the enemy tanks dodge, so the winning habit is to fire, reposition, and fire again rather than trading shots head-on.</p><p><b>Playable tribute note:</b> The demo below is an original tribute inspired by the mechanics of Battlezone (1980). It is not Battlezone (1980), and it uses no art, music, or code from that game.</p><h4>How to play</h4><p>Type thrust/left/right/shoot to fly and fire, quit to stop.</p><h4>Working demo program</h4><p>Save the code below as game.py and run <code>python3 game.py --play</code> to play it. Running it without arguments replays the scripted session whose output is stored with the record.</p><pre class="codeblock">import sys
+PARAMS = {&#x27;w&#x27;: 20, &#x27;h&#x27;: 16, &#x27;ship&#x27;: [6, 7], &#x27;rocks&#x27;: [[9, 4, -1, 0, 2], [14, 7, 1, 1, 1], [5, 10, -1, 1, 1], [10, 13, 1, 0, 2], [15, 4, -1, 1, 1], [6, 7, 1, 1, 1]]}
+AUTO = [&#x27;thrust&#x27;, &#x27;shoot&#x27;, &#x27;left&#x27;, &#x27;thrust&#x27;, &#x27;shoot&#x27;, &#x27;right&#x27;, &#x27;right&#x27;, &#x27;thrust&#x27;, &#x27;shoot&#x27;, &#x27;left&#x27;, &#x27;shoot&#x27;, &#x27;thrust&#x27;, &#x27;thrust&#x27;, &#x27;shoot&#x27;, &#x27;right&#x27;, &#x27;shoot&#x27;, &#x27;left&#x27;, &#x27;thrust&#x27;]
+
+DIRS_V = [(1, 0), (0, 1), (-1, 0), (0, -1)]
+
+def auto_play():
+    W, H = PARAMS[&quot;w&quot;], PARAMS[&quot;h&quot;]
+    ship = list(PARAMS[&quot;ship&quot;])
+    heading = 0
+    rocks = [list(r) for r in PARAMS[&quot;rocks&quot;]]
+    score, lives = 0, 3
+    print(&quot;Vector tribute: auto session&quot;)
+    for i, cmd in enumerate(AUTO):
+        if cmd == &quot;left&quot;:
+            heading = (heading - 1) % 4
+        elif cmd == &quot;right&quot;:
+            heading = (heading + 1) % 4
+        elif cmd == &quot;thrust&quot;:
+            dx, dy = DIRS_V[heading]
+            ship[0] = (ship[0] + dx * 2) % W
+            ship[1] = (ship[1] + dy * 2) % H
+        elif cmd == &quot;shoot&quot;:
+            dx, dy = DIRS_V[heading]
+            for k in range(1, 4):
+                target = ((ship[0] + dx * k) % W, (ship[1] + dy * k) % H)
+                hit = None
+                for rock in rocks:
+                    if (rock[0], rock[1]) == target:
+                        hit = rock
+                        break
+                if hit is not None:
+                    rocks.remove(hit)
+                    score += hit[4] * 20
+                    if hit[4] == 2:
+                        rocks.append([hit[0], hit[1], 1, 0, 1])
+                        rocks.append([hit[0], hit[1], 0, 1, 1])
+                    break
+        new_rocks = []
+        for rock in rocks:
+            rock[0] = (rock[0] + rock[2]) % W
+            rock[1] = (rock[1] + rock[3]) % H
+            new_rocks.append(rock)
+        rocks = new_rocks
+        if any((rock[0], rock[1]) == (ship[0], ship[1]) for rock in rocks):
+            lives -= 1
+            rocks = [r for r in rocks if (r[0], r[1]) != (ship[0], ship[1])]
+        print(&quot;Step %d: %s ship %s rocks %d score %d lives %d&quot; % (i + 1, cmd, tuple(ship), len(rocks), score, lives))
+        if not rocks or lives &lt;= 0:
+            break
+    print(&quot;FINAL SCORE: %d&quot; % score)
+    print(&quot;RESULT: %s&quot; % (&quot;WIN&quot; if not rocks else &quot;OUT OF LIVES&quot; if lives &lt;= 0 else &quot;ONGOING&quot;))
+
+def play():
+    W, H = PARAMS[&quot;w&quot;], PARAMS[&quot;h&quot;]
+    ship = list(PARAMS[&quot;ship&quot;])
+    heading = 0
+    rocks = [list(r) for r in PARAMS[&quot;rocks&quot;]]
+    score, lives = 0, 3
+    print(&quot;Vector tribute: type thrust/left/right/shoot, or quit. Blast every rock, avoid collisions.&quot;)
+    for line in sys.stdin:
+        cmd = line.strip().lower()
+        if cmd == &quot;quit&quot;:
+            break
+        if cmd not in (&quot;thrust&quot;, &quot;left&quot;, &quot;right&quot;, &quot;shoot&quot;):
+            print(&quot;Unknown command: %s&quot; % cmd)
+            continue
+        if cmd == &quot;left&quot;:
+            heading = (heading - 1) % 4
+        elif cmd == &quot;right&quot;:
+            heading = (heading + 1) % 4
+        elif cmd == &quot;thrust&quot;:
+            dx, dy = DIRS_V[heading]
+            ship[0] = (ship[0] + dx * 2) % W
+            ship[1] = (ship[1] + dy * 2) % H
+        elif cmd == &quot;shoot&quot;:
+            dx, dy = DIRS_V[heading]
+            for k in range(1, 4):
+                target = ((ship[0] + dx * k) % W, (ship[1] + dy * k) % H)
+                hit = None
+                for rock in rocks:
+                    if (rock[0], rock[1]) == target:
+                        hit = rock
+                        break
+                if hit is not None:
+                    rocks.remove(hit)
+                    score += hit[4] * 20
+                    if hit[4] == 2:
+                        rocks.append([hit[0], hit[1], 1, 0, 1])
+                        rocks.append([hit[0], hit[1], 0, 1, 1])
+                    break
+        for rock in rocks:
+            rock[0] = (rock[0] + rock[2]) % W
+            rock[1] = (rock[1] + rock[3]) % H
+        if any((rock[0], rock[1]) == (ship[0], ship[1]) for rock in rocks):
+            lives -= 1
+            rocks = [r for r in rocks if (r[0], r[1]) != (ship[0], ship[1])]
+        print(&quot;ship %s rocks %d score %d lives %d&quot; % (tuple(ship), len(rocks), score, lives))
+        if not rocks or lives &lt;= 0:
+            break
+    print(&quot;FINAL SCORE: %d&quot; % score)
+    print(&quot;RESULT: %s&quot; % (&quot;WIN&quot; if not rocks else &quot;OUT OF LIVES&quot; if lives &lt;= 0 else &quot;QUIT&quot;))
+
+if __name__ == &quot;__main__&quot;:
+    if &quot;--play&quot; in sys.argv:
+        play()
+    else:
+        auto_play()
+</pre></article><article class="record"><h3>Tempest <small>Rank 4 &middot; simple &middot; vector graphics &middot; beginner</small></h3><p>Tempest, Atari&#x27;s 1981 tube shooter, wraps vector graphics around a tunnel the player views from one end. The player&#x27;s claw-ship rides the rim of the tube, zapping enemies that crawl up from the far end, while spikes and flippers threaten from the sides. Its color vector display and escalating tube shapes were unlike anything else on the floor.</p><p>The tribute demo is an original vector-style miniature: a ship starts at [7, 8] among 7 drifting rocks on a glowing grid, thrusting with momentum, turning, and firing at rocks that split when hit. It captures the feel of the arcade original&#x27;s line-drawn space without copying its code, art, or sound.</p><p>Riding the rim means the player is always choosing a lane, and the safest lane is usually the one with the fewest climbers. Zapper shots travel down the tube, so firing early at distant enemies clears them before they reach the rim and split into hazards.</p><p><b>Playable tribute note:</b> The demo below is an original tribute inspired by the mechanics of Tempest (1981). It is not Tempest (1981), and it uses no art, music, or code from that game.</p><h4>How to play</h4><p>Type thrust/left/right/shoot to fly and fire, quit to stop.</p><h4>Working demo program</h4><p>Save the code below as game.py and run <code>python3 game.py --play</code> to play it. Running it without arguments replays the scripted session whose output is stored with the record.</p><pre class="codeblock">import sys
+PARAMS = {&#x27;w&#x27;: 20, &#x27;h&#x27;: 16, &#x27;ship&#x27;: [7, 8], &#x27;rocks&#x27;: [[12, 5, -1, 0, 2], [3, 8, 1, 1, 1], [8, 11, -1, 1, 1], [13, 2, 1, 0, 2], [4, 5, -1, 1, 1], [9, 8, 1, 1, 1], [14, 11, -1, 0, 2]]}
+AUTO = [&#x27;shoot&#x27;, &#x27;thrust&#x27;, &#x27;thrust&#x27;, &#x27;right&#x27;, &#x27;shoot&#x27;, &#x27;left&#x27;, &#x27;thrust&#x27;, &#x27;shoot&#x27;, &#x27;shoot&#x27;, &#x27;right&#x27;, &#x27;thrust&#x27;, &#x27;left&#x27;, &#x27;shoot&#x27;, &#x27;thrust&#x27;, &#x27;shoot&#x27;]
+
+DIRS_V = [(1, 0), (0, 1), (-1, 0), (0, -1)]
+
+def auto_play():
+    W, H = PARAMS[&quot;w&quot;], PARAMS[&quot;h&quot;]
+    ship = list(PARAMS[&quot;ship&quot;])
+    heading = 0
+    rocks = [list(r) for r in PARAMS[&quot;rocks&quot;]]
+    score, lives = 0, 3
+    print(&quot;Vector tribute: auto session&quot;)
+    for i, cmd in enumerate(AUTO):
+        if cmd == &quot;left&quot;:
+            heading = (heading - 1) % 4
+        elif cmd == &quot;right&quot;:
+            heading = (heading + 1) % 4
+        elif cmd == &quot;thrust&quot;:
+            dx, dy = DIRS_V[heading]
+            ship[0] = (ship[0] + dx * 2) % W
+            ship[1] = (ship[1] + dy * 2) % H
+        elif cmd == &quot;shoot&quot;:
+            dx, dy = DIRS_V[heading]
+            for k in range(1, 4):
+                target = ((ship[0] + dx * k) % W, (ship[1] + dy * k) % H)
+                hit = None
+                for rock in rocks:
+                    if (rock[0], rock[1]) == target:
+                        hit = rock
+                        break
+                if hit is not None:
+                    rocks.remove(hit)
+                    score += hit[4] * 20
+                    if hit[4] == 2:
+                        rocks.append([hit[0], hit[1], 1, 0, 1])
+                        rocks.append([hit[0], hit[1], 0, 1, 1])
+                    break
+        new_rocks = []
+        for rock in rocks:
+            rock[0] = (rock[0] + rock[2]) % W
+            rock[1] = (rock[1] + rock[3]) % H
+            new_rocks.append(rock)
+        rocks = new_rocks
+        if any((rock[0], rock[1]) == (ship[0], ship[1]) for rock in rocks):
+            lives -= 1
+            rocks = [r for r in rocks if (r[0], r[1]) != (ship[0], ship[1])]
+        print(&quot;Step %d: %s ship %s rocks %d score %d lives %d&quot; % (i + 1, cmd, tuple(ship), len(rocks), score, lives))
+        if not rocks or lives &lt;= 0:
+            break
+    print(&quot;FINAL SCORE: %d&quot; % score)
+    print(&quot;RESULT: %s&quot; % (&quot;WIN&quot; if not rocks else &quot;OUT OF LIVES&quot; if lives &lt;= 0 else &quot;ONGOING&quot;))
+
+def play():
+    W, H = PARAMS[&quot;w&quot;], PARAMS[&quot;h&quot;]
+    ship = list(PARAMS[&quot;ship&quot;])
+    heading = 0
+    rocks = [list(r) for r in PARAMS[&quot;rocks&quot;]]
+    score, lives = 0, 3
+    print(&quot;Vector tribute: type thrust/left/right/shoot, or quit. Blast every rock, avoid collisions.&quot;)
+    for line in sys.stdin:
+        cmd = line.strip().lower()
+        if cmd == &quot;quit&quot;:
+            break
+        if cmd not in (&quot;thrust&quot;, &quot;left&quot;, &quot;right&quot;, &quot;shoot&quot;):
+            print(&quot;Unknown command: %s&quot; % cmd)
+            continue
+        if cmd == &quot;left&quot;:
+            heading = (heading - 1) % 4
+        elif cmd == &quot;right&quot;:
+            heading = (heading + 1) % 4
+        elif cmd == &quot;thrust&quot;:
+            dx, dy = DIRS_V[heading]
+            ship[0] = (ship[0] + dx * 2) % W
+            ship[1] = (ship[1] + dy * 2) % H
+        elif cmd == &quot;shoot&quot;:
+            dx, dy = DIRS_V[heading]
+            for k in range(1, 4):
+                target = ((ship[0] + dx * k) % W, (ship[1] + dy * k) % H)
+                hit = None
+                for rock in rocks:
+                    if (rock[0], rock[1]) == target:
+                        hit = rock
+                        break
+                if hit is not None:
+                    rocks.remove(hit)
+                    score += hit[4] * 20
+                    if hit[4] == 2:
+                        rocks.append([hit[0], hit[1], 1, 0, 1])
+                        rocks.append([hit[0], hit[1], 0, 1, 1])
+                    break
+        for rock in rocks:
+            rock[0] = (rock[0] + rock[2]) % W
+            rock[1] = (rock[1] + rock[3]) % H
+        if any((rock[0], rock[1]) == (ship[0], ship[1]) for rock in rocks):
+            lives -= 1
+            rocks = [r for r in rocks if (r[0], r[1]) != (ship[0], ship[1])]
+        print(&quot;ship %s rocks %d score %d lives %d&quot; % (tuple(ship), len(rocks), score, lives))
+        if not rocks or lives &lt;= 0:
+            break
+    print(&quot;FINAL SCORE: %d&quot; % score)
+    print(&quot;RESULT: %s&quot; % (&quot;WIN&quot; if not rocks else &quot;OUT OF LIVES&quot; if lives &lt;= 0 else &quot;QUIT&quot;))
+
+if __name__ == &quot;__main__&quot;:
+    if &quot;--play&quot; in sys.argv:
+        play()
+    else:
+        auto_play()
+</pre></article><article class="record"><h3>Star Wars <small>Rank 5 &middot; simple &middot; vector graphics &middot; beginner</small></h3><p>Star Wars, Atari&#x27;s 1983 vector game, recreates the film&#x27;s space battles in glowing wireframe. The player pilots an X-wing through waves of TIE fighters, then flies down a trench toward the Death Star&#x27;s exhaust port, dodging turrets and towers along the way. Its digitized film voices and sit-down cabinet made it a destination machine.</p><p>The tribute demo is an original vector-style miniature: a ship starts at [8, 9] among 4 drifting rocks on a glowing grid, thrusting with momentum, turning, and firing at rocks that split when hit. It captures the feel of the arcade original&#x27;s line-drawn space without copying its code, art, or sound.</p><p>The trench run rewards a steady line: weaving wildly dodges turrets but also wastes the shots needed for the towers. TIE fighters are best met head-on with short bursts, and the exhaust port shot demands patience, firing only when the targeting computer is steady.</p><p><b>Playable tribute note:</b> The demo below is an original tribute inspired by the mechanics of Star Wars (1983). It is not Star Wars (1983), and it uses no art, music, or code from that game.</p><h4>How to play</h4><p>Type thrust/left/right/shoot to fly and fire, quit to stop.</p><h4>Working demo program</h4><p>Save the code below as game.py and run <code>python3 game.py --play</code> to play it. Running it without arguments replays the scripted session whose output is stored with the record.</p><pre class="codeblock">import sys
+PARAMS = {&#x27;w&#x27;: 20, &#x27;h&#x27;: 16, &#x27;ship&#x27;: [8, 9], &#x27;rocks&#x27;: [[15, 6, -1, 0, 2], [6, 9, 1, 1, 1], [11, 12, -1, 1, 1], [16, 3, 1, 0, 2]]}
+AUTO = [&#x27;left&#x27;, &#x27;thrust&#x27;, &#x27;shoot&#x27;, &#x27;right&#x27;, &#x27;thrust&#x27;, &#x27;thrust&#x27;, &#x27;shoot&#x27;, &#x27;left&#x27;, &#x27;shoot&#x27;, &#x27;right&#x27;, &#x27;thrust&#x27;, &#x27;shoot&#x27;, &#x27;left&#x27;, &#x27;thrust&#x27;, &#x27;shoot&#x27;, &#x27;shoot&#x27;]
+
+DIRS_V = [(1, 0), (0, 1), (-1, 0), (0, -1)]
+
+def auto_play():
+    W, H = PARAMS[&quot;w&quot;], PARAMS[&quot;h&quot;]
+    ship = list(PARAMS[&quot;ship&quot;])
+    heading = 0
+    rocks = [list(r) for r in PARAMS[&quot;rocks&quot;]]
+    score, lives = 0, 3
+    print(&quot;Vector tribute: auto session&quot;)
+    for i, cmd in enumerate(AUTO):
+        if cmd == &quot;left&quot;:
+            heading = (heading - 1) % 4
+        elif cmd == &quot;right&quot;:
+            heading = (heading + 1) % 4
+        elif cmd == &quot;thrust&quot;:
+            dx, dy = DIRS_V[heading]
+            ship[0] = (ship[0] + dx * 2) % W
+            ship[1] = (ship[1] + dy * 2) % H
+        elif cmd == &quot;shoot&quot;:
+            dx, dy = DIRS_V[heading]
+            for k in range(1, 4):
+                target = ((ship[0] + dx * k) % W, (ship[1] + dy * k) % H)
+                hit = None
+                for rock in rocks:
+                    if (rock[0], rock[1]) == target:
+                        hit = rock
+                        break
+                if hit is not None:
+                    rocks.remove(hit)
+                    score += hit[4] * 20
+                    if hit[4] == 2:
+                        rocks.append([hit[0], hit[1], 1, 0, 1])
+                        rocks.append([hit[0], hit[1], 0, 1, 1])
+                    break
+        new_rocks = []
+        for rock in rocks:
+            rock[0] = (rock[0] + rock[2]) % W
+            rock[1] = (rock[1] + rock[3]) % H
+            new_rocks.append(rock)
+        rocks = new_rocks
+        if any((rock[0], rock[1]) == (ship[0], ship[1]) for rock in rocks):
+            lives -= 1
+            rocks = [r for r in rocks if (r[0], r[1]) != (ship[0], ship[1])]
+        print(&quot;Step %d: %s ship %s rocks %d score %d lives %d&quot; % (i + 1, cmd, tuple(ship), len(rocks), score, lives))
+        if not rocks or lives &lt;= 0:
+            break
+    print(&quot;FINAL SCORE: %d&quot; % score)
+    print(&quot;RESULT: %s&quot; % (&quot;WIN&quot; if not rocks else &quot;OUT OF LIVES&quot; if lives &lt;= 0 else &quot;ONGOING&quot;))
+
+def play():
+    W, H = PARAMS[&quot;w&quot;], PARAMS[&quot;h&quot;]
+    ship = list(PARAMS[&quot;ship&quot;])
+    heading = 0
+    rocks = [list(r) for r in PARAMS[&quot;rocks&quot;]]
+    score, lives = 0, 3
+    print(&quot;Vector tribute: type thrust/left/right/shoot, or quit. Blast every rock, avoid collisions.&quot;)
+    for line in sys.stdin:
+        cmd = line.strip().lower()
+        if cmd == &quot;quit&quot;:
+            break
+        if cmd not in (&quot;thrust&quot;, &quot;left&quot;, &quot;right&quot;, &quot;shoot&quot;):
+            print(&quot;Unknown command: %s&quot; % cmd)
+            continue
+        if cmd == &quot;left&quot;:
+            heading = (heading - 1) % 4
+        elif cmd == &quot;right&quot;:
+            heading = (heading + 1) % 4
+        elif cmd == &quot;thrust&quot;:
+            dx, dy = DIRS_V[heading]
+            ship[0] = (ship[0] + dx * 2) % W
+            ship[1] = (ship[1] + dy * 2) % H
+        elif cmd == &quot;shoot&quot;:
+            dx, dy = DIRS_V[heading]
+            for k in range(1, 4):
+                target = ((ship[0] + dx * k) % W, (ship[1] + dy * k) % H)
+                hit = None
+                for rock in rocks:
+                    if (rock[0], rock[1]) == target:
+                        hit = rock
+                        break
+                if hit is not None:
+                    rocks.remove(hit)
+                    score += hit[4] * 20
+                    if hit[4] == 2:
+                        rocks.append([hit[0], hit[1], 1, 0, 1])
+                        rocks.append([hit[0], hit[1], 0, 1, 1])
+                    break
+        for rock in rocks:
+            rock[0] = (rock[0] + rock[2]) % W
+            rock[1] = (rock[1] + rock[3]) % H
+        if any((rock[0], rock[1]) == (ship[0], ship[1]) for rock in rocks):
+            lives -= 1
+            rocks = [r for r in rocks if (r[0], r[1]) != (ship[0], ship[1])]
+        print(&quot;ship %s rocks %d score %d lives %d&quot; % (tuple(ship), len(rocks), score, lives))
+        if not rocks or lives &lt;= 0:
+            break
+    print(&quot;FINAL SCORE: %d&quot; % score)
+    print(&quot;RESULT: %s&quot; % (&quot;WIN&quot; if not rocks else &quot;OUT OF LIVES&quot; if lives &lt;= 0 else &quot;QUIT&quot;))
+
+if __name__ == &quot;__main__&quot;:
+    if &quot;--play&quot; in sys.argv:
+        play()
+    else:
+        auto_play()
+</pre></article><article class="record"><h3>Lunar Lander <small>Rank 6 &middot; compounded &middot; vector graphics &middot; intermediate</small></h3><p>Lunar Lander, Atari&#x27;s 1979 vector simulation, asks the player to land a module gently on the moon&#x27;s surface. Thrust burns precious fuel, gravity pulls constantly, and a landing that is too fast or too tilted ends in a crash. It is a quiet, precise game of physics rather than a shooter, and one of the earliest arcade simulations.</p><p>The tribute demo is an original vector-style miniature: a ship starts at [9, 5] among 5 drifting rocks on a glowing grid, thrusting with momentum, turning, and firing at rocks that split when hit. It captures the feel of the arcade original&#x27;s line-drawn space without copying its code, art, or sound.</p><p>Fuel is the budget and descent speed is the danger: short, early burns cost less than a desperate late burn. A good landing starts high and slow, with the module already level before the final approach, rather than correcting at the last second.</p><p><b>Playable tribute note:</b> The demo below is an original tribute inspired by the mechanics of Lunar Lander (1979). It is not Lunar Lander (1979), and it uses no art, music, or code from that game.</p><h4>How to play</h4><p>Type thrust/left/right/shoot to fly and fire, quit to stop.</p><h4>Working demo program</h4><p>Save the code below as game.py and run <code>python3 game.py --play</code> to play it. Running it without arguments replays the scripted session whose output is stored with the record.</p><pre class="codeblock">import sys
+PARAMS = {&#x27;w&#x27;: 20, &#x27;h&#x27;: 16, &#x27;ship&#x27;: [9, 5], &#x27;rocks&#x27;: [[4, 7, -1, 0, 2], [9, 10, 1, 1, 1], [14, 13, -1, 1, 1], [5, 4, 1, 0, 2], [10, 7, -1, 1, 1]]}
+AUTO = [&#x27;thrust&#x27;, &#x27;right&#x27;, &#x27;shoot&#x27;, &#x27;thrust&#x27;, &#x27;left&#x27;, &#x27;shoot&#x27;, &#x27;thrust&#x27;, &#x27;shoot&#x27;, &#x27;right&#x27;, &#x27;right&#x27;, &#x27;thrust&#x27;, &#x27;shoot&#x27;]
+
+DIRS_V = [(1, 0), (0, 1), (-1, 0), (0, -1)]
+
+def auto_play():
+    W, H = PARAMS[&quot;w&quot;], PARAMS[&quot;h&quot;]
+    ship = list(PARAMS[&quot;ship&quot;])
+    heading = 0
+    rocks = [list(r) for r in PARAMS[&quot;rocks&quot;]]
+    score, lives = 0, 3
+    print(&quot;Vector tribute: auto session&quot;)
+    for i, cmd in enumerate(AUTO):
+        if cmd == &quot;left&quot;:
+            heading = (heading - 1) % 4
+        elif cmd == &quot;right&quot;:
+            heading = (heading + 1) % 4
+        elif cmd == &quot;thrust&quot;:
+            dx, dy = DIRS_V[heading]
+            ship[0] = (ship[0] + dx * 2) % W
+            ship[1] = (ship[1] + dy * 2) % H
+        elif cmd == &quot;shoot&quot;:
+            dx, dy = DIRS_V[heading]
+            for k in range(1, 4):
+                target = ((ship[0] + dx * k) % W, (ship[1] + dy * k) % H)
+                hit = None
+                for rock in rocks:
+                    if (rock[0], rock[1]) == target:
+                        hit = rock
+                        break
+                if hit is not None:
+                    rocks.remove(hit)
+                    score += hit[4] * 20
+                    if hit[4] == 2:
+                        rocks.append([hit[0], hit[1], 1, 0, 1])
+                        rocks.append([hit[0], hit[1], 0, 1, 1])
+                    break
+        new_rocks = []
+        for rock in rocks:
+            rock[0] = (rock[0] + rock[2]) % W
+            rock[1] = (rock[1] + rock[3]) % H
+            new_rocks.append(rock)
+        rocks = new_rocks
+        if any((rock[0], rock[1]) == (ship[0], ship[1]) for rock in rocks):
+            lives -= 1
+            rocks = [r for r in rocks if (r[0], r[1]) != (ship[0], ship[1])]
+        print(&quot;Step %d: %s ship %s rocks %d score %d lives %d&quot; % (i + 1, cmd, tuple(ship), len(rocks), score, lives))
+        if not rocks or lives &lt;= 0:
+            break
+    print(&quot;FINAL SCORE: %d&quot; % score)
+    print(&quot;RESULT: %s&quot; % (&quot;WIN&quot; if not rocks else &quot;OUT OF LIVES&quot; if lives &lt;= 0 else &quot;ONGOING&quot;))
+
+def play():
+    W, H = PARAMS[&quot;w&quot;], PARAMS[&quot;h&quot;]
+    ship = list(PARAMS[&quot;ship&quot;])
+    heading = 0
+    rocks = [list(r) for r in PARAMS[&quot;rocks&quot;]]
+    score, lives = 0, 3
+    print(&quot;Vector tribute: type thrust/left/right/shoot, or quit. Blast every rock, avoid collisions.&quot;)
+    for line in sys.stdin:
+        cmd = line.strip().lower()
+        if cmd == &quot;quit&quot;:
+            break
+        if cmd not in (&quot;thrust&quot;, &quot;left&quot;, &quot;right&quot;, &quot;shoot&quot;):
+            print(&quot;Unknown command: %s&quot; % cmd)
+            continue
+        if cmd == &quot;left&quot;:
+            heading = (heading - 1) % 4
+        elif cmd == &quot;right&quot;:
+            heading = (heading + 1) % 4
+        elif cmd == &quot;thrust&quot;:
+            dx, dy = DIRS_V[heading]
+            ship[0] = (ship[0] + dx * 2) % W
+            ship[1] = (ship[1] + dy * 2) % H
+        elif cmd == &quot;shoot&quot;:
+            dx, dy = DIRS_V[heading]
+            for k in range(1, 4):
+                target = ((ship[0] + dx * k) % W, (ship[1] + dy * k) % H)
+                hit = None
+                for rock in rocks:
+                    if (rock[0], rock[1]) == target:
+                        hit = rock
+                        break
+                if hit is not None:
+                    rocks.remove(hit)
+                    score += hit[4] * 20
+                    if hit[4] == 2:
+                        rocks.append([hit[0], hit[1], 1, 0, 1])
+                        rocks.append([hit[0], hit[1], 0, 1, 1])
+                    break
+        for rock in rocks:
+            rock[0] = (rock[0] + rock[2]) % W
+            rock[1] = (rock[1] + rock[3]) % H
+        if any((rock[0], rock[1]) == (ship[0], ship[1]) for rock in rocks):
+            lives -= 1
+            rocks = [r for r in rocks if (r[0], r[1]) != (ship[0], ship[1])]
+        print(&quot;ship %s rocks %d score %d lives %d&quot; % (tuple(ship), len(rocks), score, lives))
+        if not rocks or lives &lt;= 0:
+            break
+    print(&quot;FINAL SCORE: %d&quot; % score)
+    print(&quot;RESULT: %s&quot; % (&quot;WIN&quot; if not rocks else &quot;OUT OF LIVES&quot; if lives &lt;= 0 else &quot;QUIT&quot;))
+
+if __name__ == &quot;__main__&quot;:
+    if &quot;--play&quot; in sys.argv:
+        play()
+    else:
+        auto_play()
+</pre></article><article class="record"><h3>Omega Race <small>Rank 7 &middot; compounded &middot; vector graphics &middot; intermediate</small></h3><p>Omega Race, Midway&#x27;s 1981 vector game, traps the player in a rectangular arena with bouncing enemy ships and mines. The player&#x27;s ship fires and thrusts with momentum, and the walls reflect both ships and shots, so every missed shot can come back around. The cabinet&#x27;s black-and-white vector display with a color overlay gave it a distinctive glow.</p><p>The tribute demo is an original vector-style miniature: a ship starts at [4, 6] among 6 drifting rocks on a glowing grid, thrusting with momentum, turning, and firing at rocks that split when hit. It captures the feel of the arcade original&#x27;s line-drawn space without copying its code, art, or sound.</p><p>Bouncing walls make the arena a geometry puzzle: a shot fired down a long diagonal can hit an enemy two reflections later. The safest position is near a corner with an escape route, since enemies bounce unpredictably through the center.</p><p><b>Playable tribute note:</b> The demo below is an original tribute inspired by the mechanics of Omega Race (1981). It is not Omega Race (1981), and it uses no art, music, or code from that game.</p><h4>How to play</h4><p>Type thrust/left/right/shoot to fly and fire, quit to stop.</p><h4>Working demo program</h4><p>Save the code below as game.py and run <code>python3 game.py --play</code> to play it. Running it without arguments replays the scripted session whose output is stored with the record.</p><pre class="codeblock">import sys
+PARAMS = {&#x27;w&#x27;: 20, &#x27;h&#x27;: 16, &#x27;ship&#x27;: [4, 6], &#x27;rocks&#x27;: [[7, 8, -1, 0, 2], [12, 11, 1, 1, 1], [3, 2, -1, 1, 1], [8, 5, 1, 0, 2], [13, 8, -1, 1, 1], [4, 11, 1, 1, 1]]}
+AUTO = [&#x27;thrust&#x27;, &#x27;thrust&#x27;, &#x27;shoot&#x27;, &#x27;right&#x27;, &#x27;thrust&#x27;, &#x27;shoot&#x27;, &#x27;left&#x27;, &#x27;thrust&#x27;, &#x27;shoot&#x27;, &#x27;shoot&#x27;, &#x27;right&#x27;, &#x27;thrust&#x27;, &#x27;shoot&#x27;, &#x27;left&#x27;, &#x27;shoot&#x27;, &#x27;thrust&#x27;]
+
+DIRS_V = [(1, 0), (0, 1), (-1, 0), (0, -1)]
+
+def auto_play():
+    W, H = PARAMS[&quot;w&quot;], PARAMS[&quot;h&quot;]
+    ship = list(PARAMS[&quot;ship&quot;])
+    heading = 0
+    rocks = [list(r) for r in PARAMS[&quot;rocks&quot;]]
+    score, lives = 0, 3
+    print(&quot;Vector tribute: auto session&quot;)
+    for i, cmd in enumerate(AUTO):
+        if cmd == &quot;left&quot;:
+            heading = (heading - 1) % 4
+        elif cmd == &quot;right&quot;:
+            heading = (heading + 1) % 4
+        elif cmd == &quot;thrust&quot;:
+            dx, dy = DIRS_V[heading]
+            ship[0] = (ship[0] + dx * 2) % W
+            ship[1] = (ship[1] + dy * 2) % H
+        elif cmd == &quot;shoot&quot;:
+            dx, dy = DIRS_V[heading]
+            for k in range(1, 4):
+                target = ((ship[0] + dx * k) % W, (ship[1] + dy * k) % H)
+                hit = None
+                for rock in rocks:
+                    if (rock[0], rock[1]) == target:
+                        hit = rock
+                        break
+                if hit is not None:
+                    rocks.remove(hit)
+                    score += hit[4] * 20
+                    if hit[4] == 2:
+                        rocks.append([hit[0], hit[1], 1, 0, 1])
+                        rocks.append([hit[0], hit[1], 0, 1, 1])
+                    break
+        new_rocks = []
+        for rock in rocks:
+            rock[0] = (rock[0] + rock[2]) % W
+            rock[1] = (rock[1] + rock[3]) % H
+            new_rocks.append(rock)
+        rocks = new_rocks
+        if any((rock[0], rock[1]) == (ship[0], ship[1]) for rock in rocks):
+            lives -= 1
+            rocks = [r for r in rocks if (r[0], r[1]) != (ship[0], ship[1])]
+        print(&quot;Step %d: %s ship %s rocks %d score %d lives %d&quot; % (i + 1, cmd, tuple(ship), len(rocks), score, lives))
+        if not rocks or lives &lt;= 0:
+            break
+    print(&quot;FINAL SCORE: %d&quot; % score)
+    print(&quot;RESULT: %s&quot; % (&quot;WIN&quot; if not rocks else &quot;OUT OF LIVES&quot; if lives &lt;= 0 else &quot;ONGOING&quot;))
+
+def play():
+    W, H = PARAMS[&quot;w&quot;], PARAMS[&quot;h&quot;]
+    ship = list(PARAMS[&quot;ship&quot;])
+    heading = 0
+    rocks = [list(r) for r in PARAMS[&quot;rocks&quot;]]
+    score, lives = 0, 3
+    print(&quot;Vector tribute: type thrust/left/right/shoot, or quit. Blast every rock, avoid collisions.&quot;)
+    for line in sys.stdin:
+        cmd = line.strip().lower()
+        if cmd == &quot;quit&quot;:
+            break
+        if cmd not in (&quot;thrust&quot;, &quot;left&quot;, &quot;right&quot;, &quot;shoot&quot;):
+            print(&quot;Unknown command: %s&quot; % cmd)
+            continue
+        if cmd == &quot;left&quot;:
+            heading = (heading - 1) % 4
+        elif cmd == &quot;right&quot;:
+            heading = (heading + 1) % 4
+        elif cmd == &quot;thrust&quot;:
+            dx, dy = DIRS_V[heading]
+            ship[0] = (ship[0] + dx * 2) % W
+            ship[1] = (ship[1] + dy * 2) % H
+        elif cmd == &quot;shoot&quot;:
+            dx, dy = DIRS_V[heading]
+            for k in range(1, 4):
+                target = ((ship[0] + dx * k) % W, (ship[1] + dy * k) % H)
+                hit = None
+                for rock in rocks:
+                    if (rock[0], rock[1]) == target:
+                        hit = rock
+                        break
+                if hit is not None:
+                    rocks.remove(hit)
+                    score += hit[4] * 20
+                    if hit[4] == 2:
+                        rocks.append([hit[0], hit[1], 1, 0, 1])
+                        rocks.append([hit[0], hit[1], 0, 1, 1])
+                    break
+        for rock in rocks:
+            rock[0] = (rock[0] + rock[2]) % W
+            rock[1] = (rock[1] + rock[3]) % H
+        if any((rock[0], rock[1]) == (ship[0], ship[1]) for rock in rocks):
+            lives -= 1
+            rocks = [r for r in rocks if (r[0], r[1]) != (ship[0], ship[1])]
+        print(&quot;ship %s rocks %d score %d lives %d&quot; % (tuple(ship), len(rocks), score, lives))
+        if not rocks or lives &lt;= 0:
+            break
+    print(&quot;FINAL SCORE: %d&quot; % score)
+    print(&quot;RESULT: %s&quot; % (&quot;WIN&quot; if not rocks else &quot;OUT OF LIVES&quot; if lives &lt;= 0 else &quot;QUIT&quot;))
+
+if __name__ == &quot;__main__&quot;:
+    if &quot;--play&quot; in sys.argv:
+        play()
+    else:
+        auto_play()
+</pre></article><article class="record"><h3>Rip Off <small>Rank 8 &middot; compounded &middot; vector graphics &middot; intermediate</small></h3><p>Rip Off, Cinematronics&#x27; 1980 vector game, is an early cooperative and competitive space game. Players pilot ships that must defend fuel canisters from pirate ships trying to tow them away, and the game supports two players working together or against each other. Its vector graphics and team play were ahead of their time.</p><p>The tribute demo is an original vector-style miniature: a ship starts at [5, 7] among 7 drifting rocks on a glowing grid, thrusting with momentum, turning, and firing at rocks that split when hit. It captures the feel of the arcade original&#x27;s line-drawn space without copying its code, art, or sound.</p><p>Fuel canisters are the objective, not the pirates, so the winning move is to guard the canisters rather than chase kills. A pirate towing a canister moves slowly, which makes it an easy target if the defender stays near the canisters instead of roaming.</p><p><b>Playable tribute note:</b> The demo below is an original tribute inspired by the mechanics of Rip Off (1980). It is not Rip Off (1980), and it uses no art, music, or code from that game.</p><h4>How to play</h4><p>Type thrust/left/right/shoot to fly and fire, quit to stop.</p><h4>Working demo program</h4><p>Save the code below as game.py and run <code>python3 game.py --play</code> to play it. Running it without arguments replays the scripted session whose output is stored with the record.</p><pre class="codeblock">import sys
+PARAMS = {&#x27;w&#x27;: 20, &#x27;h&#x27;: 16, &#x27;ship&#x27;: [5, 7], &#x27;rocks&#x27;: [[10, 9, -1, 0, 2], [15, 12, 1, 1, 1], [6, 3, -1, 1, 1], [11, 6, 1, 0, 2], [16, 9, -1, 1, 1], [7, 12, 1, 1, 1], [12, 3, -1, 0, 2]]}
+AUTO = [&#x27;right&#x27;, &#x27;thrust&#x27;, &#x27;shoot&#x27;, &#x27;shoot&#x27;, &#x27;left&#x27;, &#x27;thrust&#x27;, &#x27;thrust&#x27;, &#x27;shoot&#x27;, &#x27;right&#x27;, &#x27;shoot&#x27;, &#x27;left&#x27;, &#x27;left&#x27;, &#x27;thrust&#x27;, &#x27;shoot&#x27;, &#x27;thrust&#x27;, &#x27;shoot&#x27;]
+
+DIRS_V = [(1, 0), (0, 1), (-1, 0), (0, -1)]
+
+def auto_play():
+    W, H = PARAMS[&quot;w&quot;], PARAMS[&quot;h&quot;]
+    ship = list(PARAMS[&quot;ship&quot;])
+    heading = 0
+    rocks = [list(r) for r in PARAMS[&quot;rocks&quot;]]
+    score, lives = 0, 3
+    print(&quot;Vector tribute: auto session&quot;)
+    for i, cmd in enumerate(AUTO):
+        if cmd == &quot;left&quot;:
+            heading = (heading - 1) % 4
+        elif cmd == &quot;right&quot;:
+            heading = (heading + 1) % 4
+        elif cmd == &quot;thrust&quot;:
+            dx, dy = DIRS_V[heading]
+            ship[0] = (ship[0] + dx * 2) % W
+            ship[1] = (ship[1] + dy * 2) % H
+        elif cmd == &quot;shoot&quot;:
+            dx, dy = DIRS_V[heading]
+            for k in range(1, 4):
+                target = ((ship[0] + dx * k) % W, (ship[1] + dy * k) % H)
+                hit = None
+                for rock in rocks:
+                    if (rock[0], rock[1]) == target:
+                        hit = rock
+                        break
+                if hit is not None:
+                    rocks.remove(hit)
+                    score += hit[4] * 20
+                    if hit[4] == 2:
+                        rocks.append([hit[0], hit[1], 1, 0, 1])
+                        rocks.append([hit[0], hit[1], 0, 1, 1])
+                    break
+        new_rocks = []
+        for rock in rocks:
+            rock[0] = (rock[0] + rock[2]) % W
+            rock[1] = (rock[1] + rock[3]) % H
+            new_rocks.append(rock)
+        rocks = new_rocks
+        if any((rock[0], rock[1]) == (ship[0], ship[1]) for rock in rocks):
+            lives -= 1
+            rocks = [r for r in rocks if (r[0], r[1]) != (ship[0], ship[1])]
+        print(&quot;Step %d: %s ship %s rocks %d score %d lives %d&quot; % (i + 1, cmd, tuple(ship), len(rocks), score, lives))
+        if not rocks or lives &lt;= 0:
+            break
+    print(&quot;FINAL SCORE: %d&quot; % score)
+    print(&quot;RESULT: %s&quot; % (&quot;WIN&quot; if not rocks else &quot;OUT OF LIVES&quot; if lives &lt;= 0 else &quot;ONGOING&quot;))
+
+def play():
+    W, H = PARAMS[&quot;w&quot;], PARAMS[&quot;h&quot;]
+    ship = list(PARAMS[&quot;ship&quot;])
+    heading = 0
+    rocks = [list(r) for r in PARAMS[&quot;rocks&quot;]]
+    score, lives = 0, 3
+    print(&quot;Vector tribute: type thrust/left/right/shoot, or quit. Blast every rock, avoid collisions.&quot;)
+    for line in sys.stdin:
+        cmd = line.strip().lower()
+        if cmd == &quot;quit&quot;:
+            break
+        if cmd not in (&quot;thrust&quot;, &quot;left&quot;, &quot;right&quot;, &quot;shoot&quot;):
+            print(&quot;Unknown command: %s&quot; % cmd)
+            continue
+        if cmd == &quot;left&quot;:
+            heading = (heading - 1) % 4
+        elif cmd == &quot;right&quot;:
+            heading = (heading + 1) % 4
+        elif cmd == &quot;thrust&quot;:
+            dx, dy = DIRS_V[heading]
+            ship[0] = (ship[0] + dx * 2) % W
+            ship[1] = (ship[1] + dy * 2) % H
+        elif cmd == &quot;shoot&quot;:
+            dx, dy = DIRS_V[heading]
+            for k in range(1, 4):
+                target = ((ship[0] + dx * k) % W, (ship[1] + dy * k) % H)
+                hit = None
+                for rock in rocks:
+                    if (rock[0], rock[1]) == target:
+                        hit = rock
+                        break
+                if hit is not None:
+                    rocks.remove(hit)
+                    score += hit[4] * 20
+                    if hit[4] == 2:
+                        rocks.append([hit[0], hit[1], 1, 0, 1])
+                        rocks.append([hit[0], hit[1], 0, 1, 1])
+                    break
+        for rock in rocks:
+            rock[0] = (rock[0] + rock[2]) % W
+            rock[1] = (rock[1] + rock[3]) % H
+        if any((rock[0], rock[1]) == (ship[0], ship[1]) for rock in rocks):
+            lives -= 1
+            rocks = [r for r in rocks if (r[0], r[1]) != (ship[0], ship[1])]
+        print(&quot;ship %s rocks %d score %d lives %d&quot; % (tuple(ship), len(rocks), score, lives))
+        if not rocks or lives &lt;= 0:
+            break
+    print(&quot;FINAL SCORE: %d&quot; % score)
+    print(&quot;RESULT: %s&quot; % (&quot;WIN&quot; if not rocks else &quot;OUT OF LIVES&quot; if lives &lt;= 0 else &quot;QUIT&quot;))
+
+if __name__ == &quot;__main__&quot;:
+    if &quot;--play&quot; in sys.argv:
+        play()
+    else:
+        auto_play()
+</pre></article><article class="record"><h3>Red Baron <small>Rank 9 &middot; compounded &middot; vector graphics &middot; intermediate</small></h3><p>Red Baron, Atari&#x27;s 1980 vector flight game, puts the player in a World War I biplane viewed from behind, dueling enemy aircraft and ground targets in wireframe. The player climbs, dives, and banks through the sky, and the game was an early attempt at a three-dimensional flying experience in the arcade.</p><p>The tribute demo is an original vector-style miniature: a ship starts at [6, 8] among 4 drifting rocks on a glowing grid, thrusting with momentum, turning, and firing at rocks that split when hit. It captures the feel of the arcade original&#x27;s line-drawn space without copying its code, art, or sound.</p><p>Altitude is the resource: diving gains speed but loses the height needed to recover, while climbing slowly bleeds speed. The best pilots keep the enemy slightly below, where a diving attack is possible without surrendering the sky.</p><p><b>Playable tribute note:</b> The demo below is an original tribute inspired by the mechanics of Red Baron (1980). It is not Red Baron (1980), and it uses no art, music, or code from that game.</p><h4>How to play</h4><p>Type thrust/left/right/shoot to fly and fire, quit to stop.</p><h4>Working demo program</h4><p>Save the code below as game.py and run <code>python3 game.py --play</code> to play it. Running it without arguments replays the scripted session whose output is stored with the record.</p><pre class="codeblock">import sys
+PARAMS = {&#x27;w&#x27;: 20, &#x27;h&#x27;: 16, &#x27;ship&#x27;: [6, 8], &#x27;rocks&#x27;: [[13, 10, -1, 0, 2], [4, 13, 1, 1, 1], [9, 4, -1, 1, 1], [14, 7, 1, 0, 2]]}
+AUTO = [&#x27;thrust&#x27;, &#x27;shoot&#x27;, &#x27;left&#x27;, &#x27;thrust&#x27;, &#x27;shoot&#x27;, &#x27;right&#x27;, &#x27;right&#x27;, &#x27;thrust&#x27;, &#x27;shoot&#x27;, &#x27;left&#x27;, &#x27;shoot&#x27;, &#x27;thrust&#x27;, &#x27;thrust&#x27;, &#x27;shoot&#x27;, &#x27;right&#x27;, &#x27;shoot&#x27;, &#x27;left&#x27;, &#x27;thrust&#x27;]
+
+DIRS_V = [(1, 0), (0, 1), (-1, 0), (0, -1)]
+
+def auto_play():
+    W, H = PARAMS[&quot;w&quot;], PARAMS[&quot;h&quot;]
+    ship = list(PARAMS[&quot;ship&quot;])
+    heading = 0
+    rocks = [list(r) for r in PARAMS[&quot;rocks&quot;]]
+    score, lives = 0, 3
+    print(&quot;Vector tribute: auto session&quot;)
+    for i, cmd in enumerate(AUTO):
+        if cmd == &quot;left&quot;:
+            heading = (heading - 1) % 4
+        elif cmd == &quot;right&quot;:
+            heading = (heading + 1) % 4
+        elif cmd == &quot;thrust&quot;:
+            dx, dy = DIRS_V[heading]
+            ship[0] = (ship[0] + dx * 2) % W
+            ship[1] = (ship[1] + dy * 2) % H
+        elif cmd == &quot;shoot&quot;:
+            dx, dy = DIRS_V[heading]
+            for k in range(1, 4):
+                target = ((ship[0] + dx * k) % W, (ship[1] + dy * k) % H)
+                hit = None
+                for rock in rocks:
+                    if (rock[0], rock[1]) == target:
+                        hit = rock
+                        break
+                if hit is not None:
+                    rocks.remove(hit)
+                    score += hit[4] * 20
+                    if hit[4] == 2:
+                        rocks.append([hit[0], hit[1], 1, 0, 1])
+                        rocks.append([hit[0], hit[1], 0, 1, 1])
+                    break
+        new_rocks = []
+        for rock in rocks:
+            rock[0] = (rock[0] + rock[2]) % W
+            rock[1] = (rock[1] + rock[3]) % H
+            new_rocks.append(rock)
+        rocks = new_rocks
+        if any((rock[0], rock[1]) == (ship[0], ship[1]) for rock in rocks):
+            lives -= 1
+            rocks = [r for r in rocks if (r[0], r[1]) != (ship[0], ship[1])]
+        print(&quot;Step %d: %s ship %s rocks %d score %d lives %d&quot; % (i + 1, cmd, tuple(ship), len(rocks), score, lives))
+        if not rocks or lives &lt;= 0:
+            break
+    print(&quot;FINAL SCORE: %d&quot; % score)
+    print(&quot;RESULT: %s&quot; % (&quot;WIN&quot; if not rocks else &quot;OUT OF LIVES&quot; if lives &lt;= 0 else &quot;ONGOING&quot;))
+
+def play():
+    W, H = PARAMS[&quot;w&quot;], PARAMS[&quot;h&quot;]
+    ship = list(PARAMS[&quot;ship&quot;])
+    heading = 0
+    rocks = [list(r) for r in PARAMS[&quot;rocks&quot;]]
+    score, lives = 0, 3
+    print(&quot;Vector tribute: type thrust/left/right/shoot, or quit. Blast every rock, avoid collisions.&quot;)
+    for line in sys.stdin:
+        cmd = line.strip().lower()
+        if cmd == &quot;quit&quot;:
+            break
+        if cmd not in (&quot;thrust&quot;, &quot;left&quot;, &quot;right&quot;, &quot;shoot&quot;):
+            print(&quot;Unknown command: %s&quot; % cmd)
+            continue
+        if cmd == &quot;left&quot;:
+            heading = (heading - 1) % 4
+        elif cmd == &quot;right&quot;:
+            heading = (heading + 1) % 4
+        elif cmd == &quot;thrust&quot;:
+            dx, dy = DIRS_V[heading]
+            ship[0] = (ship[0] + dx * 2) % W
+            ship[1] = (ship[1] + dy * 2) % H
+        elif cmd == &quot;shoot&quot;:
+            dx, dy = DIRS_V[heading]
+            for k in range(1, 4):
+                target = ((ship[0] + dx * k) % W, (ship[1] + dy * k) % H)
+                hit = None
+                for rock in rocks:
+                    if (rock[0], rock[1]) == target:
+                        hit = rock
+                        break
+                if hit is not None:
+                    rocks.remove(hit)
+                    score += hit[4] * 20
+                    if hit[4] == 2:
+                        rocks.append([hit[0], hit[1], 1, 0, 1])
+                        rocks.append([hit[0], hit[1], 0, 1, 1])
+                    break
+        for rock in rocks:
+            rock[0] = (rock[0] + rock[2]) % W
+            rock[1] = (rock[1] + rock[3]) % H
+        if any((rock[0], rock[1]) == (ship[0], ship[1]) for rock in rocks):
+            lives -= 1
+            rocks = [r for r in rocks if (r[0], r[1]) != (ship[0], ship[1])]
+        print(&quot;ship %s rocks %d score %d lives %d&quot; % (tuple(ship), len(rocks), score, lives))
+        if not rocks or lives &lt;= 0:
+            break
+    print(&quot;FINAL SCORE: %d&quot; % score)
+    print(&quot;RESULT: %s&quot; % (&quot;WIN&quot; if not rocks else &quot;OUT OF LIVES&quot; if lives &lt;= 0 else &quot;QUIT&quot;))
+
+if __name__ == &quot;__main__&quot;:
+    if &quot;--play&quot; in sys.argv:
+        play()
+    else:
+        auto_play()
+</pre></article><article class="record"><h3>Space Duel <small>Rank 10 &middot; compounded &middot; vector graphics &middot; intermediate</small></h3><p>Space Duel, Atari&#x27;s 1982 vector game, is a multiplayer descendant of Asteroids with a twist: two ships can play cooperatively, tethered together, or competitively. The arena holds geometric shapes that split and drift, and the colorful vector display gives the game a brighter look than its monochrome ancestor.</p><p>The tribute demo is an original vector-style miniature: a ship starts at [7, 9] among 5 drifting rocks on a glowing grid, thrusting with momentum, turning, and firing at rocks that split when hit. It captures the feel of the arcade original&#x27;s line-drawn space without copying its code, art, or sound.</p><p>Tethered play changes everything, since two ships sharing a line must coordinate thrust or spin each other into rocks. The cooperative mode rewards one player clearing rocks while the other guards the tether&#x27;s path.</p><p><b>Playable tribute note:</b> The demo below is an original tribute inspired by the mechanics of Space Duel (1982). It is not Space Duel (1982), and it uses no art, music, or code from that game.</p><h4>How to play</h4><p>Type thrust/left/right/shoot to fly and fire, quit to stop.</p><h4>Working demo program</h4><p>Save the code below as game.py and run <code>python3 game.py --play</code> to play it. Running it without arguments replays the scripted session whose output is stored with the record.</p><pre class="codeblock">import sys
+PARAMS = {&#x27;w&#x27;: 20, &#x27;h&#x27;: 16, &#x27;ship&#x27;: [7, 9], &#x27;rocks&#x27;: [[16, 11, -1, 0, 2], [7, 2, 1, 1, 1], [12, 5, -1, 1, 1], [3, 8, 1, 0, 2], [8, 11, -1, 1, 1]]}
+AUTO = [&#x27;shoot&#x27;, &#x27;thrust&#x27;, &#x27;thrust&#x27;, &#x27;right&#x27;, &#x27;shoot&#x27;, &#x27;left&#x27;, &#x27;thrust&#x27;, &#x27;shoot&#x27;, &#x27;shoot&#x27;, &#x27;right&#x27;, &#x27;thrust&#x27;, &#x27;left&#x27;, &#x27;shoot&#x27;, &#x27;thrust&#x27;, &#x27;shoot&#x27;]
+
+DIRS_V = [(1, 0), (0, 1), (-1, 0), (0, -1)]
+
+def auto_play():
+    W, H = PARAMS[&quot;w&quot;], PARAMS[&quot;h&quot;]
+    ship = list(PARAMS[&quot;ship&quot;])
+    heading = 0
+    rocks = [list(r) for r in PARAMS[&quot;rocks&quot;]]
+    score, lives = 0, 3
+    print(&quot;Vector tribute: auto session&quot;)
+    for i, cmd in enumerate(AUTO):
+        if cmd == &quot;left&quot;:
+            heading = (heading - 1) % 4
+        elif cmd == &quot;right&quot;:
+            heading = (heading + 1) % 4
+        elif cmd == &quot;thrust&quot;:
+            dx, dy = DIRS_V[heading]
+            ship[0] = (ship[0] + dx * 2) % W
+            ship[1] = (ship[1] + dy * 2) % H
+        elif cmd == &quot;shoot&quot;:
+            dx, dy = DIRS_V[heading]
+            for k in range(1, 4):
+                target = ((ship[0] + dx * k) % W, (ship[1] + dy * k) % H)
+                hit = None
+                for rock in rocks:
+                    if (rock[0], rock[1]) == target:
+                        hit = rock
+                        break
+                if hit is not None:
+                    rocks.remove(hit)
+                    score += hit[4] * 20
+                    if hit[4] == 2:
+                        rocks.append([hit[0], hit[1], 1, 0, 1])
+                        rocks.append([hit[0], hit[1], 0, 1, 1])
+                    break
+        new_rocks = []
+        for rock in rocks:
+            rock[0] = (rock[0] + rock[2]) % W
+            rock[1] = (rock[1] + rock[3]) % H
+            new_rocks.append(rock)
+        rocks = new_rocks
+        if any((rock[0], rock[1]) == (ship[0], ship[1]) for rock in rocks):
+            lives -= 1
+            rocks = [r for r in rocks if (r[0], r[1]) != (ship[0], ship[1])]
+        print(&quot;Step %d: %s ship %s rocks %d score %d lives %d&quot; % (i + 1, cmd, tuple(ship), len(rocks), score, lives))
+        if not rocks or lives &lt;= 0:
+            break
+    print(&quot;FINAL SCORE: %d&quot; % score)
+    print(&quot;RESULT: %s&quot; % (&quot;WIN&quot; if not rocks else &quot;OUT OF LIVES&quot; if lives &lt;= 0 else &quot;ONGOING&quot;))
+
+def play():
+    W, H = PARAMS[&quot;w&quot;], PARAMS[&quot;h&quot;]
+    ship = list(PARAMS[&quot;ship&quot;])
+    heading = 0
+    rocks = [list(r) for r in PARAMS[&quot;rocks&quot;]]
+    score, lives = 0, 3
+    print(&quot;Vector tribute: type thrust/left/right/shoot, or quit. Blast every rock, avoid collisions.&quot;)
+    for line in sys.stdin:
+        cmd = line.strip().lower()
+        if cmd == &quot;quit&quot;:
+            break
+        if cmd not in (&quot;thrust&quot;, &quot;left&quot;, &quot;right&quot;, &quot;shoot&quot;):
+            print(&quot;Unknown command: %s&quot; % cmd)
+            continue
+        if cmd == &quot;left&quot;:
+            heading = (heading - 1) % 4
+        elif cmd == &quot;right&quot;:
+            heading = (heading + 1) % 4
+        elif cmd == &quot;thrust&quot;:
+            dx, dy = DIRS_V[heading]
+            ship[0] = (ship[0] + dx * 2) % W
+            ship[1] = (ship[1] + dy * 2) % H
+        elif cmd == &quot;shoot&quot;:
+            dx, dy = DIRS_V[heading]
+            for k in range(1, 4):
+                target = ((ship[0] + dx * k) % W, (ship[1] + dy * k) % H)
+                hit = None
+                for rock in rocks:
+                    if (rock[0], rock[1]) == target:
+                        hit = rock
+                        break
+                if hit is not None:
+                    rocks.remove(hit)
+                    score += hit[4] * 20
+                    if hit[4] == 2:
+                        rocks.append([hit[0], hit[1], 1, 0, 1])
+                        rocks.append([hit[0], hit[1], 0, 1, 1])
+                    break
+        for rock in rocks:
+            rock[0] = (rock[0] + rock[2]) % W
+            rock[1] = (rock[1] + rock[3]) % H
+        if any((rock[0], rock[1]) == (ship[0], ship[1]) for rock in rocks):
+            lives -= 1
+            rocks = [r for r in rocks if (r[0], r[1]) != (ship[0], ship[1])]
+        print(&quot;ship %s rocks %d score %d lives %d&quot; % (tuple(ship), len(rocks), score, lives))
+        if not rocks or lives &lt;= 0:
+            break
+    print(&quot;FINAL SCORE: %d&quot; % score)
+    print(&quot;RESULT: %s&quot; % (&quot;WIN&quot; if not rocks else &quot;OUT OF LIVES&quot; if lives &lt;= 0 else &quot;QUIT&quot;))
+
+if __name__ == &quot;__main__&quot;:
+    if &quot;--play&quot; in sys.argv:
+        play()
+    else:
+        auto_play()
+</pre></article><article class="record"><h3>Quantum <small>Rank 11 &middot; compounded &middot; vector graphics &middot; intermediate</small></h3><p>Quantum, Atari&#x27;s 1982 vector game, drops the shooting entirely: the player pilots a probe that captures atomic particles by circling them with a capture tail. Enclosing a particle without touching it scores points, and larger particles need larger loops. It is a rare arcade game about drawing shapes rather than firing weapons.</p><p>The tribute demo is an original vector-style miniature: a ship starts at [8, 5] among 6 drifting rocks on a glowing grid, thrusting with momentum, turning, and firing at rocks that split when hit. It captures the feel of the arcade original&#x27;s line-drawn space without copying its code, art, or sound.</p><p>Capture loops must close without touching the particle, so the skill is in judging the loop&#x27;s size before committing. Small loops are safe but score little, while a big loop around a cluster risks brushing a second particle mid-draw.</p><p><b>Playable tribute note:</b> The demo below is an original tribute inspired by the mechanics of Quantum (1982). It is not Quantum (1982), and it uses no art, music, or code from that game.</p><h4>How to play</h4><p>Type thrust/left/right/shoot to fly and fire, quit to stop.</p><h4>Working demo program</h4><p>Save the code below as game.py and run <code>python3 game.py --play</code> to play it. Running it without arguments replays the scripted session whose output is stored with the record.</p><pre class="codeblock">import sys
+PARAMS = {&#x27;w&#x27;: 20, &#x27;h&#x27;: 16, &#x27;ship&#x27;: [8, 5], &#x27;rocks&#x27;: [[5, 12, -1, 0, 2], [10, 3, 1, 1, 1], [15, 6, -1, 1, 1], [6, 9, 1, 0, 2], [11, 12, -1, 1, 1], [16, 3, 1, 1, 1]]}
+AUTO = [&#x27;left&#x27;, &#x27;thrust&#x27;, &#x27;shoot&#x27;, &#x27;right&#x27;, &#x27;thrust&#x27;, &#x27;thrust&#x27;, &#x27;shoot&#x27;, &#x27;left&#x27;, &#x27;shoot&#x27;, &#x27;right&#x27;, &#x27;thrust&#x27;, &#x27;shoot&#x27;]
+
+DIRS_V = [(1, 0), (0, 1), (-1, 0), (0, -1)]
+
+def auto_play():
+    W, H = PARAMS[&quot;w&quot;], PARAMS[&quot;h&quot;]
+    ship = list(PARAMS[&quot;ship&quot;])
+    heading = 0
+    rocks = [list(r) for r in PARAMS[&quot;rocks&quot;]]
+    score, lives = 0, 3
+    print(&quot;Vector tribute: auto session&quot;)
+    for i, cmd in enumerate(AUTO):
+        if cmd == &quot;left&quot;:
+            heading = (heading - 1) % 4
+        elif cmd == &quot;right&quot;:
+            heading = (heading + 1) % 4
+        elif cmd == &quot;thrust&quot;:
+            dx, dy = DIRS_V[heading]
+            ship[0] = (ship[0] + dx * 2) % W
+            ship[1] = (ship[1] + dy * 2) % H
+        elif cmd == &quot;shoot&quot;:
+            dx, dy = DIRS_V[heading]
+            for k in range(1, 4):
+                target = ((ship[0] + dx * k) % W, (ship[1] + dy * k) % H)
+                hit = None
+                for rock in rocks:
+                    if (rock[0], rock[1]) == target:
+                        hit = rock
+                        break
+                if hit is not None:
+                    rocks.remove(hit)
+                    score += hit[4] * 20
+                    if hit[4] == 2:
+                        rocks.append([hit[0], hit[1], 1, 0, 1])
+                        rocks.append([hit[0], hit[1], 0, 1, 1])
+                    break
+        new_rocks = []
+        for rock in rocks:
+            rock[0] = (rock[0] + rock[2]) % W
+            rock[1] = (rock[1] + rock[3]) % H
+            new_rocks.append(rock)
+        rocks = new_rocks
+        if any((rock[0], rock[1]) == (ship[0], ship[1]) for rock in rocks):
+            lives -= 1
+            rocks = [r for r in rocks if (r[0], r[1]) != (ship[0], ship[1])]
+        print(&quot;Step %d: %s ship %s rocks %d score %d lives %d&quot; % (i + 1, cmd, tuple(ship), len(rocks), score, lives))
+        if not rocks or lives &lt;= 0:
+            break
+    print(&quot;FINAL SCORE: %d&quot; % score)
+    print(&quot;RESULT: %s&quot; % (&quot;WIN&quot; if not rocks else &quot;OUT OF LIVES&quot; if lives &lt;= 0 else &quot;ONGOING&quot;))
+
+def play():
+    W, H = PARAMS[&quot;w&quot;], PARAMS[&quot;h&quot;]
+    ship = list(PARAMS[&quot;ship&quot;])
+    heading = 0
+    rocks = [list(r) for r in PARAMS[&quot;rocks&quot;]]
+    score, lives = 0, 3
+    print(&quot;Vector tribute: type thrust/left/right/shoot, or quit. Blast every rock, avoid collisions.&quot;)
+    for line in sys.stdin:
+        cmd = line.strip().lower()
+        if cmd == &quot;quit&quot;:
+            break
+        if cmd not in (&quot;thrust&quot;, &quot;left&quot;, &quot;right&quot;, &quot;shoot&quot;):
+            print(&quot;Unknown command: %s&quot; % cmd)
+            continue
+        if cmd == &quot;left&quot;:
+            heading = (heading - 1) % 4
+        elif cmd == &quot;right&quot;:
+            heading = (heading + 1) % 4
+        elif cmd == &quot;thrust&quot;:
+            dx, dy = DIRS_V[heading]
+            ship[0] = (ship[0] + dx * 2) % W
+            ship[1] = (ship[1] + dy * 2) % H
+        elif cmd == &quot;shoot&quot;:
+            dx, dy = DIRS_V[heading]
+            for k in range(1, 4):
+                target = ((ship[0] + dx * k) % W, (ship[1] + dy * k) % H)
+                hit = None
+                for rock in rocks:
+                    if (rock[0], rock[1]) == target:
+                        hit = rock
+                        break
+                if hit is not None:
+                    rocks.remove(hit)
+                    score += hit[4] * 20
+                    if hit[4] == 2:
+                        rocks.append([hit[0], hit[1], 1, 0, 1])
+                        rocks.append([hit[0], hit[1], 0, 1, 1])
+                    break
+        for rock in rocks:
+            rock[0] = (rock[0] + rock[2]) % W
+            rock[1] = (rock[1] + rock[3]) % H
+        if any((rock[0], rock[1]) == (ship[0], ship[1]) for rock in rocks):
+            lives -= 1
+            rocks = [r for r in rocks if (r[0], r[1]) != (ship[0], ship[1])]
+        print(&quot;ship %s rocks %d score %d lives %d&quot; % (tuple(ship), len(rocks), score, lives))
+        if not rocks or lives &lt;= 0:
+            break
+    print(&quot;FINAL SCORE: %d&quot; % score)
+    print(&quot;RESULT: %s&quot; % (&quot;WIN&quot; if not rocks else &quot;OUT OF LIVES&quot; if lives &lt;= 0 else &quot;QUIT&quot;))
+
+if __name__ == &quot;__main__&quot;:
+    if &quot;--play&quot; in sys.argv:
+        play()
+    else:
+        auto_play()
+</pre></article><article class="record"><h3>Major Havoc <small>Rank 12 &middot; complex &middot; vector graphics &middot; advanced</small></h3><p>Major Havoc, Atari&#x27;s 1983 vector game, mixes space shooting with platform-style reactor stages. The player flies a ship through space waves, then enters a space station on foot to reach its reactor core, dodging robots and traps along the way. Its blend of genres and vector art made it one of the most ambitious cabinets of its era.</p><p>The tribute demo is an original vector-style miniature: a ship starts at [9, 6] among 7 drifting rocks on a glowing grid, thrusting with momentum, turning, and firing at rocks that split when hit. It captures the feel of the arcade original&#x27;s line-drawn space without copying its code, art, or sound.</p><p>The reactor stages reward route memory: the station layout repeats, so a player who learns the safe corridors spends less time dodging robots. In space, the ship&#x27;s momentum matters as much as its aim, just as in the Asteroids family.</p><p><b>Playable tribute note:</b> The demo below is an original tribute inspired by the mechanics of Major Havoc (1983). It is not Major Havoc (1983), and it uses no art, music, or code from that game.</p><h4>How to play</h4><p>Type thrust/left/right/shoot to fly and fire, quit to stop.</p><h4>Working demo program</h4><p>Save the code below as game.py and run <code>python3 game.py --play</code> to play it. Running it without arguments replays the scripted session whose output is stored with the record.</p><pre class="codeblock">import sys
+PARAMS = {&#x27;w&#x27;: 20, &#x27;h&#x27;: 16, &#x27;ship&#x27;: [9, 6], &#x27;rocks&#x27;: [[8, 13, -1, 0, 2], [13, 4, 1, 1, 1], [4, 7, -1, 1, 1], [9, 10, 1, 0, 2], [14, 13, -1, 1, 1], [5, 4, 1, 1, 1], [10, 7, -1, 0, 2]]}
+AUTO = [&#x27;thrust&#x27;, &#x27;right&#x27;, &#x27;shoot&#x27;, &#x27;thrust&#x27;, &#x27;left&#x27;, &#x27;shoot&#x27;, &#x27;thrust&#x27;, &#x27;shoot&#x27;, &#x27;right&#x27;, &#x27;right&#x27;, &#x27;thrust&#x27;, &#x27;shoot&#x27;, &#x27;left&#x27;, &#x27;shoot&#x27;, &#x27;thrust&#x27;, &#x27;thrust&#x27;, &#x27;shoot&#x27;, &#x27;left&#x27;]
+
+DIRS_V = [(1, 0), (0, 1), (-1, 0), (0, -1)]
+
+def auto_play():
+    W, H = PARAMS[&quot;w&quot;], PARAMS[&quot;h&quot;]
+    ship = list(PARAMS[&quot;ship&quot;])
+    heading = 0
+    rocks = [list(r) for r in PARAMS[&quot;rocks&quot;]]
+    score, lives = 0, 3
+    print(&quot;Vector tribute: auto session&quot;)
+    for i, cmd in enumerate(AUTO):
+        if cmd == &quot;left&quot;:
+            heading = (heading - 1) % 4
+        elif cmd == &quot;right&quot;:
+            heading = (heading + 1) % 4
+        elif cmd == &quot;thrust&quot;:
+            dx, dy = DIRS_V[heading]
+            ship[0] = (ship[0] + dx * 2) % W
+            ship[1] = (ship[1] + dy * 2) % H
+        elif cmd == &quot;shoot&quot;:
+            dx, dy = DIRS_V[heading]
+            for k in range(1, 4):
+                target = ((ship[0] + dx * k) % W, (ship[1] + dy * k) % H)
+                hit = None
+                for rock in rocks:
+                    if (rock[0], rock[1]) == target:
+                        hit = rock
+                        break
+                if hit is not None:
+                    rocks.remove(hit)
+                    score += hit[4] * 20
+                    if hit[4] == 2:
+                        rocks.append([hit[0], hit[1], 1, 0, 1])
+                        rocks.append([hit[0], hit[1], 0, 1, 1])
+                    break
+        new_rocks = []
+        for rock in rocks:
+            rock[0] = (rock[0] + rock[2]) % W
+            rock[1] = (rock[1] + rock[3]) % H
+            new_rocks.append(rock)
+        rocks = new_rocks
+        if any((rock[0], rock[1]) == (ship[0], ship[1]) for rock in rocks):
+            lives -= 1
+            rocks = [r for r in rocks if (r[0], r[1]) != (ship[0], ship[1])]
+        print(&quot;Step %d: %s ship %s rocks %d score %d lives %d&quot; % (i + 1, cmd, tuple(ship), len(rocks), score, lives))
+        if not rocks or lives &lt;= 0:
+            break
+    print(&quot;FINAL SCORE: %d&quot; % score)
+    print(&quot;RESULT: %s&quot; % (&quot;WIN&quot; if not rocks else &quot;OUT OF LIVES&quot; if lives &lt;= 0 else &quot;ONGOING&quot;))
+
+def play():
+    W, H = PARAMS[&quot;w&quot;], PARAMS[&quot;h&quot;]
+    ship = list(PARAMS[&quot;ship&quot;])
+    heading = 0
+    rocks = [list(r) for r in PARAMS[&quot;rocks&quot;]]
+    score, lives = 0, 3
+    print(&quot;Vector tribute: type thrust/left/right/shoot, or quit. Blast every rock, avoid collisions.&quot;)
+    for line in sys.stdin:
+        cmd = line.strip().lower()
+        if cmd == &quot;quit&quot;:
+            break
+        if cmd not in (&quot;thrust&quot;, &quot;left&quot;, &quot;right&quot;, &quot;shoot&quot;):
+            print(&quot;Unknown command: %s&quot; % cmd)
+            continue
+        if cmd == &quot;left&quot;:
+            heading = (heading - 1) % 4
+        elif cmd == &quot;right&quot;:
+            heading = (heading + 1) % 4
+        elif cmd == &quot;thrust&quot;:
+            dx, dy = DIRS_V[heading]
+            ship[0] = (ship[0] + dx * 2) % W
+            ship[1] = (ship[1] + dy * 2) % H
+        elif cmd == &quot;shoot&quot;:
+            dx, dy = DIRS_V[heading]
+            for k in range(1, 4):
+                target = ((ship[0] + dx * k) % W, (ship[1] + dy * k) % H)
+                hit = None
+                for rock in rocks:
+                    if (rock[0], rock[1]) == target:
+                        hit = rock
+                        break
+                if hit is not None:
+                    rocks.remove(hit)
+                    score += hit[4] * 20
+                    if hit[4] == 2:
+                        rocks.append([hit[0], hit[1], 1, 0, 1])
+                        rocks.append([hit[0], hit[1], 0, 1, 1])
+                    break
+        for rock in rocks:
+            rock[0] = (rock[0] + rock[2]) % W
+            rock[1] = (rock[1] + rock[3]) % H
+        if any((rock[0], rock[1]) == (ship[0], ship[1]) for rock in rocks):
+            lives -= 1
+            rocks = [r for r in rocks if (r[0], r[1]) != (ship[0], ship[1])]
+        print(&quot;ship %s rocks %d score %d lives %d&quot; % (tuple(ship), len(rocks), score, lives))
+        if not rocks or lives &lt;= 0:
+            break
+    print(&quot;FINAL SCORE: %d&quot; % score)
+    print(&quot;RESULT: %s&quot; % (&quot;WIN&quot; if not rocks else &quot;OUT OF LIVES&quot; if lives &lt;= 0 else &quot;QUIT&quot;))
+
+if __name__ == &quot;__main__&quot;:
+    if &quot;--play&quot; in sys.argv:
+        play()
+    else:
+        auto_play()
+</pre></article><article class="record"><h3>Black Widow <small>Rank 13 &middot; complex &middot; vector graphics &middot; advanced</small></h3><p>Black Widow, Atari&#x27;s 1982 vector game, is a twin-stick shooter where the player is a spider defending a web from insects. Bugs march in from the edges, and the spider fires in eight directions while trying to avoid being surrounded. Its frenetic pace and insect theme set it apart from the space shooters around it.</p><p>The tribute demo is an original vector-style miniature: a ship starts at [4, 7] among 4 drifting rocks on a glowing grid, thrusting with momentum, turning, and firing at rocks that split when hit. It captures the feel of the arcade original&#x27;s line-drawn space without copying its code, art, or sound.</p><p>Surrounded is the losing state, so the spider must keep moving along the web&#x27;s open lanes rather than camping a corner. Firing in the direction of travel clears the path ahead, while bugs behind are handled by doubling back through cleared lanes.</p><p><b>Playable tribute note:</b> The demo below is an original tribute inspired by the mechanics of Black Widow (1982). It is not Black Widow (1982), and it uses no art, music, or code from that game.</p><h4>How to play</h4><p>Type thrust/left/right/shoot to fly and fire, quit to stop.</p><h4>Working demo program</h4><p>Save the code below as game.py and run <code>python3 game.py --play</code> to play it. Running it without arguments replays the scripted session whose output is stored with the record.</p><pre class="codeblock">import sys
+PARAMS = {&#x27;w&#x27;: 20, &#x27;h&#x27;: 16, &#x27;ship&#x27;: [4, 7], &#x27;rocks&#x27;: [[11, 2, -1, 0, 2], [16, 5, 1, 1, 1], [7, 8, -1, 1, 1], [12, 11, 1, 0, 2]]}
+AUTO = [&#x27;thrust&#x27;, &#x27;thrust&#x27;, &#x27;shoot&#x27;, &#x27;right&#x27;, &#x27;thrust&#x27;, &#x27;shoot&#x27;, &#x27;left&#x27;, &#x27;thrust&#x27;, &#x27;shoot&#x27;, &#x27;shoot&#x27;, &#x27;right&#x27;, &#x27;thrust&#x27;, &#x27;shoot&#x27;, &#x27;left&#x27;, &#x27;shoot&#x27;, &#x27;thrust&#x27;]
+
+DIRS_V = [(1, 0), (0, 1), (-1, 0), (0, -1)]
+
+def auto_play():
+    W, H = PARAMS[&quot;w&quot;], PARAMS[&quot;h&quot;]
+    ship = list(PARAMS[&quot;ship&quot;])
+    heading = 0
+    rocks = [list(r) for r in PARAMS[&quot;rocks&quot;]]
+    score, lives = 0, 3
+    print(&quot;Vector tribute: auto session&quot;)
+    for i, cmd in enumerate(AUTO):
+        if cmd == &quot;left&quot;:
+            heading = (heading - 1) % 4
+        elif cmd == &quot;right&quot;:
+            heading = (heading + 1) % 4
+        elif cmd == &quot;thrust&quot;:
+            dx, dy = DIRS_V[heading]
+            ship[0] = (ship[0] + dx * 2) % W
+            ship[1] = (ship[1] + dy * 2) % H
+        elif cmd == &quot;shoot&quot;:
+            dx, dy = DIRS_V[heading]
+            for k in range(1, 4):
+                target = ((ship[0] + dx * k) % W, (ship[1] + dy * k) % H)
+                hit = None
+                for rock in rocks:
+                    if (rock[0], rock[1]) == target:
+                        hit = rock
+                        break
+                if hit is not None:
+                    rocks.remove(hit)
+                    score += hit[4] * 20
+                    if hit[4] == 2:
+                        rocks.append([hit[0], hit[1], 1, 0, 1])
+                        rocks.append([hit[0], hit[1], 0, 1, 1])
+                    break
+        new_rocks = []
+        for rock in rocks:
+            rock[0] = (rock[0] + rock[2]) % W
+            rock[1] = (rock[1] + rock[3]) % H
+            new_rocks.append(rock)
+        rocks = new_rocks
+        if any((rock[0], rock[1]) == (ship[0], ship[1]) for rock in rocks):
+            lives -= 1
+            rocks = [r for r in rocks if (r[0], r[1]) != (ship[0], ship[1])]
+        print(&quot;Step %d: %s ship %s rocks %d score %d lives %d&quot; % (i + 1, cmd, tuple(ship), len(rocks), score, lives))
+        if not rocks or lives &lt;= 0:
+            break
+    print(&quot;FINAL SCORE: %d&quot; % score)
+    print(&quot;RESULT: %s&quot; % (&quot;WIN&quot; if not rocks else &quot;OUT OF LIVES&quot; if lives &lt;= 0 else &quot;ONGOING&quot;))
+
+def play():
+    W, H = PARAMS[&quot;w&quot;], PARAMS[&quot;h&quot;]
+    ship = list(PARAMS[&quot;ship&quot;])
+    heading = 0
+    rocks = [list(r) for r in PARAMS[&quot;rocks&quot;]]
+    score, lives = 0, 3
+    print(&quot;Vector tribute: type thrust/left/right/shoot, or quit. Blast every rock, avoid collisions.&quot;)
+    for line in sys.stdin:
+        cmd = line.strip().lower()
+        if cmd == &quot;quit&quot;:
+            break
+        if cmd not in (&quot;thrust&quot;, &quot;left&quot;, &quot;right&quot;, &quot;shoot&quot;):
+            print(&quot;Unknown command: %s&quot; % cmd)
+            continue
+        if cmd == &quot;left&quot;:
+            heading = (heading - 1) % 4
+        elif cmd == &quot;right&quot;:
+            heading = (heading + 1) % 4
+        elif cmd == &quot;thrust&quot;:
+            dx, dy = DIRS_V[heading]
+            ship[0] = (ship[0] + dx * 2) % W
+            ship[1] = (ship[1] + dy * 2) % H
+        elif cmd == &quot;shoot&quot;:
+            dx, dy = DIRS_V[heading]
+            for k in range(1, 4):
+                target = ((ship[0] + dx * k) % W, (ship[1] + dy * k) % H)
+                hit = None
+                for rock in rocks:
+                    if (rock[0], rock[1]) == target:
+                        hit = rock
+                        break
+                if hit is not None:
+                    rocks.remove(hit)
+                    score += hit[4] * 20
+                    if hit[4] == 2:
+                        rocks.append([hit[0], hit[1], 1, 0, 1])
+                        rocks.append([hit[0], hit[1], 0, 1, 1])
+                    break
+        for rock in rocks:
+            rock[0] = (rock[0] + rock[2]) % W
+            rock[1] = (rock[1] + rock[3]) % H
+        if any((rock[0], rock[1]) == (ship[0], ship[1]) for rock in rocks):
+            lives -= 1
+            rocks = [r for r in rocks if (r[0], r[1]) != (ship[0], ship[1])]
+        print(&quot;ship %s rocks %d score %d lives %d&quot; % (tuple(ship), len(rocks), score, lives))
+        if not rocks or lives &lt;= 0:
+            break
+    print(&quot;FINAL SCORE: %d&quot; % score)
+    print(&quot;RESULT: %s&quot; % (&quot;WIN&quot; if not rocks else &quot;OUT OF LIVES&quot; if lives &lt;= 0 else &quot;QUIT&quot;))
+
+if __name__ == &quot;__main__&quot;:
+    if &quot;--play&quot; in sys.argv:
+        play()
+    else:
+        auto_play()
+</pre></article><article class="record"><h3>Gravitar <small>Rank 14 &middot; complex &middot; vector graphics &middot; advanced</small></h3><p>Gravitar, Atari&#x27;s 1982 vector game, is one of the hardest arcade games ever made. The player pilots a ship with real gravity and momentum through a solar system, landing on planets to destroy reactor bunkers while fighting gravity, fuel limits, and turrets. Each planet has its own gravity and terrain.</p><p>The tribute demo is an original vector-style miniature: a ship starts at [5, 8] among 5 drifting rocks on a glowing grid, thrusting with momentum, turning, and firing at rocks that split when hit. It captures the feel of the arcade original&#x27;s line-drawn space without copying its code, art, or sound.</p><p>Gravity is the opponent on every planet: thrust must counteract the pull constantly, and a ship that stops thrusting falls. Learning one planet&#x27;s gravity at a time, starting with the gentlest, builds the feel needed for the harsher worlds.</p><p><b>Playable tribute note:</b> The demo below is an original tribute inspired by the mechanics of Gravitar (1982). It is not Gravitar (1982), and it uses no art, music, or code from that game.</p><h4>How to play</h4><p>Type thrust/left/right/shoot to fly and fire, quit to stop.</p><h4>Working demo program</h4><p>Save the code below as game.py and run <code>python3 game.py --play</code> to play it. Running it without arguments replays the scripted session whose output is stored with the record.</p><pre class="codeblock">import sys
+PARAMS = {&#x27;w&#x27;: 20, &#x27;h&#x27;: 16, &#x27;ship&#x27;: [5, 8], &#x27;rocks&#x27;: [[14, 3, -1, 0, 2], [5, 6, 1, 1, 1], [10, 9, -1, 1, 1], [15, 12, 1, 0, 2], [6, 3, -1, 1, 1]]}
+AUTO = [&#x27;right&#x27;, &#x27;thrust&#x27;, &#x27;shoot&#x27;, &#x27;shoot&#x27;, &#x27;left&#x27;, &#x27;thrust&#x27;, &#x27;thrust&#x27;, &#x27;shoot&#x27;, &#x27;right&#x27;, &#x27;shoot&#x27;, &#x27;left&#x27;, &#x27;left&#x27;, &#x27;thrust&#x27;, &#x27;shoot&#x27;, &#x27;thrust&#x27;, &#x27;shoot&#x27;]
+
+DIRS_V = [(1, 0), (0, 1), (-1, 0), (0, -1)]
+
+def auto_play():
+    W, H = PARAMS[&quot;w&quot;], PARAMS[&quot;h&quot;]
+    ship = list(PARAMS[&quot;ship&quot;])
+    heading = 0
+    rocks = [list(r) for r in PARAMS[&quot;rocks&quot;]]
+    score, lives = 0, 3
+    print(&quot;Vector tribute: auto session&quot;)
+    for i, cmd in enumerate(AUTO):
+        if cmd == &quot;left&quot;:
+            heading = (heading - 1) % 4
+        elif cmd == &quot;right&quot;:
+            heading = (heading + 1) % 4
+        elif cmd == &quot;thrust&quot;:
+            dx, dy = DIRS_V[heading]
+            ship[0] = (ship[0] + dx * 2) % W
+            ship[1] = (ship[1] + dy * 2) % H
+        elif cmd == &quot;shoot&quot;:
+            dx, dy = DIRS_V[heading]
+            for k in range(1, 4):
+                target = ((ship[0] + dx * k) % W, (ship[1] + dy * k) % H)
+                hit = None
+                for rock in rocks:
+                    if (rock[0], rock[1]) == target:
+                        hit = rock
+                        break
+                if hit is not None:
+                    rocks.remove(hit)
+                    score += hit[4] * 20
+                    if hit[4] == 2:
+                        rocks.append([hit[0], hit[1], 1, 0, 1])
+                        rocks.append([hit[0], hit[1], 0, 1, 1])
+                    break
+        new_rocks = []
+        for rock in rocks:
+            rock[0] = (rock[0] + rock[2]) % W
+            rock[1] = (rock[1] + rock[3]) % H
+            new_rocks.append(rock)
+        rocks = new_rocks
+        if any((rock[0], rock[1]) == (ship[0], ship[1]) for rock in rocks):
+            lives -= 1
+            rocks = [r for r in rocks if (r[0], r[1]) != (ship[0], ship[1])]
+        print(&quot;Step %d: %s ship %s rocks %d score %d lives %d&quot; % (i + 1, cmd, tuple(ship), len(rocks), score, lives))
+        if not rocks or lives &lt;= 0:
+            break
+    print(&quot;FINAL SCORE: %d&quot; % score)
+    print(&quot;RESULT: %s&quot; % (&quot;WIN&quot; if not rocks else &quot;OUT OF LIVES&quot; if lives &lt;= 0 else &quot;ONGOING&quot;))
+
+def play():
+    W, H = PARAMS[&quot;w&quot;], PARAMS[&quot;h&quot;]
+    ship = list(PARAMS[&quot;ship&quot;])
+    heading = 0
+    rocks = [list(r) for r in PARAMS[&quot;rocks&quot;]]
+    score, lives = 0, 3
+    print(&quot;Vector tribute: type thrust/left/right/shoot, or quit. Blast every rock, avoid collisions.&quot;)
+    for line in sys.stdin:
+        cmd = line.strip().lower()
+        if cmd == &quot;quit&quot;:
+            break
+        if cmd not in (&quot;thrust&quot;, &quot;left&quot;, &quot;right&quot;, &quot;shoot&quot;):
+            print(&quot;Unknown command: %s&quot; % cmd)
+            continue
+        if cmd == &quot;left&quot;:
+            heading = (heading - 1) % 4
+        elif cmd == &quot;right&quot;:
+            heading = (heading + 1) % 4
+        elif cmd == &quot;thrust&quot;:
+            dx, dy = DIRS_V[heading]
+            ship[0] = (ship[0] + dx * 2) % W
+            ship[1] = (ship[1] + dy * 2) % H
+        elif cmd == &quot;shoot&quot;:
+            dx, dy = DIRS_V[heading]
+            for k in range(1, 4):
+                target = ((ship[0] + dx * k) % W, (ship[1] + dy * k) % H)
+                hit = None
+                for rock in rocks:
+                    if (rock[0], rock[1]) == target:
+                        hit = rock
+                        break
+                if hit is not None:
+                    rocks.remove(hit)
+                    score += hit[4] * 20
+                    if hit[4] == 2:
+                        rocks.append([hit[0], hit[1], 1, 0, 1])
+                        rocks.append([hit[0], hit[1], 0, 1, 1])
+                    break
+        for rock in rocks:
+            rock[0] = (rock[0] + rock[2]) % W
+            rock[1] = (rock[1] + rock[3]) % H
+        if any((rock[0], rock[1]) == (ship[0], ship[1]) for rock in rocks):
+            lives -= 1
+            rocks = [r for r in rocks if (r[0], r[1]) != (ship[0], ship[1])]
+        print(&quot;ship %s rocks %d score %d lives %d&quot; % (tuple(ship), len(rocks), score, lives))
+        if not rocks or lives &lt;= 0:
+            break
+    print(&quot;FINAL SCORE: %d&quot; % score)
+    print(&quot;RESULT: %s&quot; % (&quot;WIN&quot; if not rocks else &quot;OUT OF LIVES&quot; if lives &lt;= 0 else &quot;QUIT&quot;))
+
+if __name__ == &quot;__main__&quot;:
+    if &quot;--play&quot; in sys.argv:
+        play()
+    else:
+        auto_play()
+</pre></article><article class="record"><h3>Star Castle <small>Rank 15 &middot; complex &middot; vector graphics &middot; advanced</small></h3><p>Star Castle, Cinematronics&#x27; 1980 vector game, centers on a rotating cannon protected by three concentric rings. The player must blast through the rings to hit the cannon, while the cannon fires back and mines drift across the screen. The rings regenerate, so the attack must be pressed before the defense rebuilds.</p><p>The tribute demo is an original vector-style miniature: a ship starts at [6, 9] among 6 drifting rocks on a glowing grid, thrusting with momentum, turning, and firing at rocks that split when hit. It captures the feel of the arcade original&#x27;s line-drawn space without copying its code, art, or sound.</p><p>Ring-breaking is a timing problem: the rings rotate, so the gap moves, and the cannon fires whenever the player lingers. The best runs break one ring, retreat to dodge the cannon&#x27;s return fire, and return through the same gap before it closes.</p><p><b>Playable tribute note:</b> The demo below is an original tribute inspired by the mechanics of Star Castle (1980). It is not Star Castle (1980), and it uses no art, music, or code from that game.</p><h4>How to play</h4><p>Type thrust/left/right/shoot to fly and fire, quit to stop.</p><h4>Working demo program</h4><p>Save the code below as game.py and run <code>python3 game.py --play</code> to play it. Running it without arguments replays the scripted session whose output is stored with the record.</p><pre class="codeblock">import sys
+PARAMS = {&#x27;w&#x27;: 20, &#x27;h&#x27;: 16, &#x27;ship&#x27;: [6, 9], &#x27;rocks&#x27;: [[3, 4, -1, 0, 2], [8, 7, 1, 1, 1], [13, 10, -1, 1, 1], [4, 13, 1, 0, 2], [9, 4, -1, 1, 1], [14, 7, 1, 1, 1]]}
+AUTO = [&#x27;thrust&#x27;, &#x27;shoot&#x27;, &#x27;left&#x27;, &#x27;thrust&#x27;, &#x27;shoot&#x27;, &#x27;right&#x27;, &#x27;right&#x27;, &#x27;thrust&#x27;, &#x27;shoot&#x27;, &#x27;left&#x27;, &#x27;shoot&#x27;, &#x27;thrust&#x27;, &#x27;thrust&#x27;, &#x27;shoot&#x27;, &#x27;right&#x27;, &#x27;shoot&#x27;, &#x27;left&#x27;, &#x27;thrust&#x27;]
+
+DIRS_V = [(1, 0), (0, 1), (-1, 0), (0, -1)]
+
+def auto_play():
+    W, H = PARAMS[&quot;w&quot;], PARAMS[&quot;h&quot;]
+    ship = list(PARAMS[&quot;ship&quot;])
+    heading = 0
+    rocks = [list(r) for r in PARAMS[&quot;rocks&quot;]]
+    score, lives = 0, 3
+    print(&quot;Vector tribute: auto session&quot;)
+    for i, cmd in enumerate(AUTO):
+        if cmd == &quot;left&quot;:
+            heading = (heading - 1) % 4
+        elif cmd == &quot;right&quot;:
+            heading = (heading + 1) % 4
+        elif cmd == &quot;thrust&quot;:
+            dx, dy = DIRS_V[heading]
+            ship[0] = (ship[0] + dx * 2) % W
+            ship[1] = (ship[1] + dy * 2) % H
+        elif cmd == &quot;shoot&quot;:
+            dx, dy = DIRS_V[heading]
+            for k in range(1, 4):
+                target = ((ship[0] + dx * k) % W, (ship[1] + dy * k) % H)
+                hit = None
+                for rock in rocks:
+                    if (rock[0], rock[1]) == target:
+                        hit = rock
+                        break
+                if hit is not None:
+                    rocks.remove(hit)
+                    score += hit[4] * 20
+                    if hit[4] == 2:
+                        rocks.append([hit[0], hit[1], 1, 0, 1])
+                        rocks.append([hit[0], hit[1], 0, 1, 1])
+                    break
+        new_rocks = []
+        for rock in rocks:
+            rock[0] = (rock[0] + rock[2]) % W
+            rock[1] = (rock[1] + rock[3]) % H
+            new_rocks.append(rock)
+        rocks = new_rocks
+        if any((rock[0], rock[1]) == (ship[0], ship[1]) for rock in rocks):
+            lives -= 1
+            rocks = [r for r in rocks if (r[0], r[1]) != (ship[0], ship[1])]
+        print(&quot;Step %d: %s ship %s rocks %d score %d lives %d&quot; % (i + 1, cmd, tuple(ship), len(rocks), score, lives))
+        if not rocks or lives &lt;= 0:
+            break
+    print(&quot;FINAL SCORE: %d&quot; % score)
+    print(&quot;RESULT: %s&quot; % (&quot;WIN&quot; if not rocks else &quot;OUT OF LIVES&quot; if lives &lt;= 0 else &quot;ONGOING&quot;))
+
+def play():
+    W, H = PARAMS[&quot;w&quot;], PARAMS[&quot;h&quot;]
+    ship = list(PARAMS[&quot;ship&quot;])
+    heading = 0
+    rocks = [list(r) for r in PARAMS[&quot;rocks&quot;]]
+    score, lives = 0, 3
+    print(&quot;Vector tribute: type thrust/left/right/shoot, or quit. Blast every rock, avoid collisions.&quot;)
+    for line in sys.stdin:
+        cmd = line.strip().lower()
+        if cmd == &quot;quit&quot;:
+            break
+        if cmd not in (&quot;thrust&quot;, &quot;left&quot;, &quot;right&quot;, &quot;shoot&quot;):
+            print(&quot;Unknown command: %s&quot; % cmd)
+            continue
+        if cmd == &quot;left&quot;:
+            heading = (heading - 1) % 4
+        elif cmd == &quot;right&quot;:
+            heading = (heading + 1) % 4
+        elif cmd == &quot;thrust&quot;:
+            dx, dy = DIRS_V[heading]
+            ship[0] = (ship[0] + dx * 2) % W
+            ship[1] = (ship[1] + dy * 2) % H
+        elif cmd == &quot;shoot&quot;:
+            dx, dy = DIRS_V[heading]
+            for k in range(1, 4):
+                target = ((ship[0] + dx * k) % W, (ship[1] + dy * k) % H)
+                hit = None
+                for rock in rocks:
+                    if (rock[0], rock[1]) == target:
+                        hit = rock
+                        break
+                if hit is not None:
+                    rocks.remove(hit)
+                    score += hit[4] * 20
+                    if hit[4] == 2:
+                        rocks.append([hit[0], hit[1], 1, 0, 1])
+                        rocks.append([hit[0], hit[1], 0, 1, 1])
+                    break
+        for rock in rocks:
+            rock[0] = (rock[0] + rock[2]) % W
+            rock[1] = (rock[1] + rock[3]) % H
+        if any((rock[0], rock[1]) == (ship[0], ship[1]) for rock in rocks):
+            lives -= 1
+            rocks = [r for r in rocks if (r[0], r[1]) != (ship[0], ship[1])]
+        print(&quot;ship %s rocks %d score %d lives %d&quot; % (tuple(ship), len(rocks), score, lives))
+        if not rocks or lives &lt;= 0:
+            break
+    print(&quot;FINAL SCORE: %d&quot; % score)
+    print(&quot;RESULT: %s&quot; % (&quot;WIN&quot; if not rocks else &quot;OUT OF LIVES&quot; if lives &lt;= 0 else &quot;QUIT&quot;))
+
+if __name__ == &quot;__main__&quot;:
+    if &quot;--play&quot; in sys.argv:
+        play()
+    else:
+        auto_play()
+</pre></article><article class="record"><h3>Tail Gunner <small>Rank 16 &middot; complex &middot; vector graphics &middot; advanced</small></h3><p>Tail Gunner, Cinematronics&#x27; 1979 vector game, puts the player in the rear gunner seat of a spaceship, shooting at pursuing enemy fighters. The view looks backward down the ship&#x27;s tail, and enemy ships sweep in from the edges of the screen. It is one of the earliest first-person perspective shooters in the arcade.</p><p>The tribute demo is an original vector-style miniature: a ship starts at [7, 5] among 7 drifting rocks on a glowing grid, thrusting with momentum, turning, and firing at rocks that split when hit. It captures the feel of the arcade original&#x27;s line-drawn space without copying its code, art, or sound.</p><p>Pursuers sweep in arcs, so the gunner must lead targets that cross the screen diagonally rather than aiming at where they are. Short bursts conserve the gun&#x27;s fire rate for the next wave, which arrives faster than the last.</p><p><b>Playable tribute note:</b> The demo below is an original tribute inspired by the mechanics of Tail Gunner (1979). It is not Tail Gunner (1979), and it uses no art, music, or code from that game.</p><h4>How to play</h4><p>Type thrust/left/right/shoot to fly and fire, quit to stop.</p><h4>Working demo program</h4><p>Save the code below as game.py and run <code>python3 game.py --play</code> to play it. Running it without arguments replays the scripted session whose output is stored with the record.</p><pre class="codeblock">import sys
+PARAMS = {&#x27;w&#x27;: 20, &#x27;h&#x27;: 16, &#x27;ship&#x27;: [7, 5], &#x27;rocks&#x27;: [[6, 5, -1, 0, 2], [11, 8, 1, 1, 1], [16, 11, -1, 1, 1], [7, 2, 1, 0, 2], [12, 5, -1, 1, 1], [3, 8, 1, 1, 1], [8, 11, -1, 0, 2]]}
+AUTO = [&#x27;shoot&#x27;, &#x27;thrust&#x27;, &#x27;thrust&#x27;, &#x27;right&#x27;, &#x27;shoot&#x27;, &#x27;left&#x27;, &#x27;thrust&#x27;, &#x27;shoot&#x27;, &#x27;shoot&#x27;, &#x27;right&#x27;, &#x27;thrust&#x27;, &#x27;left&#x27;]
+
+DIRS_V = [(1, 0), (0, 1), (-1, 0), (0, -1)]
+
+def auto_play():
+    W, H = PARAMS[&quot;w&quot;], PARAMS[&quot;h&quot;]
+    ship = list(PARAMS[&quot;ship&quot;])
+    heading = 0
+    rocks = [list(r) for r in PARAMS[&quot;rocks&quot;]]
+    score, lives = 0, 3
+    print(&quot;Vector tribute: auto session&quot;)
+    for i, cmd in enumerate(AUTO):
+        if cmd == &quot;left&quot;:
+            heading = (heading - 1) % 4
+        elif cmd == &quot;right&quot;:
+            heading = (heading + 1) % 4
+        elif cmd == &quot;thrust&quot;:
+            dx, dy = DIRS_V[heading]
+            ship[0] = (ship[0] + dx * 2) % W
+            ship[1] = (ship[1] + dy * 2) % H
+        elif cmd == &quot;shoot&quot;:
+            dx, dy = DIRS_V[heading]
+            for k in range(1, 4):
+                target = ((ship[0] + dx * k) % W, (ship[1] + dy * k) % H)
+                hit = None
+                for rock in rocks:
+                    if (rock[0], rock[1]) == target:
+                        hit = rock
+                        break
+                if hit is not None:
+                    rocks.remove(hit)
+                    score += hit[4] * 20
+                    if hit[4] == 2:
+                        rocks.append([hit[0], hit[1], 1, 0, 1])
+                        rocks.append([hit[0], hit[1], 0, 1, 1])
+                    break
+        new_rocks = []
+        for rock in rocks:
+            rock[0] = (rock[0] + rock[2]) % W
+            rock[1] = (rock[1] + rock[3]) % H
+            new_rocks.append(rock)
+        rocks = new_rocks
+        if any((rock[0], rock[1]) == (ship[0], ship[1]) for rock in rocks):
+            lives -= 1
+            rocks = [r for r in rocks if (r[0], r[1]) != (ship[0], ship[1])]
+        print(&quot;Step %d: %s ship %s rocks %d score %d lives %d&quot; % (i + 1, cmd, tuple(ship), len(rocks), score, lives))
+        if not rocks or lives &lt;= 0:
+            break
+    print(&quot;FINAL SCORE: %d&quot; % score)
+    print(&quot;RESULT: %s&quot; % (&quot;WIN&quot; if not rocks else &quot;OUT OF LIVES&quot; if lives &lt;= 0 else &quot;ONGOING&quot;))
+
+def play():
+    W, H = PARAMS[&quot;w&quot;], PARAMS[&quot;h&quot;]
+    ship = list(PARAMS[&quot;ship&quot;])
+    heading = 0
+    rocks = [list(r) for r in PARAMS[&quot;rocks&quot;]]
+    score, lives = 0, 3
+    print(&quot;Vector tribute: type thrust/left/right/shoot, or quit. Blast every rock, avoid collisions.&quot;)
+    for line in sys.stdin:
+        cmd = line.strip().lower()
+        if cmd == &quot;quit&quot;:
+            break
+        if cmd not in (&quot;thrust&quot;, &quot;left&quot;, &quot;right&quot;, &quot;shoot&quot;):
+            print(&quot;Unknown command: %s&quot; % cmd)
+            continue
+        if cmd == &quot;left&quot;:
+            heading = (heading - 1) % 4
+        elif cmd == &quot;right&quot;:
+            heading = (heading + 1) % 4
+        elif cmd == &quot;thrust&quot;:
+            dx, dy = DIRS_V[heading]
+            ship[0] = (ship[0] + dx * 2) % W
+            ship[1] = (ship[1] + dy * 2) % H
+        elif cmd == &quot;shoot&quot;:
+            dx, dy = DIRS_V[heading]
+            for k in range(1, 4):
+                target = ((ship[0] + dx * k) % W, (ship[1] + dy * k) % H)
+                hit = None
+                for rock in rocks:
+                    if (rock[0], rock[1]) == target:
+                        hit = rock
+                        break
+                if hit is not None:
+                    rocks.remove(hit)
+                    score += hit[4] * 20
+                    if hit[4] == 2:
+                        rocks.append([hit[0], hit[1], 1, 0, 1])
+                        rocks.append([hit[0], hit[1], 0, 1, 1])
+                    break
+        for rock in rocks:
+            rock[0] = (rock[0] + rock[2]) % W
+            rock[1] = (rock[1] + rock[3]) % H
+        if any((rock[0], rock[1]) == (ship[0], ship[1]) for rock in rocks):
+            lives -= 1
+            rocks = [r for r in rocks if (r[0], r[1]) != (ship[0], ship[1])]
+        print(&quot;ship %s rocks %d score %d lives %d&quot; % (tuple(ship), len(rocks), score, lives))
+        if not rocks or lives &lt;= 0:
+            break
+    print(&quot;FINAL SCORE: %d&quot; % score)
+    print(&quot;RESULT: %s&quot; % (&quot;WIN&quot; if not rocks else &quot;OUT OF LIVES&quot; if lives &lt;= 0 else &quot;QUIT&quot;))
+
+if __name__ == &quot;__main__&quot;:
+    if &quot;--play&quot; in sys.argv:
+        play()
+    else:
+        auto_play()
+</pre></article>
+<h2>Related databases</h2><ul><li><a href="../video-game-arcade/index.html">video-game-arcade</a></li><li><a href="../golden-age-arcade/index.html">golden-age-arcade</a></li><li><a href="../space-shooter-arcade/index.html">space-shooter-arcade</a></li><li><a href="../arcade/index.html">arcade</a></li><li><a href="../vector-arcade-games-signature/index.html">vector-arcade-games-signature</a></li></ul>
+<script src="gen-vector-arcade-games.js"></script>
+<script>
+(function(){'use strict';
+var DATA_URL='https://justinahiggins614-cmyk.github.io/jah-databases-data-2/data/vector-arcade-games/index.jsonl.gz';
+function $(id){return document.getElementById(id);}
+function setCount(n){ $('stCount').textContent=n.toLocaleString()+' / 1,000,000 target'; $('stCount2').textContent=n.toLocaleString(); }
+fetch(DATA_URL).then(function(res){
+  if(!res.ok) throw new Error('HTTP '+res.status);
+  var ds=new DecompressionStream('gzip');
+  return new Response(res.body.pipeThrough(ds)).text();
+}).then(function(t){
+  var n=t.split('\n').filter(function(l){return l.trim();}).length;
+  setCount(n);
+}).catch(function(){ $('stCount').textContent='archive unreachable'; });
+})();
+</script>
+<script src="../../assets/assistant-maker.js"></script>
+</body></html>

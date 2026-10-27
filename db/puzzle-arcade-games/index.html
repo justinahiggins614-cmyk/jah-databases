@@ -1,0 +1,1371 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">
+<title>The Puzzle Arcade Games Database</title><meta name="description" content="The Puzzle Arcade Games Database: sixteen full arcade records, ordered simple to complex, each with a playable demo program. Free forever.">
+<style>body{font-family:system-ui,sans-serif;max-width:900px;margin:auto;padding:1em;line-height:1.6}
+.kv{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:0.75em}
+.kv>div{border:1px solid #ccc;padding:0.5em}.codeblock{background:#111;color:#eee;padding:1em;overflow:auto;white-space:pre-wrap}
+.pill{display:inline-block;border:1px solid #333;border-radius:2em;padding:0.2em 0.8em;margin:0.2em}
+.merger{background:#c00;color:#fff;border:0;padding:0.7em 1.4em;font-size:1em;cursor:pointer}
+.record{border-top:2px solid #333;margin-top:2em;padding-top:1em}</style></head><body>
+<h1>The Puzzle Arcade Games Database</h1><p class="pill">Exhaustive</p> <p class="pill">march to a million: in progress</p>
+<button class="merger" onclick="alert('All Database Merger: this database is ready to merge into the network archive.')">All Database Merger</button>
+<p>Archive records: <b id="stCount">16 / 1,000,000 target</b> · <span id="stCount2">16</span> records <span class="dim">(populated from the live archive index)</span></p>
+<p>Puzzle games ask for quick eyes and a cool head: pieces fall, boards fill, and one smart move can clear the way. This database covers the landmark arcade puzzlers and adds a set of original puzzle games built in the same spirit.</p>
+<p>Every record here is the full, fully-formed file: a full prose description, how to play, and a working, playable demo program. Everything is free forever, with no payments and no upsells. Public editions describe real arcade games in original words and ship original tribute demos inspired by their mechanics; they never ship the original game, its art, its music, or its code.</p>
+<h2>Specialist AI: JAH Puzzle Arcade Guide</h2><p>JAH Puzzle Arcade Guide answers questions about this arcade family, explains any record in plain sentences, and helps choose the right game, controls, or strategy for a session.</p>
+<h2>Boundless generator</h2><p>The generator below is seeded and deterministic, throttled to at most 100 records per call, duplicate-checked, and hard-stopped at 10^15 records. Every generated record is labeled src "generated". Open the page script to use <code>window.PuzzleArcadeGamesTools.generateRecord(seed)</code>.</p>
+<h2>Validation engine</h2><p>Each record is checked for a complete title, its own record kind, its own edition slug and id prefix, a full prose description, topic fields, a demo whose stored output byte-matches a fresh run, and a play-mode smoke test proving the demo actually plays.</p>
+<h2>Evidence links</h2><ul><li><a href="https://justinahiggins614-cmyk.github.io/jah-databases-data-2/data/puzzle-arcade-games/index.jsonl.gz">Full record index for this edition (data-2)</a></li></ul>
+<h2>Tool connections</h2><p>The page exposes <code>window.PuzzleArcadeGamesTools</code> with <code>searchRecords</code>, <code>generateRecord</code>, <code>validateRecord</code>, and <code>runTests</code>.</p>
+<h2>Testing suite</h2><p>Run <code>window.PuzzleArcadeGamesTools.runTests()</code> in the console: it checks record kind, slug, id prefix, src labeling, validation, duplicate rejection, batch throttling, and search.</p>
+<h2>Audit history</h2><p>Built as a package on 2026-10-26: 16 records, ordered simple to compounded to complex by ladder rank, JSONL re-parsed, every demo re-executed with byte-matched output and play-mode smoke-tested, both generator files syntax-checked, and generator gates executed.</p>
+<h2>Search</h2><input id="q" placeholder="Search puzzle arcade record" oninput="doSearch(this.value)"><div id="results"></div>
+<script>var SEARCH_INDEX=[{"id": "JAH-PUZ-000001", "title": "Tetris"}, {"id": "JAH-PUZ-000002", "title": "Columns"}, {"id": "JAH-PUZ-000003", "title": "Puyo Puyo"}, {"id": "JAH-PUZ-000004", "title": "Puzzle Bobble"}, {"id": "JAH-PUZ-000005", "title": "Klax"}, {"id": "JAH-PUZ-000006", "title": "Mr. Driller"}, {"id": "JAH-PUZ-000007", "title": "Magical Drop"}, {"id": "JAH-PUZ-000008", "title": "Money Puzzle Exchanger"}, {"id": "JAH-PUZ-000009", "title": "Tetris: The Grand Master"}, {"id": "JAH-PUZ-000010", "title": "Super Puzzle Fighter II Turbo"}, {"id": "JAH-PUZ-000011", "title": "Qix"}, {"id": "JAH-PUZ-000012", "title": "Pnickies"}, {"id": "JAH-PUZ-000013", "title": "Solomon's Key"}, {"id": "JAH-PUZ-000014", "title": "Lode Runner"}, {"id": "JAH-PUZ-000015", "title": "Plotting"}, {"id": "JAH-PUZ-000016", "title": "Boulder Dash"}];function doSearch(q){q=q.toLowerCase();var hits=SEARCH_INDEX.filter(function(r){return r.title.toLowerCase().indexOf(q)!==-1});document.getElementById('results').innerHTML=hits.map(function(r){return '<p>'+r.id+' — '+r.title+'</p>'}).join('')||'<p>No matches yet.</p>';}</script>
+<h2>Records</h2><div class="kv"><div>Records: 16</div><div>Editions: 1 of a pair</div><div>Free forever</div></div>
+<article class="record"><h3>Tetris <small>Rank 1 &middot; simple &middot; puzzle &middot; beginner</small></h3><p>Tetris reached arcades in 1988 as the arcade form of the falling-block classic, where players rotate and place seven shapes to complete and clear horizontal lines. Its cabinets attracted players who chased high scores, learned patterns by repetition, and returned to beat their own best runs.</p><p>This tribute demo reduces the puzzle to a short text session: a set of pieces arrives one at a time, and you slide, rotate, and drop each one to keep the board low. It is an original miniature inspired by the mechanics of Tetris, not a copy of that game.</p><p>The best habit is to keep the board low and even: a tall stack in one column leaves no room to fix mistakes.</p><p><b>Playable tribute note:</b> The demo below is an original tribute inspired by the mechanics of Tetris (1988). It is not Tetris (1988), and it uses no art, music, or code from that game.</p><h4>How to play</h4><p>Type left, right, rotate or drop for each piece, or quit to stop.</p><h4>Working demo program</h4><p>Save the code below as game.py and run <code>python3 game.py --play</code> to play it. Running it without arguments replays the scripted session whose output is stored with the record.</p><pre class="codeblock">import sys
+PARAMS = {&#x27;pieces&#x27;: [&#x27;square&#x27;, &#x27;line&#x27;, &#x27;tee&#x27;, &#x27;el&#x27;, &#x27;jay&#x27;, &#x27;ess&#x27;, &#x27;zee&#x27;, &#x27;square&#x27;]}
+AUTO = [[&#x27;left&#x27;, &#x27;drop&#x27;], [&#x27;right&#x27;, &#x27;drop&#x27;], [&#x27;rotate&#x27;, &#x27;drop&#x27;], [&#x27;left&#x27;, &#x27;drop&#x27;], [&#x27;right&#x27;, &#x27;drop&#x27;], [&#x27;drop&#x27;], [&#x27;left&#x27;, &#x27;rotate&#x27;, &#x27;drop&#x27;], [&#x27;right&#x27;, &#x27;drop&#x27;]]
+
+def auto_play():
+    heights = [0] * 6
+    score, lines = 0, 0
+    print(&quot;Puzzle tribute: auto session&quot;)
+    for pi, piece in enumerate(PARAMS[&quot;pieces&quot;]):
+        cmds = AUTO[pi] if pi &lt; len(AUTO) else [&quot;drop&quot;]
+        col, vertical = 2, False
+        for cmd in cmds:
+            if cmd == &quot;left&quot;:
+                col = max(0, col - 1)
+            elif cmd == &quot;right&quot;:
+                col = min(5, col + 1)
+            elif cmd == &quot;rotate&quot;:
+                vertical = not vertical
+            elif cmd == &quot;drop&quot;:
+                break
+        if vertical:
+            heights[col] += 2
+        else:
+            if col &gt;= 5:
+                col = 4
+            heights[col] += 1
+            heights[col + 1] += 1
+        cleared = 0
+        while min(heights) &gt; 0:
+            heights = [h - 1 for h in heights]
+            cleared += 1
+        lines += cleared
+        score += cleared * 100 + 10
+        print(&quot;Piece %d: %s col %d %s heights %s score %d&quot; % (pi + 1, piece, col, &quot;vertical&quot; if vertical else &quot;flat&quot;, heights, score))
+    print(&quot;FINAL SCORE: %d&quot; % score)
+    print(&quot;RESULT: LINES %d&quot; % lines)
+
+def play():
+    heights = [0] * 6
+    score, lines = 0, 0
+    print(&quot;Puzzle tribute: type left/right/rotate/drop per piece, or quit. Fill rows to clear them.&quot;)
+    pi = 0
+    col, vertical = 2, False
+    for line in sys.stdin:
+        cmd = line.strip().lower()
+        if cmd == &quot;quit&quot;:
+            break
+        if pi &gt;= len(PARAMS[&quot;pieces&quot;]):
+            break
+        if cmd == &quot;left&quot;:
+            col = max(0, col - 1)
+        elif cmd == &quot;right&quot;:
+            col = min(5, col + 1)
+        elif cmd == &quot;rotate&quot;:
+            vertical = not vertical
+        elif cmd == &quot;drop&quot;:
+            piece = PARAMS[&quot;pieces&quot;][pi]
+            if vertical:
+                heights[col] += 2
+            else:
+                if col &gt;= 5:
+                    col = 4
+                heights[col] += 1
+                heights[col + 1] += 1
+            cleared = 0
+            while min(heights) &gt; 0:
+                heights = [h - 1 for h in heights]
+                cleared += 1
+            lines += cleared
+            score += cleared * 100 + 10
+            print(&quot;Piece %d: %s heights %s score %d&quot; % (pi + 1, piece, heights, score))
+            pi += 1
+            col, vertical = 2, False
+        else:
+            print(&quot;Unknown command: %s&quot; % cmd)
+    print(&quot;FINAL SCORE: %d&quot; % score)
+    print(&quot;RESULT: LINES %d&quot; % lines)
+
+if __name__ == &quot;__main__&quot;:
+    if &quot;--play&quot; in sys.argv:
+        play()
+    else:
+        auto_play()
+</pre></article><article class="record"><h3>Columns <small>Rank 2 &middot; simple &middot; puzzle &middot; beginner</small></h3><p>Columns reached arcades in 1990 as a falling-jewel game where columns of three jewels drop from the top and players match three or more of a kind in a row, column, or diagonal. Its cabinets attracted players who chased high scores, learned patterns by repetition, and returned to beat their own best runs.</p><p>This tribute demo reduces the puzzle to a short text session: a set of pieces arrives one at a time, and you slide, rotate, and drop each one to keep the board low. It is an original miniature inspired by the mechanics of Columns, not a copy of that game.</p><p>Rotating a piece before sliding it usually beats sliding first, since the rotated shape often fits a gap the flat shape cannot.</p><p><b>Playable tribute note:</b> The demo below is an original tribute inspired by the mechanics of Columns (1990). It is not Columns (1990), and it uses no art, music, or code from that game.</p><h4>How to play</h4><p>Type left, right, rotate or drop for each piece, or quit to stop.</p><h4>Working demo program</h4><p>Save the code below as game.py and run <code>python3 game.py --play</code> to play it. Running it without arguments replays the scripted session whose output is stored with the record.</p><pre class="codeblock">import sys
+PARAMS = {&#x27;pieces&#x27;: [&#x27;ruby&#x27;, &#x27;sapphire&#x27;, &#x27;emerald&#x27;, &#x27;ruby&#x27;, &#x27;topaz&#x27;, &#x27;sapphire&#x27;, &#x27;emerald&#x27;, &#x27;ruby&#x27;, &#x27;topaz&#x27;]}
+AUTO = [[&#x27;left&#x27;, &#x27;drop&#x27;], [&#x27;rotate&#x27;, &#x27;drop&#x27;], [&#x27;right&#x27;, &#x27;drop&#x27;], [&#x27;right&#x27;, &#x27;right&#x27;, &#x27;drop&#x27;], [&#x27;right&#x27;, &#x27;right&#x27;, &#x27;right&#x27;, &#x27;drop&#x27;], [&#x27;left&#x27;, &#x27;left&#x27;, &#x27;rotate&#x27;, &#x27;drop&#x27;], [&#x27;left&#x27;, &#x27;drop&#x27;], [&#x27;drop&#x27;], [&#x27;right&#x27;, &#x27;drop&#x27;]]
+
+def auto_play():
+    heights = [0] * 6
+    score, lines = 0, 0
+    print(&quot;Puzzle tribute: auto session&quot;)
+    for pi, piece in enumerate(PARAMS[&quot;pieces&quot;]):
+        cmds = AUTO[pi] if pi &lt; len(AUTO) else [&quot;drop&quot;]
+        col, vertical = 2, False
+        for cmd in cmds:
+            if cmd == &quot;left&quot;:
+                col = max(0, col - 1)
+            elif cmd == &quot;right&quot;:
+                col = min(5, col + 1)
+            elif cmd == &quot;rotate&quot;:
+                vertical = not vertical
+            elif cmd == &quot;drop&quot;:
+                break
+        if vertical:
+            heights[col] += 2
+        else:
+            if col &gt;= 5:
+                col = 4
+            heights[col] += 1
+            heights[col + 1] += 1
+        cleared = 0
+        while min(heights) &gt; 0:
+            heights = [h - 1 for h in heights]
+            cleared += 1
+        lines += cleared
+        score += cleared * 100 + 10
+        print(&quot;Piece %d: %s col %d %s heights %s score %d&quot; % (pi + 1, piece, col, &quot;vertical&quot; if vertical else &quot;flat&quot;, heights, score))
+    print(&quot;FINAL SCORE: %d&quot; % score)
+    print(&quot;RESULT: LINES %d&quot; % lines)
+
+def play():
+    heights = [0] * 6
+    score, lines = 0, 0
+    print(&quot;Puzzle tribute: type left/right/rotate/drop per piece, or quit. Fill rows to clear them.&quot;)
+    pi = 0
+    col, vertical = 2, False
+    for line in sys.stdin:
+        cmd = line.strip().lower()
+        if cmd == &quot;quit&quot;:
+            break
+        if pi &gt;= len(PARAMS[&quot;pieces&quot;]):
+            break
+        if cmd == &quot;left&quot;:
+            col = max(0, col - 1)
+        elif cmd == &quot;right&quot;:
+            col = min(5, col + 1)
+        elif cmd == &quot;rotate&quot;:
+            vertical = not vertical
+        elif cmd == &quot;drop&quot;:
+            piece = PARAMS[&quot;pieces&quot;][pi]
+            if vertical:
+                heights[col] += 2
+            else:
+                if col &gt;= 5:
+                    col = 4
+                heights[col] += 1
+                heights[col + 1] += 1
+            cleared = 0
+            while min(heights) &gt; 0:
+                heights = [h - 1 for h in heights]
+                cleared += 1
+            lines += cleared
+            score += cleared * 100 + 10
+            print(&quot;Piece %d: %s heights %s score %d&quot; % (pi + 1, piece, heights, score))
+            pi += 1
+            col, vertical = 2, False
+        else:
+            print(&quot;Unknown command: %s&quot; % cmd)
+    print(&quot;FINAL SCORE: %d&quot; % score)
+    print(&quot;RESULT: LINES %d&quot; % lines)
+
+if __name__ == &quot;__main__&quot;:
+    if &quot;--play&quot; in sys.argv:
+        play()
+    else:
+        auto_play()
+</pre></article><article class="record"><h3>Puyo Puyo <small>Rank 3 &middot; simple &middot; puzzle &middot; beginner</small></h3><p>Puyo Puyo reached arcades in 1991 as a blob-matching game where colored blobs fall in pairs, and grouping four or more of a color clears them and can set off chains. Its cabinets attracted players who chased high scores, learned patterns by repetition, and returned to beat their own best runs.</p><p>This tribute demo reduces the puzzle to a short text session: a set of pieces arrives one at a time, and you slide, rotate, and drop each one to keep the board low. It is an original miniature inspired by the mechanics of Puyo Puyo, not a copy of that game.</p><p>Clearing a little at a time keeps the game alive longer than waiting for one perfect piece that may never come.</p><p><b>Playable tribute note:</b> The demo below is an original tribute inspired by the mechanics of Puyo Puyo (1991). It is not Puyo Puyo (1991), and it uses no art, music, or code from that game.</p><h4>How to play</h4><p>Type left, right, rotate or drop for each piece, or quit to stop.</p><h4>Working demo program</h4><p>Save the code below as game.py and run <code>python3 game.py --play</code> to play it. Running it without arguments replays the scripted session whose output is stored with the record.</p><pre class="codeblock">import sys
+PARAMS = {&#x27;pieces&#x27;: [&#x27;red blob&#x27;, &#x27;blue blob&#x27;, &#x27;green blob&#x27;, &#x27;yellow blob&#x27;, &#x27;red blob&#x27;, &#x27;blue blob&#x27;, &#x27;green blob&#x27;, &#x27;red blob&#x27;]}
+AUTO = [[&#x27;rotate&#x27;, &#x27;drop&#x27;], [&#x27;right&#x27;, &#x27;drop&#x27;], [&#x27;right&#x27;, &#x27;right&#x27;, &#x27;drop&#x27;], [&#x27;right&#x27;, &#x27;right&#x27;, &#x27;right&#x27;, &#x27;drop&#x27;], [&#x27;left&#x27;, &#x27;left&#x27;, &#x27;rotate&#x27;, &#x27;drop&#x27;], [&#x27;left&#x27;, &#x27;drop&#x27;], [&#x27;drop&#x27;], [&#x27;right&#x27;, &#x27;drop&#x27;]]
+
+def auto_play():
+    heights = [0] * 6
+    score, lines = 0, 0
+    print(&quot;Puzzle tribute: auto session&quot;)
+    for pi, piece in enumerate(PARAMS[&quot;pieces&quot;]):
+        cmds = AUTO[pi] if pi &lt; len(AUTO) else [&quot;drop&quot;]
+        col, vertical = 2, False
+        for cmd in cmds:
+            if cmd == &quot;left&quot;:
+                col = max(0, col - 1)
+            elif cmd == &quot;right&quot;:
+                col = min(5, col + 1)
+            elif cmd == &quot;rotate&quot;:
+                vertical = not vertical
+            elif cmd == &quot;drop&quot;:
+                break
+        if vertical:
+            heights[col] += 2
+        else:
+            if col &gt;= 5:
+                col = 4
+            heights[col] += 1
+            heights[col + 1] += 1
+        cleared = 0
+        while min(heights) &gt; 0:
+            heights = [h - 1 for h in heights]
+            cleared += 1
+        lines += cleared
+        score += cleared * 100 + 10
+        print(&quot;Piece %d: %s col %d %s heights %s score %d&quot; % (pi + 1, piece, col, &quot;vertical&quot; if vertical else &quot;flat&quot;, heights, score))
+    print(&quot;FINAL SCORE: %d&quot; % score)
+    print(&quot;RESULT: LINES %d&quot; % lines)
+
+def play():
+    heights = [0] * 6
+    score, lines = 0, 0
+    print(&quot;Puzzle tribute: type left/right/rotate/drop per piece, or quit. Fill rows to clear them.&quot;)
+    pi = 0
+    col, vertical = 2, False
+    for line in sys.stdin:
+        cmd = line.strip().lower()
+        if cmd == &quot;quit&quot;:
+            break
+        if pi &gt;= len(PARAMS[&quot;pieces&quot;]):
+            break
+        if cmd == &quot;left&quot;:
+            col = max(0, col - 1)
+        elif cmd == &quot;right&quot;:
+            col = min(5, col + 1)
+        elif cmd == &quot;rotate&quot;:
+            vertical = not vertical
+        elif cmd == &quot;drop&quot;:
+            piece = PARAMS[&quot;pieces&quot;][pi]
+            if vertical:
+                heights[col] += 2
+            else:
+                if col &gt;= 5:
+                    col = 4
+                heights[col] += 1
+                heights[col + 1] += 1
+            cleared = 0
+            while min(heights) &gt; 0:
+                heights = [h - 1 for h in heights]
+                cleared += 1
+            lines += cleared
+            score += cleared * 100 + 10
+            print(&quot;Piece %d: %s heights %s score %d&quot; % (pi + 1, piece, heights, score))
+            pi += 1
+            col, vertical = 2, False
+        else:
+            print(&quot;Unknown command: %s&quot; % cmd)
+    print(&quot;FINAL SCORE: %d&quot; % score)
+    print(&quot;RESULT: LINES %d&quot; % lines)
+
+if __name__ == &quot;__main__&quot;:
+    if &quot;--play&quot; in sys.argv:
+        play()
+    else:
+        auto_play()
+</pre></article><article class="record"><h3>Puzzle Bobble <small>Rank 4 &middot; simple &middot; puzzle &middot; beginner</small></h3><p>Puzzle Bobble reached arcades in 1994 as a bubble-shooter where players aim a cannon at a ceiling of colored bubbles, matching three or more to pop them before they reach the bottom. Its cabinets attracted players who chased high scores, learned patterns by repetition, and returned to beat their own best runs.</p><p>This tribute demo reduces the puzzle to a short text session: a set of pieces arrives one at a time, and you slide, rotate, and drop each one to keep the board low. It is an original miniature inspired by the mechanics of Puzzle Bobble, not a copy of that game.</p><p>Watch the next pieces as a group, not one at a time: a plan for three pieces beats a clever move for one.</p><p><b>Playable tribute note:</b> The demo below is an original tribute inspired by the mechanics of Puzzle Bobble (1994). It is not Puzzle Bobble (1994), and it uses no art, music, or code from that game.</p><h4>How to play</h4><p>Type left, right, rotate or drop for each piece, or quit to stop.</p><h4>Working demo program</h4><p>Save the code below as game.py and run <code>python3 game.py --play</code> to play it. Running it without arguments replays the scripted session whose output is stored with the record.</p><pre class="codeblock">import sys
+PARAMS = {&#x27;pieces&#x27;: [&#x27;red bubble&#x27;, &#x27;blue bubble&#x27;, &#x27;green bubble&#x27;, &#x27;yellow bubble&#x27;, &#x27;red bubble&#x27;, &#x27;blue bubble&#x27;, &#x27;green bubble&#x27;]}
+AUTO = [[&#x27;right&#x27;, &#x27;drop&#x27;], [&#x27;right&#x27;, &#x27;right&#x27;, &#x27;drop&#x27;], [&#x27;right&#x27;, &#x27;right&#x27;, &#x27;right&#x27;, &#x27;drop&#x27;], [&#x27;left&#x27;, &#x27;left&#x27;, &#x27;rotate&#x27;, &#x27;drop&#x27;], [&#x27;left&#x27;, &#x27;drop&#x27;], [&#x27;drop&#x27;], [&#x27;right&#x27;, &#x27;drop&#x27;]]
+
+def auto_play():
+    heights = [0] * 6
+    score, lines = 0, 0
+    print(&quot;Puzzle tribute: auto session&quot;)
+    for pi, piece in enumerate(PARAMS[&quot;pieces&quot;]):
+        cmds = AUTO[pi] if pi &lt; len(AUTO) else [&quot;drop&quot;]
+        col, vertical = 2, False
+        for cmd in cmds:
+            if cmd == &quot;left&quot;:
+                col = max(0, col - 1)
+            elif cmd == &quot;right&quot;:
+                col = min(5, col + 1)
+            elif cmd == &quot;rotate&quot;:
+                vertical = not vertical
+            elif cmd == &quot;drop&quot;:
+                break
+        if vertical:
+            heights[col] += 2
+        else:
+            if col &gt;= 5:
+                col = 4
+            heights[col] += 1
+            heights[col + 1] += 1
+        cleared = 0
+        while min(heights) &gt; 0:
+            heights = [h - 1 for h in heights]
+            cleared += 1
+        lines += cleared
+        score += cleared * 100 + 10
+        print(&quot;Piece %d: %s col %d %s heights %s score %d&quot; % (pi + 1, piece, col, &quot;vertical&quot; if vertical else &quot;flat&quot;, heights, score))
+    print(&quot;FINAL SCORE: %d&quot; % score)
+    print(&quot;RESULT: LINES %d&quot; % lines)
+
+def play():
+    heights = [0] * 6
+    score, lines = 0, 0
+    print(&quot;Puzzle tribute: type left/right/rotate/drop per piece, or quit. Fill rows to clear them.&quot;)
+    pi = 0
+    col, vertical = 2, False
+    for line in sys.stdin:
+        cmd = line.strip().lower()
+        if cmd == &quot;quit&quot;:
+            break
+        if pi &gt;= len(PARAMS[&quot;pieces&quot;]):
+            break
+        if cmd == &quot;left&quot;:
+            col = max(0, col - 1)
+        elif cmd == &quot;right&quot;:
+            col = min(5, col + 1)
+        elif cmd == &quot;rotate&quot;:
+            vertical = not vertical
+        elif cmd == &quot;drop&quot;:
+            piece = PARAMS[&quot;pieces&quot;][pi]
+            if vertical:
+                heights[col] += 2
+            else:
+                if col &gt;= 5:
+                    col = 4
+                heights[col] += 1
+                heights[col + 1] += 1
+            cleared = 0
+            while min(heights) &gt; 0:
+                heights = [h - 1 for h in heights]
+                cleared += 1
+            lines += cleared
+            score += cleared * 100 + 10
+            print(&quot;Piece %d: %s heights %s score %d&quot; % (pi + 1, piece, heights, score))
+            pi += 1
+            col, vertical = 2, False
+        else:
+            print(&quot;Unknown command: %s&quot; % cmd)
+    print(&quot;FINAL SCORE: %d&quot; % score)
+    print(&quot;RESULT: LINES %d&quot; % lines)
+
+if __name__ == &quot;__main__&quot;:
+    if &quot;--play&quot; in sys.argv:
+        play()
+    else:
+        auto_play()
+</pre></article><article class="record"><h3>Klax <small>Rank 5 &middot; simple &middot; puzzle &middot; beginner</small></h3><p>Klax reached arcades in 1989 as a tile-catching game where tiles roll down a conveyor and players catch them on a paddle, stacking them into rows of matching colors. Its cabinets attracted players who chased high scores, learned patterns by repetition, and returned to beat their own best runs.</p><p>This tribute demo reduces the puzzle to a short text session: a set of pieces arrives one at a time, and you slide, rotate, and drop each one to keep the board low. It is an original miniature inspired by the mechanics of Klax, not a copy of that game.</p><p>The best habit is to keep the board low and even: a tall stack in one column leaves no room to fix mistakes.</p><p><b>Playable tribute note:</b> The demo below is an original tribute inspired by the mechanics of Klax (1989). It is not Klax (1989), and it uses no art, music, or code from that game.</p><h4>How to play</h4><p>Type left, right, rotate or drop for each piece, or quit to stop.</p><h4>Working demo program</h4><p>Save the code below as game.py and run <code>python3 game.py --play</code> to play it. Running it without arguments replays the scripted session whose output is stored with the record.</p><pre class="codeblock">import sys
+PARAMS = {&#x27;pieces&#x27;: [&#x27;red tile&#x27;, &#x27;blue tile&#x27;, &#x27;green tile&#x27;, &#x27;yellow tile&#x27;, &#x27;red tile&#x27;, &#x27;blue tile&#x27;, &#x27;green tile&#x27;, &#x27;red tile&#x27;]}
+AUTO = [[&#x27;left&#x27;, &#x27;drop&#x27;], [&#x27;right&#x27;, &#x27;drop&#x27;], [&#x27;rotate&#x27;, &#x27;drop&#x27;], [&#x27;left&#x27;, &#x27;drop&#x27;], [&#x27;right&#x27;, &#x27;drop&#x27;], [&#x27;drop&#x27;], [&#x27;left&#x27;, &#x27;rotate&#x27;, &#x27;drop&#x27;], [&#x27;right&#x27;, &#x27;drop&#x27;]]
+
+def auto_play():
+    heights = [0] * 6
+    score, lines = 0, 0
+    print(&quot;Puzzle tribute: auto session&quot;)
+    for pi, piece in enumerate(PARAMS[&quot;pieces&quot;]):
+        cmds = AUTO[pi] if pi &lt; len(AUTO) else [&quot;drop&quot;]
+        col, vertical = 2, False
+        for cmd in cmds:
+            if cmd == &quot;left&quot;:
+                col = max(0, col - 1)
+            elif cmd == &quot;right&quot;:
+                col = min(5, col + 1)
+            elif cmd == &quot;rotate&quot;:
+                vertical = not vertical
+            elif cmd == &quot;drop&quot;:
+                break
+        if vertical:
+            heights[col] += 2
+        else:
+            if col &gt;= 5:
+                col = 4
+            heights[col] += 1
+            heights[col + 1] += 1
+        cleared = 0
+        while min(heights) &gt; 0:
+            heights = [h - 1 for h in heights]
+            cleared += 1
+        lines += cleared
+        score += cleared * 100 + 10
+        print(&quot;Piece %d: %s col %d %s heights %s score %d&quot; % (pi + 1, piece, col, &quot;vertical&quot; if vertical else &quot;flat&quot;, heights, score))
+    print(&quot;FINAL SCORE: %d&quot; % score)
+    print(&quot;RESULT: LINES %d&quot; % lines)
+
+def play():
+    heights = [0] * 6
+    score, lines = 0, 0
+    print(&quot;Puzzle tribute: type left/right/rotate/drop per piece, or quit. Fill rows to clear them.&quot;)
+    pi = 0
+    col, vertical = 2, False
+    for line in sys.stdin:
+        cmd = line.strip().lower()
+        if cmd == &quot;quit&quot;:
+            break
+        if pi &gt;= len(PARAMS[&quot;pieces&quot;]):
+            break
+        if cmd == &quot;left&quot;:
+            col = max(0, col - 1)
+        elif cmd == &quot;right&quot;:
+            col = min(5, col + 1)
+        elif cmd == &quot;rotate&quot;:
+            vertical = not vertical
+        elif cmd == &quot;drop&quot;:
+            piece = PARAMS[&quot;pieces&quot;][pi]
+            if vertical:
+                heights[col] += 2
+            else:
+                if col &gt;= 5:
+                    col = 4
+                heights[col] += 1
+                heights[col + 1] += 1
+            cleared = 0
+            while min(heights) &gt; 0:
+                heights = [h - 1 for h in heights]
+                cleared += 1
+            lines += cleared
+            score += cleared * 100 + 10
+            print(&quot;Piece %d: %s heights %s score %d&quot; % (pi + 1, piece, heights, score))
+            pi += 1
+            col, vertical = 2, False
+        else:
+            print(&quot;Unknown command: %s&quot; % cmd)
+    print(&quot;FINAL SCORE: %d&quot; % score)
+    print(&quot;RESULT: LINES %d&quot; % lines)
+
+if __name__ == &quot;__main__&quot;:
+    if &quot;--play&quot; in sys.argv:
+        play()
+    else:
+        auto_play()
+</pre></article><article class="record"><h3>Mr. Driller <small>Rank 6 &middot; compounded &middot; puzzle &middot; intermediate</small></h3><p>Mr. Driller reached arcades in 1999 as a digging game where a hero drills downward through colored blocks, managing a limited air supply and collecting air capsules on the way down. Its cabinets attracted players who chased high scores, learned patterns by repetition, and returned to beat their own best runs.</p><p>This tribute demo reduces the puzzle to a short text session: a set of pieces arrives one at a time, and you slide, rotate, and drop each one to keep the board low. It is an original miniature inspired by the mechanics of Mr. Driller, not a copy of that game.</p><p>Rotating a piece before sliding it usually beats sliding first, since the rotated shape often fits a gap the flat shape cannot.</p><p><b>Playable tribute note:</b> The demo below is an original tribute inspired by the mechanics of Mr. Driller (1999). It is not Mr. Driller (1999), and it uses no art, music, or code from that game.</p><h4>How to play</h4><p>Type left, right, rotate or drop for each piece, or quit to stop.</p><h4>Working demo program</h4><p>Save the code below as game.py and run <code>python3 game.py --play</code> to play it. Running it without arguments replays the scripted session whose output is stored with the record.</p><pre class="codeblock">import sys
+PARAMS = {&#x27;pieces&#x27;: [&#x27;red block&#x27;, &#x27;blue block&#x27;, &#x27;green block&#x27;, &#x27;yellow block&#x27;, &#x27;red block&#x27;, &#x27;blue block&#x27;, &#x27;green block&#x27;]}
+AUTO = [[&#x27;right&#x27;, &#x27;right&#x27;, &#x27;right&#x27;, &#x27;drop&#x27;], [&#x27;left&#x27;, &#x27;left&#x27;, &#x27;rotate&#x27;, &#x27;drop&#x27;], [&#x27;left&#x27;, &#x27;drop&#x27;], [&#x27;drop&#x27;], [&#x27;right&#x27;, &#x27;drop&#x27;], [&#x27;right&#x27;, &#x27;right&#x27;, &#x27;rotate&#x27;, &#x27;drop&#x27;], [&#x27;right&#x27;, &#x27;right&#x27;, &#x27;right&#x27;, &#x27;drop&#x27;]]
+
+def auto_play():
+    heights = [0] * 6
+    score, lines = 0, 0
+    print(&quot;Puzzle tribute: auto session&quot;)
+    for pi, piece in enumerate(PARAMS[&quot;pieces&quot;]):
+        cmds = AUTO[pi] if pi &lt; len(AUTO) else [&quot;drop&quot;]
+        col, vertical = 2, False
+        for cmd in cmds:
+            if cmd == &quot;left&quot;:
+                col = max(0, col - 1)
+            elif cmd == &quot;right&quot;:
+                col = min(5, col + 1)
+            elif cmd == &quot;rotate&quot;:
+                vertical = not vertical
+            elif cmd == &quot;drop&quot;:
+                break
+        if vertical:
+            heights[col] += 2
+        else:
+            if col &gt;= 5:
+                col = 4
+            heights[col] += 1
+            heights[col + 1] += 1
+        cleared = 0
+        while min(heights) &gt; 0:
+            heights = [h - 1 for h in heights]
+            cleared += 1
+        lines += cleared
+        score += cleared * 100 + 10
+        print(&quot;Piece %d: %s col %d %s heights %s score %d&quot; % (pi + 1, piece, col, &quot;vertical&quot; if vertical else &quot;flat&quot;, heights, score))
+    print(&quot;FINAL SCORE: %d&quot; % score)
+    print(&quot;RESULT: LINES %d&quot; % lines)
+
+def play():
+    heights = [0] * 6
+    score, lines = 0, 0
+    print(&quot;Puzzle tribute: type left/right/rotate/drop per piece, or quit. Fill rows to clear them.&quot;)
+    pi = 0
+    col, vertical = 2, False
+    for line in sys.stdin:
+        cmd = line.strip().lower()
+        if cmd == &quot;quit&quot;:
+            break
+        if pi &gt;= len(PARAMS[&quot;pieces&quot;]):
+            break
+        if cmd == &quot;left&quot;:
+            col = max(0, col - 1)
+        elif cmd == &quot;right&quot;:
+            col = min(5, col + 1)
+        elif cmd == &quot;rotate&quot;:
+            vertical = not vertical
+        elif cmd == &quot;drop&quot;:
+            piece = PARAMS[&quot;pieces&quot;][pi]
+            if vertical:
+                heights[col] += 2
+            else:
+                if col &gt;= 5:
+                    col = 4
+                heights[col] += 1
+                heights[col + 1] += 1
+            cleared = 0
+            while min(heights) &gt; 0:
+                heights = [h - 1 for h in heights]
+                cleared += 1
+            lines += cleared
+            score += cleared * 100 + 10
+            print(&quot;Piece %d: %s heights %s score %d&quot; % (pi + 1, piece, heights, score))
+            pi += 1
+            col, vertical = 2, False
+        else:
+            print(&quot;Unknown command: %s&quot; % cmd)
+    print(&quot;FINAL SCORE: %d&quot; % score)
+    print(&quot;RESULT: LINES %d&quot; % lines)
+
+if __name__ == &quot;__main__&quot;:
+    if &quot;--play&quot; in sys.argv:
+        play()
+    else:
+        auto_play()
+</pre></article><article class="record"><h3>Magical Drop <small>Rank 7 &middot; compounded &middot; puzzle &middot; intermediate</small></h3><p>Magical Drop reached arcades in 1995 as a fast matching game where players grab colored drops from a stack and throw them back up, clearing groups of three or more. Its cabinets attracted players who chased high scores, learned patterns by repetition, and returned to beat their own best runs.</p><p>This tribute demo reduces the puzzle to a short text session: a set of pieces arrives one at a time, and you slide, rotate, and drop each one to keep the board low. It is an original miniature inspired by the mechanics of Magical Drop, not a copy of that game.</p><p>Clearing a little at a time keeps the game alive longer than waiting for one perfect piece that may never come.</p><p><b>Playable tribute note:</b> The demo below is an original tribute inspired by the mechanics of Magical Drop (1995). It is not Magical Drop (1995), and it uses no art, music, or code from that game.</p><h4>How to play</h4><p>Type left, right, rotate or drop for each piece, or quit to stop.</p><h4>Working demo program</h4><p>Save the code below as game.py and run <code>python3 game.py --play</code> to play it. Running it without arguments replays the scripted session whose output is stored with the record.</p><pre class="codeblock">import sys
+PARAMS = {&#x27;pieces&#x27;: [&#x27;red drop&#x27;, &#x27;blue drop&#x27;, &#x27;green drop&#x27;, &#x27;yellow drop&#x27;, &#x27;red drop&#x27;, &#x27;blue drop&#x27;, &#x27;green drop&#x27;, &#x27;red drop&#x27;]}
+AUTO = [[&#x27;left&#x27;, &#x27;left&#x27;, &#x27;rotate&#x27;, &#x27;drop&#x27;], [&#x27;left&#x27;, &#x27;drop&#x27;], [&#x27;drop&#x27;], [&#x27;right&#x27;, &#x27;drop&#x27;], [&#x27;right&#x27;, &#x27;right&#x27;, &#x27;rotate&#x27;, &#x27;drop&#x27;], [&#x27;right&#x27;, &#x27;right&#x27;, &#x27;right&#x27;, &#x27;drop&#x27;], [&#x27;left&#x27;, &#x27;left&#x27;, &#x27;drop&#x27;], [&#x27;left&#x27;, &#x27;drop&#x27;]]
+
+def auto_play():
+    heights = [0] * 6
+    score, lines = 0, 0
+    print(&quot;Puzzle tribute: auto session&quot;)
+    for pi, piece in enumerate(PARAMS[&quot;pieces&quot;]):
+        cmds = AUTO[pi] if pi &lt; len(AUTO) else [&quot;drop&quot;]
+        col, vertical = 2, False
+        for cmd in cmds:
+            if cmd == &quot;left&quot;:
+                col = max(0, col - 1)
+            elif cmd == &quot;right&quot;:
+                col = min(5, col + 1)
+            elif cmd == &quot;rotate&quot;:
+                vertical = not vertical
+            elif cmd == &quot;drop&quot;:
+                break
+        if vertical:
+            heights[col] += 2
+        else:
+            if col &gt;= 5:
+                col = 4
+            heights[col] += 1
+            heights[col + 1] += 1
+        cleared = 0
+        while min(heights) &gt; 0:
+            heights = [h - 1 for h in heights]
+            cleared += 1
+        lines += cleared
+        score += cleared * 100 + 10
+        print(&quot;Piece %d: %s col %d %s heights %s score %d&quot; % (pi + 1, piece, col, &quot;vertical&quot; if vertical else &quot;flat&quot;, heights, score))
+    print(&quot;FINAL SCORE: %d&quot; % score)
+    print(&quot;RESULT: LINES %d&quot; % lines)
+
+def play():
+    heights = [0] * 6
+    score, lines = 0, 0
+    print(&quot;Puzzle tribute: type left/right/rotate/drop per piece, or quit. Fill rows to clear them.&quot;)
+    pi = 0
+    col, vertical = 2, False
+    for line in sys.stdin:
+        cmd = line.strip().lower()
+        if cmd == &quot;quit&quot;:
+            break
+        if pi &gt;= len(PARAMS[&quot;pieces&quot;]):
+            break
+        if cmd == &quot;left&quot;:
+            col = max(0, col - 1)
+        elif cmd == &quot;right&quot;:
+            col = min(5, col + 1)
+        elif cmd == &quot;rotate&quot;:
+            vertical = not vertical
+        elif cmd == &quot;drop&quot;:
+            piece = PARAMS[&quot;pieces&quot;][pi]
+            if vertical:
+                heights[col] += 2
+            else:
+                if col &gt;= 5:
+                    col = 4
+                heights[col] += 1
+                heights[col + 1] += 1
+            cleared = 0
+            while min(heights) &gt; 0:
+                heights = [h - 1 for h in heights]
+                cleared += 1
+            lines += cleared
+            score += cleared * 100 + 10
+            print(&quot;Piece %d: %s heights %s score %d&quot; % (pi + 1, piece, heights, score))
+            pi += 1
+            col, vertical = 2, False
+        else:
+            print(&quot;Unknown command: %s&quot; % cmd)
+    print(&quot;FINAL SCORE: %d&quot; % score)
+    print(&quot;RESULT: LINES %d&quot; % lines)
+
+if __name__ == &quot;__main__&quot;:
+    if &quot;--play&quot; in sys.argv:
+        play()
+    else:
+        auto_play()
+</pre></article><article class="record"><h3>Money Puzzle Exchanger <small>Rank 8 &middot; compounded &middot; puzzle &middot; intermediate</small></h3><p>Money Puzzle Exchanger reached arcades in 1997 as a coin-matching game where coins of different denominations fall in pairs and combine upward into larger coins when they match. Its cabinets attracted players who chased high scores, learned patterns by repetition, and returned to beat their own best runs.</p><p>This tribute demo reduces the puzzle to a short text session: a set of pieces arrives one at a time, and you slide, rotate, and drop each one to keep the board low. It is an original miniature inspired by the mechanics of Money Puzzle Exchanger, not a copy of that game.</p><p>Watch the next pieces as a group, not one at a time: a plan for three pieces beats a clever move for one.</p><p><b>Playable tribute note:</b> The demo below is an original tribute inspired by the mechanics of Money Puzzle Exchanger (1997). It is not Money Puzzle Exchanger (1997), and it uses no art, music, or code from that game.</p><h4>How to play</h4><p>Type left, right, rotate or drop for each piece, or quit to stop.</p><h4>Working demo program</h4><p>Save the code below as game.py and run <code>python3 game.py --play</code> to play it. Running it without arguments replays the scripted session whose output is stored with the record.</p><pre class="codeblock">import sys
+PARAMS = {&#x27;pieces&#x27;: [&#x27;coin 1&#x27;, &#x27;coin 5&#x27;, &#x27;coin 10&#x27;, &#x27;coin 50&#x27;, &#x27;coin 1&#x27;, &#x27;coin 5&#x27;, &#x27;coin 10&#x27;, &#x27;coin 50&#x27;]}
+AUTO = [[&#x27;left&#x27;, &#x27;drop&#x27;], [&#x27;drop&#x27;], [&#x27;right&#x27;, &#x27;drop&#x27;], [&#x27;right&#x27;, &#x27;right&#x27;, &#x27;rotate&#x27;, &#x27;drop&#x27;], [&#x27;right&#x27;, &#x27;right&#x27;, &#x27;right&#x27;, &#x27;drop&#x27;], [&#x27;left&#x27;, &#x27;left&#x27;, &#x27;drop&#x27;], [&#x27;left&#x27;, &#x27;drop&#x27;], [&#x27;rotate&#x27;, &#x27;drop&#x27;]]
+
+def auto_play():
+    heights = [0] * 6
+    score, lines = 0, 0
+    print(&quot;Puzzle tribute: auto session&quot;)
+    for pi, piece in enumerate(PARAMS[&quot;pieces&quot;]):
+        cmds = AUTO[pi] if pi &lt; len(AUTO) else [&quot;drop&quot;]
+        col, vertical = 2, False
+        for cmd in cmds:
+            if cmd == &quot;left&quot;:
+                col = max(0, col - 1)
+            elif cmd == &quot;right&quot;:
+                col = min(5, col + 1)
+            elif cmd == &quot;rotate&quot;:
+                vertical = not vertical
+            elif cmd == &quot;drop&quot;:
+                break
+        if vertical:
+            heights[col] += 2
+        else:
+            if col &gt;= 5:
+                col = 4
+            heights[col] += 1
+            heights[col + 1] += 1
+        cleared = 0
+        while min(heights) &gt; 0:
+            heights = [h - 1 for h in heights]
+            cleared += 1
+        lines += cleared
+        score += cleared * 100 + 10
+        print(&quot;Piece %d: %s col %d %s heights %s score %d&quot; % (pi + 1, piece, col, &quot;vertical&quot; if vertical else &quot;flat&quot;, heights, score))
+    print(&quot;FINAL SCORE: %d&quot; % score)
+    print(&quot;RESULT: LINES %d&quot; % lines)
+
+def play():
+    heights = [0] * 6
+    score, lines = 0, 0
+    print(&quot;Puzzle tribute: type left/right/rotate/drop per piece, or quit. Fill rows to clear them.&quot;)
+    pi = 0
+    col, vertical = 2, False
+    for line in sys.stdin:
+        cmd = line.strip().lower()
+        if cmd == &quot;quit&quot;:
+            break
+        if pi &gt;= len(PARAMS[&quot;pieces&quot;]):
+            break
+        if cmd == &quot;left&quot;:
+            col = max(0, col - 1)
+        elif cmd == &quot;right&quot;:
+            col = min(5, col + 1)
+        elif cmd == &quot;rotate&quot;:
+            vertical = not vertical
+        elif cmd == &quot;drop&quot;:
+            piece = PARAMS[&quot;pieces&quot;][pi]
+            if vertical:
+                heights[col] += 2
+            else:
+                if col &gt;= 5:
+                    col = 4
+                heights[col] += 1
+                heights[col + 1] += 1
+            cleared = 0
+            while min(heights) &gt; 0:
+                heights = [h - 1 for h in heights]
+                cleared += 1
+            lines += cleared
+            score += cleared * 100 + 10
+            print(&quot;Piece %d: %s heights %s score %d&quot; % (pi + 1, piece, heights, score))
+            pi += 1
+            col, vertical = 2, False
+        else:
+            print(&quot;Unknown command: %s&quot; % cmd)
+    print(&quot;FINAL SCORE: %d&quot; % score)
+    print(&quot;RESULT: LINES %d&quot; % lines)
+
+if __name__ == &quot;__main__&quot;:
+    if &quot;--play&quot; in sys.argv:
+        play()
+    else:
+        auto_play()
+</pre></article><article class="record"><h3>Tetris: The Grand Master <small>Rank 9 &middot; compounded &middot; puzzle &middot; intermediate</small></h3><p>Tetris: The Grand Master reached arcades in 1998 as a demanding arcade take on falling blocks, with steep speed curves, grading ranks, and a focus on expert play. Its cabinets attracted players who chased high scores, learned patterns by repetition, and returned to beat their own best runs.</p><p>This tribute demo reduces the puzzle to a short text session: a set of pieces arrives one at a time, and you slide, rotate, and drop each one to keep the board low. It is an original miniature inspired by the mechanics of Tetris: The Grand Master, not a copy of that game.</p><p>The best habit is to keep the board low and even: a tall stack in one column leaves no room to fix mistakes.</p><p><b>Playable tribute note:</b> The demo below is an original tribute inspired by the mechanics of Tetris: The Grand Master (1998). It is not Tetris: The Grand Master (1998), and it uses no art, music, or code from that game.</p><h4>How to play</h4><p>Type left, right, rotate or drop for each piece, or quit to stop.</p><h4>Working demo program</h4><p>Save the code below as game.py and run <code>python3 game.py --play</code> to play it. Running it without arguments replays the scripted session whose output is stored with the record.</p><pre class="codeblock">import sys
+PARAMS = {&#x27;pieces&#x27;: [&#x27;square&#x27;, &#x27;line&#x27;, &#x27;tee&#x27;, &#x27;el&#x27;, &#x27;jay&#x27;, &#x27;ess&#x27;, &#x27;zee&#x27;, &#x27;square&#x27;, &#x27;line&#x27;, &#x27;tee&#x27;]}
+AUTO = [[&#x27;left&#x27;, &#x27;drop&#x27;], [&#x27;right&#x27;, &#x27;drop&#x27;], [&#x27;rotate&#x27;, &#x27;drop&#x27;], [&#x27;left&#x27;, &#x27;drop&#x27;], [&#x27;right&#x27;, &#x27;drop&#x27;], [&#x27;drop&#x27;], [&#x27;left&#x27;, &#x27;rotate&#x27;, &#x27;drop&#x27;], [&#x27;right&#x27;, &#x27;drop&#x27;], [&#x27;drop&#x27;], [&#x27;left&#x27;, &#x27;drop&#x27;]]
+
+def auto_play():
+    heights = [0] * 6
+    score, lines = 0, 0
+    print(&quot;Puzzle tribute: auto session&quot;)
+    for pi, piece in enumerate(PARAMS[&quot;pieces&quot;]):
+        cmds = AUTO[pi] if pi &lt; len(AUTO) else [&quot;drop&quot;]
+        col, vertical = 2, False
+        for cmd in cmds:
+            if cmd == &quot;left&quot;:
+                col = max(0, col - 1)
+            elif cmd == &quot;right&quot;:
+                col = min(5, col + 1)
+            elif cmd == &quot;rotate&quot;:
+                vertical = not vertical
+            elif cmd == &quot;drop&quot;:
+                break
+        if vertical:
+            heights[col] += 2
+        else:
+            if col &gt;= 5:
+                col = 4
+            heights[col] += 1
+            heights[col + 1] += 1
+        cleared = 0
+        while min(heights) &gt; 0:
+            heights = [h - 1 for h in heights]
+            cleared += 1
+        lines += cleared
+        score += cleared * 100 + 10
+        print(&quot;Piece %d: %s col %d %s heights %s score %d&quot; % (pi + 1, piece, col, &quot;vertical&quot; if vertical else &quot;flat&quot;, heights, score))
+    print(&quot;FINAL SCORE: %d&quot; % score)
+    print(&quot;RESULT: LINES %d&quot; % lines)
+
+def play():
+    heights = [0] * 6
+    score, lines = 0, 0
+    print(&quot;Puzzle tribute: type left/right/rotate/drop per piece, or quit. Fill rows to clear them.&quot;)
+    pi = 0
+    col, vertical = 2, False
+    for line in sys.stdin:
+        cmd = line.strip().lower()
+        if cmd == &quot;quit&quot;:
+            break
+        if pi &gt;= len(PARAMS[&quot;pieces&quot;]):
+            break
+        if cmd == &quot;left&quot;:
+            col = max(0, col - 1)
+        elif cmd == &quot;right&quot;:
+            col = min(5, col + 1)
+        elif cmd == &quot;rotate&quot;:
+            vertical = not vertical
+        elif cmd == &quot;drop&quot;:
+            piece = PARAMS[&quot;pieces&quot;][pi]
+            if vertical:
+                heights[col] += 2
+            else:
+                if col &gt;= 5:
+                    col = 4
+                heights[col] += 1
+                heights[col + 1] += 1
+            cleared = 0
+            while min(heights) &gt; 0:
+                heights = [h - 1 for h in heights]
+                cleared += 1
+            lines += cleared
+            score += cleared * 100 + 10
+            print(&quot;Piece %d: %s heights %s score %d&quot; % (pi + 1, piece, heights, score))
+            pi += 1
+            col, vertical = 2, False
+        else:
+            print(&quot;Unknown command: %s&quot; % cmd)
+    print(&quot;FINAL SCORE: %d&quot; % score)
+    print(&quot;RESULT: LINES %d&quot; % lines)
+
+if __name__ == &quot;__main__&quot;:
+    if &quot;--play&quot; in sys.argv:
+        play()
+    else:
+        auto_play()
+</pre></article><article class="record"><h3>Super Puzzle Fighter II Turbo <small>Rank 10 &middot; compounded &middot; puzzle &middot; intermediate</small></h3><p>Super Puzzle Fighter II Turbo reached arcades in 1996 as a versus puzzle game where dropping gems builds attacks, and clearing gems sends garbage blocks crashing onto the opponent&#x27;s board. Its cabinets attracted players who chased high scores, learned patterns by repetition, and returned to beat their own best runs.</p><p>This tribute demo reduces the puzzle to a short text session: a set of pieces arrives one at a time, and you slide, rotate, and drop each one to keep the board low. It is an original miniature inspired by the mechanics of Super Puzzle Fighter II Turbo, not a copy of that game.</p><p>Rotating a piece before sliding it usually beats sliding first, since the rotated shape often fits a gap the flat shape cannot.</p><p><b>Playable tribute note:</b> The demo below is an original tribute inspired by the mechanics of Super Puzzle Fighter II Turbo (1996). It is not Super Puzzle Fighter II Turbo (1996), and it uses no art, music, or code from that game.</p><h4>How to play</h4><p>Type left, right, rotate or drop for each piece, or quit to stop.</p><h4>Working demo program</h4><p>Save the code below as game.py and run <code>python3 game.py --play</code> to play it. Running it without arguments replays the scripted session whose output is stored with the record.</p><pre class="codeblock">import sys
+PARAMS = {&#x27;pieces&#x27;: [&#x27;red gem&#x27;, &#x27;blue gem&#x27;, &#x27;green gem&#x27;, &#x27;yellow gem&#x27;, &#x27;red gem&#x27;, &#x27;blue gem&#x27;, &#x27;green gem&#x27;, &#x27;red gem&#x27;]}
+AUTO = [[&#x27;right&#x27;, &#x27;drop&#x27;], [&#x27;right&#x27;, &#x27;right&#x27;, &#x27;rotate&#x27;, &#x27;drop&#x27;], [&#x27;right&#x27;, &#x27;right&#x27;, &#x27;right&#x27;, &#x27;drop&#x27;], [&#x27;left&#x27;, &#x27;left&#x27;, &#x27;drop&#x27;], [&#x27;left&#x27;, &#x27;drop&#x27;], [&#x27;rotate&#x27;, &#x27;drop&#x27;], [&#x27;right&#x27;, &#x27;drop&#x27;], [&#x27;right&#x27;, &#x27;right&#x27;, &#x27;drop&#x27;]]
+
+def auto_play():
+    heights = [0] * 6
+    score, lines = 0, 0
+    print(&quot;Puzzle tribute: auto session&quot;)
+    for pi, piece in enumerate(PARAMS[&quot;pieces&quot;]):
+        cmds = AUTO[pi] if pi &lt; len(AUTO) else [&quot;drop&quot;]
+        col, vertical = 2, False
+        for cmd in cmds:
+            if cmd == &quot;left&quot;:
+                col = max(0, col - 1)
+            elif cmd == &quot;right&quot;:
+                col = min(5, col + 1)
+            elif cmd == &quot;rotate&quot;:
+                vertical = not vertical
+            elif cmd == &quot;drop&quot;:
+                break
+        if vertical:
+            heights[col] += 2
+        else:
+            if col &gt;= 5:
+                col = 4
+            heights[col] += 1
+            heights[col + 1] += 1
+        cleared = 0
+        while min(heights) &gt; 0:
+            heights = [h - 1 for h in heights]
+            cleared += 1
+        lines += cleared
+        score += cleared * 100 + 10
+        print(&quot;Piece %d: %s col %d %s heights %s score %d&quot; % (pi + 1, piece, col, &quot;vertical&quot; if vertical else &quot;flat&quot;, heights, score))
+    print(&quot;FINAL SCORE: %d&quot; % score)
+    print(&quot;RESULT: LINES %d&quot; % lines)
+
+def play():
+    heights = [0] * 6
+    score, lines = 0, 0
+    print(&quot;Puzzle tribute: type left/right/rotate/drop per piece, or quit. Fill rows to clear them.&quot;)
+    pi = 0
+    col, vertical = 2, False
+    for line in sys.stdin:
+        cmd = line.strip().lower()
+        if cmd == &quot;quit&quot;:
+            break
+        if pi &gt;= len(PARAMS[&quot;pieces&quot;]):
+            break
+        if cmd == &quot;left&quot;:
+            col = max(0, col - 1)
+        elif cmd == &quot;right&quot;:
+            col = min(5, col + 1)
+        elif cmd == &quot;rotate&quot;:
+            vertical = not vertical
+        elif cmd == &quot;drop&quot;:
+            piece = PARAMS[&quot;pieces&quot;][pi]
+            if vertical:
+                heights[col] += 2
+            else:
+                if col &gt;= 5:
+                    col = 4
+                heights[col] += 1
+                heights[col + 1] += 1
+            cleared = 0
+            while min(heights) &gt; 0:
+                heights = [h - 1 for h in heights]
+                cleared += 1
+            lines += cleared
+            score += cleared * 100 + 10
+            print(&quot;Piece %d: %s heights %s score %d&quot; % (pi + 1, piece, heights, score))
+            pi += 1
+            col, vertical = 2, False
+        else:
+            print(&quot;Unknown command: %s&quot; % cmd)
+    print(&quot;FINAL SCORE: %d&quot; % score)
+    print(&quot;RESULT: LINES %d&quot; % lines)
+
+if __name__ == &quot;__main__&quot;:
+    if &quot;--play&quot; in sys.argv:
+        play()
+    else:
+        auto_play()
+</pre></article><article class="record"><h3>Qix <small>Rank 11 &middot; compounded &middot; puzzle &middot; intermediate</small></h3><p>Qix reached arcades in 1981 as a territory game where players draw lines to claim sections of the screen while avoiding a bouncing spark and the wandering Qix itself. Its cabinets attracted players who chased high scores, learned patterns by repetition, and returned to beat their own best runs.</p><p>This tribute demo reduces the puzzle to a short text session: a set of pieces arrives one at a time, and you slide, rotate, and drop each one to keep the board low. It is an original miniature inspired by the mechanics of Qix, not a copy of that game.</p><p>Clearing a little at a time keeps the game alive longer than waiting for one perfect piece that may never come.</p><p><b>Playable tribute note:</b> The demo below is an original tribute inspired by the mechanics of Qix (1981). It is not Qix (1981), and it uses no art, music, or code from that game.</p><h4>How to play</h4><p>Type left, right, rotate or drop for each piece, or quit to stop.</p><h4>Working demo program</h4><p>Save the code below as game.py and run <code>python3 game.py --play</code> to play it. Running it without arguments replays the scripted session whose output is stored with the record.</p><pre class="codeblock">import sys
+PARAMS = {&#x27;pieces&#x27;: [&#x27;line piece&#x27;, &#x27;corner piece&#x27;, &#x27;line piece&#x27;, &#x27;corner piece&#x27;, &#x27;line piece&#x27;, &#x27;corner piece&#x27;, &#x27;line piece&#x27;]}
+AUTO = [[&#x27;right&#x27;, &#x27;right&#x27;, &#x27;rotate&#x27;, &#x27;drop&#x27;], [&#x27;right&#x27;, &#x27;right&#x27;, &#x27;right&#x27;, &#x27;drop&#x27;], [&#x27;left&#x27;, &#x27;left&#x27;, &#x27;drop&#x27;], [&#x27;left&#x27;, &#x27;drop&#x27;], [&#x27;rotate&#x27;, &#x27;drop&#x27;], [&#x27;right&#x27;, &#x27;drop&#x27;], [&#x27;right&#x27;, &#x27;right&#x27;, &#x27;drop&#x27;]]
+
+def auto_play():
+    heights = [0] * 6
+    score, lines = 0, 0
+    print(&quot;Puzzle tribute: auto session&quot;)
+    for pi, piece in enumerate(PARAMS[&quot;pieces&quot;]):
+        cmds = AUTO[pi] if pi &lt; len(AUTO) else [&quot;drop&quot;]
+        col, vertical = 2, False
+        for cmd in cmds:
+            if cmd == &quot;left&quot;:
+                col = max(0, col - 1)
+            elif cmd == &quot;right&quot;:
+                col = min(5, col + 1)
+            elif cmd == &quot;rotate&quot;:
+                vertical = not vertical
+            elif cmd == &quot;drop&quot;:
+                break
+        if vertical:
+            heights[col] += 2
+        else:
+            if col &gt;= 5:
+                col = 4
+            heights[col] += 1
+            heights[col + 1] += 1
+        cleared = 0
+        while min(heights) &gt; 0:
+            heights = [h - 1 for h in heights]
+            cleared += 1
+        lines += cleared
+        score += cleared * 100 + 10
+        print(&quot;Piece %d: %s col %d %s heights %s score %d&quot; % (pi + 1, piece, col, &quot;vertical&quot; if vertical else &quot;flat&quot;, heights, score))
+    print(&quot;FINAL SCORE: %d&quot; % score)
+    print(&quot;RESULT: LINES %d&quot; % lines)
+
+def play():
+    heights = [0] * 6
+    score, lines = 0, 0
+    print(&quot;Puzzle tribute: type left/right/rotate/drop per piece, or quit. Fill rows to clear them.&quot;)
+    pi = 0
+    col, vertical = 2, False
+    for line in sys.stdin:
+        cmd = line.strip().lower()
+        if cmd == &quot;quit&quot;:
+            break
+        if pi &gt;= len(PARAMS[&quot;pieces&quot;]):
+            break
+        if cmd == &quot;left&quot;:
+            col = max(0, col - 1)
+        elif cmd == &quot;right&quot;:
+            col = min(5, col + 1)
+        elif cmd == &quot;rotate&quot;:
+            vertical = not vertical
+        elif cmd == &quot;drop&quot;:
+            piece = PARAMS[&quot;pieces&quot;][pi]
+            if vertical:
+                heights[col] += 2
+            else:
+                if col &gt;= 5:
+                    col = 4
+                heights[col] += 1
+                heights[col + 1] += 1
+            cleared = 0
+            while min(heights) &gt; 0:
+                heights = [h - 1 for h in heights]
+                cleared += 1
+            lines += cleared
+            score += cleared * 100 + 10
+            print(&quot;Piece %d: %s heights %s score %d&quot; % (pi + 1, piece, heights, score))
+            pi += 1
+            col, vertical = 2, False
+        else:
+            print(&quot;Unknown command: %s&quot; % cmd)
+    print(&quot;FINAL SCORE: %d&quot; % score)
+    print(&quot;RESULT: LINES %d&quot; % lines)
+
+if __name__ == &quot;__main__&quot;:
+    if &quot;--play&quot; in sys.argv:
+        play()
+    else:
+        auto_play()
+</pre></article><article class="record"><h3>Pnickies <small>Rank 12 &middot; complex &middot; puzzle &middot; advanced</small></h3><p>Pnickies reached arcades in 1994 as a falling-pair puzzle where players match colored pairs and set off chains against an opponent in versus play. Its cabinets attracted players who chased high scores, learned patterns by repetition, and returned to beat their own best runs.</p><p>This tribute demo reduces the puzzle to a short text session: a set of pieces arrives one at a time, and you slide, rotate, and drop each one to keep the board low. It is an original miniature inspired by the mechanics of Pnickies, not a copy of that game.</p><p>Watch the next pieces as a group, not one at a time: a plan for three pieces beats a clever move for one.</p><p><b>Playable tribute note:</b> The demo below is an original tribute inspired by the mechanics of Pnickies (1994). It is not Pnickies (1994), and it uses no art, music, or code from that game.</p><h4>How to play</h4><p>Type left, right, rotate or drop for each piece, or quit to stop.</p><h4>Working demo program</h4><p>Save the code below as game.py and run <code>python3 game.py --play</code> to play it. Running it without arguments replays the scripted session whose output is stored with the record.</p><pre class="codeblock">import sys
+PARAMS = {&#x27;pieces&#x27;: [&#x27;red pair&#x27;, &#x27;blue pair&#x27;, &#x27;green pair&#x27;, &#x27;yellow pair&#x27;, &#x27;red pair&#x27;, &#x27;blue pair&#x27;, &#x27;green pair&#x27;]}
+AUTO = [[&#x27;right&#x27;, &#x27;right&#x27;, &#x27;right&#x27;, &#x27;drop&#x27;], [&#x27;left&#x27;, &#x27;left&#x27;, &#x27;drop&#x27;], [&#x27;left&#x27;, &#x27;drop&#x27;], [&#x27;rotate&#x27;, &#x27;drop&#x27;], [&#x27;right&#x27;, &#x27;drop&#x27;], [&#x27;right&#x27;, &#x27;right&#x27;, &#x27;drop&#x27;], [&#x27;right&#x27;, &#x27;right&#x27;, &#x27;right&#x27;, &#x27;drop&#x27;]]
+
+def auto_play():
+    heights = [0] * 6
+    score, lines = 0, 0
+    print(&quot;Puzzle tribute: auto session&quot;)
+    for pi, piece in enumerate(PARAMS[&quot;pieces&quot;]):
+        cmds = AUTO[pi] if pi &lt; len(AUTO) else [&quot;drop&quot;]
+        col, vertical = 2, False
+        for cmd in cmds:
+            if cmd == &quot;left&quot;:
+                col = max(0, col - 1)
+            elif cmd == &quot;right&quot;:
+                col = min(5, col + 1)
+            elif cmd == &quot;rotate&quot;:
+                vertical = not vertical
+            elif cmd == &quot;drop&quot;:
+                break
+        if vertical:
+            heights[col] += 2
+        else:
+            if col &gt;= 5:
+                col = 4
+            heights[col] += 1
+            heights[col + 1] += 1
+        cleared = 0
+        while min(heights) &gt; 0:
+            heights = [h - 1 for h in heights]
+            cleared += 1
+        lines += cleared
+        score += cleared * 100 + 10
+        print(&quot;Piece %d: %s col %d %s heights %s score %d&quot; % (pi + 1, piece, col, &quot;vertical&quot; if vertical else &quot;flat&quot;, heights, score))
+    print(&quot;FINAL SCORE: %d&quot; % score)
+    print(&quot;RESULT: LINES %d&quot; % lines)
+
+def play():
+    heights = [0] * 6
+    score, lines = 0, 0
+    print(&quot;Puzzle tribute: type left/right/rotate/drop per piece, or quit. Fill rows to clear them.&quot;)
+    pi = 0
+    col, vertical = 2, False
+    for line in sys.stdin:
+        cmd = line.strip().lower()
+        if cmd == &quot;quit&quot;:
+            break
+        if pi &gt;= len(PARAMS[&quot;pieces&quot;]):
+            break
+        if cmd == &quot;left&quot;:
+            col = max(0, col - 1)
+        elif cmd == &quot;right&quot;:
+            col = min(5, col + 1)
+        elif cmd == &quot;rotate&quot;:
+            vertical = not vertical
+        elif cmd == &quot;drop&quot;:
+            piece = PARAMS[&quot;pieces&quot;][pi]
+            if vertical:
+                heights[col] += 2
+            else:
+                if col &gt;= 5:
+                    col = 4
+                heights[col] += 1
+                heights[col + 1] += 1
+            cleared = 0
+            while min(heights) &gt; 0:
+                heights = [h - 1 for h in heights]
+                cleared += 1
+            lines += cleared
+            score += cleared * 100 + 10
+            print(&quot;Piece %d: %s heights %s score %d&quot; % (pi + 1, piece, heights, score))
+            pi += 1
+            col, vertical = 2, False
+        else:
+            print(&quot;Unknown command: %s&quot; % cmd)
+    print(&quot;FINAL SCORE: %d&quot; % score)
+    print(&quot;RESULT: LINES %d&quot; % lines)
+
+if __name__ == &quot;__main__&quot;:
+    if &quot;--play&quot; in sys.argv:
+        play()
+    else:
+        auto_play()
+</pre></article><article class="record"><h3>Solomon&#x27;s Key <small>Rank 13 &middot; complex &middot; puzzle &middot; advanced</small></h3><p>Solomon&#x27;s Key reached arcades in 1986 as a block-puzzle adventure where a wizard creates and destroys blocks to reach keys and doors across single-screen rooms. Its cabinets attracted players who chased high scores, learned patterns by repetition, and returned to beat their own best runs.</p><p>This tribute demo reduces the puzzle to a short text session: a set of pieces arrives one at a time, and you slide, rotate, and drop each one to keep the board low. It is an original miniature inspired by the mechanics of Solomon&#x27;s Key, not a copy of that game.</p><p>The best habit is to keep the board low and even: a tall stack in one column leaves no room to fix mistakes.</p><p><b>Playable tribute note:</b> The demo below is an original tribute inspired by the mechanics of Solomon&#x27;s Key (1986). It is not Solomon&#x27;s Key (1986), and it uses no art, music, or code from that game.</p><h4>How to play</h4><p>Type left, right, rotate or drop for each piece, or quit to stop.</p><h4>Working demo program</h4><p>Save the code below as game.py and run <code>python3 game.py --play</code> to play it. Running it without arguments replays the scripted session whose output is stored with the record.</p><pre class="codeblock">import sys
+PARAMS = {&#x27;pieces&#x27;: [&#x27;stone block&#x27;, &#x27;fire block&#x27;, &#x27;stone block&#x27;, &#x27;fire block&#x27;, &#x27;stone block&#x27;, &#x27;fire block&#x27;, &#x27;stone block&#x27;]}
+AUTO = [[&#x27;left&#x27;, &#x27;drop&#x27;], [&#x27;right&#x27;, &#x27;drop&#x27;], [&#x27;rotate&#x27;, &#x27;drop&#x27;], [&#x27;left&#x27;, &#x27;drop&#x27;], [&#x27;right&#x27;, &#x27;drop&#x27;], [&#x27;drop&#x27;], [&#x27;left&#x27;, &#x27;rotate&#x27;, &#x27;drop&#x27;]]
+
+def auto_play():
+    heights = [0] * 6
+    score, lines = 0, 0
+    print(&quot;Puzzle tribute: auto session&quot;)
+    for pi, piece in enumerate(PARAMS[&quot;pieces&quot;]):
+        cmds = AUTO[pi] if pi &lt; len(AUTO) else [&quot;drop&quot;]
+        col, vertical = 2, False
+        for cmd in cmds:
+            if cmd == &quot;left&quot;:
+                col = max(0, col - 1)
+            elif cmd == &quot;right&quot;:
+                col = min(5, col + 1)
+            elif cmd == &quot;rotate&quot;:
+                vertical = not vertical
+            elif cmd == &quot;drop&quot;:
+                break
+        if vertical:
+            heights[col] += 2
+        else:
+            if col &gt;= 5:
+                col = 4
+            heights[col] += 1
+            heights[col + 1] += 1
+        cleared = 0
+        while min(heights) &gt; 0:
+            heights = [h - 1 for h in heights]
+            cleared += 1
+        lines += cleared
+        score += cleared * 100 + 10
+        print(&quot;Piece %d: %s col %d %s heights %s score %d&quot; % (pi + 1, piece, col, &quot;vertical&quot; if vertical else &quot;flat&quot;, heights, score))
+    print(&quot;FINAL SCORE: %d&quot; % score)
+    print(&quot;RESULT: LINES %d&quot; % lines)
+
+def play():
+    heights = [0] * 6
+    score, lines = 0, 0
+    print(&quot;Puzzle tribute: type left/right/rotate/drop per piece, or quit. Fill rows to clear them.&quot;)
+    pi = 0
+    col, vertical = 2, False
+    for line in sys.stdin:
+        cmd = line.strip().lower()
+        if cmd == &quot;quit&quot;:
+            break
+        if pi &gt;= len(PARAMS[&quot;pieces&quot;]):
+            break
+        if cmd == &quot;left&quot;:
+            col = max(0, col - 1)
+        elif cmd == &quot;right&quot;:
+            col = min(5, col + 1)
+        elif cmd == &quot;rotate&quot;:
+            vertical = not vertical
+        elif cmd == &quot;drop&quot;:
+            piece = PARAMS[&quot;pieces&quot;][pi]
+            if vertical:
+                heights[col] += 2
+            else:
+                if col &gt;= 5:
+                    col = 4
+                heights[col] += 1
+                heights[col + 1] += 1
+            cleared = 0
+            while min(heights) &gt; 0:
+                heights = [h - 1 for h in heights]
+                cleared += 1
+            lines += cleared
+            score += cleared * 100 + 10
+            print(&quot;Piece %d: %s heights %s score %d&quot; % (pi + 1, piece, heights, score))
+            pi += 1
+            col, vertical = 2, False
+        else:
+            print(&quot;Unknown command: %s&quot; % cmd)
+    print(&quot;FINAL SCORE: %d&quot; % score)
+    print(&quot;RESULT: LINES %d&quot; % lines)
+
+if __name__ == &quot;__main__&quot;:
+    if &quot;--play&quot; in sys.argv:
+        play()
+    else:
+        auto_play()
+</pre></article><article class="record"><h3>Lode Runner <small>Rank 14 &middot; complex &middot; puzzle &middot; advanced</small></h3><p>Lode Runner reached arcades in 1984 as the arcade form of a digging adventure where a runner collects gold, digs pits to trap guards, and climbs ladders to the next level. Its cabinets attracted players who chased high scores, learned patterns by repetition, and returned to beat their own best runs.</p><p>This tribute demo reduces the puzzle to a short text session: a set of pieces arrives one at a time, and you slide, rotate, and drop each one to keep the board low. It is an original miniature inspired by the mechanics of Lode Runner, not a copy of that game.</p><p>Rotating a piece before sliding it usually beats sliding first, since the rotated shape often fits a gap the flat shape cannot.</p><p><b>Playable tribute note:</b> The demo below is an original tribute inspired by the mechanics of Lode Runner (1984). It is not Lode Runner (1984), and it uses no art, music, or code from that game.</p><h4>How to play</h4><p>Type left, right, rotate or drop for each piece, or quit to stop.</p><h4>Working demo program</h4><p>Save the code below as game.py and run <code>python3 game.py --play</code> to play it. Running it without arguments replays the scripted session whose output is stored with the record.</p><pre class="codeblock">import sys
+PARAMS = {&#x27;pieces&#x27;: [&#x27;gold nugget&#x27;, &#x27;ladder piece&#x27;, &#x27;gold nugget&#x27;, &#x27;ladder piece&#x27;, &#x27;gold nugget&#x27;, &#x27;ladder piece&#x27;, &#x27;gold nugget&#x27;]}
+AUTO = [[&#x27;left&#x27;, &#x27;drop&#x27;], [&#x27;rotate&#x27;, &#x27;drop&#x27;], [&#x27;right&#x27;, &#x27;drop&#x27;], [&#x27;right&#x27;, &#x27;right&#x27;, &#x27;drop&#x27;], [&#x27;right&#x27;, &#x27;right&#x27;, &#x27;right&#x27;, &#x27;drop&#x27;], [&#x27;left&#x27;, &#x27;left&#x27;, &#x27;rotate&#x27;, &#x27;drop&#x27;], [&#x27;left&#x27;, &#x27;drop&#x27;]]
+
+def auto_play():
+    heights = [0] * 6
+    score, lines = 0, 0
+    print(&quot;Puzzle tribute: auto session&quot;)
+    for pi, piece in enumerate(PARAMS[&quot;pieces&quot;]):
+        cmds = AUTO[pi] if pi &lt; len(AUTO) else [&quot;drop&quot;]
+        col, vertical = 2, False
+        for cmd in cmds:
+            if cmd == &quot;left&quot;:
+                col = max(0, col - 1)
+            elif cmd == &quot;right&quot;:
+                col = min(5, col + 1)
+            elif cmd == &quot;rotate&quot;:
+                vertical = not vertical
+            elif cmd == &quot;drop&quot;:
+                break
+        if vertical:
+            heights[col] += 2
+        else:
+            if col &gt;= 5:
+                col = 4
+            heights[col] += 1
+            heights[col + 1] += 1
+        cleared = 0
+        while min(heights) &gt; 0:
+            heights = [h - 1 for h in heights]
+            cleared += 1
+        lines += cleared
+        score += cleared * 100 + 10
+        print(&quot;Piece %d: %s col %d %s heights %s score %d&quot; % (pi + 1, piece, col, &quot;vertical&quot; if vertical else &quot;flat&quot;, heights, score))
+    print(&quot;FINAL SCORE: %d&quot; % score)
+    print(&quot;RESULT: LINES %d&quot; % lines)
+
+def play():
+    heights = [0] * 6
+    score, lines = 0, 0
+    print(&quot;Puzzle tribute: type left/right/rotate/drop per piece, or quit. Fill rows to clear them.&quot;)
+    pi = 0
+    col, vertical = 2, False
+    for line in sys.stdin:
+        cmd = line.strip().lower()
+        if cmd == &quot;quit&quot;:
+            break
+        if pi &gt;= len(PARAMS[&quot;pieces&quot;]):
+            break
+        if cmd == &quot;left&quot;:
+            col = max(0, col - 1)
+        elif cmd == &quot;right&quot;:
+            col = min(5, col + 1)
+        elif cmd == &quot;rotate&quot;:
+            vertical = not vertical
+        elif cmd == &quot;drop&quot;:
+            piece = PARAMS[&quot;pieces&quot;][pi]
+            if vertical:
+                heights[col] += 2
+            else:
+                if col &gt;= 5:
+                    col = 4
+                heights[col] += 1
+                heights[col + 1] += 1
+            cleared = 0
+            while min(heights) &gt; 0:
+                heights = [h - 1 for h in heights]
+                cleared += 1
+            lines += cleared
+            score += cleared * 100 + 10
+            print(&quot;Piece %d: %s heights %s score %d&quot; % (pi + 1, piece, heights, score))
+            pi += 1
+            col, vertical = 2, False
+        else:
+            print(&quot;Unknown command: %s&quot; % cmd)
+    print(&quot;FINAL SCORE: %d&quot; % score)
+    print(&quot;RESULT: LINES %d&quot; % lines)
+
+if __name__ == &quot;__main__&quot;:
+    if &quot;--play&quot; in sys.argv:
+        play()
+    else:
+        auto_play()
+</pre></article><article class="record"><h3>Plotting <small>Rank 15 &middot; complex &middot; puzzle &middot; advanced</small></h3><p>Plotting reached arcades in 1989 as a block-shooting puzzle where players fire blocks upward, swapping and matching them to clear the board. Its cabinets attracted players who chased high scores, learned patterns by repetition, and returned to beat their own best runs.</p><p>This tribute demo reduces the puzzle to a short text session: a set of pieces arrives one at a time, and you slide, rotate, and drop each one to keep the board low. It is an original miniature inspired by the mechanics of Plotting, not a copy of that game.</p><p>Clearing a little at a time keeps the game alive longer than waiting for one perfect piece that may never come.</p><p><b>Playable tribute note:</b> The demo below is an original tribute inspired by the mechanics of Plotting (1989). It is not Plotting (1989), and it uses no art, music, or code from that game.</p><h4>How to play</h4><p>Type left, right, rotate or drop for each piece, or quit to stop.</p><h4>Working demo program</h4><p>Save the code below as game.py and run <code>python3 game.py --play</code> to play it. Running it without arguments replays the scripted session whose output is stored with the record.</p><pre class="codeblock">import sys
+PARAMS = {&#x27;pieces&#x27;: [&#x27;red block&#x27;, &#x27;blue block&#x27;, &#x27;green block&#x27;, &#x27;red block&#x27;, &#x27;blue block&#x27;, &#x27;green block&#x27;, &#x27;red block&#x27;]}
+AUTO = [[&#x27;rotate&#x27;, &#x27;drop&#x27;], [&#x27;right&#x27;, &#x27;drop&#x27;], [&#x27;right&#x27;, &#x27;right&#x27;, &#x27;drop&#x27;], [&#x27;right&#x27;, &#x27;right&#x27;, &#x27;right&#x27;, &#x27;drop&#x27;], [&#x27;left&#x27;, &#x27;left&#x27;, &#x27;rotate&#x27;, &#x27;drop&#x27;], [&#x27;left&#x27;, &#x27;drop&#x27;], [&#x27;drop&#x27;]]
+
+def auto_play():
+    heights = [0] * 6
+    score, lines = 0, 0
+    print(&quot;Puzzle tribute: auto session&quot;)
+    for pi, piece in enumerate(PARAMS[&quot;pieces&quot;]):
+        cmds = AUTO[pi] if pi &lt; len(AUTO) else [&quot;drop&quot;]
+        col, vertical = 2, False
+        for cmd in cmds:
+            if cmd == &quot;left&quot;:
+                col = max(0, col - 1)
+            elif cmd == &quot;right&quot;:
+                col = min(5, col + 1)
+            elif cmd == &quot;rotate&quot;:
+                vertical = not vertical
+            elif cmd == &quot;drop&quot;:
+                break
+        if vertical:
+            heights[col] += 2
+        else:
+            if col &gt;= 5:
+                col = 4
+            heights[col] += 1
+            heights[col + 1] += 1
+        cleared = 0
+        while min(heights) &gt; 0:
+            heights = [h - 1 for h in heights]
+            cleared += 1
+        lines += cleared
+        score += cleared * 100 + 10
+        print(&quot;Piece %d: %s col %d %s heights %s score %d&quot; % (pi + 1, piece, col, &quot;vertical&quot; if vertical else &quot;flat&quot;, heights, score))
+    print(&quot;FINAL SCORE: %d&quot; % score)
+    print(&quot;RESULT: LINES %d&quot; % lines)
+
+def play():
+    heights = [0] * 6
+    score, lines = 0, 0
+    print(&quot;Puzzle tribute: type left/right/rotate/drop per piece, or quit. Fill rows to clear them.&quot;)
+    pi = 0
+    col, vertical = 2, False
+    for line in sys.stdin:
+        cmd = line.strip().lower()
+        if cmd == &quot;quit&quot;:
+            break
+        if pi &gt;= len(PARAMS[&quot;pieces&quot;]):
+            break
+        if cmd == &quot;left&quot;:
+            col = max(0, col - 1)
+        elif cmd == &quot;right&quot;:
+            col = min(5, col + 1)
+        elif cmd == &quot;rotate&quot;:
+            vertical = not vertical
+        elif cmd == &quot;drop&quot;:
+            piece = PARAMS[&quot;pieces&quot;][pi]
+            if vertical:
+                heights[col] += 2
+            else:
+                if col &gt;= 5:
+                    col = 4
+                heights[col] += 1
+                heights[col + 1] += 1
+            cleared = 0
+            while min(heights) &gt; 0:
+                heights = [h - 1 for h in heights]
+                cleared += 1
+            lines += cleared
+            score += cleared * 100 + 10
+            print(&quot;Piece %d: %s heights %s score %d&quot; % (pi + 1, piece, heights, score))
+            pi += 1
+            col, vertical = 2, False
+        else:
+            print(&quot;Unknown command: %s&quot; % cmd)
+    print(&quot;FINAL SCORE: %d&quot; % score)
+    print(&quot;RESULT: LINES %d&quot; % lines)
+
+if __name__ == &quot;__main__&quot;:
+    if &quot;--play&quot; in sys.argv:
+        play()
+    else:
+        auto_play()
+</pre></article><article class="record"><h3>Boulder Dash <small>Rank 16 &middot; complex &middot; puzzle &middot; advanced</small></h3><p>Boulder Dash reached arcades in 1984 as the arcade form of a digging adventure where a hero collects diamonds, dodges falling boulders, and escapes each cave before time runs out. Its cabinets attracted players who chased high scores, learned patterns by repetition, and returned to beat their own best runs.</p><p>This tribute demo reduces the puzzle to a short text session: a set of pieces arrives one at a time, and you slide, rotate, and drop each one to keep the board low. It is an original miniature inspired by the mechanics of Boulder Dash, not a copy of that game.</p><p>Watch the next pieces as a group, not one at a time: a plan for three pieces beats a clever move for one.</p><p><b>Playable tribute note:</b> The demo below is an original tribute inspired by the mechanics of Boulder Dash (1984). It is not Boulder Dash (1984), and it uses no art, music, or code from that game.</p><h4>How to play</h4><p>Type left, right, rotate or drop for each piece, or quit to stop.</p><h4>Working demo program</h4><p>Save the code below as game.py and run <code>python3 game.py --play</code> to play it. Running it without arguments replays the scripted session whose output is stored with the record.</p><pre class="codeblock">import sys
+PARAMS = {&#x27;pieces&#x27;: [&#x27;diamond&#x27;, &#x27;ruby&#x27;, &#x27;diamond&#x27;, &#x27;ruby&#x27;, &#x27;diamond&#x27;, &#x27;ruby&#x27;, &#x27;diamond&#x27;, &#x27;ruby&#x27;]}
+AUTO = [[&#x27;right&#x27;, &#x27;drop&#x27;], [&#x27;right&#x27;, &#x27;right&#x27;, &#x27;drop&#x27;], [&#x27;right&#x27;, &#x27;right&#x27;, &#x27;right&#x27;, &#x27;drop&#x27;], [&#x27;left&#x27;, &#x27;left&#x27;, &#x27;rotate&#x27;, &#x27;drop&#x27;], [&#x27;left&#x27;, &#x27;drop&#x27;], [&#x27;drop&#x27;], [&#x27;right&#x27;, &#x27;drop&#x27;], [&#x27;right&#x27;, &#x27;right&#x27;, &#x27;rotate&#x27;, &#x27;drop&#x27;]]
+
+def auto_play():
+    heights = [0] * 6
+    score, lines = 0, 0
+    print(&quot;Puzzle tribute: auto session&quot;)
+    for pi, piece in enumerate(PARAMS[&quot;pieces&quot;]):
+        cmds = AUTO[pi] if pi &lt; len(AUTO) else [&quot;drop&quot;]
+        col, vertical = 2, False
+        for cmd in cmds:
+            if cmd == &quot;left&quot;:
+                col = max(0, col - 1)
+            elif cmd == &quot;right&quot;:
+                col = min(5, col + 1)
+            elif cmd == &quot;rotate&quot;:
+                vertical = not vertical
+            elif cmd == &quot;drop&quot;:
+                break
+        if vertical:
+            heights[col] += 2
+        else:
+            if col &gt;= 5:
+                col = 4
+            heights[col] += 1
+            heights[col + 1] += 1
+        cleared = 0
+        while min(heights) &gt; 0:
+            heights = [h - 1 for h in heights]
+            cleared += 1
+        lines += cleared
+        score += cleared * 100 + 10
+        print(&quot;Piece %d: %s col %d %s heights %s score %d&quot; % (pi + 1, piece, col, &quot;vertical&quot; if vertical else &quot;flat&quot;, heights, score))
+    print(&quot;FINAL SCORE: %d&quot; % score)
+    print(&quot;RESULT: LINES %d&quot; % lines)
+
+def play():
+    heights = [0] * 6
+    score, lines = 0, 0
+    print(&quot;Puzzle tribute: type left/right/rotate/drop per piece, or quit. Fill rows to clear them.&quot;)
+    pi = 0
+    col, vertical = 2, False
+    for line in sys.stdin:
+        cmd = line.strip().lower()
+        if cmd == &quot;quit&quot;:
+            break
+        if pi &gt;= len(PARAMS[&quot;pieces&quot;]):
+            break
+        if cmd == &quot;left&quot;:
+            col = max(0, col - 1)
+        elif cmd == &quot;right&quot;:
+            col = min(5, col + 1)
+        elif cmd == &quot;rotate&quot;:
+            vertical = not vertical
+        elif cmd == &quot;drop&quot;:
+            piece = PARAMS[&quot;pieces&quot;][pi]
+            if vertical:
+                heights[col] += 2
+            else:
+                if col &gt;= 5:
+                    col = 4
+                heights[col] += 1
+                heights[col + 1] += 1
+            cleared = 0
+            while min(heights) &gt; 0:
+                heights = [h - 1 for h in heights]
+                cleared += 1
+            lines += cleared
+            score += cleared * 100 + 10
+            print(&quot;Piece %d: %s heights %s score %d&quot; % (pi + 1, piece, heights, score))
+            pi += 1
+            col, vertical = 2, False
+        else:
+            print(&quot;Unknown command: %s&quot; % cmd)
+    print(&quot;FINAL SCORE: %d&quot; % score)
+    print(&quot;RESULT: LINES %d&quot; % lines)
+
+if __name__ == &quot;__main__&quot;:
+    if &quot;--play&quot; in sys.argv:
+        play()
+    else:
+        auto_play()
+</pre></article>
+<h2>Related databases</h2><ul><li><a href="../video-game-arcade/index.html">video-game-arcade</a></li><li><a href="../arcade/index.html">arcade</a></li><li><a href="../e2-game-puzzle-video-games/index.html">e2-game-puzzle-video-games</a></li><li><a href="../puzzle-arcade-games-signature/index.html">puzzle-arcade-games-signature</a></li></ul>
+<script src="gen-puzzle-arcade-games.js"></script>
+<script>
+(function(){'use strict';
+var DATA_URL='https://justinahiggins614-cmyk.github.io/jah-databases-data-2/data/puzzle-arcade-games/index.jsonl.gz';
+function $(id){return document.getElementById(id);}
+function setCount(n){ $('stCount').textContent=n.toLocaleString()+' / 1,000,000 target'; $('stCount2').textContent=n.toLocaleString(); }
+fetch(DATA_URL).then(function(res){
+  if(!res.ok) throw new Error('HTTP '+res.status);
+  var ds=new DecompressionStream('gzip');
+  return new Response(res.body.pipeThrough(ds)).text();
+}).then(function(t){
+  var n=t.split('\n').filter(function(l){return l.trim();}).length;
+  setCount(n);
+}).catch(function(){ $('stCount').textContent='archive unreachable'; });
+})();
+</script>
+<script src="../../assets/assistant-maker.js"></script>
+</body></html>

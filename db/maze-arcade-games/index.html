@@ -1,0 +1,1547 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">
+<title>The Maze Arcade Games Database</title><meta name="description" content="The Maze Arcade Games Database: sixteen full arcade records, ordered simple to complex, each with a playable demo program. Free forever.">
+<style>body{font-family:system-ui,sans-serif;max-width:900px;margin:auto;padding:1em;line-height:1.6}
+.kv{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:0.75em}
+.kv>div{border:1px solid #ccc;padding:0.5em}.codeblock{background:#111;color:#eee;padding:1em;overflow:auto;white-space:pre-wrap}
+.pill{display:inline-block;border:1px solid #333;border-radius:2em;padding:0.2em 0.8em;margin:0.2em}
+.merger{background:#c00;color:#fff;border:0;padding:0.7em 1.4em;font-size:1em;cursor:pointer}
+.record{border-top:2px solid #333;margin-top:2em;padding-top:1em}</style></head><body>
+<h1>The Maze Arcade Games Database</h1><p class="pill">Exhaustive</p> <p class="pill">march to a million: in progress</p>
+<button class="merger" onclick="alert('All Database Merger: this database is ready to merge into the network archive.')">All Database Merger</button>
+<p>Archive records: <b id="stCount">16 / 1,000,000 target</b> · <span id="stCount2">16</span> records <span class="dim">(populated from the live archive index)</span></p>
+<p>The maze game is one of the arcade&#x27;s purest forms: a hero, a labyrinth, something to collect, and something that chases. This pair holds sixteen classic maze games, each on its own distinct map with its own dot pattern and ghost start, plus sixteen original maze games with original titles and rules.</p>
+<p>Every record here is the full, fully-formed file: a full prose description, how to play, and a working, playable demo program. Everything is free forever, with no payments and no upsells. Public editions describe real arcade games in original words and ship original tribute demos inspired by their mechanics; they never ship the original game, its art, its music, or its code.</p>
+<h2>Specialist AI: JAH Maze Arcade Guide</h2><p>JAH Maze Arcade Guide answers questions about this arcade family, explains any record in plain sentences, and helps choose the right game, controls, or strategy for a session.</p>
+<h2>Boundless generator</h2><p>The generator below is seeded and deterministic, throttled to at most 100 records per call, duplicate-checked, and hard-stopped at 10^15 records. Every generated record is labeled src "generated". Open the page script to use <code>window.MazeArcadeGamesTools.generateRecord(seed)</code>.</p>
+<h2>Validation engine</h2><p>Each record is checked for a complete title, its own record kind, its own edition slug and id prefix, a full prose description, topic fields, a demo whose stored output byte-matches a fresh run, and a play-mode smoke test proving the demo actually plays.</p>
+<h2>Evidence links</h2><ul><li><a href="https://justinahiggins614-cmyk.github.io/jah-databases-data-2/data/maze-arcade-games/index.jsonl.gz">Full record index for this edition (data-2)</a></li></ul>
+<h2>Tool connections</h2><p>The page exposes <code>window.MazeArcadeGamesTools</code> with <code>searchRecords</code>, <code>generateRecord</code>, <code>validateRecord</code>, and <code>runTests</code>.</p>
+<h2>Testing suite</h2><p>Run <code>window.MazeArcadeGamesTools.runTests()</code> in the console: it checks record kind, slug, id prefix, src labeling, validation, duplicate rejection, batch throttling, and search.</p>
+<h2>Audit history</h2><p>Built as a package on 2026-10-26: 16 records, ordered simple to compounded to complex by ladder rank, JSONL re-parsed, every demo re-executed with byte-matched output and play-mode smoke-tested, both generator files syntax-checked, and generator gates executed.</p>
+<h2>Search</h2><input id="q" placeholder="Search maze arcade record" oninput="doSearch(this.value)"><div id="results"></div>
+<script>var SEARCH_INDEX=[{"id": "JAH-MAZ-000001", "title": "Pac-Man"}, {"id": "JAH-MAZ-000002", "title": "Ms. Pac-Man"}, {"id": "JAH-MAZ-000003", "title": "Jr. Pac-Man"}, {"id": "JAH-MAZ-000004", "title": "Super Pac-Man"}, {"id": "JAH-MAZ-000005", "title": "Pac-Mania"}, {"id": "JAH-MAZ-000006", "title": "Dig Dug"}, {"id": "JAH-MAZ-000007", "title": "Mr. Do!"}, {"id": "JAH-MAZ-000008", "title": "Lady Bug"}, {"id": "JAH-MAZ-000009", "title": "Pengo"}, {"id": "JAH-MAZ-000010", "title": "Amidar"}, {"id": "JAH-MAZ-000011", "title": "Crush Roller"}, {"id": "JAH-MAZ-000012", "title": "Lock 'n' Chase"}, {"id": "JAH-MAZ-000013", "title": "Baby Pac-Man"}, {"id": "JAH-MAZ-000014", "title": "Pac-Land"}, {"id": "JAH-MAZ-000015", "title": "Wizard of Wor"}, {"id": "JAH-MAZ-000016", "title": "Bomberman"}];function doSearch(q){q=q.toLowerCase();var hits=SEARCH_INDEX.filter(function(r){return r.title.toLowerCase().indexOf(q)!==-1});document.getElementById('results').innerHTML=hits.map(function(r){return '<p>'+r.id+' — '+r.title+'</p>'}).join('')||'<p>No matches yet.</p>';}</script>
+<h2>Records</h2><div class="kv"><div>Records: 16</div><div>Editions: 1 of a pair</div><div>Free forever</div></div>
+<article class="record"><h3>Pac-Man <small>Rank 1 &middot; simple &middot; maze &middot; beginner</small></h3><p>Pac-Man arrived in 1980 and changed what an arcade game could be about. Instead of shooting, the player steered a round hero through a maze, eating dots while four ghosts with distinct personalities patrolled the corridors. Large power pellets briefly let the hero turn the tables and hunt the ghosts, and the game&#x27;s cheerful look drew in players who had never touched a shooter.</p><p>This tribute recreates the maze chase with a winding corridor map, a full field of dots, and a single pursuing ghost. The demo changes the original by shrinking the ghost cast to one pursuer and scripting a clean route through the maze, so the dot-eating rhythm is easy to follow. It is an original tribute inspired by the mechanics, not the game itself.</p><p>Maze runners learn the map before they chase the score. Clear the edges early, memorize the escape routes from every corner, and never enter a corridor you cannot leave. The players who lasted longest treated the maze as a place they lived in, not a puzzle they solved once.</p><p><b>Playable tribute note:</b> The demo below is an original tribute inspired by the mechanics of Pac-Man (1980). It is not Pac-Man (1980), and it uses no art, music, or code from that game.</p><h4>How to play</h4><p>Type up/down/left/right to move, quit to stop.</p><h4>Working demo program</h4><p>Save the code below as game.py and run <code>python3 game.py --play</code> to play it. Running it without arguments replays the scripted session whose output is stored with the record.</p><pre class="codeblock">import sys
+PARAMS = {&#x27;map&#x27;: [&#x27;###########&#x27;, &#x27;#P........#&#x27;, &#x27;#....#....#&#x27;, &#x27;#....#....#&#x27;, &#x27;#..#......#&#x27;, &#x27;#........G#&#x27;, &#x27;###########&#x27;]}
+AUTO = [&#x27;right&#x27;, &#x27;right&#x27;, &#x27;right&#x27;, &#x27;right&#x27;, &#x27;down&#x27;, &#x27;down&#x27;, &#x27;right&#x27;, &#x27;right&#x27;, &#x27;down&#x27;, &#x27;left&#x27;, &#x27;left&#x27;]
+
+def parse_map():
+    walls, dots, player, ghost = set(), set(), None, None
+    for y, row in enumerate(PARAMS[&quot;map&quot;]):
+        for x, ch in enumerate(row):
+            if ch == &quot;#&quot;:
+                walls.add((x, y))
+            elif ch == &quot;.&quot;:
+                dots.add((x, y))
+            elif ch == &quot;P&quot;:
+                player = (x, y)
+            elif ch == &quot;G&quot;:
+                ghost = (x, y)
+    return walls, dots, player, ghost
+
+DIRS = {&quot;up&quot;: (0, -1), &quot;down&quot;: (0, 1), &quot;left&quot;: (-1, 0), &quot;right&quot;: (1, 0)}
+
+def step(state, cmd):
+    walls, dots, player, ghost, score, lives = state
+    dx, dy = DIRS.get(cmd, (0, 0))
+    nx, ny = player[0] + dx, player[1] + dy
+    if (nx, ny) not in walls:
+        player = (nx, ny)
+    if player in dots:
+        dots = dots - {player}
+        score += 10
+    if ghost is not None:
+        gx, gy = ghost
+        best, bestd = ghost, abs(gx - player[0]) + abs(gy - player[1])
+        for mx, my in [(1, 0), (-1, 0), (0, 1), (0, -1)]:
+            cand = (gx + mx, gy + my)
+            if cand in walls:
+                continue
+            d = abs(cand[0] - player[0]) + abs(cand[1] - player[1])
+            if d &lt; bestd:
+                best, bestd = cand, d
+        ghost = best
+    if ghost is not None and player == ghost:
+        lives -= 1
+        walls, dots, player, ghost = reset_positions()
+    return (walls, dots, player, ghost, score, lives)
+
+def reset_positions():
+    walls, dots, player, ghost = parse_map()
+    return walls, dots, player, ghost
+
+def result_of(state):
+    walls, dots, player, ghost, score, lives = state
+    if not dots:
+        return &quot;WIN&quot;
+    if lives &lt;= 0:
+        return &quot;OUT OF LIVES&quot;
+    return &quot;ONGOING&quot;
+
+def auto_play():
+    walls, dots, player, ghost = parse_map()
+    state = (walls, dots, player, ghost, 0, 3)
+    print(&quot;Maze tribute: auto session&quot;)
+    for i, cmd in enumerate(AUTO):
+        state = step(state, cmd)
+        walls, dots, player, ghost, score, lives = state
+        print(&quot;Step %d: %s -&gt; pos %s score %d dots %d lives %d&quot; % (i + 1, cmd, player, score, len(dots), lives))
+        if result_of(state) != &quot;ONGOING&quot;:
+            break
+    print(&quot;FINAL SCORE: %d&quot; % state[4])
+    print(&quot;RESULT: %s&quot; % result_of(state))
+
+def play():
+    walls, dots, player, ghost = parse_map()
+    state = (walls, dots, player, ghost, 0, 3)
+    print(&quot;Maze tribute: type up/down/left/right, or quit. Eat every dot, avoid the ghost.&quot;)
+    for line in sys.stdin:
+        cmd = line.strip().lower()
+        if cmd == &quot;quit&quot;:
+            break
+        if cmd not in DIRS:
+            print(&quot;Unknown command: %s&quot; % cmd)
+            continue
+        state = step(state, cmd)
+        walls, dots, player, ghost, score, lives = state
+        print(&quot;pos %s score %d dots %d lives %d&quot; % (player, score, len(dots), lives))
+        if result_of(state) != &quot;ONGOING&quot;:
+            break
+    print(&quot;FINAL SCORE: %d&quot; % state[4])
+    print(&quot;RESULT: %s&quot; % result_of(state))
+
+if __name__ == &quot;__main__&quot;:
+    if &quot;--play&quot; in sys.argv:
+        play()
+    else:
+        auto_play()
+</pre></article><article class="record"><h3>Ms. Pac-Man <small>Rank 2 &middot; simple &middot; maze &middot; beginner</small></h3><p>Ms. Pac-Man arrived in 1982 as a sequel that improved nearly everything about the maze chase: faster movement, new maze layouts, moving bonus fruit that traveled through the maze, and ghosts that behaved less predictably. It became one of the best-selling arcade games of all time, and many players remember it more fondly than the original.</p><p>This tribute recreates the maze chase with a fresh corridor map, its own dot pattern, and a single pursuing ghost starting in a different corner. The demo changes the original by scripting one route through the new maze, so the differences in layout and dot placement can be compared directly with the first game. It is an original tribute inspired by the mechanics.</p><p>The sequel rewards bolder routing. Because the hero moves faster, a runner can cut across the maze&#x27;s middle lanes where the original game punished such risks. Learn the new map&#x27;s shortcuts, take the middle lanes when the ghost is far, and the maze opens up in ways the first game never allowed.</p><p><b>Playable tribute note:</b> The demo below is an original tribute inspired by the mechanics of Ms. Pac-Man (1982). It is not Ms. Pac-Man (1982), and it uses no art, music, or code from that game.</p><h4>How to play</h4><p>Type up/down/left/right to move, quit to stop.</p><h4>Working demo program</h4><p>Save the code below as game.py and run <code>python3 game.py --play</code> to play it. Running it without arguments replays the scripted session whose output is stored with the record.</p><pre class="codeblock">import sys
+PARAMS = {&#x27;map&#x27;: [&#x27;############&#x27;, &#x27;#P.........#&#x27;, &#x27;#.......#..#&#x27;, &#x27;#...#......#&#x27;, &#x27;#.......#..#&#x27;, &#x27;#.........G#&#x27;, &#x27;############&#x27;]}
+AUTO = [&#x27;right&#x27;, &#x27;right&#x27;, &#x27;right&#x27;, &#x27;right&#x27;, &#x27;right&#x27;, &#x27;down&#x27;, &#x27;down&#x27;, &#x27;left&#x27;, &#x27;left&#x27;, &#x27;left&#x27;, &#x27;down&#x27;, &#x27;right&#x27;, &#x27;right&#x27;]
+
+def parse_map():
+    walls, dots, player, ghost = set(), set(), None, None
+    for y, row in enumerate(PARAMS[&quot;map&quot;]):
+        for x, ch in enumerate(row):
+            if ch == &quot;#&quot;:
+                walls.add((x, y))
+            elif ch == &quot;.&quot;:
+                dots.add((x, y))
+            elif ch == &quot;P&quot;:
+                player = (x, y)
+            elif ch == &quot;G&quot;:
+                ghost = (x, y)
+    return walls, dots, player, ghost
+
+DIRS = {&quot;up&quot;: (0, -1), &quot;down&quot;: (0, 1), &quot;left&quot;: (-1, 0), &quot;right&quot;: (1, 0)}
+
+def step(state, cmd):
+    walls, dots, player, ghost, score, lives = state
+    dx, dy = DIRS.get(cmd, (0, 0))
+    nx, ny = player[0] + dx, player[1] + dy
+    if (nx, ny) not in walls:
+        player = (nx, ny)
+    if player in dots:
+        dots = dots - {player}
+        score += 10
+    if ghost is not None:
+        gx, gy = ghost
+        best, bestd = ghost, abs(gx - player[0]) + abs(gy - player[1])
+        for mx, my in [(1, 0), (-1, 0), (0, 1), (0, -1)]:
+            cand = (gx + mx, gy + my)
+            if cand in walls:
+                continue
+            d = abs(cand[0] - player[0]) + abs(cand[1] - player[1])
+            if d &lt; bestd:
+                best, bestd = cand, d
+        ghost = best
+    if ghost is not None and player == ghost:
+        lives -= 1
+        walls, dots, player, ghost = reset_positions()
+    return (walls, dots, player, ghost, score, lives)
+
+def reset_positions():
+    walls, dots, player, ghost = parse_map()
+    return walls, dots, player, ghost
+
+def result_of(state):
+    walls, dots, player, ghost, score, lives = state
+    if not dots:
+        return &quot;WIN&quot;
+    if lives &lt;= 0:
+        return &quot;OUT OF LIVES&quot;
+    return &quot;ONGOING&quot;
+
+def auto_play():
+    walls, dots, player, ghost = parse_map()
+    state = (walls, dots, player, ghost, 0, 3)
+    print(&quot;Maze tribute: auto session&quot;)
+    for i, cmd in enumerate(AUTO):
+        state = step(state, cmd)
+        walls, dots, player, ghost, score, lives = state
+        print(&quot;Step %d: %s -&gt; pos %s score %d dots %d lives %d&quot; % (i + 1, cmd, player, score, len(dots), lives))
+        if result_of(state) != &quot;ONGOING&quot;:
+            break
+    print(&quot;FINAL SCORE: %d&quot; % state[4])
+    print(&quot;RESULT: %s&quot; % result_of(state))
+
+def play():
+    walls, dots, player, ghost = parse_map()
+    state = (walls, dots, player, ghost, 0, 3)
+    print(&quot;Maze tribute: type up/down/left/right, or quit. Eat every dot, avoid the ghost.&quot;)
+    for line in sys.stdin:
+        cmd = line.strip().lower()
+        if cmd == &quot;quit&quot;:
+            break
+        if cmd not in DIRS:
+            print(&quot;Unknown command: %s&quot; % cmd)
+            continue
+        state = step(state, cmd)
+        walls, dots, player, ghost, score, lives = state
+        print(&quot;pos %s score %d dots %d lives %d&quot; % (player, score, len(dots), lives))
+        if result_of(state) != &quot;ONGOING&quot;:
+            break
+    print(&quot;FINAL SCORE: %d&quot; % state[4])
+    print(&quot;RESULT: %s&quot; % result_of(state))
+
+if __name__ == &quot;__main__&quot;:
+    if &quot;--play&quot; in sys.argv:
+        play()
+    else:
+        auto_play()
+</pre></article><article class="record"><h3>Jr. Pac-Man <small>Rank 3 &middot; simple &middot; maze &middot; beginner</small></h3><p>Jr. Pac-Man arrived in 1983 as a smaller, younger hero in a much larger maze. The playfield scrolled to show only part of the maze at a time, the dots were bigger, and the ghosts roamed a wider world with more corners to hide in. The game kept the dot-eating heart of the series while making the maze itself feel like a bigger adventure.</p><p>This tribute recreates the maze chase on its own corridor map with a distinct dot pattern and ghost start, sized to feel roomier than the first game&#x27;s maze. The demo changes the original by fixing the whole maze on one screen rather than scrolling it, so the route can be studied at a glance. It is an original tribute inspired by the mechanics.</p><p>Bigger mazes reward patient clearing. Work one section at a time, finish a corridor before leaving it, and keep track of which areas are already clean. The runners who finished large mazes were the ones who treated them as several small mazes joined together.</p><p><b>Playable tribute note:</b> The demo below is an original tribute inspired by the mechanics of Jr. Pac-Man (1983). It is not Jr. Pac-Man (1983), and it uses no art, music, or code from that game.</p><h4>How to play</h4><p>Type up/down/left/right to move, quit to stop.</p><h4>Working demo program</h4><p>Save the code below as game.py and run <code>python3 game.py --play</code> to play it. Running it without arguments replays the scripted session whose output is stored with the record.</p><pre class="codeblock">import sys
+PARAMS = {&#x27;map&#x27;: [&#x27;###########&#x27;, &#x27;#P........#&#x27;, &#x27;#....#....#&#x27;, &#x27;#..#......#&#x27;, &#x27;#........G#&#x27;, &#x27;###########&#x27;]}
+AUTO = [&#x27;right&#x27;, &#x27;right&#x27;, &#x27;right&#x27;, &#x27;right&#x27;, &#x27;down&#x27;, &#x27;right&#x27;, &#x27;right&#x27;, &#x27;right&#x27;, &#x27;down&#x27;, &#x27;left&#x27;, &#x27;left&#x27;, &#x27;left&#x27;]
+
+def parse_map():
+    walls, dots, player, ghost = set(), set(), None, None
+    for y, row in enumerate(PARAMS[&quot;map&quot;]):
+        for x, ch in enumerate(row):
+            if ch == &quot;#&quot;:
+                walls.add((x, y))
+            elif ch == &quot;.&quot;:
+                dots.add((x, y))
+            elif ch == &quot;P&quot;:
+                player = (x, y)
+            elif ch == &quot;G&quot;:
+                ghost = (x, y)
+    return walls, dots, player, ghost
+
+DIRS = {&quot;up&quot;: (0, -1), &quot;down&quot;: (0, 1), &quot;left&quot;: (-1, 0), &quot;right&quot;: (1, 0)}
+
+def step(state, cmd):
+    walls, dots, player, ghost, score, lives = state
+    dx, dy = DIRS.get(cmd, (0, 0))
+    nx, ny = player[0] + dx, player[1] + dy
+    if (nx, ny) not in walls:
+        player = (nx, ny)
+    if player in dots:
+        dots = dots - {player}
+        score += 10
+    if ghost is not None:
+        gx, gy = ghost
+        best, bestd = ghost, abs(gx - player[0]) + abs(gy - player[1])
+        for mx, my in [(1, 0), (-1, 0), (0, 1), (0, -1)]:
+            cand = (gx + mx, gy + my)
+            if cand in walls:
+                continue
+            d = abs(cand[0] - player[0]) + abs(cand[1] - player[1])
+            if d &lt; bestd:
+                best, bestd = cand, d
+        ghost = best
+    if ghost is not None and player == ghost:
+        lives -= 1
+        walls, dots, player, ghost = reset_positions()
+    return (walls, dots, player, ghost, score, lives)
+
+def reset_positions():
+    walls, dots, player, ghost = parse_map()
+    return walls, dots, player, ghost
+
+def result_of(state):
+    walls, dots, player, ghost, score, lives = state
+    if not dots:
+        return &quot;WIN&quot;
+    if lives &lt;= 0:
+        return &quot;OUT OF LIVES&quot;
+    return &quot;ONGOING&quot;
+
+def auto_play():
+    walls, dots, player, ghost = parse_map()
+    state = (walls, dots, player, ghost, 0, 3)
+    print(&quot;Maze tribute: auto session&quot;)
+    for i, cmd in enumerate(AUTO):
+        state = step(state, cmd)
+        walls, dots, player, ghost, score, lives = state
+        print(&quot;Step %d: %s -&gt; pos %s score %d dots %d lives %d&quot; % (i + 1, cmd, player, score, len(dots), lives))
+        if result_of(state) != &quot;ONGOING&quot;:
+            break
+    print(&quot;FINAL SCORE: %d&quot; % state[4])
+    print(&quot;RESULT: %s&quot; % result_of(state))
+
+def play():
+    walls, dots, player, ghost = parse_map()
+    state = (walls, dots, player, ghost, 0, 3)
+    print(&quot;Maze tribute: type up/down/left/right, or quit. Eat every dot, avoid the ghost.&quot;)
+    for line in sys.stdin:
+        cmd = line.strip().lower()
+        if cmd == &quot;quit&quot;:
+            break
+        if cmd not in DIRS:
+            print(&quot;Unknown command: %s&quot; % cmd)
+            continue
+        state = step(state, cmd)
+        walls, dots, player, ghost, score, lives = state
+        print(&quot;pos %s score %d dots %d lives %d&quot; % (player, score, len(dots), lives))
+        if result_of(state) != &quot;ONGOING&quot;:
+            break
+    print(&quot;FINAL SCORE: %d&quot; % state[4])
+    print(&quot;RESULT: %s&quot; % result_of(state))
+
+if __name__ == &quot;__main__&quot;:
+    if &quot;--play&quot; in sys.argv:
+        play()
+    else:
+        auto_play()
+</pre></article><article class="record"><h3>Super Pac-Man <small>Rank 4 &middot; simple &middot; maze &middot; beginner</small></h3><p>Super Pac-Man arrived in 1982 with a new twist on the maze chase: the hero could grow to giant size by eating a special power item, then smash straight through locked doors to reach bonus areas. Keys opened gates, fruit hid behind doors, and the maze became a place of secrets rather than just corridors and dots.</p><p>This tribute recreates the maze chase on a fresh map with its own dot pattern, gates suggested by wall blocks, and a single pursuing ghost. The demo changes the original by scripting a route that visits the maze&#x27;s open lanes and corners, standing in for the key-and-door play without copying its systems. It is an original tribute inspired by the mechanics.</p><p>Secret-filled mazes reward exploration over speed. Check the corners, try the side lanes, and remember which passages you have already visited. The players who found every bonus were the ones who explored systematically instead of racing down the main corridors.</p><p><b>Playable tribute note:</b> The demo below is an original tribute inspired by the mechanics of Super Pac-Man (1982). It is not Super Pac-Man (1982), and it uses no art, music, or code from that game.</p><h4>How to play</h4><p>Type up/down/left/right to move, quit to stop.</p><h4>Working demo program</h4><p>Save the code below as game.py and run <code>python3 game.py --play</code> to play it. Running it without arguments replays the scripted session whose output is stored with the record.</p><pre class="codeblock">import sys
+PARAMS = {&#x27;map&#x27;: [&#x27;#############&#x27;, &#x27;#P..........#&#x27;, &#x27;#.....#.....#&#x27;, &#x27;#..#.....#..#&#x27;, &#x27;#.....#.....#&#x27;, &#x27;#..........G#&#x27;, &#x27;#############&#x27;]}
+AUTO = [&#x27;right&#x27;, &#x27;right&#x27;, &#x27;right&#x27;, &#x27;right&#x27;, &#x27;right&#x27;, &#x27;down&#x27;, &#x27;down&#x27;, &#x27;right&#x27;, &#x27;right&#x27;, &#x27;right&#x27;, &#x27;left&#x27;, &#x27;left&#x27;]
+
+def parse_map():
+    walls, dots, player, ghost = set(), set(), None, None
+    for y, row in enumerate(PARAMS[&quot;map&quot;]):
+        for x, ch in enumerate(row):
+            if ch == &quot;#&quot;:
+                walls.add((x, y))
+            elif ch == &quot;.&quot;:
+                dots.add((x, y))
+            elif ch == &quot;P&quot;:
+                player = (x, y)
+            elif ch == &quot;G&quot;:
+                ghost = (x, y)
+    return walls, dots, player, ghost
+
+DIRS = {&quot;up&quot;: (0, -1), &quot;down&quot;: (0, 1), &quot;left&quot;: (-1, 0), &quot;right&quot;: (1, 0)}
+
+def step(state, cmd):
+    walls, dots, player, ghost, score, lives = state
+    dx, dy = DIRS.get(cmd, (0, 0))
+    nx, ny = player[0] + dx, player[1] + dy
+    if (nx, ny) not in walls:
+        player = (nx, ny)
+    if player in dots:
+        dots = dots - {player}
+        score += 10
+    if ghost is not None:
+        gx, gy = ghost
+        best, bestd = ghost, abs(gx - player[0]) + abs(gy - player[1])
+        for mx, my in [(1, 0), (-1, 0), (0, 1), (0, -1)]:
+            cand = (gx + mx, gy + my)
+            if cand in walls:
+                continue
+            d = abs(cand[0] - player[0]) + abs(cand[1] - player[1])
+            if d &lt; bestd:
+                best, bestd = cand, d
+        ghost = best
+    if ghost is not None and player == ghost:
+        lives -= 1
+        walls, dots, player, ghost = reset_positions()
+    return (walls, dots, player, ghost, score, lives)
+
+def reset_positions():
+    walls, dots, player, ghost = parse_map()
+    return walls, dots, player, ghost
+
+def result_of(state):
+    walls, dots, player, ghost, score, lives = state
+    if not dots:
+        return &quot;WIN&quot;
+    if lives &lt;= 0:
+        return &quot;OUT OF LIVES&quot;
+    return &quot;ONGOING&quot;
+
+def auto_play():
+    walls, dots, player, ghost = parse_map()
+    state = (walls, dots, player, ghost, 0, 3)
+    print(&quot;Maze tribute: auto session&quot;)
+    for i, cmd in enumerate(AUTO):
+        state = step(state, cmd)
+        walls, dots, player, ghost, score, lives = state
+        print(&quot;Step %d: %s -&gt; pos %s score %d dots %d lives %d&quot; % (i + 1, cmd, player, score, len(dots), lives))
+        if result_of(state) != &quot;ONGOING&quot;:
+            break
+    print(&quot;FINAL SCORE: %d&quot; % state[4])
+    print(&quot;RESULT: %s&quot; % result_of(state))
+
+def play():
+    walls, dots, player, ghost = parse_map()
+    state = (walls, dots, player, ghost, 0, 3)
+    print(&quot;Maze tribute: type up/down/left/right, or quit. Eat every dot, avoid the ghost.&quot;)
+    for line in sys.stdin:
+        cmd = line.strip().lower()
+        if cmd == &quot;quit&quot;:
+            break
+        if cmd not in DIRS:
+            print(&quot;Unknown command: %s&quot; % cmd)
+            continue
+        state = step(state, cmd)
+        walls, dots, player, ghost, score, lives = state
+        print(&quot;pos %s score %d dots %d lives %d&quot; % (player, score, len(dots), lives))
+        if result_of(state) != &quot;ONGOING&quot;:
+            break
+    print(&quot;FINAL SCORE: %d&quot; % state[4])
+    print(&quot;RESULT: %s&quot; % result_of(state))
+
+if __name__ == &quot;__main__&quot;:
+    if &quot;--play&quot; in sys.argv:
+        play()
+    else:
+        auto_play()
+</pre></article><article class="record"><h3>Pac-Mania <small>Rank 5 &middot; simple &middot; maze &middot; beginner</small></h3><p>Pac-Mania arrived in 1987 as a three-dimensional take on the maze chase, showing the maze at a slant so the hero could jump over ghosts. The jump button changed everything: a well-timed hop cleared a pursuer entirely, and the mazes grew taller and more layered. It was the series&#x27; boldest visual reinvention, and it kept the chase fresh for a new generation.</p><p>This tribute recreates the maze chase on a tall, roomy map with its own dot pattern and ghost start, played from the classic top-down view. The demo changes the original by scripting a route without jumping, since the tribute engine moves in four directions only, so the chase is shown in its pure form: dots, lanes, and one relentless pursuer. It is an original tribute inspired by the mechanics.</p><p>Even without jumping, the lesson of the later maze games holds: keep moving, keep an escape lane open, and never let the ghost dictate your route. The jump was a new tool, but the old skills, map memory and calm routing, still decided who cleared the maze.</p><p><b>Playable tribute note:</b> The demo below is an original tribute inspired by the mechanics of Pac-Mania (1987). It is not Pac-Mania (1987), and it uses no art, music, or code from that game.</p><h4>How to play</h4><p>Type up/down/left/right to move, quit to stop.</p><h4>Working demo program</h4><p>Save the code below as game.py and run <code>python3 game.py --play</code> to play it. Running it without arguments replays the scripted session whose output is stored with the record.</p><pre class="codeblock">import sys
+PARAMS = {&#x27;map&#x27;: [&#x27;############&#x27;, &#x27;#P.........#&#x27;, &#x27;#....#.....#&#x27;, &#x27;#.......#..#&#x27;, &#x27;#..........#&#x27;, &#x27;#....#.....#&#x27;, &#x27;#.........G#&#x27;, &#x27;############&#x27;]}
+AUTO = [&#x27;right&#x27;, &#x27;right&#x27;, &#x27;right&#x27;, &#x27;right&#x27;, &#x27;down&#x27;, &#x27;down&#x27;, &#x27;down&#x27;, &#x27;right&#x27;, &#x27;right&#x27;, &#x27;down&#x27;, &#x27;left&#x27;, &#x27;left&#x27;]
+
+def parse_map():
+    walls, dots, player, ghost = set(), set(), None, None
+    for y, row in enumerate(PARAMS[&quot;map&quot;]):
+        for x, ch in enumerate(row):
+            if ch == &quot;#&quot;:
+                walls.add((x, y))
+            elif ch == &quot;.&quot;:
+                dots.add((x, y))
+            elif ch == &quot;P&quot;:
+                player = (x, y)
+            elif ch == &quot;G&quot;:
+                ghost = (x, y)
+    return walls, dots, player, ghost
+
+DIRS = {&quot;up&quot;: (0, -1), &quot;down&quot;: (0, 1), &quot;left&quot;: (-1, 0), &quot;right&quot;: (1, 0)}
+
+def step(state, cmd):
+    walls, dots, player, ghost, score, lives = state
+    dx, dy = DIRS.get(cmd, (0, 0))
+    nx, ny = player[0] + dx, player[1] + dy
+    if (nx, ny) not in walls:
+        player = (nx, ny)
+    if player in dots:
+        dots = dots - {player}
+        score += 10
+    if ghost is not None:
+        gx, gy = ghost
+        best, bestd = ghost, abs(gx - player[0]) + abs(gy - player[1])
+        for mx, my in [(1, 0), (-1, 0), (0, 1), (0, -1)]:
+            cand = (gx + mx, gy + my)
+            if cand in walls:
+                continue
+            d = abs(cand[0] - player[0]) + abs(cand[1] - player[1])
+            if d &lt; bestd:
+                best, bestd = cand, d
+        ghost = best
+    if ghost is not None and player == ghost:
+        lives -= 1
+        walls, dots, player, ghost = reset_positions()
+    return (walls, dots, player, ghost, score, lives)
+
+def reset_positions():
+    walls, dots, player, ghost = parse_map()
+    return walls, dots, player, ghost
+
+def result_of(state):
+    walls, dots, player, ghost, score, lives = state
+    if not dots:
+        return &quot;WIN&quot;
+    if lives &lt;= 0:
+        return &quot;OUT OF LIVES&quot;
+    return &quot;ONGOING&quot;
+
+def auto_play():
+    walls, dots, player, ghost = parse_map()
+    state = (walls, dots, player, ghost, 0, 3)
+    print(&quot;Maze tribute: auto session&quot;)
+    for i, cmd in enumerate(AUTO):
+        state = step(state, cmd)
+        walls, dots, player, ghost, score, lives = state
+        print(&quot;Step %d: %s -&gt; pos %s score %d dots %d lives %d&quot; % (i + 1, cmd, player, score, len(dots), lives))
+        if result_of(state) != &quot;ONGOING&quot;:
+            break
+    print(&quot;FINAL SCORE: %d&quot; % state[4])
+    print(&quot;RESULT: %s&quot; % result_of(state))
+
+def play():
+    walls, dots, player, ghost = parse_map()
+    state = (walls, dots, player, ghost, 0, 3)
+    print(&quot;Maze tribute: type up/down/left/right, or quit. Eat every dot, avoid the ghost.&quot;)
+    for line in sys.stdin:
+        cmd = line.strip().lower()
+        if cmd == &quot;quit&quot;:
+            break
+        if cmd not in DIRS:
+            print(&quot;Unknown command: %s&quot; % cmd)
+            continue
+        state = step(state, cmd)
+        walls, dots, player, ghost, score, lives = state
+        print(&quot;pos %s score %d dots %d lives %d&quot; % (player, score, len(dots), lives))
+        if result_of(state) != &quot;ONGOING&quot;:
+            break
+    print(&quot;FINAL SCORE: %d&quot; % state[4])
+    print(&quot;RESULT: %s&quot; % result_of(state))
+
+if __name__ == &quot;__main__&quot;:
+    if &quot;--play&quot; in sys.argv:
+        play()
+    else:
+        auto_play()
+</pre></article><article class="record"><h3>Dig Dug <small>Rank 6 &middot; compounded &middot; maze &middot; intermediate</small></h3><p>Dig Dug arrived in 1982 as a digging game: the player tunneled through underground soil, inflating enemies until they popped and dropping rocks on those that chased too closely. The maze was not fixed but carved by the player, and the game rewarded clever digging, trapping enemies in dead ends and planning an escape before the pump ran out.</p><p>This tribute adapts the digging maze to a dot-eating maze map, and the adaptation is stated honestly: the tunnels here are fixed in advance rather than carved by the player, and the dots stand in for the soil and rewards of the original dig. A single pursuer stands in for the underground chase. It is an original tribute inspired by the mechanics, not the game itself.</p><p>Digging wisdom applies even in a fixed maze: never dig yourself into a corner, always leave a second tunnel out, and let the pursuer come to you rather than chasing it. The players who lasted longest underground were the ones who planned their tunnels before they needed them.</p><p><b>Playable tribute note:</b> The demo below is an original tribute inspired by the mechanics of Dig Dug (1982). It is not Dig Dug (1982), and it uses no art, music, or code from that game.</p><h4>How to play</h4><p>Type up/down/left/right to move, quit to stop.</p><h4>Working demo program</h4><p>Save the code below as game.py and run <code>python3 game.py --play</code> to play it. Running it without arguments replays the scripted session whose output is stored with the record.</p><pre class="codeblock">import sys
+PARAMS = {&#x27;map&#x27;: [&#x27;###########&#x27;, &#x27;#P........#&#x27;, &#x27;#..#...#..#&#x27;, &#x27;#.........#&#x27;, &#x27;#....#....#&#x27;, &#x27;#........G#&#x27;, &#x27;###########&#x27;]}
+AUTO = [&#x27;right&#x27;, &#x27;right&#x27;, &#x27;right&#x27;, &#x27;right&#x27;, &#x27;down&#x27;, &#x27;down&#x27;, &#x27;left&#x27;, &#x27;left&#x27;, &#x27;down&#x27;, &#x27;right&#x27;, &#x27;right&#x27;, &#x27;right&#x27;]
+
+def parse_map():
+    walls, dots, player, ghost = set(), set(), None, None
+    for y, row in enumerate(PARAMS[&quot;map&quot;]):
+        for x, ch in enumerate(row):
+            if ch == &quot;#&quot;:
+                walls.add((x, y))
+            elif ch == &quot;.&quot;:
+                dots.add((x, y))
+            elif ch == &quot;P&quot;:
+                player = (x, y)
+            elif ch == &quot;G&quot;:
+                ghost = (x, y)
+    return walls, dots, player, ghost
+
+DIRS = {&quot;up&quot;: (0, -1), &quot;down&quot;: (0, 1), &quot;left&quot;: (-1, 0), &quot;right&quot;: (1, 0)}
+
+def step(state, cmd):
+    walls, dots, player, ghost, score, lives = state
+    dx, dy = DIRS.get(cmd, (0, 0))
+    nx, ny = player[0] + dx, player[1] + dy
+    if (nx, ny) not in walls:
+        player = (nx, ny)
+    if player in dots:
+        dots = dots - {player}
+        score += 10
+    if ghost is not None:
+        gx, gy = ghost
+        best, bestd = ghost, abs(gx - player[0]) + abs(gy - player[1])
+        for mx, my in [(1, 0), (-1, 0), (0, 1), (0, -1)]:
+            cand = (gx + mx, gy + my)
+            if cand in walls:
+                continue
+            d = abs(cand[0] - player[0]) + abs(cand[1] - player[1])
+            if d &lt; bestd:
+                best, bestd = cand, d
+        ghost = best
+    if ghost is not None and player == ghost:
+        lives -= 1
+        walls, dots, player, ghost = reset_positions()
+    return (walls, dots, player, ghost, score, lives)
+
+def reset_positions():
+    walls, dots, player, ghost = parse_map()
+    return walls, dots, player, ghost
+
+def result_of(state):
+    walls, dots, player, ghost, score, lives = state
+    if not dots:
+        return &quot;WIN&quot;
+    if lives &lt;= 0:
+        return &quot;OUT OF LIVES&quot;
+    return &quot;ONGOING&quot;
+
+def auto_play():
+    walls, dots, player, ghost = parse_map()
+    state = (walls, dots, player, ghost, 0, 3)
+    print(&quot;Maze tribute: auto session&quot;)
+    for i, cmd in enumerate(AUTO):
+        state = step(state, cmd)
+        walls, dots, player, ghost, score, lives = state
+        print(&quot;Step %d: %s -&gt; pos %s score %d dots %d lives %d&quot; % (i + 1, cmd, player, score, len(dots), lives))
+        if result_of(state) != &quot;ONGOING&quot;:
+            break
+    print(&quot;FINAL SCORE: %d&quot; % state[4])
+    print(&quot;RESULT: %s&quot; % result_of(state))
+
+def play():
+    walls, dots, player, ghost = parse_map()
+    state = (walls, dots, player, ghost, 0, 3)
+    print(&quot;Maze tribute: type up/down/left/right, or quit. Eat every dot, avoid the ghost.&quot;)
+    for line in sys.stdin:
+        cmd = line.strip().lower()
+        if cmd == &quot;quit&quot;:
+            break
+        if cmd not in DIRS:
+            print(&quot;Unknown command: %s&quot; % cmd)
+            continue
+        state = step(state, cmd)
+        walls, dots, player, ghost, score, lives = state
+        print(&quot;pos %s score %d dots %d lives %d&quot; % (player, score, len(dots), lives))
+        if result_of(state) != &quot;ONGOING&quot;:
+            break
+    print(&quot;FINAL SCORE: %d&quot; % state[4])
+    print(&quot;RESULT: %s&quot; % result_of(state))
+
+if __name__ == &quot;__main__&quot;:
+    if &quot;--play&quot; in sys.argv:
+        play()
+    else:
+        auto_play()
+</pre></article><article class="record"><h3>Mr. Do! <small>Rank 7 &middot; compounded &middot; maze &middot; intermediate</small></h3><p>Mr. Do! arrived in 1982 as another digging game with its own flavor: a cheerful clown dug through an orchard, collecting cherries, bouncing a power ball, and dropping apples on enemies from above. The digging, the fruit, and the bouncing ball made it feel playful where other digging games felt tense, and it built a loyal following of its own.</p><p>This tribute adapts the orchard dig to a dot-eating maze map, and the adaptation is stated honestly: the tunnels are fixed, the dots stand in for cherries and orchard rewards, and a single pursuer stands in for the orchard&#x27;s enemies. The power ball and falling apples are described in the prose rather than simulated, because the tribute engine moves and eats dots only. It is an original tribute inspired by the mechanics.</p><p>Orchard digging rewards the same habits as any maze: clear one area fully, keep an escape tunnel open, and never chase a reward into a dead end. The players who collected the most cherries were the ones who dug methodically, not the ones who dug fastest.</p><p><b>Playable tribute note:</b> The demo below is an original tribute inspired by the mechanics of Mr. Do! (1982). It is not Mr. Do! (1982), and it uses no art, music, or code from that game.</p><h4>How to play</h4><p>Type up/down/left/right to move, quit to stop.</p><h4>Working demo program</h4><p>Save the code below as game.py and run <code>python3 game.py --play</code> to play it. Running it without arguments replays the scripted session whose output is stored with the record.</p><pre class="codeblock">import sys
+PARAMS = {&#x27;map&#x27;: [&#x27;##########&#x27;, &#x27;#P.......#&#x27;, &#x27;#...#....#&#x27;, &#x27;#.....#..#&#x27;, &#x27;#.......G#&#x27;, &#x27;##########&#x27;]}
+AUTO = [&#x27;right&#x27;, &#x27;right&#x27;, &#x27;right&#x27;, &#x27;down&#x27;, &#x27;right&#x27;, &#x27;right&#x27;, &#x27;right&#x27;, &#x27;down&#x27;, &#x27;left&#x27;, &#x27;left&#x27;]
+
+def parse_map():
+    walls, dots, player, ghost = set(), set(), None, None
+    for y, row in enumerate(PARAMS[&quot;map&quot;]):
+        for x, ch in enumerate(row):
+            if ch == &quot;#&quot;:
+                walls.add((x, y))
+            elif ch == &quot;.&quot;:
+                dots.add((x, y))
+            elif ch == &quot;P&quot;:
+                player = (x, y)
+            elif ch == &quot;G&quot;:
+                ghost = (x, y)
+    return walls, dots, player, ghost
+
+DIRS = {&quot;up&quot;: (0, -1), &quot;down&quot;: (0, 1), &quot;left&quot;: (-1, 0), &quot;right&quot;: (1, 0)}
+
+def step(state, cmd):
+    walls, dots, player, ghost, score, lives = state
+    dx, dy = DIRS.get(cmd, (0, 0))
+    nx, ny = player[0] + dx, player[1] + dy
+    if (nx, ny) not in walls:
+        player = (nx, ny)
+    if player in dots:
+        dots = dots - {player}
+        score += 10
+    if ghost is not None:
+        gx, gy = ghost
+        best, bestd = ghost, abs(gx - player[0]) + abs(gy - player[1])
+        for mx, my in [(1, 0), (-1, 0), (0, 1), (0, -1)]:
+            cand = (gx + mx, gy + my)
+            if cand in walls:
+                continue
+            d = abs(cand[0] - player[0]) + abs(cand[1] - player[1])
+            if d &lt; bestd:
+                best, bestd = cand, d
+        ghost = best
+    if ghost is not None and player == ghost:
+        lives -= 1
+        walls, dots, player, ghost = reset_positions()
+    return (walls, dots, player, ghost, score, lives)
+
+def reset_positions():
+    walls, dots, player, ghost = parse_map()
+    return walls, dots, player, ghost
+
+def result_of(state):
+    walls, dots, player, ghost, score, lives = state
+    if not dots:
+        return &quot;WIN&quot;
+    if lives &lt;= 0:
+        return &quot;OUT OF LIVES&quot;
+    return &quot;ONGOING&quot;
+
+def auto_play():
+    walls, dots, player, ghost = parse_map()
+    state = (walls, dots, player, ghost, 0, 3)
+    print(&quot;Maze tribute: auto session&quot;)
+    for i, cmd in enumerate(AUTO):
+        state = step(state, cmd)
+        walls, dots, player, ghost, score, lives = state
+        print(&quot;Step %d: %s -&gt; pos %s score %d dots %d lives %d&quot; % (i + 1, cmd, player, score, len(dots), lives))
+        if result_of(state) != &quot;ONGOING&quot;:
+            break
+    print(&quot;FINAL SCORE: %d&quot; % state[4])
+    print(&quot;RESULT: %s&quot; % result_of(state))
+
+def play():
+    walls, dots, player, ghost = parse_map()
+    state = (walls, dots, player, ghost, 0, 3)
+    print(&quot;Maze tribute: type up/down/left/right, or quit. Eat every dot, avoid the ghost.&quot;)
+    for line in sys.stdin:
+        cmd = line.strip().lower()
+        if cmd == &quot;quit&quot;:
+            break
+        if cmd not in DIRS:
+            print(&quot;Unknown command: %s&quot; % cmd)
+            continue
+        state = step(state, cmd)
+        walls, dots, player, ghost, score, lives = state
+        print(&quot;pos %s score %d dots %d lives %d&quot; % (player, score, len(dots), lives))
+        if result_of(state) != &quot;ONGOING&quot;:
+            break
+    print(&quot;FINAL SCORE: %d&quot; % state[4])
+    print(&quot;RESULT: %s&quot; % result_of(state))
+
+if __name__ == &quot;__main__&quot;:
+    if &quot;--play&quot; in sys.argv:
+        play()
+    else:
+        auto_play()
+</pre></article><article class="record"><h3>Lady Bug <small>Rank 8 &middot; compounded &middot; maze &middot; intermediate</small></h3><p>Lady Bug arrived in 1981 as a maze game with a twist: the maze itself changed as you played, because doors rotated and opened or closed passages. The player steered a ladybug through a garden maze, eating flowers and avoiding enemy insects, while special vegetables offered big bonuses to the quick. The turning doors made every maze feel alive.</p><p>This tribute recreates the garden maze chase on its own corridor map with a distinct dot pattern and ghost start, standing in for the enemy insects with a single pursuer. The demo changes the original by fixing the passages in place, since the tribute engine&#x27;s walls do not rotate, so the route can be studied as a stable map. It is an original tribute inspired by the mechanics.</p><p>Garden mazes reward flexible routing. When a passage changes, the best route changes with it, so a runner who memorized only one path gets stuck while a runner who knows several paths keeps moving. Learn the whole garden, not just one lane through it.</p><p><b>Playable tribute note:</b> The demo below is an original tribute inspired by the mechanics of Lady Bug (1981). It is not Lady Bug (1981), and it uses no art, music, or code from that game.</p><h4>How to play</h4><p>Type up/down/left/right to move, quit to stop.</p><h4>Working demo program</h4><p>Save the code below as game.py and run <code>python3 game.py --play</code> to play it. Running it without arguments replays the scripted session whose output is stored with the record.</p><pre class="codeblock">import sys
+PARAMS = {&#x27;map&#x27;: [&#x27;############&#x27;, &#x27;#P.........#&#x27;, &#x27;#..#.......#&#x27;, &#x27;#.....#....#&#x27;, &#x27;#..........#&#x27;, &#x27;#........#G#&#x27;, &#x27;############&#x27;]}
+AUTO = [&#x27;right&#x27;, &#x27;right&#x27;, &#x27;right&#x27;, &#x27;right&#x27;, &#x27;right&#x27;, &#x27;down&#x27;, &#x27;down&#x27;, &#x27;left&#x27;, &#x27;left&#x27;, &#x27;left&#x27;, &#x27;left&#x27;, &#x27;down&#x27;, &#x27;right&#x27;, &#x27;right&#x27;]
+
+def parse_map():
+    walls, dots, player, ghost = set(), set(), None, None
+    for y, row in enumerate(PARAMS[&quot;map&quot;]):
+        for x, ch in enumerate(row):
+            if ch == &quot;#&quot;:
+                walls.add((x, y))
+            elif ch == &quot;.&quot;:
+                dots.add((x, y))
+            elif ch == &quot;P&quot;:
+                player = (x, y)
+            elif ch == &quot;G&quot;:
+                ghost = (x, y)
+    return walls, dots, player, ghost
+
+DIRS = {&quot;up&quot;: (0, -1), &quot;down&quot;: (0, 1), &quot;left&quot;: (-1, 0), &quot;right&quot;: (1, 0)}
+
+def step(state, cmd):
+    walls, dots, player, ghost, score, lives = state
+    dx, dy = DIRS.get(cmd, (0, 0))
+    nx, ny = player[0] + dx, player[1] + dy
+    if (nx, ny) not in walls:
+        player = (nx, ny)
+    if player in dots:
+        dots = dots - {player}
+        score += 10
+    if ghost is not None:
+        gx, gy = ghost
+        best, bestd = ghost, abs(gx - player[0]) + abs(gy - player[1])
+        for mx, my in [(1, 0), (-1, 0), (0, 1), (0, -1)]:
+            cand = (gx + mx, gy + my)
+            if cand in walls:
+                continue
+            d = abs(cand[0] - player[0]) + abs(cand[1] - player[1])
+            if d &lt; bestd:
+                best, bestd = cand, d
+        ghost = best
+    if ghost is not None and player == ghost:
+        lives -= 1
+        walls, dots, player, ghost = reset_positions()
+    return (walls, dots, player, ghost, score, lives)
+
+def reset_positions():
+    walls, dots, player, ghost = parse_map()
+    return walls, dots, player, ghost
+
+def result_of(state):
+    walls, dots, player, ghost, score, lives = state
+    if not dots:
+        return &quot;WIN&quot;
+    if lives &lt;= 0:
+        return &quot;OUT OF LIVES&quot;
+    return &quot;ONGOING&quot;
+
+def auto_play():
+    walls, dots, player, ghost = parse_map()
+    state = (walls, dots, player, ghost, 0, 3)
+    print(&quot;Maze tribute: auto session&quot;)
+    for i, cmd in enumerate(AUTO):
+        state = step(state, cmd)
+        walls, dots, player, ghost, score, lives = state
+        print(&quot;Step %d: %s -&gt; pos %s score %d dots %d lives %d&quot; % (i + 1, cmd, player, score, len(dots), lives))
+        if result_of(state) != &quot;ONGOING&quot;:
+            break
+    print(&quot;FINAL SCORE: %d&quot; % state[4])
+    print(&quot;RESULT: %s&quot; % result_of(state))
+
+def play():
+    walls, dots, player, ghost = parse_map()
+    state = (walls, dots, player, ghost, 0, 3)
+    print(&quot;Maze tribute: type up/down/left/right, or quit. Eat every dot, avoid the ghost.&quot;)
+    for line in sys.stdin:
+        cmd = line.strip().lower()
+        if cmd == &quot;quit&quot;:
+            break
+        if cmd not in DIRS:
+            print(&quot;Unknown command: %s&quot; % cmd)
+            continue
+        state = step(state, cmd)
+        walls, dots, player, ghost, score, lives = state
+        print(&quot;pos %s score %d dots %d lives %d&quot; % (player, score, len(dots), lives))
+        if result_of(state) != &quot;ONGOING&quot;:
+            break
+    print(&quot;FINAL SCORE: %d&quot; % state[4])
+    print(&quot;RESULT: %s&quot; % result_of(state))
+
+if __name__ == &quot;__main__&quot;:
+    if &quot;--play&quot; in sys.argv:
+        play()
+    else:
+        auto_play()
+</pre></article><article class="record"><h3>Pengo <small>Rank 9 &middot; compounded &middot; maze &middot; intermediate</small></h3><p>Pengo arrived in 1982 as an icy maze game: a penguin slid across a frozen field pushing blocks of ice, crushing enemies between blocks and walls, and lining up three diamond blocks for a huge bonus. The sliding movement felt different from every other maze game, because the penguin kept gliding after each push, and the ice blocks turned the maze into a weapon.</p><p>This tribute recreates the maze chase on its own frozen-field map with a distinct dot pattern and ghost start, using the dots to mark the field&#x27;s open ice. The demo changes the original by moving step by step rather than sliding, and by leaving the ice blocks as wall shapes in the map, so the chase is shown without the sliding physics. It is an original tribute inspired by the mechanics.</p><p>Ice mazes reward thinking in lines. A push that lines up two blocks is worth more than two pushes that scatter them, and a runner who plans the field before moving clears it faster than one who pushes at random. Plan the line, then make the move.</p><p><b>Playable tribute note:</b> The demo below is an original tribute inspired by the mechanics of Pengo (1982). It is not Pengo (1982), and it uses no art, music, or code from that game.</p><h4>How to play</h4><p>Type up/down/left/right to move, quit to stop.</p><h4>Working demo program</h4><p>Save the code below as game.py and run <code>python3 game.py --play</code> to play it. Running it without arguments replays the scripted session whose output is stored with the record.</p><pre class="codeblock">import sys
+PARAMS = {&#x27;map&#x27;: [&#x27;###########&#x27;, &#x27;#P........#&#x27;, &#x27;#.........#&#x27;, &#x27;#....#....#&#x27;, &#x27;#.........#&#x27;, &#x27;#....#....#&#x27;, &#x27;#..#.....G#&#x27;, &#x27;###########&#x27;]}
+AUTO = [&#x27;right&#x27;, &#x27;right&#x27;, &#x27;right&#x27;, &#x27;right&#x27;, &#x27;down&#x27;, &#x27;down&#x27;, &#x27;right&#x27;, &#x27;right&#x27;, &#x27;down&#x27;, &#x27;down&#x27;, &#x27;left&#x27;, &#x27;left&#x27;, &#x27;left&#x27;]
+
+def parse_map():
+    walls, dots, player, ghost = set(), set(), None, None
+    for y, row in enumerate(PARAMS[&quot;map&quot;]):
+        for x, ch in enumerate(row):
+            if ch == &quot;#&quot;:
+                walls.add((x, y))
+            elif ch == &quot;.&quot;:
+                dots.add((x, y))
+            elif ch == &quot;P&quot;:
+                player = (x, y)
+            elif ch == &quot;G&quot;:
+                ghost = (x, y)
+    return walls, dots, player, ghost
+
+DIRS = {&quot;up&quot;: (0, -1), &quot;down&quot;: (0, 1), &quot;left&quot;: (-1, 0), &quot;right&quot;: (1, 0)}
+
+def step(state, cmd):
+    walls, dots, player, ghost, score, lives = state
+    dx, dy = DIRS.get(cmd, (0, 0))
+    nx, ny = player[0] + dx, player[1] + dy
+    if (nx, ny) not in walls:
+        player = (nx, ny)
+    if player in dots:
+        dots = dots - {player}
+        score += 10
+    if ghost is not None:
+        gx, gy = ghost
+        best, bestd = ghost, abs(gx - player[0]) + abs(gy - player[1])
+        for mx, my in [(1, 0), (-1, 0), (0, 1), (0, -1)]:
+            cand = (gx + mx, gy + my)
+            if cand in walls:
+                continue
+            d = abs(cand[0] - player[0]) + abs(cand[1] - player[1])
+            if d &lt; bestd:
+                best, bestd = cand, d
+        ghost = best
+    if ghost is not None and player == ghost:
+        lives -= 1
+        walls, dots, player, ghost = reset_positions()
+    return (walls, dots, player, ghost, score, lives)
+
+def reset_positions():
+    walls, dots, player, ghost = parse_map()
+    return walls, dots, player, ghost
+
+def result_of(state):
+    walls, dots, player, ghost, score, lives = state
+    if not dots:
+        return &quot;WIN&quot;
+    if lives &lt;= 0:
+        return &quot;OUT OF LIVES&quot;
+    return &quot;ONGOING&quot;
+
+def auto_play():
+    walls, dots, player, ghost = parse_map()
+    state = (walls, dots, player, ghost, 0, 3)
+    print(&quot;Maze tribute: auto session&quot;)
+    for i, cmd in enumerate(AUTO):
+        state = step(state, cmd)
+        walls, dots, player, ghost, score, lives = state
+        print(&quot;Step %d: %s -&gt; pos %s score %d dots %d lives %d&quot; % (i + 1, cmd, player, score, len(dots), lives))
+        if result_of(state) != &quot;ONGOING&quot;:
+            break
+    print(&quot;FINAL SCORE: %d&quot; % state[4])
+    print(&quot;RESULT: %s&quot; % result_of(state))
+
+def play():
+    walls, dots, player, ghost = parse_map()
+    state = (walls, dots, player, ghost, 0, 3)
+    print(&quot;Maze tribute: type up/down/left/right, or quit. Eat every dot, avoid the ghost.&quot;)
+    for line in sys.stdin:
+        cmd = line.strip().lower()
+        if cmd == &quot;quit&quot;:
+            break
+        if cmd not in DIRS:
+            print(&quot;Unknown command: %s&quot; % cmd)
+            continue
+        state = step(state, cmd)
+        walls, dots, player, ghost, score, lives = state
+        print(&quot;pos %s score %d dots %d lives %d&quot; % (player, score, len(dots), lives))
+        if result_of(state) != &quot;ONGOING&quot;:
+            break
+    print(&quot;FINAL SCORE: %d&quot; % state[4])
+    print(&quot;RESULT: %s&quot; % result_of(state))
+
+if __name__ == &quot;__main__&quot;:
+    if &quot;--play&quot; in sys.argv:
+        play()
+    else:
+        auto_play()
+</pre></article><article class="record"><h3>Amidar <small>Rank 10 &middot; compounded &middot; maze &middot; intermediate</small></h3><p>Amidar arrived in 1981 as a maze game with a different goal: instead of eating dots, the player painted the maze by walking around every box in the grid, while enemies patrolled the lines and a jump button offered a brief escape. Completing the whole grid, box by box, felt more like solving a puzzle than winning a chase, and the game stood out for its quiet, methodical tension.</p><p>This tribute recreates the grid maze on its own corridor map with a distinct dot pattern and ghost start, where the dots mark the lines to be covered. The demo changes the original by scripting a route that covers a strong stretch of the grid rather than the whole board, since the tribute session is kept short. It is an original tribute inspired by the mechanics.</p><p>Grid games reward systematic coverage. Work box by box, finish one row before starting the next, and keep track of which boxes are already painted. The players who completed the grid were the ones who treated it as a checklist, not a race.</p><p><b>Playable tribute note:</b> The demo below is an original tribute inspired by the mechanics of Amidar (1981). It is not Amidar (1981), and it uses no art, music, or code from that game.</p><h4>How to play</h4><p>Type up/down/left/right to move, quit to stop.</p><h4>Working demo program</h4><p>Save the code below as game.py and run <code>python3 game.py --play</code> to play it. Running it without arguments replays the scripted session whose output is stored with the record.</p><pre class="codeblock">import sys
+PARAMS = {&#x27;map&#x27;: [&#x27;#############&#x27;, &#x27;#P..........#&#x27;, &#x27;#...#.......#&#x27;, &#x27;#.....#.....#&#x27;, &#x27;#.......#...#&#x27;, &#x27;#..........G#&#x27;, &#x27;#############&#x27;]}
+AUTO = [&#x27;right&#x27;, &#x27;right&#x27;, &#x27;right&#x27;, &#x27;right&#x27;, &#x27;right&#x27;, &#x27;right&#x27;, &#x27;down&#x27;, &#x27;down&#x27;, &#x27;left&#x27;, &#x27;left&#x27;, &#x27;left&#x27;, &#x27;down&#x27;, &#x27;right&#x27;, &#x27;right&#x27;]
+
+def parse_map():
+    walls, dots, player, ghost = set(), set(), None, None
+    for y, row in enumerate(PARAMS[&quot;map&quot;]):
+        for x, ch in enumerate(row):
+            if ch == &quot;#&quot;:
+                walls.add((x, y))
+            elif ch == &quot;.&quot;:
+                dots.add((x, y))
+            elif ch == &quot;P&quot;:
+                player = (x, y)
+            elif ch == &quot;G&quot;:
+                ghost = (x, y)
+    return walls, dots, player, ghost
+
+DIRS = {&quot;up&quot;: (0, -1), &quot;down&quot;: (0, 1), &quot;left&quot;: (-1, 0), &quot;right&quot;: (1, 0)}
+
+def step(state, cmd):
+    walls, dots, player, ghost, score, lives = state
+    dx, dy = DIRS.get(cmd, (0, 0))
+    nx, ny = player[0] + dx, player[1] + dy
+    if (nx, ny) not in walls:
+        player = (nx, ny)
+    if player in dots:
+        dots = dots - {player}
+        score += 10
+    if ghost is not None:
+        gx, gy = ghost
+        best, bestd = ghost, abs(gx - player[0]) + abs(gy - player[1])
+        for mx, my in [(1, 0), (-1, 0), (0, 1), (0, -1)]:
+            cand = (gx + mx, gy + my)
+            if cand in walls:
+                continue
+            d = abs(cand[0] - player[0]) + abs(cand[1] - player[1])
+            if d &lt; bestd:
+                best, bestd = cand, d
+        ghost = best
+    if ghost is not None and player == ghost:
+        lives -= 1
+        walls, dots, player, ghost = reset_positions()
+    return (walls, dots, player, ghost, score, lives)
+
+def reset_positions():
+    walls, dots, player, ghost = parse_map()
+    return walls, dots, player, ghost
+
+def result_of(state):
+    walls, dots, player, ghost, score, lives = state
+    if not dots:
+        return &quot;WIN&quot;
+    if lives &lt;= 0:
+        return &quot;OUT OF LIVES&quot;
+    return &quot;ONGOING&quot;
+
+def auto_play():
+    walls, dots, player, ghost = parse_map()
+    state = (walls, dots, player, ghost, 0, 3)
+    print(&quot;Maze tribute: auto session&quot;)
+    for i, cmd in enumerate(AUTO):
+        state = step(state, cmd)
+        walls, dots, player, ghost, score, lives = state
+        print(&quot;Step %d: %s -&gt; pos %s score %d dots %d lives %d&quot; % (i + 1, cmd, player, score, len(dots), lives))
+        if result_of(state) != &quot;ONGOING&quot;:
+            break
+    print(&quot;FINAL SCORE: %d&quot; % state[4])
+    print(&quot;RESULT: %s&quot; % result_of(state))
+
+def play():
+    walls, dots, player, ghost = parse_map()
+    state = (walls, dots, player, ghost, 0, 3)
+    print(&quot;Maze tribute: type up/down/left/right, or quit. Eat every dot, avoid the ghost.&quot;)
+    for line in sys.stdin:
+        cmd = line.strip().lower()
+        if cmd == &quot;quit&quot;:
+            break
+        if cmd not in DIRS:
+            print(&quot;Unknown command: %s&quot; % cmd)
+            continue
+        state = step(state, cmd)
+        walls, dots, player, ghost, score, lives = state
+        print(&quot;pos %s score %d dots %d lives %d&quot; % (player, score, len(dots), lives))
+        if result_of(state) != &quot;ONGOING&quot;:
+            break
+    print(&quot;FINAL SCORE: %d&quot; % state[4])
+    print(&quot;RESULT: %s&quot; % result_of(state))
+
+if __name__ == &quot;__main__&quot;:
+    if &quot;--play&quot; in sys.argv:
+        play()
+    else:
+        auto_play()
+</pre></article><article class="record"><h3>Crush Roller <small>Rank 11 &middot; compounded &middot; maze &middot; intermediate</small></h3><p>Crush Roller arrived in 1981 as a maze game about painting: a paint roller rolled around a maze, coloring every corridor, while creatures chased it and paint buckets offered power. The roller had to paint the entire maze to advance, and the creatures grew faster as the paint spread, so the last corridors were always the hardest to finish.</p><p>This tribute recreates the painting maze on its own corridor map with a distinct dot pattern and ghost start, where the dots mark the paint to be laid down. The demo changes the original by scripting a route through a strong stretch of corridors, standing in for the full-coverage goal within a short session. It is an original tribute inspired by the mechanics.</p><p>Painting mazes reward finishing the edges first. The middle corridors are easy to reach from anywhere, but the far edges require a dedicated trip, so a roller that saves the edges for last often runs out of time. Paint outward, then inward, and the maze fills cleanly.</p><p><b>Playable tribute note:</b> The demo below is an original tribute inspired by the mechanics of Crush Roller (1981). It is not Crush Roller (1981), and it uses no art, music, or code from that game.</p><h4>How to play</h4><p>Type up/down/left/right to move, quit to stop.</p><h4>Working demo program</h4><p>Save the code below as game.py and run <code>python3 game.py --play</code> to play it. Running it without arguments replays the scripted session whose output is stored with the record.</p><pre class="codeblock">import sys
+PARAMS = {&#x27;map&#x27;: [&#x27;###########&#x27;, &#x27;#P........#&#x27;, &#x27;#....#....#&#x27;, &#x27;#......#..#&#x27;, &#x27;#...#.....#&#x27;, &#x27;#........G#&#x27;, &#x27;###########&#x27;]}
+AUTO = [&#x27;right&#x27;, &#x27;right&#x27;, &#x27;right&#x27;, &#x27;right&#x27;, &#x27;down&#x27;, &#x27;down&#x27;, &#x27;down&#x27;, &#x27;right&#x27;, &#x27;right&#x27;, &#x27;right&#x27;, &#x27;left&#x27;, &#x27;left&#x27;]
+
+def parse_map():
+    walls, dots, player, ghost = set(), set(), None, None
+    for y, row in enumerate(PARAMS[&quot;map&quot;]):
+        for x, ch in enumerate(row):
+            if ch == &quot;#&quot;:
+                walls.add((x, y))
+            elif ch == &quot;.&quot;:
+                dots.add((x, y))
+            elif ch == &quot;P&quot;:
+                player = (x, y)
+            elif ch == &quot;G&quot;:
+                ghost = (x, y)
+    return walls, dots, player, ghost
+
+DIRS = {&quot;up&quot;: (0, -1), &quot;down&quot;: (0, 1), &quot;left&quot;: (-1, 0), &quot;right&quot;: (1, 0)}
+
+def step(state, cmd):
+    walls, dots, player, ghost, score, lives = state
+    dx, dy = DIRS.get(cmd, (0, 0))
+    nx, ny = player[0] + dx, player[1] + dy
+    if (nx, ny) not in walls:
+        player = (nx, ny)
+    if player in dots:
+        dots = dots - {player}
+        score += 10
+    if ghost is not None:
+        gx, gy = ghost
+        best, bestd = ghost, abs(gx - player[0]) + abs(gy - player[1])
+        for mx, my in [(1, 0), (-1, 0), (0, 1), (0, -1)]:
+            cand = (gx + mx, gy + my)
+            if cand in walls:
+                continue
+            d = abs(cand[0] - player[0]) + abs(cand[1] - player[1])
+            if d &lt; bestd:
+                best, bestd = cand, d
+        ghost = best
+    if ghost is not None and player == ghost:
+        lives -= 1
+        walls, dots, player, ghost = reset_positions()
+    return (walls, dots, player, ghost, score, lives)
+
+def reset_positions():
+    walls, dots, player, ghost = parse_map()
+    return walls, dots, player, ghost
+
+def result_of(state):
+    walls, dots, player, ghost, score, lives = state
+    if not dots:
+        return &quot;WIN&quot;
+    if lives &lt;= 0:
+        return &quot;OUT OF LIVES&quot;
+    return &quot;ONGOING&quot;
+
+def auto_play():
+    walls, dots, player, ghost = parse_map()
+    state = (walls, dots, player, ghost, 0, 3)
+    print(&quot;Maze tribute: auto session&quot;)
+    for i, cmd in enumerate(AUTO):
+        state = step(state, cmd)
+        walls, dots, player, ghost, score, lives = state
+        print(&quot;Step %d: %s -&gt; pos %s score %d dots %d lives %d&quot; % (i + 1, cmd, player, score, len(dots), lives))
+        if result_of(state) != &quot;ONGOING&quot;:
+            break
+    print(&quot;FINAL SCORE: %d&quot; % state[4])
+    print(&quot;RESULT: %s&quot; % result_of(state))
+
+def play():
+    walls, dots, player, ghost = parse_map()
+    state = (walls, dots, player, ghost, 0, 3)
+    print(&quot;Maze tribute: type up/down/left/right, or quit. Eat every dot, avoid the ghost.&quot;)
+    for line in sys.stdin:
+        cmd = line.strip().lower()
+        if cmd == &quot;quit&quot;:
+            break
+        if cmd not in DIRS:
+            print(&quot;Unknown command: %s&quot; % cmd)
+            continue
+        state = step(state, cmd)
+        walls, dots, player, ghost, score, lives = state
+        print(&quot;pos %s score %d dots %d lives %d&quot; % (player, score, len(dots), lives))
+        if result_of(state) != &quot;ONGOING&quot;:
+            break
+    print(&quot;FINAL SCORE: %d&quot; % state[4])
+    print(&quot;RESULT: %s&quot; % result_of(state))
+
+if __name__ == &quot;__main__&quot;:
+    if &quot;--play&quot; in sys.argv:
+        play()
+    else:
+        auto_play()
+</pre></article><article class="record"><h3>Lock &#x27;n&#x27; Chase <small>Rank 12 &middot; complex &middot; maze &middot; advanced</small></h3><p>Lock &#x27;n&#x27; Chase arrived in 1981 as a maze game with a bank-heist theme: a thief collected coins through a bank vault maze while policemen patrolled, and doors could be locked behind the thief to slow the pursuit. The lock mechanic gave the player a rare power in a maze chase, the ability to shut a door in the enemy&#x27;s face, and it made every corridor a tactical choice.</p><p>This tribute recreates the vault maze on its own corridor map with a distinct dot pattern and ghost start, where the dots mark the coins to be collected. The demo changes the original by scripting a route without locking, since the tribute engine&#x27;s walls do not open or close, so the chase is shown in its pure form. It is an original tribute inspired by the mechanics.</p><p>Vault mazes reward door sense even without doors: know which corridors are one-way in practice, which corners trap you, and which lanes always offer an exit. A thief who knew the vault&#x27;s dead ends never entered them, and a runner who knows this map&#x27;s will do the same.</p><p><b>Playable tribute note:</b> The demo below is an original tribute inspired by the mechanics of Lock &#x27;n&#x27; Chase (1981). It is not Lock &#x27;n&#x27; Chase (1981), and it uses no art, music, or code from that game.</p><h4>How to play</h4><p>Type up/down/left/right to move, quit to stop.</p><h4>Working demo program</h4><p>Save the code below as game.py and run <code>python3 game.py --play</code> to play it. Running it without arguments replays the scripted session whose output is stored with the record.</p><pre class="codeblock">import sys
+PARAMS = {&#x27;map&#x27;: [&#x27;############&#x27;, &#x27;#P.........#&#x27;, &#x27;#....#.....#&#x27;, &#x27;#.......#..#&#x27;, &#x27;#..#......G#&#x27;, &#x27;############&#x27;]}
+AUTO = [&#x27;right&#x27;, &#x27;right&#x27;, &#x27;right&#x27;, &#x27;right&#x27;, &#x27;right&#x27;, &#x27;down&#x27;, &#x27;right&#x27;, &#x27;right&#x27;, &#x27;down&#x27;, &#x27;left&#x27;, &#x27;left&#x27;, &#x27;left&#x27;]
+
+def parse_map():
+    walls, dots, player, ghost = set(), set(), None, None
+    for y, row in enumerate(PARAMS[&quot;map&quot;]):
+        for x, ch in enumerate(row):
+            if ch == &quot;#&quot;:
+                walls.add((x, y))
+            elif ch == &quot;.&quot;:
+                dots.add((x, y))
+            elif ch == &quot;P&quot;:
+                player = (x, y)
+            elif ch == &quot;G&quot;:
+                ghost = (x, y)
+    return walls, dots, player, ghost
+
+DIRS = {&quot;up&quot;: (0, -1), &quot;down&quot;: (0, 1), &quot;left&quot;: (-1, 0), &quot;right&quot;: (1, 0)}
+
+def step(state, cmd):
+    walls, dots, player, ghost, score, lives = state
+    dx, dy = DIRS.get(cmd, (0, 0))
+    nx, ny = player[0] + dx, player[1] + dy
+    if (nx, ny) not in walls:
+        player = (nx, ny)
+    if player in dots:
+        dots = dots - {player}
+        score += 10
+    if ghost is not None:
+        gx, gy = ghost
+        best, bestd = ghost, abs(gx - player[0]) + abs(gy - player[1])
+        for mx, my in [(1, 0), (-1, 0), (0, 1), (0, -1)]:
+            cand = (gx + mx, gy + my)
+            if cand in walls:
+                continue
+            d = abs(cand[0] - player[0]) + abs(cand[1] - player[1])
+            if d &lt; bestd:
+                best, bestd = cand, d
+        ghost = best
+    if ghost is not None and player == ghost:
+        lives -= 1
+        walls, dots, player, ghost = reset_positions()
+    return (walls, dots, player, ghost, score, lives)
+
+def reset_positions():
+    walls, dots, player, ghost = parse_map()
+    return walls, dots, player, ghost
+
+def result_of(state):
+    walls, dots, player, ghost, score, lives = state
+    if not dots:
+        return &quot;WIN&quot;
+    if lives &lt;= 0:
+        return &quot;OUT OF LIVES&quot;
+    return &quot;ONGOING&quot;
+
+def auto_play():
+    walls, dots, player, ghost = parse_map()
+    state = (walls, dots, player, ghost, 0, 3)
+    print(&quot;Maze tribute: auto session&quot;)
+    for i, cmd in enumerate(AUTO):
+        state = step(state, cmd)
+        walls, dots, player, ghost, score, lives = state
+        print(&quot;Step %d: %s -&gt; pos %s score %d dots %d lives %d&quot; % (i + 1, cmd, player, score, len(dots), lives))
+        if result_of(state) != &quot;ONGOING&quot;:
+            break
+    print(&quot;FINAL SCORE: %d&quot; % state[4])
+    print(&quot;RESULT: %s&quot; % result_of(state))
+
+def play():
+    walls, dots, player, ghost = parse_map()
+    state = (walls, dots, player, ghost, 0, 3)
+    print(&quot;Maze tribute: type up/down/left/right, or quit. Eat every dot, avoid the ghost.&quot;)
+    for line in sys.stdin:
+        cmd = line.strip().lower()
+        if cmd == &quot;quit&quot;:
+            break
+        if cmd not in DIRS:
+            print(&quot;Unknown command: %s&quot; % cmd)
+            continue
+        state = step(state, cmd)
+        walls, dots, player, ghost, score, lives = state
+        print(&quot;pos %s score %d dots %d lives %d&quot; % (player, score, len(dots), lives))
+        if result_of(state) != &quot;ONGOING&quot;:
+            break
+    print(&quot;FINAL SCORE: %d&quot; % state[4])
+    print(&quot;RESULT: %s&quot; % result_of(state))
+
+if __name__ == &quot;__main__&quot;:
+    if &quot;--play&quot; in sys.argv:
+        play()
+    else:
+        auto_play()
+</pre></article><article class="record"><h3>Baby Pac-Man <small>Rank 13 &middot; complex &middot; maze &middot; advanced</small></h3><p>Baby Pac-Man arrived in 1982 as a hybrid curiosity: a video maze game combined with a real pinball table in the same cabinet. The player ate dots in the maze, and dropping through a chute sent the ball to the pinball playfield below, where bumpers and flippers added points before the action returned to the maze. It was two games in one cabinet, and it remains a beloved oddity.</p><p>This tribute recreates the maze half of the hybrid on its own corridor map with a distinct dot pattern and ghost start. The demo changes the original by playing only the maze portion, since the tribute engine covers maze movement and dot-eating, while the pinball half is described here in prose rather than simulated. It is an original tribute inspired by the mechanics.</p><p>Hybrid games reward switching skills: the maze half wants calm routing, and the pinball half wants quick reflexes, and the players who enjoyed the cabinet were the ones who could shift gears between the two. In the maze alone, the old rules still apply: clear the edges, keep an exit open, and never corner yourself.</p><p><b>Playable tribute note:</b> The demo below is an original tribute inspired by the mechanics of Baby Pac-Man (1982). It is not Baby Pac-Man (1982), and it uses no art, music, or code from that game.</p><h4>How to play</h4><p>Type up/down/left/right to move, quit to stop.</p><h4>Working demo program</h4><p>Save the code below as game.py and run <code>python3 game.py --play</code> to play it. Running it without arguments replays the scripted session whose output is stored with the record.</p><pre class="codeblock">import sys
+PARAMS = {&#x27;map&#x27;: [&#x27;###########&#x27;, &#x27;#P........#&#x27;, &#x27;#.....#...#&#x27;, &#x27;#.......#.#&#x27;, &#x27;#.........#&#x27;, &#x27;#...#....G#&#x27;, &#x27;###########&#x27;]}
+AUTO = [&#x27;right&#x27;, &#x27;right&#x27;, &#x27;right&#x27;, &#x27;down&#x27;, &#x27;down&#x27;, &#x27;right&#x27;, &#x27;right&#x27;, &#x27;right&#x27;, &#x27;right&#x27;, &#x27;down&#x27;, &#x27;left&#x27;, &#x27;left&#x27;]
+
+def parse_map():
+    walls, dots, player, ghost = set(), set(), None, None
+    for y, row in enumerate(PARAMS[&quot;map&quot;]):
+        for x, ch in enumerate(row):
+            if ch == &quot;#&quot;:
+                walls.add((x, y))
+            elif ch == &quot;.&quot;:
+                dots.add((x, y))
+            elif ch == &quot;P&quot;:
+                player = (x, y)
+            elif ch == &quot;G&quot;:
+                ghost = (x, y)
+    return walls, dots, player, ghost
+
+DIRS = {&quot;up&quot;: (0, -1), &quot;down&quot;: (0, 1), &quot;left&quot;: (-1, 0), &quot;right&quot;: (1, 0)}
+
+def step(state, cmd):
+    walls, dots, player, ghost, score, lives = state
+    dx, dy = DIRS.get(cmd, (0, 0))
+    nx, ny = player[0] + dx, player[1] + dy
+    if (nx, ny) not in walls:
+        player = (nx, ny)
+    if player in dots:
+        dots = dots - {player}
+        score += 10
+    if ghost is not None:
+        gx, gy = ghost
+        best, bestd = ghost, abs(gx - player[0]) + abs(gy - player[1])
+        for mx, my in [(1, 0), (-1, 0), (0, 1), (0, -1)]:
+            cand = (gx + mx, gy + my)
+            if cand in walls:
+                continue
+            d = abs(cand[0] - player[0]) + abs(cand[1] - player[1])
+            if d &lt; bestd:
+                best, bestd = cand, d
+        ghost = best
+    if ghost is not None and player == ghost:
+        lives -= 1
+        walls, dots, player, ghost = reset_positions()
+    return (walls, dots, player, ghost, score, lives)
+
+def reset_positions():
+    walls, dots, player, ghost = parse_map()
+    return walls, dots, player, ghost
+
+def result_of(state):
+    walls, dots, player, ghost, score, lives = state
+    if not dots:
+        return &quot;WIN&quot;
+    if lives &lt;= 0:
+        return &quot;OUT OF LIVES&quot;
+    return &quot;ONGOING&quot;
+
+def auto_play():
+    walls, dots, player, ghost = parse_map()
+    state = (walls, dots, player, ghost, 0, 3)
+    print(&quot;Maze tribute: auto session&quot;)
+    for i, cmd in enumerate(AUTO):
+        state = step(state, cmd)
+        walls, dots, player, ghost, score, lives = state
+        print(&quot;Step %d: %s -&gt; pos %s score %d dots %d lives %d&quot; % (i + 1, cmd, player, score, len(dots), lives))
+        if result_of(state) != &quot;ONGOING&quot;:
+            break
+    print(&quot;FINAL SCORE: %d&quot; % state[4])
+    print(&quot;RESULT: %s&quot; % result_of(state))
+
+def play():
+    walls, dots, player, ghost = parse_map()
+    state = (walls, dots, player, ghost, 0, 3)
+    print(&quot;Maze tribute: type up/down/left/right, or quit. Eat every dot, avoid the ghost.&quot;)
+    for line in sys.stdin:
+        cmd = line.strip().lower()
+        if cmd == &quot;quit&quot;:
+            break
+        if cmd not in DIRS:
+            print(&quot;Unknown command: %s&quot; % cmd)
+            continue
+        state = step(state, cmd)
+        walls, dots, player, ghost, score, lives = state
+        print(&quot;pos %s score %d dots %d lives %d&quot; % (player, score, len(dots), lives))
+        if result_of(state) != &quot;ONGOING&quot;:
+            break
+    print(&quot;FINAL SCORE: %d&quot; % state[4])
+    print(&quot;RESULT: %s&quot; % result_of(state))
+
+if __name__ == &quot;__main__&quot;:
+    if &quot;--play&quot; in sys.argv:
+        play()
+    else:
+        auto_play()
+</pre></article><article class="record"><h3>Pac-Land <small>Rank 14 &middot; complex &middot; maze &middot; advanced</small></h3><p>Pac-Land arrived in 1984 as a side-scrolling platform game, not a maze game at all: the hero ran and jumped through a colorful cartoon world, riding in cars and dodging ghosts on foot. It took the maze hero out of the maze and into a storybook landscape, and it showed that a familiar character could carry a completely different kind of game.</p><p>This tribute is a maze-platform hybrid, and the hybrid is stated honestly: the maze engine moves in four directions and eats dots, so the tribute map is drawn with platform flavor, long horizontal lanes that stand in for the scrolling world, and a single pursuer standing in for the on-foot ghosts. The jumping and scrolling of the original are described here rather than simulated. It is an original tribute inspired by the mechanics.</p><p>Platform-flavored mazes reward long, steady runs. Take the horizontal lanes in full strides, watch for the pursuer at lane changes, and treat each lane like a stretch of road rather than a corridor. The hero who ran the world learned to keep moving forward, and the runner who keeps moving here will do the same.</p><p><b>Playable tribute note:</b> The demo below is an original tribute inspired by the mechanics of Pac-Land (1984). It is not Pac-Land (1984), and it uses no art, music, or code from that game.</p><h4>How to play</h4><p>Type up/down/left/right to move, quit to stop.</p><h4>Working demo program</h4><p>Save the code below as game.py and run <code>python3 game.py --play</code> to play it. Running it without arguments replays the scripted session whose output is stored with the record.</p><pre class="codeblock">import sys
+PARAMS = {&#x27;map&#x27;: [&#x27;############&#x27;, &#x27;#P.........#&#x27;, &#x27;#...#......#&#x27;, &#x27;#..........#&#x27;, &#x27;#.....#....#&#x27;, &#x27;#..........#&#x27;, &#x27;#........#G#&#x27;, &#x27;############&#x27;]}
+AUTO = [&#x27;right&#x27;, &#x27;right&#x27;, &#x27;right&#x27;, &#x27;right&#x27;, &#x27;right&#x27;, &#x27;down&#x27;, &#x27;down&#x27;, &#x27;left&#x27;, &#x27;left&#x27;, &#x27;down&#x27;, &#x27;down&#x27;, &#x27;right&#x27;, &#x27;right&#x27;]
+
+def parse_map():
+    walls, dots, player, ghost = set(), set(), None, None
+    for y, row in enumerate(PARAMS[&quot;map&quot;]):
+        for x, ch in enumerate(row):
+            if ch == &quot;#&quot;:
+                walls.add((x, y))
+            elif ch == &quot;.&quot;:
+                dots.add((x, y))
+            elif ch == &quot;P&quot;:
+                player = (x, y)
+            elif ch == &quot;G&quot;:
+                ghost = (x, y)
+    return walls, dots, player, ghost
+
+DIRS = {&quot;up&quot;: (0, -1), &quot;down&quot;: (0, 1), &quot;left&quot;: (-1, 0), &quot;right&quot;: (1, 0)}
+
+def step(state, cmd):
+    walls, dots, player, ghost, score, lives = state
+    dx, dy = DIRS.get(cmd, (0, 0))
+    nx, ny = player[0] + dx, player[1] + dy
+    if (nx, ny) not in walls:
+        player = (nx, ny)
+    if player in dots:
+        dots = dots - {player}
+        score += 10
+    if ghost is not None:
+        gx, gy = ghost
+        best, bestd = ghost, abs(gx - player[0]) + abs(gy - player[1])
+        for mx, my in [(1, 0), (-1, 0), (0, 1), (0, -1)]:
+            cand = (gx + mx, gy + my)
+            if cand in walls:
+                continue
+            d = abs(cand[0] - player[0]) + abs(cand[1] - player[1])
+            if d &lt; bestd:
+                best, bestd = cand, d
+        ghost = best
+    if ghost is not None and player == ghost:
+        lives -= 1
+        walls, dots, player, ghost = reset_positions()
+    return (walls, dots, player, ghost, score, lives)
+
+def reset_positions():
+    walls, dots, player, ghost = parse_map()
+    return walls, dots, player, ghost
+
+def result_of(state):
+    walls, dots, player, ghost, score, lives = state
+    if not dots:
+        return &quot;WIN&quot;
+    if lives &lt;= 0:
+        return &quot;OUT OF LIVES&quot;
+    return &quot;ONGOING&quot;
+
+def auto_play():
+    walls, dots, player, ghost = parse_map()
+    state = (walls, dots, player, ghost, 0, 3)
+    print(&quot;Maze tribute: auto session&quot;)
+    for i, cmd in enumerate(AUTO):
+        state = step(state, cmd)
+        walls, dots, player, ghost, score, lives = state
+        print(&quot;Step %d: %s -&gt; pos %s score %d dots %d lives %d&quot; % (i + 1, cmd, player, score, len(dots), lives))
+        if result_of(state) != &quot;ONGOING&quot;:
+            break
+    print(&quot;FINAL SCORE: %d&quot; % state[4])
+    print(&quot;RESULT: %s&quot; % result_of(state))
+
+def play():
+    walls, dots, player, ghost = parse_map()
+    state = (walls, dots, player, ghost, 0, 3)
+    print(&quot;Maze tribute: type up/down/left/right, or quit. Eat every dot, avoid the ghost.&quot;)
+    for line in sys.stdin:
+        cmd = line.strip().lower()
+        if cmd == &quot;quit&quot;:
+            break
+        if cmd not in DIRS:
+            print(&quot;Unknown command: %s&quot; % cmd)
+            continue
+        state = step(state, cmd)
+        walls, dots, player, ghost, score, lives = state
+        print(&quot;pos %s score %d dots %d lives %d&quot; % (player, score, len(dots), lives))
+        if result_of(state) != &quot;ONGOING&quot;:
+            break
+    print(&quot;FINAL SCORE: %d&quot; % state[4])
+    print(&quot;RESULT: %s&quot; % result_of(state))
+
+if __name__ == &quot;__main__&quot;:
+    if &quot;--play&quot; in sys.argv:
+        play()
+    else:
+        auto_play()
+</pre></article><article class="record"><h3>Wizard of Wor <small>Rank 15 &middot; complex &middot; maze &middot; advanced</small></h3><p>Wizard of Wor arrived in 1980 as a maze shooter: two players explored dungeon mazes, shooting monsters that appeared in the corridors, while the wizard himself eventually appeared to hunt them. The dungeons changed layout, the monsters grew faster, and the game mixed maze exploration with arcade shooting in a way no earlier maze game had attempted.</p><p>This tribute is a maze game with a shooter element, and the blend is stated honestly: the maze engine moves in four directions and eats dots, so the dots stand in for cleared dungeon corridors, and the single pursuer stands in for the dungeon&#x27;s monsters. The shooting itself is described here rather than simulated, because the tribute engine does not fire. It is an original tribute inspired by the mechanics.</p><p>Dungeon mazes reward clearing as you go. A corridor you have already walked is a safe retreat, while an unexplored corridor may hold anything, so the wise adventurer advances one corridor at a time and never lets the retreat close behind them.</p><p><b>Playable tribute note:</b> The demo below is an original tribute inspired by the mechanics of Wizard of Wor (1980). It is not Wizard of Wor (1980), and it uses no art, music, or code from that game.</p><h4>How to play</h4><p>Type up/down/left/right to move, quit to stop.</p><h4>Working demo program</h4><p>Save the code below as game.py and run <code>python3 game.py --play</code> to play it. Running it without arguments replays the scripted session whose output is stored with the record.</p><pre class="codeblock">import sys
+PARAMS = {&#x27;map&#x27;: [&#x27;###########&#x27;, &#x27;#P........#&#x27;, &#x27;#......#..#&#x27;, &#x27;#..#......#&#x27;, &#x27;#....#...G#&#x27;, &#x27;###########&#x27;]}
+AUTO = [&#x27;right&#x27;, &#x27;right&#x27;, &#x27;right&#x27;, &#x27;right&#x27;, &#x27;down&#x27;, &#x27;left&#x27;, &#x27;left&#x27;, &#x27;down&#x27;, &#x27;right&#x27;, &#x27;right&#x27;, &#x27;right&#x27;]
+
+def parse_map():
+    walls, dots, player, ghost = set(), set(), None, None
+    for y, row in enumerate(PARAMS[&quot;map&quot;]):
+        for x, ch in enumerate(row):
+            if ch == &quot;#&quot;:
+                walls.add((x, y))
+            elif ch == &quot;.&quot;:
+                dots.add((x, y))
+            elif ch == &quot;P&quot;:
+                player = (x, y)
+            elif ch == &quot;G&quot;:
+                ghost = (x, y)
+    return walls, dots, player, ghost
+
+DIRS = {&quot;up&quot;: (0, -1), &quot;down&quot;: (0, 1), &quot;left&quot;: (-1, 0), &quot;right&quot;: (1, 0)}
+
+def step(state, cmd):
+    walls, dots, player, ghost, score, lives = state
+    dx, dy = DIRS.get(cmd, (0, 0))
+    nx, ny = player[0] + dx, player[1] + dy
+    if (nx, ny) not in walls:
+        player = (nx, ny)
+    if player in dots:
+        dots = dots - {player}
+        score += 10
+    if ghost is not None:
+        gx, gy = ghost
+        best, bestd = ghost, abs(gx - player[0]) + abs(gy - player[1])
+        for mx, my in [(1, 0), (-1, 0), (0, 1), (0, -1)]:
+            cand = (gx + mx, gy + my)
+            if cand in walls:
+                continue
+            d = abs(cand[0] - player[0]) + abs(cand[1] - player[1])
+            if d &lt; bestd:
+                best, bestd = cand, d
+        ghost = best
+    if ghost is not None and player == ghost:
+        lives -= 1
+        walls, dots, player, ghost = reset_positions()
+    return (walls, dots, player, ghost, score, lives)
+
+def reset_positions():
+    walls, dots, player, ghost = parse_map()
+    return walls, dots, player, ghost
+
+def result_of(state):
+    walls, dots, player, ghost, score, lives = state
+    if not dots:
+        return &quot;WIN&quot;
+    if lives &lt;= 0:
+        return &quot;OUT OF LIVES&quot;
+    return &quot;ONGOING&quot;
+
+def auto_play():
+    walls, dots, player, ghost = parse_map()
+    state = (walls, dots, player, ghost, 0, 3)
+    print(&quot;Maze tribute: auto session&quot;)
+    for i, cmd in enumerate(AUTO):
+        state = step(state, cmd)
+        walls, dots, player, ghost, score, lives = state
+        print(&quot;Step %d: %s -&gt; pos %s score %d dots %d lives %d&quot; % (i + 1, cmd, player, score, len(dots), lives))
+        if result_of(state) != &quot;ONGOING&quot;:
+            break
+    print(&quot;FINAL SCORE: %d&quot; % state[4])
+    print(&quot;RESULT: %s&quot; % result_of(state))
+
+def play():
+    walls, dots, player, ghost = parse_map()
+    state = (walls, dots, player, ghost, 0, 3)
+    print(&quot;Maze tribute: type up/down/left/right, or quit. Eat every dot, avoid the ghost.&quot;)
+    for line in sys.stdin:
+        cmd = line.strip().lower()
+        if cmd == &quot;quit&quot;:
+            break
+        if cmd not in DIRS:
+            print(&quot;Unknown command: %s&quot; % cmd)
+            continue
+        state = step(state, cmd)
+        walls, dots, player, ghost, score, lives = state
+        print(&quot;pos %s score %d dots %d lives %d&quot; % (player, score, len(dots), lives))
+        if result_of(state) != &quot;ONGOING&quot;:
+            break
+    print(&quot;FINAL SCORE: %d&quot; % state[4])
+    print(&quot;RESULT: %s&quot; % result_of(state))
+
+if __name__ == &quot;__main__&quot;:
+    if &quot;--play&quot; in sys.argv:
+        play()
+    else:
+        auto_play()
+</pre></article><article class="record"><h3>Bomberman <small>Rank 16 &middot; complex &middot; maze &middot; advanced</small></h3><p>Bomberman arrived in 1987 as a maze game with bombs: the player walked a grid maze, laid bombs to blast blocks and enemies, and collected power-ups that lengthened the blasts and quickened the pace. The single-player maze was only the beginning; the game&#x27;s multiplayer battles, with four players trapping each other in bomb blasts, became legendary.</p><p>This tribute is a maze game with a bomb element, and the blend is stated honestly: the maze engine moves in four directions and eats dots, so the dots stand in for blasted blocks and cleared ground, and the single pursuer stands in for the maze&#x27;s enemies. The bomb-laying itself is described here rather than simulated, because the tribute engine does not place bombs. It is an original tribute inspired by the mechanics.</p><p>Bomb mazes reward blast awareness: never stand where your own blast will reach, always leave an escape corridor before you strike, and use the maze&#x27;s walls as shields. The players who mastered the grid were the ones who thought one blast ahead, and the runner here should think one corridor ahead.</p><p><b>Playable tribute note:</b> The demo below is an original tribute inspired by the mechanics of Bomberman (1987). It is not Bomberman (1987), and it uses no art, music, or code from that game.</p><h4>How to play</h4><p>Type up/down/left/right to move, quit to stop.</p><h4>Working demo program</h4><p>Save the code below as game.py and run <code>python3 game.py --play</code> to play it. Running it without arguments replays the scripted session whose output is stored with the record.</p><pre class="codeblock">import sys
+PARAMS = {&#x27;map&#x27;: [&#x27;#############&#x27;, &#x27;#P..........#&#x27;, &#x27;#...........#&#x27;, &#x27;#.....#.....#&#x27;, &#x27;#...........#&#x27;, &#x27;#........#..#&#x27;, &#x27;#...#......G#&#x27;, &#x27;#############&#x27;]}
+AUTO = [&#x27;right&#x27;, &#x27;right&#x27;, &#x27;right&#x27;, &#x27;right&#x27;, &#x27;right&#x27;, &#x27;down&#x27;, &#x27;down&#x27;, &#x27;down&#x27;, &#x27;right&#x27;, &#x27;right&#x27;, &#x27;right&#x27;, &#x27;left&#x27;, &#x27;left&#x27;]
+
+def parse_map():
+    walls, dots, player, ghost = set(), set(), None, None
+    for y, row in enumerate(PARAMS[&quot;map&quot;]):
+        for x, ch in enumerate(row):
+            if ch == &quot;#&quot;:
+                walls.add((x, y))
+            elif ch == &quot;.&quot;:
+                dots.add((x, y))
+            elif ch == &quot;P&quot;:
+                player = (x, y)
+            elif ch == &quot;G&quot;:
+                ghost = (x, y)
+    return walls, dots, player, ghost
+
+DIRS = {&quot;up&quot;: (0, -1), &quot;down&quot;: (0, 1), &quot;left&quot;: (-1, 0), &quot;right&quot;: (1, 0)}
+
+def step(state, cmd):
+    walls, dots, player, ghost, score, lives = state
+    dx, dy = DIRS.get(cmd, (0, 0))
+    nx, ny = player[0] + dx, player[1] + dy
+    if (nx, ny) not in walls:
+        player = (nx, ny)
+    if player in dots:
+        dots = dots - {player}
+        score += 10
+    if ghost is not None:
+        gx, gy = ghost
+        best, bestd = ghost, abs(gx - player[0]) + abs(gy - player[1])
+        for mx, my in [(1, 0), (-1, 0), (0, 1), (0, -1)]:
+            cand = (gx + mx, gy + my)
+            if cand in walls:
+                continue
+            d = abs(cand[0] - player[0]) + abs(cand[1] - player[1])
+            if d &lt; bestd:
+                best, bestd = cand, d
+        ghost = best
+    if ghost is not None and player == ghost:
+        lives -= 1
+        walls, dots, player, ghost = reset_positions()
+    return (walls, dots, player, ghost, score, lives)
+
+def reset_positions():
+    walls, dots, player, ghost = parse_map()
+    return walls, dots, player, ghost
+
+def result_of(state):
+    walls, dots, player, ghost, score, lives = state
+    if not dots:
+        return &quot;WIN&quot;
+    if lives &lt;= 0:
+        return &quot;OUT OF LIVES&quot;
+    return &quot;ONGOING&quot;
+
+def auto_play():
+    walls, dots, player, ghost = parse_map()
+    state = (walls, dots, player, ghost, 0, 3)
+    print(&quot;Maze tribute: auto session&quot;)
+    for i, cmd in enumerate(AUTO):
+        state = step(state, cmd)
+        walls, dots, player, ghost, score, lives = state
+        print(&quot;Step %d: %s -&gt; pos %s score %d dots %d lives %d&quot; % (i + 1, cmd, player, score, len(dots), lives))
+        if result_of(state) != &quot;ONGOING&quot;:
+            break
+    print(&quot;FINAL SCORE: %d&quot; % state[4])
+    print(&quot;RESULT: %s&quot; % result_of(state))
+
+def play():
+    walls, dots, player, ghost = parse_map()
+    state = (walls, dots, player, ghost, 0, 3)
+    print(&quot;Maze tribute: type up/down/left/right, or quit. Eat every dot, avoid the ghost.&quot;)
+    for line in sys.stdin:
+        cmd = line.strip().lower()
+        if cmd == &quot;quit&quot;:
+            break
+        if cmd not in DIRS:
+            print(&quot;Unknown command: %s&quot; % cmd)
+            continue
+        state = step(state, cmd)
+        walls, dots, player, ghost, score, lives = state
+        print(&quot;pos %s score %d dots %d lives %d&quot; % (player, score, len(dots), lives))
+        if result_of(state) != &quot;ONGOING&quot;:
+            break
+    print(&quot;FINAL SCORE: %d&quot; % state[4])
+    print(&quot;RESULT: %s&quot; % result_of(state))
+
+if __name__ == &quot;__main__&quot;:
+    if &quot;--play&quot; in sys.argv:
+        play()
+    else:
+        auto_play()
+</pre></article>
+<h2>Related databases</h2><ul><li><a href="../video-game-arcade/index.html">video-game-arcade</a></li><li><a href="../golden-age-arcade/index.html">golden-age-arcade</a></li><li><a href="../arcade/index.html">arcade</a></li><li><a href="../videogame-history-pac-man-arcade/index.html">videogame-history-pac-man-arcade</a></li><li><a href="../maze-arcade-games-signature/index.html">maze-arcade-games-signature</a></li></ul>
+<script src="gen-maze-arcade-games.js"></script>
+<script>
+(function(){'use strict';
+var DATA_URL='https://justinahiggins614-cmyk.github.io/jah-databases-data-2/data/maze-arcade-games/index.jsonl.gz';
+function $(id){return document.getElementById(id);}
+function setCount(n){ $('stCount').textContent=n.toLocaleString()+' / 1,000,000 target'; $('stCount2').textContent=n.toLocaleString(); }
+fetch(DATA_URL).then(function(res){
+  if(!res.ok) throw new Error('HTTP '+res.status);
+  var ds=new DecompressionStream('gzip');
+  return new Response(res.body.pipeThrough(ds)).text();
+}).then(function(t){
+  var n=t.split('\n').filter(function(l){return l.trim();}).length;
+  setCount(n);
+}).catch(function(){ $('stCount').textContent='archive unreachable'; });
+})();
+</script>
+<script src="../../assets/assistant-maker.js"></script>
+</body></html>

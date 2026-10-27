@@ -1,0 +1,1099 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">
+<title>The Racing Arcade Games Signature Database</title><meta name="description" content="The Racing Arcade Games Signature Database: sixteen full arcade records, ordered simple to complex, each with a playable demo program. Free forever.">
+<style>body{font-family:system-ui,sans-serif;max-width:900px;margin:auto;padding:1em;line-height:1.6}
+.kv{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:0.75em}
+.kv>div{border:1px solid #ccc;padding:0.5em}.codeblock{background:#111;color:#eee;padding:1em;overflow:auto;white-space:pre-wrap}
+.pill{display:inline-block;border:1px solid #333;border-radius:2em;padding:0.2em 0.8em;margin:0.2em}
+.merger{background:#c00;color:#fff;border:0;padding:0.7em 1.4em;font-size:1em;cursor:pointer}
+.record{border-top:2px solid #333;margin-top:2em;padding-top:1em}</style></head><body>
+<h1>The Racing Arcade Games Signature Database</h1><p class="pill">Exhaustive</p> <p class="pill">march to a million: in progress</p>
+<button class="merger" onclick="alert('All Database Merger: this database is ready to merge into the network archive.')">All Database Merger</button>
+<p>Archive records: <b id="stCount">16 / 1,000,000 target</b> · <span id="stCount2">16</span> records <span class="dim">(populated from the live archive index)</span></p>
+<p>Racing games put the player behind the wheel with a clock running: qualify, dodge traffic, hold the racing line, and beat the rival times. This database covers the landmark arcade racers and adds a set of original racing games built in the same spirit.</p>
+<p>Every record here is the full, fully-formed file: a full prose description, how to play, and a working, playable demo program. Everything is free forever, with no payments and no upsells. Public editions describe real arcade games in original words and ship original tribute demos inspired by their mechanics; they never ship the original game, its art, its music, or its code.</p>
+<h2>Specialist AI: JAH Racing Arcade Guide</h2><p>JAH Racing Arcade Guide answers questions about this arcade family, explains any record in plain sentences, and helps choose the right game, controls, or strategy for a session.</p>
+<h2>Boundless generator</h2><p>The generator below is seeded and deterministic, throttled to at most 100 records per call, duplicate-checked, and hard-stopped at 10^15 records. Every generated record is labeled src "generated". Open the page script to use <code>window.RacingArcadeGamesSignatureTools.generateRecord(seed)</code>.</p>
+<h2>Validation engine</h2><p>Each record is checked for a complete title, its own record kind, its own edition slug and id prefix, a full prose description, topic fields, a demo whose stored output byte-matches a fresh run, and a play-mode smoke test proving the demo actually plays.</p>
+<h2>Evidence links</h2><ul><li><a href="https://justinahiggins614-cmyk.github.io/jah-databases-data-2/data/racing-arcade-games-signature/index.jsonl.gz">Full record index for this edition (data-2)</a></li></ul>
+<h2>Tool connections</h2><p>The page exposes <code>window.RacingArcadeGamesSignatureTools</code> with <code>searchRecords</code>, <code>generateRecord</code>, <code>validateRecord</code>, and <code>runTests</code>.</p>
+<h2>Testing suite</h2><p>Run <code>window.RacingArcadeGamesSignatureTools.runTests()</code> in the console: it checks record kind, slug, id prefix, src labeling, validation, duplicate rejection, batch throttling, and search.</p>
+<h2>Audit history</h2><p>Built as a package on 2026-10-26: 16 records, ordered simple to compounded to complex by ladder rank, JSONL re-parsed, every demo re-executed with byte-matched output and play-mode smoke-tested, both generator files syntax-checked, and generator gates executed.</p>
+<h2>Search</h2><input id="q" placeholder="Search racing arcade record" oninput="doSearch(this.value)"><div id="results"></div>
+<script>var SEARCH_INDEX=[{"id": "JAH-RCAS-000001", "title": "Sunset Coast Grand Prix"}, {"id": "JAH-RCAS-000002", "title": "Dust Devil Derby"}, {"id": "JAH-RCAS-000003", "title": "Harbor Loop Rally"}, {"id": "JAH-RCAS-000004", "title": "Neon Night Speedway"}, {"id": "JAH-RCAS-000005", "title": "Canyon Ridge Run"}, {"id": "JAH-RCAS-000006", "title": "Frozen Lake 500"}, {"id": "JAH-RCAS-000007", "title": "Jungle Trail Pursuit"}, {"id": "JAH-RCAS-000008", "title": "Skyline Sprint Cup"}, {"id": "JAH-RCAS-000009", "title": "Desert Mirage Rally"}, {"id": "JAH-RCAS-000010", "title": "Thunder Bay Time Trial"}, {"id": "JAH-RCAS-000011", "title": "Maple Valley Circuit"}, {"id": "JAH-RCAS-000012", "title": "Volcano Ash Raceway"}, {"id": "JAH-RCAS-000013", "title": "Riverbend Rallycross"}, {"id": "JAH-RCAS-000014", "title": "Moonlight Mile Dash"}, {"id": "JAH-RCAS-000015", "title": "Stormfront Grand Tour"}, {"id": "JAH-RCAS-000016", "title": "Golden Harbor Gallop"}];function doSearch(q){q=q.toLowerCase();var hits=SEARCH_INDEX.filter(function(r){return r.title.toLowerCase().indexOf(q)!==-1});document.getElementById('results').innerHTML=hits.map(function(r){return '<p>'+r.id+' — '+r.title+'</p>'}).join('')||'<p>No matches yet.</p>';}</script>
+<h2>Records</h2><div class="kv"><div>Records: 16</div><div>Editions: 1 of a pair</div><div>Free forever</div></div>
+<article class="record"><h3>Sunset Coast Grand Prix <small>Rank 1 &middot; simple &middot; racing &middot; beginner</small></h3><p>Sunset Coast Grand Prix is an original racing game. A seaside grand prix winds along cliffs at dusk, where drivers race the setting sun as much as each other.</p><p>Each tick you choose accelerate, brake, or a lane change. Speed builds quickly, obstacles punish fast drivers who stay in the wrong lane, and crashes cost precious seconds. Finish the distance and your time is ranked against a set of rival times.</p><p>Watch the distance markers: an obstacle only punishes a driver who is still moving fast in its lane when the car reaches it.</p><p><b>Original game note:</b> This is an original arcade-style game created for this Signature edition, with its own title, rules, and play.</p><h4>How to play</h4><p>Type accel, brake, left or right each tick, or quit to stop.</p><h4>Working demo program</h4><p>Save the code below as game.py and run <code>python3 game.py --play</code> to play it. Running it without arguments replays the scripted session whose output is stored with the record.</p><pre class="codeblock">import sys
+PARAMS = {&#x27;distance&#x27;: 211, &#x27;obstacles&#x27;: [[44, 1], [79, 2], [114, 0], [149, 1]], &#x27;rivals&#x27;: [25, 28, 37]}
+AUTO = [&#x27;accel&#x27;, &#x27;accel&#x27;, &#x27;right&#x27;, &#x27;accel&#x27;, &#x27;left&#x27;, &#x27;brake&#x27;, &#x27;accel&#x27;, &#x27;right&#x27;, &#x27;accel&#x27;, &#x27;accel&#x27;, &#x27;accel&#x27;, &#x27;left&#x27;, &#x27;right&#x27;, &#x27;accel&#x27;, &#x27;accel&#x27;, &#x27;accel&#x27;, &#x27;accel&#x27;, &#x27;brake&#x27;]
+
+def race(cmds):
+    dist, speed, lane, time, penalties = 0, 0, 1, 0, 0
+    obstacles = dict((d, l) for d, l in PARAMS[&quot;obstacles&quot;])
+    log = []
+    for tick, cmd in enumerate(cmds):
+        if cmd == &quot;accel&quot;:
+            speed = min(200, speed + 20)
+        elif cmd == &quot;brake&quot;:
+            speed = max(0, speed - 40)
+        elif cmd == &quot;left&quot;:
+            lane = max(0, lane - 1)
+        elif cmd == &quot;right&quot;:
+            lane = min(2, lane + 1)
+        dist += speed // 10
+        time += 1
+        crashed = False
+        for d, l in obstacles.items():
+            if dist &gt;= d and dist - speed // 10 &lt; d and l == lane and speed &gt; 60:
+                speed = 0
+                penalties += 5
+                crashed = True
+        log.append(&quot;Tick %d: %s dist %d speed %d lane %d %s&quot; % (tick + 1, cmd, dist, speed, lane, &quot;CRASH&quot; if crashed else &quot;ok&quot;))
+        if dist &gt;= PARAMS[&quot;distance&quot;]:
+            break
+    return dist, time + penalties, log
+
+def auto_play():
+    print(&quot;Racing tribute: auto session&quot;)
+    dist, total, log = race(AUTO)
+    for line in log:
+        print(line)
+    rivals = PARAMS[&quot;rivals&quot;]
+    place = 1 + sum(1 for r in rivals if r &lt; total)
+    print(&quot;FINAL SCORE: %d&quot; % max(0, 1000 - total * 10 + (4 - place) * 50))
+    print(&quot;RESULT: FINISHED place %d time %d&quot; % (place, total))
+
+def play():
+    print(&quot;Racing tribute: type accel/brake/left/right each tick, or quit. Finish %d m first.&quot; % PARAMS[&quot;distance&quot;])
+    cmds = []
+    for line in sys.stdin:
+        cmd = line.strip().lower()
+        if cmd == &quot;quit&quot;:
+            break
+        if cmd not in (&quot;accel&quot;, &quot;brake&quot;, &quot;left&quot;, &quot;right&quot;):
+            print(&quot;Unknown command: %s&quot; % cmd)
+            continue
+        cmds.append(cmd)
+        dist, total, log = race(cmds)
+        print(log[-1])
+        if dist &gt;= PARAMS[&quot;distance&quot;]:
+            break
+    dist, total, log = race(cmds)
+    rivals = PARAMS[&quot;rivals&quot;]
+    place = 1 + sum(1 for r in rivals if r &lt; total)
+    print(&quot;FINAL SCORE: %d&quot; % max(0, 1000 - total * 10 + (4 - place) * 50))
+    print(&quot;RESULT: %s&quot; % (&quot;FINISHED place %d time %d&quot; % (place, total) if dist &gt;= PARAMS[&quot;distance&quot;] else &quot;QUIT&quot;))
+
+if __name__ == &quot;__main__&quot;:
+    if &quot;--play&quot; in sys.argv:
+        play()
+    else:
+        auto_play()
+</pre></article><article class="record"><h3>Dust Devil Derby <small>Rank 2 &middot; simple &middot; racing &middot; beginner</small></h3><p>Dust Devil Derby is an original racing game. A desert derby crosses dry lake beds and dusty canyons, where every turn throws up a cloud that hides the road ahead.</p><p>Each tick you choose accelerate, brake, or a lane change. Speed builds quickly, obstacles punish fast drivers who stay in the wrong lane, and crashes cost precious seconds. Finish the distance and your time is ranked against a set of rival times.</p><p>Saving a brake for the last stretch can rescue a run that started badly, since rivals&#x27; times are fixed and every second counts.</p><p><b>Original game note:</b> This is an original arcade-style game created for this Signature edition, with its own title, rules, and play.</p><h4>How to play</h4><p>Type accel, brake, left or right each tick, or quit to stop.</p><h4>Working demo program</h4><p>Save the code below as game.py and run <code>python3 game.py --play</code> to play it. Running it without arguments replays the scripted session whose output is stored with the record.</p><pre class="codeblock">import sys
+PARAMS = {&#x27;distance&#x27;: 224, &#x27;obstacles&#x27;: [[51, 2], [87, 0], [123, 1], [159, 2], [195, 0]], &#x27;rivals&#x27;: [26, 30, 30]}
+AUTO = [&#x27;accel&#x27;, &#x27;accel&#x27;, &#x27;right&#x27;, &#x27;accel&#x27;, &#x27;left&#x27;, &#x27;brake&#x27;, &#x27;accel&#x27;, &#x27;right&#x27;, &#x27;accel&#x27;, &#x27;accel&#x27;, &#x27;accel&#x27;, &#x27;left&#x27;, &#x27;right&#x27;, &#x27;accel&#x27;, &#x27;accel&#x27;, &#x27;accel&#x27;, &#x27;accel&#x27;, &#x27;brake&#x27;, &#x27;left&#x27;]
+
+def race(cmds):
+    dist, speed, lane, time, penalties = 0, 0, 1, 0, 0
+    obstacles = dict((d, l) for d, l in PARAMS[&quot;obstacles&quot;])
+    log = []
+    for tick, cmd in enumerate(cmds):
+        if cmd == &quot;accel&quot;:
+            speed = min(200, speed + 20)
+        elif cmd == &quot;brake&quot;:
+            speed = max(0, speed - 40)
+        elif cmd == &quot;left&quot;:
+            lane = max(0, lane - 1)
+        elif cmd == &quot;right&quot;:
+            lane = min(2, lane + 1)
+        dist += speed // 10
+        time += 1
+        crashed = False
+        for d, l in obstacles.items():
+            if dist &gt;= d and dist - speed // 10 &lt; d and l == lane and speed &gt; 60:
+                speed = 0
+                penalties += 5
+                crashed = True
+        log.append(&quot;Tick %d: %s dist %d speed %d lane %d %s&quot; % (tick + 1, cmd, dist, speed, lane, &quot;CRASH&quot; if crashed else &quot;ok&quot;))
+        if dist &gt;= PARAMS[&quot;distance&quot;]:
+            break
+    return dist, time + penalties, log
+
+def auto_play():
+    print(&quot;Racing tribute: auto session&quot;)
+    dist, total, log = race(AUTO)
+    for line in log:
+        print(line)
+    rivals = PARAMS[&quot;rivals&quot;]
+    place = 1 + sum(1 for r in rivals if r &lt; total)
+    print(&quot;FINAL SCORE: %d&quot; % max(0, 1000 - total * 10 + (4 - place) * 50))
+    print(&quot;RESULT: FINISHED place %d time %d&quot; % (place, total))
+
+def play():
+    print(&quot;Racing tribute: type accel/brake/left/right each tick, or quit. Finish %d m first.&quot; % PARAMS[&quot;distance&quot;])
+    cmds = []
+    for line in sys.stdin:
+        cmd = line.strip().lower()
+        if cmd == &quot;quit&quot;:
+            break
+        if cmd not in (&quot;accel&quot;, &quot;brake&quot;, &quot;left&quot;, &quot;right&quot;):
+            print(&quot;Unknown command: %s&quot; % cmd)
+            continue
+        cmds.append(cmd)
+        dist, total, log = race(cmds)
+        print(log[-1])
+        if dist &gt;= PARAMS[&quot;distance&quot;]:
+            break
+    dist, total, log = race(cmds)
+    rivals = PARAMS[&quot;rivals&quot;]
+    place = 1 + sum(1 for r in rivals if r &lt; total)
+    print(&quot;FINAL SCORE: %d&quot; % max(0, 1000 - total * 10 + (4 - place) * 50))
+    print(&quot;RESULT: %s&quot; % (&quot;FINISHED place %d time %d&quot; % (place, total) if dist &gt;= PARAMS[&quot;distance&quot;] else &quot;QUIT&quot;))
+
+if __name__ == &quot;__main__&quot;:
+    if &quot;--play&quot; in sys.argv:
+        play()
+    else:
+        auto_play()
+</pre></article><article class="record"><h3>Harbor Loop Rally <small>Rank 3 &middot; simple &middot; racing &middot; beginner</small></h3><p>Harbor Loop Rally is an original racing game. A rally loops around a working harbor, past cranes, warehouses, and a lighthouse bend that rewards brave braking.</p><p>Each tick you choose accelerate, brake, or a lane change. Speed builds quickly, obstacles punish fast drivers who stay in the wrong lane, and crashes cost precious seconds. Finish the distance and your time is ranked against a set of rival times.</p><p>The fastest line is rarely the straightest one: brake before the obstacle, not on it, and change lanes early so speed stays up.</p><p><b>Original game note:</b> This is an original arcade-style game created for this Signature edition, with its own title, rules, and play.</p><h4>How to play</h4><p>Type accel, brake, left or right each tick, or quit to stop.</p><h4>Working demo program</h4><p>Save the code below as game.py and run <code>python3 game.py --play</code> to play it. Running it without arguments replays the scripted session whose output is stored with the record.</p><pre class="codeblock">import sys
+PARAMS = {&#x27;distance&#x27;: 237, &#x27;obstacles&#x27;: [[28, 0], [65, 1], [102, 2]], &#x27;rivals&#x27;: [27, 32, 31]}
+AUTO = [&#x27;accel&#x27;, &#x27;accel&#x27;, &#x27;right&#x27;, &#x27;accel&#x27;, &#x27;left&#x27;, &#x27;brake&#x27;, &#x27;accel&#x27;, &#x27;right&#x27;, &#x27;accel&#x27;, &#x27;accel&#x27;, &#x27;accel&#x27;, &#x27;left&#x27;, &#x27;right&#x27;, &#x27;accel&#x27;, &#x27;accel&#x27;, &#x27;accel&#x27;, &#x27;accel&#x27;, &#x27;brake&#x27;, &#x27;left&#x27;, &#x27;accel&#x27;]
+
+def race(cmds):
+    dist, speed, lane, time, penalties = 0, 0, 1, 0, 0
+    obstacles = dict((d, l) for d, l in PARAMS[&quot;obstacles&quot;])
+    log = []
+    for tick, cmd in enumerate(cmds):
+        if cmd == &quot;accel&quot;:
+            speed = min(200, speed + 20)
+        elif cmd == &quot;brake&quot;:
+            speed = max(0, speed - 40)
+        elif cmd == &quot;left&quot;:
+            lane = max(0, lane - 1)
+        elif cmd == &quot;right&quot;:
+            lane = min(2, lane + 1)
+        dist += speed // 10
+        time += 1
+        crashed = False
+        for d, l in obstacles.items():
+            if dist &gt;= d and dist - speed // 10 &lt; d and l == lane and speed &gt; 60:
+                speed = 0
+                penalties += 5
+                crashed = True
+        log.append(&quot;Tick %d: %s dist %d speed %d lane %d %s&quot; % (tick + 1, cmd, dist, speed, lane, &quot;CRASH&quot; if crashed else &quot;ok&quot;))
+        if dist &gt;= PARAMS[&quot;distance&quot;]:
+            break
+    return dist, time + penalties, log
+
+def auto_play():
+    print(&quot;Racing tribute: auto session&quot;)
+    dist, total, log = race(AUTO)
+    for line in log:
+        print(line)
+    rivals = PARAMS[&quot;rivals&quot;]
+    place = 1 + sum(1 for r in rivals if r &lt; total)
+    print(&quot;FINAL SCORE: %d&quot; % max(0, 1000 - total * 10 + (4 - place) * 50))
+    print(&quot;RESULT: FINISHED place %d time %d&quot; % (place, total))
+
+def play():
+    print(&quot;Racing tribute: type accel/brake/left/right each tick, or quit. Finish %d m first.&quot; % PARAMS[&quot;distance&quot;])
+    cmds = []
+    for line in sys.stdin:
+        cmd = line.strip().lower()
+        if cmd == &quot;quit&quot;:
+            break
+        if cmd not in (&quot;accel&quot;, &quot;brake&quot;, &quot;left&quot;, &quot;right&quot;):
+            print(&quot;Unknown command: %s&quot; % cmd)
+            continue
+        cmds.append(cmd)
+        dist, total, log = race(cmds)
+        print(log[-1])
+        if dist &gt;= PARAMS[&quot;distance&quot;]:
+            break
+    dist, total, log = race(cmds)
+    rivals = PARAMS[&quot;rivals&quot;]
+    place = 1 + sum(1 for r in rivals if r &lt; total)
+    print(&quot;FINAL SCORE: %d&quot; % max(0, 1000 - total * 10 + (4 - place) * 50))
+    print(&quot;RESULT: %s&quot; % (&quot;FINISHED place %d time %d&quot; % (place, total) if dist &gt;= PARAMS[&quot;distance&quot;] else &quot;QUIT&quot;))
+
+if __name__ == &quot;__main__&quot;:
+    if &quot;--play&quot; in sys.argv:
+        play()
+    else:
+        auto_play()
+</pre></article><article class="record"><h3>Neon Night Speedway <small>Rank 4 &middot; simple &middot; racing &middot; beginner</small></h3><p>Neon Night Speedway is an original racing game. A city speedway glows under billboards and street lamps, where night races are run in short, sharp heats.</p><p>Each tick you choose accelerate, brake, or a lane change. Speed builds quickly, obstacles punish fast drivers who stay in the wrong lane, and crashes cost precious seconds. Finish the distance and your time is ranked against a set of rival times.</p><p>Rivals are beaten by consistency, not by one wild move; a clean run with no crashes usually finishes ahead of a faster but messier one.</p><p><b>Original game note:</b> This is an original arcade-style game created for this Signature edition, with its own title, rules, and play.</p><h4>How to play</h4><p>Type accel, brake, left or right each tick, or quit to stop.</p><h4>Working demo program</h4><p>Save the code below as game.py and run <code>python3 game.py --play</code> to play it. Running it without arguments replays the scripted session whose output is stored with the record.</p><pre class="codeblock">import sys
+PARAMS = {&#x27;distance&#x27;: 250, &#x27;obstacles&#x27;: [[35, 1], [73, 2], [111, 0], [149, 1]], &#x27;rivals&#x27;: [28, 24, 32]}
+AUTO = [&#x27;accel&#x27;, &#x27;brake&#x27;, &#x27;accel&#x27;, &#x27;brake&#x27;, &#x27;accel&#x27;, &#x27;brake&#x27;, &#x27;accel&#x27;, &#x27;brake&#x27;, &#x27;accel&#x27;, &#x27;brake&#x27;, &#x27;accel&#x27;, &#x27;brake&#x27;, &#x27;accel&#x27;, &#x27;brake&#x27;, &#x27;accel&#x27;, &#x27;brake&#x27;, &#x27;accel&#x27;, &#x27;brake&#x27;, &#x27;accel&#x27;, &#x27;brake&#x27;, &#x27;accel&#x27;, &#x27;brake&#x27;, &#x27;accel&#x27;, &#x27;brake&#x27;, &#x27;accel&#x27;, &#x27;brake&#x27;, &#x27;accel&#x27;, &#x27;brake&#x27;, &#x27;accel&#x27;, &#x27;brake&#x27;]
+
+def race(cmds):
+    dist, speed, lane, time, penalties = 0, 0, 1, 0, 0
+    obstacles = dict((d, l) for d, l in PARAMS[&quot;obstacles&quot;])
+    log = []
+    for tick, cmd in enumerate(cmds):
+        if cmd == &quot;accel&quot;:
+            speed = min(200, speed + 20)
+        elif cmd == &quot;brake&quot;:
+            speed = max(0, speed - 40)
+        elif cmd == &quot;left&quot;:
+            lane = max(0, lane - 1)
+        elif cmd == &quot;right&quot;:
+            lane = min(2, lane + 1)
+        dist += speed // 10
+        time += 1
+        crashed = False
+        for d, l in obstacles.items():
+            if dist &gt;= d and dist - speed // 10 &lt; d and l == lane and speed &gt; 60:
+                speed = 0
+                penalties += 5
+                crashed = True
+        log.append(&quot;Tick %d: %s dist %d speed %d lane %d %s&quot; % (tick + 1, cmd, dist, speed, lane, &quot;CRASH&quot; if crashed else &quot;ok&quot;))
+        if dist &gt;= PARAMS[&quot;distance&quot;]:
+            break
+    return dist, time + penalties, log
+
+def auto_play():
+    print(&quot;Racing tribute: auto session&quot;)
+    dist, total, log = race(AUTO)
+    for line in log:
+        print(line)
+    rivals = PARAMS[&quot;rivals&quot;]
+    place = 1 + sum(1 for r in rivals if r &lt; total)
+    print(&quot;FINAL SCORE: %d&quot; % max(0, 1000 - total * 10 + (4 - place) * 50))
+    print(&quot;RESULT: FINISHED place %d time %d&quot; % (place, total))
+
+def play():
+    print(&quot;Racing tribute: type accel/brake/left/right each tick, or quit. Finish %d m first.&quot; % PARAMS[&quot;distance&quot;])
+    cmds = []
+    for line in sys.stdin:
+        cmd = line.strip().lower()
+        if cmd == &quot;quit&quot;:
+            break
+        if cmd not in (&quot;accel&quot;, &quot;brake&quot;, &quot;left&quot;, &quot;right&quot;):
+            print(&quot;Unknown command: %s&quot; % cmd)
+            continue
+        cmds.append(cmd)
+        dist, total, log = race(cmds)
+        print(log[-1])
+        if dist &gt;= PARAMS[&quot;distance&quot;]:
+            break
+    dist, total, log = race(cmds)
+    rivals = PARAMS[&quot;rivals&quot;]
+    place = 1 + sum(1 for r in rivals if r &lt; total)
+    print(&quot;FINAL SCORE: %d&quot; % max(0, 1000 - total * 10 + (4 - place) * 50))
+    print(&quot;RESULT: %s&quot; % (&quot;FINISHED place %d time %d&quot; % (place, total) if dist &gt;= PARAMS[&quot;distance&quot;] else &quot;QUIT&quot;))
+
+if __name__ == &quot;__main__&quot;:
+    if &quot;--play&quot; in sys.argv:
+        play()
+    else:
+        auto_play()
+</pre></article><article class="record"><h3>Canyon Ridge Run <small>Rank 5 &middot; simple &middot; racing &middot; beginner</small></h3><p>Canyon Ridge Run is an original racing game. A mountain run threads a narrow ridge road, where one mistake sends a driver wide and a clean line wins the day.</p><p>Each tick you choose accelerate, brake, or a lane change. Speed builds quickly, obstacles punish fast drivers who stay in the wrong lane, and crashes cost precious seconds. Finish the distance and your time is ranked against a set of rival times.</p><p>Watch the distance markers: an obstacle only punishes a driver who is still moving fast in its lane when the car reaches it.</p><p><b>Original game note:</b> This is an original arcade-style game created for this Signature edition, with its own title, rules, and play.</p><h4>How to play</h4><p>Type accel, brake, left or right each tick, or quit to stop.</p><h4>Working demo program</h4><p>Save the code below as game.py and run <code>python3 game.py --play</code> to play it. Running it without arguments replays the scripted session whose output is stored with the record.</p><pre class="codeblock">import sys
+PARAMS = {&#x27;distance&#x27;: 123, &#x27;obstacles&#x27;: [[42, 2], [81, 0], [120, 1], [159, 2], [198, 0]], &#x27;rivals&#x27;: [29, 26, 33]}
+AUTO = [&#x27;accel&#x27;, &#x27;accel&#x27;, &#x27;right&#x27;, &#x27;accel&#x27;, &#x27;left&#x27;, &#x27;brake&#x27;, &#x27;accel&#x27;, &#x27;right&#x27;, &#x27;accel&#x27;, &#x27;accel&#x27;, &#x27;accel&#x27;, &#x27;left&#x27;, &#x27;right&#x27;, &#x27;accel&#x27;]
+
+def race(cmds):
+    dist, speed, lane, time, penalties = 0, 0, 1, 0, 0
+    obstacles = dict((d, l) for d, l in PARAMS[&quot;obstacles&quot;])
+    log = []
+    for tick, cmd in enumerate(cmds):
+        if cmd == &quot;accel&quot;:
+            speed = min(200, speed + 20)
+        elif cmd == &quot;brake&quot;:
+            speed = max(0, speed - 40)
+        elif cmd == &quot;left&quot;:
+            lane = max(0, lane - 1)
+        elif cmd == &quot;right&quot;:
+            lane = min(2, lane + 1)
+        dist += speed // 10
+        time += 1
+        crashed = False
+        for d, l in obstacles.items():
+            if dist &gt;= d and dist - speed // 10 &lt; d and l == lane and speed &gt; 60:
+                speed = 0
+                penalties += 5
+                crashed = True
+        log.append(&quot;Tick %d: %s dist %d speed %d lane %d %s&quot; % (tick + 1, cmd, dist, speed, lane, &quot;CRASH&quot; if crashed else &quot;ok&quot;))
+        if dist &gt;= PARAMS[&quot;distance&quot;]:
+            break
+    return dist, time + penalties, log
+
+def auto_play():
+    print(&quot;Racing tribute: auto session&quot;)
+    dist, total, log = race(AUTO)
+    for line in log:
+        print(line)
+    rivals = PARAMS[&quot;rivals&quot;]
+    place = 1 + sum(1 for r in rivals if r &lt; total)
+    print(&quot;FINAL SCORE: %d&quot; % max(0, 1000 - total * 10 + (4 - place) * 50))
+    print(&quot;RESULT: FINISHED place %d time %d&quot; % (place, total))
+
+def play():
+    print(&quot;Racing tribute: type accel/brake/left/right each tick, or quit. Finish %d m first.&quot; % PARAMS[&quot;distance&quot;])
+    cmds = []
+    for line in sys.stdin:
+        cmd = line.strip().lower()
+        if cmd == &quot;quit&quot;:
+            break
+        if cmd not in (&quot;accel&quot;, &quot;brake&quot;, &quot;left&quot;, &quot;right&quot;):
+            print(&quot;Unknown command: %s&quot; % cmd)
+            continue
+        cmds.append(cmd)
+        dist, total, log = race(cmds)
+        print(log[-1])
+        if dist &gt;= PARAMS[&quot;distance&quot;]:
+            break
+    dist, total, log = race(cmds)
+    rivals = PARAMS[&quot;rivals&quot;]
+    place = 1 + sum(1 for r in rivals if r &lt; total)
+    print(&quot;FINAL SCORE: %d&quot; % max(0, 1000 - total * 10 + (4 - place) * 50))
+    print(&quot;RESULT: %s&quot; % (&quot;FINISHED place %d time %d&quot; % (place, total) if dist &gt;= PARAMS[&quot;distance&quot;] else &quot;QUIT&quot;))
+
+if __name__ == &quot;__main__&quot;:
+    if &quot;--play&quot; in sys.argv:
+        play()
+    else:
+        auto_play()
+</pre></article><article class="record"><h3>Frozen Lake 500 <small>Rank 6 &middot; compounded &middot; racing &middot; intermediate</small></h3><p>Frozen Lake 500 is an original racing game. A winter race is run on a frozen lake circuit, where studded tires grip the ice and the cold keeps engines honest.</p><p>Each tick you choose accelerate, brake, or a lane change. Speed builds quickly, obstacles punish fast drivers who stay in the wrong lane, and crashes cost precious seconds. Finish the distance and your time is ranked against a set of rival times.</p><p>Saving a brake for the last stretch can rescue a run that started badly, since rivals&#x27; times are fixed and every second counts.</p><p><b>Original game note:</b> This is an original arcade-style game created for this Signature edition, with its own title, rules, and play.</p><h4>How to play</h4><p>Type accel, brake, left or right each tick, or quit to stop.</p><h4>Working demo program</h4><p>Save the code below as game.py and run <code>python3 game.py --play</code> to play it. Running it without arguments replays the scripted session whose output is stored with the record.</p><pre class="codeblock">import sys
+PARAMS = {&#x27;distance&#x27;: 136, &#x27;obstacles&#x27;: [[49, 0], [89, 1], [129, 2]], &#x27;rivals&#x27;: [30, 28, 34]}
+AUTO = [&#x27;accel&#x27;, &#x27;accel&#x27;, &#x27;right&#x27;, &#x27;accel&#x27;, &#x27;left&#x27;, &#x27;brake&#x27;, &#x27;accel&#x27;, &#x27;right&#x27;, &#x27;accel&#x27;, &#x27;accel&#x27;, &#x27;accel&#x27;, &#x27;left&#x27;, &#x27;right&#x27;, &#x27;accel&#x27;, &#x27;accel&#x27;]
+
+def race(cmds):
+    dist, speed, lane, time, penalties = 0, 0, 1, 0, 0
+    obstacles = dict((d, l) for d, l in PARAMS[&quot;obstacles&quot;])
+    log = []
+    for tick, cmd in enumerate(cmds):
+        if cmd == &quot;accel&quot;:
+            speed = min(200, speed + 20)
+        elif cmd == &quot;brake&quot;:
+            speed = max(0, speed - 40)
+        elif cmd == &quot;left&quot;:
+            lane = max(0, lane - 1)
+        elif cmd == &quot;right&quot;:
+            lane = min(2, lane + 1)
+        dist += speed // 10
+        time += 1
+        crashed = False
+        for d, l in obstacles.items():
+            if dist &gt;= d and dist - speed // 10 &lt; d and l == lane and speed &gt; 60:
+                speed = 0
+                penalties += 5
+                crashed = True
+        log.append(&quot;Tick %d: %s dist %d speed %d lane %d %s&quot; % (tick + 1, cmd, dist, speed, lane, &quot;CRASH&quot; if crashed else &quot;ok&quot;))
+        if dist &gt;= PARAMS[&quot;distance&quot;]:
+            break
+    return dist, time + penalties, log
+
+def auto_play():
+    print(&quot;Racing tribute: auto session&quot;)
+    dist, total, log = race(AUTO)
+    for line in log:
+        print(line)
+    rivals = PARAMS[&quot;rivals&quot;]
+    place = 1 + sum(1 for r in rivals if r &lt; total)
+    print(&quot;FINAL SCORE: %d&quot; % max(0, 1000 - total * 10 + (4 - place) * 50))
+    print(&quot;RESULT: FINISHED place %d time %d&quot; % (place, total))
+
+def play():
+    print(&quot;Racing tribute: type accel/brake/left/right each tick, or quit. Finish %d m first.&quot; % PARAMS[&quot;distance&quot;])
+    cmds = []
+    for line in sys.stdin:
+        cmd = line.strip().lower()
+        if cmd == &quot;quit&quot;:
+            break
+        if cmd not in (&quot;accel&quot;, &quot;brake&quot;, &quot;left&quot;, &quot;right&quot;):
+            print(&quot;Unknown command: %s&quot; % cmd)
+            continue
+        cmds.append(cmd)
+        dist, total, log = race(cmds)
+        print(log[-1])
+        if dist &gt;= PARAMS[&quot;distance&quot;]:
+            break
+    dist, total, log = race(cmds)
+    rivals = PARAMS[&quot;rivals&quot;]
+    place = 1 + sum(1 for r in rivals if r &lt; total)
+    print(&quot;FINAL SCORE: %d&quot; % max(0, 1000 - total * 10 + (4 - place) * 50))
+    print(&quot;RESULT: %s&quot; % (&quot;FINISHED place %d time %d&quot; % (place, total) if dist &gt;= PARAMS[&quot;distance&quot;] else &quot;QUIT&quot;))
+
+if __name__ == &quot;__main__&quot;:
+    if &quot;--play&quot; in sys.argv:
+        play()
+    else:
+        auto_play()
+</pre></article><article class="record"><h3>Jungle Trail Pursuit <small>Rank 7 &middot; compounded &middot; racing &middot; intermediate</small></h3><p>Jungle Trail Pursuit is an original racing game. A jungle trail race winds under a green canopy, where muddy ruts and low branches punish careless driving.</p><p>Each tick you choose accelerate, brake, or a lane change. Speed builds quickly, obstacles punish fast drivers who stay in the wrong lane, and crashes cost precious seconds. Finish the distance and your time is ranked against a set of rival times.</p><p>The fastest line is rarely the straightest one: brake before the obstacle, not on it, and change lanes early so speed stays up.</p><p><b>Original game note:</b> This is an original arcade-style game created for this Signature edition, with its own title, rules, and play.</p><h4>How to play</h4><p>Type accel, brake, left or right each tick, or quit to stop.</p><h4>Working demo program</h4><p>Save the code below as game.py and run <code>python3 game.py --play</code> to play it. Running it without arguments replays the scripted session whose output is stored with the record.</p><pre class="codeblock">import sys
+PARAMS = {&#x27;distance&#x27;: 149, &#x27;obstacles&#x27;: [[26, 1], [67, 2], [108, 0], [149, 1]], &#x27;rivals&#x27;: [31, 30, 35]}
+AUTO = [&#x27;accel&#x27;, &#x27;accel&#x27;, &#x27;right&#x27;, &#x27;accel&#x27;, &#x27;left&#x27;, &#x27;brake&#x27;, &#x27;accel&#x27;, &#x27;right&#x27;, &#x27;accel&#x27;, &#x27;accel&#x27;, &#x27;accel&#x27;, &#x27;left&#x27;, &#x27;right&#x27;, &#x27;accel&#x27;, &#x27;accel&#x27;, &#x27;accel&#x27;]
+
+def race(cmds):
+    dist, speed, lane, time, penalties = 0, 0, 1, 0, 0
+    obstacles = dict((d, l) for d, l in PARAMS[&quot;obstacles&quot;])
+    log = []
+    for tick, cmd in enumerate(cmds):
+        if cmd == &quot;accel&quot;:
+            speed = min(200, speed + 20)
+        elif cmd == &quot;brake&quot;:
+            speed = max(0, speed - 40)
+        elif cmd == &quot;left&quot;:
+            lane = max(0, lane - 1)
+        elif cmd == &quot;right&quot;:
+            lane = min(2, lane + 1)
+        dist += speed // 10
+        time += 1
+        crashed = False
+        for d, l in obstacles.items():
+            if dist &gt;= d and dist - speed // 10 &lt; d and l == lane and speed &gt; 60:
+                speed = 0
+                penalties += 5
+                crashed = True
+        log.append(&quot;Tick %d: %s dist %d speed %d lane %d %s&quot; % (tick + 1, cmd, dist, speed, lane, &quot;CRASH&quot; if crashed else &quot;ok&quot;))
+        if dist &gt;= PARAMS[&quot;distance&quot;]:
+            break
+    return dist, time + penalties, log
+
+def auto_play():
+    print(&quot;Racing tribute: auto session&quot;)
+    dist, total, log = race(AUTO)
+    for line in log:
+        print(line)
+    rivals = PARAMS[&quot;rivals&quot;]
+    place = 1 + sum(1 for r in rivals if r &lt; total)
+    print(&quot;FINAL SCORE: %d&quot; % max(0, 1000 - total * 10 + (4 - place) * 50))
+    print(&quot;RESULT: FINISHED place %d time %d&quot; % (place, total))
+
+def play():
+    print(&quot;Racing tribute: type accel/brake/left/right each tick, or quit. Finish %d m first.&quot; % PARAMS[&quot;distance&quot;])
+    cmds = []
+    for line in sys.stdin:
+        cmd = line.strip().lower()
+        if cmd == &quot;quit&quot;:
+            break
+        if cmd not in (&quot;accel&quot;, &quot;brake&quot;, &quot;left&quot;, &quot;right&quot;):
+            print(&quot;Unknown command: %s&quot; % cmd)
+            continue
+        cmds.append(cmd)
+        dist, total, log = race(cmds)
+        print(log[-1])
+        if dist &gt;= PARAMS[&quot;distance&quot;]:
+            break
+    dist, total, log = race(cmds)
+    rivals = PARAMS[&quot;rivals&quot;]
+    place = 1 + sum(1 for r in rivals if r &lt; total)
+    print(&quot;FINAL SCORE: %d&quot; % max(0, 1000 - total * 10 + (4 - place) * 50))
+    print(&quot;RESULT: %s&quot; % (&quot;FINISHED place %d time %d&quot; % (place, total) if dist &gt;= PARAMS[&quot;distance&quot;] else &quot;QUIT&quot;))
+
+if __name__ == &quot;__main__&quot;:
+    if &quot;--play&quot; in sys.argv:
+        play()
+    else:
+        auto_play()
+</pre></article><article class="record"><h3>Skyline Sprint Cup <small>Rank 8 &middot; compounded &middot; racing &middot; intermediate</small></h3><p>Skyline Sprint Cup is an original racing game. A rooftop-to-street sprint crosses a downtown course, where bridges and underpasses make every lap different.</p><p>Each tick you choose accelerate, brake, or a lane change. Speed builds quickly, obstacles punish fast drivers who stay in the wrong lane, and crashes cost precious seconds. Finish the distance and your time is ranked against a set of rival times.</p><p>Rivals are beaten by consistency, not by one wild move; a clean run with no crashes usually finishes ahead of a faster but messier one.</p><p><b>Original game note:</b> This is an original arcade-style game created for this Signature edition, with its own title, rules, and play.</p><h4>How to play</h4><p>Type accel, brake, left or right each tick, or quit to stop.</p><h4>Working demo program</h4><p>Save the code below as game.py and run <code>python3 game.py --play</code> to play it. Running it without arguments replays the scripted session whose output is stored with the record.</p><pre class="codeblock">import sys
+PARAMS = {&#x27;distance&#x27;: 162, &#x27;obstacles&#x27;: [[33, 2], [75, 0], [117, 1], [159, 2], [201, 0]], &#x27;rivals&#x27;: [32, 32, 36]}
+AUTO = [&#x27;accel&#x27;, &#x27;brake&#x27;, &#x27;accel&#x27;, &#x27;brake&#x27;, &#x27;accel&#x27;, &#x27;brake&#x27;, &#x27;accel&#x27;, &#x27;brake&#x27;, &#x27;accel&#x27;, &#x27;brake&#x27;, &#x27;accel&#x27;, &#x27;brake&#x27;, &#x27;accel&#x27;, &#x27;brake&#x27;, &#x27;accel&#x27;, &#x27;brake&#x27;, &#x27;accel&#x27;, &#x27;brake&#x27;, &#x27;accel&#x27;, &#x27;brake&#x27;, &#x27;accel&#x27;, &#x27;brake&#x27;, &#x27;accel&#x27;, &#x27;brake&#x27;, &#x27;accel&#x27;, &#x27;brake&#x27;, &#x27;accel&#x27;, &#x27;brake&#x27;, &#x27;accel&#x27;, &#x27;brake&#x27;]
+
+def race(cmds):
+    dist, speed, lane, time, penalties = 0, 0, 1, 0, 0
+    obstacles = dict((d, l) for d, l in PARAMS[&quot;obstacles&quot;])
+    log = []
+    for tick, cmd in enumerate(cmds):
+        if cmd == &quot;accel&quot;:
+            speed = min(200, speed + 20)
+        elif cmd == &quot;brake&quot;:
+            speed = max(0, speed - 40)
+        elif cmd == &quot;left&quot;:
+            lane = max(0, lane - 1)
+        elif cmd == &quot;right&quot;:
+            lane = min(2, lane + 1)
+        dist += speed // 10
+        time += 1
+        crashed = False
+        for d, l in obstacles.items():
+            if dist &gt;= d and dist - speed // 10 &lt; d and l == lane and speed &gt; 60:
+                speed = 0
+                penalties += 5
+                crashed = True
+        log.append(&quot;Tick %d: %s dist %d speed %d lane %d %s&quot; % (tick + 1, cmd, dist, speed, lane, &quot;CRASH&quot; if crashed else &quot;ok&quot;))
+        if dist &gt;= PARAMS[&quot;distance&quot;]:
+            break
+    return dist, time + penalties, log
+
+def auto_play():
+    print(&quot;Racing tribute: auto session&quot;)
+    dist, total, log = race(AUTO)
+    for line in log:
+        print(line)
+    rivals = PARAMS[&quot;rivals&quot;]
+    place = 1 + sum(1 for r in rivals if r &lt; total)
+    print(&quot;FINAL SCORE: %d&quot; % max(0, 1000 - total * 10 + (4 - place) * 50))
+    print(&quot;RESULT: FINISHED place %d time %d&quot; % (place, total))
+
+def play():
+    print(&quot;Racing tribute: type accel/brake/left/right each tick, or quit. Finish %d m first.&quot; % PARAMS[&quot;distance&quot;])
+    cmds = []
+    for line in sys.stdin:
+        cmd = line.strip().lower()
+        if cmd == &quot;quit&quot;:
+            break
+        if cmd not in (&quot;accel&quot;, &quot;brake&quot;, &quot;left&quot;, &quot;right&quot;):
+            print(&quot;Unknown command: %s&quot; % cmd)
+            continue
+        cmds.append(cmd)
+        dist, total, log = race(cmds)
+        print(log[-1])
+        if dist &gt;= PARAMS[&quot;distance&quot;]:
+            break
+    dist, total, log = race(cmds)
+    rivals = PARAMS[&quot;rivals&quot;]
+    place = 1 + sum(1 for r in rivals if r &lt; total)
+    print(&quot;FINAL SCORE: %d&quot; % max(0, 1000 - total * 10 + (4 - place) * 50))
+    print(&quot;RESULT: %s&quot; % (&quot;FINISHED place %d time %d&quot; % (place, total) if dist &gt;= PARAMS[&quot;distance&quot;] else &quot;QUIT&quot;))
+
+if __name__ == &quot;__main__&quot;:
+    if &quot;--play&quot; in sys.argv:
+        play()
+    else:
+        auto_play()
+</pre></article><article class="record"><h3>Desert Mirage Rally <small>Rank 9 &middot; compounded &middot; racing &middot; intermediate</small></h3><p>Desert Mirage Rally is an original racing game. A long desert rally crosses dunes and salt flats, where navigation matters as much as speed.</p><p>Each tick you choose accelerate, brake, or a lane change. Speed builds quickly, obstacles punish fast drivers who stay in the wrong lane, and crashes cost precious seconds. Finish the distance and your time is ranked against a set of rival times.</p><p>Watch the distance markers: an obstacle only punishes a driver who is still moving fast in its lane when the car reaches it.</p><p><b>Original game note:</b> This is an original arcade-style game created for this Signature edition, with its own title, rules, and play.</p><h4>How to play</h4><p>Type accel, brake, left or right each tick, or quit to stop.</p><h4>Working demo program</h4><p>Save the code below as game.py and run <code>python3 game.py --play</code> to play it. Running it without arguments replays the scripted session whose output is stored with the record.</p><pre class="codeblock">import sys
+PARAMS = {&#x27;distance&#x27;: 175, &#x27;obstacles&#x27;: [[40, 0], [68, 1], [96, 2]], &#x27;rivals&#x27;: [33, 24, 37]}
+AUTO = [&#x27;accel&#x27;, &#x27;accel&#x27;, &#x27;right&#x27;, &#x27;accel&#x27;, &#x27;left&#x27;, &#x27;brake&#x27;, &#x27;accel&#x27;, &#x27;right&#x27;, &#x27;accel&#x27;, &#x27;accel&#x27;, &#x27;accel&#x27;, &#x27;left&#x27;, &#x27;right&#x27;, &#x27;accel&#x27;, &#x27;accel&#x27;, &#x27;accel&#x27;, &#x27;accel&#x27;, &#x27;brake&#x27;]
+
+def race(cmds):
+    dist, speed, lane, time, penalties = 0, 0, 1, 0, 0
+    obstacles = dict((d, l) for d, l in PARAMS[&quot;obstacles&quot;])
+    log = []
+    for tick, cmd in enumerate(cmds):
+        if cmd == &quot;accel&quot;:
+            speed = min(200, speed + 20)
+        elif cmd == &quot;brake&quot;:
+            speed = max(0, speed - 40)
+        elif cmd == &quot;left&quot;:
+            lane = max(0, lane - 1)
+        elif cmd == &quot;right&quot;:
+            lane = min(2, lane + 1)
+        dist += speed // 10
+        time += 1
+        crashed = False
+        for d, l in obstacles.items():
+            if dist &gt;= d and dist - speed // 10 &lt; d and l == lane and speed &gt; 60:
+                speed = 0
+                penalties += 5
+                crashed = True
+        log.append(&quot;Tick %d: %s dist %d speed %d lane %d %s&quot; % (tick + 1, cmd, dist, speed, lane, &quot;CRASH&quot; if crashed else &quot;ok&quot;))
+        if dist &gt;= PARAMS[&quot;distance&quot;]:
+            break
+    return dist, time + penalties, log
+
+def auto_play():
+    print(&quot;Racing tribute: auto session&quot;)
+    dist, total, log = race(AUTO)
+    for line in log:
+        print(line)
+    rivals = PARAMS[&quot;rivals&quot;]
+    place = 1 + sum(1 for r in rivals if r &lt; total)
+    print(&quot;FINAL SCORE: %d&quot; % max(0, 1000 - total * 10 + (4 - place) * 50))
+    print(&quot;RESULT: FINISHED place %d time %d&quot; % (place, total))
+
+def play():
+    print(&quot;Racing tribute: type accel/brake/left/right each tick, or quit. Finish %d m first.&quot; % PARAMS[&quot;distance&quot;])
+    cmds = []
+    for line in sys.stdin:
+        cmd = line.strip().lower()
+        if cmd == &quot;quit&quot;:
+            break
+        if cmd not in (&quot;accel&quot;, &quot;brake&quot;, &quot;left&quot;, &quot;right&quot;):
+            print(&quot;Unknown command: %s&quot; % cmd)
+            continue
+        cmds.append(cmd)
+        dist, total, log = race(cmds)
+        print(log[-1])
+        if dist &gt;= PARAMS[&quot;distance&quot;]:
+            break
+    dist, total, log = race(cmds)
+    rivals = PARAMS[&quot;rivals&quot;]
+    place = 1 + sum(1 for r in rivals if r &lt; total)
+    print(&quot;FINAL SCORE: %d&quot; % max(0, 1000 - total * 10 + (4 - place) * 50))
+    print(&quot;RESULT: %s&quot; % (&quot;FINISHED place %d time %d&quot; % (place, total) if dist &gt;= PARAMS[&quot;distance&quot;] else &quot;QUIT&quot;))
+
+if __name__ == &quot;__main__&quot;:
+    if &quot;--play&quot; in sys.argv:
+        play()
+    else:
+        auto_play()
+</pre></article><article class="record"><h3>Thunder Bay Time Trial <small>Rank 10 &middot; compounded &middot; racing &middot; intermediate</small></h3><p>Thunder Bay Time Trial is an original racing game. A lakeside time trial is run against the clock in gathering storms, where rain changes grip lap by lap.</p><p>Each tick you choose accelerate, brake, or a lane change. Speed builds quickly, obstacles punish fast drivers who stay in the wrong lane, and crashes cost precious seconds. Finish the distance and your time is ranked against a set of rival times.</p><p>Saving a brake for the last stretch can rescue a run that started badly, since rivals&#x27; times are fixed and every second counts.</p><p><b>Original game note:</b> This is an original arcade-style game created for this Signature edition, with its own title, rules, and play.</p><h4>How to play</h4><p>Type accel, brake, left or right each tick, or quit to stop.</p><h4>Working demo program</h4><p>Save the code below as game.py and run <code>python3 game.py --play</code> to play it. Running it without arguments replays the scripted session whose output is stored with the record.</p><pre class="codeblock">import sys
+PARAMS = {&#x27;distance&#x27;: 188, &#x27;obstacles&#x27;: [[47, 1], [76, 2], [105, 0], [134, 1]], &#x27;rivals&#x27;: [34, 26, 30]}
+AUTO = [&#x27;accel&#x27;, &#x27;accel&#x27;, &#x27;right&#x27;, &#x27;accel&#x27;, &#x27;left&#x27;, &#x27;brake&#x27;, &#x27;accel&#x27;, &#x27;right&#x27;, &#x27;accel&#x27;, &#x27;accel&#x27;, &#x27;accel&#x27;, &#x27;left&#x27;, &#x27;right&#x27;, &#x27;accel&#x27;, &#x27;accel&#x27;, &#x27;accel&#x27;, &#x27;accel&#x27;, &#x27;brake&#x27;, &#x27;left&#x27;]
+
+def race(cmds):
+    dist, speed, lane, time, penalties = 0, 0, 1, 0, 0
+    obstacles = dict((d, l) for d, l in PARAMS[&quot;obstacles&quot;])
+    log = []
+    for tick, cmd in enumerate(cmds):
+        if cmd == &quot;accel&quot;:
+            speed = min(200, speed + 20)
+        elif cmd == &quot;brake&quot;:
+            speed = max(0, speed - 40)
+        elif cmd == &quot;left&quot;:
+            lane = max(0, lane - 1)
+        elif cmd == &quot;right&quot;:
+            lane = min(2, lane + 1)
+        dist += speed // 10
+        time += 1
+        crashed = False
+        for d, l in obstacles.items():
+            if dist &gt;= d and dist - speed // 10 &lt; d and l == lane and speed &gt; 60:
+                speed = 0
+                penalties += 5
+                crashed = True
+        log.append(&quot;Tick %d: %s dist %d speed %d lane %d %s&quot; % (tick + 1, cmd, dist, speed, lane, &quot;CRASH&quot; if crashed else &quot;ok&quot;))
+        if dist &gt;= PARAMS[&quot;distance&quot;]:
+            break
+    return dist, time + penalties, log
+
+def auto_play():
+    print(&quot;Racing tribute: auto session&quot;)
+    dist, total, log = race(AUTO)
+    for line in log:
+        print(line)
+    rivals = PARAMS[&quot;rivals&quot;]
+    place = 1 + sum(1 for r in rivals if r &lt; total)
+    print(&quot;FINAL SCORE: %d&quot; % max(0, 1000 - total * 10 + (4 - place) * 50))
+    print(&quot;RESULT: FINISHED place %d time %d&quot; % (place, total))
+
+def play():
+    print(&quot;Racing tribute: type accel/brake/left/right each tick, or quit. Finish %d m first.&quot; % PARAMS[&quot;distance&quot;])
+    cmds = []
+    for line in sys.stdin:
+        cmd = line.strip().lower()
+        if cmd == &quot;quit&quot;:
+            break
+        if cmd not in (&quot;accel&quot;, &quot;brake&quot;, &quot;left&quot;, &quot;right&quot;):
+            print(&quot;Unknown command: %s&quot; % cmd)
+            continue
+        cmds.append(cmd)
+        dist, total, log = race(cmds)
+        print(log[-1])
+        if dist &gt;= PARAMS[&quot;distance&quot;]:
+            break
+    dist, total, log = race(cmds)
+    rivals = PARAMS[&quot;rivals&quot;]
+    place = 1 + sum(1 for r in rivals if r &lt; total)
+    print(&quot;FINAL SCORE: %d&quot; % max(0, 1000 - total * 10 + (4 - place) * 50))
+    print(&quot;RESULT: %s&quot; % (&quot;FINISHED place %d time %d&quot; % (place, total) if dist &gt;= PARAMS[&quot;distance&quot;] else &quot;QUIT&quot;))
+
+if __name__ == &quot;__main__&quot;:
+    if &quot;--play&quot; in sys.argv:
+        play()
+    else:
+        auto_play()
+</pre></article><article class="record"><h3>Maple Valley Circuit <small>Rank 11 &middot; compounded &middot; racing &middot; intermediate</small></h3><p>Maple Valley Circuit is an original racing game. A country circuit winds through maple groves and farm lanes, where autumn leaves drift across the track.</p><p>Each tick you choose accelerate, brake, or a lane change. Speed builds quickly, obstacles punish fast drivers who stay in the wrong lane, and crashes cost precious seconds. Finish the distance and your time is ranked against a set of rival times.</p><p>The fastest line is rarely the straightest one: brake before the obstacle, not on it, and change lanes early so speed stays up.</p><p><b>Original game note:</b> This is an original arcade-style game created for this Signature edition, with its own title, rules, and play.</p><h4>How to play</h4><p>Type accel, brake, left or right each tick, or quit to stop.</p><h4>Working demo program</h4><p>Save the code below as game.py and run <code>python3 game.py --play</code> to play it. Running it without arguments replays the scripted session whose output is stored with the record.</p><pre class="codeblock">import sys
+PARAMS = {&#x27;distance&#x27;: 201, &#x27;obstacles&#x27;: [[54, 2], [84, 0], [114, 1], [144, 2], [174, 0]], &#x27;rivals&#x27;: [35, 28, 31]}
+AUTO = [&#x27;accel&#x27;, &#x27;accel&#x27;, &#x27;right&#x27;, &#x27;accel&#x27;, &#x27;left&#x27;, &#x27;brake&#x27;, &#x27;accel&#x27;, &#x27;right&#x27;, &#x27;accel&#x27;, &#x27;accel&#x27;, &#x27;accel&#x27;, &#x27;left&#x27;, &#x27;right&#x27;, &#x27;accel&#x27;, &#x27;accel&#x27;, &#x27;accel&#x27;, &#x27;accel&#x27;, &#x27;brake&#x27;, &#x27;left&#x27;, &#x27;accel&#x27;]
+
+def race(cmds):
+    dist, speed, lane, time, penalties = 0, 0, 1, 0, 0
+    obstacles = dict((d, l) for d, l in PARAMS[&quot;obstacles&quot;])
+    log = []
+    for tick, cmd in enumerate(cmds):
+        if cmd == &quot;accel&quot;:
+            speed = min(200, speed + 20)
+        elif cmd == &quot;brake&quot;:
+            speed = max(0, speed - 40)
+        elif cmd == &quot;left&quot;:
+            lane = max(0, lane - 1)
+        elif cmd == &quot;right&quot;:
+            lane = min(2, lane + 1)
+        dist += speed // 10
+        time += 1
+        crashed = False
+        for d, l in obstacles.items():
+            if dist &gt;= d and dist - speed // 10 &lt; d and l == lane and speed &gt; 60:
+                speed = 0
+                penalties += 5
+                crashed = True
+        log.append(&quot;Tick %d: %s dist %d speed %d lane %d %s&quot; % (tick + 1, cmd, dist, speed, lane, &quot;CRASH&quot; if crashed else &quot;ok&quot;))
+        if dist &gt;= PARAMS[&quot;distance&quot;]:
+            break
+    return dist, time + penalties, log
+
+def auto_play():
+    print(&quot;Racing tribute: auto session&quot;)
+    dist, total, log = race(AUTO)
+    for line in log:
+        print(line)
+    rivals = PARAMS[&quot;rivals&quot;]
+    place = 1 + sum(1 for r in rivals if r &lt; total)
+    print(&quot;FINAL SCORE: %d&quot; % max(0, 1000 - total * 10 + (4 - place) * 50))
+    print(&quot;RESULT: FINISHED place %d time %d&quot; % (place, total))
+
+def play():
+    print(&quot;Racing tribute: type accel/brake/left/right each tick, or quit. Finish %d m first.&quot; % PARAMS[&quot;distance&quot;])
+    cmds = []
+    for line in sys.stdin:
+        cmd = line.strip().lower()
+        if cmd == &quot;quit&quot;:
+            break
+        if cmd not in (&quot;accel&quot;, &quot;brake&quot;, &quot;left&quot;, &quot;right&quot;):
+            print(&quot;Unknown command: %s&quot; % cmd)
+            continue
+        cmds.append(cmd)
+        dist, total, log = race(cmds)
+        print(log[-1])
+        if dist &gt;= PARAMS[&quot;distance&quot;]:
+            break
+    dist, total, log = race(cmds)
+    rivals = PARAMS[&quot;rivals&quot;]
+    place = 1 + sum(1 for r in rivals if r &lt; total)
+    print(&quot;FINAL SCORE: %d&quot; % max(0, 1000 - total * 10 + (4 - place) * 50))
+    print(&quot;RESULT: %s&quot; % (&quot;FINISHED place %d time %d&quot; % (place, total) if dist &gt;= PARAMS[&quot;distance&quot;] else &quot;QUIT&quot;))
+
+if __name__ == &quot;__main__&quot;:
+    if &quot;--play&quot; in sys.argv:
+        play()
+    else:
+        auto_play()
+</pre></article><article class="record"><h3>Volcano Ash Raceway <small>Rank 12 &middot; complex &middot; racing &middot; advanced</small></h3><p>Volcano Ash Raceway is an original racing game. A raceway on black volcanic sand tests tires and tempers, where ash clouds roll across the back straight.</p><p>Each tick you choose accelerate, brake, or a lane change. Speed builds quickly, obstacles punish fast drivers who stay in the wrong lane, and crashes cost precious seconds. Finish the distance and your time is ranked against a set of rival times.</p><p>Rivals are beaten by consistency, not by one wild move; a clean run with no crashes usually finishes ahead of a faster but messier one.</p><p><b>Original game note:</b> This is an original arcade-style game created for this Signature edition, with its own title, rules, and play.</p><h4>How to play</h4><p>Type accel, brake, left or right each tick, or quit to stop.</p><h4>Working demo program</h4><p>Save the code below as game.py and run <code>python3 game.py --play</code> to play it. Running it without arguments replays the scripted session whose output is stored with the record.</p><pre class="codeblock">import sys
+PARAMS = {&#x27;distance&#x27;: 214, &#x27;obstacles&#x27;: [[31, 0], [62, 1], [93, 2]], &#x27;rivals&#x27;: [36, 30, 32]}
+AUTO = [&#x27;accel&#x27;, &#x27;brake&#x27;, &#x27;accel&#x27;, &#x27;brake&#x27;, &#x27;accel&#x27;, &#x27;brake&#x27;, &#x27;accel&#x27;, &#x27;brake&#x27;, &#x27;accel&#x27;, &#x27;brake&#x27;, &#x27;accel&#x27;, &#x27;brake&#x27;, &#x27;accel&#x27;, &#x27;brake&#x27;, &#x27;accel&#x27;, &#x27;brake&#x27;, &#x27;accel&#x27;, &#x27;brake&#x27;, &#x27;accel&#x27;, &#x27;brake&#x27;, &#x27;accel&#x27;, &#x27;brake&#x27;, &#x27;accel&#x27;, &#x27;brake&#x27;, &#x27;accel&#x27;, &#x27;brake&#x27;, &#x27;accel&#x27;, &#x27;brake&#x27;, &#x27;accel&#x27;, &#x27;brake&#x27;]
+
+def race(cmds):
+    dist, speed, lane, time, penalties = 0, 0, 1, 0, 0
+    obstacles = dict((d, l) for d, l in PARAMS[&quot;obstacles&quot;])
+    log = []
+    for tick, cmd in enumerate(cmds):
+        if cmd == &quot;accel&quot;:
+            speed = min(200, speed + 20)
+        elif cmd == &quot;brake&quot;:
+            speed = max(0, speed - 40)
+        elif cmd == &quot;left&quot;:
+            lane = max(0, lane - 1)
+        elif cmd == &quot;right&quot;:
+            lane = min(2, lane + 1)
+        dist += speed // 10
+        time += 1
+        crashed = False
+        for d, l in obstacles.items():
+            if dist &gt;= d and dist - speed // 10 &lt; d and l == lane and speed &gt; 60:
+                speed = 0
+                penalties += 5
+                crashed = True
+        log.append(&quot;Tick %d: %s dist %d speed %d lane %d %s&quot; % (tick + 1, cmd, dist, speed, lane, &quot;CRASH&quot; if crashed else &quot;ok&quot;))
+        if dist &gt;= PARAMS[&quot;distance&quot;]:
+            break
+    return dist, time + penalties, log
+
+def auto_play():
+    print(&quot;Racing tribute: auto session&quot;)
+    dist, total, log = race(AUTO)
+    for line in log:
+        print(line)
+    rivals = PARAMS[&quot;rivals&quot;]
+    place = 1 + sum(1 for r in rivals if r &lt; total)
+    print(&quot;FINAL SCORE: %d&quot; % max(0, 1000 - total * 10 + (4 - place) * 50))
+    print(&quot;RESULT: FINISHED place %d time %d&quot; % (place, total))
+
+def play():
+    print(&quot;Racing tribute: type accel/brake/left/right each tick, or quit. Finish %d m first.&quot; % PARAMS[&quot;distance&quot;])
+    cmds = []
+    for line in sys.stdin:
+        cmd = line.strip().lower()
+        if cmd == &quot;quit&quot;:
+            break
+        if cmd not in (&quot;accel&quot;, &quot;brake&quot;, &quot;left&quot;, &quot;right&quot;):
+            print(&quot;Unknown command: %s&quot; % cmd)
+            continue
+        cmds.append(cmd)
+        dist, total, log = race(cmds)
+        print(log[-1])
+        if dist &gt;= PARAMS[&quot;distance&quot;]:
+            break
+    dist, total, log = race(cmds)
+    rivals = PARAMS[&quot;rivals&quot;]
+    place = 1 + sum(1 for r in rivals if r &lt; total)
+    print(&quot;FINAL SCORE: %d&quot; % max(0, 1000 - total * 10 + (4 - place) * 50))
+    print(&quot;RESULT: %s&quot; % (&quot;FINISHED place %d time %d&quot; % (place, total) if dist &gt;= PARAMS[&quot;distance&quot;] else &quot;QUIT&quot;))
+
+if __name__ == &quot;__main__&quot;:
+    if &quot;--play&quot; in sys.argv:
+        play()
+    else:
+        auto_play()
+</pre></article><article class="record"><h3>Riverbend Rallycross <small>Rank 13 &middot; complex &middot; racing &middot; advanced</small></h3><p>Riverbend Rallycross is an original racing game. A rallycross course mixes tarmac and dirt beside a wide river, where jumps and hairpins come in quick succession.</p><p>Each tick you choose accelerate, brake, or a lane change. Speed builds quickly, obstacles punish fast drivers who stay in the wrong lane, and crashes cost precious seconds. Finish the distance and your time is ranked against a set of rival times.</p><p>Watch the distance markers: an obstacle only punishes a driver who is still moving fast in its lane when the car reaches it.</p><p><b>Original game note:</b> This is an original arcade-style game created for this Signature edition, with its own title, rules, and play.</p><h4>How to play</h4><p>Type accel, brake, left or right each tick, or quit to stop.</p><h4>Working demo program</h4><p>Save the code below as game.py and run <code>python3 game.py --play</code> to play it. Running it without arguments replays the scripted session whose output is stored with the record.</p><pre class="codeblock">import sys
+PARAMS = {&#x27;distance&#x27;: 227, &#x27;obstacles&#x27;: [[38, 1], [70, 2], [102, 0], [134, 1]], &#x27;rivals&#x27;: [37, 32, 33]}
+AUTO = [&#x27;accel&#x27;, &#x27;accel&#x27;, &#x27;right&#x27;, &#x27;accel&#x27;, &#x27;left&#x27;, &#x27;brake&#x27;, &#x27;accel&#x27;, &#x27;right&#x27;, &#x27;accel&#x27;, &#x27;accel&#x27;, &#x27;accel&#x27;, &#x27;left&#x27;, &#x27;right&#x27;, &#x27;accel&#x27;]
+
+def race(cmds):
+    dist, speed, lane, time, penalties = 0, 0, 1, 0, 0
+    obstacles = dict((d, l) for d, l in PARAMS[&quot;obstacles&quot;])
+    log = []
+    for tick, cmd in enumerate(cmds):
+        if cmd == &quot;accel&quot;:
+            speed = min(200, speed + 20)
+        elif cmd == &quot;brake&quot;:
+            speed = max(0, speed - 40)
+        elif cmd == &quot;left&quot;:
+            lane = max(0, lane - 1)
+        elif cmd == &quot;right&quot;:
+            lane = min(2, lane + 1)
+        dist += speed // 10
+        time += 1
+        crashed = False
+        for d, l in obstacles.items():
+            if dist &gt;= d and dist - speed // 10 &lt; d and l == lane and speed &gt; 60:
+                speed = 0
+                penalties += 5
+                crashed = True
+        log.append(&quot;Tick %d: %s dist %d speed %d lane %d %s&quot; % (tick + 1, cmd, dist, speed, lane, &quot;CRASH&quot; if crashed else &quot;ok&quot;))
+        if dist &gt;= PARAMS[&quot;distance&quot;]:
+            break
+    return dist, time + penalties, log
+
+def auto_play():
+    print(&quot;Racing tribute: auto session&quot;)
+    dist, total, log = race(AUTO)
+    for line in log:
+        print(line)
+    rivals = PARAMS[&quot;rivals&quot;]
+    place = 1 + sum(1 for r in rivals if r &lt; total)
+    print(&quot;FINAL SCORE: %d&quot; % max(0, 1000 - total * 10 + (4 - place) * 50))
+    print(&quot;RESULT: FINISHED place %d time %d&quot; % (place, total))
+
+def play():
+    print(&quot;Racing tribute: type accel/brake/left/right each tick, or quit. Finish %d m first.&quot; % PARAMS[&quot;distance&quot;])
+    cmds = []
+    for line in sys.stdin:
+        cmd = line.strip().lower()
+        if cmd == &quot;quit&quot;:
+            break
+        if cmd not in (&quot;accel&quot;, &quot;brake&quot;, &quot;left&quot;, &quot;right&quot;):
+            print(&quot;Unknown command: %s&quot; % cmd)
+            continue
+        cmds.append(cmd)
+        dist, total, log = race(cmds)
+        print(log[-1])
+        if dist &gt;= PARAMS[&quot;distance&quot;]:
+            break
+    dist, total, log = race(cmds)
+    rivals = PARAMS[&quot;rivals&quot;]
+    place = 1 + sum(1 for r in rivals if r &lt; total)
+    print(&quot;FINAL SCORE: %d&quot; % max(0, 1000 - total * 10 + (4 - place) * 50))
+    print(&quot;RESULT: %s&quot; % (&quot;FINISHED place %d time %d&quot; % (place, total) if dist &gt;= PARAMS[&quot;distance&quot;] else &quot;QUIT&quot;))
+
+if __name__ == &quot;__main__&quot;:
+    if &quot;--play&quot; in sys.argv:
+        play()
+    else:
+        auto_play()
+</pre></article><article class="record"><h3>Moonlight Mile Dash <small>Rank 14 &middot; complex &middot; racing &middot; advanced</small></h3><p>Moonlight Mile Dash is an original racing game. A night dash along a coastal mile is run under a full moon, where headlights pick out the corners.</p><p>Each tick you choose accelerate, brake, or a lane change. Speed builds quickly, obstacles punish fast drivers who stay in the wrong lane, and crashes cost precious seconds. Finish the distance and your time is ranked against a set of rival times.</p><p>Saving a brake for the last stretch can rescue a run that started badly, since rivals&#x27; times are fixed and every second counts.</p><p><b>Original game note:</b> This is an original arcade-style game created for this Signature edition, with its own title, rules, and play.</p><h4>How to play</h4><p>Type accel, brake, left or right each tick, or quit to stop.</p><h4>Working demo program</h4><p>Save the code below as game.py and run <code>python3 game.py --play</code> to play it. Running it without arguments replays the scripted session whose output is stored with the record.</p><pre class="codeblock">import sys
+PARAMS = {&#x27;distance&#x27;: 240, &#x27;obstacles&#x27;: [[45, 2], [78, 0], [111, 1], [144, 2], [177, 0]], &#x27;rivals&#x27;: [38, 24, 34]}
+AUTO = [&#x27;accel&#x27;, &#x27;accel&#x27;, &#x27;right&#x27;, &#x27;accel&#x27;, &#x27;left&#x27;, &#x27;brake&#x27;, &#x27;accel&#x27;, &#x27;right&#x27;, &#x27;accel&#x27;, &#x27;accel&#x27;, &#x27;accel&#x27;, &#x27;left&#x27;, &#x27;right&#x27;, &#x27;accel&#x27;, &#x27;accel&#x27;]
+
+def race(cmds):
+    dist, speed, lane, time, penalties = 0, 0, 1, 0, 0
+    obstacles = dict((d, l) for d, l in PARAMS[&quot;obstacles&quot;])
+    log = []
+    for tick, cmd in enumerate(cmds):
+        if cmd == &quot;accel&quot;:
+            speed = min(200, speed + 20)
+        elif cmd == &quot;brake&quot;:
+            speed = max(0, speed - 40)
+        elif cmd == &quot;left&quot;:
+            lane = max(0, lane - 1)
+        elif cmd == &quot;right&quot;:
+            lane = min(2, lane + 1)
+        dist += speed // 10
+        time += 1
+        crashed = False
+        for d, l in obstacles.items():
+            if dist &gt;= d and dist - speed // 10 &lt; d and l == lane and speed &gt; 60:
+                speed = 0
+                penalties += 5
+                crashed = True
+        log.append(&quot;Tick %d: %s dist %d speed %d lane %d %s&quot; % (tick + 1, cmd, dist, speed, lane, &quot;CRASH&quot; if crashed else &quot;ok&quot;))
+        if dist &gt;= PARAMS[&quot;distance&quot;]:
+            break
+    return dist, time + penalties, log
+
+def auto_play():
+    print(&quot;Racing tribute: auto session&quot;)
+    dist, total, log = race(AUTO)
+    for line in log:
+        print(line)
+    rivals = PARAMS[&quot;rivals&quot;]
+    place = 1 + sum(1 for r in rivals if r &lt; total)
+    print(&quot;FINAL SCORE: %d&quot; % max(0, 1000 - total * 10 + (4 - place) * 50))
+    print(&quot;RESULT: FINISHED place %d time %d&quot; % (place, total))
+
+def play():
+    print(&quot;Racing tribute: type accel/brake/left/right each tick, or quit. Finish %d m first.&quot; % PARAMS[&quot;distance&quot;])
+    cmds = []
+    for line in sys.stdin:
+        cmd = line.strip().lower()
+        if cmd == &quot;quit&quot;:
+            break
+        if cmd not in (&quot;accel&quot;, &quot;brake&quot;, &quot;left&quot;, &quot;right&quot;):
+            print(&quot;Unknown command: %s&quot; % cmd)
+            continue
+        cmds.append(cmd)
+        dist, total, log = race(cmds)
+        print(log[-1])
+        if dist &gt;= PARAMS[&quot;distance&quot;]:
+            break
+    dist, total, log = race(cmds)
+    rivals = PARAMS[&quot;rivals&quot;]
+    place = 1 + sum(1 for r in rivals if r &lt; total)
+    print(&quot;FINAL SCORE: %d&quot; % max(0, 1000 - total * 10 + (4 - place) * 50))
+    print(&quot;RESULT: %s&quot; % (&quot;FINISHED place %d time %d&quot; % (place, total) if dist &gt;= PARAMS[&quot;distance&quot;] else &quot;QUIT&quot;))
+
+if __name__ == &quot;__main__&quot;:
+    if &quot;--play&quot; in sys.argv:
+        play()
+    else:
+        auto_play()
+</pre></article><article class="record"><h3>Stormfront Grand Tour <small>Rank 15 &middot; complex &middot; racing &middot; advanced</small></h3><p>Stormfront Grand Tour is an original racing game. A grand tour crosses plains ahead of a storm front, where wind gusts push cars wide on the long straights.</p><p>Each tick you choose accelerate, brake, or a lane change. Speed builds quickly, obstacles punish fast drivers who stay in the wrong lane, and crashes cost precious seconds. Finish the distance and your time is ranked against a set of rival times.</p><p>The fastest line is rarely the straightest one: brake before the obstacle, not on it, and change lanes early so speed stays up.</p><p><b>Original game note:</b> This is an original arcade-style game created for this Signature edition, with its own title, rules, and play.</p><h4>How to play</h4><p>Type accel, brake, left or right each tick, or quit to stop.</p><h4>Working demo program</h4><p>Save the code below as game.py and run <code>python3 game.py --play</code> to play it. Running it without arguments replays the scripted session whose output is stored with the record.</p><pre class="codeblock">import sys
+PARAMS = {&#x27;distance&#x27;: 253, &#x27;obstacles&#x27;: [[52, 0], [86, 1], [120, 2]], &#x27;rivals&#x27;: [39, 26, 35]}
+AUTO = [&#x27;accel&#x27;, &#x27;accel&#x27;, &#x27;right&#x27;, &#x27;accel&#x27;, &#x27;left&#x27;, &#x27;brake&#x27;, &#x27;accel&#x27;, &#x27;right&#x27;, &#x27;accel&#x27;, &#x27;accel&#x27;, &#x27;accel&#x27;, &#x27;left&#x27;, &#x27;right&#x27;, &#x27;accel&#x27;, &#x27;accel&#x27;, &#x27;accel&#x27;]
+
+def race(cmds):
+    dist, speed, lane, time, penalties = 0, 0, 1, 0, 0
+    obstacles = dict((d, l) for d, l in PARAMS[&quot;obstacles&quot;])
+    log = []
+    for tick, cmd in enumerate(cmds):
+        if cmd == &quot;accel&quot;:
+            speed = min(200, speed + 20)
+        elif cmd == &quot;brake&quot;:
+            speed = max(0, speed - 40)
+        elif cmd == &quot;left&quot;:
+            lane = max(0, lane - 1)
+        elif cmd == &quot;right&quot;:
+            lane = min(2, lane + 1)
+        dist += speed // 10
+        time += 1
+        crashed = False
+        for d, l in obstacles.items():
+            if dist &gt;= d and dist - speed // 10 &lt; d and l == lane and speed &gt; 60:
+                speed = 0
+                penalties += 5
+                crashed = True
+        log.append(&quot;Tick %d: %s dist %d speed %d lane %d %s&quot; % (tick + 1, cmd, dist, speed, lane, &quot;CRASH&quot; if crashed else &quot;ok&quot;))
+        if dist &gt;= PARAMS[&quot;distance&quot;]:
+            break
+    return dist, time + penalties, log
+
+def auto_play():
+    print(&quot;Racing tribute: auto session&quot;)
+    dist, total, log = race(AUTO)
+    for line in log:
+        print(line)
+    rivals = PARAMS[&quot;rivals&quot;]
+    place = 1 + sum(1 for r in rivals if r &lt; total)
+    print(&quot;FINAL SCORE: %d&quot; % max(0, 1000 - total * 10 + (4 - place) * 50))
+    print(&quot;RESULT: FINISHED place %d time %d&quot; % (place, total))
+
+def play():
+    print(&quot;Racing tribute: type accel/brake/left/right each tick, or quit. Finish %d m first.&quot; % PARAMS[&quot;distance&quot;])
+    cmds = []
+    for line in sys.stdin:
+        cmd = line.strip().lower()
+        if cmd == &quot;quit&quot;:
+            break
+        if cmd not in (&quot;accel&quot;, &quot;brake&quot;, &quot;left&quot;, &quot;right&quot;):
+            print(&quot;Unknown command: %s&quot; % cmd)
+            continue
+        cmds.append(cmd)
+        dist, total, log = race(cmds)
+        print(log[-1])
+        if dist &gt;= PARAMS[&quot;distance&quot;]:
+            break
+    dist, total, log = race(cmds)
+    rivals = PARAMS[&quot;rivals&quot;]
+    place = 1 + sum(1 for r in rivals if r &lt; total)
+    print(&quot;FINAL SCORE: %d&quot; % max(0, 1000 - total * 10 + (4 - place) * 50))
+    print(&quot;RESULT: %s&quot; % (&quot;FINISHED place %d time %d&quot; % (place, total) if dist &gt;= PARAMS[&quot;distance&quot;] else &quot;QUIT&quot;))
+
+if __name__ == &quot;__main__&quot;:
+    if &quot;--play&quot; in sys.argv:
+        play()
+    else:
+        auto_play()
+</pre></article><article class="record"><h3>Golden Harbor Gallop <small>Rank 16 &middot; complex &middot; racing &middot; advanced</small></h3><p>Golden Harbor Gallop is an original racing game. A harbor-city gallop of a race threads docks, markets, and a final sprint along the pier.</p><p>Each tick you choose accelerate, brake, or a lane change. Speed builds quickly, obstacles punish fast drivers who stay in the wrong lane, and crashes cost precious seconds. Finish the distance and your time is ranked against a set of rival times.</p><p>Rivals are beaten by consistency, not by one wild move; a clean run with no crashes usually finishes ahead of a faster but messier one.</p><p><b>Original game note:</b> This is an original arcade-style game created for this Signature edition, with its own title, rules, and play.</p><h4>How to play</h4><p>Type accel, brake, left or right each tick, or quit to stop.</p><h4>Working demo program</h4><p>Save the code below as game.py and run <code>python3 game.py --play</code> to play it. Running it without arguments replays the scripted session whose output is stored with the record.</p><pre class="codeblock">import sys
+PARAMS = {&#x27;distance&#x27;: 126, &#x27;obstacles&#x27;: [[29, 1], [64, 2], [99, 0], [134, 1]], &#x27;rivals&#x27;: [40, 28, 36]}
+AUTO = [&#x27;accel&#x27;, &#x27;brake&#x27;, &#x27;accel&#x27;, &#x27;brake&#x27;, &#x27;accel&#x27;, &#x27;brake&#x27;, &#x27;accel&#x27;, &#x27;brake&#x27;, &#x27;accel&#x27;, &#x27;brake&#x27;, &#x27;accel&#x27;, &#x27;brake&#x27;, &#x27;accel&#x27;, &#x27;brake&#x27;, &#x27;accel&#x27;, &#x27;brake&#x27;, &#x27;accel&#x27;, &#x27;brake&#x27;, &#x27;accel&#x27;, &#x27;brake&#x27;, &#x27;accel&#x27;, &#x27;brake&#x27;, &#x27;accel&#x27;, &#x27;brake&#x27;, &#x27;accel&#x27;, &#x27;brake&#x27;, &#x27;accel&#x27;, &#x27;brake&#x27;, &#x27;accel&#x27;, &#x27;brake&#x27;]
+
+def race(cmds):
+    dist, speed, lane, time, penalties = 0, 0, 1, 0, 0
+    obstacles = dict((d, l) for d, l in PARAMS[&quot;obstacles&quot;])
+    log = []
+    for tick, cmd in enumerate(cmds):
+        if cmd == &quot;accel&quot;:
+            speed = min(200, speed + 20)
+        elif cmd == &quot;brake&quot;:
+            speed = max(0, speed - 40)
+        elif cmd == &quot;left&quot;:
+            lane = max(0, lane - 1)
+        elif cmd == &quot;right&quot;:
+            lane = min(2, lane + 1)
+        dist += speed // 10
+        time += 1
+        crashed = False
+        for d, l in obstacles.items():
+            if dist &gt;= d and dist - speed // 10 &lt; d and l == lane and speed &gt; 60:
+                speed = 0
+                penalties += 5
+                crashed = True
+        log.append(&quot;Tick %d: %s dist %d speed %d lane %d %s&quot; % (tick + 1, cmd, dist, speed, lane, &quot;CRASH&quot; if crashed else &quot;ok&quot;))
+        if dist &gt;= PARAMS[&quot;distance&quot;]:
+            break
+    return dist, time + penalties, log
+
+def auto_play():
+    print(&quot;Racing tribute: auto session&quot;)
+    dist, total, log = race(AUTO)
+    for line in log:
+        print(line)
+    rivals = PARAMS[&quot;rivals&quot;]
+    place = 1 + sum(1 for r in rivals if r &lt; total)
+    print(&quot;FINAL SCORE: %d&quot; % max(0, 1000 - total * 10 + (4 - place) * 50))
+    print(&quot;RESULT: FINISHED place %d time %d&quot; % (place, total))
+
+def play():
+    print(&quot;Racing tribute: type accel/brake/left/right each tick, or quit. Finish %d m first.&quot; % PARAMS[&quot;distance&quot;])
+    cmds = []
+    for line in sys.stdin:
+        cmd = line.strip().lower()
+        if cmd == &quot;quit&quot;:
+            break
+        if cmd not in (&quot;accel&quot;, &quot;brake&quot;, &quot;left&quot;, &quot;right&quot;):
+            print(&quot;Unknown command: %s&quot; % cmd)
+            continue
+        cmds.append(cmd)
+        dist, total, log = race(cmds)
+        print(log[-1])
+        if dist &gt;= PARAMS[&quot;distance&quot;]:
+            break
+    dist, total, log = race(cmds)
+    rivals = PARAMS[&quot;rivals&quot;]
+    place = 1 + sum(1 for r in rivals if r &lt; total)
+    print(&quot;FINAL SCORE: %d&quot; % max(0, 1000 - total * 10 + (4 - place) * 50))
+    print(&quot;RESULT: %s&quot; % (&quot;FINISHED place %d time %d&quot; % (place, total) if dist &gt;= PARAMS[&quot;distance&quot;] else &quot;QUIT&quot;))
+
+if __name__ == &quot;__main__&quot;:
+    if &quot;--play&quot; in sys.argv:
+        play()
+    else:
+        auto_play()
+</pre></article>
+<h2>Related databases</h2><ul><li><a href="../video-game-arcade/index.html">video-game-arcade</a></li><li><a href="../arcade/index.html">arcade</a></li><li><a href="../e2-game-racing-video-games/index.html">e2-game-racing-video-games</a></li><li><a href="../racing-arcade-games/index.html">racing-arcade-games</a></li></ul>
+<script src="gen-racing-arcade-games-signature.js"></script>
+<script>
+(function(){'use strict';
+var DATA_URL='https://justinahiggins614-cmyk.github.io/jah-databases-data-2/data/racing-arcade-games-signature/index.jsonl.gz';
+function $(id){return document.getElementById(id);}
+function setCount(n){ $('stCount').textContent=n.toLocaleString()+' / 1,000,000 target'; $('stCount2').textContent=n.toLocaleString(); }
+fetch(DATA_URL).then(function(res){
+  if(!res.ok) throw new Error('HTTP '+res.status);
+  var ds=new DecompressionStream('gzip');
+  return new Response(res.body.pipeThrough(ds)).text();
+}).then(function(t){
+  var n=t.split('\n').filter(function(l){return l.trim();}).length;
+  setCount(n);
+}).catch(function(){ $('stCount').textContent='archive unreachable'; });
+})();
+</script>
+<script src="../../assets/assistant-maker.js"></script>
+</body></html>

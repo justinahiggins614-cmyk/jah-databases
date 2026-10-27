@@ -1,0 +1,1347 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">
+<title>The Golden Age Arcade Database</title><meta name="description" content="The Golden Age Arcade Database: sixteen full arcade records, ordered simple to complex, each with a playable demo program. Free forever.">
+<style>body{font-family:system-ui,sans-serif;max-width:900px;margin:auto;padding:1em;line-height:1.6}
+.kv{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:0.75em}
+.kv>div{border:1px solid #ccc;padding:0.5em}.codeblock{background:#111;color:#eee;padding:1em;overflow:auto;white-space:pre-wrap}
+.pill{display:inline-block;border:1px solid #333;border-radius:2em;padding:0.2em 0.8em;margin:0.2em}
+.merger{background:#c00;color:#fff;border:0;padding:0.7em 1.4em;font-size:1em;cursor:pointer}
+.record{border-top:2px solid #333;margin-top:2em;padding-top:1em}</style></head><body>
+<h1>The Golden Age Arcade Database</h1><p class="pill">Exhaustive</p> <p class="pill">march to a million: in progress</p>
+<button class="merger" onclick="alert('All Database Merger: this database is ready to merge into the network archive.')">All Database Merger</button>
+<p>Archive records: <b id="stCount">16 / 1,000,000 target</b> · <span id="stCount2">16</span> records <span class="dim">(populated from the live archive index)</span></p>
+<p>The golden age of the arcade ran from the first coin-operated games of 1971 to the great cabinets of 1982, when a handful of games defined what video games could be. This pair holds sixteen of those landmark games, each described in original words with a playable tribute demo, plus sixteen original games built in the golden-age style.</p>
+<p>Every record here is the full, fully-formed file: a full prose description, how to play, and a working, playable demo program. Everything is free forever, with no payments and no upsells. Public editions describe real arcade games in original words and ship original tribute demos inspired by their mechanics; they never ship the original game, its art, its music, or its code.</p>
+<h2>Specialist AI: JAH Golden Age Arcade Guide</h2><p>JAH Golden Age Arcade Guide answers questions about this arcade family, explains any record in plain sentences, and helps choose the right game, controls, or strategy for a session.</p>
+<h2>Boundless generator</h2><p>The generator below is seeded and deterministic, throttled to at most 100 records per call, duplicate-checked, and hard-stopped at 10^15 records. Every generated record is labeled src "generated". Open the page script to use <code>window.GoldenAgeArcadeTools.generateRecord(seed)</code>.</p>
+<h2>Validation engine</h2><p>Each record is checked for a complete title, its own record kind, its own edition slug and id prefix, a full prose description, topic fields, a demo whose stored output byte-matches a fresh run, and a play-mode smoke test proving the demo actually plays.</p>
+<h2>Evidence links</h2><ul><li><a href="https://justinahiggins614-cmyk.github.io/jah-databases-data-2/data/golden-age-arcade/index.jsonl.gz">Full record index for this edition (data-2)</a></li></ul>
+<h2>Tool connections</h2><p>The page exposes <code>window.GoldenAgeArcadeTools</code> with <code>searchRecords</code>, <code>generateRecord</code>, <code>validateRecord</code>, and <code>runTests</code>.</p>
+<h2>Testing suite</h2><p>Run <code>window.GoldenAgeArcadeTools.runTests()</code> in the console: it checks record kind, slug, id prefix, src labeling, validation, duplicate rejection, batch throttling, and search.</p>
+<h2>Audit history</h2><p>Built as a package on 2026-10-26: 16 records, ordered simple to compounded to complex by ladder rank, JSONL re-parsed, every demo re-executed with byte-matched output and play-mode smoke-tested, both generator files syntax-checked, and generator gates executed.</p>
+<h2>Search</h2><input id="q" placeholder="Search golden age arcade record" oninput="doSearch(this.value)"><div id="results"></div>
+<script>var SEARCH_INDEX=[{"id": "JAH-GAA-000001", "title": "Computer Space"}, {"id": "JAH-GAA-000002", "title": "Pong"}, {"id": "JAH-GAA-000003", "title": "Breakout"}, {"id": "JAH-GAA-000004", "title": "Space Invaders"}, {"id": "JAH-GAA-000005", "title": "Asteroids"}, {"id": "JAH-GAA-000006", "title": "Lunar Lander"}, {"id": "JAH-GAA-000007", "title": "Pac-Man"}, {"id": "JAH-GAA-000008", "title": "Defender"}, {"id": "JAH-GAA-000009", "title": "Missile Command"}, {"id": "JAH-GAA-000010", "title": "Centipede"}, {"id": "JAH-GAA-000011", "title": "Donkey Kong"}, {"id": "JAH-GAA-000012", "title": "Frogger"}, {"id": "JAH-GAA-000013", "title": "Dig Dug"}, {"id": "JAH-GAA-000014", "title": "Galaga"}, {"id": "JAH-GAA-000015", "title": "Joust"}, {"id": "JAH-GAA-000016", "title": "Tempest"}];function doSearch(q){q=q.toLowerCase();var hits=SEARCH_INDEX.filter(function(r){return r.title.toLowerCase().indexOf(q)!==-1});document.getElementById('results').innerHTML=hits.map(function(r){return '<p>'+r.id+' — '+r.title+'</p>'}).join('')||'<p>No matches yet.</p>';}</script>
+<h2>Records</h2><div class="kv"><div>Records: 16</div><div>Editions: 1 of a pair</div><div>Free forever</div></div>
+<article class="record"><h3>Computer Space <small>Rank 1 &middot; simple &middot; vector &middot; beginner</small></h3><p>Computer Space arrived in 1971 as the first commercial coin-operated video game, a two-player space duel played on a small television screen inside a futuristic fiberglass cabinet. One player steered a rocket ship and the other steered a pair of flying saucers, and the game awarded points for hits while a timer counted down. It sold modestly, but it proved that a video game could be a product in a public place.</p><p>This tribute recreates the space duel as a single-ship vector flight: turn, thrust, and shoot at drifting rocks on a dark field. The demo changes the original by replacing the second player with a set of stationary targets, so the duel&#x27;s flying and shooting can be practiced alone. It is an original tribute inspired by the mechanics, not the cabinet itself.</p><p>The duel rewards leading your shots. Aim where the target will be, not where it is, and use short thrusts to adjust position rather than long burns that carry you past the action. Early players learned that the ship&#x27;s drift was the real opponent, and the ones who mastered it could hold the screen for a full timed game.</p><p><b>Playable tribute note:</b> The demo below is an original tribute inspired by the mechanics of Computer Space (1971). It is not Computer Space (1971), and it uses no art, music, or code from that game.</p><h4>How to play</h4><p>Type thrust/left/right/shoot to fly and fire, quit to stop.</p><h4>Working demo program</h4><p>Save the code below as game.py and run <code>python3 game.py --play</code> to play it. Running it without arguments replays the scripted session whose output is stored with the record.</p><pre class="codeblock">import sys
+PARAMS = {&#x27;w&#x27;: 12, &#x27;h&#x27;: 8, &#x27;ship&#x27;: [3, 3], &#x27;rocks&#x27;: [[5, 3, 0, 0, 1], [6, 3, 0, 0, 1], [7, 5, 0, 0, 1], [2, 6, 0, 0, 2]]}
+AUTO = [&#x27;shoot&#x27;, &#x27;shoot&#x27;, &#x27;shoot&#x27;, &#x27;thrust&#x27;, &#x27;thrust&#x27;, &#x27;right&#x27;, &#x27;shoot&#x27;, &#x27;left&#x27;, &#x27;shoot&#x27;]
+
+DIRS_V = [(1, 0), (0, 1), (-1, 0), (0, -1)]
+
+def auto_play():
+    W, H = PARAMS[&quot;w&quot;], PARAMS[&quot;h&quot;]
+    ship = list(PARAMS[&quot;ship&quot;])
+    heading = 0
+    rocks = [list(r) for r in PARAMS[&quot;rocks&quot;]]
+    score, lives = 0, 3
+    print(&quot;Vector tribute: auto session&quot;)
+    for i, cmd in enumerate(AUTO):
+        if cmd == &quot;left&quot;:
+            heading = (heading - 1) % 4
+        elif cmd == &quot;right&quot;:
+            heading = (heading + 1) % 4
+        elif cmd == &quot;thrust&quot;:
+            dx, dy = DIRS_V[heading]
+            ship[0] = (ship[0] + dx * 2) % W
+            ship[1] = (ship[1] + dy * 2) % H
+        elif cmd == &quot;shoot&quot;:
+            dx, dy = DIRS_V[heading]
+            for k in range(1, 4):
+                target = ((ship[0] + dx * k) % W, (ship[1] + dy * k) % H)
+                hit = None
+                for rock in rocks:
+                    if (rock[0], rock[1]) == target:
+                        hit = rock
+                        break
+                if hit is not None:
+                    rocks.remove(hit)
+                    score += hit[4] * 20
+                    if hit[4] == 2:
+                        rocks.append([hit[0], hit[1], 1, 0, 1])
+                        rocks.append([hit[0], hit[1], 0, 1, 1])
+                    break
+        new_rocks = []
+        for rock in rocks:
+            rock[0] = (rock[0] + rock[2]) % W
+            rock[1] = (rock[1] + rock[3]) % H
+            new_rocks.append(rock)
+        rocks = new_rocks
+        if any((rock[0], rock[1]) == (ship[0], ship[1]) for rock in rocks):
+            lives -= 1
+            rocks = [r for r in rocks if (r[0], r[1]) != (ship[0], ship[1])]
+        print(&quot;Step %d: %s ship %s rocks %d score %d lives %d&quot; % (i + 1, cmd, tuple(ship), len(rocks), score, lives))
+        if not rocks or lives &lt;= 0:
+            break
+    print(&quot;FINAL SCORE: %d&quot; % score)
+    print(&quot;RESULT: %s&quot; % (&quot;WIN&quot; if not rocks else &quot;OUT OF LIVES&quot; if lives &lt;= 0 else &quot;ONGOING&quot;))
+
+def play():
+    W, H = PARAMS[&quot;w&quot;], PARAMS[&quot;h&quot;]
+    ship = list(PARAMS[&quot;ship&quot;])
+    heading = 0
+    rocks = [list(r) for r in PARAMS[&quot;rocks&quot;]]
+    score, lives = 0, 3
+    print(&quot;Vector tribute: type thrust/left/right/shoot, or quit. Blast every rock, avoid collisions.&quot;)
+    for line in sys.stdin:
+        cmd = line.strip().lower()
+        if cmd == &quot;quit&quot;:
+            break
+        if cmd not in (&quot;thrust&quot;, &quot;left&quot;, &quot;right&quot;, &quot;shoot&quot;):
+            print(&quot;Unknown command: %s&quot; % cmd)
+            continue
+        if cmd == &quot;left&quot;:
+            heading = (heading - 1) % 4
+        elif cmd == &quot;right&quot;:
+            heading = (heading + 1) % 4
+        elif cmd == &quot;thrust&quot;:
+            dx, dy = DIRS_V[heading]
+            ship[0] = (ship[0] + dx * 2) % W
+            ship[1] = (ship[1] + dy * 2) % H
+        elif cmd == &quot;shoot&quot;:
+            dx, dy = DIRS_V[heading]
+            for k in range(1, 4):
+                target = ((ship[0] + dx * k) % W, (ship[1] + dy * k) % H)
+                hit = None
+                for rock in rocks:
+                    if (rock[0], rock[1]) == target:
+                        hit = rock
+                        break
+                if hit is not None:
+                    rocks.remove(hit)
+                    score += hit[4] * 20
+                    if hit[4] == 2:
+                        rocks.append([hit[0], hit[1], 1, 0, 1])
+                        rocks.append([hit[0], hit[1], 0, 1, 1])
+                    break
+        for rock in rocks:
+            rock[0] = (rock[0] + rock[2]) % W
+            rock[1] = (rock[1] + rock[3]) % H
+        if any((rock[0], rock[1]) == (ship[0], ship[1]) for rock in rocks):
+            lives -= 1
+            rocks = [r for r in rocks if (r[0], r[1]) != (ship[0], ship[1])]
+        print(&quot;ship %s rocks %d score %d lives %d&quot; % (tuple(ship), len(rocks), score, lives))
+        if not rocks or lives &lt;= 0:
+            break
+    print(&quot;FINAL SCORE: %d&quot; % score)
+    print(&quot;RESULT: %s&quot; % (&quot;WIN&quot; if not rocks else &quot;OUT OF LIVES&quot; if lives &lt;= 0 else &quot;QUIT&quot;))
+
+if __name__ == &quot;__main__&quot;:
+    if &quot;--play&quot; in sys.argv:
+        play()
+    else:
+        auto_play()
+</pre></article><article class="record"><h3>Pong <small>Rank 2 &middot; simple &middot; pong &middot; beginner</small></h3><p>Pong arrived in 1972 and became the first video game most people ever played. Two paddles faced each other across a simple court, a square ball bounced between them, and the first player to reach eleven points won. The game was so intuitive that a short instruction line on the cabinet was all anyone needed, and it launched the arcade industry almost overnight.</p><p>This tribute recreates the paddle rally: you guard the left wall with a short paddle while the ball bounces around the court. The demo changes the original by scripting a rally against the wall instead of a two-player match, so the timing of the return is easy to study. Every return you make scores a point, and the rally in the demo ends with the player one point ahead.</p><p>Pong strategy is almost entirely about patience. Hold the paddle near the center, move only when the ball commits to a direction, and let the bounce do the work. The players who won most often were the ones who moved least, because a still paddle is never caught out of position.</p><p><b>Playable tribute note:</b> The demo below is an original tribute inspired by the mechanics of Pong (1972). It is not Pong (1972), and it uses no art, music, or code from that game.</p><h4>How to play</h4><p>Type up/down/stay each tick to guard your wall, quit to stop.</p><h4>Working demo program</h4><p>Save the code below as game.py and run <code>python3 game.py --play</code> to play it. Running it without arguments replays the scripted session whose output is stored with the record.</p><pre class="codeblock">import sys
+PARAMS = {&#x27;serves&#x27;: [5, 3, 7]}
+AUTO = [&#x27;stay&#x27;, &#x27;stay&#x27;, &#x27;stay&#x27;, &#x27;stay&#x27;, &#x27;stay&#x27;, &#x27;stay&#x27;, &#x27;stay&#x27;, &#x27;stay&#x27;, &#x27;stay&#x27;, &#x27;stay&#x27;, &#x27;stay&#x27;, &#x27;stay&#x27;, &#x27;stay&#x27;, &#x27;up&#x27;, &#x27;up&#x27;, &#x27;stay&#x27;, &#x27;stay&#x27;, &#x27;stay&#x27;, &#x27;stay&#x27;, &#x27;stay&#x27;, &#x27;stay&#x27;, &#x27;stay&#x27;, &#x27;stay&#x27;, &#x27;stay&#x27;, &#x27;stay&#x27;, &#x27;stay&#x27;, &#x27;stay&#x27;, &#x27;stay&#x27;, &#x27;stay&#x27;, &#x27;stay&#x27;]
+
+def pong_session(cmds, verbose):
+    paddle, ball, bdx, bdy = 4, [6, 5], 1, 1
+    pscore, cscore = 0, 0
+    serves = PARAMS[&quot;serves&quot;]
+    for tick, cmd in enumerate(cmds):
+        if cmd == &quot;up&quot;:
+            paddle = max(0, paddle - 1)
+        elif cmd == &quot;down&quot;:
+            paddle = min(7, paddle + 1)
+        ball[0] += bdx
+        ball[1] += bdy
+        if ball[1] &lt;= 0 or ball[1] &gt;= 9:
+            bdy = -bdy
+            ball[1] = max(0, min(9, ball[1]))
+        if ball[0] &gt;= 11:
+            bdx = -1
+        if ball[0] &lt;= 0:
+            if paddle &lt;= ball[1] &lt;= paddle + 2:
+                bdx = 1
+                pscore += 1
+            else:
+                cscore += 1
+                s = serves[(pscore + cscore) % len(serves)]
+                ball, bdx, bdy = [6, s], 1, 1 if s % 2 == 0 else -1
+        if verbose:
+            print(&quot;Tick %d: %s paddle %d ball %s you %d cpu %d&quot; % (tick + 1, cmd, paddle, tuple(ball), pscore, cscore))
+    return pscore, cscore
+
+def auto_play():
+    print(&quot;Pong tribute: auto session&quot;)
+    pscore, cscore = pong_session(AUTO, True)
+    print(&quot;FINAL SCORE: %d&quot; % pscore)
+    print(&quot;RESULT: YOU %d CPU %d&quot; % (pscore, cscore))
+
+def play():
+    print(&quot;Pong tribute: type up/down/stay each tick, or quit. Guard the left wall.&quot;)
+    cmds = []
+    for line in sys.stdin:
+        cmd = line.strip().lower()
+        if cmd == &quot;quit&quot;:
+            break
+        if cmd not in (&quot;up&quot;, &quot;down&quot;, &quot;stay&quot;):
+            print(&quot;Unknown command: %s&quot; % cmd)
+            continue
+        cmds.append(cmd)
+        pscore, cscore = pong_session(cmds, False)
+        print(&quot;you %d cpu %d&quot; % (pscore, cscore))
+    pscore, cscore = pong_session(cmds, False)
+    print(&quot;FINAL SCORE: %d&quot; % pscore)
+    print(&quot;RESULT: YOU %d CPU %d&quot; % (pscore, cscore))
+
+if __name__ == &quot;__main__&quot;:
+    if &quot;--play&quot; in sys.argv:
+        play()
+    else:
+        auto_play()
+</pre></article><article class="record"><h3>Breakout <small>Rank 3 &middot; simple &middot; pong &middot; beginner</small></h3><p>Breakout arrived in 1976 as a single-player twist on the paddle game: instead of an opponent, the player faced a wall of colored bricks at the top of the screen. The ball bounced off the paddle, smashed bricks, and scored more for the higher, harder-to-reach rows. It turned a two-player rally into a solitary test of control, and it became one of the defining games of the decade.</p><p>This tribute adapts the brick-breaking idea to the paddle-rally engine: you guard the left wall and return the ball, with the rhythm of the rally standing in for the rhythm of breaking bricks. The demo changes the original by scripting a rally that ends in a miss, because Breakout&#x27;s real lesson was what happened when the ball got past you: the game ended, and you started over wiser.</p><p>The Breakout habit is watching the ball&#x27;s angle, not the paddle. Players who tracked the ball&#x27;s path could position the paddle before the ball arrived, while players who watched only their paddle were always a step behind. That lesson, look ahead rather than at your hands, carried into every paddle game that followed.</p><p><b>Playable tribute note:</b> The demo below is an original tribute inspired by the mechanics of Breakout (1976). It is not Breakout (1976), and it uses no art, music, or code from that game.</p><h4>How to play</h4><p>Type up/down/stay each tick to guard your wall, quit to stop.</p><h4>Working demo program</h4><p>Save the code below as game.py and run <code>python3 game.py --play</code> to play it. Running it without arguments replays the scripted session whose output is stored with the record.</p><pre class="codeblock">import sys
+PARAMS = {&#x27;serves&#x27;: [4, 6, 2]}
+AUTO = [&#x27;stay&#x27;, &#x27;stay&#x27;, &#x27;stay&#x27;, &#x27;stay&#x27;, &#x27;stay&#x27;, &#x27;stay&#x27;, &#x27;stay&#x27;, &#x27;stay&#x27;, &#x27;stay&#x27;, &#x27;stay&#x27;, &#x27;stay&#x27;, &#x27;stay&#x27;, &#x27;stay&#x27;, &#x27;stay&#x27;, &#x27;stay&#x27;, &#x27;stay&#x27;, &#x27;stay&#x27;, &#x27;stay&#x27;, &#x27;stay&#x27;, &#x27;stay&#x27;, &#x27;stay&#x27;, &#x27;stay&#x27;, &#x27;stay&#x27;, &#x27;stay&#x27;, &#x27;stay&#x27;, &#x27;stay&#x27;, &#x27;stay&#x27;, &#x27;stay&#x27;, &#x27;stay&#x27;, &#x27;stay&#x27;]
+
+def pong_session(cmds, verbose):
+    paddle, ball, bdx, bdy = 4, [6, 5], 1, 1
+    pscore, cscore = 0, 0
+    serves = PARAMS[&quot;serves&quot;]
+    for tick, cmd in enumerate(cmds):
+        if cmd == &quot;up&quot;:
+            paddle = max(0, paddle - 1)
+        elif cmd == &quot;down&quot;:
+            paddle = min(7, paddle + 1)
+        ball[0] += bdx
+        ball[1] += bdy
+        if ball[1] &lt;= 0 or ball[1] &gt;= 9:
+            bdy = -bdy
+            ball[1] = max(0, min(9, ball[1]))
+        if ball[0] &gt;= 11:
+            bdx = -1
+        if ball[0] &lt;= 0:
+            if paddle &lt;= ball[1] &lt;= paddle + 2:
+                bdx = 1
+                pscore += 1
+            else:
+                cscore += 1
+                s = serves[(pscore + cscore) % len(serves)]
+                ball, bdx, bdy = [6, s], 1, 1 if s % 2 == 0 else -1
+        if verbose:
+            print(&quot;Tick %d: %s paddle %d ball %s you %d cpu %d&quot; % (tick + 1, cmd, paddle, tuple(ball), pscore, cscore))
+    return pscore, cscore
+
+def auto_play():
+    print(&quot;Pong tribute: auto session&quot;)
+    pscore, cscore = pong_session(AUTO, True)
+    print(&quot;FINAL SCORE: %d&quot; % pscore)
+    print(&quot;RESULT: YOU %d CPU %d&quot; % (pscore, cscore))
+
+def play():
+    print(&quot;Pong tribute: type up/down/stay each tick, or quit. Guard the left wall.&quot;)
+    cmds = []
+    for line in sys.stdin:
+        cmd = line.strip().lower()
+        if cmd == &quot;quit&quot;:
+            break
+        if cmd not in (&quot;up&quot;, &quot;down&quot;, &quot;stay&quot;):
+            print(&quot;Unknown command: %s&quot; % cmd)
+            continue
+        cmds.append(cmd)
+        pscore, cscore = pong_session(cmds, False)
+        print(&quot;you %d cpu %d&quot; % (pscore, cscore))
+    pscore, cscore = pong_session(cmds, False)
+    print(&quot;FINAL SCORE: %d&quot; % pscore)
+    print(&quot;RESULT: YOU %d CPU %d&quot; % (pscore, cscore))
+
+if __name__ == &quot;__main__&quot;:
+    if &quot;--play&quot; in sys.argv:
+        play()
+    else:
+        auto_play()
+</pre></article><article class="record"><h3>Space Invaders <small>Rank 4 &middot; simple &middot; fixed-shooter &middot; beginner</small></h3><p>Space Invaders arrived in 1978 and became a cultural phenomenon: rows of pixel aliens marched down the screen while the player fired from a lone cannon at the bottom, ducking behind shields that crumbled under fire. Its descending rhythm, which sped up as the aliens thinned, created a tension no earlier game had managed, and its high-score table turned every cabinet into a local contest.</p><p>This tribute recreates the fixed shooter with five columns of invaders in three rows and a cannon that slides along the bottom. The demo changes the original by slowing the descent to one row every third turn, giving a new player time to learn the column-clearing rhythm. The scripted session clears all fifteen invaders for a clean win.</p><p>Clear columns one at a time, from the edges inward. A half-cleared column leaves a lone invader that is easy to forget and hard to hit late, while a fully cleared column never threatens you again. Keep the cannon moving between shots, and the invasion will stall before it ever reaches your shields.</p><p><b>Playable tribute note:</b> The demo below is an original tribute inspired by the mechanics of Space Invaders (1978). It is not Space Invaders (1978), and it uses no art, music, or code from that game.</p><h4>How to play</h4><p>Type left/right/shoot to move and fire, quit to stop.</p><h4>Working demo program</h4><p>Save the code below as game.py and run <code>python3 game.py --play</code> to play it. Running it without arguments replays the scripted session whose output is stored with the record.</p><pre class="codeblock">import sys
+PARAMS = {&#x27;cols&#x27;: 5, &#x27;rows&#x27;: 3, &#x27;start_col&#x27;: 2, &#x27;floor_row&#x27;: 12}
+AUTO = [&#x27;shoot&#x27;, &#x27;shoot&#x27;, &#x27;shoot&#x27;, &#x27;right&#x27;, &#x27;shoot&#x27;, &#x27;shoot&#x27;, &#x27;shoot&#x27;, &#x27;right&#x27;, &#x27;shoot&#x27;, &#x27;shoot&#x27;, &#x27;shoot&#x27;, &#x27;left&#x27;, &#x27;left&#x27;, &#x27;left&#x27;, &#x27;shoot&#x27;, &#x27;shoot&#x27;, &#x27;shoot&#x27;, &#x27;left&#x27;, &#x27;shoot&#x27;, &#x27;shoot&#x27;, &#x27;shoot&#x27;]
+
+def auto_play():
+    cols = PARAMS[&quot;cols&quot;]
+    invaders = set()
+    for r in range(PARAMS[&quot;rows&quot;]):
+        for c in range(cols):
+            invaders.add((r, c))
+    player = PARAMS[&quot;start_col&quot;]
+    score = 0
+    turn = 0
+    print(&quot;Fixed shooter tribute: auto session&quot;)
+    for cmd in AUTO:
+        turn += 1
+        if cmd == &quot;left&quot;:
+            player = max(0, player - 1)
+        elif cmd == &quot;right&quot;:
+            player = min(cols - 1, player + 1)
+        elif cmd == &quot;shoot&quot;:
+            col_hits = [(r, c) for (r, c) in invaders if c == player]
+            if col_hits:
+                invaders.discard(max(col_hits))
+                score += 50
+        if turn % 3 == 0 and invaders:
+            invaders = set((r + 1, c) for (r, c) in invaders)
+        print(&quot;Turn %d: %s player col %d invaders %d score %d&quot; % (turn, cmd, player, len(invaders), score))
+        if not invaders or any(r &gt;= PARAMS[&quot;floor_row&quot;] for (r, c) in invaders):
+            break
+    deepest = max([r for (r, c) in invaders]) if invaders else -1
+    print(&quot;DEEPEST ROW: %d / FLOOR: %d&quot; % (deepest, PARAMS[&quot;floor_row&quot;]))
+    print(&quot;FINAL SCORE: %d&quot; % score)
+    if not invaders:
+        print(&quot;RESULT: WIN&quot;)
+    elif deepest &gt;= PARAMS[&quot;floor_row&quot;]:
+        print(&quot;RESULT: OVERRUN&quot;)
+    else:
+        print(&quot;RESULT: SESSION END&quot;)
+
+def play():
+    cols = PARAMS[&quot;cols&quot;]
+    invaders = set()
+    for r in range(PARAMS[&quot;rows&quot;]):
+        for c in range(cols):
+            invaders.add((r, c))
+    player = PARAMS[&quot;start_col&quot;]
+    score = 0
+    turn = 0
+    print(&quot;Fixed shooter tribute: type left/right/shoot, or quit. Destroy every invader before it lands.&quot;)
+    result = &quot;SESSION END&quot;
+    for line in sys.stdin:
+        cmd = line.strip().lower()
+        if cmd == &quot;quit&quot;:
+            result = &quot;QUIT&quot;
+            break
+        if cmd not in (&quot;left&quot;, &quot;right&quot;, &quot;shoot&quot;):
+            print(&quot;Unknown command: %s&quot; % cmd)
+            continue
+        turn += 1
+        if cmd == &quot;left&quot;:
+            player = max(0, player - 1)
+        elif cmd == &quot;right&quot;:
+            player = min(cols - 1, player + 1)
+        elif cmd == &quot;shoot&quot;:
+            col_hits = [(r, c) for (r, c) in invaders if c == player]
+            if col_hits:
+                invaders.discard(max(col_hits))
+                score += 50
+        if turn % 3 == 0 and invaders:
+            invaders = set((r + 1, c) for (r, c) in invaders)
+        print(&quot;player col %d invaders %d score %d&quot; % (player, len(invaders), score))
+        if not invaders:
+            result = &quot;WIN&quot;
+            break
+        if any(r &gt;= PARAMS[&quot;floor_row&quot;] for (r, c) in invaders):
+            result = &quot;OVERRUN&quot;
+            break
+    deepest = max([r for (r, c) in invaders]) if invaders else -1
+    print(&quot;DEEPEST ROW: %d / FLOOR: %d&quot; % (deepest, PARAMS[&quot;floor_row&quot;]))
+    print(&quot;FINAL SCORE: %d&quot; % score)
+    print(&quot;RESULT: %s&quot; % result)
+
+if __name__ == &quot;__main__&quot;:
+    if &quot;--play&quot; in sys.argv:
+        play()
+    else:
+        auto_play()
+</pre></article><article class="record"><h3>Asteroids <small>Rank 5 &middot; simple &middot; vector &middot; beginner</small></h3><p>Asteroids arrived in 1979 and gave vector graphics their signature game: a small ship drifting through a field of tumbling rocks, each one splitting into smaller, faster fragments when shot. The ship&#x27;s thrust carried real momentum, so flying felt like gliding in space, and the game&#x27;s stark white lines on black became an icon of the era.</p><p>This tribute recreates the asteroid field with a ship, a line of rocks to the east, and one large rock that splits when hit. The demo changes the original by parking the rocks in place, so a new pilot can practice aiming without chasing drifting debris. The scripted session breaks the large rock and one smaller rock nearby, while the large rock&#x27;s fragments drift onward into the dark.</p><p>Asteroids pilots shoot from a distance and drift clear. Fire at a rock, then thrust away before its fragments spread, and never sit still in the middle of the field. The players who survived longest treated the screen as open water: always moving, always with an escape route, never cornered against an edge.</p><p><b>Playable tribute note:</b> The demo below is an original tribute inspired by the mechanics of Asteroids (1979). It is not Asteroids (1979), and it uses no art, music, or code from that game.</p><h4>How to play</h4><p>Type thrust/left/right/shoot to fly and fire, quit to stop.</p><h4>Working demo program</h4><p>Save the code below as game.py and run <code>python3 game.py --play</code> to play it. Running it without arguments replays the scripted session whose output is stored with the record.</p><pre class="codeblock">import sys
+PARAMS = {&#x27;w&#x27;: 12, &#x27;h&#x27;: 8, &#x27;ship&#x27;: [5, 2], &#x27;rocks&#x27;: [[7, 2, 0, 0, 2], [8, 2, 0, 0, 1], [6, 6, 0, 0, 1]]}
+AUTO = [&#x27;shoot&#x27;, &#x27;shoot&#x27;, &#x27;shoot&#x27;, &#x27;shoot&#x27;, &#x27;thrust&#x27;, &#x27;thrust&#x27;, &#x27;right&#x27;, &#x27;shoot&#x27;]
+
+DIRS_V = [(1, 0), (0, 1), (-1, 0), (0, -1)]
+
+def auto_play():
+    W, H = PARAMS[&quot;w&quot;], PARAMS[&quot;h&quot;]
+    ship = list(PARAMS[&quot;ship&quot;])
+    heading = 0
+    rocks = [list(r) for r in PARAMS[&quot;rocks&quot;]]
+    score, lives = 0, 3
+    print(&quot;Vector tribute: auto session&quot;)
+    for i, cmd in enumerate(AUTO):
+        if cmd == &quot;left&quot;:
+            heading = (heading - 1) % 4
+        elif cmd == &quot;right&quot;:
+            heading = (heading + 1) % 4
+        elif cmd == &quot;thrust&quot;:
+            dx, dy = DIRS_V[heading]
+            ship[0] = (ship[0] + dx * 2) % W
+            ship[1] = (ship[1] + dy * 2) % H
+        elif cmd == &quot;shoot&quot;:
+            dx, dy = DIRS_V[heading]
+            for k in range(1, 4):
+                target = ((ship[0] + dx * k) % W, (ship[1] + dy * k) % H)
+                hit = None
+                for rock in rocks:
+                    if (rock[0], rock[1]) == target:
+                        hit = rock
+                        break
+                if hit is not None:
+                    rocks.remove(hit)
+                    score += hit[4] * 20
+                    if hit[4] == 2:
+                        rocks.append([hit[0], hit[1], 1, 0, 1])
+                        rocks.append([hit[0], hit[1], 0, 1, 1])
+                    break
+        new_rocks = []
+        for rock in rocks:
+            rock[0] = (rock[0] + rock[2]) % W
+            rock[1] = (rock[1] + rock[3]) % H
+            new_rocks.append(rock)
+        rocks = new_rocks
+        if any((rock[0], rock[1]) == (ship[0], ship[1]) for rock in rocks):
+            lives -= 1
+            rocks = [r for r in rocks if (r[0], r[1]) != (ship[0], ship[1])]
+        print(&quot;Step %d: %s ship %s rocks %d score %d lives %d&quot; % (i + 1, cmd, tuple(ship), len(rocks), score, lives))
+        if not rocks or lives &lt;= 0:
+            break
+    print(&quot;FINAL SCORE: %d&quot; % score)
+    print(&quot;RESULT: %s&quot; % (&quot;WIN&quot; if not rocks else &quot;OUT OF LIVES&quot; if lives &lt;= 0 else &quot;ONGOING&quot;))
+
+def play():
+    W, H = PARAMS[&quot;w&quot;], PARAMS[&quot;h&quot;]
+    ship = list(PARAMS[&quot;ship&quot;])
+    heading = 0
+    rocks = [list(r) for r in PARAMS[&quot;rocks&quot;]]
+    score, lives = 0, 3
+    print(&quot;Vector tribute: type thrust/left/right/shoot, or quit. Blast every rock, avoid collisions.&quot;)
+    for line in sys.stdin:
+        cmd = line.strip().lower()
+        if cmd == &quot;quit&quot;:
+            break
+        if cmd not in (&quot;thrust&quot;, &quot;left&quot;, &quot;right&quot;, &quot;shoot&quot;):
+            print(&quot;Unknown command: %s&quot; % cmd)
+            continue
+        if cmd == &quot;left&quot;:
+            heading = (heading - 1) % 4
+        elif cmd == &quot;right&quot;:
+            heading = (heading + 1) % 4
+        elif cmd == &quot;thrust&quot;:
+            dx, dy = DIRS_V[heading]
+            ship[0] = (ship[0] + dx * 2) % W
+            ship[1] = (ship[1] + dy * 2) % H
+        elif cmd == &quot;shoot&quot;:
+            dx, dy = DIRS_V[heading]
+            for k in range(1, 4):
+                target = ((ship[0] + dx * k) % W, (ship[1] + dy * k) % H)
+                hit = None
+                for rock in rocks:
+                    if (rock[0], rock[1]) == target:
+                        hit = rock
+                        break
+                if hit is not None:
+                    rocks.remove(hit)
+                    score += hit[4] * 20
+                    if hit[4] == 2:
+                        rocks.append([hit[0], hit[1], 1, 0, 1])
+                        rocks.append([hit[0], hit[1], 0, 1, 1])
+                    break
+        for rock in rocks:
+            rock[0] = (rock[0] + rock[2]) % W
+            rock[1] = (rock[1] + rock[3]) % H
+        if any((rock[0], rock[1]) == (ship[0], ship[1]) for rock in rocks):
+            lives -= 1
+            rocks = [r for r in rocks if (r[0], r[1]) != (ship[0], ship[1])]
+        print(&quot;ship %s rocks %d score %d lives %d&quot; % (tuple(ship), len(rocks), score, lives))
+        if not rocks or lives &lt;= 0:
+            break
+    print(&quot;FINAL SCORE: %d&quot; % score)
+    print(&quot;RESULT: %s&quot; % (&quot;WIN&quot; if not rocks else &quot;OUT OF LIVES&quot; if lives &lt;= 0 else &quot;QUIT&quot;))
+
+if __name__ == &quot;__main__&quot;:
+    if &quot;--play&quot; in sys.argv:
+        play()
+    else:
+        auto_play()
+</pre></article><article class="record"><h3>Lunar Lander <small>Rank 6 &middot; compounded &middot; vector &middot; intermediate</small></h3><p>Lunar Lander arrived in 1979 as one of the first games to simulate real physics: the player piloted a fragile lander down toward the moon&#x27;s surface, fighting gravity with short bursts of thrust and trying to touch down gently on flat ground. A hard landing ended the mission, and a soft one scored based on how gently and precisely the craft settled.</p><p>This tribute adapts the landing to vector flight: turn to face downward, thrust to descend in careful steps, and clear a piece of drifting debris with the lander&#x27;s beam. The demo changes the original by turning the landing into a short descent and a single aimed shot, so the feeling of controlled falling comes through without a full physics simulation.</p><p>Landing is about small corrections. Short thrusts, early turns, and a willingness to hover rather than rush downward kept the lander intact, while pilots who burned hard and late always arrived too fast. The game&#x27;s quiet lesson was that restraint, not power, is what lands a spacecraft.</p><p><b>Playable tribute note:</b> The demo below is an original tribute inspired by the mechanics of Lunar Lander (1979). It is not Lunar Lander (1979), and it uses no art, music, or code from that game.</p><h4>How to play</h4><p>Type thrust/left/right/shoot to fly and fire, quit to stop.</p><h4>Working demo program</h4><p>Save the code below as game.py and run <code>python3 game.py --play</code> to play it. Running it without arguments replays the scripted session whose output is stored with the record.</p><pre class="codeblock">import sys
+PARAMS = {&#x27;w&#x27;: 10, &#x27;h&#x27;: 10, &#x27;ship&#x27;: [6, 1], &#x27;rocks&#x27;: [[6, 6, 0, 0, 1], [2, 2, 0, 0, 2]]}
+AUTO = [&#x27;right&#x27;, &#x27;thrust&#x27;, &#x27;thrust&#x27;, &#x27;shoot&#x27;, &#x27;left&#x27;, &#x27;shoot&#x27;]
+
+DIRS_V = [(1, 0), (0, 1), (-1, 0), (0, -1)]
+
+def auto_play():
+    W, H = PARAMS[&quot;w&quot;], PARAMS[&quot;h&quot;]
+    ship = list(PARAMS[&quot;ship&quot;])
+    heading = 0
+    rocks = [list(r) for r in PARAMS[&quot;rocks&quot;]]
+    score, lives = 0, 3
+    print(&quot;Vector tribute: auto session&quot;)
+    for i, cmd in enumerate(AUTO):
+        if cmd == &quot;left&quot;:
+            heading = (heading - 1) % 4
+        elif cmd == &quot;right&quot;:
+            heading = (heading + 1) % 4
+        elif cmd == &quot;thrust&quot;:
+            dx, dy = DIRS_V[heading]
+            ship[0] = (ship[0] + dx * 2) % W
+            ship[1] = (ship[1] + dy * 2) % H
+        elif cmd == &quot;shoot&quot;:
+            dx, dy = DIRS_V[heading]
+            for k in range(1, 4):
+                target = ((ship[0] + dx * k) % W, (ship[1] + dy * k) % H)
+                hit = None
+                for rock in rocks:
+                    if (rock[0], rock[1]) == target:
+                        hit = rock
+                        break
+                if hit is not None:
+                    rocks.remove(hit)
+                    score += hit[4] * 20
+                    if hit[4] == 2:
+                        rocks.append([hit[0], hit[1], 1, 0, 1])
+                        rocks.append([hit[0], hit[1], 0, 1, 1])
+                    break
+        new_rocks = []
+        for rock in rocks:
+            rock[0] = (rock[0] + rock[2]) % W
+            rock[1] = (rock[1] + rock[3]) % H
+            new_rocks.append(rock)
+        rocks = new_rocks
+        if any((rock[0], rock[1]) == (ship[0], ship[1]) for rock in rocks):
+            lives -= 1
+            rocks = [r for r in rocks if (r[0], r[1]) != (ship[0], ship[1])]
+        print(&quot;Step %d: %s ship %s rocks %d score %d lives %d&quot; % (i + 1, cmd, tuple(ship), len(rocks), score, lives))
+        if not rocks or lives &lt;= 0:
+            break
+    print(&quot;FINAL SCORE: %d&quot; % score)
+    print(&quot;RESULT: %s&quot; % (&quot;WIN&quot; if not rocks else &quot;OUT OF LIVES&quot; if lives &lt;= 0 else &quot;ONGOING&quot;))
+
+def play():
+    W, H = PARAMS[&quot;w&quot;], PARAMS[&quot;h&quot;]
+    ship = list(PARAMS[&quot;ship&quot;])
+    heading = 0
+    rocks = [list(r) for r in PARAMS[&quot;rocks&quot;]]
+    score, lives = 0, 3
+    print(&quot;Vector tribute: type thrust/left/right/shoot, or quit. Blast every rock, avoid collisions.&quot;)
+    for line in sys.stdin:
+        cmd = line.strip().lower()
+        if cmd == &quot;quit&quot;:
+            break
+        if cmd not in (&quot;thrust&quot;, &quot;left&quot;, &quot;right&quot;, &quot;shoot&quot;):
+            print(&quot;Unknown command: %s&quot; % cmd)
+            continue
+        if cmd == &quot;left&quot;:
+            heading = (heading - 1) % 4
+        elif cmd == &quot;right&quot;:
+            heading = (heading + 1) % 4
+        elif cmd == &quot;thrust&quot;:
+            dx, dy = DIRS_V[heading]
+            ship[0] = (ship[0] + dx * 2) % W
+            ship[1] = (ship[1] + dy * 2) % H
+        elif cmd == &quot;shoot&quot;:
+            dx, dy = DIRS_V[heading]
+            for k in range(1, 4):
+                target = ((ship[0] + dx * k) % W, (ship[1] + dy * k) % H)
+                hit = None
+                for rock in rocks:
+                    if (rock[0], rock[1]) == target:
+                        hit = rock
+                        break
+                if hit is not None:
+                    rocks.remove(hit)
+                    score += hit[4] * 20
+                    if hit[4] == 2:
+                        rocks.append([hit[0], hit[1], 1, 0, 1])
+                        rocks.append([hit[0], hit[1], 0, 1, 1])
+                    break
+        for rock in rocks:
+            rock[0] = (rock[0] + rock[2]) % W
+            rock[1] = (rock[1] + rock[3]) % H
+        if any((rock[0], rock[1]) == (ship[0], ship[1]) for rock in rocks):
+            lives -= 1
+            rocks = [r for r in rocks if (r[0], r[1]) != (ship[0], ship[1])]
+        print(&quot;ship %s rocks %d score %d lives %d&quot; % (tuple(ship), len(rocks), score, lives))
+        if not rocks or lives &lt;= 0:
+            break
+    print(&quot;FINAL SCORE: %d&quot; % score)
+    print(&quot;RESULT: %s&quot; % (&quot;WIN&quot; if not rocks else &quot;OUT OF LIVES&quot; if lives &lt;= 0 else &quot;QUIT&quot;))
+
+if __name__ == &quot;__main__&quot;:
+    if &quot;--play&quot; in sys.argv:
+        play()
+    else:
+        auto_play()
+</pre></article><article class="record"><h3>Pac-Man <small>Rank 7 &middot; compounded &middot; maze &middot; intermediate</small></h3><p>Pac-Man arrived in 1980 and changed what an arcade game could be about. Instead of shooting, the player steered a round hero through a maze, eating dots while four ghosts with distinct personalities patrolled the corridors. Large power pellets briefly let the hero turn the tables and hunt the ghosts, and the game&#x27;s cheerful look drew in players who had never touched a shooter.</p><p>This tribute recreates the maze chase with a winding corridor map, a full field of dots, and a single pursuing ghost. The demo changes the original by shrinking the ghost cast to one pursuer and scripting a clean route through the maze, so the dot-eating rhythm is easy to follow. It is an original tribute inspired by the mechanics, not the game itself.</p><p>Maze runners learn the map before they chase the score. Clear the edges early, memorize the escape routes from every corner, and never enter a corridor you cannot leave. The players who lasted longest treated the maze as a place they lived in, not a puzzle they solved once.</p><p><b>Playable tribute note:</b> The demo below is an original tribute inspired by the mechanics of Pac-Man (1980). It is not Pac-Man (1980), and it uses no art, music, or code from that game.</p><h4>How to play</h4><p>Type up/down/left/right to move, quit to stop.</p><h4>Working demo program</h4><p>Save the code below as game.py and run <code>python3 game.py --play</code> to play it. Running it without arguments replays the scripted session whose output is stored with the record.</p><pre class="codeblock">import sys
+PARAMS = {&#x27;map&#x27;: [&#x27;###########&#x27;, &#x27;#P...#....#&#x27;, &#x27;#.#..#.#..#&#x27;, &#x27;#....#....#&#x27;, &#x27;##.#.###.#.#&#x27;, &#x27;#....#...G#&#x27;, &#x27;###########&#x27;]}
+AUTO = [&#x27;right&#x27;, &#x27;right&#x27;, &#x27;right&#x27;, &#x27;down&#x27;, &#x27;down&#x27;, &#x27;right&#x27;, &#x27;right&#x27;, &#x27;right&#x27;, &#x27;down&#x27;, &#x27;down&#x27;, &#x27;left&#x27;, &#x27;left&#x27;]
+
+def parse_map():
+    walls, dots, player, ghost = set(), set(), None, None
+    for y, row in enumerate(PARAMS[&quot;map&quot;]):
+        for x, ch in enumerate(row):
+            if ch == &quot;#&quot;:
+                walls.add((x, y))
+            elif ch == &quot;.&quot;:
+                dots.add((x, y))
+            elif ch == &quot;P&quot;:
+                player = (x, y)
+            elif ch == &quot;G&quot;:
+                ghost = (x, y)
+    return walls, dots, player, ghost
+
+DIRS = {&quot;up&quot;: (0, -1), &quot;down&quot;: (0, 1), &quot;left&quot;: (-1, 0), &quot;right&quot;: (1, 0)}
+
+def step(state, cmd):
+    walls, dots, player, ghost, score, lives = state
+    dx, dy = DIRS.get(cmd, (0, 0))
+    nx, ny = player[0] + dx, player[1] + dy
+    if (nx, ny) not in walls:
+        player = (nx, ny)
+    if player in dots:
+        dots = dots - {player}
+        score += 10
+    if ghost is not None:
+        gx, gy = ghost
+        best, bestd = ghost, abs(gx - player[0]) + abs(gy - player[1])
+        for mx, my in [(1, 0), (-1, 0), (0, 1), (0, -1)]:
+            cand = (gx + mx, gy + my)
+            if cand in walls:
+                continue
+            d = abs(cand[0] - player[0]) + abs(cand[1] - player[1])
+            if d &lt; bestd:
+                best, bestd = cand, d
+        ghost = best
+    if ghost is not None and player == ghost:
+        lives -= 1
+        walls, dots, player, ghost = reset_positions()
+    return (walls, dots, player, ghost, score, lives)
+
+def reset_positions():
+    walls, dots, player, ghost = parse_map()
+    return walls, dots, player, ghost
+
+def result_of(state):
+    walls, dots, player, ghost, score, lives = state
+    if not dots:
+        return &quot;WIN&quot;
+    if lives &lt;= 0:
+        return &quot;OUT OF LIVES&quot;
+    return &quot;ONGOING&quot;
+
+def auto_play():
+    walls, dots, player, ghost = parse_map()
+    state = (walls, dots, player, ghost, 0, 3)
+    print(&quot;Maze tribute: auto session&quot;)
+    for i, cmd in enumerate(AUTO):
+        state = step(state, cmd)
+        walls, dots, player, ghost, score, lives = state
+        print(&quot;Step %d: %s -&gt; pos %s score %d dots %d lives %d&quot; % (i + 1, cmd, player, score, len(dots), lives))
+        if result_of(state) != &quot;ONGOING&quot;:
+            break
+    print(&quot;FINAL SCORE: %d&quot; % state[4])
+    print(&quot;RESULT: %s&quot; % result_of(state))
+
+def play():
+    walls, dots, player, ghost = parse_map()
+    state = (walls, dots, player, ghost, 0, 3)
+    print(&quot;Maze tribute: type up/down/left/right, or quit. Eat every dot, avoid the ghost.&quot;)
+    for line in sys.stdin:
+        cmd = line.strip().lower()
+        if cmd == &quot;quit&quot;:
+            break
+        if cmd not in DIRS:
+            print(&quot;Unknown command: %s&quot; % cmd)
+            continue
+        state = step(state, cmd)
+        walls, dots, player, ghost, score, lives = state
+        print(&quot;pos %s score %d dots %d lives %d&quot; % (player, score, len(dots), lives))
+        if result_of(state) != &quot;ONGOING&quot;:
+            break
+    print(&quot;FINAL SCORE: %d&quot; % state[4])
+    print(&quot;RESULT: %s&quot; % result_of(state))
+
+if __name__ == &quot;__main__&quot;:
+    if &quot;--play&quot; in sys.argv:
+        play()
+    else:
+        auto_play()
+</pre></article><article class="record"><h3>Defender <small>Rank 8 &middot; compounded &middot; scrolling &middot; intermediate</small></h3><p>Defender arrived in 1981 as one of the hardest and most respected games of the golden age: a side-scrolling shooter where the player protected humanoids on a planet&#x27;s surface from waves of alien abductors, with a scrolling landscape, a radar display, and a hyperspace escape for desperate moments. Its difficulty was legendary, and mastering it was a badge of honor.</p><p>This tribute recreates the scrolling defense with enemies arriving on a fixed schedule across three rows. The demo changes the original by fixing the spawn times and giving the player a clear shot window, so the defense becomes a timing exercise: be on the enemy&#x27;s row early, and fire when it drifts into range. The scripted run destroys all three waves.</p><p>Defender play is row discipline under pressure. Watch the schedule, move to the next wave&#x27;s row before it arrives, and fire early rather than late, because a shot fired late is a shot that never lands. The best defenders made the hardest game in the hall look calm, and calm was the whole trick.</p><p><b>Playable tribute note:</b> The demo below is an original tribute inspired by the mechanics of Defender (1981). It is not Defender (1981), and it uses no art, music, or code from that game.</p><h4>How to play</h4><p>Type up/down/left/right/shoot each tick to survive, quit to stop.</p><h4>Working demo program</h4><p>Save the code below as game.py and run <code>python3 game.py --play</code> to play it. Running it without arguments replays the scripted session whose output is stored with the record.</p><pre class="codeblock">import sys
+PARAMS = {&#x27;start_row&#x27;: 3, &#x27;spawns&#x27;: [[0, 3], [5, 2], [10, 4]]}
+AUTO = [&#x27;shoot&#x27;, &#x27;shoot&#x27;, &#x27;shoot&#x27;, &#x27;shoot&#x27;, &#x27;shoot&#x27;, &#x27;shoot&#x27;, &#x27;up&#x27;, &#x27;shoot&#x27;, &#x27;shoot&#x27;, &#x27;shoot&#x27;, &#x27;shoot&#x27;, &#x27;down&#x27;, &#x27;down&#x27;, &#x27;shoot&#x27;, &#x27;shoot&#x27;, &#x27;shoot&#x27;, &#x27;stay&#x27;, &#x27;stay&#x27;]
+
+def auto_play():
+    player = [2, PARAMS[&quot;start_row&quot;]]
+    enemies = []
+    schedule = dict((t, r) for t, r in PARAMS[&quot;spawns&quot;])
+    score, lives = 0, 3
+    print(&quot;Scrolling tribute: auto session&quot;)
+    for tick, cmd in enumerate(AUTO):
+        if tick in schedule:
+            enemies.append([11, schedule[tick]])
+        if cmd == &quot;up&quot;:
+            player[1] = max(0, player[1] - 1)
+        elif cmd == &quot;down&quot;:
+            player[1] = min(5, player[1] + 1)
+        elif cmd == &quot;left&quot;:
+            player[0] = max(0, player[0] - 1)
+        elif cmd == &quot;right&quot;:
+            player[0] = min(11, player[0] + 1)
+        elif cmd == &quot;shoot&quot;:
+            for e in list(enemies):
+                if e[1] == player[1] and player[0] &lt; e[0] &lt;= player[0] + 4:
+                    enemies.remove(e)
+                    score += 100
+                    break
+        enemies = [[x - 1, y] for (x, y) in enemies]
+        if any((x, y) == (player[0], player[1]) for (x, y) in enemies):
+            lives -= 1
+            enemies = [e for e in enemies if (e[0], e[1]) != (player[0], player[1])]
+        score += 10
+        print(&quot;Tick %d: %s player %s enemies %d score %d lives %d&quot; % (tick + 1, cmd, tuple(player), len(enemies), score, lives))
+        if lives &lt;= 0:
+            break
+    print(&quot;FINAL SCORE: %d&quot; % score)
+    print(&quot;RESULT: %s&quot; % (&quot;SURVIVED&quot; if lives &gt; 0 else &quot;OUT OF LIVES&quot;))
+
+def play():
+    player = [2, PARAMS[&quot;start_row&quot;]]
+    enemies = []
+    schedule = dict((t, r) for t, r in PARAMS[&quot;spawns&quot;])
+    score, lives, tick = 0, 3, 0
+    print(&quot;Scrolling tribute: type up/down/left/right/shoot each tick, or quit. Survive the scroll.&quot;)
+    for line in sys.stdin:
+        cmd = line.strip().lower()
+        if cmd == &quot;quit&quot;:
+            break
+        if cmd not in (&quot;up&quot;, &quot;down&quot;, &quot;left&quot;, &quot;right&quot;, &quot;shoot&quot;):
+            print(&quot;Unknown command: %s&quot; % cmd)
+            continue
+        if tick in schedule:
+            enemies.append([11, schedule[tick]])
+        if cmd == &quot;up&quot;:
+            player[1] = max(0, player[1] - 1)
+        elif cmd == &quot;down&quot;:
+            player[1] = min(5, player[1] + 1)
+        elif cmd == &quot;left&quot;:
+            player[0] = max(0, player[0] - 1)
+        elif cmd == &quot;right&quot;:
+            player[0] = min(11, player[0] + 1)
+        elif cmd == &quot;shoot&quot;:
+            for e in list(enemies):
+                if e[1] == player[1] and player[0] &lt; e[0] &lt;= player[0] + 4:
+                    enemies.remove(e)
+                    score += 100
+                    break
+        enemies = [[x - 1, y] for (x, y) in enemies]
+        if any((x, y) == (player[0], player[1]) for (x, y) in enemies):
+            lives -= 1
+            enemies = [e for e in enemies if (e[0], e[1]) != (player[0], player[1])]
+        score += 10
+        tick += 1
+        print(&quot;player %s enemies %d score %d lives %d&quot; % (tuple(player), len(enemies), score, lives))
+        if lives &lt;= 0:
+            break
+    print(&quot;FINAL SCORE: %d&quot; % score)
+    print(&quot;RESULT: %s&quot; % (&quot;SURVIVED&quot; if lives &gt; 0 else &quot;OUT OF LIVES&quot; if tick else &quot;QUIT&quot;))
+
+if __name__ == &quot;__main__&quot;:
+    if &quot;--play&quot; in sys.argv:
+        play()
+    else:
+        auto_play()
+</pre></article><article class="record"><h3>Missile Command <small>Rank 9 &middot; compounded &middot; gallery &middot; intermediate</small></h3><p>Missile Command arrived in 1980 as a tense game of defense: enemy missiles rained down on six cities, and the player fired interceptor blasts from three bases to detonate them mid-flight. The explosions bloomed outward, and a well-placed blast could chain through several incoming missiles at once. It was a game about choosing which threat to stop when you could not stop them all.</p><p>This tribute recreates the interception gallery as six targets on a grid, each worth its own points, with one shot per target. The demo changes the original by turning the falling missiles into fixed targets and the blast radius into a near-miss rule, so a shot one step away still counts. The scripted session hits five of six targets.</p><p>Interception is triage. Take the most dangerous target first, use the blast radius to cover neighbors, and accept that some missiles will get through. The players who lasted longest were not the fastest shots; they were the ones who chose the right target every time.</p><p><b>Playable tribute note:</b> The demo below is an original tribute inspired by the mechanics of Missile Command (1980). It is not Missile Command (1980), and it uses no art, music, or code from that game.</p><h4>How to play</h4><p>Type shoot X Y to fire at each target, quit to stop.</p><h4>Working demo program</h4><p>Save the code below as game.py and run <code>python3 game.py --play</code> to play it. Running it without arguments replays the scripted session whose output is stored with the record.</p><pre class="codeblock">import sys
+PARAMS = {&#x27;targets&#x27;: [[3, 3, 100], [6, 6, 150], [2, 7, 100], [8, 4, 200], [5, 1, 150], [9, 9, 100]]}
+AUTO = [&#x27;shoot 3 3&#x27;, &#x27;shoot 6 5&#x27;, &#x27;shoot 2 7&#x27;, &#x27;shoot 8 4&#x27;, &#x27;shoot 0 0&#x27;, &#x27;shoot 9 9&#x27;]
+
+def auto_play():
+    score, hits = 0, 0
+    print(&quot;Gallery tribute: auto session&quot;)
+    for i, target in enumerate(PARAMS[&quot;targets&quot;]):
+        shot = AUTO[i] if i &lt; len(AUTO) else &quot;shoot 0 0&quot;
+        parts = shot.split()
+        sx, sy = int(parts[1]), int(parts[2])
+        tx, ty, pts = target
+        hit = abs(sx - tx) &lt;= 1 and abs(sy - ty) &lt;= 1
+        if hit:
+            score += pts
+            hits += 1
+        print(&quot;Round %d: target %s shot (%d,%d) %s score %d&quot; % (i + 1, (tx, ty), sx, sy, &quot;HIT&quot; if hit else &quot;MISS&quot;, score))
+    print(&quot;FINAL SCORE: %d&quot; % score)
+    print(&quot;RESULT: HITS %d/%d&quot; % (hits, len(PARAMS[&quot;targets&quot;])))
+
+def play():
+    score, hits = 0, 0
+    print(&quot;Gallery tribute: type &#x27;shoot X Y&#x27; each round, or quit. Targets are on a 0-9 grid.&quot;)
+    for i, target in enumerate(PARAMS[&quot;targets&quot;]):
+        print(&quot;Round %d: a target has appeared somewhere on the 0-9 grid.&quot; % (i + 1))
+        got = False
+        for line in sys.stdin:
+            cmd = line.strip().lower()
+            if cmd == &quot;quit&quot;:
+                print(&quot;FINAL SCORE: %d&quot; % score)
+                print(&quot;RESULT: HITS %d/%d&quot; % (hits, len(PARAMS[&quot;targets&quot;])))
+                return
+            parts = cmd.split()
+            if len(parts) != 3 or parts[0] != &quot;shoot&quot;:
+                print(&quot;Use: shoot X Y&quot;)
+                continue
+            try:
+                sx, sy = int(parts[1]), int(parts[2])
+            except ValueError:
+                print(&quot;Use numbers: shoot X Y&quot;)
+                continue
+            tx, ty, pts = target
+            hit = abs(sx - tx) &lt;= 1 and abs(sy - ty) &lt;= 1
+            if hit:
+                score += pts
+                hits += 1
+            print(&quot;%s score %d&quot; % (&quot;HIT&quot; if hit else &quot;MISS&quot;, score))
+            got = True
+            break
+        if not got:
+            break
+    print(&quot;FINAL SCORE: %d&quot; % score)
+    print(&quot;RESULT: HITS %d/%d&quot; % (hits, len(PARAMS[&quot;targets&quot;])))
+
+if __name__ == &quot;__main__&quot;:
+    if &quot;--play&quot; in sys.argv:
+        play()
+    else:
+        auto_play()
+</pre></article><article class="record"><h3>Centipede <small>Rank 10 &middot; compounded &middot; gallery &middot; intermediate</small></h3><p>Centipede arrived in 1981 as a bright, fast shooter: a many-segmented centipede wound down through a field of mushrooms while the player fired from the bottom, breaking the creature into faster, shorter pieces with every hit. Fleas, spiders, and scorpions added chaos, and the game&#x27;s trackball control made aiming feel direct and physical.</p><p>This tribute recreates the shooting gallery as seven targets of varying value on a grid, one shot each. The demo changes the original by turning the winding creature into separate targets and the trackball aim into chosen coordinates, so the gallery&#x27;s core skill, picking the right target quickly, stays front and center. The scripted session hits six of seven.</p><p>Centipede players aimed at the head of the creature first, because a headless segment became a new, faster threat. The same rule works in the gallery: take the most dangerous target first, and never leave a high-value target for last when a careful shot now will remove it.</p><p><b>Playable tribute note:</b> The demo below is an original tribute inspired by the mechanics of Centipede (1981). It is not Centipede (1981), and it uses no art, music, or code from that game.</p><h4>How to play</h4><p>Type shoot X Y to fire at each target, quit to stop.</p><h4>Working demo program</h4><p>Save the code below as game.py and run <code>python3 game.py --play</code> to play it. Running it without arguments replays the scripted session whose output is stored with the record.</p><pre class="codeblock">import sys
+PARAMS = {&#x27;targets&#x27;: [[1, 5, 100], [4, 4, 100], [7, 7, 150], [3, 2, 100], [6, 9, 150], [8, 1, 100], [2, 8, 100]]}
+AUTO = [&#x27;shoot 1 5&#x27;, &#x27;shoot 4 4&#x27;, &#x27;shoot 7 6&#x27;, &#x27;shoot 3 2&#x27;, &#x27;shoot 6 9&#x27;, &#x27;shoot 0 0&#x27;, &#x27;shoot 2 8&#x27;]
+
+def auto_play():
+    score, hits = 0, 0
+    print(&quot;Gallery tribute: auto session&quot;)
+    for i, target in enumerate(PARAMS[&quot;targets&quot;]):
+        shot = AUTO[i] if i &lt; len(AUTO) else &quot;shoot 0 0&quot;
+        parts = shot.split()
+        sx, sy = int(parts[1]), int(parts[2])
+        tx, ty, pts = target
+        hit = abs(sx - tx) &lt;= 1 and abs(sy - ty) &lt;= 1
+        if hit:
+            score += pts
+            hits += 1
+        print(&quot;Round %d: target %s shot (%d,%d) %s score %d&quot; % (i + 1, (tx, ty), sx, sy, &quot;HIT&quot; if hit else &quot;MISS&quot;, score))
+    print(&quot;FINAL SCORE: %d&quot; % score)
+    print(&quot;RESULT: HITS %d/%d&quot; % (hits, len(PARAMS[&quot;targets&quot;])))
+
+def play():
+    score, hits = 0, 0
+    print(&quot;Gallery tribute: type &#x27;shoot X Y&#x27; each round, or quit. Targets are on a 0-9 grid.&quot;)
+    for i, target in enumerate(PARAMS[&quot;targets&quot;]):
+        print(&quot;Round %d: a target has appeared somewhere on the 0-9 grid.&quot; % (i + 1))
+        got = False
+        for line in sys.stdin:
+            cmd = line.strip().lower()
+            if cmd == &quot;quit&quot;:
+                print(&quot;FINAL SCORE: %d&quot; % score)
+                print(&quot;RESULT: HITS %d/%d&quot; % (hits, len(PARAMS[&quot;targets&quot;])))
+                return
+            parts = cmd.split()
+            if len(parts) != 3 or parts[0] != &quot;shoot&quot;:
+                print(&quot;Use: shoot X Y&quot;)
+                continue
+            try:
+                sx, sy = int(parts[1]), int(parts[2])
+            except ValueError:
+                print(&quot;Use numbers: shoot X Y&quot;)
+                continue
+            tx, ty, pts = target
+            hit = abs(sx - tx) &lt;= 1 and abs(sy - ty) &lt;= 1
+            if hit:
+                score += pts
+                hits += 1
+            print(&quot;%s score %d&quot; % (&quot;HIT&quot; if hit else &quot;MISS&quot;, score))
+            got = True
+            break
+        if not got:
+            break
+    print(&quot;FINAL SCORE: %d&quot; % score)
+    print(&quot;RESULT: HITS %d/%d&quot; % (hits, len(PARAMS[&quot;targets&quot;])))
+
+if __name__ == &quot;__main__&quot;:
+    if &quot;--play&quot; in sys.argv:
+        play()
+    else:
+        auto_play()
+</pre></article><article class="record"><h3>Donkey Kong <small>Rank 11 &middot; compounded &middot; platform &middot; intermediate</small></h3><p>Donkey Kong arrived in 1981 and introduced the platform game: a hero climbed girders and ladders up a construction site while barrels rolled down and a giant ape guarded the top. The game had distinct levels, a story told in short scenes, and a hero whose jumping skill mattered more than any weapon. It was a new kind of arcade challenge, and it launched a famous series.</p><p>This tribute recreates the climb as a timed run of sixteen steps with three obstacles: two barrels and a gap. The demo changes the original by flattening the girders into a single track, so the jumping rhythm is the whole game: jump one step before each obstacle, land, and keep running. The scripted session clears all three obstacles with all lives intact.</p><p>Climbing is timing. Jump too late and the obstacle catches you; jump too early and you land on it. The players who cleared the site treated each obstacle as a beat in a rhythm, and once the rhythm was learned, the climb felt less like a challenge and more like a dance.</p><p><b>Playable tribute note:</b> The demo below is an original tribute inspired by the mechanics of Donkey Kong (1981). It is not Donkey Kong (1981), and it uses no art, music, or code from that game.</p><h4>How to play</h4><p>Type jump/run each tick to clear obstacles, quit to stop.</p><h4>Working demo program</h4><p>Save the code below as game.py and run <code>python3 game.py --play</code> to play it. Running it without arguments replays the scripted session whose output is stored with the record.</p><pre class="codeblock">import sys
+PARAMS = {&#x27;length&#x27;: 16, &#x27;obstacles&#x27;: [[5, &#x27;barrel&#x27;], [9, &#x27;gap&#x27;], [13, &#x27;barrel&#x27;]]}
+AUTO = [&#x27;run&#x27;, &#x27;run&#x27;, &#x27;run&#x27;, &#x27;jump&#x27;, &#x27;run&#x27;, &#x27;run&#x27;, &#x27;run&#x27;, &#x27;jump&#x27;, &#x27;run&#x27;, &#x27;run&#x27;, &#x27;run&#x27;, &#x27;jump&#x27;, &#x27;run&#x27;, &#x27;run&#x27;, &#x27;run&#x27;, &#x27;run&#x27;]
+
+def auto_play():
+    obstacles = dict((pos, kind) for pos, kind in PARAMS[&quot;obstacles&quot;])
+    length = PARAMS[&quot;length&quot;]
+    pos, lives, air, tick = 0, 3, 0, 0
+    print(&quot;Platform tribute: auto session&quot;)
+    for cmd in AUTO:
+        tick += 1
+        jumping = (cmd == &quot;jump&quot;) or air &gt; 0
+        if cmd == &quot;jump&quot; and air == 0:
+            air = 2
+        pos += 1
+        if air &gt; 0:
+            air -= 1
+        crashed = False
+        if pos in obstacles and not jumping:
+            lives -= 1
+            crashed = True
+        print(&quot;Tick %d: %s pos %d %s lives %d&quot; % (tick, cmd, pos, &quot;CRASH&quot; if crashed else &quot;ok&quot;, lives))
+        if pos &gt;= length or lives &lt;= 0:
+            break
+    score = pos * 10 + lives * 100
+    print(&quot;FINAL SCORE: %d&quot; % score)
+    print(&quot;RESULT: %s&quot; % (&quot;WIN&quot; if pos &gt;= length else &quot;OUT OF LIVES&quot; if lives &lt;= 0 else &quot;ONGOING&quot;))
+
+def play():
+    obstacles = dict((pos, kind) for pos, kind in PARAMS[&quot;obstacles&quot;])
+    length = PARAMS[&quot;length&quot;]
+    pos, lives, air = 0, 3, 0
+    print(&quot;Platform tribute: type jump/run each tick, or quit. Jump over barrels and gaps to reach the end.&quot;)
+    for line in sys.stdin:
+        cmd = line.strip().lower()
+        if cmd == &quot;quit&quot;:
+            break
+        if cmd not in (&quot;jump&quot;, &quot;run&quot;):
+            print(&quot;Unknown command: %s&quot; % cmd)
+            continue
+        jumping = (cmd == &quot;jump&quot;) or air &gt; 0
+        if cmd == &quot;jump&quot; and air == 0:
+            air = 2
+        pos += 1
+        if air &gt; 0:
+            air -= 1
+        crashed = False
+        if pos in obstacles and not jumping:
+            lives -= 1
+            crashed = True
+        print(&quot;pos %d %s lives %d&quot; % (pos, &quot;CRASH&quot; if crashed else &quot;ok&quot;, lives))
+        if pos &gt;= length or lives &lt;= 0:
+            break
+    score = pos * 10 + lives * 100
+    print(&quot;FINAL SCORE: %d&quot; % score)
+    print(&quot;RESULT: %s&quot; % (&quot;WIN&quot; if pos &gt;= length else &quot;OUT OF LIVES&quot; if lives &lt;= 0 else &quot;QUIT&quot;))
+
+if __name__ == &quot;__main__&quot;:
+    if &quot;--play&quot; in sys.argv:
+        play()
+    else:
+        auto_play()
+</pre></article><article class="record"><h3>Frogger <small>Rank 12 &middot; complex &middot; platform &middot; advanced</small></h3><p>Frogger arrived in 1981 as a charming change of pace: a frog crossing a busy road and a dangerous river, dodging cars and trucks, then riding logs and turtles to reach safe homes on the far bank. There was no shooting and no enemy to defeat, only traffic to read and timing to master, and its gentle humor made it a favorite with players of all ages.</p><p>This tribute recreates the crossing as a twelve-step run with three hazards: two stretches of traffic and one river gap. The demo changes the original by turning the road and river into a single track where each hazard must be jumped, so the crossing becomes a rhythm of runs and jumps. The scripted session clears all three hazards cleanly.</p><p>Crossing is reading the pattern. Traffic moves in steady streams, and the safe moment is always visible a few steps ahead if you look for it. Players who rushed crossed on hope; players who watched crossed on certainty, and certainty is what got the frog home.</p><p><b>Playable tribute note:</b> The demo below is an original tribute inspired by the mechanics of Frogger (1981). It is not Frogger (1981), and it uses no art, music, or code from that game.</p><h4>How to play</h4><p>Type jump/run each tick to clear obstacles, quit to stop.</p><h4>Working demo program</h4><p>Save the code below as game.py and run <code>python3 game.py --play</code> to play it. Running it without arguments replays the scripted session whose output is stored with the record.</p><pre class="codeblock">import sys
+PARAMS = {&#x27;length&#x27;: 12, &#x27;obstacles&#x27;: [[3, &#x27;car&#x27;], [7, &#x27;log-gap&#x27;], [10, &#x27;car&#x27;]]}
+AUTO = [&#x27;run&#x27;, &#x27;jump&#x27;, &#x27;run&#x27;, &#x27;run&#x27;, &#x27;run&#x27;, &#x27;jump&#x27;, &#x27;run&#x27;, &#x27;run&#x27;, &#x27;jump&#x27;, &#x27;run&#x27;, &#x27;run&#x27;, &#x27;run&#x27;]
+
+def auto_play():
+    obstacles = dict((pos, kind) for pos, kind in PARAMS[&quot;obstacles&quot;])
+    length = PARAMS[&quot;length&quot;]
+    pos, lives, air, tick = 0, 3, 0, 0
+    print(&quot;Platform tribute: auto session&quot;)
+    for cmd in AUTO:
+        tick += 1
+        jumping = (cmd == &quot;jump&quot;) or air &gt; 0
+        if cmd == &quot;jump&quot; and air == 0:
+            air = 2
+        pos += 1
+        if air &gt; 0:
+            air -= 1
+        crashed = False
+        if pos in obstacles and not jumping:
+            lives -= 1
+            crashed = True
+        print(&quot;Tick %d: %s pos %d %s lives %d&quot; % (tick, cmd, pos, &quot;CRASH&quot; if crashed else &quot;ok&quot;, lives))
+        if pos &gt;= length or lives &lt;= 0:
+            break
+    score = pos * 10 + lives * 100
+    print(&quot;FINAL SCORE: %d&quot; % score)
+    print(&quot;RESULT: %s&quot; % (&quot;WIN&quot; if pos &gt;= length else &quot;OUT OF LIVES&quot; if lives &lt;= 0 else &quot;ONGOING&quot;))
+
+def play():
+    obstacles = dict((pos, kind) for pos, kind in PARAMS[&quot;obstacles&quot;])
+    length = PARAMS[&quot;length&quot;]
+    pos, lives, air = 0, 3, 0
+    print(&quot;Platform tribute: type jump/run each tick, or quit. Jump over barrels and gaps to reach the end.&quot;)
+    for line in sys.stdin:
+        cmd = line.strip().lower()
+        if cmd == &quot;quit&quot;:
+            break
+        if cmd not in (&quot;jump&quot;, &quot;run&quot;):
+            print(&quot;Unknown command: %s&quot; % cmd)
+            continue
+        jumping = (cmd == &quot;jump&quot;) or air &gt; 0
+        if cmd == &quot;jump&quot; and air == 0:
+            air = 2
+        pos += 1
+        if air &gt; 0:
+            air -= 1
+        crashed = False
+        if pos in obstacles and not jumping:
+            lives -= 1
+            crashed = True
+        print(&quot;pos %d %s lives %d&quot; % (pos, &quot;CRASH&quot; if crashed else &quot;ok&quot;, lives))
+        if pos &gt;= length or lives &lt;= 0:
+            break
+    score = pos * 10 + lives * 100
+    print(&quot;FINAL SCORE: %d&quot; % score)
+    print(&quot;RESULT: %s&quot; % (&quot;WIN&quot; if pos &gt;= length else &quot;OUT OF LIVES&quot; if lives &lt;= 0 else &quot;QUIT&quot;))
+
+if __name__ == &quot;__main__&quot;:
+    if &quot;--play&quot; in sys.argv:
+        play()
+    else:
+        auto_play()
+</pre></article><article class="record"><h3>Dig Dug <small>Rank 13 &middot; complex &middot; maze &middot; advanced</small></h3><p>Dig Dug arrived in 1982 as a digging game: the player tunneled through underground soil, inflating enemies until they popped and dropping rocks on those that chased too closely. The maze was not fixed but carved by the player, and the game rewarded clever digging, trapping enemies in dead ends and planning an escape before the pump ran out.</p><p>This tribute adapts the digging maze to a dot-eating maze map, with winding tunnels and a single pursuer standing in for the underground chase. The demo changes the original by fixing the tunnels in advance rather than letting the player carve them, so the route can be studied as a map. It is an original tribute inspired by the mechanics, not the game itself.</p><p>Digging wisdom applies even in a fixed maze: never dig yourself into a corner, always leave a second tunnel out, and let the pursuer come to you rather than chasing it. The players who lasted longest underground were the ones who planned their tunnels before they needed them.</p><p><b>Playable tribute note:</b> The demo below is an original tribute inspired by the mechanics of Dig Dug (1982). It is not Dig Dug (1982), and it uses no art, music, or code from that game.</p><h4>How to play</h4><p>Type up/down/left/right to move, quit to stop.</p><h4>Working demo program</h4><p>Save the code below as game.py and run <code>python3 game.py --play</code> to play it. Running it without arguments replays the scripted session whose output is stored with the record.</p><pre class="codeblock">import sys
+PARAMS = {&#x27;map&#x27;: [&#x27;############&#x27;, &#x27;#P....#....#&#x27;, &#x27;#.##..#.#..#&#x27;, &#x27;#.....#....#&#x27;, &#x27;#.####.##..#&#x27;, &#x27;#.......#.G#&#x27;, &#x27;############&#x27;]}
+AUTO = [&#x27;right&#x27;, &#x27;right&#x27;, &#x27;right&#x27;, &#x27;right&#x27;, &#x27;down&#x27;, &#x27;down&#x27;, &#x27;right&#x27;, &#x27;right&#x27;, &#x27;right&#x27;, &#x27;down&#x27;, &#x27;down&#x27;, &#x27;left&#x27;, &#x27;left&#x27;, &#x27;left&#x27;]
+
+def parse_map():
+    walls, dots, player, ghost = set(), set(), None, None
+    for y, row in enumerate(PARAMS[&quot;map&quot;]):
+        for x, ch in enumerate(row):
+            if ch == &quot;#&quot;:
+                walls.add((x, y))
+            elif ch == &quot;.&quot;:
+                dots.add((x, y))
+            elif ch == &quot;P&quot;:
+                player = (x, y)
+            elif ch == &quot;G&quot;:
+                ghost = (x, y)
+    return walls, dots, player, ghost
+
+DIRS = {&quot;up&quot;: (0, -1), &quot;down&quot;: (0, 1), &quot;left&quot;: (-1, 0), &quot;right&quot;: (1, 0)}
+
+def step(state, cmd):
+    walls, dots, player, ghost, score, lives = state
+    dx, dy = DIRS.get(cmd, (0, 0))
+    nx, ny = player[0] + dx, player[1] + dy
+    if (nx, ny) not in walls:
+        player = (nx, ny)
+    if player in dots:
+        dots = dots - {player}
+        score += 10
+    if ghost is not None:
+        gx, gy = ghost
+        best, bestd = ghost, abs(gx - player[0]) + abs(gy - player[1])
+        for mx, my in [(1, 0), (-1, 0), (0, 1), (0, -1)]:
+            cand = (gx + mx, gy + my)
+            if cand in walls:
+                continue
+            d = abs(cand[0] - player[0]) + abs(cand[1] - player[1])
+            if d &lt; bestd:
+                best, bestd = cand, d
+        ghost = best
+    if ghost is not None and player == ghost:
+        lives -= 1
+        walls, dots, player, ghost = reset_positions()
+    return (walls, dots, player, ghost, score, lives)
+
+def reset_positions():
+    walls, dots, player, ghost = parse_map()
+    return walls, dots, player, ghost
+
+def result_of(state):
+    walls, dots, player, ghost, score, lives = state
+    if not dots:
+        return &quot;WIN&quot;
+    if lives &lt;= 0:
+        return &quot;OUT OF LIVES&quot;
+    return &quot;ONGOING&quot;
+
+def auto_play():
+    walls, dots, player, ghost = parse_map()
+    state = (walls, dots, player, ghost, 0, 3)
+    print(&quot;Maze tribute: auto session&quot;)
+    for i, cmd in enumerate(AUTO):
+        state = step(state, cmd)
+        walls, dots, player, ghost, score, lives = state
+        print(&quot;Step %d: %s -&gt; pos %s score %d dots %d lives %d&quot; % (i + 1, cmd, player, score, len(dots), lives))
+        if result_of(state) != &quot;ONGOING&quot;:
+            break
+    print(&quot;FINAL SCORE: %d&quot; % state[4])
+    print(&quot;RESULT: %s&quot; % result_of(state))
+
+def play():
+    walls, dots, player, ghost = parse_map()
+    state = (walls, dots, player, ghost, 0, 3)
+    print(&quot;Maze tribute: type up/down/left/right, or quit. Eat every dot, avoid the ghost.&quot;)
+    for line in sys.stdin:
+        cmd = line.strip().lower()
+        if cmd == &quot;quit&quot;:
+            break
+        if cmd not in DIRS:
+            print(&quot;Unknown command: %s&quot; % cmd)
+            continue
+        state = step(state, cmd)
+        walls, dots, player, ghost, score, lives = state
+        print(&quot;pos %s score %d dots %d lives %d&quot; % (player, score, len(dots), lives))
+        if result_of(state) != &quot;ONGOING&quot;:
+            break
+    print(&quot;FINAL SCORE: %d&quot; % state[4])
+    print(&quot;RESULT: %s&quot; % result_of(state))
+
+if __name__ == &quot;__main__&quot;:
+    if &quot;--play&quot; in sys.argv:
+        play()
+    else:
+        auto_play()
+</pre></article><article class="record"><h3>Galaga <small>Rank 14 &middot; complex &middot; fixed-shooter &middot; advanced</small></h3><p>Galaga arrived in 1981 as a polished evolution of the fixed shooter: formations of alien ships swooped and dived in patterns, a captured fighter could be rescued to double the player&#x27;s firepower, and bonus stages offered pure shooting challenges. It refined the invader formula into something faster, prettier, and endlessly replayable, and it remains a fixture of the golden age.</p><p>This tribute recreates the formation shooter with four columns in two rows and a cannon that slides along the bottom. The demo changes the original by scripting a near-complete run: seven of eight ships destroyed, with one ship left flying in the last column. The session shows the column-clearing rhythm and the value of finishing a column before moving on.</p><p>Formation shooting rewards finishing what you start. A column with one ship left is a distraction that pulls your eye while the rest of the formation advances, so clear columns completely and in order. The players who chased the last ship of a column before starting the next one kept the sky under control.</p><p><b>Playable tribute note:</b> The demo below is an original tribute inspired by the mechanics of Galaga (1981). It is not Galaga (1981), and it uses no art, music, or code from that game.</p><h4>How to play</h4><p>Type left/right/shoot to move and fire, quit to stop.</p><h4>Working demo program</h4><p>Save the code below as game.py and run <code>python3 game.py --play</code> to play it. Running it without arguments replays the scripted session whose output is stored with the record.</p><pre class="codeblock">import sys
+PARAMS = {&#x27;cols&#x27;: 4, &#x27;rows&#x27;: 2, &#x27;start_col&#x27;: 1, &#x27;floor_row&#x27;: 10}
+AUTO = [&#x27;shoot&#x27;, &#x27;shoot&#x27;, &#x27;right&#x27;, &#x27;shoot&#x27;, &#x27;shoot&#x27;, &#x27;right&#x27;, &#x27;shoot&#x27;, &#x27;left&#x27;, &#x27;left&#x27;, &#x27;left&#x27;, &#x27;shoot&#x27;, &#x27;shoot&#x27;]
+
+def auto_play():
+    cols = PARAMS[&quot;cols&quot;]
+    invaders = set()
+    for r in range(PARAMS[&quot;rows&quot;]):
+        for c in range(cols):
+            invaders.add((r, c))
+    player = PARAMS[&quot;start_col&quot;]
+    score = 0
+    turn = 0
+    print(&quot;Fixed shooter tribute: auto session&quot;)
+    for cmd in AUTO:
+        turn += 1
+        if cmd == &quot;left&quot;:
+            player = max(0, player - 1)
+        elif cmd == &quot;right&quot;:
+            player = min(cols - 1, player + 1)
+        elif cmd == &quot;shoot&quot;:
+            col_hits = [(r, c) for (r, c) in invaders if c == player]
+            if col_hits:
+                invaders.discard(max(col_hits))
+                score += 50
+        if turn % 3 == 0 and invaders:
+            invaders = set((r + 1, c) for (r, c) in invaders)
+        print(&quot;Turn %d: %s player col %d invaders %d score %d&quot; % (turn, cmd, player, len(invaders), score))
+        if not invaders or any(r &gt;= PARAMS[&quot;floor_row&quot;] for (r, c) in invaders):
+            break
+    deepest = max([r for (r, c) in invaders]) if invaders else -1
+    print(&quot;DEEPEST ROW: %d / FLOOR: %d&quot; % (deepest, PARAMS[&quot;floor_row&quot;]))
+    print(&quot;FINAL SCORE: %d&quot; % score)
+    if not invaders:
+        print(&quot;RESULT: WIN&quot;)
+    elif deepest &gt;= PARAMS[&quot;floor_row&quot;]:
+        print(&quot;RESULT: OVERRUN&quot;)
+    else:
+        print(&quot;RESULT: SESSION END&quot;)
+
+def play():
+    cols = PARAMS[&quot;cols&quot;]
+    invaders = set()
+    for r in range(PARAMS[&quot;rows&quot;]):
+        for c in range(cols):
+            invaders.add((r, c))
+    player = PARAMS[&quot;start_col&quot;]
+    score = 0
+    turn = 0
+    print(&quot;Fixed shooter tribute: type left/right/shoot, or quit. Destroy every invader before it lands.&quot;)
+    result = &quot;SESSION END&quot;
+    for line in sys.stdin:
+        cmd = line.strip().lower()
+        if cmd == &quot;quit&quot;:
+            result = &quot;QUIT&quot;
+            break
+        if cmd not in (&quot;left&quot;, &quot;right&quot;, &quot;shoot&quot;):
+            print(&quot;Unknown command: %s&quot; % cmd)
+            continue
+        turn += 1
+        if cmd == &quot;left&quot;:
+            player = max(0, player - 1)
+        elif cmd == &quot;right&quot;:
+            player = min(cols - 1, player + 1)
+        elif cmd == &quot;shoot&quot;:
+            col_hits = [(r, c) for (r, c) in invaders if c == player]
+            if col_hits:
+                invaders.discard(max(col_hits))
+                score += 50
+        if turn % 3 == 0 and invaders:
+            invaders = set((r + 1, c) for (r, c) in invaders)
+        print(&quot;player col %d invaders %d score %d&quot; % (player, len(invaders), score))
+        if not invaders:
+            result = &quot;WIN&quot;
+            break
+        if any(r &gt;= PARAMS[&quot;floor_row&quot;] for (r, c) in invaders):
+            result = &quot;OVERRUN&quot;
+            break
+    deepest = max([r for (r, c) in invaders]) if invaders else -1
+    print(&quot;DEEPEST ROW: %d / FLOOR: %d&quot; % (deepest, PARAMS[&quot;floor_row&quot;]))
+    print(&quot;FINAL SCORE: %d&quot; % score)
+    print(&quot;RESULT: %s&quot; % result)
+
+if __name__ == &quot;__main__&quot;:
+    if &quot;--play&quot; in sys.argv:
+        play()
+    else:
+        auto_play()
+</pre></article><article class="record"><h3>Joust <small>Rank 15 &middot; complex &middot; platform &middot; advanced</small></h3><p>Joust arrived in 1982 as one of the strangest and most original games of the era: knights riding flying ostriches jousted in mid-air, and the rider who was higher when the lances met won the clash. The game used a flap button for flight, supported two players at once, and turned the arcade into a medieval tournament where height was everything.</p><p>This tribute recreates the tournament as a fourteen-step run with three ledges that must be jumped, plus one early stumble that costs a life. The demo changes the original by turning aerial jousting into a ground run with jumps, so the rhythm of height and timing stays readable: jump before each ledge, and the run continues. The scripted session finishes with two lives left.</p><p>Joust&#x27;s lesson was height above all: the higher rider always won, so every move was about gaining altitude before the clash. In the run, the same rule appears as timing: jump before the ledge, not on it, and keep your momentum through the whole course. Players who learned to stay above their problems won the tournament.</p><p><b>Playable tribute note:</b> The demo below is an original tribute inspired by the mechanics of Joust (1982). It is not Joust (1982), and it uses no art, music, or code from that game.</p><h4>How to play</h4><p>Type jump/run each tick to clear obstacles, quit to stop.</p><h4>Working demo program</h4><p>Save the code below as game.py and run <code>python3 game.py --play</code> to play it. Running it without arguments replays the scripted session whose output is stored with the record.</p><pre class="codeblock">import sys
+PARAMS = {&#x27;length&#x27;: 14, &#x27;obstacles&#x27;: [[4, &#x27;ledge&#x27;], [8, &#x27;ledge&#x27;], [12, &#x27;ledge&#x27;]]}
+AUTO = [&#x27;run&#x27;, &#x27;run&#x27;, &#x27;run&#x27;, &#x27;run&#x27;, &#x27;run&#x27;, &#x27;run&#x27;, &#x27;jump&#x27;, &#x27;run&#x27;, &#x27;run&#x27;, &#x27;run&#x27;, &#x27;jump&#x27;, &#x27;run&#x27;, &#x27;run&#x27;, &#x27;run&#x27;]
+
+def auto_play():
+    obstacles = dict((pos, kind) for pos, kind in PARAMS[&quot;obstacles&quot;])
+    length = PARAMS[&quot;length&quot;]
+    pos, lives, air, tick = 0, 3, 0, 0
+    print(&quot;Platform tribute: auto session&quot;)
+    for cmd in AUTO:
+        tick += 1
+        jumping = (cmd == &quot;jump&quot;) or air &gt; 0
+        if cmd == &quot;jump&quot; and air == 0:
+            air = 2
+        pos += 1
+        if air &gt; 0:
+            air -= 1
+        crashed = False
+        if pos in obstacles and not jumping:
+            lives -= 1
+            crashed = True
+        print(&quot;Tick %d: %s pos %d %s lives %d&quot; % (tick, cmd, pos, &quot;CRASH&quot; if crashed else &quot;ok&quot;, lives))
+        if pos &gt;= length or lives &lt;= 0:
+            break
+    score = pos * 10 + lives * 100
+    print(&quot;FINAL SCORE: %d&quot; % score)
+    print(&quot;RESULT: %s&quot; % (&quot;WIN&quot; if pos &gt;= length else &quot;OUT OF LIVES&quot; if lives &lt;= 0 else &quot;ONGOING&quot;))
+
+def play():
+    obstacles = dict((pos, kind) for pos, kind in PARAMS[&quot;obstacles&quot;])
+    length = PARAMS[&quot;length&quot;]
+    pos, lives, air = 0, 3, 0
+    print(&quot;Platform tribute: type jump/run each tick, or quit. Jump over barrels and gaps to reach the end.&quot;)
+    for line in sys.stdin:
+        cmd = line.strip().lower()
+        if cmd == &quot;quit&quot;:
+            break
+        if cmd not in (&quot;jump&quot;, &quot;run&quot;):
+            print(&quot;Unknown command: %s&quot; % cmd)
+            continue
+        jumping = (cmd == &quot;jump&quot;) or air &gt; 0
+        if cmd == &quot;jump&quot; and air == 0:
+            air = 2
+        pos += 1
+        if air &gt; 0:
+            air -= 1
+        crashed = False
+        if pos in obstacles and not jumping:
+            lives -= 1
+            crashed = True
+        print(&quot;pos %d %s lives %d&quot; % (pos, &quot;CRASH&quot; if crashed else &quot;ok&quot;, lives))
+        if pos &gt;= length or lives &lt;= 0:
+            break
+    score = pos * 10 + lives * 100
+    print(&quot;FINAL SCORE: %d&quot; % score)
+    print(&quot;RESULT: %s&quot; % (&quot;WIN&quot; if pos &gt;= length else &quot;OUT OF LIVES&quot; if lives &lt;= 0 else &quot;QUIT&quot;))
+
+if __name__ == &quot;__main__&quot;:
+    if &quot;--play&quot; in sys.argv:
+        play()
+    else:
+        auto_play()
+</pre></article><article class="record"><h3>Tempest <small>Rank 16 &middot; complex &middot; vector &middot; advanced</small></h3><p>Tempest arrived in 1981 as a dazzling vector game: the player rode a claw-shaped ship around the rim of a three-dimensional tube, shooting down its length at enemies that climbed toward the rim. Its glowing geometric tunnels, fast action, and choice of starting level made it one of the most visually striking games of the golden age.</p><p>This tribute recreates the vector shootout with a ship, a line of rocks to the east, and one large rock sitting to the south that splits when hit. The demo changes the original by flattening the tube into a flat field, so the shooting and splitting mechanics can be practiced without the spinning geometry. The scripted session clears four rocks, including the large one and one of its fragments, while the last fragment drifts on down the tube.</p><p>Tempest play is about clearing the tube section by section. Shoot the nearest threats first, turn to face the next section before the enemies reach the rim, and never let a split rock&#x27;s fragments catch you while you are still aimed at the original. The players who cleared the tube treated it as a series of small rooms, not one long tunnel.</p><p><b>Playable tribute note:</b> The demo below is an original tribute inspired by the mechanics of Tempest (1981). It is not Tempest (1981), and it uses no art, music, or code from that game.</p><h4>How to play</h4><p>Type thrust/left/right/shoot to fly and fire, quit to stop.</p><h4>Working demo program</h4><p>Save the code below as game.py and run <code>python3 game.py --play</code> to play it. Running it without arguments replays the scripted session whose output is stored with the record.</p><pre class="codeblock">import sys
+PARAMS = {&#x27;w&#x27;: 12, &#x27;h&#x27;: 8, &#x27;ship&#x27;: [2, 2], &#x27;rocks&#x27;: [[4, 2, 0, 0, 1], [5, 2, 0, 0, 1], [2, 5, 0, 0, 2]]}
+AUTO = [&#x27;shoot&#x27;, &#x27;shoot&#x27;, &#x27;shoot&#x27;, &#x27;right&#x27;, &#x27;thrust&#x27;, &#x27;shoot&#x27;, &#x27;shoot&#x27;, &#x27;shoot&#x27;]
+
+DIRS_V = [(1, 0), (0, 1), (-1, 0), (0, -1)]
+
+def auto_play():
+    W, H = PARAMS[&quot;w&quot;], PARAMS[&quot;h&quot;]
+    ship = list(PARAMS[&quot;ship&quot;])
+    heading = 0
+    rocks = [list(r) for r in PARAMS[&quot;rocks&quot;]]
+    score, lives = 0, 3
+    print(&quot;Vector tribute: auto session&quot;)
+    for i, cmd in enumerate(AUTO):
+        if cmd == &quot;left&quot;:
+            heading = (heading - 1) % 4
+        elif cmd == &quot;right&quot;:
+            heading = (heading + 1) % 4
+        elif cmd == &quot;thrust&quot;:
+            dx, dy = DIRS_V[heading]
+            ship[0] = (ship[0] + dx * 2) % W
+            ship[1] = (ship[1] + dy * 2) % H
+        elif cmd == &quot;shoot&quot;:
+            dx, dy = DIRS_V[heading]
+            for k in range(1, 4):
+                target = ((ship[0] + dx * k) % W, (ship[1] + dy * k) % H)
+                hit = None
+                for rock in rocks:
+                    if (rock[0], rock[1]) == target:
+                        hit = rock
+                        break
+                if hit is not None:
+                    rocks.remove(hit)
+                    score += hit[4] * 20
+                    if hit[4] == 2:
+                        rocks.append([hit[0], hit[1], 1, 0, 1])
+                        rocks.append([hit[0], hit[1], 0, 1, 1])
+                    break
+        new_rocks = []
+        for rock in rocks:
+            rock[0] = (rock[0] + rock[2]) % W
+            rock[1] = (rock[1] + rock[3]) % H
+            new_rocks.append(rock)
+        rocks = new_rocks
+        if any((rock[0], rock[1]) == (ship[0], ship[1]) for rock in rocks):
+            lives -= 1
+            rocks = [r for r in rocks if (r[0], r[1]) != (ship[0], ship[1])]
+        print(&quot;Step %d: %s ship %s rocks %d score %d lives %d&quot; % (i + 1, cmd, tuple(ship), len(rocks), score, lives))
+        if not rocks or lives &lt;= 0:
+            break
+    print(&quot;FINAL SCORE: %d&quot; % score)
+    print(&quot;RESULT: %s&quot; % (&quot;WIN&quot; if not rocks else &quot;OUT OF LIVES&quot; if lives &lt;= 0 else &quot;ONGOING&quot;))
+
+def play():
+    W, H = PARAMS[&quot;w&quot;], PARAMS[&quot;h&quot;]
+    ship = list(PARAMS[&quot;ship&quot;])
+    heading = 0
+    rocks = [list(r) for r in PARAMS[&quot;rocks&quot;]]
+    score, lives = 0, 3
+    print(&quot;Vector tribute: type thrust/left/right/shoot, or quit. Blast every rock, avoid collisions.&quot;)
+    for line in sys.stdin:
+        cmd = line.strip().lower()
+        if cmd == &quot;quit&quot;:
+            break
+        if cmd not in (&quot;thrust&quot;, &quot;left&quot;, &quot;right&quot;, &quot;shoot&quot;):
+            print(&quot;Unknown command: %s&quot; % cmd)
+            continue
+        if cmd == &quot;left&quot;:
+            heading = (heading - 1) % 4
+        elif cmd == &quot;right&quot;:
+            heading = (heading + 1) % 4
+        elif cmd == &quot;thrust&quot;:
+            dx, dy = DIRS_V[heading]
+            ship[0] = (ship[0] + dx * 2) % W
+            ship[1] = (ship[1] + dy * 2) % H
+        elif cmd == &quot;shoot&quot;:
+            dx, dy = DIRS_V[heading]
+            for k in range(1, 4):
+                target = ((ship[0] + dx * k) % W, (ship[1] + dy * k) % H)
+                hit = None
+                for rock in rocks:
+                    if (rock[0], rock[1]) == target:
+                        hit = rock
+                        break
+                if hit is not None:
+                    rocks.remove(hit)
+                    score += hit[4] * 20
+                    if hit[4] == 2:
+                        rocks.append([hit[0], hit[1], 1, 0, 1])
+                        rocks.append([hit[0], hit[1], 0, 1, 1])
+                    break
+        for rock in rocks:
+            rock[0] = (rock[0] + rock[2]) % W
+            rock[1] = (rock[1] + rock[3]) % H
+        if any((rock[0], rock[1]) == (ship[0], ship[1]) for rock in rocks):
+            lives -= 1
+            rocks = [r for r in rocks if (r[0], r[1]) != (ship[0], ship[1])]
+        print(&quot;ship %s rocks %d score %d lives %d&quot; % (tuple(ship), len(rocks), score, lives))
+        if not rocks or lives &lt;= 0:
+            break
+    print(&quot;FINAL SCORE: %d&quot; % score)
+    print(&quot;RESULT: %s&quot; % (&quot;WIN&quot; if not rocks else &quot;OUT OF LIVES&quot; if lives &lt;= 0 else &quot;QUIT&quot;))
+
+if __name__ == &quot;__main__&quot;:
+    if &quot;--play&quot; in sys.argv:
+        play()
+    else:
+        auto_play()
+</pre></article>
+<h2>Related databases</h2><ul><li><a href="../video-game-arcade/index.html">video-game-arcade</a></li><li><a href="../arcade/index.html">arcade</a></li><li><a href="../videogame-history-pac-man-arcade/index.html">videogame-history-pac-man-arcade</a></li><li><a href="../videogame-history-donkey-kong-arcade/index.html">videogame-history-donkey-kong-arcade</a></li><li><a href="../videogame-history-pong-arcade-1972/index.html">videogame-history-pong-arcade-1972</a></li><li><a href="../golden-age-arcade-signature/index.html">golden-age-arcade-signature</a></li></ul>
+<script src="gen-golden-age-arcade.js"></script>
+<script>
+(function(){'use strict';
+var DATA_URL='https://justinahiggins614-cmyk.github.io/jah-databases-data-2/data/golden-age-arcade/index.jsonl.gz';
+function $(id){return document.getElementById(id);}
+function setCount(n){ $('stCount').textContent=n.toLocaleString()+' / 1,000,000 target'; $('stCount2').textContent=n.toLocaleString(); }
+fetch(DATA_URL).then(function(res){
+  if(!res.ok) throw new Error('HTTP '+res.status);
+  var ds=new DecompressionStream('gzip');
+  return new Response(res.body.pipeThrough(ds)).text();
+}).then(function(t){
+  var n=t.split('\n').filter(function(l){return l.trim();}).length;
+  setCount(n);
+}).catch(function(){ $('stCount').textContent='archive unreachable'; });
+})();
+</script>
+<script src="../../assets/assistant-maker.js"></script>
+</body></html>
