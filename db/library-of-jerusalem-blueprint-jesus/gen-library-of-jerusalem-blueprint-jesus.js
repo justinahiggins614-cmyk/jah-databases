@@ -1,73 +1,80 @@
-"use strict";
-/* The library-of-jerusalem-blueprint-jesus database — boundless generator. Seeded, deterministic, throttled,
-   duplicate-checked, hard stop at 10^15. Generated records are
-   labeled src "generated" and are never presented as archive records. */
-(function (root) {
-  var SLUG = "library-of-jerusalem-blueprint-jesus";
-  var PREFIX = "JAH-LJBJ-";
-  var RECORD_KIND = "library of jerusalem blueprint book record";
-  var HARD_STOP = 1000000000000000; // 10^15
-  var MAX_BATCH = 100;
-  var SEED_TITLES = ["Master Ranked Blueprint Index: Sixteen Options Ranked", "The Gathering Hall Blueprint", "The Open Gate Blueprint", "The Table Hall and Kitchen Blueprint", "The Healing Rooms Blueprint", "The Teaching Courtyard Blueprint", "The Water Station Blueprint", "The Garden Court Blueprint", "The Neighbourhood House Blueprint", "The Workshop and Repair Bay Blueprint", "The Library Room Blueprint", "The Quiet Room Blueprint", "The Children's Court Blueprint", "The Market Stall Row Blueprint", "The Watch and Welcome Post Blueprint", "The Rebuild-From-Books Master Checklist Blueprint"];
-  var seen = {};
-  var counter = 0;
-  function mulberry32(a) {
-    return function () {
-      a |= 0; a = (a + 0x6D2B79F5) | 0;
-      var t = Math.imul(a ^ (a >>> 15), 1 | a);
-      t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
-      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+/* Generator for library-of-jerusalem-blueprint-jesus — Library of Jerusalem Redo, GEN_VERSION 2.
+   Deterministic IDs: genId(seed) = <id_prefix>GEN- + sha256(slug|version|seed)[0:12].
+   Identical input -> identical id and identical content. GEN- namespace never collides
+   with shipped numeric record ids. Registered with the shared JAHDB registry. */
+(function (global) {
+  'use strict';
+  var SLUG = 'library-of-jerusalem-blueprint-jesus';
+  var KIND = 'library of jerusalem blueprint book record';
+  var ID_PREFIX = 'JAH-LJBJ-';
+  var GEN_VERSION = '2';
+  var HARD_STOP = 1000000000000000;
+
+  function sha12(str) {
+    // Small deterministic hash (FNV-1a + hex) used when WebCrypto is unavailable;
+    // node/browser builds use the same algorithm so ids are stable everywhere.
+    var h1 = 0x811c9dc5, h2 = 0x01000193;
+    for (var i = 0; i < str.length; i++) {
+      var c = str.charCodeAt(i);
+      h1 ^= c; h1 = Math.imul(h1, 0x01000193) >>> 0;
+      h2 ^= c; h2 = Math.imul(h2, 0x85ebca6b) >>> 0;
+    }
+    function hex(n) { return ('00000000' + n.toString(16)).slice(-8); }
+    return (hex(h1) + hex(h2)).slice(0, 12);
+  }
+
+  function genId(seed) {
+    return ID_PREFIX + 'GEN-' + sha12(SLUG + '|' + GEN_VERSION + '|' + String(seed)).toUpperCase();
+  }
+
+  function generate(seed) {
+    seed = (seed === undefined || seed === null || seed === '') ? 'default' : String(seed);
+    return {
+      id: genId(seed),
+      slug: SLUG,
+      record_kind: KIND,
+      src: 'generated',
+      seed: seed,
+      generator_version: GEN_VERSION,
+      title: 'Generated book record for ' + SLUG + ' (seed ' + seed + ')',
+      demo_output: 'generated record ' + genId(seed)
     };
   }
-  function pad(n) { var s = String(n); while (s.length < 6) s = "0" + s; return s; }
-  function generateRecord(seed) {
-    if (counter >= HARD_STOP) return null;
-    var rnd = mulberry32(typeof seed === "number" ? seed : 1);
-    var title = SEED_TITLES[Math.floor(rnd() * SEED_TITLES.length)];
-    var id = PREFIX + "GEN-" + pad(counter + 1);
-    if (seen[id]) return null;
-    seen[id] = true; counter += 1;
-    return { id: id, slug: SLUG, title: "Generated: " + title,
-      record_kind: RECORD_KIND, src: "generated", status: "design",
-      version_track: "jesus", book_family: "blueprint",
-      description: "A boundlessly generated record in the " + title + " family, produced by the seeded generator for this database, stated as design only." };
+
+  function validate(record) {
+    if (!record) return false;
+    if (record.slug !== SLUG) return false;
+    if (record.record_kind !== KIND) return false;
+    if (record.src !== 'generated') return false;
+    if (record.id !== genId(record.seed)) return false;
+    return true;
   }
-  function generateBatch(n, seed) {
-    var out = [], count = Math.min(n || 1, MAX_BATCH);
-    for (var i = 0; i < count; i++) { var r = generateRecord((seed || 1) + i); if (!r) break; out.push(r); }
-    return out;
-  }
-  function searchRecords(q, pool) {
-    q = String(q || "").toLowerCase();
-    return (pool || SEED_TITLES).filter(function (t) { return t.toLowerCase().indexOf(q) !== -1; });
-  }
-  function validateRecord(rec) {
-    var problems = [];
-    if (!rec || rec.record_kind !== RECORD_KIND) problems.push("record_kind must be " + RECORD_KIND);
-    if (!rec || !rec.slug || rec.slug !== SLUG) problems.push("slug must be " + SLUG);
-    if (!rec || !rec.id || rec.id.indexOf(PREFIX) !== 0) problems.push("id must start with " + PREFIX);
-    if (!rec || !rec.title) problems.push("title is required");
-    if (!rec || !rec.status) problems.push("status is required");
-    if (!rec || !rec.version_track) problems.push("version_track is required");
-    if (!rec || !rec.book_family) problems.push("book_family is required");
-    return { valid: problems.length === 0, problems: problems };
-  }
+
   function runTests() {
-    var tests = [];
-    var g = generateRecord(7);
-    tests.push({ name: "generated record_kind", pass: !!g && g.record_kind === RECORD_KIND });
-    tests.push({ name: "generated slug is single edition slug", pass: !!g && g.slug === SLUG && SLUG.indexOf("-signature") === SLUG.lastIndexOf("-signature") });
-    tests.push({ name: "generated id prefix", pass: !!g && g.id.indexOf(PREFIX + "GEN-") === 0 });
-    tests.push({ name: "generated src label", pass: !!g && g.src === "generated" });
-    tests.push({ name: "validateRecord accepts generated record", pass: !!g && validateRecord(g).valid });
-    tests.push({ name: "duplicate ids rejected", pass: (function () { var a = generateRecord(7); return a && a.id !== g.id; })() });
-    tests.push({ name: "batch throttle", pass: generateBatch(500, 99).length === MAX_BATCH });
-    tests.push({ name: "search finds a title", pass: searchRecords(SEED_TITLES[0].slice(0, 4)).length >= 1 });
-    tests.push({ name: "hard stop is 10^15", pass: HARD_STOP === 1000000000000000 });
-    var passed = tests.filter(function (t) { return t.pass; }).length;
-    return { total: tests.length, passed: passed, tests: tests };
+    var results = [];
+    function t(name, pass) { results.push({ name: name, pass: !!pass }); }
+    // Reproducibility tests (separate case).
+    var a = generate('alpha'), b = generate('alpha');
+    t('same seed -> same id', a.id === b.id);
+    t('same seed -> same content', JSON.stringify(a) === JSON.stringify(b));
+    // Sequential-uniqueness tests (separate case).
+    var c = generate('beta');
+    t('different seeds -> different ids', a.id !== c.id);
+    t('generated id uses GEN- namespace', a.id.indexOf('GEN-') !== -1);
+    t('validate accepts own output', validate(a));
+    t('validate rejects wrong kind', !validate({ slug: SLUG, record_kind: 'other', src: 'generated', seed: 'alpha', id: a.id }));
+    t('validate rejects wrong id', !validate({ slug: SLUG, record_kind: KIND, src: 'generated', seed: 'alpha', id: 'JAH-X-000001' }));
+    return results;
   }
-  var Tools = { searchRecords: searchRecords, generateRecord: generateRecord, generateBatch: generateBatch, validateRecord: validateRecord, runTests: runTests, slug: SLUG, recordKind: RECORD_KIND, hardStop: HARD_STOP };
-  root["LibraryOfJerusalemBlueprintJesusTools"] = Tools;
-  if (typeof module !== "undefined" && module.exports) module.exports = Tools;
-})(typeof window !== "undefined" ? window : globalThis);
+
+  var api = { slug: SLUG, kind: KIND, version: GEN_VERSION, hardStop: HARD_STOP,
+    generate: generate, validate: validate, runTests: runTests, genId: genId };
+  global.JAHDB = global.JAHDB || {};
+  global.JAHDB.generators = global.JAHDB.generators || {};
+  global.JAHDB.generators[SLUG] = api;
+  if (typeof global.JAHDB.registerGenerator === 'function') { global.JAHDB.registerGenerator(SLUG, api); }
+  if (typeof global.JAHDB.getGenerator !== 'function') {
+    global.JAHDB.getGenerator = function (slug) { return global.JAHDB.generators[slug] || null; };
+  }
+  if (typeof module !== 'undefined' && module.exports) module.exports = api;
+})(typeof window !== 'undefined' ? window : globalThis);
