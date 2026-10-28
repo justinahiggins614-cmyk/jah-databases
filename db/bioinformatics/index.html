@@ -211,6 +211,15 @@ JAHDB.loadManifest().then(function(m){manifest=m;db=JAHDB.dbBySlug(m,SLUG)||db;}
   greet();
   deepOpen();
 }).catch(function(e){ $('stCount').textContent='archive unreachable ('+e.message+')'; });
+
+/* BLANK-FIX 2026-10-28: position-based chunk loading. The original index rows
+   carry no 'c' chunk pointer, so grouping by r.c fetched a nonexistent chunk
+   file and every group rendered 'Nothing loaded.' The chunk for a row is now
+   derived from the row's position in the loaded index. */
+function chunkForPos(pos){ return Math.floor(pos/100)+(typeof _chunkBase!=='undefined'?_chunkBase:1); }
+function chunkForRow(r){ for(var i=0;i<archiveIdx.length;i++){ if(archiveIdx[i].id===r.id) return chunkForPos(i); } return (typeof _chunkBase!=='undefined'?_chunkBase:1); }
+function groupByPosition(rows){ var by={}; rows.forEach(function(r){ var c=chunkForRow(r); (by[c]=by[c]||[]).push(r.id); }); return by; }
+
 function chunkName(c){ return 'chunks/chunk-'+String(c).padStart(4,'0')+'.jsonl.gz'; }
 function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
 function fmtVal(v){
@@ -279,17 +288,17 @@ function buildGroups(){
 function loadCatSample(genre,body){
   body.innerHTML='<p class="dim">Loading…</p>';
   var rows=archiveIdx.filter(function(r){return r.g===genre;}).slice(0,25);
-  var byChunk={};
-  rows.forEach(function(r){ (byChunk[r.c]=byChunk[r.c]||[]).push(r.id); });
+  var byChunk=groupByPosition(rows);
+  var loadFailed=0;
   var jobs=Object.keys(byChunk).map(function(c){
     return JAHDB.fetchJsonlGz(LOCAL+chunkName(+c)).then(function(recs){
       var want={}; byChunk[c].forEach(function(id){want[id]=1;});
       return recs.filter(function(r){return want[r.id];});
-    }).catch(function(){return [];});
+    }).catch(function(){ loadFailed=1; return []; });
   });
   Promise.all(jobs).then(function(parts){
     var recs=[]; parts.forEach(function(p){recs=recs.concat(p);});
-    body.innerHTML=recs.length?recs.map(recCard).join(''):'<p class="dim">Nothing loaded.</p>';
+    body.innerHTML=recs.length?recs.map(recCard).join(''):(loadFailed?'<p class="dim">Archive chunk could not load — please reload the page.</p>':'<p class="dim">Nothing loaded.</p>');
   });
 }
 function doSearch(){
@@ -299,8 +308,7 @@ function doSearch(){
   var hits=archiveIdx.filter(function(r){return (r.t+' '+r.id+' '+(r.g||'')).toLowerCase().indexOf(q)>=0;}).slice(0,12);
   if(!hits.length){box.innerHTML='<p class="dim">No archive hits. Try the Generator tab to make one — describe a Bioinformatics topic.</p>';return;}
   box.innerHTML='<h3>Archive hits ('+hits.length+')</h3>';
-  var byChunk={};
-  hits.forEach(function(r){(byChunk[r.c]=byChunk[r.c]||[]).push(r.id);});
+  var byChunk=groupByPosition(hits);
   Object.keys(byChunk).forEach(function(c){
     JAHDB.fetchJsonlGz(LOCAL+chunkName(+c)).then(function(recs){
       var want={};byChunk[c].forEach(function(id){want[id]=1;});
@@ -375,7 +383,7 @@ function deepOpen(){
     var row=null;
     for(var i=0;i<archiveIdx.length;i++){ if(archiveIdx[i].id===id){ row=archiveIdx[i]; break; } }
     if(!row) return;
-    JAHDB.fetchJsonlGz(LOCAL+chunkName(+row.c)).then(function(recs){
+    JAHDB.fetchJsonlGz(LOCAL+chunkName(chunkForRow(row))).then(function(recs){
       var rec=null;
       for(var j=0;j<recs.length;j++){ if(recs[j].id===id){ rec=recs[j]; break; } }
       if(!rec) return;
@@ -404,7 +412,7 @@ function aiFind(q){
   }).filter(function(x){return x.s>0;}).sort(function(a,b){return b.s-a.s;}).slice(0,5);
   if(!scored.length){ say('a','No stored records match “'+q+'”. Try the Archive tab search, or ask me to GENERATE a brand-new record on that theme — any topic, any type.'); return; }
   say('a','Pulled up '+scored.length+' stored record'+(scored.length>1?'s':'')+' matching “'+q+'”:');
-  var byChunk={}; scored.forEach(function(x){ (byChunk[x.r.c]=byChunk[x.r.c]||[]).push(x.r.id); });
+  var byChunk=groupByPosition(scored.map(function(x){return x.r;}));
   var jobs=Object.keys(byChunk).map(function(c){
     return JAHDB.fetchJsonlGz(LOCAL+chunkName(+c)).then(function(recs){
       var want={}; byChunk[c].forEach(function(id){want[id]=1;});
