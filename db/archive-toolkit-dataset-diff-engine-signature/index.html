@@ -183,7 +183,7 @@ button.pill-ex{border-radius:999px}
 (function(){
 'use strict';
 var SLUG='archive-toolkit-dataset-diff-engine-signature';
-var LOCAL='../../data/archive-toolkit-dataset-diff-engine-signature/';
+var LOCAL='https://justinahiggins614-cmyk.github.io/jah-databases-data-1/data/archive-toolkit-dataset-diff-engine-signature/';
 var CATEGORIES=["how-it-works", "methods", "evaluation", "production", "reference"];
 var db={slug:SLUG,name:'Signature Dataset Diff Engine Database',ai_name:'Diff Engineer',record_kind:'dataset diff record'};
 var manifest=null, archiveIdx=null, archiveSample=[];
@@ -209,6 +209,15 @@ JAHDB.loadManifest().then(function(m){manifest=m;db=JAHDB.dbBySlug(m,SLUG)||db;}
   renderQueue();
   greet();
 }).catch(function(e){ $('stCount').textContent='archive unreachable ('+e.message+')'; });
+
+/* BLANK-FIX 2026-10-28: position-based chunk loading. The original index rows
+   carry no 'c' chunk pointer, so grouping by r.c fetched a nonexistent chunk
+   file and every group rendered 'Nothing loaded.' This database has a single
+   chunk file, so every row resolves to it. */
+function chunkForPos(pos){ return 1; }
+function chunkForRow(r){ return 1; }
+function groupByPosition(rows){ var by={}; rows.forEach(function(r){ var c=chunkForRow(r); (by[c]=by[c]||[]).push(r.id); }); return by; }
+
 function chunkName(c){ return 'chunks/chunk-'+String(c).padStart(4,'0')+'.jsonl.gz'; }
 function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
 function fmtVal(v){
@@ -279,17 +288,17 @@ function buildGroups(){
 function loadCatSample(cat,body){
   body.innerHTML='<p class="dim">Loading\u2026</p>';
   var rows=archiveIdx.filter(function(r){return r.g===cat;}).slice(0,25);
-  var byChunk={};
-  rows.forEach(function(r){ (byChunk[r.c]=byChunk[r.c]||[]).push(r.id); });
+  var byChunk=groupByPosition(rows);
+  var loadFailed=0;
   var jobs=Object.keys(byChunk).map(function(c){
     return JAHDB.fetchJsonlGz(LOCAL+chunkName(+c)).then(function(recs){
       var want={}; byChunk[c].forEach(function(id){want[id]=1;});
       return recs.filter(function(r){return want[r.id];});
-    }).catch(function(){return [];});
+    }).catch(function(){ loadFailed=1; return []; });
   });
   Promise.all(jobs).then(function(parts){
     var recs=[]; parts.forEach(function(p){recs=recs.concat(p);});
-    body.innerHTML=recs.length?recs.map(recCard).join(''):'<p class="dim">Nothing loaded.</p>';
+    body.innerHTML=recs.length?recs.map(recCard).join(''):(loadFailed?'<p class="dim">Archive chunk could not load — please reload the page.</p>':'<p class="dim">Nothing loaded.</p>');
   });
 }
 function doSearch(){
@@ -299,8 +308,7 @@ function doSearch(){
   var hits=archiveIdx.filter(function(r){return (r.t+' '+r.id).toLowerCase().indexOf(q)>=0;}).slice(0,12);
   if(!hits.length){box.innerHTML='<p class="dim">No archive hits. Try the Generator tab to make one.</p>';return;}
   box.innerHTML='<h3>Archive hits ('+hits.length+')</h3>';
-  var byChunk={};
-  hits.forEach(function(r){(byChunk[r.c]=byChunk[r.c]||[]).push(r.id);});
+  var byChunk=groupByPosition(hits);
   Object.keys(byChunk).forEach(function(c){
     JAHDB.fetchJsonlGz(LOCAL+chunkName(+c)).then(function(recs){
       var want={};byChunk[c].forEach(function(id){want[id]=1;});
