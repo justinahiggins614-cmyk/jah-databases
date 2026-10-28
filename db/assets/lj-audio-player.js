@@ -130,7 +130,7 @@
         var text = collectBookText(doc);
         queue = makeQueue(chunkText(text));
         queue.state = 'playing';
-        if (!synth) { setStatus('Speech is not available in this browser.'); queue.state = 'error'; return; }
+        if (!synth) { setStatus('Audio is unavailable in this browser (for example inside an in-app browser). Open this page in a full browser to listen.'); queue.state = 'error'; return; }
         speakNext();
       },
       pause: function () {
@@ -167,7 +167,7 @@
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
   global.LJAudio = api;
 
-  if (typeof document !== 'undefined' && typeof window !== 'undefined' && window.speechSynthesis) {
+  if (typeof document !== 'undefined' && typeof window !== 'undefined') {
     document.addEventListener('DOMContentLoaded', function () {
       var player = createPlayer(document, window.speechSynthesis);
       player.bind('lj-status', 'lj-progress');
@@ -180,6 +180,10 @@
       bind('lj-resume', function () { player.resume(); });
       bind('lj-stop', function () { player.stop(); });
       bind('lj-replay', function () { player.replay(); });
+      if (!window.speechSynthesis) {
+        var noSpeechEl = document.getElementById('lj-status');
+        if (noSpeechEl) noSpeechEl.textContent = 'Audio is unavailable in this browser (for example inside an in-app browser). Open this page in a full browser to listen.';
+      }
     });
   }
 })(typeof window !== 'undefined' ? window : globalThis);
