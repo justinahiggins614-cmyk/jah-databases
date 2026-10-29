@@ -1,3 +1,13 @@
+/* LJAudio2-chapter-fix — read-aloud player for the Library of Jerusalem.
+ * CHAPTER FIX vs the leaks-port player (see CHAPTER-FIX-REPORT.md):
+ * a failed chunk NEVER kills the whole book. Audio all-tier failures skip
+ * the chunk and continue (per-tier retry + growing backoff); only a
+ * sustained outage (12 consecutive failed chunks) pauses honestly at the
+ * current chunk for Resume, never a fake Finished. Speech repeated errors
+ * switch to the audio tiers instead of stopping. The next chunk is
+ * preloaded where possible. Skipped chunks are counted in the status line.
+ * Same filename at deploy, same lj-* IDs, same [data-audio-text]
+ * collection — ZERO book-page edits. */
 /* LJAudio2-leaks-port — read-aloud player for the Library of Jerusalem.
    DEPLOY NAME: db/assets/lj-audio-player.js (same filename, same lj-*
    button IDs, same [data-audio-text] collection as v1/v2), so NO book-page
@@ -158,6 +168,10 @@
     var startWatchdogMs = opts.startWatchdogMs != null ? opts.startWatchdogMs : 6000;
     var voicesTimeoutMs = opts.voicesTimeoutMs != null ? opts.voicesTimeoutMs : 3000;
     var chunkAudioTimeoutMs = opts.chunkAudioTimeoutMs != null ? opts.chunkAudioTimeoutMs : AUDIO_CHUNK_TIMEOUT_MS;
+    var maxConsecutiveAudioFails = opts.maxConsecutiveAudioFails != null ? opts.maxConsecutiveAudioFails : 12;
+    var audioRetryPerTier = opts.audioRetryPerTier != null ? opts.audioRetryPerTier : 2;
+    var audioRetryDelayMs = opts.audioRetryDelayMs != null ? opts.audioRetryDelayMs : 800;
+    var audioBackoffBaseMs = opts.audioBackoffBaseMs != null ? opts.audioBackoffBaseMs : 1500;
     var setT = opts.setTimeoutFn || setTimeout;
     var clearT = opts.clearTimeoutFn || clearTimeout;
     var audioFactory = opts.audioFactory || null;
@@ -177,6 +191,12 @@
     var audioTimer = null;
     var audioTier = 0;       // current tier for the chunk being played
     var audioSettled = false; // per-attempt guard: one outcome only
+    var skippedChunks = 0; // audio chunks skipped after all tiers failed
+    var consecutiveAudioFailures = 0; // consecutive all-tier-failed chunks
+    var audioAttempt = 0; // attempt index within the current tier
+    var backoffTimer = null;
+    var preloadEl = null;
+    var preloadSrc = '';
     var mode = 'speech'; // speech | audio
     var fullText = '';
     var consumedChars = 0;
@@ -185,18 +205,33 @@
     var endTimer = null;
 
     function setStatus(msg) { if (statusEl) statusEl.textContent = msg; }
+    // Finished wording is honest about skips: a book that skipped chunks
+    // never reports a clean Finished.
+    function finishedText() {
+      if (skippedChunks > 0) {
+        return 'Finished — full book read aloud (' + skippedChunks + ' chunk' + (skippedChunks === 1 ? '' : 's') + ' skipped: voice services unreachable for those parts).';
+      }
+      return finishedLabel;
+    }
     function setProgress() {
       if (progressEl && queue) {
         var shown = queue.state === 'finished' ? queue.chunks.length : queue.index + 1;
         progressEl.textContent = 'Chunk ' + shown + ' of ' + queue.chunks.length +
-          (queue.state === 'finished' ? ' — ' + finishedLabel : '') +
-          (mode === 'audio' ? ' (online voice)' : '');
+          (queue.state === 'finished' ? ' — ' + finishedText() : '') +
+          (mode === 'audio' ? ' (online voice)' : '') +
+          (skippedChunks > 0 && queue.state !== 'finished' ? ' — ' + skippedChunks + ' skipped' : '');
       }
+    }
+    function clearPreload() {
+      if (preloadEl) { try { preloadEl.pause(); } catch (e) { /* ignore */ } }
+      preloadEl = null;
+      preloadSrc = '';
     }
     function clearTimers() {
       if (startTimer !== null) { clearT(startTimer); startTimer = null; }
       if (endTimer !== null) { clearT(endTimer); endTimer = null; }
       if (audioTimer !== null) { clearT(audioTimer); audioTimer = null; }
+      if (backoffTimer !== null) { clearT(backoffTimer); backoffTimer = null; }
     }
     // SigTTS absolute budget per utterance: min(120s, 30s + len/15 seconds).
     function speechBudgetMs(text) {
@@ -217,6 +252,7 @@
       utter = null;
       mode = 'audio';
       audioTier = 0;
+      audioAttempt = 0;
       var remaining = fullText.slice(consumedChars);
       queue = makeQueue(chunkText(remaining, MAX_AUDIO_CHUNK));
       queue.state = 'playing';
@@ -228,7 +264,7 @@
       if (!queue) return;
       if (queue.index >= queue.chunks.length) {
         if (queue.state !== 'finished') queue.state = 'finished';
-        setStatus(finishedLabel);
+        setStatus(finishedText());
         setProgress();
         return;
       }
@@ -261,8 +297,9 @@
         clearTimers();
         queue.noteError();
         if (queue.state === 'error') {
-          setStatus('Playback stopped after repeated errors. Press Replay to try again.');
-          setProgress();
+          // Repeated speech errors are a dead engine, not a dead book:
+          // switch to the audio tiers instead of stopping.
+          failToAudio('Speech engine failed repeatedly.');
           return;
         }
         consumedChars += text.length;
@@ -300,11 +337,33 @@
       setProgress();
     }
 
+    // Best-effort preload of the chunk after the one about to play, so the
+    // next chunk starts warm instead of cold. Preload failures are ignored.
+    function preloadNextChunk(idx) {
+      clearPreload();
+      if (!audioFactory || !queue || idx >= queue.chunks.length) return;
+      try {
+        var el = audioFactory();
+        el.preload = 'auto';
+        el.src = audioTiers[0](queue.chunks[idx]);
+        preloadEl = el;
+        preloadSrc = el.src;
+      } catch (e) { preloadEl = null; preloadSrc = ''; }
+    }
+    // Delayed re-entry into playAudioNext (per-tier retry, post-skip
+    // backoff). The guard inside playAudioNext still applies on arrival.
+    function scheduleAudioRetry(ms) {
+      if (backoffTimer !== null) { clearT(backoffTimer); backoffTimer = null; }
+      backoffTimer = setT(function () {
+        backoffTimer = null;
+        if (queue && queue.state === 'playing' && mode === 'audio') playAudioNext();
+      }, ms);
+    }
     function playAudioNext() {
       if (!queue) return;
       if (queue.index >= queue.chunks.length) {
         if (queue.state !== 'finished') queue.state = 'finished';
-        setStatus(finishedLabel);
+        setStatus(finishedText());
         setProgress();
         return;
       }
@@ -317,9 +376,20 @@
         return;
       }
       audioSettled = false;
-      audioEl = audioFactory();
-      var myAudio = audioEl;
       var myTier = audioTier;
+      var myAttempt = audioAttempt;
+      var src = '';
+      try { src = audioTiers[myTier](text); } catch (e) { src = ''; }
+      var myAudio = null;
+      if (src && myTier === 0 && myAttempt === 0 && preloadEl && preloadSrc === src) {
+        // Reuse the preloaded element for this chunk: no second request.
+        myAudio = preloadEl;
+        preloadEl = null;
+        preloadSrc = '';
+      } else {
+        try { myAudio = audioFactory(); } catch (e) { myAudio = null; }
+      }
+      audioEl = myAudio;
       function audioOutcome(ok) {
         if (audioSettled) return;
         audioSettled = true;
@@ -327,24 +397,41 @@
         if (queue.state !== 'playing' || mode !== 'audio' || audioEl !== myAudio) return;
         if (ok) {
           queue.consecutiveErrors = 0;
+          consecutiveAudioFailures = 0;
+          audioAttempt = 0;
           succeededChunks += 1;
+          consumedChars += text.length;
           audioTier = 0; // next chunk starts again at the first tier
           queue.advance();
           setProgress();
           playAudioNext();
+        } else if (audioAttempt + 1 < audioRetryPerTier) {
+          // Same tier, one more attempt after a short pause: transient
+          // slowness or a throttled response is not yet a dead tier.
+          audioAttempt += 1;
+          scheduleAudioRetry(audioRetryDelayMs);
         } else if (myTier + 1 < audioTiers.length) {
           // Same chunk, next tier — SigTTS tier escalation.
+          audioAttempt = 0;
           audioTier = myTier + 1;
           playAudioNext();
         } else {
-          // Every tier failed for this chunk: skip it, keep going.
+          // Every tier (each retried) failed for this chunk.
+          audioAttempt = 0;
           audioTier = 0;
-          queue.noteError();
-          if (queue.state === 'error') {
-            setStatus('The voice services stopped after repeated errors. Press Replay to try again.');
+          consecutiveAudioFailures += 1;
+          if (consecutiveAudioFailures >= maxConsecutiveAudioFails) {
+            // Sustained outage, not a bad chunk: PAUSE at this chunk so
+            // Resume retries it — never kill the book, never fake Finished.
+            clearPreload();
+            queue.state = 'paused';
+            setStatus('Voice services unreachable — playback paused at chunk ' + (queue.index + 1) + ' of ' + queue.chunks.length + ' (' + skippedChunks + ' chunk' + (skippedChunks === 1 ? '' : 's') + ' skipped). Press Resume to try again from here.');
             setProgress();
             return;
           }
+          // CHAPTER-FIX RULE: a failed chunk NEVER kills the book.
+          skippedChunks += 1;
+          consumedChars += text.length;
           queue.advance();
           if (queue.state === 'finished' && succeededChunks === 0) {
             // Every chunk failed: never report a fake "Finished".
@@ -354,16 +441,17 @@
             return;
           }
           setProgress();
-          playAudioNext();
+          // Back off before the next chunk so a rate-limited endpoint gets
+          // breathing room instead of a hammering death spiral.
+          scheduleAudioRetry(Math.min(6000, audioBackoffBaseMs * consecutiveAudioFailures));
         }
       }
+      if (!myAudio || !src) { audioOutcome(false); return; }
       myAudio.onended = function () { audioOutcome(true); };
       myAudio.onerror = function () { audioOutcome(false); };
       // SigTTS 14s fail-fast per chunk: a hung tier must not stall the book.
       audioTimer = setT(function () { audioOutcome(false); }, chunkAudioTimeoutMs);
-      var src = '';
-      try { src = audioTiers[myTier](text); } catch (e) { audioOutcome(false); return; }
-      myAudio.src = src;
+      if (myAudio.src !== src) myAudio.src = src;
       try {
         var p = myAudio.play();
         if (p && typeof p.catch === 'function') {
@@ -375,6 +463,9 @@
       }
       setStatus('Reading aloud (online voice)…');
       setProgress();
+      // Warm the following chunk only on a fresh first-tier start, so
+      // retries and escalations never churn the preload.
+      if (myTier === 0 && myAttempt === 0) preloadNextChunk(queue.index + 1);
     }
 
     // SigTTS voiceAlive probe: voices present = live; voices never arriving
@@ -424,9 +515,23 @@
             // Restart the current chunk attempt from its tier: the paused
             // element is orphaned (stays paused, silent) and playAudioNext
             // builds a fresh element + fresh 14s timer for the same chunk.
+            // Resume grants a fresh failure runway, not the outage counter.
+            consecutiveAudioFailures = 0;
+            audioAttempt = 0;
+            audioTier = 0;
+            clearPreload();
             var pausedEl = audioEl;
             try { pausedEl.pause(); } catch (e) { /* ignore */ }
             audioEl = null;
+            playAudioNext();
+          }
+          else {
+            // Audio mode but no live element (e.g. paused during a retry
+            // backoff): restart the current chunk from tier 0.
+            consecutiveAudioFailures = 0;
+            audioAttempt = 0;
+            audioTier = 0;
+            clearPreload();
             playAudioNext();
           }
           setStatus(mode === 'audio' ? 'Reading aloud (online voice)…' : 'Reading aloud…');
@@ -445,6 +550,10 @@
         consumedChars = 0;
         succeededChunks = 0;
         audioTier = 0;
+        skippedChunks = 0;
+        consecutiveAudioFailures = 0;
+        audioAttempt = 0;
+        clearPreload();
         queue = makeQueue(chunkText(fullText, MAX_CHUNK));
         queue.state = 'playing';
         if (!synth) { failToAudio('Speech is unavailable in this browser.'); return; }
@@ -461,6 +570,7 @@
           clearTimers();
           if (mode === 'speech') { if (synth) synth.pause(); }
           else if (audioEl) { try { audioEl.pause(); } catch (e) { /* ignore */ } }
+          clearPreload();
           setStatus('Paused.');
         }
       },
@@ -470,6 +580,10 @@
         if (synth) { try { synth.cancel(); } catch (e) { /* ignore */ } }
         if (audioEl) { try { audioEl.pause(); } catch (e) { /* ignore */ } }
         audioEl = null;
+        clearPreload();
+        skippedChunks = 0;
+        consecutiveAudioFailures = 0;
+        audioAttempt = 0;
         utter = null;
         mode = 'speech';
         if (queue) queue.reset();
@@ -486,7 +600,7 @@
       },
       _queue: function () { return queue; },
       _debug: function () {
-        return { mode: mode, state: queue ? queue.state : null, index: queue ? queue.index : null, played: queue ? queue.played : null, endpointConfigured: !!endpoint, tierCount: audioTiers.length };
+        return { mode: mode, state: queue ? queue.state : null, index: queue ? queue.index : null, played: queue ? queue.played : null, endpointConfigured: !!endpoint, tierCount: audioTiers.length, skippedChunks: skippedChunks, consecutiveAudioFailures: consecutiveAudioFailures, preloadActive: !!preloadEl };
       }
     };
   }
