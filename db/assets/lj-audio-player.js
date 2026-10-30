@@ -1,4 +1,4 @@
-/* LJAudio2-chapter-fix — read-aloud player for the Library of Jerusalem.
+/* LJAudio2-chapter-fix-v2 — read-aloud player for the Library of Jerusalem.
  * CHAPTER FIX vs the leaks-port player (see CHAPTER-FIX-REPORT.md):
  * a failed chunk NEVER kills the whole book. Audio all-tier failures skip
  * the chunk and continue (per-tier retry + growing backoff); only a
@@ -8,6 +8,30 @@
  * preloaded where possible. Skipped chunks are counted in the status line.
  * Same filename at deploy, same lj-* IDs, same [data-audio-text]
  * collection — ZERO book-page edits. */
+/* CHAPTER-FIX-V2 vs the chapter-fix player (see CHAPTER-FIX-V2-REPORT.md):
+ * the chapter-fix removed the 3-kill but did NOT change the chunk-1 ->
+ * chunk-2 TRANSITION, and the user's phone still stops after one
+ * sentence. This revision changes the transition itself:
+ *  - ONE persistent <audio> element, created once per page session and
+ *    never replaced: the element that played chunk 1 stays blessed for
+ *    chunk 2, instead of a fresh element per chunk (fresh elements are
+ *    what a webview's non-gesture play policy rejects).
+ *  - Audio preload removed: preloading bought nothing for the
+ *    transition (a preloaded element has never played, so it is not
+ *    blessed either) and cost an extra element per chunk.
+ *  - Speech continuation is timer-delayed (150ms) with a resume nudge,
+ *    instead of speak() synchronously inside onend (some webview
+ *    engines drop a speak() issued while the previous utterance's
+ *    speaking flag has not cleared).
+ *  - Speech utterances are section-length (up to 4000 chars) instead of
+ *    200-char chunks, so one utterance covers many sentences if the
+ *    webview rations utterances; audio tiers stay 200-char (Google cap).
+ *  - Same-chunk retry on play() rejection now retries on the SAME
+ *    persistent element before tier escalation.
+ * Kept verbatim from chapter-fix: honesty rules (skip counts, honest
+ * pause after 12 consecutive failures with Resume-from-here, never a
+ * fake Finished), tier URLs and order, watchdogs, endpoint-optional
+ * behavior, same lj-* IDs, same [data-audio-text] collection. */
 /* LJAudio2-leaks-port — read-aloud player for the Library of Jerusalem.
    DEPLOY NAME: db/assets/lj-audio-player.js (same filename, same lj-*
    button IDs, same [data-audio-text] collection as v1/v2), so NO book-page
@@ -70,6 +94,7 @@
 
   var MAX_CHUNK = 200;        // Web Speech chunk size (short = reliable)
   var MAX_AUDIO_CHUNK = 200;  // tiered-audio chunk size (Google TTS cap)
+  var MAX_SPEECH_CHUNK = 4000; // speech-mode utterance cap (section-length)
   var AUDIO_CHUNK_TIMEOUT_MS = 14000; // SigTTS fail-fast per audio chunk
 
   // Tiered public voice URLs — SigTTS TTS_URLS, verbatim.
@@ -145,6 +170,32 @@
     return parts.join(' ');
   }
 
+  // Section texts in DOM order (same normalization as collectBookText).
+  function collectSections(doc) {
+    var sections = [];
+    var nodes = doc.querySelectorAll('[data-audio-text]');
+    for (var i = 0; i < nodes.length; i++) {
+      var t = nodes[i].textContent.replace(/\s+/g, ' ').trim();
+      if (t) sections.push(t);
+    }
+    return sections;
+  }
+
+  // Speech-mode chunks: sentence-packed pieces of each section, up to
+  // MAX_SPEECH_CHUNK chars. Joining the pieces reproduces
+  // collectBookText's full text EXACTLY (each non-final section's last
+  // piece carries the inter-section space), so consumedChars maps
+  // exactly onto the audio queue if speech later falls back to audio.
+  function buildSpeechChunks(sections) {
+    var pieces = [];
+    for (var i = 0; i < sections.length; i++) {
+      var ps = chunkText(sections[i], MAX_SPEECH_CHUNK);
+      if (i < sections.length - 1 && ps.length > 0) ps[ps.length - 1] += ' ';
+      for (var j = 0; j < ps.length; j++) pieces.push(ps[j]);
+    }
+    return pieces;
+  }
+
   function resolveEndpoint(opts) {
     if (opts && opts.endpoint) return opts.endpoint;
     if (typeof global !== 'undefined' && global.LJ_TTS_ENDPOINT) return global.LJ_TTS_ENDPOINT;
@@ -172,6 +223,7 @@
     var audioRetryPerTier = opts.audioRetryPerTier != null ? opts.audioRetryPerTier : 2;
     var audioRetryDelayMs = opts.audioRetryDelayMs != null ? opts.audioRetryDelayMs : 800;
     var audioBackoffBaseMs = opts.audioBackoffBaseMs != null ? opts.audioBackoffBaseMs : 1500;
+    var speechContinueDelayMs = opts.speechContinueDelayMs != null ? opts.speechContinueDelayMs : 150;
     var setT = opts.setTimeoutFn || setTimeout;
     var clearT = opts.clearTimeoutFn || clearTimeout;
     var audioFactory = opts.audioFactory || null;
@@ -195,8 +247,12 @@
     var consecutiveAudioFailures = 0; // consecutive all-tier-failed chunks
     var audioAttempt = 0; // attempt index within the current tier
     var backoffTimer = null;
-    var preloadEl = null;
-    var preloadSrc = '';
+    var speechActive = false; // a speech utterance is currently in flight
+    var speechNextTimer = null; // delayed speech continuation (v2)
+    // v2: audioEl is PERSISTENT — created once per page session and never
+    // replaced. The element that played chunk 1 is the element that plays
+    // chunk 2 (see report: fresh elements are what non-gesture play
+    // policies reject). stop()/replay() pause it but keep it.
     var mode = 'speech'; // speech | audio
     var fullText = '';
     var consumedChars = 0;
@@ -222,20 +278,16 @@
           (skippedChunks > 0 && queue.state !== 'finished' ? ' — ' + skippedChunks + ' skipped' : '');
       }
     }
-    function clearPreload() {
-      if (preloadEl) { try { preloadEl.pause(); } catch (e) { /* ignore */ } }
-      preloadEl = null;
-      preloadSrc = '';
-    }
     function clearTimers() {
       if (startTimer !== null) { clearT(startTimer); startTimer = null; }
       if (endTimer !== null) { clearT(endTimer); endTimer = null; }
       if (audioTimer !== null) { clearT(audioTimer); audioTimer = null; }
       if (backoffTimer !== null) { clearT(backoffTimer); backoffTimer = null; }
+      if (speechNextTimer !== null) { clearT(speechNextTimer); speechNextTimer = null; }
     }
     // SigTTS absolute budget per utterance: min(120s, 30s + len/15 seconds).
     function speechBudgetMs(text) {
-      return Math.min(120000, 30000 + Math.ceil(String(text).length / 15) * 1000);
+      return Math.min(600000, 30000 + Math.ceil(String(text).length / 12) * 1000);
     }
 
     function failToAudio(reason) {
@@ -248,6 +300,7 @@
         return;
       }
       clearTimers();
+      speechActive = false;
       if (synth) { try { synth.cancel(); } catch (e) { /* ignore */ } }
       utter = null;
       mode = 'audio';
@@ -258,6 +311,20 @@
       queue.state = 'playing';
       setStatus(reason + ' Reading aloud (online voice)…');
       playAudioNext();
+    }
+
+    // v2: NEVER speak() synchronously inside onend. Some webview
+    // engines drop a speak() issued while the previous utterance's
+    // speaking flag has not cleared, which reads as "one sentence,
+    // then silence". A short timer lets the engine settle; the guard
+    // re-checks state/mode on arrival, and scheduleSpeechNext clears
+    // any pending timer first so at most one continuation is queued.
+    function scheduleSpeechNext() {
+      if (speechNextTimer !== null) { clearT(speechNextTimer); speechNextTimer = null; }
+      speechNextTimer = setT(function () {
+        speechNextTimer = null;
+        if (queue && queue.state === 'playing' && mode === 'speech' && utter) speakNext();
+      }, speechContinueDelayMs);
     }
 
     function speakNext() {
@@ -284,12 +351,13 @@
         if (utter !== myUtter) return;
         if (queue.state !== 'playing') return;
         clearTimers();
+        speechActive = false;
         queue.consecutiveErrors = 0;
         succeededChunks += 1;
         consumedChars += text.length;
         queue.advance();
         setProgress();
-        speakNext();
+        scheduleSpeechNext();
       };
       utter.onerror = function () {
         if (utter !== myUtter) return;
@@ -312,11 +380,19 @@
           return;
         }
         setProgress();
-        speakNext();
+        speechActive = false;
+        scheduleSpeechNext();
       };
+      speechActive = false;
       try {
+        if (synth.paused) { try { synth.resume(); } catch (e2) { /* ignore */ } }
         synth.speak(utter);
+        speechActive = true;
+        // v2 resume nudge: some engines queue the utterance while paused
+        // and never start it until resume() is called after speak().
+        try { synth.resume(); } catch (e2) { /* ignore */ }
       } catch (e) {
+        speechActive = false;
         failToAudio('Speech engine error.');
         return;
       }
@@ -337,19 +413,6 @@
       setProgress();
     }
 
-    // Best-effort preload of the chunk after the one about to play, so the
-    // next chunk starts warm instead of cold. Preload failures are ignored.
-    function preloadNextChunk(idx) {
-      clearPreload();
-      if (!audioFactory || !queue || idx >= queue.chunks.length) return;
-      try {
-        var el = audioFactory();
-        el.preload = 'auto';
-        el.src = audioTiers[0](queue.chunks[idx]);
-        preloadEl = el;
-        preloadSrc = el.src;
-      } catch (e) { preloadEl = null; preloadSrc = ''; }
-    }
     // Delayed re-entry into playAudioNext (per-tier retry, post-skip
     // backoff). The guard inside playAudioNext still applies on arrival.
     function scheduleAudioRetry(ms) {
@@ -359,6 +422,17 @@
         if (queue && queue.state === 'playing' && mode === 'audio') playAudioNext();
       }, ms);
     }
+    // v2: create the single persistent audio element once. Called from
+    // play() (inside the user's click handler) so creation is
+    // gesture-adjacent, and again here as a fallback for paths that
+    // reach audio without play() (e.g. probe-driven failToAudio).
+    function ensureAudioEl() {
+      if (!audioEl && audioFactory) {
+        try { audioEl = audioFactory(); } catch (e) { audioEl = null; }
+      }
+      return audioEl;
+    }
+
     function playAudioNext() {
       if (!queue) return;
       if (queue.index >= queue.chunks.length) {
@@ -380,16 +454,14 @@
       var myAttempt = audioAttempt;
       var src = '';
       try { src = audioTiers[myTier](text); } catch (e) { src = ''; }
-      var myAudio = null;
-      if (src && myTier === 0 && myAttempt === 0 && preloadEl && preloadSrc === src) {
-        // Reuse the preloaded element for this chunk: no second request.
-        myAudio = preloadEl;
-        preloadEl = null;
-        preloadSrc = '';
-      } else {
-        try { myAudio = audioFactory(); } catch (e) { myAudio = null; }
-      }
-      audioEl = myAudio;
+      // v2: ONE persistent element. Never create a fresh element per
+      // chunk: the element that played chunk 1 is the element that plays
+      // chunk 2. Fresh elements are what non-gesture play policies
+      // reject, which is the chunk-1 -> chunk-2 death. Same-chunk
+      // retries (audioAttempt path) now retry on this same element
+      // before tier escalation.
+      ensureAudioEl();
+      var myAudio = audioEl;
       function audioOutcome(ok) {
         if (audioSettled) return;
         audioSettled = true;
@@ -423,7 +495,6 @@
           if (consecutiveAudioFailures >= maxConsecutiveAudioFails) {
             // Sustained outage, not a bad chunk: PAUSE at this chunk so
             // Resume retries it — never kill the book, never fake Finished.
-            clearPreload();
             queue.state = 'paused';
             setStatus('Voice services unreachable — playback paused at chunk ' + (queue.index + 1) + ' of ' + queue.chunks.length + ' (' + skippedChunks + ' chunk' + (skippedChunks === 1 ? '' : 's') + ' skipped). Press Resume to try again from here.');
             setProgress();
@@ -463,9 +534,9 @@
       }
       setStatus('Reading aloud (online voice)…');
       setProgress();
-      // Warm the following chunk only on a fresh first-tier start, so
-      // retries and escalations never churn the preload.
-      if (myTier === 0 && myAttempt === 0) preloadNextChunk(queue.index + 1);
+      // v2: no preload. A preloaded element has never played, so it is
+      // not blessed either — preloading bought nothing for the
+      // transition and cost an extra element per chunk.
     }
 
     // SigTTS voiceAlive probe: voices present = live; voices never arriving
@@ -501,6 +572,11 @@
           queue.state = 'playing';
           if (mode === 'speech') {
             if (synth) synth.resume();
+            // v2: if no utterance is in flight (e.g. Pause was pressed
+            // in the gap between onend and the delayed continuation),
+            // resume must re-drive the queue instead of waiting for an
+            // utterance that will never end.
+            if (!speechActive) scheduleSpeechNext();
             // Resume watchdog: some engines accept resume() and then never
             // finish the utterance. If nothing advances within a full
             // chunk budget, fall back instead of stalling.
@@ -512,17 +588,14 @@
             }, 45000);
           }
           else if (audioEl) {
-            // Restart the current chunk attempt from its tier: the paused
-            // element is orphaned (stays paused, silent) and playAudioNext
-            // builds a fresh element + fresh 14s timer for the same chunk.
-            // Resume grants a fresh failure runway, not the outage counter.
+            // v2: resume on the SAME persistent element for the current
+            // chunk — never a fresh element. If the element is paused
+            // mid-chunk with the same src, playAudioNext resumes it
+            // mid-chunk; otherwise it restarts the chunk. Resume grants
+            // a fresh failure runway, not the outage counter.
             consecutiveAudioFailures = 0;
             audioAttempt = 0;
             audioTier = 0;
-            clearPreload();
-            var pausedEl = audioEl;
-            try { pausedEl.pause(); } catch (e) { /* ignore */ }
-            audioEl = null;
             playAudioNext();
           }
           else {
@@ -531,7 +604,6 @@
             consecutiveAudioFailures = 0;
             audioAttempt = 0;
             audioTier = 0;
-            clearPreload();
             playAudioNext();
           }
           setStatus(mode === 'audio' ? 'Reading aloud (online voice)…' : 'Reading aloud…');
@@ -553,9 +625,14 @@
         skippedChunks = 0;
         consecutiveAudioFailures = 0;
         audioAttempt = 0;
-        clearPreload();
-        queue = makeQueue(chunkText(fullText, MAX_CHUNK));
+        speechActive = false;
+        // v2: speech utterances are section-length (up to 4000 chars),
+        // not 200-char chunks: if the webview rations utterances, one
+        // utterance still delivers many sentences. Audio tiers keep
+        // 200-char chunks (Google cap) via failToAudio's own queue.
+        queue = makeQueue(buildSpeechChunks(collectSections(doc)));
         queue.state = 'playing';
+        ensureAudioEl(); // gesture-adjacent creation (v2)
         if (!synth) { failToAudio('Speech is unavailable in this browser.'); return; }
         var self = this;
         probeVoices(function (alive) {
@@ -570,7 +647,6 @@
           clearTimers();
           if (mode === 'speech') { if (synth) synth.pause(); }
           else if (audioEl) { try { audioEl.pause(); } catch (e) { /* ignore */ } }
-          clearPreload();
           setStatus('Paused.');
         }
       },
@@ -579,8 +655,8 @@
         clearTimers();
         if (synth) { try { synth.cancel(); } catch (e) { /* ignore */ } }
         if (audioEl) { try { audioEl.pause(); } catch (e) { /* ignore */ } }
-        audioEl = null;
-        clearPreload();
+        // v2: keep the persistent element across stop() so the next
+        // session reuses the blessed element instead of a fresh one.
         skippedChunks = 0;
         consecutiveAudioFailures = 0;
         audioAttempt = 0;
@@ -594,18 +670,18 @@
         clearTimers();
         if (synth) { try { synth.cancel(); } catch (e) { /* ignore */ } }
         if (audioEl) { try { audioEl.pause(); } catch (e) { /* ignore */ } }
-        audioEl = null;
+        // v2: keep the persistent element (see stop()).
         queue = null;
         this.play();
       },
       _queue: function () { return queue; },
       _debug: function () {
-        return { mode: mode, state: queue ? queue.state : null, index: queue ? queue.index : null, played: queue ? queue.played : null, endpointConfigured: !!endpoint, tierCount: audioTiers.length, skippedChunks: skippedChunks, consecutiveAudioFailures: consecutiveAudioFailures, preloadActive: !!preloadEl };
+        return { mode: mode, state: queue ? queue.state : null, index: queue ? queue.index : null, played: queue ? queue.played : null, endpointConfigured: !!endpoint, tierCount: audioTiers.length, skippedChunks: skippedChunks, consecutiveAudioFailures: consecutiveAudioFailures, audioPersistent: !!audioEl };
       }
     };
   }
 
-  var api = { chunkText: chunkText, makeQueue: makeQueue, collectBookText: collectBookText, createPlayer: createPlayer, MAX_CHUNK: MAX_CHUNK, MAX_AUDIO_CHUNK: MAX_AUDIO_CHUNK, responsiveVoiceUrl: responsiveVoiceUrl, googleTranslateUrl: googleTranslateUrl, googleApisUrl: googleApisUrl };
+  var api = { chunkText: chunkText, makeQueue: makeQueue, collectBookText: collectBookText, collectSections: collectSections, buildSpeechChunks: buildSpeechChunks, createPlayer: createPlayer, MAX_CHUNK: MAX_CHUNK, MAX_AUDIO_CHUNK: MAX_AUDIO_CHUNK, MAX_SPEECH_CHUNK: MAX_SPEECH_CHUNK, responsiveVoiceUrl: responsiveVoiceUrl, googleTranslateUrl: googleTranslateUrl, googleApisUrl: googleApisUrl };
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
   global.LJAudio2 = api;
   // Back-compat alias: pages already load this file as the read-aloud player.
