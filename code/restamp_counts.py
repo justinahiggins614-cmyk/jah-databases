@@ -15,11 +15,17 @@ What it stamps, all from n = len(manifest["databases"]):
        - meta[name=description] "JAH Databases: NNN connected databases,
          NNN boundless generators, NNN archive-aware AIs."
 
-  4. AUDIT: every db/*/index.html must wire the live archive count via
-     id="stCount" filled from archiveIdx.length (JS reads the record index
-     at page load, so per-page record counts are always current by
+  4. AUDIT: every HUB catalog page (db/<slug>/index.html for a slug in
+     the manifest) must wire the live archive count via id="stCount"
+     filled from archiveIdx.length (JS reads the record index at page
+     load, so per-page record counts are always current by
      construction). Any page missing that wiring is reported and the
-     script exits 1.
+     script exits 1. Scoped to manifest slugs on purpose: db/ also
+     holds per-artifact website pages (Wave 1: db/marijuana-supplies/,
+     db/marijuana-supplies-signature/) and set/mix pages
+     (db/marijuana-supplies-set/) that are NOT hub catalog pages and
+     carry their own counts — they are not audited here. A live
+     database whose hub page loses its wiring still fails.
 
   7. README.md + docs/AI_ACCESS.md count stamping: the same three counters
      (connected databases, boundless generators, archive-aware AIs) and the
@@ -123,10 +129,16 @@ def main():
     else:
         changed.append("index.html static fallbacks already at %d" % n)
 
-    # 4: audit — every db page must have the live-count wiring
-    pages = sorted(glob.glob(os.path.join(ROOT, "db", "*", "index.html")))
+    # 4: audit — every HUB catalog page must have the live-count wiring.
+    # Scoped to manifest slugs: db/ also holds per-artifact website pages
+    # and set/mix pages that are not hub catalog pages and carry their own
+    # counts (see module docstring step 4). A live database whose hub page
+    # loses its wiring still fails loudly here.
+    slugs = {d.get("slug") for d in dbs if d.get("slug")}
+    pages = sorted(p for p in glob.glob(os.path.join(ROOT, "db", "*", "index.html"))
+                   if os.path.basename(os.path.dirname(p)) in slugs)
     missing = [p for p in pages if 'id="stCount"' not in open(p, encoding="utf-8").read()]
-    changed.append("db pages with live-count wiring: %d/%d" % (len(pages) - len(missing), len(pages)))
+    changed.append("db hub pages with live-count wiring: %d/%d" % (len(pages) - len(missing), len(pages)))
     if missing:
         print(
             "FATAL: %d db pages lack the id=\"stCount\" live-count wiring:" % len(missing),
