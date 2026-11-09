@@ -65,6 +65,10 @@
 .card h3{margin:0 0 4px;font-size:1em}
 .card p{margin:0;color:var(--dim);font-size:.85em}
 .card .st{font-size:.75em;margin-top:6px}
+#grid details{grid-column:1/-1}
+#grid details summary{cursor:pointer;font-weight:700;padding:10px 12px;background:var(--panel);border:1px solid var(--line);border-radius:12px}
+#grid details summary:hover{border-color:var(--acc)}
+.letter-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px;margin-top:12px}
 .st.live{color:var(--ok)}.st.building{color:#ffb020}
 .foot{margin-top:26px;padding-top:12px;border-top:1px solid var(--line);color:var(--dim);font-size:.85em;text-align:center}
 </style>
@@ -122,17 +126,52 @@
 var $=function(id){return document.getElementById(id);};
 fetch('data/manifest.json').then(function(r){return r.json();}).then(function(m){
   var grid=$('grid');
+  function cardFor(d){
+    var a=document.createElement('a');
+    a.className='card'; a.href='db/'+d.slug+'/';
+    a.innerHTML='<img loading="lazy" src="'+JAHDB.emblemSVG(d.name,(d.id_prefix||d.slug||'').replace(/-/g,''))+'" alt="">'+
+      '<div><h3>'+d.name+'</h3><p>'+(d.tagline||'')+'</p>'+
+      '<div class="st '+(d.status==='live'?'live':'building')+'">'+(d.status==='live'?'● LIVE':'◐ BUILDING')+' · '+(d.record_kind||'record')+'s</div></div>';
+    return a;
+  }
+  function letterOf(name){
+    var c=(name||'').trim().charAt(0).toUpperCase();
+    return (c>='A' && c<='Z') ? c : '#';
+  }
   function render(q){
     grid.innerHTML='';
+    if(q){
+      /* Search: flat filtered list, as before — only matches are in the DOM. */
+      m.databases.forEach(function(d){
+        if(d.internal) return; /* internal system databases stay hidden */
+        if((d.name+' '+d.tagline+' '+d.record_kind).toLowerCase().indexOf(q)<0) return;
+        grid.appendChild(cardFor(d));
+      });
+      return;
+    }
+    /* Browse: one collapsed drop-down per first letter; a letter's cards are built only when it is opened. */
+    var groups={};
     m.databases.forEach(function(d){
-      if(d.internal) return; /* internal system databases stay hidden */
-      if(q && (d.name+' '+d.tagline+' '+d.record_kind).toLowerCase().indexOf(q)<0) return;
-      var a=document.createElement('a');
-      a.className='card'; a.href='db/'+d.slug+'/';
-      a.innerHTML='<img loading="lazy" src="'+JAHDB.emblemSVG(d.name,(d.id_prefix||d.slug||'').replace(/-/g,''))+'" alt="">'+
-        '<div><h3>'+d.name+'</h3><p>'+(d.tagline||'')+'</p>'+
-        '<div class="st '+(d.status==='live'?'live':'building')+'">'+(d.status==='live'?'● LIVE':'◐ BUILDING')+' · '+(d.record_kind||'record')+'s</div></div>';
-      grid.appendChild(a);
+      if(d.internal) return;
+      var L=letterOf(d.name);
+      (groups[L]=groups[L]||[]).push(d);
+    });
+    Object.keys(groups).sort().forEach(function(L){
+      var list=groups[L];
+      var det=document.createElement('details');
+      det.className='letter';
+      var sum=document.createElement('summary');
+      sum.textContent=L+' — '+list.length+' database'+(list.length===1?'':'s');
+      var body=document.createElement('div');
+      body.className='letter-grid';
+      det.appendChild(sum);
+      det.appendChild(body);
+      det.addEventListener('toggle',function(){
+        if(!det.open || det.dataset.loaded) return;
+        det.dataset.loaded='1';
+        list.forEach(function(d){ body.appendChild(cardFor(d)); });
+      });
+      grid.appendChild(det);
     });
   }
   render('');
