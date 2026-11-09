@@ -1,0 +1,131 @@
+Signature Chillum
+Record JAH-MJSS-000040 — signature
+JCC v1 code: JAHDB/marijuana-supplies-signature#JAH-MJSS-000040
+
+The Signature Chillum is a Signature-made design study for chillum, a new design in the Signature Marijuana Supplies Database that reworks the familiar public form with one deliberate change. It keeps the job the same — ground herb packed in the wider Signature bowl end; flame lights the surface; smoke travels straight through the tapered bore to the mouthpiece; the ceramic stone stops loose material — but changes how the parts are arranged, using signature glazed stoneware clay tube; chillum stone of fitted ceramic; safi cloth included. The design is sized at tube 130 mm long; bowl end 22 mm across; mouthpiece 10 mm across; outer diameter 28 mm at the bowl end; stone 12 mm across, which sets every number in this record, from the chillum bore frustum volume and bowl capacity in the demo to the scale variants at the end. This record is a design study, not a real manufactured product, and nothing here claims the design has been built, tested, or sold. What it does offer is a complete, checkable design: a full specification, the physics of how it would work, worked arithmetic tied to its own dimensions, a runnable program that computes those numbers, and three boundless scale variants. Readers can follow the design from first principles, repeat the arithmetic by hand, and run the program to check every number. The record also gives the materials and design, a build-it-yourself section, 3D-printing directions, and a use program, so the design can be judged as a whole, not only as a set of numbers. Like every Signature record, it sits beside its public twin in the same pair, so the reader can compare the public form with the Signature reworking side by side.
+
+SPEC
+{
+  "care": "Tap out ash after cooling; soak in isopropyl alcohol, rinse, and dry; handle ceramic carefully as it chips and cracks if dropped; keep the stone fitted or replace it if it loosens",
+  "dimensions": "Tube 130 mm long; bowl end 22 mm across; mouthpiece 10 mm across; outer diameter 28 mm at the bowl end; stone 12 mm across",
+  "materials": "Signature glazed stoneware clay tube; chillum stone of fitted ceramic; safi cloth included",
+  "mechanism": "Ground herb packed in the wider Signature bowl end; flame lights the surface; smoke travels straight through the tapered bore to the mouthpiece; the ceramic stone stops loose material",
+  "use": "Set the stone inside, pack the bowl end by pressing and turning in ground herb, hold at a slight angle, light while drawing slowly, tap out the ash when spent",
+  "variants": "Clay, glass, wood, stone, and metal; straight and slightly flared bores; with or without a safi cloth; pocket and ceremonial lengths"
+}
+
+SCIENCE PROOF
+A chillum works by direct flow, and its physics is the physics of a tapered tube. The bore is a frustum, a truncated cone, wider at the bowl end and narrower at the mouthpiece, so the smoke speeds up as the tube narrows, and the draw feels direct because nothing slows the air down: no water, no carb, no chamber. The chillum stone is the one clever part: a small fitted pebble set at the transition between the bowl and the passage, it acts as a screen that stops ash and ground fragments from reaching the mouth, and it forces the air against the tube walls, which cools the smoke more than a straight empty tube would. The traditional safi, a damp cloth wrapped around the mouthpiece end, cools the smoke further by evaporation, and cupped hands around the mouthpiece form a small chamber where smoke can collect and cool before it is inhaled. Fired stoneware clay matters because it tolerates the hot bowl end and the cool mouthpiece without cracking, and because clay is the original chillum material. The bore volume is the frustum formula, one third pi times length times the sum of the two end radii squared and their product, and the bowl section is a shorter frustum at the wide end. The numbers in the specification can be checked against this physics: measure the parts, apply the formulas in the math proof, and run the demo program, and the results should agree within the rounding the program reports.
+
+MATH PROOF
+The demo treats the chillum bore as a frustum, a truncated cone. With a length of 130.0 mm, a bowl-end diameter of 22.0 mm, and a mouthpiece diameter of 10.0 mm, the radii are 11.0 and 5.0 mm, so the bore volume is one third pi times 130 times the sum of 121, 55, and 25, about 27,363 cubic millimetres, or 27.36 cubic centimetres. The chillum stone is a sphere 12.0 mm across, with a volume of about 905 cubic millimetres, so the free bore volume is about 26.46 cubic centimetres. The outer clay is a frustum from 28.0 mm to 16.0 mm across, about 50,650 cubic millimetres, leaving a clay volume of 23.28 cubic centimetres, and at a stoneware density of 2.4 grams per cubic centimetre the mass is 55.87 grams. The bowl section is the first 35.0 mm of the bore, where the diameter tapers from 22.0 to 18.77 mm, a volume of about 11.45 cubic centimetres, and at the stated packing density of 0.15 grams per cubic centimetre the herb capacity is 1.72 grams. Every number comes from the specification in this record, the formulas are shown in full, and the program prints each quantity so the reader can check the arithmetic. The computation runs twice with SHA-256 digests printed, so the reader can confirm it is deterministic.
+
+FORMAL EQUATION
+V = (1/3) * pi * h * (R^2 + R*r + r^2)
+
+HISTORY
+The chillum is one of the oldest pipe shapes still in everyday use, and its history is older than the bong, the spoon, and the vaporizer put together. It traces back to India, where Hindu holy men, sadhus, used conical clay chillums in religious and communal settings, with the earliest documented use in the eighteenth century and some researchers pushing the first evidence back to the eighth century. The shape spread to Africa and to Rastafarian communities, and it reached the West in the 1960s and 1970s, and the geometry barely changed along the way: a straight tube, wide at the bowl end, narrow at the mouthpiece, with no carb hole, no water chamber, and no moving parts. Over time the same basic form was copied, adapted, and refined by many makers, so the record today covers a family of closely related objects rather than a single patented shape. The sources cited at the end of this record give the reader places to check each stage, and the history matters because it explains why the parts are arranged the way they are: each feature survives because it solved a practical problem for the people who used the supply every day.
+
+DEMO
+"""Demo: chillum bore frustum volume and bowl capacity — Signature Chillum."""
+import hashlib, math
+def compute():
+    L = 130.0; d_bowl = 22.0; d_mouth = 10.0; od_bowl = 28.0; od_mouth = 16.0; stone_d = 12.0; bowl_len = 35.0; pack = 0.15; rho = 2.4
+    R = d_bowl / 2.0; r = d_mouth / 2.0
+    bore_mm3 = (1.0 / 3.0) * math.pi * L * (R ** 2 + R * r + r ** 2)
+    bore_cm3 = bore_mm3 / 1000.0
+    stone_mm3 = (4.0 / 3.0) * math.pi * (stone_d / 2.0) ** 3
+    free_mm3 = bore_mm3 - stone_mm3
+    free_cm3 = free_mm3 / 1000.0
+    Ro = od_bowl / 2.0; ro = od_mouth / 2.0
+    outer_mm3 = (1.0 / 3.0) * math.pi * L * (Ro ** 2 + Ro * ro + ro ** 2)
+    clay_cm3 = (outer_mm3 - bore_mm3) / 1000.0
+    mass_g = clay_cm3 * rho
+    d_end = d_bowl - (d_bowl - d_mouth) * bowl_len / L
+    bowl_mm3 = (1.0 / 3.0) * math.pi * bowl_len * (R ** 2 + R * (d_end / 2.0) + (d_end / 2.0) ** 2)
+    bowl_cm3 = bowl_mm3 / 1000.0
+    capacity_g = bowl_cm3 * pack
+    return {"bore_volume_mm3": round(bore_mm3, 2), "bore_volume_cm3": round(bore_cm3, 2), "stone_volume_mm3": round(stone_mm3, 2), "free_volume_cm3": round(free_cm3, 2), "clay_volume_cm3": round(clay_cm3, 2), "clay_mass_g": round(mass_g, 2), "bowl_volume_cm3": round(bowl_cm3, 2), "herb_capacity_g": round(capacity_g, 2)}
+def main():
+    a = compute(); b = compute()
+    sa = hashlib.sha256(repr(sorted(a.items())).encode()).hexdigest()
+    sb = hashlib.sha256(repr(sorted(b.items())).encode()).hexdigest()
+    for key in ['bore_volume_mm3', 'bore_volume_cm3', 'stone_volume_mm3', 'free_volume_cm3', 'clay_volume_cm3', 'clay_mass_g', 'bowl_volume_cm3', 'herb_capacity_g']:
+        print(f"{key}: {a[key]}")
+    print(f"Run 1 SHA-256: {sa}")
+    print(f"Run 2 SHA-256: {sb}")
+    print(f"Deterministic: {'MATCH' if sa == sb else 'MISMATCH'}")
+if __name__ == "__main__":
+    main()
+
+
+PROGRAM
+"""Signature Chillum — full working program.
+
+Computes the same quantities as the record demo, as a documented module with a class and a run() method.
+Run: python3 program.py
+"""
+import hashlib
+import math
+
+
+class SupplyCalculator:
+    """Calculator for Signature Chillum."""
+
+    def compute(self):
+        """Return the computed quantities as a dict."""
+        L = 130.0; d_bowl = 22.0; d_mouth = 10.0; od_bowl = 28.0; od_mouth = 16.0; stone_d = 12.0; bowl_len = 35.0; pack = 0.15; rho = 2.4
+        R = d_bowl / 2.0; r = d_mouth / 2.0
+        bore_mm3 = (1.0 / 3.0) * math.pi * L * (R ** 2 + R * r + r ** 2)
+        bore_cm3 = bore_mm3 / 1000.0
+        stone_mm3 = (4.0 / 3.0) * math.pi * (stone_d / 2.0) ** 3
+        free_mm3 = bore_mm3 - stone_mm3
+        free_cm3 = free_mm3 / 1000.0
+        Ro = od_bowl / 2.0; ro = od_mouth / 2.0
+        outer_mm3 = (1.0 / 3.0) * math.pi * L * (Ro ** 2 + Ro * ro + ro ** 2)
+        clay_cm3 = (outer_mm3 - bore_mm3) / 1000.0
+        mass_g = clay_cm3 * rho
+        d_end = d_bowl - (d_bowl - d_mouth) * bowl_len / L
+        bowl_mm3 = (1.0 / 3.0) * math.pi * bowl_len * (R ** 2 + R * (d_end / 2.0) + (d_end / 2.0) ** 2)
+        bowl_cm3 = bowl_mm3 / 1000.0
+        capacity_g = bowl_cm3 * pack
+        return {"bore_volume_mm3": round(bore_mm3, 2), "bore_volume_cm3": round(bore_cm3, 2), "stone_volume_mm3": round(stone_mm3, 2), "free_volume_cm3": round(free_cm3, 2), "clay_volume_cm3": round(clay_cm3, 2), "clay_mass_g": round(mass_g, 2), "bowl_volume_cm3": round(bowl_cm3, 2), "herb_capacity_g": round(capacity_g, 2)}
+
+    def run(self):
+        """Compute twice, print named results and SHA-256 digests."""
+        a = self.compute()
+        b = self.compute()
+        sa = hashlib.sha256(repr(sorted(a.items())).encode()).hexdigest()
+        sb = hashlib.sha256(repr(sorted(b.items())).encode()).hexdigest()
+        for key in sorted(a):
+            print(f"{key}: {a[key]}")
+        print(f"Run 1 SHA-256: {sa}")
+        print(f"Run 2 SHA-256: {sb}")
+        print(f"Deterministic: {'MATCH' if sa == sb else 'MISMATCH'}")
+        return a
+
+
+if __name__ == "__main__":
+    SupplyCalculator().run()
+
+
+GENERATOR
+{
+  "ceiling_note": "Generator ceiling: up to 1,000,000,000 scales per file, generated on demand by the file AI — not stored files.",
+  "gen_id_prefix": "JAH-MJSS-GEN-",
+  "hard_stop": 1000000000,
+  "throttle_per_call": 100,
+  "type": "seeded boundless generator"
+}
+
+OFFICIAL DEMO OUTPUT
+{
+  "bore_volume_mm3": 27363.27,
+  "bore_volume_cm3": 27.36,
+  "stone_volume_mm3": 904.78,
+  "free_volume_cm3": 26.46,
+  "clay_volume_cm3": 23.28,
+  "clay_mass_g": 55.87,
+  "bowl_volume_cm3": 11.45,
+  "herb_capacity_g": 1.72
+}

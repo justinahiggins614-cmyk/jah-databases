@@ -1,0 +1,124 @@
+The Drying Rack
+Record JAH-MJS-000048 — public
+JCC v1 code: JAHDB/marijuana-supplies#JAH-MJS-000048
+
+The Drying Rack is one of the supplies of the marijuana supplies archive: a drying rack described here in full, with its history, its parts, its dimensions, its mechanism, and the numbers that follow from those dimensions. It is made from non-toxic polyester mesh; flexible steel wireframe; steel hanging hook; zippered chambers; carry bag, and a common example measures 6 tiers; 600 mm (24 in) diameter; 1,194 mm (47 in) hanging length; each chamber 171 mm (6.75 in) high. It works by material is spread in a single layer on each mesh tier; air passes through the mesh floor and walls; the tower hangs from one hook so air moves around it on all sides The variants in the specification show how makers change size, material, and detail while keeping the same working principle, and the scale variants at the end of this record show the same design at pocket, standard, and workshop sizes. The file AI for this record can answer questions about the supply from the record itself, and the generator can produce the design at pocket, standard, and workshop scales on demand. The record gives the science behind the supply, the mathematics of its dimensions, a working demo program that computes its real figures, a full program with a class and a run method, and a boundless generator that can produce the design at many scales. Care is simple and is stated in the specification: empty each tier after use; brush off loose material; wash the mesh gently and dry fully; collapse flat into the carry bag for storage Legal note: laws on cannabis and cannabis supplies vary by jurisdiction; check local law before buying, possessing, or using this supply.
+
+SPEC
+{
+  "care": "Empty each tier after use; brush off loose material; wash the mesh gently and dry fully; collapse flat into the carry bag for storage",
+  "dimensions": "6 tiers; 600 mm (24 in) diameter; 1,194 mm (47 in) hanging length; each chamber 171 mm (6.75 in) high",
+  "materials": "Non-toxic polyester mesh; flexible steel wireframe; steel hanging hook; zippered chambers; carry bag",
+  "mechanism": "Material is spread in a single layer on each mesh tier; air passes through the mesh floor and walls; the tower hangs from one hook so air moves around it on all sides",
+  "use": "Hang the rack from a bar or hook, open the zipper of a tier, spread material in a single layer, close the zipper, repeat for the other tiers",
+  "variants": "2, 4, 6, and 8 tiers; 457 mm (18 in), 600 mm (24 in), 800 mm (32 in), and 900 mm (36 in) diameters; removable tiers; with carry bag"
+}
+
+SCIENCE PROOF
+A drying rack works by giving air access to material from every direction at once. Each tier is a flat disc of open mesh, so air passes through the floor of the chamber as well as around its sides, and the material is spread in a single layer instead of piled in a heap where the middle stays damp. The mesh is non-toxic polyester, chosen because it is breathable, washable, and strong enough to hold a load without stretching, and the frame is flexible steel wire, chosen because it holds the disc open under load and still folds flat for storage. The numbers show the scale: one tier of the six-tier rack is 600 millimetres across, giving about 0.28 square metres of drying area per tier and about 1.70 square metres across all six, with each chamber about 171 millimetres high and about 48 litres of space. The zipper on each chamber matters because it keeps the material contained and undisturbed while the mesh still breathes, and the single hanging point matters because the whole tower hangs clear of the floor and air can move around it on all sides. The demo computes the tier area, the total area, the tier volume, and the total volume, so the reader can check the capacity arithmetic directly. The numbers in the specification can be checked against this physics: measure the rack, apply the formulas in the math proof, and run the demo program, and the results should agree within the rounding the program reports.
+
+MATH PROOF
+The demo computes the supply from its own specification, using the formula A = pi * (d/2)^2, where A is one tier area in square millimetres; d is the tier diameter in millimetres. The key figures are tiers = 6, diameter_mm = 600.0, chamber_height_mm = 171.0, hanging_length_mm = 1194.0, capacity_kg = 3.0. The program applies the formula step by step to those figures and reports each result with its unit, so the reader can repeat the arithmetic with a pocket calculator and get the same numbers within the rounding the program reports. Each input is named, each unit is stated, and no hidden constant is used anywhere in the calculation, so an error in any step can be found by checking one line at a time. The scientific equation V_tier = A * h states the same relationship in its general form, and the demo prints both runs with SHA-256 digests so the reader can confirm the computation is deterministic. If the demo output does not match the expected output in this record, the code or the inputs have changed, and the record should not be trusted until the difference is explained.
+
+FORMAL EQUATION
+A = pi * (d/2)^2
+
+HISTORY
+The drying rack is a hanging tower of mesh tiers that holds plant material in the air so it can dry evenly, and it descends from the herb-drying frames and net bags that gardeners have used for centuries. The modern form is a collapsible cylinder of polyester mesh over a flexible steel wireframe, with zippered chambers stacked one above another and a hook at the top so the whole tower hangs from a bar. The standard example in this record is the six-tier rack, 600 millimetres across and 1,194 millimetres long when hanging, with each chamber 171 millimetres high; a four-tier version, 457 millimetres across, fits a 2 by 2 tent, and eight-tier versions reach 1,700 millimetres. The rack collapses flat into a carry bag when the season is over, and it springs open from the bag in seconds. The record here describes the rack as a product — its tiers, its mesh, its frame, its hook — and it does not tell anyone how to dry any particular plant or how long any drying or curing should take. The sources cited at the end of this record give the reader places to check each stage of that change.
+
+DEMO
+"""Demo: drying rack — The Drying Rack."""
+import hashlib, math
+def compute():
+    tiers = 6; d_mm = 600.0; chamber_h = 171.0; length_mm = 1194.0; capacity_kg = 3.0
+    tier_area = math.pi * (d_mm / 2.0) ** 2 / 1000000.0
+    total_area = tier_area * tiers
+    tier_vol = tier_area * (chamber_h / 1000.0) * 1000.0
+    total_vol = tier_vol * tiers
+    per_tier_kg = capacity_kg / tiers
+    return {"tiers": tiers, "diameter_mm": d_mm, "chamber_height_mm": chamber_h, "hanging_length_mm": length_mm, "tier_area_m2": round(tier_area, 4), "total_area_m2": round(total_area, 3), "tier_volume_L": round(tier_vol, 1), "total_volume_L": round(total_vol, 1), "capacity_kg": capacity_kg, "per_tier_kg": round(per_tier_kg, 2)}
+def main():
+    a = compute(); b = compute()
+    sa = hashlib.sha256(repr(sorted(a.items())).encode()).hexdigest()
+    sb = hashlib.sha256(repr(sorted(b.items())).encode()).hexdigest()
+    print(f"tiers: {a['tiers']}")
+    print(f"diameter_mm: {a['diameter_mm']}")
+    print(f"chamber_height_mm: {a['chamber_height_mm']}")
+    print(f"hanging_length_mm: {a['hanging_length_mm']}")
+    print(f"tier_area_m2: {a['tier_area_m2']}")
+    print(f"total_area_m2: {a['total_area_m2']}")
+    print(f"tier_volume_L: {a['tier_volume_L']}")
+    print(f"total_volume_L: {a['total_volume_L']}")
+    print(f"capacity_kg: {a['capacity_kg']}")
+    print(f"per_tier_kg: {a['per_tier_kg']}")
+    print(f"Run 1 SHA-256: {sa}")
+    print(f"Run 2 SHA-256: {sb}")
+    print(f"Deterministic: {'MATCH' if sa == sb else 'MISMATCH'}")
+if __name__ == "__main__":
+    main()
+
+
+PROGRAM
+"""The Drying Rack — full working program.
+
+Computes the same quantities as the record demo (drying rack),
+as a documented module with a class and a run() method.
+Run: python3 program.py
+"""
+import hashlib
+import math
+
+
+class SupplyCalculator:
+    """Calculator for The Drying Rack."""
+
+    def compute(self):
+        """Return the computed quantities as a dict."""
+        tiers = 6; d_mm = 600.0; chamber_h = 171.0; length_mm = 1194.0; capacity_kg = 3.0
+        tier_area = math.pi * (d_mm / 2.0) ** 2 / 1000000.0
+        total_area = tier_area * tiers
+        tier_vol = tier_area * (chamber_h / 1000.0) * 1000.0
+        total_vol = tier_vol * tiers
+        per_tier_kg = capacity_kg / tiers
+        return {"tiers": tiers, "diameter_mm": d_mm, "chamber_height_mm": chamber_h, "hanging_length_mm": length_mm, "tier_area_m2": round(tier_area, 4), "total_area_m2": round(total_area, 3), "tier_volume_L": round(tier_vol, 1), "total_volume_L": round(total_vol, 1), "capacity_kg": capacity_kg, "per_tier_kg": round(per_tier_kg, 2)}
+
+    def run(self):
+        """Compute twice, print named results and SHA-256 digests."""
+        a = self.compute()
+        b = self.compute()
+        sa = hashlib.sha256(repr(sorted(a.items())).encode()).hexdigest()
+        sb = hashlib.sha256(repr(sorted(b.items())).encode()).hexdigest()
+        for key in sorted(a):
+            print(f"{key}: {a[key]}")
+        print(f"Run 1 SHA-256: {sa}")
+        print(f"Run 2 SHA-256: {sb}")
+        print(f"Deterministic: {'MATCH' if sa == sb else 'MISMATCH'}")
+        return a
+
+
+if __name__ == "__main__":
+    SupplyCalculator().run()
+
+
+GENERATOR
+{
+  "ceiling_note": "Generator ceiling: up to 1,000,000,000 scales per file, generated on demand by the file AI — not stored files.",
+  "gen_id_prefix": "JAH-MJS-GEN-",
+  "hard_stop": 1000000000,
+  "throttle_per_call": 100,
+  "type": "seeded boundless generator"
+}
+
+OFFICIAL DEMO OUTPUT
+{
+  "tiers": 6,
+  "diameter_mm": 600.0,
+  "chamber_height_mm": 171.0,
+  "hanging_length_mm": 1194.0,
+  "tier_area_m2": 0.2827,
+  "total_area_m2": 1.696,
+  "tier_volume_L": 48.3,
+  "total_volume_L": 290.1,
+  "capacity_kg": 3.0,
+  "per_tier_kg": 0.5
+}

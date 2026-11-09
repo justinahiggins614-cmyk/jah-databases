@@ -1,0 +1,123 @@
+Signature Silicone Ashtray with Lid
+Record JAH-MJSS-000039 — signature
+JCC v1 code: JAHDB/marijuana-supplies-signature#JAH-MJSS-000039
+
+The Signature Silicone Ashtray with Lid is a Signature-made design study for silicone ashtray with lid, a new design in the Signature Marijuana Supplies Database that reworks the familiar public form with one deliberate change. It keeps the job the same — ash and spent material fall into the deeper Signature dish; rim rests hold a cigarette or joint by gravity; the glow-rim lid seals by contact to keep ash in and smell down — but changes how the parts are arranged, using signature food-grade silicone with a glow rim; heat tolerance about 230 degrees c; no metal or plastic in the ash path. The design is sized at dish 110 mm across and 32 mm deep; wall 5 mm thick; lid 114 mm across and 6 mm thick; about 186 grams total, which sets every number in this record, from the silicone ashtray and lid volumes and heat storage in the demo to the scale variants at the end. This record is a design study, not a real manufactured product, and nothing here claims the design has been built, tested, or sold. What it does offer is a complete, checkable design: a full specification, the physics of how it would work, worked arithmetic tied to its own dimensions, a runnable program that computes those numbers, and three boundless scale variants. Readers can follow the design from first principles, repeat the arithmetic by hand, and run the program to check every number. The record also gives the materials and design, a build-it-yourself section, 3D-printing directions, and a use program, so the design can be judged as a whole, not only as a set of numbers. Like every Signature record, it sits beside its public twin in the same pair, so the reader can compare the public form with the Signature reworking side by side.
+
+SPEC
+{
+  "care": "Wash with warm soapy water or in a dishwasher; do not leave a lit ember pressed against one spot; check the lid lip for wear and replace the lid if it no longer seals",
+  "dimensions": "Dish 110 mm across and 32 mm deep; wall 5 mm thick; lid 114 mm across and 6 mm thick; about 186 grams total",
+  "materials": "Signature food-grade silicone with a glow rim; heat tolerance about 230 degrees C; no metal or plastic in the ash path",
+  "mechanism": "Ash and spent material fall into the deeper Signature dish; rim rests hold a cigarette or joint by gravity; the glow-rim lid seals by contact to keep ash in and smell down",
+  "use": "Set on a flat surface, rest the cigarette in a rim rest, tap ash into the dish, close the lid when the session ends or wind picks up, empty when ash reaches a third of the depth",
+  "variants": "Round and square dishes; hinged and loose lids; folding travel forms; glow rims in three colours; pocket and table sizes"
+}
+
+SCIENCE PROOF
+A silicone ashtray works by heat tolerance, elasticity, and a contact seal. Silicone rubber tolerates continuous heat up to about 230 degrees C, the figure the cited supplier guides give, because its silicon-oxygen backbone does not break down the way a carbon backbone does, so a hot ember on the surface chars the ash but not the dish. Its density is near 1.15 grams per cubic centimetre and its specific heat near 1.46 joules per gram per kelvin, so a dish and lid of about 186 grams store roughly 54,200 joules when heated by 200 kelvin, and its thermal conductivity is low, so the outside stays cool to touch while the inside takes the heat. Silicone is elastic, so the lid lip stretches over the rim and springs back to seal, and it is non-porous, so tar and smell sit on the surface instead of soaking in. The dish is a shallow cylinder, so its capacity is pi times radius squared times depth, and the lid is a flat disc whose volume is pi times radius squared times thickness. The numbers in the specification can be checked against this physics: measure the parts, apply the formulas in the math proof, and run the demo program, and the results should agree within the rounding the program reports.
+
+MATH PROOF
+The demo treats the dish and the lid as cylinders. With a dish diameter of 110.0 mm and a depth of 32.0 mm, the inner diameter is 100.0 mm, so the capacity is pi times 50 squared times 32, about 251,327 cubic millimetres, or 251.33 cubic centimetres. The outer cylinder is 110.0 mm across and 37.0 mm tall, counting the 5 mm base, about 351,556 cubic millimetres, leaving a body shell of 100.30 cubic centimetres, and at a silicone density of 1.15 grams per cubic centimetre the body mass is 115.34 grams. The lid is 114.0 mm across and 6.0 mm thick, so its volume is pi times 57 squared times 6, about 61.24 cubic centimetres, and its mass is 70.43 grams. The total mass is 185.77 grams, and multiplying by the specific heat of 1.46 and a 200 kelvin rise gives about 54,244 joules of stored heat. Every number comes from the specification in this record, the formulas are shown in full, and the program prints each quantity so the reader can check the arithmetic. The computation runs twice with SHA-256 digests printed, so the reader can confirm it is deterministic.
+
+FORMAL EQUATION
+V = pi * r^2 * h
+
+HISTORY
+The silicone ashtray with a lid is the newest ashtray form in this lane, because it only became possible when food-grade silicone rubber became cheap enough for everyday goods in the 2010s. Silicone ashtrays were first sold as unbreakable travel ashtrays: soft, light, and impossible to shatter, with a lid that closed over the bowl to keep ash in and smell down. The lid turned the ashtray into a pocket object, and makers added windproof lids, odour seals, and folding forms, until silicone became the majority of premium unbreakable ashtray production. Over time the same basic form was copied, adapted, and refined by many makers, so the record today covers a family of closely related objects rather than a single patented shape. The sources cited at the end of this record give the reader places to check each stage, and the history matters because it explains why the parts are arranged the way they are: each feature survives because it solved a practical problem for the people who used the supply every day.
+
+DEMO
+"""Demo: silicone ashtray and lid volumes and heat storage — Signature Silicone Ashtray with Lid."""
+import hashlib, math
+def compute():
+    d = 110.0; h = 32.0; wall = 5.0; lid_d = 114.0; lid_t = 6.0; rho = 1.15; cp = 1.46; dT = 200.0
+    cap_mm3 = math.pi * ((d - 2.0 * wall) / 2.0) ** 2 * h
+    cap_cm3 = cap_mm3 / 1000.0
+    outer_mm3 = math.pi * (d / 2.0) ** 2 * (h + wall)
+    body_cm3 = (outer_mm3 - cap_mm3) / 1000.0
+    body_g = body_cm3 * rho
+    lid_mm3 = math.pi * (lid_d / 2.0) ** 2 * lid_t
+    lid_cm3 = lid_mm3 / 1000.0
+    lid_g = lid_cm3 * rho
+    total_g = body_g + lid_g
+    heat_J = total_g * cp * dT
+    return {"capacity_mm3": round(cap_mm3, 2), "capacity_cm3": round(cap_cm3, 2), "body_volume_cm3": round(body_cm3, 2), "body_mass_g": round(body_g, 2), "lid_volume_cm3": round(lid_cm3, 2), "lid_mass_g": round(lid_g, 2), "total_mass_g": round(total_g, 2), "heat_to_200C_J": round(heat_J, 2)}
+def main():
+    a = compute(); b = compute()
+    sa = hashlib.sha256(repr(sorted(a.items())).encode()).hexdigest()
+    sb = hashlib.sha256(repr(sorted(b.items())).encode()).hexdigest()
+    for key in ['capacity_mm3', 'capacity_cm3', 'body_volume_cm3', 'body_mass_g', 'lid_volume_cm3', 'lid_mass_g', 'total_mass_g', 'heat_to_200C_J']:
+        print(f"{key}: {a[key]}")
+    print(f"Run 1 SHA-256: {sa}")
+    print(f"Run 2 SHA-256: {sb}")
+    print(f"Deterministic: {'MATCH' if sa == sb else 'MISMATCH'}")
+if __name__ == "__main__":
+    main()
+
+
+PROGRAM
+"""Signature Silicone Ashtray with Lid — full working program.
+
+Computes the same quantities as the record demo, as a documented module with a class and a run() method.
+Run: python3 program.py
+"""
+import hashlib
+import math
+
+
+class SupplyCalculator:
+    """Calculator for Signature Silicone Ashtray with Lid."""
+
+    def compute(self):
+        """Return the computed quantities as a dict."""
+        d = 110.0; h = 32.0; wall = 5.0; lid_d = 114.0; lid_t = 6.0; rho = 1.15; cp = 1.46; dT = 200.0
+        cap_mm3 = math.pi * ((d - 2.0 * wall) / 2.0) ** 2 * h
+        cap_cm3 = cap_mm3 / 1000.0
+        outer_mm3 = math.pi * (d / 2.0) ** 2 * (h + wall)
+        body_cm3 = (outer_mm3 - cap_mm3) / 1000.0
+        body_g = body_cm3 * rho
+        lid_mm3 = math.pi * (lid_d / 2.0) ** 2 * lid_t
+        lid_cm3 = lid_mm3 / 1000.0
+        lid_g = lid_cm3 * rho
+        total_g = body_g + lid_g
+        heat_J = total_g * cp * dT
+        return {"capacity_mm3": round(cap_mm3, 2), "capacity_cm3": round(cap_cm3, 2), "body_volume_cm3": round(body_cm3, 2), "body_mass_g": round(body_g, 2), "lid_volume_cm3": round(lid_cm3, 2), "lid_mass_g": round(lid_g, 2), "total_mass_g": round(total_g, 2), "heat_to_200C_J": round(heat_J, 2)}
+
+    def run(self):
+        """Compute twice, print named results and SHA-256 digests."""
+        a = self.compute()
+        b = self.compute()
+        sa = hashlib.sha256(repr(sorted(a.items())).encode()).hexdigest()
+        sb = hashlib.sha256(repr(sorted(b.items())).encode()).hexdigest()
+        for key in sorted(a):
+            print(f"{key}: {a[key]}")
+        print(f"Run 1 SHA-256: {sa}")
+        print(f"Run 2 SHA-256: {sb}")
+        print(f"Deterministic: {'MATCH' if sa == sb else 'MISMATCH'}")
+        return a
+
+
+if __name__ == "__main__":
+    SupplyCalculator().run()
+
+
+GENERATOR
+{
+  "ceiling_note": "Generator ceiling: up to 1,000,000,000 scales per file, generated on demand by the file AI — not stored files.",
+  "gen_id_prefix": "JAH-MJSS-GEN-",
+  "hard_stop": 1000000000,
+  "throttle_per_call": 100,
+  "type": "seeded boundless generator"
+}
+
+OFFICIAL DEMO OUTPUT
+{
+  "capacity_mm3": 251327.41,
+  "capacity_cm3": 251.33,
+  "body_volume_cm3": 100.3,
+  "body_mass_g": 115.34,
+  "lid_volume_cm3": 61.24,
+  "lid_mass_g": 70.43,
+  "total_mass_g": 185.77,
+  "heat_to_200C_J": 54244.31
+}

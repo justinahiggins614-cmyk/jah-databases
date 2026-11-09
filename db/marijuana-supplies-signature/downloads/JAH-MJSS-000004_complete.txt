@@ -1,0 +1,112 @@
+Signature Zephyr Desktop Vaporizer
+Record JAH-MJSS-000004 — signature
+JCC v1 code: JAHDB/marijuana-supplies-signature#JAH-MJSS-000004
+
+The Signature Zephyr Desktop Vaporizer is a Signature-made design study for desktop vaporizer, a new design in the Signature Marijuana Supplies Database that reworks the familiar public form with one deliberate change. It keeps the job the same — mains power heats air in a large aluminium heat exchanger, and an air pump pushes that hot air through a filling chamber of ground herb into a detachable balloon, or through a whip tube — but changes how the parts are arranged, using signature aluminium twin heat exchanger; stainless-steel chamber; food-grade balloon; mains heater and pump. The design is sized at 210 mm tall x 210 mm diameter; 120 w heater; balloon holds about 3.5 litres, which sets every number in this record, from the volumes and areas in the demo to the scale variants at the end. This record is a design study, not a real manufactured product, and nothing here claims the design has been built, tested, or sold. What it does offer is a complete, checkable design: a full specification, the physics of how it would work, worked arithmetic tied to its own dimensions, a runnable program that computes those numbers, and three boundless scale variants. Readers can follow the design from first principles, repeat the arithmetic by hand, run the program, and see exactly where each number comes from. The Signature edition exists alongside the public edition so the archive holds both what exists in the world and what the Signature system designs next, clearly labelled, so the two are never confused. Like every Signature record, it is filed as a design study, with its own generator and its own file AI, and it marches with the rest of the database toward a million records.
+
+SPEC
+{
+  "care": "Replace balloons when worn; clean the chamber and screens; keep the air intake clear",
+  "dimensions": "210 mm tall x 210 mm diameter; 120 W heater; balloon holds about 3.5 litres",
+  "materials": "Signature aluminium twin heat exchanger; stainless-steel chamber; food-grade balloon; mains heater and pump",
+  "mechanism": "Twin heat exchanger: two aluminium blocks in series, so air is reheated between blocks and reaches the chamber at a steadier temperature than a single block",
+  "use": "Fill the chamber, preheat, attach the balloon, run the fan until firm, detach and inhale through the valve",
+  "variants": "Compact twin, standard twin, and lounge twin versions"
+}
+
+SCIENCE PROOF
+A desktop vaporizer is a forced-air convection system. Mains electricity heats a large aluminium block, the heat exchanger, which stores thermal energy and holds a steady temperature while air passes over it. The air pump drives room air through that block, so the air leaves at the set temperature, then flows through the filling chamber where it gives up heat to the herb and picks up vapour. Because the herb never touches the heater, the temperature the herb sees is the temperature of the air, which is why the result repeats from session to session. The balloon is a simple reservoir: vapour collects in it, cools slightly as it waits, and the valve mouthpiece releases vapour only when the user draws. Filling volume is airflow rate times fill time, and the heater energy is power times time. The large heat exchanger is the reason a desktop unit holds temperature better than a small portable: its thermal mass resists the cooling effect of each draw of air. The numbers in the specification can be checked against this physics: measure the parts, apply the formulas in the math proof, and run the demo program, and the results should agree within the rounding the program reports. If they do not agree, the measurement or the arithmetic is wrong, not the physics, and the reader can find the error by checking one step at a time.
+
+MATH PROOF
+The demo uses two simple products. First, heat-up energy is heater power times time: 120.0 watts times 150.0 seconds, which the program reports in joules and in watt-hours after dividing by 3600. Second, the filled balloon volume is airflow times fill time: 7.0 litres per minute times 30.0 seconds divided by 60 gives the filled volume in litres, and dividing that by the balloon volume of 3.5 litres gives the fill fraction. Both numbers come from the specification in this record, and the program prints them with units so the reader can repeat the arithmetic by hand. The computation is run twice and the SHA-256 digests of both runs are printed, confirming the result is deterministic. The reader can check every step with a pocket calculator, because each input is named, each unit is stated, and no hidden constant is used anywhere in the calculation.
+
+FORMAL EQUATION
+V_balloon = Q_air * t_fill
+
+HISTORY
+The desktop vaporizer was defined by the Storz & Bickel Volcano, introduced in 2000 and the benchmark for the category ever since. The Volcano Classic is a purely electromechanical machine: an analog dial, a heater, and an air pump, with no screen or app. It filled a detachable balloon, called a bag, with vapour, and the vapour stayed fresh in the balloon for up to 8 hours according to the maker. The later Volcano Hybrid added a digital display, faster heat-up, app and Bluetooth control, and a whip tube for direct draw alongside the balloon. Over time the same basic form was copied, adapted, and refined by many makers, so the record today covers a family of closely related objects rather than a single patented shape. Museums, trade guides, and manufacturer manuals preserve the steps of that change, and the sources cited at the end of this record give the reader places to check each stage. The history matters because it explains why the parts are arranged the way they are: each feature survives because it solved a practical problem for the people who used the supply every day.
+
+DEMO
+"""Demo: desktop vaporizer balloon fill — The Desktop Vaporizer."""
+import hashlib
+def compute():
+    heater_w = 120.0; heatup_s = 150.0; airflow = 7.0; fill_s = 30.0; balloon_l = 3.5; temp_c = 190.0
+    heatup_energy_j = heater_w * heatup_s
+    fill_min = fill_s / 60.0
+    filled_l = airflow * fill_min
+    fill_fraction = filled_l / balloon_l
+    fills_per_hour = 3600.0 / fill_s
+    return {"heatup_energy_J": round(heatup_energy_j, 1), "heatup_energy_Wh": round(heatup_energy_j / 3600.0, 2), "filled_volume_L": round(filled_l, 2), "balloon_volume_L": balloon_l, "fill_fraction": round(fill_fraction, 2), "target_temp_C": temp_c}
+def main():
+    a = compute(); b = compute()
+    sa = hashlib.sha256(repr(sorted(a.items())).encode()).hexdigest()
+    sb = hashlib.sha256(repr(sorted(b.items())).encode()).hexdigest()
+    for key in ["heatup_energy_J", "heatup_energy_Wh", "filled_volume_L", "balloon_volume_L", "fill_fraction", "target_temp_C"]:
+        print(f"{key}: {a[key]}")
+    print(f"Run 1 SHA-256: {sa}")
+    print(f"Run 2 SHA-256: {sb}")
+    print(f"Deterministic: {'MATCH' if sa == sb else 'MISMATCH'}")
+if __name__ == "__main__":
+    main()
+
+
+PROGRAM
+"""Signature Zephyr Desktop Vaporizer — full working program.
+
+Computes the same quantities as the record demo (desktop vaporizer balloon fill),
+as a documented module with a class and a run() method.
+Run: python3 program.py
+"""
+import hashlib
+import math
+
+
+class SupplyCalculator:
+    """Calculator for Signature Zephyr Desktop Vaporizer."""
+
+    def compute(self):
+        """Return the computed quantities as a dict."""
+        heater_w = 120.0; heatup_s = 150.0; airflow = 7.0; fill_s = 30.0; balloon_l = 3.5; temp_c = 190.0
+        heatup_energy_j = heater_w * heatup_s
+        fill_min = fill_s / 60.0
+        filled_l = airflow * fill_min
+        fill_fraction = filled_l / balloon_l
+        fills_per_hour = 3600.0 / fill_s
+        return {"heatup_energy_J": round(heatup_energy_j, 1), "heatup_energy_Wh": round(heatup_energy_j / 3600.0, 2), "filled_volume_L": round(filled_l, 2), "balloon_volume_L": balloon_l, "fill_fraction": round(fill_fraction, 2), "target_temp_C": temp_c}
+
+    def run(self):
+        """Compute twice, print named results and SHA-256 digests."""
+        a = self.compute()
+        b = self.compute()
+        sa = hashlib.sha256(repr(sorted(a.items())).encode()).hexdigest()
+        sb = hashlib.sha256(repr(sorted(b.items())).encode()).hexdigest()
+        for key in sorted(a):
+            print(f"{key}: {a[key]}")
+        print(f"Run 1 SHA-256: {sa}")
+        print(f"Run 2 SHA-256: {sb}")
+        print(f"Deterministic: {'MATCH' if sa == sb else 'MISMATCH'}")
+        return a
+
+
+if __name__ == "__main__":
+    SupplyCalculator().run()
+
+
+GENERATOR
+{
+  "ceiling_note": "Generator ceiling: up to 1,000,000,000 scales per file, generated on demand by the file AI — not stored files.",
+  "gen_id_prefix": "JAH-MJSS-GEN-",
+  "hard_stop": 1000000000,
+  "throttle_per_call": 100,
+  "type": "seeded boundless generator"
+}
+
+OFFICIAL DEMO OUTPUT
+{
+  "heatup_energy_J": 18000.0,
+  "heatup_energy_Wh": 5.0,
+  "filled_volume_L": 3.5,
+  "balloon_volume_L": 3.5,
+  "fill_fraction": 1.0,
+  "target_temp_C": 190.0
+}

@@ -1,0 +1,112 @@
+Signature Cascade Beaker Bong
+Record JAH-MJSS-000025 — signature
+JCC v1 code: JAHDB/marijuana-supplies-signature#JAH-MJSS-000025
+
+The Signature Cascade Beaker Bong is a Signature-made design study for beaker bong, a new design in the Signature Marijuana Supplies Database that reworks the familiar public form with one deliberate change. It keeps the job the same — smoke from the bowl travels down a stem below the water line in a wide flared base, bubbles up through the water, collects in the tall neck, and is drawn to the mouthpiece — but changes how the parts are arranged, using signature borosilicate glass with a thickened 5 mm base wall; stepped ice pinches; glass downstem and bowl. The design is sized at 315 mm tall; flared base 110 mm diameter at the foot; neck 54 mm diameter; water depth 40 mm in the base, which sets every number in this record, from the volumes and areas in the demo to the scale variants at the end. Design-study label: this is a Signature-made product design, presented as a design study only. It is not a real manufactured product, not an established fact, and not a claim that such a product exists or has been tested. What it does offer is a complete, checkable design: a full specification, the physics of how it would work, worked arithmetic tied to its own dimensions, a runnable program that computes those numbers, and three boundless scale variants. Readers can follow the design from first principles, repeat the arithmetic by hand, run the program, and see exactly where each number comes from. The Signature edition exists alongside the public edition so the archive holds both what exists in the world and what the Signature system designs next, clearly labelled, so the two are never confused. Like every Signature record, it is filed as a design study, with its own generator and its own file AI, and it marches with the rest of the database toward a million records.
+
+SPEC
+{
+  "care": "Change the water after each session; clean with isopropyl alcohol and salt; dry fully before storage",
+  "dimensions": "315 mm tall; flared base 110 mm diameter at the foot; neck 54 mm diameter; water depth 40 mm in the base",
+  "materials": "Signature borosilicate glass with a thickened 5 mm base wall; stepped ice pinches; glass downstem and bowl",
+  "mechanism": "Cascade base: the Signature design steps the inside of the flared base in two shallow rings, so rising bubbles are broken twice before they reach the neck",
+  "use": "Fill to the marked water line, pack the bowl, draw slowly until the neck fills, then clear",
+  "variants": "Pocket cascade, standard cascade, and workshop cascade versions; ring count varies by variant"
+}
+
+SCIENCE PROOF
+The beaker works by geometry. Its base is a frustum, a cone with its tip cut off, so its volume grows faster than its height: the wide bottom holds most of the water while the narrow top keeps the neck slim. Water volume is the frustum volume up to the water line, and the water depth matters because the downstem must end below the surface or smoke will not bubble at all. Bubbles rising through water cool the smoke by contact: each bubble is a sphere of hot gas, and the smaller the bubble the larger its surface area for its volume, so more of the heat passes into the water. The wide base also lowers the centre of gravity, which is why the beaker resists tipping: the mass of water sits low and wide, so the tipping moment needed to lift one edge is larger than for a straight tube of the same height. Borosilicate glass is used because it expands very little when heated, so the hot bowl joint does not crack the cold base, and because it does not give flavour to the smoke. The neck above the water is a reservoir: its volume sets how much smoke one draw can hold before the chamber must be cleared. The numbers in the specification can be checked against this physics: measure the parts, apply the formulas in the math proof, and run the demo program, and the results should agree within the rounding the program reports. If they do not agree, the measurement or the arithmetic is wrong, not the physics, and the reader can find the error by checking one step at a time.
+
+MATH PROOF
+The demo treats the base as a frustum. With a wide-end radius of 55.0 mm, a narrow-end radius of 27.0 mm, and a base height of 75.0 mm, the base volume is pi times the height divided by 3, times the sum of the wide-end radius squared, the wide-end radius times the narrow-end radius, and the narrow-end radius squared. The water fills the frustum only up to the water depth of 40.0 mm, so the radius at the water line is smaller than the base radius, and the same frustum formula with that radius gives the water volume. The neck is a cylinder with a diameter of 54.0 mm over a height of 240.0 mm, so its volume is pi times the neck radius squared times the neck height. Adding the air above the water in the base to the neck volume gives the chamber air volume, and the program prints each volume in millilitres so the reader can repeat the arithmetic. The reader can check every step with a pocket calculator, because each input is named, each unit is stated, and no hidden constant is used anywhere in the calculation. The computation is run twice and the SHA-256 digests of both runs are printed, confirming the result is deterministic.
+
+FORMAL EQUATION
+V = pi * h / 3 * (R^2 + R*r + r^2)
+
+HISTORY
+The beaker bong takes its shape from the laboratory beaker, the wide-based glass vessel chemists have used since the nineteenth century, and from the water pipe itself, whose word comes from the Thai baung, a wooden cylinder or pipe cut from bamboo. Glass water pipes became common in the twentieth century as borosilicate glass made a heat-resistant, clean-tasting water chamber practical, and a 1981 United States patent (4,253,475) describes the classic form in detail: a single vertical pipe sealed at the bottom, a bowl on a tube leading in near the bottom, and water just above the junction. The beaker base was one of the first variations makers tried, because the flared foot spreads the weight low and wide. Trade guides still call the beaker the most stable shape and the usual first bong, and the wide base holds more water than a straight tube of the same height. Over time the same basic form was copied, adapted, and refined by many makers, so the record today covers a family of closely related objects rather than a single patented shape. Trade guides and manufacturer manuals preserve the steps of that change. The history matters because it explains why the parts are arranged the way they are: each feature survives because it solved a practical problem for the people who used the supply every day.
+
+DEMO
+"""Demo: beaker bong water and chamber volumes — Signature Cascade Beaker Bong."""
+import hashlib, math
+def compute():
+    R = 55.0; r = 27.0; base_h = 75.0; water_h = 40.0; neck_d = 54.0; neck_h = 240.0
+    r_water = R - (R - r) * (water_h / base_h)
+    water_mm3 = math.pi * water_h / 3.0 * (R * R + R * r_water + r_water * r_water)
+    base_mm3 = math.pi * base_h / 3.0 * (R * R + R * r + r * r)
+    neck_mm3 = math.pi * (neck_d / 2.0) ** 2 * neck_h
+    air_mm3 = (base_mm3 - water_mm3) + neck_mm3
+    return {"water_volume_mL": round(water_mm3 / 1000.0, 2), "base_volume_mL": round(base_mm3 / 1000.0, 2), "neck_volume_mL": round(neck_mm3 / 1000.0, 2), "chamber_air_mL": round(air_mm3 / 1000.0, 2), "water_depth_mm": water_h, "base_diameter_mm": 2 * R}
+def main():
+    a = compute(); b = compute()
+    sa = hashlib.sha256(repr(sorted(a.items())).encode()).hexdigest()
+    sb = hashlib.sha256(repr(sorted(b.items())).encode()).hexdigest()
+    for key in ["water_volume_mL", "base_volume_mL", "neck_volume_mL", "chamber_air_mL", "water_depth_mm", "base_diameter_mm"]:
+        print(f"{key}: {a[key]}")
+    print(f"Run 1 SHA-256: {sa}")
+    print(f"Run 2 SHA-256: {sb}")
+    print(f"Deterministic: {'MATCH' if sa == sb else 'MISMATCH'}")
+if __name__ == "__main__":
+    main()
+
+
+PROGRAM
+"""Signature Cascade Beaker Bong — full working program.
+
+Computes the same quantities as the record demo (beaker bong water and chamber volumes),
+as a documented module with a class and a run() method.
+Run: python3 program.py
+"""
+import hashlib
+import math
+
+
+class SupplyCalculator:
+    """Calculator for Signature Cascade Beaker Bong."""
+
+    def compute(self):
+        """Return the computed quantities as a dict."""
+        R = 55.0; r = 27.0; base_h = 75.0; water_h = 40.0; neck_d = 54.0; neck_h = 240.0
+        r_water = R - (R - r) * (water_h / base_h)
+        water_mm3 = math.pi * water_h / 3.0 * (R * R + R * r_water + r_water * r_water)
+        base_mm3 = math.pi * base_h / 3.0 * (R * R + R * r + r * r)
+        neck_mm3 = math.pi * (neck_d / 2.0) ** 2 * neck_h
+        air_mm3 = (base_mm3 - water_mm3) + neck_mm3
+        return {"water_volume_mL": round(water_mm3 / 1000.0, 2), "base_volume_mL": round(base_mm3 / 1000.0, 2), "neck_volume_mL": round(neck_mm3 / 1000.0, 2), "chamber_air_mL": round(air_mm3 / 1000.0, 2), "water_depth_mm": water_h, "base_diameter_mm": 2 * R}
+
+    def run(self):
+        """Compute twice, print named results and SHA-256 digests."""
+        a = self.compute()
+        b = self.compute()
+        sa = hashlib.sha256(repr(sorted(a.items())).encode()).hexdigest()
+        sb = hashlib.sha256(repr(sorted(b.items())).encode()).hexdigest()
+        for key in sorted(a):
+            print(f"{key}: {a[key]}")
+        print(f"Run 1 SHA-256: {sa}")
+        print(f"Run 2 SHA-256: {sb}")
+        print(f"Deterministic: {'MATCH' if sa == sb else 'MISMATCH'}")
+        return a
+
+
+if __name__ == "__main__":
+    SupplyCalculator().run()
+
+
+GENERATOR
+{
+  "ceiling_note": "Generator ceiling: up to 1,000,000,000 scales per file, generated on demand by the file AI — not stored files.",
+  "gen_id_prefix": "JAH-MJSS-GEN-",
+  "hard_stop": 1000000000,
+  "throttle_per_call": 100,
+  "type": "seeded boundless generator"
+}
+
+OFFICIAL DEMO OUTPUT
+{
+  "water_volume_mL": 286.26,
+  "base_volume_mL": 411.47,
+  "neck_volume_mL": 549.65,
+  "chamber_air_mL": 674.86,
+  "water_depth_mm": 40.0,
+  "base_diameter_mm": 110.0
+}

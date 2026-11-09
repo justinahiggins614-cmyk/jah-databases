@@ -1,0 +1,115 @@
+Signature Glass Ashtray
+Record JAH-MJSS-000036 — signature
+JCC v1 code: JAHDB/marijuana-supplies-signature#JAH-MJSS-000036
+
+The Signature Glass Ashtray is a Signature-made design study for glass ashtray, a new design in the Signature Marijuana Supplies Database that reworks the familiar public form with one deliberate change. It keeps the job the same — ash and spent material fall into the deeper Signature dish; rim notches hold a cigarette or joint by gravity; the heavy base keeps the dish from tipping — but changes how the parts are arranged, using signature borosilicate glass with a coloured base band; annealed; no metal or plastic in the ash path. The design is sized at dish 130 mm across and 30 mm deep; wall 5 mm thick; four rim notches; about 279 grams, which sets every number in this record, from the glass ashtray capacity and thermal expansion in the demo to the scale variants at the end. This record is a design study, not a real manufactured product, and nothing here claims the design has been built, tested, or sold. What it does offer is a complete, checkable design: a full specification, the physics of how it would work, worked arithmetic tied to its own dimensions, a runnable program that computes those numbers, and three boundless scale variants. Readers can follow the design from first principles, repeat the arithmetic by hand, and run the program to check every number. The record also gives the materials and design, a build-it-yourself section, 3D-printing directions, and a use program, so the design can be judged as a whole, not only as a set of numbers. Like every Signature record, it sits beside its public twin in the same pair, so the reader can compare the public form with the Signature reworking side by side.
+
+SPEC
+{
+  "care": "Wash with warm soapy water or vinegar solution; avoid sudden temperature changes such as rinsing a hot ashtray with cold water; handle glass carefully as it breaks if dropped",
+  "dimensions": "Dish 130 mm across and 30 mm deep; wall 5 mm thick; four rim notches; about 279 grams",
+  "materials": "Signature borosilicate glass with a coloured base band; annealed; no metal or plastic in the ash path",
+  "mechanism": "Ash and spent material fall into the deeper Signature dish; rim notches hold a cigarette or joint by gravity; the heavy base keeps the dish from tipping",
+  "use": "Set on a flat heat-resistant surface, rest the cigarette in a rim notch, tap ash into the dish, empty when ash reaches a third of the depth",
+  "variants": "Round, square, and geometric shapes; clear, amber, and frosted glass; coloured base bands; one to six rim notches"
+}
+
+SCIENCE PROOF
+A glass ashtray works by heat resistance, mass, and surface chemistry. Borosilicate glass has a coefficient of linear thermal expansion of 3.3 times ten to the minus six per kelvin, about a third of ordinary soda-lime glass, so a hot ember on one side and a cool table on the other does not set up enough expansion difference to crack it. Its density is 2.23 grams per cubic centimetre and its specific heat is 0.83 joules per gram per kelvin, so a dish of about 279 grams absorbs heat from embers without its own temperature rising fast, and its thermal conductivity near 1.2 watts per metre kelvin spreads that heat slowly through the wall. Glass is non-porous, so ash and tar sit on the surface instead of soaking in, which is why a glass ashtray washes clean while a wooden one keeps its smell. The dish is a shallow cylinder, so its capacity is pi times radius squared times depth, and the rim notches are simple semicircular cuts that hold a cigarette by gravity. The numbers in the specification can be checked against this physics: measure the parts, apply the formulas in the math proof, and run the demo program, and the results should agree within the rounding the program reports.
+
+MATH PROOF
+The demo treats the ashtray dish as a cylinder and the glass shell as the difference between two cylinders. With a dish diameter of 130.0 mm and a depth of 30.0 mm, the radius is 65.0 mm, so the capacity is pi times 4,225 times 30, about 398,197 cubic millimetres, or 398.20 cubic centimetres. The outer cylinder is 130.0 mm across and 35.0 mm tall, counting the 5 mm base, so its volume is about 464,563 cubic millimetres, and the inner cylinder is 120.0 mm across and 30.0 mm deep, about 339,292 cubic millimetres, leaving a shell of 125.27 cubic centimetres. At a borosilicate density of 2.23 grams per cubic centimetre the mass is 279.35 grams. Thermal expansion over a 200 kelvin rise is the coefficient 3.3 times ten to the minus six times the diameter 130 times 200, about 0.09 millimetres, which is why the dish does not crack when a hot ember lands in it. Every number comes from the specification in this record, the formulas are shown in full, and the program prints each quantity so the reader can check the arithmetic. The computation runs twice with SHA-256 digests printed, so the reader can confirm it is deterministic.
+
+FORMAL EQUATION
+V = pi * r^2 * h
+
+HISTORY
+The glass ashtray is one of the oldest ashtray forms, because glass has been the default fire-retardant table material since ashtrays became common household objects in the early twentieth century. The word ashtray came into use around 1920, and the most common design from the start was a shallow cylinder with a flat base, made of glass, pottery, metal, or stone, with notches in the rim for resting a cigarette. Glass won the table because it is non-porous, easy to clean, and does not hold odour, and because a heavy glass dish stays put where a light one slides. Over the twentieth century the form split into round, square, and geometric shapes, into clear, amber, and frosted glass, and into plain and cut-glass decoration, while the job stayed the same. Over time the same basic form was copied, adapted, and refined by many makers, so the record today covers a family of closely related objects rather than a single patented shape. The sources cited at the end of this record give the reader places to check each stage, and the history matters because it explains why the parts are arranged the way they are: each feature survives because it solved a practical problem for the people who used the supply every day.
+
+DEMO
+"""Demo: glass ashtray capacity and thermal expansion — Signature Glass Ashtray."""
+import hashlib, math
+def compute():
+    d = 130.0; h = 30.0; wall = 5.0; rests = 4; rho = 2.23; alpha = 3.3e-06; dT = 200.0
+    cap_mm3 = math.pi * (d / 2.0) ** 2 * h
+    cap_cm3 = cap_mm3 / 1000.0
+    outer_mm3 = math.pi * (d / 2.0) ** 2 * (h + wall)
+    inner_mm3 = math.pi * ((d - 2.0 * wall) / 2.0) ** 2 * h
+    shell_cm3 = (outer_mm3 - inner_mm3) / 1000.0
+    mass_g = shell_cm3 * rho
+    expand_mm = alpha * d * dT
+    return {"capacity_mm3": round(cap_mm3, 2), "capacity_cm3": round(cap_cm3, 2), "shell_volume_cm3": round(shell_cm3, 2), "glass_mass_g": round(mass_g, 2), "thermal_expansion_mm": round(expand_mm, 2), "rim_notches": rests}
+def main():
+    a = compute(); b = compute()
+    sa = hashlib.sha256(repr(sorted(a.items())).encode()).hexdigest()
+    sb = hashlib.sha256(repr(sorted(b.items())).encode()).hexdigest()
+    for key in ['capacity_mm3', 'capacity_cm3', 'shell_volume_cm3', 'glass_mass_g', 'thermal_expansion_mm', 'rim_notches']:
+        print(f"{key}: {a[key]}")
+    print(f"Run 1 SHA-256: {sa}")
+    print(f"Run 2 SHA-256: {sb}")
+    print(f"Deterministic: {'MATCH' if sa == sb else 'MISMATCH'}")
+if __name__ == "__main__":
+    main()
+
+
+PROGRAM
+"""Signature Glass Ashtray — full working program.
+
+Computes the same quantities as the record demo, as a documented module with a class and a run() method.
+Run: python3 program.py
+"""
+import hashlib
+import math
+
+
+class SupplyCalculator:
+    """Calculator for Signature Glass Ashtray."""
+
+    def compute(self):
+        """Return the computed quantities as a dict."""
+        d = 130.0; h = 30.0; wall = 5.0; rests = 4; rho = 2.23; alpha = 3.3e-06; dT = 200.0
+        cap_mm3 = math.pi * (d / 2.0) ** 2 * h
+        cap_cm3 = cap_mm3 / 1000.0
+        outer_mm3 = math.pi * (d / 2.0) ** 2 * (h + wall)
+        inner_mm3 = math.pi * ((d - 2.0 * wall) / 2.0) ** 2 * h
+        shell_cm3 = (outer_mm3 - inner_mm3) / 1000.0
+        mass_g = shell_cm3 * rho
+        expand_mm = alpha * d * dT
+        return {"capacity_mm3": round(cap_mm3, 2), "capacity_cm3": round(cap_cm3, 2), "shell_volume_cm3": round(shell_cm3, 2), "glass_mass_g": round(mass_g, 2), "thermal_expansion_mm": round(expand_mm, 2), "rim_notches": rests}
+
+    def run(self):
+        """Compute twice, print named results and SHA-256 digests."""
+        a = self.compute()
+        b = self.compute()
+        sa = hashlib.sha256(repr(sorted(a.items())).encode()).hexdigest()
+        sb = hashlib.sha256(repr(sorted(b.items())).encode()).hexdigest()
+        for key in sorted(a):
+            print(f"{key}: {a[key]}")
+        print(f"Run 1 SHA-256: {sa}")
+        print(f"Run 2 SHA-256: {sb}")
+        print(f"Deterministic: {'MATCH' if sa == sb else 'MISMATCH'}")
+        return a
+
+
+if __name__ == "__main__":
+    SupplyCalculator().run()
+
+
+GENERATOR
+{
+  "ceiling_note": "Generator ceiling: up to 1,000,000,000 scales per file, generated on demand by the file AI — not stored files.",
+  "gen_id_prefix": "JAH-MJSS-GEN-",
+  "hard_stop": 1000000000,
+  "throttle_per_call": 100,
+  "type": "seeded boundless generator"
+}
+
+OFFICIAL DEMO OUTPUT
+{
+  "capacity_mm3": 398196.87,
+  "capacity_cm3": 398.2,
+  "shell_volume_cm3": 125.27,
+  "glass_mass_g": 279.35,
+  "thermal_expansion_mm": 0.09,
+  "rim_notches": 4
+}

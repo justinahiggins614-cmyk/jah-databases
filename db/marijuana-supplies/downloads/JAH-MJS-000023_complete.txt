@@ -1,0 +1,170 @@
+Filter Tips (Crutches)
+Record JAH-MJS-000023 — public
+JCC v1 code: JAHDB/marijuana-supplies#JAH-MJS-000023
+
+Filter Tips (Crutches) is a cleaning and maintenance supply for smoking pipes, and this record describes the standard kit as it is actually sold and used. The kit contains a booklet of 50 pre-cut unbleached hemp-fibre tips, each strip 50 mm long and 15 mm wide, plus 10 pre-rolled tips and a folding guide card. Its parts are made from unbleached hemp-fibre paper, 150 gsm card-weight paper, vegetable-based gum on pre-rolled tips, chosen because each material suits its own job: cotton absorbs, nylon scrubs, steel scrapes without bending, and brass works on stubborn buildup without gouging. The kit measures strip 50 mm long by 15 mm wide; finished tip 6 mm in diameter and 15 mm long; booklet 55 mm by 40 mm; pack of 50 tips. In use, the strip is folded into an accordion of three or four folds and rolled into a cylinder, and the folded core acts as a lattice that holds the mouthpiece open under suction while blocking loose plant matter. That combination is what makes the kit more than a loose handful of tools: every step of a full clean, from the first dry pass through the stem to the last wipe of the outside, has a tool made for it. Routine use is simple. Fold one end of the strip back and forth three or four times into a w or m shape, roll the rest of the strip tightly around the folds, place the finished tip at the mouthpiece end of the rolling paper, and build the roll around it. Care of the kit matters as much as care of the pipe. Keep tips dry, since damp paper collapses; use one tip per roll and discard it afterwards; do not use glossy, plastic-coated or adhesive-coated paper, which can release unwanted substances when heated. The common variants are the pre-rolled tips; extra-wide tips for large rolls; slim tips at 5 mm diameter; reusable glass tips; wooden tips. Legal note: laws on cannabis and cannabis accessories vary by jurisdiction; check local law before buying, carrying, or using this item.
+
+SPEC
+{
+  "care": "keep tips dry, since damp paper collapses; use one tip per roll and discard it afterwards; do not use glossy, plastic-coated or adhesive-coated paper, which can release unwanted substances when heated",
+  "dimensions": "strip 50 mm long by 15 mm wide; finished tip 6 mm in diameter and 15 mm long; booklet 55 mm by 40 mm; pack of 50 tips",
+  "materials": "unbleached hemp-fibre paper, 150 gsm card-weight paper, vegetable-based gum on pre-rolled tips",
+  "mechanism": "the strip is folded into an accordion of three or four folds and rolled into a cylinder, and the folded core acts as a lattice that holds the mouthpiece open under suction while blocking loose plant matter",
+  "use": "fold one end of the strip back and forth three or four times into a W or M shape, roll the rest of the strip tightly around the folds, place the finished tip at the mouthpiece end of the rolling paper, and build the roll around it",
+  "variants": "pre-rolled tips; extra-wide tips for large rolls; slim tips at 5 mm diameter; reusable glass tips; wooden tips"
+}
+
+SCIENCE PROOF
+The science of this supply is the science of dissolving, scrubbing, and separating, and each part of the kit uses a different piece of it. Isopropyl alcohol, propan-2-ol, is a polar organic solvent, which means its molecules have a water-loving hydroxyl end and a fat-loving carbon chain, so it can dissolve the sticky resin film that water alone cannot move. Resin is a mixture of tars and oils, and like dissolves like: the alcohol surrounds those molecules and carries them into solution, which is why the soak liquid turns dark brown as it works. Coarse salt, sodium chloride, does not dissolve in alcohol, so its grains stay hard and gritty, and shaking the sealed bag turns those grains into a moving abrasive that scours resin the liquid alone cannot lift from corners and curves. The bristle cleaner and the shank brush work by friction, the force that resists sliding between two surfaces, and the nylon bristles are stiff enough to shear residue from a wall while flexing enough to follow a curve without gouging it. Heat matters too: warm alcohol dissolves resin faster than cold alcohol, because molecules move faster and collide more often, which is why standing a sealed bag in hot tap water shortens a soak, while heating alcohol directly is dangerous because its flash point is about 53 degrees Fahrenheit, below room temperature. For a sifter or a filter tip the science is size and flow: a mesh passes only particles smaller than its opening, and a folded paper lattice holds a bore open against suction. None of this is new physics, and that is the point: the supply works because it applies ordinary solvent chemistry, friction, and geometry to a small, reachable space.
+
+MATH PROOF
+The arithmetic in this record is worked from the figures in the key figures list, and every number in it can be checked with a pocket calculator. The formal equation is A_bore = pi x r^2, with r = 3 mm, so A_bore is about 28.3 square mm. The open bore area of a finished tip follows the circle area formula, using half the tip diameter as the radius.. To show how the numbers hang together, take the figures as stated and work them through. First, the size check: the tool that must reach a space is compared with that space, length against length, so that a cleaner of 50 mm either reaches the airway it serves or it does not, and the record states the comparison rather than assuming it. Second, the quantity check: the amount of solvent, salt, water, or screen area is compared with the amount the job needs, so that a soak uses enough liquid to submerge the piece and enough salt to scour it, and a screen offers enough open area to pass what it should. Third, the count check: where the supply involves combinations, volumes, or yields, the count is worked out from its parts, and the demo repeats the same arithmetic in code. The demo prints each of these numbers with its name, runs the computation twice with a fixed seed, and prints a SHA-256 digest of each run so that the two runs can be compared. The digests match, which shows the computation is deterministic, not that the supply is perfect. The math proves the dimensions are consistent; it does not prove the supply works in the hand, and the record does not claim that it does.
+
+FORMAL EQUATION
+A_bore = pi x r^2, with r = 3 mm, so A_bore is about 28.3 square mm
+
+HISTORY
+The crutch, also called a filter tip or simply a tip, appeared wherever hand-rolled joints were smoked, because a roll without one has two faults: the mouth end collapses when it gets damp, and loose material reaches the mouth. Early rollers tore strips from card and rolled them into spirals, but the spiral leaves a hole in the middle that lets plant matter through. The accordion fold, three or four folds pressed into a W or M shape before rolling, fixed that: the folded core forms a lattice that blocks particles while leaving air channels open. Brands such as RAW later standardised the idea into pre-cut booklets of unbleached hemp-fibre paper, and pre-rolled tips and reusable glass tips followed. The name itself is rolling slang, a crutch being the support the joint leans on, and the distinction matters: a paper crutch is a structural spacer, not a cigarette-style filter, since it does not absorb compounds from the smoke passing through it.
+
+DEMO
+import hashlib, json, math, random
+
+STRIP_LENGTH_MM = 50
+STRIP_WIDTH_MM = 15
+TIP_DIA_MM = 6
+TIP_LENGTH_MM = 15
+ACCORDION_FOLDS = 4
+TIPS_PER_BOOKLET = 50
+
+def compute(seed):
+    rng = random.Random(seed)
+    radius = TIP_DIA_MM / 2.0
+    bore_area = round(math.pi * radius ** 2, 2)
+    circumference = round(math.pi * TIP_DIA_MM, 2)
+    strip_area = STRIP_LENGTH_MM * STRIP_WIDTH_MM
+    booklet_area = STRIP_LENGTH_MM * STRIP_WIDTH_MM * TIPS_PER_BOOKLET
+    fold_length = round(STRIP_LENGTH_MM * 0.25, 1)
+    resistance = round(8.0 * 0.000018 * TIP_LENGTH_MM / (math.pi * (radius / 1000.0) ** 4), 1)
+    draw_factor = round(rng.uniform(0.9, 1.1), 2)
+    out = {
+        "strip_length_mm": STRIP_LENGTH_MM,
+        "strip_width_mm": STRIP_WIDTH_MM,
+        "strip_area_mm2": strip_area,
+        "tip_diameter_mm": TIP_DIA_MM,
+        "tip_bore_area_mm2": bore_area,
+        "tip_circumference_mm": circumference,
+        "accordion_folds": ACCORDION_FOLDS,
+        "folded_section_length_mm": fold_length,
+        "tips_per_booklet": TIPS_PER_BOOKLET,
+        "booklet_paper_area_mm2": booklet_area,
+        "draw_resistance_proxy": resistance,
+        "draw_factor": draw_factor,
+    }
+    return out
+
+def main():
+    first = compute(7)
+    second = compute(7)
+    for key, value in first.items():
+        print(f"{key}: {value}")
+    d1 = hashlib.sha256(json.dumps(first, sort_keys=True).encode()).hexdigest()
+    d2 = hashlib.sha256(json.dumps(second, sort_keys=True).encode()).hexdigest()
+    print(f"digest_run_1: {d1}")
+    print(f"digest_run_2: {d2}")
+    print("Deterministic: MATCH" if d1 == d2 else "Deterministic: MISMATCH")
+
+main()
+
+
+PROGRAM
+"""Filter Tips (Crutches) — working program.
+
+Computes the same quantities as the record demo: the design numbers for
+this supply, from the figures in the record. Standard library only, no
+network. Run it directly to print the named results and the two matching
+deterministic digests.
+"""
+import hashlib, json, math, random
+
+STRIP_LENGTH_MM = 50
+STRIP_WIDTH_MM = 15
+TIP_DIA_MM = 6
+TIP_LENGTH_MM = 15
+ACCORDION_FOLDS = 4
+TIPS_PER_BOOKLET = 50
+
+def compute(seed):
+    rng = random.Random(seed)
+    radius = TIP_DIA_MM / 2.0
+    bore_area = round(math.pi * radius ** 2, 2)
+    circumference = round(math.pi * TIP_DIA_MM, 2)
+    strip_area = STRIP_LENGTH_MM * STRIP_WIDTH_MM
+    booklet_area = STRIP_LENGTH_MM * STRIP_WIDTH_MM * TIPS_PER_BOOKLET
+    fold_length = round(STRIP_LENGTH_MM * 0.25, 1)
+    resistance = round(8.0 * 0.000018 * TIP_LENGTH_MM / (math.pi * (radius / 1000.0) ** 4), 1)
+    draw_factor = round(rng.uniform(0.9, 1.1), 2)
+    out = {
+        "strip_length_mm": STRIP_LENGTH_MM,
+        "strip_width_mm": STRIP_WIDTH_MM,
+        "strip_area_mm2": strip_area,
+        "tip_diameter_mm": TIP_DIA_MM,
+        "tip_bore_area_mm2": bore_area,
+        "tip_circumference_mm": circumference,
+        "accordion_folds": ACCORDION_FOLDS,
+        "folded_section_length_mm": fold_length,
+        "tips_per_booklet": TIPS_PER_BOOKLET,
+        "booklet_paper_area_mm2": booklet_area,
+        "draw_resistance_proxy": resistance,
+        "draw_factor": draw_factor,
+    }
+    return out
+
+
+class FilterTips:
+    """Model of filter tips (crutches)."""
+
+    def __init__(self, seed=7):
+        self.seed = seed
+
+    def run(self):
+        """Run the computation twice and print the named results."""
+        first = compute(self.seed)
+        second = compute(self.seed)
+        for key, value in first.items():
+            print(f"{key}: {value}")
+        d1 = hashlib.sha256(json.dumps(first, sort_keys=True).encode()).hexdigest()
+        d2 = hashlib.sha256(json.dumps(second, sort_keys=True).encode()).hexdigest()
+        print(f"digest_run_1: {d1}")
+        print(f"digest_run_2: {d2}")
+        print("Deterministic: MATCH" if d1 == d2 else "Deterministic: MISMATCH")
+        return first
+
+
+if __name__ == "__main__":
+    FilterTips().run()
+
+
+GENERATOR
+{
+  "ceiling_note": "Generator ceiling: up to 1,000,000,000 scales per file, generated on demand by the file AI — not stored files.",
+  "gen_id_prefix": "JAH-MJS-GEN-",
+  "hard_stop": 1000000000,
+  "throttle_per_call": 100,
+  "type": "seeded boundless generator"
+}
+
+OFFICIAL DEMO OUTPUT
+{
+  "strip_length_mm": 50,
+  "strip_width_mm": 15,
+  "strip_area_mm2": 750,
+  "tip_diameter_mm": 6,
+  "tip_bore_area_mm2": 28.27,
+  "tip_circumference_mm": 18.85,
+  "accordion_folds": 4,
+  "folded_section_length_mm": 12.5,
+  "tips_per_booklet": 50,
+  "booklet_paper_area_mm2": 37500,
+  "draw_resistance_proxy": 8488263.6,
+  "draw_factor": 0.96
+}

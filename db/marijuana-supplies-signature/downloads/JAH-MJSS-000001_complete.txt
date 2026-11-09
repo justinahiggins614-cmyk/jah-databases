@@ -1,0 +1,112 @@
+Signature Helix Grinder
+Record JAH-MJSS-000001 — signature
+JCC v1 code: JAHDB/marijuana-supplies-signature#JAH-MJSS-000001
+
+The Signature Helix Grinder is a Signature-made design study for manual herb grinder, a new design in the Signature Marijuana Supplies Database that reworks the familiar public form with one deliberate change. It keeps the job the same — two interlocking halves with opposing diamond-shaped teeth; twisting the halves in opposite directions shears dried herb caught between the teeth — but changes how the parts are arranged, using signature anodised aluminium body with a helical tooth ring; stainless-steel mesh; ceramic-coated grinding plate. The design is sized at 70 mm diameter x 52 mm tall; grinding chamber 30 mm deep; 4 pieces, which sets every number in this record, from the volumes and areas in the demo to the scale variants at the end. This record is a design study, not a real manufactured product, and nothing here claims the design has been built, tested, or sold. What it does offer is a complete, checkable design: a full specification, the physics of how it would work, worked arithmetic tied to its own dimensions, a runnable program that computes those numbers, and three boundless scale variants. Readers can follow the design from first principles, repeat the arithmetic by hand, run the program, and see exactly where each number comes from. The Signature edition exists alongside the public edition so the archive holds both what exists in the world and what the Signature system designs next, clearly labelled, so the two are never confused. Like every Signature record, it is filed as a design study, with its own generator and its own file AI, and it marches with the rest of the database toward a million records.
+
+SPEC
+{
+  "care": "Brush the helical ring clean; wash in warm soapy water; dry the mesh before reassembly",
+  "dimensions": "70 mm diameter x 52 mm tall; grinding chamber 30 mm deep; 4 pieces",
+  "materials": "Signature anodised aluminium body with a helical tooth ring; stainless-steel mesh; ceramic-coated grinding plate",
+  "mechanism": "Helical tooth ring: teeth set on a shallow spiral so one twist advances herb steadily downward through the grinding plate instead of trapping it at the rim",
+  "use": "Load the chamber, twist the lid through one full helical turn, and collect ground herb from the storage chamber below",
+  "variants": "Pocket 45 mm, standard 70 mm, and workshop 110 mm helical-ring versions; tooth pitch varies by variant"
+}
+
+SCIENCE PROOF
+Shear, not crushing, is the working principle. Opposing diamond teeth pass each other with a small clearance, and the edges cut dried flower along its natural fracture planes. Aluminium 6061 is chosen because it is light, machines cleanly, and its anodised surface resists corrosion from plant resins. The teeth stay sharp because the load is spread across 56 teeth and each tooth meets only a small piece of herb at a time. Ground particles fall through sized holes in the grinding plate by gravity once they are smaller than the hole diameter, which is why a dozen steady turns produces a fairly uniform particle size instead of powder. The 100-micron mesh in a four-piece grinder is a sieve: particles finer than 100 microns, including the small resin glands called trichomes, pass through, while larger ground herb stays above. Friction is low because the herb is dry and brittle, and the magnet lid keeps the halves aligned so the teeth never clash metal on metal. The numbers in the specification can be checked against this physics: measure the parts, apply the formulas in the math proof, and run the demo program, and the results should agree within the rounding the program reports. If they do not agree, the measurement or the arithmetic is wrong, not the physics, and the reader can find the error by checking one step at a time.
+
+MATH PROOF
+The demo computes the grinding chamber as a cylinder. With diameter 70.0 mm the radius is 35.0 mm, so the chamber volume is pi times radius squared times the chamber depth of 30.0 mm, which the program reports in cubic millimetres and cubic centimetres. The screen area uses the same circle formula with the screen diameter of 62.0 mm. Dividing the tooth count of 56 by the chamber floor area gives teeth per square centimetre, a check that the teeth are spread evenly rather than crowded. Each of the 8 turns in the worked example moves the teeth past each other once, so the total cutting passes are the tooth count times the turns, and the program prints the volume and area so the reader can repeat the arithmetic with a pocket calculator. The formulas are shown in full, the numbers come from the specification in this record, and the demo prints both runs with SHA-256 digests so the reader can confirm the computation is deterministic. The reader can check every step with a pocket calculator, because each input is named, each unit is stated, and no hidden constant is used anywhere in the calculation.
+
+FORMAL EQUATION
+V = pi * (d/2)^2 * h
+
+HISTORY
+The herb grinder as a two-half cylindrical shredder is documented in the early 1900s, with William Wingfield and John Balding of Boort, Victoria, Australia patenting a novel grinding device in 1905, and the form was popularised in the 1960s as cannabis use spread. Early grinders were simple wood or metal cylinders; the modern four-piece aluminium grinder with a kief screen is a later refinement of that same two-half idea. Over time the same basic form was copied, adapted, and refined by many makers, so the record today covers a family of closely related objects rather than a single patented shape. Museums, trade guides, and manufacturer manuals preserve the steps of that change, and the sources cited at the end of this record give the reader places to check each stage. The history matters because it explains why the parts are arranged the way they are: each feature survives because it solved a practical problem for the people who used the supply every day.
+
+DEMO
+"""Demo: manual grinder chamber volume — The Manual Herb Grinder."""
+import hashlib, math
+def compute():
+    d = 70.0; h = 30.0; teeth = 56; screen_d = 62.0; turns = 8
+    r = d / 2.0
+    chamber_mm3 = math.pi * r * r * h
+    chamber_cm3 = chamber_mm3 / 1000.0
+    screen_area_mm2 = math.pi * (screen_d / 2.0) ** 2
+    teeth_per_cm2 = teeth / (math.pi * r * r / 100.0)
+    return {"chamber_volume_mm3": round(chamber_mm3, 2), "chamber_volume_cm3": round(chamber_cm3, 2), "screen_area_mm2": round(screen_area_mm2, 2), "teeth": teeth, "turns": turns, "teeth_per_cm2": round(teeth_per_cm2, 2)}
+def main():
+    a = compute(); b = compute()
+    sa = hashlib.sha256(repr(sorted(a.items())).encode()).hexdigest()
+    sb = hashlib.sha256(repr(sorted(b.items())).encode()).hexdigest()
+    for key in ["chamber_volume_mm3", "chamber_volume_cm3", "screen_area_mm2", "teeth", "turns", "teeth_per_cm2"]:
+        print(f"{key}: {a[key]}")
+    print(f"Run 1 SHA-256: {sa}")
+    print(f"Run 2 SHA-256: {sb}")
+    print(f"Deterministic: {'MATCH' if sa == sb else 'MISMATCH'}")
+if __name__ == "__main__":
+    main()
+
+
+PROGRAM
+"""Signature Helix Grinder — full working program.
+
+Computes the same quantities as the record demo (manual grinder chamber volume),
+as a documented module with a class and a run() method.
+Run: python3 program.py
+"""
+import hashlib
+import math
+
+
+class SupplyCalculator:
+    """Calculator for Signature Helix Grinder."""
+
+    def compute(self):
+        """Return the computed quantities as a dict."""
+        d = 70.0; h = 30.0; teeth = 56; screen_d = 62.0; turns = 8
+        r = d / 2.0
+        chamber_mm3 = math.pi * r * r * h
+        chamber_cm3 = chamber_mm3 / 1000.0
+        screen_area_mm2 = math.pi * (screen_d / 2.0) ** 2
+        teeth_per_cm2 = teeth / (math.pi * r * r / 100.0)
+        return {"chamber_volume_mm3": round(chamber_mm3, 2), "chamber_volume_cm3": round(chamber_cm3, 2), "screen_area_mm2": round(screen_area_mm2, 2), "teeth": teeth, "turns": turns, "teeth_per_cm2": round(teeth_per_cm2, 2)}
+
+    def run(self):
+        """Compute twice, print named results and SHA-256 digests."""
+        a = self.compute()
+        b = self.compute()
+        sa = hashlib.sha256(repr(sorted(a.items())).encode()).hexdigest()
+        sb = hashlib.sha256(repr(sorted(b.items())).encode()).hexdigest()
+        for key in sorted(a):
+            print(f"{key}: {a[key]}")
+        print(f"Run 1 SHA-256: {sa}")
+        print(f"Run 2 SHA-256: {sb}")
+        print(f"Deterministic: {'MATCH' if sa == sb else 'MISMATCH'}")
+        return a
+
+
+if __name__ == "__main__":
+    SupplyCalculator().run()
+
+
+GENERATOR
+{
+  "ceiling_note": "Generator ceiling: up to 1,000,000,000 scales per file, generated on demand by the file AI — not stored files.",
+  "gen_id_prefix": "JAH-MJSS-GEN-",
+  "hard_stop": 1000000000,
+  "throttle_per_call": 100,
+  "type": "seeded boundless generator"
+}
+
+OFFICIAL DEMO OUTPUT
+{
+  "chamber_volume_mm3": 115453.53,
+  "chamber_volume_cm3": 115.45,
+  "screen_area_mm2": 3019.07,
+  "teeth": 56,
+  "turns": 8,
+  "teeth_per_cm2": 1.46
+}

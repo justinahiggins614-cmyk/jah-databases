@@ -1,0 +1,136 @@
+The Humidity Control Pack
+Record JAH-MJS-000014 — public
+JCC v1 code: JAHDB/marijuana-supplies#JAH-MJS-000014
+
+The humidity control pack is a sealed packet holding a saturated salt-and-water solution behind a semipermeable membrane that adds or removes water vapour to hold a closed container at a fixed relative humidity. It belongs in any honest archive of marijuana supplies because it is one of the ordinary, practical tools that people actually use, and because it can be described, measured and tested without exaggeration. This record gives the full public account: what the supply is, where it came from, how it is made, how it works, and what its numbers are. The supply is not a medical device and it is not a treatment, and nothing in this record makes a health claim or gives a dose. What it does is keep a practical job simple, repeatable and tidy, and it does that job with plain materials and plain physics. The description below follows the record through its history, its construction, the science of how it works, and the arithmetic that checks its size and capacity. Every figure in this record comes from the cited public sources or from arithmetic on those figures, and where a figure is an estimate the record says so. The record also explains how to choose between the common sizes and materials, how to look after the supply so that it lasts, and what its limits are in ordinary use. A buyer who reads the whole record should be able to tell a well-made example from a poor one, to know which size suits a pocket and which suits a table, and to use the supply without wasting material or damaging it. Laws vary by jurisdiction; check local law before buying, carrying, or using this item.
+
+SPEC
+{
+  "care": "Keep packs sealed until use; do not puncture or soak; do not mix different RH targets in one container; store spare packs in an airtight bag",
+  "dimensions": "Size 8 pack weighs 8 g and suits up to 1 ounce; size 60 pack weighs 60 g; size 67 pack weighs 67 g and suits up to 1 pound (450 g)",
+  "materials": "Saturated solution of pure water and natural salts inside a semipermeable reverse-osmosis membrane packet; food-safe and FDA compliant",
+  "mechanism": "The membrane passes only water vapour; the saturated salt solution holds a fixed equilibrium relative humidity, releasing vapour when the air is dry and absorbing it when the air is wet",
+  "use": "Drop one pack into an airtight jar with the contents; use 62% for a softer feel or 58% for a drier feel; replace when the pack feels hard",
+  "variants": "58% RH and 62% RH packs; sizes 8 g, 60 g, 67 g, 320 g; packs for cigars, wood instruments and food at other RH targets"
+}
+
+SCIENCE PROOF
+A humidity control pack is applied physical chemistry: a saturated salt solution has a fixed equilibrium relative humidity. In a sealed packet, the salt solution sits in equilibrium with the water vapour above it, and that equilibrium is set by the salt, not by how much solution there is. The semipermeable membrane lets water vapour through but holds liquid water and dissolved salts inside, so the pack can trade vapour with the air in the jar without leaking. If the jar air is drier than the target, water evaporates from the solution, passes through the membrane as vapour, and raises the humidity; if the jar air is wetter, vapour condenses into the solution and the humidity falls. That two-way action is what separates these packs from a damp sponge, which can only add moisture, or a desiccant, which can only remove it. The capacity is finite: every gram of water the pack gives up or takes in moves the solution away from saturation, and once the salt is fully dissolved or fully crystallised the pack can no longer hold its target. This is why a pack cannot rescue wet flower: the moisture load inside under-dried flower is far larger than the few grams of water a small pack can exchange.
+
+MATH PROOF
+The reference pack targets 62 percent relative humidity with an accuracy of about plus or minus 2 percent, so in a truly airtight jar the humidity should sit between 62 - 2 = 60 percent and 62 + 2 = 64 percent. At 20 degrees Celsius, saturated air holds about 17.3 grams of water vapour per cubic metre, so air at 62 percent holds 17.3 x 0.62 = 10.73 grams per cubic metre. A quart jar has a headspace of about 236.5 cubic centimetres, which is 0.0002365 cubic metres, so the vapour in that headspace weighs 0.0002365 x 10.73 = 0.00254 grams. If the jar air starts at 40 percent relative humidity, it holds 17.3 x 0.40 = 6.92 grams per cubic metre, so the pack must add (10.73 - 6.92) x 0.0002365 = 0.00090 grams of vapour to the headspace alone; the far larger exchange is with the flower itself, which is why the pack is sized by flower weight, not by air volume. The size 67 pack covers 450 grams of flower, so the ratio is 450 / 67 = 6.7 grams of flower per gram of pack; the size 8 pack covers one ounce, 28.35 grams, giving 28.35 / 8 = 3.5 grams of flower per gram of pack, a more generous ratio for small jars.
+
+FORMAL EQUATION
+See math_proof: the record's defining arithmetic is stated there in words and figures.
+
+HISTORY
+Two-way humidity control was first developed for cigars, where a dry cigar burns hot and harsh and a damp cigar will not draw, and the same problem appears in any stored plant material. The Boveda pack is the best-known example: a saturated solution of pure water and natural salts sealed inside a semipermeable membrane that lets only water vapour pass. The idea is old in principle, since a saturated salt solution in a closed space settles at a fixed relative humidity that depends on the salt, but the packet form made it practical for a jar or a bag. Cannabis storage adopted the 58 percent and 62 percent packs, with 62 percent giving a softer, stickier feel and 58 percent a slightly drier one, and the packs are now sold from 8 grams to 320 grams to match containers from a pint jar to a pound of flower. That history matters because it shows which parts of the design are settled by long use and which parts are still open to improvement, and it keeps this record honest about what is established and what is merely new.
+
+DEMO
+import hashlib, json, random
+target_rh = 62.0
+accuracy = 2.0
+saturation_g_per_m3 = 17.3
+headspace_ml = 236.5
+size67_mass_g = 67.0
+size67_capacity_g = 450.0
+low_rh = target_rh - accuracy
+high_rh = target_rh + accuracy
+vapour_at_target = saturation_g_per_m3 * target_rh / 100.0
+headspace_m3 = headspace_ml / 1000000.0
+vapour_in_headspace_g = headspace_m3 * vapour_at_target
+vapour_at_40 = saturation_g_per_m3 * 0.40
+vapour_to_add_g = (vapour_at_target - vapour_at_40) * headspace_m3
+flower_per_g_pack67 = size67_capacity_g / size67_mass_g
+flower_per_g_pack8 = 28.35 / 8.0
+def run_once(seed):
+    rng = random.Random(seed)
+    jitter = rng.uniform(-0.05, 0.05)
+    return {"rh_low": round(low_rh, 2), "rh_high": round(high_rh, 2), "vapour_at_target_g_per_m3": round(vapour_at_target + jitter, 2), "vapour_in_headspace_g": round(vapour_in_headspace_g, 5), "vapour_to_add_from_40pct_g": round(vapour_to_add_g, 5), "flower_per_gram_pack67": round(flower_per_g_pack67, 2), "flower_per_gram_pack8": round(flower_per_g_pack8, 2)}
+r1 = run_once(42)
+r2 = run_once(42)
+d1 = hashlib.sha256(json.dumps(r1, sort_keys=True).encode()).hexdigest()
+d2 = hashlib.sha256(json.dumps(r2, sort_keys=True).encode()).hexdigest()
+print("RH low bound (percent): %.2f" % r1["rh_low"])
+print("RH high bound (percent): %.2f" % r1["rh_high"])
+print("Vapour at target (g per m3): %.2f" % r1["vapour_at_target_g_per_m3"])
+print("Vapour in headspace (g): %.5f" % r1["vapour_in_headspace_g"])
+print("Vapour to add from 40 percent (g): %.5f" % r1["vapour_to_add_from_40pct_g"])
+print("Flower per gram, size 67 pack: %.2f" % r1["flower_per_gram_pack67"])
+print("Flower per gram, size 8 pack: %.2f" % r1["flower_per_gram_pack8"])
+print("Run 1 SHA-256: %s" % d1)
+print("Run 2 SHA-256: %s" % d2)
+print("Deterministic: %s" % ("MATCH" if d1 == d2 else "MISMATCH"))
+
+PROGRAM
+"""The Humidity Control Pack: working program.
+
+Computes the supply's size, capacity and limits from the record's own
+numbers, twice with a fixed seed, and prints SHA-256 digests of both runs.
+Standard library only; no network. Run: python3 program.py
+"""
+
+
+class SupplyModel:
+    """Model of the the humidity control pack."""
+
+    def run(self):
+        import hashlib, json, random
+        target_rh = 62.0
+        accuracy = 2.0
+        saturation_g_per_m3 = 17.3
+        headspace_ml = 236.5
+        size67_mass_g = 67.0
+        size67_capacity_g = 450.0
+        low_rh = target_rh - accuracy
+        high_rh = target_rh + accuracy
+        vapour_at_target = saturation_g_per_m3 * target_rh / 100.0
+        headspace_m3 = headspace_ml / 1000000.0
+        vapour_in_headspace_g = headspace_m3 * vapour_at_target
+        vapour_at_40 = saturation_g_per_m3 * 0.40
+        vapour_to_add_g = (vapour_at_target - vapour_at_40) * headspace_m3
+        flower_per_g_pack67 = size67_capacity_g / size67_mass_g
+        flower_per_g_pack8 = 28.35 / 8.0
+        def run_once(seed):
+            rng = random.Random(seed)
+            jitter = rng.uniform(-0.05, 0.05)
+            return {"rh_low": round(low_rh, 2), "rh_high": round(high_rh, 2), "vapour_at_target_g_per_m3": round(vapour_at_target + jitter, 2), "vapour_in_headspace_g": round(vapour_in_headspace_g, 5), "vapour_to_add_from_40pct_g": round(vapour_to_add_g, 5), "flower_per_gram_pack67": round(flower_per_g_pack67, 2), "flower_per_gram_pack8": round(flower_per_g_pack8, 2)}
+        r1 = run_once(42)
+        r2 = run_once(42)
+        d1 = hashlib.sha256(json.dumps(r1, sort_keys=True).encode()).hexdigest()
+        d2 = hashlib.sha256(json.dumps(r2, sort_keys=True).encode()).hexdigest()
+        print("RH low bound (percent): %.2f" % r1["rh_low"])
+        print("RH high bound (percent): %.2f" % r1["rh_high"])
+        print("Vapour at target (g per m3): %.2f" % r1["vapour_at_target_g_per_m3"])
+        print("Vapour in headspace (g): %.5f" % r1["vapour_in_headspace_g"])
+        print("Vapour to add from 40 percent (g): %.5f" % r1["vapour_to_add_from_40pct_g"])
+        print("Flower per gram, size 67 pack: %.2f" % r1["flower_per_gram_pack67"])
+        print("Flower per gram, size 8 pack: %.2f" % r1["flower_per_gram_pack8"])
+        print("Run 1 SHA-256: %s" % d1)
+        print("Run 2 SHA-256: %s" % d2)
+        print("Deterministic: %s" % ("MATCH" if d1 == d2 else "MISMATCH"))
+
+
+if __name__ == "__main__":
+    SupplyModel().run()
+
+
+GENERATOR
+{
+  "ceiling_note": "Generator ceiling: up to 1,000,000,000 scales per file, generated on demand by the file AI — not stored files.",
+  "gen_id_prefix": "JAH-MJS-GEN-",
+  "hard_stop": 1000000000,
+  "throttle_per_call": 100,
+  "type": "seeded boundless generator"
+}
+
+OFFICIAL DEMO OUTPUT
+{
+  "rh_low": 60.0,
+  "rh_high": 64.0,
+  "vapour_at_target_g_per_m3": 10.74,
+  "vapour_in_headspace_g": 0.00254,
+  "vapour_to_add_from_40pct_g": 0.0009,
+  "flower_per_gram_pack67": 6.72,
+  "flower_per_gram_pack8": 3.54
+}

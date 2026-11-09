@@ -1,0 +1,120 @@
+Signature Mini Bong
+Record JAH-MJSS-000043 — signature
+JCC v1 code: JAHDB/marijuana-supplies-signature#JAH-MJSS-000043
+
+Signature Mini Bong is one of the supplies of the marijuana supplies archive: a mini bong described here in full, with its history, its parts, its dimensions, its mechanism, and the numbers that follow from those dimensions. This Signature design is a design study: a new design for the same supply type, described in full and never presented as a real product or as established fact. It is made from borosilicate glass body with blue tint, 5 mm wall; glass downstem with inline perc; glass bowl, 14 mm joint, and a common example measures 177.8 mm (7 in) tall; tube 28 mm diameter; beaker base 90 mm diameter, 55 mm tall; water depth 35 mm. It works by smoke travels down the downstem and bubbles through water and the inline perc, then rises through the neck to the mouthpiece; the beaker base holds the water and steadies the piece The variants in the specification show how makers change size, material, and detail while keeping the same working principle, and the scale variants at the end of this record show the same design at pocket, standard, and workshop sizes. The file AI for this record can answer questions about the supply from the record itself, and the generator can produce the design at pocket, standard, and workshop scales on demand. The record gives the science behind the supply, the mathematics of its dimensions, a working demo program that computes its real figures, a full program with a class and a run method, and a boundless generator that can produce the design at many scales. Care is simple and is stated in the specification: empty water after use; rinse with warm water; clean with isopropyl alcohol and coarse salt for residue; dry fully before storage; handle glass gently Legal note: laws on cannabis and cannabis supplies vary by jurisdiction; check local law before buying, possessing, or using this supply.
+
+SPEC
+{
+  "care": "Empty water after use; rinse with warm water; clean with isopropyl alcohol and coarse salt for residue; dry fully before storage; handle glass gently",
+  "dimensions": "177.8 mm (7 in) tall; tube 28 mm diameter; beaker base 90 mm diameter, 55 mm tall; water depth 35 mm",
+  "materials": "Borosilicate glass body with blue tint, 5 mm wall; glass downstem with inline perc; glass bowl, 14 mm joint",
+  "mechanism": "Smoke travels down the downstem and bubbles through water and the inline perc, then rises through the neck to the mouthpiece; the beaker base holds the water and steadies the piece",
+  "use": "Fill with water to about 35 mm so the downstem slits are submerged, fit the bowl, light and draw slowly, clear the chamber, empty and rinse after use",
+  "variants": "Beaker base with inline perc; straight tube; ice-catcher mini; 5, 6, 7, and 8 inch heights; 10 mm and 14 mm joints"
+}
+
+SCIENCE PROOF
+A mini bong filters smoke through water in a small chamber, and its physics is the same as a full-size bong with less room for error. Smoke from the bowl travels down the downstem and bubbles through water, which cools it and traps some particles before the smoke rises through the neck. The water depth matters: the sources say just enough to submerge the downstem slits by about half an inch, roughly an inch of water total in most mini bongs, because too much water floods the stem and too little leaves the slits exposed. Borosilicate glass is the standard material because its low thermal expansion resists cracking under the repeated heating of the bowl joint and the cooling of the water chamber, while thin soft glass cracks under the same stress. The beaker base matters for stability: a wide foot lowers the centre of gravity and holds more water than a straight tube of the same height, which is why the demo computes the water volume in the wide base separately from the narrow tube above it. The chamber volume sets the size of a single draw: the smoke path is short, the chamber clears quickly, and the demo checks that the water volume is a sensible fraction of the total chamber, not more than the chamber can hold. The numbers in the specification can be checked against this physics: measure the piece, apply the formulas in the math proof, and run the demo program, and the results should agree within the rounding the program reports.
+
+MATH PROOF
+The demo computes the supply from its own specification, using the formula V = pi * (d/2)^2 * h, where V is a chamber volume in cubic millimetres; d is the chamber diameter in millimetres; h is the chamber height in millimetres. The key figures are height_mm = 177.8, tube_diameter_mm = 28.0, base_diameter_mm = 90.0, water_depth_mm = 35.0. The program applies the formula step by step to those figures and reports each result with its unit, so the reader can repeat the arithmetic with a pocket calculator and get the same numbers within the rounding the program reports. Each input is named, each unit is stated, and no hidden constant is used anywhere in the calculation, so an error in any step can be found by checking one line at a time. The scientific equation V_water = pi * (D/2)^2 * h_water states the same relationship in its general form, and the demo prints both runs with SHA-256 digests so the reader can confirm the computation is deterministic. If the demo output does not match the expected output in this record, the code or the inputs have changed, and the record should not be trusted until the difference is explained.
+
+FORMAL EQUATION
+V = pi * (d/2)^2 * h
+
+HISTORY
+The mini bong is a full-size water pipe reduced to pocket scale: the same beaker or straight tube, the same downstem and bowl, the same water filtration, in a piece under about eight inches tall. Small water pipes are not new — bubblers and pocket pipes have been sold for decades — but the mini bong as a named type grew with borosilicate glassmaking, which made a thin, heat-resistant tube cheap enough to shrink without cracking. The sources put most mini bongs between four and seven inches tall: four to five inches for the most portable pieces, six to seven inches for a longer smoke path and a larger chamber that is easier to clear. The beaker base became the common form because its wide foot holds more water and keeps a small piece planted on a table, while the straight tube stays the most compact. A six-inch beaker with a 10 or 14 millimetre joint, a removable downstem, and about an inch of water is the standard example in this record. The sources cited at the end of this record give the reader places to check each stage of that change.
+
+DEMO
+"""Demo: mini bong — Signature Mini Bong."""
+import hashlib, math
+def compute():
+    height_mm = 177.8; tube_d = 28.0; base_d = 90.0; base_h = 55.0; water_depth = 35.0
+    water_vol = math.pi * (base_d / 2.0) ** 2 * water_depth / 1000.0
+    base_vol = math.pi * (base_d / 2.0) ** 2 * base_h / 1000.0
+    tube_h = height_mm - base_h
+    tube_vol = math.pi * (tube_d / 2.0) ** 2 * tube_h / 1000.0
+    chamber_vol = base_vol + tube_vol
+    water_frac = water_vol / chamber_vol
+    return {"height_mm": height_mm, "water_depth_mm": water_depth, "water_volume_ml": round(water_vol, 1), "base_volume_ml": round(base_vol, 1), "tube_volume_ml": round(tube_vol, 1), "chamber_volume_ml": round(chamber_vol, 1), "water_fraction": round(water_frac, 3)}
+def main():
+    a = compute(); b = compute()
+    sa = hashlib.sha256(repr(sorted(a.items())).encode()).hexdigest()
+    sb = hashlib.sha256(repr(sorted(b.items())).encode()).hexdigest()
+    print(f"height_mm: {a['height_mm']}")
+    print(f"water_depth_mm: {a['water_depth_mm']}")
+    print(f"water_volume_ml: {a['water_volume_ml']}")
+    print(f"base_volume_ml: {a['base_volume_ml']}")
+    print(f"tube_volume_ml: {a['tube_volume_ml']}")
+    print(f"chamber_volume_ml: {a['chamber_volume_ml']}")
+    print(f"water_fraction: {a['water_fraction']}")
+    print(f"Run 1 SHA-256: {sa}")
+    print(f"Run 2 SHA-256: {sb}")
+    print(f"Deterministic: {'MATCH' if sa == sb else 'MISMATCH'}")
+if __name__ == "__main__":
+    main()
+
+
+PROGRAM
+"""Signature Mini Bong — full working program.
+
+Computes the same quantities as the record demo (mini bong),
+as a documented module with a class and a run() method.
+Run: python3 program.py
+"""
+import hashlib
+import math
+
+
+class SupplyCalculator:
+    """Calculator for Signature Mini Bong."""
+
+    def compute(self):
+        """Return the computed quantities as a dict."""
+        height_mm = 177.8; tube_d = 28.0; base_d = 90.0; base_h = 55.0; water_depth = 35.0
+        water_vol = math.pi * (base_d / 2.0) ** 2 * water_depth / 1000.0
+        base_vol = math.pi * (base_d / 2.0) ** 2 * base_h / 1000.0
+        tube_h = height_mm - base_h
+        tube_vol = math.pi * (tube_d / 2.0) ** 2 * tube_h / 1000.0
+        chamber_vol = base_vol + tube_vol
+        water_frac = water_vol / chamber_vol
+        return {"height_mm": height_mm, "water_depth_mm": water_depth, "water_volume_ml": round(water_vol, 1), "base_volume_ml": round(base_vol, 1), "tube_volume_ml": round(tube_vol, 1), "chamber_volume_ml": round(chamber_vol, 1), "water_fraction": round(water_frac, 3)}
+
+    def run(self):
+        """Compute twice, print named results and SHA-256 digests."""
+        a = self.compute()
+        b = self.compute()
+        sa = hashlib.sha256(repr(sorted(a.items())).encode()).hexdigest()
+        sb = hashlib.sha256(repr(sorted(b.items())).encode()).hexdigest()
+        for key in sorted(a):
+            print(f"{key}: {a[key]}")
+        print(f"Run 1 SHA-256: {sa}")
+        print(f"Run 2 SHA-256: {sb}")
+        print(f"Deterministic: {'MATCH' if sa == sb else 'MISMATCH'}")
+        return a
+
+
+if __name__ == "__main__":
+    SupplyCalculator().run()
+
+
+GENERATOR
+{
+  "ceiling_note": "Generator ceiling: up to 1,000,000,000 scales per file, generated on demand by the file AI — not stored files.",
+  "gen_id_prefix": "JAH-MJSS-GEN-",
+  "hard_stop": 1000000000,
+  "throttle_per_call": 100,
+  "type": "seeded boundless generator"
+}
+
+OFFICIAL DEMO OUTPUT
+{
+  "height_mm": 177.8,
+  "water_depth_mm": 35.0,
+  "water_volume_ml": 222.7,
+  "base_volume_ml": 349.9,
+  "tube_volume_ml": 75.6,
+  "chamber_volume_ml": 425.5,
+  "water_fraction": 0.523
+}

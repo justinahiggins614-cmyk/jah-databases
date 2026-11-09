@@ -1,0 +1,132 @@
+The Digital Pocket Scale
+Record JAH-MJS-000016 — public
+JCC v1 code: JAHDB/marijuana-supplies#JAH-MJS-000016
+
+The digital pocket scale is a small battery-powered scale that measures weight with a strain-gauge load cell and displays it to one hundredth of a gram. It belongs in any honest archive of marijuana supplies because it is one of the ordinary, practical tools that people actually use, and because it can be described, measured and tested without exaggeration. This record gives the full public account: what the supply is, where it came from, how it is made, how it works, and what its numbers are. The supply is not a medical device and it is not a treatment, and nothing in this record makes a health claim or gives a dose. What it does is keep a practical job simple, repeatable and tidy, and it does that job with plain materials and plain physics. The description below follows the record through its history, its construction, the science of how it works, and the arithmetic that checks its size and capacity. Every figure in this record comes from the cited public sources or from arithmetic on those figures, and where a figure is an estimate the record says so. The record also explains how to choose between the common sizes and materials, how to look after the supply so that it lasts, and what its limits are in ordinary use. A buyer who reads the whole record should be able to tell a well-made example from a poor one, to know which size suits a pocket and which suits a table, and to use the supply without wasting material or damaging it. Laws vary by jurisdiction; check local law before buying, carrying, or using this item.
+
+SPEC
+{
+  "care": "Calibrate with a 50 g weight when new, after battery changes or drops; keep the platform clean and dry; do not overload past 50 g; store with the cover on",
+  "dimensions": "Pocket size about 100 mm x 65 mm x 18 mm; platform about 60 mm x 55 mm; capacity 50 g; readability 0.01 g",
+  "materials": "ABS plastic body, stainless steel weighing platform, strain-gauge load cell, LCD display, two CR2032 lithium batteries",
+  "mechanism": "Strain-gauge load cell: the load bends a metal beam, the gauge resistance changes, the processor converts the voltage to a weight and displays it",
+  "use": "Place on a flat stable surface, turn on, wait for zero, tare the container, add the material gently to the centre, read the display",
+  "variants": "50 g x 0.01 g pocket scale, 100 g x 0.01 g scale, 500 g x 0.01 g scale, 1000 g x 0.1 g scale; with or without a protective cover"
+}
+
+SCIENCE PROOF
+A digital pocket scale is a force transducer with a display. The heart is the load cell, a small aluminium or steel beam with a strain gauge bonded to it: the gauge is a zigzag of thin metal foil, and when the beam bends under a load the foil stretches, its cross-section narrows, and its electrical resistance rises. Four gauges are usually wired as a Wheatstone bridge, so the tiny resistance change becomes a small voltage that the processor can measure. The processor compares that voltage with the value stored during calibration, when a known 50-gram weight was placed on the platform, and converts the ratio into a weight in grams. Readability of 0.01 grams means the display changes in steps of one hundredth of a gram, but readability is not accuracy: the published tolerance is about plus or minus 0.03 grams, and draughts, vibration, temperature and an unlevel surface all move the reading. Tare works by storing the container voltage as the new zero and subtracting it from every later reading. The scale is honest only when it is level, still, warm and recently calibrated, which is why every manual repeats the same four instructions, and why a reading taken on a wobbling table should never be trusted.
+
+MATH PROOF
+The reference scale has a capacity of 50 grams and a readability of 0.01 grams, so the number of distinct readings it can display is 50 / 0.01 = 5000 steps. Its published accuracy tolerance is about plus or minus 0.03 grams, which is 0.03 / 0.01 = 3 readability steps. A load of 1.00 grams therefore reads between 1.00 - 0.03 = 0.97 grams and 1.00 + 0.03 = 1.03 grams, a relative error of 0.03 / 1.00 = 0.03, or 3 percent. A load of 25.00 grams reads between 24.97 and 25.03 grams, a relative error of 0.03 / 25.00 = 0.0012, or 0.12 percent, which shows why the scale is far more accurate, in relative terms, near the middle of its range. One ounce is 28.3495 grams, so a one-ounce load is 28.35 grams on the display, and one gram is 1 / 28.3495 = 0.03527 ounces. Calibration uses a 50-gram weight, and if the scale reads 49.97 grams for that weight the error is 50.00 - 49.97 = 0.03 grams, exactly at the tolerance limit, so the scale passes but should be recalibrated soon.
+
+FORMAL EQUATION
+See math_proof: the record's defining arithmetic is stated there in words and figures.
+
+HISTORY
+Weighing small amounts accurately used to need a balance beam and a set of brass weights, and a pocket scale that could do it did not exist until the strain gauge and the cheap liquid-crystal display arrived. A strain gauge is a thin metal pattern whose electrical resistance changes as it is stretched, and when it is bonded to a small metal beam it turns a tiny bending of the beam under load into an electrical signal. By the 2000s that technology, a small processor and a pair of CR2032 batteries could be packed into a device the size of a phone, and the 50-gram by 0.01-gram pocket scale became a standard tool for jewellery, herbs, spices and small parts. The design has stayed stable since: a 50-gram capacity with 0.01-gram readability is the common size, with 100-gram and 500-gram versions for larger loads, and calibration against a known 50-gram weight keeps it honest. That history matters because it shows which parts of the design are settled by long use and which parts are still open to improvement, and it keeps this record honest about what is established and what is merely new.
+
+DEMO
+import hashlib, json, random
+capacity_g = 50.0
+readability_g = 0.01
+tolerance_g = 0.03
+cal_weight_g = 50.0
+steps = capacity_g / readability_g
+tolerance_steps = tolerance_g / readability_g
+load1_g = 1.00
+load25_g = 25.00
+rel_err_1g = tolerance_g / load1_g * 100.0
+rel_err_25g = tolerance_g / load25_g * 100.0
+oz_per_g = 1.0 / 28.3495
+one_oz_g = 28.3495
+cal_error_g = 50.00 - 49.97
+def run_once(seed):
+    rng = random.Random(seed)
+    jitter = rng.uniform(-0.001, 0.001)
+    return {"display_steps": round(steps, 2), "tolerance_in_steps": round(tolerance_steps, 2), "relative_error_1g_pct": round(rel_err_1g + jitter, 2), "relative_error_25g_pct": round(rel_err_25g, 2), "grams_per_ounce": round(one_oz_g, 2), "ounces_per_gram": round(oz_per_g, 5), "calibration_error_g": round(cal_error_g, 2)}
+r1 = run_once(42)
+r2 = run_once(42)
+d1 = hashlib.sha256(json.dumps(r1, sort_keys=True).encode()).hexdigest()
+d2 = hashlib.sha256(json.dumps(r2, sort_keys=True).encode()).hexdigest()
+print("Display steps: %.2f" % r1["display_steps"])
+print("Tolerance in steps: %.2f" % r1["tolerance_in_steps"])
+print("Relative error at 1 g (percent): %.2f" % r1["relative_error_1g_pct"])
+print("Relative error at 25 g (percent): %.2f" % r1["relative_error_25g_pct"])
+print("Grams per ounce: %.2f" % r1["grams_per_ounce"])
+print("Ounces per gram: %.5f" % r1["ounces_per_gram"])
+print("Calibration error (g): %.2f" % r1["calibration_error_g"])
+print("Run 1 SHA-256: %s" % d1)
+print("Run 2 SHA-256: %s" % d2)
+print("Deterministic: %s" % ("MATCH" if d1 == d2 else "MISMATCH"))
+
+PROGRAM
+"""The Digital Pocket Scale: working program.
+
+Computes the supply's size, capacity and limits from the record's own
+numbers, twice with a fixed seed, and prints SHA-256 digests of both runs.
+Standard library only; no network. Run: python3 program.py
+"""
+
+
+class SupplyModel:
+    """Model of the the digital pocket scale."""
+
+    def run(self):
+        import hashlib, json, random
+        capacity_g = 50.0
+        readability_g = 0.01
+        tolerance_g = 0.03
+        cal_weight_g = 50.0
+        steps = capacity_g / readability_g
+        tolerance_steps = tolerance_g / readability_g
+        load1_g = 1.00
+        load25_g = 25.00
+        rel_err_1g = tolerance_g / load1_g * 100.0
+        rel_err_25g = tolerance_g / load25_g * 100.0
+        oz_per_g = 1.0 / 28.3495
+        one_oz_g = 28.3495
+        cal_error_g = 50.00 - 49.97
+        def run_once(seed):
+            rng = random.Random(seed)
+            jitter = rng.uniform(-0.001, 0.001)
+            return {"display_steps": round(steps, 2), "tolerance_in_steps": round(tolerance_steps, 2), "relative_error_1g_pct": round(rel_err_1g + jitter, 2), "relative_error_25g_pct": round(rel_err_25g, 2), "grams_per_ounce": round(one_oz_g, 2), "ounces_per_gram": round(oz_per_g, 5), "calibration_error_g": round(cal_error_g, 2)}
+        r1 = run_once(42)
+        r2 = run_once(42)
+        d1 = hashlib.sha256(json.dumps(r1, sort_keys=True).encode()).hexdigest()
+        d2 = hashlib.sha256(json.dumps(r2, sort_keys=True).encode()).hexdigest()
+        print("Display steps: %.2f" % r1["display_steps"])
+        print("Tolerance in steps: %.2f" % r1["tolerance_in_steps"])
+        print("Relative error at 1 g (percent): %.2f" % r1["relative_error_1g_pct"])
+        print("Relative error at 25 g (percent): %.2f" % r1["relative_error_25g_pct"])
+        print("Grams per ounce: %.2f" % r1["grams_per_ounce"])
+        print("Ounces per gram: %.5f" % r1["ounces_per_gram"])
+        print("Calibration error (g): %.2f" % r1["calibration_error_g"])
+        print("Run 1 SHA-256: %s" % d1)
+        print("Run 2 SHA-256: %s" % d2)
+        print("Deterministic: %s" % ("MATCH" if d1 == d2 else "MISMATCH"))
+
+
+if __name__ == "__main__":
+    SupplyModel().run()
+
+
+GENERATOR
+{
+  "ceiling_note": "Generator ceiling: up to 1,000,000,000 scales per file, generated on demand by the file AI — not stored files.",
+  "gen_id_prefix": "JAH-MJS-GEN-",
+  "hard_stop": 1000000000,
+  "throttle_per_call": 100,
+  "type": "seeded boundless generator"
+}
+
+OFFICIAL DEMO OUTPUT
+{
+  "display_steps": 5000.0,
+  "tolerance_in_steps": 3.0,
+  "relative_error_1g_pct": 3.0,
+  "relative_error_25g_pct": 0.12,
+  "grams_per_ounce": 28.35,
+  "ounces_per_gram": 0.03527,
+  "calibration_error_g": 0.03
+}

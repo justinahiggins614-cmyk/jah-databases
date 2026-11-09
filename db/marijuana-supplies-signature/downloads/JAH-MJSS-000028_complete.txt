@@ -1,0 +1,115 @@
+Signature Vortex Recycler
+Record JAH-MJSS-000028 — signature
+JCC v1 code: JAHDB/marijuana-supplies-signature#JAH-MJSS-000028
+
+The Signature Vortex Recycler is a Signature-made design study for recycler bong, a new design in the Signature Marijuana Supplies Database that reworks the familiar public form with one deliberate change. It keeps the job the same — smoke and water circulate together in a loop: the percolator diffuses smoke in the main chamber, an uptake tube carries water and smoke up to a second chamber where they separate, and a drain tube returns the water to the main chamber — but changes how the parts are arranged, using signature borosilicate glass with a widened uptake funnel; showerhead percolator; glass downstem and bowl. The design is sized at 360 mm tall; main chamber 380 ml; secondary chamber 200 ml; uptake tube 12 mm diameter; drain tube 10 mm diameter; water 230 ml in total, which sets every number in this record, from the volumes and areas in the demo to the scale variants at the end. Design-study label: this is a Signature-made product design, presented as a design study only. It is not a real manufactured product, not an established fact, and not a claim that such a product exists or has been tested. What it does offer is a complete, checkable design: a full specification, the physics of how it would work, worked arithmetic tied to its own dimensions, a runnable program that computes those numbers, and three boundless scale variants. Readers can follow the design from first principles, repeat the arithmetic by hand, run the program, and see exactly where each number comes from. The Signature edition exists alongside the public edition so the archive holds both what exists in the world and what the Signature system designs next, clearly labelled, so the two are never confused. Like every Signature record, it is filed as a design study, with its own generator and its own file AI, and it marches with the rest of the database toward a million records.
+
+SPEC
+{
+  "care": "Soak the loop tubes in isopropyl alcohol; rinse well; dry fully; handle gently",
+  "dimensions": "360 mm tall; main chamber 380 mL; secondary chamber 200 mL; uptake tube 12 mm diameter; drain tube 10 mm diameter; water 230 mL in total",
+  "materials": "Signature borosilicate glass with a widened uptake funnel; showerhead percolator; glass downstem and bowl",
+  "mechanism": "Vortex funnel: the Signature design widens the mouth of the uptake tube into a funnel, so water enters the loop smoothly instead of choking at the tube mouth",
+  "use": "Fill so the percolator is covered and the upper chamber stays dry when still, draw steadily so the loop starts, then clear",
+  "variants": "Pocket vortex, standard vortex, and workshop vortex versions; uptake funnel width varies by variant"
+}
+
+SCIENCE PROOF
+The recycler works by keeping water in motion. In a plain bong the water sits still and the smoke passes through it once; in a recycler the draw creates a pressure difference that pulls water up the uptake tube into the secondary chamber, where the water and the smoke separate because water is far denser than smoke and falls back under gravity. The drain tube carries that water back to the main chamber, so the percolator never runs dry during a long pull, which is the failure that makes a plain percolator gurgle and splash. The loop time is the loop water volume divided by the draw flow rate: at a draw of 1.5 litres per minute the 230 millilitres of water in the loop takes about nine seconds to make one full circuit. The uptake tube must be wider than the drain tube, because it carries water and smoke together while the drain carries water alone, and a drain that is too narrow will back up and flood the upper chamber. The smoke is not filtered a second time by the loop: the loop's jobs are to keep the percolator covered, to keep water off the lips, and to keep each bubble surrounded by water longer, which is where the extra cooling comes from. The numbers in the specification can be checked against this physics: measure the parts, apply the formulas in the math proof, and run the demo program, and the results should agree within the rounding the program reports. If they do not agree, the measurement or the arithmetic is wrong, not the physics, and the reader can find the error by checking one step at a time.
+
+MATH PROOF
+The demo starts from the tube cross-sections: the uptake tube has a diameter of 12.0 mm, so its area is pi times its radius squared, and the drain tube has a diameter of 10.0 mm, with its area computed the same way. The loop water volume is the main chamber water of 150.0 mL plus the secondary chamber water of 80.0 mL. The draw flow rate is 1.5 litres per minute, which divided by 60 gives millilitres per second, and dividing the loop volume by that flow gives the loop time in seconds. The uptake tube volume is its cross-section times its length of 200.0 mm, reported in millilitres. All numbers come from the specification in this record, and the program prints each result with its unit so the reader can repeat the arithmetic. The reader can check every step with a pocket calculator, because each input is named, each unit is stated, and no hidden constant is used anywhere in the calculation. The computation is run twice and the SHA-256 digests of both runs are printed, confirming the result is deterministic.
+
+FORMAL EQUATION
+t_loop = V_loop / Q
+
+HISTORY
+The recycler bong is a recent design, developed in the 2010s as glassblowers working on concentrate rigs looked for a way to keep water moving instead of letting it sit still. The idea borrows from the Klein bottle, a mathematical shape with no inside or outside, and some recycler designs are still called Klein recyclers for the sealed loop their glass forms. Early recyclers were small dab rigs; the loop layout then spread to flower bongs, with two chambers joined by an uptake tube and a drain tube so water circulates while smoke travels to the mouthpiece. Trade guides describe the loop as doing three jobs at once: it keeps the percolator covered, it keeps water off the user's lips, and it keeps smoke bubbles surrounded by water longer. The design is now a recognised type in its own right, sold alongside beakers and straight tubes. Over time the same basic form was copied, adapted, and refined by many makers, so the record today covers a family of closely related objects rather than a single patented shape. Trade guides and manufacturer manuals preserve the steps of that change. The history matters because it explains why the parts are arranged the way they are: each feature survives because it solved a practical problem for the people who used the supply every day.
+
+DEMO
+"""Demo: recycler bong loop volumes and cycle time — Signature Vortex Recycler."""
+import hashlib, math
+def compute():
+    main_mL = 150.0; sec_mL = 80.0; up_d = 12.0; dr_d = 10.0; up_len = 200.0; dr_len = 170.0; draw = 1.5
+    up_area = math.pi * (up_d / 2.0) ** 2
+    dr_area = math.pi * (dr_d / 2.0) ** 2
+    loop_mL = main_mL + sec_mL
+    flow_mL_s = draw * 1000.0 / 60.0
+    loop_time = loop_mL / flow_mL_s
+    up_vol = up_area * up_len / 1000.0
+    return {"main_water_mL": main_mL, "secondary_water_mL": sec_mL, "loop_water_mL": round(loop_mL, 2), "uptake_area_mm2": round(up_area, 2), "drain_area_mm2": round(dr_area, 2), "loop_time_s": round(loop_time, 2), "uptake_volume_mL": round(up_vol, 2)}
+def main():
+    a = compute(); b = compute()
+    sa = hashlib.sha256(repr(sorted(a.items())).encode()).hexdigest()
+    sb = hashlib.sha256(repr(sorted(b.items())).encode()).hexdigest()
+    for key in ["main_water_mL", "secondary_water_mL", "loop_water_mL", "uptake_area_mm2", "drain_area_mm2", "loop_time_s", "uptake_volume_mL"]:
+        print(f"{key}: {a[key]}")
+    print(f"Run 1 SHA-256: {sa}")
+    print(f"Run 2 SHA-256: {sb}")
+    print(f"Deterministic: {'MATCH' if sa == sb else 'MISMATCH'}")
+if __name__ == "__main__":
+    main()
+
+
+PROGRAM
+"""Signature Vortex Recycler — full working program.
+
+Computes the same quantities as the record demo (recycler bong loop volumes and cycle time),
+as a documented module with a class and a run() method.
+Run: python3 program.py
+"""
+import hashlib
+import math
+
+
+class SupplyCalculator:
+    """Calculator for Signature Vortex Recycler."""
+
+    def compute(self):
+        """Return the computed quantities as a dict."""
+        main_mL = 150.0; sec_mL = 80.0; up_d = 12.0; dr_d = 10.0; up_len = 200.0; dr_len = 170.0; draw = 1.5
+        up_area = math.pi * (up_d / 2.0) ** 2
+        dr_area = math.pi * (dr_d / 2.0) ** 2
+        loop_mL = main_mL + sec_mL
+        flow_mL_s = draw * 1000.0 / 60.0
+        loop_time = loop_mL / flow_mL_s
+        up_vol = up_area * up_len / 1000.0
+        return {"main_water_mL": main_mL, "secondary_water_mL": sec_mL, "loop_water_mL": round(loop_mL, 2), "uptake_area_mm2": round(up_area, 2), "drain_area_mm2": round(dr_area, 2), "loop_time_s": round(loop_time, 2), "uptake_volume_mL": round(up_vol, 2)}
+
+    def run(self):
+        """Compute twice, print named results and SHA-256 digests."""
+        a = self.compute()
+        b = self.compute()
+        sa = hashlib.sha256(repr(sorted(a.items())).encode()).hexdigest()
+        sb = hashlib.sha256(repr(sorted(b.items())).encode()).hexdigest()
+        for key in sorted(a):
+            print(f"{key}: {a[key]}")
+        print(f"Run 1 SHA-256: {sa}")
+        print(f"Run 2 SHA-256: {sb}")
+        print(f"Deterministic: {'MATCH' if sa == sb else 'MISMATCH'}")
+        return a
+
+
+if __name__ == "__main__":
+    SupplyCalculator().run()
+
+
+GENERATOR
+{
+  "ceiling_note": "Generator ceiling: up to 1,000,000,000 scales per file, generated on demand by the file AI — not stored files.",
+  "gen_id_prefix": "JAH-MJSS-GEN-",
+  "hard_stop": 1000000000,
+  "throttle_per_call": 100,
+  "type": "seeded boundless generator"
+}
+
+OFFICIAL DEMO OUTPUT
+{
+  "main_water_mL": 150.0,
+  "secondary_water_mL": 80.0,
+  "loop_water_mL": 230.0,
+  "uptake_area_mm2": 113.1,
+  "drain_area_mm2": 78.54,
+  "loop_time_s": 9.2,
+  "uptake_volume_mL": 22.62
+}

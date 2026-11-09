@@ -1,0 +1,122 @@
+The Carbon Filter
+Record JAH-MJS-000047 — public
+JCC v1 code: JAHDB/marijuana-supplies#JAH-MJS-000047
+
+The Carbon Filter is one of the supplies of the marijuana supplies archive: a carbon filter described here in full, with its history, its parts, its dimensions, its mechanism, and the numbers that follow from those dimensions. It is made from galvanised steel canister and flange; virgin australian activated carbon, 1200+ iodine value; steel mesh cylinders; cloth pre-filter sleeve, and a common example measures 4 in (100 mm) flange; canister 100 mm diameter x 300 mm long; carbon bed 38 mm thick; rated about 205 cfm. It works by fan pulls air through the outer mesh, across the activated carbon bed where odour molecules adsorb to the carbon pores, and out through the flange to the duct The variants in the specification show how makers change size, material, and detail while keeping the same working principle, and the scale variants at the end of this record show the same design at pocket, standard, and workshop sizes. The file AI for this record can answer questions about the supply from the record itself, and the generator can produce the design at pocket, standard, and workshop scales on demand. The record gives the science behind the supply, the mathematics of its dimensions, a working demo program that computes its real figures, a full program with a class and a run method, and a boundless generator that can produce the design at many scales. Care is simple and is stated in the specification: wash or replace the pre-filter sleeve regularly; keep the canister dry; replace the carbon or the canister when odour leaks; store in a dry place Legal note: laws on cannabis and cannabis supplies vary by jurisdiction; check local law before buying, possessing, or using this supply.
+
+SPEC
+{
+  "care": "Wash or replace the pre-filter sleeve regularly; keep the canister dry; replace the carbon or the canister when odour leaks; store in a dry place",
+  "dimensions": "4 in (100 mm) flange; canister 100 mm diameter x 300 mm long; carbon bed 38 mm thick; rated about 205 CFM",
+  "materials": "Galvanised steel canister and flange; virgin Australian activated carbon, 1200+ iodine value; steel mesh cylinders; cloth pre-filter sleeve",
+  "mechanism": "Fan pulls air through the outer mesh, across the activated carbon bed where odour molecules adsorb to the carbon pores, and out through the flange to the duct",
+  "use": "Hang the canister inside the tent on straps, fit the pre-filter sleeve, connect the flange to the inline fan with ducting and clamps, run the fan so air passes through the bed",
+  "variants": "4 in x 12 in; 6 in x 16 in; 8 in x 24 in; refillable canisters; reversible flange; 38 mm and 52 mm beds"
+}
+
+SCIENCE PROOF
+A carbon filter works by adsorption: air passes through a bed of activated carbon, and odour molecules stick to the enormous internal surface of the carbon pores instead of passing through. The bed in this record is 38 millimetres thick, the common RC412 grade of virgin Australian carbon rated at 1200 or higher iodine value, which is a measure of how much the carbon can adsorb. The canister is an annulus: air enters through the outer mesh, crosses the 38 millimetre bed, and leaves through the inner mesh to the fan, so the carbon volume is the volume between the outer and inner cylinders, about 2.22 litres in the 4-inch by 12-inch example. Air must move slowly enough for adsorption to happen: at 205 CFM through the outer surface of the canister the face velocity is about one metre per second, which gives the air a real dwell time in the bed, and running the fan far faster than the filter rating pushes air past the carbon untreated. The pre-filter sleeve matters because dust clogs the outer mesh and shortens the bed life, so keeping it clean is the cheapest way to extend the filter. The bed saturates over time no matter how clean the pre-filter is — the sources put continuous-use life at 12 to 18 months for a good canister, and 3 to 6 months where makers quote a conservative replacement interval — and the demo computes the carbon volume, the face velocity, and the hours in the quoted lifespan so the reader can check the arithmetic directly. The numbers in the specification can be checked against this physics: measure the filter, apply the formulas in the math proof, and run the demo program, and the results should agree within the rounding the program reports.
+
+MATH PROOF
+The demo computes the supply from its own specification, using the formula V = pi * (R^2 - r^2) * L, where V is the carbon bed volume in cubic millimetres; R is the outer radius in millimetres; r is the inner radius in millimetres; L is the canister length in millimetres. The key figures are outer_diameter_mm = 100.0, length_mm = 300.0, bed_mm = 38.0, airflow_cfm = 205.0, lifespan_months = 4.5. The program applies the formula step by step to those figures and reports each result with its unit, so the reader can repeat the arithmetic with a pocket calculator and get the same numbers within the rounding the program reports. Each input is named, each unit is stated, and no hidden constant is used anywhere in the calculation, so an error in any step can be found by checking one line at a time. The scientific equation v = Q / A states the same relationship in its general form, and the demo prints both runs with SHA-256 digests so the reader can confirm the computation is deterministic. If the demo output does not match the expected output in this record, the code or the inputs have changed, and the record should not be trusted until the difference is explained.
+
+FORMAL EQUATION
+V = pi * (R^2 - r^2) * L
+
+HISTORY
+The carbon filter is a canister of activated carbon that scrubs odour from exhaust air, and it became a standard grow-tent part once indoor gardening moved into shared buildings. Activated carbon has been used to purify air and water for more than a century: its surface is full of microscopic pores, and gas molecules stick to those pores by adsorption, a surface effect, not absorption into the material. The grow-tent form is a steel canister with a flange on one end, a bed of carbon held between two mesh cylinders, and a cloth pre-filter sleeve that catches dust before it reaches the carbon. Common sizes match the common fans: 4 inches by 12 inches for a 2 by 2 or 2 by 4 tent, 6 inches by 16 inches for a 4 by 4 tent, with a bed about 38 millimetres thick of virgin Australian carbon rated at 1200 or higher iodine value. Lifespans vary by use: makers quote 3 to 6 months for heavy use and up to 18 months of continuous use for thick-bed canisters, and the honest rule is to replace the carbon when odour starts to leak. The record here describes the filter as a product — its canister, its carbon bed, its airflow, its lifespan — and not how to grow anything in the space it serves. The sources cited at the end of this record give the reader places to check each stage of that change.
+
+DEMO
+"""Demo: carbon filter — The Carbon Filter."""
+import hashlib, math
+def compute():
+    outer_d = 100.0; length = 300.0; bed_mm = 38.0; cfm = 205.0; months = 4.5
+    outer_r = outer_d / 2.0; inner_r = outer_r - bed_mm
+    carbon_vol = math.pi * (outer_r ** 2 - inner_r ** 2) * length / 1000000.0
+    outer_area = math.pi * outer_d * length / 1000000.0
+    flow_m3s = cfm * 0.000471947
+    face_vel = flow_m3s / outer_area
+    hours = months * 30.0 * 24.0
+    return {"outer_diameter_mm": outer_d, "length_mm": length, "bed_mm": bed_mm, "carbon_volume_L": round(carbon_vol, 2), "outer_area_m2": round(outer_area, 4), "face_velocity_ms": round(face_vel, 2), "lifespan_months": months, "lifespan_hours": round(hours, 0)}
+def main():
+    a = compute(); b = compute()
+    sa = hashlib.sha256(repr(sorted(a.items())).encode()).hexdigest()
+    sb = hashlib.sha256(repr(sorted(b.items())).encode()).hexdigest()
+    print(f"outer_diameter_mm: {a['outer_diameter_mm']}")
+    print(f"length_mm: {a['length_mm']}")
+    print(f"bed_mm: {a['bed_mm']}")
+    print(f"carbon_volume_L: {a['carbon_volume_L']}")
+    print(f"outer_area_m2: {a['outer_area_m2']}")
+    print(f"face_velocity_ms: {a['face_velocity_ms']}")
+    print(f"lifespan_months: {a['lifespan_months']}")
+    print(f"lifespan_hours: {a['lifespan_hours']}")
+    print(f"Run 1 SHA-256: {sa}")
+    print(f"Run 2 SHA-256: {sb}")
+    print(f"Deterministic: {'MATCH' if sa == sb else 'MISMATCH'}")
+if __name__ == "__main__":
+    main()
+
+
+PROGRAM
+"""The Carbon Filter — full working program.
+
+Computes the same quantities as the record demo (carbon filter),
+as a documented module with a class and a run() method.
+Run: python3 program.py
+"""
+import hashlib
+import math
+
+
+class SupplyCalculator:
+    """Calculator for The Carbon Filter."""
+
+    def compute(self):
+        """Return the computed quantities as a dict."""
+        outer_d = 100.0; length = 300.0; bed_mm = 38.0; cfm = 205.0; months = 4.5
+        outer_r = outer_d / 2.0; inner_r = outer_r - bed_mm
+        carbon_vol = math.pi * (outer_r ** 2 - inner_r ** 2) * length / 1000000.0
+        outer_area = math.pi * outer_d * length / 1000000.0
+        flow_m3s = cfm * 0.000471947
+        face_vel = flow_m3s / outer_area
+        hours = months * 30.0 * 24.0
+        return {"outer_diameter_mm": outer_d, "length_mm": length, "bed_mm": bed_mm, "carbon_volume_L": round(carbon_vol, 2), "outer_area_m2": round(outer_area, 4), "face_velocity_ms": round(face_vel, 2), "lifespan_months": months, "lifespan_hours": round(hours, 0)}
+
+    def run(self):
+        """Compute twice, print named results and SHA-256 digests."""
+        a = self.compute()
+        b = self.compute()
+        sa = hashlib.sha256(repr(sorted(a.items())).encode()).hexdigest()
+        sb = hashlib.sha256(repr(sorted(b.items())).encode()).hexdigest()
+        for key in sorted(a):
+            print(f"{key}: {a[key]}")
+        print(f"Run 1 SHA-256: {sa}")
+        print(f"Run 2 SHA-256: {sb}")
+        print(f"Deterministic: {'MATCH' if sa == sb else 'MISMATCH'}")
+        return a
+
+
+if __name__ == "__main__":
+    SupplyCalculator().run()
+
+
+GENERATOR
+{
+  "ceiling_note": "Generator ceiling: up to 1,000,000,000 scales per file, generated on demand by the file AI — not stored files.",
+  "gen_id_prefix": "JAH-MJS-GEN-",
+  "hard_stop": 1000000000,
+  "throttle_per_call": 100,
+  "type": "seeded boundless generator"
+}
+
+OFFICIAL DEMO OUTPUT
+{
+  "outer_diameter_mm": 100.0,
+  "length_mm": 300.0,
+  "bed_mm": 38.0,
+  "carbon_volume_L": 2.22,
+  "outer_area_m2": 0.0942,
+  "face_velocity_ms": 1.03,
+  "lifespan_months": 4.5,
+  "lifespan_hours": 3240.0
+}

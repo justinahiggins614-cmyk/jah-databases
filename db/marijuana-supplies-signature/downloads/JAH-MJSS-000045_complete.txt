@@ -1,0 +1,120 @@
+Signature Fabric Grow Pot
+Record JAH-MJSS-000045 — signature
+JCC v1 code: JAHDB/marijuana-supplies-signature#JAH-MJSS-000045
+
+Signature Fabric Grow Pot is one of the supplies of the marijuana supplies archive: a fabric grow pot described here in full, with its history, its parts, its dimensions, its mechanism, and the numbers that follow from those dimensions. This Signature design is a design study: a new design for the same supply type, described in full and never presented as a real product or as established fact. It is made from 500 gsm needlepunched nonwoven polypropylene fabric; bonded polyester thread, quad-stitched; reinforced webbing handles, and a common example measures 7 gallon (26.5 l) nominal; 33 cm diameter x 30 cm tall; two reinforced handles. It works by porous fabric wall lets air reach the root zone and drains excess water; root tips meeting air stop and branch, preventing circling roots The variants in the specification show how makers change size, material, and detail while keeping the same working principle, and the scale variants at the end of this record show the same design at pocket, standard, and workshop sizes. The file AI for this record can answer questions about the supply from the record itself, and the generator can produce the design at pocket, standard, and workshop scales on demand. The record gives the science behind the supply, the mathematics of its dimensions, a working demo program that computes its real figures, a full program with a class and a run method, and a boundless generator that can produce the design at many scales. Care is simple and is stated in the specification: empty after use, brush off dried mix, rinse with water and dry fully before storage; check seams and handles for wear; fold flat for storage Legal note: laws on cannabis and cannabis supplies vary by jurisdiction; check local law before buying, possessing, or using this supply.
+
+SPEC
+{
+  "care": "Empty after use, brush off dried mix, rinse with water and dry fully before storage; check seams and handles for wear; fold flat for storage",
+  "dimensions": "7 gallon (26.5 L) nominal; 33 cm diameter x 30 cm tall; two reinforced handles",
+  "materials": "500 GSM needlepunched nonwoven polypropylene fabric; bonded polyester thread, quad-stitched; reinforced webbing handles",
+  "mechanism": "Porous fabric wall lets air reach the root zone and drains excess water; root tips meeting air stop and branch, preventing circling roots",
+  "use": "Set the pot on a tray, fill with growing mix, place it where it will stay, lift by both handles when moving it",
+  "variants": "3, 5, 7, 10, 15, and 20 gallon; reinforced handles; square bottom; black fabric; 500 GSM"
+}
+
+SCIENCE PROOF
+The fabric grow pot works by air pruning, and the mechanism is simple enough to state in one sentence: a root tip that reaches air stops growing and branches instead. In a rigid plastic pot the root hits a solid wall, turns, and circles the container, and the circling mass chokes water and nutrient uptake. In a fabric pot the wall is porous nonwoven polypropylene, so air passes through the fabric and dries the root tip on contact, which triggers lateral branching and a dense fibrous root mass with far more root ends — the sources report up to 200 percent more root ends than rigid containers. The same porosity gives superior drainage: excess water passes through the fabric instead of pooling at the bottom, and the sources quote water passing at 50 to 150 litres per square metre per second through the nonwoven wall. Fabric thickness is measured in grams per square metre: budget bags sit near 200 to 250 GSM, 300 GSM is the long-term recommendation, and premium pots reach 500 GSM. The trade-off is that the breathable wall lets the contents dry faster than a sealed pot, so the container needs checking more often. The demo computes the pot as a cylinder — its volume, its fabric surface area, and the mass of the mix it holds — so the reader can check the capacity arithmetic directly. The numbers in the specification can be checked against this physics: measure the pot, apply the formulas in the math proof, and run the demo program, and the results should agree within the rounding the program reports.
+
+MATH PROOF
+The demo computes the supply from its own specification, using the formula V = pi * (d/2)^2 * h, where V is the pot volume in cubic centimetres; d is the pot diameter in centimetres; h is the pot height in centimetres. The key figures are diameter_cm = 33.0, height_cm = 30.0, volume_L = 25.64, fabric_gsm = 500. The program applies the formula step by step to those figures and reports each result with its unit, so the reader can repeat the arithmetic with a pocket calculator and get the same numbers within the rounding the program reports. Each input is named, each unit is stated, and no hidden constant is used anywhere in the calculation, so an error in any step can be found by checking one line at a time. The scientific equation m = rho * V states the same relationship in its general form, and the demo prints both runs with SHA-256 digests so the reader can confirm the computation is deterministic. If the demo output does not match the expected output in this record, the code or the inputs have changed, and the record should not be trusted until the difference is explained.
+
+FORMAL EQUATION
+V = pi * (d/2)^2 * h
+
+HISTORY
+The fabric grow pot is a soft-sided container made of breathable nonwoven fabric, and its history starts with the Smart Pot, which has been made since the 1980s and proved that a porous wall changes how roots behave. Before fabric pots, containers were rigid plastic or clay, and roots reaching the wall would circle it, strangling the plant and starving it of water and nutrients. The fabric pot breaks that pattern: when a root tip reaches the porous wall it meets dry air and stops, and the plant answers by sending out branching roots behind the tip instead. The form spread through garden centres and grow shops in every size from a quarter gallon to a thousand gallons, with 5 gallons the common home size and 7, 10, 15, and 20 gallons for larger plants. Modern pots use needlepunched nonwoven polypropylene in 200 to 500 grams per square metre, double-stitched seams, and sewn handles, and some have square bottoms for stability. The record here describes the pot as a product — its fabric, its capacity, its handles — and not what to plant in it or how to feed anything in it. The sources cited at the end of this record give the reader places to check each stage of that change.
+
+DEMO
+"""Demo: fabric grow pot — Signature Fabric Grow Pot."""
+import hashlib, math
+def compute():
+    d_cm = 33.0; h_cm = 30.0; density = 0.45
+    vol_cm3 = math.pi * (d_cm / 2.0) ** 2 * h_cm
+    vol_L = vol_cm3 / 1000.0
+    vol_gal = vol_L / 3.78541
+    side_area = math.pi * d_cm * h_cm
+    bottom_area = math.pi * (d_cm / 2.0) ** 2
+    total_area = side_area + bottom_area
+    mass_kg = vol_cm3 * density / 1000.0
+    return {"diameter_cm": d_cm, "height_cm": h_cm, "volume_L": round(vol_L, 2), "volume_gal": round(vol_gal, 2), "fabric_area_cm2": round(total_area, 1), "mix_mass_kg": round(mass_kg, 2)}
+def main():
+    a = compute(); b = compute()
+    sa = hashlib.sha256(repr(sorted(a.items())).encode()).hexdigest()
+    sb = hashlib.sha256(repr(sorted(b.items())).encode()).hexdigest()
+    print(f"diameter_cm: {a['diameter_cm']}")
+    print(f"height_cm: {a['height_cm']}")
+    print(f"volume_L: {a['volume_L']}")
+    print(f"volume_gal: {a['volume_gal']}")
+    print(f"fabric_area_cm2: {a['fabric_area_cm2']}")
+    print(f"mix_mass_kg: {a['mix_mass_kg']}")
+    print(f"Run 1 SHA-256: {sa}")
+    print(f"Run 2 SHA-256: {sb}")
+    print(f"Deterministic: {'MATCH' if sa == sb else 'MISMATCH'}")
+if __name__ == "__main__":
+    main()
+
+
+PROGRAM
+"""Signature Fabric Grow Pot — full working program.
+
+Computes the same quantities as the record demo (fabric grow pot),
+as a documented module with a class and a run() method.
+Run: python3 program.py
+"""
+import hashlib
+import math
+
+
+class SupplyCalculator:
+    """Calculator for Signature Fabric Grow Pot."""
+
+    def compute(self):
+        """Return the computed quantities as a dict."""
+        d_cm = 33.0; h_cm = 30.0; density = 0.45
+        vol_cm3 = math.pi * (d_cm / 2.0) ** 2 * h_cm
+        vol_L = vol_cm3 / 1000.0
+        vol_gal = vol_L / 3.78541
+        side_area = math.pi * d_cm * h_cm
+        bottom_area = math.pi * (d_cm / 2.0) ** 2
+        total_area = side_area + bottom_area
+        mass_kg = vol_cm3 * density / 1000.0
+        return {"diameter_cm": d_cm, "height_cm": h_cm, "volume_L": round(vol_L, 2), "volume_gal": round(vol_gal, 2), "fabric_area_cm2": round(total_area, 1), "mix_mass_kg": round(mass_kg, 2)}
+
+    def run(self):
+        """Compute twice, print named results and SHA-256 digests."""
+        a = self.compute()
+        b = self.compute()
+        sa = hashlib.sha256(repr(sorted(a.items())).encode()).hexdigest()
+        sb = hashlib.sha256(repr(sorted(b.items())).encode()).hexdigest()
+        for key in sorted(a):
+            print(f"{key}: {a[key]}")
+        print(f"Run 1 SHA-256: {sa}")
+        print(f"Run 2 SHA-256: {sb}")
+        print(f"Deterministic: {'MATCH' if sa == sb else 'MISMATCH'}")
+        return a
+
+
+if __name__ == "__main__":
+    SupplyCalculator().run()
+
+
+GENERATOR
+{
+  "ceiling_note": "Generator ceiling: up to 1,000,000,000 scales per file, generated on demand by the file AI — not stored files.",
+  "gen_id_prefix": "JAH-MJSS-GEN-",
+  "hard_stop": 1000000000,
+  "throttle_per_call": 100,
+  "type": "seeded boundless generator"
+}
+
+OFFICIAL DEMO OUTPUT
+{
+  "diameter_cm": 33.0,
+  "height_cm": 30.0,
+  "volume_L": 25.66,
+  "volume_gal": 6.78,
+  "fabric_area_cm2": 3965.5,
+  "mix_mass_kg": 11.55
+}

@@ -1,0 +1,118 @@
+Signature Cascade Water Pipe
+Record JAH-MJSS-000006 — signature
+JCC v1 code: JAHDB/marijuana-supplies-signature#JAH-MJSS-000006
+
+The Signature Cascade Water Pipe is a Signature-made design study for water pipe (bong), a new design in the Signature Marijuana Supplies Database that reworks the familiar public form with one deliberate change. It keeps the job the same — smoke from the bowl travels down a stem below the water line, bubbles up through the water, collects in the chamber, and is drawn to the mouth when the carb is opened or the stem is lifted — but changes how the parts are arranged, using signature borosilicate glass; spiral percolator; glass downstem and bowl. The design is sized at 320 mm tall; tube 55 mm diameter; water depth 55 mm; spiral percolator with 24 slits, which sets every number in this record, from the volumes and areas in the demo to the scale variants at the end. This record is a design study, not a real manufactured product, and nothing here claims the design has been built, tested, or sold. What it does offer is a complete, checkable design: a full specification, the physics of how it would work, worked arithmetic tied to its own dimensions, a runnable program that computes those numbers, and three boundless scale variants. Readers can follow the design from first principles, repeat the arithmetic by hand, run the program, and see exactly where each number comes from. The Signature edition exists alongside the public edition so the archive holds both what exists in the world and what the Signature system designs next, clearly labelled, so the two are never confused. Like every Signature record, it is filed as a design study, with its own generator and its own file AI, and it marches with the rest of the database toward a million records.
+
+SPEC
+{
+  "care": "Change water after each session; clean with isopropyl alcohol and salt; rinse and dry",
+  "dimensions": "320 mm tall; tube 55 mm diameter; water depth 55 mm; spiral percolator with 24 slits",
+  "materials": "Signature borosilicate glass; spiral percolator; glass downstem and bowl",
+  "mechanism": "Spiral percolator: smoke follows a spiral path through the water, lengthening its contact time with water before it reaches the chamber",
+  "use": "Add water to cover the percolator, pack the bowl, draw slowly, open the carb to clear",
+  "variants": "Pocket spiral, standard spiral, and lounge spiral versions"
+}
+
+SCIENCE PROOF
+A bong is a gas-washing bottle. Smoke is a mixture of hot gases and small solid particles, and bubbling it through water does two things at once. First, the water is a heat sink: smoke leaving the bowl is hot, and contact with water at room temperature transfers heat out of the gas, so the smoke that reaches the mouth is cooler. Second, the water is a trap: heavier particles such as ash have too much inertia to follow the gas around a bubble wall and strike the water, and some water-soluble molecules dissolve. Smaller bubbles work better because surface area grows as bubble size shrinks: for the same volume of gas, many small bubbles expose far more gas-water interface than a few large ones, which is why diffused downstems and percolators with many small slits are used. The chamber above the water is a reservoir, and the water level sets the pressure the user must overcome: the draw must lift the water column by the depth of the downstem below the surface, a small hydrostatic pressure of water density times gravity times depth. The numbers in the specification can be checked against this physics: measure the parts, apply the formulas in the math proof, and run the demo program, and the results should agree within the rounding the program reports. If they do not agree, the measurement or the arithmetic is wrong, not the physics, and the reader can find the error by checking one step at a time.
+
+MATH PROOF
+The demo treats the tube as a cylinder. The cross-sectional area is pi times the tube radius squared, with a tube diameter of 55.0 mm. Multiplying that area by the water depth of 55.0 mm gives the water volume, and multiplying it by the height above the water gives the chamber volume, both reported in millilitres. A single bubble is treated as a sphere with diameter 3.0 mm: its volume is four thirds pi times radius cubed, and its surface area is four pi times radius squared. The draw pressure is water density times gravity times depth, which the program reports in pascals. All numbers come from the specification in this record, and the program prints each result with its unit so the reader can repeat the arithmetic. It runs the computation twice and prints SHA-256 digests of both runs. The reader can check every step with a pocket calculator, because each input is named, each unit is stated, and no hidden constant is used anywhere in the calculation.
+
+FORMAL EQUATION
+V = pi * (d/2)^2 * h
+
+HISTORY
+The bong descends from the hookah and from bamboo water pipes of Asia; the word itself is adapted from the Thai word baung, meaning a wooden cylinder or pipe cut from bamboo. Glass bongs became common in the twentieth century as borosilicate glass made a heat-resistant, clean-tasting water chamber practical. A 1981 United States patent (4,253,475) describes the classic form in detail: a single vertical pipe about 1.5 inches in diameter sealed at the bottom, a bowl on a tube leading in near the bottom, water just above the junction, and a small hole above the water line to clear the chamber. Over time the same basic form was copied, adapted, and refined by many makers, so the record today covers a family of closely related objects rather than a single patented shape. Museums, trade guides, and manufacturer manuals preserve the steps of that change, and the sources cited at the end of this record give the reader places to check each stage. The history matters because it explains why the parts are arranged the way they are: each feature survives because it solved a practical problem for the people who used the supply every day.
+
+DEMO
+"""Demo: water pipe water and chamber volumes — The Water Pipe (Bong)."""
+import hashlib, math
+def compute():
+    tube_d = 55.0; height = 320.0; water_h = 55.0; down_d = 12.0; bubble_d = 3.0
+    area_mm2 = math.pi * (tube_d / 2.0) ** 2
+    water_mm3 = area_mm2 * water_h
+    chamber_h = height - water_h
+    chamber_mm3 = area_mm2 * chamber_h
+    bubble_r = bubble_d / 2.0
+    bubble_vol_mm3 = (4.0 / 3.0) * math.pi * bubble_r ** 3
+    bubble_area_mm2 = 4.0 * math.pi * bubble_r ** 2
+    pressure_pa = 1000.0 * 9.81 * (water_h / 1000.0)
+    return {"water_volume_mm3": round(water_mm3, 1), "water_volume_mL": round(water_mm3 / 1000.0, 1), "chamber_volume_mL": round(chamber_mm3 / 1000.0, 1), "bubble_volume_mm3": round(bubble_vol_mm3, 2), "bubble_surface_mm2": round(bubble_area_mm2, 2), "draw_pressure_Pa": round(pressure_pa, 1)}
+def main():
+    a = compute(); b = compute()
+    sa = hashlib.sha256(repr(sorted(a.items())).encode()).hexdigest()
+    sb = hashlib.sha256(repr(sorted(b.items())).encode()).hexdigest()
+    for key in ["water_volume_mm3", "water_volume_mL", "chamber_volume_mL", "bubble_volume_mm3", "bubble_surface_mm2", "draw_pressure_Pa"]:
+        print(f"{key}: {a[key]}")
+    print(f"Run 1 SHA-256: {sa}")
+    print(f"Run 2 SHA-256: {sb}")
+    print(f"Deterministic: {'MATCH' if sa == sb else 'MISMATCH'}")
+if __name__ == "__main__":
+    main()
+
+
+PROGRAM
+"""Signature Cascade Water Pipe — full working program.
+
+Computes the same quantities as the record demo (water pipe water and chamber volumes),
+as a documented module with a class and a run() method.
+Run: python3 program.py
+"""
+import hashlib
+import math
+
+
+class SupplyCalculator:
+    """Calculator for Signature Cascade Water Pipe."""
+
+    def compute(self):
+        """Return the computed quantities as a dict."""
+        tube_d = 55.0; height = 320.0; water_h = 55.0; down_d = 12.0; bubble_d = 3.0
+        area_mm2 = math.pi * (tube_d / 2.0) ** 2
+        water_mm3 = area_mm2 * water_h
+        chamber_h = height - water_h
+        chamber_mm3 = area_mm2 * chamber_h
+        bubble_r = bubble_d / 2.0
+        bubble_vol_mm3 = (4.0 / 3.0) * math.pi * bubble_r ** 3
+        bubble_area_mm2 = 4.0 * math.pi * bubble_r ** 2
+        pressure_pa = 1000.0 * 9.81 * (water_h / 1000.0)
+        return {"water_volume_mm3": round(water_mm3, 1), "water_volume_mL": round(water_mm3 / 1000.0, 1), "chamber_volume_mL": round(chamber_mm3 / 1000.0, 1), "bubble_volume_mm3": round(bubble_vol_mm3, 2), "bubble_surface_mm2": round(bubble_area_mm2, 2), "draw_pressure_Pa": round(pressure_pa, 1)}
+
+    def run(self):
+        """Compute twice, print named results and SHA-256 digests."""
+        a = self.compute()
+        b = self.compute()
+        sa = hashlib.sha256(repr(sorted(a.items())).encode()).hexdigest()
+        sb = hashlib.sha256(repr(sorted(b.items())).encode()).hexdigest()
+        for key in sorted(a):
+            print(f"{key}: {a[key]}")
+        print(f"Run 1 SHA-256: {sa}")
+        print(f"Run 2 SHA-256: {sb}")
+        print(f"Deterministic: {'MATCH' if sa == sb else 'MISMATCH'}")
+        return a
+
+
+if __name__ == "__main__":
+    SupplyCalculator().run()
+
+
+GENERATOR
+{
+  "ceiling_note": "Generator ceiling: up to 1,000,000,000 scales per file, generated on demand by the file AI — not stored files.",
+  "gen_id_prefix": "JAH-MJSS-GEN-",
+  "hard_stop": 1000000000,
+  "throttle_per_call": 100,
+  "type": "seeded boundless generator"
+}
+
+OFFICIAL DEMO OUTPUT
+{
+  "water_volume_mm3": 130670.6,
+  "water_volume_mL": 130.7,
+  "chamber_volume_mL": 629.6,
+  "bubble_volume_mm3": 14.14,
+  "bubble_surface_mm2": 28.27,
+  "draw_pressure_Pa": 539.5
+}

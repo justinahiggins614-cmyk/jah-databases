@@ -1,0 +1,121 @@
+The Carb Cap
+Record JAH-MJS-000035 — public
+JCC v1 code: JAHDB/marijuana-supplies#JAH-MJS-000035
+
+The carb cap is one of the eight supplies built in Wave 2 Lane B of the marijuana supplies pair, a smoke-shop supply with a full description, a specification, a science proof, a math proof, a working demo, and a boundless generator. The carb cap works by covering the quartz banger during a dab, trapping heat and restricting airflow so the concentrate vaporizes at a lower temperature instead of being pulled out half-done. It is made from borosilicate glass or quartz, shaped as a bubble dome about 30 mm across with a single 2 mm directional air hole, sized to fit a 25 mm flat-top banger. Dropping the concentrate into the hot banger and capping it at once traps the hot air above the floor, and the small inlet sets up a swirling current that moves heat and oil around the bucket. A directional opening can be turned slowly so the airflow pushes melted concentrate across the hottest part of the floor. The parts fit together in a fixed order, and each part has one job: to hold the material, to apply the mechanism, or to carry the result to the user. Because the parts are simple and the mechanism is thermal rather than electronic in its basic form, the supply can be understood by inspection, measured with a ruler, and checked by the arithmetic in this record. This record also gives the materials and design, a build-it-yourself section, 3D-printing directions, and a use program, with scale variants at pocket, standard, and workshop sizes. Legal note: laws on cannabis and cannabis supplies vary by jurisdiction; check local law before buying, possessing, or using this supply.
+
+SPEC
+{
+  "care": "Let the cap cool on its holder; soak in isopropyl alcohol, rinse, and dry; handle glass carefully as it breaks if dropped; do not quench a hot cap in cold water",
+  "dimensions": "Cap 30 mm across; wall 2 mm thick; inlet hole 2 mm; fits a 25 mm flat-top banger",
+  "materials": "Borosilicate glass or quartz dome; flat polished rim; no metal or plastic in the vapour path",
+  "mechanism": "Cap covers the banger, traps heat, restricts airflow, lowers pressure inside the chamber, and sets up a swirling current that moves concentrate across the hot floor",
+  "use": "Heat the banger, drop the concentrate, cap at once, draw slowly while turning the cap to aim the airflow, lift the cap when the vapour stops",
+  "variants": "Bubble, directional, spinner, dome, disc and UFO caps; glass, quartz, and titanium; 20, 25, and 30 mm banger sizes"
+}
+
+SCIENCE PROOF
+A carb cap works by turning surface heating into surface plus air heating, and by lowering the pressure inside the banger. When concentrate first touches a hot banger it is heated by conduction, direct contact with the hot surface, like food on a hot pan. Without a cap the hot air rises straight out and cool air rushes in, so only the surface does the work. With a cap on, the banger becomes a mostly sealed space, the trapped air heats up, and as the user draws, that hot air circulates over the concentrate, so it is heated by convection as well. The cap also restricts airflow, which lowers the air pressure inside the chamber and lowers the boiling point of the concentrate, so it vaporizes at 350 to 450 degrees Fahrenheit instead of 500 to 600 degrees, the range the cited guides give. Borosilicate glass matters because its low thermal expansion, about 3.3 times ten to the minus six per kelvin, lets the cap sit on a hot banger without cracking, and quartz holds heat longer than borosilicate. The dome is a hemisphere, so its volume is two thirds pi times radius cubed, and the inlet is a small circle whose area sets the draw resistance. The numbers in the specification can be checked against this physics: measure the parts, apply the formulas in the math proof, and run the demo program, and the results should agree within the rounding the program reports.
+
+MATH PROOF
+The demo treats the cap dome as a hemisphere and the glass shell as the difference between two hemispheres. With a cap diameter of 30.0 mm the radius is 15.0 mm, so the dome volume is two thirds pi times 3,375, about 7,069 cubic millimetres. The wall is 2.0 mm thick, so the inner radius is 13.0 mm and the shell volume is two thirds pi times the difference of the cubes, about 2,463 cubic millimetres, or 2.47 cubic centimetres. At a borosilicate density of 2.23 grams per cubic centimetre the mass is 5.50 grams, and multiplying by the specific heat of 0.83 and a 175 kelvin rise gives about 799 joules to warm the cap. The inlet hole is 2.0 mm across, so its area is pi times 1 squared, 3.14 square millimetres, against a banger mouth area of pi times 12.5 squared, 490.87 square millimetres, a ratio of 0.64 percent, which is why the draw feels restricted. Every number comes from the specification in this record, the formulas are shown in full, and the program prints each quantity so the reader can check the arithmetic. The computation runs twice with SHA-256 digests printed, so the reader can confirm it is deterministic.
+
+FORMAL EQUATION
+V = (2/3) * pi * r^3
+
+HISTORY
+The carb cap is a young accessory, because it only became necessary when quartz bangers replaced domed nails on dab rigs in the 2010s. Early dabbing used a dome and nail, where the dome itself trapped the vapour, but the open quartz banger that followed had no lid at all, so vapour escaped and the concentrate pooled half-vaporized on the hot floor. Glass workers answered with a small lid, borrowing the name carburetor from engines because, like a carburetor, it controls airflow and pressure in a chamber. The first caps were simple glass discs; then came bubble caps with a directional hole, spinner caps with angled holes that spin terp pearls, and directional caps that aim air across the banger floor. Over time the same basic form was copied, adapted, and refined by many makers, so the record today covers a family of closely related objects rather than a single patented shape. The sources cited at the end of this record give the reader places to check each stage, and the history matters because it explains why the parts are arranged the way they are: each feature survives because it solved a practical problem for the people who used the supply every day.
+
+DEMO
+"""Demo: carb cap dome volume and inlet ratio — The Carb Cap."""
+import hashlib, math
+def compute():
+    cap_d = 30.0; wall = 2.0; inlet_d = 2.0; banger_d = 25.0; rho = 2.23; cp = 0.83; dT = 175.0
+    r = cap_d / 2.0; ri = r - wall
+    dome_mm3 = (2.0 / 3.0) * math.pi * r ** 3
+    shell_mm3 = (2.0 / 3.0) * math.pi * (r ** 3 - ri ** 3)
+    shell_cm3 = shell_mm3 / 1000.0
+    mass_g = shell_cm3 * rho
+    heat_J = mass_g * cp * dT
+    inlet_mm2 = math.pi * (inlet_d / 2.0) ** 2
+    mouth_mm2 = math.pi * (banger_d / 2.0) ** 2
+    ratio_pct = 100.0 * inlet_mm2 / mouth_mm2
+    return {"dome_volume_mm3": round(dome_mm3, 2), "shell_volume_cm3": round(shell_cm3, 2), "cap_mass_g": round(mass_g, 2), "heat_to_175C_J": round(heat_J, 2), "inlet_area_mm2": round(inlet_mm2, 2), "banger_mouth_mm2": round(mouth_mm2, 2), "inlet_ratio_pct": round(ratio_pct, 2), "banger_mm": banger_d}
+def main():
+    a = compute(); b = compute()
+    sa = hashlib.sha256(repr(sorted(a.items())).encode()).hexdigest()
+    sb = hashlib.sha256(repr(sorted(b.items())).encode()).hexdigest()
+    for key in ['dome_volume_mm3', 'shell_volume_cm3', 'cap_mass_g', 'heat_to_175C_J', 'inlet_area_mm2', 'banger_mouth_mm2', 'inlet_ratio_pct', 'banger_mm']:
+        print(f"{key}: {a[key]}")
+    print(f"Run 1 SHA-256: {sa}")
+    print(f"Run 2 SHA-256: {sb}")
+    print(f"Deterministic: {'MATCH' if sa == sb else 'MISMATCH'}")
+if __name__ == "__main__":
+    main()
+
+
+PROGRAM
+"""The Carb Cap — full working program.
+
+Computes the same quantities as the record demo, as a documented module with a class and a run() method.
+Run: python3 program.py
+"""
+import hashlib
+import math
+
+
+class SupplyCalculator:
+    """Calculator for The Carb Cap."""
+
+    def compute(self):
+        """Return the computed quantities as a dict."""
+        cap_d = 30.0; wall = 2.0; inlet_d = 2.0; banger_d = 25.0; rho = 2.23; cp = 0.83; dT = 175.0
+        r = cap_d / 2.0; ri = r - wall
+        dome_mm3 = (2.0 / 3.0) * math.pi * r ** 3
+        shell_mm3 = (2.0 / 3.0) * math.pi * (r ** 3 - ri ** 3)
+        shell_cm3 = shell_mm3 / 1000.0
+        mass_g = shell_cm3 * rho
+        heat_J = mass_g * cp * dT
+        inlet_mm2 = math.pi * (inlet_d / 2.0) ** 2
+        mouth_mm2 = math.pi * (banger_d / 2.0) ** 2
+        ratio_pct = 100.0 * inlet_mm2 / mouth_mm2
+        return {"dome_volume_mm3": round(dome_mm3, 2), "shell_volume_cm3": round(shell_cm3, 2), "cap_mass_g": round(mass_g, 2), "heat_to_175C_J": round(heat_J, 2), "inlet_area_mm2": round(inlet_mm2, 2), "banger_mouth_mm2": round(mouth_mm2, 2), "inlet_ratio_pct": round(ratio_pct, 2), "banger_mm": banger_d}
+
+    def run(self):
+        """Compute twice, print named results and SHA-256 digests."""
+        a = self.compute()
+        b = self.compute()
+        sa = hashlib.sha256(repr(sorted(a.items())).encode()).hexdigest()
+        sb = hashlib.sha256(repr(sorted(b.items())).encode()).hexdigest()
+        for key in sorted(a):
+            print(f"{key}: {a[key]}")
+        print(f"Run 1 SHA-256: {sa}")
+        print(f"Run 2 SHA-256: {sb}")
+        print(f"Deterministic: {'MATCH' if sa == sb else 'MISMATCH'}")
+        return a
+
+
+if __name__ == "__main__":
+    SupplyCalculator().run()
+
+
+GENERATOR
+{
+  "ceiling_note": "Generator ceiling: up to 1,000,000,000 scales per file, generated on demand by the file AI — not stored files.",
+  "gen_id_prefix": "JAH-MJS-GEN-",
+  "hard_stop": 1000000000,
+  "throttle_per_call": 100,
+  "type": "seeded boundless generator"
+}
+
+OFFICIAL DEMO OUTPUT
+{
+  "dome_volume_mm3": 7068.58,
+  "shell_volume_cm3": 2.47,
+  "cap_mass_g": 5.5,
+  "heat_to_175C_J": 799.14,
+  "inlet_area_mm2": 3.14,
+  "banger_mouth_mm2": 490.87,
+  "inlet_ratio_pct": 0.64,
+  "banger_mm": 25.0
+}

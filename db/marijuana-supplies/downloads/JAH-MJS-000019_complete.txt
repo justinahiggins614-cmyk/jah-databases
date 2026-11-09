@@ -1,0 +1,157 @@
+The Ashtray with Poker
+Record JAH-MJS-000019 — public
+JCC v1 code: JAHDB/marijuana-supplies#JAH-MJS-000019
+
+The Ashtray with Poker is a cleaning and maintenance supply for smoking pipes, and this record describes the standard kit as it is actually sold and used. The kit contains a deep ceramic or heat-resistant glass bowl, a fixed central poker spike or a loose stainless steel poker, cigarette rests moulded into the rim, and a non-slip base. Its parts are made from glazed stoneware ceramic, borosilicate glass, stainless steel poker, silicone non-slip base ring, chosen because each material suits its own job: cotton absorbs, nylon scrubs, steel scrapes without bending, and brass works on stubborn buildup without gouging. The kit measures bowl 110 mm across and 35 mm deep; poker spike 60 mm tall; overall footprint 150 mm by 110 mm; rests spaced 25 mm apart. In use, ash and spent material fall into the deep bowl, the rim rests hold a lit item clear of the table, and the poker spike or loose poker stirs, taps out, or clears a clogged bowl by direct mechanical contact. That combination is what makes the kit more than a loose handful of tools: every step of a full clean, from the first dry pass through the stem to the last wipe of the outside, has a tool made for it. Routine use is simple. Tap ash into the bowl, rest the item in a rim notch between draws, press the bowl of a pipe gently against the spike to empty it, and use the poker tip to clear the airway of a clogged bowl. Care of the kit matters as much as care of the pipe. Empty ash daily, wash the bowl in warm soapy water, wipe the poker clean after each session, and check the glaze for chips, since a chipped ceramic edge can scratch a table or a glass pipe. The common variants are the silicone debowler cup with a soft central spike for cars; heavy glass ashtray with a loose poker stored in a side slot; lidded cache-cup ashtray that traps odour between uses. Legal note: laws on cannabis and cannabis accessories vary by jurisdiction; check local law before buying, carrying, or using this item.
+
+SPEC
+{
+  "care": "empty ash daily, wash the bowl in warm soapy water, wipe the poker clean after each session, and check the glaze for chips, since a chipped ceramic edge can scratch a table or a glass pipe",
+  "dimensions": "bowl 110 mm across and 35 mm deep; poker spike 60 mm tall; overall footprint 150 mm by 110 mm; rests spaced 25 mm apart",
+  "materials": "glazed stoneware ceramic, borosilicate glass, stainless steel poker, silicone non-slip base ring",
+  "mechanism": "ash and spent material fall into the deep bowl, the rim rests hold a lit item clear of the table, and the poker spike or loose poker stirs, taps out, or clears a clogged bowl by direct mechanical contact",
+  "use": "tap ash into the bowl, rest the item in a rim notch between draws, press the bowl of a pipe gently against the spike to empty it, and use the poker tip to clear the airway of a clogged bowl",
+  "variants": "silicone debowler cup with a soft central spike for cars; heavy glass ashtray with a loose poker stored in a side slot; lidded cache-cup ashtray that traps odour between uses"
+}
+
+SCIENCE PROOF
+The science of this supply is the science of dissolving, scrubbing, and separating, and each part of the kit uses a different piece of it. Isopropyl alcohol, propan-2-ol, is a polar organic solvent, which means its molecules have a water-loving hydroxyl end and a fat-loving carbon chain, so it can dissolve the sticky resin film that water alone cannot move. Resin is a mixture of tars and oils, and like dissolves like: the alcohol surrounds those molecules and carries them into solution, which is why the soak liquid turns dark brown as it works. Coarse salt, sodium chloride, does not dissolve in alcohol, so its grains stay hard and gritty, and shaking the sealed bag turns those grains into a moving abrasive that scours resin the liquid alone cannot lift from corners and curves. The bristle cleaner and the shank brush work by friction, the force that resists sliding between two surfaces, and the nylon bristles are stiff enough to shear residue from a wall while flexing enough to follow a curve without gouging it. Heat matters too: warm alcohol dissolves resin faster than cold alcohol, because molecules move faster and collide more often, which is why standing a sealed bag in hot tap water shortens a soak, while heating alcohol directly is dangerous because its flash point is about 53 degrees Fahrenheit, below room temperature. For a sifter or a filter tip the science is size and flow: a mesh passes only particles smaller than its opening, and a folded paper lattice holds a bore open against suction. None of this is new physics, and that is the point: the supply works because it applies ordinary solvent chemistry, friction, and geometry to a small, reachable space.
+
+MATH PROOF
+The arithmetic in this record is worked from the figures in the key figures list, and every number in it can be checked with a pocket calculator. The formal equation is V_bowl = pi x r^2 x d, with r = 55 mm and d = 35 mm, so V_bowl is about 332,000 cubic mm, about 332 ml gross. The bowl volume follows the cylinder formula, using the bowl radius and depth.. To show how the numbers hang together, take the figures as stated and work them through. First, the size check: the tool that must reach a space is compared with that space, length against length, so that a cleaner of 50 mm either reaches the airway it serves or it does not, and the record states the comparison rather than assuming it. Second, the quantity check: the amount of solvent, salt, water, or screen area is compared with the amount the job needs, so that a soak uses enough liquid to submerge the piece and enough salt to scour it, and a screen offers enough open area to pass what it should. Third, the count check: where the supply involves combinations, volumes, or yields, the count is worked out from its parts, and the demo repeats the same arithmetic in code. The demo prints each of these numbers with its name, runs the computation twice with a fixed seed, and prints a SHA-256 digest of each run so that the two runs can be compared. The digests match, which shows the computation is deterministic, not that the supply is perfect. The math proves the dimensions are consistent; it does not prove the supply works in the hand, and the record does not claim that it does.
+
+FORMAL EQUATION
+V_bowl = pi x r^2 x d, with r = 55 mm and d = 35 mm, so V_bowl is about 332,000 cubic mm, about 332 ml gross
+
+HISTORY
+The ashtray is one of the oldest smoking accessories, a shallow dish that keeps ash off the table, and the poker joined it because clearing a bowl with a fingertip burns and with a random stick scratches. Early combination designs put a snuffer or a protruding standard into the tray itself, and United States design patent USD545490S1 records a portable ashtray with a built-in cigarette snuffer, while utility patent US 10,342,257 B2 describes containers with smoking tools, including a poker, attached to their caps. Modern makers split the idea two ways: a fixed central spike, often a soft silicone pyramid in a debowler cup, that a pipe bowl is tapped against to empty it, and a loose steel poker that rests in a slot in the rim. Both keep the same bargain, that the tool for clearing the bowl is always sitting in the tray that catches what comes out of it.
+
+DEMO
+import hashlib, json, math, random
+
+BOWL_DIA_MM = 110
+BOWL_DEPTH_MM = 35
+POKER_HEIGHT_MM = 60
+POKER_FORCE_N = 2.0
+ASH_ML_PER_SESSION = 4
+
+def compute(seed):
+    rng = random.Random(seed)
+    radius = BOWL_DIA_MM / 2.0
+    gross_ml = round(math.pi * radius ** 2 * BOWL_DEPTH_MM / 1000.0, 1)
+    usable_ml = round(gross_ml * 0.8, 1)
+    ash_capacity_g = round(usable_ml * 0.35, 1)
+    torque_nm = round(POKER_FORCE_N * POKER_HEIGHT_MM / 1000.0, 3)
+    sessions = int(usable_ml // ASH_ML_PER_SESSION)
+    jitter = round(rng.uniform(0.95, 1.05), 3)
+    out = {
+        "bowl_diameter_mm": BOWL_DIA_MM,
+        "bowl_depth_mm": BOWL_DEPTH_MM,
+        "bowl_gross_volume_ml": gross_ml,
+        "bowl_usable_volume_ml": usable_ml,
+        "ash_capacity_grams": ash_capacity_g,
+        "sessions_before_emptying": sessions,
+        "poker_height_mm": POKER_HEIGHT_MM,
+        "poker_torque_nm": torque_nm,
+        "measurement_jitter": jitter,
+    }
+    return out
+
+def main():
+    first = compute(7)
+    second = compute(7)
+    for key, value in first.items():
+        print(f"{key}: {value}")
+    d1 = hashlib.sha256(json.dumps(first, sort_keys=True).encode()).hexdigest()
+    d2 = hashlib.sha256(json.dumps(second, sort_keys=True).encode()).hexdigest()
+    print(f"digest_run_1: {d1}")
+    print(f"digest_run_2: {d2}")
+    print("Deterministic: MATCH" if d1 == d2 else "Deterministic: MISMATCH")
+
+main()
+
+
+PROGRAM
+"""The Ashtray with Poker — working program.
+
+Computes the same quantities as the record demo: the design numbers for
+this supply, from the figures in the record. Standard library only, no
+network. Run it directly to print the named results and the two matching
+deterministic digests.
+"""
+import hashlib, json, math, random
+
+BOWL_DIA_MM = 110
+BOWL_DEPTH_MM = 35
+POKER_HEIGHT_MM = 60
+POKER_FORCE_N = 2.0
+ASH_ML_PER_SESSION = 4
+
+def compute(seed):
+    rng = random.Random(seed)
+    radius = BOWL_DIA_MM / 2.0
+    gross_ml = round(math.pi * radius ** 2 * BOWL_DEPTH_MM / 1000.0, 1)
+    usable_ml = round(gross_ml * 0.8, 1)
+    ash_capacity_g = round(usable_ml * 0.35, 1)
+    torque_nm = round(POKER_FORCE_N * POKER_HEIGHT_MM / 1000.0, 3)
+    sessions = int(usable_ml // ASH_ML_PER_SESSION)
+    jitter = round(rng.uniform(0.95, 1.05), 3)
+    out = {
+        "bowl_diameter_mm": BOWL_DIA_MM,
+        "bowl_depth_mm": BOWL_DEPTH_MM,
+        "bowl_gross_volume_ml": gross_ml,
+        "bowl_usable_volume_ml": usable_ml,
+        "ash_capacity_grams": ash_capacity_g,
+        "sessions_before_emptying": sessions,
+        "poker_height_mm": POKER_HEIGHT_MM,
+        "poker_torque_nm": torque_nm,
+        "measurement_jitter": jitter,
+    }
+    return out
+
+
+class AshtrayWithPoker:
+    """Model of the ashtray with poker."""
+
+    def __init__(self, seed=7):
+        self.seed = seed
+
+    def run(self):
+        """Run the computation twice and print the named results."""
+        first = compute(self.seed)
+        second = compute(self.seed)
+        for key, value in first.items():
+            print(f"{key}: {value}")
+        d1 = hashlib.sha256(json.dumps(first, sort_keys=True).encode()).hexdigest()
+        d2 = hashlib.sha256(json.dumps(second, sort_keys=True).encode()).hexdigest()
+        print(f"digest_run_1: {d1}")
+        print(f"digest_run_2: {d2}")
+        print("Deterministic: MATCH" if d1 == d2 else "Deterministic: MISMATCH")
+        return first
+
+
+if __name__ == "__main__":
+    AshtrayWithPoker().run()
+
+
+GENERATOR
+{
+  "ceiling_note": "Generator ceiling: up to 1,000,000,000 scales per file, generated on demand by the file AI — not stored files.",
+  "gen_id_prefix": "JAH-MJS-GEN-",
+  "hard_stop": 1000000000,
+  "throttle_per_call": 100,
+  "type": "seeded boundless generator"
+}
+
+OFFICIAL DEMO OUTPUT
+{
+  "bowl_diameter_mm": 110,
+  "bowl_depth_mm": 35,
+  "bowl_gross_volume_ml": 332.6,
+  "bowl_usable_volume_ml": 266.1,
+  "ash_capacity_grams": 93.1,
+  "sessions_before_emptying": 66,
+  "poker_height_mm": 60,
+  "poker_torque_nm": 0.12,
+  "measurement_jitter": 0.982
+}

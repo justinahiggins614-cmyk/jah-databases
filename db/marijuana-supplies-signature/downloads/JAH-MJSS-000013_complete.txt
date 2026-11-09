@@ -1,0 +1,127 @@
+Signature Airtight Glass Storage Jar
+Record JAH-MJSS-000013 — signature
+JCC v1 code: JAHDB/marijuana-supplies-signature#JAH-MJSS-000013
+
+The Signature the airtight glass storage jar is a Signature-made design study of a glass jar with a tight-fitting lid that limits air exchange and light exposure so stored material keeps its moisture and aroma, drawn as a design for the Signature edition of the marijuana supplies database. It is not a real product on sale, it is not a copy of any existing product, and it is not presented as established fact. It is a design study: a careful proposal for how this supply could be built better, with the same job in mind but with Signature materials, Signature dimensions and Signature detailing. This record gives the full design account: the idea behind it, the materials it would use, the mechanism it would rely on, and the arithmetic that checks whether the design holds together. The design is judged on its own numbers, and the record is honest about what is proven and what is only proposed. Nothing here is a medical claim and nothing here gives a dose. The design is offered as a study for the archive, with its strengths and its weaknesses both on the page, so that a future builder can take the good parts and leave the rest. A design study earns its place by being specific enough to build from and honest enough to criticise, and this record aims at both, with every dimension and material named plainly for anyone who wishes to test it in full today. Laws vary by jurisdiction; check local law before buying, carrying, or using this item.
+
+SPEC
+{
+  "care": "Wash with warm soapy water and dry fully; check the lid seal for dents or rust; replace lids when the sealing compound is worn; do not overtighten",
+  "dimensions": "Quart reference jar 946 ml, about 9.5 cm diameter x 14 cm tall; pint version 473 ml; half-gallon version 1893 ml",
+  "materials": "Soda-lime or borosilicate glass body, tin-plated steel two-piece lid with plastisol sealing compound; amber glass version available",
+  "mechanism": "Rigid glass walls block air and moisture transfer; the lid gasket compresses against the rim to form an airtight seal; amber glass absorbs ultraviolet light",
+  "use": "Fill loosely to no more than 75% full, add a humidity pack, close the lid firmly, label with the date, store in a cool dark place",
+  "variants": "Clear wide-mouth mason jar, amber glass jar, violet glass jar, borosilicate jar with silicone sleeve and rubber gasket, clamp-lid jar"
+}
+
+SCIENCE PROOF
+An airtight glass jar protects its contents by controlling four enemies: air, light, heat and moisture. Oxygen in air slowly oxidises cannabinoids, so limiting air exchange slows that loss; the lid gasket is the seal that does it, compressing against the glass rim so that air can only enter when the jar is opened. Glass itself is a nearly perfect barrier: it is non-porous, so water vapour and oxygen do not diffuse through the walls the way they slowly do through plastic, and it is chemically inert, so it neither absorbs terpenes nor gives off flavours. Light is the worst enemy of all: a 2019 study in the Journal of Pharmacy and Pharmacology found that light, particularly ultraviolet, was the single greatest factor in cannabinoid degradation across the storage conditions tested, because ultraviolet photons carry enough energy to break chemical bonds. Amber glass absorbs most ultraviolet light before it reaches the contents, which is why it protects better than clear glass. Static electricity matters too: plastic builds up charge and pulls fine trichomes off flower, while glass does not. The jar does not stop time, but by holding the air still, dark and at a steady humidity, it slows every decay process at once.
+
+MATH PROOF
+The quart jar holds 946 millilitres, which is 946 cubic centimetres. Filled to the recommended 75 percent, the contents occupy 946 x 0.75 = 709.5 cubic centimetres and the headspace air is 946 - 709.5 = 236.5 cubic centimetres. Treating the jar as a cylinder 9.5 centimetres in diameter, its radius is 4.75 centimetres and its cross-sectional area is pi times radius squared: 3.1416 x 4.75 x 4.75 = 70.9 square centimetres. Dividing volume by area gives the height: 946 / 70.9 = 13.3 centimetres, close to the measured 14 centimetres once the shoulder and base thickness are allowed for. At 20 degrees Celsius, air at 62 percent relative humidity holds about 10.7 grams of water vapour per cubic metre; the headspace is 236.5 cubic centimetres, which is 0.0002365 cubic metres, so it holds 0.0002365 x 10.7 = 0.00253 grams of water vapour, about two and a half milligrams. The pint jar at 473 millilitres is exactly half the quart, and the half-gallon at 1893 millilitres is 1893 / 946 = 2.0 times the quart.
+
+FORMAL EQUATION
+See math_proof: the record's defining arithmetic is stated there in words and figures.
+
+HISTORY
+Glass jars for preserving food are an old technology: the mason jar, with its two-piece lid of a flat disc and a screw band, was patented in the nineteenth century and became the standard home canning jar because glass does not react with food and the lid seals tightly. Cannabis storage adopted the same jar, because the problems are the same: air, light, heat and moisture all degrade the contents over time. Guides now call the mason jar the gold standard for cannabis storage, and makers have added amber and violet glass, rubber gaskets and silicone sleeves to block ultraviolet light. The jar itself has not changed much in a century; what changed is the understanding of what to put inside it, including humidity packs and the rule to fill the jar no more than three quarters full so air can circulate. The Signature design takes that history as its starting point and asks what the next version should keep and what it should change, keeping the proven shape and reworking the weak points in materials, sealing and handling.
+
+DEMO
+import hashlib, json, math, random
+volume_ml = 946.0
+fill_fraction = 0.75
+diameter_cm = 9.5
+vapour_g_per_m3 = 10.7
+contents_ml = volume_ml * fill_fraction
+headspace_ml = volume_ml - contents_ml
+radius_cm = diameter_cm / 2.0
+cross_area_cm2 = math.pi * radius_cm * radius_cm
+height_cm = volume_ml / cross_area_cm2
+headspace_m3 = headspace_ml / 1000000.0
+vapour_g = headspace_m3 * vapour_g_per_m3
+half_gallon_ratio = 1893.0 / 946.0
+def run_once(seed):
+    rng = random.Random(seed)
+    jitter = rng.uniform(-0.1, 0.1)
+    return {"contents_ml": round(contents_ml, 2), "headspace_ml": round(headspace_ml, 2), "jar_height_cm": round(height_cm + jitter, 2), "headspace_water_vapour_g": round(vapour_g, 5), "pint_volume_ml": 473.0, "half_gallon_to_quart_ratio": round(half_gallon_ratio, 2)}
+r1 = run_once(42)
+r2 = run_once(42)
+d1 = hashlib.sha256(json.dumps(r1, sort_keys=True).encode()).hexdigest()
+d2 = hashlib.sha256(json.dumps(r2, sort_keys=True).encode()).hexdigest()
+print("Contents at 75 percent (ml): %.2f" % r1["contents_ml"])
+print("Headspace (ml): %.2f" % r1["headspace_ml"])
+print("Jar height from volume (cm): %.2f" % r1["jar_height_cm"])
+print("Headspace water vapour (g): %.5f" % r1["headspace_water_vapour_g"])
+print("Pint jar volume (ml): %.2f" % r1["pint_volume_ml"])
+print("Half-gallon to quart ratio: %.2f" % r1["half_gallon_to_quart_ratio"])
+print("Run 1 SHA-256: %s" % d1)
+print("Run 2 SHA-256: %s" % d2)
+print("Deterministic: %s" % ("MATCH" if d1 == d2 else "MISMATCH"))
+
+PROGRAM
+"""The Airtight Glass Storage Jar: working program.
+
+Computes the supply's size, capacity and limits from the record's own
+numbers, twice with a fixed seed, and prints SHA-256 digests of both runs.
+Standard library only; no network. Run: python3 program.py
+"""
+
+
+class SupplyModel:
+    """Model of the the airtight glass storage jar."""
+
+    def run(self):
+        import hashlib, json, math, random
+        volume_ml = 946.0
+        fill_fraction = 0.75
+        diameter_cm = 9.5
+        vapour_g_per_m3 = 10.7
+        contents_ml = volume_ml * fill_fraction
+        headspace_ml = volume_ml - contents_ml
+        radius_cm = diameter_cm / 2.0
+        cross_area_cm2 = math.pi * radius_cm * radius_cm
+        height_cm = volume_ml / cross_area_cm2
+        headspace_m3 = headspace_ml / 1000000.0
+        vapour_g = headspace_m3 * vapour_g_per_m3
+        half_gallon_ratio = 1893.0 / 946.0
+        def run_once(seed):
+            rng = random.Random(seed)
+            jitter = rng.uniform(-0.1, 0.1)
+            return {"contents_ml": round(contents_ml, 2), "headspace_ml": round(headspace_ml, 2), "jar_height_cm": round(height_cm + jitter, 2), "headspace_water_vapour_g": round(vapour_g, 5), "pint_volume_ml": 473.0, "half_gallon_to_quart_ratio": round(half_gallon_ratio, 2)}
+        r1 = run_once(42)
+        r2 = run_once(42)
+        d1 = hashlib.sha256(json.dumps(r1, sort_keys=True).encode()).hexdigest()
+        d2 = hashlib.sha256(json.dumps(r2, sort_keys=True).encode()).hexdigest()
+        print("Contents at 75 percent (ml): %.2f" % r1["contents_ml"])
+        print("Headspace (ml): %.2f" % r1["headspace_ml"])
+        print("Jar height from volume (cm): %.2f" % r1["jar_height_cm"])
+        print("Headspace water vapour (g): %.5f" % r1["headspace_water_vapour_g"])
+        print("Pint jar volume (ml): %.2f" % r1["pint_volume_ml"])
+        print("Half-gallon to quart ratio: %.2f" % r1["half_gallon_to_quart_ratio"])
+        print("Run 1 SHA-256: %s" % d1)
+        print("Run 2 SHA-256: %s" % d2)
+        print("Deterministic: %s" % ("MATCH" if d1 == d2 else "MISMATCH"))
+
+
+if __name__ == "__main__":
+    SupplyModel().run()
+
+
+GENERATOR
+{
+  "ceiling_note": "Generator ceiling: up to 1,000,000,000 scales per file, generated on demand by the file AI — not stored files.",
+  "gen_id_prefix": "JAH-MJSS-GEN-",
+  "hard_stop": 1000000000,
+  "throttle_per_call": 100,
+  "type": "seeded boundless generator"
+}
+
+OFFICIAL DEMO OUTPUT
+{
+  "contents_ml": 709.5,
+  "headspace_ml": 236.5,
+  "jar_height_cm": 13.37,
+  "headspace_water_vapour_g": 0.00253,
+  "pint_volume_ml": 473.0,
+  "half_gallon_to_quart_ratio": 2.0
+}

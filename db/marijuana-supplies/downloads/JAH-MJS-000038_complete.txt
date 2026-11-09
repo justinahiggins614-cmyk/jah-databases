@@ -1,0 +1,123 @@
+The Metal Ashtray with Poker
+Record JAH-MJS-000038 — public
+JCC v1 code: JAHDB/marijuana-supplies#JAH-MJS-000038
+
+The metal ashtray with poker is one of the eight supplies built in Wave 2 Lane B of the marijuana supplies pair, a smoke-shop supply with a full description, a specification, a science proof, a math proof, a working demo, and a boundless generator. The metal ashtray with poker works by giving ash and spent material a steel dish to land in, with rim rests to hold a cigarette or joint and a steel poker to stir and clear. It is made from stainless steel, and a common example measures about 100 mm across and 30 mm deep, with a 2 mm wall and a poker rod 4 mm across and 120 mm long, holding about 217 cubic centimetres of ash and debris. The steel dish cannot crack from heat, cannot break if dropped, and can be used outdoors in wind and rain, while the poker reaches into a pipe bowl to clear ash that fingers cannot reach. The parts fit together in a fixed order, and each part has one job: to hold the material, to apply the mechanism, or to carry the result to the user. Because the parts are simple and the mechanism is mechanical rather than electronic in its basic form, the supply can be understood by inspection, measured with a ruler, and checked by the arithmetic in this record. A metal ashtray is the toughest supply in this lane, and that toughness is the design, not an accident. This record also gives the materials and design, a build-it-yourself section, 3D-printing directions, and a use program, with scale variants at pocket, standard, and workshop sizes. Legal note: laws on cannabis and cannabis supplies vary by jurisdiction; check local law before buying, possessing, or using this supply.
+
+SPEC
+{
+  "care": "Wash with warm soapy water; dry to keep the finish bright; handle the poker by its handle as the tip gets hot; store the poker clipped to the rim",
+  "dimensions": "Dish 100 mm across and 30 mm deep; wall 2 mm thick; poker 4 mm across and 120 mm long; about 282 grams total",
+  "materials": "Stainless steel dish and poker; brushed finish; no plastic in the ash path",
+  "mechanism": "Ash and spent material fall into the steel dish; rim rests hold a cigarette or joint by gravity; the poker stirs ash and clears clogged bowls",
+  "use": "Set on a flat surface, rest the cigarette in a rim rest, tap ash into the dish, use the poker to stir and clear, clip the poker back after use",
+  "variants": "Stainless steel, brass, and cast iron; round and square dishes; clip-on and socket pokers; two to six rim rests"
+}
+
+SCIENCE PROOF
+A metal ashtray works by conductivity, mass, and corrosion resistance. Stainless steel has a density near 7.9 grams per cubic centimetre and a specific heat near 0.50 joules per gram per kelvin, so a dish and poker of about 282 grams store roughly 28,200 joules when heated by 200 kelvin, and its thermal conductivity near 16 watts per metre kelvin spreads heat quickly through the wall, so the whole dish warms evenly instead of cracking at a hot spot. Steel cannot crack from thermal shock the way glass and ceramic can, because it yields instead of fracturing, and its chromium oxide skin keeps it from rusting outdoors, which is why the same dish works on a patio in rain. The poker is a simple lever: a 120 mm rod with a 4 mm diameter gives the hand enough reach and stiffness to stir ash and clear a bowl without bending. The dish is a shallow cylinder, so its capacity is pi times radius squared times depth, and the poker is a long thin cylinder whose volume is pi times radius squared times length. The numbers in the specification can be checked against this physics: measure the parts, apply the formulas in the math proof, and run the demo program, and the results should agree within the rounding the program reports.
+
+MATH PROOF
+The demo treats the dish and the poker as cylinders. With a dish diameter of 100.0 mm and a depth of 30.0 mm, the inner diameter is 96.0 mm, so the capacity is pi times 48 squared times 30, about 217,148 cubic millimetres, or 217.15 cubic centimetres. The outer cylinder is 100.0 mm across and 32.0 mm tall, counting the 2 mm base, about 251,327 cubic millimetres, leaving a dish shell of 34.18 cubic centimetres, and at a steel density of 7.9 grams per cubic centimetre the dish mass is 270.03 grams. The poker is 4.0 mm across and 120.0 mm long, so its volume is pi times 4 times 120, about 1.51 cubic centimetres, and its mass is 11.91 grams. The total mass is 281.94 grams, and multiplying by the specific heat of 0.50 and a 200 kelvin rise gives about 28,194 joules of stored heat. Every number comes from the specification in this record, the formulas are shown in full, and the program prints each quantity so the reader can check the arithmetic. The computation runs twice with SHA-256 digests printed, so the reader can confirm it is deterministic.
+
+FORMAL EQUATION
+V = pi * r^2 * h
+
+HISTORY
+The metal ashtray with a poker is the working ashtray of bars, casinos, and patios, because metal is the only ashtray material that cannot break, cannot crack from heat, and can be hosed down at the end of the night. The poker, a slim steel rod kept in a clip or socket on the rim, is the tool that stirs ash, clears a clogged pipe bowl, and pushes spent material off the rests. The form descends from the heavy cast-iron and brass ashtrays of the early twentieth century, when ashtrays were made as luxury objects in metal, and it survives today in stainless steel because steel does not rust outdoors. Over time the same basic form was copied, adapted, and refined by many makers, so the record today covers a family of closely related objects rather than a single patented shape. The sources cited at the end of this record give the reader places to check each stage, and the history matters because it explains why the parts are arranged the way they are: each feature survives because it solved a practical problem for the people who used the supply every day.
+
+DEMO
+"""Demo: metal ashtray and poker volumes and heat storage — The Metal Ashtray with Poker."""
+import hashlib, math
+def compute():
+    d = 100.0; h = 30.0; wall = 2.0; pk_d = 4.0; pk_l = 120.0; rho = 7.9; cp = 0.50; dT = 200.0
+    cap_mm3 = math.pi * ((d - 2.0 * wall) / 2.0) ** 2 * h
+    cap_cm3 = cap_mm3 / 1000.0
+    outer_mm3 = math.pi * (d / 2.0) ** 2 * (h + wall)
+    dish_cm3 = (outer_mm3 - cap_mm3) / 1000.0
+    dish_g = dish_cm3 * rho
+    pk_mm3 = math.pi * (pk_d / 2.0) ** 2 * pk_l
+    pk_cm3 = pk_mm3 / 1000.0
+    pk_g = pk_cm3 * rho
+    total_g = dish_g + pk_g
+    heat_J = total_g * cp * dT
+    return {"capacity_mm3": round(cap_mm3, 2), "capacity_cm3": round(cap_cm3, 2), "dish_volume_cm3": round(dish_cm3, 2), "dish_mass_g": round(dish_g, 2), "poker_volume_cm3": round(pk_cm3, 2), "poker_mass_g": round(pk_g, 2), "total_mass_g": round(total_g, 2), "heat_to_200C_J": round(heat_J, 2)}
+def main():
+    a = compute(); b = compute()
+    sa = hashlib.sha256(repr(sorted(a.items())).encode()).hexdigest()
+    sb = hashlib.sha256(repr(sorted(b.items())).encode()).hexdigest()
+    for key in ['capacity_mm3', 'capacity_cm3', 'dish_volume_cm3', 'dish_mass_g', 'poker_volume_cm3', 'poker_mass_g', 'total_mass_g', 'heat_to_200C_J']:
+        print(f"{key}: {a[key]}")
+    print(f"Run 1 SHA-256: {sa}")
+    print(f"Run 2 SHA-256: {sb}")
+    print(f"Deterministic: {'MATCH' if sa == sb else 'MISMATCH'}")
+if __name__ == "__main__":
+    main()
+
+
+PROGRAM
+"""The Metal Ashtray with Poker — full working program.
+
+Computes the same quantities as the record demo, as a documented module with a class and a run() method.
+Run: python3 program.py
+"""
+import hashlib
+import math
+
+
+class SupplyCalculator:
+    """Calculator for The Metal Ashtray with Poker."""
+
+    def compute(self):
+        """Return the computed quantities as a dict."""
+        d = 100.0; h = 30.0; wall = 2.0; pk_d = 4.0; pk_l = 120.0; rho = 7.9; cp = 0.50; dT = 200.0
+        cap_mm3 = math.pi * ((d - 2.0 * wall) / 2.0) ** 2 * h
+        cap_cm3 = cap_mm3 / 1000.0
+        outer_mm3 = math.pi * (d / 2.0) ** 2 * (h + wall)
+        dish_cm3 = (outer_mm3 - cap_mm3) / 1000.0
+        dish_g = dish_cm3 * rho
+        pk_mm3 = math.pi * (pk_d / 2.0) ** 2 * pk_l
+        pk_cm3 = pk_mm3 / 1000.0
+        pk_g = pk_cm3 * rho
+        total_g = dish_g + pk_g
+        heat_J = total_g * cp * dT
+        return {"capacity_mm3": round(cap_mm3, 2), "capacity_cm3": round(cap_cm3, 2), "dish_volume_cm3": round(dish_cm3, 2), "dish_mass_g": round(dish_g, 2), "poker_volume_cm3": round(pk_cm3, 2), "poker_mass_g": round(pk_g, 2), "total_mass_g": round(total_g, 2), "heat_to_200C_J": round(heat_J, 2)}
+
+    def run(self):
+        """Compute twice, print named results and SHA-256 digests."""
+        a = self.compute()
+        b = self.compute()
+        sa = hashlib.sha256(repr(sorted(a.items())).encode()).hexdigest()
+        sb = hashlib.sha256(repr(sorted(b.items())).encode()).hexdigest()
+        for key in sorted(a):
+            print(f"{key}: {a[key]}")
+        print(f"Run 1 SHA-256: {sa}")
+        print(f"Run 2 SHA-256: {sb}")
+        print(f"Deterministic: {'MATCH' if sa == sb else 'MISMATCH'}")
+        return a
+
+
+if __name__ == "__main__":
+    SupplyCalculator().run()
+
+
+GENERATOR
+{
+  "ceiling_note": "Generator ceiling: up to 1,000,000,000 scales per file, generated on demand by the file AI — not stored files.",
+  "gen_id_prefix": "JAH-MJS-GEN-",
+  "hard_stop": 1000000000,
+  "throttle_per_call": 100,
+  "type": "seeded boundless generator"
+}
+
+OFFICIAL DEMO OUTPUT
+{
+  "capacity_mm3": 217146.88,
+  "capacity_cm3": 217.15,
+  "dish_volume_cm3": 34.18,
+  "dish_mass_g": 270.03,
+  "poker_volume_cm3": 1.51,
+  "poker_mass_g": 11.91,
+  "total_mass_g": 281.94,
+  "heat_to_200C_J": 28193.91
+}

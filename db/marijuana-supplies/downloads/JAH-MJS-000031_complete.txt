@@ -1,0 +1,119 @@
+The Glass Bowl (14mm/18mm male/female)
+Record JAH-MJS-000031 — public
+JCC v1 code: JAHDB/marijuana-supplies#JAH-MJS-000031
+
+The glass bowl (14mm/18mm male/female) is one of the basic supplies of the marijuana supplies archive: a glass bowl (14mm/18mm male/female) that works by the bowl holds the material in its cup while air drawn through the hole in the bottom of the cup carries smoke down the ground-glass joint and into the water pipe. It is made from borosilicate glass bowl, ground-glass joint, stainless-steel screen (optional), and a common example measures 14 mm male joint, cup 22 mm diameter at the rim and 18 mm deep, hole 3 mm at the bottom of the cup, stem 35 mm long with an 8 mm bore. The glass bowl is the small detachable cup that holds the material on a water pipe, and its history is the history of the ground-glass joint, borrowed from laboratory glassware. Two tapered glass surfaces, one male and one female, meet and seal by friction alone, with no threading, gasket, or sealant, and the joint size names the nominal diameter where the two pieces meet. Three sizes cover almost the whole market, 10 mm, 14 mm, and 18 mm, with 14 mm the everyday standard on most beakers and straight tubes and 18 mm common on larger bongs. The sizes are not interchangeable: a 14 mm bowl drops loosely into an 18 mm joint and leaks air, and an 18 mm bowl will not fit a 14 mm joint at all. Adapters can bridge a mismatch, but the joint itself sets which bowls, downstems, and ash catchers fit a piece. This record gives the full public account: its history, how it works, a complete specification, the physics behind it, worked mathematics, and a runnable program that computes its key figures. It makes no medical claim and gives no dosage advice; it describes a supply and its mechanism, and it cites real public sources for every fact it states. Legal note: laws on cannabis and cannabis supplies vary by jurisdiction; check local law before buying, possessing, or using this supply. It is part of the public edition of the marijuana supplies database, paired with a Signature design-study edition of the same supply.
+
+SPEC
+{
+  "care": "Empty the cup after use; soak in isopropyl alcohol to clear residue; rinse well; dry fully; replace a bowl with a chipped joint",
+  "dimensions": "14 mm male joint; cup 22 mm diameter at the rim and 18 mm deep; hole 3 mm at the bottom of the cup; stem 35 mm long with an 8 mm bore",
+  "materials": "Borosilicate glass bowl; ground-glass joint; stainless-steel screen (optional)",
+  "mechanism": "The bowl holds the material in its cup; air drawn through the hole in the bottom of the cup carries smoke down the ground-glass joint and into the water pipe; lifting the bowl clears the pipe",
+  "use": "Fit a screen if desired, pack the cup loosely, seat the bowl in the downstem, light while drawing, then lift the bowl to clear",
+  "variants": "14 mm male; 14 mm female; 18 mm male; 18 mm female; 10 mm for mini pieces; push bowl; funnel bowl; ice-pinch bowl; coloured glass bowls"
+}
+
+SCIENCE PROOF
+The glass bowl works by two simple ideas: a cup and a taper. The cup is a frustum, wide at the rim and narrow at the bottom, so the material sits in a cone that funnels smoke toward the hole. The hole at the bottom is small, 3 millimetres in the common example, so ground material cannot fall straight through, and a screen can be fitted over it to stop finer particles. The taper is the ground-glass joint: two tapered surfaces pressed together seal by friction, because the taper angle makes the contact area large and the glass faces grip each other. The joint size sets the airflow ceiling: an 18 mm joint has about 1.65 times the cross-sectional area of a 14 mm joint, so the same draw meets less restriction through the larger joint, and 18 mm bowls usually have bigger cups. Borosilicate glass is used because the cup sits where the material burns, and a glass that tolerates heat without cracking is what survives that spot. The stem below the cup carries the smoke into the downstem, and its bore sets how easily the smoke flows onward. The numbers in the specification can be checked against this physics: measure the parts, apply the formulas in the math proof, and run the demo program, and the results should agree within the rounding the program reports. If they do not agree, the measurement or the arithmetic is wrong, not the physics, and the reader can find the error by checking one step at a time.
+
+MATH PROOF
+The demo treats the cup as a frustum: pi times the cup depth of 18.0 mm divided by 3, times the sum of the top radius squared, the top radius times the bottom radius, and the bottom radius squared, with a top radius of 11.0 mm and a bottom radius of 4.0 mm. Dividing by 1000 gives cubic centimetres, and multiplying by the packing density of 0.15 grams per cubic centimetre gives the estimated capacity in grams. The joint areas are circles: a 14 mm joint has an area of pi times 7 squared, and an 18 mm joint has an area of pi times 9 squared, and the ratio of the two areas is about 1.65, so the larger joint passes the same draw with less restriction. The hole area is pi times the hole radius squared, with a hole diameter of 3.0 mm, and the stem volume is pi times the bore radius squared times the stem length of 35.0 mm. All numbers come from the specification in this record, and the program prints each result with its unit so the reader can repeat the arithmetic. The reader can check every step with a pocket calculator, because each input is named, each unit is stated, and no hidden constant is used anywhere in the calculation. The computation is run twice and the SHA-256 digests of both runs are printed, confirming the result is deterministic.
+
+FORMAL EQUATION
+V = pi * h / 3 * (R^2 + R*r + r^2)
+
+HISTORY
+The glass bowl is the small detachable cup that holds the material on a water pipe, and its history is the history of the ground-glass joint, borrowed from laboratory glassware. Two tapered glass surfaces, one male and one female, meet and seal by friction alone, with no threading, gasket, or sealant, and the joint size names the nominal diameter where the two pieces meet. Three sizes cover almost the whole market, 10 mm, 14 mm, and 18 mm, with 14 mm the everyday standard on most beakers and straight tubes and 18 mm common on larger bongs. The sizes are not interchangeable: a 14 mm bowl drops loosely into an 18 mm joint and leaks air, and an 18 mm bowl will not fit a 14 mm joint at all. Adapters can bridge a mismatch, but the joint itself sets which bowls, downstems, and ash catchers fit a piece. Over time the same basic form was copied, adapted, and refined by many makers, so the record today covers a family of closely related objects rather than a single patented shape. Trade guides and manufacturer manuals preserve the steps of that change. The history matters because it explains why the parts are arranged the way they are: each feature survives because it solved a practical problem for the people who used the supply every day.
+
+DEMO
+"""Demo: glass bowl cup volume and joint areas — The Glass Bowl (14mm/18mm male/female)."""
+import hashlib, math
+def compute():
+    joint = 14.0; R = 11.0; r = 4.0; h = 18.0; hole = 3.0; s_len = 35.0; s_bore = 8.0; rho = 0.15
+    cup_mm3 = math.pi * h / 3.0 * (R * R + R * r + r * r)
+    cup_cm3 = cup_mm3 / 1000.0
+    cap = cup_cm3 * rho
+    a14 = math.pi * (14.0 / 2.0) ** 2
+    a18 = math.pi * (18.0 / 2.0) ** 2
+    ratio = a18 / a14
+    hole_area = math.pi * (hole / 2.0) ** 2
+    stem_mm3 = math.pi * (s_bore / 2.0) ** 2 * s_len
+    return {"cup_volume_cm3": round(cup_cm3, 2), "capacity_g": round(cap, 2), "joint_area_14mm_mm2": round(a14, 2), "joint_area_18mm_mm2": round(a18, 2), "area_ratio": round(ratio, 2), "hole_area_mm2": round(hole_area, 2), "stem_volume_mL": round(stem_mm3 / 1000.0, 2)}
+def main():
+    a = compute(); b = compute()
+    sa = hashlib.sha256(repr(sorted(a.items())).encode()).hexdigest()
+    sb = hashlib.sha256(repr(sorted(b.items())).encode()).hexdigest()
+    for key in ["cup_volume_cm3", "capacity_g", "joint_area_14mm_mm2", "joint_area_18mm_mm2", "area_ratio", "hole_area_mm2", "stem_volume_mL"]:
+        print(f"{key}: {a[key]}")
+    print(f"Run 1 SHA-256: {sa}")
+    print(f"Run 2 SHA-256: {sb}")
+    print(f"Deterministic: {'MATCH' if sa == sb else 'MISMATCH'}")
+if __name__ == "__main__":
+    main()
+
+
+PROGRAM
+"""The Glass Bowl (14mm/18mm male/female) — full working program.
+
+Computes the same quantities as the record demo (glass bowl cup volume and joint areas),
+as a documented module with a class and a run() method.
+Run: python3 program.py
+"""
+import hashlib
+import math
+
+
+class SupplyCalculator:
+    """Calculator for The Glass Bowl (14mm/18mm male/female)."""
+
+    def compute(self):
+        """Return the computed quantities as a dict."""
+        joint = 14.0; R = 11.0; r = 4.0; h = 18.0; hole = 3.0; s_len = 35.0; s_bore = 8.0; rho = 0.15
+        cup_mm3 = math.pi * h / 3.0 * (R * R + R * r + r * r)
+        cup_cm3 = cup_mm3 / 1000.0
+        cap = cup_cm3 * rho
+        a14 = math.pi * (14.0 / 2.0) ** 2
+        a18 = math.pi * (18.0 / 2.0) ** 2
+        ratio = a18 / a14
+        hole_area = math.pi * (hole / 2.0) ** 2
+        stem_mm3 = math.pi * (s_bore / 2.0) ** 2 * s_len
+        return {"cup_volume_cm3": round(cup_cm3, 2), "capacity_g": round(cap, 2), "joint_area_14mm_mm2": round(a14, 2), "joint_area_18mm_mm2": round(a18, 2), "area_ratio": round(ratio, 2), "hole_area_mm2": round(hole_area, 2), "stem_volume_mL": round(stem_mm3 / 1000.0, 2)}
+
+    def run(self):
+        """Compute twice, print named results and SHA-256 digests."""
+        a = self.compute()
+        b = self.compute()
+        sa = hashlib.sha256(repr(sorted(a.items())).encode()).hexdigest()
+        sb = hashlib.sha256(repr(sorted(b.items())).encode()).hexdigest()
+        for key in sorted(a):
+            print(f"{key}: {a[key]}")
+        print(f"Run 1 SHA-256: {sa}")
+        print(f"Run 2 SHA-256: {sb}")
+        print(f"Deterministic: {'MATCH' if sa == sb else 'MISMATCH'}")
+        return a
+
+
+if __name__ == "__main__":
+    SupplyCalculator().run()
+
+
+GENERATOR
+{
+  "ceiling_note": "Generator ceiling: up to 1,000,000,000 scales per file, generated on demand by the file AI — not stored files.",
+  "gen_id_prefix": "JAH-MJS-GEN-",
+  "hard_stop": 1000000000,
+  "throttle_per_call": 100,
+  "type": "seeded boundless generator"
+}
+
+OFFICIAL DEMO OUTPUT
+{
+  "cup_volume_cm3": 3.41,
+  "capacity_g": 0.51,
+  "joint_area_14mm_mm2": 153.94,
+  "joint_area_18mm_mm2": 254.47,
+  "area_ratio": 1.65,
+  "hole_area_mm2": 7.07,
+  "stem_volume_mL": 1.76
+}

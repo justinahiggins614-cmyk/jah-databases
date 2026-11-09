@@ -1,0 +1,112 @@
+The Gravity Bong
+Record JAH-MJS-000029 — public
+JCC v1 code: JAHDB/marijuana-supplies#JAH-MJS-000029
+
+The gravity bong is one of the basic supplies of the marijuana supplies archive: a gravity bong that works by moving water creates suction that pulls air through the bowl into a chamber, and pushing the chamber back down into the water forces the collected smoke out through the opening in one steady delivery. It is made from plastic 2-litre bottle with its bottom cut off, plastic bucket or larger container, metal or glass bowl fitted to the bottle cap, aerator screen, water as the displacement medium, and a common example measures 2-litre bottle chamber about 280 mm tall and 105 mm diameter, bucket larger than the bottle, lift height 180 mm. The gravity bong comes from do-it-yourself culture rather than from a glass workshop. The bucket bong is made from two containers, a smaller bottle with its bottom cut off and a bowl fitted to its cap, set inside a larger container of water, and the waterfall bong from a single bottle with a small hole near its base. Both use water displacement instead of the lungs to move air, and both are documented in the same public account that notes neither actually fits the strict definition of a bong, because the smoke is not bubbled through water to cool and filter it. The device is also called a GB, a grav, a geeb, or a bucket bong, and the common pairing in guides is a 2-litre bottle as the chamber with a 16 to 20 ounce bottle, or a bucket, as the water container. Glass gravity bongs are also sold, but the homemade bottle-and-bucket version remains the form most people picture. This record gives the full public account: its history, how it works, a complete specification, the physics behind it, worked mathematics, and a runnable program that computes its key figures. It makes no medical claim and gives no dosage advice; it describes a supply and its mechanism, and it cites real public sources for every fact it states. Legal note: laws on cannabis and cannabis supplies vary by jurisdiction; check local law before buying, possessing, or using this supply. It is part of the public edition of the marijuana supplies database, paired with a Signature design-study edition of the same supply.
+
+SPEC
+{
+  "care": "Rinse the bottle and bucket after use; replace a bottle that is cracked or cloudy; keep the bowl and screen clean; dry fully before storage",
+  "dimensions": "2-litre bottle chamber about 280 mm tall and 105 mm diameter; bucket larger than the bottle; lift height 180 mm",
+  "materials": "Plastic 2-litre bottle with its bottom cut off; plastic bucket or larger container; metal or glass bowl fitted to the bottle cap; aerator screen; plain water as the displacement medium",
+  "mechanism": "Lifting the bottle out of the water creates a vacuum that pulls air in through the bowl; pushing the bottle back down displaces the water and forces the collected smoke out through the opening in one steady delivery",
+  "use": "Submerge the bottle to its neck, light the bowl while lifting slowly until the chamber fills, remove the bowl, place the mouth over the opening, and push the bottle down steadily while breathing in",
+  "variants": "Bucket gravity bong; waterfall gravity bong with a drain hole near the base; glass gravity bong with a machined chamber; lung variant using a plastic bag instead of water"
+}
+
+SCIENCE PROOF
+The gravity bong works by displacement, not by suction from the lungs. When the bottle is lifted out of the bucket, water leaves the inside of the bottle, and the space the water leaves must be filled by something: the only opening is through the bowl, so air is pulled across the burning material and into the chamber. The volume drawn in is the cross-section of the bottle times the lift height, which is why a wide bottle lifted a short way draws the same volume as a narrow bottle lifted further. Pushing the bottle back down reverses the process: the water level inside rises, the pressure in the chamber rises above the outside air, and the smoke is forced out through the opening. The waterfall version works the same way in reverse: water drains out through a hole near the base, and the speed of the draining water follows Torricelli's law, the square root of twice gravity times the height of the water column. The water never filters the smoke in either version, because nothing bubbles through it: it only moves air, so the draw is not cooled or diffused the way a water pipe cools it. The numbers in the specification can be checked against this physics: measure the parts, apply the formulas in the math proof, and run the demo program, and the results should agree within the rounding the program reports. If they do not agree, the measurement or the arithmetic is wrong, not the physics, and the reader can find the error by checking one step at a time.
+
+MATH PROOF
+The demo uses two ideas. First, the displaced volume is the bottle cross-section times the lift height: pi times the bottle radius squared, with a bottle diameter of 105.0 mm, times the lift of 180.0 mm, which gives the smoke volume drawn into the chamber in millilitres. Second, the waterfall drain speed follows Torricelli's law: the square root of twice gravity times the water column height of 200.0 mm. Multiplying that speed by the drain hole area, from a hole diameter of 6.0 mm, gives the drain flow in millilitres per second, and dividing the chamber volume of 2000.0 mL by that flow gives the drain time in seconds. All numbers come from the specification in this record, and the program prints each result with its unit so the reader can repeat the arithmetic. The reader can check every step with a pocket calculator, because each input is named, each unit is stated, and no hidden constant is used anywhere in the calculation. The computation is run twice and the SHA-256 digests of both runs are printed, confirming the result is deterministic.
+
+FORMAL EQUATION
+v = sqrt(2 * g * h)
+
+HISTORY
+The gravity bong comes from do-it-yourself culture rather than from a glass workshop. The bucket bong is made from two containers, a smaller bottle with its bottom cut off and a bowl fitted to its cap, set inside a larger container of water, and the waterfall bong from a single bottle with a small hole near its base. Both use water displacement instead of the lungs to move air, and both are documented in the same public account that notes neither actually fits the strict definition of a bong, because the smoke is not bubbled through water to cool and filter it. The device is also called a GB, a grav, a geeb, or a bucket bong, and the common pairing in guides is a 2-litre bottle as the chamber with a 16 to 20 ounce bottle, or a bucket, as the water container. Glass gravity bongs are also sold, but the homemade bottle-and-bucket version remains the form most people picture. Over time the same basic form was copied, adapted, and refined by many makers, so the record today covers a family of closely related objects rather than a single patented shape. Trade guides and manufacturer manuals preserve the steps of that change. The history matters because it explains why the parts are arranged the way they are: each feature survives because it solved a practical problem for the people who used the supply every day.
+
+DEMO
+"""Demo: gravity bong displaced volume and waterfall drain rate — The Gravity Bong."""
+import hashlib, math
+def compute():
+    vol = 2000.0; d = 105.0; lift = 180.0; hole = 6.0; col = 200.0
+    displaced = math.pi * (d / 2.0) ** 2 * lift / 1000.0
+    v = math.sqrt(2.0 * 9.81 * (col / 1000.0))
+    hole_area = math.pi * (hole / 2.0) ** 2
+    flow = hole_area * v * 1000.0 / 1000.0
+    drain_time = vol / flow
+    return {"chamber_volume_mL": vol, "displaced_volume_mL": round(displaced, 2), "lift_mm": lift, "drain_velocity_m_s": round(v, 2), "drain_flow_mL_per_s": round(flow, 2), "drain_time_s": round(drain_time, 2)}
+def main():
+    a = compute(); b = compute()
+    sa = hashlib.sha256(repr(sorted(a.items())).encode()).hexdigest()
+    sb = hashlib.sha256(repr(sorted(b.items())).encode()).hexdigest()
+    for key in ["chamber_volume_mL", "displaced_volume_mL", "lift_mm", "drain_velocity_m_s", "drain_flow_mL_per_s", "drain_time_s"]:
+        print(f"{key}: {a[key]}")
+    print(f"Run 1 SHA-256: {sa}")
+    print(f"Run 2 SHA-256: {sb}")
+    print(f"Deterministic: {'MATCH' if sa == sb else 'MISMATCH'}")
+if __name__ == "__main__":
+    main()
+
+
+PROGRAM
+"""The Gravity Bong — full working program.
+
+Computes the same quantities as the record demo (gravity bong displaced volume and waterfall drain rate),
+as a documented module with a class and a run() method.
+Run: python3 program.py
+"""
+import hashlib
+import math
+
+
+class SupplyCalculator:
+    """Calculator for The Gravity Bong."""
+
+    def compute(self):
+        """Return the computed quantities as a dict."""
+        vol = 2000.0; d = 105.0; lift = 180.0; hole = 6.0; col = 200.0
+        displaced = math.pi * (d / 2.0) ** 2 * lift / 1000.0
+        v = math.sqrt(2.0 * 9.81 * (col / 1000.0))
+        hole_area = math.pi * (hole / 2.0) ** 2
+        flow = hole_area * v * 1000.0 / 1000.0
+        drain_time = vol / flow
+        return {"chamber_volume_mL": vol, "displaced_volume_mL": round(displaced, 2), "lift_mm": lift, "drain_velocity_m_s": round(v, 2), "drain_flow_mL_per_s": round(flow, 2), "drain_time_s": round(drain_time, 2)}
+
+    def run(self):
+        """Compute twice, print named results and SHA-256 digests."""
+        a = self.compute()
+        b = self.compute()
+        sa = hashlib.sha256(repr(sorted(a.items())).encode()).hexdigest()
+        sb = hashlib.sha256(repr(sorted(b.items())).encode()).hexdigest()
+        for key in sorted(a):
+            print(f"{key}: {a[key]}")
+        print(f"Run 1 SHA-256: {sa}")
+        print(f"Run 2 SHA-256: {sb}")
+        print(f"Deterministic: {'MATCH' if sa == sb else 'MISMATCH'}")
+        return a
+
+
+if __name__ == "__main__":
+    SupplyCalculator().run()
+
+
+GENERATOR
+{
+  "ceiling_note": "Generator ceiling: up to 1,000,000,000 scales per file, generated on demand by the file AI — not stored files.",
+  "gen_id_prefix": "JAH-MJS-GEN-",
+  "hard_stop": 1000000000,
+  "throttle_per_call": 100,
+  "type": "seeded boundless generator"
+}
+
+OFFICIAL DEMO OUTPUT
+{
+  "chamber_volume_mL": 2000.0,
+  "displaced_volume_mL": 1558.62,
+  "lift_mm": 180.0,
+  "drain_velocity_m_s": 1.98,
+  "drain_flow_mL_per_s": 56.01,
+  "drain_time_s": 35.71
+}

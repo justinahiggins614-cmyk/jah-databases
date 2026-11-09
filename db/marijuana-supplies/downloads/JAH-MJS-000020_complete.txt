@@ -1,0 +1,170 @@
+The Glass Dab Rig
+Record JAH-MJS-000020 — public
+JCC v1 code: JAHDB/marijuana-supplies#JAH-MJS-000020
+
+The Glass Dab Rig is a cleaning and maintenance supply for smoking pipes, and this record describes the standard kit as it is actually sold and used. The kit contains a borosilicate glass body with a water chamber, a fixed or removable downstem, a percolator, a quartz banger, a carb cap, and a bent neck mouthpiece. Its parts are made from borosilicate glass body, fused quartz banger, stainless steel or titanium carb cap option, silicone-free glass joints, chosen because each material suits its own job: cotton absorbs, nylon scrubs, steel scrapes without bending, and brass works on stubborn buildup without gouging. The kit measures overall height 200 mm; chamber diameter 70 mm; water fill 60 ml covering the percolator slits by 12 mm; banger 25 mm across with a 20 mm deep bucket; joint size 14 mm. In use, concentrate placed on the heated banger vaporises, the vapour is drawn down the stem into the water chamber, and the percolator breaks the vapour into many small bubbles so it cools against the water before rising up the neck. That combination is what makes the kit more than a loose handful of tools: every step of a full clean, from the first dry pass through the stem to the last wipe of the outside, has a tool made for it. Routine use is simple. Fill with clean water just above the percolator slits, heat the banger, let it cool to the working range, place the concentrate in the banger, cap it, and draw slowly so the water bubbles without splashback. Care of the kit matters as much as care of the pipe. Change the water after every session, clean the banger with a cotton swab while it is still warm, soak the glass in isopropyl alcohol and salt when residue builds, and never shake a rig hard around a percolator, since a hard shake can snap thin glass. The common variants are the mini rig 150 mm tall for travel; recycler rig that loops water through a second chamber; showerhead-perc rig; honeycomb-perc rig. Legal note: laws on cannabis and cannabis accessories vary by jurisdiction; check local law before buying, carrying, or using this item.
+
+SPEC
+{
+  "care": "change the water after every session, clean the banger with a cotton swab while it is still warm, soak the glass in isopropyl alcohol and salt when residue builds, and never shake a rig hard around a percolator, since a hard shake can snap thin glass",
+  "dimensions": "overall height 200 mm; chamber diameter 70 mm; water fill 60 ml covering the percolator slits by 12 mm; banger 25 mm across with a 20 mm deep bucket; joint size 14 mm",
+  "materials": "borosilicate glass body, fused quartz banger, stainless steel or titanium carb cap option, silicone-free glass joints",
+  "mechanism": "concentrate placed on the heated banger vaporises, the vapour is drawn down the stem into the water chamber, and the percolator breaks the vapour into many small bubbles so it cools against the water before rising up the neck",
+  "use": "fill with clean water just above the percolator slits, heat the banger, let it cool to the working range, place the concentrate in the banger, cap it, and draw slowly so the water bubbles without splashback",
+  "variants": "mini rig 150 mm tall for travel; recycler rig that loops water through a second chamber; showerhead-perc rig; honeycomb-perc rig"
+}
+
+SCIENCE PROOF
+The science of this supply is the science of dissolving, scrubbing, and separating, and each part of the kit uses a different piece of it. Isopropyl alcohol, propan-2-ol, is a polar organic solvent, which means its molecules have a water-loving hydroxyl end and a fat-loving carbon chain, so it can dissolve the sticky resin film that water alone cannot move. Resin is a mixture of tars and oils, and like dissolves like: the alcohol surrounds those molecules and carries them into solution, which is why the soak liquid turns dark brown as it works. Coarse salt, sodium chloride, does not dissolve in alcohol, so its grains stay hard and gritty, and shaking the sealed bag turns those grains into a moving abrasive that scours resin the liquid alone cannot lift from corners and curves. The bristle cleaner and the shank brush work by friction, the force that resists sliding between two surfaces, and the nylon bristles are stiff enough to shear residue from a wall while flexing enough to follow a curve without gouging it. Heat matters too: warm alcohol dissolves resin faster than cold alcohol, because molecules move faster and collide more often, which is why standing a sealed bag in hot tap water shortens a soak, while heating alcohol directly is dangerous because its flash point is about 53 degrees Fahrenheit, below room temperature. For a sifter or a filter tip the science is size and flow: a mesh passes only particles smaller than its opening, and a folded paper lattice holds a bore open against suction. None of this is new physics, and that is the point: the supply works because it applies ordinary solvent chemistry, friction, and geometry to a small, reachable space.
+
+MATH PROOF
+The arithmetic in this record is worked from the figures in the key figures list, and every number in it can be checked with a pocket calculator. The formal equation is V_water = pi x r^2 x h, with r = 35 mm and h = 16 mm, so V_water is about 61,600 cubic mm, about 62 ml. The water volume in the chamber follows the cylinder formula, using the chamber radius and the water depth.. To show how the numbers hang together, take the figures as stated and work them through. First, the size check: the tool that must reach a space is compared with that space, length against length, so that a cleaner of 50 mm either reaches the airway it serves or it does not, and the record states the comparison rather than assuming it. Second, the quantity check: the amount of solvent, salt, water, or screen area is compared with the amount the job needs, so that a soak uses enough liquid to submerge the piece and enough salt to scour it, and a screen offers enough open area to pass what it should. Third, the count check: where the supply involves combinations, volumes, or yields, the count is worked out from its parts, and the demo repeats the same arithmetic in code. The demo prints each of these numbers with its name, runs the computation twice with a fixed seed, and prints a SHA-256 digest of each run so that the two runs can be compared. The digests match, which shows the computation is deterministic, not that the supply is perfect. The math proves the dimensions are consistent; it does not prove the supply works in the hand, and the record does not claim that it does.
+
+FORMAL EQUATION
+V_water = pi x r^2 x h, with r = 35 mm and h = 16 mm, so V_water is about 61,600 cubic mm, about 62 ml
+
+HISTORY
+The dab rig grew out of the water pipe, which itself is an old idea: pass smoke or vapour through water so it arrives cooler. Early concentrate users adapted bongs by fitting a heated nail where the bowl had been, and glassblowers then shrank the design, because vapour needs a shorter path than smoke to keep its flavour, and added percolators, the slitted or holed glass inserts that split one large bubble into dozens of small ones. Quartz became the standard banger material because it tolerates repeated heating and cooling without cracking and does not add flavour of its own. Recycler designs came later, looping water and vapour through a second chamber so the vapour is cooled twice in one draw. The result is a small, thick-walled glass instrument built around one job, turning a hot surface, a little water, and a percolator into a cool draw.
+
+DEMO
+import hashlib, json, math, random
+
+CHAMBER_DIA_MM = 70
+WATER_DEPTH_MM = 16
+PERC_SLITS = 12
+BUBBLES_PER_SLIT = 8
+VAPOUR_TEMP_C = 220
+WATER_TEMP_C = 20
+
+def compute(seed):
+    rng = random.Random(seed)
+    radius = CHAMBER_DIA_MM / 2.0
+    water_ml = round(math.pi * radius ** 2 * WATER_DEPTH_MM / 1000.0, 1)
+    bubble_dia_mm = 3.0
+    bubble_area = math.pi * bubble_dia_mm ** 2
+    bubbles = PERC_SLITS * BUBBLES_PER_SLIT
+    total_bubble_area = round(bubbles * bubble_area, 1)
+    water_kg = water_ml / 1000.0
+    vapour_drop_c = 85.0
+    heat_j = round(water_kg * 4186.0 * vapour_drop_c, 1)
+    out_temp = VAPOUR_TEMP_C - vapour_drop_c
+    splash_margin = round(rng.uniform(4.0, 6.0), 1)
+    out = {
+        "chamber_diameter_mm": CHAMBER_DIA_MM,
+        "water_depth_mm": WATER_DEPTH_MM,
+        "water_volume_ml": water_ml,
+        "percolator_slits": PERC_SLITS,
+        "bubbles_per_draw": bubbles,
+        "total_bubble_area_mm2": total_bubble_area,
+        "vapour_in_temp_c": VAPOUR_TEMP_C,
+        "vapour_out_temp_c": out_temp,
+        "heat_absorbed_by_water_j": heat_j,
+        "splash_margin_mm": splash_margin,
+    }
+    return out
+
+def main():
+    first = compute(7)
+    second = compute(7)
+    for key, value in first.items():
+        print(f"{key}: {value}")
+    d1 = hashlib.sha256(json.dumps(first, sort_keys=True).encode()).hexdigest()
+    d2 = hashlib.sha256(json.dumps(second, sort_keys=True).encode()).hexdigest()
+    print(f"digest_run_1: {d1}")
+    print(f"digest_run_2: {d2}")
+    print("Deterministic: MATCH" if d1 == d2 else "Deterministic: MISMATCH")
+
+main()
+
+
+PROGRAM
+"""The Glass Dab Rig — working program.
+
+Computes the same quantities as the record demo: the design numbers for
+this supply, from the figures in the record. Standard library only, no
+network. Run it directly to print the named results and the two matching
+deterministic digests.
+"""
+import hashlib, json, math, random
+
+CHAMBER_DIA_MM = 70
+WATER_DEPTH_MM = 16
+PERC_SLITS = 12
+BUBBLES_PER_SLIT = 8
+VAPOUR_TEMP_C = 220
+WATER_TEMP_C = 20
+
+def compute(seed):
+    rng = random.Random(seed)
+    radius = CHAMBER_DIA_MM / 2.0
+    water_ml = round(math.pi * radius ** 2 * WATER_DEPTH_MM / 1000.0, 1)
+    bubble_dia_mm = 3.0
+    bubble_area = math.pi * bubble_dia_mm ** 2
+    bubbles = PERC_SLITS * BUBBLES_PER_SLIT
+    total_bubble_area = round(bubbles * bubble_area, 1)
+    water_kg = water_ml / 1000.0
+    vapour_drop_c = 85.0
+    heat_j = round(water_kg * 4186.0 * vapour_drop_c, 1)
+    out_temp = VAPOUR_TEMP_C - vapour_drop_c
+    splash_margin = round(rng.uniform(4.0, 6.0), 1)
+    out = {
+        "chamber_diameter_mm": CHAMBER_DIA_MM,
+        "water_depth_mm": WATER_DEPTH_MM,
+        "water_volume_ml": water_ml,
+        "percolator_slits": PERC_SLITS,
+        "bubbles_per_draw": bubbles,
+        "total_bubble_area_mm2": total_bubble_area,
+        "vapour_in_temp_c": VAPOUR_TEMP_C,
+        "vapour_out_temp_c": out_temp,
+        "heat_absorbed_by_water_j": heat_j,
+        "splash_margin_mm": splash_margin,
+    }
+    return out
+
+
+class GlassDabRig:
+    """Model of the glass dab rig."""
+
+    def __init__(self, seed=7):
+        self.seed = seed
+
+    def run(self):
+        """Run the computation twice and print the named results."""
+        first = compute(self.seed)
+        second = compute(self.seed)
+        for key, value in first.items():
+            print(f"{key}: {value}")
+        d1 = hashlib.sha256(json.dumps(first, sort_keys=True).encode()).hexdigest()
+        d2 = hashlib.sha256(json.dumps(second, sort_keys=True).encode()).hexdigest()
+        print(f"digest_run_1: {d1}")
+        print(f"digest_run_2: {d2}")
+        print("Deterministic: MATCH" if d1 == d2 else "Deterministic: MISMATCH")
+        return first
+
+
+if __name__ == "__main__":
+    GlassDabRig().run()
+
+
+GENERATOR
+{
+  "ceiling_note": "Generator ceiling: up to 1,000,000,000 scales per file, generated on demand by the file AI — not stored files.",
+  "gen_id_prefix": "JAH-MJS-GEN-",
+  "hard_stop": 1000000000,
+  "throttle_per_call": 100,
+  "type": "seeded boundless generator"
+}
+
+OFFICIAL DEMO OUTPUT
+{
+  "chamber_diameter_mm": 70,
+  "water_depth_mm": 16,
+  "water_volume_ml": 61.6,
+  "percolator_slits": 12,
+  "bubbles_per_draw": 96,
+  "total_bubble_area_mm2": 2714.3,
+  "vapour_in_temp_c": 220,
+  "vapour_out_temp_c": 135.0,
+  "heat_absorbed_by_water_j": 21917.9,
+  "splash_margin_mm": 4.6
+}

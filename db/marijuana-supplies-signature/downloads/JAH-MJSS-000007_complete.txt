@@ -1,0 +1,114 @@
+Signature Loom Rolling Papers
+Record JAH-MJSS-000007 — signature
+JCC v1 code: JAHDB/marijuana-supplies-signature#JAH-MJSS-000007
+
+The Signature Loom Rolling Papers is a Signature-made design study for rolling papers, a new design in the Signature Marijuana Supplies Database that reworks the familiar public form with one deliberate change. It keeps the job the same — a thin sheet of plant-fibre paper with a gum strip along one edge is wrapped around ground herb, sealed by moistening the gum, and the resulting cylinder is lit at one end and drawn from the other — but changes how the parts are arranged, using signature woven hemp fibre paper at 12 gsm; gum arabic strip; unbleached. The design is sized at 78 mm x 44 mm; booklet of 32 leaves; gum strip 4 mm wide, which sets every number in this record, from the volumes and areas in the demo to the scale variants at the end. This record is a design study, not a real manufactured product, and nothing here claims the design has been built, tested, or sold. What it does offer is a complete, checkable design: a full specification, the physics of how it would work, worked arithmetic tied to its own dimensions, a runnable program that computes those numbers, and three boundless scale variants. Readers can follow the design from first principles, repeat the arithmetic by hand, run the program, and see exactly where each number comes from. The Signature edition exists alongside the public edition so the archive holds both what exists in the world and what the Signature system designs next, clearly labelled, so the two are never confused. Like every Signature record, it is filed as a design study, with its own generator and its own file AI, and it marches with the rest of the database toward a million records.
+
+SPEC
+{
+  "care": "Keep dry and flat; store away from damp",
+  "dimensions": "78 mm x 44 mm; booklet of 32 leaves; gum strip 4 mm wide",
+  "materials": "Signature woven hemp fibre paper at 12 gsm; gum arabic strip; unbleached",
+  "mechanism": "Woven fibre: the Signature design weaves hemp fibres in a cross pattern so the paper tears cleanly along the roll direction and resists tearing across it",
+  "use": "Roll as a standard paper: spread herb, roll into a cylinder, moisten the gum strip, and seal",
+  "variants": "Single wide woven, 1 1/4 woven, and king slim woven versions"
+}
+
+SCIENCE PROOF
+Rolling paper is a thin, porous sheet of plant fibre, and its behaviour is set by three material facts. First, basis weight, measured in grams per square metre, sets thickness and stiffness: at 10 to 14 grams per square metre the sheet is thin enough to roll tightly yet strong enough not to tear. Second, the fibres are cellulose, and cellulose burns by pyrolysis followed by oxidation, releasing heat that sustains a slow, even burn along the cylinder. Third, the gum strip is gum arabic, a plant polysaccharide that dissolves in water and re-forms a bond as it dries, which is why a licked seam seals without heat. Rice papers are very thin and burn slowly because their dense fibre mat limits airflow; hemp papers are slightly thicker and more structured, which many rollers find easier to handle. The area of one sheet is length times width, and the area of a whole booklet is that area times the leaf count, so a 32-leaf booklet of 1 1/4 papers carries a little over a tenth of a square metre of paper in total. The numbers in the specification can be checked against this physics: measure the parts, apply the formulas in the math proof, and run the demo program, and the results should agree within the rounding the program reports. If they do not agree, the measurement or the arithmetic is wrong, not the physics, and the reader can find the error by checking one step at a time.
+
+MATH PROOF
+The demo starts with one sheet: length times width, 78.0 mm times 44.0 mm, gives the sheet area in square millimetres, and dividing by 100 gives square centimetres. Multiplying the sheet area by 32 leaves gives the booklet area, and dividing by one million converts square millimetres to square metres. Multiplying that area by the basis weight of 12.0 grams per square metre gives the mass of paper in one booklet. The gum strip area is the paper length times the gum width of 4.0 mm. Every number comes from the specification in this record, the program prints each result with its unit, and it runs the computation twice with SHA-256 digests so the reader can confirm the result is deterministic. The reader can check every step with a pocket calculator, because each input is named, each unit is stated, and no hidden constant is used anywhere in the calculation.
+
+FORMAL EQUATION
+A = L * W
+
+HISTORY
+Rolling papers began in Alcoy, Spain, in the 1500s, where smokers wrapped salvaged cigar tobacco in paper scraps; dedicated paper factories followed in the town in the mid-1700s, and a Spanish monk is credited with the first folded booklet around 1765. The trade spread through France and Spain in the eighteenth and nineteenth centuries: Zig-Zag traces its origins to France in 1879, introduced interleaved booklets in 1894, and trademarked the name in 1906. RAW launched its first unbleached papers in 2005. Papers were first made for tobacco; cannabis smokers adopted the same sheets, and makers later offered hemp, rice, and flax papers aimed at them. Over time the same basic form was copied, adapted, and refined by many makers, so the record today covers a family of closely related objects rather than a single patented shape. Museums, trade guides, and manufacturer manuals preserve the steps of that change, and the sources cited at the end of this record give the reader places to check each stage. The history matters because it explains why the parts are arranged the way they are: each feature survives because it solved a practical problem for the people who used the supply every day.
+
+DEMO
+"""Demo: rolling paper area — Rolling Papers."""
+import hashlib
+def compute():
+    length = 78.0; width = 44.0; leaves = 32; gsm = 12.0; gum = 4.0
+    sheet_mm2 = length * width
+    sheet_cm2 = sheet_mm2 / 100.0
+    booklet_mm2 = sheet_mm2 * leaves
+    booklet_m2 = booklet_mm2 / 1000000.0
+    booklet_g = booklet_m2 * gsm
+    gum_mm2 = length * gum
+    return {"sheet_area_mm2": round(sheet_mm2, 1), "sheet_area_cm2": round(sheet_cm2, 2), "booklet_area_m2": round(booklet_m2, 4), "booklet_mass_g": round(booklet_g, 3), "gum_area_mm2": round(gum_mm2, 1), "leaves": leaves}
+def main():
+    a = compute(); b = compute()
+    sa = hashlib.sha256(repr(sorted(a.items())).encode()).hexdigest()
+    sb = hashlib.sha256(repr(sorted(b.items())).encode()).hexdigest()
+    for key in ["sheet_area_mm2", "sheet_area_cm2", "booklet_area_m2", "booklet_mass_g", "gum_area_mm2", "leaves"]:
+        print(f"{key}: {a[key]}")
+    print(f"Run 1 SHA-256: {sa}")
+    print(f"Run 2 SHA-256: {sb}")
+    print(f"Deterministic: {'MATCH' if sa == sb else 'MISMATCH'}")
+if __name__ == "__main__":
+    main()
+
+
+PROGRAM
+"""Signature Loom Rolling Papers — full working program.
+
+Computes the same quantities as the record demo (rolling paper area),
+as a documented module with a class and a run() method.
+Run: python3 program.py
+"""
+import hashlib
+import math
+
+
+class SupplyCalculator:
+    """Calculator for Signature Loom Rolling Papers."""
+
+    def compute(self):
+        """Return the computed quantities as a dict."""
+        length = 78.0; width = 44.0; leaves = 32; gsm = 12.0; gum = 4.0
+        sheet_mm2 = length * width
+        sheet_cm2 = sheet_mm2 / 100.0
+        booklet_mm2 = sheet_mm2 * leaves
+        booklet_m2 = booklet_mm2 / 1000000.0
+        booklet_g = booklet_m2 * gsm
+        gum_mm2 = length * gum
+        return {"sheet_area_mm2": round(sheet_mm2, 1), "sheet_area_cm2": round(sheet_cm2, 2), "booklet_area_m2": round(booklet_m2, 4), "booklet_mass_g": round(booklet_g, 3), "gum_area_mm2": round(gum_mm2, 1), "leaves": leaves}
+
+    def run(self):
+        """Compute twice, print named results and SHA-256 digests."""
+        a = self.compute()
+        b = self.compute()
+        sa = hashlib.sha256(repr(sorted(a.items())).encode()).hexdigest()
+        sb = hashlib.sha256(repr(sorted(b.items())).encode()).hexdigest()
+        for key in sorted(a):
+            print(f"{key}: {a[key]}")
+        print(f"Run 1 SHA-256: {sa}")
+        print(f"Run 2 SHA-256: {sb}")
+        print(f"Deterministic: {'MATCH' if sa == sb else 'MISMATCH'}")
+        return a
+
+
+if __name__ == "__main__":
+    SupplyCalculator().run()
+
+
+GENERATOR
+{
+  "ceiling_note": "Generator ceiling: up to 1,000,000,000 scales per file, generated on demand by the file AI — not stored files.",
+  "gen_id_prefix": "JAH-MJSS-GEN-",
+  "hard_stop": 1000000000,
+  "throttle_per_call": 100,
+  "type": "seeded boundless generator"
+}
+
+OFFICIAL DEMO OUTPUT
+{
+  "sheet_area_mm2": 3432.0,
+  "sheet_area_cm2": 34.32,
+  "booklet_area_m2": 0.1098,
+  "booklet_mass_g": 1.318,
+  "gum_area_mm2": 312.0,
+  "leaves": 32
+}

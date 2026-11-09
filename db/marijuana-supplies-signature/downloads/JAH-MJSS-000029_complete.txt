@@ -1,0 +1,112 @@
+Signature Plunge Gravity Bong
+Record JAH-MJSS-000029 — signature
+JCC v1 code: JAHDB/marijuana-supplies-signature#JAH-MJSS-000029
+
+The Signature Plunge Gravity Bong is a Signature-made design study for gravity bong, a new design in the Signature Marijuana Supplies Database that reworks the familiar public form with one deliberate change. It keeps the job the same — moving water creates suction that pulls air through the bowl into a chamber, and pushing the chamber back down into the water forces the collected smoke out through the opening in one steady delivery — but changes how the parts are arranged, using signature borosilicate glass chamber with a machined metal cap and bowl; steel bucket with a guide ring. The design is sized at 1.5-litre glass chamber about 260 mm tall and 90 mm diameter; bucket larger than the chamber; lift height 200 mm, which sets every number in this record, from the volumes and areas in the demo to the scale variants at the end. Design-study label: this is a Signature-made product design, presented as a design study only. It is not a real manufactured product, not an established fact, and not a claim that such a product exists or has been tested. What it does offer is a complete, checkable design: a full specification, the physics of how it would work, worked arithmetic tied to its own dimensions, a runnable program that computes those numbers, and three boundless scale variants. Readers can follow the design from first principles, repeat the arithmetic by hand, run the program, and see exactly where each number comes from. The Signature edition exists alongside the public edition so the archive holds both what exists in the world and what the Signature system designs next, clearly labelled, so the two are never confused. Like every Signature record, it is filed as a design study, with its own generator and its own file AI, and it marches with the rest of the database toward a million records.
+
+SPEC
+{
+  "care": "Rinse the chamber and bucket after use; check the guide ring for dents; dry fully before storage",
+  "dimensions": "1.5-litre glass chamber about 260 mm tall and 90 mm diameter; bucket larger than the chamber; lift height 200 mm",
+  "materials": "Signature borosilicate glass chamber with a machined metal cap and bowl; steel bucket with a guide ring",
+  "mechanism": "Plunge guide: the Signature design adds a guide ring on the bucket rim, so the glass chamber rises and falls straight instead of tilting and catching",
+  "use": "Submerge the chamber to its neck, light the bowl while lifting slowly, remove the bowl, and push the chamber down steadily while breathing in",
+  "variants": "Pocket plunge, standard plunge, and workshop plunge versions; chamber volume varies by variant"
+}
+
+SCIENCE PROOF
+The gravity bong works by displacement, not by suction from the lungs. When the bottle is lifted out of the bucket, water leaves the inside of the bottle, and the space the water leaves must be filled by something: the only opening is through the bowl, so air is pulled across the burning material and into the chamber. The volume drawn in is the cross-section of the bottle times the lift height, which is why a wide bottle lifted a short way draws the same volume as a narrow bottle lifted further. Pushing the bottle back down reverses the process: the water level inside rises, the pressure in the chamber rises above the outside air, and the smoke is forced out through the opening. The waterfall version works the same way in reverse: water drains out through a hole near the base, and the speed of the draining water follows Torricelli's law, the square root of twice gravity times the height of the water column. The water never filters the smoke in either version, because nothing bubbles through it: it only moves air, so the draw is not cooled or diffused the way a water pipe cools it. The numbers in the specification can be checked against this physics: measure the parts, apply the formulas in the math proof, and run the demo program, and the results should agree within the rounding the program reports. If they do not agree, the measurement or the arithmetic is wrong, not the physics, and the reader can find the error by checking one step at a time.
+
+MATH PROOF
+The demo uses two ideas. First, the displaced volume is the bottle cross-section times the lift height: pi times the bottle radius squared, with a bottle diameter of 90.0 mm, times the lift of 200.0 mm, which gives the smoke volume drawn into the chamber in millilitres. Second, the waterfall drain speed follows Torricelli's law: the square root of twice gravity times the water column height of 250.0 mm. Multiplying that speed by the drain hole area, from a hole diameter of 8.0 mm, gives the drain flow in millilitres per second, and dividing the chamber volume of 1500.0 mL by that flow gives the drain time in seconds. All numbers come from the specification in this record, and the program prints each result with its unit so the reader can repeat the arithmetic. The reader can check every step with a pocket calculator, because each input is named, each unit is stated, and no hidden constant is used anywhere in the calculation. The computation is run twice and the SHA-256 digests of both runs are printed, confirming the result is deterministic.
+
+FORMAL EQUATION
+v = sqrt(2 * g * h)
+
+HISTORY
+The gravity bong comes from do-it-yourself culture rather than from a glass workshop. The bucket bong is made from two containers, a smaller bottle with its bottom cut off and a bowl fitted to its cap, set inside a larger container of water, and the waterfall bong from a single bottle with a small hole near its base. Both use water displacement instead of the lungs to move air, and both are documented in the same public account that notes neither actually fits the strict definition of a bong, because the smoke is not bubbled through water to cool and filter it. The device is also called a GB, a grav, a geeb, or a bucket bong, and the common pairing in guides is a 2-litre bottle as the chamber with a 16 to 20 ounce bottle, or a bucket, as the water container. Glass gravity bongs are also sold, but the homemade bottle-and-bucket version remains the form most people picture. Over time the same basic form was copied, adapted, and refined by many makers, so the record today covers a family of closely related objects rather than a single patented shape. Trade guides and manufacturer manuals preserve the steps of that change. The history matters because it explains why the parts are arranged the way they are: each feature survives because it solved a practical problem for the people who used the supply every day.
+
+DEMO
+"""Demo: gravity bong displaced volume and waterfall drain rate — Signature Plunge Gravity Bong."""
+import hashlib, math
+def compute():
+    vol = 1500.0; d = 90.0; lift = 200.0; hole = 8.0; col = 250.0
+    displaced = math.pi * (d / 2.0) ** 2 * lift / 1000.0
+    v = math.sqrt(2.0 * 9.81 * (col / 1000.0))
+    hole_area = math.pi * (hole / 2.0) ** 2
+    flow = hole_area * v * 1000.0 / 1000.0
+    drain_time = vol / flow
+    return {"chamber_volume_mL": vol, "displaced_volume_mL": round(displaced, 2), "lift_mm": lift, "drain_velocity_m_s": round(v, 2), "drain_flow_mL_per_s": round(flow, 2), "drain_time_s": round(drain_time, 2)}
+def main():
+    a = compute(); b = compute()
+    sa = hashlib.sha256(repr(sorted(a.items())).encode()).hexdigest()
+    sb = hashlib.sha256(repr(sorted(b.items())).encode()).hexdigest()
+    for key in ["chamber_volume_mL", "displaced_volume_mL", "lift_mm", "drain_velocity_m_s", "drain_flow_mL_per_s", "drain_time_s"]:
+        print(f"{key}: {a[key]}")
+    print(f"Run 1 SHA-256: {sa}")
+    print(f"Run 2 SHA-256: {sb}")
+    print(f"Deterministic: {'MATCH' if sa == sb else 'MISMATCH'}")
+if __name__ == "__main__":
+    main()
+
+
+PROGRAM
+"""Signature Plunge Gravity Bong — full working program.
+
+Computes the same quantities as the record demo (gravity bong displaced volume and waterfall drain rate),
+as a documented module with a class and a run() method.
+Run: python3 program.py
+"""
+import hashlib
+import math
+
+
+class SupplyCalculator:
+    """Calculator for Signature Plunge Gravity Bong."""
+
+    def compute(self):
+        """Return the computed quantities as a dict."""
+        vol = 1500.0; d = 90.0; lift = 200.0; hole = 8.0; col = 250.0
+        displaced = math.pi * (d / 2.0) ** 2 * lift / 1000.0
+        v = math.sqrt(2.0 * 9.81 * (col / 1000.0))
+        hole_area = math.pi * (hole / 2.0) ** 2
+        flow = hole_area * v * 1000.0 / 1000.0
+        drain_time = vol / flow
+        return {"chamber_volume_mL": vol, "displaced_volume_mL": round(displaced, 2), "lift_mm": lift, "drain_velocity_m_s": round(v, 2), "drain_flow_mL_per_s": round(flow, 2), "drain_time_s": round(drain_time, 2)}
+
+    def run(self):
+        """Compute twice, print named results and SHA-256 digests."""
+        a = self.compute()
+        b = self.compute()
+        sa = hashlib.sha256(repr(sorted(a.items())).encode()).hexdigest()
+        sb = hashlib.sha256(repr(sorted(b.items())).encode()).hexdigest()
+        for key in sorted(a):
+            print(f"{key}: {a[key]}")
+        print(f"Run 1 SHA-256: {sa}")
+        print(f"Run 2 SHA-256: {sb}")
+        print(f"Deterministic: {'MATCH' if sa == sb else 'MISMATCH'}")
+        return a
+
+
+if __name__ == "__main__":
+    SupplyCalculator().run()
+
+
+GENERATOR
+{
+  "ceiling_note": "Generator ceiling: up to 1,000,000,000 scales per file, generated on demand by the file AI — not stored files.",
+  "gen_id_prefix": "JAH-MJSS-GEN-",
+  "hard_stop": 1000000000,
+  "throttle_per_call": 100,
+  "type": "seeded boundless generator"
+}
+
+OFFICIAL DEMO OUTPUT
+{
+  "chamber_volume_mL": 1500.0,
+  "displaced_volume_mL": 1272.35,
+  "lift_mm": 200.0,
+  "drain_velocity_m_s": 2.21,
+  "drain_flow_mL_per_s": 111.32,
+  "drain_time_s": 13.47
+}

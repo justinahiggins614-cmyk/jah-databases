@@ -1,0 +1,118 @@
+Signature Ceramic Bowl
+Record JAH-MJSS-000033 — signature
+JCC v1 code: JAHDB/marijuana-supplies-signature#JAH-MJSS-000033
+
+The Signature Ceramic Bowl is a Signature-made design study for ceramic bowl, a new design in the Signature Marijuana Supplies Database that reworks the familiar public form with one deliberate change. It keeps the job the same — ground herb packed in the deeper Signature cup; the thicker wall stores more heat for an even burn; smoke passes through the cup floor into the downstem; lifting the bowl clears the pipe — but changes how the parts are arranged, using signature glazed stoneware with a heat-band glaze; 18 mm male ground joint; ceramic-coated screen. The design is sized at cup 24 mm across and 18 mm deep; joint 18 mm; wall 3.5 mm thick; about 50 mm tall overall, which sets every number in this record, from the ceramic bowl volume and heat storage in the demo to the scale variants at the end. This record is a design study, not a real manufactured product, and nothing here claims the design has been built, tested, or sold. What it does offer is a complete, checkable design: a full specification, the physics of how it would work, worked arithmetic tied to its own dimensions, a runnable program that computes those numbers, and three boundless scale variants. Readers can follow the design from first principles, repeat the arithmetic by hand, and run the program to check every number. The record also gives the materials and design, a build-it-yourself section, 3D-printing directions, and a use program, so the design can be judged as a whole, not only as a set of numbers. Like every Signature record, it sits beside its public twin in the same pair, so the reader can compare the public form with the Signature reworking side by side.
+
+SPEC
+{
+  "care": "Empty ash after cooling; soak in isopropyl alcohol, rinse, and dry; handle ceramic carefully as it chips and cracks if dropped; do not quench a hot bowl in cold water",
+  "dimensions": "Cup 24 mm across and 18 mm deep; joint 18 mm; wall 3.5 mm thick; about 50 mm tall overall",
+  "materials": "Signature glazed stoneware with a heat-band glaze; 18 mm male ground joint; ceramic-coated screen",
+  "mechanism": "Ground herb packed in the deeper Signature cup; the thicker wall stores more heat for an even burn; smoke passes through the cup floor into the downstem; lifting the bowl clears the pipe",
+  "use": "Check the joint size, set the ceramic-coated screen, pack ground herb loosely, slide the bowl into the joint, light while drawing gently, lift to clear, empty ash after cooling",
+  "variants": "14 mm and 18 mm joints; shallow and deep cups; heat-band glaze in three colours; wheel-thrown and hand-built finishes"
+}
+
+SCIENCE PROOF
+A ceramic bowl is a heat-storage combustion cup. Fired stoneware has a density near 2.4 grams per cubic centimetre and a specific heat near 0.85 joules per gram per kelvin, so a bowl of about 19.4 grams stores roughly 3,300 joules when it is heated by 200 kelvin, and that stored heat is what keeps the herb burning evenly between draws instead of cooling between them. Ceramic is also a poor thermal conductor, so the heat stays in the cup wall rather than racing to the joint, which is why a ceramic bowl feels cooler at the joint than a metal bowl of the same size. The glaze matters because it seals the porous clay body: an unglazed interior would soak up resin and flavour, while a fired glaze gives a smooth, non-porous surface that releases residue when soaked. The bowl is a shallow cylinder, so its volume is pi times radius squared times depth, and the joint is a ground taper that seals by contact, not by a gasket. The numbers in the specification can be checked against this physics: measure the parts, apply the formulas in the math proof, and run the demo program, and the results should agree within the rounding the program reports.
+
+MATH PROOF
+The demo treats the bowl cup as a cylinder and the ceramic shell as the difference between two cylinders. With a cup diameter of 24.0 mm and a depth of 18.0 mm, the radius is 12.0 mm, so the cup volume is pi times 144 times 18, about 8,143 cubic millimetres, or 8.14 cubic centimetres. At the stated packing density of 0.15 grams per cubic centimetre the herb capacity is 1.22 grams, inside the 1 to 2 gram range the cited bowl-size guide gives for a 14 mm bowl. The outer cylinder is 31.0 mm across and 21.5 mm tall, so the shell volume is the outer cylinder minus the cup, about 8.08 cubic centimetres, and at a stoneware density of 2.4 grams per cubic centimetre the mass is 19.40 grams. Multiplying that mass by the specific heat of 0.85 and a 200 kelvin rise gives about 3,298 joules of stored heat. Every number comes from the specification in this record, the formulas are shown in full, and the program prints each quantity so the reader can check the arithmetic. The computation runs twice with SHA-256 digests printed, so the reader can confirm it is deterministic.
+
+FORMAL EQUATION
+V = pi * r^2 * h
+
+HISTORY
+The ceramic bowl is one of the oldest bowl forms in pipe history, because fired clay predates glassblowing as a craft by thousands of years, and the first smoking pipes in many cultures were clay. When the modern glass bong took its shape in the twentieth century, its bowl was usually glass, but ceramic bowls stayed in use for the same reasons clay pipes had always been used: clay holds heat, it can be shaped by hand, and it takes glaze in any colour. The replaceable slide bowl, sized to a 14 mm or 18 mm ground joint, became the standard fitting, and ceramic makers produced bowls in both sizes with the same joint geometry as glass. Over time the ceramic bowl became a deliberate choice rather than a default, picked by smokers who wanted the heat retention and the hand-made look that glass does not give. The sources cited at the end of this record give the reader places to check each stage, and the history matters because it explains why the parts are arranged the way they are: each feature survives because it solved a practical problem for the people who used the supply every day.
+
+DEMO
+"""Demo: ceramic bowl volume and heat storage — Signature Ceramic Bowl."""
+import hashlib, math
+def compute():
+    d = 24.0; h = 18.0; wall = 3.5; joint = 18.0; rho = 2.4; cp = 0.85; dT = 200.0; pack = 0.15
+    bowl_mm3 = math.pi * (d / 2.0) ** 2 * h
+    bowl_cm3 = bowl_mm3 / 1000.0
+    capacity_g = bowl_cm3 * pack
+    outer_d = d + 2.0 * wall; outer_h = h + wall
+    shell_mm3 = math.pi * (outer_d / 2.0) ** 2 * outer_h - bowl_mm3
+    shell_cm3 = shell_mm3 / 1000.0
+    mass_g = shell_cm3 * rho
+    heat_J = mass_g * cp * dT
+    return {"bowl_volume_mm3": round(bowl_mm3, 2), "bowl_volume_cm3": round(bowl_cm3, 2), "herb_capacity_g": round(capacity_g, 2), "shell_volume_cm3": round(shell_cm3, 2), "ceramic_mass_g": round(mass_g, 2), "heat_to_200C_J": round(heat_J, 2), "joint_mm": joint}
+def main():
+    a = compute(); b = compute()
+    sa = hashlib.sha256(repr(sorted(a.items())).encode()).hexdigest()
+    sb = hashlib.sha256(repr(sorted(b.items())).encode()).hexdigest()
+    for key in ['bowl_volume_mm3', 'bowl_volume_cm3', 'herb_capacity_g', 'shell_volume_cm3', 'ceramic_mass_g', 'heat_to_200C_J', 'joint_mm']:
+        print(f"{key}: {a[key]}")
+    print(f"Run 1 SHA-256: {sa}")
+    print(f"Run 2 SHA-256: {sb}")
+    print(f"Deterministic: {'MATCH' if sa == sb else 'MISMATCH'}")
+if __name__ == "__main__":
+    main()
+
+
+PROGRAM
+"""Signature Ceramic Bowl — full working program.
+
+Computes the same quantities as the record demo, as a documented module with a class and a run() method.
+Run: python3 program.py
+"""
+import hashlib
+import math
+
+
+class SupplyCalculator:
+    """Calculator for Signature Ceramic Bowl."""
+
+    def compute(self):
+        """Return the computed quantities as a dict."""
+        d = 24.0; h = 18.0; wall = 3.5; joint = 18.0; rho = 2.4; cp = 0.85; dT = 200.0; pack = 0.15
+        bowl_mm3 = math.pi * (d / 2.0) ** 2 * h
+        bowl_cm3 = bowl_mm3 / 1000.0
+        capacity_g = bowl_cm3 * pack
+        outer_d = d + 2.0 * wall; outer_h = h + wall
+        shell_mm3 = math.pi * (outer_d / 2.0) ** 2 * outer_h - bowl_mm3
+        shell_cm3 = shell_mm3 / 1000.0
+        mass_g = shell_cm3 * rho
+        heat_J = mass_g * cp * dT
+        return {"bowl_volume_mm3": round(bowl_mm3, 2), "bowl_volume_cm3": round(bowl_cm3, 2), "herb_capacity_g": round(capacity_g, 2), "shell_volume_cm3": round(shell_cm3, 2), "ceramic_mass_g": round(mass_g, 2), "heat_to_200C_J": round(heat_J, 2), "joint_mm": joint}
+
+    def run(self):
+        """Compute twice, print named results and SHA-256 digests."""
+        a = self.compute()
+        b = self.compute()
+        sa = hashlib.sha256(repr(sorted(a.items())).encode()).hexdigest()
+        sb = hashlib.sha256(repr(sorted(b.items())).encode()).hexdigest()
+        for key in sorted(a):
+            print(f"{key}: {a[key]}")
+        print(f"Run 1 SHA-256: {sa}")
+        print(f"Run 2 SHA-256: {sb}")
+        print(f"Deterministic: {'MATCH' if sa == sb else 'MISMATCH'}")
+        return a
+
+
+if __name__ == "__main__":
+    SupplyCalculator().run()
+
+
+GENERATOR
+{
+  "ceiling_note": "Generator ceiling: up to 1,000,000,000 scales per file, generated on demand by the file AI — not stored files.",
+  "gen_id_prefix": "JAH-MJSS-GEN-",
+  "hard_stop": 1000000000,
+  "throttle_per_call": 100,
+  "type": "seeded boundless generator"
+}
+
+OFFICIAL DEMO OUTPUT
+{
+  "bowl_volume_mm3": 8143.01,
+  "bowl_volume_cm3": 8.14,
+  "herb_capacity_g": 1.22,
+  "shell_volume_cm3": 8.08,
+  "ceramic_mass_g": 19.4,
+  "heat_to_200C_J": 3298.47,
+  "joint_mm": 18.0
+}

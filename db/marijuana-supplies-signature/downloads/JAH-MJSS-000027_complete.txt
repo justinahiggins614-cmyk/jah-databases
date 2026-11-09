@@ -1,0 +1,115 @@
+Signature Grove Tree Perc
+Record JAH-MJSS-000027 — signature
+JCC v1 code: JAHDB/marijuana-supplies-signature#JAH-MJSS-000027
+
+The Signature Grove Tree Perc is a Signature-made design study for percolator bong (tree/arm), a new design in the Signature Marijuana Supplies Database that reworks the familiar public form with one deliberate change. It keeps the job the same — smoke from the bowl is forced through a tree percolator of hollow branching arms, each cut with slits, so it breaks into many small bubble streams in the water before rising to the mouthpiece — but changes how the parts are arranged, using signature borosilicate glass with reinforced arm roots; 12-arm tree percolator; glass downstem and bowl. The design is sized at 400 mm tall; tube 65 mm diameter; 12-arm tree percolator, each arm 45 mm long with 8 slits; water depth 55 mm, which sets every number in this record, from the volumes and areas in the demo to the scale variants at the end. Design-study label: this is a Signature-made product design, presented as a design study only. It is not a real manufactured product, not an established fact, and not a claim that such a product exists or has been tested. What it does offer is a complete, checkable design: a full specification, the physics of how it would work, worked arithmetic tied to its own dimensions, a runnable program that computes those numbers, and three boundless scale variants. Readers can follow the design from first principles, repeat the arithmetic by hand, run the program, and see exactly where each number comes from. The Signature edition exists alongside the public edition so the archive holds both what exists in the world and what the Signature system designs next, clearly labelled, so the two are never confused. Like every Signature record, it is filed as a design study, with its own generator and its own file AI, and it marches with the rest of the database toward a million records.
+
+SPEC
+{
+  "care": "Soak the percolator in isopropyl alcohol to clear the slits; rinse well; dry fully; handle gently",
+  "dimensions": "400 mm tall; tube 65 mm diameter; 12-arm tree percolator, each arm 45 mm long with 8 slits; water depth 55 mm",
+  "materials": "Signature borosilicate glass with reinforced arm roots; 12-arm tree percolator; glass downstem and bowl",
+  "mechanism": "Grove perc: the Signature design thickens the root of each arm where it meets the central stem, so the arms resist snapping while keeping the same slit pattern",
+  "use": "Fill until the arms are covered, pack the bowl, draw slowly until the chamber fills, then clear",
+  "variants": "Pocket grove, standard grove, and workshop grove versions; arm count varies by variant"
+}
+
+SCIENCE PROOF
+The tree percolator works by diffusion, which is the splitting of one flow into many small flows. Smoke enters the central stem and is forced out through the slits in each hollow arm, so instead of one large bubble rising from the downstem, dozens of small bubbles rise at once from every arm. A small bubble has more surface area for its volume than a large one, so more of the smoke touches water, and more heat passes into the water before the bubble reaches the surface. The total slit area sets how easily smoke gets out: eight arms with six slits each give forty-eight streams, and the sum of the slit areas is the opening the smoke must pass through. If the slits clog with resin, the opening shrinks, the draw tightens, and the diffusion falls, which is why tree percs must be cleaned often. The arms are fragile because they are thin hollow glass with slits cut into them, and a knock that a plain tube would survive can snap an arm. The percolator sits above the base water so the smoke is diffused twice: once at the downstem and once at the arms. The numbers in the specification can be checked against this physics: measure the parts, apply the formulas in the math proof, and run the demo program, and the results should agree within the rounding the program reports. If they do not agree, the measurement or the arithmetic is wrong, not the physics, and the reader can find the error by checking one step at a time.
+
+MATH PROOF
+The demo starts from one slit: a slit 1.2 mm wide and 9.0 mm long has an area of 10.799999999999999 square millimetres. Multiplying by 8 slits per arm and 12 arms gives the total slit area, and the number of bubble streams is the arm count times the slit count, which is 96 streams. The water and chamber volumes are cylinders: pi times the tube radius squared, with a tube diameter of 65.0 mm, times the water depth of 55.0 mm for the water and times the full height of 400.0 mm for the chamber, both reported in millilitres. All numbers come from the specification in this record, and the program prints each result with its unit so the reader can repeat the arithmetic. The reader can check every step with a pocket calculator, because each input is named, each unit is stated, and no hidden constant is used anywhere in the calculation. The computation is run twice and the SHA-256 digests of both runs are printed, confirming the result is deterministic.
+
+FORMAL EQUATION
+A_total = n_arms * n_slits * (w * l)
+
+HISTORY
+The percolator bong grew out of the plain water pipe once glassmakers learned to fuse extra chambers and arms inside the tube. The tree percolator, a central stem with branching hollow arms cut with slits, was one of the earliest percolator designs, and trade guides still describe it as the most universal percolator style, usually built with four to twelve arms. The idea is old in outline: breaking one large bubble into many small ones increases the surface where smoke meets water, which is the same diffusion principle used in laboratory glassware and aquarium air stones. Percolator bongs became widely sold in the 2000s and 2010s as glassblowing workshops competed on diffusion designs, adding honeycomb discs, showerheads, and matrix grids alongside the tree. The tree arm remains popular because it diffuses strongly while keeping the draw open. Over time the same basic form was copied, adapted, and refined by many makers, so the record today covers a family of closely related objects rather than a single patented shape. Trade guides and manufacturer manuals preserve the steps of that change. The history matters because it explains why the parts are arranged the way they are: each feature survives because it solved a practical problem for the people who used the supply every day.
+
+DEMO
+"""Demo: tree percolator slit area and chamber volumes — Signature Grove Tree Perc."""
+import hashlib, math
+def compute():
+    arms = 12; slits = 8; w = 1.2; l = 9.0; d = 65.0; h = 400.0; water_h = 55.0
+    slit_area = w * l
+    total_slit = arms * slits * slit_area
+    streams = arms * slits
+    area = math.pi * (d / 2.0) ** 2
+    water_mm3 = area * water_h
+    chamber_mm3 = area * h
+    return {"arms": arms, "slits_per_arm": slits, "slit_area_mm2": round(slit_area, 2), "total_slit_area_mm2": round(total_slit, 2), "bubble_streams": streams, "water_volume_mL": round(water_mm3 / 1000.0, 2), "chamber_volume_mL": round(chamber_mm3 / 1000.0, 2)}
+def main():
+    a = compute(); b = compute()
+    sa = hashlib.sha256(repr(sorted(a.items())).encode()).hexdigest()
+    sb = hashlib.sha256(repr(sorted(b.items())).encode()).hexdigest()
+    for key in ["arms", "slits_per_arm", "slit_area_mm2", "total_slit_area_mm2", "bubble_streams", "water_volume_mL", "chamber_volume_mL"]:
+        print(f"{key}: {a[key]}")
+    print(f"Run 1 SHA-256: {sa}")
+    print(f"Run 2 SHA-256: {sb}")
+    print(f"Deterministic: {'MATCH' if sa == sb else 'MISMATCH'}")
+if __name__ == "__main__":
+    main()
+
+
+PROGRAM
+"""Signature Grove Tree Perc — full working program.
+
+Computes the same quantities as the record demo (tree percolator slit area and chamber volumes),
+as a documented module with a class and a run() method.
+Run: python3 program.py
+"""
+import hashlib
+import math
+
+
+class SupplyCalculator:
+    """Calculator for Signature Grove Tree Perc."""
+
+    def compute(self):
+        """Return the computed quantities as a dict."""
+        arms = 12; slits = 8; w = 1.2; l = 9.0; d = 65.0; h = 400.0; water_h = 55.0
+        slit_area = w * l
+        total_slit = arms * slits * slit_area
+        streams = arms * slits
+        area = math.pi * (d / 2.0) ** 2
+        water_mm3 = area * water_h
+        chamber_mm3 = area * h
+        return {"arms": arms, "slits_per_arm": slits, "slit_area_mm2": round(slit_area, 2), "total_slit_area_mm2": round(total_slit, 2), "bubble_streams": streams, "water_volume_mL": round(water_mm3 / 1000.0, 2), "chamber_volume_mL": round(chamber_mm3 / 1000.0, 2)}
+
+    def run(self):
+        """Compute twice, print named results and SHA-256 digests."""
+        a = self.compute()
+        b = self.compute()
+        sa = hashlib.sha256(repr(sorted(a.items())).encode()).hexdigest()
+        sb = hashlib.sha256(repr(sorted(b.items())).encode()).hexdigest()
+        for key in sorted(a):
+            print(f"{key}: {a[key]}")
+        print(f"Run 1 SHA-256: {sa}")
+        print(f"Run 2 SHA-256: {sb}")
+        print(f"Deterministic: {'MATCH' if sa == sb else 'MISMATCH'}")
+        return a
+
+
+if __name__ == "__main__":
+    SupplyCalculator().run()
+
+
+GENERATOR
+{
+  "ceiling_note": "Generator ceiling: up to 1,000,000,000 scales per file, generated on demand by the file AI — not stored files.",
+  "gen_id_prefix": "JAH-MJSS-GEN-",
+  "hard_stop": 1000000000,
+  "throttle_per_call": 100,
+  "type": "seeded boundless generator"
+}
+
+OFFICIAL DEMO OUTPUT
+{
+  "arms": 12,
+  "slits_per_arm": 8,
+  "slit_area_mm2": 10.8,
+  "total_slit_area_mm2": 1036.8,
+  "bubble_streams": 96,
+  "water_volume_mL": 182.51,
+  "chamber_volume_mL": 1327.32
+}

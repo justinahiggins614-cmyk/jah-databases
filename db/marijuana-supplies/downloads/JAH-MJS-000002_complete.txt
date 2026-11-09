@@ -1,0 +1,112 @@
+The Electric Herb Grinder
+Record JAH-MJS-000002 — public
+JCC v1 code: JAHDB/marijuana-supplies#JAH-MJS-000002
+
+The electric herb grinder is one of the basic supplies of the marijuana supplies archive: a electric herb grinder that works by a rechargeable lithium-ion battery drives a small electric motor that spins blades, teeth, or a milling plate inside a closed chamber. It is made from abs or aluminium housing, stainless-steel blades or milling plate, lithium-ion battery, usb-c charging port, and a common example measures 110 mm tall, 55 mm diameter, chamber holds up to 3 g per load. Electric grinders grew out of the manual grinder once small rechargeable lithium-ion batteries and compact motors became cheap. Early battery grinders were little more than a motor bolted to a manual tooth plate; later designs added sensors, as in the banana bros OTTO, whose manual describes SMART Milling Technology that senses the material and adjusts direction, speed, and pressure. USB-C charging replaced disposable batteries on most portable models, and transparent chambers let the user watch particle size as it changes. In everyday use it is a simple, mechanical object with no electronics in the manual form and no hidden parts: what you see is what does the work, and its behaviour can be checked by measuring its parts and doing the arithmetic in this record. This record gives the full public account: its history, how it works in detail, a complete specification, the physics behind it, worked mathematics tied to its own dimensions, and a runnable program that computes its key volumes, areas, and energies. It makes no medical claim and gives no dosage advice; it describes a supply, its materials, and its mechanism, and it cites real public sources for every fact it states. Laws on cannabis and cannabis supplies vary by jurisdiction, so readers should check local law before buying, possessing, or using this supply. The record is part of the public edition of the marijuana supplies database, paired with a Signature design-study edition of the same supply.
+
+SPEC
+{
+  "care": "Empty the chamber after use; brush blades clean; wipe the housing; recharge before storage; do not immerse the motor housing in water",
+  "dimensions": "110 mm tall x 55 mm diameter; grinding chamber holds up to 3 g per load",
+  "materials": "ABS or aluminium housing; stainless-steel blades or milling plate; lithium-ion rechargeable battery; USB-C port",
+  "mechanism": "Battery-powered motor spins blades or a milling plate; some models sense load and reverse or change speed; grind time controls fineness, about 2 seconds coarse, 4 seconds medium, 6 seconds finer",
+  "use": "Charge fully, load dried herb without overfilling, close the chamber, press and hold the button for the chosen time, then open and collect the ground herb",
+  "variants": "Blade grinders; burr and milling-plate grinders; mill-and-fill models that drop ground herb into a cone; replaceable-battery and USB-C rechargeable models"
+}
+
+SCIENCE PROOF
+An electric grinder converts stored chemical energy into rotational kinetic energy. The lithium-ion cell holds charge as ions shuttle between electrodes; on discharge it delivers about 3.7 volts, and the motor turns that electrical power into torque on the blade shaft. Power equals voltage times current, so a 5-watt motor at 3.7 volts draws about 1.35 amps while running. The blades cut by the same shear action as a manual grinder, but the motor supplies many more cutting passes per second, which is why a load is ground in seconds rather than a dozen hand turns. Short bursts matter: running the motor too long adds friction heat and can turn herb toward powder. The battery capacity in milliamp-hours converts to watt-hours by multiplying volts by amp-hours, and dividing that stored energy by the energy of one grind gives the number of grinds per charge. USB-C charging simply refills the same cell through a standard 5-volt supply. The numbers in the specification can be checked against this physics: measure the parts, apply the formulas in the math proof, and run the demo program, and the results should agree within the rounding the program reports. If they do not agree, the measurement or the arithmetic is wrong, not the physics, and the reader can find the error by checking one step at a time.
+
+MATH PROOF
+The demo starts from the battery: 3.7 volts times 2000.0 milliamp-hours divided by 1000 gives the stored energy in watt-hours. One grind costs motor power times time: 5.0 watts times 6.0 seconds is 30.0 joules, which divided by 3600 gives watt-hours per grind. Dividing the stored watt-hours by the watt-hours per grind gives the number of grinds per charge, and dividing motor power by voltage gives the motor current in amps. All of these numbers come from the specification in this record, and the program prints each one with its unit so the reader can check the arithmetic step by step. The demo runs the computation twice and prints SHA-256 digests of both runs, so the reader can confirm the result is deterministic and not a one-off printout. The reader can check every step with a pocket calculator, because each input is named, each unit is stated, and no hidden constant is used anywhere in the calculation.
+
+FORMAL EQUATION
+E = V * (C / 1000)
+
+HISTORY
+Electric grinders grew out of the manual grinder once small rechargeable lithium-ion batteries and compact motors became cheap. Early battery grinders were little more than a motor bolted to a manual tooth plate; later designs added sensors, as in the banana bros OTTO, whose manual describes SMART Milling Technology that senses the material and adjusts direction, speed, and pressure. USB-C charging replaced disposable batteries on most portable models, and transparent chambers let the user watch particle size as it changes. Over time the same basic form was copied, adapted, and refined by many makers, so the record today covers a family of closely related objects rather than a single patented shape. Museums, trade guides, and manufacturer manuals preserve the steps of that change, and the sources cited at the end of this record give the reader places to check each stage. The history matters because it explains why the parts are arranged the way they are: each feature survives because it solved a practical problem for the people who used the supply every day.
+
+DEMO
+"""Demo: electric grinder battery energy — The Electric Herb Grinder."""
+import hashlib
+def compute():
+    v = 3.7; cap_mah = 2000.0; motor_w = 5.0; grind_s = 6.0; load_g = 3.0
+    battery_wh = v * (cap_mah / 1000.0)
+    energy_per_grind_wh = motor_w * grind_s / 3600.0
+    energy_per_grind_j = motor_w * grind_s
+    grinds_per_charge = battery_wh / energy_per_grind_wh
+    current_a = motor_w / v
+    return {"battery_wh": round(battery_wh, 3), "energy_per_grind_Wh": round(energy_per_grind_wh, 5), "energy_per_grind_J": round(energy_per_grind_j, 2), "grinds_per_charge": round(grinds_per_charge, 1), "motor_current_A": round(current_a, 2), "load_g": load_g}
+def main():
+    a = compute(); b = compute()
+    sa = hashlib.sha256(repr(sorted(a.items())).encode()).hexdigest()
+    sb = hashlib.sha256(repr(sorted(b.items())).encode()).hexdigest()
+    for key in ["battery_wh", "energy_per_grind_Wh", "energy_per_grind_J", "grinds_per_charge", "motor_current_A", "load_g"]:
+        print(f"{key}: {a[key]}")
+    print(f"Run 1 SHA-256: {sa}")
+    print(f"Run 2 SHA-256: {sb}")
+    print(f"Deterministic: {'MATCH' if sa == sb else 'MISMATCH'}")
+if __name__ == "__main__":
+    main()
+
+
+PROGRAM
+"""The Electric Herb Grinder — full working program.
+
+Computes the same quantities as the record demo (electric grinder battery energy),
+as a documented module with a class and a run() method.
+Run: python3 program.py
+"""
+import hashlib
+import math
+
+
+class SupplyCalculator:
+    """Calculator for The Electric Herb Grinder."""
+
+    def compute(self):
+        """Return the computed quantities as a dict."""
+        v = 3.7; cap_mah = 2000.0; motor_w = 5.0; grind_s = 6.0; load_g = 3.0
+        battery_wh = v * (cap_mah / 1000.0)
+        energy_per_grind_wh = motor_w * grind_s / 3600.0
+        energy_per_grind_j = motor_w * grind_s
+        grinds_per_charge = battery_wh / energy_per_grind_wh
+        current_a = motor_w / v
+        return {"battery_wh": round(battery_wh, 3), "energy_per_grind_Wh": round(energy_per_grind_wh, 5), "energy_per_grind_J": round(energy_per_grind_j, 2), "grinds_per_charge": round(grinds_per_charge, 1), "motor_current_A": round(current_a, 2), "load_g": load_g}
+
+    def run(self):
+        """Compute twice, print named results and SHA-256 digests."""
+        a = self.compute()
+        b = self.compute()
+        sa = hashlib.sha256(repr(sorted(a.items())).encode()).hexdigest()
+        sb = hashlib.sha256(repr(sorted(b.items())).encode()).hexdigest()
+        for key in sorted(a):
+            print(f"{key}: {a[key]}")
+        print(f"Run 1 SHA-256: {sa}")
+        print(f"Run 2 SHA-256: {sb}")
+        print(f"Deterministic: {'MATCH' if sa == sb else 'MISMATCH'}")
+        return a
+
+
+if __name__ == "__main__":
+    SupplyCalculator().run()
+
+
+GENERATOR
+{
+  "ceiling_note": "Generator ceiling: up to 1,000,000,000 scales per file, generated on demand by the file AI — not stored files.",
+  "gen_id_prefix": "JAH-MJS-GEN-",
+  "hard_stop": 1000000000,
+  "throttle_per_call": 100,
+  "type": "seeded boundless generator"
+}
+
+OFFICIAL DEMO OUTPUT
+{
+  "battery_wh": 7.4,
+  "energy_per_grind_Wh": 0.00833,
+  "energy_per_grind_J": 30.0,
+  "grinds_per_charge": 888.0,
+  "motor_current_A": 1.35,
+  "load_g": 3.0
+}

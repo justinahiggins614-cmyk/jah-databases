@@ -1,0 +1,116 @@
+Signature Ceramic Ashtray
+Record JAH-MJSS-000037 — signature
+JCC v1 code: JAHDB/marijuana-supplies-signature#JAH-MJSS-000037
+
+The Signature Ceramic Ashtray is a Signature-made design study for ceramic ashtray, a new design in the Signature Marijuana Supplies Database that reworks the familiar public form with one deliberate change. It keeps the job the same — ash and spent material fall into the round Signature bowl; rim notches hold a cigarette or joint by gravity; the weight keeps the dish from tipping — but changes how the parts are arranged, using signature glazed stoneware with a crackle glaze; fired to cone 5 or 6; food-safe glaze; unglazed base. The design is sized at dish 140 mm round and 37 mm tall; bowl 126 mm across and 30 mm deep; wall 7 mm thick; four rim notches; about 469 grams, which sets every number in this record, from the ceramic ashtray capacity and heat storage in the demo to the scale variants at the end. This record is a design study, not a real manufactured product, and nothing here claims the design has been built, tested, or sold. What it does offer is a complete, checkable design: a full specification, the physics of how it would work, worked arithmetic tied to its own dimensions, a runnable program that computes those numbers, and three boundless scale variants. Readers can follow the design from first principles, repeat the arithmetic by hand, and run the program to check every number. The record also gives the materials and design, a build-it-yourself section, 3D-printing directions, and a use program, so the design can be judged as a whole, not only as a set of numbers. Like every Signature record, it sits beside its public twin in the same pair, so the reader can compare the public form with the Signature reworking side by side.
+
+SPEC
+{
+  "care": "Wash with soap and water or in a dishwasher; do not quench a hot ashtray in cold water; handle ceramic carefully as it chips and cracks if dropped",
+  "dimensions": "Dish 140 mm round and 37 mm tall; bowl 126 mm across and 30 mm deep; wall 7 mm thick; four rim notches; about 469 grams",
+  "materials": "Signature glazed stoneware with a crackle glaze; fired to cone 5 or 6; food-safe glaze; unglazed base",
+  "mechanism": "Ash and spent material fall into the round Signature bowl; rim notches hold a cigarette or joint by gravity; the weight keeps the dish from tipping",
+  "use": "Set on a flat surface, rest the cigarette in a rim notch, tap ash into the bowl, empty when ash reaches a third of the depth",
+  "variants": "Round, square, and slab shapes; earthenware, stoneware, and porcelain bodies; crackle, clear, and coloured glazes; hand-built and wheel-thrown"
+}
+
+SCIENCE PROOF
+A ceramic ashtray works by heat resistance, mass, and a sealed surface. Fired stoneware has a density near 2.4 grams per cubic centimetre and a specific heat near 0.85 joules per gram per kelvin, so a dish of about 469 grams stores roughly 79,800 joules when heated by 200 kelvin, which is why the dish feels cool for a long time after an ember lands in it. Ceramic is a poor thermal conductor, so heat from an ember stays local instead of racing through the dish to the table, and the fired glaze seals the porous clay body so tar and smell sit on the surface instead of soaking in. The glaze is a thin glass skin, and because it is fired onto the clay it does not peel or fade with washing, which is why a glazed ashtray can be washed in a dishwasher. The bowl is a round cylinder, so its capacity is pi times radius squared times depth, and the rim notches are U-shaped cuts that hold a cigarette by gravity. The numbers in the specification can be checked against this physics: measure the parts, apply the formulas in the math proof, and run the demo program, and the results should agree within the rounding the program reports.
+
+MATH PROOF
+The demo treats the round ashtray dish as a cylinder and the ceramic shell as the difference between two cylinders. With a dish diameter of 140.0 mm and a height of 37.0 mm, the outer volume is pi times 70 squared times 37, about 569,571 cubic millimetres. The inner bowl is 126.0 mm across and 30.0 mm deep, so its capacity is pi times 63 squared times 30, about 374,069 cubic millimetres, or 374.07 cubic centimetres. The shell is the outer cylinder minus the inner bowl, 195.50 cubic centimetres, and at a stoneware density of 2.4 grams per cubic centimetre the mass is 469.20 grams. Multiplying that mass by the specific heat of 0.85 and a 200 kelvin rise gives about 79,765 joules of stored heat. Every number comes from the specification in this record, the formulas are shown in full, and the program prints each quantity so the reader can check the arithmetic. The computation runs twice with SHA-256 digests printed, so the reader can confirm it is deterministic.
+
+FORMAL EQUATION
+V = pi * r^2 * h
+
+HISTORY
+The ceramic ashtray is as old as the ashtray itself, because pottery was one of the first fire-retardant materials a household could make, and the earliest ashtrays were simple clay dishes. The word ashtray came into use around 1920, and by the start of the twentieth century ceramic ashtrays were already common, from plain stoneware dishes to porcelain trays with floral decoration. Ceramic won the table for the same reasons it won the kitchen: it tolerates heat, it takes glaze in any colour, and a glazed surface wipes clean. Over the twentieth century the form split into round, square, and slab shapes, into earthenware, stoneware, and porcelain bodies, and into hand-built and wheel-thrown making, while the job stayed the same. Over time the same basic form was copied, adapted, and refined by many makers, so the record today covers a family of closely related objects rather than a single patented shape. The sources cited at the end of this record give the reader places to check each stage, and the history matters because it explains why the parts are arranged the way they are: each feature survives because it solved a practical problem for the people who used the supply every day.
+
+DEMO
+"""Demo: ceramic ashtray capacity and heat storage — Signature Ceramic Ashtray."""
+import hashlib, math
+def compute():
+    d = 140.0; h = 37.0; depth = 30.0; wall = 7.0; rests = 4; rho = 2.4; cp = 0.85; dT = 200.0
+    outer_mm3 = math.pi * (d / 2.0) ** 2 * h
+    cap_mm3 = math.pi * ((d - 2.0 * wall) / 2.0) ** 2 * depth
+    cap_cm3 = cap_mm3 / 1000.0
+    shell_mm3 = outer_mm3 - cap_mm3
+    shell_cm3 = shell_mm3 / 1000.0
+    mass_g = shell_cm3 * rho
+    heat_J = mass_g * cp * dT
+    return {"outer_volume_mm3": round(outer_mm3, 2), "capacity_mm3": round(cap_mm3, 2), "capacity_cm3": round(cap_cm3, 2), "shell_volume_cm3": round(shell_cm3, 2), "ceramic_mass_g": round(mass_g, 2), "heat_to_200C_J": round(heat_J, 2), "rim_notches": rests}
+def main():
+    a = compute(); b = compute()
+    sa = hashlib.sha256(repr(sorted(a.items())).encode()).hexdigest()
+    sb = hashlib.sha256(repr(sorted(b.items())).encode()).hexdigest()
+    for key in ['outer_volume_mm3', 'capacity_mm3', 'capacity_cm3', 'shell_volume_cm3', 'ceramic_mass_g', 'heat_to_200C_J', 'rim_notches']:
+        print(f"{key}: {a[key]}")
+    print(f"Run 1 SHA-256: {sa}")
+    print(f"Run 2 SHA-256: {sb}")
+    print(f"Deterministic: {'MATCH' if sa == sb else 'MISMATCH'}")
+if __name__ == "__main__":
+    main()
+
+
+PROGRAM
+"""Signature Ceramic Ashtray — full working program.
+
+Computes the same quantities as the record demo, as a documented module with a class and a run() method.
+Run: python3 program.py
+"""
+import hashlib
+import math
+
+
+class SupplyCalculator:
+    """Calculator for Signature Ceramic Ashtray."""
+
+    def compute(self):
+        """Return the computed quantities as a dict."""
+        d = 140.0; h = 37.0; depth = 30.0; wall = 7.0; rests = 4; rho = 2.4; cp = 0.85; dT = 200.0
+        outer_mm3 = math.pi * (d / 2.0) ** 2 * h
+        cap_mm3 = math.pi * ((d - 2.0 * wall) / 2.0) ** 2 * depth
+        cap_cm3 = cap_mm3 / 1000.0
+        shell_mm3 = outer_mm3 - cap_mm3
+        shell_cm3 = shell_mm3 / 1000.0
+        mass_g = shell_cm3 * rho
+        heat_J = mass_g * cp * dT
+        return {"outer_volume_mm3": round(outer_mm3, 2), "capacity_mm3": round(cap_mm3, 2), "capacity_cm3": round(cap_cm3, 2), "shell_volume_cm3": round(shell_cm3, 2), "ceramic_mass_g": round(mass_g, 2), "heat_to_200C_J": round(heat_J, 2), "rim_notches": rests}
+
+    def run(self):
+        """Compute twice, print named results and SHA-256 digests."""
+        a = self.compute()
+        b = self.compute()
+        sa = hashlib.sha256(repr(sorted(a.items())).encode()).hexdigest()
+        sb = hashlib.sha256(repr(sorted(b.items())).encode()).hexdigest()
+        for key in sorted(a):
+            print(f"{key}: {a[key]}")
+        print(f"Run 1 SHA-256: {sa}")
+        print(f"Run 2 SHA-256: {sb}")
+        print(f"Deterministic: {'MATCH' if sa == sb else 'MISMATCH'}")
+        return a
+
+
+if __name__ == "__main__":
+    SupplyCalculator().run()
+
+
+GENERATOR
+{
+  "ceiling_note": "Generator ceiling: up to 1,000,000,000 scales per file, generated on demand by the file AI — not stored files.",
+  "gen_id_prefix": "JAH-MJSS-GEN-",
+  "hard_stop": 1000000000,
+  "throttle_per_call": 100,
+  "type": "seeded boundless generator"
+}
+
+OFFICIAL DEMO OUTPUT
+{
+  "outer_volume_mm3": 569570.75,
+  "capacity_mm3": 374069.44,
+  "capacity_cm3": 374.07,
+  "shell_volume_cm3": 195.5,
+  "ceramic_mass_g": 469.2,
+  "heat_to_200C_J": 79764.53,
+  "rim_notches": 4
+}

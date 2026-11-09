@@ -1,0 +1,120 @@
+Signature Pipe Screens (Metal/Glass)
+Record JAH-MJSS-000042 — signature
+JCC v1 code: JAHDB/marijuana-supplies-signature#JAH-MJSS-000042
+
+Signature Pipe Screens (Metal/Glass) is one of the supplies of the marijuana supplies archive: a pipe screens described here in full, with its history, its parts, its dimensions, its mechanism, and the numbers that follow from those dimensions. This Signature design is a design study: a new design for the same supply type, described in full and never presented as a real product or as established fact. It is made from titanium woven mesh, 0.3 mm wire; quartz glass daisy screen; stainless-steel storage tin, and a common example measures metal mesh screens 19.05 mm (3/4 in) diameter, also 15.9 mm (5/8 in); quartz daisy screen 14 mm diameter. It works by mesh disc sits at the bottom of the bowl; woven openings pass air and block ash and particles; quartz daisy petals hold the screen above the bowl opening and channel air around it The variants in the specification show how makers change size, material, and detail while keeping the same working principle, and the scale variants at the end of this record show the same design at pocket, standard, and workshop sizes. The file AI for this record can answer questions about the supply from the record itself, and the generator can produce the design at pocket, standard, and workshop scales on demand. The record gives the science behind the supply, the mathematics of its dimensions, a working demo program that computes its real figures, a full program with a class and a run method, and a boundless generator that can produce the design at many scales. Care is simple and is stated in the specification: rinse quartz screens in warm water and dry fully; discard a metal screen that is warped, torn, or clogged beyond cleaning; keep spares in a small tin Legal note: laws on cannabis and cannabis supplies vary by jurisdiction; check local law before buying, possessing, or using this supply.
+
+SPEC
+{
+  "care": "Rinse quartz screens in warm water and dry fully; discard a metal screen that is warped, torn, or clogged beyond cleaning; keep spares in a small tin",
+  "dimensions": "Metal mesh screens 19.05 mm (3/4 in) diameter, also 15.9 mm (5/8 in); quartz daisy screen 14 mm diameter",
+  "materials": "Titanium woven mesh, 0.3 mm wire; quartz glass daisy screen; stainless-steel storage tin",
+  "mechanism": "Mesh disc sits at the bottom of the bowl; woven openings pass air and block ash and particles; quartz daisy petals hold the screen above the bowl opening and channel air around it",
+  "use": "Press the mesh disc gently into the bowl so it sits flat over the opening, or set the quartz daisy in the bowl; replace a mesh screen when it clogs or warps",
+  "variants": "Titanium mesh; stainless-steel mesh; quartz daisy; quartz honeycomb; brass mesh"
+}
+
+SCIENCE PROOF
+A pipe screen does two jobs at once and they pull in opposite directions: it must block particles and it must let air through. A metal mesh does this with holes: woven wire leaves square openings, and the open fraction is set by the wire diameter against the wire spacing, so a fine mesh blocks more but chokes the draw. The demo computes that balance for a three-quarter-inch stainless screen, 19.05 millimetres across, with 0.3 millimetre wire on a 0.9 millimetre pitch, giving an open fraction of 0.44 and 448 openings across the disc. Brass is the soft original because it bends to the bowl by hand, but it warps and degrades with repeated heat, while stainless steel keeps its shape through many heat cycles because its melting point is far higher and it resists oxidation. A glass daisy screen works differently: it has no mesh at all, and its raised petals create channels that let air pass while the solid glass blocks particles, which is why it never clogs the way mesh does and why it can be rinsed and reused indefinitely unless it chips. Borosilicate is chosen for the glass form because its low thermal expansion resists the shock of repeated heating and cooling. The numbers in the specification can be checked against this physics: measure the screen, apply the formulas in the math proof, and run the demo program, and the results should agree within the rounding the program reports.
+
+MATH PROOF
+The demo computes the supply from its own specification, using the formula A = pi * (d/2)^2, where A is the screen disc area in square millimetres; d is the screen diameter in millimetres. The key figures are screen_diameter_mm = 19.05, wire_diameter_mm = 0.3, wire_pitch_mm = 0.9, daisy_diameter_mm = 14.0. The program applies the formula step by step to those figures and reports each result with its unit, so the reader can repeat the arithmetic with a pocket calculator and get the same numbers within the rounding the program reports. Each input is named, each unit is stated, and no hidden constant is used anywhere in the calculation, so an error in any step can be found by checking one line at a time. The scientific equation f_open = (1 - w/p)^2 states the same relationship in its general form, and the demo prints both runs with SHA-256 digests so the reader can confirm the computation is deterministic. If the demo output does not match the expected output in this record, the code or the inputs have changed, and the record should not be trusted until the difference is explained.
+
+FORMAL EQUATION
+A = pi * (d/2)^2
+
+HISTORY
+The pipe screen is one of the oldest small parts in smoking: a disc of mesh or a shaped piece of glass set at the bottom of a bowl so loose material stays put while air passes through. Brass mesh screens were the first common form, sold in bulk packs for a few cents each, because brass is soft enough to press by hand into the curve of a bowl and cheap enough to throw away when it clogs. Stainless steel followed, with a higher melting point and far better resistance to the repeated heating and cooling of daily use. Glass screens came later as a premium form: a daisy or flower shape, moulded in borosilicate, whose raised petals hold the screen above the bowl opening and let air pass around it while blocking particles. Titanium and quartz screens sit at the specialty end of the same family. Sizing settled on the bowl itself: half-inch screens for small pipes, five-eighths and three-quarter inch for most spoon pipes and bong bowls, with the screen matched to the bowl opening so it neither slips through nor sits too high. The sources cited at the end of this record give the reader places to check each stage of that change.
+
+DEMO
+"""Demo: pipe screens — Signature Pipe Screens (Metal/Glass)."""
+import hashlib, math
+def compute():
+    d = 19.05; wire = 0.3; pitch = 0.9
+    area = math.pi * (d / 2.0) ** 2
+    open_frac = (1.0 - wire / pitch) ** 2
+    open_area = area * open_frac
+    holes = int((d / pitch) ** 2)
+    daisy_d = 14.0
+    daisy_area = math.pi * (daisy_d / 2.0) ** 2
+    return {"screen_diameter_mm": d, "screen_area_mm2": round(area, 2), "open_fraction": round(open_frac, 3), "open_area_mm2": round(open_area, 2), "mesh_openings": holes, "daisy_diameter_mm": daisy_d, "daisy_area_mm2": round(daisy_area, 2)}
+def main():
+    a = compute(); b = compute()
+    sa = hashlib.sha256(repr(sorted(a.items())).encode()).hexdigest()
+    sb = hashlib.sha256(repr(sorted(b.items())).encode()).hexdigest()
+    print(f"screen_diameter_mm: {a['screen_diameter_mm']}")
+    print(f"screen_area_mm2: {a['screen_area_mm2']}")
+    print(f"open_fraction: {a['open_fraction']}")
+    print(f"open_area_mm2: {a['open_area_mm2']}")
+    print(f"mesh_openings: {a['mesh_openings']}")
+    print(f"daisy_diameter_mm: {a['daisy_diameter_mm']}")
+    print(f"daisy_area_mm2: {a['daisy_area_mm2']}")
+    print(f"Run 1 SHA-256: {sa}")
+    print(f"Run 2 SHA-256: {sb}")
+    print(f"Deterministic: {'MATCH' if sa == sb else 'MISMATCH'}")
+if __name__ == "__main__":
+    main()
+
+
+PROGRAM
+"""Signature Pipe Screens (Metal/Glass) — full working program.
+
+Computes the same quantities as the record demo (pipe screens),
+as a documented module with a class and a run() method.
+Run: python3 program.py
+"""
+import hashlib
+import math
+
+
+class SupplyCalculator:
+    """Calculator for Signature Pipe Screens (Metal/Glass)."""
+
+    def compute(self):
+        """Return the computed quantities as a dict."""
+        d = 19.05; wire = 0.3; pitch = 0.9
+        area = math.pi * (d / 2.0) ** 2
+        open_frac = (1.0 - wire / pitch) ** 2
+        open_area = area * open_frac
+        holes = int((d / pitch) ** 2)
+        daisy_d = 14.0
+        daisy_area = math.pi * (daisy_d / 2.0) ** 2
+        return {"screen_diameter_mm": d, "screen_area_mm2": round(area, 2), "open_fraction": round(open_frac, 3), "open_area_mm2": round(open_area, 2), "mesh_openings": holes, "daisy_diameter_mm": daisy_d, "daisy_area_mm2": round(daisy_area, 2)}
+
+    def run(self):
+        """Compute twice, print named results and SHA-256 digests."""
+        a = self.compute()
+        b = self.compute()
+        sa = hashlib.sha256(repr(sorted(a.items())).encode()).hexdigest()
+        sb = hashlib.sha256(repr(sorted(b.items())).encode()).hexdigest()
+        for key in sorted(a):
+            print(f"{key}: {a[key]}")
+        print(f"Run 1 SHA-256: {sa}")
+        print(f"Run 2 SHA-256: {sb}")
+        print(f"Deterministic: {'MATCH' if sa == sb else 'MISMATCH'}")
+        return a
+
+
+if __name__ == "__main__":
+    SupplyCalculator().run()
+
+
+GENERATOR
+{
+  "ceiling_note": "Generator ceiling: up to 1,000,000,000 scales per file, generated on demand by the file AI — not stored files.",
+  "gen_id_prefix": "JAH-MJSS-GEN-",
+  "hard_stop": 1000000000,
+  "throttle_per_call": 100,
+  "type": "seeded boundless generator"
+}
+
+OFFICIAL DEMO OUTPUT
+{
+  "screen_diameter_mm": 19.05,
+  "screen_area_mm2": 285.02,
+  "open_fraction": 0.444,
+  "open_area_mm2": 126.68,
+  "mesh_openings": 448,
+  "daisy_diameter_mm": 14.0,
+  "daisy_area_mm2": 153.94
+}

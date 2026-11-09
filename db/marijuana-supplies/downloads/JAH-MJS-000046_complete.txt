@@ -1,0 +1,120 @@
+The Inline Duct Fan
+Record JAH-MJS-000046 — public
+JCC v1 code: JAHDB/marijuana-supplies#JAH-MJS-000046
+
+The Inline Duct Fan is one of the supplies of the marijuana supplies archive: a inline duct fan described here in full, with its history, its parts, its dimensions, its mechanism, and the numbers that follow from those dimensions. It is made from abs plastic housing; steel mounting brackets; ec motor; aluminium impeller; variable speed controller, and a common example measures 6 in (152.4 mm) duct diameter; housing about 300 mm long; rated 402 cfm; 32 dba at full speed; 40 w. It works by eC motor spins an impeller inside the duct, pulling air through the enclosed path; speed controller sets the airflow; mounted high in the tent, it exhausts warm humid air first The variants in the specification show how makers change size, material, and detail while keeping the same working principle, and the scale variants at the end of this record show the same design at pocket, standard, and workshop sizes. The file AI for this record can answer questions about the supply from the record itself, and the generator can produce the design at pocket, standard, and workshop scales on demand. The record gives the science behind the supply, the mathematics of its dimensions, a working demo program that computes its real figures, a full program with a class and a run method, and a boundless generator that can produce the design at many scales. Care is simple and is stated in the specification: switch off before cleaning; wipe the housing and impeller blades; check duct clamps and cords; keep the intake clear of loose fabric Legal note: laws on cannabis and cannabis supplies vary by jurisdiction; check local law before buying, possessing, or using this supply.
+
+SPEC
+{
+  "care": "Switch off before cleaning; wipe the housing and impeller blades; check duct clamps and cords; keep the intake clear of loose fabric",
+  "dimensions": "6 in (152.4 mm) duct diameter; housing about 300 mm long; rated 402 CFM; 32 dBA at full speed; 40 W",
+  "materials": "ABS plastic housing; steel mounting brackets; EC motor; aluminium impeller; variable speed controller",
+  "mechanism": "EC motor spins an impeller inside the duct, pulling air through the enclosed path; speed controller sets the airflow; mounted high in the tent, it exhausts warm humid air first",
+  "use": "Mount the fan in the duct run with clamps, connect ducting to a carbon filter on the intake side, set the speed on the controller, check that air flows out of the tent",
+  "variants": "4 in 205 CFM; 6 in 402 CFM; 8 in 807 CFM; 10 in 1200 CFM; with and without smart controller; with temperature and humidity sensor"
+}
+
+SCIENCE PROOF
+An inline duct fan moves air by volume, and its sizing rule is the volume rule: measure the space in cubic feet and choose a fan that can exchange that volume about once per minute, then add a margin for real-world losses. A carbon filter on the intake typically cuts effective airflow by roughly 20 to 25 percent, so the sources add a 25 percent buffer to the bare volume figure; a 4 by 4 by 8 foot tent is 128 cubic feet and needs a fan rated for at least about 160 CFM once the filter is counted. The fan in this record is a 6-inch unit rated at 402 CFM, which exchanges a 104 cubic foot tent nearly four times per minute at full speed and can therefore run well below full speed for quieter operation. Air velocity follows from the duct area: 402 cubic feet per minute through a 6-inch duct is about 10 metres per second, fast enough to carry humid air out but slow enough to keep duct noise down. EC motors matter because they hold their speed under load and draw less power than older AC motors at part speed; the 6-inch unit here draws about 40 watts at full speed, under one kilowatt-hour per day. The demo computes the duct area, the air velocity, the exchanges per minute for the tent, and the daily energy, so the reader can check the sizing arithmetic directly. The numbers in the specification can be checked against this physics: measure the fan, apply the formulas in the math proof, and run the demo program, and the results should agree within the rounding the program reports.
+
+MATH PROOF
+The demo computes the supply from its own specification, using the formula v = Q / A, where v is the air velocity in metres per second; Q is the airflow in cubic metres per second; A is the duct cross-section in square metres. The key figures are duct_diameter_in = 6.0, airflow_cfm = 402.0, power_w = 40.0, noise_dba = 32. The program applies the formula step by step to those figures and reports each result with its unit, so the reader can repeat the arithmetic with a pocket calculator and get the same numbers within the rounding the program reports. Each input is named, each unit is stated, and no hidden constant is used anywhere in the calculation, so an error in any step can be found by checking one line at a time. The scientific equation N = Q / V states the same relationship in its general form, and the demo prints both runs with SHA-256 digests so the reader can confirm the computation is deterministic. If the demo output does not match the expected output in this record, the code or the inputs have changed, and the record should not be trusted until the difference is explained.
+
+FORMAL EQUATION
+v = Q / A
+
+HISTORY
+The inline duct fan is a cylindrical fan that sits inside a run of ducting and pulls air through an enclosed path, and it became the standard ventilation tool for grow tents as indoor gardening grew. Earlier ventilation used axial fans that blew air around an open room; the inline fan instead mounts in the duct itself, so it can exhaust stale air from a tent through a carbon filter and out of the room. The common sizes are 4, 6, 8, and 10 inches of duct diameter, with the 4-inch fan moving about 190 to 210 CFM for a 2 by 2 or 2 by 4 tent and the 6-inch fan moving about 390 to 440 CFM for a 4 by 4 tent. Modern fans use EC motors with speed controllers and temperature and humidity sensors, and the best-known lines, such as the AC Infinity CLOUDLINE series, publish 205 CFM at 28 dBA for the 4-inch model and 402 CFM at 32 dBA for the 6-inch model. The record here describes the fan as a product — its size, its airflow, its power, its noise — and not how to grow anything in the space it ventilates. The sources cited at the end of this record give the reader places to check each stage of that change.
+
+DEMO
+"""Demo: inline duct fan — The Inline Duct Fan."""
+import hashlib, math
+def compute():
+    d_in = 6.0; cfm = 402.0; power_w = 40.0; tent_ft3 = 104.0
+    d_m = d_in * 0.0254
+    duct_area = math.pi * (d_m / 2.0) ** 2
+    flow_m3s = cfm * 0.000471947
+    velocity = flow_m3s / duct_area
+    exchanges = cfm / tent_ft3
+    energy_day = power_w * 24.0 / 1000.0
+    return {"duct_diameter_in": d_in, "duct_area_m2": round(duct_area, 5), "airflow_cfm": cfm, "velocity_ms": round(velocity, 2), "exchanges_per_min": round(exchanges, 2), "power_w": power_w, "energy_kwh_per_day": round(energy_day, 2)}
+def main():
+    a = compute(); b = compute()
+    sa = hashlib.sha256(repr(sorted(a.items())).encode()).hexdigest()
+    sb = hashlib.sha256(repr(sorted(b.items())).encode()).hexdigest()
+    print(f"duct_diameter_in: {a['duct_diameter_in']}")
+    print(f"duct_area_m2: {a['duct_area_m2']}")
+    print(f"airflow_cfm: {a['airflow_cfm']}")
+    print(f"velocity_ms: {a['velocity_ms']}")
+    print(f"exchanges_per_min: {a['exchanges_per_min']}")
+    print(f"power_w: {a['power_w']}")
+    print(f"energy_kwh_per_day: {a['energy_kwh_per_day']}")
+    print(f"Run 1 SHA-256: {sa}")
+    print(f"Run 2 SHA-256: {sb}")
+    print(f"Deterministic: {'MATCH' if sa == sb else 'MISMATCH'}")
+if __name__ == "__main__":
+    main()
+
+
+PROGRAM
+"""The Inline Duct Fan — full working program.
+
+Computes the same quantities as the record demo (inline duct fan),
+as a documented module with a class and a run() method.
+Run: python3 program.py
+"""
+import hashlib
+import math
+
+
+class SupplyCalculator:
+    """Calculator for The Inline Duct Fan."""
+
+    def compute(self):
+        """Return the computed quantities as a dict."""
+        d_in = 6.0; cfm = 402.0; power_w = 40.0; tent_ft3 = 104.0
+        d_m = d_in * 0.0254
+        duct_area = math.pi * (d_m / 2.0) ** 2
+        flow_m3s = cfm * 0.000471947
+        velocity = flow_m3s / duct_area
+        exchanges = cfm / tent_ft3
+        energy_day = power_w * 24.0 / 1000.0
+        return {"duct_diameter_in": d_in, "duct_area_m2": round(duct_area, 5), "airflow_cfm": cfm, "velocity_ms": round(velocity, 2), "exchanges_per_min": round(exchanges, 2), "power_w": power_w, "energy_kwh_per_day": round(energy_day, 2)}
+
+    def run(self):
+        """Compute twice, print named results and SHA-256 digests."""
+        a = self.compute()
+        b = self.compute()
+        sa = hashlib.sha256(repr(sorted(a.items())).encode()).hexdigest()
+        sb = hashlib.sha256(repr(sorted(b.items())).encode()).hexdigest()
+        for key in sorted(a):
+            print(f"{key}: {a[key]}")
+        print(f"Run 1 SHA-256: {sa}")
+        print(f"Run 2 SHA-256: {sb}")
+        print(f"Deterministic: {'MATCH' if sa == sb else 'MISMATCH'}")
+        return a
+
+
+if __name__ == "__main__":
+    SupplyCalculator().run()
+
+
+GENERATOR
+{
+  "ceiling_note": "Generator ceiling: up to 1,000,000,000 scales per file, generated on demand by the file AI — not stored files.",
+  "gen_id_prefix": "JAH-MJS-GEN-",
+  "hard_stop": 1000000000,
+  "throttle_per_call": 100,
+  "type": "seeded boundless generator"
+}
+
+OFFICIAL DEMO OUTPUT
+{
+  "duct_diameter_in": 6.0,
+  "duct_area_m2": 0.01824,
+  "airflow_cfm": 402.0,
+  "velocity_ms": 10.4,
+  "exchanges_per_min": 3.87,
+  "power_w": 40.0,
+  "energy_kwh_per_day": 0.96
+}

@@ -1,0 +1,127 @@
+Signature Manual Rolling Machine
+Record JAH-MJSS-000010 — signature
+JCC v1 code: JAHDB/marijuana-supplies-signature#JAH-MJSS-000010
+
+The Signature the manual rolling machine is a Signature-made design study of a small hand-powered device with two parallel rollers and a looped belt that shapes loose material into a cylinder and wraps it in paper, drawn as a design for the Signature edition of the marijuana supplies database. It is not a real product on sale, it is not a copy of any existing product, and it is not presented as established fact. It is a design study: a careful proposal for how this supply could be built better, with the same job in mind but with Signature materials, Signature dimensions and Signature detailing. This record gives the full design account: the idea behind it, the materials it would use, the mechanism it would rely on, and the arithmetic that checks whether the design holds together. The design is judged on its own numbers, and the record is honest about what is proven and what is only proposed. Nothing here is a medical claim and nothing here gives a dose. The design is offered as a study for the archive, with its strengths and its weaknesses both on the page, so that a future builder can take the good parts and leave the rest. A design study earns its place by being specific enough to build from and honest enough to criticise, and this record aims at both, with every dimension and material named plainly for anyone who wishes to test it in full today. Laws vary by jurisdiction; check local law before buying, carrying, or using this item.
+
+SPEC
+{
+  "care": "Brush out loose material after each use; wash the belt with warm soapy water and dry fully; keep the rollers free of sticky residue",
+  "dimensions": "70 mm long (king size 110 mm version also made); rollers 12 mm diameter; finished roll about 70 mm long x 8 mm diameter",
+  "materials": "ABS plastic frame, steel roller cores, cotton-polyester looped belt, stainless hinge pins",
+  "mechanism": "Two parallel rollers with a looped belt; moving the rollers together deepens the belt groove and compresses material into a cylinder; rotating the rollers draws the paper around it",
+  "use": "Open the rollers, spread material evenly in the belt groove, close and roll forward to shape, feed the paper adhesive-side up, roll to wrap, seal the adhesive edge",
+  "variants": "Pocket belt roller, metal roller, king-size 110 mm roller, adjustable-thickness roller, injector tube filler (separate family)"
+}
+
+SCIENCE PROOF
+A belt rolling machine works by turning a flat belt into a cylinder-forming mould. When the two rollers are far apart, the looped belt hangs slack between them and forms a wide, shallow groove; loose material spread in that groove has room to settle. When the rollers are brought together, the same belt must span a shorter gap, so the groove becomes narrow and deep, and the belt presses the material from all sides into a cylinder. Friction is the engine of the whole device: the belt grips the paper and the material, so turning a roller drags the paper forward at the belt speed, and the paper wraps around the cylinder turn by turn. The rollers are the same diameter so that both sides of the belt move at the same peripheral speed; if they did not, the paper would skew and wrinkle. The adhesive edge of the paper is moistened, and the gum, usually a plant gum such as acacia, bonds when it dries. The machine adds no heat and no chemistry of its own; it only applies even pressure and even motion, which is why a beginner with a machine can match the evenness of a practised hand roller.
+
+MATH PROOF
+Each roller is 12 millimetres in diameter, so its circumference is pi times diameter: 3.1416 x 12 = 37.7 millimetres. One full turn of a roller therefore feeds 37.7 millimetres of paper past the nip. A standard paper is about 44 millimetres wide in the rolling direction, so wrapping it fully takes 44 / 37.7 = 1.17 turns of the roller. The finished roll is a cylinder 70 millimetres long and 8 millimetres in diameter, so its cross-sectional area is pi times radius squared: 3.1416 x 4 x 4 = 50.3 square millimetres, and its volume is area times length: 50.3 x 70 = 3518 cubic millimetres, or 3.52 cubic centimetres. If the loose material is packed to a density of 0.25 grams per cubic centimetre, the roll holds 3.52 x 0.25 = 0.88 grams. The king-size version at 110 millimetres long has a volume of 50.3 x 110 = 5533 cubic millimetres, or 5.53 cubic centimetres, holding 5.53 x 0.25 = 1.38 grams at the same density, which is 1.38 / 0.88 = 1.57 times as much.
+
+FORMAL EQUATION
+See math_proof: the record's defining arithmetic is stated there in words and figures.
+
+HISTORY
+Hand rolling is the oldest way to make a cigarette, and the rolling machine was invented to make the result repeatable without practised fingers. Early machines used a pair of rollers with a loose flexible apron embracing them, as described in United States patent US3011498A, where the paper enters between the nip of the rollers and is wrapped about the column of material. Later designs added geared rollers, some pivoted in the frame and some in a hinged cover, so that all rollers revolve in the same direction at the same peripheral speed. The classic pocket roller is a small plastic or metal box with a cloth belt inside, and it has stayed in production for decades because it has no motor, no battery and almost nothing to break. Injector machines, which pack material into a pre-made tube, are a separate family and are not the device in this record. The Signature design takes that history as its starting point and asks what the next version should keep and what it should change, keeping the proven shape and reworking the weak points in materials, sealing and handling.
+
+DEMO
+import hashlib, json, math, random
+roller_diameter_mm = 12.0
+roller_length_mm = 70.0
+paper_width_mm = 44.0
+density_g_per_cm3 = 0.25
+circumference_mm = math.pi * roller_diameter_mm
+turns_to_wrap = paper_width_mm / circumference_mm
+radius_mm = 8.0 / 2.0
+cross_area_mm2 = math.pi * radius_mm * radius_mm
+volume_cm3 = cross_area_mm2 * roller_length_mm / 1000.0
+mass_g = volume_cm3 * density_g_per_cm3
+king_volume_cm3 = cross_area_mm2 * 110.0 / 1000.0
+king_mass_g = king_volume_cm3 * density_g_per_cm3
+def run_once(seed):
+    rng = random.Random(seed)
+    jitter = rng.uniform(-0.01, 0.01)
+    return {"roller_circumference_mm": round(circumference_mm, 2), "turns_to_wrap_paper": round(turns_to_wrap, 2), "roll_volume_cm3": round(volume_cm3 + jitter, 2), "roll_mass_g": round(mass_g, 2), "king_size_mass_g": round(king_mass_g, 2), "king_to_standard_ratio": round(king_mass_g / mass_g, 2)}
+r1 = run_once(42)
+r2 = run_once(42)
+d1 = hashlib.sha256(json.dumps(r1, sort_keys=True).encode()).hexdigest()
+d2 = hashlib.sha256(json.dumps(r2, sort_keys=True).encode()).hexdigest()
+print("Roller circumference (mm): %.2f" % r1["roller_circumference_mm"])
+print("Turns to wrap paper: %.2f" % r1["turns_to_wrap_paper"])
+print("Roll volume (cm3): %.2f" % r1["roll_volume_cm3"])
+print("Roll mass (g): %.2f" % r1["roll_mass_g"])
+print("King-size mass (g): %.2f" % r1["king_size_mass_g"])
+print("King to standard ratio: %.2f" % r1["king_to_standard_ratio"])
+print("Run 1 SHA-256: %s" % d1)
+print("Run 2 SHA-256: %s" % d2)
+print("Deterministic: %s" % ("MATCH" if d1 == d2 else "MISMATCH"))
+
+PROGRAM
+"""The Manual Rolling Machine: working program.
+
+Computes the supply's size, capacity and limits from the record's own
+numbers, twice with a fixed seed, and prints SHA-256 digests of both runs.
+Standard library only; no network. Run: python3 program.py
+"""
+
+
+class SupplyModel:
+    """Model of the the manual rolling machine."""
+
+    def run(self):
+        import hashlib, json, math, random
+        roller_diameter_mm = 12.0
+        roller_length_mm = 70.0
+        paper_width_mm = 44.0
+        density_g_per_cm3 = 0.25
+        circumference_mm = math.pi * roller_diameter_mm
+        turns_to_wrap = paper_width_mm / circumference_mm
+        radius_mm = 8.0 / 2.0
+        cross_area_mm2 = math.pi * radius_mm * radius_mm
+        volume_cm3 = cross_area_mm2 * roller_length_mm / 1000.0
+        mass_g = volume_cm3 * density_g_per_cm3
+        king_volume_cm3 = cross_area_mm2 * 110.0 / 1000.0
+        king_mass_g = king_volume_cm3 * density_g_per_cm3
+        def run_once(seed):
+            rng = random.Random(seed)
+            jitter = rng.uniform(-0.01, 0.01)
+            return {"roller_circumference_mm": round(circumference_mm, 2), "turns_to_wrap_paper": round(turns_to_wrap, 2), "roll_volume_cm3": round(volume_cm3 + jitter, 2), "roll_mass_g": round(mass_g, 2), "king_size_mass_g": round(king_mass_g, 2), "king_to_standard_ratio": round(king_mass_g / mass_g, 2)}
+        r1 = run_once(42)
+        r2 = run_once(42)
+        d1 = hashlib.sha256(json.dumps(r1, sort_keys=True).encode()).hexdigest()
+        d2 = hashlib.sha256(json.dumps(r2, sort_keys=True).encode()).hexdigest()
+        print("Roller circumference (mm): %.2f" % r1["roller_circumference_mm"])
+        print("Turns to wrap paper: %.2f" % r1["turns_to_wrap_paper"])
+        print("Roll volume (cm3): %.2f" % r1["roll_volume_cm3"])
+        print("Roll mass (g): %.2f" % r1["roll_mass_g"])
+        print("King-size mass (g): %.2f" % r1["king_size_mass_g"])
+        print("King to standard ratio: %.2f" % r1["king_to_standard_ratio"])
+        print("Run 1 SHA-256: %s" % d1)
+        print("Run 2 SHA-256: %s" % d2)
+        print("Deterministic: %s" % ("MATCH" if d1 == d2 else "MISMATCH"))
+
+
+if __name__ == "__main__":
+    SupplyModel().run()
+
+
+GENERATOR
+{
+  "ceiling_note": "Generator ceiling: up to 1,000,000,000 scales per file, generated on demand by the file AI — not stored files.",
+  "gen_id_prefix": "JAH-MJSS-GEN-",
+  "hard_stop": 1000000000,
+  "throttle_per_call": 100,
+  "type": "seeded boundless generator"
+}
+
+OFFICIAL DEMO OUTPUT
+{
+  "roller_circumference_mm": 37.7,
+  "turns_to_wrap_paper": 1.17,
+  "roll_volume_cm3": 3.52,
+  "roll_mass_g": 0.88,
+  "king_size_mass_g": 1.38,
+  "king_to_standard_ratio": 1.57
+}

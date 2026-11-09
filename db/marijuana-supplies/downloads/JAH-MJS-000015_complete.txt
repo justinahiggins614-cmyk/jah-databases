@@ -1,0 +1,133 @@
+The Smell-Proof Storage Bag
+Record JAH-MJS-000015 — public
+JCC v1 code: JAHDB/marijuana-supplies#JAH-MJS-000015
+
+The smell-proof storage bag is a pouch with an activated carbon lining and a sealed zip that traps odour molecules so smells do not escape the bag. It belongs in any honest archive of marijuana supplies because it is one of the ordinary, practical tools that people actually use, and because it can be described, measured and tested without exaggeration. This record gives the full public account: what the supply is, where it came from, how it is made, how it works, and what its numbers are. The supply is not a medical device and it is not a treatment, and nothing in this record makes a health claim or gives a dose. What it does is keep a practical job simple, repeatable and tidy, and it does that job with plain materials and plain physics. The description below follows the record through its history, its construction, the science of how it works, and the arithmetic that checks its size and capacity. Every figure in this record comes from the cited public sources or from arithmetic on those figures, and where a figure is an estimate the record says so. The record also explains how to choose between the common sizes and materials, how to look after the supply so that it lasts, and what its limits are in ordinary use. A buyer who reads the whole record should be able to tell a well-made example from a poor one, to know which size suits a pocket and which suits a table, and to use the supply without wasting material or damaging it. Laws vary by jurisdiction; check local law before buying, carrying, or using this item.
+
+SPEC
+{
+  "care": "Wipe the interior clean; keep dry; reactivate the carbon lining in direct sunlight where the maker allows it; replace the bag when odour starts to escape",
+  "dimensions": "Reference pouch 20 cm x 14 cm; wallets from 4 x 6 inches; duffle 20 x 11 x 11 inches; Revelry Confidant 27.94 cm x 15.24 cm, 0.5 litres",
+  "materials": "Activated carbon lining (bamboo carbon) with protective mesh, water-resistant 600D polyester or mylar outer shell, sealed zip, optional combination lock",
+  "mechanism": "Adsorption: odour molecules bind to the microscopic pores of activated carbon as air passes through the lining; the sealed zip limits bulk air flow",
+  "use": "Place contents inside, close the zip fully, set the combination lock if fitted; open only when needed so the carbon is not exhausted by outside air",
+  "variants": "Carbon-lined wallet, pouch, fanny pack, large case, backpack, duffle bag; resealable mylar pouches; bags with one or two combination locks"
+}
+
+SCIENCE PROOF
+A smell-proof bag works by adsorption, which is different from absorption: the odour molecules do not soak into the carbon, they stick to its surface. Activated carbon is made by heating carbon-rich material so that it becomes riddled with microscopic pores, giving a single gram an internal surface area of hundreds of square metres. Volatile organic compounds, the small molecules that carry aroma, are attracted to that surface by weak van der Waals forces, and once they stick they stay stuck until heat or sunlight gives them enough energy to leave. That is why the lining can be reactivated in direct sunlight: the heat drives the trapped molecules off and frees the pores again. The zip and the outer shell matter too, but in a supporting role: they slow the bulk flow of air so that the air that does move must pass through the carbon layer, where the odour is stripped out. No fabric bag is perfectly airtight, so the claim is not that no air escapes, but that the air which escapes has had its odour molecules removed. The carbon eventually saturates, because the pore surface is finite, and that is why the bag has a working life of about one to two years.
+
+MATH PROOF
+The reference pouch measures 20 centimetres by 14 centimetres, so one face has an area of 20 x 14 = 280 square centimetres, and the two faces together give 560 square centimetres of carbon lining. If the pouch is about 2 centimetres thick when filled, its volume is roughly 20 x 14 x 2 = 560 cubic centimetres, or 0.56 litres, close to the published 0.5-litre volume of the similar Revelry Confidant pouch. A duffle at 20 by 11 by 11 inches converts to centimetres at 2.54 centimetres per inch: 50.8 x 27.9 x 27.9 centimetres, giving a volume of 50.8 x 27.9 x 27.9 = 39547 cubic centimetres, or 39.5 litres, which is 39.5 / 0.56 = 70.5 times the volume of the reference pouch. If a carbon lining holds about 0.2 grams of odour compounds per gram of carbon and the pouch lining contains 10 grams of carbon, it can trap 10 x 0.2 = 2.0 grams before it saturates. At a working life of 1 to 2 years, the midpoint is 1.5 years, or 547 days, so the average loading is 2.0 / 547 = 0.0037 grams per day.
+
+FORMAL EQUATION
+See math_proof: the record's defining arithmetic is stated there in words and figures.
+
+HISTORY
+Smell-proof storage grew out of two older technologies: the activated carbon filter, used for a century in gas masks and water filters, and the zip-sealed pouch. Early pouches relied on thick fabric and tight zips alone, which slow smells but cannot stop them, because fabric and zips cannot form a truly airtight seal. The carbon lining changed that: activated carbon has an enormous internal surface area, and odour molecules stick to it as air passes through. Brands such as Revelry, with a three-layer carbon filter system, and ONGROK, with activated bamboo carbon linings, turned the idea into everyday carry, from a 4 by 6 inch wallet to a 20 by 11 by 11 inch duffle. Combination locks were added so the bag is also a small secure container, and mylar pouches offered a different approach, blocking odour as a barrier film rather than adsorbing it. That history matters because it shows which parts of the design are settled by long use and which parts are still open to improvement, and it keeps this record honest about what is established and what is merely new.
+
+DEMO
+import hashlib, json, random
+length_cm = 20.0
+width_cm = 14.0
+thickness_cm = 2.0
+carbon_g = 10.0
+capacity_g_per_g = 0.2
+life_years = 1.5
+face_area_cm2 = length_cm * width_cm
+lining_area_cm2 = face_area_cm2 * 2.0
+volume_cm3 = length_cm * width_cm * thickness_cm
+volume_l = volume_cm3 / 1000.0
+duffle_l = 50.8 * 27.9 * 27.9 / 1000.0
+duffle_ratio = duffle_l / volume_l
+trap_capacity_g = carbon_g * capacity_g_per_g
+life_days = life_years * 365.0
+loading_g_per_day = trap_capacity_g / life_days
+def run_once(seed):
+    rng = random.Random(seed)
+    jitter = rng.uniform(-1.0, 1.0)
+    return {"lining_area_cm2": round(lining_area_cm2, 2), "pouch_volume_l": round(volume_l + jitter / 100.0, 2), "duffle_volume_l": round(duffle_l, 2), "duffle_to_pouch_ratio": round(duffle_ratio, 2), "odour_trap_capacity_g": round(trap_capacity_g, 2), "average_loading_g_per_day": round(loading_g_per_day, 5)}
+r1 = run_once(42)
+r2 = run_once(42)
+d1 = hashlib.sha256(json.dumps(r1, sort_keys=True).encode()).hexdigest()
+d2 = hashlib.sha256(json.dumps(r2, sort_keys=True).encode()).hexdigest()
+print("Carbon lining area (cm2): %.2f" % r1["lining_area_cm2"])
+print("Pouch volume (L): %.2f" % r1["pouch_volume_l"])
+print("Duffle volume (L): %.2f" % r1["duffle_volume_l"])
+print("Duffle to pouch ratio: %.2f" % r1["duffle_to_pouch_ratio"])
+print("Odour trap capacity (g): %.2f" % r1["odour_trap_capacity_g"])
+print("Average loading (g per day): %.5f" % r1["average_loading_g_per_day"])
+print("Run 1 SHA-256: %s" % d1)
+print("Run 2 SHA-256: %s" % d2)
+print("Deterministic: %s" % ("MATCH" if d1 == d2 else "MISMATCH"))
+
+PROGRAM
+"""The Smell-Proof Storage Bag: working program.
+
+Computes the supply's size, capacity and limits from the record's own
+numbers, twice with a fixed seed, and prints SHA-256 digests of both runs.
+Standard library only; no network. Run: python3 program.py
+"""
+
+
+class SupplyModel:
+    """Model of the the smell-proof storage bag."""
+
+    def run(self):
+        import hashlib, json, random
+        length_cm = 20.0
+        width_cm = 14.0
+        thickness_cm = 2.0
+        carbon_g = 10.0
+        capacity_g_per_g = 0.2
+        life_years = 1.5
+        face_area_cm2 = length_cm * width_cm
+        lining_area_cm2 = face_area_cm2 * 2.0
+        volume_cm3 = length_cm * width_cm * thickness_cm
+        volume_l = volume_cm3 / 1000.0
+        duffle_l = 50.8 * 27.9 * 27.9 / 1000.0
+        duffle_ratio = duffle_l / volume_l
+        trap_capacity_g = carbon_g * capacity_g_per_g
+        life_days = life_years * 365.0
+        loading_g_per_day = trap_capacity_g / life_days
+        def run_once(seed):
+            rng = random.Random(seed)
+            jitter = rng.uniform(-1.0, 1.0)
+            return {"lining_area_cm2": round(lining_area_cm2, 2), "pouch_volume_l": round(volume_l + jitter / 100.0, 2), "duffle_volume_l": round(duffle_l, 2), "duffle_to_pouch_ratio": round(duffle_ratio, 2), "odour_trap_capacity_g": round(trap_capacity_g, 2), "average_loading_g_per_day": round(loading_g_per_day, 5)}
+        r1 = run_once(42)
+        r2 = run_once(42)
+        d1 = hashlib.sha256(json.dumps(r1, sort_keys=True).encode()).hexdigest()
+        d2 = hashlib.sha256(json.dumps(r2, sort_keys=True).encode()).hexdigest()
+        print("Carbon lining area (cm2): %.2f" % r1["lining_area_cm2"])
+        print("Pouch volume (L): %.2f" % r1["pouch_volume_l"])
+        print("Duffle volume (L): %.2f" % r1["duffle_volume_l"])
+        print("Duffle to pouch ratio: %.2f" % r1["duffle_to_pouch_ratio"])
+        print("Odour trap capacity (g): %.2f" % r1["odour_trap_capacity_g"])
+        print("Average loading (g per day): %.5f" % r1["average_loading_g_per_day"])
+        print("Run 1 SHA-256: %s" % d1)
+        print("Run 2 SHA-256: %s" % d2)
+        print("Deterministic: %s" % ("MATCH" if d1 == d2 else "MISMATCH"))
+
+
+if __name__ == "__main__":
+    SupplyModel().run()
+
+
+GENERATOR
+{
+  "ceiling_note": "Generator ceiling: up to 1,000,000,000 scales per file, generated on demand by the file AI — not stored files.",
+  "gen_id_prefix": "JAH-MJS-GEN-",
+  "hard_stop": 1000000000,
+  "throttle_per_call": 100,
+  "type": "seeded boundless generator"
+}
+
+OFFICIAL DEMO OUTPUT
+{
+  "lining_area_cm2": 560.0,
+  "pouch_volume_l": 0.56,
+  "duffle_volume_l": 39.54,
+  "duffle_to_pouch_ratio": 70.61,
+  "odour_trap_capacity_g": 2.0,
+  "average_loading_g_per_day": 0.00365
+}

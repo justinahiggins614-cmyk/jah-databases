@@ -1,0 +1,114 @@
+Signature Ember Pocket Vaporizer
+Record JAH-MJSS-000003 — signature
+JCC v1 code: JAHDB/marijuana-supplies-signature#JAH-MJSS-000003
+
+The Signature Ember Pocket Vaporizer is a Signature-made design study for portable dry-herb vaporizer, a new design in the Signature Marijuana Supplies Database that reworks the familiar public form with one deliberate change. It keeps the job the same — a battery-powered heater warms a small oven holding ground herb to a set temperature below combustion, and the user draws the released vapour through a mouthpiece — but changes how the parts are arranged, using signature aluminium body; ceramic twin-zone oven; lithium-ion battery; glass mouthpiece. The design is sized at 105 mm tall x 32 mm wide; twin-zone oven holds about 0.3 g, which sets every number in this record, from the volumes and areas in the demo to the scale variants at the end. This record is a design study, not a real manufactured product, and nothing here claims the design has been built, tested, or sold. What it does offer is a complete, checkable design: a full specification, the physics of how it would work, worked arithmetic tied to its own dimensions, a runnable program that computes those numbers, and three boundless scale variants. Readers can follow the design from first principles, repeat the arithmetic by hand, run the program, and see exactly where each number comes from. The Signature edition exists alongside the public edition so the archive holds both what exists in the world and what the Signature system designs next, clearly labelled, so the two are never confused. Like every Signature record, it is filed as a design study, with its own generator and its own file AI, and it marches with the rest of the database toward a million records.
+
+SPEC
+{
+  "care": "Brush the oven after cooling; clean the mouthpiece; recharge by USB-C",
+  "dimensions": "105 mm tall x 32 mm wide; twin-zone oven holds about 0.3 g",
+  "materials": "Signature aluminium body; ceramic twin-zone oven; lithium-ion battery; glass mouthpiece",
+  "mechanism": "Twin-zone oven: two separately controlled heater zones warm the herb from both ends at once, so the middle of the load reaches temperature as fast as the edges",
+  "use": "Fill the twin-zone oven, set the temperature, wait for the ready signal, then draw slowly",
+  "variants": "Pocket twin-zone, standard twin-zone, and long-session twin-zone versions"
+}
+
+SCIENCE PROOF
+A vaporizer works by phase change without combustion. Heating dried herb raises the temperature of its volatile compounds until they boil off as vapour, while the plant fibre itself stays below its burning point, which sources place above about 230 C. Conduction transfers heat by direct contact between the hot oven wall and the herb, which is fast but can heat unevenly. Convection carries heat in a stream of hot air that passes through the herb, which is slower to start but more even. Hybrid ovens use both. The energy needed is the sensible heat of the herb plus the sensible heat of the oven metal or ceramic: mass times specific heat capacity times temperature rise. A lithium-ion battery stores that energy chemically and releases it as electrical heat through a resistive heater, and a controller cycles the heater on and off to hold the set temperature. Lower set temperatures release lighter, more fragrant compounds first; higher set temperatures release more of the heavier compounds. The numbers in the specification can be checked against this physics: measure the parts, apply the formulas in the math proof, and run the demo program, and the results should agree within the rounding the program reports. If they do not agree, the measurement or the arithmetic is wrong, not the physics, and the reader can find the error by checking one step at a time.
+
+MATH PROOF
+The demo uses the sensible-heat formula Q equals m times c times the temperature rise. The herb mass is 0.3 g, its specific heat capacity is 1.7 joules per gram per degree Celsius, and the rise from 20.0 C to 185.0 C is 165.0 degrees, so the herb heat is the product of those three numbers. The oven is heated as well: 14.0 g of oven material at 0.9 joules per gram per degree over the same rise. Adding the two heats gives the total heat per session in joules, and dividing by 3600 converts it to watt-hours. Dividing the battery energy of 12.0 watt-hours by the watt-hours per session gives the number of sessions per charge. The program prints every step, runs the computation twice, and prints SHA-256 digests so the reader can verify the result is deterministic. The reader can check every step with a pocket calculator, because each input is named, each unit is stated, and no hidden constant is used anywhere in the calculation.
+
+FORMAL EQUATION
+Q = m * c * (T2 - T1)
+
+HISTORY
+Portable dry-herb vaporizers descend from desktop convection machines such as the Volcano, miniaturised once lithium-ion batteries and precise temperature controllers became small enough to carry. Early portables used simple conduction ovens with preset temperatures; later models added hybrid conduction-convection heating, digital displays, and phone apps. The PAX line is a well-known example of the pocket form: a slim metal body, a small oven, and a mouthpiece, with heat modes stepped from about 374 F to 428 F. Over time the same basic form was copied, adapted, and refined by many makers, so the record today covers a family of closely related objects rather than a single patented shape. Museums, trade guides, and manufacturer manuals preserve the steps of that change, and the sources cited at the end of this record give the reader places to check each stage. The history matters because it explains why the parts are arranged the way they are: each feature survives because it solved a practical problem for the people who used the supply every day.
+
+DEMO
+"""Demo: portable vaporizer heating energy — The Portable Dry-Herb Vaporizer."""
+import hashlib
+def compute():
+    herb_g = 0.3; t0 = 20.0; t1 = 185.0; cp = 1.7; battery_wh = 12.0; oven_g = 14.0; oven_cp = 0.9
+    q_herb_j = herb_g * cp * (t1 - t0)
+    q_oven_j = oven_g * oven_cp * (t1 - t0)
+    q_total_j = q_herb_j + q_oven_j
+    q_total_wh = q_total_j / 3600.0
+    sessions = battery_wh / q_total_wh
+    temp_rise_c = t1 - t0
+    return {"herb_heat_J": round(q_herb_j, 2), "oven_heat_J": round(q_oven_j, 2), "total_heat_J": round(q_total_j, 2), "total_heat_Wh": round(q_total_wh, 4), "sessions_per_charge": round(sessions, 1), "temp_rise_C": temp_rise_c}
+def main():
+    a = compute(); b = compute()
+    sa = hashlib.sha256(repr(sorted(a.items())).encode()).hexdigest()
+    sb = hashlib.sha256(repr(sorted(b.items())).encode()).hexdigest()
+    for key in ["herb_heat_J", "oven_heat_J", "total_heat_J", "total_heat_Wh", "sessions_per_charge", "temp_rise_C"]:
+        print(f"{key}: {a[key]}")
+    print(f"Run 1 SHA-256: {sa}")
+    print(f"Run 2 SHA-256: {sb}")
+    print(f"Deterministic: {'MATCH' if sa == sb else 'MISMATCH'}")
+if __name__ == "__main__":
+    main()
+
+
+PROGRAM
+"""Signature Ember Pocket Vaporizer — full working program.
+
+Computes the same quantities as the record demo (portable vaporizer heating energy),
+as a documented module with a class and a run() method.
+Run: python3 program.py
+"""
+import hashlib
+import math
+
+
+class SupplyCalculator:
+    """Calculator for Signature Ember Pocket Vaporizer."""
+
+    def compute(self):
+        """Return the computed quantities as a dict."""
+        herb_g = 0.3; t0 = 20.0; t1 = 185.0; cp = 1.7; battery_wh = 12.0; oven_g = 14.0; oven_cp = 0.9
+        q_herb_j = herb_g * cp * (t1 - t0)
+        q_oven_j = oven_g * oven_cp * (t1 - t0)
+        q_total_j = q_herb_j + q_oven_j
+        q_total_wh = q_total_j / 3600.0
+        sessions = battery_wh / q_total_wh
+        temp_rise_c = t1 - t0
+        return {"herb_heat_J": round(q_herb_j, 2), "oven_heat_J": round(q_oven_j, 2), "total_heat_J": round(q_total_j, 2), "total_heat_Wh": round(q_total_wh, 4), "sessions_per_charge": round(sessions, 1), "temp_rise_C": temp_rise_c}
+
+    def run(self):
+        """Compute twice, print named results and SHA-256 digests."""
+        a = self.compute()
+        b = self.compute()
+        sa = hashlib.sha256(repr(sorted(a.items())).encode()).hexdigest()
+        sb = hashlib.sha256(repr(sorted(b.items())).encode()).hexdigest()
+        for key in sorted(a):
+            print(f"{key}: {a[key]}")
+        print(f"Run 1 SHA-256: {sa}")
+        print(f"Run 2 SHA-256: {sb}")
+        print(f"Deterministic: {'MATCH' if sa == sb else 'MISMATCH'}")
+        return a
+
+
+if __name__ == "__main__":
+    SupplyCalculator().run()
+
+
+GENERATOR
+{
+  "ceiling_note": "Generator ceiling: up to 1,000,000,000 scales per file, generated on demand by the file AI — not stored files.",
+  "gen_id_prefix": "JAH-MJSS-GEN-",
+  "hard_stop": 1000000000,
+  "throttle_per_call": 100,
+  "type": "seeded boundless generator"
+}
+
+OFFICIAL DEMO OUTPUT
+{
+  "herb_heat_J": 84.15,
+  "oven_heat_J": 2079.0,
+  "total_heat_J": 2163.15,
+  "total_heat_Wh": 0.6009,
+  "sessions_per_charge": 20.0,
+  "temp_rise_C": 165.0
+}

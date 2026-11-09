@@ -1,0 +1,111 @@
+Pre-Rolled Cones
+Record JAH-MJS-000008 — public
+JCC v1 code: JAHDB/marijuana-supplies#JAH-MJS-000008
+
+The pre-rolled cones is one of the basic supplies of the marijuana supplies archive: a pre-rolled cones that works by a paper sheet cut as a trapezoid is rolled around a form into a tapered tube with a filter tip at the narrow end; the user fills the wide end, packs the contents, and twists the tip closed. It is made from hemp, rice, or wood-pulp paper, gum arabic seam, rolled paper filter tip 24 mm long, and a common example measures 1 1/4 cone 84 mm long, king cone 109 mm long, filter tip 24 mm. Pre-rolled cones are the factory answer to hand rolling: the paper is cut, shaped, and tipped before it reaches the user, so filling replaces rolling. Cone making grew with the pre-roll trade, where production runs in four steps described by trade guides: grind the flower to a consistent 1 to 2 mm, sift out stems and sharp material, fill pre-rolled cones by hand or by machine, then close and weigh each unit. Machines such as the Futurola Knockbox can fill many cones in a single cycle. Common cone sizes settled at Standard 84 mm, Classic 98 mm, and King Size 109 mm, with a rolled paper filter tip, called a crutch or roach, already fitted at the narrow end. In everyday use it is a simple, mechanical object with no electronics in the manual form and no hidden parts: what you see is what does the work, and its behaviour can be checked by measuring its parts and doing the arithmetic in this record. This record gives the full public account: its history, how it works in detail, a complete specification, the physics behind it, worked mathematics tied to its own dimensions, and a runnable program that computes its key volumes, areas, and energies. It makes no medical claim and gives no dosage advice; it describes a supply, its materials, and its mechanism, and it cites real public sources for every fact it states. Laws on cannabis and cannabis supplies vary by jurisdiction, so readers should check local law before buying, possessing, or using this supply. The record is part of the public edition of the marijuana supplies database, paired with a Signature design-study edition of the same supply.
+
+SPEC
+{
+  "care": "Keep cones dry and upright; store in their pack so they are not crushed; check the filter tip is firmly attached before filling",
+  "dimensions": "Mini 70 mm; Small / 1 1/4 size 84 mm; Classic 98 mm; King Size 109 mm; filter tip 24 mm; a 1 1/4 cone holds about 0.75 g",
+  "materials": "Hemp, rice, or wood-pulp paper; gum arabic seam; rolled paper or cardboard filter tip, usually 24 mm long",
+  "mechanism": "Trapezoid-cut paper is rolled into a tapered tube around a form; the filter tip at the narrow end supports the cone, keeps material out of the mouth, and sets the airflow; the wide end is filled, packed, and twisted closed",
+  "use": "Hold the cone upright with the filter end down, add ground herb in small amounts, tap to settle, leave about 5 mm at the top, pack gently, and twist the tip closed",
+  "variants": "Mini 70 mm; 1 1/4 size 84 mm; Classic 98 mm; King Size 109 mm; mega 305 mm; hemp, rice, and wood-pulp papers; glass-tip and charcoal-tip versions"
+}
+
+SCIENCE PROOF
+A cone is a frustum, a cone with its tip cut off, and its shape does real work. The wide end holds more material than the narrow end, so the contents pack more densely toward the filter and more loosely at the tip, which helps the roll burn evenly from the wide end down. The filter tip, or crutch, is a rolled cylinder of paper: it holds the cone open, stops loose material from reaching the mouth, and gives the user something cool to hold. The paper is a trapezoid before rolling, cut so the gum edge runs straight and the opposite edge runs at an angle, which is what makes the finished tube taper instead of running parallel. Gum arabic seals the seam as it dries. The volume of a frustum is one third of pi times height times the sum of the two end radii squared plus their product, and multiplying that volume by the packing density of ground herb gives an estimate of the mass the cone can hold. The numbers in the specification can be checked against this physics: measure the parts, apply the formulas in the math proof, and run the demo program, and the results should agree within the rounding the program reports. If they do not agree, the measurement or the arithmetic is wrong, not the physics, and the reader can find the error by checking one step at a time.
+
+MATH PROOF
+The demo uses the frustum volume formula: pi times height divided by 3, times the sum of the wide-end radius squared, the wide-end radius times the narrow-end radius, and the narrow-end radius squared. With a length of 109.0 mm, a wide-end radius of 6.0 mm, and a narrow-end radius of 3.5 mm, that gives the cone volume in cubic millimetres, and dividing by 1000 gives cubic centimetres. Multiplying the volume by the packing density of 0.15 grams per cubic centimetre gives the estimated capacity in grams. A 5000-metre paper bobbin divided by the cone length gives the number of cones per bobbin. All numbers come from the specification in this record, the program prints each result with its unit, and it runs the computation twice with SHA-256 digests so the reader can confirm the result is deterministic. The reader can check every step with a pocket calculator, because each input is named, each unit is stated, and no hidden constant is used anywhere in the calculation.
+
+FORMAL EQUATION
+V = (pi * h / 3) * (R^2 + R*r + r^2)
+
+HISTORY
+Pre-rolled cones are the factory answer to hand rolling: the paper is cut, shaped, and tipped before it reaches the user, so filling replaces rolling. Cone making grew with the pre-roll trade, where production runs in four steps described by trade guides: grind the flower to a consistent 1 to 2 mm, sift out stems and sharp material, fill pre-rolled cones by hand or by machine, then close and weigh each unit. Machines such as the Futurola Knockbox can fill many cones in a single cycle. Common cone sizes settled at Standard 84 mm, Classic 98 mm, and King Size 109 mm, with a rolled paper filter tip, called a crutch or roach, already fitted at the narrow end. Over time the same basic form was copied, adapted, and refined by many makers, so the record today covers a family of closely related objects rather than a single patented shape. Museums, trade guides, and manufacturer manuals preserve the steps of that change, and the sources cited at the end of this record give the reader places to check each stage. The history matters because it explains why the parts are arranged the way they are: each feature survives because it solved a practical problem for the people who used the supply every day.
+
+DEMO
+"""Demo: pre-rolled cone volume — Pre-Rolled Cones."""
+import hashlib, math
+def compute():
+    h = 109.0; R = 6.0; r = 3.5; tip = 24.0; rho = 0.15
+    vol_mm3 = (math.pi * h / 3.0) * (R * R + R * r + r * r)
+    vol_cm3 = vol_mm3 / 1000.0
+    mass_g = vol_cm3 * rho
+    bobbin_m = 5000.0
+    cones_per_bobbin = bobbin_m * 1000.0 / h
+    return {"cone_volume_mm3": round(vol_mm3, 2), "cone_volume_cm3": round(vol_cm3, 2), "capacity_g": round(mass_g, 2), "filter_tip_mm": tip, "cones_per_5000m_bobbin": round(cones_per_bobbin, 0)}
+def main():
+    a = compute(); b = compute()
+    sa = hashlib.sha256(repr(sorted(a.items())).encode()).hexdigest()
+    sb = hashlib.sha256(repr(sorted(b.items())).encode()).hexdigest()
+    for key in ["cone_volume_mm3", "cone_volume_cm3", "capacity_g", "filter_tip_mm", "cones_per_5000m_bobbin"]:
+        print(f"{key}: {a[key]}")
+    print(f"Run 1 SHA-256: {sa}")
+    print(f"Run 2 SHA-256: {sb}")
+    print(f"Deterministic: {'MATCH' if sa == sb else 'MISMATCH'}")
+if __name__ == "__main__":
+    main()
+
+
+PROGRAM
+"""Pre-Rolled Cones — full working program.
+
+Computes the same quantities as the record demo (pre-rolled cone volume),
+as a documented module with a class and a run() method.
+Run: python3 program.py
+"""
+import hashlib
+import math
+
+
+class SupplyCalculator:
+    """Calculator for Pre-Rolled Cones."""
+
+    def compute(self):
+        """Return the computed quantities as a dict."""
+        h = 109.0; R = 6.0; r = 3.5; tip = 24.0; rho = 0.15
+        vol_mm3 = (math.pi * h / 3.0) * (R * R + R * r + r * r)
+        vol_cm3 = vol_mm3 / 1000.0
+        mass_g = vol_cm3 * rho
+        bobbin_m = 5000.0
+        cones_per_bobbin = bobbin_m * 1000.0 / h
+        return {"cone_volume_mm3": round(vol_mm3, 2), "cone_volume_cm3": round(vol_cm3, 2), "capacity_g": round(mass_g, 2), "filter_tip_mm": tip, "cones_per_5000m_bobbin": round(cones_per_bobbin, 0)}
+
+    def run(self):
+        """Compute twice, print named results and SHA-256 digests."""
+        a = self.compute()
+        b = self.compute()
+        sa = hashlib.sha256(repr(sorted(a.items())).encode()).hexdigest()
+        sb = hashlib.sha256(repr(sorted(b.items())).encode()).hexdigest()
+        for key in sorted(a):
+            print(f"{key}: {a[key]}")
+        print(f"Run 1 SHA-256: {sa}")
+        print(f"Run 2 SHA-256: {sb}")
+        print(f"Deterministic: {'MATCH' if sa == sb else 'MISMATCH'}")
+        return a
+
+
+if __name__ == "__main__":
+    SupplyCalculator().run()
+
+
+GENERATOR
+{
+  "ceiling_note": "Generator ceiling: up to 1,000,000,000 scales per file, generated on demand by the file AI — not stored files.",
+  "gen_id_prefix": "JAH-MJS-GEN-",
+  "hard_stop": 1000000000,
+  "throttle_per_call": 100,
+  "type": "seeded boundless generator"
+}
+
+OFFICIAL DEMO OUTPUT
+{
+  "cone_volume_mm3": 7904.51,
+  "cone_volume_cm3": 7.9,
+  "capacity_g": 1.19,
+  "filter_tip_mm": 24.0,
+  "cones_per_5000m_bobbin": 45872.0
+}

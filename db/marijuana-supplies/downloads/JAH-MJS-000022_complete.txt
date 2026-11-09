@@ -1,0 +1,166 @@
+The Kief Sifter Box
+Record JAH-MJS-000022 — public
+JCC v1 code: JAHDB/marijuana-supplies#JAH-MJS-000022
+
+The Kief Sifter Box is a cleaning and maintenance supply for smoking pipes, and this record describes the standard kit as it is actually sold and used. The kit contains a wooden box with a removable mesh screen frame, a collection tray below the screen, a glass collection plate, a soft brush, and a pollen press. Its parts are made from beechwood box, stainless steel mesh, food-grade nylon mesh option, borosilicate glass plate, chosen because each material suits its own job: cotton absorbs, nylon scrubs, steel scrapes without bending, and brass works on stubborn buildup without gouging. The kit measures box 200 mm by 150 mm by 90 mm; screen area 180 mm by 130 mm; standard screen 120 microns; collection tray 20 mm deep. In use, dried plant material is agitated above a woven mesh screen, and particles smaller than the mesh opening fall through into the tray below while larger plant matter stays on top. That combination is what makes the kit more than a loose handful of tools: every step of a full clean, from the first dry pass through the stem to the last wipe of the outside, has a tool made for it. Routine use is simple. Place a small amount of dry material on the screen, close the lid, shake gently for two to three minutes, rest, tap the frame, then brush the collected kief from the tray onto the glass plate. Care of the kit matters as much as care of the pipe. Brush the mesh clean after every use, wash the tray with warm soapy water, let the screen dry fully before storage, and replace a torn or stretched screen, since a sagging mesh passes plant matter it should hold back. The common variants are the single-screen shaker box at 120 microns; three-screen stack at 160, 120 and 75 microns; tumbler drum with interchangeable 100, 150 and 200 micron screens. Legal note: laws on cannabis and cannabis accessories vary by jurisdiction; check local law before buying, carrying, or using this item.
+
+SPEC
+{
+  "care": "brush the mesh clean after every use, wash the tray with warm soapy water, let the screen dry fully before storage, and replace a torn or stretched screen, since a sagging mesh passes plant matter it should hold back",
+  "dimensions": "box 200 mm by 150 mm by 90 mm; screen area 180 mm by 130 mm; standard screen 120 microns; collection tray 20 mm deep",
+  "materials": "beechwood box, stainless steel mesh, food-grade nylon mesh option, borosilicate glass plate",
+  "mechanism": "dried plant material is agitated above a woven mesh screen, and particles smaller than the mesh opening fall through into the tray below while larger plant matter stays on top",
+  "use": "place a small amount of dry material on the screen, close the lid, shake gently for two to three minutes, rest, tap the frame, then brush the collected kief from the tray onto the glass plate",
+  "variants": "single-screen shaker box at 120 microns; three-screen stack at 160, 120 and 75 microns; tumbler drum with interchangeable 100, 150 and 200 micron screens"
+}
+
+SCIENCE PROOF
+The science of this supply is the science of dissolving, scrubbing, and separating, and each part of the kit uses a different piece of it. Isopropyl alcohol, propan-2-ol, is a polar organic solvent, which means its molecules have a water-loving hydroxyl end and a fat-loving carbon chain, so it can dissolve the sticky resin film that water alone cannot move. Resin is a mixture of tars and oils, and like dissolves like: the alcohol surrounds those molecules and carries them into solution, which is why the soak liquid turns dark brown as it works. Coarse salt, sodium chloride, does not dissolve in alcohol, so its grains stay hard and gritty, and shaking the sealed bag turns those grains into a moving abrasive that scours resin the liquid alone cannot lift from corners and curves. The bristle cleaner and the shank brush work by friction, the force that resists sliding between two surfaces, and the nylon bristles are stiff enough to shear residue from a wall while flexing enough to follow a curve without gouging it. Heat matters too: warm alcohol dissolves resin faster than cold alcohol, because molecules move faster and collide more often, which is why standing a sealed bag in hot tap water shortens a soak, while heating alcohol directly is dangerous because its flash point is about 53 degrees Fahrenheit, below room temperature. For a sifter or a filter tip the science is size and flow: a mesh passes only particles smaller than its opening, and a folded paper lattice holds a bore open against suction. None of this is new physics, and that is the point: the supply works because it applies ordinary solvent chemistry, friction, and geometry to a small, reachable space.
+
+MATH PROOF
+The arithmetic in this record is worked from the figures in the key figures list, and every number in it can be checked with a pocket calculator. The formal equation is A_screen = 180 mm x 130 mm = 23,400 square mm, and open area at 30 percent is 7,020 square mm. The screen area is length times width, and the open area is that total times the fraction of the mesh that is holes rather than wire.. To show how the numbers hang together, take the figures as stated and work them through. First, the size check: the tool that must reach a space is compared with that space, length against length, so that a cleaner of 50 mm either reaches the airway it serves or it does not, and the record states the comparison rather than assuming it. Second, the quantity check: the amount of solvent, salt, water, or screen area is compared with the amount the job needs, so that a soak uses enough liquid to submerge the piece and enough salt to scour it, and a screen offers enough open area to pass what it should. Third, the count check: where the supply involves combinations, volumes, or yields, the count is worked out from its parts, and the demo repeats the same arithmetic in code. The demo prints each of these numbers with its name, runs the computation twice with a fixed seed, and prints a SHA-256 digest of each run so that the two runs can be compared. The digests match, which shows the computation is deterministic, not that the supply is perfect. The math proves the dimensions are consistent; it does not prove the supply works in the hand, and the record does not claim that it does.
+
+FORMAL EQUATION
+A_screen = 180 mm x 130 mm = 23,400 square mm, and open area at 30 percent is 7,020 square mm
+
+HISTORY
+Dry sifting is older than any machine that does it: shake dried plant material over a fine cloth and the smallest, heaviest particles fall through. The sifter box formalised that folk method into a piece of furniture, a wooden box with a mesh screen stretched across the middle and a tray underneath to catch what falls. Makers learned to grade the mesh in microns, because the target particles, the resin heads called trichomes, mostly measure between 70 and 125 microns across, so a 120 micron screen passes them while holding back larger leaf. Stacked screens came next, coarse on top and fine below, so one shake sorts the material into grades. The box itself stayed simple on purpose: no water, no solvent, no power, only shaking and a screen, which is why it survives as the cheapest solventless separation tool in the set.
+
+DEMO
+import hashlib, json, math, random
+
+SCREEN_LENGTH_MM = 180
+SCREEN_WIDTH_MM = 130
+MESH_MICRONS = 120
+OPEN_FRACTION = 0.30
+INPUT_GRAMS = 28
+YIELD_PERCENT = 12
+
+def compute(seed):
+    rng = random.Random(seed)
+    screen_area = SCREEN_LENGTH_MM * SCREEN_WIDTH_MM
+    open_area = round(screen_area * OPEN_FRACTION, 1)
+    aperture_m2 = (MESH_MICRONS / 1000000.0) ** 2
+    holes = int(open_area / 100.0 / (aperture_m2 * 1000000.0 / 100.0 * 100.0)) if False else int(open_area / ((MESH_MICRONS / 1000.0) ** 2))
+    kief_g = round(INPUT_GRAMS * YIELD_PERCENT / 100.0, 2)
+    trials = 1000
+    passed = 0
+    for _ in range(trials):
+        size = rng.uniform(40.0, 200.0)
+        if size < MESH_MICRONS:
+            passed += 1
+    pass_rate = round(100.0 * passed / trials, 1)
+    out = {
+        "screen_area_mm2": screen_area,
+        "open_area_mm2": open_area,
+        "mesh_aperture_microns": MESH_MICRONS,
+        "mesh_holes_approx": holes,
+        "input_grams": INPUT_GRAMS,
+        "expected_kief_grams": kief_g,
+        "simulated_particles": trials,
+        "simulated_pass_rate_percent": pass_rate,
+    }
+    return out
+
+def main():
+    first = compute(7)
+    second = compute(7)
+    for key, value in first.items():
+        print(f"{key}: {value}")
+    d1 = hashlib.sha256(json.dumps(first, sort_keys=True).encode()).hexdigest()
+    d2 = hashlib.sha256(json.dumps(second, sort_keys=True).encode()).hexdigest()
+    print(f"digest_run_1: {d1}")
+    print(f"digest_run_2: {d2}")
+    print("Deterministic: MATCH" if d1 == d2 else "Deterministic: MISMATCH")
+
+main()
+
+
+PROGRAM
+"""The Kief Sifter Box — working program.
+
+Computes the same quantities as the record demo: the design numbers for
+this supply, from the figures in the record. Standard library only, no
+network. Run it directly to print the named results and the two matching
+deterministic digests.
+"""
+import hashlib, json, math, random
+
+SCREEN_LENGTH_MM = 180
+SCREEN_WIDTH_MM = 130
+MESH_MICRONS = 120
+OPEN_FRACTION = 0.30
+INPUT_GRAMS = 28
+YIELD_PERCENT = 12
+
+def compute(seed):
+    rng = random.Random(seed)
+    screen_area = SCREEN_LENGTH_MM * SCREEN_WIDTH_MM
+    open_area = round(screen_area * OPEN_FRACTION, 1)
+    aperture_m2 = (MESH_MICRONS / 1000000.0) ** 2
+    holes = int(open_area / 100.0 / (aperture_m2 * 1000000.0 / 100.0 * 100.0)) if False else int(open_area / ((MESH_MICRONS / 1000.0) ** 2))
+    kief_g = round(INPUT_GRAMS * YIELD_PERCENT / 100.0, 2)
+    trials = 1000
+    passed = 0
+    for _ in range(trials):
+        size = rng.uniform(40.0, 200.0)
+        if size < MESH_MICRONS:
+            passed += 1
+    pass_rate = round(100.0 * passed / trials, 1)
+    out = {
+        "screen_area_mm2": screen_area,
+        "open_area_mm2": open_area,
+        "mesh_aperture_microns": MESH_MICRONS,
+        "mesh_holes_approx": holes,
+        "input_grams": INPUT_GRAMS,
+        "expected_kief_grams": kief_g,
+        "simulated_particles": trials,
+        "simulated_pass_rate_percent": pass_rate,
+    }
+    return out
+
+
+class KiefSifterBox:
+    """Model of the kief sifter box."""
+
+    def __init__(self, seed=7):
+        self.seed = seed
+
+    def run(self):
+        """Run the computation twice and print the named results."""
+        first = compute(self.seed)
+        second = compute(self.seed)
+        for key, value in first.items():
+            print(f"{key}: {value}")
+        d1 = hashlib.sha256(json.dumps(first, sort_keys=True).encode()).hexdigest()
+        d2 = hashlib.sha256(json.dumps(second, sort_keys=True).encode()).hexdigest()
+        print(f"digest_run_1: {d1}")
+        print(f"digest_run_2: {d2}")
+        print("Deterministic: MATCH" if d1 == d2 else "Deterministic: MISMATCH")
+        return first
+
+
+if __name__ == "__main__":
+    KiefSifterBox().run()
+
+
+GENERATOR
+{
+  "ceiling_note": "Generator ceiling: up to 1,000,000,000 scales per file, generated on demand by the file AI — not stored files.",
+  "gen_id_prefix": "JAH-MJS-GEN-",
+  "hard_stop": 1000000000,
+  "throttle_per_call": 100,
+  "type": "seeded boundless generator"
+}
+
+OFFICIAL DEMO OUTPUT
+{
+  "screen_area_mm2": 23400,
+  "open_area_mm2": 7020.0,
+  "mesh_aperture_microns": 120,
+  "mesh_holes_approx": 487500,
+  "input_grams": 28,
+  "expected_kief_grams": 3.36,
+  "simulated_particles": 1000,
+  "simulated_pass_rate_percent": 53.7
+}

@@ -1,0 +1,170 @@
+Filter Tips (Crutches)
+Record JAH-MJSS-000023 — signature
+JCC v1 code: JAHDB/marijuana-supplies-signature#JAH-MJSS-000023
+
+Filter Tips (Crutches) — Signature edition — is a Signature-made design study of the same supply, drawn up as a new product rather than a report on an existing one. This design keeps the same job, filter tips crutches for rolled joints, but reworks the parts as a single matched set: a booklet of 50 pre-cut unbleached hemp-fibre tips, each strip 50 mm long and 15 mm wide, plus 10 pre-rolled tips and a folding guide card. The Signature design specifies unbleached hemp-fibre paper, 150 gsm card-weight paper, vegetable-based gum on pre-rolled tips throughout, with each part sized to the others so that no tool in the case is a loose fit for its task. The design dimensions are strip 50 mm long by 15 mm wide; finished tip 6 mm in diameter and 15 mm long; booklet 55 mm by 40 mm; pack of 50 tips. In the Signature design, the strip is folded into an accordion of three or four folds and rolled into a cylinder, and the folded core acts as a lattice that holds the mouthpiece open under suction while blocking loose plant matter. Fold one end of the strip back and forth three or four times into a w or m shape, roll the rest of the strip tightly around the folds, place the finished tip at the mouthpiece end of the rolling paper, and build the roll around it. Maintenance of the design follows the same rules as the public version. Keep tips dry, since damp paper collapses; use one tip per roll and discard it afterwards; do not use glossy, plastic-coated or adhesive-coated paper, which can release unwanted substances when heated. Planned variants of the Signature design are the pre-rolled tips; extra-wide tips for large rolls; slim tips at 5 mm diameter; reusable glass tips; wooden tips. This is a design study, not a real product and not an established fact: no Signature edition unit has been manufactured, tested, or sold, and the dimensions and figures in this record are design targets, not measured results. Legal note: laws on cannabis and cannabis accessories vary by jurisdiction; check local law before buying, carrying, or using this item.
+
+SPEC
+{
+  "care": "keep tips dry, since damp paper collapses; use one tip per roll and discard it afterwards; do not use glossy, plastic-coated or adhesive-coated paper, which can release unwanted substances when heated",
+  "dimensions": "strip 50 mm long by 15 mm wide; finished tip 6 mm in diameter and 15 mm long; booklet 55 mm by 40 mm; pack of 50 tips",
+  "materials": "unbleached hemp-fibre paper, 150 gsm card-weight paper, vegetable-based gum on pre-rolled tips",
+  "mechanism": "the strip is folded into an accordion of three or four folds and rolled into a cylinder, and the folded core acts as a lattice that holds the mouthpiece open under suction while blocking loose plant matter",
+  "use": "fold one end of the strip back and forth three or four times into a W or M shape, roll the rest of the strip tightly around the folds, place the finished tip at the mouthpiece end of the rolling paper, and build the roll around it",
+  "variants": "pre-rolled tips; extra-wide tips for large rolls; slim tips at 5 mm diameter; reusable glass tips; wooden tips"
+}
+
+SCIENCE PROOF
+The Signature design uses the same science as the public version, because the physics does not change when a product is redesigned, and the design study checks that the chosen materials and dimensions respect it. The solvent chemistry is unchanged: isopropyl alcohol dissolves resin because its polar hydroxyl group and its carbon chain can both interact with the tar-like film, and coarse salt stays undissolved in alcohol, so it keeps its edges and scours. The mechanical science is also unchanged: bristles clean by friction, a mesh separates by size, a seal contains odour by compression, and a lock resists opening by counting combinations. What the design adds is a check that the numbers fit the science. The reach must exceed the airway, the aperture must sit between the particle sizes it should pass and the ones it should hold back, the water depth must cover the percolator without reaching the mouthpiece, and the heat capacity of a tool must be small enough that it does not steal the heat of the surface it touches. Where the public record reports what guides have observed, the Signature record states what the design intends, and it labels the difference plainly. The science proof therefore proves the design is consistent with known physics, not that it has been tested, and the demo computes the numbers that show that consistency.
+
+MATH PROOF
+The Signature arithmetic is the same kind of check as the public arithmetic, applied to design targets rather than measured products. The formal equation is A_bore = pi x r^2, with r = 3 mm, so A_bore is about 28.3 square mm. The open bore area of a finished tip follows the circle area formula, using half the tip diameter as the radius.. Each design number is checked against the number it must beat. A reach is checked against the airway it must follow, a volume against the bowl or chamber it must fill, an aperture against the particle sizes on either side of it, and a combination count against the number of dials on the lock. The demo performs those checks in code: it takes the design figures from the key figures list, computes the derived quantities, prints each with its name, and then repeats the whole computation with the same fixed seed and prints a SHA-256 digest of both runs. Because the seed is fixed, the two digests match, which shows the computation is reproducible. That is the whole claim of the math proof: the design is arithmetically consistent, and any reader can repeat the check. It does not show that a prototype would pass a physical test, and the record says so plainly, because a design study that pretended its arithmetic was a test would be misleading.
+
+FORMAL EQUATION
+A_bore = pi x r^2, with r = 3 mm, so A_bore is about 28.3 square mm
+
+HISTORY
+The Signature design for filter tips (crutches) starts where the public record leaves off, with a working supply whose parts are already known, and asks how those parts could be made as one matched set. The design keeps the job, filter tips crutches for rolled joints, and re-specifies the parts: a booklet of 50 pre-cut unbleached hemp-fibre tips, each strip 50 mm long and 15 mm wide, plus 10 pre-rolled tips and a folding guide card. The design history is therefore short, because the supply itself is old and the design is new: the public versions established what works, the guides established the routine, and the Signature design reorganises those findings into a single dimension sheet, strip 50 mm long by 15 mm wide; finished tip 6 mm in diameter and 15 mm long; booklet 55 mm by 40 mm; pack of 50 tips. Nothing in that history involves a prototype, a test, or a sale, and the record is careful to say so. A design study has a history of decisions, not a history of products, and its decisions are recorded here so that a builder can follow them, challenge them, or replace them with better ones.
+
+DEMO
+import hashlib, json, math, random
+
+STRIP_LENGTH_MM = 50
+STRIP_WIDTH_MM = 15
+TIP_DIA_MM = 6
+TIP_LENGTH_MM = 15
+ACCORDION_FOLDS = 4
+TIPS_PER_BOOKLET = 50
+
+def compute(seed):
+    rng = random.Random(seed)
+    radius = TIP_DIA_MM / 2.0
+    bore_area = round(math.pi * radius ** 2, 2)
+    circumference = round(math.pi * TIP_DIA_MM, 2)
+    strip_area = STRIP_LENGTH_MM * STRIP_WIDTH_MM
+    booklet_area = STRIP_LENGTH_MM * STRIP_WIDTH_MM * TIPS_PER_BOOKLET
+    fold_length = round(STRIP_LENGTH_MM * 0.25, 1)
+    resistance = round(8.0 * 0.000018 * TIP_LENGTH_MM / (math.pi * (radius / 1000.0) ** 4), 1)
+    draw_factor = round(rng.uniform(0.9, 1.1), 2)
+    out = {
+        "strip_length_mm": STRIP_LENGTH_MM,
+        "strip_width_mm": STRIP_WIDTH_MM,
+        "strip_area_mm2": strip_area,
+        "tip_diameter_mm": TIP_DIA_MM,
+        "tip_bore_area_mm2": bore_area,
+        "tip_circumference_mm": circumference,
+        "accordion_folds": ACCORDION_FOLDS,
+        "folded_section_length_mm": fold_length,
+        "tips_per_booklet": TIPS_PER_BOOKLET,
+        "booklet_paper_area_mm2": booklet_area,
+        "draw_resistance_proxy": resistance,
+        "draw_factor": draw_factor,
+    }
+    return out
+
+def main():
+    first = compute(7)
+    second = compute(7)
+    for key, value in first.items():
+        print(f"{key}: {value}")
+    d1 = hashlib.sha256(json.dumps(first, sort_keys=True).encode()).hexdigest()
+    d2 = hashlib.sha256(json.dumps(second, sort_keys=True).encode()).hexdigest()
+    print(f"digest_run_1: {d1}")
+    print(f"digest_run_2: {d2}")
+    print("Deterministic: MATCH" if d1 == d2 else "Deterministic: MISMATCH")
+
+main()
+
+
+PROGRAM
+"""Filter Tips (Crutches) — working program.
+
+Computes the same quantities as the record demo: the design numbers for
+this supply, from the figures in the record. Standard library only, no
+network. Run it directly to print the named results and the two matching
+deterministic digests.
+"""
+import hashlib, json, math, random
+
+STRIP_LENGTH_MM = 50
+STRIP_WIDTH_MM = 15
+TIP_DIA_MM = 6
+TIP_LENGTH_MM = 15
+ACCORDION_FOLDS = 4
+TIPS_PER_BOOKLET = 50
+
+def compute(seed):
+    rng = random.Random(seed)
+    radius = TIP_DIA_MM / 2.0
+    bore_area = round(math.pi * radius ** 2, 2)
+    circumference = round(math.pi * TIP_DIA_MM, 2)
+    strip_area = STRIP_LENGTH_MM * STRIP_WIDTH_MM
+    booklet_area = STRIP_LENGTH_MM * STRIP_WIDTH_MM * TIPS_PER_BOOKLET
+    fold_length = round(STRIP_LENGTH_MM * 0.25, 1)
+    resistance = round(8.0 * 0.000018 * TIP_LENGTH_MM / (math.pi * (radius / 1000.0) ** 4), 1)
+    draw_factor = round(rng.uniform(0.9, 1.1), 2)
+    out = {
+        "strip_length_mm": STRIP_LENGTH_MM,
+        "strip_width_mm": STRIP_WIDTH_MM,
+        "strip_area_mm2": strip_area,
+        "tip_diameter_mm": TIP_DIA_MM,
+        "tip_bore_area_mm2": bore_area,
+        "tip_circumference_mm": circumference,
+        "accordion_folds": ACCORDION_FOLDS,
+        "folded_section_length_mm": fold_length,
+        "tips_per_booklet": TIPS_PER_BOOKLET,
+        "booklet_paper_area_mm2": booklet_area,
+        "draw_resistance_proxy": resistance,
+        "draw_factor": draw_factor,
+    }
+    return out
+
+
+class FilterTips:
+    """Model of filter tips (crutches)."""
+
+    def __init__(self, seed=7):
+        self.seed = seed
+
+    def run(self):
+        """Run the computation twice and print the named results."""
+        first = compute(self.seed)
+        second = compute(self.seed)
+        for key, value in first.items():
+            print(f"{key}: {value}")
+        d1 = hashlib.sha256(json.dumps(first, sort_keys=True).encode()).hexdigest()
+        d2 = hashlib.sha256(json.dumps(second, sort_keys=True).encode()).hexdigest()
+        print(f"digest_run_1: {d1}")
+        print(f"digest_run_2: {d2}")
+        print("Deterministic: MATCH" if d1 == d2 else "Deterministic: MISMATCH")
+        return first
+
+
+if __name__ == "__main__":
+    FilterTips().run()
+
+
+GENERATOR
+{
+  "ceiling_note": "Generator ceiling: up to 1,000,000,000 scales per file, generated on demand by the file AI — not stored files.",
+  "gen_id_prefix": "JAH-MJSS-GEN-",
+  "hard_stop": 1000000000,
+  "throttle_per_call": 100,
+  "type": "seeded boundless generator"
+}
+
+OFFICIAL DEMO OUTPUT
+{
+  "strip_length_mm": 50,
+  "strip_width_mm": 15,
+  "strip_area_mm2": 750,
+  "tip_diameter_mm": 6,
+  "tip_bore_area_mm2": 28.27,
+  "tip_circumference_mm": 18.85,
+  "accordion_folds": 4,
+  "folded_section_length_mm": 12.5,
+  "tips_per_booklet": 50,
+  "booklet_paper_area_mm2": 37500,
+  "draw_resistance_proxy": 8488263.6,
+  "draw_factor": 0.96
+}

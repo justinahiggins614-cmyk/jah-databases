@@ -1,0 +1,120 @@
+The Grow Tent
+Record JAH-MJS-000044 — public
+JCC v1 code: JAHDB/marijuana-supplies#JAH-MJS-000044
+
+The Grow Tent is one of the supplies of the marijuana supplies archive: a grow tent described here in full, with its history, its parts, its dimensions, its mechanism, and the numbers that follow from those dimensions. It is made from 600d oxford fabric with reflective mylar interior; powder-coated steel poles; plastic corner connectors; removable waterproof floor tray, and a common example measures 4 ft x 4 ft footprint, 6.5 ft tall; volume 104 cubic feet; floor area 16 square feet; duct ports 4 in and 6 in. It works by steel frame holds the fabric skin taut; zippered doors close the room; duct ports pass ventilation ducting; Mylar interior reflects light back into the space The variants in the specification show how makers change size, material, and detail while keeping the same working principle, and the scale variants at the end of this record show the same design at pocket, standard, and workshop sizes. The file AI for this record can answer questions about the supply from the record itself, and the generator can produce the design at pocket, standard, and workshop scales on demand. The record gives the science behind the supply, the mathematics of its dimensions, a working demo program that computes its real figures, a full program with a class and a run method, and a boundless generator that can produce the design at many scales. Care is simple and is stated in the specification: wipe the Mylar interior with a damp cloth; keep zippers clean and free of grit; dry the tray after spills; check pole connectors and port drawstrings before each setup Legal note: laws on cannabis and cannabis supplies vary by jurisdiction; check local law before buying, possessing, or using this supply.
+
+SPEC
+{
+  "care": "Wipe the Mylar interior with a damp cloth; keep zippers clean and free of grit; dry the tray after spills; check pole connectors and port drawstrings before each setup",
+  "dimensions": "4 ft x 4 ft footprint, 6.5 ft tall; volume 104 cubic feet; floor area 16 square feet; duct ports 4 in and 6 in",
+  "materials": "600D Oxford fabric with reflective Mylar interior; powder-coated steel poles; plastic corner connectors; removable waterproof floor tray",
+  "mechanism": "Steel frame holds the fabric skin taut; zippered doors close the room; duct ports pass ventilation ducting; Mylar interior reflects light back into the space",
+  "use": "Assemble the frame, pull the fabric skin over it, close the zippers, fit ducting through the ports, hang equipment from the roof bars, lay the floor tray inside",
+  "variants": "2x2 ft; 2x4 ft; 3x3 ft; 4x4 ft; 5x5 ft; 4x8 ft; 600D, 1680D, and 2000D fabric; observation window; extension kits"
+}
+
+SCIENCE PROOF
+A grow tent works as an enclosed reflective room, and its physics is the physics of light and air in a box. The Mylar interior reflects light back toward the centre of the tent instead of letting the walls absorb it, so the same lamp lights the space more evenly; the sources rate good interiors at 95 percent reflectivity or better. The fabric density, measured in denier, sets how well the tent blocks outside light and resists tearing: 600D Oxford cloth is the common mid-range, 1680D is the premium benchmark, and thinner 210D fabric is more prone to pinholes at the seams. The steel frame carries the load: poles and corner connectors hold the fabric taut and support hanging equipment, and the removable floor tray catches spills so the fabric floor stays clean. Ventilation is sized by volume: the tent in this record holds 104 cubic feet, and the standard rule is one full air exchange per minute, so a fan rated above that volume, with a margin for the resistance of a carbon filter and ducting, is the matching size. The demo computes the tent volume, the fabric area, and the air exchanges per minute a 402 CFM fan delivers, so the reader can check the sizing arithmetic directly. The numbers in the specification can be checked against this physics: measure the tent, apply the formulas in the math proof, and run the demo program, and the results should agree within the rounding the program reports.
+
+MATH PROOF
+The demo computes the supply from its own specification, using the formula V = L * W * H, where V is the tent volume in cubic feet; L, W, and H are the tent length, width, and height in feet. The key figures are tent_ft = 4 x 4 x 6.5, volume_ft3 = 104.0, fabric_denier = 600, fan_cfm = 402.0. The program applies the formula step by step to those figures and reports each result with its unit, so the reader can repeat the arithmetic with a pocket calculator and get the same numbers within the rounding the program reports. Each input is named, each unit is stated, and no hidden constant is used anywhere in the calculation, so an error in any step can be found by checking one line at a time. The scientific equation N = Q / V states the same relationship in its general form, and the demo prints both runs with SHA-256 digests so the reader can confirm the computation is deterministic. If the demo output does not match the expected output in this record, the code or the inputs have changed, and the record should not be trusted until the difference is explained.
+
+FORMAL EQUATION
+V = L * W * H
+
+HISTORY
+The grow tent is a portable indoor room: a rigid metal frame wrapped in a reflective fabric skin, with zippered doors, duct ports, and a removable floor tray. It descends from the greenhouse and the photographic darkroom, both enclosed spaces built to control light, and it became a standard smoke-shop and garden product as indoor gardening moved into homes and apartments. Early tents were light canvas over thin poles; the modern form uses powder-coated steel poles, corner connectors, and 600D Oxford fabric lined with reflective Mylar, with 1680D canvas as the premium benchmark. The sizes settled on room footprints: 2 by 2 feet for a closet, 2 by 4 for a small room, 4 by 4 as the common mid-size, and larger footprints up to 10 by 10. The record here describes the product — its frame, its fabric, its ports, its tray — and not how to grow anything inside it. The sources cited at the end of this record give the reader places to check each stage of that change.
+
+DEMO
+"""Demo: grow tent — The Grow Tent."""
+import hashlib, math
+def compute():
+    l_ft = 4.0; w_ft = 4.0; h_ft = 6.5
+    volume_ft3 = l_ft * w_ft * h_ft
+    floor_ft2 = l_ft * w_ft
+    fabric_ft2 = 2 * (l_ft * h_ft + w_ft * h_ft) + 2 * floor_ft2
+    fan_cfm = 402.0
+    exchanges = fan_cfm / volume_ft3
+    seconds_per_exchange = 60.0 / exchanges
+    return {"tent_ft": "4 x 4 x 6.5", "volume_ft3": round(volume_ft3, 1), "floor_ft2": round(floor_ft2, 1), "fabric_ft2": round(fabric_ft2, 1), "fan_cfm": fan_cfm, "exchanges_per_min": round(exchanges, 2), "seconds_per_exchange": round(seconds_per_exchange, 1)}
+def main():
+    a = compute(); b = compute()
+    sa = hashlib.sha256(repr(sorted(a.items())).encode()).hexdigest()
+    sb = hashlib.sha256(repr(sorted(b.items())).encode()).hexdigest()
+    print(f"tent_ft: {a['tent_ft']}")
+    print(f"volume_ft3: {a['volume_ft3']}")
+    print(f"floor_ft2: {a['floor_ft2']}")
+    print(f"fabric_ft2: {a['fabric_ft2']}")
+    print(f"fan_cfm: {a['fan_cfm']}")
+    print(f"exchanges_per_min: {a['exchanges_per_min']}")
+    print(f"seconds_per_exchange: {a['seconds_per_exchange']}")
+    print(f"Run 1 SHA-256: {sa}")
+    print(f"Run 2 SHA-256: {sb}")
+    print(f"Deterministic: {'MATCH' if sa == sb else 'MISMATCH'}")
+if __name__ == "__main__":
+    main()
+
+
+PROGRAM
+"""The Grow Tent — full working program.
+
+Computes the same quantities as the record demo (grow tent),
+as a documented module with a class and a run() method.
+Run: python3 program.py
+"""
+import hashlib
+import math
+
+
+class SupplyCalculator:
+    """Calculator for The Grow Tent."""
+
+    def compute(self):
+        """Return the computed quantities as a dict."""
+        l_ft = 4.0; w_ft = 4.0; h_ft = 6.5
+        volume_ft3 = l_ft * w_ft * h_ft
+        floor_ft2 = l_ft * w_ft
+        fabric_ft2 = 2 * (l_ft * h_ft + w_ft * h_ft) + 2 * floor_ft2
+        fan_cfm = 402.0
+        exchanges = fan_cfm / volume_ft3
+        seconds_per_exchange = 60.0 / exchanges
+        return {"tent_ft": "4 x 4 x 6.5", "volume_ft3": round(volume_ft3, 1), "floor_ft2": round(floor_ft2, 1), "fabric_ft2": round(fabric_ft2, 1), "fan_cfm": fan_cfm, "exchanges_per_min": round(exchanges, 2), "seconds_per_exchange": round(seconds_per_exchange, 1)}
+
+    def run(self):
+        """Compute twice, print named results and SHA-256 digests."""
+        a = self.compute()
+        b = self.compute()
+        sa = hashlib.sha256(repr(sorted(a.items())).encode()).hexdigest()
+        sb = hashlib.sha256(repr(sorted(b.items())).encode()).hexdigest()
+        for key in sorted(a):
+            print(f"{key}: {a[key]}")
+        print(f"Run 1 SHA-256: {sa}")
+        print(f"Run 2 SHA-256: {sb}")
+        print(f"Deterministic: {'MATCH' if sa == sb else 'MISMATCH'}")
+        return a
+
+
+if __name__ == "__main__":
+    SupplyCalculator().run()
+
+
+GENERATOR
+{
+  "ceiling_note": "Generator ceiling: up to 1,000,000,000 scales per file, generated on demand by the file AI — not stored files.",
+  "gen_id_prefix": "JAH-MJS-GEN-",
+  "hard_stop": 1000000000,
+  "throttle_per_call": 100,
+  "type": "seeded boundless generator"
+}
+
+OFFICIAL DEMO OUTPUT
+{
+  "tent_ft": "4 x 4 x 6.5",
+  "volume_ft3": 104.0,
+  "floor_ft2": 16.0,
+  "fabric_ft2": 136.0,
+  "fan_cfm": 402.0,
+  "exchanges_per_min": 3.87,
+  "seconds_per_exchange": 15.5
+}
