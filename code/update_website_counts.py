@@ -18,6 +18,8 @@ Re-stamps both OS pages (main + accessible mirror):
   - every stale "39 websites" -> "{M} main sites"
   - every "N main sites" -> current M
   - artifact summary: "(Waves 1-2, {N} websites)"
+  - stats tile: "Websites + hub" number -> {M} + {N} total websites,
+    with today's count date (main page tile + mirror table row)
 
 Safety: pulls --ff-only first; skips the run if the working tree has ANY
 uncommitted changes (another agent's work in progress); commits + pushes
@@ -25,6 +27,7 @@ uncommitted changes (another agent's work in progress); commits + pushes
 stamps a LOWER per-artifact count than the one already on the page (a drop
 means a counting error, not progress). Prints one STATUS line.
 """
+import datetime
 import os
 import re
 import subprocess
@@ -71,6 +74,8 @@ def count_per_artifact():
 def stamp(path, m_sites, n_art):
     text = open(path, encoding="utf-8").read()
     orig = text
+    total = m_sites + n_art
+    today = datetime.date.today().isoformat()
     # Hero clause (covers old "39 websites", bare "N main sites", and number updates).
     text = re.sub(
         r"browse its (?:\d+ websites|\d+ main sites(?: and [\d,]+ per-artifact websites)?)",
@@ -84,6 +89,17 @@ def stamp(path, m_sites, n_art):
     text = re.sub(
         r"First live per-artifact websites \(Waves 1–2, [\d,]+ websites\)",
         f"First live per-artifact websites (Waves 1–2, {n_art} websites)",
+        text)
+    # Stats tile: total websites (main sites + per-artifact), hub listed separately.
+    text = re.sub(
+        r'<div class="stat"><div class="n">[\d,]+</div><div class="l">Websites \+ hub</div>'
+        r'<div class="s">counted [\d-]+</div></div>',
+        f'<div class="stat"><div class="n">{total:,}</div><div class="l">Websites + hub</div>'
+        f'<div class="s">counted {today}</div></div>',
+        text)
+    text = re.sub(
+        r'<tr><td>Websites</td><td>[\d,]+, plus the database hub</td><td>[\d-]+</td></tr>',
+        f'<tr><td>Websites</td><td>{total:,}, plus the database hub</td><td>{today}</td></tr>',
         text)
     if text != orig:
         open(path, "w", encoding="utf-8").write(text)
@@ -111,6 +127,12 @@ def main():
     prev = re.search(r"and ([\d,]+) per-artifact websites", hero_now)
     if prev and n_art < int(prev.group(1).replace(",", "")):
         print(f"STATUS: REFUSED — count dropped {prev.group(1)} -> {n_art}; not stamping")
+        return 1
+    prev_tile = re.search(
+        r'<div class="n">([\d,]+)</div><div class="l">Websites \+ hub</div>', hero_now)
+    if prev_tile and m_sites + n_art < int(prev_tile.group(1).replace(",", "")):
+        print(f"STATUS: REFUSED — websites total dropped {prev_tile.group(1)} "
+              f"-> {m_sites + n_art:,}; not stamping")
         return 1
     changed = stamp(MAIN, m_sites, n_art) | stamp(MIRROR, m_sites, n_art)
     if not changed:
