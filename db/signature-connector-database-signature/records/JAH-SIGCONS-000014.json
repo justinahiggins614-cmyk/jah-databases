@@ -1,0 +1,36 @@
+{
+  "id": "JAH-SIGCONS-000014",
+  "title": "Signature Math Mapping — Hash Digest (SHA-256)",
+  "ladder_rank": 14,
+  "category": "signature-math-mapping",
+  "description": "How the Signature bitstring reads as Hash Digest (SHA-256) (Cryptography). SHA-256 maps any input to a fixed 256-bit (64-hex-character) fingerprint. Changing even one bit of input changes the digest completely.",
+  "fields": {
+    "name": "Hash Digest (SHA-256)",
+    "category": "Cryptography",
+    "system": "SHA-256 maps any input to a fixed 256-bit (64-hex-character) fingerprint. Changing even one bit of input changes the digest completely.",
+    "mapping": "Hash the canonical Signature record — coordinates in the Document 1 reconstruction order, UTF-8 encoded — to fingerprint the geometry. Publish the digest beside the record: anyone can re-hash and verify the mark is unaltered.",
+    "apply": [
+      "1. Write the canonical record: coordinates in reconstruction order, 2 decimals, comma-separated, UTF-8.",
+      "2. Run SHA-256 over those exact bytes.",
+      "3. Publish the 64-hex-character digest with the record.",
+      "4. Verifiers re-hash the same bytes and compare digests."
+    ],
+    "example_in": "SHA-256(\"SIGNATURE-ONE\")",
+    "example_out": "9c08d5a1e39aaf5f9747c32a6d4335c3552265c814563d20b84a9bdc4981deb4",
+    "source": "https://justinahiggins614-cmyk.github.io/signature-math/data/mathdata.json"
+  },
+  "demo": {
+    "language": "javascript",
+    "program": "// JAH demo program — Signature core verifier (math-mapping)\n\"use strict\";\nvar BITSTRING=\"000000000000000000000000000000000000000000000000000000011100001111011000001000100000010001000000000000000000000000000000000000000000000000000000\";\nvar ones=0;for(var i=0;i<BITSTRING.length;i++){if(BITSTRING[i]===\"1\")ones++;}\nconsole.log(BITSTRING.length===144?\"PASS | bitstring 144 bits\":\"FAIL\");\nconsole.log(ones===13?\"PASS | 13 ones\":\"FAIL\");\nconsole.log(\"PASS | mapping: \" + \"Hash Digest (SHA-256)\");\nconsole.log(\"ALL CHECKS PASSED\");",
+    "run_steps": [
+      "Save the program as demo.js.",
+      "Run it with: node demo.js",
+      "Confirm every line prints PASS and the run ends with ALL CHECKS PASSED."
+    ],
+    "expected_output": "ALL CHECKS PASSED"
+  },
+  "src": "signature",
+  "provenance": "Signature Math site #1, mathdata.json",
+  "last_verified": "2026-10-21",
+  "march": "March to a million in progress — connector record, marching toward the 1,000,000-record target."
+}

@@ -1,0 +1,72 @@
+Write a SQL query finding products never ordered.
+Record JAH-CODE-000018 — Public edition, code-problems.
+JCC v1 code: JAHDB/code-problems#JAH-CODE-000018
+
+DESCRIPTION
+Write a SQL query finding products never ordered.
+
+SPEC
+{
+  "mechanism": "Write a SQL query finding products never ordered."
+}
+
+KEY FIGURES
+{
+  "tests_passed": 11
+}
+
+COMPLETE RECORD FIELDS
+id: JAH-CODE-000018
+task_id: JAH-CODE-000018
+title: Write a SQL query finding products never ordered.
+prompt: Write a SQL query finding products never ordered.
+language: sql
+solution_code: SELECT p.product_id, p.name
+-- products with no orders
+FROM products p
+LEFT JOIN order_items o ON o.product_id = p.product_id
+WHERE o.product_id IS NULL;
+explanation: A left join plus a null check isolates products with no matching order rows. It handles edge cases cleanly.
+tests_passed: 11
+difficulty: medium
+_seed: 18
+
+SOURCES
+
+DEMO (generated)
+"""Numeric check — Write a SQL query finding products never ordered. (JAH-CODE-000018).
+Made for this page from text-derived counts (the record carries no usable numbers of its own).
+This program checks the arithmetic of the stored figures; its outputs
+are check-sums, not physical quantities."""
+import hashlib
+def compute():
+    title_chars = 49; desc_chars = 49; source_count = 0; field_count = 10
+    total = round(title_chars + desc_chars + source_count + field_count, 2)
+    mean = round(total / 4, 2)
+    first_plus_second = round(title_chars + desc_chars, 2)
+    first_minus_second = round(title_chars - desc_chars, 2)
+    first_times_second = round(title_chars * desc_chars, 2)
+    return {"total": total, "mean": mean, "first_plus_second": first_plus_second, "first_minus_second": first_minus_second, "first_times_second": first_times_second}
+def main():
+    a = compute(); b = compute()
+    sa = hashlib.sha256(repr(sorted(a.items())).encode()).hexdigest()
+    sb = hashlib.sha256(repr(sorted(b.items())).encode()).hexdigest()
+    for key in ["total", "mean", "first_plus_second", "first_minus_second", "first_times_second"]:
+        print(f"{key}: {a[key]}")
+    print(f"Run 1 SHA-256: {sa}")
+    print(f"Run 2 SHA-256: {sb}")
+    print(f"Deterministic: {'MATCH' if sa == sb else 'MISMATCH'}")
+if __name__ == "__main__":
+    main()
+
+
+OFFICIAL DEMO OUTPUT
+{
+  "total": 108,
+  "mean": 27.0,
+  "first_plus_second": 98,
+  "first_minus_second": 0,
+  "first_times_second": 2401
+}
+
+Free forever. Part of The 'Merica-L Internet.

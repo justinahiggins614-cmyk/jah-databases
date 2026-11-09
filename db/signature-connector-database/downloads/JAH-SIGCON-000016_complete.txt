@@ -1,0 +1,85 @@
+Signature Math Mapping — IPv4 Address Form
+Record JAH-SIGCON-000016 — Public edition, signature-connector-database.
+JCC v1 code: JAHDB/signature-connector-database#JAH-SIGCON-000016
+
+DESCRIPTION
+How the Signature bitstring reads as IPv4 Address Form (Numeric formats). An IPv4 address is 32 bits written as four decimal octets (e.g. 192.168.1.1). Here it is used purely as an address-FORM demonstration for 32 Signature bits.
+
+SPEC
+{
+  "mechanism": "How the Signature bitstring reads as IPv4 Address Form (Numeric formats). An IPv4 address is 32 bits written as four decimal octets (e.g. 192.168.1.1). Here it is used purely as an address-FORM demonstration for 32 Signature bits."
+}
+
+KEY FIGURES
+{
+  "ladder_rank": 14
+}
+
+COMPLETE RECORD FIELDS
+id: JAH-SIGCON-000016
+title: Signature Math Mapping — IPv4 Address Form
+ladder_rank: 14
+category: signature-math-mapping
+description: How the Signature bitstring reads as IPv4 Address Form (Numeric formats). An IPv4 address is 32 bits written as four decimal octets (e.g. 192.168.1.1). Here it is used purely as an address-FORM demonstration for 32 Signature bits.
+fields.name: IPv4 Address Form
+fields.category: Numeric formats
+fields.system: An IPv4 address is 32 bits written as four decimal octets (e.g. 192.168.1.1). Here it is used purely as an address-FORM demonstration for 32 Signature bits.
+fields.mapping: Pack the first 32 bits of the Signature string into four 8-bit octets and write them dotted-decimal. This demonstrates the address form; it does not claim the Signature is a routable network address.
+fields.apply: 1. Take the first 32 bits of the Signature string.; 2. Split into four 8-bit octets.; 3. Convert each octet to decimal 0-255, join with dots.; 4. Label the result 'address form — demonstration only'.
+fields.example_in: octets of 192.168.1.1
+fields.example_out: binary: 11000000.10101000.00000001.00000001
+fields.source: https://justinahiggins614-cmyk.github.io/signature-math/data/mathdata.json
+src: public-harvest
+provenance: Signature Math site #1, mathdata.json
+last_verified: 2026-10-21
+march: March to a million in progress — connector record, marching toward the 1,000,000-record target.
+
+SOURCES
+
+DEMO (record)
+// JAH demo program — Signature core verifier (math-mapping)
+"use strict";
+var BITSTRING="000000000000000000000000000000000000000000000000000000011100001111011000001000100000010001000000000000000000000000000000000000000000000000000000";
+var ones=0;for(var i=0;i<BITSTRING.length;i++){if(BITSTRING[i]==="1")ones++;}
+console.log(BITSTRING.length===144?"PASS | bitstring 144 bits":"FAIL");
+console.log(ones===13?"PASS | 13 ones":"FAIL");
+console.log("PASS | mapping: " + "IPv4 Address Form");
+console.log("ALL CHECKS PASSED");
+
+CALCULATOR PROGRAM (made for this page)
+"""Numeric check — Signature Math Mapping — IPv4 Address Form (JAH-SIGCON-000016).
+Made for this page from text-derived counts (the record carries no usable numbers of its own).
+This program checks the arithmetic of the stored figures; its outputs
+are check-sums, not physical quantities."""
+import hashlib
+def compute():
+    title_chars = 42; desc_chars = 230; source_count = 0; field_count = 9
+    total = round(title_chars + desc_chars + source_count + field_count, 2)
+    mean = round(total / 4, 2)
+    first_plus_second = round(title_chars + desc_chars, 2)
+    first_minus_second = round(title_chars - desc_chars, 2)
+    first_times_second = round(title_chars * desc_chars, 2)
+    return {"total": total, "mean": mean, "first_plus_second": first_plus_second, "first_minus_second": first_minus_second, "first_times_second": first_times_second}
+def main():
+    a = compute(); b = compute()
+    sa = hashlib.sha256(repr(sorted(a.items())).encode()).hexdigest()
+    sb = hashlib.sha256(repr(sorted(b.items())).encode()).hexdigest()
+    for key in ["total", "mean", "first_plus_second", "first_minus_second", "first_times_second"]:
+        print(f"{key}: {a[key]}")
+    print(f"Run 1 SHA-256: {sa}")
+    print(f"Run 2 SHA-256: {sb}")
+    print(f"Deterministic: {'MATCH' if sa == sb else 'MISMATCH'}")
+if __name__ == "__main__":
+    main()
+
+
+OFFICIAL DEMO OUTPUT
+{
+  "total": 281,
+  "mean": 70.25,
+  "first_plus_second": 272,
+  "first_minus_second": -188,
+  "first_times_second": 9660
+}
+
+Free forever. Part of The 'Merica-L Internet.

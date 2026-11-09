@@ -1,0 +1,53 @@
+{
+  "title": "Parametrized test loop (Python)",
+  "category": "testing",
+  "language": "python",
+  "description": "One test body over a table of (input, expected) pairs beats copy-pasted test functions. Failures name the case that broke. Worked example: run 4 square cases mentally — inputs bind as written, each step follows the code path described below, and the final value is 4 passed.",
+  "code": "def sq(n):\n    return n * n\n\ncases = [(0, 0), (2, 4), (-3, 9), (10, 100)]\nfor n, want in cases:\n    assert sq(n) == want, n\nprint(\"%d passed\" % len(cases))",
+  "how_it_works": "The loop runs the same assertion per case; the assert message identifies the failing input.",
+  "complexity": "O(cases)",
+  "test_cases": [
+    {
+      "input": "4 square cases",
+      "expected": "4 passed",
+      "note": "Table-driven."
+    },
+    {
+      "input": "4 square cases — second run",
+      "expected": "4 passed",
+      "note": "Determinism check: re-running the snippet reproduces the identical output."
+    }
+  ],
+  "pitfalls": "One bad case aborts the rest — frameworks run all and report each.",
+  "use_cases": "Math functions, parsers, edge tables.",
+  "source": "online",
+  "source_ref": "https://docs.pytest.org/en/stable/how-to/parametrize.html",
+  "creation_mode": "ONLINE-VERIFIED",
+  "id": "JAH-CODE-0000019",
+  "_seed": 19,
+  "demo": {
+    "engine": "jahdb-demo-1.0",
+    "kind": "code",
+    "title": "Runnable code demo — Parametrized test loop (Python)",
+    "language": "python",
+    "program": "# JAH demo program — jahdb-demo-1.0\n# Database: code-database · Record: JAH-CODE-0000019\n# RUN: PC: save as demo.py, run `python3 demo.py`.\n\ndef sq(n):\n    return n * n\n\ncases = [(0, 0), (2, 4), (-3, 9), (10, 100)]\nfor n, want in cases:\n    assert sq(n) == want, n\nprint(\"%d passed\" % len(cases))\n",
+    "run_hint": "PC: save as demo.py, run `python3 demo.py`.",
+    "how_to_run": "PC: save the program as demo.js (or demo.py/demo.sql per language) and run it with node/python3/sqlite3. In-page: open the record, Demo Lab tab, press Run.",
+    "runnable": true,
+    "extras": {
+      "test_cases": [
+        {
+          "input": "4 square cases",
+          "expected": "4 passed",
+          "note": "Table-driven."
+        },
+        {
+          "input": "4 square cases — second run",
+          "expected": "4 passed",
+          "note": "Determinism check: re-running the snippet reproduces the identical output."
+        }
+      ]
+    },
+    "note": "The loop runs the same assertion per case; the assert message identifies the failing input."
+  }
+}

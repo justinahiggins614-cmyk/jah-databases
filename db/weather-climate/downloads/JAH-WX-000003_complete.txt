@@ -1,0 +1,93 @@
+JAH-WX-000003
+Record JAH-WX-000003 — Public edition, weather-climate.
+JCC v1 code: JAHDB/weather-climate#JAH-WX-000003
+
+DESCRIPTION
+JAH-WX-000003
+
+SPEC
+{
+  "mechanism": "JAH-WX-000003"
+}
+
+KEY FIGURES
+{
+  "humidity": 79,
+  "lat": -60.88,
+  "lon": -85.23,
+  "precip_mm": 41.5,
+  "temp_c": 27.89
+}
+
+COMPLETE RECORD FIELDS
+id: JAH-WX-000003
+station_id: WX-NE-0003
+station_name: Fog Hollow Weather Station
+lat: -60.88
+lon: -85.23
+timestamp: 2025-03-03T17:15:00Z
+temp_c: 27.89
+humidity: 79
+precip_mm: 41.5
+condition: storm
+
+SOURCES
+
+DEMO (record)
+/* JAH interactive demo program — jahdb-demo-1.0
+ * Database: weather-climate · Record: JAH-WX-000003 · Fog Hollow Weather Station
+ * Station report: converts units and charts this observation.
+ * RUN ON PC: save as demo.js, then run:  node demo.js
+ * RUN IN BROWSER: press F12, paste this program into the console, press Enter.
+ * RUN IN-PAGE: open this record and press "Run interactive demo". */
+(function(){
+var R={"station":"Fog Hollow Weather Station","lat":-60.88,"lon":-85.23,"time":"2025-03-03T17:15:00Z","temp_c":27.89,"humidity":79,"precip_mm":41.5,"condition":"storm"};
+function cToF(c){return c*9/5+32;}
+function mmToIn(m){return m/25.4;}
+function bar(label,val,max,w){var n=Math.max(0,Math.round(val/max*w));console.log(label.padEnd(12," ")+"|"+"#".repeat(n)+" "+val);}
+console.log("Station: "+R.station+" ("+R.lat+", "+R.lon+")");
+console.log("Time: "+R.time+" · Condition: "+R.condition);
+console.log(R.temp_c+"°C = "+cToF(R.temp_c).toFixed(1)+"°F · humidity "+R.humidity+"% · precip "+R.precip_mm+"mm ("+mmToIn(R.precip_mm).toFixed(2)+"in)");
+console.log("--- observation chart ---");
+bar("temp(C)",R.temp_c,40,30);bar("humidity%",R.humidity,100,30);bar("precip(mm)",R.precip_mm,50,30);
+console.log("Try: cToF(20), mmToIn(25.4)");
+})();
+
+
+CALCULATOR PROGRAM (made for this page)
+"""Numeric check — JAH-WX-000003 (JAH-WX-000003).
+Made for this page from the record's own numbers.
+This program checks the arithmetic of the stored figures; its outputs
+are check-sums, not physical quantities."""
+import hashlib
+def compute():
+    temp_c = 27.890000000000001; precip_mm = 41.5; lat = -60.880000000000003; humidity = 79
+    total = round(temp_c + precip_mm + lat + humidity, 2)
+    mean = round(total / 4, 2)
+    first_plus_second = round(temp_c + precip_mm, 2)
+    first_minus_second = round(temp_c - precip_mm, 2)
+    first_times_second = round(temp_c * precip_mm, 2)
+    return {"total": total, "mean": mean, "first_plus_second": first_plus_second, "first_minus_second": first_minus_second, "first_times_second": first_times_second}
+def main():
+    a = compute(); b = compute()
+    sa = hashlib.sha256(repr(sorted(a.items())).encode()).hexdigest()
+    sb = hashlib.sha256(repr(sorted(b.items())).encode()).hexdigest()
+    for key in ["total", "mean", "first_plus_second", "first_minus_second", "first_times_second"]:
+        print(f"{key}: {a[key]}")
+    print(f"Run 1 SHA-256: {sa}")
+    print(f"Run 2 SHA-256: {sb}")
+    print(f"Deterministic: {'MATCH' if sa == sb else 'MISMATCH'}")
+if __name__ == "__main__":
+    main()
+
+
+OFFICIAL DEMO OUTPUT
+{
+  "total": 87.51,
+  "mean": 21.88,
+  "first_plus_second": 69.39,
+  "first_minus_second": -13.61,
+  "first_times_second": 1157.43
+}
+
+Free forever. Part of The 'Merica-L Internet.

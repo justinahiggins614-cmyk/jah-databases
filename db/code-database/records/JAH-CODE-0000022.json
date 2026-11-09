@@ -1,0 +1,53 @@
+{
+  "title": "Decorator — wrap with logging (Javascript)",
+  "category": "patterns",
+  "language": "javascript",
+  "description": "A decorator wraps a function to add behavior (logging, timing, auth) without changing it. Higher-order functions are JavaScript's native decorator.",
+  "code": "function logged(fn, name) {\n  return (...a) => {\n    const r = fn(...a);\n    console.log(name + \":\" + r);\n    return r;\n  };\n}\nconst add = logged((a, b) => a + b, \"add\");\nadd(2, 3);",
+  "how_it_works": "The wrapper calls through, then logs the result — the original stays untouched.",
+  "complexity": "O(wrapped). Tuning: profile before optimizing; the notes above name the usual bottleneck to measure first.",
+  "test_cases": [
+    {
+      "input": "add(2,3)",
+      "expected": "add:5",
+      "note": "Logged the return value."
+    },
+    {
+      "input": "add(2,3) — second run",
+      "expected": "add:5",
+      "note": "Determinism check: re-running the snippet reproduces the identical output."
+    }
+  ],
+  "pitfalls": "Wrappers must forward arguments and `this` faithfully.",
+  "use_cases": "Logging, metrics, auth guards.",
+  "source": "online",
+  "source_ref": "https://en.wikipedia.org/wiki/Decorator_pattern",
+  "creation_mode": "ONLINE-VERIFIED",
+  "id": "JAH-CODE-0000022",
+  "_seed": 22,
+  "demo": {
+    "engine": "jahdb-demo-1.0",
+    "kind": "code",
+    "title": "Runnable code demo — Decorator — wrap with logging (Javascript)",
+    "language": "javascript",
+    "program": "/* JAH interactive demo program — jahdb-demo-1.0\n * Database: code-database · Record: JAH-CODE-0000022 · Decorator — wrap with logging (Javascript)\n * Runnable code from this record (\"code\") — executes with console output captured.\n * RUN ON PC: save as demo.js, then run:  node demo.js\n * RUN IN BROWSER: press F12, paste this program into the console, press Enter.\n * RUN IN-PAGE: open this record and press \"Run interactive demo\". */\n(function(){\n\"use strict\";\n/* ---- record code (code) ---- */\nfunction logged(fn, name) {\n  return (...a) => {\n    const r = fn(...a);\n    console.log(name + \":\" + r);\n    return r;\n  };\n}\nconst add = logged((a, b) => a + b, \"add\");\nadd(2, 3);\n/* ---- auto-run: call main/demo/solve if the snippet defines one ---- */\ntry{\n  if(typeof main===\"function\"){console.log(\"--- main() output ---\");main();}\n  else if(typeof demo===\"function\"){console.log(\"--- demo() output ---\");demo();}\n  else if(typeof solve===\"function\"){console.log(\"--- solve() output ---\");console.log(solve());}\n}catch(e){console.log(\"runtime note: \"+e.message);}\n})();\n",
+    "run_hint": "PC: save as demo.js, run `node demo.js`. In-page: press Run.",
+    "how_to_run": "PC: save the program as demo.js (or demo.py/demo.sql per language) and run it with node/python3/sqlite3. In-page: open the record, Demo Lab tab, press Run.",
+    "runnable": true,
+    "extras": {
+      "test_cases": [
+        {
+          "input": "add(2,3)",
+          "expected": "add:5",
+          "note": "Logged the return value."
+        },
+        {
+          "input": "add(2,3) — second run",
+          "expected": "add:5",
+          "note": "Determinism check: re-running the snippet reproduces the identical output."
+        }
+      ]
+    },
+    "note": "The wrapper calls through, then logs the result — the original stays untouched."
+  }
+}

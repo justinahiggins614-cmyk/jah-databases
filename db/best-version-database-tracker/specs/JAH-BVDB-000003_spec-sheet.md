@@ -1,0 +1,22 @@
+# Best version of '18th-century': Signature 18th Century Database &mdash; JAH Databases — Spec sheet
+
+Record JAH-BVDB-000003 — Public edition, best-version-database-tracker.
+JCC v1 code: JAHDB/best-version-database-tracker#JAH-BVDB-000003
+
+## Spec
+- **Mechanism:** Best version of the database subject '18th-century': Signature 18th Century Database &mdash; JAH Databases (18th-century-signature), holding 34 records. Why: BEST-VERSION RULE (deterministic, applied identically to every record): 1) the edition / file variant with the highest record_count (or, for files, the greatest byte size, i.e. the most complete variant) wins; 2) tie-break: the Signature edition wins over the public edition (for files: the manifest-declared local_index file wins); 3) final tie-break: alphabetical slug (or filename) order. Losing editions/variants are named with their coun
+
+## Key figures
+- **generator.hard cap:** 1000000000000000
+- **ladder rank:** 3
+- **million march.target:** 1000000
+- **provenance.editions count:** 2
+
+## Official demo output
+- **total:** 1000005
+- **mean:** 333335
+- **first plus second:** 5
+- **first minus second:** -1
+- **first times second:** 6
+
+Free forever. Part of The 'Merica-L Internet.

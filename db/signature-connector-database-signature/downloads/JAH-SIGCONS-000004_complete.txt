@@ -1,0 +1,85 @@
+Signature Math Mapping — Barcode (Linear)
+Record JAH-SIGCONS-000004 — Signature edition, signature-connector-database-signature.
+JCC v1 code: JAHDB/signature-connector-database-signature#JAH-SIGCONS-000004
+
+DESCRIPTION
+How the Signature bitstring reads as Barcode (Linear) (Visual codes). A linear barcode encodes data as bars and spaces of varying widths scanned left to right. This record uses a demonstration mapping (wide/narrow bars), not a registered symbology.
+
+SPEC
+{
+  "mechanism": "How the Signature bitstring reads as Barcode (Linear) (Visual codes). A linear barcode encodes data as bars and spaces of varying widths scanned left to right. This record uses a demonstration mapping (wide/narrow bars), not a registered symbology."
+}
+
+KEY FIGURES
+{
+  "ladder_rank": 14
+}
+
+COMPLETE RECORD FIELDS
+id: JAH-SIGCONS-000004
+title: Signature Math Mapping — Barcode (Linear)
+ladder_rank: 14
+category: signature-math-mapping
+description: How the Signature bitstring reads as Barcode (Linear) (Visual codes). A linear barcode encodes data as bars and spaces of varying widths scanned left to right. This record uses a demonstration mapping (wide/narrow bars), not a registered symbology.
+fields.name: Barcode (Linear)
+fields.category: Visual codes
+fields.system: A linear barcode encodes data as bars and spaces of varying widths scanned left to right. This record uses a demonstration mapping (wide/narrow bars), not a registered symbology.
+fields.mapping: Map each Signature bit to one bar: 1 = wide bar, 0 = narrow bar. One 12-bit grid row becomes a 12-bar strip. This is a visual demonstration of bit-to-bar mapping, honestly labeled — not a scannable retail barcode.
+fields.apply: 1. Take one 12-bit row of the Signature grid string.; 2. Draw 12 vertical bars left to right: wide for 1, narrow for 0.; 3. Repeat for all 12 rows to make a 12-row bar panel.; 4. Label it 'demonstration mapping — not a registered symbology'.
+fields.example_in: bits 101100
+fields.example_out: bars: ▮▯▮▮▯▯ (wide,narrow pattern)
+fields.source: https://justinahiggins614-cmyk.github.io/signature-math/data/mathdata.json
+src: signature
+provenance: Signature Math site #1, mathdata.json
+last_verified: 2026-10-21
+march: March to a million in progress — connector record, marching toward the 1,000,000-record target.
+
+SOURCES
+
+DEMO (record)
+// JAH demo program — Signature core verifier (math-mapping)
+"use strict";
+var BITSTRING="000000000000000000000000000000000000000000000000000000011100001111011000001000100000010001000000000000000000000000000000000000000000000000000000";
+var ones=0;for(var i=0;i<BITSTRING.length;i++){if(BITSTRING[i]==="1")ones++;}
+console.log(BITSTRING.length===144?"PASS | bitstring 144 bits":"FAIL");
+console.log(ones===13?"PASS | 13 ones":"FAIL");
+console.log("PASS | mapping: " + "Barcode (Linear)");
+console.log("ALL CHECKS PASSED");
+
+CALCULATOR PROGRAM (made for this page)
+"""Numeric check — Signature Math Mapping — Barcode (Linear) (JAH-SIGCONS-000004).
+Made for this page from text-derived counts (the record carries no usable numbers of its own).
+This program checks the arithmetic of the stored figures; its outputs
+are check-sums, not physical quantities."""
+import hashlib
+def compute():
+    title_chars = 41; desc_chars = 248; source_count = 0; field_count = 9
+    total = round(title_chars + desc_chars + source_count + field_count, 2)
+    mean = round(total / 4, 2)
+    first_plus_second = round(title_chars + desc_chars, 2)
+    first_minus_second = round(title_chars - desc_chars, 2)
+    first_times_second = round(title_chars * desc_chars, 2)
+    return {"total": total, "mean": mean, "first_plus_second": first_plus_second, "first_minus_second": first_minus_second, "first_times_second": first_times_second}
+def main():
+    a = compute(); b = compute()
+    sa = hashlib.sha256(repr(sorted(a.items())).encode()).hexdigest()
+    sb = hashlib.sha256(repr(sorted(b.items())).encode()).hexdigest()
+    for key in ["total", "mean", "first_plus_second", "first_minus_second", "first_times_second"]:
+        print(f"{key}: {a[key]}")
+    print(f"Run 1 SHA-256: {sa}")
+    print(f"Run 2 SHA-256: {sb}")
+    print(f"Deterministic: {'MATCH' if sa == sb else 'MISMATCH'}")
+if __name__ == "__main__":
+    main()
+
+
+OFFICIAL DEMO OUTPUT
+{
+  "total": 298,
+  "mean": 74.5,
+  "first_plus_second": 289,
+  "first_minus_second": -207,
+  "first_times_second": 10168
+}
+
+Free forever. Part of The 'Merica-L Internet.

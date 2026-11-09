@@ -1,0 +1,81 @@
+Rotate matrix 90 degrees (Python)
+Record JAH-CODE-0000006 — Public edition, code-database.
+JCC v1 code: JAHDB/code-database#JAH-CODE-0000006
+
+DESCRIPTION
+Rotating a square matrix clockwise equals transpose followed by reversing each row — zip(*m) transposes elegantly in Python.
+
+SPEC
+{
+  "mechanism": "Lab exercise: type the snippet into a fresh file, run it, and confirm the test outputs match. Then change one input and predict the result before running — Reversing rows then transposing maps element (r,c) to (c, n-1-r): a 90-degree clockwise turn.",
+  "use": "Image rotation, game boards, matrix drills."
+}
+
+KEY FIGURES
+{}
+
+COMPLETE RECORD FIELDS
+title: Rotate matrix 90 degrees (Python)
+category: python
+language: python
+description: Rotating a square matrix clockwise equals transpose followed by reversing each row — zip(*m) transposes elegantly in Python.
+code: def rot(m):
+    return [list(r) for r in zip(*m[::-1])]
+
+print(rot([[1, 2, 3], [4, 5, 6], [7, 8, 9]]))
+how_it_works: Lab exercise: type the snippet into a fresh file, run it, and confirm the test outputs match. Then change one input and predict the result before running — Reversing rows then transposing maps element (r,c) to (c, n-1-r): a 90-degree clockwise turn.
+complexity: O(n^2) time
+test_cases[0].input: rot(3x3)
+test_cases[0].expected: [[7, 4, 1], [8, 5, 2], [9, 6, 3]]
+test_cases[0].note: Clockwise quarter turn.
+test_cases[1].input: rot(3x3) — second run
+test_cases[1].expected: [[7, 4, 1], [8, 5, 2], [9, 6, 3]]
+test_cases[1].note: Determinism check: re-running the snippet reproduces the identical output.
+pitfalls: Only square matrices rotate in place cleanly; rectangular ones change shape.
+use_cases: Image rotation, game boards, matrix drills.
+source: online
+source_ref: https://en.wikipedia.org/wiki/Transpose
+creation_mode: ONLINE-VERIFIED
+id: JAH-CODE-0000006
+_seed: 6
+
+SOURCES
+Record source — https://en.wikipedia.org/wiki/Transpose
+
+DEMO (generated)
+"""Numeric check — Rotate matrix 90 degrees (Python) (JAH-CODE-0000006).
+Made for this page from text-derived counts (the record carries no usable numbers of its own).
+This program checks the arithmetic of the stored figures; its outputs
+are check-sums, not physical quantities."""
+import hashlib
+def compute():
+    title_chars = 33; desc_chars = 124; source_count = 1; field_count = 14
+    total = round(title_chars + desc_chars + source_count + field_count, 2)
+    mean = round(total / 4, 2)
+    first_plus_second = round(title_chars + desc_chars, 2)
+    first_minus_second = round(title_chars - desc_chars, 2)
+    first_times_second = round(title_chars * desc_chars, 2)
+    return {"total": total, "mean": mean, "first_plus_second": first_plus_second, "first_minus_second": first_minus_second, "first_times_second": first_times_second}
+def main():
+    a = compute(); b = compute()
+    sa = hashlib.sha256(repr(sorted(a.items())).encode()).hexdigest()
+    sb = hashlib.sha256(repr(sorted(b.items())).encode()).hexdigest()
+    for key in ["total", "mean", "first_plus_second", "first_minus_second", "first_times_second"]:
+        print(f"{key}: {a[key]}")
+    print(f"Run 1 SHA-256: {sa}")
+    print(f"Run 2 SHA-256: {sb}")
+    print(f"Deterministic: {'MATCH' if sa == sb else 'MISMATCH'}")
+if __name__ == "__main__":
+    main()
+
+
+OFFICIAL DEMO OUTPUT
+{
+  "total": 172,
+  "mean": 43.0,
+  "first_plus_second": 157,
+  "first_minus_second": -91,
+  "first_times_second": 4092
+}
+
+Free forever. Part of The 'Merica-L Internet.

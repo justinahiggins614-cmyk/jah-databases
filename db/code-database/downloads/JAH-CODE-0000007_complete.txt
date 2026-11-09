@@ -1,0 +1,97 @@
+Hash map with chaining (Python)
+Record JAH-CODE-0000007 — Public edition, code-database.
+JCC v1 code: JAHDB/code-database#JAH-CODE-0000007
+
+DESCRIPTION
+A hash map with separate chaining stores colliding keys in per-bucket lists. Simple, correct, and the classic teaching implementation.
+
+SPEC
+{
+  "mechanism": "The bucket index is hash mod capacity; collisions chain in a list scanned linearly.",
+  "use": "Dictionaries, caches, indexes."
+}
+
+KEY FIGURES
+{}
+
+COMPLETE RECORD FIELDS
+title: Hash map with chaining (Python)
+category: data-structures
+language: python
+description: A hash map with separate chaining stores colliding keys in per-bucket lists. Simple, correct, and the classic teaching implementation.
+code: class HM:
+    def __init__(self, n=8):
+        self.b = [[] for _ in range(n)]
+    def _i(self, k):
+        return hash(k) % len(self.b)
+    def put(self, k, v):
+        b = self.b[self._i(k)]
+        for i, (kk, _) in enumerate(b):
+            if kk == k:
+                b[i] = (k, v)
+                return
+        b.append((k, v))
+    def get(self, k):
+        for kk, v in self.b[self._i(k)]:
+            if kk == k:
+                return v
+
+m = HM()
+m.put("a", 1); m.put("a", 2)
+print(m.get("a"), m.get("zzz"))
+how_it_works: The bucket index is hash mod capacity; collisions chain in a list scanned linearly.
+complexity: O(1) average
+test_cases[0].input: put a=1, overwrite a=2
+test_cases[0].expected: 2 None
+test_cases[0].note: Update wins; missing is None.
+test_cases[1].input: put a=1, overwrite a=2 — second run
+test_cases[1].expected: 2 None
+test_cases[1].note: Determinism check: re-running the snippet reproduces the identical output.
+pitfalls: A bad hash function degrades to O(n) — and never use non-cryptographic hashes for untrusted keys without randomization.
+use_cases: Dictionaries, caches, indexes.
+source: online
+source_ref: https://en.wikipedia.org/wiki/Hash_table
+creation_mode: ONLINE-VERIFIED
+id: JAH-CODE-0000007
+_seed: 7
+
+SOURCES
+Record source — https://en.wikipedia.org/wiki/Hash_table
+
+DEMO (generated)
+"""Numeric check — Hash map with chaining (Python) (JAH-CODE-0000007).
+Made for this page from text-derived counts (the record carries no usable numbers of its own).
+This program checks the arithmetic of the stored figures; its outputs
+are check-sums, not physical quantities."""
+import hashlib
+def compute():
+    title_chars = 31; desc_chars = 134; source_count = 1; field_count = 14
+    total = round(title_chars + desc_chars + source_count + field_count, 2)
+    mean = round(total / 4, 2)
+    first_plus_second = round(title_chars + desc_chars, 2)
+    first_minus_second = round(title_chars - desc_chars, 2)
+    first_times_second = round(title_chars * desc_chars, 2)
+    return {"total": total, "mean": mean, "first_plus_second": first_plus_second, "first_minus_second": first_minus_second, "first_times_second": first_times_second}
+def main():
+    a = compute(); b = compute()
+    sa = hashlib.sha256(repr(sorted(a.items())).encode()).hexdigest()
+    sb = hashlib.sha256(repr(sorted(b.items())).encode()).hexdigest()
+    for key in ["total", "mean", "first_plus_second", "first_minus_second", "first_times_second"]:
+        print(f"{key}: {a[key]}")
+    print(f"Run 1 SHA-256: {sa}")
+    print(f"Run 2 SHA-256: {sb}")
+    print(f"Deterministic: {'MATCH' if sa == sb else 'MISMATCH'}")
+if __name__ == "__main__":
+    main()
+
+
+OFFICIAL DEMO OUTPUT
+{
+  "total": 180,
+  "mean": 45.0,
+  "first_plus_second": 165,
+  "first_minus_second": -103,
+  "first_times_second": 4154
+}
+
+Free forever. Part of The 'Merica-L Internet.

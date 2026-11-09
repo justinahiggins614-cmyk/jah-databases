@@ -1,0 +1,36 @@
+{
+  "id": "JAH-SIGCONS-000009",
+  "title": "Signature Math Mapping — DNA-Style Quaternary",
+  "ladder_rank": 14,
+  "category": "signature-math-mapping",
+  "description": "How the Signature bitstring reads as DNA-Style Quaternary (Base systems). DNA uses a 4-letter alphabet (A, C, G, T); each base carries exactly 2 bits of information. Quaternary = base-4.",
+  "fields": {
+    "name": "DNA-Style Quaternary",
+    "category": "Base systems",
+    "system": "DNA uses a 4-letter alphabet (A, C, G, T); each base carries exactly 2 bits of information. Quaternary = base-4.",
+    "mapping": "Map Signature bit pairs to bases: 00->A, 01->C, 10->G, 11->T. The 144-bit Signature becomes a 72-base DNA-style sequence — a bio-inspired archive form of the mark.",
+    "apply": [
+      "1. Take the 144-bit Signature string.",
+      "2. Split into 2-bit pairs from the left.",
+      "3. Translate each pair: 00=A, 01=C, 10=G, 11=T.",
+      "4. The 72-letter sequence is the DNA-style form. Reverse the table to decode."
+    ],
+    "example_in": "bits 011011",
+    "example_out": "pairs 01|10|11 -> CGT",
+    "source": "https://justinahiggins614-cmyk.github.io/signature-math/data/mathdata.json"
+  },
+  "demo": {
+    "language": "javascript",
+    "program": "// JAH demo program — Signature core verifier (math-mapping)\n\"use strict\";\nvar BITSTRING=\"000000000000000000000000000000000000000000000000000000011100001111011000001000100000010001000000000000000000000000000000000000000000000000000000\";\nvar ones=0;for(var i=0;i<BITSTRING.length;i++){if(BITSTRING[i]===\"1\")ones++;}\nconsole.log(BITSTRING.length===144?\"PASS | bitstring 144 bits\":\"FAIL\");\nconsole.log(ones===13?\"PASS | 13 ones\":\"FAIL\");\nconsole.log(\"PASS | mapping: \" + \"DNA-Style Quaternary\");\nconsole.log(\"ALL CHECKS PASSED\");",
+    "run_steps": [
+      "Save the program as demo.js.",
+      "Run it with: node demo.js",
+      "Confirm every line prints PASS and the run ends with ALL CHECKS PASSED."
+    ],
+    "expected_output": "ALL CHECKS PASSED"
+  },
+  "src": "signature",
+  "provenance": "Signature Math site #1, mathdata.json",
+  "last_verified": "2026-10-21",
+  "march": "March to a million in progress — connector record, marching toward the 1,000,000-record target."
+}

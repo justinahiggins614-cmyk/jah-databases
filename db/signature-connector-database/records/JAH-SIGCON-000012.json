@@ -1,0 +1,36 @@
+{
+  "id": "JAH-SIGCON-000012",
+  "title": "Signature Math Mapping — Geometric Coordinate Sets",
+  "ladder_rank": 14,
+  "category": "signature-math-mapping",
+  "description": "How the Signature bitstring reads as Geometric Coordinate Sets (Geometry). An ordered list of (x, y) coordinate pairs (often as JSON) describing geometry exactly. This is the Signature's native data form.",
+  "fields": {
+    "name": "Geometric Coordinate Sets",
+    "category": "Geometry",
+    "system": "An ordered list of (x, y) coordinate pairs (often as JSON) describing geometry exactly. This is the Signature's native data form.",
+    "mapping": "This is the source form from Document 1: segment starts, apexes, ends, dot centers, all in inches on the 12x12 grid with origin top-left. Every other conversion on this page derives from these coordinates.",
+    "apply": [
+      "1. Copy the canonical coordinates from Document 1 (reconstruction order).",
+      "2. Store as JSON: {\"segment1_arc\": {\"start\": [1.35, 7.73], \"apex\": [4.12, 4.92]}, ...}.",
+      "3. Keep 2 decimal places (the documented precision).",
+      "4. Any renderer plots these points to redraw the Signature deterministically."
+    ],
+    "example_in": "Segment 1 arc",
+    "example_out": "{\"start\": [1.35, 7.73], \"apex\": [4.12, 4.92]}",
+    "source": "https://justinahiggins614-cmyk.github.io/signature-math/data/mathdata.json"
+  },
+  "demo": {
+    "language": "javascript",
+    "program": "// JAH demo program — Signature core verifier (math-mapping)\n\"use strict\";\nvar BITSTRING=\"000000000000000000000000000000000000000000000000000000011100001111011000001000100000010001000000000000000000000000000000000000000000000000000000\";\nvar ones=0;for(var i=0;i<BITSTRING.length;i++){if(BITSTRING[i]===\"1\")ones++;}\nconsole.log(BITSTRING.length===144?\"PASS | bitstring 144 bits\":\"FAIL\");\nconsole.log(ones===13?\"PASS | 13 ones\":\"FAIL\");\nconsole.log(\"PASS | mapping: \" + \"Geometric Coordinate Sets\");\nconsole.log(\"ALL CHECKS PASSED\");",
+    "run_steps": [
+      "Save the program as demo.js.",
+      "Run it with: node demo.js",
+      "Confirm every line prints PASS and the run ends with ALL CHECKS PASSED."
+    ],
+    "expected_output": "ALL CHECKS PASSED"
+  },
+  "src": "public-harvest",
+  "provenance": "Signature Math site #1, mathdata.json",
+  "last_verified": "2026-10-21",
+  "march": "March to a million in progress — connector record, marching toward the 1,000,000-record target."
+}

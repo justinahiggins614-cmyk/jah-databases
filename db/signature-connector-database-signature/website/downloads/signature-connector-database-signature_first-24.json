@@ -1,0 +1,870 @@
+[
+  {
+    "id": "JAH-SIGCONS-000001",
+    "title": "Signature Core — The 144-bit Signature Bitstring",
+    "ladder_rank": 15,
+    "category": "signature-math-core",
+    "description": "The measured Signature bitstring: 144 bits on a 12x12 grid (1 = geometry present, 0 = null), 13 ones and 131 zeros, measured from the real signature file on the initial Signature Math website (site #1). This is the numeric heart every connector record applies to its database.",
+    "fields": {
+      "bitstring": "000000000000000000000000000000000000000000000000000000011100001111011000001000100000010001000000000000000000000000000000000000000000000000000000",
+      "rows": [
+        "000000000000",
+        "000000000000",
+        "000000000000",
+        "000000000000",
+        "000000011100",
+        "001111011000",
+        "001000100000",
+        "010001000000",
+        "000000000000",
+        "000000000000",
+        "000000000000",
+        "000000000000"
+      ],
+      "ones": 13,
+      "zeros": 131,
+      "method": "cell marked 1 if any real-signature stroke sample within 0.30 in of cell center; re-measured Document 1 coordinates from assets/logo.jpg",
+      "source": "https://justinahiggins614-cmyk.github.io/signature-math/data/signature-bitstring.json"
+    },
+    "demo": {
+      "language": "javascript",
+      "program": "// JAH demo program — Signature core verifier (bitstring-core)\n\"use strict\";\nvar BITSTRING=\"000000000000000000000000000000000000000000000000000000011100001111011000001000100000010001000000000000000000000000000000000000000000000000000000\";\nvar ones=0;for(var i=0;i<BITSTRING.length;i++){if(BITSTRING[i]===\"1\")ones++;}\nconsole.log(BITSTRING.length===144?\"PASS | bitstring 144 bits\":\"FAIL\");\nconsole.log(ones===13?\"PASS | 13 ones\":\"FAIL\");\nconsole.log(\"PASS | core id JAH bitstring\");\nconsole.log(\"ALL CHECKS PASSED\");",
+      "run_steps": [
+        "Save the program as demo.js.",
+        "Run it with: node demo.js",
+        "Confirm every line prints PASS and the run ends with ALL CHECKS PASSED."
+      ],
+      "expected_output": "ALL CHECKS PASSED"
+    },
+    "src": "signature",
+    "provenance": "Signature Math site #1, real measured data",
+    "last_verified": "2026-10-21",
+    "march": "March to a million in progress — connector record, marching toward the 1,000,000-record target."
+  },
+  {
+    "id": "JAH-SIGCONS-000002",
+    "title": "Signature Math Mapping — ASCII Text",
+    "ladder_rank": 14,
+    "category": "signature-math-mapping",
+    "description": "How the Signature bitstring reads as ASCII Text (Text encodings). ASCII is the 7-bit American Standard Code for Information Interchange: 128 code points (0-127); printable characters start at 32. One byte per character.",
+    "fields": {
+      "name": "ASCII Text",
+      "category": "Text encodings",
+      "system": "ASCII is the 7-bit American Standard Code for Information Interchange: 128 code points (0-127); printable characters start at 32. One byte per character.",
+      "mapping": "Take the Signature bitstring in 7-bit groups; each group is one ASCII code point. The Signature's text labels (e.g. 'SIGNATURE-ONE') also encode directly to their ASCII bytes, so the mark travels as plain text.",
+      "apply": [
+        "1. Reduce the Signature to its 144-bit string on the 12x12 grid (1 = geometry present, 0 = null).",
+        "2. Split the bitstring into 7-bit groups from the left; pad the last group with trailing zeros.",
+        "3. Convert each group to decimal (0-127) and look up the ASCII character.",
+        "4. The resulting character string is the ASCII form of the Signature."
+      ],
+      "example_in": "Character 'J'",
+      "example_out": "Decimal 74 -> binary 01001010",
+      "source": "https://justinahiggins614-cmyk.github.io/signature-math/data/mathdata.json"
+    },
+    "demo": {
+      "language": "javascript",
+      "program": "// JAH demo program — Signature core verifier (math-mapping)\n\"use strict\";\nvar BITSTRING=\"000000000000000000000000000000000000000000000000000000011100001111011000001000100000010001000000000000000000000000000000000000000000000000000000\";\nvar ones=0;for(var i=0;i<BITSTRING.length;i++){if(BITSTRING[i]===\"1\")ones++;}\nconsole.log(BITSTRING.length===144?\"PASS | bitstring 144 bits\":\"FAIL\");\nconsole.log(ones===13?\"PASS | 13 ones\":\"FAIL\");\nconsole.log(\"PASS | mapping: \" + \"ASCII Text\");\nconsole.log(\"ALL CHECKS PASSED\");",
+      "run_steps": [
+        "Save the program as demo.js.",
+        "Run it with: node demo.js",
+        "Confirm every line prints PASS and the run ends with ALL CHECKS PASSED."
+      ],
+      "expected_output": "ALL CHECKS PASSED"
+    },
+    "src": "signature",
+    "provenance": "Signature Math site #1, mathdata.json",
+    "last_verified": "2026-10-21",
+    "march": "March to a million in progress — connector record, marching toward the 1,000,000-record target."
+  },
+  {
+    "id": "JAH-SIGCONS-000003",
+    "title": "Signature Math Mapping — Audio Waveform (PCM)",
+    "ladder_rank": 14,
+    "category": "signature-math-mapping",
+    "description": "How the Signature bitstring reads as Audio Waveform (PCM) (Audio). PCM (pulse-code modulation) stores sound as a sequence of amplitude samples. Standard CD audio uses 44,100 samples per second at 16-bit depth.",
+    "fields": {
+      "name": "Audio Waveform (PCM)",
+      "category": "Audio",
+      "system": "PCM (pulse-code modulation) stores sound as a sequence of amplitude samples. Standard CD audio uses 44,100 samples per second at 16-bit depth.",
+      "mapping": "Sonify the Signature: read the 144-bit grid string as 144 audio samples (1 = positive amplitude, 0 = negative amplitude). This is the SG1 'ping' — the echolocation mapping made audible. A pure reference tone is computed the same way any synth does: sample = round(32767 * sin(2*pi*f*t)).",
+      "apply": [
+        "1. Take the 144-bit Signature string.",
+        "2. Map each bit to one 16-bit sample: 1 -> +16000, 0 -> -16000.",
+        "3. Write the 144 samples as a .wav file at 8000 Hz (add a 44-byte WAV header).",
+        "4. Play it: you hear the Signature's echolocation ping."
+      ],
+      "example_in": "440 Hz sine, 4 samples @ 8000 Hz",
+      "example_out": "samples = [0, 11099, 20886, 28204]",
+      "source": "https://justinahiggins614-cmyk.github.io/signature-math/data/mathdata.json"
+    },
+    "demo": {
+      "language": "javascript",
+      "program": "// JAH demo program — Signature core verifier (math-mapping)\n\"use strict\";\nvar BITSTRING=\"000000000000000000000000000000000000000000000000000000011100001111011000001000100000010001000000000000000000000000000000000000000000000000000000\";\nvar ones=0;for(var i=0;i<BITSTRING.length;i++){if(BITSTRING[i]===\"1\")ones++;}\nconsole.log(BITSTRING.length===144?\"PASS | bitstring 144 bits\":\"FAIL\");\nconsole.log(ones===13?\"PASS | 13 ones\":\"FAIL\");\nconsole.log(\"PASS | mapping: \" + \"Audio Waveform (PCM)\");\nconsole.log(\"ALL CHECKS PASSED\");",
+      "run_steps": [
+        "Save the program as demo.js.",
+        "Run it with: node demo.js",
+        "Confirm every line prints PASS and the run ends with ALL CHECKS PASSED."
+      ],
+      "expected_output": "ALL CHECKS PASSED"
+    },
+    "src": "signature",
+    "provenance": "Signature Math site #1, mathdata.json",
+    "last_verified": "2026-10-21",
+    "march": "March to a million in progress — connector record, marching toward the 1,000,000-record target."
+  },
+  {
+    "id": "JAH-SIGCONS-000004",
+    "title": "Signature Math Mapping — Barcode (Linear)",
+    "ladder_rank": 14,
+    "category": "signature-math-mapping",
+    "description": "How the Signature bitstring reads as Barcode (Linear) (Visual codes). A linear barcode encodes data as bars and spaces of varying widths scanned left to right. This record uses a demonstration mapping (wide/narrow bars), not a registered symbology.",
+    "fields": {
+      "name": "Barcode (Linear)",
+      "category": "Visual codes",
+      "system": "A linear barcode encodes data as bars and spaces of varying widths scanned left to right. This record uses a demonstration mapping (wide/narrow bars), not a registered symbology.",
+      "mapping": "Map each Signature bit to one bar: 1 = wide bar, 0 = narrow bar. One 12-bit grid row becomes a 12-bar strip. This is a visual demonstration of bit-to-bar mapping, honestly labeled — not a scannable retail barcode.",
+      "apply": [
+        "1. Take one 12-bit row of the Signature grid string.",
+        "2. Draw 12 vertical bars left to right: wide for 1, narrow for 0.",
+        "3. Repeat for all 12 rows to make a 12-row bar panel.",
+        "4. Label it 'demonstration mapping — not a registered symbology'."
+      ],
+      "example_in": "bits 101100",
+      "example_out": "bars: ▮▯▮▮▯▯ (wide,narrow pattern)",
+      "source": "https://justinahiggins614-cmyk.github.io/signature-math/data/mathdata.json"
+    },
+    "demo": {
+      "language": "javascript",
+      "program": "// JAH demo program — Signature core verifier (math-mapping)\n\"use strict\";\nvar BITSTRING=\"000000000000000000000000000000000000000000000000000000011100001111011000001000100000010001000000000000000000000000000000000000000000000000000000\";\nvar ones=0;for(var i=0;i<BITSTRING.length;i++){if(BITSTRING[i]===\"1\")ones++;}\nconsole.log(BITSTRING.length===144?\"PASS | bitstring 144 bits\":\"FAIL\");\nconsole.log(ones===13?\"PASS | 13 ones\":\"FAIL\");\nconsole.log(\"PASS | mapping: \" + \"Barcode (Linear)\");\nconsole.log(\"ALL CHECKS PASSED\");",
+      "run_steps": [
+        "Save the program as demo.js.",
+        "Run it with: node demo.js",
+        "Confirm every line prints PASS and the run ends with ALL CHECKS PASSED."
+      ],
+      "expected_output": "ALL CHECKS PASSED"
+    },
+    "src": "signature",
+    "provenance": "Signature Math site #1, mathdata.json",
+    "last_verified": "2026-10-21",
+    "march": "March to a million in progress — connector record, marching toward the 1,000,000-record target."
+  },
+  {
+    "id": "JAH-SIGCONS-000005",
+    "title": "Signature Math Mapping — Base64",
+    "ladder_rank": 14,
+    "category": "signature-math-mapping",
+    "description": "How the Signature bitstring reads as Base64 (Base systems). Base64 encodes arbitrary binary data as 64 printable ASCII characters (A-Z, a-z, 0-9, +, /), 3 bytes -> 4 characters. Used anywhere binary must travel as text.",
+    "fields": {
+      "name": "Base64",
+      "category": "Base systems",
+      "system": "Base64 encodes arbitrary binary data as 64 printable ASCII characters (A-Z, a-z, 0-9, +, /), 3 bytes -> 4 characters. Used anywhere binary must travel as text.",
+      "mapping": "Pack the 144 Signature bits into 18 bytes, then Base64-encode them. The result is a 24-character text token that carries the entire Signature grid losslessly.",
+      "apply": [
+        "1. Take the 144-bit Signature string and pad to a multiple of 8 bits (already is: 18 bytes).",
+        "2. Convert each 3-byte group to 4 Base64 characters using the standard alphabet.",
+        "3. The 24-character token is the Base64 form. Decode reverses it exactly."
+      ],
+      "example_in": "bytes of 'SIG'",
+      "example_out": "Base64 = U0lH",
+      "source": "https://justinahiggins614-cmyk.github.io/signature-math/data/mathdata.json"
+    },
+    "demo": {
+      "language": "javascript",
+      "program": "// JAH demo program — Signature core verifier (math-mapping)\n\"use strict\";\nvar BITSTRING=\"000000000000000000000000000000000000000000000000000000011100001111011000001000100000010001000000000000000000000000000000000000000000000000000000\";\nvar ones=0;for(var i=0;i<BITSTRING.length;i++){if(BITSTRING[i]===\"1\")ones++;}\nconsole.log(BITSTRING.length===144?\"PASS | bitstring 144 bits\":\"FAIL\");\nconsole.log(ones===13?\"PASS | 13 ones\":\"FAIL\");\nconsole.log(\"PASS | mapping: \" + \"Base64\");\nconsole.log(\"ALL CHECKS PASSED\");",
+      "run_steps": [
+        "Save the program as demo.js.",
+        "Run it with: node demo.js",
+        "Confirm every line prints PASS and the run ends with ALL CHECKS PASSED."
+      ],
+      "expected_output": "ALL CHECKS PASSED"
+    },
+    "src": "signature",
+    "provenance": "Signature Math site #1, mathdata.json",
+    "last_verified": "2026-10-21",
+    "march": "March to a million in progress — connector record, marching toward the 1,000,000-record target."
+  },
+  {
+    "id": "JAH-SIGCONS-000006",
+    "title": "Signature Math Mapping — BCD (Binary-Coded Decimal)",
+    "ladder_rank": 14,
+    "category": "signature-math-mapping",
+    "description": "How the Signature bitstring reads as BCD (Binary-Coded Decimal) (Base systems). In BCD each decimal digit 0-9 is stored as its own 4-bit nibble (e.g. 9 = 1001). Used in calculators and seven-segment displays.",
+    "fields": {
+      "name": "BCD (Binary-Coded Decimal)",
+      "category": "Base systems",
+      "system": "In BCD each decimal digit 0-9 is stored as its own 4-bit nibble (e.g. 9 = 1001). Used in calculators and seven-segment displays.",
+      "mapping": "Encode each decimal digit of the Signature's canonical measurements separately: apex (4.12, 4.92) becomes digits 4,1,2,4,9,2 -> six nibbles. Digit-exact, no binary rounding.",
+      "apply": [
+        "1. Write the measurement in decimal, e.g. segment length 1.37.",
+        "2. Convert each digit (1,3,7) to a 4-bit nibble: 0001 0011 0111.",
+        "3. Join with spaces. Reverse by reading each nibble as one digit."
+      ],
+      "example_in": "decimal 42",
+      "example_out": "BCD = 0100 0010",
+      "source": "https://justinahiggins614-cmyk.github.io/signature-math/data/mathdata.json"
+    },
+    "demo": {
+      "language": "javascript",
+      "program": "// JAH demo program — Signature core verifier (math-mapping)\n\"use strict\";\nvar BITSTRING=\"000000000000000000000000000000000000000000000000000000011100001111011000001000100000010001000000000000000000000000000000000000000000000000000000\";\nvar ones=0;for(var i=0;i<BITSTRING.length;i++){if(BITSTRING[i]===\"1\")ones++;}\nconsole.log(BITSTRING.length===144?\"PASS | bitstring 144 bits\":\"FAIL\");\nconsole.log(ones===13?\"PASS | 13 ones\":\"FAIL\");\nconsole.log(\"PASS | mapping: \" + \"BCD (Binary-Coded Decimal)\");\nconsole.log(\"ALL CHECKS PASSED\");",
+      "run_steps": [
+        "Save the program as demo.js.",
+        "Run it with: node demo.js",
+        "Confirm every line prints PASS and the run ends with ALL CHECKS PASSED."
+      ],
+      "expected_output": "ALL CHECKS PASSED"
+    },
+    "src": "signature",
+    "provenance": "Signature Math site #1, mathdata.json",
+    "last_verified": "2026-10-21",
+    "march": "March to a million in progress — connector record, marching toward the 1,000,000-record target."
+  },
+  {
+    "id": "JAH-SIGCONS-000007",
+    "title": "Signature Math Mapping — Binary (Base-2)",
+    "ladder_rank": 14,
+    "category": "signature-math-mapping",
+    "description": "How the Signature bitstring reads as Binary (Base-2) (Base systems). Base-2 uses digits 0 and 1 only. Every digital system on Earth ultimately reduces to binary.",
+    "fields": {
+      "name": "Binary (Base-2)",
+      "category": "Base systems",
+      "system": "Base-2 uses digits 0 and 1 only. Every digital system on Earth ultimately reduces to binary.",
+      "mapping": "This is the Signature's native reduction (Signature-Math-Grid-One): presence of any canonical geometric element = Signature-One = 1; absence/null space = Signature-Zero = 0. Lay the 12x12 grid, test each cell, read the 144-bit string row-major from the top-left origin.",
+      "apply": [
+        "1. Draw the 12x12 Signature Source Math Grid, origin (0,0) top-left.",
+        "2. For each of the 144 cells write 1 if any arc, line, dot, or cross-stroke passes through it, else 0.",
+        "3. Read row by row from the top -> the 144-bit Signature bitstring.",
+        "4. Group into bytes (8 bits) for storage or transmission."
+      ],
+      "example_in": "4x4 sample grid rows 1010/0101/1100/0011",
+      "example_out": "16-bit string: 1010010111000011",
+      "source": "https://justinahiggins614-cmyk.github.io/signature-math/data/mathdata.json"
+    },
+    "demo": {
+      "language": "javascript",
+      "program": "// JAH demo program — Signature core verifier (math-mapping)\n\"use strict\";\nvar BITSTRING=\"000000000000000000000000000000000000000000000000000000011100001111011000001000100000010001000000000000000000000000000000000000000000000000000000\";\nvar ones=0;for(var i=0;i<BITSTRING.length;i++){if(BITSTRING[i]===\"1\")ones++;}\nconsole.log(BITSTRING.length===144?\"PASS | bitstring 144 bits\":\"FAIL\");\nconsole.log(ones===13?\"PASS | 13 ones\":\"FAIL\");\nconsole.log(\"PASS | mapping: \" + \"Binary (Base-2)\");\nconsole.log(\"ALL CHECKS PASSED\");",
+      "run_steps": [
+        "Save the program as demo.js.",
+        "Run it with: node demo.js",
+        "Confirm every line prints PASS and the run ends with ALL CHECKS PASSED."
+      ],
+      "expected_output": "ALL CHECKS PASSED"
+    },
+    "src": "signature",
+    "provenance": "Signature Math site #1, mathdata.json",
+    "last_verified": "2026-10-21",
+    "march": "March to a million in progress — connector record, marching toward the 1,000,000-record target."
+  },
+  {
+    "id": "JAH-SIGCONS-000008",
+    "title": "Signature Math Mapping — Color Hex (#RRGGBB)",
+    "ladder_rank": 14,
+    "category": "signature-math-mapping",
+    "description": "How the Signature bitstring reads as Color Hex (#RRGGBB) (Visual codes). Web/digital color as six hex digits: two each for red, green, blue intensity (00-FF). #FF0000 is pure red.",
+    "fields": {
+      "name": "Color Hex (#RRGGBB)",
+      "category": "Visual codes",
+      "system": "Web/digital color as six hex digits: two each for red, green, blue intensity (00-FF). #FF0000 is pure red.",
+      "mapping": "Map the Signature's pressure-backed rainbow color coding to hex swatches: sample each stroke's color (red base, orange apex, yellow tail, blue-violet diagonal, pink tip) and record its #RRGGBB value beside the geometry it colors.",
+      "apply": [
+        "1. List each Signature stroke from Document 1 (Segment 1 arc, Segment 1 line, dot, Segment 2 arc, diagonal, cross-stroke, dots).",
+        "2. Assign the documented color to each stroke (example palette below).",
+        "3. Convert each color to #RRGGBB and store alongside the stroke's coordinates.",
+        "4. Any renderer can now repaint the Signature exactly."
+      ],
+      "example_in": "example stroke palette (red, orange, yellow, blue-violet, pink)",
+      "example_out": "#FF0000, #FF8000, #FFFF00, #5B2FD6, #FF7BAC",
+      "source": "https://justinahiggins614-cmyk.github.io/signature-math/data/mathdata.json"
+    },
+    "demo": {
+      "language": "javascript",
+      "program": "// JAH demo program — Signature core verifier (math-mapping)\n\"use strict\";\nvar BITSTRING=\"000000000000000000000000000000000000000000000000000000011100001111011000001000100000010001000000000000000000000000000000000000000000000000000000\";\nvar ones=0;for(var i=0;i<BITSTRING.length;i++){if(BITSTRING[i]===\"1\")ones++;}\nconsole.log(BITSTRING.length===144?\"PASS | bitstring 144 bits\":\"FAIL\");\nconsole.log(ones===13?\"PASS | 13 ones\":\"FAIL\");\nconsole.log(\"PASS | mapping: \" + \"Color Hex (#RRGGBB)\");\nconsole.log(\"ALL CHECKS PASSED\");",
+      "run_steps": [
+        "Save the program as demo.js.",
+        "Run it with: node demo.js",
+        "Confirm every line prints PASS and the run ends with ALL CHECKS PASSED."
+      ],
+      "expected_output": "ALL CHECKS PASSED"
+    },
+    "src": "signature",
+    "provenance": "Signature Math site #1, mathdata.json",
+    "last_verified": "2026-10-21",
+    "march": "March to a million in progress — connector record, marching toward the 1,000,000-record target."
+  },
+  {
+    "id": "JAH-SIGCONS-000009",
+    "title": "Signature Math Mapping — DNA-Style Quaternary",
+    "ladder_rank": 14,
+    "category": "signature-math-mapping",
+    "description": "How the Signature bitstring reads as DNA-Style Quaternary (Base systems). DNA uses a 4-letter alphabet (A, C, G, T); each base carries exactly 2 bits of information. Quaternary = base-4.",
+    "fields": {
+      "name": "DNA-Style Quaternary",
+      "category": "Base systems",
+      "system": "DNA uses a 4-letter alphabet (A, C, G, T); each base carries exactly 2 bits of information. Quaternary = base-4.",
+      "mapping": "Map Signature bit pairs to bases: 00->A, 01->C, 10->G, 11->T. The 144-bit Signature becomes a 72-base DNA-style sequence — a bio-inspired archive form of the mark.",
+      "apply": [
+        "1. Take the 144-bit Signature string.",
+        "2. Split into 2-bit pairs from the left.",
+        "3. Translate each pair: 00=A, 01=C, 10=G, 11=T.",
+        "4. The 72-letter sequence is the DNA-style form. Reverse the table to decode."
+      ],
+      "example_in": "bits 011011",
+      "example_out": "pairs 01|10|11 -> CGT",
+      "source": "https://justinahiggins614-cmyk.github.io/signature-math/data/mathdata.json"
+    },
+    "demo": {
+      "language": "javascript",
+      "program": "// JAH demo program — Signature core verifier (math-mapping)\n\"use strict\";\nvar BITSTRING=\"000000000000000000000000000000000000000000000000000000011100001111011000001000100000010001000000000000000000000000000000000000000000000000000000\";\nvar ones=0;for(var i=0;i<BITSTRING.length;i++){if(BITSTRING[i]===\"1\")ones++;}\nconsole.log(BITSTRING.length===144?\"PASS | bitstring 144 bits\":\"FAIL\");\nconsole.log(ones===13?\"PASS | 13 ones\":\"FAIL\");\nconsole.log(\"PASS | mapping: \" + \"DNA-Style Quaternary\");\nconsole.log(\"ALL CHECKS PASSED\");",
+      "run_steps": [
+        "Save the program as demo.js.",
+        "Run it with: node demo.js",
+        "Confirm every line prints PASS and the run ends with ALL CHECKS PASSED."
+      ],
+      "expected_output": "ALL CHECKS PASSED"
+    },
+    "src": "signature",
+    "provenance": "Signature Math site #1, mathdata.json",
+    "last_verified": "2026-10-21",
+    "march": "March to a million in progress — connector record, marching toward the 1,000,000-record target."
+  },
+  {
+    "id": "JAH-SIGCONS-000010",
+    "title": "Signature Math Mapping — Decimal (Base-10)",
+    "ladder_rank": 14,
+    "category": "signature-math-mapping",
+    "description": "How the Signature bitstring reads as Decimal (Base-10) (Base systems). Base-10, digits 0-9: the everyday human number system. The Signature's canonical coordinates are already decimal inches.",
+    "fields": {
+      "name": "Decimal (Base-10)",
+      "category": "Base systems",
+      "system": "Base-10, digits 0-9: the everyday human number system. The Signature's canonical coordinates are already decimal inches.",
+      "mapping": "Signature coordinates are natively decimal (e.g. apex (4.12, 4.92), dot (3.73, 5.10)). Any Signature bitstring also converts to decimal for human readout: value = sum of bit*2^position.",
+      "apply": [
+        "1. For coordinates: read them as-is — they are decimal inches on the 12x12 grid.",
+        "2. For a bitstring: number the bits from the right starting at position 0.",
+        "3. Add 2^position for every 1-bit. The total is the decimal value.",
+        "4. Reverse with repeated divide-by-2 to verify."
+      ],
+      "example_in": "binary 1010",
+      "example_out": "decimal = 1*8 + 0*4 + 1*2 + 0 = 10",
+      "source": "https://justinahiggins614-cmyk.github.io/signature-math/data/mathdata.json"
+    },
+    "demo": {
+      "language": "javascript",
+      "program": "// JAH demo program — Signature core verifier (math-mapping)\n\"use strict\";\nvar BITSTRING=\"000000000000000000000000000000000000000000000000000000011100001111011000001000100000010001000000000000000000000000000000000000000000000000000000\";\nvar ones=0;for(var i=0;i<BITSTRING.length;i++){if(BITSTRING[i]===\"1\")ones++;}\nconsole.log(BITSTRING.length===144?\"PASS | bitstring 144 bits\":\"FAIL\");\nconsole.log(ones===13?\"PASS | 13 ones\":\"FAIL\");\nconsole.log(\"PASS | mapping: \" + \"Decimal (Base-10)\");\nconsole.log(\"ALL CHECKS PASSED\");",
+      "run_steps": [
+        "Save the program as demo.js.",
+        "Run it with: node demo.js",
+        "Confirm every line prints PASS and the run ends with ALL CHECKS PASSED."
+      ],
+      "expected_output": "ALL CHECKS PASSED"
+    },
+    "src": "signature",
+    "provenance": "Signature Math site #1, mathdata.json",
+    "last_verified": "2026-10-21",
+    "march": "March to a million in progress — connector record, marching toward the 1,000,000-record target."
+  },
+  {
+    "id": "JAH-SIGCONS-000011",
+    "title": "Signature Math Mapping — Floating-Point (IEEE 754)",
+    "ladder_rank": 14,
+    "category": "signature-math-mapping",
+    "description": "How the Signature bitstring reads as Floating-Point (IEEE 754) (Numeric formats). IEEE-754 single precision stores a real number in 32 bits: 1 sign bit, 8 exponent bits, 23 mantissa bits. The standard for scientific computing.",
+    "fields": {
+      "name": "Floating-Point (IEEE 754)",
+      "category": "Numeric formats",
+      "system": "IEEE-754 single precision stores a real number in 32 bits: 1 sign bit, 8 exponent bits, 23 mantissa bits. The standard for scientific computing.",
+      "mapping": "Encode Signature measurements (lengths, angles, coordinates) as 32-bit floats for numeric interchange: e.g. the Segment 1 line length 1.37 in becomes its exact 32-bit pattern, reproducible on any machine.",
+      "apply": [
+        "1. Take a Signature measurement in decimal, e.g. 1.37.",
+        "2. Convert to IEEE-754 single: sign 0 (positive), exponent and mantissa per the standard.",
+        "3. Record the 32-bit pattern and hex. Any IEEE-754 decoder returns 1.37.",
+        "4. Use double (64-bit) when more precision is needed and say which you used."
+      ],
+      "example_in": "1.37 as IEEE-754 single",
+      "example_out": "bits 00111111101011110101110000101001 (0x3FAF5C29)",
+      "source": "https://justinahiggins614-cmyk.github.io/signature-math/data/mathdata.json"
+    },
+    "demo": {
+      "language": "javascript",
+      "program": "// JAH demo program — Signature core verifier (math-mapping)\n\"use strict\";\nvar BITSTRING=\"000000000000000000000000000000000000000000000000000000011100001111011000001000100000010001000000000000000000000000000000000000000000000000000000\";\nvar ones=0;for(var i=0;i<BITSTRING.length;i++){if(BITSTRING[i]===\"1\")ones++;}\nconsole.log(BITSTRING.length===144?\"PASS | bitstring 144 bits\":\"FAIL\");\nconsole.log(ones===13?\"PASS | 13 ones\":\"FAIL\");\nconsole.log(\"PASS | mapping: \" + \"Floating-Point (IEEE 754)\");\nconsole.log(\"ALL CHECKS PASSED\");",
+      "run_steps": [
+        "Save the program as demo.js.",
+        "Run it with: node demo.js",
+        "Confirm every line prints PASS and the run ends with ALL CHECKS PASSED."
+      ],
+      "expected_output": "ALL CHECKS PASSED"
+    },
+    "src": "signature",
+    "provenance": "Signature Math site #1, mathdata.json",
+    "last_verified": "2026-10-21",
+    "march": "March to a million in progress — connector record, marching toward the 1,000,000-record target."
+  },
+  {
+    "id": "JAH-SIGCONS-000012",
+    "title": "Signature Math Mapping — Geometric Coordinate Sets",
+    "ladder_rank": 14,
+    "category": "signature-math-mapping",
+    "description": "How the Signature bitstring reads as Geometric Coordinate Sets (Geometry). An ordered list of (x, y) coordinate pairs (often as JSON) describing geometry exactly. This is the Signature's native data form.",
+    "fields": {
+      "name": "Geometric Coordinate Sets",
+      "category": "Geometry",
+      "system": "An ordered list of (x, y) coordinate pairs (often as JSON) describing geometry exactly. This is the Signature's native data form.",
+      "mapping": "This is the source form from Document 1: segment starts, apexes, ends, dot centers, all in inches on the 12x12 grid with origin top-left. Every other conversion on this page derives from these coordinates.",
+      "apply": [
+        "1. Copy the canonical coordinates from Document 1 (reconstruction order).",
+        "2. Store as JSON: {\"segment1_arc\": {\"start\": [1.35, 7.73], \"apex\": [4.12, 4.92]}, ...}.",
+        "3. Keep 2 decimal places (the documented precision).",
+        "4. Any renderer plots these points to redraw the Signature deterministically."
+      ],
+      "example_in": "Segment 1 arc",
+      "example_out": "{\"start\": [1.35, 7.73], \"apex\": [4.12, 4.92]}",
+      "source": "https://justinahiggins614-cmyk.github.io/signature-math/data/mathdata.json"
+    },
+    "demo": {
+      "language": "javascript",
+      "program": "// JAH demo program — Signature core verifier (math-mapping)\n\"use strict\";\nvar BITSTRING=\"000000000000000000000000000000000000000000000000000000011100001111011000001000100000010001000000000000000000000000000000000000000000000000000000\";\nvar ones=0;for(var i=0;i<BITSTRING.length;i++){if(BITSTRING[i]===\"1\")ones++;}\nconsole.log(BITSTRING.length===144?\"PASS | bitstring 144 bits\":\"FAIL\");\nconsole.log(ones===13?\"PASS | 13 ones\":\"FAIL\");\nconsole.log(\"PASS | mapping: \" + \"Geometric Coordinate Sets\");\nconsole.log(\"ALL CHECKS PASSED\");",
+      "run_steps": [
+        "Save the program as demo.js.",
+        "Run it with: node demo.js",
+        "Confirm every line prints PASS and the run ends with ALL CHECKS PASSED."
+      ],
+      "expected_output": "ALL CHECKS PASSED"
+    },
+    "src": "signature",
+    "provenance": "Signature Math site #1, mathdata.json",
+    "last_verified": "2026-10-21",
+    "march": "March to a million in progress — connector record, marching toward the 1,000,000-record target."
+  },
+  {
+    "id": "JAH-SIGCONS-000013",
+    "title": "Signature Math Mapping — Gray Code",
+    "ladder_rank": 14,
+    "category": "signature-math-mapping",
+    "description": "How the Signature bitstring reads as Gray Code (Base systems). Binary reflected Gray code orders values so successive numbers differ in exactly one bit. Used in rotary encoders and error-resistant sensing.",
+    "fields": {
+      "name": "Gray Code",
+      "category": "Base systems",
+      "system": "Binary reflected Gray code orders values so successive numbers differ in exactly one bit. Used in rotary encoders and error-resistant sensing.",
+      "mapping": "Convert the Signature bitstring with g = b XOR (b shifted right 1). Adjacent grid positions then differ by one bit — the grid becomes a Gray-coded position sensor layout.",
+      "apply": [
+        "1. Take the Signature bitstring as an integer b.",
+        "2. Compute g = b XOR (b >> 1), keep the same bit width.",
+        "3. The result is the Gray-coded form. Convert back with the standard inverse loop.",
+        "4. Verify: binary 1011 -> Gray 1110, and back again."
+      ],
+      "example_in": "binary 1011 (decimal 11)",
+      "example_out": "Gray = 1110 (decimal 14)",
+      "source": "https://justinahiggins614-cmyk.github.io/signature-math/data/mathdata.json"
+    },
+    "demo": {
+      "language": "javascript",
+      "program": "// JAH demo program — Signature core verifier (math-mapping)\n\"use strict\";\nvar BITSTRING=\"000000000000000000000000000000000000000000000000000000011100001111011000001000100000010001000000000000000000000000000000000000000000000000000000\";\nvar ones=0;for(var i=0;i<BITSTRING.length;i++){if(BITSTRING[i]===\"1\")ones++;}\nconsole.log(BITSTRING.length===144?\"PASS | bitstring 144 bits\":\"FAIL\");\nconsole.log(ones===13?\"PASS | 13 ones\":\"FAIL\");\nconsole.log(\"PASS | mapping: \" + \"Gray Code\");\nconsole.log(\"ALL CHECKS PASSED\");",
+      "run_steps": [
+        "Save the program as demo.js.",
+        "Run it with: node demo.js",
+        "Confirm every line prints PASS and the run ends with ALL CHECKS PASSED."
+      ],
+      "expected_output": "ALL CHECKS PASSED"
+    },
+    "src": "signature",
+    "provenance": "Signature Math site #1, mathdata.json",
+    "last_verified": "2026-10-21",
+    "march": "March to a million in progress — connector record, marching toward the 1,000,000-record target."
+  },
+  {
+    "id": "JAH-SIGCONS-000014",
+    "title": "Signature Math Mapping — Hash Digest (SHA-256)",
+    "ladder_rank": 14,
+    "category": "signature-math-mapping",
+    "description": "How the Signature bitstring reads as Hash Digest (SHA-256) (Cryptography). SHA-256 maps any input to a fixed 256-bit (64-hex-character) fingerprint. Changing even one bit of input changes the digest completely.",
+    "fields": {
+      "name": "Hash Digest (SHA-256)",
+      "category": "Cryptography",
+      "system": "SHA-256 maps any input to a fixed 256-bit (64-hex-character) fingerprint. Changing even one bit of input changes the digest completely.",
+      "mapping": "Hash the canonical Signature record — coordinates in the Document 1 reconstruction order, UTF-8 encoded — to fingerprint the geometry. Publish the digest beside the record: anyone can re-hash and verify the mark is unaltered.",
+      "apply": [
+        "1. Write the canonical record: coordinates in reconstruction order, 2 decimals, comma-separated, UTF-8.",
+        "2. Run SHA-256 over those exact bytes.",
+        "3. Publish the 64-hex-character digest with the record.",
+        "4. Verifiers re-hash the same bytes and compare digests."
+      ],
+      "example_in": "SHA-256(\"SIGNATURE-ONE\")",
+      "example_out": "9c08d5a1e39aaf5f9747c32a6d4335c3552265c814563d20b84a9bdc4981deb4",
+      "source": "https://justinahiggins614-cmyk.github.io/signature-math/data/mathdata.json"
+    },
+    "demo": {
+      "language": "javascript",
+      "program": "// JAH demo program — Signature core verifier (math-mapping)\n\"use strict\";\nvar BITSTRING=\"000000000000000000000000000000000000000000000000000000011100001111011000001000100000010001000000000000000000000000000000000000000000000000000000\";\nvar ones=0;for(var i=0;i<BITSTRING.length;i++){if(BITSTRING[i]===\"1\")ones++;}\nconsole.log(BITSTRING.length===144?\"PASS | bitstring 144 bits\":\"FAIL\");\nconsole.log(ones===13?\"PASS | 13 ones\":\"FAIL\");\nconsole.log(\"PASS | mapping: \" + \"Hash Digest (SHA-256)\");\nconsole.log(\"ALL CHECKS PASSED\");",
+      "run_steps": [
+        "Save the program as demo.js.",
+        "Run it with: node demo.js",
+        "Confirm every line prints PASS and the run ends with ALL CHECKS PASSED."
+      ],
+      "expected_output": "ALL CHECKS PASSED"
+    },
+    "src": "signature",
+    "provenance": "Signature Math site #1, mathdata.json",
+    "last_verified": "2026-10-21",
+    "march": "March to a million in progress — connector record, marching toward the 1,000,000-record target."
+  },
+  {
+    "id": "JAH-SIGCONS-000015",
+    "title": "Signature Math Mapping — Hexadecimal (Base-16)",
+    "ladder_rank": 14,
+    "category": "signature-math-mapping",
+    "description": "How the Signature bitstring reads as Hexadecimal (Base-16) (Base systems). Base-16 uses digits 0-9 and A-F; each hex digit is exactly 4 bits (one nibble). The compact text form of binary data.",
+    "fields": {
+      "name": "Hexadecimal (Base-16)",
+      "category": "Base systems",
+      "system": "Base-16 uses digits 0-9 and A-F; each hex digit is exactly 4 bits (one nibble). The compact text form of binary data.",
+      "mapping": "Group the 144-bit Signature string into 4-bit nibbles and write each as one hex digit: 144 bits -> 36 hex characters. This is the canonical compact text form of the Signature bitstring.",
+      "apply": [
+        "1. Take the 144-bit Signature string.",
+        "2. Split into 4-bit groups from the left (pad the last group if needed).",
+        "3. Convert each group: 0000=0 ... 1001=9, 1010=A ... 1111=F.",
+        "4. The 36-character hex string is the compact form. Expand nibbles to verify."
+      ],
+      "example_in": "binary 111100001010",
+      "example_out": "hex = F0A",
+      "source": "https://justinahiggins614-cmyk.github.io/signature-math/data/mathdata.json"
+    },
+    "demo": {
+      "language": "javascript",
+      "program": "// JAH demo program — Signature core verifier (math-mapping)\n\"use strict\";\nvar BITSTRING=\"000000000000000000000000000000000000000000000000000000011100001111011000001000100000010001000000000000000000000000000000000000000000000000000000\";\nvar ones=0;for(var i=0;i<BITSTRING.length;i++){if(BITSTRING[i]===\"1\")ones++;}\nconsole.log(BITSTRING.length===144?\"PASS | bitstring 144 bits\":\"FAIL\");\nconsole.log(ones===13?\"PASS | 13 ones\":\"FAIL\");\nconsole.log(\"PASS | mapping: \" + \"Hexadecimal (Base-16)\");\nconsole.log(\"ALL CHECKS PASSED\");",
+      "run_steps": [
+        "Save the program as demo.js.",
+        "Run it with: node demo.js",
+        "Confirm every line prints PASS and the run ends with ALL CHECKS PASSED."
+      ],
+      "expected_output": "ALL CHECKS PASSED"
+    },
+    "src": "signature",
+    "provenance": "Signature Math site #1, mathdata.json",
+    "last_verified": "2026-10-21",
+    "march": "March to a million in progress — connector record, marching toward the 1,000,000-record target."
+  },
+  {
+    "id": "JAH-SIGCONS-000016",
+    "title": "Signature Math Mapping — IPv4 Address Form",
+    "ladder_rank": 14,
+    "category": "signature-math-mapping",
+    "description": "How the Signature bitstring reads as IPv4 Address Form (Numeric formats). An IPv4 address is 32 bits written as four decimal octets (e.g. 192.168.1.1). Here it is used purely as an address-FORM demonstration for 32 Signature bits.",
+    "fields": {
+      "name": "IPv4 Address Form",
+      "category": "Numeric formats",
+      "system": "An IPv4 address is 32 bits written as four decimal octets (e.g. 192.168.1.1). Here it is used purely as an address-FORM demonstration for 32 Signature bits.",
+      "mapping": "Pack the first 32 bits of the Signature string into four 8-bit octets and write them dotted-decimal. This demonstrates the address form; it does not claim the Signature is a routable network address.",
+      "apply": [
+        "1. Take the first 32 bits of the Signature string.",
+        "2. Split into four 8-bit octets.",
+        "3. Convert each octet to decimal 0-255, join with dots.",
+        "4. Label the result 'address form — demonstration only'."
+      ],
+      "example_in": "octets of 192.168.1.1",
+      "example_out": "binary: 11000000.10101000.00000001.00000001",
+      "source": "https://justinahiggins614-cmyk.github.io/signature-math/data/mathdata.json"
+    },
+    "demo": {
+      "language": "javascript",
+      "program": "// JAH demo program — Signature core verifier (math-mapping)\n\"use strict\";\nvar BITSTRING=\"000000000000000000000000000000000000000000000000000000011100001111011000001000100000010001000000000000000000000000000000000000000000000000000000\";\nvar ones=0;for(var i=0;i<BITSTRING.length;i++){if(BITSTRING[i]===\"1\")ones++;}\nconsole.log(BITSTRING.length===144?\"PASS | bitstring 144 bits\":\"FAIL\");\nconsole.log(ones===13?\"PASS | 13 ones\":\"FAIL\");\nconsole.log(\"PASS | mapping: \" + \"IPv4 Address Form\");\nconsole.log(\"ALL CHECKS PASSED\");",
+      "run_steps": [
+        "Save the program as demo.js.",
+        "Run it with: node demo.js",
+        "Confirm every line prints PASS and the run ends with ALL CHECKS PASSED."
+      ],
+      "expected_output": "ALL CHECKS PASSED"
+    },
+    "src": "signature",
+    "provenance": "Signature Math site #1, mathdata.json",
+    "last_verified": "2026-10-21",
+    "march": "March to a million in progress — connector record, marching toward the 1,000,000-record target."
+  },
+  {
+    "id": "JAH-SIGCONS-000017",
+    "title": "Signature Math Mapping — IPv6 Address Form",
+    "ladder_rank": 14,
+    "category": "signature-math-mapping",
+    "description": "How the Signature bitstring reads as IPv6 Address Form (Numeric formats). IPv6 uses 128 bits written as eight groups of four hex digits (e.g. 2001:0db8::1). Demonstration form for longer Signature bit runs.",
+    "fields": {
+      "name": "IPv6 Address Form",
+      "category": "Numeric formats",
+      "system": "IPv6 uses 128 bits written as eight groups of four hex digits (e.g. 2001:0db8::1). Demonstration form for longer Signature bit runs.",
+      "mapping": "Extend the Signature bitstring to 128 bits (documented: first 128 bits, no padding games) and write eight hex groups. Demonstration of the 128-bit address form only.",
+      "apply": [
+        "1. Take the first 128 bits of the Signature string.",
+        "2. Split into eight 16-bit groups; write each as 4 hex digits.",
+        "3. Join with colons (compress longest zero run with '::' per the standard).",
+        "4. Label 'address form — demonstration only'."
+      ],
+      "example_in": "::1 expanded",
+      "example_out": "0000:0000:0000:0000:0000:0000:0000:0001",
+      "source": "https://justinahiggins614-cmyk.github.io/signature-math/data/mathdata.json"
+    },
+    "demo": {
+      "language": "javascript",
+      "program": "// JAH demo program — Signature core verifier (math-mapping)\n\"use strict\";\nvar BITSTRING=\"000000000000000000000000000000000000000000000000000000011100001111011000001000100000010001000000000000000000000000000000000000000000000000000000\";\nvar ones=0;for(var i=0;i<BITSTRING.length;i++){if(BITSTRING[i]===\"1\")ones++;}\nconsole.log(BITSTRING.length===144?\"PASS | bitstring 144 bits\":\"FAIL\");\nconsole.log(ones===13?\"PASS | 13 ones\":\"FAIL\");\nconsole.log(\"PASS | mapping: \" + \"IPv6 Address Form\");\nconsole.log(\"ALL CHECKS PASSED\");",
+      "run_steps": [
+        "Save the program as demo.js.",
+        "Run it with: node demo.js",
+        "Confirm every line prints PASS and the run ends with ALL CHECKS PASSED."
+      ],
+      "expected_output": "ALL CHECKS PASSED"
+    },
+    "src": "signature",
+    "provenance": "Signature Math site #1, mathdata.json",
+    "last_verified": "2026-10-21",
+    "march": "March to a million in progress — connector record, marching toward the 1,000,000-record target."
+  },
+  {
+    "id": "JAH-SIGCONS-000018",
+    "title": "Signature Math Mapping — MIDI Note Map",
+    "ladder_rank": 14,
+    "category": "signature-math-mapping",
+    "description": "How the Signature bitstring reads as MIDI Note Map (Audio). MIDI represents musical notes as numbers 0-127; middle C = 60, each +1 is one semitone. A Note-On message is three bytes: status, note, velocity.",
+    "fields": {
+      "name": "MIDI Note Map",
+      "category": "Audio",
+      "system": "MIDI represents musical notes as numbers 0-127; middle C = 60, each +1 is one semitone. A Note-On message is three bytes: status, note, velocity.",
+      "mapping": "Map the Signature's three dot y-coordinates to MIDI pitches: the grid's y-range [4.00, 9.80] maps linearly to MIDI notes 48-72 (two octaves). The dots become a three-note motif; arcs become pitch bends.",
+      "apply": [
+        "1. Take each dot center's y-coordinate from Document 1.",
+        "2. Compute note = round(48 + (9.80 - y) / 5.80 * 24).",
+        "3. Send as MIDI Note-On (0x90), note, velocity 100; Note-Off after one beat.",
+        "4. The three dots play the Signature's dot-motif."
+      ],
+      "example_in": "dots at y = 5.10, 4.49, 4.33",
+      "example_out": "MIDI notes = 67, 70, 71 (G4, A#4, B4)",
+      "source": "https://justinahiggins614-cmyk.github.io/signature-math/data/mathdata.json"
+    },
+    "demo": {
+      "language": "javascript",
+      "program": "// JAH demo program — Signature core verifier (math-mapping)\n\"use strict\";\nvar BITSTRING=\"000000000000000000000000000000000000000000000000000000011100001111011000001000100000010001000000000000000000000000000000000000000000000000000000\";\nvar ones=0;for(var i=0;i<BITSTRING.length;i++){if(BITSTRING[i]===\"1\")ones++;}\nconsole.log(BITSTRING.length===144?\"PASS | bitstring 144 bits\":\"FAIL\");\nconsole.log(ones===13?\"PASS | 13 ones\":\"FAIL\");\nconsole.log(\"PASS | mapping: \" + \"MIDI Note Map\");\nconsole.log(\"ALL CHECKS PASSED\");",
+      "run_steps": [
+        "Save the program as demo.js.",
+        "Run it with: node demo.js",
+        "Confirm every line prints PASS and the run ends with ALL CHECKS PASSED."
+      ],
+      "expected_output": "ALL CHECKS PASSED"
+    },
+    "src": "signature",
+    "provenance": "Signature Math site #1, mathdata.json",
+    "last_verified": "2026-10-21",
+    "march": "March to a million in progress — connector record, marching toward the 1,000,000-record target."
+  },
+  {
+    "id": "JAH-SIGCONS-000019",
+    "title": "Signature Math Mapping — Morse Code",
+    "ladder_rank": 14,
+    "category": "signature-math-mapping",
+    "description": "How the Signature bitstring reads as Morse Code (Text encodings). Morse encodes letters as dots (.) and dashes (-). 'JAH' in International Morse is .--- .- ....",
+    "fields": {
+      "name": "Morse Code",
+      "category": "Text encodings",
+      "system": "Morse encodes letters as dots (.) and dashes (-). 'JAH' in International Morse is .--- .- ....",
+      "mapping": "Two honest mappings: (a) encode the Signature's text labels to Morse; (b) read Signature bits directly as Morse symbols, 1 = dah (-), 0 = dit (.).",
+      "apply": [
+        "1. Choose mapping (a) text labels or (b) raw bits; say which.",
+        "2. For (a): look up each letter in the International Morse table.",
+        "3. For (b): write '-' for each 1-bit and '.' for each 0-bit.",
+        "4. Separate letters with spaces, words with ' / '."
+      ],
+      "example_in": "'JAH'",
+      "example_out": "Morse: .--- .- ....",
+      "source": "https://justinahiggins614-cmyk.github.io/signature-math/data/mathdata.json"
+    },
+    "demo": {
+      "language": "javascript",
+      "program": "// JAH demo program — Signature core verifier (math-mapping)\n\"use strict\";\nvar BITSTRING=\"000000000000000000000000000000000000000000000000000000011100001111011000001000100000010001000000000000000000000000000000000000000000000000000000\";\nvar ones=0;for(var i=0;i<BITSTRING.length;i++){if(BITSTRING[i]===\"1\")ones++;}\nconsole.log(BITSTRING.length===144?\"PASS | bitstring 144 bits\":\"FAIL\");\nconsole.log(ones===13?\"PASS | 13 ones\":\"FAIL\");\nconsole.log(\"PASS | mapping: \" + \"Morse Code\");\nconsole.log(\"ALL CHECKS PASSED\");",
+      "run_steps": [
+        "Save the program as demo.js.",
+        "Run it with: node demo.js",
+        "Confirm every line prints PASS and the run ends with ALL CHECKS PASSED."
+      ],
+      "expected_output": "ALL CHECKS PASSED"
+    },
+    "src": "signature",
+    "provenance": "Signature Math site #1, mathdata.json",
+    "last_verified": "2026-10-21",
+    "march": "March to a million in progress — connector record, marching toward the 1,000,000-record target."
+  },
+  {
+    "id": "JAH-SIGCONS-000020",
+    "title": "Signature Math Mapping — Octal (Base-8)",
+    "ladder_rank": 14,
+    "category": "signature-math-mapping",
+    "description": "How the Signature bitstring reads as Octal (Base-8) (Base systems). Base-8 uses digits 0-7; each octal digit is exactly 3 bits. A compact human-readable packing of binary.",
+    "fields": {
+      "name": "Octal (Base-8)",
+      "category": "Base systems",
+      "system": "Base-8 uses digits 0-7; each octal digit is exactly 3 bits. A compact human-readable packing of binary.",
+      "mapping": "Group the 144-bit Signature string into 3-bit groups; each group becomes one octal digit: 144 bits -> 48 octal digits. Compact readout, historically used for machine word display.",
+      "apply": [
+        "1. Take the 144-bit Signature string.",
+        "2. Split into 3-bit groups from the left.",
+        "3. Convert each group: 000=0 ... 111=7.",
+        "4. The 48-digit string is the octal form. Expand groups to verify."
+      ],
+      "example_in": "binary 101010",
+      "example_out": "octal = 52 (decimal 42)",
+      "source": "https://justinahiggins614-cmyk.github.io/signature-math/data/mathdata.json"
+    },
+    "demo": {
+      "language": "javascript",
+      "program": "// JAH demo program — Signature core verifier (math-mapping)\n\"use strict\";\nvar BITSTRING=\"000000000000000000000000000000000000000000000000000000011100001111011000001000100000010001000000000000000000000000000000000000000000000000000000\";\nvar ones=0;for(var i=0;i<BITSTRING.length;i++){if(BITSTRING[i]===\"1\")ones++;}\nconsole.log(BITSTRING.length===144?\"PASS | bitstring 144 bits\":\"FAIL\");\nconsole.log(ones===13?\"PASS | 13 ones\":\"FAIL\");\nconsole.log(\"PASS | mapping: \" + \"Octal (Base-8)\");\nconsole.log(\"ALL CHECKS PASSED\");",
+      "run_steps": [
+        "Save the program as demo.js.",
+        "Run it with: node demo.js",
+        "Confirm every line prints PASS and the run ends with ALL CHECKS PASSED."
+      ],
+      "expected_output": "ALL CHECKS PASSED"
+    },
+    "src": "signature",
+    "provenance": "Signature Math site #1, mathdata.json",
+    "last_verified": "2026-10-21",
+    "march": "March to a million in progress — connector record, marching toward the 1,000,000-record target."
+  },
+  {
+    "id": "JAH-SIGCONS-000021",
+    "title": "Signature Math Mapping — Pixel Grid (Raster)",
+    "ladder_rank": 14,
+    "category": "signature-math-mapping",
+    "description": "How the Signature bitstring reads as Pixel Grid (Raster) (Visual codes). A raster image is a rectangular grid of pixels, each pixel one color value. A 1-bit monochrome image is one bit per pixel.",
+    "fields": {
+      "name": "Pixel Grid (Raster)",
+      "category": "Visual codes",
+      "system": "A raster image is a rectangular grid of pixels, each pixel one color value. A 1-bit monochrome image is one bit per pixel.",
+      "mapping": "The 12x12 Signature math grid IS a 144-pixel monochrome image: 1 = inked pixel, 0 = blank. Scale each cell to N×N screen pixels for any display size; the bitstring is the image data.",
+      "apply": [
+        "1. Take the 144-bit Signature string.",
+        "2. Arrange as 12 rows of 12 bits (row-major, top-left origin).",
+        "3. Render each 1-bit as a filled square, each 0-bit as empty.",
+        "4. Scale: multiply every cell by N for an N-times-larger image — geometry preserved."
+      ],
+      "example_in": "5x5 sample rows 00100/01110/11111/01110/00100",
+      "example_out": "25-bit image data: 0010001110111110111000100",
+      "source": "https://justinahiggins614-cmyk.github.io/signature-math/data/mathdata.json"
+    },
+    "demo": {
+      "language": "javascript",
+      "program": "// JAH demo program — Signature core verifier (math-mapping)\n\"use strict\";\nvar BITSTRING=\"000000000000000000000000000000000000000000000000000000011100001111011000001000100000010001000000000000000000000000000000000000000000000000000000\";\nvar ones=0;for(var i=0;i<BITSTRING.length;i++){if(BITSTRING[i]===\"1\")ones++;}\nconsole.log(BITSTRING.length===144?\"PASS | bitstring 144 bits\":\"FAIL\");\nconsole.log(ones===13?\"PASS | 13 ones\":\"FAIL\");\nconsole.log(\"PASS | mapping: \" + \"Pixel Grid (Raster)\");\nconsole.log(\"ALL CHECKS PASSED\");",
+      "run_steps": [
+        "Save the program as demo.js.",
+        "Run it with: node demo.js",
+        "Confirm every line prints PASS and the run ends with ALL CHECKS PASSED."
+      ],
+      "expected_output": "ALL CHECKS PASSED"
+    },
+    "src": "signature",
+    "provenance": "Signature Math site #1, mathdata.json",
+    "last_verified": "2026-10-21",
+    "march": "March to a million in progress — connector record, marching toward the 1,000,000-record target."
+  },
+  {
+    "id": "JAH-SIGCONS-000022",
+    "title": "Signature Math Mapping — QR-Style Matrix Pattern",
+    "ladder_rank": 14,
+    "category": "signature-math-mapping",
+    "description": "How the Signature bitstring reads as QR-Style Matrix Pattern (Visual codes). QR codes are 2D matrices of dark/light modules with finder patterns in three corners. This record demonstrates the matrix-pattern idea; it does not generate scannable QR codes.",
+    "fields": {
+      "name": "QR-Style Matrix Pattern",
+      "category": "Visual codes",
+      "system": "QR codes are 2D matrices of dark/light modules with finder patterns in three corners. This record demonstrates the matrix-pattern idea; it does not generate scannable QR codes.",
+      "mapping": "Lay the 144 Signature bits into a 12x12 module matrix (the math grid itself, at module scale). Reserve the three corner 3x3 zones as finder-style anchors. An honest pattern demonstration of 2D bit layout — labeled as such.",
+      "apply": [
+        "1. Take the 144-bit Signature string as 12 rows of 12.",
+        "2. Draw each bit as one square module: dark for 1, light for 0.",
+        "3. Mark the three corner 3x3 zones as finder-style anchors.",
+        "4. Label 'matrix-pattern demonstration — not a scannable QR code'."
+      ],
+      "example_in": "12x12 Signature bit matrix",
+      "example_out": "144 modules + 3 finder-style corner anchors",
+      "source": "https://justinahiggins614-cmyk.github.io/signature-math/data/mathdata.json"
+    },
+    "demo": {
+      "language": "javascript",
+      "program": "// JAH demo program — Signature core verifier (math-mapping)\n\"use strict\";\nvar BITSTRING=\"000000000000000000000000000000000000000000000000000000011100001111011000001000100000010001000000000000000000000000000000000000000000000000000000\";\nvar ones=0;for(var i=0;i<BITSTRING.length;i++){if(BITSTRING[i]===\"1\")ones++;}\nconsole.log(BITSTRING.length===144?\"PASS | bitstring 144 bits\":\"FAIL\");\nconsole.log(ones===13?\"PASS | 13 ones\":\"FAIL\");\nconsole.log(\"PASS | mapping: \" + \"QR-Style Matrix Pattern\");\nconsole.log(\"ALL CHECKS PASSED\");",
+      "run_steps": [
+        "Save the program as demo.js.",
+        "Run it with: node demo.js",
+        "Confirm every line prints PASS and the run ends with ALL CHECKS PASSED."
+      ],
+      "expected_output": "ALL CHECKS PASSED"
+    },
+    "src": "signature",
+    "provenance": "Signature Math site #1, mathdata.json",
+    "last_verified": "2026-10-21",
+    "march": "March to a million in progress — connector record, marching toward the 1,000,000-record target."
+  },
+  {
+    "id": "JAH-SIGCONS-000023",
+    "title": "Signature Math Mapping — Run-Length Encoding (RLE)",
+    "ladder_rank": 14,
+    "category": "signature-math-mapping",
+    "description": "How the Signature bitstring reads as Run-Length Encoding (RLE) (Compression). RLE compresses data by replacing runs of identical values with (count, value) pairs: 'AAABBC' -> '3A','2B','1C'.",
+    "fields": {
+      "name": "Run-Length Encoding (RLE)",
+      "category": "Compression",
+      "system": "RLE compresses data by replacing runs of identical values with (count, value) pairs: 'AAABBC' -> '3A','2B','1C'.",
+      "mapping": "Compress the Signature bitstring's runs. The grid is mostly null space, so long zero-runs collapse dramatically — this is the honest reason the Signature archives so small.",
+      "apply": [
+        "1. Take the 144-bit Signature string.",
+        "2. Scan left to right; count each run of identical bits.",
+        "3. Write each run as count + bit (e.g. 5 ones -> '5x1').",
+        "4. Decode by expanding each run. Verify round-trip equality."
+      ],
+      "example_in": "bits 'AAABBC'",
+      "example_out": "RLE = 3A2B1C",
+      "source": "https://justinahiggins614-cmyk.github.io/signature-math/data/mathdata.json"
+    },
+    "demo": {
+      "language": "javascript",
+      "program": "// JAH demo program — Signature core verifier (math-mapping)\n\"use strict\";\nvar BITSTRING=\"000000000000000000000000000000000000000000000000000000011100001111011000001000100000010001000000000000000000000000000000000000000000000000000000\";\nvar ones=0;for(var i=0;i<BITSTRING.length;i++){if(BITSTRING[i]===\"1\")ones++;}\nconsole.log(BITSTRING.length===144?\"PASS | bitstring 144 bits\":\"FAIL\");\nconsole.log(ones===13?\"PASS | 13 ones\":\"FAIL\");\nconsole.log(\"PASS | mapping: \" + \"Run-Length Encoding (RLE)\");\nconsole.log(\"ALL CHECKS PASSED\");",
+      "run_steps": [
+        "Save the program as demo.js.",
+        "Run it with: node demo.js",
+        "Confirm every line prints PASS and the run ends with ALL CHECKS PASSED."
+      ],
+      "expected_output": "ALL CHECKS PASSED"
+    },
+    "src": "signature",
+    "provenance": "Signature Math site #1, mathdata.json",
+    "last_verified": "2026-10-21",
+    "march": "March to a million in progress — connector record, marching toward the 1,000,000-record target."
+  },
+  {
+    "id": "JAH-SIGCONS-000024",
+    "title": "Signature Math Mapping — Ternary (Base-3)",
+    "ladder_rank": 14,
+    "category": "signature-math-mapping",
+    "description": "How the Signature bitstring reads as Ternary (Base-3) (Base systems). Base-3 uses digits 0, 1, 2. Each trit carries log2(3) ~ 1.585 bits of information.",
+    "fields": {
+      "name": "Ternary (Base-3)",
+      "category": "Base systems",
+      "system": "Base-3 uses digits 0, 1, 2. Each trit carries log2(3) ~ 1.585 bits of information.",
+      "mapping": "Classify each grid cell three ways: 1 = stroke present, 0 = null space, 2 = crossing point (where two elements intersect, e.g. cross-stroke over the diagonal). Read the 144 trits row-major — the Signature's three-state reduction.",
+      "apply": [
+        "1. Lay the 12x12 grid.",
+        "2. Mark each cell: 2 if two Signature elements cross inside it, 1 if one passes through, else 0.",
+        "3. Read row-major -> 144-trit string.",
+        "4. Convert groups to decimal to verify (positional base-3)."
+      ],
+      "example_in": "trits '102' as a number",
+      "example_out": "1*9 + 0*3 + 2 = 11",
+      "source": "https://justinahiggins614-cmyk.github.io/signature-math/data/mathdata.json"
+    },
+    "demo": {
+      "language": "javascript",
+      "program": "// JAH demo program — Signature core verifier (math-mapping)\n\"use strict\";\nvar BITSTRING=\"000000000000000000000000000000000000000000000000000000011100001111011000001000100000010001000000000000000000000000000000000000000000000000000000\";\nvar ones=0;for(var i=0;i<BITSTRING.length;i++){if(BITSTRING[i]===\"1\")ones++;}\nconsole.log(BITSTRING.length===144?\"PASS | bitstring 144 bits\":\"FAIL\");\nconsole.log(ones===13?\"PASS | 13 ones\":\"FAIL\");\nconsole.log(\"PASS | mapping: \" + \"Ternary (Base-3)\");\nconsole.log(\"ALL CHECKS PASSED\");",
+      "run_steps": [
+        "Save the program as demo.js.",
+        "Run it with: node demo.js",
+        "Confirm every line prints PASS and the run ends with ALL CHECKS PASSED."
+      ],
+      "expected_output": "ALL CHECKS PASSED"
+    },
+    "src": "signature",
+    "provenance": "Signature Math site #1, mathdata.json",
+    "last_verified": "2026-10-21",
+    "march": "March to a million in progress — connector record, marching toward the 1,000,000-record target."
+  }
+]

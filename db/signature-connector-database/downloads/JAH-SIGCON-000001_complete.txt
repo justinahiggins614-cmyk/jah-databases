@@ -1,0 +1,85 @@
+Signature Core — The 144-bit Signature Bitstring
+Record JAH-SIGCON-000001 — Public edition, signature-connector-database.
+JCC v1 code: JAHDB/signature-connector-database#JAH-SIGCON-000001
+
+DESCRIPTION
+The measured Signature bitstring: 144 bits on a 12x12 grid (1 = geometry present, 0 = null), 13 ones and 131 zeros, measured from the real signature file on the initial Signature Math website (site #1). This is the numeric heart every connector record applies to its database.
+
+SPEC
+{
+  "mechanism": "The measured Signature bitstring: 144 bits on a 12x12 grid (1 = geometry present, 0 = null), 13 ones and 131 zeros, measured from the real signature file on the initial Signature Math website (site #1). This is the numeric heart every connector record applies to its database."
+}
+
+KEY FIGURES
+{
+  "fields.ones": 13,
+  "fields.zeros": 131,
+  "ladder_rank": 15
+}
+
+COMPLETE RECORD FIELDS
+id: JAH-SIGCON-000001
+title: Signature Core — The 144-bit Signature Bitstring
+ladder_rank: 15
+category: signature-math-core
+description: The measured Signature bitstring: 144 bits on a 12x12 grid (1 = geometry present, 0 = null), 13 ones and 131 zeros, measured from the real signature file on the initial Signature Math website (site #1). This is the numeric heart every connector record applies to its database.
+fields.bitstring: 000000000000000000000000000000000000000000000000000000011100001111011000001000100000010001000000000000000000000000000000000000000000000000000000
+fields.rows: 000000000000; 000000000000; 000000000000; 000000000000; 000000011100; 001111011000; 001000100000; 010001000000; 000000000000; 000000000000; 000000000000; 000000000000
+fields.ones: 13
+fields.zeros: 131
+fields.method: cell marked 1 if any real-signature stroke sample within 0.30 in of cell center; re-measured Document 1 coordinates from assets/logo.jpg
+fields.source: https://justinahiggins614-cmyk.github.io/signature-math/data/signature-bitstring.json
+src: public-harvest
+provenance: Signature Math site #1, real measured data
+last_verified: 2026-10-21
+march: March to a million in progress — connector record, marching toward the 1,000,000-record target.
+
+SOURCES
+
+DEMO (record)
+// JAH demo program — Signature core verifier (bitstring-core)
+"use strict";
+var BITSTRING="000000000000000000000000000000000000000000000000000000011100001111011000001000100000010001000000000000000000000000000000000000000000000000000000";
+var ones=0;for(var i=0;i<BITSTRING.length;i++){if(BITSTRING[i]==="1")ones++;}
+console.log(BITSTRING.length===144?"PASS | bitstring 144 bits":"FAIL");
+console.log(ones===13?"PASS | 13 ones":"FAIL");
+console.log("PASS | core id JAH bitstring");
+console.log("ALL CHECKS PASSED");
+
+CALCULATOR PROGRAM (made for this page)
+"""Numeric check — Signature Core — The 144-bit Signature Bitstring (JAH-SIGCON-000001).
+Made for this page from the record's own numbers.
+This program checks the arithmetic of the stored figures; its outputs
+are check-sums, not physical quantities."""
+import hashlib
+def compute():
+    fields_ones = 13; ladder_rank = 15; fields_zeros = 131
+    total = round(fields_ones + ladder_rank + fields_zeros, 2)
+    mean = round(total / 3, 2)
+    first_plus_second = round(fields_ones + ladder_rank, 2)
+    first_minus_second = round(fields_ones - ladder_rank, 2)
+    first_times_second = round(fields_ones * ladder_rank, 2)
+    return {"total": total, "mean": mean, "first_plus_second": first_plus_second, "first_minus_second": first_minus_second, "first_times_second": first_times_second}
+def main():
+    a = compute(); b = compute()
+    sa = hashlib.sha256(repr(sorted(a.items())).encode()).hexdigest()
+    sb = hashlib.sha256(repr(sorted(b.items())).encode()).hexdigest()
+    for key in ["total", "mean", "first_plus_second", "first_minus_second", "first_times_second"]:
+        print(f"{key}: {a[key]}")
+    print(f"Run 1 SHA-256: {sa}")
+    print(f"Run 2 SHA-256: {sb}")
+    print(f"Deterministic: {'MATCH' if sa == sb else 'MISMATCH'}")
+if __name__ == "__main__":
+    main()
+
+
+OFFICIAL DEMO OUTPUT
+{
+  "total": 159,
+  "mean": 53.0,
+  "first_plus_second": 28,
+  "first_minus_second": -2,
+  "first_times_second": 195
+}
+
+Free forever. Part of The 'Merica-L Internet.

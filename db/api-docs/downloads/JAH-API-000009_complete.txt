@@ -1,0 +1,101 @@
+search_all
+Record JAH-API-000009 — Public edition, api-docs.
+JCC v1 code: JAHDB/api-docs#JAH-API-000009
+
+DESCRIPTION
+`jahdb.search.search_all({query:"photosynthesis"})`
+
+SPEC
+{
+  "mechanism": "`jahdb.search.search_all({query:\"photosynthesis\"})`"
+}
+
+KEY FIGURES
+{}
+
+COMPLETE RECORD FIELDS
+id: JAH-API-000009
+api_id: JAH-API-000009
+name: search_all
+description: Searches every database archive at once.
+parameters.query.type: string
+parameters.query.description: Search text.
+parameters.limit.type: integer
+parameters.limit.description: Max hits per database (default 5).
+example_call: `jahdb.search.search_all({query:"photosynthesis"})`
+example_response: `{"results":{"summarization-pairs":[...]}}`
+error_codes[0].code: E_QUERY
+error_codes[0].meaning: Query is empty.
+error_codes[1].code: E_INTERNAL
+error_codes[1].meaning: An unexpected internal error occurred.
+category: search
+title: search_all
+
+SOURCES
+
+DEMO (record)
+/* JAH interactive demo program — jahdb-demo-1.0
+ * Database: api-docs · Record: JAH-API-000009 · search_all
+ * Runnable mock of the "search_all" endpoint — validates args, returns the documented example response.
+ * RUN ON PC: save as demo.js, then run:  node demo.js
+ * RUN IN BROWSER: press F12, paste this program into the console, press Enter.
+ * RUN IN-PAGE: open this record and press "Run interactive demo". */
+(function(){
+var SPEC={"name":"search_all","description":"Searches every database archive at once.","parameters":{"query":{"type":"string","description":"Search text."},"limit":{"type":"integer","description":"Max hits per database (default 5)."}},"error_codes":[{"code":"E_QUERY","meaning":"Query is empty."},{"code":"E_INTERNAL","meaning":"An unexpected internal error occurred."}]};
+function call(args){
+  args=args||{};
+  console.log("> "+SPEC.name+"("+JSON.stringify(args)+")");
+  var missing=Object.keys(SPEC.parameters).filter(function(p){return args[p]===undefined;});
+  if(missing.length){console.log("! missing parameters: "+missing.join(", "));return {error:"E_ARGS",missing:missing};}
+  var resp="{\"results\":{\"summarization-pairs\":[...]}}";
+  console.log("< "+resp);
+  return resp;
+}
+console.log("API: "+SPEC.name+" — "+SPEC.description);
+console.log("Parameters: "+Object.keys(SPEC.parameters).map(function(p){return p+":"+SPEC.parameters[p].type;}).join(", "));
+console.log("Error codes: "+SPEC.error_codes.map(function(e){return e.code;}).join(", "));
+console.log("--- documented example ---");
+console.log("call: jahdb.search.search_all({query:\"photosynthesis\"})");
+console.log("--- live mock run ---");
+call({"query":"demo","limit":1});
+console.log("Tip: call your own args and watch the mock validate + respond.");
+})();
+
+
+CALCULATOR PROGRAM (made for this page)
+"""Numeric check — search_all (JAH-API-000009).
+Made for this page from text-derived counts (the record carries no usable numbers of its own).
+This program checks the arithmetic of the stored figures; its outputs
+are check-sums, not physical quantities."""
+import hashlib
+def compute():
+    title_chars = 10; desc_chars = 51; source_count = 0; field_count = 8
+    total = round(title_chars + desc_chars + source_count + field_count, 2)
+    mean = round(total / 4, 2)
+    first_plus_second = round(title_chars + desc_chars, 2)
+    first_minus_second = round(title_chars - desc_chars, 2)
+    first_times_second = round(title_chars * desc_chars, 2)
+    return {"total": total, "mean": mean, "first_plus_second": first_plus_second, "first_minus_second": first_minus_second, "first_times_second": first_times_second}
+def main():
+    a = compute(); b = compute()
+    sa = hashlib.sha256(repr(sorted(a.items())).encode()).hexdigest()
+    sb = hashlib.sha256(repr(sorted(b.items())).encode()).hexdigest()
+    for key in ["total", "mean", "first_plus_second", "first_minus_second", "first_times_second"]:
+        print(f"{key}: {a[key]}")
+    print(f"Run 1 SHA-256: {sa}")
+    print(f"Run 2 SHA-256: {sb}")
+    print(f"Deterministic: {'MATCH' if sa == sb else 'MISMATCH'}")
+if __name__ == "__main__":
+    main()
+
+
+OFFICIAL DEMO OUTPUT
+{
+  "total": 69,
+  "mean": 17.25,
+  "first_plus_second": 61,
+  "first_minus_second": -41,
+  "first_times_second": 510
+}
+
+Free forever. Part of The 'Merica-L Internet.

@@ -1,0 +1,55 @@
+Flagship Mix — Signature Core — The 144-bit Signature Bitstring × Signature Core — The 144-bit Signature Bitstring
+Mix JAH-MIX-SIGNATURECON-001 — flagship mix of the Signature Connector Database (Signature Edition) database.
+JCC v1 code: JAHDB/signature-connector-database-signature#JAH-MIX-SIGNATURECON-001
+
+BLEND
+The flagship mix of the Signature Connector Database (Signature Edition) database: Signature Core — The 144-bit Signature Bitstring (JAH-SIGCONS-000001) blended with Signature Core — The 144-bit Signature Bitstring (JAH-SIGCON-000001). The mix combines the two records — their numbers, mechanisms, and descriptions — and scales the blend at A1 pocket (0.6×), A2 standard (1.0×), and A3 workshop (1.6×).
+
+FIRST INGREDIENT
+Signature Core — The 144-bit Signature Bitstring (JAH-SIGCONS-000001): The measured Signature bitstring: 144 bits on a 12x12 grid (1 = geometry present, 0 = null), 13 ones and 131 zeros, measured from the real signature file on the initial Signature Math website (site #1). This is the numeric heart every connector record applies to its database.
+
+SECOND INGREDIENT
+Signature Core — The 144-bit Signature Bitstring (JAH-SIGCON-000001): The measured Signature bitstring: 144 bits on a 12x12 grid (1 = geometry present, 0 = null), 13 ones and 131 zeros, measured from the real signature file on the initial Signature Math website (site #1). This is the numeric heart every connector record applies to its database.
+
+SPEC
+{
+  "mechanism": "The measured Signature bitstring: 144 bits on a 12x12 grid (1 = geometry present, 0 = null), 13 ones and 131 zeros, measured from the real signature file on the initial Signature Math website (site #1). This is the numeric heart every connector record applies to its database."
+}
+
+DEMO (made for this page)
+"""Numeric check — Flagship Mix — Signature Core — The 144-bit Signature Bitstring × Signature Core (JAH-MIX-SIGNATURECON-001).
+Made for this page from the record's own numbers.
+This program checks the arithmetic of the stored figures; its outputs
+are check-sums, not physical quantities."""
+import hashlib
+def compute():
+    a_fields_ones = 13; b_fields_ones = 13; a_ladder_rank = 15; b_ladder_rank = 15
+    total = round(a_fields_ones + b_fields_ones + a_ladder_rank + b_ladder_rank, 2)
+    mean = round(total / 4, 2)
+    first_plus_second = round(a_fields_ones + b_fields_ones, 2)
+    first_minus_second = round(a_fields_ones - b_fields_ones, 2)
+    first_times_second = round(a_fields_ones * b_fields_ones, 2)
+    return {"total": total, "mean": mean, "first_plus_second": first_plus_second, "first_minus_second": first_minus_second, "first_times_second": first_times_second}
+def main():
+    a = compute(); b = compute()
+    sa = hashlib.sha256(repr(sorted(a.items())).encode()).hexdigest()
+    sb = hashlib.sha256(repr(sorted(b.items())).encode()).hexdigest()
+    for key in ["total", "mean", "first_plus_second", "first_minus_second", "first_times_second"]:
+        print(f"{key}: {a[key]}")
+    print(f"Run 1 SHA-256: {sa}")
+    print(f"Run 2 SHA-256: {sb}")
+    print(f"Deterministic: {'MATCH' if sa == sb else 'MISMATCH'}")
+if __name__ == "__main__":
+    main()
+
+
+OFFICIAL DEMO OUTPUT
+{
+  "total": 56,
+  "mean": 14.0,
+  "first_plus_second": 26,
+  "first_minus_second": 0,
+  "first_times_second": 169
+}
+
+Free forever. Part of The 'Merica-L Internet.

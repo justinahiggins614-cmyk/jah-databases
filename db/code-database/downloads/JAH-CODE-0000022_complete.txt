@@ -1,0 +1,114 @@
+Decorator — wrap with logging (Javascript)
+Record JAH-CODE-0000022 — Public edition, code-database.
+JCC v1 code: JAHDB/code-database#JAH-CODE-0000022
+
+DESCRIPTION
+A decorator wraps a function to add behavior (logging, timing, auth) without changing it. Higher-order functions are JavaScript's native decorator.
+
+SPEC
+{
+  "mechanism": "The wrapper calls through, then logs the result — the original stays untouched.",
+  "use": "Logging, metrics, auth guards."
+}
+
+KEY FIGURES
+{}
+
+COMPLETE RECORD FIELDS
+title: Decorator — wrap with logging (Javascript)
+category: patterns
+language: javascript
+description: A decorator wraps a function to add behavior (logging, timing, auth) without changing it. Higher-order functions are JavaScript's native decorator.
+code: function logged(fn, name) {
+  return (...a) => {
+    const r = fn(...a);
+    console.log(name + ":" + r);
+    return r;
+  };
+}
+const add = logged((a, b) => a + b, "add");
+add(2, 3);
+how_it_works: The wrapper calls through, then logs the result — the original stays untouched.
+complexity: O(wrapped). Tuning: profile before optimizing; the notes above name the usual bottleneck to measure first.
+test_cases[0].input: add(2,3)
+test_cases[0].expected: add:5
+test_cases[0].note: Logged the return value.
+test_cases[1].input: add(2,3) — second run
+test_cases[1].expected: add:5
+test_cases[1].note: Determinism check: re-running the snippet reproduces the identical output.
+pitfalls: Wrappers must forward arguments and `this` faithfully.
+use_cases: Logging, metrics, auth guards.
+source: online
+source_ref: https://en.wikipedia.org/wiki/Decorator_pattern
+creation_mode: ONLINE-VERIFIED
+id: JAH-CODE-0000022
+_seed: 22
+
+SOURCES
+Record source — https://en.wikipedia.org/wiki/Decorator_pattern
+
+DEMO (record)
+/* JAH interactive demo program — jahdb-demo-1.0
+ * Database: code-database · Record: JAH-CODE-0000022 · Decorator — wrap with logging (Javascript)
+ * Runnable code from this record ("code") — executes with console output captured.
+ * RUN ON PC: save as demo.js, then run:  node demo.js
+ * RUN IN BROWSER: press F12, paste this program into the console, press Enter.
+ * RUN IN-PAGE: open this record and press "Run interactive demo". */
+(function(){
+"use strict";
+/* ---- record code (code) ---- */
+function logged(fn, name) {
+  return (...a) => {
+    const r = fn(...a);
+    console.log(name + ":" + r);
+    return r;
+  };
+}
+const add = logged((a, b) => a + b, "add");
+add(2, 3);
+/* ---- auto-run: call main/demo/solve if the snippet defines one ---- */
+try{
+  if(typeof main==="function"){console.log("--- main() output ---");main();}
+  else if(typeof demo==="function"){console.log("--- demo() output ---");demo();}
+  else if(typeof solve==="function"){console.log("--- solve() output ---");console.log(solve());}
+}catch(e){console.log("runtime note: "+e.message);}
+})();
+
+
+CALCULATOR PROGRAM (made for this page)
+"""Numeric check — Decorator — wrap with logging (Javascript) (JAH-CODE-0000022).
+Made for this page from text-derived counts (the record carries no usable numbers of its own).
+This program checks the arithmetic of the stored figures; its outputs
+are check-sums, not physical quantities."""
+import hashlib
+def compute():
+    title_chars = 42; desc_chars = 147; source_count = 1; field_count = 14
+    total = round(title_chars + desc_chars + source_count + field_count, 2)
+    mean = round(total / 4, 2)
+    first_plus_second = round(title_chars + desc_chars, 2)
+    first_minus_second = round(title_chars - desc_chars, 2)
+    first_times_second = round(title_chars * desc_chars, 2)
+    return {"total": total, "mean": mean, "first_plus_second": first_plus_second, "first_minus_second": first_minus_second, "first_times_second": first_times_second}
+def main():
+    a = compute(); b = compute()
+    sa = hashlib.sha256(repr(sorted(a.items())).encode()).hexdigest()
+    sb = hashlib.sha256(repr(sorted(b.items())).encode()).hexdigest()
+    for key in ["total", "mean", "first_plus_second", "first_minus_second", "first_times_second"]:
+        print(f"{key}: {a[key]}")
+    print(f"Run 1 SHA-256: {sa}")
+    print(f"Run 2 SHA-256: {sb}")
+    print(f"Deterministic: {'MATCH' if sa == sb else 'MISMATCH'}")
+if __name__ == "__main__":
+    main()
+
+
+OFFICIAL DEMO OUTPUT
+{
+  "total": 204,
+  "mean": 51.0,
+  "first_plus_second": 189,
+  "first_minus_second": -105,
+  "first_times_second": 6174
+}
+
+Free forever. Part of The 'Merica-L Internet.

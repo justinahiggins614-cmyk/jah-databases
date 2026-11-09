@@ -1,0 +1,70 @@
+Famous model: SIR epidemic model (Kermack–McKendrick, 1927)
+Record JAH-SIM-0000002 — Public edition, simulation.
+JCC v1 code: JAHDB/simulation#JAH-SIM-0000002
+
+DESCRIPTION
+Famous model: SIR epidemic model (Kermack–McKendrick, 1927)
+
+SPEC
+{
+  "mechanism": "Famous model: SIR epidemic model (Kermack–McKendrick, 1927)"
+}
+
+KEY FIGURES
+{}
+
+COMPLETE RECORD FIELDS
+id: JAH-SIM-0000002
+category: physical
+title: Famous model: SIR epidemic model (Kermack–McKendrick, 1927)
+_seed: 2
+kind: simulation-scenario
+model: sir
+system: SIR epidemic model (Kermack–McKendrick, 1927).
+model_description: dS/dt = -βSI/N, dI/dt = βSI/N - γI, dR/dt = γI. Basic reproduction number R0 = β/γ.
+parameters.reference: yes
+run_spec.reference: yes
+results.reference: See scenario instances for computed runs.
+validation_results: Equations verified against the published model.
+source: online
+source_ref: Kermack–McKendrick 1927 — verified equations
+
+SOURCES
+
+DEMO (generated)
+"""Numeric check — Famous model: SIR epidemic model (Kermack–McKendrick, 1927) (JAH-SIM-0000002).
+Made for this page from text-derived counts (the record carries no usable numbers of its own).
+This program checks the arithmetic of the stored figures; its outputs
+are check-sums, not physical quantities."""
+import hashlib
+def compute():
+    title_chars = 59; desc_chars = 59; source_count = 0; field_count = 11
+    total = round(title_chars + desc_chars + source_count + field_count, 2)
+    mean = round(total / 4, 2)
+    first_plus_second = round(title_chars + desc_chars, 2)
+    first_minus_second = round(title_chars - desc_chars, 2)
+    first_times_second = round(title_chars * desc_chars, 2)
+    return {"total": total, "mean": mean, "first_plus_second": first_plus_second, "first_minus_second": first_minus_second, "first_times_second": first_times_second}
+def main():
+    a = compute(); b = compute()
+    sa = hashlib.sha256(repr(sorted(a.items())).encode()).hexdigest()
+    sb = hashlib.sha256(repr(sorted(b.items())).encode()).hexdigest()
+    for key in ["total", "mean", "first_plus_second", "first_minus_second", "first_times_second"]:
+        print(f"{key}: {a[key]}")
+    print(f"Run 1 SHA-256: {sa}")
+    print(f"Run 2 SHA-256: {sb}")
+    print(f"Deterministic: {'MATCH' if sa == sb else 'MISMATCH'}")
+if __name__ == "__main__":
+    main()
+
+
+OFFICIAL DEMO OUTPUT
+{
+  "total": 129,
+  "mean": 32.25,
+  "first_plus_second": 118,
+  "first_minus_second": 0,
+  "first_times_second": 3481
+}
+
+Free forever. Part of The 'Merica-L Internet.

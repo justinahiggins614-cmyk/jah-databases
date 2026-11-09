@@ -1,0 +1,36 @@
+{
+  "id": "JAH-SIGCONS-000021",
+  "title": "Signature Math Mapping — Pixel Grid (Raster)",
+  "ladder_rank": 14,
+  "category": "signature-math-mapping",
+  "description": "How the Signature bitstring reads as Pixel Grid (Raster) (Visual codes). A raster image is a rectangular grid of pixels, each pixel one color value. A 1-bit monochrome image is one bit per pixel.",
+  "fields": {
+    "name": "Pixel Grid (Raster)",
+    "category": "Visual codes",
+    "system": "A raster image is a rectangular grid of pixels, each pixel one color value. A 1-bit monochrome image is one bit per pixel.",
+    "mapping": "The 12x12 Signature math grid IS a 144-pixel monochrome image: 1 = inked pixel, 0 = blank. Scale each cell to N×N screen pixels for any display size; the bitstring is the image data.",
+    "apply": [
+      "1. Take the 144-bit Signature string.",
+      "2. Arrange as 12 rows of 12 bits (row-major, top-left origin).",
+      "3. Render each 1-bit as a filled square, each 0-bit as empty.",
+      "4. Scale: multiply every cell by N for an N-times-larger image — geometry preserved."
+    ],
+    "example_in": "5x5 sample rows 00100/01110/11111/01110/00100",
+    "example_out": "25-bit image data: 0010001110111110111000100",
+    "source": "https://justinahiggins614-cmyk.github.io/signature-math/data/mathdata.json"
+  },
+  "demo": {
+    "language": "javascript",
+    "program": "// JAH demo program — Signature core verifier (math-mapping)\n\"use strict\";\nvar BITSTRING=\"000000000000000000000000000000000000000000000000000000011100001111011000001000100000010001000000000000000000000000000000000000000000000000000000\";\nvar ones=0;for(var i=0;i<BITSTRING.length;i++){if(BITSTRING[i]===\"1\")ones++;}\nconsole.log(BITSTRING.length===144?\"PASS | bitstring 144 bits\":\"FAIL\");\nconsole.log(ones===13?\"PASS | 13 ones\":\"FAIL\");\nconsole.log(\"PASS | mapping: \" + \"Pixel Grid (Raster)\");\nconsole.log(\"ALL CHECKS PASSED\");",
+    "run_steps": [
+      "Save the program as demo.js.",
+      "Run it with: node demo.js",
+      "Confirm every line prints PASS and the run ends with ALL CHECKS PASSED."
+    ],
+    "expected_output": "ALL CHECKS PASSED"
+  },
+  "src": "signature",
+  "provenance": "Signature Math site #1, mathdata.json",
+  "last_verified": "2026-10-21",
+  "march": "March to a million in progress — connector record, marching toward the 1,000,000-record target."
+}

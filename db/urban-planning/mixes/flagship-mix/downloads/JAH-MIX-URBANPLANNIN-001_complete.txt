@@ -1,0 +1,55 @@
+Flagship Mix — Transit-Oriented Development — Core Overview (Edition 1) × Signature Flood Readiness (overview)
+Mix JAH-MIX-URBANPLANNIN-001 — flagship mix of the JAH Urban Planning Database database.
+JCC v1 code: JAHDB/urban-planning#JAH-MIX-URBANPLANNIN-001
+
+BLEND
+The flagship mix of the JAH Urban Planning database: Transit-Oriented Development — Core Overview (Edition 1) (JAH-URB-000001) blended with Signature Flood Readiness (overview) (JAH-URBAN-SIG-000001). The mix combines the two records — their numbers, mechanisms, and descriptions — and scales the blend at A1 pocket (0.6×), A2 standard (1.0×), and A3 workshop (1.6×).
+
+FIRST INGREDIENT
+Transit-Oriented Development — Core Overview (Edition 1) (JAH-URB-000001): Transit-oriented development concentrates housing, jobs, and services within walking distance of high-capacity transit stations, typically a five to ten minute walk. The approach pairs higher-density mixed-use zoning with reduced parking requirements near stations. This overview edition presents Transit-Oriented Development as a core transit concept for contemporary cities.
+
+SECOND INGREDIENT
+Signature Flood Readiness (overview) (JAH-URBAN-SIG-000001): Signature Flood Readiness (overview)
+
+SPEC
+{
+  "mechanism": "Transit-oriented development concentrates housing, jobs, and services within walking distance of high-capacity transit stations, typically a five to ten minute walk. The approach pairs higher-density mixed-use zoning with reduced parking requirements near stations. This overview edition presents Transit-Oriented Development as a core transit concept for contemporary cities.; Signature Flood Readiness (overview)"
+}
+
+DEMO (made for this page)
+"""Numeric check — Flagship Mix — Transit-Oriented Development — Core Overview (Edition 1) × Signat (JAH-MIX-URBANPLANNIN-001).
+Made for this page from text-derived counts (the record carries no usable numbers of its own).
+This program checks the arithmetic of the stored figures; its outputs
+are check-sums, not physical quantities."""
+import hashlib
+def compute():
+    title_chars = 110; desc_chars = 367; source_count = 0; field_count = 2
+    total = round(title_chars + desc_chars + source_count + field_count, 2)
+    mean = round(total / 4, 2)
+    first_plus_second = round(title_chars + desc_chars, 2)
+    first_minus_second = round(title_chars - desc_chars, 2)
+    first_times_second = round(title_chars * desc_chars, 2)
+    return {"total": total, "mean": mean, "first_plus_second": first_plus_second, "first_minus_second": first_minus_second, "first_times_second": first_times_second}
+def main():
+    a = compute(); b = compute()
+    sa = hashlib.sha256(repr(sorted(a.items())).encode()).hexdigest()
+    sb = hashlib.sha256(repr(sorted(b.items())).encode()).hexdigest()
+    for key in ["total", "mean", "first_plus_second", "first_minus_second", "first_times_second"]:
+        print(f"{key}: {a[key]}")
+    print(f"Run 1 SHA-256: {sa}")
+    print(f"Run 2 SHA-256: {sb}")
+    print(f"Deterministic: {'MATCH' if sa == sb else 'MISMATCH'}")
+if __name__ == "__main__":
+    main()
+
+
+OFFICIAL DEMO OUTPUT
+{
+  "total": 479,
+  "mean": 119.75,
+  "first_plus_second": 477,
+  "first_minus_second": -257,
+  "first_times_second": 40370
+}
+
+Free forever. Part of The 'Merica-L Internet.

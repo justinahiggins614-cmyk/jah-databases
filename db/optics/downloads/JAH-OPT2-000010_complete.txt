@@ -1,0 +1,95 @@
+Signature Study — Echelle spectrometer concept (600 l/mm grating)
+Record JAH-OPT2-000010 — Public edition, optics.
+JCC v1 code: JAHDB/optics#JAH-OPT2-000010
+
+DESCRIPTION
+This is a Signature-authored optical design study for a echelle spectrometer at 600 l/mm grating. Design goals address the real aberration profile: Coma: off-axis rays in the collimator smear the spectral lines. Astigmatism: perpendicular planes focus at different points; the classic Czerny-Turner limitation. Corrected with a coma corrector lens. Intended application: chemistry quality control.
+
+SPEC
+{
+  "dimensions": "spec.focal length mm 100",
+  "mechanism": "This is a Signature-authored optical design study for a echelle spectrometer at 600 l/mm grating. Design goals address the real aberration profile: Coma: off-axis rays in the collimator smear the spectral lines. Astigmatism: perpendicular planes focus at different points; the classic Czerny-Turner limitation. Corrected with a coma corrector lens. Intended application: chemistry quality control."
+}
+
+KEY FIGURES
+{
+  "spec.focal_length_mm": 100,
+  "spec.grating_lines_per_mm": 600
+}
+
+COMPLETE RECORD FIELDS
+id: JAH-OPT2-000010
+title: Signature Study — Echelle spectrometer concept (600 l/mm grating)
+description: This is a Signature-authored optical design study for a echelle spectrometer at 600 l/mm grating. Design goals address the real aberration profile: Coma: off-axis rays in the collimator smear the spectral lines. Astigmatism: perpendicular planes focus at different points; the classic Czerny-Turner limitation. Corrected with a coma corrector lens. Intended application: chemistry quality control.
+category: spectrometers
+src: signature
+spec.instrument_type: echelle spectrometer
+spec.grating_lines_per_mm: 600
+spec.focal_length_mm: 100
+spec.detector: CCD array
+spec.aberration_notes: Coma: off-axis rays in the collimator smear the spectral lines.; Astigmatism: perpendicular planes focus at different points; the classic Czerny-Turner limitation.
+spec.correction_note: Corrected with a coma corrector lens.
+spec.application: chemistry quality control
+_seed: 10
+
+SOURCES
+
+DEMO (record)
+/* JAH interactive demo program — jahdb-demo-1.0
+ * Database: optics · Record: JAH-OPT2-000010 · Signature Study — Echelle spectrometer concept (600 l/mm gra…
+ * Interactive record inspector: tours every field, with a searchable field index.
+ * RUN ON PC: save as demo.js, then run:  node demo.js
+ * RUN IN BROWSER: press F12, paste this program into the console, press Enter.
+ * RUN IN-PAGE: open this record and press "Run interactive demo". */
+(function(){
+var FIELDS={"id":"JAH-OPT2-000010","title":"Signature Study — Echelle spectrometer concept (600 l/mm grating)","description":"This is a Signature-authored optical design study for a echelle spectrometer at 600 l/mm grating. Design goals address the real aberration profile: Coma: off-axis rays in the collimator smear the spec…","category":"spectrometers","src":"signature","spec":{"(object keys)":["instrument_type","grating_lines_per_mm","focal_length_mm","detector","aberration_notes","correction_note","application"]}};
+var keys=Object.keys(FIELDS);
+function show(i){var k=keys[i];if(k===undefined){console.log("no field "+i);return;}console.log("["+i+"] "+k+" ("+(typeof FIELDS[k])+"):");console.log("    "+JSON.stringify(FIELDS[k]).slice(0,300));}
+function find(word){word=String(word).toLowerCase();var hits=keys.filter(function(k){return (k+" "+JSON.stringify(FIELDS[k])).toLowerCase().indexOf(word)>=0;});console.log("fields matching \""+word+"\": "+(hits.join(", ")||"(none)"));return hits;}
+console.log("=== Signature Study — Echelle spectrometer concept (600 l/mm grating) ===");
+console.log("Record JAH-OPT2-000010 · "+keys.length+" fields:");
+keys.forEach(function(k,i){console.log("  ["+i+"] "+k);});
+console.log("--- field tour ---");
+keys.forEach(function(k,i){show(i);});
+try{globalThis.jahDemoAPI={show:show,find:find};}catch(e){}
+console.log("Try: jahDemoAPI.show(0) · jahDemoAPI.find(\"word\")");
+})();
+
+
+CALCULATOR PROGRAM (made for this page)
+"""Numeric check — Signature Study — Echelle spectrometer concept (600 l/mm grating) (JAH-OPT2-000010).
+Made for this page from the record's own numbers.
+This program checks the arithmetic of the stored figures; its outputs
+are check-sums, not physical quantities."""
+import hashlib
+def compute():
+    spec_focal_length_mm = 100; spec_grating_lines_per_mm = 600
+    total = round(spec_focal_length_mm + spec_grating_lines_per_mm, 2)
+    mean = round(total / 2, 2)
+    first_plus_second = round(spec_focal_length_mm + spec_grating_lines_per_mm, 2)
+    first_minus_second = round(spec_focal_length_mm - spec_grating_lines_per_mm, 2)
+    first_times_second = round(spec_focal_length_mm * spec_grating_lines_per_mm, 2)
+    return {"total": total, "mean": mean, "first_plus_second": first_plus_second, "first_minus_second": first_minus_second, "first_times_second": first_times_second}
+def main():
+    a = compute(); b = compute()
+    sa = hashlib.sha256(repr(sorted(a.items())).encode()).hexdigest()
+    sb = hashlib.sha256(repr(sorted(b.items())).encode()).hexdigest()
+    for key in ["total", "mean", "first_plus_second", "first_minus_second", "first_times_second"]:
+        print(f"{key}: {a[key]}")
+    print(f"Run 1 SHA-256: {sa}")
+    print(f"Run 2 SHA-256: {sb}")
+    print(f"Deterministic: {'MATCH' if sa == sb else 'MISMATCH'}")
+if __name__ == "__main__":
+    main()
+
+
+OFFICIAL DEMO OUTPUT
+{
+  "total": 700,
+  "mean": 350.0,
+  "first_plus_second": 700,
+  "first_minus_second": -500,
+  "first_times_second": 60000
+}
+
+Free forever. Part of The 'Merica-L Internet.

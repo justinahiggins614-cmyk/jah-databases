@@ -1,0 +1,76 @@
+Log 455: Pale Twins
+Record JAH-COMIC-000014 — Public edition, comics.
+JCC v1 code: JAHDB/comics#JAH-COMIC-000014
+
+DESCRIPTION
+STARFARER'S LOG #2 — Log 455: Pale Twins. The call comes at shift change: the Long Dark needs Phawrene. Starring Phawrene (Jobris Belfaro), Sarinee (Luven Icott). An anthology of voyages: the survey ship Wayfarer charts the far dark, one strange world per issue.
+
+SPEC
+{
+  "mechanism": "STARFARER'S LOG #2 — Log 455: Pale Twins. The call comes at shift change: the Long Dark needs Phawrene. Starring Phawrene (Jobris Belfaro), Sarinee (Luven Icott). An anthology of voyages: the survey ship Wayfarer charts the far dark, one strange world per issue."
+}
+
+KEY FIGURES
+{
+  "chunk": 1,
+  "pg": 22,
+  "w": 385
+}
+
+COMPLETE RECORD FIELDS
+id: JAH-COMIC-000014
+t: Log 455: Pale Twins
+s: STARFARER'S LOG
+sk: starlog
+n: 2
+ch[0].name: Jobris Belfaro
+ch[0].code: Phawrene
+ch[0].power: gravity slinging
+ch[1].name: Luven Icott
+ch[1].code: Sarinee
+ch[1].power: star charting
+d: STARFARER'S LOG #2 — Log 455: Pale Twins. The call comes at shift change: the Long Dark needs Phawrene. Starring Phawrene (Jobris Belfaro), Sarinee (Luven Icott). An anthology of voyages: the survey ship Wayfarer charts the far dark, one strange world per issue.
+w: 385
+pg: 22
+chunk: 1
+src: signature
+
+SOURCES
+
+DEMO (generated)
+"""Numeric check — Log 455: Pale Twins (JAH-COMIC-000014).
+Made for this page from the record's own numbers.
+This program checks the arithmetic of the stored figures; its outputs
+are check-sums, not physical quantities."""
+import hashlib
+def compute():
+    chunk = 1; pg = 22; w = 385
+    total = round(chunk + pg + w, 2)
+    mean = round(total / 3, 2)
+    first_plus_second = round(chunk + pg, 2)
+    first_minus_second = round(chunk - pg, 2)
+    first_times_second = round(chunk * pg, 2)
+    return {"total": total, "mean": mean, "first_plus_second": first_plus_second, "first_minus_second": first_minus_second, "first_times_second": first_times_second}
+def main():
+    a = compute(); b = compute()
+    sa = hashlib.sha256(repr(sorted(a.items())).encode()).hexdigest()
+    sb = hashlib.sha256(repr(sorted(b.items())).encode()).hexdigest()
+    for key in ["total", "mean", "first_plus_second", "first_minus_second", "first_times_second"]:
+        print(f"{key}: {a[key]}")
+    print(f"Run 1 SHA-256: {sa}")
+    print(f"Run 2 SHA-256: {sb}")
+    print(f"Deterministic: {'MATCH' if sa == sb else 'MISMATCH'}")
+if __name__ == "__main__":
+    main()
+
+
+OFFICIAL DEMO OUTPUT
+{
+  "total": 408,
+  "mean": 136.0,
+  "first_plus_second": 23,
+  "first_minus_second": -21,
+  "first_times_second": 22
+}
+
+Free forever. Part of The 'Merica-L Internet.

@@ -1,0 +1,22 @@
+# Best version of '3d-print': Signature 3D Print Database — Spec sheet
+
+Record JAH-BVDBS-000016 — Signature edition, best-version-database-tracker-signature.
+JCC v1 code: JAHDB/best-version-database-tracker-signature#JAH-BVDBS-000016
+
+## Spec
+- **Mechanism:** Best version of the database subject '3d-print': Signature 3D Print Database (signature-3d-print), holding 60 records. Why: BEST-VERSION RULE (deterministic, applied identically to every record): 1) the edition / file variant with the highest record_count (or, for files, the greatest byte size, i.e. the most complete variant) wins; 2) tie-break: the Signature edition wins over the public edition (for files: the manifest-declared local_index file wins); 3) final tie-break: alphabetical slug (or filename) order. Losing editions/variants are named with their counts on every record. Recompute: com
+
+## Key figures
+- **generator.hard cap:** 1000000000000000
+- **ladder rank:** 1
+- **million march.target:** 1000000
+- **provenance.editions count:** 1
+
+## Official demo output
+- **total:** 1000002
+- **mean:** 333334
+- **first plus second:** 2
+- **first minus second:** 0
+- **first times second:** 1
+
+Free forever. Part of The 'Merica-L Internet.

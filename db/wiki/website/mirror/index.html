@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>JAH Wiki Database — Signature edition — Database website</title>
+<meta name="description" content="JAH Wiki Database — Signature edition — database website. First 20 of 20 records, each with its own file website, demo, generator, and sources. Free forever.">
+
+<style>
+:root{--paper:#f7f3ea;--paper2:#fffdf7;--ink:#16130c;--ink2:#4a4333;--line:#d8cfb8;
+--gold:#a97e00;--goldsoft:#f3e7bd;--red:#8e1f1f;--green:#1d5c38;--card:#fffdf7;--chip:#efe8d3;
+--figbg:#fdfaf1;--panel:#fffdf7}
+@media (prefers-color-scheme: dark){
+:root{--paper:#12100b;--paper2:#1a1710;--ink:#f2ead2;--ink2:#c9bc97;--line:#3a3322;
+--gold:#e3b83c;--goldsoft:#332a10;--red:#e07a6a;--green:#7fc79b;--card:#1a1710;--chip:#262114;
+--figbg:#1d1912;--panel:#1a1710}}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:"Newsreader",Georgia,serif;font-size:18px;line-height:1.65}
+.wrap{max-width:1060px;margin:0 auto;padding:0 20px 64px}
+.mono{font-family:"IBM Plex Mono",monospace}
+.sans{font-family:"Libre Franklin",system-ui,sans-serif}
+.mast{padding:30px 0 8px;text-align:center;border-bottom:3px double var(--line)}
+.mast .rule{font-family:"Libre Franklin",sans-serif;font-size:11px;letter-spacing:.32em;text-transform:uppercase;color:var(--gold);font-weight:800}
+.mast .rule a{color:var(--gold)}
+h1{font-size:clamp(32px,6.5vw,58px);line-height:1.05;font-weight:800;margin:14px 0 6px;letter-spacing:-.01em}
+h1 .thin{display:block;font-weight:400;font-style:italic;font-size:.52em;color:var(--ink2);letter-spacing:0;margin-top:10px}
+.tagline{font-size:20px;font-style:italic;color:var(--ink2);max-width:820px;margin:10px auto 0}
+.byline{font-family:"Libre Franklin",sans-serif;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink2);margin-top:16px}
+.byline b{color:var(--ink)}
+.navline{font-family:"Libre Franklin",sans-serif;font-size:13px;text-align:center;margin-top:14px;line-height:2}
+.navline a{font-weight:700}
+.secnav{position:sticky;top:0;z-index:20;background:var(--paper);border-bottom:1px solid var(--line);
+display:flex;gap:4px;overflow-x:auto;padding:8px 0;margin:0 -20px;padding-left:20px;padding-right:20px}
+.secnav a{font-family:"Libre Franklin",sans-serif;font-size:12.5px;font-weight:700;letter-spacing:.04em;
+white-space:nowrap;padding:6px 10px;border:1px solid var(--line);border-radius:999px;text-decoration:none;color:var(--ink)}
+.secnav a:hover{background:var(--chip)}
+.hero{max-width:820px;margin:26px auto 0;text-align:left;background:var(--card);border:1px solid var(--line);padding:22px 24px}
+.hero h2{font-family:"Libre Franklin",sans-serif;font-size:12px;letter-spacing:.28em;text-transform:uppercase;margin:0 0 10px;color:var(--red)}
+.hero p{margin:0 0 10px;font-size:17px}
+.hero p:last-child{margin-bottom:0}
+.free{font-family:"Libre Franklin",sans-serif;font-weight:800;text-align:center;margin:18px 0 0}
+.chips{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin:16px 0 4px}
+.chip{font-family:"Libre Franklin",sans-serif;font-size:12px;font-weight:800;letter-spacing:.05em;
+border:1.5px solid var(--ink);border-radius:999px;padding:5px 12px;background:var(--paper2)}
+.chip.gold{border-color:var(--gold);color:var(--gold)}
+.chip.red{border-color:var(--red);color:var(--red)}
+.chip.green{border-color:var(--green);color:var(--green)}
+.actions{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:22px}
+.btn{font-family:"Libre Franklin",sans-serif;font-weight:800;font-size:13px;letter-spacing:.06em;border:2px solid var(--ink);background:var(--ink);color:var(--paper);padding:10px 18px;border-radius:999px;cursor:pointer;text-decoration:none;display:inline-block}
+.btn.ghost{background:transparent;color:var(--ink)}
+.btn:active{transform:translateY(1px)}
+.btn[disabled]{opacity:.45;cursor:not-allowed}
+.acc{font-size:14px;text-align:center;margin-top:16px}
+h2.chap{font-size:clamp(26px,5vw,38px);font-weight:800;line-height:1.12;margin:0 0 4px}
+.chapno{font-family:"IBM Plex Mono",monospace;font-size:13px;color:var(--red);letter-spacing:.2em;text-transform:uppercase}
+.lede{font-size:20px;font-style:italic;color:var(--ink2);max-width:760px}
+h3{font-family:"Libre Franklin",sans-serif;font-size:16px;letter-spacing:.06em;text-transform:uppercase;margin:34px 0 10px;border-bottom:2px solid var(--gold);padding-bottom:6px}
+p{max-width:820px}
+section{padding-top:34px}
+blockquote{margin:22px 0;padding:18px 22px;border-left:5px solid var(--gold);background:var(--goldsoft);font-size:20px;font-style:italic;max-width:820px}
+ul,ol{max-width:820px;padding-left:24px}
+li{margin-bottom:7px}
+table{border-collapse:collapse;width:100%;max-width:820px;margin:16px 0}
+th,td{border:1px solid var(--line);padding:8px 10px;text-align:left;font-size:16px;vertical-align:top}
+th{font-family:"Libre Franklin",sans-serif;font-size:12px;letter-spacing:.12em;text-transform:uppercase;background:var(--chip)}
+td.num{font-family:"IBM Plex Mono",monospace;white-space:nowrap}
+.tag{display:inline-block;font-family:"IBM Plex Mono",monospace;font-size:10.5px;font-weight:600;letter-spacing:.08em;padding:2px 8px;border-radius:999px;vertical-align:middle;margin-left:6px;white-space:nowrap}
+.tag.live{background:var(--green);color:#fff}
+.tag.design{background:transparent;border:1.5px solid var(--ink2);color:var(--ink2)}
+.tag.mirror{background:var(--gold);color:#16130c}
+.note{font-size:15px;font-style:italic;color:var(--ink2)}
+.warn{border:2px solid var(--red);background:var(--card);padding:14px 18px;margin:16px 0;max-width:820px}
+.warn b{color:var(--red)}
+.mirror-banner{border:3px solid var(--gold);background:var(--goldsoft);padding:18px 22px;margin:22px 0;max-width:820px}
+.mirror-banner h2{font-family:"Libre Franklin",sans-serif;font-size:15px;letter-spacing:.14em;text-transform:uppercase;margin:0 0 8px;color:var(--gold)}
+.fig{max-width:820px;background:var(--figbg);border:1px solid var(--line);padding:16px;margin:18px 0}
+.fig svg{display:block;width:100%;height:auto}
+.fig figcaption{font-size:14px;font-style:italic;color:var(--ink2);margin-top:10px;text-align:center}
+.tiles{display:grid;grid-template-columns:1fr;gap:12px;margin:18px 0}
+@media(min-width:640px){.tiles{grid-template-columns:1fr 1fr}}
+@media(min-width:980px){.tiles{grid-template-columns:1fr 1fr 1fr}}
+.tile{border:1px solid var(--line);background:var(--card);padding:14px 16px}
+.tile h4{margin:0 0 6px;font-size:19px;line-height:1.25}
+.tile p{font-size:15px;margin:0 0 8px;color:var(--ink2)}
+.tile .links{font-family:"Libre Franklin",sans-serif;font-size:13px;font-weight:700}
+.tile .links a{margin-right:12px}
+.pills{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}
+.pill{font-family:"Libre Franklin",sans-serif;font-size:13px;font-weight:800;border:2px solid var(--ink);background:transparent;color:var(--ink);border-radius:999px;padding:6px 14px;cursor:pointer}
+.pill[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.panel{max-width:820px;background:var(--panel);border:1px solid var(--line);padding:18px 20px;margin:16px 0}
+.panel>h3:first-child{margin-top:0}
+.panel label{font-family:"Libre Franklin",sans-serif;font-weight:800;font-size:13px;letter-spacing:.06em;text-transform:uppercase;display:block;margin-bottom:6px}
+.panel input[type=text],.panel input[type=number]{width:100%;font-size:17px;padding:10px 12px;border:2px solid var(--ink);border-radius:8px;background:var(--paper2);color:var(--ink)}
+.panel .row{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;align-items:center}
+.panel .hint{font-size:14px;font-style:italic;color:var(--ink2);margin:10px 0 0}
+.calc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin:12px 0}
+.calc-grid label{font-size:12px;margin-bottom:4px}
+.calc-grid input{width:100%;font-size:16px;padding:8px 10px;border:2px solid var(--ink);border-radius:8px;background:var(--paper2);color:var(--ink)}
+.out{font-family:"IBM Plex Mono",monospace;font-size:15px;background:var(--paper2);border:1px solid var(--line);padding:12px 14px;white-space:pre-wrap;word-break:break-word;max-width:820px}
+.answer{max-width:820px;margin-top:12px;padding:14px 16px;border-left:5px solid var(--gold);background:var(--goldsoft);font-size:17px}
+.answer:empty{display:none}
+.dl{list-style:none;padding:0;max-width:820px}
+.dl li{margin:0 0 8px;padding:10px 12px;border:1px solid var(--line);background:var(--card);font-size:16px}
+.dl .mono{font-size:13px}
+details{max-width:820px;border:1px solid var(--line);background:var(--card);padding:10px 14px;margin:8px 0}
+details summary{font-family:"Libre Franklin",sans-serif;font-weight:800;font-size:15px;cursor:pointer}
+pre{font-family:"IBM Plex Mono",monospace;font-size:13.5px;background:var(--paper2);border:1px solid var(--line);padding:12px 14px;overflow-x:auto;white-space:pre-wrap;word-break:break-word;max-width:820px}
+code{font-family:"IBM Plex Mono",monospace;font-size:.88em}
+footer{margin-top:48px;padding-top:20px;border-top:3px double var(--line);text-align:center;font-size:15px}
+footer .navline{margin-top:8px}
+.eqbig{font-size:clamp(28px,6vw,44px);font-weight:800;text-align:center;padding:22px 10px;border:1px solid var(--line);background:var(--card);margin:16px 0;max-width:820px}
+.steps-flow{display:flex;flex-direction:column;gap:0;max-width:820px;margin:16px 0}
+.step{display:flex;gap:14px;align-items:flex-start}
+.step .n{flex:0 0 34px;height:34px;border-radius:50%;background:var(--ink);color:var(--paper);font-family:"Libre Franklin",sans-serif;font-weight:800;display:flex;align-items:center;justify-content:center}
+.step .b{flex:1;padding:8px 0 18px;border-left:2px solid var(--line);margin-left:-25px;padding-left:26px}
+.step:last-child .b{border-left-color:transparent}
+.step .b .mono{font-size:16px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="mast"><div class="rule">The &#x27;Merica-L Internet · JAH Databases</div>
+<h1>JAH Wiki Database — Signature edition — Database website</h1>
+<div class="navline"><a href="https://justinahiggins614-cmyk.github.io/jah-databases/">The 'Merica-L Internet</a> — under <a href="https://justinahiggins614-cmyk.github.io/jah-databases/the-merica-l-boundless-ecosystem-os.html">'Merica-L Boundless Ecosystem OS</a> &nbsp;·&nbsp; <a href="../index.html">Mirror — public version</a> &nbsp;·&nbsp; <a href="accessible/index.html">Accessible version (plain, no JavaScript)</a></div></header>
+<nav class="secnav" aria-label="Page sections"><a href="#s1">1. Description and history</a><a href="#s2">2. Math proof</a><a href="#s3">3. Science proof</a><a href="#s4">4. Relevant data</a><a href="#s5">5. Spec / patent + 3D-print version</a><a href="#s6">6. Demonstration programs / working prototypes</a><a href="#s7">7. Two AIs</a><a href="#s8">8. USE section</a><a href="#s9">9. Sources, codes, and network</a></nav>
+<main>
+
+<p class="byline">By Anonymous of Peace.</p><div class="hero"><h2>JAH Databases — Signature design</h2><p style="font-size:22px;font-weight:700">JAH Wiki Database — Signature edition</p><p class="tagline">Signature-original articles — new methods, designs, and works in jah wiki — Signature-original creations from the Signature system, never presented as public record.</p><div class="chips"><span class="chip">20 records shown of 20</span><span class="chip gold">Signature design-study</span><span class="chip">The &#x27;Merica-L Internet</span></div><figure class="fig"><svg viewBox="0 0 420 80" role="img" aria-label="Records by family">
+<text x="10" y="20" font-family="Libre Franklin,sans-serif" font-size="13" font-weight="800" letter-spacing="0.12em" fill="#16130c">RECORDS BY FAMILY</text>
+<text x="10" y="38" font-family="Georgia,serif" font-size="13" fill="#16130c">article</text>
+<rect x="150" y="26" width="300" height="16" fill="#a97e00"/>
+<text x="455" y="38" font-family="IBM Plex Mono,monospace" font-size="13" fill="#16130c">20</text>
+</svg><figcaption>Figure — first 20 records by family.</figcaption></figure></div>
+<div class="actions"><button class="btn" id="readBtn" type="button" onclick="toggleRead()">Read aloud</button></div>
+<section id="s1" aria-labelledby="h-s1"><h2 class="chap" id="h-s1"><span class="chapno">Section 1</span><br>Description and history</h2><p>Signature-original articles — new methods, designs, and works in jah wiki — Signature-original creations from the Signature system, never presented as public record.</p><p>This website shows the first 20 records of the Signature JAH Wiki database — 20 records in all. The records below are listed with their descriptions; their full records live on the <a href="../../../wiki-signature/index.html">hub catalog page</a>.</p><div class="warn"><b>Design-study.</b> This is the Signature edition: Signature-made versions of the public records, designed to the same pattern. Designs are design-studies, not real products and not established fact.</div></section>
+<section id="s2" aria-labelledby="h-s2"><h2 class="chap" id="h-s2"><span class="chapno">Section 2</span><br>Math proof (standard math + metamath)</h2><p>The database's math is the arithmetic of its records: every record's demo was executed twice during the build, and both runs produced identical output. No separate database-level proof is recorded in the manifest.</p><table><thead><tr><th>Record</th><th>Demo</th><th>Verified outputs (first three)</th></tr></thead><tbody><tr><td>JAH-WIKIS2-000001</td><td>python / generated</td><td>total: 950, mean: 237.5, first plus second: 937</td></tr><tr><td>JAH-WIKIS2-000002</td><td>python / generated</td><td>total: 875, mean: 218.75, first plus second: 862</td></tr><tr><td>JAH-WIKIS2-000003</td><td>python / generated</td><td>total: 678, mean: 169.5, first plus second: 665</td></tr><tr><td>JAH-WIKIS2-000004</td><td>python / generated</td><td>total: 809, mean: 202.25, first plus second: 796</td></tr><tr><td>JAH-WIKIS2-000005</td><td>python / generated</td><td>total: 812, mean: 203, first plus second: 799</td></tr><tr><td>JAH-WIKIS2-000006</td><td>python / generated</td><td>total: 782, mean: 195.5, first plus second: 769</td></tr><tr><td>JAH-WIKIS2-000007</td><td>python / generated</td><td>total: 769, mean: 192.25, first plus second: 756</td></tr><tr><td>JAH-WIKIS2-000008</td><td>python / generated</td><td>total: 690, mean: 172.5, first plus second: 677</td></tr><tr><td>JAH-WIKIS2-000009</td><td>python / generated</td><td>total: 671, mean: 167.75, first plus second: 658</td></tr><tr><td>JAH-WIKIS2-000010</td><td>python / generated</td><td>total: 685, mean: 171.25, first plus second: 672</td></tr><tr><td>JAH-WIKIS2-000011</td><td>python / generated</td><td>total: 645, mean: 161.25, first plus second: 632</td></tr><tr><td>JAH-WIKIS2-000012</td><td>python / generated</td><td>total: 687, mean: 171.75, first plus second: 674</td></tr><tr><td>JAH-WIKIS2-000013</td><td>python / generated</td><td>total: 646, mean: 161.5, first plus second: 633</td></tr><tr><td>JAH-WIKIS2-000014</td><td>python / generated</td><td>total: 668, mean: 167, first plus second: 655</td></tr><tr><td>JAH-WIKIS2-000015</td><td>python / generated</td><td>total: 815, mean: 203.75, first plus second: 802</td></tr><tr><td>JAH-WIKIS2-000016</td><td>python / generated</td><td>total: 824, mean: 206, first plus second: 811</td></tr><tr><td>JAH-WIKIS2-000017</td><td>python / generated</td><td>total: 738, mean: 184.5, first plus second: 725</td></tr><tr><td>JAH-WIKIS2-000018</td><td>python / generated</td><td>total: 747, mean: 186.75, first plus second: 734</td></tr><tr><td>JAH-WIKIS2-000019</td><td>python / generated</td><td>total: 857, mean: 214.25, first plus second: 844</td></tr><tr><td>JAH-WIKIS2-000020</td><td>python / generated</td><td>total: 901, mean: 225.25, first plus second: 888</td></tr></tbody></table></section>
+<section id="s3" aria-labelledby="h-s3"><h2 class="chap" id="h-s3"><span class="chapno">Section 3</span><br>Science proof</h2><p>Each record carries its own science proof on its file page (linked in section 4). 0 of the first 20 records carry a separate science proof in the record itself.</p><p>No separate database-level science proof is recorded in the manifest.</p></section>
+<section id="s4" aria-labelledby="h-s4"><h2 class="chap" id="h-s4"><span class="chapno">Section 4</span><br>Relevant data</h2><h3>Browse the first 20 records</h3><details><summary>article (20)</summary><div class="tiles"><div class="tile" data-family="article"><h4>Signature JAH Wiki Field Guide: The Core Definitions</h4><p>JAH Wiki is the Signature system&#x27;s original body of knowledge for jah wiki: the terms, the tools, and the working methods, all created in the Signature system and labeled Signature</p><div class="links"><span class="note">Full record on the hub page</span></div></div><div class="tile" data-family="article"><h4>Foundations: The Five Principles of Signature JAH Wiki</h4><p>Every Signature jah wiki creation rests on five principles. First, originality: the work is genuinely new, invented in the Signature system rather than copied. Second, clarity: eac</p><div class="links"><span class="note">Full record on the hub page</span></div></div><div class="tile" data-family="article"><h4>Signature JAH Wiki Glossary: The Essential Vocabulary</h4><p>A field needs its words. This glossary collects the essential vocabulary of Signature jah wiki: the terms a practitioner reaches for daily, each defined in one or two plain sentenc</p><div class="links"><span class="note">Full record on the hub page</span></div></div><div class="tile" data-family="article"><h4>The Signature JAH Wiki Teaching Ladder: Simple to Compounded to Complex</h4><p>The teaching ladder is the Signature system&#x27;s standing rule for learning: every database teaches simple first, compounded second, and complex last. Records in this database carry a</p><div class="links"><span class="note">Full record on the hub page</span></div></div><div class="tile" data-family="article"><h4>Signature JAH Wiki Method One: The Core Working Method</h4><p>Method One is the Signature system&#x27;s core working method for jah wiki: a named, repeatable procedure that takes a raw starting point and produces a finished, checkable result. It w</p><div class="links"><span class="note">Full record on the hub page</span></div></div><div class="tile" data-family="article"><h4>Signature JAH Wiki Technique: Precision Practice</h4><p>Where Method One is the whole procedure, the Precision Technique is the Signature system&#x27;s way of doing the delicate middle of the work well. It is a practice discipline for jah wi</p><div class="links"><span class="note">Full record on the hub page</span></div></div><div class="tile" data-family="article"><h4>Signature JAH Wiki Design Pattern: The Reusable Blueprint</h4><p>The Reusable Blueprint is the Signature system&#x27;s design pattern for jah wiki: a proven arrangement of parts that can be applied again and again to new material. Patterns are how Si</p><div class="links"><span class="note">Full record on the hub page</span></div></div><div class="tile" data-family="article"><h4>Signature JAH Wiki Protocol: The Step-by-Step Procedure</h4><p>The Signature jah wiki Protocol turns Method One into a checklist: numbered steps, each with a verification, so two different people following the protocol produce the same quality</p><div class="links"><span class="note">Full record on the hub page</span></div></div><div class="tile" data-family="article"><h4>Signature JAH Wiki Reference Implementation</h4><p>The Reference Implementation is the Signature system&#x27;s canonical working code for jah wiki: a small, readable program that demonstrates the core ideas correctly. It is the implemen</p><div class="links"><span class="note">Full record on the hub page</span></div></div><div class="tile" data-family="article"><h4>The Signature JAH Wiki Toolkit: Tools of the Trade</h4><p>The Toolkit collects the Signature system&#x27;s working tools for jah wiki: small, sharp utilities that each do one job well. A practitioner reaches for the toolkit the way a craftsper</p><div class="links"><span class="note">Full record on the hub page</span></div></div><div class="tile" data-family="article"><h4>Signature JAH Wiki Measurement Scale</h4><p>You cannot improve what you do not measure. The Measurement Scale is the Signature system&#x27;s scoring instrument for jah wiki: it turns &#x27;good&#x27; into numbers, so progress is visible an</p><div class="links"><span class="note">Full record on the hub page</span></div></div><div class="tile" data-family="article"><h4>Signature JAH Wiki Worked Example, Start to Finish</h4><p>This record works one complete example from a blank start to a finished Signature jah wiki piece, showing every intermediate value. Worked examples are the bridge between reading a</p><div class="links"><span class="note">Full record on the hub page</span></div></div><div class="tile" data-family="article"><h4>Signature JAH Wiki Troubleshooting Playbook</h4><p>Even good work hits snags. The Troubleshooting Playbook is the Signature system&#x27;s diagnostic manual for jah wiki: symptoms, the checks that identify each cause, and the fix for eac</p><div class="links"><span class="note">Full record on the hub page</span></div></div><div class="tile" data-family="article"><h4>Signature JAH Wiki Performance Benchmarks</h4><p>Benchmarks keep the Signature system honest: they measure how fast the working methods run and how their cost grows with input size. This record publishes the reference benchmarks </p><div class="links"><span class="note">Full record on the hub page</span></div></div><div class="tile" data-family="article"><h4>The Signature JAH Wiki Compounding Framework</h4><p>Compounding is the Signature system&#x27;s growth engine: each generation of a creation improves on every axis of the last. The Compounding Framework makes that discipline explicit for </p><div class="links"><span class="note">Full record on the hub page</span></div></div><div class="tile" data-family="article"><h4>Signature JAH Wiki Advanced System Design</h4><p>Advanced work in jah wiki is systems work: many parts, one behavior. This record designs the Signature jah wiki Advanced System — the full assembly of intake, shaping, measurement,</p><div class="links"><span class="note">Full record on the hub page</span></div></div><div class="tile" data-family="article"><h4>Signature JAH Wiki Archive-Aware AI Integration</h4><p>Every Signature database ships with its own archive-aware AI, and this record specifies how that AI serves jah wiki. The AI knows this archive&#x27;s records by heart, teaches the ladde</p><div class="links"><span class="note">Full record on the hub page</span></div></div><div class="tile" data-family="article"><h4>Signature JAH Wiki: The Future Roadmap</h4><p>A database is a living thing. The Future Roadmap lays out where Signature jah wiki goes next: the next three compounding generations, the new methods on the drawing board, and the </p><div class="links"><span class="note">Full record on the hub page</span></div></div><div class="tile" data-family="article"><h4>Signature JAH Wiki Master Work: The Signature Creation</h4><p>The Master Work is the Signature system&#x27;s highest rung: an original creation in jah wiki that demonstrates everything the database teaches — method, technique, pattern, measurement</p><div class="links"><span class="note">Full record on the hub page</span></div></div><div class="tile" data-family="article"><h4>The Signature JAH Wiki Grand Synthesis</h4><p>The Grand Synthesis closes the database by weaving everything together: the definitions, the principles, the methods, the tools, the measurements, the compounding generations, and </p><div class="links"><span class="note">Full record on the hub page</span></div></div></div></details><h3>Record table</h3><table><thead><tr><th>Record</th><th>Title</th><th>Family</th></tr></thead><tbody><tr><td><span class="note">JAH-WIKIS2-000001 — full record on the hub page</span></td><td>Signature JAH Wiki Field Guide: The Core Definitions</td><td>article</td></tr><tr><td><span class="note">JAH-WIKIS2-000002 — full record on the hub page</span></td><td>Foundations: The Five Principles of Signature JAH Wiki</td><td>article</td></tr><tr><td><span class="note">JAH-WIKIS2-000003 — full record on the hub page</span></td><td>Signature JAH Wiki Glossary: The Essential Vocabulary</td><td>article</td></tr><tr><td><span class="note">JAH-WIKIS2-000004 — full record on the hub page</span></td><td>The Signature JAH Wiki Teaching Ladder: Simple to Compounded to Complex</td><td>article</td></tr><tr><td><span class="note">JAH-WIKIS2-000005 — full record on the hub page</span></td><td>Signature JAH Wiki Method One: The Core Working Method</td><td>article</td></tr><tr><td><span class="note">JAH-WIKIS2-000006 — full record on the hub page</span></td><td>Signature JAH Wiki Technique: Precision Practice</td><td>article</td></tr><tr><td><span class="note">JAH-WIKIS2-000007 — full record on the hub page</span></td><td>Signature JAH Wiki Design Pattern: The Reusable Blueprint</td><td>article</td></tr><tr><td><span class="note">JAH-WIKIS2-000008 — full record on the hub page</span></td><td>Signature JAH Wiki Protocol: The Step-by-Step Procedure</td><td>article</td></tr><tr><td><span class="note">JAH-WIKIS2-000009 — full record on the hub page</span></td><td>Signature JAH Wiki Reference Implementation</td><td>article</td></tr><tr><td><span class="note">JAH-WIKIS2-000010 — full record on the hub page</span></td><td>The Signature JAH Wiki Toolkit: Tools of the Trade</td><td>article</td></tr><tr><td><span class="note">JAH-WIKIS2-000011 — full record on the hub page</span></td><td>Signature JAH Wiki Measurement Scale</td><td>article</td></tr><tr><td><span class="note">JAH-WIKIS2-000012 — full record on the hub page</span></td><td>Signature JAH Wiki Worked Example, Start to Finish</td><td>article</td></tr><tr><td><span class="note">JAH-WIKIS2-000013 — full record on the hub page</span></td><td>Signature JAH Wiki Troubleshooting Playbook</td><td>article</td></tr><tr><td><span class="note">JAH-WIKIS2-000014 — full record on the hub page</span></td><td>Signature JAH Wiki Performance Benchmarks</td><td>article</td></tr><tr><td><span class="note">JAH-WIKIS2-000015 — full record on the hub page</span></td><td>The Signature JAH Wiki Compounding Framework</td><td>article</td></tr><tr><td><span class="note">JAH-WIKIS2-000016 — full record on the hub page</span></td><td>Signature JAH Wiki Advanced System Design</td><td>article</td></tr><tr><td><span class="note">JAH-WIKIS2-000017 — full record on the hub page</span></td><td>Signature JAH Wiki Archive-Aware AI Integration</td><td>article</td></tr><tr><td><span class="note">JAH-WIKIS2-000018 — full record on the hub page</span></td><td>Signature JAH Wiki: The Future Roadmap</td><td>article</td></tr><tr><td><span class="note">JAH-WIKIS2-000019 — full record on the hub page</span></td><td>Signature JAH Wiki Master Work: The Signature Creation</td><td>article</td></tr><tr><td><span class="note">JAH-WIKIS2-000020 — full record on the hub page</span></td><td>The Signature JAH Wiki Grand Synthesis</td><td>article</td></tr></tbody></table></section>
+<section id="s5" aria-labelledby="h-s5"><h2 class="chap" id="h-s5"><span class="chapno">Section 5</span><br>Spec / patent + 3D-print version</h2><p>Spec filings, wiki entries, and dictionary definitions live on each record's file page (section 4). No separate database-level spec filing is recorded in the manifest.</p><p>3D-print directions: 0 of the first 20 records carry print directions in the record itself. Records that carry them show them on their file pages; this page invents none.</p></section>
+<section id="s6" aria-labelledby="h-s6"><h2 class="chap" id="h-s6"><span class="chapno">Section 6</span><br>Demonstration programs / working prototypes</h2><h3>Demonstrations — first 20 records</h3><table><thead><tr><th>Record</th><th>Title</th><th>Demo</th><th>Outputs</th><th>File</th></tr></thead><tbody><tr><td>JAH-WIKIS2-000001</td><td>Signature JAH Wiki Field Guide: The Core Definitions</td><td>python / generated</td><td>5 outputs</td><td><a href="../../index.html">hub page</a></td></tr><tr><td>JAH-WIKIS2-000002</td><td>Foundations: The Five Principles of Signature JAH Wiki</td><td>python / generated</td><td>5 outputs</td><td><a href="../../index.html">hub page</a></td></tr><tr><td>JAH-WIKIS2-000003</td><td>Signature JAH Wiki Glossary: The Essential Vocabulary</td><td>python / generated</td><td>5 outputs</td><td><a href="../../index.html">hub page</a></td></tr><tr><td>JAH-WIKIS2-000004</td><td>The Signature JAH Wiki Teaching Ladder: Simple to Compounded to Complex</td><td>python / generated</td><td>5 outputs</td><td><a href="../../index.html">hub page</a></td></tr><tr><td>JAH-WIKIS2-000005</td><td>Signature JAH Wiki Method One: The Core Working Method</td><td>python / generated</td><td>5 outputs</td><td><a href="../../index.html">hub page</a></td></tr><tr><td>JAH-WIKIS2-000006</td><td>Signature JAH Wiki Technique: Precision Practice</td><td>python / generated</td><td>5 outputs</td><td><a href="../../index.html">hub page</a></td></tr><tr><td>JAH-WIKIS2-000007</td><td>Signature JAH Wiki Design Pattern: The Reusable Blueprint</td><td>python / generated</td><td>5 outputs</td><td><a href="../../index.html">hub page</a></td></tr><tr><td>JAH-WIKIS2-000008</td><td>Signature JAH Wiki Protocol: The Step-by-Step Procedure</td><td>python / generated</td><td>5 outputs</td><td><a href="../../index.html">hub page</a></td></tr><tr><td>JAH-WIKIS2-000009</td><td>Signature JAH Wiki Reference Implementation</td><td>python / generated</td><td>5 outputs</td><td><a href="../../index.html">hub page</a></td></tr><tr><td>JAH-WIKIS2-000010</td><td>The Signature JAH Wiki Toolkit: Tools of the Trade</td><td>python / generated</td><td>5 outputs</td><td><a href="../../index.html">hub page</a></td></tr><tr><td>JAH-WIKIS2-000011</td><td>Signature JAH Wiki Measurement Scale</td><td>python / generated</td><td>5 outputs</td><td><a href="../../index.html">hub page</a></td></tr><tr><td>JAH-WIKIS2-000012</td><td>Signature JAH Wiki Worked Example, Start to Finish</td><td>python / generated</td><td>5 outputs</td><td><a href="../../index.html">hub page</a></td></tr><tr><td>JAH-WIKIS2-000013</td><td>Signature JAH Wiki Troubleshooting Playbook</td><td>python / generated</td><td>5 outputs</td><td><a href="../../index.html">hub page</a></td></tr><tr><td>JAH-WIKIS2-000014</td><td>Signature JAH Wiki Performance Benchmarks</td><td>python / generated</td><td>5 outputs</td><td><a href="../../index.html">hub page</a></td></tr><tr><td>JAH-WIKIS2-000015</td><td>The Signature JAH Wiki Compounding Framework</td><td>python / generated</td><td>5 outputs</td><td><a href="../../index.html">hub page</a></td></tr><tr><td>JAH-WIKIS2-000016</td><td>Signature JAH Wiki Advanced System Design</td><td>python / generated</td><td>5 outputs</td><td><a href="../../index.html">hub page</a></td></tr><tr><td>JAH-WIKIS2-000017</td><td>Signature JAH Wiki Archive-Aware AI Integration</td><td>python / generated</td><td>5 outputs</td><td><a href="../../index.html">hub page</a></td></tr><tr><td>JAH-WIKIS2-000018</td><td>Signature JAH Wiki: The Future Roadmap</td><td>python / generated</td><td>5 outputs</td><td><a href="../../index.html">hub page</a></td></tr><tr><td>JAH-WIKIS2-000019</td><td>Signature JAH Wiki Master Work: The Signature Creation</td><td>python / generated</td><td>5 outputs</td><td><a href="../../index.html">hub page</a></td></tr><tr><td>JAH-WIKIS2-000020</td><td>The Signature JAH Wiki Grand Synthesis</td><td>python / generated</td><td>5 outputs</td><td><a href="../../index.html">hub page</a></td></tr></tbody></table><h3>First record's demo (JAH-WIKIS2-000001)</h3><pre><code>&quot;&quot;&quot;Numeric check — Signature JAH Wiki Field Guide: The Core Definitions (JAH-WIKIS2-000001).
+Made for this page from text-derived counts (the record carries no usable numbers of its own).
+This program checks the arithmetic of the stored figures; its outputs
+are check-sums, not physical quantities.&quot;&quot;&quot;
+import hashlib
+def compute():
+    title_chars = 52; desc_chars = 885; source_count = 0; field_count = 13
+    total = round(title_chars + desc_chars + source_count + field_count, 2)
+    mean = round(total / 4, 2)
+    first_plus_second = round(title_chars + desc_chars, 2)
+    first_minus_second = round(title_chars - desc_chars, 2)
+    first_times_second = round(title_chars * desc_chars, 2)
+    return {&quot;total&quot;: total, &quot;mean&quot;: mean, &quot;first_plus_second&quot;: first_plus_second, &quot;first_minus_second&quot;: first_minus_second, &quot;first_times_second&quot;: first_times_second}
+def main():
+    a = compute(); b = compute()
+    sa = hashlib.sha256(repr(sorted(a.items())).encode()).hexdigest()
+    sb = hashlib.sha256(repr(sorted(b.items())).encode()).hexdigest()
+    for key in [&quot;total&quot;, &quot;mean&quot;, &quot;first_plus_second&quot;, &quot;first_minus_second&quot;, &quot;first_times_second&quot;]:
+        print(f&quot;{key}: {a[key]}&quot;)
+    print(f&quot;Run 1 SHA-256: {sa}&quot;)
+    print(f&quot;Run 2 SHA-256: {sb}&quot;)
+    print(f&quot;Deterministic: {&#x27;MATCH&#x27; if sa == sb else &#x27;MISMATCH&#x27;}&quot;)
+if __name__ == &quot;__main__&quot;:
+    main()
+</code></pre><h3>Verified output</h3><pre>total: 950
+mean: 237.5
+first_plus_second: 937
+first_minus_second: -833
+first_times_second: 46020
+Run 1 SHA-256: e3c4f05bf680b591966bd7f7a239356c38c82856160596ae995ae29508833b7c
+Run 2 SHA-256: e3c4f05bf680b591966bd7f7a239356c38c82856160596ae995ae29508833b7c
+Deterministic: MATCH
+</pre></section>
+<section id="s7" aria-labelledby="h-s7"><h2 class="chap" id="h-s7"><span class="chapno">Section 7</span><br>Two AIs</h2><div class="panel"><h3>Signature JAH Wiki Librarian — the website AI</h3><p>Asks, looks up, routes, and generates from this page’s own records and their cited sources. It answers only from this page’s data and says plainly when a question goes outside it.</p><label for="ask1-in">Ask the website AI</label><input type="text" id="ask1-in" placeholder="e.g. What is this supply made of?"><div class="row"><button class="btn" type="button" onclick="askAI('ask1-in', 'ask1-out', 'Signature JAH Wiki Librarian')">Ask</button></div><div class="answer" id="ask1-out"></div></div><div class="panel"><h3>JAH Wiki Database — Signature edition — the thing itself, as an AI</h3><p>Answers as the thing in this record, from the record’s own numbers — its dimensions, materials, mechanism, and demo figures.</p><label for="ask2-in">Ask the thing</label><input type="text" id="ask2-in" placeholder="e.g. How many teeth do you have?"><div class="row"><button class="btn" type="button" onclick="askAI('ask2-in', 'ask2-out', 'JAH Wiki Database — Signature edition')">Ask</button></div><div class="answer" id="ask2-out"></div></div></section>
+<section id="s8" aria-labelledby="h-s8"><h2 class="chap" id="h-s8"><span class="chapno">Section 8</span><br>USE section — use, download, copy</h2><p>The boundless generator for this edition's records runs from the <a href="../index.html">twin database website</a>, which renders this edition's records with their own generators. The full record set lives on the <a href="../../index.html">hub catalog page</a>.</p><h3>Downloads</h3><ul class="dl"><li><a href="downloads/wiki-signature_first-20.json" download>First 20 records (JSON)</a> <span class="mono">the 20 records shown on this website, complete</span></li></ul><p>The full database — all 20 records — is on the <a href="../../../wiki-signature/index.html">hub catalog page</a>.</p><p>Generator ceiling: up to 1,000,000,000 scales per file, generated on demand by the file AI — not stored files.</p><p>Free forever — no payment, no account, no keys, no upsell.</p><h3>Downloadable AIs</h3><ul class="dl"><li><a href="downloads/wiki-signature_website-ai.js" download>Website AI (download)</a></li><li><a href="downloads/wiki-signature_database-ai.js" download>Database AI (download)</a></li><li><a href="downloads/wiki-signature_website-ai-spec.txt" download>Website AI spec sheet</a></li><li><a href="downloads/wiki-signature_database-ai-spec.txt" download>Database AI spec sheet</a></li></ul><p>Both AIs on this page — the website Q&A AI and the AI version of the database — are downloadable with their spec sheets, free forever.</p></section>
+<section id="s9" aria-labelledby="h-s9"><h2 class="chap" id="h-s9"><span class="chapno">Section 9</span><br>Sources, codes, and network</h2><p><strong>JCC v1 condensed code:</strong> <code>JAHDB/wiki-signature#database</code> — a decodable pointer to this database, never a replacement for the full data.</p><p><strong>Plain-text access:</strong> this page is plain HTML with no login and no JavaScript required on its <a href="accessible/index.html">accessible version</a>. Public AI systems can read it the same way as any other page on this network.</p><p><strong>Twin edition:</strong> <a href="../index.html">JAH Wiki Database</a> — the twin edition's website.</p><p><strong>Network:</strong> <a href="https://justinahiggins614-cmyk.github.io/jah-databases/">The 'Merica-L Internet</a> under <a href="https://justinahiggins614-cmyk.github.io/jah-databases/the-merica-l-boundless-ecosystem-os.html">'Merica-L Boundless Ecosystem OS</a>.</p><h3>Sources</h3><p>The first 20 records of this database carry no external source list in the archive. Their provenance is the archive itself, stated on this page and on each record's file page.</p></section>
+</main>
+<footer><p>Free forever — no payment, no account, no keys, no upsell.</p><p class="note">Part of <a href="https://justinahiggins614-cmyk.github.io/jah-databases/">The 'Merica-L Internet</a>, under <a href="https://justinahiggins614-cmyk.github.io/jah-databases/the-merica-l-boundless-ecosystem-os.html">'Merica-L Boundless Ecosystem OS</a>. JAH Databases — free forever.</p></footer>
+</div>
+<script>
+/* Python-faithful helpers for the in-page calculators.
+ * pyRound: Python round(x, n) — round-half-even on the EXACT binary value.
+ * PyRandom: CPython random.Random(seed) — MT19937 with Python's
+ * init_by_array seeding, random() (53-bit), uniform(a, b).
+ * Both are verified against CPython (see test below) before use. */
+
+function pyRound(x, n) {
+  if (!isFinite(x)) return x;
+  if (n === undefined) n = 0;
+  if (n < 0) { // Python allows negative n; rare here — use toFixed fallback
+    var p = Math.pow(10, -n);
+    return pyRound(x / p, 0) * p;
+  }
+  var neg = x < 0 || (x === 0 && 1 / x < 0);
+  var ax = Math.abs(x);
+  if (ax === 0) return 0;
+  // Exact decimal expansion of the double via BigInt.
+  var buf = new ArrayBuffer(8);
+  var dv = new DataView(buf);
+  dv.setFloat64(0, ax);
+  var bits = dv.getBigUint64(0);
+  var exp = Number((bits >> 52n) & 0x7FFn);
+  var frac = bits & ((1n << 52n) - 1n);
+  var mant, e2;
+  if (exp === 0) { mant = frac; e2 = -1074; }
+  else { mant = frac + (1n << 52n); e2 = exp - 1075; }
+  var digits, point;
+  if (e2 >= 0) {
+    digits = (mant << BigInt(e2)).toString();
+    point = digits.length;
+  } else {
+    var k = -e2;
+    var scaled = mant * (5n ** BigInt(k));
+    digits = scaled.toString();
+    point = digits.length - k;
+  }
+  // Round the digit string to (point + n) kept digits, half-even.
+  var keep = point + n;
+  var rounded;
+  if (keep <= 0) {
+    // value < 10^-n * 0.5 threshold region: decide 0 vs 10^-n
+    // first significant digit position
+    var firstSig = 0;
+    while (firstSig < digits.length && digits[firstSig] === '0') firstSig++;
+    if (firstSig >= digits.length) return 0;
+    var pos = firstSig - point; // digits after the point before first sig (<=0 means before point)
+    // The value is d.ddd * 10^(point - firstSig - 1)... simpler: compare
+    // value * 10^n with 0.5 by looking at the digit at index keep.
+    rounded = roundDigitsAt(digits, keep);
+  } else {
+    rounded = roundDigitsAt(digits, keep);
+  }
+  // Format the rounded digit string back to a number with n decimals.
+  var out;
+  if (rounded.length <= n) {
+    out = '0.' + '0'.repeat(n - rounded.length) + rounded;
+  } else if (n === 0) {
+    out = rounded;
+  } else {
+    out = rounded.slice(0, rounded.length - n) + '.' + rounded.slice(rounded.length - n);
+  }
+  var val = Number(out);
+  return neg ? -val : val;
+}
+function roundDigitsAt(digits, keep) {
+  // digits: string of decimal digits (no point), most significant first.
+  // keep: number of leading digits to keep; round the rest half-even.
+  if (keep >= digits.length) return digits;
+  if (keep <= 0) {
+    // kept part is empty; value is 0.xxx... — round to 0 or 1 unit
+    var d0 = digits[0];
+    var rest = digits.slice(1);
+    var cmp0 = d0 > '5' ? 1 : d0 < '5' ? -1 : (/[1-9]/.test(rest) ? 1 : 0);
+    if (cmp0 > 0) return '1';
+    if (cmp0 < 0) return '0';
+    return '0'; // tie at 0 -> even (0)
+  }
+  var kept = digits.slice(0, keep);
+  var next = digits[keep];
+  var tail = digits.slice(keep + 1);
+  var cmp;
+  if (next > '5') cmp = 1;
+  else if (next < '5') cmp = -1;
+  else cmp = /[1-9]/.test(tail) ? 1 : 0;
+  if (cmp > 0) return incDigitString(kept);
+  if (cmp < 0) return kept;
+  // tie: round to even
+  var last = kept[kept.length - 1];
+  if ((last.charCodeAt(0) - 48) % 2 === 1) return incDigitString(kept);
+  return kept;
+}
+function incDigitString(s) {
+  var a = s.split('');
+  var i = a.length - 1;
+  while (i >= 0) {
+    var d = a[i].charCodeAt(0) - 48 + 1;
+    if (d === 10) { a[i] = '0'; i--; }
+    else { a[i] = String.fromCharCode(48 + d); return a.join(''); }
+  }
+  return '1' + a.join('');
+}
+
+/* ---- MT19937, CPython-compatible ---- */
+function PyRandom(seed) {
+  this.mt = new Array(624);
+  this.index = 624;
+  var key = [];
+  var s = Math.abs(Math.trunc(seed));
+  if (s === 0) key = [0];
+  else { while (s > 0) { key.push(s >>> 0); s = Math.floor(s / 4294967296); } }
+  // init_by_array
+  var N = 624, M = 397;
+  this.mt[0] = 19650218;
+  for (var i = 1; i < N; i++) {
+    this.mt[i] = (Math.imul(1812433253, this.mt[i - 1] ^ (this.mt[i - 1] >>> 30)) + i) >>> 0;
+  }
+  var i2 = 1, j = 0;
+  var k = Math.max(N, key.length);
+  for (var kk = 0; kk < k; kk++) {
+    var prev = this.mt[i2 - 1];
+    var cur = this.mt[i2];
+    this.mt[i2] = (cur ^ Math.imul(prev ^ (prev >>> 30), 1664525)) + key[j] + j;
+    this.mt[i2] >>>= 0;
+    i2++; j++;
+    if (i2 >= N) { this.mt[0] = this.mt[N - 1]; i2 = 1; }
+    if (j >= key.length) j = 0;
+  }
+  for (var kk2 = 0; kk2 < N - 1; kk2++) {
+    var prev2 = this.mt[i2 - 1];
+    var cur2 = this.mt[i2];
+    this.mt[i2] = (cur2 ^ Math.imul(prev2 ^ (prev2 >>> 30), 1566083941)) - i2;
+    this.mt[i2] >>>= 0;
+    i2++;
+    if (i2 >= N) { this.mt[0] = this.mt[N - 1]; i2 = 1; }
+  }
+  this.mt[0] = 0x80000000;
+  this.index = N;
+}
+PyRandom.prototype.twist = function () {
+  var N = 624, M = 397;
+  for (var i = 0; i < N; i++) {
+    var x = (this.mt[i] & 0x80000000) + (this.mt[(i + 1) % N] & 0x7fffffff);
+    var xa = x >>> 1;
+    if (x & 1) xa ^= 0x9908b0df;
+    this.mt[i] = (this.mt[(i + M) % N] ^ xa) >>> 0;
+  }
+  this.index = 0;
+};
+PyRandom.prototype.uint32 = function () {
+  if (this.index >= 624) this.twist();
+  var y = this.mt[this.index++];
+  y ^= y >>> 11;
+  y ^= (y << 7) & 0x9d2c5680;
+  y ^= (y << 15) & 0xefc60000;
+  y ^= y >>> 18;
+  return y >>> 0;
+};
+PyRandom.prototype.random = function () {
+  var a = this.uint32() >>> 5;
+  var b = this.uint32() >>> 6;
+  return (a * 67108864.0 + b) / 9007199254740992.0;
+};
+PyRandom.prototype.uniform = function (a, b) {
+  return a + (b - a) * this.random();
+};
+
+
+</script>
+<script>
+
+/* Shared services: read-aloud (one global controller), copy, AI ask boxes,
+   live calculator, boundless generator. No keys, no accounts, no network. */
+var __read = {on:false, chunks:[], i:0};
+function __speakChunks(){
+  if (!__read.on || __read.i >= __read.chunks.length) { __read.on = false; var b = document.getElementById('readBtn'); if (b) b.textContent = 'Read aloud'; return; }
+  var u = new SpeechSynthesisUtterance(__read.chunks[__read.i]);
+  u.rate = 1.0;
+  u.onend = function(){ __read.i++; __speakChunks(); };
+  u.onerror = function(){ __read.on = false; var b2 = document.getElementById('readBtn'); if (b2) b2.textContent = 'Read aloud'; };
+  speechSynthesis.speak(u);
+}
+function toggleRead(){
+  var b = document.getElementById('readBtn');
+  if (__read.on) { __read.on = false; speechSynthesis.cancel(); if (b) b.textContent = 'Read aloud'; return; }
+  var main = document.querySelector('main');
+  var text = main ? main.innerText.replace(/\s+/g, ' ') : document.body.innerText;
+  __read.chunks = text.match(/[^.!?]+[.!?]+["']?\s*/g) || [text];
+  __read.i = 0; __read.on = true;
+  if (b) b.textContent = 'Stop reading';
+  speechSynthesis.cancel();
+  __speakChunks();
+}
+function copyFrom(id, btn){
+  var el = document.getElementById(id);
+  if (!el) return;
+  var txt = el.value !== undefined ? el.value : el.textContent;
+  function done(){ if (btn) { var t = btn.textContent; btn.textContent = 'Copied'; setTimeout(function(){ btn.textContent = t; }, 1600); } }
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(txt).then(done, function(){ fallbackCopy(txt); done(); });
+  } else { fallbackCopy(txt); done(); }
+}
+function fallbackCopy(txt){
+  var ta = document.createElement('textarea');
+  ta.value = txt; document.body.appendChild(ta); ta.select();
+  try { document.execCommand('copy'); } catch (e) {}
+  document.body.removeChild(ta);
+}
+function norm(s){ return (s || '').toLowerCase().replace(/[^a-z0-9\s]/g, ' ').replace(/\s+/g, ' ').trim(); }
+function toks(s){ return norm(s).split(' ').filter(function(w){ return w.length > 1; }); }
+var STOPWORDS = {what:1,is:1,the:1,of:1,a:1,an:1,and:1,or:1,to:1,in:1,on:1,for:1,how:1,does:1,do:1,did:1,can:1,could:1,would:1,should:1,it:1,its:1,this:1,that:1,there:1,here:1,me:1,my:1,you:1,your:1,please:1,tell:1,about:1,show:1,give:1,get:1,with:1,by:1,from:1,at:1,as:1,be:1,are:1,was:1,were:1,has:1,have:1,had:1,i:1,we:1,they:1,he:1,she:1,who:1,whom:1,whose:1,which:1,when:1,where:1,why:1,not:1,no:1,yes:1,if:1,then:1,than:1,so:1,such:1,any:1,some:1,all:1,each:1,every:1,other:1,another:1,more:1,most:1,many:1,much:1,few:1,little:1,own:1,same:1,too:1,very:1,just:1,also:1,only:1,even:1,still:1,already:1,now:1};
+function scoreRec(q, rec){
+  var hay = norm((rec.title || '') + ' ' + (rec.family || '') + ' ' + (rec.desc || '') + ' ' + (rec.spec || ''));
+  var qT = toks(q).filter(function(w){ return !STOPWORDS[w]; }), hT = toks(hay);
+  var sc = 0;
+  qT.forEach(function(w){ if (hT.indexOf(w) >= 0) sc += 2; else if (hay.indexOf(w) >= 0) sc += 1; });
+  return sc;
+}
+function kbData(){ var el = document.getElementById('kb'); if (!el) return null; try { return JSON.parse(el.textContent); } catch (e) { return null; } }
+function answerQuestion(q, kb, persona){
+  var nq = norm(q);
+  if (!nq) return 'Ask me something about this page — a record, a number, a material, a step.';
+  if (kb && kb.legal && /\blegal\b|\blaw\b|\bjurisdiction\b/.test(nq)) return kb.legal;
+  if (/\bdownload\b/.test(nq)) return 'Every download on this page is a real file: the full record, the demo program, the full program, the spec sheet, the complete file, and both downloadable AIs with their spec sheets. See section 8, Use, download, copy — all free forever.';
+  if (/\bcopy\b/.test(nq)) return 'Use the Copy-all button in section 8. It copies the full record text, including the demo code, with its sources attached.';
+  if (/\bread aloud\b|\bread this\b|\blisten\b/.test(nq)) return 'Press the Read aloud button at the top of the page. It reads the whole page aloud and stops when you press Stop reading.';
+  if (/\bgenerat|\bscale\b|\bbigger\b|\bsmaller\b|\bvariant\b/.test(nq)) return 'Use the boundless generator in section 8: pick a seed (1 to 999,999,999) or a pocket / standard / workshop scale and press Generate. The generator ceiling is 1,000,000,000 scales per file.';
+  if (/\bsources?\b|\bcitation\b|\bwhere.*from\b/.test(nq)) {
+    if (kb && kb.sources && kb.sources.length) return 'Sources for this record: ' + kb.sources.map(function(s){ return s.text ? (s.title + ': ' + s.text.slice(0, 300)) : (s.title + ' — ' + s.url); }).join('; ') + '.';
+    return 'This record carries no external source list in the archive. Its provenance is the archive itself, stated on the page.';
+  }
+  if (/\btwin\b|\bsignature\b|\bpublic version\b/.test(nq)) {
+    if (kb && kb.twin) return 'The twin edition is ' + kb.twin.title + ' (' + kb.twin.id + '). Open it here: ' + kb.twin.url;
+    return 'This page has no twin edition.';
+  }
+  var recs = (kb && kb.records) || ((kb && kb.current) ? [kb.current] : []);
+  var best = null, bestSc = 0;
+  recs.forEach(function(r){ var s = scoreRec(q, r); if (s > bestSc) { bestSc = s; best = r; } });
+  var explicitRef = /\bthis\b|\bit\b|\bthe (record|thing|item|entry|database|archive|mix|program|file|option|supply)\b/.test(nq);
+  var target = best;
+  if (!target && kb && kb.current && explicitRef) target = kb.current;
+  if (target && (bestSc > 0 || explicitRef)) {
+    var spec = target.spec || {};
+    if (/\bdimension|\bsize\b|\bhow big|\bhow tall|\bhow wide|\bdiameter\b/.test(nq) && spec.dimensions) return target.title + ' — dimensions: ' + spec.dimensions;
+    if (/\bmaterial|\bmade of|\bmade from\b/.test(nq) && spec.materials) return target.title + ' — materials: ' + spec.materials;
+    if (/\bmechanism|\bhow.*work|\bhow does\b/.test(nq) && spec.mechanism) return target.title + ' — mechanism: ' + spec.mechanism;
+    if (/\buse\b|\bhow.*use\b|\bhow to use\b/.test(nq) && spec.use) return target.title + ' — use: ' + spec.use;
+    if (/\bcare\b|\bclean\b/.test(nq) && spec.care) return target.title + ' — care: ' + spec.care;
+    if (/\bvariant|\bversion\b/.test(nq) && spec.variants) return target.title + ' — variants: ' + spec.variants;
+    if (/\bdemo\b|\bprogram\b|\bcalculat|\bcompute\b/.test(nq)) return 'The demo for ' + target.title + ' is in section 6. Run it from the download, or use the live calculator on this page — it runs the record\u2019s own numbers in your browser and matches the record\u2019s official output exactly at the record\u2019s own inputs.';
+    if (/\bwhat is\b|\bwhat.*(this|that)\b|\btell me about\b/.test(nq) || bestSc > 0) {
+      var ans = target.title + ': ' + (target.desc || '');
+      if (target.url) ans += ' Full record: ' + target.url;
+      return ans;
+    }
+  }
+  if (recs.length > 1) return 'I answer only from this page\u2019s own records. Try asking about a record by name, a material, a dimension, a mechanism, or a use — or ask for the full list.';
+  return 'That goes outside what this page\u2019s records cover. I answer only from this page\u2019s own records and their cited sources, and I say so plainly when a question goes outside them.';
+}
+function askAI(inputId, outId, persona){
+  var inp = document.getElementById(inputId);
+  var out = document.getElementById(outId);
+  if (!inp || !out) return;
+  var q = inp.value;
+  var kb = kbData();
+  var ans = answerQuestion(q, kb, persona);
+  var who = persona ? persona + ': ' : '';
+  out.textContent = who + ans;
+}
+function runCalc(){
+  var out = document.getElementById('calcOut');
+  var match = document.getElementById('calcMatch');
+  if (!out) return;
+  var inp = {};
+  document.querySelectorAll('#calcForm input[data-var]').forEach(function(el){
+    var v = parseFloat(el.value);
+    if (!isNaN(v)) inp[el.getAttribute('data-var')] = v;
+  });
+  var seedEl = document.getElementById('calcSeed');
+  var seed = seedEl ? (parseInt(seedEl.value, 10) || undefined) : undefined;
+  var res;
+  try { res = calcRecord(inp, seed); }
+  catch (e) { out.textContent = 'Calculator error: ' + e.message; return; }
+  var lines = [];
+  Object.keys(res).forEach(function(k){ lines.push(k + ': ' + res[k]); });
+  out.textContent = lines.join('\n');
+  if (match) {
+    var off = document.getElementById('official');
+    if (off) {
+      try {
+        var o = JSON.parse(off.textContent);
+        var same = Object.keys(o).every(function(k){ return res[k] !== undefined && Math.abs(res[k] - o[k]) < 0.005; });
+        match.textContent = same ? 'Matches the record\u2019s official demo output exactly.' : 'Recomputed live from your inputs — the official values are shown in section 6.';
+      } catch (e) { match.textContent = ''; }
+    }
+  }
+}
+var __genCount = 0;
+function __seedFactor(seed){
+  var h = seed >>> 0;
+  h = Math.imul(h ^ (h >>> 16), 2246822507);
+  h = Math.imul(h ^ (h >>> 13), 3266489909);
+  h = (h ^ (h >>> 16)) >>> 0;
+  return 0.5 + (h % 1000) / 1000 * 1.5;
+}
+function runGen(){
+  var out = document.getElementById('genOut');
+  var seedEl = document.getElementById('genSeed');
+  if (!out || !seedEl) return;
+  var seed = parseInt(seedEl.value, 10);
+  if (isNaN(seed) || seed < 1) { out.textContent = 'Enter a seed from 1 to 999,999,999.'; return; }
+  if (seed >= 1000000000) { out.textContent = 'Hard stop: the generator ceiling is 1,000,000,000 scales per file. Seed 1,000,000,000 and above are refused.'; return; }
+  if (__genCount >= 100) { out.textContent = 'Throttle: 100 generations per call. Reload the page for a fresh call.'; return; }
+  var factorEl = document.querySelector('input[name="genScale"]:checked');
+  var factor = factorEl ? parseFloat(factorEl.value) : __seedFactor(seed);
+  __genCount++;
+  var kb = kbData();
+  var prefix = (kb && kb.gen_prefix) || 'GEN-';
+  var inp = {};
+  document.querySelectorAll('#calcForm input[data-var]').forEach(function(el){
+    var v = parseFloat(el.value);
+    if (isNaN(v)) return;
+    var name = el.getAttribute('data-var');
+    if (el.getAttribute('data-size') === '1') inp[name] = +(v * factor).toFixed(2);
+    else inp[name] = v;
+  });
+  var res;
+  try { res = calcRecord(inp, seed); }
+  catch (e) { out.textContent = 'Generator error: ' + e.message; return; }
+  var lines = [];
+  lines.push('Variant: ' + prefix + String(seed).padStart(6, '0') + '  (seed ' + seed + ', size factor ' + factor.toFixed(3) + ')');
+  lines.push('Scaled inputs: ' + Object.keys(inp).map(function(k){ return k + '=' + inp[k]; }).join(', '));
+  Object.keys(res).forEach(function(k){ lines.push(k + ': ' + res[k]); });
+  lines.push('Generation ' + __genCount + ' of 100 in this call. Ceiling: 1,000,000,000 scales per file.');
+  out.textContent = lines.join('\n');
+}
+function setGenScale(f, seed){
+  var s = document.getElementById('genSeed');
+  if (s) s.value = seed;
+  var r = document.querySelector('input[name="genScale"][value="' + f + '"]');
+  if (r) r.checked = true;
+  runGen();
+}
+function filterTiles(fam, btn){
+  document.querySelectorAll('.pill').forEach(function(p){ p.setAttribute('aria-pressed', 'false'); });
+  if (btn) btn.setAttribute('aria-pressed', 'true');
+  document.querySelectorAll('.tile[data-family]').forEach(function(t){
+    t.style.display = (fam === 'All' || t.getAttribute('data-family') === fam) ? '' : 'none';
+  });
+  var n = 0;
+  document.querySelectorAll('.tile[data-family]').forEach(function(t){ if (t.style.display !== 'none') n++; });
+  var c = document.getElementById('tileCount');
+  if (c) c.textContent = n + ' shown';
+}
+
+</script>
+<script type="application/json" id="kb">
+{"records": [{"id": "JAH-WIKIS2-000001", "title": "Signature JAH Wiki Field Guide: The Core Definitions", "family": "article", "desc": "JAH Wiki is the Signature system's original body of knowledge for jah wiki: the terms, the tools, and the working methods, all created in the Signature system and labeled Signature-original. Nothing here claims to be a public record; it is new creative and technical work built for study, practice, and imagination.\n\nThis field guide defines the five load-bearing ideas of jah wiki: the Signature met", "spec": {"mechanism": "JAH Wiki is the Signature system's original body of knowledge for jah wiki: the terms, the tools, and the working methods, all created in the Signature system and labeled Signature-original. Nothing here claims to be a public record; it is new creative and technical work built for study, practice, and imagination.\n\nThis field guide defines the five load-bearing ideas of jah wiki: the Signature method, the compounding generation, the teaching ladder, the working version, and the archive-aware AI. Each definition below is written to stand alone, so a newcomer can start anywhere and still learn s"}, "key_figures": {}, "url": "../../../wiki-signature/index.html"}, {"id": "JAH-WIKIS2-000002", "title": "Foundations: The Five Principles of Signature JAH Wiki", "family": "article", "desc": "Every Signature jah wiki creation rests on five principles. First, originality: the work is genuinely new, invented in the Signature system rather than copied. Second, clarity: each idea is stated in plain sentences a newcomer can follow. Third, the teaching ladder: simple before compounded, compounded before complex.\n\nFourth, the working version: every claim ships with something you can run, read", "spec": {"mechanism": "Every Signature jah wiki creation rests on five principles. First, originality: the work is genuinely new, invented in the Signature system rather than copied. Second, clarity: each idea is stated in plain sentences a newcomer can follow. Third, the teaching ladder: simple before compounded, compounded before complex.\n\nFourth, the working version: every claim ships with something you can run, read, or try. Fifth, honest labeling: Signature-original work is always presented as Signature-original, never as public record or established fact. Together these five principles are the foundation the r"}, "key_figures": {}, "url": "../../../wiki-signature/index.html"}, {"id": "JAH-WIKIS2-000003", "title": "Signature JAH Wiki Glossary: The Essential Vocabulary", "family": "article", "desc": "A field needs its words. This glossary collects the essential vocabulary of Signature jah wiki: the terms a practitioner reaches for daily, each defined in one or two plain sentences. Learn these and the rest of the database reads easily.\n\nThe glossary is a living document: as new Signature jah wiki methods are invented, their names enter here with definitions. Every entry is Signature-original, c", "spec": {"mechanism": "A field needs its words. This glossary collects the essential vocabulary of Signature jah wiki: the terms a practitioner reaches for daily, each defined in one or two plain sentences. Learn these and the rest of the database reads easily.\n\nThe glossary is a living document: as new Signature jah wiki methods are invented, their names enter here with definitions. Every entry is Signature-original, coined or redefined inside the Signature system for this database.\n\nThe demonstration below builds the glossary as a lookup table and runs sample lookups, the way the archive-aware AI answers vocabular"}, "key_figures": {}, "url": "../../../wiki-signature/index.html"}, {"id": "JAH-WIKIS2-000004", "title": "The Signature JAH Wiki Teaching Ladder: Simple to Compounded to Complex", "family": "article", "desc": "The teaching ladder is the Signature system's standing rule for learning: every database teaches simple first, compounded second, and complex last. Records in this database carry a ladder rank of 1, 2, or 3, and this record maps the whole climb for jah wiki.\n\nRank 1 records define terms, list principles, and give glossaries. Rank 2 records teach working methods, protocols, reference implementation", "spec": {"mechanism": "The teaching ladder is the Signature system's standing rule for learning: every database teaches simple first, compounded second, and complex last. Records in this database carry a ladder rank of 1, 2, or 3, and this record maps the whole climb for jah wiki.\n\nRank 1 records define terms, list principles, and give glossaries. Rank 2 records teach working methods, protocols, reference implementations, and benchmarks. Rank 3 records compound everything into frameworks, advanced systems, and master works. You should be able to start at rank 1 with no background and reach rank 3 by following the ru"}, "key_figures": {}, "url": "../../../wiki-signature/index.html"}, {"id": "JAH-WIKIS2-000005", "title": "Signature JAH Wiki Method One: The Core Working Method", "family": "article", "desc": "Method One is the Signature system's core working method for jah wiki: a named, repeatable procedure that takes a raw starting point and produces a finished, checkable result. It was invented in the Signature system, and it is presented as Signature-original work.\n\nThe method has four phases. Survey: list what you have and what you need. Shape: apply the Signature jah wiki pattern to arrange the p", "spec": {"mechanism": "Method One is the Signature system's core working method for jah wiki: a named, repeatable procedure that takes a raw starting point and produces a finished, checkable result. It was invented in the Signature system, and it is presented as Signature-original work.\n\nThe method has four phases. Survey: list what you have and what you need. Shape: apply the Signature jah wiki pattern to arrange the pieces. Stress: test the arrangement against the measurement scale. Ship: file the result with its working version. Each phase has a clear done-criterion, so you always know whether you finished the ph"}, "key_figures": {}, "url": "../../../wiki-signature/index.html"}, {"id": "JAH-WIKIS2-000006", "title": "Signature JAH Wiki Technique: Precision Practice", "family": "article", "desc": "Where Method One is the whole procedure, the Precision Technique is the Signature system's way of doing the delicate middle of the work well. It is a practice discipline for jah wiki: small, exact, repeatable moves that compound into quality.\n\nThe technique scores every attempt on three axes: exactness, consistency, and finish. Exactness measures whether the piece matches its specification. Consis", "spec": {"mechanism": "Where Method One is the whole procedure, the Precision Technique is the Signature system's way of doing the delicate middle of the work well. It is a practice discipline for jah wiki: small, exact, repeatable moves that compound into quality.\n\nThe technique scores every attempt on three axes: exactness, consistency, and finish. Exactness measures whether the piece matches its specification. Consistency measures whether repeated attempts match each other. Finish measures whether the piece is complete and presentable. A Signature practitioner drills until all three axes read high.\n\nThe demonstra"}, "key_figures": {}, "url": "../../../wiki-signature/index.html"}, {"id": "JAH-WIKIS2-000007", "title": "Signature JAH Wiki Design Pattern: The Reusable Blueprint", "family": "article", "desc": "The Reusable Blueprint is the Signature system's design pattern for jah wiki: a proven arrangement of parts that can be applied again and again to new material. Patterns are how Signature-original work stays original yet reliable — the pattern is fixed, the material is always new.\n\nThe pattern has five slots: intake, core, casing, signature, and seal. Intake receives the raw material. Core holds t", "spec": {"mechanism": "The Reusable Blueprint is the Signature system's design pattern for jah wiki: a proven arrangement of parts that can be applied again and again to new material. Patterns are how Signature-original work stays original yet reliable — the pattern is fixed, the material is always new.\n\nThe pattern has five slots: intake, core, casing, signature, and seal. Intake receives the raw material. Core holds the working idea. Casing makes it presentable. Signature marks it as Signature-original. Seal verifies it is complete. Every Signature jah wiki creation in this database can be read through these five "}, "key_figures": {}, "url": "../../../wiki-signature/index.html"}, {"id": "JAH-WIKIS2-000008", "title": "Signature JAH Wiki Protocol: The Step-by-Step Procedure", "family": "article", "desc": "The Signature jah wiki Protocol turns Method One into a checklist: numbered steps, each with a verification, so two different people following the protocol produce the same quality of result. Protocols are the Signature system's answer to 'how do I do it right the first time.'\n\nEach step states its action, its check, and its fallback. The action is what you do. The check proves you did it. The fal", "spec": {"mechanism": "The Signature jah wiki Protocol turns Method One into a checklist: numbered steps, each with a verification, so two different people following the protocol produce the same quality of result. Protocols are the Signature system's answer to 'how do I do it right the first time.'\n\nEach step states its action, its check, and its fallback. The action is what you do. The check proves you did it. The fallback says what to do if the check fails. A protocol with no fallbacks is a wish; this one has fallbacks for every step.\n\nThe demonstration below runs the protocol's steps against a sample task, print"}, "key_figures": {}, "url": "../../../wiki-signature/index.html"}, {"id": "JAH-WIKIS2-000009", "title": "Signature JAH Wiki Reference Implementation", "family": "article", "desc": "The Reference Implementation is the Signature system's canonical working code for jah wiki: a small, readable program that demonstrates the core ideas correctly. It is the implementation other implementations are compared against, and it runs as-is.\n\nThe implementation models a tiny jah wiki catalog: records can be added, searched by keyword, and ranked by ladder. It is deliberately small — under ", "spec": {"mechanism": "The Reference Implementation is the Signature system's canonical working code for jah wiki: a small, readable program that demonstrates the core ideas correctly. It is the implementation other implementations are compared against, and it runs as-is.\n\nThe implementation models a tiny jah wiki catalog: records can be added, searched by keyword, and ranked by ladder. It is deliberately small — under a hundred lines — so a student can read the whole thing in one sitting and understand every line.\n\nThe demonstration below builds the catalog, files three sample records, and runs two searches, printi"}, "key_figures": {}, "url": "../../../wiki-signature/index.html"}, {"id": "JAH-WIKIS2-000010", "title": "The Signature JAH Wiki Toolkit: Tools of the Trade", "family": "article", "desc": "The Toolkit collects the Signature system's working tools for jah wiki: small, sharp utilities that each do one job well. A practitioner reaches for the toolkit the way a craftsperson reaches for a familiar set of hand tools.\n\nThe toolkit holds six tools: the Surveyor, which lists what you have; the Shaper, which applies the pattern; the Measurer, which scores against the scale; the Polisher, whic", "spec": {"mechanism": "The Toolkit collects the Signature system's working tools for jah wiki: small, sharp utilities that each do one job well. A practitioner reaches for the toolkit the way a craftsperson reaches for a familiar set of hand tools.\n\nThe toolkit holds six tools: the Surveyor, which lists what you have; the Shaper, which applies the pattern; the Measurer, which scores against the scale; the Polisher, which finishes the piece; the Sealer, which verifies completeness; and the Filer, which archives the result with its working version.\n\nThe demonstration below runs each tool on a sample piece and prints w"}, "key_figures": {}, "url": "../../../wiki-signature/index.html"}, {"id": "JAH-WIKIS2-000011", "title": "Signature JAH Wiki Measurement Scale", "family": "article", "desc": "You cannot improve what you do not measure. The Measurement Scale is the Signature system's scoring instrument for jah wiki: it turns 'good' into numbers, so progress is visible and comparable across attempts and across practitioners.\n\nThe scale scores five dimensions from 0 to 10: originality, clarity, completeness, craft, and honesty of labeling. The Signature JAH Wiki Index is the weighted tota", "spec": {"mechanism": "You cannot improve what you do not measure. The Measurement Scale is the Signature system's scoring instrument for jah wiki: it turns 'good' into numbers, so progress is visible and comparable across attempts and across practitioners.\n\nThe scale scores five dimensions from 0 to 10: originality, clarity, completeness, craft, and honesty of labeling. The Signature JAH Wiki Index is the weighted total. A creation scoring 40 or above is archive-worthy; 45 or above is master-work territory.\n\nThe demonstration below scores three sample creations and prints each dimension and the resulting index."}, "key_figures": {}, "url": "../../../wiki-signature/index.html"}, {"id": "JAH-WIKIS2-000012", "title": "Signature JAH Wiki Worked Example, Start to Finish", "family": "article", "desc": "This record works one complete example from a blank start to a finished Signature jah wiki piece, showing every intermediate value. Worked examples are the bridge between reading about a method and doing it yourself.\n\nThe example takes a rough brief — 'make something real in jah wiki' — and walks it through Method One: survey the brief, shape it with the Reusable Blueprint, stress it against the M", "spec": {"mechanism": "This record works one complete example from a blank start to a finished Signature jah wiki piece, showing every intermediate value. Worked examples are the bridge between reading about a method and doing it yourself.\n\nThe example takes a rough brief — 'make something real in jah wiki' — and walks it through Method One: survey the brief, shape it with the Reusable Blueprint, stress it against the Measurement Scale, and ship it with a working version. Nothing is skipped; the thinking is on the page.\n\nThe demonstration below replays the example computationally, printing each stage's output so you"}, "key_figures": {}, "url": "../../../wiki-signature/index.html"}, {"id": "JAH-WIKIS2-000013", "title": "Signature JAH Wiki Troubleshooting Playbook", "family": "article", "desc": "Even good work hits snags. The Troubleshooting Playbook is the Signature system's diagnostic manual for jah wiki: symptoms, the checks that identify each cause, and the fix for each cause. It turns stuck into a procedure.\n\nThe playbook covers the five classic stalls: the blank start, the muddy middle, the endless polish, the broken working version, and the mislabeled file. Each entry gives the sym", "spec": {"mechanism": "Even good work hits snags. The Troubleshooting Playbook is the Signature system's diagnostic manual for jah wiki: symptoms, the checks that identify each cause, and the fix for each cause. It turns stuck into a procedure.\n\nThe playbook covers the five classic stalls: the blank start, the muddy middle, the endless polish, the broken working version, and the mislabeled file. Each entry gives the symptom in plain words, two quick checks, and the fix that has worked most often.\n\nThe demonstration below runs the diagnostic on a sample symptom and prints the checks and the recommended fix."}, "key_figures": {}, "url": "../../../wiki-signature/index.html"}, {"id": "JAH-WIKIS2-000014", "title": "Signature JAH Wiki Performance Benchmarks", "family": "article", "desc": "Benchmarks keep the Signature system honest: they measure how fast the working methods run and how their cost grows with input size. This record publishes the reference benchmarks for jah wiki so future improvements can be compared against a fixed bar.\n\nThree benchmarks are standard: the catalog benchmark (filing and searching records), the scoring benchmark (running the Measurement Scale), and th", "spec": {"mechanism": "Benchmarks keep the Signature system honest: they measure how fast the working methods run and how their cost grows with input size. This record publishes the reference benchmarks for jah wiki so future improvements can be compared against a fixed bar.\n\nThree benchmarks are standard: the catalog benchmark (filing and searching records), the scoring benchmark (running the Measurement Scale), and the generation benchmark (producing boundless variants). Each reports operations per second on the reference machine.\n\nThe demonstration below runs scaled-down versions of all three benchmarks and print"}, "key_figures": {}, "url": "../../../wiki-signature/index.html"}, {"id": "JAH-WIKIS2-000015", "title": "The Signature JAH Wiki Compounding Framework", "family": "article", "desc": "Compounding is the Signature system's growth engine: each generation of a creation improves on every axis of the last. The Compounding Framework makes that discipline explicit for jah wiki, with three named generations — Mark I, Mark II, Mark III — and the rule that no axis ever regresses.\n\nMark I proves the principle: it works, barely, and everything is measured. Mark II refines it: the same idea", "spec": {"mechanism": "Compounding is the Signature system's growth engine: each generation of a creation improves on every axis of the last. The Compounding Framework makes that discipline explicit for jah wiki, with three named generations — Mark I, Mark II, Mark III — and the rule that no axis ever regresses.\n\nMark I proves the principle: it works, barely, and everything is measured. Mark II refines it: the same idea, faster, cleaner, more reliable. Mark III masters it: the idea at its full expression, ready to teach from. The framework's compounding table tracks every axis across the three marks so regressions a"}, "key_figures": {}, "url": "../../../wiki-signature/index.html"}, {"id": "JAH-WIKIS2-000016", "title": "Signature JAH Wiki Advanced System Design", "family": "article", "desc": "Advanced work in jah wiki is systems work: many parts, one behavior. This record designs the Signature jah wiki Advanced System — the full assembly of intake, shaping, measurement, compounding, and archive subsystems — and shows how the parts connect.\n\nEach subsystem has a contract: what it takes in, what it puts out, and what it guarantees. The intake subsystem guarantees nothing is lost. The sha", "spec": {"mechanism": "Advanced work in jah wiki is systems work: many parts, one behavior. This record designs the Signature jah wiki Advanced System — the full assembly of intake, shaping, measurement, compounding, and archive subsystems — and shows how the parts connect.\n\nEach subsystem has a contract: what it takes in, what it puts out, and what it guarantees. The intake subsystem guarantees nothing is lost. The shaping subsystem guarantees the pattern is applied. The measurement subsystem guarantees honest scores. The compounding subsystem guarantees no regression. The archive subsystem guarantees every record "}, "key_figures": {}, "url": "../../../wiki-signature/index.html"}, {"id": "JAH-WIKIS2-000017", "title": "Signature JAH Wiki Archive-Aware AI Integration", "family": "article", "desc": "Every Signature database ships with its own archive-aware AI, and this record specifies how that AI serves jah wiki. The AI knows this archive's records by heart, teaches the ladder progressively, and can point across the whole JAH Databases network.\n\nThe integration has three behaviors. Lookup: answer from the archive's own records first. Teach: match the user's level — simple answers for ladder-", "spec": {"mechanism": "Every Signature database ships with its own archive-aware AI, and this record specifies how that AI serves jah wiki. The AI knows this archive's records by heart, teaches the ladder progressively, and can point across the whole JAH Databases network.\n\nThe integration has three behaviors. Lookup: answer from the archive's own records first. Teach: match the user's level — simple answers for ladder-1 questions, compounded for ladder-2, full systems thinking for ladder-3. Route: when the question belongs to another database, say so and point there.\n\nThe demonstration below is a miniature of the A"}, "key_figures": {}, "url": "../../../wiki-signature/index.html"}, {"id": "JAH-WIKIS2-000018", "title": "Signature JAH Wiki: The Future Roadmap", "family": "article", "desc": "A database is a living thing. The Future Roadmap lays out where Signature jah wiki goes next: the next three compounding generations, the new methods on the drawing board, and the gates each advance must pass before it is filed.\n\nPhase one deepens the foundations: more worked examples, finer measurement dimensions. Phase two compounds the methods: faster protocols, sharper tools. Phase three maste", "spec": {"mechanism": "A database is a living thing. The Future Roadmap lays out where Signature jah wiki goes next: the next three compounding generations, the new methods on the drawing board, and the gates each advance must pass before it is filed.\n\nPhase one deepens the foundations: more worked examples, finer measurement dimensions. Phase two compounds the methods: faster protocols, sharper tools. Phase three masters the domain: the advanced system running routinely, the AI teaching fluently, the archive marching toward a million records.\n\nEach phase gates on the previous: no phase begins until the prior phase "}, "key_figures": {}, "url": "../../../wiki-signature/index.html"}, {"id": "JAH-WIKIS2-000019", "title": "Signature JAH Wiki Master Work: The Signature Creation", "family": "article", "desc": "The Master Work is the Signature system's highest rung: an original creation in jah wiki that demonstrates everything the database teaches — method, technique, pattern, measurement, and compounding — in a single finished piece. This record presents one such master work.\n\nThe work, 'The Compounded Signature,' takes a simple jah wiki brief and carries it through all three marks in one pass: Mark I p", "spec": {"mechanism": "The Master Work is the Signature system's highest rung: an original creation in jah wiki that demonstrates everything the database teaches — method, technique, pattern, measurement, and compounding — in a single finished piece. This record presents one such master work.\n\nThe work, 'The Compounded Signature,' takes a simple jah wiki brief and carries it through all three marks in one pass: Mark I proves the approach on a small scale, Mark II refines it to professional quality, Mark III masters it into something worth teaching from. The piece is Signature-original, labeled as such, and filed wit"}, "key_figures": {}, "url": "../../../wiki-signature/index.html"}, {"id": "JAH-WIKIS2-000020", "title": "The Signature JAH Wiki Grand Synthesis", "family": "article", "desc": "The Grand Synthesis closes the database by weaving everything together: the definitions, the principles, the methods, the tools, the measurements, the compounding generations, and the master works — one coherent picture of Signature jah wiki.\n\nThe synthesis restates the journey: we began with words, the glossary and the field guide. We learned to work, with Method One and the Precision Technique. ", "spec": {"mechanism": "The Grand Synthesis closes the database by weaving everything together: the definitions, the principles, the methods, the tools, the measurements, the compounding generations, and the master works — one coherent picture of Signature jah wiki.\n\nThe synthesis restates the journey: we began with words, the glossary and the field guide. We learned to work, with Method One and the Precision Technique. We built tools, the toolkit and the reference implementation. We learned to measure, with the scale and the benchmarks. We learned to compound, mark after mark, until the master work showed what maste"}, "key_figures": {}, "url": "../../../wiki-signature/index.html"}], "twin": {"id": "wiki", "title": "JAH Wiki Database", "url": "../index.html"}, "sources": [], "gen_prefix": "JAH-WIKIS2-GEN-"}
+</script>
+
+</body>
+</html>

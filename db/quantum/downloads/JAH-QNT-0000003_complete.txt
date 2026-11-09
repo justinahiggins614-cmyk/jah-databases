@@ -1,0 +1,93 @@
+Gate: Pauli-Z (phase flip)
+Record JAH-QNT-0000003 — Public edition, quantum.
+JCC v1 code: JAHDB/quantum#JAH-QNT-0000003
+
+DESCRIPTION
+Leaves |0> alone, flips the phase of |1>. Diagonal in the computational basis.
+
+SPEC
+{
+  "mechanism": "Leaves |0> alone, flips the phase of |1>. Diagonal in the computational basis."
+}
+
+KEY FIGURES
+{
+  "qubits": 1
+}
+
+COMPLETE RECORD FIELDS
+id: JAH-QNT-0000003
+category: gates
+title: Gate: Pauli-Z (phase flip)
+_seed: 3
+kind: quantum-record
+gate_name: Pauli-Z (phase flip)
+gate_symbol: Z
+qubits: 1
+concept: Leaves |0> alone, flips the phase of |1>. Diagonal in the computational basis.
+matrix: [[1, 0], [0, 0]]; [[0, 0], [-1, 0]]
+unitary: yes
+source: online
+source_ref: Nielsen & Chuang; Wikipedia — List of quantum logic gates
+
+SOURCES
+
+DEMO (record)
+/* JAH interactive demo program — jahdb-demo-1.0
+ * Database: quantum · Record: JAH-QNT-0000003 · Gate: Pauli-Z (phase flip)
+ * Interactive record inspector: tours every field, with a searchable field index.
+ * RUN ON PC: save as demo.js, then run:  node demo.js
+ * RUN IN BROWSER: press F12, paste this program into the console, press Enter.
+ * RUN IN-PAGE: open this record and press "Run interactive demo". */
+(function(){
+var FIELDS={"id":"JAH-QNT-0000003","category":"gates","title":"Gate: Pauli-Z (phase flip)","kind":"quantum-record","gate_name":"Pauli-Z (phase flip)","gate_symbol":"Z","qubits":1,"concept":"Leaves |0> alone, flips the phase of |1>. Diagonal in the computational basis.","matrix":"[array ×2]","unitary":true,"source":"online","source_ref":"Nielsen & Chuang; Wikipedia — List of quantum logic gates"};
+var keys=Object.keys(FIELDS);
+function show(i){var k=keys[i];if(k===undefined){console.log("no field "+i);return;}console.log("["+i+"] "+k+" ("+(typeof FIELDS[k])+"):");console.log("    "+JSON.stringify(FIELDS[k]).slice(0,300));}
+function find(word){word=String(word).toLowerCase();var hits=keys.filter(function(k){return (k+" "+JSON.stringify(FIELDS[k])).toLowerCase().indexOf(word)>=0;});console.log("fields matching \""+word+"\": "+(hits.join(", ")||"(none)"));return hits;}
+console.log("=== Gate: Pauli-Z (phase flip) ===");
+console.log("Record JAH-QNT-0000003 · "+keys.length+" fields:");
+keys.forEach(function(k,i){console.log("  ["+i+"] "+k);});
+console.log("--- field tour ---");
+keys.forEach(function(k,i){show(i);});
+try{globalThis.jahDemoAPI={show:show,find:find};}catch(e){}
+console.log("Try: jahDemoAPI.show(0) · jahDemoAPI.find(\"word\")");
+})();
+
+
+CALCULATOR PROGRAM (made for this page)
+"""Numeric check — Gate: Pauli-Z (phase flip) (JAH-QNT-0000003).
+Made for this page from text-derived counts (the record carries no usable numbers of its own).
+This program checks the arithmetic of the stored figures; its outputs
+are check-sums, not physical quantities."""
+import hashlib
+def compute():
+    title_chars = 26; desc_chars = 78; source_count = 0; field_count = 11
+    total = round(title_chars + desc_chars + source_count + field_count, 2)
+    mean = round(total / 4, 2)
+    first_plus_second = round(title_chars + desc_chars, 2)
+    first_minus_second = round(title_chars - desc_chars, 2)
+    first_times_second = round(title_chars * desc_chars, 2)
+    return {"total": total, "mean": mean, "first_plus_second": first_plus_second, "first_minus_second": first_minus_second, "first_times_second": first_times_second}
+def main():
+    a = compute(); b = compute()
+    sa = hashlib.sha256(repr(sorted(a.items())).encode()).hexdigest()
+    sb = hashlib.sha256(repr(sorted(b.items())).encode()).hexdigest()
+    for key in ["total", "mean", "first_plus_second", "first_minus_second", "first_times_second"]:
+        print(f"{key}: {a[key]}")
+    print(f"Run 1 SHA-256: {sa}")
+    print(f"Run 2 SHA-256: {sb}")
+    print(f"Deterministic: {'MATCH' if sa == sb else 'MISMATCH'}")
+if __name__ == "__main__":
+    main()
+
+
+OFFICIAL DEMO OUTPUT
+{
+  "total": 115,
+  "mean": 28.75,
+  "first_plus_second": 104,
+  "first_minus_second": -52,
+  "first_times_second": 2028
+}
+
+Free forever. Part of The 'Merica-L Internet.

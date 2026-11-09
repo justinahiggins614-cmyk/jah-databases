@@ -1,0 +1,70 @@
+Famous model: Heat equation (Fourier)
+Record JAH-SIM-0000005 — Public edition, simulation.
+JCC v1 code: JAHDB/simulation#JAH-SIM-0000005
+
+DESCRIPTION
+∂u/∂t = α ∂²u/∂x². Explicit scheme stable for r=αΔt/Δx²≤0.5.
+
+SPEC
+{
+  "mechanism": "∂u/∂t = α ∂²u/∂x². Explicit scheme stable for r=αΔt/Δx²≤0.5."
+}
+
+KEY FIGURES
+{}
+
+COMPLETE RECORD FIELDS
+id: JAH-SIM-0000005
+category: physical
+title: Famous model: Heat equation (Fourier)
+_seed: 5
+kind: simulation-scenario
+model: heat
+system: Heat equation (Fourier).
+model_description: ∂u/∂t = α ∂²u/∂x². Explicit scheme stable for r=αΔt/Δx²≤0.5.
+parameters.reference: yes
+run_spec.reference: yes
+results.reference: See scenario instances for computed runs.
+validation_results: Equations verified against the published model.
+source: online
+source_ref: Fourier heat conduction — verified PDE
+
+SOURCES
+
+DEMO (generated)
+"""Numeric check — Famous model: Heat equation (Fourier) (JAH-SIM-0000005).
+Made for this page from text-derived counts (the record carries no usable numbers of its own).
+This program checks the arithmetic of the stored figures; its outputs
+are check-sums, not physical quantities."""
+import hashlib
+def compute():
+    title_chars = 37; desc_chars = 60; source_count = 0; field_count = 11
+    total = round(title_chars + desc_chars + source_count + field_count, 2)
+    mean = round(total / 4, 2)
+    first_plus_second = round(title_chars + desc_chars, 2)
+    first_minus_second = round(title_chars - desc_chars, 2)
+    first_times_second = round(title_chars * desc_chars, 2)
+    return {"total": total, "mean": mean, "first_plus_second": first_plus_second, "first_minus_second": first_minus_second, "first_times_second": first_times_second}
+def main():
+    a = compute(); b = compute()
+    sa = hashlib.sha256(repr(sorted(a.items())).encode()).hexdigest()
+    sb = hashlib.sha256(repr(sorted(b.items())).encode()).hexdigest()
+    for key in ["total", "mean", "first_plus_second", "first_minus_second", "first_times_second"]:
+        print(f"{key}: {a[key]}")
+    print(f"Run 1 SHA-256: {sa}")
+    print(f"Run 2 SHA-256: {sb}")
+    print(f"Deterministic: {'MATCH' if sa == sb else 'MISMATCH'}")
+if __name__ == "__main__":
+    main()
+
+
+OFFICIAL DEMO OUTPUT
+{
+  "total": 108,
+  "mean": 27.0,
+  "first_plus_second": 97,
+  "first_minus_second": -23,
+  "first_times_second": 2220
+}
+
+Free forever. Part of The 'Merica-L Internet.

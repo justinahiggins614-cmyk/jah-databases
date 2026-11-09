@@ -1,0 +1,53 @@
+{
+  "title": "Self join — employee and manager (Sql)",
+  "category": "sql",
+  "language": "sql",
+  "description": "Joining a table to itself with two aliases models hierarchies: each employee row pairs with its manager's row. LEFT JOIN keeps the top boss (no manager).",
+  "code": "SELECT e.name, m.name AS manager\nFROM emp e LEFT JOIN emp m ON m.id = e.mgr;",
+  "how_it_works": "Lab exercise: type the snippet into a fresh file, run it, and confirm the test outputs match. Then change one input and predict the result before running — Alias e scans employees, alias m looks up the manager id in the same table.",
+  "complexity": "O(n log n)",
+  "test_cases": [
+    {
+      "input": "dev row",
+      "expected": "dev|ceo",
+      "note": "Manager resolved."
+    },
+    {
+      "input": "dev row — second run",
+      "expected": "dev|ceo",
+      "note": "Determinism check: re-running the snippet reproduces the identical output."
+    }
+  ],
+  "pitfalls": "Recursive hierarchies need a recursive CTE, not repeated self joins.",
+  "use_cases": "Org charts, category trees, linked lists in SQL.",
+  "source": "online",
+  "source_ref": "https://www.sqlite.org/lang_select.html",
+  "creation_mode": "ONLINE-VERIFIED",
+  "id": "JAH-CODE-0000001",
+  "_seed": 1,
+  "demo": {
+    "engine": "jahdb-demo-1.0",
+    "kind": "code",
+    "title": "Runnable code demo — Self join — employee and manager (Sql)",
+    "language": "sql",
+    "program": "# JAH demo program — jahdb-demo-1.0\n# Database: code-database · Record: JAH-CODE-0000001\n# RUN: PC: save as demo.sql, run `sqlite3 :memory: < demo.sql`.\n\nSELECT e.name, m.name AS manager\nFROM emp e LEFT JOIN emp m ON m.id = e.mgr;\n",
+    "run_hint": "PC: save as demo.sql, run `sqlite3 :memory: < demo.sql`.",
+    "how_to_run": "PC: save the program as demo.js (or demo.py/demo.sql per language) and run it with node/python3/sqlite3. In-page: open the record, Demo Lab tab, press Run.",
+    "runnable": true,
+    "extras": {
+      "test_cases": [
+        {
+          "input": "dev row",
+          "expected": "dev|ceo",
+          "note": "Manager resolved."
+        },
+        {
+          "input": "dev row — second run",
+          "expected": "dev|ceo",
+          "note": "Determinism check: re-running the snippet reproduces the identical output."
+        }
+      ]
+    },
+    "note": "Lab exercise: type the snippet into a fresh file, run it, and confirm the test outputs match. Then change one input and predict the result before running — Alias e scans employees, alias m looks up the manager id in the same table."
+  }
+}

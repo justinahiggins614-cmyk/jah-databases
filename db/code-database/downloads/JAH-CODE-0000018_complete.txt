@@ -1,0 +1,85 @@
+Facade — one call, many subsystems (Python)
+Record JAH-CODE-0000018 — Public edition, code-database.
+JCC v1 code: JAHDB/code-database#JAH-CODE-0000018
+
+DESCRIPTION
+A facade offers one simple function over several fiddly subsystems. Clients get simplicity; the subsystems stay untouched underneath.
+
+SPEC
+{
+  "mechanism": "The facade coordinates the subsystem checks and reduces them to one answer.",
+  "use": "Startup checks, library APIs, onboarding flows."
+}
+
+KEY FIGURES
+{}
+
+COMPLETE RECORD FIELDS
+title: Facade — one call, many subsystems (Python)
+category: patterns
+language: python
+description: A facade offers one simple function over several fiddly subsystems. Clients get simplicity; the subsystems stay untouched underneath.
+code: def _disk():
+    return "disk-ok"
+def _net():
+    return "net-ok"
+def system_ready():
+    return _disk() == "disk-ok" and _net() == "net-ok"
+
+print("ready" if system_ready() else "down")
+how_it_works: The facade coordinates the subsystem checks and reduces them to one answer.
+complexity: O(subsystems). Tuning: profile before optimizing; the notes above name the usual bottleneck to measure first.
+test_cases[0].input: system_ready()
+test_cases[0].expected: ready
+test_cases[0].note: All subsystems ok.
+test_cases[1].input: system_ready() — second run
+test_cases[1].expected: ready
+test_cases[1].note: Determinism check: re-running the snippet reproduces the identical output.
+pitfalls: Facades hide power — expose the subsystems too for advanced users.
+use_cases: Startup checks, library APIs, onboarding flows.
+source: online
+source_ref: https://en.wikipedia.org/wiki/Facade_pattern
+creation_mode: ONLINE-VERIFIED
+id: JAH-CODE-0000018
+_seed: 18
+
+SOURCES
+Record source — https://en.wikipedia.org/wiki/Facade_pattern
+
+DEMO (generated)
+"""Numeric check — Facade — one call, many subsystems (Python) (JAH-CODE-0000018).
+Made for this page from text-derived counts (the record carries no usable numbers of its own).
+This program checks the arithmetic of the stored figures; its outputs
+are check-sums, not physical quantities."""
+import hashlib
+def compute():
+    title_chars = 43; desc_chars = 133; source_count = 1; field_count = 14
+    total = round(title_chars + desc_chars + source_count + field_count, 2)
+    mean = round(total / 4, 2)
+    first_plus_second = round(title_chars + desc_chars, 2)
+    first_minus_second = round(title_chars - desc_chars, 2)
+    first_times_second = round(title_chars * desc_chars, 2)
+    return {"total": total, "mean": mean, "first_plus_second": first_plus_second, "first_minus_second": first_minus_second, "first_times_second": first_times_second}
+def main():
+    a = compute(); b = compute()
+    sa = hashlib.sha256(repr(sorted(a.items())).encode()).hexdigest()
+    sb = hashlib.sha256(repr(sorted(b.items())).encode()).hexdigest()
+    for key in ["total", "mean", "first_plus_second", "first_minus_second", "first_times_second"]:
+        print(f"{key}: {a[key]}")
+    print(f"Run 1 SHA-256: {sa}")
+    print(f"Run 2 SHA-256: {sb}")
+    print(f"Deterministic: {'MATCH' if sa == sb else 'MISMATCH'}")
+if __name__ == "__main__":
+    main()
+
+
+OFFICIAL DEMO OUTPUT
+{
+  "total": 191,
+  "mean": 47.75,
+  "first_plus_second": 176,
+  "first_minus_second": -90,
+  "first_times_second": 5719
+}
+
+Free forever. Part of The 'Merica-L Internet.

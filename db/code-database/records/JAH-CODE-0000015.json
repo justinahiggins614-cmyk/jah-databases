@@ -1,0 +1,53 @@
+{
+  "title": "Breadth-first search — shortest path (Python)",
+  "category": "python",
+  "language": "python",
+  "description": "BFS explores a graph level by level using a queue, so the first time it reaches the target it has used the fewest edges. The standard unweighted shortest-path algorithm.",
+  "code": "from collections import deque\ndef bfs(g, s, t):\n    q, seen = deque([(s, 0)]), {s}\n    while q:\n        n, d = q.popleft()\n        if n == t:\n            return d\n        for m in g.get(n, []):\n            if m not in seen:\n                seen.add(m); q.append((m, d + 1))\n    return -1\n\ng = {\"a\": [\"b\", \"c\"], \"b\": [\"d\"], \"c\": [\"d\"], \"d\": []}\nprint(bfs(g, \"a\", \"d\"))",
+  "how_it_works": "The queue holds (node, distance) pairs; neighbors are enqueued once, so nodes are visited in order of increasing distance.",
+  "complexity": "O(V + E) time. Tuning: profile before optimizing; the notes above name the usual bottleneck to measure first.",
+  "test_cases": [
+    {
+      "input": "bfs(g,\"a\",\"d\")",
+      "expected": "2",
+      "note": "Two hops."
+    },
+    {
+      "input": "bfs(g,\"a\",\"z\")",
+      "expected": "-1",
+      "note": "Unreachable."
+    }
+  ],
+  "pitfalls": "Needs a visited set — without it, cycles loop forever.",
+  "use_cases": "Shortest path, level-order traversal, connected components.",
+  "source": "online",
+  "source_ref": "https://en.wikipedia.org/wiki/Breadth-first_search",
+  "creation_mode": "ONLINE-VERIFIED",
+  "id": "JAH-CODE-0000015",
+  "_seed": 15,
+  "demo": {
+    "engine": "jahdb-demo-1.0",
+    "kind": "code",
+    "title": "Runnable code demo — Breadth-first search — shortest path (Python)",
+    "language": "python",
+    "program": "# JAH demo program — jahdb-demo-1.0\n# Database: code-database · Record: JAH-CODE-0000015\n# RUN: PC: save as demo.py, run `python3 demo.py`.\n\nfrom collections import deque\ndef bfs(g, s, t):\n    q, seen = deque([(s, 0)]), {s}\n    while q:\n        n, d = q.popleft()\n        if n == t:\n            return d\n        for m in g.get(n, []):\n            if m not in seen:\n                seen.add(m); q.append((m, d + 1))\n    return -1\n\ng = {\"a\": [\"b\", \"c\"], \"b\": [\"d\"], \"c\": [\"d\"], \"d\": []}\nprint(bfs(g, \"a\", \"d\"))\n",
+    "run_hint": "PC: save as demo.py, run `python3 demo.py`.",
+    "how_to_run": "PC: save the program as demo.js (or demo.py/demo.sql per language) and run it with node/python3/sqlite3. In-page: open the record, Demo Lab tab, press Run.",
+    "runnable": true,
+    "extras": {
+      "test_cases": [
+        {
+          "input": "bfs(g,\"a\",\"d\")",
+          "expected": "2",
+          "note": "Two hops."
+        },
+        {
+          "input": "bfs(g,\"a\",\"z\")",
+          "expected": "-1",
+          "note": "Unreachable."
+        }
+      ]
+    },
+    "note": "The queue holds (node, distance) pairs; neighbors are enqueued once, so nodes are visited in order of increasing distance."
+  }
+}

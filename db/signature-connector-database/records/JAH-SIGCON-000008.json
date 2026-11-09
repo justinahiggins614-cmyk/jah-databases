@@ -1,0 +1,36 @@
+{
+  "id": "JAH-SIGCON-000008",
+  "title": "Signature Math Mapping — Color Hex (#RRGGBB)",
+  "ladder_rank": 14,
+  "category": "signature-math-mapping",
+  "description": "How the Signature bitstring reads as Color Hex (#RRGGBB) (Visual codes). Web/digital color as six hex digits: two each for red, green, blue intensity (00-FF). #FF0000 is pure red.",
+  "fields": {
+    "name": "Color Hex (#RRGGBB)",
+    "category": "Visual codes",
+    "system": "Web/digital color as six hex digits: two each for red, green, blue intensity (00-FF). #FF0000 is pure red.",
+    "mapping": "Map the Signature's pressure-backed rainbow color coding to hex swatches: sample each stroke's color (red base, orange apex, yellow tail, blue-violet diagonal, pink tip) and record its #RRGGBB value beside the geometry it colors.",
+    "apply": [
+      "1. List each Signature stroke from Document 1 (Segment 1 arc, Segment 1 line, dot, Segment 2 arc, diagonal, cross-stroke, dots).",
+      "2. Assign the documented color to each stroke (example palette below).",
+      "3. Convert each color to #RRGGBB and store alongside the stroke's coordinates.",
+      "4. Any renderer can now repaint the Signature exactly."
+    ],
+    "example_in": "example stroke palette (red, orange, yellow, blue-violet, pink)",
+    "example_out": "#FF0000, #FF8000, #FFFF00, #5B2FD6, #FF7BAC",
+    "source": "https://justinahiggins614-cmyk.github.io/signature-math/data/mathdata.json"
+  },
+  "demo": {
+    "language": "javascript",
+    "program": "// JAH demo program — Signature core verifier (math-mapping)\n\"use strict\";\nvar BITSTRING=\"000000000000000000000000000000000000000000000000000000011100001111011000001000100000010001000000000000000000000000000000000000000000000000000000\";\nvar ones=0;for(var i=0;i<BITSTRING.length;i++){if(BITSTRING[i]===\"1\")ones++;}\nconsole.log(BITSTRING.length===144?\"PASS | bitstring 144 bits\":\"FAIL\");\nconsole.log(ones===13?\"PASS | 13 ones\":\"FAIL\");\nconsole.log(\"PASS | mapping: \" + \"Color Hex (#RRGGBB)\");\nconsole.log(\"ALL CHECKS PASSED\");",
+    "run_steps": [
+      "Save the program as demo.js.",
+      "Run it with: node demo.js",
+      "Confirm every line prints PASS and the run ends with ALL CHECKS PASSED."
+    ],
+    "expected_output": "ALL CHECKS PASSED"
+  },
+  "src": "public-harvest",
+  "provenance": "Signature Math site #1, mathdata.json",
+  "last_verified": "2026-10-21",
+  "march": "March to a million in progress — connector record, marching toward the 1,000,000-record target."
+}

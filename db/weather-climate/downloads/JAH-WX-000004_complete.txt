@@ -1,0 +1,93 @@
+JAH-WX-000004
+Record JAH-WX-000004 — Public edition, weather-climate.
+JCC v1 code: JAHDB/weather-climate#JAH-WX-000004
+
+DESCRIPTION
+JAH-WX-000004
+
+SPEC
+{
+  "mechanism": "JAH-WX-000004"
+}
+
+KEY FIGURES
+{
+  "humidity": 90,
+  "lat": 85.3,
+  "lon": 43.93,
+  "precip_mm": 0.08,
+  "temp_c": 2.02
+}
+
+COMPLETE RECORD FIELDS
+id: JAH-WX-000004
+station_id: WX-SW-0004
+station_name: Pine Grove Weather Station
+lat: 85.3
+lon: 43.93
+timestamp: 2026-10-11T17:45:00Z
+temp_c: 2.02
+humidity: 90
+precip_mm: 0.08
+condition: fog
+
+SOURCES
+
+DEMO (record)
+/* JAH interactive demo program — jahdb-demo-1.0
+ * Database: weather-climate · Record: JAH-WX-000004 · Pine Grove Weather Station
+ * Station report: converts units and charts this observation.
+ * RUN ON PC: save as demo.js, then run:  node demo.js
+ * RUN IN BROWSER: press F12, paste this program into the console, press Enter.
+ * RUN IN-PAGE: open this record and press "Run interactive demo". */
+(function(){
+var R={"station":"Pine Grove Weather Station","lat":85.3,"lon":43.93,"time":"2026-10-11T17:45:00Z","temp_c":2.02,"humidity":90,"precip_mm":0.08,"condition":"fog"};
+function cToF(c){return c*9/5+32;}
+function mmToIn(m){return m/25.4;}
+function bar(label,val,max,w){var n=Math.max(0,Math.round(val/max*w));console.log(label.padEnd(12," ")+"|"+"#".repeat(n)+" "+val);}
+console.log("Station: "+R.station+" ("+R.lat+", "+R.lon+")");
+console.log("Time: "+R.time+" · Condition: "+R.condition);
+console.log(R.temp_c+"°C = "+cToF(R.temp_c).toFixed(1)+"°F · humidity "+R.humidity+"% · precip "+R.precip_mm+"mm ("+mmToIn(R.precip_mm).toFixed(2)+"in)");
+console.log("--- observation chart ---");
+bar("temp(C)",R.temp_c,40,30);bar("humidity%",R.humidity,100,30);bar("precip(mm)",R.precip_mm,50,30);
+console.log("Try: cToF(20), mmToIn(25.4)");
+})();
+
+
+CALCULATOR PROGRAM (made for this page)
+"""Numeric check — JAH-WX-000004 (JAH-WX-000004).
+Made for this page from the record's own numbers.
+This program checks the arithmetic of the stored figures; its outputs
+are check-sums, not physical quantities."""
+import hashlib
+def compute():
+    precip_mm = 0.08; temp_c = 2.02; lon = 43.93; lat = 85.299999999999997
+    total = round(precip_mm + temp_c + lon + lat, 2)
+    mean = round(total / 4, 2)
+    first_plus_second = round(precip_mm + temp_c, 2)
+    first_minus_second = round(precip_mm - temp_c, 2)
+    first_times_second = round(precip_mm * temp_c, 2)
+    return {"total": total, "mean": mean, "first_plus_second": first_plus_second, "first_minus_second": first_minus_second, "first_times_second": first_times_second}
+def main():
+    a = compute(); b = compute()
+    sa = hashlib.sha256(repr(sorted(a.items())).encode()).hexdigest()
+    sb = hashlib.sha256(repr(sorted(b.items())).encode()).hexdigest()
+    for key in ["total", "mean", "first_plus_second", "first_minus_second", "first_times_second"]:
+        print(f"{key}: {a[key]}")
+    print(f"Run 1 SHA-256: {sa}")
+    print(f"Run 2 SHA-256: {sb}")
+    print(f"Deterministic: {'MATCH' if sa == sb else 'MISMATCH'}")
+if __name__ == "__main__":
+    main()
+
+
+OFFICIAL DEMO OUTPUT
+{
+  "total": 131.33,
+  "mean": 32.83,
+  "first_plus_second": 2.1,
+  "first_minus_second": -1.94,
+  "first_times_second": 0.16
+}
+
+Free forever. Part of The 'Merica-L Internet.

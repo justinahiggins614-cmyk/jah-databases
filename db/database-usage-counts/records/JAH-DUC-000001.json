@@ -1,0 +1,73 @@
+{
+  "id": "JAH-DUC-000001",
+  "slug": "database-usage-counts",
+  "title": "Usage counts: Signature 15 Minute Cities Database (15-minute-cities)",
+  "edition": "public",
+  "src": "assistant-built",
+  "built_by": "assistant-built",
+  "record_kind": "usage analytics record",
+  "ladder_rank": 1,
+  "body": "Usage figures for Signature 15 Minute Cities Database (15-minute-cities). USAGE METRICS (all derived from the live manifest data/manifest.json and the data-file inventory; no invented numbers): record_count = the database's record_count field; edition_siblings = other databases in the same edition group (same subject root after stripping signature-/public-/-signature/-public affixes) minus 1; topic_cluster = number of databases sharing the same record_kind; link_count = edition siblings + xdb_pulls entries + (1 if the entry carries a page or page_url); usage_score = round(record_count * (1 + log10(1 + link_count)) + 100 * edition_group_size). Record count: 98. Edition siblings: 1 (same subject, other editions). Topic cluster: 2 databases share its record kind '15 minute cities exploration'. Link count: 1 (edition siblings + cross-database pulls + page links). Usage score: 328.",
+  "capabilities": [
+    "Report any database's usage score with full derivation",
+    "Rank databases by usage score, record count, or link count",
+    "Show system-wide aggregate usage figures",
+    "Recompute any figure live from the manifest with the record's demo program",
+    "Compare edition siblings by their usage metrics"
+  ],
+  "demo": {
+    "language": "javascript",
+    "title": "Recompute the usage score for 15-minute-cities",
+    "code": "const J=o=>console.log(JSON.stringify(o));const assert=(c,m)=>{if(!c)throw new Error('assert failed: '+m);};\nconst IN={\"record_count\": 98, \"link_count\": 1, \"group_size\": 2};\nfunction FN_C(IN){const lc=IN.link_count,rc=IN.record_count,gs=IN.group_size;return {usage_score:Math.round(rc*(1+Math.log10(1+lc))+100*gs)};}\nconst OUT=FN_C(IN);\nJ(OUT);\nassert(OUT.usage_score===328,'score');",
+    "verified_at": "2026-10-21",
+    "node": "v24.20.0",
+    "run": "node",
+    "verified_output": "{\"usage_score\":328}"
+  },
+  "provenance": {
+    "source_manifest": "/home/hatch/workspace/jah-databases/data/manifest.json",
+    "subject_slug": "15-minute-cities",
+    "metrics": {
+      "record_count": 98,
+      "group_size": 2,
+      "siblings": 1,
+      "topic_cluster": 2,
+      "link_count": 1,
+      "usage_score": 328
+    },
+    "last_verified": "2026-10-21",
+    "origin": "assistant-built",
+    "derivation": "USAGE METRICS (all derived from the live manifest data/manifest.json and the data-file inventory; no invented numbers): record_count = the database's record_count field; edition_siblings = other databases in the same edition group (same subject root after stripping signature-/public-/-signature/-public affixes) minus 1; topic_cluster = number of databases sharing the same record_kind; link_count = edition siblings + xdb_pulls entries + (1 if the entry carries a page or page_url); usage_score = round(record_count * (1 + log10(1 + link_count)) + 100 * edition_group_size)."
+  },
+  "million_march": {
+    "target": 1000000,
+    "status": "march-in-progress",
+    "marker": "march to a million: in progress — every database marches to 1,000,000 records."
+  },
+  "generator": {
+    "hard_cap": 1000000000000000,
+    "ladder": [
+      "simple",
+      "competitive",
+      "mix-and-match",
+      "unmade",
+      "top-notch-or-better",
+      "future-grade",
+      "god-mode"
+    ],
+    "self_regulation": true,
+    "stop_when_complete": true,
+    "throttled": true,
+    "output_labeling": "generated output labeled 'generated'; assistant-built output labeled and filed separately, never mixed"
+  },
+  "ai": {
+    "name": "JAH Usage Analytics Librarian",
+    "scope": "system-wide analytics-aware",
+    "assistant_maker": true,
+    "note": "This database AI can build an assistant exactly like the user's personal assistant."
+  },
+  "links": {
+    "sibling_edition": "database-usage-counts-signature",
+    "subject": "15-minute-cities"
+  }
+}

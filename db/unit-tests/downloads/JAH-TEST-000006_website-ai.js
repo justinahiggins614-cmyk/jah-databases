@@ -1,0 +1,63 @@
+#!/usr/bin/env node
+/* JAH Tester Librarian — website Q&A AI for max(0, 66) (JAH-TEST-000006).
+   The same Q&A router as the ask box on https://justinahiggins614-cmyk.github.io/jah-databases/db/unit-tests/records/JAH-TEST-000006.html, over the same knowledge
+   base (this page's records and their cited sources). Run: node <file> "your question"
+   Free forever. Part of The 'Merica-L Internet. */
+var KB = {"current": {"id": "JAH-TEST-000006", "title": "max(0, 66)", "family": "test case", "desc": "max(0, 66)", "spec": {"mechanism": "max(0, 66)"}, "key_figures": {"expected_output": 66, "inputs.a": 0, "inputs.b": 66}, "url": "JAH-TEST-000006.html"}, "records": [{"id": "JAH-TEST-000001", "title": "count_vowels(\"alphafoxtrot\")", "family": "test case", "desc": "count_vowels(\"alphafoxtrot\")", "spec": {"mechanism": "count_vowels(\"alphafoxtrot\")"}, "key_figures": {"expected_output": 4}, "url": "JAH-TEST-000001.html"}, {"id": "JAH-TEST-000002", "title": "isEmail(\"cargo@example.com\")", "family": "test case", "desc": "isEmail(\"cargo@example.com\")", "spec": {"mechanism": "isEmail(\"cargo@example.com\")"}, "key_figures": {}, "url": "JAH-TEST-000002.html"}, {"id": "JAH-TEST-000003", "title": "age_years(1971)", "family": "test case", "desc": "age_years(1971)", "spec": {"mechanism": "age_years(1971)"}, "key_figures": {"expected_output": 55, "inputs.birth_year": 1971}, "url": "JAH-TEST-000003.html"}, {"id": "JAH-TEST-000004", "title": "repeatStr(\"delta\", 1)", "family": "test case", "desc": "repeatStr(\"delta\", 1)", "spec": {"mechanism": "repeatStr(\"delta\", 1)"}, "key_figures": {}, "url": "JAH-TEST-000004.html"}, {"id": "JAH-TEST-000005", "title": "Contains(\"hotel\", \"ho\")", "family": "test case", "desc": "Contains(\"hotel\", \"ho\")", "spec": {"mechanism": "Contains(\"hotel\", \"ho\")"}, "key_figures": {}, "url": "JAH-TEST-000005.html"}, {"id": "JAH-TEST-000006", "title": "max(0, 66)", "family": "test case", "desc": "max(0, 66)", "spec": {"mechanism": "max(0, 66)"}, "key_figures": {"expected_output": 66, "inputs.a": 0, "inputs.b": 66}, "url": "JAH-TEST-000006.html"}, {"id": "JAH-TEST-000007", "title": "add(-44, 48)", "family": "test case", "desc": "add(-44, 48)", "spec": {"mechanism": "add(-44, 48)"}, "key_figures": {"expected_output": 4, "inputs.a": -44, "inputs.b": 48}, "url": "JAH-TEST-000007.html"}, {"id": "JAH-TEST-000008", "title": "capitalize(\"gamma\")", "family": "test case", "desc": "capitalize(\"gamma\")", "spec": {"mechanism": "capitalize(\"gamma\")"}, "key_figures": {}, "url": "JAH-TEST-000008.html"}, {"id": "JAH-TEST-000009", "title": "avg_price(86, 2)", "family": "test case", "desc": "avg_price(86, 2)", "spec": {"mechanism": "avg_price(86, 2)"}, "key_figures": {"expected_output": 43, "inputs.sum": 86}, "url": "JAH-TEST-000009.html"}, {"id": "JAH-TEST-000010", "title": "toUpper(\"joker\")", "family": "test case", "desc": "toUpper(\"joker\")", "spec": {"mechanism": "toUpper(\"joker\")"}, "key_figures": {}, "url": "JAH-TEST-000010.html"}, {"id": "JAH-TEST-000011", "title": "Sum([11,12])", "family": "test case", "desc": "Sum([11,12])", "spec": {"mechanism": "Sum([11,12])"}, "key_figures": {"expected_output": 23}, "url": "JAH-TEST-000011.html"}, {"id": "JAH-TEST-000012", "title": "double(3)", "family": "test case", "desc": "double(3)", "spec": {"mechanism": "double(3)"}, "key_figures": {"expected_output": 6}, "url": "JAH-TEST-000012.html"}, {"id": "JAH-TEST-000013", "title": "fibonacci(5)", "family": "test case", "desc": "fibonacci(5)", "spec": {"mechanism": "fibonacci(5)"}, "key_figures": {"expected_output": 5}, "url": "JAH-TEST-000013.html"}, {"id": "JAH-TEST-000014", "title": "camelToSnake(\"myEchoName\")", "family": "test case", "desc": "camelToSnake(\"myEchoName\")", "spec": {"mechanism": "camelToSnake(\"myEchoName\")"}, "key_figures": {}, "url": "JAH-TEST-000014.html"}, {"id": "JAH-TEST-000015", "title": "name_length(\"echo\")", "family": "test case", "desc": "name_length(\"echo\")", "spec": {"mechanism": "name_length(\"echo\")"}, "key_figures": {"expected_output": 4}, "url": "JAH-TEST-000015.html"}, {"id": "JAH-TEST-000016", "title": "abs(-36)", "family": "test case", "desc": "abs(-36)", "spec": {"mechanism": "abs(-36)"}, "key_figures": {"expected_output": 36}, "url": "JAH-TEST-000016.html"}, {"id": "JAH-TEST-000017", "title": "Contains(\"bravo\", \"br\")", "family": "test case", "desc": "Contains(\"bravo\", \"br\")", "spec": {"mechanism": "Contains(\"bravo\", \"br\")"}, "key_figures": {}, "url": "JAH-TEST-000017.html"}, {"id": "JAH-TEST-000018", "title": "reverse(\"gamma\")", "family": "test case", "desc": "reverse(\"gamma\")", "spec": {"mechanism": "reverse(\"gamma\")"}, "key_figures": {}, "url": "JAH-TEST-000018.html"}, {"id": "JAH-TEST-000019", "title": "add(-17, -5)", "family": "test case", "desc": "add(-17, -5)", "spec": {"mechanism": "add(-17, -5)"}, "key_figures": {"expected_output": -22, "inputs.a": -17, "inputs.b": -5}, "url": "JAH-TEST-000019.html"}, {"id": "JAH-TEST-000020", "title": "isEmail(\"foxtrot@example.com\")", "family": "test case", "desc": "isEmail(\"foxtrot@example.com\")", "spec": {"mechanism": "isEmail(\"foxtrot@example.com\")"}, "key_figures": {}, "url": "JAH-TEST-000020.html"}, {"id": "JAH-TEST-000021", "title": "discount_price(95, 12)", "family": "test case", "desc": "discount_price(95, 12)", "spec": {"mechanism": "discount_price(95, 12)"}, "key_figures": {"expected_output": 83.6, "inputs.discount_pct": 12, "inputs.price": 95}, "url": "JAH-TEST-000021.html"}, {"id": "JAH-TEST-000022", "title": "abs(-27)", "family": "test case", "desc": "abs(-27)", "spec": {"mechanism": "abs(-27)"}, "key_figures": {"expected_output": 27}, "url": "JAH-TEST-000022.html"}, {"id": "JAH-TEST-000023", "title": "Add(-44, 13)", "family": "test case", "desc": "Add(-44, 13)", "spec": {"mechanism": "Add(-44, 13)"}, "key_figures": {"expected_output": -31, "inputs.a": -44, "inputs.b": 13}, "url": "JAH-TEST-000023.html"}, {"id": "JAH-TEST-000024", "title": "reverse(\"joker\")", "family": "test case", "desc": "reverse(\"joker\")", "spec": {"mechanism": "reverse(\"joker\")"}, "key_figures": {}, "url": "JAH-TEST-000024.html"}], "twin": {"id": "unit-tests-signature", "title": "JAH Test Case Database — Signature edition", "url": "../website/mirror/index.html"}, "sources": [], "gen_prefix": "JAH-TEST-GEN-"};
+function norm(s){ return (s || '').toLowerCase().replace(/[^a-z0-9\s]/g, ' ').replace(/\s+/g, ' ').trim(); }
+function toks(s){ return norm(s).split(' ').filter(function(w){ return w.length > 1; }); }
+var STOPWORDS = {what:1,is:1,the:1,of:1,a:1,an:1,and:1,or:1,to:1,in:1,on:1,for:1,how:1,does:1,do:1,did:1,can:1,could:1,would:1,should:1,it:1,its:1,this:1,that:1,there:1,here:1,me:1,my:1,you:1,your:1,please:1,tell:1,about:1,show:1,give:1,get:1,with:1,by:1,from:1,at:1,as:1,be:1,are:1,was:1,were:1,has:1,have:1,had:1,i:1,we:1,they:1,he:1,she:1,who:1,whom:1,whose:1,which:1,when:1,where:1,why:1,not:1,no:1,yes:1,if:1,then:1,than:1,so:1,such:1,any:1,some:1,all:1,each:1,every:1,other:1,another:1,more:1,most:1,many:1,much:1,few:1,little:1,own:1,same:1,too:1,very:1,just:1,also:1,only:1,even:1,still:1,already:1,now:1};
+function scoreRec(q, rec){
+  var hay = norm((rec.title || '') + ' ' + (rec.family || '') + ' ' + (rec.desc || '') + ' ' + (rec.spec || ''));
+  var qT = toks(q).filter(function(w){ return !STOPWORDS[w]; }), hT = toks(hay);
+  var sc = 0;
+  qT.forEach(function(w){ if (hT.indexOf(w) >= 0) sc += 2; else if (hay.indexOf(w) >= 0) sc += 1; });
+  return sc;
+}
+function answerQuestion(q, kb, persona){
+  var nq = norm(q);
+  if (!nq) return 'Ask me something about this page — a record, a number, a material, a step.';
+  if (kb && kb.legal && /\blegal\b|\blaw\b|\bjurisdiction\b/.test(nq)) return kb.legal;
+  if (/\bdownload\b/.test(nq)) return 'Every download on this page is a real file: the full record, the demo program, the full program, the spec sheet, the complete file, and both downloadable AIs with their spec sheets. See section 8, Use, download, copy — all free forever.';
+  if (/\bcopy\b/.test(nq)) return 'Use the Copy-all button in section 8. It copies the full record text, including the demo code, with its sources attached.';
+  if (/\bread aloud\b|\bread this\b|\blisten\b/.test(nq)) return 'Press the Read aloud button at the top of the page. It reads the whole page aloud and stops when you press Stop reading.';
+  if (/\bgenerat|\bscale\b|\bbigger\b|\bsmaller\b|\bvariant\b/.test(nq)) return 'Use the boundless generator in section 8: pick a seed (1 to 999,999,999) or a pocket / standard / workshop scale and press Generate. The generator ceiling is 1,000,000,000 scales per file.';
+  if (/\bsources?\b|\bcitation\b|\bwhere.*from\b/.test(nq)) {
+    if (kb && kb.sources && kb.sources.length) return 'Sources for this record: ' + kb.sources.map(function(s){ return s.text ? (s.title + ': ' + s.text.slice(0, 300)) : (s.title + ' — ' + s.url); }).join('; ') + '.';
+    return 'This record carries no external source list in the archive. Its provenance is the archive itself, stated on the page.';
+  }
+  if (/\btwin\b|\bsignature\b|\bpublic version\b/.test(nq)) {
+    if (kb && kb.twin) return 'The twin edition is ' + kb.twin.title + ' (' + kb.twin.id + '). Open it here: ' + kb.twin.url;
+    return 'This page has no twin edition.';
+  }
+  var recs = (kb && kb.records) || ((kb && kb.current) ? [kb.current] : []);
+  var best = null, bestSc = 0;
+  recs.forEach(function(r){ var s = scoreRec(q, r); if (s > bestSc) { bestSc = s; best = r; } });
+  var explicitRef = /\bthis\b|\bit\b|\bthe (record|thing|item|entry|database|archive|mix|program|file|option|supply)\b/.test(nq);
+  var target = best;
+  if (!target && kb && kb.current && explicitRef) target = kb.current;
+  if (target && (bestSc > 0 || explicitRef)) {
+    var spec = target.spec || {};
+    if (/\bdimension|\bsize\b|\bhow big|\bhow tall|\bhow wide|\bdiameter\b/.test(nq) && spec.dimensions) return target.title + ' — dimensions: ' + spec.dimensions;
+    if (/\bmaterial|\bmade of|\bmade from\b/.test(nq) && spec.materials) return target.title + ' — materials: ' + spec.materials;
+    if (/\bmechanism|\bhow.*work|\bhow does\b/.test(nq) && spec.mechanism) return target.title + ' — mechanism: ' + spec.mechanism;
+    if (/\buse\b|\bhow.*use\b|\bhow to use\b/.test(nq) && spec.use) return target.title + ' — use: ' + spec.use;
+    if (/\bcare\b|\bclean\b/.test(nq) && spec.care) return target.title + ' — care: ' + spec.care;
+    if (/\bvariant|\bversion\b/.test(nq) && spec.variants) return target.title + ' — variants: ' + spec.variants;
+    if (/\bdemo\b|\bprogram\b|\bcalculat|\bcompute\b/.test(nq)) return 'The demo for ' + target.title + ' is in section 6. Run it from the download, or use the live calculator on this page — it runs the record\u2019s own numbers in your browser and matches the record\u2019s official output exactly at the record\u2019s own inputs.';
+    if (/\bwhat is\b|\bwhat.*(this|that)\b|\btell me about\b/.test(nq) || bestSc > 0) {
+      var ans = target.title + ': ' + (target.desc || '');
+      if (target.url) ans += ' Full record: ' + target.url;
+      return ans;
+    }
+  }
+  if (recs.length > 1) return 'I answer only from this page\u2019s own records. Try asking about a record by name, a material, a dimension, a mechanism, or a use — or ask for the full list.';
+  return 'That goes outside what this page\u2019s records cover. I answer only from this page\u2019s own records and their cited sources, and I say so plainly when a question goes outside them.';
+}
+
+var q = process.argv.slice(2).join(' ');
+if (!q) { console.log('Usage: node ' + process.argv[1] + ' "your question"');
+  console.log('Example: node ' + process.argv[1] + ' "What is this record made of?"');
+  console.log('This AI answers only from this page\u2019s own records and their cited sources.');
+  process.exit(0); }
+console.log(answerQuestion(q, KB, "JAH Tester Librarian"));

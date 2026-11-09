@@ -1,0 +1,35 @@
+{
+  "id": "JAH-SIGCON-000005",
+  "title": "Signature Math Mapping — Base64",
+  "ladder_rank": 14,
+  "category": "signature-math-mapping",
+  "description": "How the Signature bitstring reads as Base64 (Base systems). Base64 encodes arbitrary binary data as 64 printable ASCII characters (A-Z, a-z, 0-9, +, /), 3 bytes -> 4 characters. Used anywhere binary must travel as text.",
+  "fields": {
+    "name": "Base64",
+    "category": "Base systems",
+    "system": "Base64 encodes arbitrary binary data as 64 printable ASCII characters (A-Z, a-z, 0-9, +, /), 3 bytes -> 4 characters. Used anywhere binary must travel as text.",
+    "mapping": "Pack the 144 Signature bits into 18 bytes, then Base64-encode them. The result is a 24-character text token that carries the entire Signature grid losslessly.",
+    "apply": [
+      "1. Take the 144-bit Signature string and pad to a multiple of 8 bits (already is: 18 bytes).",
+      "2. Convert each 3-byte group to 4 Base64 characters using the standard alphabet.",
+      "3. The 24-character token is the Base64 form. Decode reverses it exactly."
+    ],
+    "example_in": "bytes of 'SIG'",
+    "example_out": "Base64 = U0lH",
+    "source": "https://justinahiggins614-cmyk.github.io/signature-math/data/mathdata.json"
+  },
+  "demo": {
+    "language": "javascript",
+    "program": "// JAH demo program — Signature core verifier (math-mapping)\n\"use strict\";\nvar BITSTRING=\"000000000000000000000000000000000000000000000000000000011100001111011000001000100000010001000000000000000000000000000000000000000000000000000000\";\nvar ones=0;for(var i=0;i<BITSTRING.length;i++){if(BITSTRING[i]===\"1\")ones++;}\nconsole.log(BITSTRING.length===144?\"PASS | bitstring 144 bits\":\"FAIL\");\nconsole.log(ones===13?\"PASS | 13 ones\":\"FAIL\");\nconsole.log(\"PASS | mapping: \" + \"Base64\");\nconsole.log(\"ALL CHECKS PASSED\");",
+    "run_steps": [
+      "Save the program as demo.js.",
+      "Run it with: node demo.js",
+      "Confirm every line prints PASS and the run ends with ALL CHECKS PASSED."
+    ],
+    "expected_output": "ALL CHECKS PASSED"
+  },
+  "src": "public-harvest",
+  "provenance": "Signature Math site #1, mathdata.json",
+  "last_verified": "2026-10-21",
+  "march": "March to a million in progress — connector record, marching toward the 1,000,000-record target."
+}

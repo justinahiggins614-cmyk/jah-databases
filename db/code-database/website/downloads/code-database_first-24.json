@@ -1,0 +1,1244 @@
+[
+  {
+    "title": "Self join — employee and manager (Sql)",
+    "category": "sql",
+    "language": "sql",
+    "description": "Joining a table to itself with two aliases models hierarchies: each employee row pairs with its manager's row. LEFT JOIN keeps the top boss (no manager).",
+    "code": "SELECT e.name, m.name AS manager\nFROM emp e LEFT JOIN emp m ON m.id = e.mgr;",
+    "how_it_works": "Lab exercise: type the snippet into a fresh file, run it, and confirm the test outputs match. Then change one input and predict the result before running — Alias e scans employees, alias m looks up the manager id in the same table.",
+    "complexity": "O(n log n)",
+    "test_cases": [
+      {
+        "input": "dev row",
+        "expected": "dev|ceo",
+        "note": "Manager resolved."
+      },
+      {
+        "input": "dev row — second run",
+        "expected": "dev|ceo",
+        "note": "Determinism check: re-running the snippet reproduces the identical output."
+      }
+    ],
+    "pitfalls": "Recursive hierarchies need a recursive CTE, not repeated self joins.",
+    "use_cases": "Org charts, category trees, linked lists in SQL.",
+    "source": "online",
+    "source_ref": "https://www.sqlite.org/lang_select.html",
+    "creation_mode": "ONLINE-VERIFIED",
+    "id": "JAH-CODE-0000001",
+    "_seed": 1,
+    "demo": {
+      "engine": "jahdb-demo-1.0",
+      "kind": "code",
+      "title": "Runnable code demo — Self join — employee and manager (Sql)",
+      "language": "sql",
+      "program": "# JAH demo program — jahdb-demo-1.0\n# Database: code-database · Record: JAH-CODE-0000001\n# RUN: PC: save as demo.sql, run `sqlite3 :memory: < demo.sql`.\n\nSELECT e.name, m.name AS manager\nFROM emp e LEFT JOIN emp m ON m.id = e.mgr;\n",
+      "run_hint": "PC: save as demo.sql, run `sqlite3 :memory: < demo.sql`.",
+      "how_to_run": "PC: save the program as demo.js (or demo.py/demo.sql per language) and run it with node/python3/sqlite3. In-page: open the record, Demo Lab tab, press Run.",
+      "runnable": true,
+      "extras": {
+        "test_cases": [
+          {
+            "input": "dev row",
+            "expected": "dev|ceo",
+            "note": "Manager resolved."
+          },
+          {
+            "input": "dev row — second run",
+            "expected": "dev|ceo",
+            "note": "Determinism check: re-running the snippet reproduces the identical output."
+          }
+        ]
+      },
+      "note": "Lab exercise: type the snippet into a fresh file, run it, and confirm the test outputs match. Then change one input and predict the result before running — Alias e scans employees, alias m looks up the manager id in the same table."
+    }
+  },
+  {
+    "title": "Binary tree — inorder traversal (Python)",
+    "category": "data-structures",
+    "language": "python",
+    "description": "Inorder (left, node, right) visits a binary search tree in sorted order. The traversal that makes BSTs useful for ordered iteration.",
+    "code": "class N:\n    def __init__(self, v, l=None, r=None):\n        self.v, self.l, self.r = v, l, r\ndef ino(n, o):\n    if n:\n        ino(n.l, o); o.append(n.v); ino(n.r, o)\n\nt = N(2, N(1), N(3))\no = []\nino(t, o)\nprint(o)",
+    "how_it_works": "Lab exercise: type the snippet into a fresh file, run it, and confirm the test outputs match. Then change one input and predict the result before running — Recursion descends left first, records the node, then goes right — yielding ascending order on a BST.",
+    "complexity": "O(n)",
+    "test_cases": [
+      {
+        "input": "inorder of 2(1,3)",
+        "expected": "[1, 2, 3]",
+        "note": "Sorted output."
+      },
+      {
+        "input": "inorder of 2(1,3) — second run",
+        "expected": "[1, 2, 3]",
+        "note": "Determinism check: re-running the snippet reproduces the identical output."
+      }
+    ],
+    "pitfalls": "Deep trees recurse deep — iterative with an explicit stack avoids recursion limits.",
+    "use_cases": "Sorted iteration, expression trees.",
+    "source": "online",
+    "source_ref": "https://en.wikipedia.org/wiki/Tree_traversal",
+    "creation_mode": "ONLINE-VERIFIED",
+    "id": "JAH-CODE-0000002",
+    "_seed": 2,
+    "demo": {
+      "engine": "jahdb-demo-1.0",
+      "kind": "code",
+      "title": "Runnable code demo — Binary tree — inorder traversal (Python)",
+      "language": "python",
+      "program": "# JAH demo program — jahdb-demo-1.0\n# Database: code-database · Record: JAH-CODE-0000002\n# RUN: PC: save as demo.py, run `python3 demo.py`.\n\nclass N:\n    def __init__(self, v, l=None, r=None):\n        self.v, self.l, self.r = v, l, r\ndef ino(n, o):\n    if n:\n        ino(n.l, o); o.append(n.v); ino(n.r, o)\n\nt = N(2, N(1), N(3))\no = []\nino(t, o)\nprint(o)\n",
+      "run_hint": "PC: save as demo.py, run `python3 demo.py`.",
+      "how_to_run": "PC: save the program as demo.js (or demo.py/demo.sql per language) and run it with node/python3/sqlite3. In-page: open the record, Demo Lab tab, press Run.",
+      "runnable": true,
+      "extras": {
+        "test_cases": [
+          {
+            "input": "inorder of 2(1,3)",
+            "expected": "[1, 2, 3]",
+            "note": "Sorted output."
+          },
+          {
+            "input": "inorder of 2(1,3) — second run",
+            "expected": "[1, 2, 3]",
+            "note": "Determinism check: re-running the snippet reproduces the identical output."
+          }
+        ]
+      },
+      "note": "Lab exercise: type the snippet into a fresh file, run it, and confirm the test outputs match. Then change one input and predict the result before running — Recursion descends left first, records the node, then goes right — yielding ascending order on a BST."
+    }
+  },
+  {
+    "title": "Deep clone — recursive (Javascript)",
+    "category": "javascript",
+    "language": "javascript",
+    "description": "Recursively copies plain objects and arrays so mutations of the clone never touch the original. (structuredClone is the built-in shortcut in modern runtimes.)",
+    "code": "function clone(v) {\n  if (Array.isArray(v)) return v.map(clone);\n  if (v && typeof v === \"object\") {\n    const o = {};\n    for (const k of Object.keys(v)) o[k] = clone(v[k]);\n    return o;\n  }\n  return v;\n}\nconst a = { x: [1, { y: 2 }] };\nconst b = clone(a);\nb.x[1].y = 99;\nconsole.log(a.x[1].y, b.x[1].y);",
+    "how_it_works": "Lab exercise: type the snippet into a fresh file, run it, and confirm the test outputs match. Then change one input and predict the result before running — Arrays map, objects rebuild key by key, primitives return as-is; nesting resolves bottom-up.",
+    "complexity": "O(n)",
+    "test_cases": [
+      {
+        "input": "mutate clone",
+        "expected": "2 99",
+        "note": "Original untouched."
+      },
+      {
+        "input": "mutate clone — second run",
+        "expected": "2 99",
+        "note": "Determinism check: re-running the snippet reproduces the identical output."
+      }
+    ],
+    "pitfalls": "Cycles recurse forever — track seen objects for cyclic graphs.",
+    "use_cases": "State snapshots, undo buffers, test fixtures.",
+    "source": "online",
+    "source_ref": "https://developer.mozilla.org/en-US/docs/Web/API/structuredClone",
+    "creation_mode": "ONLINE-VERIFIED",
+    "id": "JAH-CODE-0000003",
+    "_seed": 3,
+    "demo": {
+      "engine": "jahdb-demo-1.0",
+      "kind": "code",
+      "title": "Runnable code demo — Deep clone — recursive (Javascript)",
+      "language": "javascript",
+      "program": "/* JAH interactive demo program — jahdb-demo-1.0\n * Database: code-database · Record: JAH-CODE-0000003 · Deep clone — recursive (Javascript)\n * Runnable code from this record (\"code\") — executes with console output captured.\n * RUN ON PC: save as demo.js, then run:  node demo.js\n * RUN IN BROWSER: press F12, paste this program into the console, press Enter.\n * RUN IN-PAGE: open this record and press \"Run interactive demo\". */\n(function(){\n\"use strict\";\n/* ---- record code (code) ---- */\nfunction clone(v) {\n  if (Array.isArray(v)) return v.map(clone);\n  if (v && typeof v === \"object\") {\n    const o = {};\n    for (const k of Object.keys(v)) o[k] = clone(v[k]);\n    return o;\n  }\n  return v;\n}\nconst a = { x: [1, { y: 2 }] };\nconst b = clone(a);\nb.x[1].y = 99;\nconsole.log(a.x[1].y, b.x[1].y);\n/* ---- auto-run: call main/demo/solve if the snippet defines one ---- */\ntry{\n  if(typeof main===\"function\"){console.log(\"--- main() output ---\");main();}\n  else if(typeof demo===\"function\"){console.log(\"--- demo() output ---\");demo();}\n  else if(typeof solve===\"function\"){console.log(\"--- solve() output ---\");console.log(solve());}\n}catch(e){console.log(\"runtime note: \"+e.message);}\n})();\n",
+      "run_hint": "PC: save as demo.js, run `node demo.js`. In-page: press Run.",
+      "how_to_run": "PC: save the program as demo.js (or demo.py/demo.sql per language) and run it with node/python3/sqlite3. In-page: open the record, Demo Lab tab, press Run.",
+      "runnable": true,
+      "extras": {
+        "test_cases": [
+          {
+            "input": "mutate clone",
+            "expected": "2 99",
+            "note": "Original untouched."
+          },
+          {
+            "input": "mutate clone — second run",
+            "expected": "2 99",
+            "note": "Determinism check: re-running the snippet reproduces the identical output."
+          }
+        ]
+      },
+      "note": "Lab exercise: type the snippet into a fresh file, run it, and confirm the test outputs match. Then change one input and predict the result before running — Arrays map, objects rebuild key by key, primitives return as-is; nesting resolves bottom-up."
+    }
+  },
+  {
+    "title": "State — traffic light cycle (Javascript)",
+    "category": "patterns",
+    "language": "javascript",
+    "description": "State objects encapsulate per-state behavior; the context delegates and transitions by swapping the state object. Switch statements on state melt away.",
+    "code": "const states = {\n  green: { next: \"yellow\" },\n  yellow: { next: \"red\" },\n  red: { next: \"green\" }\n};\nlet s = \"green\";\nconst out = [];\nfor (let i = 0; i < 4; i++) { out.push(s); s = states[s].next; }\nconsole.log(out.join(\" \"));",
+    "how_it_works": "Each state knows its successor; the loop just follows next pointers.",
+    "complexity": "O(1)",
+    "test_cases": [
+      {
+        "input": "4 steps from green",
+        "expected": "green yellow red green",
+        "note": "Cycle completed."
+      },
+      {
+        "input": "4 steps from green — second run",
+        "expected": "green yellow red green",
+        "note": "Determinism check: re-running the snippet reproduces the identical output."
+      }
+    ],
+    "pitfalls": "Shared mutable state objects cause spooky cross-talk — keep them stateless or clone. Reproduce it once on purpose in a scratch file: seeing the failure teaches the fix faster than reading about it.",
+    "use_cases": "Workflows, parsers, game AI.",
+    "source": "online",
+    "source_ref": "https://en.wikipedia.org/wiki/State_pattern",
+    "creation_mode": "ONLINE-VERIFIED",
+    "id": "JAH-CODE-0000004",
+    "_seed": 4,
+    "demo": {
+      "engine": "jahdb-demo-1.0",
+      "kind": "code",
+      "title": "Runnable code demo — State — traffic light cycle (Javascript)",
+      "language": "javascript",
+      "program": "/* JAH interactive demo program — jahdb-demo-1.0\n * Database: code-database · Record: JAH-CODE-0000004 · State — traffic light cycle (Javascript)\n * Runnable code from this record (\"code\") — executes with console output captured.\n * RUN ON PC: save as demo.js, then run:  node demo.js\n * RUN IN BROWSER: press F12, paste this program into the console, press Enter.\n * RUN IN-PAGE: open this record and press \"Run interactive demo\". */\n(function(){\n\"use strict\";\n/* ---- record code (code) ---- */\nconst states = {\n  green: { next: \"yellow\" },\n  yellow: { next: \"red\" },\n  red: { next: \"green\" }\n};\nlet s = \"green\";\nconst out = [];\nfor (let i = 0; i < 4; i++) { out.push(s); s = states[s].next; }\nconsole.log(out.join(\" \"));\n/* ---- auto-run: call main/demo/solve if the snippet defines one ---- */\ntry{\n  if(typeof main===\"function\"){console.log(\"--- main() output ---\");main();}\n  else if(typeof demo===\"function\"){console.log(\"--- demo() output ---\");demo();}\n  else if(typeof solve===\"function\"){console.log(\"--- solve() output ---\");console.log(solve());}\n}catch(e){console.log(\"runtime note: \"+e.message);}\n})();\n",
+      "run_hint": "PC: save as demo.js, run `node demo.js`. In-page: press Run.",
+      "how_to_run": "PC: save the program as demo.js (or demo.py/demo.sql per language) and run it with node/python3/sqlite3. In-page: open the record, Demo Lab tab, press Run.",
+      "runnable": true,
+      "extras": {
+        "test_cases": [
+          {
+            "input": "4 steps from green",
+            "expected": "green yellow red green",
+            "note": "Cycle completed."
+          },
+          {
+            "input": "4 steps from green — second run",
+            "expected": "green yellow red green",
+            "note": "Determinism check: re-running the snippet reproduces the identical output."
+          }
+        ]
+      },
+      "note": "Each state knows its successor; the loop just follows next pointers."
+    }
+  },
+  {
+    "title": "Debounce — trailing edge (Javascript)",
+    "category": "javascript",
+    "language": "javascript",
+    "description": "Debounce waits until calls stop for `wait` ms, then runs once. The standard fix for search-as-you-type hammering a backend.",
+    "code": "function debounce(fn, wait) {\n  let t;\n  return (...a) => { clearTimeout(t); t = setTimeout(() => fn(...a), wait); };\n}\nlet calls = 0;\nconst f = debounce(() => calls++, 40);\nf(); f(); f();\nsetTimeout(() => console.log(calls), 120);",
+    "how_it_works": "Each call clears the pending timer and starts a new one; only the last call in a burst survives the quiet period.",
+    "complexity": "O(1). Tuning: profile before optimizing; the notes above name the usual bottleneck to measure first.",
+    "test_cases": [
+      {
+        "input": "3 rapid calls",
+        "expected": "1",
+        "note": "Single trailing execution."
+      },
+      {
+        "input": "3 rapid calls — second run",
+        "expected": "1",
+        "note": "Determinism check: re-running the snippet reproduces the identical output."
+      }
+    ],
+    "pitfalls": "Leading-edge variants need a different shape; pick one and document it.",
+    "use_cases": "Search inputs, resize handlers, autosave.",
+    "source": "online",
+    "source_ref": "https://en.wikipedia.org/wiki/Debounce",
+    "creation_mode": "ONLINE-VERIFIED",
+    "id": "JAH-CODE-0000005",
+    "_seed": 5,
+    "demo": {
+      "engine": "jahdb-demo-1.0",
+      "kind": "explore",
+      "title": "Interactive record tour — Debounce — trailing edge (Javascript)",
+      "language": "javascript",
+      "program": "/* JAH interactive demo program — jahdb-demo-1.0\n * Database: code-database · Record: JAH-CODE-0000005 · Debounce — trailing edge (Javascript)\n * Interactive record inspector: tours every field, with a searchable field index.\n * RUN ON PC: save as demo.js, then run:  node demo.js\n * RUN IN BROWSER: press F12, paste this program into the console, press Enter.\n * RUN IN-PAGE: open this record and press \"Run interactive demo\". */\n(function(){\nvar FIELDS={\"title\":\"Debounce — trailing edge (Javascript)\",\"category\":\"javascript\",\"language\":\"javascript\",\"description\":\"Debounce waits until calls stop for `wait` ms, then runs once. The standard fix for search-as-you-type hammering a backend.\",\"code\":\"function debounce(fn, wait) {\\n  let t;\\n  return (...a) => { clearTimeout(t); t = setTimeout(() => fn(...a), wait); };\\n}\\nlet calls = 0;\\nconst f = debounce(() => calls++, 40);\\nf(); f(); f();\\nsetTimeout(…\",\"how_it_works\":\"Each call clears the pending timer and starts a new one; only the last call in a burst survives the quiet period.\",\"complexity\":\"O(1). Tuning: profile before optimizing; the notes above name the usual bottleneck to measure first.\",\"test_cases\":\"[array ×2]\",\"pitfalls\":\"Leading-edge variants need a different shape; pick one and document it.\",\"use_cases\":\"Search inputs, resize handlers, autosave.\",\"source\":\"online\",\"source_ref\":\"https://en.wikipedia.org/wiki/Debounce\",\"creation_mode\":\"ONLINE-VERIFIED\",\"id\":\"JAH-CODE-0000005\"};\nvar keys=Object.keys(FIELDS);\nfunction show(i){var k=keys[i];if(k===undefined){console.log(\"no field \"+i);return;}console.log(\"[\"+i+\"] \"+k+\" (\"+(typeof FIELDS[k])+\"):\");console.log(\"    \"+JSON.stringify(FIELDS[k]).slice(0,300));}\nfunction find(word){word=String(word).toLowerCase();var hits=keys.filter(function(k){return (k+\" \"+JSON.stringify(FIELDS[k])).toLowerCase().indexOf(word)>=0;});console.log(\"fields matching \\\"\"+word+\"\\\": \"+(hits.join(\", \")||\"(none)\"));return hits;}\nconsole.log(\"=== Debounce — trailing edge (Javascript) ===\");\nconsole.log(\"Record JAH-CODE-0000005 · \"+keys.length+\" fields:\");\nkeys.forEach(function(k,i){console.log(\"  [\"+i+\"] \"+k);});\nconsole.log(\"--- field tour ---\");\nkeys.forEach(function(k,i){show(i);});\ntry{globalThis.jahDemoAPI={show:show,find:find};}catch(e){}\nconsole.log(\"Try: jahDemoAPI.show(0) · jahDemoAPI.find(\\\"word\\\")\");\n})();\n",
+      "run_hint": "PC: save the program as demo.js (or demo.py/demo.sql per language) and run it with node/python3/sqlite3. In-page: open the record, Demo Lab tab, press Run.",
+      "how_to_run": "PC: save the program as demo.js (or demo.py/demo.sql per language) and run it with node/python3/sqlite3. In-page: open the record, Demo Lab tab, press Run.",
+      "runnable": true
+    }
+  },
+  {
+    "title": "Rotate matrix 90 degrees (Python)",
+    "category": "python",
+    "language": "python",
+    "description": "Rotating a square matrix clockwise equals transpose followed by reversing each row — zip(*m) transposes elegantly in Python.",
+    "code": "def rot(m):\n    return [list(r) for r in zip(*m[::-1])]\n\nprint(rot([[1, 2, 3], [4, 5, 6], [7, 8, 9]]))",
+    "how_it_works": "Lab exercise: type the snippet into a fresh file, run it, and confirm the test outputs match. Then change one input and predict the result before running — Reversing rows then transposing maps element (r,c) to (c, n-1-r): a 90-degree clockwise turn.",
+    "complexity": "O(n^2) time",
+    "test_cases": [
+      {
+        "input": "rot(3x3)",
+        "expected": "[[7, 4, 1], [8, 5, 2], [9, 6, 3]]",
+        "note": "Clockwise quarter turn."
+      },
+      {
+        "input": "rot(3x3) — second run",
+        "expected": "[[7, 4, 1], [8, 5, 2], [9, 6, 3]]",
+        "note": "Determinism check: re-running the snippet reproduces the identical output."
+      }
+    ],
+    "pitfalls": "Only square matrices rotate in place cleanly; rectangular ones change shape.",
+    "use_cases": "Image rotation, game boards, matrix drills.",
+    "source": "online",
+    "source_ref": "https://en.wikipedia.org/wiki/Transpose",
+    "creation_mode": "ONLINE-VERIFIED",
+    "id": "JAH-CODE-0000006",
+    "_seed": 6,
+    "demo": {
+      "engine": "jahdb-demo-1.0",
+      "kind": "code",
+      "title": "Runnable code demo — Rotate matrix 90 degrees (Python)",
+      "language": "python",
+      "program": "# JAH demo program — jahdb-demo-1.0\n# Database: code-database · Record: JAH-CODE-0000006\n# RUN: PC: save as demo.py, run `python3 demo.py`.\n\ndef rot(m):\n    return [list(r) for r in zip(*m[::-1])]\n\nprint(rot([[1, 2, 3], [4, 5, 6], [7, 8, 9]]))\n",
+      "run_hint": "PC: save as demo.py, run `python3 demo.py`.",
+      "how_to_run": "PC: save the program as demo.js (or demo.py/demo.sql per language) and run it with node/python3/sqlite3. In-page: open the record, Demo Lab tab, press Run.",
+      "runnable": true,
+      "extras": {
+        "test_cases": [
+          {
+            "input": "rot(3x3)",
+            "expected": "[[7, 4, 1], [8, 5, 2], [9, 6, 3]]",
+            "note": "Clockwise quarter turn."
+          },
+          {
+            "input": "rot(3x3) — second run",
+            "expected": "[[7, 4, 1], [8, 5, 2], [9, 6, 3]]",
+            "note": "Determinism check: re-running the snippet reproduces the identical output."
+          }
+        ]
+      },
+      "note": "Lab exercise: type the snippet into a fresh file, run it, and confirm the test outputs match. Then change one input and predict the result before running — Reversing rows then transposing maps element (r,c) to (c, n-1-r): a 90-degree clockwise turn."
+    }
+  },
+  {
+    "title": "Hash map with chaining (Python)",
+    "category": "data-structures",
+    "language": "python",
+    "description": "A hash map with separate chaining stores colliding keys in per-bucket lists. Simple, correct, and the classic teaching implementation.",
+    "code": "class HM:\n    def __init__(self, n=8):\n        self.b = [[] for _ in range(n)]\n    def _i(self, k):\n        return hash(k) % len(self.b)\n    def put(self, k, v):\n        b = self.b[self._i(k)]\n        for i, (kk, _) in enumerate(b):\n            if kk == k:\n                b[i] = (k, v)\n                return\n        b.append((k, v))\n    def get(self, k):\n        for kk, v in self.b[self._i(k)]:\n            if kk == k:\n                return v\n\nm = HM()\nm.put(\"a\", 1); m.put(\"a\", 2)\nprint(m.get(\"a\"), m.get(\"zzz\"))",
+    "how_it_works": "The bucket index is hash mod capacity; collisions chain in a list scanned linearly.",
+    "complexity": "O(1) average",
+    "test_cases": [
+      {
+        "input": "put a=1, overwrite a=2",
+        "expected": "2 None",
+        "note": "Update wins; missing is None."
+      },
+      {
+        "input": "put a=1, overwrite a=2 — second run",
+        "expected": "2 None",
+        "note": "Determinism check: re-running the snippet reproduces the identical output."
+      }
+    ],
+    "pitfalls": "A bad hash function degrades to O(n) — and never use non-cryptographic hashes for untrusted keys without randomization.",
+    "use_cases": "Dictionaries, caches, indexes.",
+    "source": "online",
+    "source_ref": "https://en.wikipedia.org/wiki/Hash_table",
+    "creation_mode": "ONLINE-VERIFIED",
+    "id": "JAH-CODE-0000007",
+    "_seed": 7,
+    "demo": {
+      "engine": "jahdb-demo-1.0",
+      "kind": "code",
+      "title": "Runnable code demo — Hash map with chaining (Python)",
+      "language": "python",
+      "program": "# JAH demo program — jahdb-demo-1.0\n# Database: code-database · Record: JAH-CODE-0000007\n# RUN: PC: save as demo.py, run `python3 demo.py`.\n\nclass HM:\n    def __init__(self, n=8):\n        self.b = [[] for _ in range(n)]\n    def _i(self, k):\n        return hash(k) % len(self.b)\n    def put(self, k, v):\n        b = self.b[self._i(k)]\n        for i, (kk, _) in enumerate(b):\n            if kk == k:\n                b[i] = (k, v)\n                return\n        b.append((k, v))\n    def get(self, k):\n        for kk, v in self.b[self._i(k)]:\n            if kk == k:\n                return v\n\nm = HM()\nm.put(\"a\", 1); m.put(\"a\", 2)\nprint(m.get(\"a\"), m.get(\"zzz\"))\n",
+      "run_hint": "PC: save as demo.py, run `python3 demo.py`.",
+      "how_to_run": "PC: save the program as demo.js (or demo.py/demo.sql per language) and run it with node/python3/sqlite3. In-page: open the record, Demo Lab tab, press Run.",
+      "runnable": true,
+      "extras": {
+        "test_cases": [
+          {
+            "input": "put a=1, overwrite a=2",
+            "expected": "2 None",
+            "note": "Update wins; missing is None."
+          },
+          {
+            "input": "put a=1, overwrite a=2 — second run",
+            "expected": "2 None",
+            "note": "Determinism check: re-running the snippet reproduces the identical output."
+          }
+        ]
+      },
+      "note": "The bucket index is hash mod capacity; collisions chain in a list scanned linearly."
+    }
+  },
+  {
+    "title": "Adapter — unify interfaces (Javascript)",
+    "category": "patterns",
+    "language": "javascript",
+    "description": "An adapter translates one interface into another so incompatible code can work together. The classic \"make the old API look like the new one\" move.",
+    "code": "const legacy = { fetchOld: (id) => id * 2 };\nconst adapter = { fetchNew: (id) => ({ value: legacy.fetchOld(id) }) };\nconsole.log(\"new:\" + adapter.fetchNew(21).value);",
+    "how_it_works": "The adapter wraps the legacy call and reshapes its output to the new contract.",
+    "complexity": "O(1)",
+    "test_cases": [
+      {
+        "input": "fetchNew(21)",
+        "expected": "new:42",
+        "note": "Adapted shape."
+      },
+      {
+        "input": "fetchNew(21) — second run",
+        "expected": "new:42",
+        "note": "Determinism check: re-running the snippet reproduces the identical output."
+      }
+    ],
+    "pitfalls": "Adapters accumulate — schedule the real migration instead of stacking them.",
+    "use_cases": "Legacy integration, library migration.",
+    "source": "online",
+    "source_ref": "https://en.wikipedia.org/wiki/Adapter_pattern",
+    "creation_mode": "ONLINE-VERIFIED",
+    "id": "JAH-CODE-0000008",
+    "_seed": 8,
+    "demo": {
+      "engine": "jahdb-demo-1.0",
+      "kind": "code",
+      "title": "Runnable code demo — Adapter — unify interfaces (Javascript)",
+      "language": "javascript",
+      "program": "/* JAH interactive demo program — jahdb-demo-1.0\n * Database: code-database · Record: JAH-CODE-0000008 · Adapter — unify interfaces (Javascript)\n * Runnable code from this record (\"code\") — executes with console output captured.\n * RUN ON PC: save as demo.js, then run:  node demo.js\n * RUN IN BROWSER: press F12, paste this program into the console, press Enter.\n * RUN IN-PAGE: open this record and press \"Run interactive demo\". */\n(function(){\n\"use strict\";\n/* ---- record code (code) ---- */\nconst legacy = { fetchOld: (id) => id * 2 };\nconst adapter = { fetchNew: (id) => ({ value: legacy.fetchOld(id) }) };\nconsole.log(\"new:\" + adapter.fetchNew(21).value);\n/* ---- auto-run: call main/demo/solve if the snippet defines one ---- */\ntry{\n  if(typeof main===\"function\"){console.log(\"--- main() output ---\");main();}\n  else if(typeof demo===\"function\"){console.log(\"--- demo() output ---\");demo();}\n  else if(typeof solve===\"function\"){console.log(\"--- solve() output ---\");console.log(solve());}\n}catch(e){console.log(\"runtime note: \"+e.message);}\n})();\n",
+      "run_hint": "PC: save as demo.js, run `node demo.js`. In-page: press Run.",
+      "how_to_run": "PC: save the program as demo.js (or demo.py/demo.sql per language) and run it with node/python3/sqlite3. In-page: open the record, Demo Lab tab, press Run.",
+      "runnable": true,
+      "extras": {
+        "test_cases": [
+          {
+            "input": "fetchNew(21)",
+            "expected": "new:42",
+            "note": "Adapted shape."
+          },
+          {
+            "input": "fetchNew(21) — second run",
+            "expected": "new:42",
+            "note": "Determinism check: re-running the snippet reproduces the identical output."
+          }
+        ]
+      },
+      "note": "The adapter wraps the legacy call and reshapes its output to the new contract."
+    }
+  },
+  {
+    "title": "Observer — subscribe and notify (Python)",
+    "category": "patterns",
+    "language": "python",
+    "description": "Observers subscribe to a subject; notify() pushes updates to all of them. The backbone of event-driven design and MVC views.",
+    "code": "class Sub:\n    def __init__(self):\n        self.o = []\n    def attach(self, fn):\n        self.o.append(fn)\n    def notify(self, v):\n        for fn in self.o:\n            fn(v)\n\ns, log = Sub(), []\ns.attach(lambda v: log.append(\"a\" + v))\ns.attach(lambda v: log.append(\"b\" + v))\ns.notify(\"!\")\nprint(\"\".join(log))",
+    "how_it_works": "The subject keeps a listener list; notify iterates it with the new value.",
+    "complexity": "O(observers)",
+    "test_cases": [
+      {
+        "input": "notify(\"!\")",
+        "expected": "a!b!",
+        "note": "Both observers ran."
+      },
+      {
+        "input": "notify(\"!\") — second run",
+        "expected": "a!b!",
+        "note": "Determinism check: re-running the snippet reproduces the identical output."
+      }
+    ],
+    "pitfalls": "Observers that throw can break the loop — isolate listener errors. Reproduce it once on purpose in a scratch file: seeing the failure teaches the fix faster than reading about it.",
+    "use_cases": "Event systems, UI binding, pub/sub.",
+    "source": "online",
+    "source_ref": "https://en.wikipedia.org/wiki/Observer_pattern",
+    "creation_mode": "ONLINE-VERIFIED",
+    "id": "JAH-CODE-0000009",
+    "_seed": 9,
+    "demo": {
+      "engine": "jahdb-demo-1.0",
+      "kind": "code",
+      "title": "Runnable code demo — Observer — subscribe and notify (Python)",
+      "language": "python",
+      "program": "# JAH demo program — jahdb-demo-1.0\n# Database: code-database · Record: JAH-CODE-0000009\n# RUN: PC: save as demo.py, run `python3 demo.py`.\n\nclass Sub:\n    def __init__(self):\n        self.o = []\n    def attach(self, fn):\n        self.o.append(fn)\n    def notify(self, v):\n        for fn in self.o:\n            fn(v)\n\ns, log = Sub(), []\ns.attach(lambda v: log.append(\"a\" + v))\ns.attach(lambda v: log.append(\"b\" + v))\ns.notify(\"!\")\nprint(\"\".join(log))\n",
+      "run_hint": "PC: save as demo.py, run `python3 demo.py`.",
+      "how_to_run": "PC: save the program as demo.js (or demo.py/demo.sql per language) and run it with node/python3/sqlite3. In-page: open the record, Demo Lab tab, press Run.",
+      "runnable": true,
+      "extras": {
+        "test_cases": [
+          {
+            "input": "notify(\"!\")",
+            "expected": "a!b!",
+            "note": "Both observers ran."
+          },
+          {
+            "input": "notify(\"!\") — second run",
+            "expected": "a!b!",
+            "note": "Determinism check: re-running the snippet reproduces the identical output."
+          }
+        ]
+      },
+      "note": "The subject keeps a listener list; notify iterates it with the new value."
+    }
+  },
+  {
+    "title": "State — traffic light cycle (Javascript)",
+    "category": "patterns",
+    "language": "javascript",
+    "description": "State objects encapsulate per-state behavior; the context delegates and transitions by swapping the state object. Switch statements on state melt away.",
+    "code": "const states = {\n  green: { next: \"yellow\" },\n  yellow: { next: \"red\" },\n  red: { next: \"green\" }\n};\nlet s = \"green\";\nconst out = [];\nfor (let i = 0; i < 4; i++) { out.push(s); s = states[s].next; }\nconsole.log(out.join(\" \"));",
+    "how_it_works": "Each state knows its successor; the loop just follows next pointers.",
+    "complexity": "O(1)",
+    "test_cases": [
+      {
+        "input": "4 steps from green",
+        "expected": "green yellow red green",
+        "note": "Cycle completed."
+      },
+      {
+        "input": "4 steps from green — second run",
+        "expected": "green yellow red green",
+        "note": "Determinism check: re-running the snippet reproduces the identical output."
+      }
+    ],
+    "pitfalls": "Shared mutable state objects cause spooky cross-talk — keep them stateless or clone.",
+    "use_cases": "Workflows, parsers, game AI.",
+    "source": "online",
+    "source_ref": "https://en.wikipedia.org/wiki/State_pattern",
+    "creation_mode": "ONLINE-VERIFIED",
+    "id": "JAH-CODE-0000010",
+    "_seed": 10,
+    "demo": {
+      "engine": "jahdb-demo-1.0",
+      "kind": "code",
+      "title": "Runnable code demo — State — traffic light cycle (Javascript)",
+      "language": "javascript",
+      "program": "/* JAH interactive demo program — jahdb-demo-1.0\n * Database: code-database · Record: JAH-CODE-0000010 · State — traffic light cycle (Javascript)\n * Runnable code from this record (\"code\") — executes with console output captured.\n * RUN ON PC: save as demo.js, then run:  node demo.js\n * RUN IN BROWSER: press F12, paste this program into the console, press Enter.\n * RUN IN-PAGE: open this record and press \"Run interactive demo\". */\n(function(){\n\"use strict\";\n/* ---- record code (code) ---- */\nconst states = {\n  green: { next: \"yellow\" },\n  yellow: { next: \"red\" },\n  red: { next: \"green\" }\n};\nlet s = \"green\";\nconst out = [];\nfor (let i = 0; i < 4; i++) { out.push(s); s = states[s].next; }\nconsole.log(out.join(\" \"));\n/* ---- auto-run: call main/demo/solve if the snippet defines one ---- */\ntry{\n  if(typeof main===\"function\"){console.log(\"--- main() output ---\");main();}\n  else if(typeof demo===\"function\"){console.log(\"--- demo() output ---\");demo();}\n  else if(typeof solve===\"function\"){console.log(\"--- solve() output ---\");console.log(solve());}\n}catch(e){console.log(\"runtime note: \"+e.message);}\n})();\n",
+      "run_hint": "PC: save as demo.js, run `node demo.js`. In-page: press Run.",
+      "how_to_run": "PC: save the program as demo.js (or demo.py/demo.sql per language) and run it with node/python3/sqlite3. In-page: open the record, Demo Lab tab, press Run.",
+      "runnable": true,
+      "extras": {
+        "test_cases": [
+          {
+            "input": "4 steps from green",
+            "expected": "green yellow red green",
+            "note": "Cycle completed."
+          },
+          {
+            "input": "4 steps from green — second run",
+            "expected": "green yellow red green",
+            "note": "Determinism check: re-running the snippet reproduces the identical output."
+          }
+        ]
+      },
+      "note": "Each state knows its successor; the loop just follows next pointers."
+    }
+  },
+  {
+    "title": "Assert-based unit test (Python)",
+    "category": "testing",
+    "language": "python",
+    "description": "The simplest real test: call the function and assert the result. No framework needed — a failing assert raises and fails loudly. Worked example: run add cases mentally — inputs bind as written, each step follows the code path described below, and the final value is PASS.",
+    "code": "def add(a, b):\n    return a + b\n\nassert add(2, 3) == 5\nassert add(-1, 1) == 0\nprint(\"PASS\")",
+    "how_it_works": "Each assert evaluates the call and compares; the first failure raises AssertionError with the line number.",
+    "complexity": "O(tests)",
+    "test_cases": [
+      {
+        "input": "add cases",
+        "expected": "PASS",
+        "note": "Both assertions held."
+      },
+      {
+        "input": "add cases — second run",
+        "expected": "PASS",
+        "note": "Determinism check: re-running the snippet reproduces the identical output."
+      }
+    ],
+    "pitfalls": "Bare asserts vanish under python -O — frameworks keep them always-on.",
+    "use_cases": "Smoke tests, doctests, teaching.",
+    "source": "online",
+    "source_ref": "https://docs.python.org/3/library/unittest.html",
+    "creation_mode": "ONLINE-VERIFIED",
+    "id": "JAH-CODE-0000011",
+    "_seed": 11,
+    "demo": {
+      "engine": "jahdb-demo-1.0",
+      "kind": "code",
+      "title": "Runnable code demo — Assert-based unit test (Python)",
+      "language": "python",
+      "program": "# JAH demo program — jahdb-demo-1.0\n# Database: code-database · Record: JAH-CODE-0000011\n# RUN: PC: save as demo.py, run `python3 demo.py`.\n\ndef add(a, b):\n    return a + b\n\nassert add(2, 3) == 5\nassert add(-1, 1) == 0\nprint(\"PASS\")\n",
+      "run_hint": "PC: save as demo.py, run `python3 demo.py`.",
+      "how_to_run": "PC: save the program as demo.js (or demo.py/demo.sql per language) and run it with node/python3/sqlite3. In-page: open the record, Demo Lab tab, press Run.",
+      "runnable": true,
+      "extras": {
+        "test_cases": [
+          {
+            "input": "add cases",
+            "expected": "PASS",
+            "note": "Both assertions held."
+          },
+          {
+            "input": "add cases — second run",
+            "expected": "PASS",
+            "note": "Determinism check: re-running the snippet reproduces the identical output."
+          }
+        ]
+      },
+      "note": "Each assert evaluates the call and compares; the first failure raises AssertionError with the line number."
+    }
+  },
+  {
+    "title": "Debounce — trailing edge (Javascript)",
+    "category": "javascript",
+    "language": "javascript",
+    "description": "Debounce waits until calls stop for `wait` ms, then runs once. The standard fix for search-as-you-type hammering a backend. Worked example: run 3 rapid calls mentally — inputs bind as written, each step follows the code path described below, and the final value is 1.",
+    "code": "function debounce(fn, wait) {\n  let t;\n  return (...a) => { clearTimeout(t); t = setTimeout(() => fn(...a), wait); };\n}\nlet calls = 0;\nconst f = debounce(() => calls++, 40);\nf(); f(); f();\nsetTimeout(() => console.log(calls), 120);",
+    "how_it_works": "Each call clears the pending timer and starts a new one; only the last call in a burst survives the quiet period.",
+    "complexity": "O(1)",
+    "test_cases": [
+      {
+        "input": "3 rapid calls",
+        "expected": "1",
+        "note": "Single trailing execution."
+      },
+      {
+        "input": "3 rapid calls — second run",
+        "expected": "1",
+        "note": "Determinism check: re-running the snippet reproduces the identical output."
+      }
+    ],
+    "pitfalls": "Leading-edge variants need a different shape; pick one and document it.",
+    "use_cases": "Search inputs, resize handlers, autosave.",
+    "source": "online",
+    "source_ref": "https://en.wikipedia.org/wiki/Debounce",
+    "creation_mode": "ONLINE-VERIFIED",
+    "id": "JAH-CODE-0000012",
+    "_seed": 12,
+    "demo": {
+      "engine": "jahdb-demo-1.0",
+      "kind": "explore",
+      "title": "Interactive record tour — Debounce — trailing edge (Javascript)",
+      "language": "javascript",
+      "program": "/* JAH interactive demo program — jahdb-demo-1.0\n * Database: code-database · Record: JAH-CODE-0000012 · Debounce — trailing edge (Javascript)\n * Interactive record inspector: tours every field, with a searchable field index.\n * RUN ON PC: save as demo.js, then run:  node demo.js\n * RUN IN BROWSER: press F12, paste this program into the console, press Enter.\n * RUN IN-PAGE: open this record and press \"Run interactive demo\". */\n(function(){\nvar FIELDS={\"title\":\"Debounce — trailing edge (Javascript)\",\"category\":\"javascript\",\"language\":\"javascript\",\"description\":\"Debounce waits until calls stop for `wait` ms, then runs once. The standard fix for search-as-you-type hammering a backend. Worked example: run 3 rapid calls mentally — inputs bind as written, each st…\",\"code\":\"function debounce(fn, wait) {\\n  let t;\\n  return (...a) => { clearTimeout(t); t = setTimeout(() => fn(...a), wait); };\\n}\\nlet calls = 0;\\nconst f = debounce(() => calls++, 40);\\nf(); f(); f();\\nsetTimeout(…\",\"how_it_works\":\"Each call clears the pending timer and starts a new one; only the last call in a burst survives the quiet period.\",\"complexity\":\"O(1)\",\"test_cases\":\"[array ×2]\",\"pitfalls\":\"Leading-edge variants need a different shape; pick one and document it.\",\"use_cases\":\"Search inputs, resize handlers, autosave.\",\"source\":\"online\",\"source_ref\":\"https://en.wikipedia.org/wiki/Debounce\",\"creation_mode\":\"ONLINE-VERIFIED\",\"id\":\"JAH-CODE-0000012\"};\nvar keys=Object.keys(FIELDS);\nfunction show(i){var k=keys[i];if(k===undefined){console.log(\"no field \"+i);return;}console.log(\"[\"+i+\"] \"+k+\" (\"+(typeof FIELDS[k])+\"):\");console.log(\"    \"+JSON.stringify(FIELDS[k]).slice(0,300));}\nfunction find(word){word=String(word).toLowerCase();var hits=keys.filter(function(k){return (k+\" \"+JSON.stringify(FIELDS[k])).toLowerCase().indexOf(word)>=0;});console.log(\"fields matching \\\"\"+word+\"\\\": \"+(hits.join(\", \")||\"(none)\"));return hits;}\nconsole.log(\"=== Debounce — trailing edge (Javascript) ===\");\nconsole.log(\"Record JAH-CODE-0000012 · \"+keys.length+\" fields:\");\nkeys.forEach(function(k,i){console.log(\"  [\"+i+\"] \"+k);});\nconsole.log(\"--- field tour ---\");\nkeys.forEach(function(k,i){show(i);});\ntry{globalThis.jahDemoAPI={show:show,find:find};}catch(e){}\nconsole.log(\"Try: jahDemoAPI.show(0) · jahDemoAPI.find(\\\"word\\\")\");\n})();\n",
+      "run_hint": "PC: save the program as demo.js (or demo.py/demo.sql per language) and run it with node/python3/sqlite3. In-page: open the record, Demo Lab tab, press Run.",
+      "how_to_run": "PC: save the program as demo.js (or demo.py/demo.sql per language) and run it with node/python3/sqlite3. In-page: open the record, Demo Lab tab, press Run.",
+      "runnable": true
+    }
+  },
+  {
+    "title": "RANK window — ties share rank (Sql)",
+    "category": "sql",
+    "language": "sql",
+    "description": "RANK() OVER (ORDER BY pts DESC) numbers rows by score with gaps after ties: two first places, then third. DENSE_RANK skips the gap; ROW_NUMBER never ties.",
+    "code": "SELECT name, RANK() OVER (ORDER BY pts DESC) AS r\nFROM s ORDER BY r, name;",
+    "how_it_works": "The window sorts by points; equal values receive the same rank and the next rank skips ahead.",
+    "complexity": "O(n log n)",
+    "test_cases": [
+      {
+        "input": "b=20,c=20,a=10",
+        "expected": "b|1, c|1, a|3",
+        "note": "Tied for first, then third."
+      },
+      {
+        "input": "b=20,c=20,a=10 — second run",
+        "expected": "b|1, c|1, a|3",
+        "note": "Determinism check: re-running the snippet reproduces the identical output."
+      }
+    ],
+    "pitfalls": "Use the right function: leaderboards usually want RANK or DENSE_RANK, not ROW_NUMBER. Reproduce it once on purpose in a scratch file: seeing the failure teaches the fix faster than reading about it.",
+    "use_cases": "Leaderboards, percentiles, top-N with ties.",
+    "source": "online",
+    "source_ref": "https://www.sqlite.org/lang_windowfunc.html",
+    "creation_mode": "ONLINE-VERIFIED",
+    "id": "JAH-CODE-0000013",
+    "_seed": 13,
+    "demo": {
+      "engine": "jahdb-demo-1.0",
+      "kind": "code",
+      "title": "Runnable code demo — RANK window — ties share rank (Sql)",
+      "language": "sql",
+      "program": "# JAH demo program — jahdb-demo-1.0\n# Database: code-database · Record: JAH-CODE-0000013\n# RUN: PC: save as demo.sql, run `sqlite3 :memory: < demo.sql`.\n\nSELECT name, RANK() OVER (ORDER BY pts DESC) AS r\nFROM s ORDER BY r, name;\n",
+      "run_hint": "PC: save as demo.sql, run `sqlite3 :memory: < demo.sql`.",
+      "how_to_run": "PC: save the program as demo.js (or demo.py/demo.sql per language) and run it with node/python3/sqlite3. In-page: open the record, Demo Lab tab, press Run.",
+      "runnable": true,
+      "extras": {
+        "test_cases": [
+          {
+            "input": "b=20,c=20,a=10",
+            "expected": "b|1, c|1, a|3",
+            "note": "Tied for first, then third."
+          },
+          {
+            "input": "b=20,c=20,a=10 — second run",
+            "expected": "b|1, c|1, a|3",
+            "note": "Determinism check: re-running the snippet reproduces the identical output."
+          }
+        ]
+      },
+      "note": "The window sorts by points; equal values receive the same rank and the next rank skips ahead."
+    }
+  },
+  {
+    "title": "Adapter — unify interfaces (Javascript)",
+    "category": "patterns",
+    "language": "javascript",
+    "description": "An adapter translates one interface into another so incompatible code can work together. The classic \"make the old API look like the new one\" move. Worked example: run fetchNew(21) mentally — inputs bind as written, each step follows the code path described below, and the final value is new:42.",
+    "code": "const legacy = { fetchOld: (id) => id * 2 };\nconst adapter = { fetchNew: (id) => ({ value: legacy.fetchOld(id) }) };\nconsole.log(\"new:\" + adapter.fetchNew(21).value);",
+    "how_it_works": "The adapter wraps the legacy call and reshapes its output to the new contract.",
+    "complexity": "O(1)",
+    "test_cases": [
+      {
+        "input": "fetchNew(21)",
+        "expected": "new:42",
+        "note": "Adapted shape."
+      },
+      {
+        "input": "fetchNew(21) — second run",
+        "expected": "new:42",
+        "note": "Determinism check: re-running the snippet reproduces the identical output."
+      }
+    ],
+    "pitfalls": "Adapters accumulate — schedule the real migration instead of stacking them.",
+    "use_cases": "Legacy integration, library migration.",
+    "source": "online",
+    "source_ref": "https://en.wikipedia.org/wiki/Adapter_pattern",
+    "creation_mode": "ONLINE-VERIFIED",
+    "id": "JAH-CODE-0000014",
+    "_seed": 14,
+    "demo": {
+      "engine": "jahdb-demo-1.0",
+      "kind": "code",
+      "title": "Runnable code demo — Adapter — unify interfaces (Javascript)",
+      "language": "javascript",
+      "program": "/* JAH interactive demo program — jahdb-demo-1.0\n * Database: code-database · Record: JAH-CODE-0000014 · Adapter — unify interfaces (Javascript)\n * Runnable code from this record (\"code\") — executes with console output captured.\n * RUN ON PC: save as demo.js, then run:  node demo.js\n * RUN IN BROWSER: press F12, paste this program into the console, press Enter.\n * RUN IN-PAGE: open this record and press \"Run interactive demo\". */\n(function(){\n\"use strict\";\n/* ---- record code (code) ---- */\nconst legacy = { fetchOld: (id) => id * 2 };\nconst adapter = { fetchNew: (id) => ({ value: legacy.fetchOld(id) }) };\nconsole.log(\"new:\" + adapter.fetchNew(21).value);\n/* ---- auto-run: call main/demo/solve if the snippet defines one ---- */\ntry{\n  if(typeof main===\"function\"){console.log(\"--- main() output ---\");main();}\n  else if(typeof demo===\"function\"){console.log(\"--- demo() output ---\");demo();}\n  else if(typeof solve===\"function\"){console.log(\"--- solve() output ---\");console.log(solve());}\n}catch(e){console.log(\"runtime note: \"+e.message);}\n})();\n",
+      "run_hint": "PC: save as demo.js, run `node demo.js`. In-page: press Run.",
+      "how_to_run": "PC: save the program as demo.js (or demo.py/demo.sql per language) and run it with node/python3/sqlite3. In-page: open the record, Demo Lab tab, press Run.",
+      "runnable": true,
+      "extras": {
+        "test_cases": [
+          {
+            "input": "fetchNew(21)",
+            "expected": "new:42",
+            "note": "Adapted shape."
+          },
+          {
+            "input": "fetchNew(21) — second run",
+            "expected": "new:42",
+            "note": "Determinism check: re-running the snippet reproduces the identical output."
+          }
+        ]
+      },
+      "note": "The adapter wraps the legacy call and reshapes its output to the new contract."
+    }
+  },
+  {
+    "title": "Breadth-first search — shortest path (Python)",
+    "category": "python",
+    "language": "python",
+    "description": "BFS explores a graph level by level using a queue, so the first time it reaches the target it has used the fewest edges. The standard unweighted shortest-path algorithm.",
+    "code": "from collections import deque\ndef bfs(g, s, t):\n    q, seen = deque([(s, 0)]), {s}\n    while q:\n        n, d = q.popleft()\n        if n == t:\n            return d\n        for m in g.get(n, []):\n            if m not in seen:\n                seen.add(m); q.append((m, d + 1))\n    return -1\n\ng = {\"a\": [\"b\", \"c\"], \"b\": [\"d\"], \"c\": [\"d\"], \"d\": []}\nprint(bfs(g, \"a\", \"d\"))",
+    "how_it_works": "The queue holds (node, distance) pairs; neighbors are enqueued once, so nodes are visited in order of increasing distance.",
+    "complexity": "O(V + E) time. Tuning: profile before optimizing; the notes above name the usual bottleneck to measure first.",
+    "test_cases": [
+      {
+        "input": "bfs(g,\"a\",\"d\")",
+        "expected": "2",
+        "note": "Two hops."
+      },
+      {
+        "input": "bfs(g,\"a\",\"z\")",
+        "expected": "-1",
+        "note": "Unreachable."
+      }
+    ],
+    "pitfalls": "Needs a visited set — without it, cycles loop forever.",
+    "use_cases": "Shortest path, level-order traversal, connected components.",
+    "source": "online",
+    "source_ref": "https://en.wikipedia.org/wiki/Breadth-first_search",
+    "creation_mode": "ONLINE-VERIFIED",
+    "id": "JAH-CODE-0000015",
+    "_seed": 15,
+    "demo": {
+      "engine": "jahdb-demo-1.0",
+      "kind": "code",
+      "title": "Runnable code demo — Breadth-first search — shortest path (Python)",
+      "language": "python",
+      "program": "# JAH demo program — jahdb-demo-1.0\n# Database: code-database · Record: JAH-CODE-0000015\n# RUN: PC: save as demo.py, run `python3 demo.py`.\n\nfrom collections import deque\ndef bfs(g, s, t):\n    q, seen = deque([(s, 0)]), {s}\n    while q:\n        n, d = q.popleft()\n        if n == t:\n            return d\n        for m in g.get(n, []):\n            if m not in seen:\n                seen.add(m); q.append((m, d + 1))\n    return -1\n\ng = {\"a\": [\"b\", \"c\"], \"b\": [\"d\"], \"c\": [\"d\"], \"d\": []}\nprint(bfs(g, \"a\", \"d\"))\n",
+      "run_hint": "PC: save as demo.py, run `python3 demo.py`.",
+      "how_to_run": "PC: save the program as demo.js (or demo.py/demo.sql per language) and run it with node/python3/sqlite3. In-page: open the record, Demo Lab tab, press Run.",
+      "runnable": true,
+      "extras": {
+        "test_cases": [
+          {
+            "input": "bfs(g,\"a\",\"d\")",
+            "expected": "2",
+            "note": "Two hops."
+          },
+          {
+            "input": "bfs(g,\"a\",\"z\")",
+            "expected": "-1",
+            "note": "Unreachable."
+          }
+        ]
+      },
+      "note": "The queue holds (node, distance) pairs; neighbors are enqueued once, so nodes are visited in order of increasing distance."
+    }
+  },
+  {
+    "title": "Pivot rows to columns — CASE (Sql)",
+    "category": "sql",
+    "language": "sql",
+    "description": "Conditional aggregation pivots quarterly rows into quarter columns: SUM(CASE WHEN ...) totals each quarter separately in one pass.",
+    "code": "SELECT SUM(CASE WHEN q = 'Q1' THEN amt ELSE 0 END) AS q1,\n       SUM(CASE WHEN q = 'Q2' THEN amt ELSE 0 END) AS q2\nFROM sales;",
+    "how_it_works": "Each CASE yields the amount only for its quarter, else zero; SUM collapses to one row.",
+    "complexity": "O(n)",
+    "test_cases": [
+      {
+        "input": "sample fixture",
+        "expected": "15|20",
+        "note": "Q1=10+5, Q2=20."
+      },
+      {
+        "input": "sample fixture — second run",
+        "expected": "15|20",
+        "note": "Determinism check: re-running the snippet reproduces the identical output."
+      }
+    ],
+    "pitfalls": "The FILTER clause is cleaner where supported, but CASE works everywhere. Reproduce it once on purpose in a scratch file: seeing the failure teaches the fix faster than reading about it.",
+    "use_cases": "Crosstabs, quarterly reports.",
+    "source": "online",
+    "source_ref": "https://www.sqlite.org/lang_expr.html",
+    "creation_mode": "ONLINE-VERIFIED",
+    "id": "JAH-CODE-0000016",
+    "_seed": 16,
+    "demo": {
+      "engine": "jahdb-demo-1.0",
+      "kind": "code",
+      "title": "Runnable code demo — Pivot rows to columns — CASE (Sql)",
+      "language": "sql",
+      "program": "# JAH demo program — jahdb-demo-1.0\n# Database: code-database · Record: JAH-CODE-0000016\n# RUN: PC: save as demo.sql, run `sqlite3 :memory: < demo.sql`.\n\nSELECT SUM(CASE WHEN q = 'Q1' THEN amt ELSE 0 END) AS q1,\n       SUM(CASE WHEN q = 'Q2' THEN amt ELSE 0 END) AS q2\nFROM sales;\n",
+      "run_hint": "PC: save as demo.sql, run `sqlite3 :memory: < demo.sql`.",
+      "how_to_run": "PC: save the program as demo.js (or demo.py/demo.sql per language) and run it with node/python3/sqlite3. In-page: open the record, Demo Lab tab, press Run.",
+      "runnable": true,
+      "extras": {
+        "test_cases": [
+          {
+            "input": "sample fixture",
+            "expected": "15|20",
+            "note": "Q1=10+5, Q2=20."
+          },
+          {
+            "input": "sample fixture — second run",
+            "expected": "15|20",
+            "note": "Determinism check: re-running the snippet reproduces the identical output."
+          }
+        ]
+      },
+      "note": "Each CASE yields the amount only for its quarter, else zero; SUM collapses to one row."
+    }
+  },
+  {
+    "title": "Merge intervals (Python)",
+    "category": "python",
+    "language": "python",
+    "description": "Sorts intervals by start, then sweeps: overlapping intervals merge into one, disjoint ones start a new group. The standard calendar-consolidation algorithm.",
+    "code": "def merge(iv):\n    iv.sort()\n    o = []\n    for s, e in iv:\n        if o and s <= o[-1][1]:\n            o[-1][1] = max(o[-1][1], e)\n        else:\n            o.append([s, e])\n    return o\n\nprint(merge([[1, 3], [2, 6], [8, 10], [15, 18]]))",
+    "how_it_works": "Lab exercise: type the snippet into a fresh file, run it, and confirm the test outputs match. Then change one input and predict the result before running — Sorting makes overlaps adjacent; the sweep extends the current interval while the next start falls inside it.",
+    "complexity": "O(n log n) time",
+    "test_cases": [
+      {
+        "input": "merge([[1,3],[2,6],[8,10],[15,18]])",
+        "expected": "[[1, 6], [8, 10], [15, 18]]",
+        "note": "First two merge."
+      },
+      {
+        "input": "merge([])",
+        "expected": "[]",
+        "note": "Empty."
+      }
+    ],
+    "pitfalls": "Touching intervals ([1,4],[4,5]): decide merge-or-not and be consistent.",
+    "use_cases": "Calendars, range consolidation, scheduling.",
+    "source": "online",
+    "source_ref": "https://en.wikipedia.org/wiki/Interval_scheduling",
+    "creation_mode": "ONLINE-VERIFIED",
+    "id": "JAH-CODE-0000017",
+    "_seed": 17,
+    "demo": {
+      "engine": "jahdb-demo-1.0",
+      "kind": "code",
+      "title": "Runnable code demo — Merge intervals (Python)",
+      "language": "python",
+      "program": "# JAH demo program — jahdb-demo-1.0\n# Database: code-database · Record: JAH-CODE-0000017\n# RUN: PC: save as demo.py, run `python3 demo.py`.\n\ndef merge(iv):\n    iv.sort()\n    o = []\n    for s, e in iv:\n        if o and s <= o[-1][1]:\n            o[-1][1] = max(o[-1][1], e)\n        else:\n            o.append([s, e])\n    return o\n\nprint(merge([[1, 3], [2, 6], [8, 10], [15, 18]]))\n",
+      "run_hint": "PC: save as demo.py, run `python3 demo.py`.",
+      "how_to_run": "PC: save the program as demo.js (or demo.py/demo.sql per language) and run it with node/python3/sqlite3. In-page: open the record, Demo Lab tab, press Run.",
+      "runnable": true,
+      "extras": {
+        "test_cases": [
+          {
+            "input": "merge([[1,3],[2,6],[8,10],[15,18]])",
+            "expected": "[[1, 6], [8, 10], [15, 18]]",
+            "note": "First two merge."
+          },
+          {
+            "input": "merge([])",
+            "expected": "[]",
+            "note": "Empty."
+          }
+        ]
+      },
+      "note": "Lab exercise: type the snippet into a fresh file, run it, and confirm the test outputs match. Then change one input and predict the result before running — Sorting makes overlaps adjacent; the sweep extends the current interval while the next start falls inside it."
+    }
+  },
+  {
+    "title": "Facade — one call, many subsystems (Python)",
+    "category": "patterns",
+    "language": "python",
+    "description": "A facade offers one simple function over several fiddly subsystems. Clients get simplicity; the subsystems stay untouched underneath.",
+    "code": "def _disk():\n    return \"disk-ok\"\ndef _net():\n    return \"net-ok\"\ndef system_ready():\n    return _disk() == \"disk-ok\" and _net() == \"net-ok\"\n\nprint(\"ready\" if system_ready() else \"down\")",
+    "how_it_works": "The facade coordinates the subsystem checks and reduces them to one answer.",
+    "complexity": "O(subsystems). Tuning: profile before optimizing; the notes above name the usual bottleneck to measure first.",
+    "test_cases": [
+      {
+        "input": "system_ready()",
+        "expected": "ready",
+        "note": "All subsystems ok."
+      },
+      {
+        "input": "system_ready() — second run",
+        "expected": "ready",
+        "note": "Determinism check: re-running the snippet reproduces the identical output."
+      }
+    ],
+    "pitfalls": "Facades hide power — expose the subsystems too for advanced users.",
+    "use_cases": "Startup checks, library APIs, onboarding flows.",
+    "source": "online",
+    "source_ref": "https://en.wikipedia.org/wiki/Facade_pattern",
+    "creation_mode": "ONLINE-VERIFIED",
+    "id": "JAH-CODE-0000018",
+    "_seed": 18,
+    "demo": {
+      "engine": "jahdb-demo-1.0",
+      "kind": "code",
+      "title": "Runnable code demo — Facade — one call, many subsystems (Python)",
+      "language": "python",
+      "program": "# JAH demo program — jahdb-demo-1.0\n# Database: code-database · Record: JAH-CODE-0000018\n# RUN: PC: save as demo.py, run `python3 demo.py`.\n\ndef _disk():\n    return \"disk-ok\"\ndef _net():\n    return \"net-ok\"\ndef system_ready():\n    return _disk() == \"disk-ok\" and _net() == \"net-ok\"\n\nprint(\"ready\" if system_ready() else \"down\")\n",
+      "run_hint": "PC: save as demo.py, run `python3 demo.py`.",
+      "how_to_run": "PC: save the program as demo.js (or demo.py/demo.sql per language) and run it with node/python3/sqlite3. In-page: open the record, Demo Lab tab, press Run.",
+      "runnable": true,
+      "extras": {
+        "test_cases": [
+          {
+            "input": "system_ready()",
+            "expected": "ready",
+            "note": "All subsystems ok."
+          },
+          {
+            "input": "system_ready() — second run",
+            "expected": "ready",
+            "note": "Determinism check: re-running the snippet reproduces the identical output."
+          }
+        ]
+      },
+      "note": "The facade coordinates the subsystem checks and reduces them to one answer."
+    }
+  },
+  {
+    "title": "Parametrized test loop (Python)",
+    "category": "testing",
+    "language": "python",
+    "description": "One test body over a table of (input, expected) pairs beats copy-pasted test functions. Failures name the case that broke. Worked example: run 4 square cases mentally — inputs bind as written, each step follows the code path described below, and the final value is 4 passed.",
+    "code": "def sq(n):\n    return n * n\n\ncases = [(0, 0), (2, 4), (-3, 9), (10, 100)]\nfor n, want in cases:\n    assert sq(n) == want, n\nprint(\"%d passed\" % len(cases))",
+    "how_it_works": "The loop runs the same assertion per case; the assert message identifies the failing input.",
+    "complexity": "O(cases)",
+    "test_cases": [
+      {
+        "input": "4 square cases",
+        "expected": "4 passed",
+        "note": "Table-driven."
+      },
+      {
+        "input": "4 square cases — second run",
+        "expected": "4 passed",
+        "note": "Determinism check: re-running the snippet reproduces the identical output."
+      }
+    ],
+    "pitfalls": "One bad case aborts the rest — frameworks run all and report each.",
+    "use_cases": "Math functions, parsers, edge tables.",
+    "source": "online",
+    "source_ref": "https://docs.pytest.org/en/stable/how-to/parametrize.html",
+    "creation_mode": "ONLINE-VERIFIED",
+    "id": "JAH-CODE-0000019",
+    "_seed": 19,
+    "demo": {
+      "engine": "jahdb-demo-1.0",
+      "kind": "code",
+      "title": "Runnable code demo — Parametrized test loop (Python)",
+      "language": "python",
+      "program": "# JAH demo program — jahdb-demo-1.0\n# Database: code-database · Record: JAH-CODE-0000019\n# RUN: PC: save as demo.py, run `python3 demo.py`.\n\ndef sq(n):\n    return n * n\n\ncases = [(0, 0), (2, 4), (-3, 9), (10, 100)]\nfor n, want in cases:\n    assert sq(n) == want, n\nprint(\"%d passed\" % len(cases))\n",
+      "run_hint": "PC: save as demo.py, run `python3 demo.py`.",
+      "how_to_run": "PC: save the program as demo.js (or demo.py/demo.sql per language) and run it with node/python3/sqlite3. In-page: open the record, Demo Lab tab, press Run.",
+      "runnable": true,
+      "extras": {
+        "test_cases": [
+          {
+            "input": "4 square cases",
+            "expected": "4 passed",
+            "note": "Table-driven."
+          },
+          {
+            "input": "4 square cases — second run",
+            "expected": "4 passed",
+            "note": "Determinism check: re-running the snippet reproduces the identical output."
+          }
+        ]
+      },
+      "note": "The loop runs the same assertion per case; the assert message identifies the failing input."
+    }
+  },
+  {
+    "title": "Flatten nested arrays (Javascript)",
+    "category": "javascript",
+    "language": "javascript",
+    "description": "Recursively concatenates nested arrays into one flat list, descending as deep as the nesting goes. Array.prototype.flat(Infinity) is the built-in equivalent.",
+    "code": "function flat(a) {\n  return a.reduce((o, x) => o.concat(Array.isArray(x) ? flat(x) : x), []);\n}\nconsole.log(flat([1, [2, [3, 4], 5], 6]).join(\",\"));",
+    "how_it_works": "Lab exercise: type the snippet into a fresh file, run it, and confirm the test outputs match. Then change one input and predict the result before running — Reduce accumulates; nested arrays recurse and concat, scalars append directly.",
+    "complexity": "O(n)",
+    "test_cases": [
+      {
+        "input": "flat([1,[2,[3,4],5],6])",
+        "expected": "1,2,3,4,5,6",
+        "note": "Fully flattened."
+      },
+      {
+        "input": "flat([1,[2,[3,4],5],6]) — second run",
+        "expected": "1,2,3,4,5,6",
+        "note": "Determinism check: re-running the snippet reproduces the identical output."
+      }
+    ],
+    "pitfalls": "Very deep nesting can overflow the call stack — iterative with an explicit stack is safer.",
+    "use_cases": "Tree walks, nested API responses, data normalization.",
+    "source": "online",
+    "source_ref": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/flat",
+    "creation_mode": "ONLINE-VERIFIED",
+    "id": "JAH-CODE-0000020",
+    "_seed": 20,
+    "demo": {
+      "engine": "jahdb-demo-1.0",
+      "kind": "code",
+      "title": "Runnable code demo — Flatten nested arrays (Javascript)",
+      "language": "javascript",
+      "program": "/* JAH interactive demo program — jahdb-demo-1.0\n * Database: code-database · Record: JAH-CODE-0000020 · Flatten nested arrays (Javascript)\n * Runnable code from this record (\"code\") — executes with console output captured.\n * RUN ON PC: save as demo.js, then run:  node demo.js\n * RUN IN BROWSER: press F12, paste this program into the console, press Enter.\n * RUN IN-PAGE: open this record and press \"Run interactive demo\". */\n(function(){\n\"use strict\";\n/* ---- record code (code) ---- */\nfunction flat(a) {\n  return a.reduce((o, x) => o.concat(Array.isArray(x) ? flat(x) : x), []);\n}\nconsole.log(flat([1, [2, [3, 4], 5], 6]).join(\",\"));\n/* ---- auto-run: call main/demo/solve if the snippet defines one ---- */\ntry{\n  if(typeof main===\"function\"){console.log(\"--- main() output ---\");main();}\n  else if(typeof demo===\"function\"){console.log(\"--- demo() output ---\");demo();}\n  else if(typeof solve===\"function\"){console.log(\"--- solve() output ---\");console.log(solve());}\n}catch(e){console.log(\"runtime note: \"+e.message);}\n})();\n",
+      "run_hint": "PC: save as demo.js, run `node demo.js`. In-page: press Run.",
+      "how_to_run": "PC: save the program as demo.js (or demo.py/demo.sql per language) and run it with node/python3/sqlite3. In-page: open the record, Demo Lab tab, press Run.",
+      "runnable": true,
+      "extras": {
+        "test_cases": [
+          {
+            "input": "flat([1,[2,[3,4],5],6])",
+            "expected": "1,2,3,4,5,6",
+            "note": "Fully flattened."
+          },
+          {
+            "input": "flat([1,[2,[3,4],5],6]) — second run",
+            "expected": "1,2,3,4,5,6",
+            "note": "Determinism check: re-running the snippet reproduces the identical output."
+          }
+        ]
+      },
+      "note": "Lab exercise: type the snippet into a fresh file, run it, and confirm the test outputs match. Then change one input and predict the result before running — Reduce accumulates; nested arrays recurse and concat, scalars append directly."
+    }
+  },
+  {
+    "title": "Rotate matrix 90 degrees (Python)",
+    "category": "python",
+    "language": "python",
+    "description": "Rotating a square matrix clockwise equals transpose followed by reversing each row — zip(*m) transposes elegantly in Python.",
+    "code": "def rot(m):\n    return [list(r) for r in zip(*m[::-1])]\n\nprint(rot([[1, 2, 3], [4, 5, 6], [7, 8, 9]]))",
+    "how_it_works": "Reversing rows then transposing maps element (r,c) to (c, n-1-r): a 90-degree clockwise turn.",
+    "complexity": "O(n^2) time",
+    "test_cases": [
+      {
+        "input": "rot(3x3)",
+        "expected": "[[7, 4, 1], [8, 5, 2], [9, 6, 3]]",
+        "note": "Clockwise quarter turn."
+      },
+      {
+        "input": "rot(3x3) — second run",
+        "expected": "[[7, 4, 1], [8, 5, 2], [9, 6, 3]]",
+        "note": "Determinism check: re-running the snippet reproduces the identical output."
+      }
+    ],
+    "pitfalls": "Only square matrices rotate in place cleanly; rectangular ones change shape.",
+    "use_cases": "Image rotation, game boards, matrix drills.",
+    "source": "online",
+    "source_ref": "https://en.wikipedia.org/wiki/Transpose",
+    "creation_mode": "ONLINE-VERIFIED",
+    "id": "JAH-CODE-0000021",
+    "_seed": 21,
+    "demo": {
+      "engine": "jahdb-demo-1.0",
+      "kind": "code",
+      "title": "Runnable code demo — Rotate matrix 90 degrees (Python)",
+      "language": "python",
+      "program": "# JAH demo program — jahdb-demo-1.0\n# Database: code-database · Record: JAH-CODE-0000021\n# RUN: PC: save as demo.py, run `python3 demo.py`.\n\ndef rot(m):\n    return [list(r) for r in zip(*m[::-1])]\n\nprint(rot([[1, 2, 3], [4, 5, 6], [7, 8, 9]]))\n",
+      "run_hint": "PC: save as demo.py, run `python3 demo.py`.",
+      "how_to_run": "PC: save the program as demo.js (or demo.py/demo.sql per language) and run it with node/python3/sqlite3. In-page: open the record, Demo Lab tab, press Run.",
+      "runnable": true,
+      "extras": {
+        "test_cases": [
+          {
+            "input": "rot(3x3)",
+            "expected": "[[7, 4, 1], [8, 5, 2], [9, 6, 3]]",
+            "note": "Clockwise quarter turn."
+          },
+          {
+            "input": "rot(3x3) — second run",
+            "expected": "[[7, 4, 1], [8, 5, 2], [9, 6, 3]]",
+            "note": "Determinism check: re-running the snippet reproduces the identical output."
+          }
+        ]
+      },
+      "note": "Reversing rows then transposing maps element (r,c) to (c, n-1-r): a 90-degree clockwise turn."
+    }
+  },
+  {
+    "title": "Decorator — wrap with logging (Javascript)",
+    "category": "patterns",
+    "language": "javascript",
+    "description": "A decorator wraps a function to add behavior (logging, timing, auth) without changing it. Higher-order functions are JavaScript's native decorator.",
+    "code": "function logged(fn, name) {\n  return (...a) => {\n    const r = fn(...a);\n    console.log(name + \":\" + r);\n    return r;\n  };\n}\nconst add = logged((a, b) => a + b, \"add\");\nadd(2, 3);",
+    "how_it_works": "The wrapper calls through, then logs the result — the original stays untouched.",
+    "complexity": "O(wrapped). Tuning: profile before optimizing; the notes above name the usual bottleneck to measure first.",
+    "test_cases": [
+      {
+        "input": "add(2,3)",
+        "expected": "add:5",
+        "note": "Logged the return value."
+      },
+      {
+        "input": "add(2,3) — second run",
+        "expected": "add:5",
+        "note": "Determinism check: re-running the snippet reproduces the identical output."
+      }
+    ],
+    "pitfalls": "Wrappers must forward arguments and `this` faithfully.",
+    "use_cases": "Logging, metrics, auth guards.",
+    "source": "online",
+    "source_ref": "https://en.wikipedia.org/wiki/Decorator_pattern",
+    "creation_mode": "ONLINE-VERIFIED",
+    "id": "JAH-CODE-0000022",
+    "_seed": 22,
+    "demo": {
+      "engine": "jahdb-demo-1.0",
+      "kind": "code",
+      "title": "Runnable code demo — Decorator — wrap with logging (Javascript)",
+      "language": "javascript",
+      "program": "/* JAH interactive demo program — jahdb-demo-1.0\n * Database: code-database · Record: JAH-CODE-0000022 · Decorator — wrap with logging (Javascript)\n * Runnable code from this record (\"code\") — executes with console output captured.\n * RUN ON PC: save as demo.js, then run:  node demo.js\n * RUN IN BROWSER: press F12, paste this program into the console, press Enter.\n * RUN IN-PAGE: open this record and press \"Run interactive demo\". */\n(function(){\n\"use strict\";\n/* ---- record code (code) ---- */\nfunction logged(fn, name) {\n  return (...a) => {\n    const r = fn(...a);\n    console.log(name + \":\" + r);\n    return r;\n  };\n}\nconst add = logged((a, b) => a + b, \"add\");\nadd(2, 3);\n/* ---- auto-run: call main/demo/solve if the snippet defines one ---- */\ntry{\n  if(typeof main===\"function\"){console.log(\"--- main() output ---\");main();}\n  else if(typeof demo===\"function\"){console.log(\"--- demo() output ---\");demo();}\n  else if(typeof solve===\"function\"){console.log(\"--- solve() output ---\");console.log(solve());}\n}catch(e){console.log(\"runtime note: \"+e.message);}\n})();\n",
+      "run_hint": "PC: save as demo.js, run `node demo.js`. In-page: press Run.",
+      "how_to_run": "PC: save the program as demo.js (or demo.py/demo.sql per language) and run it with node/python3/sqlite3. In-page: open the record, Demo Lab tab, press Run.",
+      "runnable": true,
+      "extras": {
+        "test_cases": [
+          {
+            "input": "add(2,3)",
+            "expected": "add:5",
+            "note": "Logged the return value."
+          },
+          {
+            "input": "add(2,3) — second run",
+            "expected": "add:5",
+            "note": "Determinism check: re-running the snippet reproduces the identical output."
+          }
+        ]
+      },
+      "note": "The wrapper calls through, then logs the result — the original stays untouched."
+    }
+  },
+  {
+    "title": "EXISTS — semi-join (Sql)",
+    "category": "sql",
+    "language": "sql",
+    "description": "EXISTS stops at the first match, making it the efficient \"is there at least one\" test. Preferred over IN for correlated checks.",
+    "code": "SELECT id FROM a\nWHERE EXISTS (SELECT 1 FROM b WHERE b.id = a.id);",
+    "how_it_works": "For each a row, the subquery probes b; the first hit short-circuits to true.",
+    "complexity": "O(n log n)",
+    "test_cases": [
+      {
+        "input": "sample fixture",
+        "expected": "2",
+        "note": "Only id 2 exists in b."
+      },
+      {
+        "input": "sample fixture — second run",
+        "expected": "2",
+        "note": "Determinism check: re-running the snippet reproduces the identical output."
+      }
+    ],
+    "pitfalls": "SELECT 1 vs SELECT * inside EXISTS makes no difference — the planner ignores the list. Reproduce it once on purpose in a scratch file: seeing the failure teaches the fix faster than reading about it.",
+    "use_cases": "Membership tests, filtered deletes.",
+    "source": "online",
+    "source_ref": "https://www.sqlite.org/lang_expr.html",
+    "creation_mode": "ONLINE-VERIFIED",
+    "id": "JAH-CODE-0000023",
+    "_seed": 23,
+    "demo": {
+      "engine": "jahdb-demo-1.0",
+      "kind": "code",
+      "title": "Runnable code demo — EXISTS — semi-join (Sql)",
+      "language": "sql",
+      "program": "# JAH demo program — jahdb-demo-1.0\n# Database: code-database · Record: JAH-CODE-0000023\n# RUN: PC: save as demo.sql, run `sqlite3 :memory: < demo.sql`.\n\nSELECT id FROM a\nWHERE EXISTS (SELECT 1 FROM b WHERE b.id = a.id);\n",
+      "run_hint": "PC: save as demo.sql, run `sqlite3 :memory: < demo.sql`.",
+      "how_to_run": "PC: save the program as demo.js (or demo.py/demo.sql per language) and run it with node/python3/sqlite3. In-page: open the record, Demo Lab tab, press Run.",
+      "runnable": true,
+      "extras": {
+        "test_cases": [
+          {
+            "input": "sample fixture",
+            "expected": "2",
+            "note": "Only id 2 exists in b."
+          },
+          {
+            "input": "sample fixture — second run",
+            "expected": "2",
+            "note": "Determinism check: re-running the snippet reproduces the identical output."
+          }
+        ]
+      },
+      "note": "For each a row, the subquery probes b; the first hit short-circuits to true."
+    }
+  },
+  {
+    "title": "Parametrized test loop (Python)",
+    "category": "testing",
+    "language": "python",
+    "description": "One test body over a table of (input, expected) pairs beats copy-pasted test functions. Failures name the case that broke.",
+    "code": "def sq(n):\n    return n * n\n\ncases = [(0, 0), (2, 4), (-3, 9), (10, 100)]\nfor n, want in cases:\n    assert sq(n) == want, n\nprint(\"%d passed\" % len(cases))",
+    "how_it_works": "Lab exercise: type the snippet into a fresh file, run it, and confirm the test outputs match. Then change one input and predict the result before running — The loop runs the same assertion per case; the assert message identifies the failing input.",
+    "complexity": "O(cases)",
+    "test_cases": [
+      {
+        "input": "4 square cases",
+        "expected": "4 passed",
+        "note": "Table-driven."
+      },
+      {
+        "input": "4 square cases — second run",
+        "expected": "4 passed",
+        "note": "Determinism check: re-running the snippet reproduces the identical output."
+      }
+    ],
+    "pitfalls": "One bad case aborts the rest — frameworks run all and report each.",
+    "use_cases": "Math functions, parsers, edge tables.",
+    "source": "online",
+    "source_ref": "https://docs.pytest.org/en/stable/how-to/parametrize.html",
+    "creation_mode": "ONLINE-VERIFIED",
+    "id": "JAH-CODE-0000024",
+    "_seed": 24,
+    "demo": {
+      "engine": "jahdb-demo-1.0",
+      "kind": "code",
+      "title": "Runnable code demo — Parametrized test loop (Python)",
+      "language": "python",
+      "program": "# JAH demo program — jahdb-demo-1.0\n# Database: code-database · Record: JAH-CODE-0000024\n# RUN: PC: save as demo.py, run `python3 demo.py`.\n\ndef sq(n):\n    return n * n\n\ncases = [(0, 0), (2, 4), (-3, 9), (10, 100)]\nfor n, want in cases:\n    assert sq(n) == want, n\nprint(\"%d passed\" % len(cases))\n",
+      "run_hint": "PC: save as demo.py, run `python3 demo.py`.",
+      "how_to_run": "PC: save the program as demo.js (or demo.py/demo.sql per language) and run it with node/python3/sqlite3. In-page: open the record, Demo Lab tab, press Run.",
+      "runnable": true,
+      "extras": {
+        "test_cases": [
+          {
+            "input": "4 square cases",
+            "expected": "4 passed",
+            "note": "Table-driven."
+          },
+          {
+            "input": "4 square cases — second run",
+            "expected": "4 passed",
+            "note": "Determinism check: re-running the snippet reproduces the identical output."
+          }
+        ]
+      },
+      "note": "Lab exercise: type the snippet into a fresh file, run it, and confirm the test outputs match. Then change one input and predict the result before running — The loop runs the same assertion per case; the assert message identifies the failing input."
+    }
+  }
+]

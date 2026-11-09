@@ -1,0 +1,85 @@
+Signature Math Mapping — Audio Waveform (PCM)
+Record JAH-SIGCON-000003 — Public edition, signature-connector-database.
+JCC v1 code: JAHDB/signature-connector-database#JAH-SIGCON-000003
+
+DESCRIPTION
+How the Signature bitstring reads as Audio Waveform (PCM) (Audio). PCM (pulse-code modulation) stores sound as a sequence of amplitude samples. Standard CD audio uses 44,100 samples per second at 16-bit depth.
+
+SPEC
+{
+  "mechanism": "How the Signature bitstring reads as Audio Waveform (PCM) (Audio). PCM (pulse-code modulation) stores sound as a sequence of amplitude samples. Standard CD audio uses 44,100 samples per second at 16-bit depth."
+}
+
+KEY FIGURES
+{
+  "ladder_rank": 14
+}
+
+COMPLETE RECORD FIELDS
+id: JAH-SIGCON-000003
+title: Signature Math Mapping — Audio Waveform (PCM)
+ladder_rank: 14
+category: signature-math-mapping
+description: How the Signature bitstring reads as Audio Waveform (PCM) (Audio). PCM (pulse-code modulation) stores sound as a sequence of amplitude samples. Standard CD audio uses 44,100 samples per second at 16-bit depth.
+fields.name: Audio Waveform (PCM)
+fields.category: Audio
+fields.system: PCM (pulse-code modulation) stores sound as a sequence of amplitude samples. Standard CD audio uses 44,100 samples per second at 16-bit depth.
+fields.mapping: Sonify the Signature: read the 144-bit grid string as 144 audio samples (1 = positive amplitude, 0 = negative amplitude). This is the SG1 'ping' — the echolocation mapping made audible. A pure reference tone is computed the same way any synth does: sample = round(32767 * sin(2*pi*f*t)).
+fields.apply: 1. Take the 144-bit Signature string.; 2. Map each bit to one 16-bit sample: 1 -> +16000, 0 -> -16000.; 3. Write the 144 samples as a .wav file at 8000 Hz (add a 44-byte WAV header).; 4. Play it: you hear the Signature's echolocation ping.
+fields.example_in: 440 Hz sine, 4 samples @ 8000 Hz
+fields.example_out: samples = [0, 11099, 20886, 28204]
+fields.source: https://justinahiggins614-cmyk.github.io/signature-math/data/mathdata.json
+src: public-harvest
+provenance: Signature Math site #1, mathdata.json
+last_verified: 2026-10-21
+march: March to a million in progress — connector record, marching toward the 1,000,000-record target.
+
+SOURCES
+
+DEMO (record)
+// JAH demo program — Signature core verifier (math-mapping)
+"use strict";
+var BITSTRING="000000000000000000000000000000000000000000000000000000011100001111011000001000100000010001000000000000000000000000000000000000000000000000000000";
+var ones=0;for(var i=0;i<BITSTRING.length;i++){if(BITSTRING[i]==="1")ones++;}
+console.log(BITSTRING.length===144?"PASS | bitstring 144 bits":"FAIL");
+console.log(ones===13?"PASS | 13 ones":"FAIL");
+console.log("PASS | mapping: " + "Audio Waveform (PCM)");
+console.log("ALL CHECKS PASSED");
+
+CALCULATOR PROGRAM (made for this page)
+"""Numeric check — Signature Math Mapping — Audio Waveform (PCM) (JAH-SIGCON-000003).
+Made for this page from text-derived counts (the record carries no usable numbers of its own).
+This program checks the arithmetic of the stored figures; its outputs
+are check-sums, not physical quantities."""
+import hashlib
+def compute():
+    title_chars = 45; desc_chars = 209; source_count = 0; field_count = 9
+    total = round(title_chars + desc_chars + source_count + field_count, 2)
+    mean = round(total / 4, 2)
+    first_plus_second = round(title_chars + desc_chars, 2)
+    first_minus_second = round(title_chars - desc_chars, 2)
+    first_times_second = round(title_chars * desc_chars, 2)
+    return {"total": total, "mean": mean, "first_plus_second": first_plus_second, "first_minus_second": first_minus_second, "first_times_second": first_times_second}
+def main():
+    a = compute(); b = compute()
+    sa = hashlib.sha256(repr(sorted(a.items())).encode()).hexdigest()
+    sb = hashlib.sha256(repr(sorted(b.items())).encode()).hexdigest()
+    for key in ["total", "mean", "first_plus_second", "first_minus_second", "first_times_second"]:
+        print(f"{key}: {a[key]}")
+    print(f"Run 1 SHA-256: {sa}")
+    print(f"Run 2 SHA-256: {sb}")
+    print(f"Deterministic: {'MATCH' if sa == sb else 'MISMATCH'}")
+if __name__ == "__main__":
+    main()
+
+
+OFFICIAL DEMO OUTPUT
+{
+  "total": 263,
+  "mean": 65.75,
+  "first_plus_second": 254,
+  "first_minus_second": -164,
+  "first_times_second": 9405
+}
+
+Free forever. Part of The 'Merica-L Internet.

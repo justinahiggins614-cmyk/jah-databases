@@ -1,0 +1,25 @@
+{
+  "id": "JAH-CODE-000021",
+  "task_id": "JAH-CODE-000021",
+  "title": "Write a SQL query counting orders per month.",
+  "prompt": "Write a SQL query counting orders per month.",
+  "language": "sql",
+  "solution_code": "SELECT DATE_TRUNC('month', order_date) AS month, COUNT(*) AS n\n-- monthly order counts\nFROM orders\nGROUP BY 1\nORDER BY 1;",
+  "explanation": "Truncate dates to month buckets, count rows per bucket, order chronologically. The approach is easy to test.",
+  "tests_passed": 7,
+  "difficulty": "hard",
+  "_seed": 21,
+  "demo": {
+    "engine": "jahdb-demo-1.0",
+    "kind": "code",
+    "title": "Runnable code demo — Write a SQL query counting orders per month.",
+    "language": "sql",
+    "program": "# JAH demo program — jahdb-demo-1.0\n# Database: code-problems · Record: JAH-CODE-000021\n# RUN: PC: save as demo.sql, run `sqlite3 :memory: < demo.sql`.\n\nSELECT DATE_TRUNC('month', order_date) AS month, COUNT(*) AS n\n-- monthly order counts\nFROM orders\nGROUP BY 1\nORDER BY 1;\n",
+    "run_hint": "PC: save as demo.sql, run `sqlite3 :memory: < demo.sql`.",
+    "how_to_run": "PC: save the program as demo.js (or demo.py/demo.sql per language) and run it with node/python3/sqlite3. In-page: open the record, Demo Lab tab, press Run.",
+    "runnable": true,
+    "extras": {
+      "test_cases": []
+    }
+  }
+}

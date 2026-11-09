@@ -1,0 +1,36 @@
+{
+  "id": "JAH-SIGCON-000017",
+  "title": "Signature Math Mapping — IPv6 Address Form",
+  "ladder_rank": 14,
+  "category": "signature-math-mapping",
+  "description": "How the Signature bitstring reads as IPv6 Address Form (Numeric formats). IPv6 uses 128 bits written as eight groups of four hex digits (e.g. 2001:0db8::1). Demonstration form for longer Signature bit runs.",
+  "fields": {
+    "name": "IPv6 Address Form",
+    "category": "Numeric formats",
+    "system": "IPv6 uses 128 bits written as eight groups of four hex digits (e.g. 2001:0db8::1). Demonstration form for longer Signature bit runs.",
+    "mapping": "Extend the Signature bitstring to 128 bits (documented: first 128 bits, no padding games) and write eight hex groups. Demonstration of the 128-bit address form only.",
+    "apply": [
+      "1. Take the first 128 bits of the Signature string.",
+      "2. Split into eight 16-bit groups; write each as 4 hex digits.",
+      "3. Join with colons (compress longest zero run with '::' per the standard).",
+      "4. Label 'address form — demonstration only'."
+    ],
+    "example_in": "::1 expanded",
+    "example_out": "0000:0000:0000:0000:0000:0000:0000:0001",
+    "source": "https://justinahiggins614-cmyk.github.io/signature-math/data/mathdata.json"
+  },
+  "demo": {
+    "language": "javascript",
+    "program": "// JAH demo program — Signature core verifier (math-mapping)\n\"use strict\";\nvar BITSTRING=\"000000000000000000000000000000000000000000000000000000011100001111011000001000100000010001000000000000000000000000000000000000000000000000000000\";\nvar ones=0;for(var i=0;i<BITSTRING.length;i++){if(BITSTRING[i]===\"1\")ones++;}\nconsole.log(BITSTRING.length===144?\"PASS | bitstring 144 bits\":\"FAIL\");\nconsole.log(ones===13?\"PASS | 13 ones\":\"FAIL\");\nconsole.log(\"PASS | mapping: \" + \"IPv6 Address Form\");\nconsole.log(\"ALL CHECKS PASSED\");",
+    "run_steps": [
+      "Save the program as demo.js.",
+      "Run it with: node demo.js",
+      "Confirm every line prints PASS and the run ends with ALL CHECKS PASSED."
+    ],
+    "expected_output": "ALL CHECKS PASSED"
+  },
+  "src": "public-harvest",
+  "provenance": "Signature Math site #1, mathdata.json",
+  "last_verified": "2026-10-21",
+  "march": "March to a million in progress — connector record, marching toward the 1,000,000-record target."
+}

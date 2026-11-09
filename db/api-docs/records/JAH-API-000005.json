@@ -1,0 +1,40 @@
+{
+  "id": "JAH-API-000005",
+  "api_id": "JAH-API-000005",
+  "name": "stats",
+  "description": "Returns storage stats for a database.",
+  "parameters": {
+    "database": {
+      "type": "string",
+      "description": "Database slug."
+    },
+    "detail": {
+      "type": "boolean",
+      "description": "Include per-chunk breakdown (default false)."
+    }
+  },
+  "example_call": "`jahdb.data.stats({database:\"embedding-chunks\"})`",
+  "example_response": "`{\"records\":10000,\"chunks\":100,\"bytes_gz\":2450000}`",
+  "error_codes": [
+    {
+      "code": "E_DB",
+      "meaning": "Unknown database slug."
+    },
+    {
+      "code": "E_INTERNAL",
+      "meaning": "An unexpected internal error occurred."
+    }
+  ],
+  "category": "data",
+  "title": "stats",
+  "demo": {
+    "engine": "jahdb-demo-1.0",
+    "kind": "api",
+    "title": "Runnable API mock — stats",
+    "language": "javascript",
+    "program": "/* JAH interactive demo program — jahdb-demo-1.0\n * Database: api-docs · Record: JAH-API-000005 · stats\n * Runnable mock of the \"stats\" endpoint — validates args, returns the documented example response.\n * RUN ON PC: save as demo.js, then run:  node demo.js\n * RUN IN BROWSER: press F12, paste this program into the console, press Enter.\n * RUN IN-PAGE: open this record and press \"Run interactive demo\". */\n(function(){\nvar SPEC={\"name\":\"stats\",\"description\":\"Returns storage stats for a database.\",\"parameters\":{\"database\":{\"type\":\"string\",\"description\":\"Database slug.\"},\"detail\":{\"type\":\"boolean\",\"description\":\"Include per-chunk breakdown (default false).\"}},\"error_codes\":[{\"code\":\"E_DB\",\"meaning\":\"Unknown database slug.\"},{\"code\":\"E_INTERNAL\",\"meaning\":\"An unexpected internal error occurred.\"}]};\nfunction call(args){\n  args=args||{};\n  console.log(\"> \"+SPEC.name+\"(\"+JSON.stringify(args)+\")\");\n  var missing=Object.keys(SPEC.parameters).filter(function(p){return args[p]===undefined;});\n  if(missing.length){console.log(\"! missing parameters: \"+missing.join(\", \"));return {error:\"E_ARGS\",missing:missing};}\n  var resp=\"{\\\"records\\\":10000,\\\"chunks\\\":100,\\\"bytes_gz\\\":2450000}\";\n  console.log(\"< \"+resp);\n  return resp;\n}\nconsole.log(\"API: \"+SPEC.name+\" — \"+SPEC.description);\nconsole.log(\"Parameters: \"+Object.keys(SPEC.parameters).map(function(p){return p+\":\"+SPEC.parameters[p].type;}).join(\", \"));\nconsole.log(\"Error codes: \"+SPEC.error_codes.map(function(e){return e.code;}).join(\", \"));\nconsole.log(\"--- documented example ---\");\nconsole.log(\"call: jahdb.data.stats({database:\\\"embedding-chunks\\\"})\");\nconsole.log(\"--- live mock run ---\");\ncall({\"database\":\"demo\",\"detail\":true});\nconsole.log(\"Tip: call your own args and watch the mock validate + respond.\");\n})();\n",
+    "run_hint": "PC: save the program as demo.js (or demo.py/demo.sql per language) and run it with node/python3/sqlite3. In-page: open the record, Demo Lab tab, press Run.",
+    "how_to_run": "PC: save the program as demo.js (or demo.py/demo.sql per language) and run it with node/python3/sqlite3. In-page: open the record, Demo Lab tab, press Run.",
+    "runnable": true
+  }
+}

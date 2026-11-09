@@ -1,0 +1,64 @@
+Signature Stepped Drum
+Record sys-stepped-reckoner — Public edition, computers.
+JCC v1 code: JAHDB/computers#sys-stepped-reckoner
+
+DESCRIPTION
+Multiplication by stepped drum — Cylindrical drums with teeth of increasing length turn number wheels to multiply and divide, not just add. The operator sets the number on sliders and cranks through the calculation.
+
+SPEC
+{
+  "mechanism": "Multiplication by stepped drum — Cylindrical drums with teeth of increasing length turn number wheels to multiply and divide, not just add. The operator sets the number on sliders and cranks through the calculation."
+}
+
+KEY FIGURES
+{}
+
+COMPLETE RECORD FIELDS
+id: sys-stepped-reckoner
+system_id: JAH-PC-90000004
+system_type: HISTORICAL
+title: Signature Stepped Drum
+category: Historic Machines
+summary: Multiplication by stepped drum — Cylindrical drums with teeth of increasing length turn number wheels to multiply and divide, not just add. The operator sets the number on sliders and cranks through the calculation.
+url: https://justinahiggins614-cmyk.github.io/jah-databases/db/computers/?system=JAH-PC-90000004
+
+SOURCES
+Record source — https://justinahiggins614-cmyk.github.io/jah-databases/db/computers/?system=JAH-PC-90000004
+
+DEMO (generated)
+"""Numeric check — Signature Stepped Drum (sys-stepped-reckoner).
+Made for this page from text-derived counts (the record carries no usable numbers of its own).
+This program checks the arithmetic of the stored figures; its outputs
+are check-sums, not physical quantities."""
+import hashlib
+def compute():
+    title_chars = 22; desc_chars = 215; source_count = 1; field_count = 7
+    total = round(title_chars + desc_chars + source_count + field_count, 2)
+    mean = round(total / 4, 2)
+    first_plus_second = round(title_chars + desc_chars, 2)
+    first_minus_second = round(title_chars - desc_chars, 2)
+    first_times_second = round(title_chars * desc_chars, 2)
+    return {"total": total, "mean": mean, "first_plus_second": first_plus_second, "first_minus_second": first_minus_second, "first_times_second": first_times_second}
+def main():
+    a = compute(); b = compute()
+    sa = hashlib.sha256(repr(sorted(a.items())).encode()).hexdigest()
+    sb = hashlib.sha256(repr(sorted(b.items())).encode()).hexdigest()
+    for key in ["total", "mean", "first_plus_second", "first_minus_second", "first_times_second"]:
+        print(f"{key}: {a[key]}")
+    print(f"Run 1 SHA-256: {sa}")
+    print(f"Run 2 SHA-256: {sb}")
+    print(f"Deterministic: {'MATCH' if sa == sb else 'MISMATCH'}")
+if __name__ == "__main__":
+    main()
+
+
+OFFICIAL DEMO OUTPUT
+{
+  "total": 245,
+  "mean": 61.25,
+  "first_plus_second": 237,
+  "first_minus_second": -193,
+  "first_times_second": 4730
+}
+
+Free forever. Part of The 'Merica-L Internet.

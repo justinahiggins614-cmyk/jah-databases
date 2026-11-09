@@ -1,0 +1,53 @@
+{
+  "title": "State — traffic light cycle (Javascript)",
+  "category": "patterns",
+  "language": "javascript",
+  "description": "State objects encapsulate per-state behavior; the context delegates and transitions by swapping the state object. Switch statements on state melt away.",
+  "code": "const states = {\n  green: { next: \"yellow\" },\n  yellow: { next: \"red\" },\n  red: { next: \"green\" }\n};\nlet s = \"green\";\nconst out = [];\nfor (let i = 0; i < 4; i++) { out.push(s); s = states[s].next; }\nconsole.log(out.join(\" \"));",
+  "how_it_works": "Each state knows its successor; the loop just follows next pointers.",
+  "complexity": "O(1)",
+  "test_cases": [
+    {
+      "input": "4 steps from green",
+      "expected": "green yellow red green",
+      "note": "Cycle completed."
+    },
+    {
+      "input": "4 steps from green — second run",
+      "expected": "green yellow red green",
+      "note": "Determinism check: re-running the snippet reproduces the identical output."
+    }
+  ],
+  "pitfalls": "Shared mutable state objects cause spooky cross-talk — keep them stateless or clone. Reproduce it once on purpose in a scratch file: seeing the failure teaches the fix faster than reading about it.",
+  "use_cases": "Workflows, parsers, game AI.",
+  "source": "online",
+  "source_ref": "https://en.wikipedia.org/wiki/State_pattern",
+  "creation_mode": "ONLINE-VERIFIED",
+  "id": "JAH-CODE-0000004",
+  "_seed": 4,
+  "demo": {
+    "engine": "jahdb-demo-1.0",
+    "kind": "code",
+    "title": "Runnable code demo — State — traffic light cycle (Javascript)",
+    "language": "javascript",
+    "program": "/* JAH interactive demo program — jahdb-demo-1.0\n * Database: code-database · Record: JAH-CODE-0000004 · State — traffic light cycle (Javascript)\n * Runnable code from this record (\"code\") — executes with console output captured.\n * RUN ON PC: save as demo.js, then run:  node demo.js\n * RUN IN BROWSER: press F12, paste this program into the console, press Enter.\n * RUN IN-PAGE: open this record and press \"Run interactive demo\". */\n(function(){\n\"use strict\";\n/* ---- record code (code) ---- */\nconst states = {\n  green: { next: \"yellow\" },\n  yellow: { next: \"red\" },\n  red: { next: \"green\" }\n};\nlet s = \"green\";\nconst out = [];\nfor (let i = 0; i < 4; i++) { out.push(s); s = states[s].next; }\nconsole.log(out.join(\" \"));\n/* ---- auto-run: call main/demo/solve if the snippet defines one ---- */\ntry{\n  if(typeof main===\"function\"){console.log(\"--- main() output ---\");main();}\n  else if(typeof demo===\"function\"){console.log(\"--- demo() output ---\");demo();}\n  else if(typeof solve===\"function\"){console.log(\"--- solve() output ---\");console.log(solve());}\n}catch(e){console.log(\"runtime note: \"+e.message);}\n})();\n",
+    "run_hint": "PC: save as demo.js, run `node demo.js`. In-page: press Run.",
+    "how_to_run": "PC: save the program as demo.js (or demo.py/demo.sql per language) and run it with node/python3/sqlite3. In-page: open the record, Demo Lab tab, press Run.",
+    "runnable": true,
+    "extras": {
+      "test_cases": [
+        {
+          "input": "4 steps from green",
+          "expected": "green yellow red green",
+          "note": "Cycle completed."
+        },
+        {
+          "input": "4 steps from green — second run",
+          "expected": "green yellow red green",
+          "note": "Determinism check: re-running the snippet reproduces the identical output."
+        }
+      ]
+    },
+    "note": "Each state knows its successor; the loop just follows next pointers."
+  }
+}

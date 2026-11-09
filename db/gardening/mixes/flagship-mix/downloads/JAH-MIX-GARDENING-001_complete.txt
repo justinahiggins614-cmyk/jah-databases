@@ -1,0 +1,55 @@
+Flagship Mix — Tomato — Plant profile × Signature Cut Flower Garden (overview)
+Mix JAH-MIX-GARDENING-001 — flagship mix of the JAH Gardening Database database.
+JCC v1 code: JAHDB/gardening#JAH-MIX-GARDENING-001
+
+BLEND
+The flagship mix of the JAH Gardening database: Tomato — Plant profile (JAH-GARD-0000001) blended with Signature Cut Flower Garden (overview) (JAH-GARD-SIG-000001). The mix combines the two records — their numbers, mechanisms, and descriptions — and scales the blend at A1 pocket (0.6×), A2 standard (1.0×), and A3 workshop (1.6×).
+
+FIRST INGREDIENT
+Tomato — Plant profile (JAH-GARD-0000001): Tomato is a vegetable for warm season planting, originating in Americas. Needs: Full sun 7–8 h; 1 in water/week; pH 6.0–7.0. Warm-season favorite maturing in 70–85 days. Field: fruiting.
+
+SECOND INGREDIENT
+Signature Cut Flower Garden (overview) (JAH-GARD-SIG-000001): Signature Cut Flower Garden (overview)
+
+SPEC
+{
+  "mechanism": "Tomato is a vegetable for warm season planting, originating in Americas. Needs: Full sun 7–8 h; 1 in water/week; pH 6.0–7.0. Warm-season favorite maturing in 70–85 days. Field: fruiting.; Signature Cut Flower Garden (overview)"
+}
+
+DEMO (made for this page)
+"""Numeric check — Flagship Mix — Tomato — Plant profile × Signature Cut Flower Garden (overview) (JAH-MIX-GARDENING-001).
+Made for this page from text-derived counts (the record carries no usable numbers of its own).
+This program checks the arithmetic of the stored figures; its outputs
+are check-sums, not physical quantities."""
+import hashlib
+def compute():
+    title_chars = 78; desc_chars = 331; source_count = 1; field_count = 2
+    total = round(title_chars + desc_chars + source_count + field_count, 2)
+    mean = round(total / 4, 2)
+    first_plus_second = round(title_chars + desc_chars, 2)
+    first_minus_second = round(title_chars - desc_chars, 2)
+    first_times_second = round(title_chars * desc_chars, 2)
+    return {"total": total, "mean": mean, "first_plus_second": first_plus_second, "first_minus_second": first_minus_second, "first_times_second": first_times_second}
+def main():
+    a = compute(); b = compute()
+    sa = hashlib.sha256(repr(sorted(a.items())).encode()).hexdigest()
+    sb = hashlib.sha256(repr(sorted(b.items())).encode()).hexdigest()
+    for key in ["total", "mean", "first_plus_second", "first_minus_second", "first_times_second"]:
+        print(f"{key}: {a[key]}")
+    print(f"Run 1 SHA-256: {sa}")
+    print(f"Run 2 SHA-256: {sb}")
+    print(f"Deterministic: {'MATCH' if sa == sb else 'MISMATCH'}")
+if __name__ == "__main__":
+    main()
+
+
+OFFICIAL DEMO OUTPUT
+{
+  "total": 412,
+  "mean": 103.0,
+  "first_plus_second": 409,
+  "first_minus_second": -253,
+  "first_times_second": 25818
+}
+
+Free forever. Part of The 'Merica-L Internet.

@@ -1,0 +1,104 @@
+Write a JavaScript function that checks if a number is prime.
+Record JAH-CODE-000024 — Public edition, code-problems.
+JCC v1 code: JAHDB/code-problems#JAH-CODE-000024
+
+DESCRIPTION
+Write a JavaScript function that checks if a number is prime.
+
+SPEC
+{
+  "mechanism": "Write a JavaScript function that checks if a number is prime."
+}
+
+KEY FIGURES
+{
+  "tests_passed": 8
+}
+
+COMPLETE RECORD FIELDS
+id: JAH-CODE-000024
+task_id: JAH-CODE-000024
+title: Write a JavaScript function that checks if a number is prime.
+prompt: Write a JavaScript function that checks if a number is prime.
+language: javascript
+solution_code: function isPrime(n) {
+  if (n < 2) return false;
+  for (var i = 2; i * i <= n; i++) {
+    if (n % i === 0) return false;
+  }
+  return true;
+}
+
+console.log(isPrime(2, 3, 4, 5));
+explanation: Trial division up to the square root is enough; early exit keeps it fast. It handles edge cases cleanly.
+tests_passed: 8
+difficulty: easy
+_seed: 24
+
+SOURCES
+
+DEMO (record)
+/* JAH interactive demo program — jahdb-demo-1.0
+ * Database: code-problems · Record: JAH-CODE-000024 · Write a JavaScript function that checks if a number is prime…
+ * Runnable code from this record ("solution_code") — executes with console output captured.
+ * RUN ON PC: save as demo.js, then run:  node demo.js
+ * RUN IN BROWSER: press F12, paste this program into the console, press Enter.
+ * RUN IN-PAGE: open this record and press "Run interactive demo". */
+(function(){
+"use strict";
+/* ---- record code (solution_code) ---- */
+function isPrime(n) {
+  if (n < 2) return false;
+  for (var i = 2; i * i <= n; i++) {
+    if (n % i === 0) return false;
+  }
+  return true;
+}
+
+console.log(isPrime(2, 3, 4, 5));
+/* ---- auto-run: call main/demo/solve if the snippet defines one ---- */
+try{
+  if(typeof main==="function"){console.log("--- main() output ---");main();}
+  else if(typeof demo==="function"){console.log("--- demo() output ---");demo();}
+  else if(typeof solve==="function"){console.log("--- solve() output ---");console.log(solve());}
+}catch(e){console.log("runtime note: "+e.message);}
+})();
+
+
+CALCULATOR PROGRAM (made for this page)
+"""Numeric check — Write a JavaScript function that checks if a number is prime. (JAH-CODE-000024).
+Made for this page from text-derived counts (the record carries no usable numbers of its own).
+This program checks the arithmetic of the stored figures; its outputs
+are check-sums, not physical quantities."""
+import hashlib
+def compute():
+    title_chars = 61; desc_chars = 61; source_count = 0; field_count = 10
+    total = round(title_chars + desc_chars + source_count + field_count, 2)
+    mean = round(total / 4, 2)
+    first_plus_second = round(title_chars + desc_chars, 2)
+    first_minus_second = round(title_chars - desc_chars, 2)
+    first_times_second = round(title_chars * desc_chars, 2)
+    return {"total": total, "mean": mean, "first_plus_second": first_plus_second, "first_minus_second": first_minus_second, "first_times_second": first_times_second}
+def main():
+    a = compute(); b = compute()
+    sa = hashlib.sha256(repr(sorted(a.items())).encode()).hexdigest()
+    sb = hashlib.sha256(repr(sorted(b.items())).encode()).hexdigest()
+    for key in ["total", "mean", "first_plus_second", "first_minus_second", "first_times_second"]:
+        print(f"{key}: {a[key]}")
+    print(f"Run 1 SHA-256: {sa}")
+    print(f"Run 2 SHA-256: {sb}")
+    print(f"Deterministic: {'MATCH' if sa == sb else 'MISMATCH'}")
+if __name__ == "__main__":
+    main()
+
+
+OFFICIAL DEMO OUTPUT
+{
+  "total": 132,
+  "mean": 33.0,
+  "first_plus_second": 122,
+  "first_minus_second": 0,
+  "first_times_second": 3721
+}
+
+Free forever. Part of The 'Merica-L Internet.

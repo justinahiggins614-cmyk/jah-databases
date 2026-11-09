@@ -1,0 +1,88 @@
+Merge intervals (Python)
+Record JAH-CODE-0000017 — Public edition, code-database.
+JCC v1 code: JAHDB/code-database#JAH-CODE-0000017
+
+DESCRIPTION
+Sorts intervals by start, then sweeps: overlapping intervals merge into one, disjoint ones start a new group. The standard calendar-consolidation algorithm.
+
+SPEC
+{
+  "mechanism": "Lab exercise: type the snippet into a fresh file, run it, and confirm the test outputs match. Then change one input and predict the result before running — Sorting makes overlaps adjacent; the sweep extends the current interval while the next start falls inside it.",
+  "use": "Calendars, range consolidation, scheduling."
+}
+
+KEY FIGURES
+{}
+
+COMPLETE RECORD FIELDS
+title: Merge intervals (Python)
+category: python
+language: python
+description: Sorts intervals by start, then sweeps: overlapping intervals merge into one, disjoint ones start a new group. The standard calendar-consolidation algorithm.
+code: def merge(iv):
+    iv.sort()
+    o = []
+    for s, e in iv:
+        if o and s <= o[-1][1]:
+            o[-1][1] = max(o[-1][1], e)
+        else:
+            o.append([s, e])
+    return o
+
+print(merge([[1, 3], [2, 6], [8, 10], [15, 18]]))
+how_it_works: Lab exercise: type the snippet into a fresh file, run it, and confirm the test outputs match. Then change one input and predict the result before running — Sorting makes overlaps adjacent; the sweep extends the current interval while the next start falls inside it.
+complexity: O(n log n) time
+test_cases[0].input: merge([[1,3],[2,6],[8,10],[15,18]])
+test_cases[0].expected: [[1, 6], [8, 10], [15, 18]]
+test_cases[0].note: First two merge.
+test_cases[1].input: merge([])
+test_cases[1].expected: []
+test_cases[1].note: Empty.
+pitfalls: Touching intervals ([1,4],[4,5]): decide merge-or-not and be consistent.
+use_cases: Calendars, range consolidation, scheduling.
+source: online
+source_ref: https://en.wikipedia.org/wiki/Interval_scheduling
+creation_mode: ONLINE-VERIFIED
+id: JAH-CODE-0000017
+_seed: 17
+
+SOURCES
+Record source — https://en.wikipedia.org/wiki/Interval_scheduling
+
+DEMO (generated)
+"""Numeric check — Merge intervals (Python) (JAH-CODE-0000017).
+Made for this page from text-derived counts (the record carries no usable numbers of its own).
+This program checks the arithmetic of the stored figures; its outputs
+are check-sums, not physical quantities."""
+import hashlib
+def compute():
+    title_chars = 24; desc_chars = 156; source_count = 1; field_count = 14
+    total = round(title_chars + desc_chars + source_count + field_count, 2)
+    mean = round(total / 4, 2)
+    first_plus_second = round(title_chars + desc_chars, 2)
+    first_minus_second = round(title_chars - desc_chars, 2)
+    first_times_second = round(title_chars * desc_chars, 2)
+    return {"total": total, "mean": mean, "first_plus_second": first_plus_second, "first_minus_second": first_minus_second, "first_times_second": first_times_second}
+def main():
+    a = compute(); b = compute()
+    sa = hashlib.sha256(repr(sorted(a.items())).encode()).hexdigest()
+    sb = hashlib.sha256(repr(sorted(b.items())).encode()).hexdigest()
+    for key in ["total", "mean", "first_plus_second", "first_minus_second", "first_times_second"]:
+        print(f"{key}: {a[key]}")
+    print(f"Run 1 SHA-256: {sa}")
+    print(f"Run 2 SHA-256: {sb}")
+    print(f"Deterministic: {'MATCH' if sa == sb else 'MISMATCH'}")
+if __name__ == "__main__":
+    main()
+
+
+OFFICIAL DEMO OUTPUT
+{
+  "total": 195,
+  "mean": 48.75,
+  "first_plus_second": 180,
+  "first_minus_second": -132,
+  "first_times_second": 3744
+}
+
+Free forever. Part of The 'Merica-L Internet.

@@ -1,0 +1,53 @@
+{
+  "title": "Merge intervals (Python)",
+  "category": "python",
+  "language": "python",
+  "description": "Sorts intervals by start, then sweeps: overlapping intervals merge into one, disjoint ones start a new group. The standard calendar-consolidation algorithm.",
+  "code": "def merge(iv):\n    iv.sort()\n    o = []\n    for s, e in iv:\n        if o and s <= o[-1][1]:\n            o[-1][1] = max(o[-1][1], e)\n        else:\n            o.append([s, e])\n    return o\n\nprint(merge([[1, 3], [2, 6], [8, 10], [15, 18]]))",
+  "how_it_works": "Lab exercise: type the snippet into a fresh file, run it, and confirm the test outputs match. Then change one input and predict the result before running — Sorting makes overlaps adjacent; the sweep extends the current interval while the next start falls inside it.",
+  "complexity": "O(n log n) time",
+  "test_cases": [
+    {
+      "input": "merge([[1,3],[2,6],[8,10],[15,18]])",
+      "expected": "[[1, 6], [8, 10], [15, 18]]",
+      "note": "First two merge."
+    },
+    {
+      "input": "merge([])",
+      "expected": "[]",
+      "note": "Empty."
+    }
+  ],
+  "pitfalls": "Touching intervals ([1,4],[4,5]): decide merge-or-not and be consistent.",
+  "use_cases": "Calendars, range consolidation, scheduling.",
+  "source": "online",
+  "source_ref": "https://en.wikipedia.org/wiki/Interval_scheduling",
+  "creation_mode": "ONLINE-VERIFIED",
+  "id": "JAH-CODE-0000017",
+  "_seed": 17,
+  "demo": {
+    "engine": "jahdb-demo-1.0",
+    "kind": "code",
+    "title": "Runnable code demo — Merge intervals (Python)",
+    "language": "python",
+    "program": "# JAH demo program — jahdb-demo-1.0\n# Database: code-database · Record: JAH-CODE-0000017\n# RUN: PC: save as demo.py, run `python3 demo.py`.\n\ndef merge(iv):\n    iv.sort()\n    o = []\n    for s, e in iv:\n        if o and s <= o[-1][1]:\n            o[-1][1] = max(o[-1][1], e)\n        else:\n            o.append([s, e])\n    return o\n\nprint(merge([[1, 3], [2, 6], [8, 10], [15, 18]]))\n",
+    "run_hint": "PC: save as demo.py, run `python3 demo.py`.",
+    "how_to_run": "PC: save the program as demo.js (or demo.py/demo.sql per language) and run it with node/python3/sqlite3. In-page: open the record, Demo Lab tab, press Run.",
+    "runnable": true,
+    "extras": {
+      "test_cases": [
+        {
+          "input": "merge([[1,3],[2,6],[8,10],[15,18]])",
+          "expected": "[[1, 6], [8, 10], [15, 18]]",
+          "note": "First two merge."
+        },
+        {
+          "input": "merge([])",
+          "expected": "[]",
+          "note": "Empty."
+        }
+      ]
+    },
+    "note": "Lab exercise: type the snippet into a fresh file, run it, and confirm the test outputs match. Then change one input and predict the result before running — Sorting makes overlaps adjacent; the sweep extends the current interval while the next start falls inside it."
+  }
+}

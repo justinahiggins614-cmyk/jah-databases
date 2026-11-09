@@ -1,0 +1,53 @@
+{
+  "title": "Rotate matrix 90 degrees (Python)",
+  "category": "python",
+  "language": "python",
+  "description": "Rotating a square matrix clockwise equals transpose followed by reversing each row — zip(*m) transposes elegantly in Python.",
+  "code": "def rot(m):\n    return [list(r) for r in zip(*m[::-1])]\n\nprint(rot([[1, 2, 3], [4, 5, 6], [7, 8, 9]]))",
+  "how_it_works": "Reversing rows then transposing maps element (r,c) to (c, n-1-r): a 90-degree clockwise turn.",
+  "complexity": "O(n^2) time",
+  "test_cases": [
+    {
+      "input": "rot(3x3)",
+      "expected": "[[7, 4, 1], [8, 5, 2], [9, 6, 3]]",
+      "note": "Clockwise quarter turn."
+    },
+    {
+      "input": "rot(3x3) — second run",
+      "expected": "[[7, 4, 1], [8, 5, 2], [9, 6, 3]]",
+      "note": "Determinism check: re-running the snippet reproduces the identical output."
+    }
+  ],
+  "pitfalls": "Only square matrices rotate in place cleanly; rectangular ones change shape.",
+  "use_cases": "Image rotation, game boards, matrix drills.",
+  "source": "online",
+  "source_ref": "https://en.wikipedia.org/wiki/Transpose",
+  "creation_mode": "ONLINE-VERIFIED",
+  "id": "JAH-CODE-0000021",
+  "_seed": 21,
+  "demo": {
+    "engine": "jahdb-demo-1.0",
+    "kind": "code",
+    "title": "Runnable code demo — Rotate matrix 90 degrees (Python)",
+    "language": "python",
+    "program": "# JAH demo program — jahdb-demo-1.0\n# Database: code-database · Record: JAH-CODE-0000021\n# RUN: PC: save as demo.py, run `python3 demo.py`.\n\ndef rot(m):\n    return [list(r) for r in zip(*m[::-1])]\n\nprint(rot([[1, 2, 3], [4, 5, 6], [7, 8, 9]]))\n",
+    "run_hint": "PC: save as demo.py, run `python3 demo.py`.",
+    "how_to_run": "PC: save the program as demo.js (or demo.py/demo.sql per language) and run it with node/python3/sqlite3. In-page: open the record, Demo Lab tab, press Run.",
+    "runnable": true,
+    "extras": {
+      "test_cases": [
+        {
+          "input": "rot(3x3)",
+          "expected": "[[7, 4, 1], [8, 5, 2], [9, 6, 3]]",
+          "note": "Clockwise quarter turn."
+        },
+        {
+          "input": "rot(3x3) — second run",
+          "expected": "[[7, 4, 1], [8, 5, 2], [9, 6, 3]]",
+          "note": "Determinism check: re-running the snippet reproduces the identical output."
+        }
+      ]
+    },
+    "note": "Reversing rows then transposing maps element (r,c) to (c, n-1-r): a 90-degree clockwise turn."
+  }
+}

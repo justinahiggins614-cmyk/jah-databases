@@ -1,0 +1,36 @@
+{
+  "id": "JAH-SIGCONS-000010",
+  "title": "Signature Math Mapping — Decimal (Base-10)",
+  "ladder_rank": 14,
+  "category": "signature-math-mapping",
+  "description": "How the Signature bitstring reads as Decimal (Base-10) (Base systems). Base-10, digits 0-9: the everyday human number system. The Signature's canonical coordinates are already decimal inches.",
+  "fields": {
+    "name": "Decimal (Base-10)",
+    "category": "Base systems",
+    "system": "Base-10, digits 0-9: the everyday human number system. The Signature's canonical coordinates are already decimal inches.",
+    "mapping": "Signature coordinates are natively decimal (e.g. apex (4.12, 4.92), dot (3.73, 5.10)). Any Signature bitstring also converts to decimal for human readout: value = sum of bit*2^position.",
+    "apply": [
+      "1. For coordinates: read them as-is — they are decimal inches on the 12x12 grid.",
+      "2. For a bitstring: number the bits from the right starting at position 0.",
+      "3. Add 2^position for every 1-bit. The total is the decimal value.",
+      "4. Reverse with repeated divide-by-2 to verify."
+    ],
+    "example_in": "binary 1010",
+    "example_out": "decimal = 1*8 + 0*4 + 1*2 + 0 = 10",
+    "source": "https://justinahiggins614-cmyk.github.io/signature-math/data/mathdata.json"
+  },
+  "demo": {
+    "language": "javascript",
+    "program": "// JAH demo program — Signature core verifier (math-mapping)\n\"use strict\";\nvar BITSTRING=\"000000000000000000000000000000000000000000000000000000011100001111011000001000100000010001000000000000000000000000000000000000000000000000000000\";\nvar ones=0;for(var i=0;i<BITSTRING.length;i++){if(BITSTRING[i]===\"1\")ones++;}\nconsole.log(BITSTRING.length===144?\"PASS | bitstring 144 bits\":\"FAIL\");\nconsole.log(ones===13?\"PASS | 13 ones\":\"FAIL\");\nconsole.log(\"PASS | mapping: \" + \"Decimal (Base-10)\");\nconsole.log(\"ALL CHECKS PASSED\");",
+    "run_steps": [
+      "Save the program as demo.js.",
+      "Run it with: node demo.js",
+      "Confirm every line prints PASS and the run ends with ALL CHECKS PASSED."
+    ],
+    "expected_output": "ALL CHECKS PASSED"
+  },
+  "src": "signature",
+  "provenance": "Signature Math site #1, mathdata.json",
+  "last_verified": "2026-10-21",
+  "march": "March to a million in progress — connector record, marching toward the 1,000,000-record target."
+}

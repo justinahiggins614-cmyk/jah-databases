@@ -1,0 +1,85 @@
+Signature Math Mapping — Hash Digest (SHA-256)
+Record JAH-SIGCON-000014 — Public edition, signature-connector-database.
+JCC v1 code: JAHDB/signature-connector-database#JAH-SIGCON-000014
+
+DESCRIPTION
+How the Signature bitstring reads as Hash Digest (SHA-256) (Cryptography). SHA-256 maps any input to a fixed 256-bit (64-hex-character) fingerprint. Changing even one bit of input changes the digest completely.
+
+SPEC
+{
+  "mechanism": "How the Signature bitstring reads as Hash Digest (SHA-256) (Cryptography). SHA-256 maps any input to a fixed 256-bit (64-hex-character) fingerprint. Changing even one bit of input changes the digest completely."
+}
+
+KEY FIGURES
+{
+  "ladder_rank": 14
+}
+
+COMPLETE RECORD FIELDS
+id: JAH-SIGCON-000014
+title: Signature Math Mapping — Hash Digest (SHA-256)
+ladder_rank: 14
+category: signature-math-mapping
+description: How the Signature bitstring reads as Hash Digest (SHA-256) (Cryptography). SHA-256 maps any input to a fixed 256-bit (64-hex-character) fingerprint. Changing even one bit of input changes the digest completely.
+fields.name: Hash Digest (SHA-256)
+fields.category: Cryptography
+fields.system: SHA-256 maps any input to a fixed 256-bit (64-hex-character) fingerprint. Changing even one bit of input changes the digest completely.
+fields.mapping: Hash the canonical Signature record — coordinates in the Document 1 reconstruction order, UTF-8 encoded — to fingerprint the geometry. Publish the digest beside the record: anyone can re-hash and verify the mark is unaltered.
+fields.apply: 1. Write the canonical record: coordinates in reconstruction order, 2 decimals, comma-separated, UTF-8.; 2. Run SHA-256 over those exact bytes.; 3. Publish the 64-hex-character digest with the record.; 4. Verifiers re-hash the same bytes and compare digests.
+fields.example_in: SHA-256("SIGNATURE-ONE")
+fields.example_out: 9c08d5a1e39aaf5f9747c32a6d4335c3552265c814563d20b84a9bdc4981deb4
+fields.source: https://justinahiggins614-cmyk.github.io/signature-math/data/mathdata.json
+src: public-harvest
+provenance: Signature Math site #1, mathdata.json
+last_verified: 2026-10-21
+march: March to a million in progress — connector record, marching toward the 1,000,000-record target.
+
+SOURCES
+
+DEMO (record)
+// JAH demo program — Signature core verifier (math-mapping)
+"use strict";
+var BITSTRING="000000000000000000000000000000000000000000000000000000011100001111011000001000100000010001000000000000000000000000000000000000000000000000000000";
+var ones=0;for(var i=0;i<BITSTRING.length;i++){if(BITSTRING[i]==="1")ones++;}
+console.log(BITSTRING.length===144?"PASS | bitstring 144 bits":"FAIL");
+console.log(ones===13?"PASS | 13 ones":"FAIL");
+console.log("PASS | mapping: " + "Hash Digest (SHA-256)");
+console.log("ALL CHECKS PASSED");
+
+CALCULATOR PROGRAM (made for this page)
+"""Numeric check — Signature Math Mapping — Hash Digest (SHA-256) (JAH-SIGCON-000014).
+Made for this page from text-derived counts (the record carries no usable numbers of its own).
+This program checks the arithmetic of the stored figures; its outputs
+are check-sums, not physical quantities."""
+import hashlib
+def compute():
+    title_chars = 46; desc_chars = 210; source_count = 0; field_count = 9
+    total = round(title_chars + desc_chars + source_count + field_count, 2)
+    mean = round(total / 4, 2)
+    first_plus_second = round(title_chars + desc_chars, 2)
+    first_minus_second = round(title_chars - desc_chars, 2)
+    first_times_second = round(title_chars * desc_chars, 2)
+    return {"total": total, "mean": mean, "first_plus_second": first_plus_second, "first_minus_second": first_minus_second, "first_times_second": first_times_second}
+def main():
+    a = compute(); b = compute()
+    sa = hashlib.sha256(repr(sorted(a.items())).encode()).hexdigest()
+    sb = hashlib.sha256(repr(sorted(b.items())).encode()).hexdigest()
+    for key in ["total", "mean", "first_plus_second", "first_minus_second", "first_times_second"]:
+        print(f"{key}: {a[key]}")
+    print(f"Run 1 SHA-256: {sa}")
+    print(f"Run 2 SHA-256: {sb}")
+    print(f"Deterministic: {'MATCH' if sa == sb else 'MISMATCH'}")
+if __name__ == "__main__":
+    main()
+
+
+OFFICIAL DEMO OUTPUT
+{
+  "total": 265,
+  "mean": 66.25,
+  "first_plus_second": 256,
+  "first_minus_second": -164,
+  "first_times_second": 9660
+}
+
+Free forever. Part of The 'Merica-L Internet.

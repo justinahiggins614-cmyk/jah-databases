@@ -1,0 +1,107 @@
+Roasted Broccoli
+Record JAH-RECIPE-000017 — Public edition, cookbook.
+JCC v1 code: JAHDB/cookbook#JAH-RECIPE-000017
+
+DESCRIPTION
+Roasted Broccoli
+
+SPEC
+{
+  "mechanism": "Roasted Broccoli"
+}
+
+KEY FIGURES
+{
+  "cook_min": 20,
+  "prep_min": 10,
+  "servings": 6,
+  "total_min": 30
+}
+
+COMPLETE RECORD FIELDS
+id: JAH-RECIPE-000017
+name: Roasted Broccoli
+chapter: Sides
+section: Roasted Vegetables
+ingredients[0].qty: 3/4
+ingredients[0].unit: pounds
+ingredients[0].item: green beans
+ingredients[1].qty: 2
+ingredients[1].unit: tablespoons
+ingredients[1].item: olive oil
+ingredients[2].qty: 1/2
+ingredients[2].unit: teaspoon
+ingredients[2].item: salt
+ingredients[3].qty: 1/2
+ingredients[3].unit: teaspoon
+ingredients[3].item: black pepper
+steps: Heat the oven to 425°F. Line a baking sheet with parchment.; Toss the 3/4 pounds green beans with 2 tablespoons olive oil and 1/2 teaspoon salt, 1/2 teaspoon black pepper, 1 tablespoon balsamic vinegar until evenly coated.; Spread in a single layer and roast 20 minutes, turning once, until tender and browned at the edges.; Sprinkle with 3 tablespoons grated Parmesan and serve warm right away.
+prep_min: 10
+cook_min: 20
+total_min: 30
+servings: 6
+difficulty: Easy
+
+SOURCES
+
+DEMO (record)
+/* JAH interactive demo program — jahdb-demo-1.0
+ * Database: cookbook · Record: JAH-RECIPE-000017 · Roasted Broccoli
+ * Step-by-step simulation of "steps" (4 steps).
+ * RUN ON PC: save as demo.js, then run:  node demo.js
+ * RUN IN BROWSER: press F12, paste this program into the console, press Enter.
+ * RUN IN-PAGE: open this record and press "Run interactive demo". */
+(function(){
+var STEPS=[{"n":1,"label":"Heat the oven to 425°F. Line a baking sheet with parchment.","detail":""},{"n":2,"label":"Toss the 3/4 pounds green beans with 2 tablespoons olive oil and 1/2 t…","detail":""},{"n":3,"label":"Spread in a single layer and roast 20 minutes, turning once, until ten…","detail":""},{"n":4,"label":"Sprinkle with 3 tablespoons grated Parmesan and serve warm right away.","detail":""}];
+function render(i){
+  var s=STEPS[i];if(!s){console.log("no step "+i);return;}
+  var pct=Math.round(((i+1)/STEPS.length)*100);
+  var filled=Math.round(pct/5), bar2="█".repeat(filled)+"░".repeat(20-filled);
+  console.log("\n[step "+s.n+"/"+STEPS.length+"] "+bar2+" "+pct+"%");
+  console.log("  "+s.label);
+  if(s.detail)console.log("  → "+s.detail);
+}
+console.log("Simulating steps — "+STEPS.length+" steps");
+for(var i=0;i<STEPS.length;i++)render(i);
+try{globalThis.jahDemoAPI={render:render};}catch(e){}
+console.log("\nSimulation complete ✓  Try: jahDemoAPI.render(0) to replay step 1.");
+})();
+
+
+CALCULATOR PROGRAM (made for this page)
+"""Numeric check — Roasted Broccoli (JAH-RECIPE-000017).
+Made for this page from the record's own numbers.
+This program checks the arithmetic of the stored figures; its outputs
+are check-sums, not physical quantities."""
+import hashlib
+def compute():
+    servings = 6; prep_min = 10; cook_min = 20; total_min = 30
+    total = round(servings + prep_min + cook_min + total_min, 2)
+    mean = round(total / 4, 2)
+    first_plus_second = round(servings + prep_min, 2)
+    first_minus_second = round(servings - prep_min, 2)
+    first_times_second = round(servings * prep_min, 2)
+    return {"total": total, "mean": mean, "first_plus_second": first_plus_second, "first_minus_second": first_minus_second, "first_times_second": first_times_second}
+def main():
+    a = compute(); b = compute()
+    sa = hashlib.sha256(repr(sorted(a.items())).encode()).hexdigest()
+    sb = hashlib.sha256(repr(sorted(b.items())).encode()).hexdigest()
+    for key in ["total", "mean", "first_plus_second", "first_minus_second", "first_times_second"]:
+        print(f"{key}: {a[key]}")
+    print(f"Run 1 SHA-256: {sa}")
+    print(f"Run 2 SHA-256: {sb}")
+    print(f"Deterministic: {'MATCH' if sa == sb else 'MISMATCH'}")
+if __name__ == "__main__":
+    main()
+
+
+OFFICIAL DEMO OUTPUT
+{
+  "total": 66,
+  "mean": 16.5,
+  "first_plus_second": 16,
+  "first_minus_second": -4,
+  "first_times_second": 60
+}
+
+Free forever. Part of The 'Merica-L Internet.

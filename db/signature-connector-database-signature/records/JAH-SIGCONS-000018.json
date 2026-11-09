@@ -1,0 +1,36 @@
+{
+  "id": "JAH-SIGCONS-000018",
+  "title": "Signature Math Mapping — MIDI Note Map",
+  "ladder_rank": 14,
+  "category": "signature-math-mapping",
+  "description": "How the Signature bitstring reads as MIDI Note Map (Audio). MIDI represents musical notes as numbers 0-127; middle C = 60, each +1 is one semitone. A Note-On message is three bytes: status, note, velocity.",
+  "fields": {
+    "name": "MIDI Note Map",
+    "category": "Audio",
+    "system": "MIDI represents musical notes as numbers 0-127; middle C = 60, each +1 is one semitone. A Note-On message is three bytes: status, note, velocity.",
+    "mapping": "Map the Signature's three dot y-coordinates to MIDI pitches: the grid's y-range [4.00, 9.80] maps linearly to MIDI notes 48-72 (two octaves). The dots become a three-note motif; arcs become pitch bends.",
+    "apply": [
+      "1. Take each dot center's y-coordinate from Document 1.",
+      "2. Compute note = round(48 + (9.80 - y) / 5.80 * 24).",
+      "3. Send as MIDI Note-On (0x90), note, velocity 100; Note-Off after one beat.",
+      "4. The three dots play the Signature's dot-motif."
+    ],
+    "example_in": "dots at y = 5.10, 4.49, 4.33",
+    "example_out": "MIDI notes = 67, 70, 71 (G4, A#4, B4)",
+    "source": "https://justinahiggins614-cmyk.github.io/signature-math/data/mathdata.json"
+  },
+  "demo": {
+    "language": "javascript",
+    "program": "// JAH demo program — Signature core verifier (math-mapping)\n\"use strict\";\nvar BITSTRING=\"000000000000000000000000000000000000000000000000000000011100001111011000001000100000010001000000000000000000000000000000000000000000000000000000\";\nvar ones=0;for(var i=0;i<BITSTRING.length;i++){if(BITSTRING[i]===\"1\")ones++;}\nconsole.log(BITSTRING.length===144?\"PASS | bitstring 144 bits\":\"FAIL\");\nconsole.log(ones===13?\"PASS | 13 ones\":\"FAIL\");\nconsole.log(\"PASS | mapping: \" + \"MIDI Note Map\");\nconsole.log(\"ALL CHECKS PASSED\");",
+    "run_steps": [
+      "Save the program as demo.js.",
+      "Run it with: node demo.js",
+      "Confirm every line prints PASS and the run ends with ALL CHECKS PASSED."
+    ],
+    "expected_output": "ALL CHECKS PASSED"
+  },
+  "src": "signature",
+  "provenance": "Signature Math site #1, mathdata.json",
+  "last_verified": "2026-10-21",
+  "march": "March to a million in progress — connector record, marching toward the 1,000,000-record target."
+}

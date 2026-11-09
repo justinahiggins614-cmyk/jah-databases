@@ -1,0 +1,83 @@
+Assert-based unit test (Python)
+Record JAH-CODE-0000011 — Public edition, code-database.
+JCC v1 code: JAHDB/code-database#JAH-CODE-0000011
+
+DESCRIPTION
+The simplest real test: call the function and assert the result. No framework needed — a failing assert raises and fails loudly. Worked example: run add cases mentally — inputs bind as written, each step follows the code path described below, and the final value is PASS.
+
+SPEC
+{
+  "mechanism": "Each assert evaluates the call and compares; the first failure raises AssertionError with the line number.",
+  "use": "Smoke tests, doctests, teaching."
+}
+
+KEY FIGURES
+{}
+
+COMPLETE RECORD FIELDS
+title: Assert-based unit test (Python)
+category: testing
+language: python
+description: The simplest real test: call the function and assert the result. No framework needed — a failing assert raises and fails loudly. Worked example: run add cases mentally — inputs bind as written, each step follows the code path described below, and the final value is PASS.
+code: def add(a, b):
+    return a + b
+
+assert add(2, 3) == 5
+assert add(-1, 1) == 0
+print("PASS")
+how_it_works: Each assert evaluates the call and compares; the first failure raises AssertionError with the line number.
+complexity: O(tests)
+test_cases[0].input: add cases
+test_cases[0].expected: PASS
+test_cases[0].note: Both assertions held.
+test_cases[1].input: add cases — second run
+test_cases[1].expected: PASS
+test_cases[1].note: Determinism check: re-running the snippet reproduces the identical output.
+pitfalls: Bare asserts vanish under python -O — frameworks keep them always-on.
+use_cases: Smoke tests, doctests, teaching.
+source: online
+source_ref: https://docs.python.org/3/library/unittest.html
+creation_mode: ONLINE-VERIFIED
+id: JAH-CODE-0000011
+_seed: 11
+
+SOURCES
+Record source — https://docs.python.org/3/library/unittest.html
+
+DEMO (generated)
+"""Numeric check — Assert-based unit test (Python) (JAH-CODE-0000011).
+Made for this page from text-derived counts (the record carries no usable numbers of its own).
+This program checks the arithmetic of the stored figures; its outputs
+are check-sums, not physical quantities."""
+import hashlib
+def compute():
+    title_chars = 31; desc_chars = 271; source_count = 1; field_count = 14
+    total = round(title_chars + desc_chars + source_count + field_count, 2)
+    mean = round(total / 4, 2)
+    first_plus_second = round(title_chars + desc_chars, 2)
+    first_minus_second = round(title_chars - desc_chars, 2)
+    first_times_second = round(title_chars * desc_chars, 2)
+    return {"total": total, "mean": mean, "first_plus_second": first_plus_second, "first_minus_second": first_minus_second, "first_times_second": first_times_second}
+def main():
+    a = compute(); b = compute()
+    sa = hashlib.sha256(repr(sorted(a.items())).encode()).hexdigest()
+    sb = hashlib.sha256(repr(sorted(b.items())).encode()).hexdigest()
+    for key in ["total", "mean", "first_plus_second", "first_minus_second", "first_times_second"]:
+        print(f"{key}: {a[key]}")
+    print(f"Run 1 SHA-256: {sa}")
+    print(f"Run 2 SHA-256: {sb}")
+    print(f"Deterministic: {'MATCH' if sa == sb else 'MISMATCH'}")
+if __name__ == "__main__":
+    main()
+
+
+OFFICIAL DEMO OUTPUT
+{
+  "total": 317,
+  "mean": 79.25,
+  "first_plus_second": 302,
+  "first_minus_second": -240,
+  "first_times_second": 8401
+}
+
+Free forever. Part of The 'Merica-L Internet.

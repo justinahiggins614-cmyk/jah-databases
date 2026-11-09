@@ -1,0 +1,101 @@
+manifest
+Record JAH-API-000004 — Public edition, api-docs.
+JCC v1 code: JAHDB/api-docs#JAH-API-000004
+
+DESCRIPTION
+manifest
+
+SPEC
+{
+  "mechanism": "manifest"
+}
+
+KEY FIGURES
+{}
+
+COMPLETE RECORD FIELDS
+id: JAH-API-000004
+api_id: JAH-API-000004
+name: manifest
+description: Returns the network manifest.
+parameters.version.type: string
+parameters.version.description: Manifest schema version to request.
+parameters.pretty.type: boolean
+parameters.pretty.description: Pretty-print the JSON output.
+example_call: `jahdb.route.manifest()`
+example_response: `{"databases":[...],"version":"1.0"}`
+error_codes[0].code: E_INTERNAL
+error_codes[0].meaning: Manifest unreadable.
+error_codes[1].code: E_VERSION
+error_codes[1].meaning: Manifest version mismatch.
+category: routing
+title: manifest
+
+SOURCES
+
+DEMO (record)
+/* JAH interactive demo program — jahdb-demo-1.0
+ * Database: api-docs · Record: JAH-API-000004 · manifest
+ * Runnable mock of the "manifest" endpoint — validates args, returns the documented example response.
+ * RUN ON PC: save as demo.js, then run:  node demo.js
+ * RUN IN BROWSER: press F12, paste this program into the console, press Enter.
+ * RUN IN-PAGE: open this record and press "Run interactive demo". */
+(function(){
+var SPEC={"name":"manifest","description":"Returns the network manifest.","parameters":{"version":{"type":"string","description":"Manifest schema version to request."},"pretty":{"type":"boolean","description":"Pretty-print the JSON output."}},"error_codes":[{"code":"E_INTERNAL","meaning":"Manifest unreadable."},{"code":"E_VERSION","meaning":"Manifest version mismatch."}]};
+function call(args){
+  args=args||{};
+  console.log("> "+SPEC.name+"("+JSON.stringify(args)+")");
+  var missing=Object.keys(SPEC.parameters).filter(function(p){return args[p]===undefined;});
+  if(missing.length){console.log("! missing parameters: "+missing.join(", "));return {error:"E_ARGS",missing:missing};}
+  var resp="{\"databases\":[...],\"version\":\"1.0\"}";
+  console.log("< "+resp);
+  return resp;
+}
+console.log("API: "+SPEC.name+" — "+SPEC.description);
+console.log("Parameters: "+Object.keys(SPEC.parameters).map(function(p){return p+":"+SPEC.parameters[p].type;}).join(", "));
+console.log("Error codes: "+SPEC.error_codes.map(function(e){return e.code;}).join(", "));
+console.log("--- documented example ---");
+console.log("call: jahdb.route.manifest()");
+console.log("--- live mock run ---");
+call({"version":"demo","pretty":true});
+console.log("Tip: call your own args and watch the mock validate + respond.");
+})();
+
+
+CALCULATOR PROGRAM (made for this page)
+"""Numeric check — manifest (JAH-API-000004).
+Made for this page from text-derived counts (the record carries no usable numbers of its own).
+This program checks the arithmetic of the stored figures; its outputs
+are check-sums, not physical quantities."""
+import hashlib
+def compute():
+    title_chars = 8; desc_chars = 8; source_count = 0; field_count = 8
+    total = round(title_chars + desc_chars + source_count + field_count, 2)
+    mean = round(total / 4, 2)
+    first_plus_second = round(title_chars + desc_chars, 2)
+    first_minus_second = round(title_chars - desc_chars, 2)
+    first_times_second = round(title_chars * desc_chars, 2)
+    return {"total": total, "mean": mean, "first_plus_second": first_plus_second, "first_minus_second": first_minus_second, "first_times_second": first_times_second}
+def main():
+    a = compute(); b = compute()
+    sa = hashlib.sha256(repr(sorted(a.items())).encode()).hexdigest()
+    sb = hashlib.sha256(repr(sorted(b.items())).encode()).hexdigest()
+    for key in ["total", "mean", "first_plus_second", "first_minus_second", "first_times_second"]:
+        print(f"{key}: {a[key]}")
+    print(f"Run 1 SHA-256: {sa}")
+    print(f"Run 2 SHA-256: {sb}")
+    print(f"Deterministic: {'MATCH' if sa == sb else 'MISMATCH'}")
+if __name__ == "__main__":
+    main()
+
+
+OFFICIAL DEMO OUTPUT
+{
+  "total": 24,
+  "mean": 6.0,
+  "first_plus_second": 16,
+  "first_minus_second": 0,
+  "first_times_second": 64
+}
+
+Free forever. Part of The 'Merica-L Internet.

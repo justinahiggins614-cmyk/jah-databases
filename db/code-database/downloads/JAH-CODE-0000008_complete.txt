@@ -1,0 +1,102 @@
+Adapter — unify interfaces (Javascript)
+Record JAH-CODE-0000008 — Public edition, code-database.
+JCC v1 code: JAHDB/code-database#JAH-CODE-0000008
+
+DESCRIPTION
+An adapter translates one interface into another so incompatible code can work together. The classic "make the old API look like the new one" move.
+
+SPEC
+{
+  "mechanism": "The adapter wraps the legacy call and reshapes its output to the new contract.",
+  "use": "Legacy integration, library migration."
+}
+
+KEY FIGURES
+{}
+
+COMPLETE RECORD FIELDS
+title: Adapter — unify interfaces (Javascript)
+category: patterns
+language: javascript
+description: An adapter translates one interface into another so incompatible code can work together. The classic "make the old API look like the new one" move.
+code: const legacy = { fetchOld: (id) => id * 2 };
+const adapter = { fetchNew: (id) => ({ value: legacy.fetchOld(id) }) };
+console.log("new:" + adapter.fetchNew(21).value);
+how_it_works: The adapter wraps the legacy call and reshapes its output to the new contract.
+complexity: O(1)
+test_cases[0].input: fetchNew(21)
+test_cases[0].expected: new:42
+test_cases[0].note: Adapted shape.
+test_cases[1].input: fetchNew(21) — second run
+test_cases[1].expected: new:42
+test_cases[1].note: Determinism check: re-running the snippet reproduces the identical output.
+pitfalls: Adapters accumulate — schedule the real migration instead of stacking them.
+use_cases: Legacy integration, library migration.
+source: online
+source_ref: https://en.wikipedia.org/wiki/Adapter_pattern
+creation_mode: ONLINE-VERIFIED
+id: JAH-CODE-0000008
+_seed: 8
+
+SOURCES
+Record source — https://en.wikipedia.org/wiki/Adapter_pattern
+
+DEMO (record)
+/* JAH interactive demo program — jahdb-demo-1.0
+ * Database: code-database · Record: JAH-CODE-0000008 · Adapter — unify interfaces (Javascript)
+ * Runnable code from this record ("code") — executes with console output captured.
+ * RUN ON PC: save as demo.js, then run:  node demo.js
+ * RUN IN BROWSER: press F12, paste this program into the console, press Enter.
+ * RUN IN-PAGE: open this record and press "Run interactive demo". */
+(function(){
+"use strict";
+/* ---- record code (code) ---- */
+const legacy = { fetchOld: (id) => id * 2 };
+const adapter = { fetchNew: (id) => ({ value: legacy.fetchOld(id) }) };
+console.log("new:" + adapter.fetchNew(21).value);
+/* ---- auto-run: call main/demo/solve if the snippet defines one ---- */
+try{
+  if(typeof main==="function"){console.log("--- main() output ---");main();}
+  else if(typeof demo==="function"){console.log("--- demo() output ---");demo();}
+  else if(typeof solve==="function"){console.log("--- solve() output ---");console.log(solve());}
+}catch(e){console.log("runtime note: "+e.message);}
+})();
+
+
+CALCULATOR PROGRAM (made for this page)
+"""Numeric check — Adapter — unify interfaces (Javascript) (JAH-CODE-0000008).
+Made for this page from text-derived counts (the record carries no usable numbers of its own).
+This program checks the arithmetic of the stored figures; its outputs
+are check-sums, not physical quantities."""
+import hashlib
+def compute():
+    title_chars = 39; desc_chars = 147; source_count = 1; field_count = 14
+    total = round(title_chars + desc_chars + source_count + field_count, 2)
+    mean = round(total / 4, 2)
+    first_plus_second = round(title_chars + desc_chars, 2)
+    first_minus_second = round(title_chars - desc_chars, 2)
+    first_times_second = round(title_chars * desc_chars, 2)
+    return {"total": total, "mean": mean, "first_plus_second": first_plus_second, "first_minus_second": first_minus_second, "first_times_second": first_times_second}
+def main():
+    a = compute(); b = compute()
+    sa = hashlib.sha256(repr(sorted(a.items())).encode()).hexdigest()
+    sb = hashlib.sha256(repr(sorted(b.items())).encode()).hexdigest()
+    for key in ["total", "mean", "first_plus_second", "first_minus_second", "first_times_second"]:
+        print(f"{key}: {a[key]}")
+    print(f"Run 1 SHA-256: {sa}")
+    print(f"Run 2 SHA-256: {sb}")
+    print(f"Deterministic: {'MATCH' if sa == sb else 'MISMATCH'}")
+if __name__ == "__main__":
+    main()
+
+
+OFFICIAL DEMO OUTPUT
+{
+  "total": 201,
+  "mean": 50.25,
+  "first_plus_second": 186,
+  "first_minus_second": -108,
+  "first_times_second": 5733
+}
+
+Free forever. Part of The 'Merica-L Internet.

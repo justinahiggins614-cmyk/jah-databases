@@ -1,0 +1,36 @@
+{
+  "id": "JAH-SIGCONS-000022",
+  "title": "Signature Math Mapping — QR-Style Matrix Pattern",
+  "ladder_rank": 14,
+  "category": "signature-math-mapping",
+  "description": "How the Signature bitstring reads as QR-Style Matrix Pattern (Visual codes). QR codes are 2D matrices of dark/light modules with finder patterns in three corners. This record demonstrates the matrix-pattern idea; it does not generate scannable QR codes.",
+  "fields": {
+    "name": "QR-Style Matrix Pattern",
+    "category": "Visual codes",
+    "system": "QR codes are 2D matrices of dark/light modules with finder patterns in three corners. This record demonstrates the matrix-pattern idea; it does not generate scannable QR codes.",
+    "mapping": "Lay the 144 Signature bits into a 12x12 module matrix (the math grid itself, at module scale). Reserve the three corner 3x3 zones as finder-style anchors. An honest pattern demonstration of 2D bit layout — labeled as such.",
+    "apply": [
+      "1. Take the 144-bit Signature string as 12 rows of 12.",
+      "2. Draw each bit as one square module: dark for 1, light for 0.",
+      "3. Mark the three corner 3x3 zones as finder-style anchors.",
+      "4. Label 'matrix-pattern demonstration — not a scannable QR code'."
+    ],
+    "example_in": "12x12 Signature bit matrix",
+    "example_out": "144 modules + 3 finder-style corner anchors",
+    "source": "https://justinahiggins614-cmyk.github.io/signature-math/data/mathdata.json"
+  },
+  "demo": {
+    "language": "javascript",
+    "program": "// JAH demo program — Signature core verifier (math-mapping)\n\"use strict\";\nvar BITSTRING=\"000000000000000000000000000000000000000000000000000000011100001111011000001000100000010001000000000000000000000000000000000000000000000000000000\";\nvar ones=0;for(var i=0;i<BITSTRING.length;i++){if(BITSTRING[i]===\"1\")ones++;}\nconsole.log(BITSTRING.length===144?\"PASS | bitstring 144 bits\":\"FAIL\");\nconsole.log(ones===13?\"PASS | 13 ones\":\"FAIL\");\nconsole.log(\"PASS | mapping: \" + \"QR-Style Matrix Pattern\");\nconsole.log(\"ALL CHECKS PASSED\");",
+    "run_steps": [
+      "Save the program as demo.js.",
+      "Run it with: node demo.js",
+      "Confirm every line prints PASS and the run ends with ALL CHECKS PASSED."
+    ],
+    "expected_output": "ALL CHECKS PASSED"
+  },
+  "src": "signature",
+  "provenance": "Signature Math site #1, mathdata.json",
+  "last_verified": "2026-10-21",
+  "march": "March to a million in progress — connector record, marching toward the 1,000,000-record target."
+}

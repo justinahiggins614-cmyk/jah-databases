@@ -1,0 +1,982 @@
+[
+  {
+    "id": "JAH-API-000001",
+    "api_id": "JAH-API-000001",
+    "name": "mean",
+    "description": "Arithmetic mean of a list of numbers.",
+    "parameters": {
+      "values": {
+        "type": "array",
+        "description": "Non-empty array of finite numbers."
+      },
+      "round": {
+        "type": "integer",
+        "description": "Decimal places in the result (default 6)."
+      }
+    },
+    "example_call": "`jahdb.math.mean({values:[2,4,6]})`",
+    "example_response": "`{\"result\":4}`",
+    "error_codes": [
+      {
+        "code": "E_EMPTY",
+        "meaning": "The values array is empty."
+      },
+      {
+        "code": "E_VALUE",
+        "meaning": "A value is not finite."
+      }
+    ],
+    "category": "math",
+    "title": "mean",
+    "demo": {
+      "engine": "jahdb-demo-1.0",
+      "kind": "api",
+      "title": "Runnable API mock — mean",
+      "language": "javascript",
+      "program": "/* JAH interactive demo program — jahdb-demo-1.0\n * Database: api-docs · Record: JAH-API-000001 · mean\n * Runnable mock of the \"mean\" endpoint — validates args, returns the documented example response.\n * RUN ON PC: save as demo.js, then run:  node demo.js\n * RUN IN BROWSER: press F12, paste this program into the console, press Enter.\n * RUN IN-PAGE: open this record and press \"Run interactive demo\". */\n(function(){\nvar SPEC={\"name\":\"mean\",\"description\":\"Arithmetic mean of a list of numbers.\",\"parameters\":{\"values\":{\"type\":\"array\",\"description\":\"Non-empty array of finite numbers.\"},\"round\":{\"type\":\"integer\",\"description\":\"Decimal places in the result (default 6).\"}},\"error_codes\":[{\"code\":\"E_EMPTY\",\"meaning\":\"The values array is empty.\"},{\"code\":\"E_VALUE\",\"meaning\":\"A value is not finite.\"}]};\nfunction call(args){\n  args=args||{};\n  console.log(\"> \"+SPEC.name+\"(\"+JSON.stringify(args)+\")\");\n  var missing=Object.keys(SPEC.parameters).filter(function(p){return args[p]===undefined;});\n  if(missing.length){console.log(\"! missing parameters: \"+missing.join(\", \"));return {error:\"E_ARGS\",missing:missing};}\n  var resp=\"{\\\"result\\\":4}\";\n  console.log(\"< \"+resp);\n  return resp;\n}\nconsole.log(\"API: \"+SPEC.name+\" — \"+SPEC.description);\nconsole.log(\"Parameters: \"+Object.keys(SPEC.parameters).map(function(p){return p+\":\"+SPEC.parameters[p].type;}).join(\", \"));\nconsole.log(\"Error codes: \"+SPEC.error_codes.map(function(e){return e.code;}).join(\", \"));\nconsole.log(\"--- documented example ---\");\nconsole.log(\"call: jahdb.math.mean({values:[2,4,6]})\");\nconsole.log(\"--- live mock run ---\");\ncall({\"values\":[],\"round\":1});\nconsole.log(\"Tip: call your own args and watch the mock validate + respond.\");\n})();\n",
+      "run_hint": "PC: save the program as demo.js (or demo.py/demo.sql per language) and run it with node/python3/sqlite3. In-page: open the record, Demo Lab tab, press Run.",
+      "how_to_run": "PC: save the program as demo.js (or demo.py/demo.sql per language) and run it with node/python3/sqlite3. In-page: open the record, Demo Lab tab, press Run.",
+      "runnable": true
+    }
+  },
+  {
+    "id": "JAH-API-000002",
+    "api_id": "JAH-API-000002",
+    "name": "rhymes",
+    "description": "Lists words rhyming with the input.",
+    "parameters": {
+      "word": {
+        "type": "string",
+        "description": "The word to rhyme."
+      },
+      "limit": {
+        "type": "integer",
+        "description": "Max results (default 20)."
+      }
+    },
+    "example_call": "`jahdb.dict.rhymes({word:\"cat\",limit:3})`",
+    "example_response": "`{\"rhymes\":[\"hat\",\"bat\",\"mat\"]}`",
+    "error_codes": [
+      {
+        "code": "E_NOTFOUND",
+        "meaning": "No rhymes found."
+      },
+      {
+        "code": "E_INTERNAL",
+        "meaning": "An unexpected internal error occurred."
+      }
+    ],
+    "category": "dictionary",
+    "title": "rhymes",
+    "demo": {
+      "engine": "jahdb-demo-1.0",
+      "kind": "api",
+      "title": "Runnable API mock — rhymes",
+      "language": "javascript",
+      "program": "/* JAH interactive demo program — jahdb-demo-1.0\n * Database: api-docs · Record: JAH-API-000002 · rhymes\n * Runnable mock of the \"rhymes\" endpoint — validates args, returns the documented example response.\n * RUN ON PC: save as demo.js, then run:  node demo.js\n * RUN IN BROWSER: press F12, paste this program into the console, press Enter.\n * RUN IN-PAGE: open this record and press \"Run interactive demo\". */\n(function(){\nvar SPEC={\"name\":\"rhymes\",\"description\":\"Lists words rhyming with the input.\",\"parameters\":{\"word\":{\"type\":\"string\",\"description\":\"The word to rhyme.\"},\"limit\":{\"type\":\"integer\",\"description\":\"Max results (default 20).\"}},\"error_codes\":[{\"code\":\"E_NOTFOUND\",\"meaning\":\"No rhymes found.\"},{\"code\":\"E_INTERNAL\",\"meaning\":\"An unexpected internal error occurred.\"}]};\nfunction call(args){\n  args=args||{};\n  console.log(\"> \"+SPEC.name+\"(\"+JSON.stringify(args)+\")\");\n  var missing=Object.keys(SPEC.parameters).filter(function(p){return args[p]===undefined;});\n  if(missing.length){console.log(\"! missing parameters: \"+missing.join(\", \"));return {error:\"E_ARGS\",missing:missing};}\n  var resp=\"{\\\"rhymes\\\":[\\\"hat\\\",\\\"bat\\\",\\\"mat\\\"]}\";\n  console.log(\"< \"+resp);\n  return resp;\n}\nconsole.log(\"API: \"+SPEC.name+\" — \"+SPEC.description);\nconsole.log(\"Parameters: \"+Object.keys(SPEC.parameters).map(function(p){return p+\":\"+SPEC.parameters[p].type;}).join(\", \"));\nconsole.log(\"Error codes: \"+SPEC.error_codes.map(function(e){return e.code;}).join(\", \"));\nconsole.log(\"--- documented example ---\");\nconsole.log(\"call: jahdb.dict.rhymes({word:\\\"cat\\\",limit:3})\");\nconsole.log(\"--- live mock run ---\");\ncall({\"word\":\"demo\",\"limit\":1});\nconsole.log(\"Tip: call your own args and watch the mock validate + respond.\");\n})();\n",
+      "run_hint": "PC: save the program as demo.js (or demo.py/demo.sql per language) and run it with node/python3/sqlite3. In-page: open the record, Demo Lab tab, press Run.",
+      "how_to_run": "PC: save the program as demo.js (or demo.py/demo.sql per language) and run it with node/python3/sqlite3. In-page: open the record, Demo Lab tab, press Run.",
+      "runnable": true
+    }
+  },
+  {
+    "id": "JAH-API-000003",
+    "api_id": "JAH-API-000003",
+    "name": "count",
+    "description": "Returns the stored record count of a database.",
+    "parameters": {
+      "database": {
+        "type": "string",
+        "description": "Database slug."
+      },
+      "category": {
+        "type": "string",
+        "description": "Optional category to count within."
+      }
+    },
+    "example_call": "`jahdb.search.count({database:\"api-docs\"})`",
+    "example_response": "`{\"count\":10000,\"target\":1000000}`",
+    "error_codes": [
+      {
+        "code": "E_DB",
+        "meaning": "Unknown database slug."
+      },
+      {
+        "code": "E_INTERNAL",
+        "meaning": "An unexpected internal error occurred."
+      }
+    ],
+    "category": "search",
+    "title": "count",
+    "demo": {
+      "engine": "jahdb-demo-1.0",
+      "kind": "api",
+      "title": "Runnable API mock — count",
+      "language": "javascript",
+      "program": "/* JAH interactive demo program — jahdb-demo-1.0\n * Database: api-docs · Record: JAH-API-000003 · count\n * Runnable mock of the \"count\" endpoint — validates args, returns the documented example response.\n * RUN ON PC: save as demo.js, then run:  node demo.js\n * RUN IN BROWSER: press F12, paste this program into the console, press Enter.\n * RUN IN-PAGE: open this record and press \"Run interactive demo\". */\n(function(){\nvar SPEC={\"name\":\"count\",\"description\":\"Returns the stored record count of a database.\",\"parameters\":{\"database\":{\"type\":\"string\",\"description\":\"Database slug.\"},\"category\":{\"type\":\"string\",\"description\":\"Optional category to count within.\"}},\"error_codes\":[{\"code\":\"E_DB\",\"meaning\":\"Unknown database slug.\"},{\"code\":\"E_INTERNAL\",\"meaning\":\"An unexpected internal error occurred.\"}]};\nfunction call(args){\n  args=args||{};\n  console.log(\"> \"+SPEC.name+\"(\"+JSON.stringify(args)+\")\");\n  var missing=Object.keys(SPEC.parameters).filter(function(p){return args[p]===undefined;});\n  if(missing.length){console.log(\"! missing parameters: \"+missing.join(\", \"));return {error:\"E_ARGS\",missing:missing};}\n  var resp=\"{\\\"count\\\":10000,\\\"target\\\":1000000}\";\n  console.log(\"< \"+resp);\n  return resp;\n}\nconsole.log(\"API: \"+SPEC.name+\" — \"+SPEC.description);\nconsole.log(\"Parameters: \"+Object.keys(SPEC.parameters).map(function(p){return p+\":\"+SPEC.parameters[p].type;}).join(\", \"));\nconsole.log(\"Error codes: \"+SPEC.error_codes.map(function(e){return e.code;}).join(\", \"));\nconsole.log(\"--- documented example ---\");\nconsole.log(\"call: jahdb.search.count({database:\\\"api-docs\\\"})\");\nconsole.log(\"--- live mock run ---\");\ncall({\"database\":\"demo\",\"category\":\"demo\"});\nconsole.log(\"Tip: call your own args and watch the mock validate + respond.\");\n})();\n",
+      "run_hint": "PC: save the program as demo.js (or demo.py/demo.sql per language) and run it with node/python3/sqlite3. In-page: open the record, Demo Lab tab, press Run.",
+      "how_to_run": "PC: save the program as demo.js (or demo.py/demo.sql per language) and run it with node/python3/sqlite3. In-page: open the record, Demo Lab tab, press Run.",
+      "runnable": true
+    }
+  },
+  {
+    "id": "JAH-API-000004",
+    "api_id": "JAH-API-000004",
+    "name": "manifest",
+    "description": "Returns the network manifest.",
+    "parameters": {
+      "version": {
+        "type": "string",
+        "description": "Manifest schema version to request."
+      },
+      "pretty": {
+        "type": "boolean",
+        "description": "Pretty-print the JSON output."
+      }
+    },
+    "example_call": "`jahdb.route.manifest()`",
+    "example_response": "`{\"databases\":[...],\"version\":\"1.0\"}`",
+    "error_codes": [
+      {
+        "code": "E_INTERNAL",
+        "meaning": "Manifest unreadable."
+      },
+      {
+        "code": "E_VERSION",
+        "meaning": "Manifest version mismatch."
+      }
+    ],
+    "category": "routing",
+    "title": "manifest",
+    "demo": {
+      "engine": "jahdb-demo-1.0",
+      "kind": "api",
+      "title": "Runnable API mock — manifest",
+      "language": "javascript",
+      "program": "/* JAH interactive demo program — jahdb-demo-1.0\n * Database: api-docs · Record: JAH-API-000004 · manifest\n * Runnable mock of the \"manifest\" endpoint — validates args, returns the documented example response.\n * RUN ON PC: save as demo.js, then run:  node demo.js\n * RUN IN BROWSER: press F12, paste this program into the console, press Enter.\n * RUN IN-PAGE: open this record and press \"Run interactive demo\". */\n(function(){\nvar SPEC={\"name\":\"manifest\",\"description\":\"Returns the network manifest.\",\"parameters\":{\"version\":{\"type\":\"string\",\"description\":\"Manifest schema version to request.\"},\"pretty\":{\"type\":\"boolean\",\"description\":\"Pretty-print the JSON output.\"}},\"error_codes\":[{\"code\":\"E_INTERNAL\",\"meaning\":\"Manifest unreadable.\"},{\"code\":\"E_VERSION\",\"meaning\":\"Manifest version mismatch.\"}]};\nfunction call(args){\n  args=args||{};\n  console.log(\"> \"+SPEC.name+\"(\"+JSON.stringify(args)+\")\");\n  var missing=Object.keys(SPEC.parameters).filter(function(p){return args[p]===undefined;});\n  if(missing.length){console.log(\"! missing parameters: \"+missing.join(\", \"));return {error:\"E_ARGS\",missing:missing};}\n  var resp=\"{\\\"databases\\\":[...],\\\"version\\\":\\\"1.0\\\"}\";\n  console.log(\"< \"+resp);\n  return resp;\n}\nconsole.log(\"API: \"+SPEC.name+\" — \"+SPEC.description);\nconsole.log(\"Parameters: \"+Object.keys(SPEC.parameters).map(function(p){return p+\":\"+SPEC.parameters[p].type;}).join(\", \"));\nconsole.log(\"Error codes: \"+SPEC.error_codes.map(function(e){return e.code;}).join(\", \"));\nconsole.log(\"--- documented example ---\");\nconsole.log(\"call: jahdb.route.manifest()\");\nconsole.log(\"--- live mock run ---\");\ncall({\"version\":\"demo\",\"pretty\":true});\nconsole.log(\"Tip: call your own args and watch the mock validate + respond.\");\n})();\n",
+      "run_hint": "PC: save the program as demo.js (or demo.py/demo.sql per language) and run it with node/python3/sqlite3. In-page: open the record, Demo Lab tab, press Run.",
+      "how_to_run": "PC: save the program as demo.js (or demo.py/demo.sql per language) and run it with node/python3/sqlite3. In-page: open the record, Demo Lab tab, press Run.",
+      "runnable": true
+    }
+  },
+  {
+    "id": "JAH-API-000005",
+    "api_id": "JAH-API-000005",
+    "name": "stats",
+    "description": "Returns storage stats for a database.",
+    "parameters": {
+      "database": {
+        "type": "string",
+        "description": "Database slug."
+      },
+      "detail": {
+        "type": "boolean",
+        "description": "Include per-chunk breakdown (default false)."
+      }
+    },
+    "example_call": "`jahdb.data.stats({database:\"embedding-chunks\"})`",
+    "example_response": "`{\"records\":10000,\"chunks\":100,\"bytes_gz\":2450000}`",
+    "error_codes": [
+      {
+        "code": "E_DB",
+        "meaning": "Unknown database slug."
+      },
+      {
+        "code": "E_INTERNAL",
+        "meaning": "An unexpected internal error occurred."
+      }
+    ],
+    "category": "data",
+    "title": "stats",
+    "demo": {
+      "engine": "jahdb-demo-1.0",
+      "kind": "api",
+      "title": "Runnable API mock — stats",
+      "language": "javascript",
+      "program": "/* JAH interactive demo program — jahdb-demo-1.0\n * Database: api-docs · Record: JAH-API-000005 · stats\n * Runnable mock of the \"stats\" endpoint — validates args, returns the documented example response.\n * RUN ON PC: save as demo.js, then run:  node demo.js\n * RUN IN BROWSER: press F12, paste this program into the console, press Enter.\n * RUN IN-PAGE: open this record and press \"Run interactive demo\". */\n(function(){\nvar SPEC={\"name\":\"stats\",\"description\":\"Returns storage stats for a database.\",\"parameters\":{\"database\":{\"type\":\"string\",\"description\":\"Database slug.\"},\"detail\":{\"type\":\"boolean\",\"description\":\"Include per-chunk breakdown (default false).\"}},\"error_codes\":[{\"code\":\"E_DB\",\"meaning\":\"Unknown database slug.\"},{\"code\":\"E_INTERNAL\",\"meaning\":\"An unexpected internal error occurred.\"}]};\nfunction call(args){\n  args=args||{};\n  console.log(\"> \"+SPEC.name+\"(\"+JSON.stringify(args)+\")\");\n  var missing=Object.keys(SPEC.parameters).filter(function(p){return args[p]===undefined;});\n  if(missing.length){console.log(\"! missing parameters: \"+missing.join(\", \"));return {error:\"E_ARGS\",missing:missing};}\n  var resp=\"{\\\"records\\\":10000,\\\"chunks\\\":100,\\\"bytes_gz\\\":2450000}\";\n  console.log(\"< \"+resp);\n  return resp;\n}\nconsole.log(\"API: \"+SPEC.name+\" — \"+SPEC.description);\nconsole.log(\"Parameters: \"+Object.keys(SPEC.parameters).map(function(p){return p+\":\"+SPEC.parameters[p].type;}).join(\", \"));\nconsole.log(\"Error codes: \"+SPEC.error_codes.map(function(e){return e.code;}).join(\", \"));\nconsole.log(\"--- documented example ---\");\nconsole.log(\"call: jahdb.data.stats({database:\\\"embedding-chunks\\\"})\");\nconsole.log(\"--- live mock run ---\");\ncall({\"database\":\"demo\",\"detail\":true});\nconsole.log(\"Tip: call your own args and watch the mock validate + respond.\");\n})();\n",
+      "run_hint": "PC: save the program as demo.js (or demo.py/demo.sql per language) and run it with node/python3/sqlite3. In-page: open the record, Demo Lab tab, press Run.",
+      "how_to_run": "PC: save the program as demo.js (or demo.py/demo.sql per language) and run it with node/python3/sqlite3. In-page: open the record, Demo Lab tab, press Run.",
+      "runnable": true
+    }
+  },
+  {
+    "id": "JAH-API-000006",
+    "api_id": "JAH-API-000006",
+    "name": "stop_audio",
+    "description": "Stops all audio playback on the page.",
+    "parameters": {
+      "fade_ms": {
+        "type": "integer",
+        "description": "Fade-out duration in ms (default 0)."
+      },
+      "session": {
+        "type": "string",
+        "description": "Optional session id to stop."
+      }
+    },
+    "example_call": "`jahdb.media.stop_audio()`",
+    "example_response": "`{\"stopped\":true}`",
+    "error_codes": [
+      {
+        "code": "E_AUDIO",
+        "meaning": "Audio engine unavailable."
+      },
+      {
+        "code": "E_STATE",
+        "meaning": "Nothing is playing."
+      }
+    ],
+    "category": "media",
+    "title": "stop_audio",
+    "demo": {
+      "engine": "jahdb-demo-1.0",
+      "kind": "api",
+      "title": "Runnable API mock — stop_audio",
+      "language": "javascript",
+      "program": "/* JAH interactive demo program — jahdb-demo-1.0\n * Database: api-docs · Record: JAH-API-000006 · stop_audio\n * Runnable mock of the \"stop_audio\" endpoint — validates args, returns the documented example response.\n * RUN ON PC: save as demo.js, then run:  node demo.js\n * RUN IN BROWSER: press F12, paste this program into the console, press Enter.\n * RUN IN-PAGE: open this record and press \"Run interactive demo\". */\n(function(){\nvar SPEC={\"name\":\"stop_audio\",\"description\":\"Stops all audio playback on the page.\",\"parameters\":{\"fade_ms\":{\"type\":\"integer\",\"description\":\"Fade-out duration in ms (default 0).\"},\"session\":{\"type\":\"string\",\"description\":\"Optional session id to stop.\"}},\"error_codes\":[{\"code\":\"E_AUDIO\",\"meaning\":\"Audio engine unavailable.\"},{\"code\":\"E_STATE\",\"meaning\":\"Nothing is playing.\"}]};\nfunction call(args){\n  args=args||{};\n  console.log(\"> \"+SPEC.name+\"(\"+JSON.stringify(args)+\")\");\n  var missing=Object.keys(SPEC.parameters).filter(function(p){return args[p]===undefined;});\n  if(missing.length){console.log(\"! missing parameters: \"+missing.join(\", \"));return {error:\"E_ARGS\",missing:missing};}\n  var resp=\"{\\\"stopped\\\":true}\";\n  console.log(\"< \"+resp);\n  return resp;\n}\nconsole.log(\"API: \"+SPEC.name+\" — \"+SPEC.description);\nconsole.log(\"Parameters: \"+Object.keys(SPEC.parameters).map(function(p){return p+\":\"+SPEC.parameters[p].type;}).join(\", \"));\nconsole.log(\"Error codes: \"+SPEC.error_codes.map(function(e){return e.code;}).join(\", \"));\nconsole.log(\"--- documented example ---\");\nconsole.log(\"call: jahdb.media.stop_audio()\");\nconsole.log(\"--- live mock run ---\");\ncall({\"fade_ms\":1,\"session\":\"demo\"});\nconsole.log(\"Tip: call your own args and watch the mock validate + respond.\");\n})();\n",
+      "run_hint": "PC: save the program as demo.js (or demo.py/demo.sql per language) and run it with node/python3/sqlite3. In-page: open the record, Demo Lab tab, press Run.",
+      "how_to_run": "PC: save the program as demo.js (or demo.py/demo.sql per language) and run it with node/python3/sqlite3. In-page: open the record, Demo Lab tab, press Run.",
+      "runnable": true
+    }
+  },
+  {
+    "id": "JAH-API-000007",
+    "api_id": "JAH-API-000007",
+    "name": "calculate",
+    "description": "Evaluates a math expression and returns the result.",
+    "parameters": {
+      "expression": {
+        "type": "string",
+        "description": "The expression to evaluate, e.g. \"2*(3+4)\"."
+      },
+      "precision": {
+        "type": "integer",
+        "description": "Decimal places in the result (default 6)."
+      },
+      "angle": {
+        "type": "string",
+        "description": "\"deg\" or \"rad\" for trig functions (default \"deg\")."
+      }
+    },
+    "example_call": "`jahdb.math.calculate({expression:\"sqrt(144)+2^3\"})`",
+    "example_response": "`{\"result\":20,\"precision\":6}`",
+    "error_codes": [
+      {
+        "code": "E_SYNTAX",
+        "meaning": "The expression could not be parsed."
+      },
+      {
+        "code": "E_DIVZERO",
+        "meaning": "Division by zero encountered."
+      },
+      {
+        "code": "E_DOMAIN",
+        "meaning": "Function argument outside its domain."
+      }
+    ],
+    "category": "math",
+    "title": "calculate",
+    "demo": {
+      "engine": "jahdb-demo-1.0",
+      "kind": "api",
+      "title": "Runnable API mock — calculate",
+      "language": "javascript",
+      "program": "/* JAH interactive demo program — jahdb-demo-1.0\n * Database: api-docs · Record: JAH-API-000007 · calculate\n * Runnable mock of the \"calculate\" endpoint — validates args, returns the documented example response.\n * RUN ON PC: save as demo.js, then run:  node demo.js\n * RUN IN BROWSER: press F12, paste this program into the console, press Enter.\n * RUN IN-PAGE: open this record and press \"Run interactive demo\". */\n(function(){\nvar SPEC={\"name\":\"calculate\",\"description\":\"Evaluates a math expression and returns the result.\",\"parameters\":{\"expression\":{\"type\":\"string\",\"description\":\"The expression to evaluate, e.g. \\\"2*(3+4)\\\".\"},\"precision\":{\"type\":\"integer\",\"description\":\"Decimal places in the result (default 6).\"},\"angle\":{\"type\":\"string\",\"description\":\"\\\"deg\\\" or \\\"rad\\\" for trig functions (default \\\"deg\\\").\"}},\"error_codes\":[{\"code\":\"E_SYNTAX\",\"meaning\":\"The expression could not be parsed.\"},{\"code\":\"E_DIVZERO\",\"meaning\":\"Division by zero encountered.\"},{\"code\":\"E_DOMAIN\",\"meaning\":\"Function argument outside its domain.\"}]};\nfunction call(args){\n  args=args||{};\n  console.log(\"> \"+SPEC.name+\"(\"+JSON.stringify(args)+\")\");\n  var missing=Object.keys(SPEC.parameters).filter(function(p){return args[p]===undefined;});\n  if(missing.length){console.log(\"! missing parameters: \"+missing.join(\", \"));return {error:\"E_ARGS\",missing:missing};}\n  var resp=\"{\\\"result\\\":20,\\\"precision\\\":6}\";\n  console.log(\"< \"+resp);\n  return resp;\n}\nconsole.log(\"API: \"+SPEC.name+\" — \"+SPEC.description);\nconsole.log(\"Parameters: \"+Object.keys(SPEC.parameters).map(function(p){return p+\":\"+SPEC.parameters[p].type;}).join(\", \"));\nconsole.log(\"Error codes: \"+SPEC.error_codes.map(function(e){return e.code;}).join(\", \"));\nconsole.log(\"--- documented example ---\");\nconsole.log(\"call: jahdb.math.calculate({expression:\\\"sqrt(144)+2^3\\\"})\");\nconsole.log(\"--- live mock run ---\");\ncall({\"expression\":\"demo\",\"precision\":1,\"angle\":\"demo\"});\nconsole.log(\"Tip: call your own args and watch the mock validate + respond.\");\n})();\n",
+      "run_hint": "PC: save the program as demo.js (or demo.py/demo.sql per language) and run it with node/python3/sqlite3. In-page: open the record, Demo Lab tab, press Run.",
+      "how_to_run": "PC: save the program as demo.js (or demo.py/demo.sql per language) and run it with node/python3/sqlite3. In-page: open the record, Demo Lab tab, press Run.",
+      "runnable": true
+    }
+  },
+  {
+    "id": "JAH-API-000008",
+    "api_id": "JAH-API-000008",
+    "name": "word_exists",
+    "description": "Checks whether a headword exists in the dictionary.",
+    "parameters": {
+      "word": {
+        "type": "string",
+        "description": "The headword to check."
+      },
+      "fuzzy": {
+        "type": "boolean",
+        "description": "Allow near-matches (default false)."
+      }
+    },
+    "example_call": "`jahdb.dict.word_exists({word:\"quixotic\"})`",
+    "example_response": "`{\"exists\":true}`",
+    "error_codes": [
+      {
+        "code": "E_TYPE",
+        "meaning": "word must be a string."
+      },
+      {
+        "code": "E_INTERNAL",
+        "meaning": "An unexpected internal error occurred."
+      }
+    ],
+    "category": "dictionary",
+    "title": "word_exists",
+    "demo": {
+      "engine": "jahdb-demo-1.0",
+      "kind": "api",
+      "title": "Runnable API mock — word_exists",
+      "language": "javascript",
+      "program": "/* JAH interactive demo program — jahdb-demo-1.0\n * Database: api-docs · Record: JAH-API-000008 · word_exists\n * Runnable mock of the \"word_exists\" endpoint — validates args, returns the documented example response.\n * RUN ON PC: save as demo.js, then run:  node demo.js\n * RUN IN BROWSER: press F12, paste this program into the console, press Enter.\n * RUN IN-PAGE: open this record and press \"Run interactive demo\". */\n(function(){\nvar SPEC={\"name\":\"word_exists\",\"description\":\"Checks whether a headword exists in the dictionary.\",\"parameters\":{\"word\":{\"type\":\"string\",\"description\":\"The headword to check.\"},\"fuzzy\":{\"type\":\"boolean\",\"description\":\"Allow near-matches (default false).\"}},\"error_codes\":[{\"code\":\"E_TYPE\",\"meaning\":\"word must be a string.\"},{\"code\":\"E_INTERNAL\",\"meaning\":\"An unexpected internal error occurred.\"}]};\nfunction call(args){\n  args=args||{};\n  console.log(\"> \"+SPEC.name+\"(\"+JSON.stringify(args)+\")\");\n  var missing=Object.keys(SPEC.parameters).filter(function(p){return args[p]===undefined;});\n  if(missing.length){console.log(\"! missing parameters: \"+missing.join(\", \"));return {error:\"E_ARGS\",missing:missing};}\n  var resp=\"{\\\"exists\\\":true}\";\n  console.log(\"< \"+resp);\n  return resp;\n}\nconsole.log(\"API: \"+SPEC.name+\" — \"+SPEC.description);\nconsole.log(\"Parameters: \"+Object.keys(SPEC.parameters).map(function(p){return p+\":\"+SPEC.parameters[p].type;}).join(\", \"));\nconsole.log(\"Error codes: \"+SPEC.error_codes.map(function(e){return e.code;}).join(\", \"));\nconsole.log(\"--- documented example ---\");\nconsole.log(\"call: jahdb.dict.word_exists({word:\\\"quixotic\\\"})\");\nconsole.log(\"--- live mock run ---\");\ncall({\"word\":\"demo\",\"fuzzy\":true});\nconsole.log(\"Tip: call your own args and watch the mock validate + respond.\");\n})();\n",
+      "run_hint": "PC: save the program as demo.js (or demo.py/demo.sql per language) and run it with node/python3/sqlite3. In-page: open the record, Demo Lab tab, press Run.",
+      "how_to_run": "PC: save the program as demo.js (or demo.py/demo.sql per language) and run it with node/python3/sqlite3. In-page: open the record, Demo Lab tab, press Run.",
+      "runnable": true
+    }
+  },
+  {
+    "id": "JAH-API-000009",
+    "api_id": "JAH-API-000009",
+    "name": "search_all",
+    "description": "Searches every database archive at once.",
+    "parameters": {
+      "query": {
+        "type": "string",
+        "description": "Search text."
+      },
+      "limit": {
+        "type": "integer",
+        "description": "Max hits per database (default 5)."
+      }
+    },
+    "example_call": "`jahdb.search.search_all({query:\"photosynthesis\"})`",
+    "example_response": "`{\"results\":{\"summarization-pairs\":[...]}}`",
+    "error_codes": [
+      {
+        "code": "E_QUERY",
+        "meaning": "Query is empty."
+      },
+      {
+        "code": "E_INTERNAL",
+        "meaning": "An unexpected internal error occurred."
+      }
+    ],
+    "category": "search",
+    "title": "search_all",
+    "demo": {
+      "engine": "jahdb-demo-1.0",
+      "kind": "api",
+      "title": "Runnable API mock — search_all",
+      "language": "javascript",
+      "program": "/* JAH interactive demo program — jahdb-demo-1.0\n * Database: api-docs · Record: JAH-API-000009 · search_all\n * Runnable mock of the \"search_all\" endpoint — validates args, returns the documented example response.\n * RUN ON PC: save as demo.js, then run:  node demo.js\n * RUN IN BROWSER: press F12, paste this program into the console, press Enter.\n * RUN IN-PAGE: open this record and press \"Run interactive demo\". */\n(function(){\nvar SPEC={\"name\":\"search_all\",\"description\":\"Searches every database archive at once.\",\"parameters\":{\"query\":{\"type\":\"string\",\"description\":\"Search text.\"},\"limit\":{\"type\":\"integer\",\"description\":\"Max hits per database (default 5).\"}},\"error_codes\":[{\"code\":\"E_QUERY\",\"meaning\":\"Query is empty.\"},{\"code\":\"E_INTERNAL\",\"meaning\":\"An unexpected internal error occurred.\"}]};\nfunction call(args){\n  args=args||{};\n  console.log(\"> \"+SPEC.name+\"(\"+JSON.stringify(args)+\")\");\n  var missing=Object.keys(SPEC.parameters).filter(function(p){return args[p]===undefined;});\n  if(missing.length){console.log(\"! missing parameters: \"+missing.join(\", \"));return {error:\"E_ARGS\",missing:missing};}\n  var resp=\"{\\\"results\\\":{\\\"summarization-pairs\\\":[...]}}\";\n  console.log(\"< \"+resp);\n  return resp;\n}\nconsole.log(\"API: \"+SPEC.name+\" — \"+SPEC.description);\nconsole.log(\"Parameters: \"+Object.keys(SPEC.parameters).map(function(p){return p+\":\"+SPEC.parameters[p].type;}).join(\", \"));\nconsole.log(\"Error codes: \"+SPEC.error_codes.map(function(e){return e.code;}).join(\", \"));\nconsole.log(\"--- documented example ---\");\nconsole.log(\"call: jahdb.search.search_all({query:\\\"photosynthesis\\\"})\");\nconsole.log(\"--- live mock run ---\");\ncall({\"query\":\"demo\",\"limit\":1});\nconsole.log(\"Tip: call your own args and watch the mock validate + respond.\");\n})();\n",
+      "run_hint": "PC: save the program as demo.js (or demo.py/demo.sql per language) and run it with node/python3/sqlite3. In-page: open the record, Demo Lab tab, press Run.",
+      "how_to_run": "PC: save the program as demo.js (or demo.py/demo.sql per language) and run it with node/python3/sqlite3. In-page: open the record, Demo Lab tab, press Run.",
+      "runnable": true
+    }
+  },
+  {
+    "id": "JAH-API-000010",
+    "api_id": "JAH-API-000010",
+    "name": "cross_sample",
+    "description": "Samples records from another database.",
+    "parameters": {
+      "database": {
+        "type": "string",
+        "description": "Database slug."
+      },
+      "n": {
+        "type": "integer",
+        "description": "Sample size (default 5)."
+      }
+    },
+    "example_call": "`jahdb.route.cross_sample({database:\"classification-rows\",n:3})`",
+    "example_response": "`{\"samples\":[{...}]}`",
+    "error_codes": [
+      {
+        "code": "E_DB",
+        "meaning": "Unknown database slug."
+      },
+      {
+        "code": "E_INTERNAL",
+        "meaning": "An unexpected internal error occurred."
+      }
+    ],
+    "category": "routing",
+    "title": "cross_sample",
+    "demo": {
+      "engine": "jahdb-demo-1.0",
+      "kind": "api",
+      "title": "Runnable API mock — cross_sample",
+      "language": "javascript",
+      "program": "/* JAH interactive demo program — jahdb-demo-1.0\n * Database: api-docs · Record: JAH-API-000010 · cross_sample\n * Runnable mock of the \"cross_sample\" endpoint — validates args, returns the documented example response.\n * RUN ON PC: save as demo.js, then run:  node demo.js\n * RUN IN BROWSER: press F12, paste this program into the console, press Enter.\n * RUN IN-PAGE: open this record and press \"Run interactive demo\". */\n(function(){\nvar SPEC={\"name\":\"cross_sample\",\"description\":\"Samples records from another database.\",\"parameters\":{\"database\":{\"type\":\"string\",\"description\":\"Database slug.\"},\"n\":{\"type\":\"integer\",\"description\":\"Sample size (default 5).\"}},\"error_codes\":[{\"code\":\"E_DB\",\"meaning\":\"Unknown database slug.\"},{\"code\":\"E_INTERNAL\",\"meaning\":\"An unexpected internal error occurred.\"}]};\nfunction call(args){\n  args=args||{};\n  console.log(\"> \"+SPEC.name+\"(\"+JSON.stringify(args)+\")\");\n  var missing=Object.keys(SPEC.parameters).filter(function(p){return args[p]===undefined;});\n  if(missing.length){console.log(\"! missing parameters: \"+missing.join(\", \"));return {error:\"E_ARGS\",missing:missing};}\n  var resp=\"{\\\"samples\\\":[{...}]}\";\n  console.log(\"< \"+resp);\n  return resp;\n}\nconsole.log(\"API: \"+SPEC.name+\" — \"+SPEC.description);\nconsole.log(\"Parameters: \"+Object.keys(SPEC.parameters).map(function(p){return p+\":\"+SPEC.parameters[p].type;}).join(\", \"));\nconsole.log(\"Error codes: \"+SPEC.error_codes.map(function(e){return e.code;}).join(\", \"));\nconsole.log(\"--- documented example ---\");\nconsole.log(\"call: jahdb.route.cross_sample({database:\\\"classification-rows\\\",n:3})\");\nconsole.log(\"--- live mock run ---\");\ncall({\"database\":\"demo\",\"n\":1});\nconsole.log(\"Tip: call your own args and watch the mock validate + respond.\");\n})();\n",
+      "run_hint": "PC: save the program as demo.js (or demo.py/demo.sql per language) and run it with node/python3/sqlite3. In-page: open the record, Demo Lab tab, press Run.",
+      "how_to_run": "PC: save the program as demo.js (or demo.py/demo.sql per language) and run it with node/python3/sqlite3. In-page: open the record, Demo Lab tab, press Run.",
+      "runnable": true
+    }
+  },
+  {
+    "id": "JAH-API-000011",
+    "api_id": "JAH-API-000011",
+    "name": "generate",
+    "description": "Generates a deterministic record by seed.",
+    "parameters": {
+      "database": {
+        "type": "string",
+        "description": "Database slug."
+      },
+      "seed": {
+        "type": "integer",
+        "description": "Seed."
+      },
+      "category": {
+        "type": "string",
+        "description": "Optional category."
+      }
+    },
+    "example_call": "`jahdb.data.generate({database:\"error-fix-pairs\",seed:42})`",
+    "example_response": "`{\"record\":{...},\"version\":\"jahdb-error-fix-pairs-1.0\"}`",
+    "error_codes": [
+      {
+        "code": "E_DB",
+        "meaning": "Unknown database slug."
+      },
+      {
+        "code": "E_GEN",
+        "meaning": "No generator registered."
+      }
+    ],
+    "category": "data",
+    "title": "generate",
+    "demo": {
+      "engine": "jahdb-demo-1.0",
+      "kind": "api",
+      "title": "Runnable API mock — generate",
+      "language": "javascript",
+      "program": "/* JAH interactive demo program — jahdb-demo-1.0\n * Database: api-docs · Record: JAH-API-000011 · generate\n * Runnable mock of the \"generate\" endpoint — validates args, returns the documented example response.\n * RUN ON PC: save as demo.js, then run:  node demo.js\n * RUN IN BROWSER: press F12, paste this program into the console, press Enter.\n * RUN IN-PAGE: open this record and press \"Run interactive demo\". */\n(function(){\nvar SPEC={\"name\":\"generate\",\"description\":\"Generates a deterministic record by seed.\",\"parameters\":{\"database\":{\"type\":\"string\",\"description\":\"Database slug.\"},\"seed\":{\"type\":\"integer\",\"description\":\"Seed.\"},\"category\":{\"type\":\"string\",\"description\":\"Optional category.\"}},\"error_codes\":[{\"code\":\"E_DB\",\"meaning\":\"Unknown database slug.\"},{\"code\":\"E_GEN\",\"meaning\":\"No generator registered.\"}]};\nfunction call(args){\n  args=args||{};\n  console.log(\"> \"+SPEC.name+\"(\"+JSON.stringify(args)+\")\");\n  var missing=Object.keys(SPEC.parameters).filter(function(p){return args[p]===undefined;});\n  if(missing.length){console.log(\"! missing parameters: \"+missing.join(\", \"));return {error:\"E_ARGS\",missing:missing};}\n  var resp=\"{\\\"record\\\":{...},\\\"version\\\":\\\"jahdb-error-fix-pairs-1.0\\\"}\";\n  console.log(\"< \"+resp);\n  return resp;\n}\nconsole.log(\"API: \"+SPEC.name+\" — \"+SPEC.description);\nconsole.log(\"Parameters: \"+Object.keys(SPEC.parameters).map(function(p){return p+\":\"+SPEC.parameters[p].type;}).join(\", \"));\nconsole.log(\"Error codes: \"+SPEC.error_codes.map(function(e){return e.code;}).join(\", \"));\nconsole.log(\"--- documented example ---\");\nconsole.log(\"call: jahdb.data.generate({database:\\\"error-fix-pairs\\\",seed:42})\");\nconsole.log(\"--- live mock run ---\");\ncall({\"database\":\"demo\",\"seed\":1,\"category\":\"demo\"});\nconsole.log(\"Tip: call your own args and watch the mock validate + respond.\");\n})();\n",
+      "run_hint": "PC: save the program as demo.js (or demo.py/demo.sql per language) and run it with node/python3/sqlite3. In-page: open the record, Demo Lab tab, press Run.",
+      "how_to_run": "PC: save the program as demo.js (or demo.py/demo.sql per language) and run it with node/python3/sqlite3. In-page: open the record, Demo Lab tab, press Run.",
+      "runnable": true
+    }
+  },
+  {
+    "id": "JAH-API-000012",
+    "api_id": "JAH-API-000012",
+    "name": "speak",
+    "description": "Reads text aloud with the page TTS voice.",
+    "parameters": {
+      "text": {
+        "type": "string",
+        "description": "Text to speak (max 600 chars)."
+      },
+      "voice": {
+        "type": "string",
+        "description": "\"female\" or \"male\" (default \"female\")."
+      }
+    },
+    "example_call": "`jahdb.media.speak({text:\"Hello world\"})`",
+    "example_response": "`{\"playing\":true}`",
+    "error_codes": [
+      {
+        "code": "E_TEXT",
+        "meaning": "Text is empty or too long."
+      },
+      {
+        "code": "E_INTERNAL",
+        "meaning": "An unexpected internal error occurred."
+      }
+    ],
+    "category": "media",
+    "title": "speak",
+    "demo": {
+      "engine": "jahdb-demo-1.0",
+      "kind": "api",
+      "title": "Runnable API mock — speak",
+      "language": "javascript",
+      "program": "/* JAH interactive demo program — jahdb-demo-1.0\n * Database: api-docs · Record: JAH-API-000012 · speak\n * Runnable mock of the \"speak\" endpoint — validates args, returns the documented example response.\n * RUN ON PC: save as demo.js, then run:  node demo.js\n * RUN IN BROWSER: press F12, paste this program into the console, press Enter.\n * RUN IN-PAGE: open this record and press \"Run interactive demo\". */\n(function(){\nvar SPEC={\"name\":\"speak\",\"description\":\"Reads text aloud with the page TTS voice.\",\"parameters\":{\"text\":{\"type\":\"string\",\"description\":\"Text to speak (max 600 chars).\"},\"voice\":{\"type\":\"string\",\"description\":\"\\\"female\\\" or \\\"male\\\" (default \\\"female\\\").\"}},\"error_codes\":[{\"code\":\"E_TEXT\",\"meaning\":\"Text is empty or too long.\"},{\"code\":\"E_INTERNAL\",\"meaning\":\"An unexpected internal error occurred.\"}]};\nfunction call(args){\n  args=args||{};\n  console.log(\"> \"+SPEC.name+\"(\"+JSON.stringify(args)+\")\");\n  var missing=Object.keys(SPEC.parameters).filter(function(p){return args[p]===undefined;});\n  if(missing.length){console.log(\"! missing parameters: \"+missing.join(\", \"));return {error:\"E_ARGS\",missing:missing};}\n  var resp=\"{\\\"playing\\\":true}\";\n  console.log(\"< \"+resp);\n  return resp;\n}\nconsole.log(\"API: \"+SPEC.name+\" — \"+SPEC.description);\nconsole.log(\"Parameters: \"+Object.keys(SPEC.parameters).map(function(p){return p+\":\"+SPEC.parameters[p].type;}).join(\", \"));\nconsole.log(\"Error codes: \"+SPEC.error_codes.map(function(e){return e.code;}).join(\", \"));\nconsole.log(\"--- documented example ---\");\nconsole.log(\"call: jahdb.media.speak({text:\\\"Hello world\\\"})\");\nconsole.log(\"--- live mock run ---\");\ncall({\"text\":\"demo\",\"voice\":\"demo\"});\nconsole.log(\"Tip: call your own args and watch the mock validate + respond.\");\n})();\n",
+      "run_hint": "PC: save the program as demo.js (or demo.py/demo.sql per language) and run it with node/python3/sqlite3. In-page: open the record, Demo Lab tab, press Run.",
+      "how_to_run": "PC: save the program as demo.js (or demo.py/demo.sql per language) and run it with node/python3/sqlite3. In-page: open the record, Demo Lab tab, press Run.",
+      "runnable": true
+    }
+  },
+  {
+    "id": "JAH-API-000013",
+    "api_id": "JAH-API-000013",
+    "name": "prime_factors",
+    "description": "Prime factorization of a positive integer.",
+    "parameters": {
+      "n": {
+        "type": "integer",
+        "description": "Integer from 2 to 10^12."
+      },
+      "unique": {
+        "type": "boolean",
+        "description": "Return only unique factors (default false)."
+      }
+    },
+    "example_call": "`jahdb.math.prime_factors({n:84})`",
+    "example_response": "`{\"factors\":[2,2,3,7]}`",
+    "error_codes": [
+      {
+        "code": "E_RANGE",
+        "meaning": "n outside 2..10^12."
+      },
+      {
+        "code": "E_TYPE",
+        "meaning": "n is not an integer."
+      }
+    ],
+    "category": "math",
+    "title": "prime_factors",
+    "demo": {
+      "engine": "jahdb-demo-1.0",
+      "kind": "api",
+      "title": "Runnable API mock — prime_factors",
+      "language": "javascript",
+      "program": "/* JAH interactive demo program — jahdb-demo-1.0\n * Database: api-docs · Record: JAH-API-000013 · prime_factors\n * Runnable mock of the \"prime_factors\" endpoint — validates args, returns the documented example response.\n * RUN ON PC: save as demo.js, then run:  node demo.js\n * RUN IN BROWSER: press F12, paste this program into the console, press Enter.\n * RUN IN-PAGE: open this record and press \"Run interactive demo\". */\n(function(){\nvar SPEC={\"name\":\"prime_factors\",\"description\":\"Prime factorization of a positive integer.\",\"parameters\":{\"n\":{\"type\":\"integer\",\"description\":\"Integer from 2 to 10^12.\"},\"unique\":{\"type\":\"boolean\",\"description\":\"Return only unique factors (default false).\"}},\"error_codes\":[{\"code\":\"E_RANGE\",\"meaning\":\"n outside 2..10^12.\"},{\"code\":\"E_TYPE\",\"meaning\":\"n is not an integer.\"}]};\nfunction call(args){\n  args=args||{};\n  console.log(\"> \"+SPEC.name+\"(\"+JSON.stringify(args)+\")\");\n  var missing=Object.keys(SPEC.parameters).filter(function(p){return args[p]===undefined;});\n  if(missing.length){console.log(\"! missing parameters: \"+missing.join(\", \"));return {error:\"E_ARGS\",missing:missing};}\n  var resp=\"{\\\"factors\\\":[2,2,3,7]}\";\n  console.log(\"< \"+resp);\n  return resp;\n}\nconsole.log(\"API: \"+SPEC.name+\" — \"+SPEC.description);\nconsole.log(\"Parameters: \"+Object.keys(SPEC.parameters).map(function(p){return p+\":\"+SPEC.parameters[p].type;}).join(\", \"));\nconsole.log(\"Error codes: \"+SPEC.error_codes.map(function(e){return e.code;}).join(\", \"));\nconsole.log(\"--- documented example ---\");\nconsole.log(\"call: jahdb.math.prime_factors({n:84})\");\nconsole.log(\"--- live mock run ---\");\ncall({\"n\":1,\"unique\":true});\nconsole.log(\"Tip: call your own args and watch the mock validate + respond.\");\n})();\n",
+      "run_hint": "PC: save the program as demo.js (or demo.py/demo.sql per language) and run it with node/python3/sqlite3. In-page: open the record, Demo Lab tab, press Run.",
+      "how_to_run": "PC: save the program as demo.js (or demo.py/demo.sql per language) and run it with node/python3/sqlite3. In-page: open the record, Demo Lab tab, press Run.",
+      "runnable": true
+    }
+  },
+  {
+    "id": "JAH-API-000014",
+    "api_id": "JAH-API-000014",
+    "name": "pronounce",
+    "description": "Returns pronunciation guidance for a word.",
+    "parameters": {
+      "word": {
+        "type": "string",
+        "description": "The headword."
+      },
+      "dialect": {
+        "type": "string",
+        "description": "\"us\" or \"uk\" (default \"us\")."
+      }
+    },
+    "example_call": "`jahdb.dict.pronounce({word:\"data\"})`",
+    "example_response": "`{\"ipa\":\"/ˈdeɪtə/\",\"syllables\":\"da-ta\"}`",
+    "error_codes": [
+      {
+        "code": "E_NOTFOUND",
+        "meaning": "No entry for this headword."
+      },
+      {
+        "code": "E_INTERNAL",
+        "meaning": "An unexpected internal error occurred."
+      }
+    ],
+    "category": "dictionary",
+    "title": "pronounce",
+    "demo": {
+      "engine": "jahdb-demo-1.0",
+      "kind": "api",
+      "title": "Runnable API mock — pronounce",
+      "language": "javascript",
+      "program": "/* JAH interactive demo program — jahdb-demo-1.0\n * Database: api-docs · Record: JAH-API-000014 · pronounce\n * Runnable mock of the \"pronounce\" endpoint — validates args, returns the documented example response.\n * RUN ON PC: save as demo.js, then run:  node demo.js\n * RUN IN BROWSER: press F12, paste this program into the console, press Enter.\n * RUN IN-PAGE: open this record and press \"Run interactive demo\". */\n(function(){\nvar SPEC={\"name\":\"pronounce\",\"description\":\"Returns pronunciation guidance for a word.\",\"parameters\":{\"word\":{\"type\":\"string\",\"description\":\"The headword.\"},\"dialect\":{\"type\":\"string\",\"description\":\"\\\"us\\\" or \\\"uk\\\" (default \\\"us\\\").\"}},\"error_codes\":[{\"code\":\"E_NOTFOUND\",\"meaning\":\"No entry for this headword.\"},{\"code\":\"E_INTERNAL\",\"meaning\":\"An unexpected internal error occurred.\"}]};\nfunction call(args){\n  args=args||{};\n  console.log(\"> \"+SPEC.name+\"(\"+JSON.stringify(args)+\")\");\n  var missing=Object.keys(SPEC.parameters).filter(function(p){return args[p]===undefined;});\n  if(missing.length){console.log(\"! missing parameters: \"+missing.join(\", \"));return {error:\"E_ARGS\",missing:missing};}\n  var resp=\"{\\\"ipa\\\":\\\"/ˈdeɪtə/\\\",\\\"syllables\\\":\\\"da-ta\\\"}\";\n  console.log(\"< \"+resp);\n  return resp;\n}\nconsole.log(\"API: \"+SPEC.name+\" — \"+SPEC.description);\nconsole.log(\"Parameters: \"+Object.keys(SPEC.parameters).map(function(p){return p+\":\"+SPEC.parameters[p].type;}).join(\", \"));\nconsole.log(\"Error codes: \"+SPEC.error_codes.map(function(e){return e.code;}).join(\", \"));\nconsole.log(\"--- documented example ---\");\nconsole.log(\"call: jahdb.dict.pronounce({word:\\\"data\\\"})\");\nconsole.log(\"--- live mock run ---\");\ncall({\"word\":\"demo\",\"dialect\":\"demo\"});\nconsole.log(\"Tip: call your own args and watch the mock validate + respond.\");\n})();\n",
+      "run_hint": "PC: save the program as demo.js (or demo.py/demo.sql per language) and run it with node/python3/sqlite3. In-page: open the record, Demo Lab tab, press Run.",
+      "how_to_run": "PC: save the program as demo.js (or demo.py/demo.sql per language) and run it with node/python3/sqlite3. In-page: open the record, Demo Lab tab, press Run.",
+      "runnable": true
+    }
+  },
+  {
+    "id": "JAH-API-000015",
+    "api_id": "JAH-API-000015",
+    "name": "search_all",
+    "description": "Searches every database archive at once.",
+    "parameters": {
+      "query": {
+        "type": "string",
+        "description": "Search text."
+      },
+      "limit": {
+        "type": "integer",
+        "description": "Max hits per database (default 5)."
+      }
+    },
+    "example_call": "`jahdb.search.search_all({query:\"photosynthesis\"})`",
+    "example_response": "`{\"results\":{\"summarization-pairs\":[...]}}`",
+    "error_codes": [
+      {
+        "code": "E_QUERY",
+        "meaning": "Query is empty."
+      },
+      {
+        "code": "E_INTERNAL",
+        "meaning": "An unexpected internal error occurred."
+      }
+    ],
+    "category": "search",
+    "title": "search_all",
+    "demo": {
+      "engine": "jahdb-demo-1.0",
+      "kind": "api",
+      "title": "Runnable API mock — search_all",
+      "language": "javascript",
+      "program": "/* JAH interactive demo program — jahdb-demo-1.0\n * Database: api-docs · Record: JAH-API-000015 · search_all\n * Runnable mock of the \"search_all\" endpoint — validates args, returns the documented example response.\n * RUN ON PC: save as demo.js, then run:  node demo.js\n * RUN IN BROWSER: press F12, paste this program into the console, press Enter.\n * RUN IN-PAGE: open this record and press \"Run interactive demo\". */\n(function(){\nvar SPEC={\"name\":\"search_all\",\"description\":\"Searches every database archive at once.\",\"parameters\":{\"query\":{\"type\":\"string\",\"description\":\"Search text.\"},\"limit\":{\"type\":\"integer\",\"description\":\"Max hits per database (default 5).\"}},\"error_codes\":[{\"code\":\"E_QUERY\",\"meaning\":\"Query is empty.\"},{\"code\":\"E_INTERNAL\",\"meaning\":\"An unexpected internal error occurred.\"}]};\nfunction call(args){\n  args=args||{};\n  console.log(\"> \"+SPEC.name+\"(\"+JSON.stringify(args)+\")\");\n  var missing=Object.keys(SPEC.parameters).filter(function(p){return args[p]===undefined;});\n  if(missing.length){console.log(\"! missing parameters: \"+missing.join(\", \"));return {error:\"E_ARGS\",missing:missing};}\n  var resp=\"{\\\"results\\\":{\\\"summarization-pairs\\\":[...]}}\";\n  console.log(\"< \"+resp);\n  return resp;\n}\nconsole.log(\"API: \"+SPEC.name+\" — \"+SPEC.description);\nconsole.log(\"Parameters: \"+Object.keys(SPEC.parameters).map(function(p){return p+\":\"+SPEC.parameters[p].type;}).join(\", \"));\nconsole.log(\"Error codes: \"+SPEC.error_codes.map(function(e){return e.code;}).join(\", \"));\nconsole.log(\"--- documented example ---\");\nconsole.log(\"call: jahdb.search.search_all({query:\\\"photosynthesis\\\"})\");\nconsole.log(\"--- live mock run ---\");\ncall({\"query\":\"demo\",\"limit\":1});\nconsole.log(\"Tip: call your own args and watch the mock validate + respond.\");\n})();\n",
+      "run_hint": "PC: save the program as demo.js (or demo.py/demo.sql per language) and run it with node/python3/sqlite3. In-page: open the record, Demo Lab tab, press Run.",
+      "how_to_run": "PC: save the program as demo.js (or demo.py/demo.sql per language) and run it with node/python3/sqlite3. In-page: open the record, Demo Lab tab, press Run.",
+      "runnable": true
+    }
+  },
+  {
+    "id": "JAH-API-000016",
+    "api_id": "JAH-API-000016",
+    "name": "cross_sample",
+    "description": "Samples records from another database.",
+    "parameters": {
+      "database": {
+        "type": "string",
+        "description": "Database slug."
+      },
+      "n": {
+        "type": "integer",
+        "description": "Sample size (default 5)."
+      }
+    },
+    "example_call": "`jahdb.route.cross_sample({database:\"classification-rows\",n:3})`",
+    "example_response": "`{\"samples\":[{...}]}`",
+    "error_codes": [
+      {
+        "code": "E_DB",
+        "meaning": "Unknown database slug."
+      },
+      {
+        "code": "E_INTERNAL",
+        "meaning": "An unexpected internal error occurred."
+      }
+    ],
+    "category": "routing",
+    "title": "cross_sample",
+    "demo": {
+      "engine": "jahdb-demo-1.0",
+      "kind": "api",
+      "title": "Runnable API mock — cross_sample",
+      "language": "javascript",
+      "program": "/* JAH interactive demo program — jahdb-demo-1.0\n * Database: api-docs · Record: JAH-API-000016 · cross_sample\n * Runnable mock of the \"cross_sample\" endpoint — validates args, returns the documented example response.\n * RUN ON PC: save as demo.js, then run:  node demo.js\n * RUN IN BROWSER: press F12, paste this program into the console, press Enter.\n * RUN IN-PAGE: open this record and press \"Run interactive demo\". */\n(function(){\nvar SPEC={\"name\":\"cross_sample\",\"description\":\"Samples records from another database.\",\"parameters\":{\"database\":{\"type\":\"string\",\"description\":\"Database slug.\"},\"n\":{\"type\":\"integer\",\"description\":\"Sample size (default 5).\"}},\"error_codes\":[{\"code\":\"E_DB\",\"meaning\":\"Unknown database slug.\"},{\"code\":\"E_INTERNAL\",\"meaning\":\"An unexpected internal error occurred.\"}]};\nfunction call(args){\n  args=args||{};\n  console.log(\"> \"+SPEC.name+\"(\"+JSON.stringify(args)+\")\");\n  var missing=Object.keys(SPEC.parameters).filter(function(p){return args[p]===undefined;});\n  if(missing.length){console.log(\"! missing parameters: \"+missing.join(\", \"));return {error:\"E_ARGS\",missing:missing};}\n  var resp=\"{\\\"samples\\\":[{...}]}\";\n  console.log(\"< \"+resp);\n  return resp;\n}\nconsole.log(\"API: \"+SPEC.name+\" — \"+SPEC.description);\nconsole.log(\"Parameters: \"+Object.keys(SPEC.parameters).map(function(p){return p+\":\"+SPEC.parameters[p].type;}).join(\", \"));\nconsole.log(\"Error codes: \"+SPEC.error_codes.map(function(e){return e.code;}).join(\", \"));\nconsole.log(\"--- documented example ---\");\nconsole.log(\"call: jahdb.route.cross_sample({database:\\\"classification-rows\\\",n:3})\");\nconsole.log(\"--- live mock run ---\");\ncall({\"database\":\"demo\",\"n\":1});\nconsole.log(\"Tip: call your own args and watch the mock validate + respond.\");\n})();\n",
+      "run_hint": "PC: save the program as demo.js (or demo.py/demo.sql per language) and run it with node/python3/sqlite3. In-page: open the record, Demo Lab tab, press Run.",
+      "how_to_run": "PC: save the program as demo.js (or demo.py/demo.sql per language) and run it with node/python3/sqlite3. In-page: open the record, Demo Lab tab, press Run.",
+      "runnable": true
+    }
+  },
+  {
+    "id": "JAH-API-000017",
+    "api_id": "JAH-API-000017",
+    "name": "stats",
+    "description": "Returns storage stats for a database.",
+    "parameters": {
+      "database": {
+        "type": "string",
+        "description": "Database slug."
+      },
+      "detail": {
+        "type": "boolean",
+        "description": "Include per-chunk breakdown (default false)."
+      }
+    },
+    "example_call": "`jahdb.data.stats({database:\"embedding-chunks\"})`",
+    "example_response": "`{\"records\":10000,\"chunks\":100,\"bytes_gz\":2450000}`",
+    "error_codes": [
+      {
+        "code": "E_DB",
+        "meaning": "Unknown database slug."
+      },
+      {
+        "code": "E_INTERNAL",
+        "meaning": "An unexpected internal error occurred."
+      }
+    ],
+    "category": "data",
+    "title": "stats",
+    "demo": {
+      "engine": "jahdb-demo-1.0",
+      "kind": "api",
+      "title": "Runnable API mock — stats",
+      "language": "javascript",
+      "program": "/* JAH interactive demo program — jahdb-demo-1.0\n * Database: api-docs · Record: JAH-API-000017 · stats\n * Runnable mock of the \"stats\" endpoint — validates args, returns the documented example response.\n * RUN ON PC: save as demo.js, then run:  node demo.js\n * RUN IN BROWSER: press F12, paste this program into the console, press Enter.\n * RUN IN-PAGE: open this record and press \"Run interactive demo\". */\n(function(){\nvar SPEC={\"name\":\"stats\",\"description\":\"Returns storage stats for a database.\",\"parameters\":{\"database\":{\"type\":\"string\",\"description\":\"Database slug.\"},\"detail\":{\"type\":\"boolean\",\"description\":\"Include per-chunk breakdown (default false).\"}},\"error_codes\":[{\"code\":\"E_DB\",\"meaning\":\"Unknown database slug.\"},{\"code\":\"E_INTERNAL\",\"meaning\":\"An unexpected internal error occurred.\"}]};\nfunction call(args){\n  args=args||{};\n  console.log(\"> \"+SPEC.name+\"(\"+JSON.stringify(args)+\")\");\n  var missing=Object.keys(SPEC.parameters).filter(function(p){return args[p]===undefined;});\n  if(missing.length){console.log(\"! missing parameters: \"+missing.join(\", \"));return {error:\"E_ARGS\",missing:missing};}\n  var resp=\"{\\\"records\\\":10000,\\\"chunks\\\":100,\\\"bytes_gz\\\":2450000}\";\n  console.log(\"< \"+resp);\n  return resp;\n}\nconsole.log(\"API: \"+SPEC.name+\" — \"+SPEC.description);\nconsole.log(\"Parameters: \"+Object.keys(SPEC.parameters).map(function(p){return p+\":\"+SPEC.parameters[p].type;}).join(\", \"));\nconsole.log(\"Error codes: \"+SPEC.error_codes.map(function(e){return e.code;}).join(\", \"));\nconsole.log(\"--- documented example ---\");\nconsole.log(\"call: jahdb.data.stats({database:\\\"embedding-chunks\\\"})\");\nconsole.log(\"--- live mock run ---\");\ncall({\"database\":\"demo\",\"detail\":true});\nconsole.log(\"Tip: call your own args and watch the mock validate + respond.\");\n})();\n",
+      "run_hint": "PC: save the program as demo.js (or demo.py/demo.sql per language) and run it with node/python3/sqlite3. In-page: open the record, Demo Lab tab, press Run.",
+      "how_to_run": "PC: save the program as demo.js (or demo.py/demo.sql per language) and run it with node/python3/sqlite3. In-page: open the record, Demo Lab tab, press Run.",
+      "runnable": true
+    }
+  },
+  {
+    "id": "JAH-API-000018",
+    "api_id": "JAH-API-000018",
+    "name": "speak",
+    "description": "Reads text aloud with the page TTS voice.",
+    "parameters": {
+      "text": {
+        "type": "string",
+        "description": "Text to speak (max 600 chars)."
+      },
+      "voice": {
+        "type": "string",
+        "description": "\"female\" or \"male\" (default \"female\")."
+      }
+    },
+    "example_call": "`jahdb.media.speak({text:\"Hello world\"})`",
+    "example_response": "`{\"playing\":true}`",
+    "error_codes": [
+      {
+        "code": "E_TEXT",
+        "meaning": "Text is empty or too long."
+      },
+      {
+        "code": "E_INTERNAL",
+        "meaning": "An unexpected internal error occurred."
+      }
+    ],
+    "category": "media",
+    "title": "speak",
+    "demo": {
+      "engine": "jahdb-demo-1.0",
+      "kind": "api",
+      "title": "Runnable API mock — speak",
+      "language": "javascript",
+      "program": "/* JAH interactive demo program — jahdb-demo-1.0\n * Database: api-docs · Record: JAH-API-000018 · speak\n * Runnable mock of the \"speak\" endpoint — validates args, returns the documented example response.\n * RUN ON PC: save as demo.js, then run:  node demo.js\n * RUN IN BROWSER: press F12, paste this program into the console, press Enter.\n * RUN IN-PAGE: open this record and press \"Run interactive demo\". */\n(function(){\nvar SPEC={\"name\":\"speak\",\"description\":\"Reads text aloud with the page TTS voice.\",\"parameters\":{\"text\":{\"type\":\"string\",\"description\":\"Text to speak (max 600 chars).\"},\"voice\":{\"type\":\"string\",\"description\":\"\\\"female\\\" or \\\"male\\\" (default \\\"female\\\").\"}},\"error_codes\":[{\"code\":\"E_TEXT\",\"meaning\":\"Text is empty or too long.\"},{\"code\":\"E_INTERNAL\",\"meaning\":\"An unexpected internal error occurred.\"}]};\nfunction call(args){\n  args=args||{};\n  console.log(\"> \"+SPEC.name+\"(\"+JSON.stringify(args)+\")\");\n  var missing=Object.keys(SPEC.parameters).filter(function(p){return args[p]===undefined;});\n  if(missing.length){console.log(\"! missing parameters: \"+missing.join(\", \"));return {error:\"E_ARGS\",missing:missing};}\n  var resp=\"{\\\"playing\\\":true}\";\n  console.log(\"< \"+resp);\n  return resp;\n}\nconsole.log(\"API: \"+SPEC.name+\" — \"+SPEC.description);\nconsole.log(\"Parameters: \"+Object.keys(SPEC.parameters).map(function(p){return p+\":\"+SPEC.parameters[p].type;}).join(\", \"));\nconsole.log(\"Error codes: \"+SPEC.error_codes.map(function(e){return e.code;}).join(\", \"));\nconsole.log(\"--- documented example ---\");\nconsole.log(\"call: jahdb.media.speak({text:\\\"Hello world\\\"})\");\nconsole.log(\"--- live mock run ---\");\ncall({\"text\":\"demo\",\"voice\":\"demo\"});\nconsole.log(\"Tip: call your own args and watch the mock validate + respond.\");\n})();\n",
+      "run_hint": "PC: save the program as demo.js (or demo.py/demo.sql per language) and run it with node/python3/sqlite3. In-page: open the record, Demo Lab tab, press Run.",
+      "how_to_run": "PC: save the program as demo.js (or demo.py/demo.sql per language) and run it with node/python3/sqlite3. In-page: open the record, Demo Lab tab, press Run.",
+      "runnable": true
+    }
+  },
+  {
+    "id": "JAH-API-000019",
+    "api_id": "JAH-API-000019",
+    "name": "calculate",
+    "description": "Evaluates a math expression and returns the result.",
+    "parameters": {
+      "expression": {
+        "type": "string",
+        "description": "The expression to evaluate, e.g. \"2*(3+4)\"."
+      },
+      "precision": {
+        "type": "integer",
+        "description": "Decimal places in the result (default 6)."
+      },
+      "angle": {
+        "type": "string",
+        "description": "\"deg\" or \"rad\" for trig functions (default \"deg\")."
+      }
+    },
+    "example_call": "`jahdb.math.calculate({expression:\"sqrt(144)+2^3\"})`",
+    "example_response": "`{\"result\":20,\"precision\":6}`",
+    "error_codes": [
+      {
+        "code": "E_SYNTAX",
+        "meaning": "The expression could not be parsed."
+      },
+      {
+        "code": "E_DIVZERO",
+        "meaning": "Division by zero encountered."
+      },
+      {
+        "code": "E_DOMAIN",
+        "meaning": "Function argument outside its domain."
+      }
+    ],
+    "category": "math",
+    "title": "calculate",
+    "demo": {
+      "engine": "jahdb-demo-1.0",
+      "kind": "api",
+      "title": "Runnable API mock — calculate",
+      "language": "javascript",
+      "program": "/* JAH interactive demo program — jahdb-demo-1.0\n * Database: api-docs · Record: JAH-API-000019 · calculate\n * Runnable mock of the \"calculate\" endpoint — validates args, returns the documented example response.\n * RUN ON PC: save as demo.js, then run:  node demo.js\n * RUN IN BROWSER: press F12, paste this program into the console, press Enter.\n * RUN IN-PAGE: open this record and press \"Run interactive demo\". */\n(function(){\nvar SPEC={\"name\":\"calculate\",\"description\":\"Evaluates a math expression and returns the result.\",\"parameters\":{\"expression\":{\"type\":\"string\",\"description\":\"The expression to evaluate, e.g. \\\"2*(3+4)\\\".\"},\"precision\":{\"type\":\"integer\",\"description\":\"Decimal places in the result (default 6).\"},\"angle\":{\"type\":\"string\",\"description\":\"\\\"deg\\\" or \\\"rad\\\" for trig functions (default \\\"deg\\\").\"}},\"error_codes\":[{\"code\":\"E_SYNTAX\",\"meaning\":\"The expression could not be parsed.\"},{\"code\":\"E_DIVZERO\",\"meaning\":\"Division by zero encountered.\"},{\"code\":\"E_DOMAIN\",\"meaning\":\"Function argument outside its domain.\"}]};\nfunction call(args){\n  args=args||{};\n  console.log(\"> \"+SPEC.name+\"(\"+JSON.stringify(args)+\")\");\n  var missing=Object.keys(SPEC.parameters).filter(function(p){return args[p]===undefined;});\n  if(missing.length){console.log(\"! missing parameters: \"+missing.join(\", \"));return {error:\"E_ARGS\",missing:missing};}\n  var resp=\"{\\\"result\\\":20,\\\"precision\\\":6}\";\n  console.log(\"< \"+resp);\n  return resp;\n}\nconsole.log(\"API: \"+SPEC.name+\" — \"+SPEC.description);\nconsole.log(\"Parameters: \"+Object.keys(SPEC.parameters).map(function(p){return p+\":\"+SPEC.parameters[p].type;}).join(\", \"));\nconsole.log(\"Error codes: \"+SPEC.error_codes.map(function(e){return e.code;}).join(\", \"));\nconsole.log(\"--- documented example ---\");\nconsole.log(\"call: jahdb.math.calculate({expression:\\\"sqrt(144)+2^3\\\"})\");\nconsole.log(\"--- live mock run ---\");\ncall({\"expression\":\"demo\",\"precision\":1,\"angle\":\"demo\"});\nconsole.log(\"Tip: call your own args and watch the mock validate + respond.\");\n})();\n",
+      "run_hint": "PC: save the program as demo.js (or demo.py/demo.sql per language) and run it with node/python3/sqlite3. In-page: open the record, Demo Lab tab, press Run.",
+      "how_to_run": "PC: save the program as demo.js (or demo.py/demo.sql per language) and run it with node/python3/sqlite3. In-page: open the record, Demo Lab tab, press Run.",
+      "runnable": true
+    }
+  },
+  {
+    "id": "JAH-API-000020",
+    "api_id": "JAH-API-000020",
+    "name": "rhymes",
+    "description": "Lists words rhyming with the input.",
+    "parameters": {
+      "word": {
+        "type": "string",
+        "description": "The word to rhyme."
+      },
+      "limit": {
+        "type": "integer",
+        "description": "Max results (default 20)."
+      }
+    },
+    "example_call": "`jahdb.dict.rhymes({word:\"cat\",limit:3})`",
+    "example_response": "`{\"rhymes\":[\"hat\",\"bat\",\"mat\"]}`",
+    "error_codes": [
+      {
+        "code": "E_NOTFOUND",
+        "meaning": "No rhymes found."
+      },
+      {
+        "code": "E_INTERNAL",
+        "meaning": "An unexpected internal error occurred."
+      }
+    ],
+    "category": "dictionary",
+    "title": "rhymes",
+    "demo": {
+      "engine": "jahdb-demo-1.0",
+      "kind": "api",
+      "title": "Runnable API mock — rhymes",
+      "language": "javascript",
+      "program": "/* JAH interactive demo program — jahdb-demo-1.0\n * Database: api-docs · Record: JAH-API-000020 · rhymes\n * Runnable mock of the \"rhymes\" endpoint — validates args, returns the documented example response.\n * RUN ON PC: save as demo.js, then run:  node demo.js\n * RUN IN BROWSER: press F12, paste this program into the console, press Enter.\n * RUN IN-PAGE: open this record and press \"Run interactive demo\". */\n(function(){\nvar SPEC={\"name\":\"rhymes\",\"description\":\"Lists words rhyming with the input.\",\"parameters\":{\"word\":{\"type\":\"string\",\"description\":\"The word to rhyme.\"},\"limit\":{\"type\":\"integer\",\"description\":\"Max results (default 20).\"}},\"error_codes\":[{\"code\":\"E_NOTFOUND\",\"meaning\":\"No rhymes found.\"},{\"code\":\"E_INTERNAL\",\"meaning\":\"An unexpected internal error occurred.\"}]};\nfunction call(args){\n  args=args||{};\n  console.log(\"> \"+SPEC.name+\"(\"+JSON.stringify(args)+\")\");\n  var missing=Object.keys(SPEC.parameters).filter(function(p){return args[p]===undefined;});\n  if(missing.length){console.log(\"! missing parameters: \"+missing.join(\", \"));return {error:\"E_ARGS\",missing:missing};}\n  var resp=\"{\\\"rhymes\\\":[\\\"hat\\\",\\\"bat\\\",\\\"mat\\\"]}\";\n  console.log(\"< \"+resp);\n  return resp;\n}\nconsole.log(\"API: \"+SPEC.name+\" — \"+SPEC.description);\nconsole.log(\"Parameters: \"+Object.keys(SPEC.parameters).map(function(p){return p+\":\"+SPEC.parameters[p].type;}).join(\", \"));\nconsole.log(\"Error codes: \"+SPEC.error_codes.map(function(e){return e.code;}).join(\", \"));\nconsole.log(\"--- documented example ---\");\nconsole.log(\"call: jahdb.dict.rhymes({word:\\\"cat\\\",limit:3})\");\nconsole.log(\"--- live mock run ---\");\ncall({\"word\":\"demo\",\"limit\":1});\nconsole.log(\"Tip: call your own args and watch the mock validate + respond.\");\n})();\n",
+      "run_hint": "PC: save the program as demo.js (or demo.py/demo.sql per language) and run it with node/python3/sqlite3. In-page: open the record, Demo Lab tab, press Run.",
+      "how_to_run": "PC: save the program as demo.js (or demo.py/demo.sql per language) and run it with node/python3/sqlite3. In-page: open the record, Demo Lab tab, press Run.",
+      "runnable": true
+    }
+  },
+  {
+    "id": "JAH-API-000021",
+    "api_id": "JAH-API-000021",
+    "name": "suggest",
+    "description": "Returns query completions for a prefix.",
+    "parameters": {
+      "prefix": {
+        "type": "string",
+        "description": "Partial query text."
+      },
+      "limit": {
+        "type": "integer",
+        "description": "Max suggestions (default 8)."
+      }
+    },
+    "example_call": "`jahdb.search.suggest({prefix:\"quant\"})`",
+    "example_response": "`{\"suggestions\":[\"quantum\",\"quantity\"]}`",
+    "error_codes": [
+      {
+        "code": "E_PREFIX",
+        "meaning": "Prefix is empty."
+      },
+      {
+        "code": "E_DB",
+        "meaning": "Unknown database slug."
+      }
+    ],
+    "category": "search",
+    "title": "suggest",
+    "demo": {
+      "engine": "jahdb-demo-1.0",
+      "kind": "api",
+      "title": "Runnable API mock — suggest",
+      "language": "javascript",
+      "program": "/* JAH interactive demo program — jahdb-demo-1.0\n * Database: api-docs · Record: JAH-API-000021 · suggest\n * Runnable mock of the \"suggest\" endpoint — validates args, returns the documented example response.\n * RUN ON PC: save as demo.js, then run:  node demo.js\n * RUN IN BROWSER: press F12, paste this program into the console, press Enter.\n * RUN IN-PAGE: open this record and press \"Run interactive demo\". */\n(function(){\nvar SPEC={\"name\":\"suggest\",\"description\":\"Returns query completions for a prefix.\",\"parameters\":{\"prefix\":{\"type\":\"string\",\"description\":\"Partial query text.\"},\"limit\":{\"type\":\"integer\",\"description\":\"Max suggestions (default 8).\"}},\"error_codes\":[{\"code\":\"E_PREFIX\",\"meaning\":\"Prefix is empty.\"},{\"code\":\"E_DB\",\"meaning\":\"Unknown database slug.\"}]};\nfunction call(args){\n  args=args||{};\n  console.log(\"> \"+SPEC.name+\"(\"+JSON.stringify(args)+\")\");\n  var missing=Object.keys(SPEC.parameters).filter(function(p){return args[p]===undefined;});\n  if(missing.length){console.log(\"! missing parameters: \"+missing.join(\", \"));return {error:\"E_ARGS\",missing:missing};}\n  var resp=\"{\\\"suggestions\\\":[\\\"quantum\\\",\\\"quantity\\\"]}\";\n  console.log(\"< \"+resp);\n  return resp;\n}\nconsole.log(\"API: \"+SPEC.name+\" — \"+SPEC.description);\nconsole.log(\"Parameters: \"+Object.keys(SPEC.parameters).map(function(p){return p+\":\"+SPEC.parameters[p].type;}).join(\", \"));\nconsole.log(\"Error codes: \"+SPEC.error_codes.map(function(e){return e.code;}).join(\", \"));\nconsole.log(\"--- documented example ---\");\nconsole.log(\"call: jahdb.search.suggest({prefix:\\\"quant\\\"})\");\nconsole.log(\"--- live mock run ---\");\ncall({\"prefix\":\"demo\",\"limit\":1});\nconsole.log(\"Tip: call your own args and watch the mock validate + respond.\");\n})();\n",
+      "run_hint": "PC: save the program as demo.js (or demo.py/demo.sql per language) and run it with node/python3/sqlite3. In-page: open the record, Demo Lab tab, press Run.",
+      "how_to_run": "PC: save the program as demo.js (or demo.py/demo.sql per language) and run it with node/python3/sqlite3. In-page: open the record, Demo Lab tab, press Run.",
+      "runnable": true
+    }
+  },
+  {
+    "id": "JAH-API-000022",
+    "api_id": "JAH-API-000022",
+    "name": "cross_sample",
+    "description": "Samples records from another database.",
+    "parameters": {
+      "database": {
+        "type": "string",
+        "description": "Database slug."
+      },
+      "n": {
+        "type": "integer",
+        "description": "Sample size (default 5)."
+      }
+    },
+    "example_call": "`jahdb.route.cross_sample({database:\"classification-rows\",n:3})`",
+    "example_response": "`{\"samples\":[{...}]}`",
+    "error_codes": [
+      {
+        "code": "E_DB",
+        "meaning": "Unknown database slug."
+      },
+      {
+        "code": "E_INTERNAL",
+        "meaning": "An unexpected internal error occurred."
+      }
+    ],
+    "category": "routing",
+    "title": "cross_sample",
+    "demo": {
+      "engine": "jahdb-demo-1.0",
+      "kind": "api",
+      "title": "Runnable API mock — cross_sample",
+      "language": "javascript",
+      "program": "/* JAH interactive demo program — jahdb-demo-1.0\n * Database: api-docs · Record: JAH-API-000022 · cross_sample\n * Runnable mock of the \"cross_sample\" endpoint — validates args, returns the documented example response.\n * RUN ON PC: save as demo.js, then run:  node demo.js\n * RUN IN BROWSER: press F12, paste this program into the console, press Enter.\n * RUN IN-PAGE: open this record and press \"Run interactive demo\". */\n(function(){\nvar SPEC={\"name\":\"cross_sample\",\"description\":\"Samples records from another database.\",\"parameters\":{\"database\":{\"type\":\"string\",\"description\":\"Database slug.\"},\"n\":{\"type\":\"integer\",\"description\":\"Sample size (default 5).\"}},\"error_codes\":[{\"code\":\"E_DB\",\"meaning\":\"Unknown database slug.\"},{\"code\":\"E_INTERNAL\",\"meaning\":\"An unexpected internal error occurred.\"}]};\nfunction call(args){\n  args=args||{};\n  console.log(\"> \"+SPEC.name+\"(\"+JSON.stringify(args)+\")\");\n  var missing=Object.keys(SPEC.parameters).filter(function(p){return args[p]===undefined;});\n  if(missing.length){console.log(\"! missing parameters: \"+missing.join(\", \"));return {error:\"E_ARGS\",missing:missing};}\n  var resp=\"{\\\"samples\\\":[{...}]}\";\n  console.log(\"< \"+resp);\n  return resp;\n}\nconsole.log(\"API: \"+SPEC.name+\" — \"+SPEC.description);\nconsole.log(\"Parameters: \"+Object.keys(SPEC.parameters).map(function(p){return p+\":\"+SPEC.parameters[p].type;}).join(\", \"));\nconsole.log(\"Error codes: \"+SPEC.error_codes.map(function(e){return e.code;}).join(\", \"));\nconsole.log(\"--- documented example ---\");\nconsole.log(\"call: jahdb.route.cross_sample({database:\\\"classification-rows\\\",n:3})\");\nconsole.log(\"--- live mock run ---\");\ncall({\"database\":\"demo\",\"n\":1});\nconsole.log(\"Tip: call your own args and watch the mock validate + respond.\");\n})();\n",
+      "run_hint": "PC: save the program as demo.js (or demo.py/demo.sql per language) and run it with node/python3/sqlite3. In-page: open the record, Demo Lab tab, press Run.",
+      "how_to_run": "PC: save the program as demo.js (or demo.py/demo.sql per language) and run it with node/python3/sqlite3. In-page: open the record, Demo Lab tab, press Run.",
+      "runnable": true
+    }
+  },
+  {
+    "id": "JAH-API-000023",
+    "api_id": "JAH-API-000023",
+    "name": "fetch_chunk",
+    "description": "Fetches one archive chunk by number.",
+    "parameters": {
+      "database": {
+        "type": "string",
+        "description": "Database slug."
+      },
+      "chunk": {
+        "type": "integer",
+        "description": "Chunk number, 1-based."
+      }
+    },
+    "example_call": "`jahdb.data.fetch_chunk({database:\"unit-tests\",chunk:3})`",
+    "example_response": "`{\"records\":[{...}],\"chunk\":3}`",
+    "error_codes": [
+      {
+        "code": "E_DB",
+        "meaning": "Unknown database slug."
+      },
+      {
+        "code": "E_CHUNK",
+        "meaning": "Chunk number out of range."
+      }
+    ],
+    "category": "data",
+    "title": "fetch_chunk",
+    "demo": {
+      "engine": "jahdb-demo-1.0",
+      "kind": "api",
+      "title": "Runnable API mock — fetch_chunk",
+      "language": "javascript",
+      "program": "/* JAH interactive demo program — jahdb-demo-1.0\n * Database: api-docs · Record: JAH-API-000023 · fetch_chunk\n * Runnable mock of the \"fetch_chunk\" endpoint — validates args, returns the documented example response.\n * RUN ON PC: save as demo.js, then run:  node demo.js\n * RUN IN BROWSER: press F12, paste this program into the console, press Enter.\n * RUN IN-PAGE: open this record and press \"Run interactive demo\". */\n(function(){\nvar SPEC={\"name\":\"fetch_chunk\",\"description\":\"Fetches one archive chunk by number.\",\"parameters\":{\"database\":{\"type\":\"string\",\"description\":\"Database slug.\"},\"chunk\":{\"type\":\"integer\",\"description\":\"Chunk number, 1-based.\"}},\"error_codes\":[{\"code\":\"E_DB\",\"meaning\":\"Unknown database slug.\"},{\"code\":\"E_CHUNK\",\"meaning\":\"Chunk number out of range.\"}]};\nfunction call(args){\n  args=args||{};\n  console.log(\"> \"+SPEC.name+\"(\"+JSON.stringify(args)+\")\");\n  var missing=Object.keys(SPEC.parameters).filter(function(p){return args[p]===undefined;});\n  if(missing.length){console.log(\"! missing parameters: \"+missing.join(\", \"));return {error:\"E_ARGS\",missing:missing};}\n  var resp=\"{\\\"records\\\":[{...}],\\\"chunk\\\":3}\";\n  console.log(\"< \"+resp);\n  return resp;\n}\nconsole.log(\"API: \"+SPEC.name+\" — \"+SPEC.description);\nconsole.log(\"Parameters: \"+Object.keys(SPEC.parameters).map(function(p){return p+\":\"+SPEC.parameters[p].type;}).join(\", \"));\nconsole.log(\"Error codes: \"+SPEC.error_codes.map(function(e){return e.code;}).join(\", \"));\nconsole.log(\"--- documented example ---\");\nconsole.log(\"call: jahdb.data.fetch_chunk({database:\\\"unit-tests\\\",chunk:3})\");\nconsole.log(\"--- live mock run ---\");\ncall({\"database\":\"demo\",\"chunk\":1});\nconsole.log(\"Tip: call your own args and watch the mock validate + respond.\");\n})();\n",
+      "run_hint": "PC: save the program as demo.js (or demo.py/demo.sql per language) and run it with node/python3/sqlite3. In-page: open the record, Demo Lab tab, press Run.",
+      "how_to_run": "PC: save the program as demo.js (or demo.py/demo.sql per language) and run it with node/python3/sqlite3. In-page: open the record, Demo Lab tab, press Run.",
+      "runnable": true
+    }
+  },
+  {
+    "id": "JAH-API-000024",
+    "api_id": "JAH-API-000024",
+    "name": "speak",
+    "description": "Reads text aloud with the page TTS voice.",
+    "parameters": {
+      "text": {
+        "type": "string",
+        "description": "Text to speak (max 600 chars)."
+      },
+      "voice": {
+        "type": "string",
+        "description": "\"female\" or \"male\" (default \"female\")."
+      }
+    },
+    "example_call": "`jahdb.media.speak({text:\"Hello world\"})`",
+    "example_response": "`{\"playing\":true}`",
+    "error_codes": [
+      {
+        "code": "E_TEXT",
+        "meaning": "Text is empty or too long."
+      },
+      {
+        "code": "E_INTERNAL",
+        "meaning": "An unexpected internal error occurred."
+      }
+    ],
+    "category": "media",
+    "title": "speak",
+    "demo": {
+      "engine": "jahdb-demo-1.0",
+      "kind": "api",
+      "title": "Runnable API mock — speak",
+      "language": "javascript",
+      "program": "/* JAH interactive demo program — jahdb-demo-1.0\n * Database: api-docs · Record: JAH-API-000024 · speak\n * Runnable mock of the \"speak\" endpoint — validates args, returns the documented example response.\n * RUN ON PC: save as demo.js, then run:  node demo.js\n * RUN IN BROWSER: press F12, paste this program into the console, press Enter.\n * RUN IN-PAGE: open this record and press \"Run interactive demo\". */\n(function(){\nvar SPEC={\"name\":\"speak\",\"description\":\"Reads text aloud with the page TTS voice.\",\"parameters\":{\"text\":{\"type\":\"string\",\"description\":\"Text to speak (max 600 chars).\"},\"voice\":{\"type\":\"string\",\"description\":\"\\\"female\\\" or \\\"male\\\" (default \\\"female\\\").\"}},\"error_codes\":[{\"code\":\"E_TEXT\",\"meaning\":\"Text is empty or too long.\"},{\"code\":\"E_INTERNAL\",\"meaning\":\"An unexpected internal error occurred.\"}]};\nfunction call(args){\n  args=args||{};\n  console.log(\"> \"+SPEC.name+\"(\"+JSON.stringify(args)+\")\");\n  var missing=Object.keys(SPEC.parameters).filter(function(p){return args[p]===undefined;});\n  if(missing.length){console.log(\"! missing parameters: \"+missing.join(\", \"));return {error:\"E_ARGS\",missing:missing};}\n  var resp=\"{\\\"playing\\\":true}\";\n  console.log(\"< \"+resp);\n  return resp;\n}\nconsole.log(\"API: \"+SPEC.name+\" — \"+SPEC.description);\nconsole.log(\"Parameters: \"+Object.keys(SPEC.parameters).map(function(p){return p+\":\"+SPEC.parameters[p].type;}).join(\", \"));\nconsole.log(\"Error codes: \"+SPEC.error_codes.map(function(e){return e.code;}).join(\", \"));\nconsole.log(\"--- documented example ---\");\nconsole.log(\"call: jahdb.media.speak({text:\\\"Hello world\\\"})\");\nconsole.log(\"--- live mock run ---\");\ncall({\"text\":\"demo\",\"voice\":\"demo\"});\nconsole.log(\"Tip: call your own args and watch the mock validate + respond.\");\n})();\n",
+      "run_hint": "PC: save the program as demo.js (or demo.py/demo.sql per language) and run it with node/python3/sqlite3. In-page: open the record, Demo Lab tab, press Run.",
+      "how_to_run": "PC: save the program as demo.js (or demo.py/demo.sql per language) and run it with node/python3/sqlite3. In-page: open the record, Demo Lab tab, press Run.",
+      "runnable": true
+    }
+  }
+]

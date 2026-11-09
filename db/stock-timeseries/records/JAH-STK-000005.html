@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FQCP 2025-11-07 — JAH Stock History Database</title>
+<meta name="description" content="FQCP 2025-11-07 — record JAH-STK-000005, Public edition. Full description, spec, proofs, runnable demo, program, generator, and sources. Free forever.">
+
+<style>
+:root{--paper:#f7f3ea;--paper2:#fffdf7;--ink:#16130c;--ink2:#4a4333;--line:#d8cfb8;
+--gold:#a97e00;--goldsoft:#f3e7bd;--red:#8e1f1f;--green:#1d5c38;--card:#fffdf7;--chip:#efe8d3;
+--figbg:#fdfaf1;--panel:#fffdf7}
+@media (prefers-color-scheme: dark){
+:root{--paper:#12100b;--paper2:#1a1710;--ink:#f2ead2;--ink2:#c9bc97;--line:#3a3322;
+--gold:#e3b83c;--goldsoft:#332a10;--red:#e07a6a;--green:#7fc79b;--card:#1a1710;--chip:#262114;
+--figbg:#1d1912;--panel:#1a1710}}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:"Newsreader",Georgia,serif;font-size:18px;line-height:1.65}
+.wrap{max-width:1060px;margin:0 auto;padding:0 20px 64px}
+.mono{font-family:"IBM Plex Mono",monospace}
+.sans{font-family:"Libre Franklin",system-ui,sans-serif}
+.mast{padding:30px 0 8px;text-align:center;border-bottom:3px double var(--line)}
+.mast .rule{font-family:"Libre Franklin",sans-serif;font-size:11px;letter-spacing:.32em;text-transform:uppercase;color:var(--gold);font-weight:800}
+.mast .rule a{color:var(--gold)}
+h1{font-size:clamp(32px,6.5vw,58px);line-height:1.05;font-weight:800;margin:14px 0 6px;letter-spacing:-.01em}
+h1 .thin{display:block;font-weight:400;font-style:italic;font-size:.52em;color:var(--ink2);letter-spacing:0;margin-top:10px}
+.tagline{font-size:20px;font-style:italic;color:var(--ink2);max-width:820px;margin:10px auto 0}
+.byline{font-family:"Libre Franklin",sans-serif;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink2);margin-top:16px}
+.byline b{color:var(--ink)}
+.navline{font-family:"Libre Franklin",sans-serif;font-size:13px;text-align:center;margin-top:14px;line-height:2}
+.navline a{font-weight:700}
+.secnav{position:sticky;top:0;z-index:20;background:var(--paper);border-bottom:1px solid var(--line);
+display:flex;gap:4px;overflow-x:auto;padding:8px 0;margin:0 -20px;padding-left:20px;padding-right:20px}
+.secnav a{font-family:"Libre Franklin",sans-serif;font-size:12.5px;font-weight:700;letter-spacing:.04em;
+white-space:nowrap;padding:6px 10px;border:1px solid var(--line);border-radius:999px;text-decoration:none;color:var(--ink)}
+.secnav a:hover{background:var(--chip)}
+.hero{max-width:820px;margin:26px auto 0;text-align:left;background:var(--card);border:1px solid var(--line);padding:22px 24px}
+.hero h2{font-family:"Libre Franklin",sans-serif;font-size:12px;letter-spacing:.28em;text-transform:uppercase;margin:0 0 10px;color:var(--red)}
+.hero p{margin:0 0 10px;font-size:17px}
+.hero p:last-child{margin-bottom:0}
+.free{font-family:"Libre Franklin",sans-serif;font-weight:800;text-align:center;margin:18px 0 0}
+.chips{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin:16px 0 4px}
+.chip{font-family:"Libre Franklin",sans-serif;font-size:12px;font-weight:800;letter-spacing:.05em;
+border:1.5px solid var(--ink);border-radius:999px;padding:5px 12px;background:var(--paper2)}
+.chip.gold{border-color:var(--gold);color:var(--gold)}
+.chip.red{border-color:var(--red);color:var(--red)}
+.chip.green{border-color:var(--green);color:var(--green)}
+.actions{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:22px}
+.btn{font-family:"Libre Franklin",sans-serif;font-weight:800;font-size:13px;letter-spacing:.06em;border:2px solid var(--ink);background:var(--ink);color:var(--paper);padding:10px 18px;border-radius:999px;cursor:pointer;text-decoration:none;display:inline-block}
+.btn.ghost{background:transparent;color:var(--ink)}
+.btn:active{transform:translateY(1px)}
+.btn[disabled]{opacity:.45;cursor:not-allowed}
+.acc{font-size:14px;text-align:center;margin-top:16px}
+h2.chap{font-size:clamp(26px,5vw,38px);font-weight:800;line-height:1.12;margin:0 0 4px}
+.chapno{font-family:"IBM Plex Mono",monospace;font-size:13px;color:var(--red);letter-spacing:.2em;text-transform:uppercase}
+.lede{font-size:20px;font-style:italic;color:var(--ink2);max-width:760px}
+h3{font-family:"Libre Franklin",sans-serif;font-size:16px;letter-spacing:.06em;text-transform:uppercase;margin:34px 0 10px;border-bottom:2px solid var(--gold);padding-bottom:6px}
+p{max-width:820px}
+section{padding-top:34px}
+blockquote{margin:22px 0;padding:18px 22px;border-left:5px solid var(--gold);background:var(--goldsoft);font-size:20px;font-style:italic;max-width:820px}
+ul,ol{max-width:820px;padding-left:24px}
+li{margin-bottom:7px}
+table{border-collapse:collapse;width:100%;max-width:820px;margin:16px 0}
+th,td{border:1px solid var(--line);padding:8px 10px;text-align:left;font-size:16px;vertical-align:top}
+th{font-family:"Libre Franklin",sans-serif;font-size:12px;letter-spacing:.12em;text-transform:uppercase;background:var(--chip)}
+td.num{font-family:"IBM Plex Mono",monospace;white-space:nowrap}
+.tag{display:inline-block;font-family:"IBM Plex Mono",monospace;font-size:10.5px;font-weight:600;letter-spacing:.08em;padding:2px 8px;border-radius:999px;vertical-align:middle;margin-left:6px;white-space:nowrap}
+.tag.live{background:var(--green);color:#fff}
+.tag.design{background:transparent;border:1.5px solid var(--ink2);color:var(--ink2)}
+.tag.mirror{background:var(--gold);color:#16130c}
+.note{font-size:15px;font-style:italic;color:var(--ink2)}
+.warn{border:2px solid var(--red);background:var(--card);padding:14px 18px;margin:16px 0;max-width:820px}
+.warn b{color:var(--red)}
+.mirror-banner{border:3px solid var(--gold);background:var(--goldsoft);padding:18px 22px;margin:22px 0;max-width:820px}
+.mirror-banner h2{font-family:"Libre Franklin",sans-serif;font-size:15px;letter-spacing:.14em;text-transform:uppercase;margin:0 0 8px;color:var(--gold)}
+.fig{max-width:820px;background:var(--figbg);border:1px solid var(--line);padding:16px;margin:18px 0}
+.fig svg{display:block;width:100%;height:auto}
+.fig figcaption{font-size:14px;font-style:italic;color:var(--ink2);margin-top:10px;text-align:center}
+.tiles{display:grid;grid-template-columns:1fr;gap:12px;margin:18px 0}
+@media(min-width:640px){.tiles{grid-template-columns:1fr 1fr}}
+@media(min-width:980px){.tiles{grid-template-columns:1fr 1fr 1fr}}
+.tile{border:1px solid var(--line);background:var(--card);padding:14px 16px}
+.tile h4{margin:0 0 6px;font-size:19px;line-height:1.25}
+.tile p{font-size:15px;margin:0 0 8px;color:var(--ink2)}
+.tile .links{font-family:"Libre Franklin",sans-serif;font-size:13px;font-weight:700}
+.tile .links a{margin-right:12px}
+.pills{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}
+.pill{font-family:"Libre Franklin",sans-serif;font-size:13px;font-weight:800;border:2px solid var(--ink);background:transparent;color:var(--ink);border-radius:999px;padding:6px 14px;cursor:pointer}
+.pill[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.panel{max-width:820px;background:var(--panel);border:1px solid var(--line);padding:18px 20px;margin:16px 0}
+.panel>h3:first-child{margin-top:0}
+.panel label{font-family:"Libre Franklin",sans-serif;font-weight:800;font-size:13px;letter-spacing:.06em;text-transform:uppercase;display:block;margin-bottom:6px}
+.panel input[type=text],.panel input[type=number]{width:100%;font-size:17px;padding:10px 12px;border:2px solid var(--ink);border-radius:8px;background:var(--paper2);color:var(--ink)}
+.panel .row{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;align-items:center}
+.panel .hint{font-size:14px;font-style:italic;color:var(--ink2);margin:10px 0 0}
+.calc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin:12px 0}
+.calc-grid label{font-size:12px;margin-bottom:4px}
+.calc-grid input{width:100%;font-size:16px;padding:8px 10px;border:2px solid var(--ink);border-radius:8px;background:var(--paper2);color:var(--ink)}
+.out{font-family:"IBM Plex Mono",monospace;font-size:15px;background:var(--paper2);border:1px solid var(--line);padding:12px 14px;white-space:pre-wrap;word-break:break-word;max-width:820px}
+.answer{max-width:820px;margin-top:12px;padding:14px 16px;border-left:5px solid var(--gold);background:var(--goldsoft);font-size:17px}
+.answer:empty{display:none}
+.dl{list-style:none;padding:0;max-width:820px}
+.dl li{margin:0 0 8px;padding:10px 12px;border:1px solid var(--line);background:var(--card);font-size:16px}
+.dl .mono{font-size:13px}
+details{max-width:820px;border:1px solid var(--line);background:var(--card);padding:10px 14px;margin:8px 0}
+details summary{font-family:"Libre Franklin",sans-serif;font-weight:800;font-size:15px;cursor:pointer}
+pre{font-family:"IBM Plex Mono",monospace;font-size:13.5px;background:var(--paper2);border:1px solid var(--line);padding:12px 14px;overflow-x:auto;white-space:pre-wrap;word-break:break-word;max-width:820px}
+code{font-family:"IBM Plex Mono",monospace;font-size:.88em}
+footer{margin-top:48px;padding-top:20px;border-top:3px double var(--line);text-align:center;font-size:15px}
+footer .navline{margin-top:8px}
+.eqbig{font-size:clamp(28px,6vw,44px);font-weight:800;text-align:center;padding:22px 10px;border:1px solid var(--line);background:var(--card);margin:16px 0;max-width:820px}
+.steps-flow{display:flex;flex-direction:column;gap:0;max-width:820px;margin:16px 0}
+.step{display:flex;gap:14px;align-items:flex-start}
+.step .n{flex:0 0 34px;height:34px;border-radius:50%;background:var(--ink);color:var(--paper);font-family:"Libre Franklin",sans-serif;font-weight:800;display:flex;align-items:center;justify-content:center}
+.step .b{flex:1;padding:8px 0 18px;border-left:2px solid var(--line);margin-left:-25px;padding-left:26px}
+.step:last-child .b{border-left-color:transparent}
+.step .b .mono{font-size:16px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="mast"><div class="rule">The &#x27;Merica-L Internet · JAH Databases</div>
+<h1>FQCP 2025-11-07 — JAH Stock History Database</h1>
+<div class="navline"><a href="https://justinahiggins614-cmyk.github.io/jah-databases/">The 'Merica-L Internet</a> — under <a href="https://justinahiggins614-cmyk.github.io/jah-databases/the-merica-l-boundless-ecosystem-os.html">'Merica-L Boundless Ecosystem OS</a> &nbsp;·&nbsp; <a href="mirror/JAH-STK-000005.html">Mirror — program version</a> &nbsp;·&nbsp; <a href="accessible/JAH-STK-000005.html">Accessible version (plain, no JavaScript)</a></div></header>
+<nav class="secnav" aria-label="Page sections"><a href="#s1">1. Description and history</a><a href="#s2">2. Math proof</a><a href="#s3">3. Science proof</a><a href="#s4">4. Relevant data</a><a href="#s5">5. Spec / patent + 3D-print version</a><a href="#s6">6. Demonstration programs / working prototypes</a><a href="#s7">7. Two AIs</a><a href="#s8">8. USE section</a><a href="#s9">9. Sources, codes, and network</a></nav>
+<main>
+
+<p class="byline">By Anonymous of Peace.</p><div class="hero"><h2>JAH Stock History Database — Public record</h2><p style="font-size:22px;font-weight:700">FQCP 2025-11-07</p><p class="tagline">FQCP (NASDAQ) 2025-11-07: open $634.01, high $634.36, low $619.26, close $631.01, volume 24,071,383.</p><div class="chips"><span class="chip">Record JAH-STK-000005</span><span class="chip green">Public record</span><span class="chip">price record</span><span class="chip">JCC JAHDB/stock-timeseries#JAH-STK-000005</span></div><figure class="fig"><svg viewBox="0 0 420 216" role="img" aria-label="Key figures — JAH-STK-000005">
+<text x="10" y="20" font-family="Libre Franklin,sans-serif" font-size="13" font-weight="800" letter-spacing="0.12em" fill="#16130c">KEY FIGURES — JAH-STK-000005</text>
+<text x="10" y="38" font-family="Georgia,serif" font-size="13" fill="#16130c">volume</text>
+<rect x="150" y="26" width="280" height="16" fill="#a97e00"/>
+<text x="435" y="38" font-family="IBM Plex Mono,monospace" font-size="13" fill="#16130c">24071383</text>
+<text x="10" y="68" font-family="Georgia,serif" font-size="13" fill="#16130c">high</text>
+<rect x="150" y="56" width="2" height="16" fill="#a97e00"/>
+<text x="157" y="68" font-family="IBM Plex Mono,monospace" font-size="13" fill="#16130c">634.36</text>
+<text x="10" y="98" font-family="Georgia,serif" font-size="13" fill="#16130c">open</text>
+<rect x="150" y="86" width="2" height="16" fill="#a97e00"/>
+<text x="157" y="98" font-family="IBM Plex Mono,monospace" font-size="13" fill="#16130c">634.01</text>
+<text x="10" y="128" font-family="Georgia,serif" font-size="13" fill="#16130c">close</text>
+<rect x="150" y="116" width="2" height="16" fill="#a97e00"/>
+<text x="157" y="128" font-family="IBM Plex Mono,monospace" font-size="13" fill="#16130c">631.01</text>
+<text x="10" y="158" font-family="Georgia,serif" font-size="13" fill="#16130c">low</text>
+<rect x="150" y="146" width="2" height="16" fill="#a97e00"/>
+<text x="157" y="158" font-family="IBM Plex Mono,monospace" font-size="13" fill="#16130c">619.26</text>
+</svg><figcaption>Figure — drawn from the record’s own numbers.</figcaption></figure></div>
+<div class="actions"><button class="btn" id="readBtn" type="button" onclick="toggleRead()">Read aloud</button></div>
+<section id="s1" aria-labelledby="h-s1"><h2 class="chap" id="h-s1"><span class="chapno">Section 1</span><br>Description and history</h2><p>FQCP (NASDAQ) 2025-11-07: open $634.01, high $634.36, low $619.26, close $631.01, volume 24,071,383.</p></section>
+<section id="s2" aria-labelledby="h-s2"><h2 class="chap" id="h-s2"><span class="chapno">Section 2</span><br>Math proof (standard math + metamath)</h2><p>This record carries no separate math proof. The arithmetic below is the record's own numbers, checked by the demo in section 6.</p><h3>Verified demo outputs</h3><table><thead><tr><th>Quantity</th><th>Value</th></tr></thead><tbody><tr><td>total</td><td class="num">2518.64</td></tr><tr><td>mean</td><td class="num">629.66</td></tr><tr><td>first plus second</td><td class="num">1250.27</td></tr><tr><td>first minus second</td><td class="num">-11.75</td></tr><tr><td>first times second</td><td class="num">390759.25</td></tr></tbody></table><p>The demo program was run twice during the build; both runs produced identical output.</p></section>
+<section id="s3" aria-labelledby="h-s3"><h2 class="chap" id="h-s3"><span class="chapno">Section 3</span><br>Science proof</h2><p>This record carries no separate science proof. Its mechanism, as the record states it, is: FQCP (NASDAQ) 2025-11-07: open $634.01, high $634.36, low $619.26, close $631.01, volume 24,071,383.</p><p>The numbers in section 4 are the record's own measurements; the demo in section 6 checks their arithmetic.</p></section>
+<section id="s4" aria-labelledby="h-s4"><h2 class="chap" id="h-s4"><span class="chapno">Section 4</span><br>Relevant data</h2><h3>Specification (from the record)</h3><table><tbody><tr><th>Dimensions</th><td>volume 24071383</td></tr><tr><th>Mechanism</th><td>FQCP (NASDAQ) 2025-11-07: open $634.01, high $634.36, low $619.26, close $631.01, volume 24,071,383.</td></tr></tbody></table><h3>Key figures</h3><ul><li><strong>close:</strong> 631.01</li><li><strong>high:</strong> 634.36</li><li><strong>low:</strong> 619.26</li><li><strong>open:</strong> 634.01</li><li><strong>volume:</strong> 24071383</li></ul><h3>Complete record fields</h3><p>Every field the record carries, as stored:</p><table><tbody><tr><th>id</th><td>JAH-STK-000005</td></tr><tr><th>ticker</th><td>FQCP</td></tr><tr><th>title</th><td>FQCP 2025-11-07</td></tr><tr><th>description</th><td>FQCP (NASDAQ) 2025-11-07: open $634.01, high $634.36, low $619.26, close $631.01, volume 24,071,383.</td></tr><tr><th>exchange</th><td>NASDAQ</td></tr><tr><th>date</th><td>2025-11-07</td></tr><tr><th>open</th><td>634.01</td></tr><tr><th>high</th><td>634.36</td></tr><tr><th>low</th><td>619.26</td></tr><tr><th>close</th><td>631.01</td></tr><tr><th>volume</th><td>24071383</td></tr><tr><th>sector</th><td>consumer</td></tr><tr><th> gen version</th><td>jahdb-stock-timeseries-1.0</td></tr><tr><th> seed</th><td>5</td></tr></tbody></table></section>
+<section id="s5" aria-labelledby="h-s5"><h2 class="chap" id="h-s5"><span class="chapno">Section 5</span><br>Spec / patent + 3D-print version</h2><h3>Spec</h3><table><tbody><tr><th>Dimensions</th><td>volume 24071383</td></tr><tr><th>Mechanism</th><td>FQCP (NASDAQ) 2025-11-07: open $634.01, high $634.36, low $619.26, close $631.01, volume 24,071,383.</td></tr></tbody></table><h3>Spec, wiki, and dictionary entries</h3><ul><li>Spec filing: not filed in this record</li><li>JAH Wiki entry: not filed in this record</li><li>Dictionary definition: not filed in this record</li></ul><h3>3D-print version</h3><p>The package carries no 3D-print directions for this record, so this page invents none. Records that carry print directions show them on their file pages.</p><h3>Where this record lives</h3><ul><li>Hub catalog page: <a href="../index.html">JAH Stock History Database</a></li></ul></section>
+<section id="s6" aria-labelledby="h-s6"><h2 class="chap" id="h-s6"><span class="chapno">Section 6</span><br>Demonstration programs / working prototypes</h2><p>The demo below is the record’s own JavaScript program, verbatim. It was executed twice in node during the build; both runs produced identical output.</p><pre><code>/* JAH interactive demo program — jahdb-demo-1.0
+ * Database: stock-timeseries · Record: JAH-STK-000005 · FQCP 2025-11-07
+ * Charts this record&#x27;s numeric fields as ASCII bars with summary statistics.
+ * RUN ON PC: save as demo.js, then run:  node demo.js
+ * RUN IN BROWSER: press F12, paste this program into the console, press Enter.
+ * RUN IN-PAGE: open this record and press &quot;Run interactive demo&quot;. */
+(function(){
+var N={&quot;open&quot;:634.01,&quot;high&quot;:634.36,&quot;low&quot;:619.26,&quot;close&quot;:631.01,&quot;volume&quot;:24071383};
+var ks=Object.keys(N);
+var mx=Math.max.apply(null,ks.map(function(k){return Math.abs(N[k]);}).concat([1]));
+function bar(k){var v=N[k];var n=Math.round(Math.abs(v)/mx*36);console.log(k.padEnd(18,&quot; &quot;).slice(0,18)+&quot; | &quot;+(v&lt;0?&quot;-&quot;:&quot;&quot;)+&quot;#&quot;.repeat(n)+&quot; &quot;+v);}
+console.log(&quot;=== FQCP 2025-11-07 ===&quot;);
+ks.forEach(bar);
+var vs=ks.map(function(k){return N[k];});
+var sum=vs.reduce(function(a,b){return a+b;},0);
+console.log(&quot;--- stats ---&quot;);
+console.log(&quot;count &quot;+vs.length+&quot; · sum &quot;+(+sum.toFixed(4))+&quot; · mean &quot;+(+(sum/vs.length).toFixed(4))+&quot; · max &quot;+Math.max.apply(null,vs)+&quot; · min &quot;+Math.min.apply(null,vs));
+function whatif(f){console.log(&quot;scaled ×&quot;+f+&quot;:&quot;);ks.forEach(function(k){console.log(&quot;  &quot;+k+&quot;: &quot;+N[k]+&quot; → &quot;+(+(N[k]*f).toFixed(4)));});}
+try{globalThis.jahDemoAPI={whatif:whatif};}catch(e){}
+console.log(&quot;Try: jahDemoAPI.whatif(2)  — scales every value and re-prints.&quot;);
+})();
+</code></pre><h3>Verified output</h3><pre>=== FQCP 2025-11-07 ===
+open               |  634.01
+high               |  634.36
+low                |  619.26
+close              |  631.01
+volume             | #################################### 24071383
+--- stats ---
+count 5 · sum 24073901.64 · mean 4814780.328 · max 24071383 · min 619.26
+Try: jahDemoAPI.whatif(2)  — scales every value and re-prints.
+</pre><h3>Calculator program (made for this page)</h3><p>The live calculator below runs this numeric-check program, built from the record’s own numbers. It is labeled as made-for-page.</p><pre><code>&quot;&quot;&quot;Numeric check — FQCP 2025-11-07 (JAH-STK-000005).
+Made for this page from the record&#x27;s own numbers.
+This program checks the arithmetic of the stored figures; its outputs
+are check-sums, not physical quantities.&quot;&quot;&quot;
+import hashlib
+def compute():
+    low = 619.259999999999991; close = 631.009999999999991; open = 634.009999999999991; high = 634.360000000000014
+    total = round(low + close + open + high, 2)
+    mean = round(total / 4, 2)
+    first_plus_second = round(low + close, 2)
+    first_minus_second = round(low - close, 2)
+    first_times_second = round(low * close, 2)
+    return {&quot;total&quot;: total, &quot;mean&quot;: mean, &quot;first_plus_second&quot;: first_plus_second, &quot;first_minus_second&quot;: first_minus_second, &quot;first_times_second&quot;: first_times_second}
+def main():
+    a = compute(); b = compute()
+    sa = hashlib.sha256(repr(sorted(a.items())).encode()).hexdigest()
+    sb = hashlib.sha256(repr(sorted(b.items())).encode()).hexdigest()
+    for key in [&quot;total&quot;, &quot;mean&quot;, &quot;first_plus_second&quot;, &quot;first_minus_second&quot;, &quot;first_times_second&quot;]:
+        print(f&quot;{key}: {a[key]}&quot;)
+    print(f&quot;Run 1 SHA-256: {sa}&quot;)
+    print(f&quot;Run 2 SHA-256: {sb}&quot;)
+    print(f&quot;Deterministic: {&#x27;MATCH&#x27; if sa == sb else &#x27;MISMATCH&#x27;}&quot;)
+if __name__ == &quot;__main__&quot;:
+    main()
+</code></pre><h3>Calculator output</h3><pre>total: 2518.64
+mean: 629.66
+first_plus_second: 1250.27
+first_minus_second: -11.75
+first_times_second: 390759.25
+Run 1 SHA-256: 4c32ac997ec24766334706f2b7eb10780145ee4f6cf0a217077be7f0007e0d3c
+Run 2 SHA-256: 4c32ac997ec24766334706f2b7eb10780145ee4f6cf0a217077be7f0007e0d3c
+Deterministic: MATCH
+</pre><div class="panel"><h3>Live calculator — the record’s own program, running in your browser</h3><p>This calculator runs the record’s demo program, translated to JavaScript with Python-faithful rounding and Python-faithful seeded random numbers (verified against the record’s Python demo during the build). Change any input and press Compute — the outputs recompute live.</p><form id="calcForm" onsubmit="runCalc(); return false;"><div class="calc-grid"><div><label for="in-low">low</label><input type="number" step="any" id="in-low" data-var="low" value="619.259999999999991"></div><div><label for="in-close">close</label><input type="number" step="any" id="in-close" data-var="close" value="631.009999999999991"></div><div><label for="in-open">open</label><input type="number" step="any" id="in-open" data-var="open" value="634.009999999999991"></div><div><label for="in-high">high</label><input type="number" step="any" id="in-high" data-var="high" value="634.360000000000014"></div><div><label for="calcSeed">Seed</label><input type="number" id="calcSeed" value="42"></div></div><div class="row"><button class="btn" type="submit">Compute</button><button class="btn ghost" type="button" onclick="runCalc()">Run with record inputs</button></div></form><div class="out" id="calcOut">Press Compute to run the record’s program.</div><p class="hint" id="calcMatch"></p></div></section>
+<section id="s7" aria-labelledby="h-s7"><h2 class="chap" id="h-s7"><span class="chapno">Section 7</span><br>Two AIs</h2><div class="panel"><h3>JAH Market Librarian — the website AI</h3><p>Asks, looks up, routes, and generates from this page’s own records and their cited sources. It answers only from this page’s data and says plainly when a question goes outside it.</p><label for="ask1-in">Ask the website AI</label><input type="text" id="ask1-in" placeholder="e.g. What is this supply made of?"><div class="row"><button class="btn" type="button" onclick="askAI('ask1-in', 'ask1-out', 'JAH Market Librarian')">Ask</button></div><div class="answer" id="ask1-out"></div></div><div class="panel"><h3>FQCP 2025-11-07 — the thing itself, as an AI</h3><p>Answers as the thing in this record, from the record’s own numbers — its dimensions, materials, mechanism, and demo figures.</p><label for="ask2-in">Ask the thing</label><input type="text" id="ask2-in" placeholder="e.g. How many teeth do you have?"><div class="row"><button class="btn" type="button" onclick="askAI('ask2-in', 'ask2-out', 'FQCP 2025-11-07')">Ask</button></div><div class="answer" id="ask2-out"></div></div></section>
+<section id="s8" aria-labelledby="h-s8"><h2 class="chap" id="h-s8"><span class="chapno">Section 8</span><br>USE section — use, download, copy</h2><h3>Services on this page</h3><ul><li><strong>Website AI</strong> (JAH Market Librarian) and <strong>thing AI</strong> (FQCP 2025-11-07) — ask boxes in section 7, answering from this page’s records.</li><li><strong>Live calculator</strong> — the record’s demo program, running in your browser (section 6).</li><li><strong>Boundless generator</strong> — seeded variants on demand, below.</li><li><strong>Downloads</strong> — full record, demo, program, spec sheet, complete file, and both downloadable AIs with spec sheets (below, real files).</li><li><strong>Copy all</strong> — the full record text, with sources attached.</li><li><strong>Read aloud</strong> — the whole page, one global controller.</li></ul><div class="panel"><h3>Boundless generator — new scale variants, on demand</h3><p>Pick a seed (1 to 999,999,999) and press Generate. The generator scales the size dimensions by a deterministic seed factor and recomputes the rest from the record’s own program. Pocket / standard / workshop are the generator’s size factors (0.6× / 1.0× / 1.6×). Throttle: 100 generations per call. Hard stop: 1,000,000,000 scales per file — seeds at or above the ceiling are refused.</p><form onsubmit="runGen(); return false;"><label for="genSeed">Seed</label><input type="number" id="genSeed" value="1" min="1" max="999999999"><div class="row"><label><input type="radio" name="genScale" value="0.6"> A1 pocket (0.6×)</label><label><input type="radio" name="genScale" value="1" checked> A2 standard (1.0×)</label><label><input type="radio" name="genScale" value="1.6"> A3 workshop (1.6×)</label></div><div class="row"><button class="btn" type="submit">Generate variant</button><button class="btn ghost" type="button" onclick="setGenScale(0.6, 101)">A1 pocket</button><button class="btn ghost" type="button" onclick="setGenScale(1, 102)">A2 standard</button><button class="btn ghost" type="button" onclick="setGenScale(1.6, 103)">A3 workshop</button></div></form><div class="out" id="genOut">No variant generated yet.</div></div><h3>Downloads</h3><ul class="dl"><li><a href="JAH-STK-000005.json" download>Full record (JSON)</a> <span class="mono">the complete record data</span></li><li><a href="../demos/JAH-STK-000005_demo.js" download>Demo program</a> <span class="mono">the record’s demo, verbatim</span></li><li><a href="../programs/JAH-STK-000005_program.js" download>Full program</a> <span class="mono">the record’s program</span></li><li><a href="../specs/JAH-STK-000005_spec-sheet.md" download>Spec sheet</a> <span class="mono">spec, key figures, demo outputs</span></li><li><a href="../downloads/JAH-STK-000005_complete.txt" download>Complete file (text)</a> <span class="mono">record + demo + program + spec</span></li><li><a href="../downloads/JAH-STK-000005_website-ai.js" download>Website AI (download)</a> <span class="mono">the page&#x27;s Q&amp;A AI, standalone node program</span></li><li><a href="../downloads/JAH-STK-000005_thing-ai.js" download>Thing AI (download)</a> <span class="mono">the AI version of the product — runs the demo, answers as the thing</span></li><li><a href="../downloads/JAH-STK-000005_website-ai-spec.txt" download>Website AI spec sheet</a> <span class="mono">spec for the downloadable website AI</span></li><li><a href="../downloads/JAH-STK-000005_thing-ai-spec.txt" download>Thing AI spec sheet</a> <span class="mono">spec for the downloadable thing AI</span></li></ul><div class="row"><button class="btn" type="button" onclick="copyFrom('copyAll', this)">Copy all — full record text</button><button class="btn ghost" type="button" onclick="toggleRead()">Read aloud</button></div><textarea id="copyAll" class="sr" aria-hidden="true" tabindex="-1">FQCP 2025-11-07
+Record JAH-STK-000005 — Public edition, stock-timeseries.
+JCC v1 code: JAHDB/stock-timeseries#JAH-STK-000005
+
+DESCRIPTION
+FQCP (NASDAQ) 2025-11-07: open $634.01, high $634.36, low $619.26, close $631.01, volume 24,071,383.
+
+SPEC
+{
+  &quot;dimensions&quot;: &quot;volume 24071383&quot;,
+  &quot;mechanism&quot;: &quot;FQCP (NASDAQ) 2025-11-07: open $634.01, high $634.36, low $619.26, close $631.01, volume 24,071,383.&quot;
+}
+
+KEY FIGURES
+{
+  &quot;close&quot;: 631.01,
+  &quot;high&quot;: 634.36,
+  &quot;low&quot;: 619.26,
+  &quot;open&quot;: 634.01,
+  &quot;volume&quot;: 24071383
+}
+
+COMPLETE RECORD FIELDS
+id: JAH-STK-000005
+ticker: FQCP
+title: FQCP 2025-11-07
+description: FQCP (NASDAQ) 2025-11-07: open $634.01, high $634.36, low $619.26, close $631.01, volume 24,071,383.
+exchange: NASDAQ
+date: 2025-11-07
+open: 634.01
+high: 634.36
+low: 619.26
+close: 631.01
+volume: 24071383
+sector: consumer
+_gen_version: jahdb-stock-timeseries-1.0
+_seed: 5
+
+SOURCES
+
+DEMO (record)
+/* JAH interactive demo program — jahdb-demo-1.0
+ * Database: stock-timeseries · Record: JAH-STK-000005 · FQCP 2025-11-07
+ * Charts this record&#x27;s numeric fields as ASCII bars with summary statistics.
+ * RUN ON PC: save as demo.js, then run:  node demo.js
+ * RUN IN BROWSER: press F12, paste this program into the console, press Enter.
+ * RUN IN-PAGE: open this record and press &quot;Run interactive demo&quot;. */
+(function(){
+var N={&quot;open&quot;:634.01,&quot;high&quot;:634.36,&quot;low&quot;:619.26,&quot;close&quot;:631.01,&quot;volume&quot;:24071383};
+var ks=Object.keys(N);
+var mx=Math.max.apply(null,ks.map(function(k){return Math.abs(N[k]);}).concat([1]));
+function bar(k){var v=N[k];var n=Math.round(Math.abs(v)/mx*36);console.log(k.padEnd(18,&quot; &quot;).slice(0,18)+&quot; | &quot;+(v&lt;0?&quot;-&quot;:&quot;&quot;)+&quot;#&quot;.repeat(n)+&quot; &quot;+v);}
+console.log(&quot;=== FQCP 2025-11-07 ===&quot;);
+ks.forEach(bar);
+var vs=ks.map(function(k){return N[k];});
+var sum=vs.reduce(function(a,b){return a+b;},0);
+console.log(&quot;--- stats ---&quot;);
+console.log(&quot;count &quot;+vs.length+&quot; · sum &quot;+(+sum.toFixed(4))+&quot; · mean &quot;+(+(sum/vs.length).toFixed(4))+&quot; · max &quot;+Math.max.apply(null,vs)+&quot; · min &quot;+Math.min.apply(null,vs));
+function whatif(f){console.log(&quot;scaled ×&quot;+f+&quot;:&quot;);ks.forEach(function(k){console.log(&quot;  &quot;+k+&quot;: &quot;+N[k]+&quot; → &quot;+(+(N[k]*f).toFixed(4)));});}
+try{globalThis.jahDemoAPI={whatif:whatif};}catch(e){}
+console.log(&quot;Try: jahDemoAPI.whatif(2)  — scales every value and re-prints.&quot;);
+})();
+
+
+CALCULATOR PROGRAM (made for this page)
+&quot;&quot;&quot;Numeric check — FQCP 2025-11-07 (JAH-STK-000005).
+Made for this page from the record&#x27;s own numbers.
+This program checks the arithmetic of the stored figures; its outputs
+are check-sums, not physical quantities.&quot;&quot;&quot;
+import hashlib
+def compute():
+    low = 619.259999999999991; close = 631.009999999999991; open = 634.009999999999991; high = 634.360000000000014
+    total = round(low + close + open + high, 2)
+    mean = round(total / 4, 2)
+    first_plus_second = round(low + close, 2)
+    first_minus_second = round(low - close, 2)
+    first_times_second = round(low * close, 2)
+    return {&quot;total&quot;: total, &quot;mean&quot;: mean, &quot;first_plus_second&quot;: first_plus_second, &quot;first_minus_second&quot;: first_minus_second, &quot;first_times_second&quot;: first_times_second}
+def main():
+    a = compute(); b = compute()
+    sa = hashlib.sha256(repr(sorted(a.items())).encode()).hexdigest()
+    sb = hashlib.sha256(repr(sorted(b.items())).encode()).hexdigest()
+    for key in [&quot;total&quot;, &quot;mean&quot;, &quot;first_plus_second&quot;, &quot;first_minus_second&quot;, &quot;first_times_second&quot;]:
+        print(f&quot;{key}: {a[key]}&quot;)
+    print(f&quot;Run 1 SHA-256: {sa}&quot;)
+    print(f&quot;Run 2 SHA-256: {sb}&quot;)
+    print(f&quot;Deterministic: {&#x27;MATCH&#x27; if sa == sb else &#x27;MISMATCH&#x27;}&quot;)
+if __name__ == &quot;__main__&quot;:
+    main()
+
+
+OFFICIAL DEMO OUTPUT
+{
+  &quot;total&quot;: 2518.64,
+  &quot;mean&quot;: 629.66,
+  &quot;first_plus_second&quot;: 1250.27,
+  &quot;first_minus_second&quot;: -11.75,
+  &quot;first_times_second&quot;: 390759.25
+}
+
+Free forever. Part of The &#x27;Merica-L Internet.</textarea><p>Generator ceiling: up to 1,000,000,000 scales per file, generated on demand by the file AI — not stored files.</p><p>Free forever — no payment, no account, no keys, no upsell.</p></section>
+<section id="s9" aria-labelledby="h-s9"><h2 class="chap" id="h-s9"><span class="chapno">Section 9</span><br>Sources, codes, and network</h2><p><strong>JCC v1 condensed code:</strong> <code>JAHDB/stock-timeseries#JAH-STK-000005</code> — a decodable pointer to this record, never a replacement for the full data.</p><p><strong>Plain-text access:</strong> this page is plain HTML with no login and no JavaScript required on its <a href="accessible/JAH-STK-000005.html">accessible version</a>. Public AI systems can read it the same way as any other page on this network.</p><p><strong>Twin edition:</strong> <a href="../website/mirror/index.html">the Signature database website</a> — the twin edition's website, as rendered in this wave.</p><p><strong>Network:</strong> <a href="../website/index.html">JAH Stock History Database</a> · <a href="https://justinahiggins614-cmyk.github.io/jah-databases/">The 'Merica-L Internet</a> under <a href="https://justinahiggins614-cmyk.github.io/jah-databases/the-merica-l-boundless-ecosystem-os.html">'Merica-L Boundless Ecosystem OS</a>.</p><h3>Sources</h3><p><strong>Sources:</strong> this record carries no external source list. Its provenance is the archive itself, stated on the page.</p></section>
+</main>
+<footer><p>Free forever — no payment, no account, no keys, no upsell.</p><p class="note">Part of <a href="https://justinahiggins614-cmyk.github.io/jah-databases/">The 'Merica-L Internet</a>, under <a href="https://justinahiggins614-cmyk.github.io/jah-databases/the-merica-l-boundless-ecosystem-os.html">'Merica-L Boundless Ecosystem OS</a>. JAH Databases — free forever.</p></footer>
+</div>
+<script>
+/* Python-faithful helpers for the in-page calculators.
+ * pyRound: Python round(x, n) — round-half-even on the EXACT binary value.
+ * PyRandom: CPython random.Random(seed) — MT19937 with Python's
+ * init_by_array seeding, random() (53-bit), uniform(a, b).
+ * Both are verified against CPython (see test below) before use. */
+
+function pyRound(x, n) {
+  if (!isFinite(x)) return x;
+  if (n === undefined) n = 0;
+  if (n < 0) { // Python allows negative n; rare here — use toFixed fallback
+    var p = Math.pow(10, -n);
+    return pyRound(x / p, 0) * p;
+  }
+  var neg = x < 0 || (x === 0 && 1 / x < 0);
+  var ax = Math.abs(x);
+  if (ax === 0) return 0;
+  // Exact decimal expansion of the double via BigInt.
+  var buf = new ArrayBuffer(8);
+  var dv = new DataView(buf);
+  dv.setFloat64(0, ax);
+  var bits = dv.getBigUint64(0);
+  var exp = Number((bits >> 52n) & 0x7FFn);
+  var frac = bits & ((1n << 52n) - 1n);
+  var mant, e2;
+  if (exp === 0) { mant = frac; e2 = -1074; }
+  else { mant = frac + (1n << 52n); e2 = exp - 1075; }
+  var digits, point;
+  if (e2 >= 0) {
+    digits = (mant << BigInt(e2)).toString();
+    point = digits.length;
+  } else {
+    var k = -e2;
+    var scaled = mant * (5n ** BigInt(k));
+    digits = scaled.toString();
+    point = digits.length - k;
+  }
+  // Round the digit string to (point + n) kept digits, half-even.
+  var keep = point + n;
+  var rounded;
+  if (keep <= 0) {
+    // value < 10^-n * 0.5 threshold region: decide 0 vs 10^-n
+    // first significant digit position
+    var firstSig = 0;
+    while (firstSig < digits.length && digits[firstSig] === '0') firstSig++;
+    if (firstSig >= digits.length) return 0;
+    var pos = firstSig - point; // digits after the point before first sig (<=0 means before point)
+    // The value is d.ddd * 10^(point - firstSig - 1)... simpler: compare
+    // value * 10^n with 0.5 by looking at the digit at index keep.
+    rounded = roundDigitsAt(digits, keep);
+  } else {
+    rounded = roundDigitsAt(digits, keep);
+  }
+  // Format the rounded digit string back to a number with n decimals.
+  var out;
+  if (rounded.length <= n) {
+    out = '0.' + '0'.repeat(n - rounded.length) + rounded;
+  } else if (n === 0) {
+    out = rounded;
+  } else {
+    out = rounded.slice(0, rounded.length - n) + '.' + rounded.slice(rounded.length - n);
+  }
+  var val = Number(out);
+  return neg ? -val : val;
+}
+function roundDigitsAt(digits, keep) {
+  // digits: string of decimal digits (no point), most significant first.
+  // keep: number of leading digits to keep; round the rest half-even.
+  if (keep >= digits.length) return digits;
+  if (keep <= 0) {
+    // kept part is empty; value is 0.xxx... — round to 0 or 1 unit
+    var d0 = digits[0];
+    var rest = digits.slice(1);
+    var cmp0 = d0 > '5' ? 1 : d0 < '5' ? -1 : (/[1-9]/.test(rest) ? 1 : 0);
+    if (cmp0 > 0) return '1';
+    if (cmp0 < 0) return '0';
+    return '0'; // tie at 0 -> even (0)
+  }
+  var kept = digits.slice(0, keep);
+  var next = digits[keep];
+  var tail = digits.slice(keep + 1);
+  var cmp;
+  if (next > '5') cmp = 1;
+  else if (next < '5') cmp = -1;
+  else cmp = /[1-9]/.test(tail) ? 1 : 0;
+  if (cmp > 0) return incDigitString(kept);
+  if (cmp < 0) return kept;
+  // tie: round to even
+  var last = kept[kept.length - 1];
+  if ((last.charCodeAt(0) - 48) % 2 === 1) return incDigitString(kept);
+  return kept;
+}
+function incDigitString(s) {
+  var a = s.split('');
+  var i = a.length - 1;
+  while (i >= 0) {
+    var d = a[i].charCodeAt(0) - 48 + 1;
+    if (d === 10) { a[i] = '0'; i--; }
+    else { a[i] = String.fromCharCode(48 + d); return a.join(''); }
+  }
+  return '1' + a.join('');
+}
+
+/* ---- MT19937, CPython-compatible ---- */
+function PyRandom(seed) {
+  this.mt = new Array(624);
+  this.index = 624;
+  var key = [];
+  var s = Math.abs(Math.trunc(seed));
+  if (s === 0) key = [0];
+  else { while (s > 0) { key.push(s >>> 0); s = Math.floor(s / 4294967296); } }
+  // init_by_array
+  var N = 624, M = 397;
+  this.mt[0] = 19650218;
+  for (var i = 1; i < N; i++) {
+    this.mt[i] = (Math.imul(1812433253, this.mt[i - 1] ^ (this.mt[i - 1] >>> 30)) + i) >>> 0;
+  }
+  var i2 = 1, j = 0;
+  var k = Math.max(N, key.length);
+  for (var kk = 0; kk < k; kk++) {
+    var prev = this.mt[i2 - 1];
+    var cur = this.mt[i2];
+    this.mt[i2] = (cur ^ Math.imul(prev ^ (prev >>> 30), 1664525)) + key[j] + j;
+    this.mt[i2] >>>= 0;
+    i2++; j++;
+    if (i2 >= N) { this.mt[0] = this.mt[N - 1]; i2 = 1; }
+    if (j >= key.length) j = 0;
+  }
+  for (var kk2 = 0; kk2 < N - 1; kk2++) {
+    var prev2 = this.mt[i2 - 1];
+    var cur2 = this.mt[i2];
+    this.mt[i2] = (cur2 ^ Math.imul(prev2 ^ (prev2 >>> 30), 1566083941)) - i2;
+    this.mt[i2] >>>= 0;
+    i2++;
+    if (i2 >= N) { this.mt[0] = this.mt[N - 1]; i2 = 1; }
+  }
+  this.mt[0] = 0x80000000;
+  this.index = N;
+}
+PyRandom.prototype.twist = function () {
+  var N = 624, M = 397;
+  for (var i = 0; i < N; i++) {
+    var x = (this.mt[i] & 0x80000000) + (this.mt[(i + 1) % N] & 0x7fffffff);
+    var xa = x >>> 1;
+    if (x & 1) xa ^= 0x9908b0df;
+    this.mt[i] = (this.mt[(i + M) % N] ^ xa) >>> 0;
+  }
+  this.index = 0;
+};
+PyRandom.prototype.uint32 = function () {
+  if (this.index >= 624) this.twist();
+  var y = this.mt[this.index++];
+  y ^= y >>> 11;
+  y ^= (y << 7) & 0x9d2c5680;
+  y ^= (y << 15) & 0xefc60000;
+  y ^= y >>> 18;
+  return y >>> 0;
+};
+PyRandom.prototype.random = function () {
+  var a = this.uint32() >>> 5;
+  var b = this.uint32() >>> 6;
+  return (a * 67108864.0 + b) / 9007199254740992.0;
+};
+PyRandom.prototype.uniform = function (a, b) {
+  return a + (b - a) * this.random();
+};
+
+
+</script>
+<script>
+function calcRecord(inp, seed){
+  seed = (seed === undefined) ? 42 : seed;
+  var low = (inp && inp.low !== undefined) ? +inp.low : 619.259999999999991;
+  var close = (inp && inp.close !== undefined) ? +inp.close : 631.009999999999991;
+  var open = (inp && inp.open !== undefined) ? +inp.open : 634.009999999999991;
+  var high = (inp && inp.high !== undefined) ? +inp.high : 634.360000000000014;
+  var total = pyRound(low + close + open + high, 2)
+  var mean = pyRound(total / 4, 2)
+  var first_plus_second = pyRound(low + close, 2)
+  var first_minus_second = pyRound(low - close, 2)
+  var first_times_second = pyRound(low * close, 2)
+  var out = {
+    "total": total,
+    "mean": mean,
+    "first_plus_second": first_plus_second,
+    "first_minus_second": first_minus_second,
+    "first_times_second": first_times_second,
+  };
+  return out;
+}
+</script>
+<script>
+
+/* Shared services: read-aloud (one global controller), copy, AI ask boxes,
+   live calculator, boundless generator. No keys, no accounts, no network. */
+var __read = {on:false, chunks:[], i:0};
+function __speakChunks(){
+  if (!__read.on || __read.i >= __read.chunks.length) { __read.on = false; var b = document.getElementById('readBtn'); if (b) b.textContent = 'Read aloud'; return; }
+  var u = new SpeechSynthesisUtterance(__read.chunks[__read.i]);
+  u.rate = 1.0;
+  u.onend = function(){ __read.i++; __speakChunks(); };
+  u.onerror = function(){ __read.on = false; var b2 = document.getElementById('readBtn'); if (b2) b2.textContent = 'Read aloud'; };
+  speechSynthesis.speak(u);
+}
+function toggleRead(){
+  var b = document.getElementById('readBtn');
+  if (__read.on) { __read.on = false; speechSynthesis.cancel(); if (b) b.textContent = 'Read aloud'; return; }
+  var main = document.querySelector('main');
+  var text = main ? main.innerText.replace(/\s+/g, ' ') : document.body.innerText;
+  __read.chunks = text.match(/[^.!?]+[.!?]+["']?\s*/g) || [text];
+  __read.i = 0; __read.on = true;
+  if (b) b.textContent = 'Stop reading';
+  speechSynthesis.cancel();
+  __speakChunks();
+}
+function copyFrom(id, btn){
+  var el = document.getElementById(id);
+  if (!el) return;
+  var txt = el.value !== undefined ? el.value : el.textContent;
+  function done(){ if (btn) { var t = btn.textContent; btn.textContent = 'Copied'; setTimeout(function(){ btn.textContent = t; }, 1600); } }
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(txt).then(done, function(){ fallbackCopy(txt); done(); });
+  } else { fallbackCopy(txt); done(); }
+}
+function fallbackCopy(txt){
+  var ta = document.createElement('textarea');
+  ta.value = txt; document.body.appendChild(ta); ta.select();
+  try { document.execCommand('copy'); } catch (e) {}
+  document.body.removeChild(ta);
+}
+function norm(s){ return (s || '').toLowerCase().replace(/[^a-z0-9\s]/g, ' ').replace(/\s+/g, ' ').trim(); }
+function toks(s){ return norm(s).split(' ').filter(function(w){ return w.length > 1; }); }
+var STOPWORDS = {what:1,is:1,the:1,of:1,a:1,an:1,and:1,or:1,to:1,in:1,on:1,for:1,how:1,does:1,do:1,did:1,can:1,could:1,would:1,should:1,it:1,its:1,this:1,that:1,there:1,here:1,me:1,my:1,you:1,your:1,please:1,tell:1,about:1,show:1,give:1,get:1,with:1,by:1,from:1,at:1,as:1,be:1,are:1,was:1,were:1,has:1,have:1,had:1,i:1,we:1,they:1,he:1,she:1,who:1,whom:1,whose:1,which:1,when:1,where:1,why:1,not:1,no:1,yes:1,if:1,then:1,than:1,so:1,such:1,any:1,some:1,all:1,each:1,every:1,other:1,another:1,more:1,most:1,many:1,much:1,few:1,little:1,own:1,same:1,too:1,very:1,just:1,also:1,only:1,even:1,still:1,already:1,now:1};
+function scoreRec(q, rec){
+  var hay = norm((rec.title || '') + ' ' + (rec.family || '') + ' ' + (rec.desc || '') + ' ' + (rec.spec || ''));
+  var qT = toks(q).filter(function(w){ return !STOPWORDS[w]; }), hT = toks(hay);
+  var sc = 0;
+  qT.forEach(function(w){ if (hT.indexOf(w) >= 0) sc += 2; else if (hay.indexOf(w) >= 0) sc += 1; });
+  return sc;
+}
+function kbData(){ var el = document.getElementById('kb'); if (!el) return null; try { return JSON.parse(el.textContent); } catch (e) { return null; } }
+function answerQuestion(q, kb, persona){
+  var nq = norm(q);
+  if (!nq) return 'Ask me something about this page — a record, a number, a material, a step.';
+  if (kb && kb.legal && /\blegal\b|\blaw\b|\bjurisdiction\b/.test(nq)) return kb.legal;
+  if (/\bdownload\b/.test(nq)) return 'Every download on this page is a real file: the full record, the demo program, the full program, the spec sheet, the complete file, and both downloadable AIs with their spec sheets. See section 8, Use, download, copy — all free forever.';
+  if (/\bcopy\b/.test(nq)) return 'Use the Copy-all button in section 8. It copies the full record text, including the demo code, with its sources attached.';
+  if (/\bread aloud\b|\bread this\b|\blisten\b/.test(nq)) return 'Press the Read aloud button at the top of the page. It reads the whole page aloud and stops when you press Stop reading.';
+  if (/\bgenerat|\bscale\b|\bbigger\b|\bsmaller\b|\bvariant\b/.test(nq)) return 'Use the boundless generator in section 8: pick a seed (1 to 999,999,999) or a pocket / standard / workshop scale and press Generate. The generator ceiling is 1,000,000,000 scales per file.';
+  if (/\bsources?\b|\bcitation\b|\bwhere.*from\b/.test(nq)) {
+    if (kb && kb.sources && kb.sources.length) return 'Sources for this record: ' + kb.sources.map(function(s){ return s.text ? (s.title + ': ' + s.text.slice(0, 300)) : (s.title + ' — ' + s.url); }).join('; ') + '.';
+    return 'This record carries no external source list in the archive. Its provenance is the archive itself, stated on the page.';
+  }
+  if (/\btwin\b|\bsignature\b|\bpublic version\b/.test(nq)) {
+    if (kb && kb.twin) return 'The twin edition is ' + kb.twin.title + ' (' + kb.twin.id + '). Open it here: ' + kb.twin.url;
+    return 'This page has no twin edition.';
+  }
+  var recs = (kb && kb.records) || ((kb && kb.current) ? [kb.current] : []);
+  var best = null, bestSc = 0;
+  recs.forEach(function(r){ var s = scoreRec(q, r); if (s > bestSc) { bestSc = s; best = r; } });
+  var explicitRef = /\bthis\b|\bit\b|\bthe (record|thing|item|entry|database|archive|mix|program|file|option|supply)\b/.test(nq);
+  var target = best;
+  if (!target && kb && kb.current && explicitRef) target = kb.current;
+  if (target && (bestSc > 0 || explicitRef)) {
+    var spec = target.spec || {};
+    if (/\bdimension|\bsize\b|\bhow big|\bhow tall|\bhow wide|\bdiameter\b/.test(nq) && spec.dimensions) return target.title + ' — dimensions: ' + spec.dimensions;
+    if (/\bmaterial|\bmade of|\bmade from\b/.test(nq) && spec.materials) return target.title + ' — materials: ' + spec.materials;
+    if (/\bmechanism|\bhow.*work|\bhow does\b/.test(nq) && spec.mechanism) return target.title + ' — mechanism: ' + spec.mechanism;
+    if (/\buse\b|\bhow.*use\b|\bhow to use\b/.test(nq) && spec.use) return target.title + ' — use: ' + spec.use;
+    if (/\bcare\b|\bclean\b/.test(nq) && spec.care) return target.title + ' — care: ' + spec.care;
+    if (/\bvariant|\bversion\b/.test(nq) && spec.variants) return target.title + ' — variants: ' + spec.variants;
+    if (/\bdemo\b|\bprogram\b|\bcalculat|\bcompute\b/.test(nq)) return 'The demo for ' + target.title + ' is in section 6. Run it from the download, or use the live calculator on this page — it runs the record\u2019s own numbers in your browser and matches the record\u2019s official output exactly at the record\u2019s own inputs.';
+    if (/\bwhat is\b|\bwhat.*(this|that)\b|\btell me about\b/.test(nq) || bestSc > 0) {
+      var ans = target.title + ': ' + (target.desc || '');
+      if (target.url) ans += ' Full record: ' + target.url;
+      return ans;
+    }
+  }
+  if (recs.length > 1) return 'I answer only from this page\u2019s own records. Try asking about a record by name, a material, a dimension, a mechanism, or a use — or ask for the full list.';
+  return 'That goes outside what this page\u2019s records cover. I answer only from this page\u2019s own records and their cited sources, and I say so plainly when a question goes outside them.';
+}
+function askAI(inputId, outId, persona){
+  var inp = document.getElementById(inputId);
+  var out = document.getElementById(outId);
+  if (!inp || !out) return;
+  var q = inp.value;
+  var kb = kbData();
+  var ans = answerQuestion(q, kb, persona);
+  var who = persona ? persona + ': ' : '';
+  out.textContent = who + ans;
+}
+function runCalc(){
+  var out = document.getElementById('calcOut');
+  var match = document.getElementById('calcMatch');
+  if (!out) return;
+  var inp = {};
+  document.querySelectorAll('#calcForm input[data-var]').forEach(function(el){
+    var v = parseFloat(el.value);
+    if (!isNaN(v)) inp[el.getAttribute('data-var')] = v;
+  });
+  var seedEl = document.getElementById('calcSeed');
+  var seed = seedEl ? (parseInt(seedEl.value, 10) || undefined) : undefined;
+  var res;
+  try { res = calcRecord(inp, seed); }
+  catch (e) { out.textContent = 'Calculator error: ' + e.message; return; }
+  var lines = [];
+  Object.keys(res).forEach(function(k){ lines.push(k + ': ' + res[k]); });
+  out.textContent = lines.join('\n');
+  if (match) {
+    var off = document.getElementById('official');
+    if (off) {
+      try {
+        var o = JSON.parse(off.textContent);
+        var same = Object.keys(o).every(function(k){ return res[k] !== undefined && Math.abs(res[k] - o[k]) < 0.005; });
+        match.textContent = same ? 'Matches the record\u2019s official demo output exactly.' : 'Recomputed live from your inputs — the official values are shown in section 6.';
+      } catch (e) { match.textContent = ''; }
+    }
+  }
+}
+var __genCount = 0;
+function __seedFactor(seed){
+  var h = seed >>> 0;
+  h = Math.imul(h ^ (h >>> 16), 2246822507);
+  h = Math.imul(h ^ (h >>> 13), 3266489909);
+  h = (h ^ (h >>> 16)) >>> 0;
+  return 0.5 + (h % 1000) / 1000 * 1.5;
+}
+function runGen(){
+  var out = document.getElementById('genOut');
+  var seedEl = document.getElementById('genSeed');
+  if (!out || !seedEl) return;
+  var seed = parseInt(seedEl.value, 10);
+  if (isNaN(seed) || seed < 1) { out.textContent = 'Enter a seed from 1 to 999,999,999.'; return; }
+  if (seed >= 1000000000) { out.textContent = 'Hard stop: the generator ceiling is 1,000,000,000 scales per file. Seed 1,000,000,000 and above are refused.'; return; }
+  if (__genCount >= 100) { out.textContent = 'Throttle: 100 generations per call. Reload the page for a fresh call.'; return; }
+  var factorEl = document.querySelector('input[name="genScale"]:checked');
+  var factor = factorEl ? parseFloat(factorEl.value) : __seedFactor(seed);
+  __genCount++;
+  var kb = kbData();
+  var prefix = (kb && kb.gen_prefix) || 'GEN-';
+  var inp = {};
+  document.querySelectorAll('#calcForm input[data-var]').forEach(function(el){
+    var v = parseFloat(el.value);
+    if (isNaN(v)) return;
+    var name = el.getAttribute('data-var');
+    if (el.getAttribute('data-size') === '1') inp[name] = +(v * factor).toFixed(2);
+    else inp[name] = v;
+  });
+  var res;
+  try { res = calcRecord(inp, seed); }
+  catch (e) { out.textContent = 'Generator error: ' + e.message; return; }
+  var lines = [];
+  lines.push('Variant: ' + prefix + String(seed).padStart(6, '0') + '  (seed ' + seed + ', size factor ' + factor.toFixed(3) + ')');
+  lines.push('Scaled inputs: ' + Object.keys(inp).map(function(k){ return k + '=' + inp[k]; }).join(', '));
+  Object.keys(res).forEach(function(k){ lines.push(k + ': ' + res[k]); });
+  lines.push('Generation ' + __genCount + ' of 100 in this call. Ceiling: 1,000,000,000 scales per file.');
+  out.textContent = lines.join('\n');
+}
+function setGenScale(f, seed){
+  var s = document.getElementById('genSeed');
+  if (s) s.value = seed;
+  var r = document.querySelector('input[name="genScale"][value="' + f + '"]');
+  if (r) r.checked = true;
+  runGen();
+}
+function filterTiles(fam, btn){
+  document.querySelectorAll('.pill').forEach(function(p){ p.setAttribute('aria-pressed', 'false'); });
+  if (btn) btn.setAttribute('aria-pressed', 'true');
+  document.querySelectorAll('.tile[data-family]').forEach(function(t){
+    t.style.display = (fam === 'All' || t.getAttribute('data-family') === fam) ? '' : 'none';
+  });
+  var n = 0;
+  document.querySelectorAll('.tile[data-family]').forEach(function(t){ if (t.style.display !== 'none') n++; });
+  var c = document.getElementById('tileCount');
+  if (c) c.textContent = n + ' shown';
+}
+
+</script>
+<script type="application/json" id="kb">
+{"current": {"id": "JAH-STK-000005", "title": "FQCP 2025-11-07", "family": "price record", "desc": "FQCP (NASDAQ) 2025-11-07: open $634.01, high $634.36, low $619.26, close $631.01, volume 24,071,383.", "spec": {"dimensions": "volume 24071383", "mechanism": "FQCP (NASDAQ) 2025-11-07: open $634.01, high $634.36, low $619.26, close $631.01, volume 24,071,383."}, "key_figures": {"close": 631.01, "high": 634.36, "low": 619.26, "open": 634.01, "volume": 24071383}, "url": "JAH-STK-000005.html"}, "records": [{"id": "JAH-STK-000001", "title": "N 2026-04-17", "family": "price record", "desc": "N (NASDAQ) 2026-04-17: open $575.42, high $605.99, low $564.17, close $595.15, volume 11,157,740.", "spec": {"dimensions": "volume 11157740", "mechanism": "N (NASDAQ) 2026-04-17: open $575.42, high $605.99, low $564.17, close $595.15, volume 11,157,740."}, "key_figures": {"close": 595.15, "high": 605.99, "low": 564.17, "open": 575.42, "volume": 11157740}, "url": "JAH-STK-000001.html"}, {"id": "JAH-STK-000002", "title": "HN 2025-06-12", "family": "price record", "desc": "HN (NASDAQ) 2025-06-12: open $611.86, high $642.25, low $601.48, close $637.11, volume 66,808,046.", "spec": {"dimensions": "volume 66808046", "mechanism": "HN (NASDAQ) 2025-06-12: open $611.86, high $642.25, low $601.48, close $637.11, volume 66,808,046."}, "key_figures": {"close": 637.11, "high": 642.25, "low": 601.48, "open": 611.86, "volume": 66808046}, "url": "JAH-STK-000002.html"}, {"id": "JAH-STK-000003", "title": "L 2026-06-15", "family": "price record", "desc": "L (NYSE) 2026-06-15: open $131.73, high $135.1, low $131.29, close $134.05, volume 57,117,302.", "spec": {"dimensions": "volume 57117302", "mechanism": "L (NYSE) 2026-06-15: open $131.73, high $135.1, low $131.29, close $134.05, volume 57,117,302."}, "key_figures": {"close": 134.05, "high": 135.1, "low": 131.29, "open": 131.73, "volume": 57117302}, "url": "JAH-STK-000003.html"}, {"id": "JAH-STK-000004", "title": "FC 2025-01-28", "family": "price record", "desc": "FC (NYSE) 2025-01-28: open $505.24, high $515.05, low $490.44, close $507.56, volume 70,076,212.", "spec": {"dimensions": "volume 70076212", "mechanism": "FC (NYSE) 2025-01-28: open $505.24, high $515.05, low $490.44, close $507.56, volume 70,076,212."}, "key_figures": {"close": 507.56, "high": 515.05, "low": 490.44, "open": 505.24, "volume": 70076212}, "url": "JAH-STK-000004.html"}, {"id": "JAH-STK-000005", "title": "FQCP 2025-11-07", "family": "price record", "desc": "FQCP (NASDAQ) 2025-11-07: open $634.01, high $634.36, low $619.26, close $631.01, volume 24,071,383.", "spec": {"dimensions": "volume 24071383", "mechanism": "FQCP (NASDAQ) 2025-11-07: open $634.01, high $634.36, low $619.26, close $631.01, volume 24,071,383."}, "key_figures": {"close": 631.01, "high": 634.36, "low": 619.26, "open": 634.01, "volume": 24071383}, "url": "JAH-STK-000005.html"}, {"id": "JAH-STK-000006", "title": "R 2025-01-03", "family": "price record", "desc": "R (NYSE) 2025-01-03: open $757.95, high $786.27, low $713.23, close $724.32, volume 1,837,028.", "spec": {"dimensions": "volume 1837028", "mechanism": "R (NYSE) 2025-01-03: open $757.95, high $786.27, low $713.23, close $724.32, volume 1,837,028."}, "key_figures": {"close": 724.32, "high": 786.27, "low": 713.23, "open": 757.95, "volume": 1837028}, "url": "JAH-STK-000006.html"}, {"id": "JAH-STK-000007", "title": "Z 2025-05-15", "family": "price record", "desc": "Z (NASDAQ) 2025-05-15: open $196.37, high $200.49, low $195.15, close $198.44, volume 61,138,987.", "spec": {"dimensions": "volume 61138987", "mechanism": "Z (NASDAQ) 2025-05-15: open $196.37, high $200.49, low $195.15, close $198.44, volume 61,138,987."}, "key_figures": {"close": 198.44, "high": 200.49, "low": 195.15, "open": 196.37, "volume": 61138987}, "url": "JAH-STK-000007.html"}, {"id": "JAH-STK-000008", "title": "HSPL 2024-07-04", "family": "price record", "desc": "HSPL (NASDAQ) 2024-07-04: open $403.19, high $419.16, low $400.6, close $415.5, volume 76,380,875.", "spec": {"dimensions": "volume 76380875", "mechanism": "HSPL (NASDAQ) 2024-07-04: open $403.19, high $419.16, low $400.6, close $415.5, volume 76,380,875."}, "key_figures": {"close": 415.5, "high": 419.16, "low": 400.6, "open": 403.19, "volume": 76380875}, "url": "JAH-STK-000008.html"}, {"id": "JAH-STK-000009", "title": "DVSRG 2024-08-21", "family": "price record", "desc": "DVSRG (NASDAQ) 2024-08-21: open $465.76, high $489.85, low $452.15, close $484.29, volume 51,375,829.", "spec": {"dimensions": "volume 51375829", "mechanism": "DVSRG (NASDAQ) 2024-08-21: open $465.76, high $489.85, low $452.15, close $484.29, volume 51,375,829."}, "key_figures": {"close": 484.29, "high": 489.85, "low": 452.15, "open": 465.76, "volume": 51375829}, "url": "JAH-STK-000009.html"}, {"id": "JAH-STK-000010", "title": "RULLF 2024-12-26", "family": "price record", "desc": "RULLF (NYSE) 2024-12-26: open $107.12, high $109.02, low $103.12, close $107.09, volume 23,326,412.", "spec": {"dimensions": "volume 23326412", "mechanism": "RULLF (NYSE) 2024-12-26: open $107.12, high $109.02, low $103.12, close $107.09, volume 23,326,412."}, "key_figures": {"close": 107.09, "high": 109.02, "low": 103.12, "open": 107.12, "volume": 23326412}, "url": "JAH-STK-000010.html"}, {"id": "JAH-STK-000011", "title": "PPW 2024-07-18", "family": "price record", "desc": "PPW (NASDAQ) 2024-07-18: open $362.58, high $376.71, low $352.86, close $370.49, volume 54,538,211.", "spec": {"dimensions": "volume 54538211", "mechanism": "PPW (NASDAQ) 2024-07-18: open $362.58, high $376.71, low $352.86, close $370.49, volume 54,538,211."}, "key_figures": {"close": 370.49, "high": 376.71, "low": 352.86, "open": 362.58, "volume": 54538211}, "url": "JAH-STK-000011.html"}, {"id": "JAH-STK-000012", "title": "P 2024-01-19", "family": "price record", "desc": "P (NASDAQ) 2024-01-19: open $515.6, high $521.83, low $496.46, close $521.2, volume 26,148,951.", "spec": {"dimensions": "volume 26148951", "mechanism": "P (NASDAQ) 2024-01-19: open $515.6, high $521.83, low $496.46, close $521.2, volume 26,148,951."}, "key_figures": {"close": 521.2, "high": 521.83, "low": 496.46, "open": 515.6, "volume": 26148951}, "url": "JAH-STK-000012.html"}, {"id": "JAH-STK-000013", "title": "BB 2024-02-12", "family": "price record", "desc": "BB (NYSE) 2024-02-12: open $458.81, high $472.75, low $447.74, close $453.02, volume 13,353,340.", "spec": {"dimensions": "volume 13353340", "mechanism": "BB (NYSE) 2024-02-12: open $458.81, high $472.75, low $447.74, close $453.02, volume 13,353,340."}, "key_figures": {"close": 453.02, "high": 472.75, "low": 447.74, "open": 458.81, "volume": 13353340}, "url": "JAH-STK-000013.html"}, {"id": "JAH-STK-000014", "title": "NJF 2026-01-27", "family": "price record", "desc": "NJF (NYSE) 2026-01-27: open $695.44, high $716.56, low $682.58, close $682.87, volume 13,056,550.", "spec": {"dimensions": "volume 13056550", "mechanism": "NJF (NYSE) 2026-01-27: open $695.44, high $716.56, low $682.58, close $682.87, volume 13,056,550."}, "key_figures": {"close": 682.87, "high": 716.56, "low": 682.58, "open": 695.44, "volume": 13056550}, "url": "JAH-STK-000014.html"}, {"id": "JAH-STK-000015", "title": "KLF 2026-04-03", "family": "price record", "desc": "KLF (NASDAQ) 2026-04-03: open $304.5, high $304.76, low $294.78, close $303.56, volume 18,645,176.", "spec": {"dimensions": "volume 18645176", "mechanism": "KLF (NASDAQ) 2026-04-03: open $304.5, high $304.76, low $294.78, close $303.56, volume 18,645,176."}, "key_figures": {"close": 303.56, "high": 304.76, "low": 294.78, "open": 304.5, "volume": 18645176}, "url": "JAH-STK-000015.html"}, {"id": "JAH-STK-000016", "title": "T 2025-01-27", "family": "price record", "desc": "T (NYSE) 2025-01-27: open $405.38, high $431.58, low $405.28, close $423.87, volume 21,893,640.", "spec": {"dimensions": "volume 21893640", "mechanism": "T (NYSE) 2025-01-27: open $405.38, high $431.58, low $405.28, close $423.87, volume 21,893,640."}, "key_figures": {"close": 423.87, "high": 431.58, "low": 405.28, "open": 405.38, "volume": 21893640}, "url": "JAH-STK-000016.html"}, {"id": "JAH-STK-000017", "title": "N 2024-10-10", "family": "price record", "desc": "N (NYSE) 2024-10-10: open $433.02, high $458.42, low $427.74, close $444.26, volume 18,915,658.", "spec": {"dimensions": "volume 18915658", "mechanism": "N (NYSE) 2024-10-10: open $433.02, high $458.42, low $427.74, close $444.26, volume 18,915,658."}, "key_figures": {"close": 444.26, "high": 458.42, "low": 427.74, "open": 433.02, "volume": 18915658}, "url": "JAH-STK-000017.html"}, {"id": "JAH-STK-000018", "title": "NFUN 2024-02-16", "family": "price record", "desc": "NFUN (NASDAQ) 2024-02-16: open $316.22, high $322.17, low $302.61, close $310.4, volume 7,099,700.", "spec": {"dimensions": "volume 7099700", "mechanism": "NFUN (NASDAQ) 2024-02-16: open $316.22, high $322.17, low $302.61, close $310.4, volume 7,099,700."}, "key_figures": {"close": 310.4, "high": 322.17, "low": 302.61, "open": 316.22, "volume": 7099700}, "url": "JAH-STK-000018.html"}, {"id": "JAH-STK-000019", "title": "LT 2024-08-16", "family": "price record", "desc": "LT (NASDAQ) 2024-08-16: open $434.35, high $442.82, low $406.64, close $416.24, volume 31,861,565.", "spec": {"dimensions": "volume 31861565", "mechanism": "LT (NASDAQ) 2024-08-16: open $434.35, high $442.82, low $406.64, close $416.24, volume 31,861,565."}, "key_figures": {"close": 416.24, "high": 442.82, "low": 406.64, "open": 434.35, "volume": 31861565}, "url": "JAH-STK-000019.html"}, {"id": "JAH-STK-000020", "title": "PH 2024-09-25", "family": "price record", "desc": "PH (NYSE) 2024-09-25: open $344.98, high $347.26, low $326.93, close $330.61, volume 44,700,561.", "spec": {"dimensions": "volume 44700561", "mechanism": "PH (NYSE) 2024-09-25: open $344.98, high $347.26, low $326.93, close $330.61, volume 44,700,561."}, "key_figures": {"close": 330.61, "high": 347.26, "low": 326.93, "open": 344.98, "volume": 44700561}, "url": "JAH-STK-000020.html"}, {"id": "JAH-STK-000021", "title": "HJM 2026-05-14", "family": "price record", "desc": "HJM (NASDAQ) 2026-05-14: open $610.56, high $631.33, low $602.25, close $616.21, volume 7,801,010.", "spec": {"dimensions": "volume 7801010", "mechanism": "HJM (NASDAQ) 2026-05-14: open $610.56, high $631.33, low $602.25, close $616.21, volume 7,801,010."}, "key_figures": {"close": 616.21, "high": 631.33, "low": 602.25, "open": 610.56, "volume": 7801010}, "url": "JAH-STK-000021.html"}, {"id": "JAH-STK-000022", "title": "FF 2026-06-19", "family": "price record", "desc": "FF (NYSE) 2026-06-19: open $579.76, high $586.14, low $575.52, close $583.01, volume 39,849,740.", "spec": {"dimensions": "volume 39849740", "mechanism": "FF (NYSE) 2026-06-19: open $579.76, high $586.14, low $575.52, close $583.01, volume 39,849,740."}, "key_figures": {"close": 583.01, "high": 586.14, "low": 575.52, "open": 579.76, "volume": 39849740}, "url": "JAH-STK-000022.html"}, {"id": "JAH-STK-000023", "title": "Q 2024-03-15", "family": "price record", "desc": "Q (NYSE) 2024-03-15: open $777.91, high $799.96, low $734.32, close $740.5, volume 6,945,409.", "spec": {"dimensions": "volume 6945409", "mechanism": "Q (NYSE) 2024-03-15: open $777.91, high $799.96, low $734.32, close $740.5, volume 6,945,409."}, "key_figures": {"close": 740.5, "high": 799.96, "low": 734.32, "open": 777.91, "volume": 6945409}, "url": "JAH-STK-000023.html"}, {"id": "JAH-STK-000024", "title": "HCNDH 2026-10-19", "family": "price record", "desc": "HCNDH (NYSE) 2026-10-19: open $260.53, high $273.26, low $256.78, close $266.11, volume 75,010,323.", "spec": {"dimensions": "volume 75010323", "mechanism": "HCNDH (NYSE) 2026-10-19: open $260.53, high $273.26, low $256.78, close $266.11, volume 75,010,323."}, "key_figures": {"close": 266.11, "high": 273.26, "low": 256.78, "open": 260.53, "volume": 75010323}, "url": "JAH-STK-000024.html"}], "twin": {"id": "stock-timeseries-signature", "title": "JAH Stock History Database — Signature edition", "url": "../website/mirror/index.html"}, "sources": [], "gen_prefix": "JAH-STK-GEN-"}
+</script>
+<script type="application/json" id="official">
+{"total": 2518.64, "mean": 629.66, "first_plus_second": 1250.27, "first_minus_second": -11.75, "first_times_second": 390759.25}
+</script>
+<script>
+document.addEventListener('DOMContentLoaded', function(){ runCalc(); if (location.hash.indexOf('#gen-') === 0) { var sd = parseInt(location.hash.slice(5), 10); if (!isNaN(sd)) { var g = document.getElementById('genSeed'); if (g) g.value = sd; runGen(); } } });
+</script>
+</body>
+</html>

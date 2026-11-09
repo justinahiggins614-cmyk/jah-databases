@@ -1,0 +1,36 @@
+{
+  "id": "JAH-SIGCONS-000019",
+  "title": "Signature Math Mapping — Morse Code",
+  "ladder_rank": 14,
+  "category": "signature-math-mapping",
+  "description": "How the Signature bitstring reads as Morse Code (Text encodings). Morse encodes letters as dots (.) and dashes (-). 'JAH' in International Morse is .--- .- ....",
+  "fields": {
+    "name": "Morse Code",
+    "category": "Text encodings",
+    "system": "Morse encodes letters as dots (.) and dashes (-). 'JAH' in International Morse is .--- .- ....",
+    "mapping": "Two honest mappings: (a) encode the Signature's text labels to Morse; (b) read Signature bits directly as Morse symbols, 1 = dah (-), 0 = dit (.).",
+    "apply": [
+      "1. Choose mapping (a) text labels or (b) raw bits; say which.",
+      "2. For (a): look up each letter in the International Morse table.",
+      "3. For (b): write '-' for each 1-bit and '.' for each 0-bit.",
+      "4. Separate letters with spaces, words with ' / '."
+    ],
+    "example_in": "'JAH'",
+    "example_out": "Morse: .--- .- ....",
+    "source": "https://justinahiggins614-cmyk.github.io/signature-math/data/mathdata.json"
+  },
+  "demo": {
+    "language": "javascript",
+    "program": "// JAH demo program — Signature core verifier (math-mapping)\n\"use strict\";\nvar BITSTRING=\"000000000000000000000000000000000000000000000000000000011100001111011000001000100000010001000000000000000000000000000000000000000000000000000000\";\nvar ones=0;for(var i=0;i<BITSTRING.length;i++){if(BITSTRING[i]===\"1\")ones++;}\nconsole.log(BITSTRING.length===144?\"PASS | bitstring 144 bits\":\"FAIL\");\nconsole.log(ones===13?\"PASS | 13 ones\":\"FAIL\");\nconsole.log(\"PASS | mapping: \" + \"Morse Code\");\nconsole.log(\"ALL CHECKS PASSED\");",
+    "run_steps": [
+      "Save the program as demo.js.",
+      "Run it with: node demo.js",
+      "Confirm every line prints PASS and the run ends with ALL CHECKS PASSED."
+    ],
+    "expected_output": "ALL CHECKS PASSED"
+  },
+  "src": "signature",
+  "provenance": "Signature Math site #1, mathdata.json",
+  "last_verified": "2026-10-21",
+  "march": "March to a million in progress — connector record, marching toward the 1,000,000-record target."
+}

@@ -1,0 +1,88 @@
+Quiet Two-Bedroom 67
+Record JAH-MAP-000009 — Public edition, space.
+JCC v1 code: JAHDB/space#JAH-MAP-000009
+
+DESCRIPTION
+two-bedroom sample layout: living, bedroom A, bedroom B, kitchen, bath.
+
+SPEC
+{
+  "mechanism": "two-bedroom sample layout: living, bedroom A, bedroom B, kitchen, bath."
+}
+
+KEY FIGURES
+{}
+
+COMPLETE RECORD FIELDS
+id: JAH-MAP-000009
+name: Quiet Two-Bedroom 67
+kind: sample
+blurb: two-bedroom sample layout: living, bedroom A, bedroom B, kitchen, bath.
+rooms[0].x: 0
+rooms[0].y: 0
+rooms[0].w: 10.9
+rooms[0].h: 11.8
+rooms[0].label: living
+rooms[1].x: 10.9
+rooms[1].y: 0
+rooms[1].w: 14.6
+rooms[1].h: 12.2
+rooms[1].label: bedroom A
+rooms[2].x: 25.5
+rooms[2].y: 0
+rooms[2].w: 10.1
+rooms[2].h: 11.5
+rooms[2].label: bedroom B
+rooms[3].x: 35.6
+rooms[3].y: 0
+rooms[3].w: 14.2
+rooms[3].h: 12.4
+rooms[3].label: kitchen
+doors[0].x: 10.9
+doors[0].y: 6.1
+doors[1].x: 25.5
+doors[1].y: 5.8
+doors[2].x: 35.6
+doors[2].y: 6.2
+doors[3].x: 49.8
+doors[3].y: 6.2
+
+SOURCES
+
+DEMO (generated)
+"""Numeric check — Quiet Two-Bedroom 67 (JAH-MAP-000009).
+Made for this page from text-derived counts (the record carries no usable numbers of its own).
+This program checks the arithmetic of the stored figures; its outputs
+are check-sums, not physical quantities."""
+import hashlib
+def compute():
+    title_chars = 20; desc_chars = 71; source_count = 0; field_count = 4
+    total = round(title_chars + desc_chars + source_count + field_count, 2)
+    mean = round(total / 4, 2)
+    first_plus_second = round(title_chars + desc_chars, 2)
+    first_minus_second = round(title_chars - desc_chars, 2)
+    first_times_second = round(title_chars * desc_chars, 2)
+    return {"total": total, "mean": mean, "first_plus_second": first_plus_second, "first_minus_second": first_minus_second, "first_times_second": first_times_second}
+def main():
+    a = compute(); b = compute()
+    sa = hashlib.sha256(repr(sorted(a.items())).encode()).hexdigest()
+    sb = hashlib.sha256(repr(sorted(b.items())).encode()).hexdigest()
+    for key in ["total", "mean", "first_plus_second", "first_minus_second", "first_times_second"]:
+        print(f"{key}: {a[key]}")
+    print(f"Run 1 SHA-256: {sa}")
+    print(f"Run 2 SHA-256: {sb}")
+    print(f"Deterministic: {'MATCH' if sa == sb else 'MISMATCH'}")
+if __name__ == "__main__":
+    main()
+
+
+OFFICIAL DEMO OUTPUT
+{
+  "total": 95,
+  "mean": 23.75,
+  "first_plus_second": 91,
+  "first_minus_second": -51,
+  "first_times_second": 1420
+}
+
+Free forever. Part of The 'Merica-L Internet.

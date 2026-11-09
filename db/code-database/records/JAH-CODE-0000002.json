@@ -1,0 +1,53 @@
+{
+  "title": "Binary tree — inorder traversal (Python)",
+  "category": "data-structures",
+  "language": "python",
+  "description": "Inorder (left, node, right) visits a binary search tree in sorted order. The traversal that makes BSTs useful for ordered iteration.",
+  "code": "class N:\n    def __init__(self, v, l=None, r=None):\n        self.v, self.l, self.r = v, l, r\ndef ino(n, o):\n    if n:\n        ino(n.l, o); o.append(n.v); ino(n.r, o)\n\nt = N(2, N(1), N(3))\no = []\nino(t, o)\nprint(o)",
+  "how_it_works": "Lab exercise: type the snippet into a fresh file, run it, and confirm the test outputs match. Then change one input and predict the result before running — Recursion descends left first, records the node, then goes right — yielding ascending order on a BST.",
+  "complexity": "O(n)",
+  "test_cases": [
+    {
+      "input": "inorder of 2(1,3)",
+      "expected": "[1, 2, 3]",
+      "note": "Sorted output."
+    },
+    {
+      "input": "inorder of 2(1,3) — second run",
+      "expected": "[1, 2, 3]",
+      "note": "Determinism check: re-running the snippet reproduces the identical output."
+    }
+  ],
+  "pitfalls": "Deep trees recurse deep — iterative with an explicit stack avoids recursion limits.",
+  "use_cases": "Sorted iteration, expression trees.",
+  "source": "online",
+  "source_ref": "https://en.wikipedia.org/wiki/Tree_traversal",
+  "creation_mode": "ONLINE-VERIFIED",
+  "id": "JAH-CODE-0000002",
+  "_seed": 2,
+  "demo": {
+    "engine": "jahdb-demo-1.0",
+    "kind": "code",
+    "title": "Runnable code demo — Binary tree — inorder traversal (Python)",
+    "language": "python",
+    "program": "# JAH demo program — jahdb-demo-1.0\n# Database: code-database · Record: JAH-CODE-0000002\n# RUN: PC: save as demo.py, run `python3 demo.py`.\n\nclass N:\n    def __init__(self, v, l=None, r=None):\n        self.v, self.l, self.r = v, l, r\ndef ino(n, o):\n    if n:\n        ino(n.l, o); o.append(n.v); ino(n.r, o)\n\nt = N(2, N(1), N(3))\no = []\nino(t, o)\nprint(o)\n",
+    "run_hint": "PC: save as demo.py, run `python3 demo.py`.",
+    "how_to_run": "PC: save the program as demo.js (or demo.py/demo.sql per language) and run it with node/python3/sqlite3. In-page: open the record, Demo Lab tab, press Run.",
+    "runnable": true,
+    "extras": {
+      "test_cases": [
+        {
+          "input": "inorder of 2(1,3)",
+          "expected": "[1, 2, 3]",
+          "note": "Sorted output."
+        },
+        {
+          "input": "inorder of 2(1,3) — second run",
+          "expected": "[1, 2, 3]",
+          "note": "Determinism check: re-running the snippet reproduces the identical output."
+        }
+      ]
+    },
+    "note": "Lab exercise: type the snippet into a fresh file, run it, and confirm the test outputs match. Then change one input and predict the result before running — Recursion descends left first, records the node, then goes right — yielding ascending order on a BST."
+  }
+}

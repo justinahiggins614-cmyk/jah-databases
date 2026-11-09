@@ -1,0 +1,107 @@
+Dinner Rolls
+Record JAH-RECIPE-000021 — Public edition, cookbook.
+JCC v1 code: JAHDB/cookbook#JAH-RECIPE-000021
+
+DESCRIPTION
+Dinner Rolls
+
+SPEC
+{
+  "mechanism": "Dinner Rolls"
+}
+
+KEY FIGURES
+{
+  "cook_min": 115,
+  "prep_min": 30,
+  "servings": 12,
+  "total_min": 145
+}
+
+COMPLETE RECORD FIELDS
+id: JAH-RECIPE-000021
+name: Dinner Rolls
+chapter: Breads
+section: Yeast Breads
+ingredients[0].qty: 4
+ingredients[0].unit: cups
+ingredients[0].item: bread flour
+ingredients[1].qty: 2
+ingredients[1].unit: teaspoons
+ingredients[1].item: active dry yeast
+ingredients[2].qty: 1
+ingredients[2].unit: cup
+ingredients[2].item: warm water
+ingredients[3].qty: 1
+ingredients[3].unit: tablespoon
+ingredients[3].item: sugar
+steps: Stir the 2 teaspoons active dry yeast and 1 tablespoon sugar into the 1 cup warm water; let stand 5–10 minutes until foamy.; Add the 4 cups bread flour, 1 1/2 teaspoons salt, and 3 tablespoons olive oil. Knead 8–10 minutes until smooth and elastic.; Cover and rise in a warm spot about 1 hour, until doubled.; Punch down, shape as desired, and rise 30 minutes more.; Bake at 375°F for 25 minutes until deep golden and hollow-sounding when tapped. Cool on a rack.
+prep_min: 30
+cook_min: 115
+total_min: 145
+servings: 12
+difficulty: Easy
+
+SOURCES
+
+DEMO (record)
+/* JAH interactive demo program — jahdb-demo-1.0
+ * Database: cookbook · Record: JAH-RECIPE-000021 · Dinner Rolls
+ * Step-by-step simulation of "steps" (5 steps).
+ * RUN ON PC: save as demo.js, then run:  node demo.js
+ * RUN IN BROWSER: press F12, paste this program into the console, press Enter.
+ * RUN IN-PAGE: open this record and press "Run interactive demo". */
+(function(){
+var STEPS=[{"n":1,"label":"Stir the 2 teaspoons active dry yeast and 1 tablespoon sugar into the …","detail":""},{"n":2,"label":"Add the 4 cups bread flour, 1 1/2 teaspoons salt, and 3 tablespoons ol…","detail":""},{"n":3,"label":"Cover and rise in a warm spot about 1 hour, until doubled.","detail":""},{"n":4,"label":"Punch down, shape as desired, and rise 30 minutes more.","detail":""},{"n":5,"label":"Bake at 375°F for 25 minutes until deep golden and hollow-sounding whe…","detail":""}];
+function render(i){
+  var s=STEPS[i];if(!s){console.log("no step "+i);return;}
+  var pct=Math.round(((i+1)/STEPS.length)*100);
+  var filled=Math.round(pct/5), bar2="█".repeat(filled)+"░".repeat(20-filled);
+  console.log("\n[step "+s.n+"/"+STEPS.length+"] "+bar2+" "+pct+"%");
+  console.log("  "+s.label);
+  if(s.detail)console.log("  → "+s.detail);
+}
+console.log("Simulating steps — "+STEPS.length+" steps");
+for(var i=0;i<STEPS.length;i++)render(i);
+try{globalThis.jahDemoAPI={render:render};}catch(e){}
+console.log("\nSimulation complete ✓  Try: jahDemoAPI.render(0) to replay step 1.");
+})();
+
+
+CALCULATOR PROGRAM (made for this page)
+"""Numeric check — Dinner Rolls (JAH-RECIPE-000021).
+Made for this page from the record's own numbers.
+This program checks the arithmetic of the stored figures; its outputs
+are check-sums, not physical quantities."""
+import hashlib
+def compute():
+    servings = 12; prep_min = 30; cook_min = 115; total_min = 145
+    total = round(servings + prep_min + cook_min + total_min, 2)
+    mean = round(total / 4, 2)
+    first_plus_second = round(servings + prep_min, 2)
+    first_minus_second = round(servings - prep_min, 2)
+    first_times_second = round(servings * prep_min, 2)
+    return {"total": total, "mean": mean, "first_plus_second": first_plus_second, "first_minus_second": first_minus_second, "first_times_second": first_times_second}
+def main():
+    a = compute(); b = compute()
+    sa = hashlib.sha256(repr(sorted(a.items())).encode()).hexdigest()
+    sb = hashlib.sha256(repr(sorted(b.items())).encode()).hexdigest()
+    for key in ["total", "mean", "first_plus_second", "first_minus_second", "first_times_second"]:
+        print(f"{key}: {a[key]}")
+    print(f"Run 1 SHA-256: {sa}")
+    print(f"Run 2 SHA-256: {sb}")
+    print(f"Deterministic: {'MATCH' if sa == sb else 'MISMATCH'}")
+if __name__ == "__main__":
+    main()
+
+
+OFFICIAL DEMO OUTPUT
+{
+  "total": 302,
+  "mean": 75.5,
+  "first_plus_second": 42,
+  "first_minus_second": -18,
+  "first_times_second": 360
+}
+
+Free forever. Part of The 'Merica-L Internet.

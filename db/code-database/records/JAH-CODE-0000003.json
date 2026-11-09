@@ -1,0 +1,53 @@
+{
+  "title": "Deep clone — recursive (Javascript)",
+  "category": "javascript",
+  "language": "javascript",
+  "description": "Recursively copies plain objects and arrays so mutations of the clone never touch the original. (structuredClone is the built-in shortcut in modern runtimes.)",
+  "code": "function clone(v) {\n  if (Array.isArray(v)) return v.map(clone);\n  if (v && typeof v === \"object\") {\n    const o = {};\n    for (const k of Object.keys(v)) o[k] = clone(v[k]);\n    return o;\n  }\n  return v;\n}\nconst a = { x: [1, { y: 2 }] };\nconst b = clone(a);\nb.x[1].y = 99;\nconsole.log(a.x[1].y, b.x[1].y);",
+  "how_it_works": "Lab exercise: type the snippet into a fresh file, run it, and confirm the test outputs match. Then change one input and predict the result before running — Arrays map, objects rebuild key by key, primitives return as-is; nesting resolves bottom-up.",
+  "complexity": "O(n)",
+  "test_cases": [
+    {
+      "input": "mutate clone",
+      "expected": "2 99",
+      "note": "Original untouched."
+    },
+    {
+      "input": "mutate clone — second run",
+      "expected": "2 99",
+      "note": "Determinism check: re-running the snippet reproduces the identical output."
+    }
+  ],
+  "pitfalls": "Cycles recurse forever — track seen objects for cyclic graphs.",
+  "use_cases": "State snapshots, undo buffers, test fixtures.",
+  "source": "online",
+  "source_ref": "https://developer.mozilla.org/en-US/docs/Web/API/structuredClone",
+  "creation_mode": "ONLINE-VERIFIED",
+  "id": "JAH-CODE-0000003",
+  "_seed": 3,
+  "demo": {
+    "engine": "jahdb-demo-1.0",
+    "kind": "code",
+    "title": "Runnable code demo — Deep clone — recursive (Javascript)",
+    "language": "javascript",
+    "program": "/* JAH interactive demo program — jahdb-demo-1.0\n * Database: code-database · Record: JAH-CODE-0000003 · Deep clone — recursive (Javascript)\n * Runnable code from this record (\"code\") — executes with console output captured.\n * RUN ON PC: save as demo.js, then run:  node demo.js\n * RUN IN BROWSER: press F12, paste this program into the console, press Enter.\n * RUN IN-PAGE: open this record and press \"Run interactive demo\". */\n(function(){\n\"use strict\";\n/* ---- record code (code) ---- */\nfunction clone(v) {\n  if (Array.isArray(v)) return v.map(clone);\n  if (v && typeof v === \"object\") {\n    const o = {};\n    for (const k of Object.keys(v)) o[k] = clone(v[k]);\n    return o;\n  }\n  return v;\n}\nconst a = { x: [1, { y: 2 }] };\nconst b = clone(a);\nb.x[1].y = 99;\nconsole.log(a.x[1].y, b.x[1].y);\n/* ---- auto-run: call main/demo/solve if the snippet defines one ---- */\ntry{\n  if(typeof main===\"function\"){console.log(\"--- main() output ---\");main();}\n  else if(typeof demo===\"function\"){console.log(\"--- demo() output ---\");demo();}\n  else if(typeof solve===\"function\"){console.log(\"--- solve() output ---\");console.log(solve());}\n}catch(e){console.log(\"runtime note: \"+e.message);}\n})();\n",
+    "run_hint": "PC: save as demo.js, run `node demo.js`. In-page: press Run.",
+    "how_to_run": "PC: save the program as demo.js (or demo.py/demo.sql per language) and run it with node/python3/sqlite3. In-page: open the record, Demo Lab tab, press Run.",
+    "runnable": true,
+    "extras": {
+      "test_cases": [
+        {
+          "input": "mutate clone",
+          "expected": "2 99",
+          "note": "Original untouched."
+        },
+        {
+          "input": "mutate clone — second run",
+          "expected": "2 99",
+          "note": "Determinism check: re-running the snippet reproduces the identical output."
+        }
+      ]
+    },
+    "note": "Lab exercise: type the snippet into a fresh file, run it, and confirm the test outputs match. Then change one input and predict the result before running — Arrays map, objects rebuild key by key, primitives return as-is; nesting resolves bottom-up."
+  }
+}

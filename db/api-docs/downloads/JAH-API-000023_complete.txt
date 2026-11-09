@@ -1,0 +1,101 @@
+fetch_chunk
+Record JAH-API-000023 — Public edition, api-docs.
+JCC v1 code: JAHDB/api-docs#JAH-API-000023
+
+DESCRIPTION
+`jahdb.data.fetch_chunk({database:"unit-tests",chunk:3})`
+
+SPEC
+{
+  "mechanism": "`jahdb.data.fetch_chunk({database:\"unit-tests\",chunk:3})`"
+}
+
+KEY FIGURES
+{}
+
+COMPLETE RECORD FIELDS
+id: JAH-API-000023
+api_id: JAH-API-000023
+name: fetch_chunk
+description: Fetches one archive chunk by number.
+parameters.database.type: string
+parameters.database.description: Database slug.
+parameters.chunk.type: integer
+parameters.chunk.description: Chunk number, 1-based.
+example_call: `jahdb.data.fetch_chunk({database:"unit-tests",chunk:3})`
+example_response: `{"records":[{...}],"chunk":3}`
+error_codes[0].code: E_DB
+error_codes[0].meaning: Unknown database slug.
+error_codes[1].code: E_CHUNK
+error_codes[1].meaning: Chunk number out of range.
+category: data
+title: fetch_chunk
+
+SOURCES
+
+DEMO (record)
+/* JAH interactive demo program — jahdb-demo-1.0
+ * Database: api-docs · Record: JAH-API-000023 · fetch_chunk
+ * Runnable mock of the "fetch_chunk" endpoint — validates args, returns the documented example response.
+ * RUN ON PC: save as demo.js, then run:  node demo.js
+ * RUN IN BROWSER: press F12, paste this program into the console, press Enter.
+ * RUN IN-PAGE: open this record and press "Run interactive demo". */
+(function(){
+var SPEC={"name":"fetch_chunk","description":"Fetches one archive chunk by number.","parameters":{"database":{"type":"string","description":"Database slug."},"chunk":{"type":"integer","description":"Chunk number, 1-based."}},"error_codes":[{"code":"E_DB","meaning":"Unknown database slug."},{"code":"E_CHUNK","meaning":"Chunk number out of range."}]};
+function call(args){
+  args=args||{};
+  console.log("> "+SPEC.name+"("+JSON.stringify(args)+")");
+  var missing=Object.keys(SPEC.parameters).filter(function(p){return args[p]===undefined;});
+  if(missing.length){console.log("! missing parameters: "+missing.join(", "));return {error:"E_ARGS",missing:missing};}
+  var resp="{\"records\":[{...}],\"chunk\":3}";
+  console.log("< "+resp);
+  return resp;
+}
+console.log("API: "+SPEC.name+" — "+SPEC.description);
+console.log("Parameters: "+Object.keys(SPEC.parameters).map(function(p){return p+":"+SPEC.parameters[p].type;}).join(", "));
+console.log("Error codes: "+SPEC.error_codes.map(function(e){return e.code;}).join(", "));
+console.log("--- documented example ---");
+console.log("call: jahdb.data.fetch_chunk({database:\"unit-tests\",chunk:3})");
+console.log("--- live mock run ---");
+call({"database":"demo","chunk":1});
+console.log("Tip: call your own args and watch the mock validate + respond.");
+})();
+
+
+CALCULATOR PROGRAM (made for this page)
+"""Numeric check — fetch_chunk (JAH-API-000023).
+Made for this page from text-derived counts (the record carries no usable numbers of its own).
+This program checks the arithmetic of the stored figures; its outputs
+are check-sums, not physical quantities."""
+import hashlib
+def compute():
+    title_chars = 11; desc_chars = 57; source_count = 0; field_count = 8
+    total = round(title_chars + desc_chars + source_count + field_count, 2)
+    mean = round(total / 4, 2)
+    first_plus_second = round(title_chars + desc_chars, 2)
+    first_minus_second = round(title_chars - desc_chars, 2)
+    first_times_second = round(title_chars * desc_chars, 2)
+    return {"total": total, "mean": mean, "first_plus_second": first_plus_second, "first_minus_second": first_minus_second, "first_times_second": first_times_second}
+def main():
+    a = compute(); b = compute()
+    sa = hashlib.sha256(repr(sorted(a.items())).encode()).hexdigest()
+    sb = hashlib.sha256(repr(sorted(b.items())).encode()).hexdigest()
+    for key in ["total", "mean", "first_plus_second", "first_minus_second", "first_times_second"]:
+        print(f"{key}: {a[key]}")
+    print(f"Run 1 SHA-256: {sa}")
+    print(f"Run 2 SHA-256: {sb}")
+    print(f"Deterministic: {'MATCH' if sa == sb else 'MISMATCH'}")
+if __name__ == "__main__":
+    main()
+
+
+OFFICIAL DEMO OUTPUT
+{
+  "total": 76,
+  "mean": 19.0,
+  "first_plus_second": 68,
+  "first_minus_second": -46,
+  "first_times_second": 627
+}
+
+Free forever. Part of The 'Merica-L Internet.

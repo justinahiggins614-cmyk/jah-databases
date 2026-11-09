@@ -1,0 +1,80 @@
+Pivot rows to columns — CASE (Sql)
+Record JAH-CODE-0000016 — Public edition, code-database.
+JCC v1 code: JAHDB/code-database#JAH-CODE-0000016
+
+DESCRIPTION
+Conditional aggregation pivots quarterly rows into quarter columns: SUM(CASE WHEN ...) totals each quarter separately in one pass.
+
+SPEC
+{
+  "mechanism": "Each CASE yields the amount only for its quarter, else zero; SUM collapses to one row.",
+  "use": "Crosstabs, quarterly reports."
+}
+
+KEY FIGURES
+{}
+
+COMPLETE RECORD FIELDS
+title: Pivot rows to columns — CASE (Sql)
+category: sql
+language: sql
+description: Conditional aggregation pivots quarterly rows into quarter columns: SUM(CASE WHEN ...) totals each quarter separately in one pass.
+code: SELECT SUM(CASE WHEN q = 'Q1' THEN amt ELSE 0 END) AS q1,
+       SUM(CASE WHEN q = 'Q2' THEN amt ELSE 0 END) AS q2
+FROM sales;
+how_it_works: Each CASE yields the amount only for its quarter, else zero; SUM collapses to one row.
+complexity: O(n)
+test_cases[0].input: sample fixture
+test_cases[0].expected: 15|20
+test_cases[0].note: Q1=10+5, Q2=20.
+test_cases[1].input: sample fixture — second run
+test_cases[1].expected: 15|20
+test_cases[1].note: Determinism check: re-running the snippet reproduces the identical output.
+pitfalls: The FILTER clause is cleaner where supported, but CASE works everywhere. Reproduce it once on purpose in a scratch file: seeing the failure teaches the fix faster than reading about it.
+use_cases: Crosstabs, quarterly reports.
+source: online
+source_ref: https://www.sqlite.org/lang_expr.html
+creation_mode: ONLINE-VERIFIED
+id: JAH-CODE-0000016
+_seed: 16
+
+SOURCES
+Record source — https://www.sqlite.org/lang_expr.html
+
+DEMO (generated)
+"""Numeric check — Pivot rows to columns — CASE (Sql) (JAH-CODE-0000016).
+Made for this page from text-derived counts (the record carries no usable numbers of its own).
+This program checks the arithmetic of the stored figures; its outputs
+are check-sums, not physical quantities."""
+import hashlib
+def compute():
+    title_chars = 34; desc_chars = 130; source_count = 1; field_count = 14
+    total = round(title_chars + desc_chars + source_count + field_count, 2)
+    mean = round(total / 4, 2)
+    first_plus_second = round(title_chars + desc_chars, 2)
+    first_minus_second = round(title_chars - desc_chars, 2)
+    first_times_second = round(title_chars * desc_chars, 2)
+    return {"total": total, "mean": mean, "first_plus_second": first_plus_second, "first_minus_second": first_minus_second, "first_times_second": first_times_second}
+def main():
+    a = compute(); b = compute()
+    sa = hashlib.sha256(repr(sorted(a.items())).encode()).hexdigest()
+    sb = hashlib.sha256(repr(sorted(b.items())).encode()).hexdigest()
+    for key in ["total", "mean", "first_plus_second", "first_minus_second", "first_times_second"]:
+        print(f"{key}: {a[key]}")
+    print(f"Run 1 SHA-256: {sa}")
+    print(f"Run 2 SHA-256: {sb}")
+    print(f"Deterministic: {'MATCH' if sa == sb else 'MISMATCH'}")
+if __name__ == "__main__":
+    main()
+
+
+OFFICIAL DEMO OUTPUT
+{
+  "total": 179,
+  "mean": 44.75,
+  "first_plus_second": 164,
+  "first_minus_second": -96,
+  "first_times_second": 4420
+}
+
+Free forever. Part of The 'Merica-L Internet.

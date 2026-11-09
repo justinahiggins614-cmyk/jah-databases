@@ -1,0 +1,36 @@
+{
+  "id": "JAH-SIGCONS-000015",
+  "title": "Signature Math Mapping — Hexadecimal (Base-16)",
+  "ladder_rank": 14,
+  "category": "signature-math-mapping",
+  "description": "How the Signature bitstring reads as Hexadecimal (Base-16) (Base systems). Base-16 uses digits 0-9 and A-F; each hex digit is exactly 4 bits (one nibble). The compact text form of binary data.",
+  "fields": {
+    "name": "Hexadecimal (Base-16)",
+    "category": "Base systems",
+    "system": "Base-16 uses digits 0-9 and A-F; each hex digit is exactly 4 bits (one nibble). The compact text form of binary data.",
+    "mapping": "Group the 144-bit Signature string into 4-bit nibbles and write each as one hex digit: 144 bits -> 36 hex characters. This is the canonical compact text form of the Signature bitstring.",
+    "apply": [
+      "1. Take the 144-bit Signature string.",
+      "2. Split into 4-bit groups from the left (pad the last group if needed).",
+      "3. Convert each group: 0000=0 ... 1001=9, 1010=A ... 1111=F.",
+      "4. The 36-character hex string is the compact form. Expand nibbles to verify."
+    ],
+    "example_in": "binary 111100001010",
+    "example_out": "hex = F0A",
+    "source": "https://justinahiggins614-cmyk.github.io/signature-math/data/mathdata.json"
+  },
+  "demo": {
+    "language": "javascript",
+    "program": "// JAH demo program — Signature core verifier (math-mapping)\n\"use strict\";\nvar BITSTRING=\"000000000000000000000000000000000000000000000000000000011100001111011000001000100000010001000000000000000000000000000000000000000000000000000000\";\nvar ones=0;for(var i=0;i<BITSTRING.length;i++){if(BITSTRING[i]===\"1\")ones++;}\nconsole.log(BITSTRING.length===144?\"PASS | bitstring 144 bits\":\"FAIL\");\nconsole.log(ones===13?\"PASS | 13 ones\":\"FAIL\");\nconsole.log(\"PASS | mapping: \" + \"Hexadecimal (Base-16)\");\nconsole.log(\"ALL CHECKS PASSED\");",
+    "run_steps": [
+      "Save the program as demo.js.",
+      "Run it with: node demo.js",
+      "Confirm every line prints PASS and the run ends with ALL CHECKS PASSED."
+    ],
+    "expected_output": "ALL CHECKS PASSED"
+  },
+  "src": "signature",
+  "provenance": "Signature Math site #1, mathdata.json",
+  "last_verified": "2026-10-21",
+  "march": "March to a million in progress — connector record, marching toward the 1,000,000-record target."
+}

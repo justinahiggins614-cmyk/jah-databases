@@ -1,0 +1,40 @@
+{
+  "id": "JAH-API-000006",
+  "api_id": "JAH-API-000006",
+  "name": "stop_audio",
+  "description": "Stops all audio playback on the page.",
+  "parameters": {
+    "fade_ms": {
+      "type": "integer",
+      "description": "Fade-out duration in ms (default 0)."
+    },
+    "session": {
+      "type": "string",
+      "description": "Optional session id to stop."
+    }
+  },
+  "example_call": "`jahdb.media.stop_audio()`",
+  "example_response": "`{\"stopped\":true}`",
+  "error_codes": [
+    {
+      "code": "E_AUDIO",
+      "meaning": "Audio engine unavailable."
+    },
+    {
+      "code": "E_STATE",
+      "meaning": "Nothing is playing."
+    }
+  ],
+  "category": "media",
+  "title": "stop_audio",
+  "demo": {
+    "engine": "jahdb-demo-1.0",
+    "kind": "api",
+    "title": "Runnable API mock — stop_audio",
+    "language": "javascript",
+    "program": "/* JAH interactive demo program — jahdb-demo-1.0\n * Database: api-docs · Record: JAH-API-000006 · stop_audio\n * Runnable mock of the \"stop_audio\" endpoint — validates args, returns the documented example response.\n * RUN ON PC: save as demo.js, then run:  node demo.js\n * RUN IN BROWSER: press F12, paste this program into the console, press Enter.\n * RUN IN-PAGE: open this record and press \"Run interactive demo\". */\n(function(){\nvar SPEC={\"name\":\"stop_audio\",\"description\":\"Stops all audio playback on the page.\",\"parameters\":{\"fade_ms\":{\"type\":\"integer\",\"description\":\"Fade-out duration in ms (default 0).\"},\"session\":{\"type\":\"string\",\"description\":\"Optional session id to stop.\"}},\"error_codes\":[{\"code\":\"E_AUDIO\",\"meaning\":\"Audio engine unavailable.\"},{\"code\":\"E_STATE\",\"meaning\":\"Nothing is playing.\"}]};\nfunction call(args){\n  args=args||{};\n  console.log(\"> \"+SPEC.name+\"(\"+JSON.stringify(args)+\")\");\n  var missing=Object.keys(SPEC.parameters).filter(function(p){return args[p]===undefined;});\n  if(missing.length){console.log(\"! missing parameters: \"+missing.join(\", \"));return {error:\"E_ARGS\",missing:missing};}\n  var resp=\"{\\\"stopped\\\":true}\";\n  console.log(\"< \"+resp);\n  return resp;\n}\nconsole.log(\"API: \"+SPEC.name+\" — \"+SPEC.description);\nconsole.log(\"Parameters: \"+Object.keys(SPEC.parameters).map(function(p){return p+\":\"+SPEC.parameters[p].type;}).join(\", \"));\nconsole.log(\"Error codes: \"+SPEC.error_codes.map(function(e){return e.code;}).join(\", \"));\nconsole.log(\"--- documented example ---\");\nconsole.log(\"call: jahdb.media.stop_audio()\");\nconsole.log(\"--- live mock run ---\");\ncall({\"fade_ms\":1,\"session\":\"demo\"});\nconsole.log(\"Tip: call your own args and watch the mock validate + respond.\");\n})();\n",
+    "run_hint": "PC: save the program as demo.js (or demo.py/demo.sql per language) and run it with node/python3/sqlite3. In-page: open the record, Demo Lab tab, press Run.",
+    "how_to_run": "PC: save the program as demo.js (or demo.py/demo.sql per language) and run it with node/python3/sqlite3. In-page: open the record, Demo Lab tab, press Run.",
+    "runnable": true
+  }
+}

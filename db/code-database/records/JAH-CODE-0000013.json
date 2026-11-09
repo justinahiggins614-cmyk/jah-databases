@@ -1,0 +1,53 @@
+{
+  "title": "RANK window — ties share rank (Sql)",
+  "category": "sql",
+  "language": "sql",
+  "description": "RANK() OVER (ORDER BY pts DESC) numbers rows by score with gaps after ties: two first places, then third. DENSE_RANK skips the gap; ROW_NUMBER never ties.",
+  "code": "SELECT name, RANK() OVER (ORDER BY pts DESC) AS r\nFROM s ORDER BY r, name;",
+  "how_it_works": "The window sorts by points; equal values receive the same rank and the next rank skips ahead.",
+  "complexity": "O(n log n)",
+  "test_cases": [
+    {
+      "input": "b=20,c=20,a=10",
+      "expected": "b|1, c|1, a|3",
+      "note": "Tied for first, then third."
+    },
+    {
+      "input": "b=20,c=20,a=10 — second run",
+      "expected": "b|1, c|1, a|3",
+      "note": "Determinism check: re-running the snippet reproduces the identical output."
+    }
+  ],
+  "pitfalls": "Use the right function: leaderboards usually want RANK or DENSE_RANK, not ROW_NUMBER. Reproduce it once on purpose in a scratch file: seeing the failure teaches the fix faster than reading about it.",
+  "use_cases": "Leaderboards, percentiles, top-N with ties.",
+  "source": "online",
+  "source_ref": "https://www.sqlite.org/lang_windowfunc.html",
+  "creation_mode": "ONLINE-VERIFIED",
+  "id": "JAH-CODE-0000013",
+  "_seed": 13,
+  "demo": {
+    "engine": "jahdb-demo-1.0",
+    "kind": "code",
+    "title": "Runnable code demo — RANK window — ties share rank (Sql)",
+    "language": "sql",
+    "program": "# JAH demo program — jahdb-demo-1.0\n# Database: code-database · Record: JAH-CODE-0000013\n# RUN: PC: save as demo.sql, run `sqlite3 :memory: < demo.sql`.\n\nSELECT name, RANK() OVER (ORDER BY pts DESC) AS r\nFROM s ORDER BY r, name;\n",
+    "run_hint": "PC: save as demo.sql, run `sqlite3 :memory: < demo.sql`.",
+    "how_to_run": "PC: save the program as demo.js (or demo.py/demo.sql per language) and run it with node/python3/sqlite3. In-page: open the record, Demo Lab tab, press Run.",
+    "runnable": true,
+    "extras": {
+      "test_cases": [
+        {
+          "input": "b=20,c=20,a=10",
+          "expected": "b|1, c|1, a|3",
+          "note": "Tied for first, then third."
+        },
+        {
+          "input": "b=20,c=20,a=10 — second run",
+          "expected": "b|1, c|1, a|3",
+          "note": "Determinism check: re-running the snippet reproduces the identical output."
+        }
+      ]
+    },
+    "note": "The window sorts by points; equal values receive the same rank and the next rank skips ahead."
+  }
+}

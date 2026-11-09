@@ -1,0 +1,80 @@
+Projectile motion scenario #17
+Record JAH-SIM-0000022 — Public edition, simulation.
+JCC v1 code: JAHDB/simulation#JAH-SIM-0000022
+
+DESCRIPTION
+Projectile motion with parameters {"v0":38,"angle_deg":21,"g":9.81}.
+
+SPEC
+{
+  "mechanism": "Projectile motion with parameters {\"v0\":38,\"angle_deg\":21,\"g\":9.81}."
+}
+
+KEY FIGURES
+{
+  "parameters.angle_deg": 21,
+  "parameters.v0": 38,
+  "run_spec.steps": 1
+}
+
+COMPLETE RECORD FIELDS
+id: JAH-SIM-0000022
+category: physical
+title: Projectile motion scenario #17
+_seed: 22
+kind: simulation-scenario
+system: Projectile motion with parameters {"v0":38,"angle_deg":21,"g":9.81}.
+model: Projectile motion
+model_description: Closed-form ballistics: range, apex and flight time from launch velocity, angle and gravity.
+parameters.v0: 38
+parameters.angle_deg: 21
+parameters.g: 9.81
+run_spec.steps: 1
+results.key_metrics.range: 98.493843
+results.key_metrics.max_height: 9.452061
+results.key_metrics.flight_time: 2.776347
+results.final_state.x: 98.493843
+results.final_state.y: 0
+validation_results: Re-simulated by the validator with identical parameters and seed; every key metric must reproduce.
+source: online
+source_ref: Computed by Projectile motion implementation
+
+SOURCES
+
+DEMO (generated)
+"""Numeric check — Projectile motion scenario #17 (JAH-SIM-0000022).
+Made for this page from the record's own numbers.
+This program checks the arithmetic of the stored figures; its outputs
+are check-sums, not physical quantities."""
+import hashlib
+def compute():
+    run_spec_steps = 1; parameters_angle_deg = 21; parameters_v0 = 38
+    total = round(run_spec_steps + parameters_angle_deg + parameters_v0, 2)
+    mean = round(total / 3, 2)
+    first_plus_second = round(run_spec_steps + parameters_angle_deg, 2)
+    first_minus_second = round(run_spec_steps - parameters_angle_deg, 2)
+    first_times_second = round(run_spec_steps * parameters_angle_deg, 2)
+    return {"total": total, "mean": mean, "first_plus_second": first_plus_second, "first_minus_second": first_minus_second, "first_times_second": first_times_second}
+def main():
+    a = compute(); b = compute()
+    sa = hashlib.sha256(repr(sorted(a.items())).encode()).hexdigest()
+    sb = hashlib.sha256(repr(sorted(b.items())).encode()).hexdigest()
+    for key in ["total", "mean", "first_plus_second", "first_minus_second", "first_times_second"]:
+        print(f"{key}: {a[key]}")
+    print(f"Run 1 SHA-256: {sa}")
+    print(f"Run 2 SHA-256: {sb}")
+    print(f"Deterministic: {'MATCH' if sa == sb else 'MISMATCH'}")
+if __name__ == "__main__":
+    main()
+
+
+OFFICIAL DEMO OUTPUT
+{
+  "total": 60,
+  "mean": 20.0,
+  "first_plus_second": 22,
+  "first_minus_second": -20,
+  "first_times_second": 21
+}
+
+Free forever. Part of The 'Merica-L Internet.

@@ -1,0 +1,55 @@
+Flagship Mix — Branding rule: Consistency × Signature Web Layout Basics (overview)
+Mix JAH-MIX-GRAPHICDESIG-001 — flagship mix of the JAH Graphic Design Database database.
+JCC v1 code: JAHDB/graphic-design#JAH-MIX-GRAPHICDESIG-001
+
+BLEND
+The flagship mix of the JAH Graphic Design database: Branding rule: Consistency (JAH-DES-0000001) blended with Signature Web Layout Basics (overview) (JAH-GRAD-SIG-000001). The mix combines the two records — their numbers, mechanisms, and descriptions — and scales the blend at A1 pocket (0.6×), A2 standard (1.0×), and A3 workshop (1.6×).
+
+FIRST INGREDIENT
+Branding rule: Consistency (JAH-DES-0000001): A core branding rule: Consistency. One lockup, one voice and one palette across every touchpoint. Following it keeps the brand recognizable and professional across every touchpoint.
+
+SECOND INGREDIENT
+Signature Web Layout Basics (overview) (JAH-GRAD-SIG-000001): Signature Web Layout Basics (overview)
+
+SPEC
+{
+  "mechanism": "A core branding rule: Consistency. One lockup, one voice and one palette across every touchpoint. Following it keeps the brand recognizable and professional across every touchpoint.; Signature Web Layout Basics (overview)"
+}
+
+DEMO (made for this page)
+"""Numeric check — Flagship Mix — Branding rule: Consistency × Signature Web Layout Basics (overvie (JAH-MIX-GRAPHICDESIG-001).
+Made for this page from text-derived counts (the record carries no usable numbers of its own).
+This program checks the arithmetic of the stored figures; its outputs
+are check-sums, not physical quantities."""
+import hashlib
+def compute():
+    title_chars = 82; desc_chars = 339; source_count = 0; field_count = 2
+    total = round(title_chars + desc_chars + source_count + field_count, 2)
+    mean = round(total / 4, 2)
+    first_plus_second = round(title_chars + desc_chars, 2)
+    first_minus_second = round(title_chars - desc_chars, 2)
+    first_times_second = round(title_chars * desc_chars, 2)
+    return {"total": total, "mean": mean, "first_plus_second": first_plus_second, "first_minus_second": first_minus_second, "first_times_second": first_times_second}
+def main():
+    a = compute(); b = compute()
+    sa = hashlib.sha256(repr(sorted(a.items())).encode()).hexdigest()
+    sb = hashlib.sha256(repr(sorted(b.items())).encode()).hexdigest()
+    for key in ["total", "mean", "first_plus_second", "first_minus_second", "first_times_second"]:
+        print(f"{key}: {a[key]}")
+    print(f"Run 1 SHA-256: {sa}")
+    print(f"Run 2 SHA-256: {sb}")
+    print(f"Deterministic: {'MATCH' if sa == sb else 'MISMATCH'}")
+if __name__ == "__main__":
+    main()
+
+
+OFFICIAL DEMO OUTPUT
+{
+  "total": 423,
+  "mean": 105.75,
+  "first_plus_second": 421,
+  "first_minus_second": -257,
+  "first_times_second": 27798
+}
+
+Free forever. Part of The 'Merica-L Internet.

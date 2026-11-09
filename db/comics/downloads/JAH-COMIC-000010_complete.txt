@@ -1,0 +1,79 @@
+The Signal Road
+Record JAH-COMIC-000010 — Public edition, comics.
+JCC v1 code: JAHDB/comics#JAH-COMIC-000010
+
+DESCRIPTION
+EMBERFALL #2 — The Signal Road. midnight over the Vale Compact — and Ollmir is already already moving. Starring Ollmir (Belfaro Rolia), Maerak (Fenbris Oldine), Quodorae (Nekem Fencott). In a valley of ash and frost, young wardens carry living ember-flames between the last warm holds of the Vale.
+
+SPEC
+{
+  "mechanism": "EMBERFALL #2 — The Signal Road. midnight over the Vale Compact — and Ollmir is already already moving. Starring Ollmir (Belfaro Rolia), Maerak (Fenbris Oldine), Quodorae (Nekem Fencott). In a valley of ash and frost, young wardens carry living ember-flames between the last warm holds of the Vale."
+}
+
+KEY FIGURES
+{
+  "chunk": 1,
+  "pg": 22,
+  "w": 394
+}
+
+COMPLETE RECORD FIELDS
+id: JAH-COMIC-000010
+t: The Signal Road
+s: EMBERFALL
+sk: ember
+n: 2
+ch[0].name: Belfaro Rolia
+ch[0].code: Ollmir
+ch[0].power: flame warding
+ch[1].name: Fenbris Oldine
+ch[1].code: Maerak
+ch[1].power: wind riding
+ch[2].name: Nekem Fencott
+ch[2].code: Quodorae
+ch[2].power: wind riding
+d: EMBERFALL #2 — The Signal Road. midnight over the Vale Compact — and Ollmir is already already moving. Starring Ollmir (Belfaro Rolia), Maerak (Fenbris Oldine), Quodorae (Nekem Fencott). In a valley of ash and frost, young wardens carry living ember-flames between the last warm holds of the Vale.
+w: 394
+pg: 22
+chunk: 1
+src: signature
+
+SOURCES
+
+DEMO (generated)
+"""Numeric check — The Signal Road (JAH-COMIC-000010).
+Made for this page from the record's own numbers.
+This program checks the arithmetic of the stored figures; its outputs
+are check-sums, not physical quantities."""
+import hashlib
+def compute():
+    chunk = 1; pg = 22; w = 394
+    total = round(chunk + pg + w, 2)
+    mean = round(total / 3, 2)
+    first_plus_second = round(chunk + pg, 2)
+    first_minus_second = round(chunk - pg, 2)
+    first_times_second = round(chunk * pg, 2)
+    return {"total": total, "mean": mean, "first_plus_second": first_plus_second, "first_minus_second": first_minus_second, "first_times_second": first_times_second}
+def main():
+    a = compute(); b = compute()
+    sa = hashlib.sha256(repr(sorted(a.items())).encode()).hexdigest()
+    sb = hashlib.sha256(repr(sorted(b.items())).encode()).hexdigest()
+    for key in ["total", "mean", "first_plus_second", "first_minus_second", "first_times_second"]:
+        print(f"{key}: {a[key]}")
+    print(f"Run 1 SHA-256: {sa}")
+    print(f"Run 2 SHA-256: {sb}")
+    print(f"Deterministic: {'MATCH' if sa == sb else 'MISMATCH'}")
+if __name__ == "__main__":
+    main()
+
+
+OFFICIAL DEMO OUTPUT
+{
+  "total": 417,
+  "mean": 139.0,
+  "first_plus_second": 23,
+  "first_minus_second": -21,
+  "first_times_second": 22
+}
+
+Free forever. Part of The 'Merica-L Internet.

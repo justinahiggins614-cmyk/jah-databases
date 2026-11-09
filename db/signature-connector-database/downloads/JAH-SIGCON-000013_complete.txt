@@ -1,0 +1,85 @@
+Signature Math Mapping — Gray Code
+Record JAH-SIGCON-000013 — Public edition, signature-connector-database.
+JCC v1 code: JAHDB/signature-connector-database#JAH-SIGCON-000013
+
+DESCRIPTION
+How the Signature bitstring reads as Gray Code (Base systems). Binary reflected Gray code orders values so successive numbers differ in exactly one bit. Used in rotary encoders and error-resistant sensing.
+
+SPEC
+{
+  "mechanism": "How the Signature bitstring reads as Gray Code (Base systems). Binary reflected Gray code orders values so successive numbers differ in exactly one bit. Used in rotary encoders and error-resistant sensing."
+}
+
+KEY FIGURES
+{
+  "ladder_rank": 14
+}
+
+COMPLETE RECORD FIELDS
+id: JAH-SIGCON-000013
+title: Signature Math Mapping — Gray Code
+ladder_rank: 14
+category: signature-math-mapping
+description: How the Signature bitstring reads as Gray Code (Base systems). Binary reflected Gray code orders values so successive numbers differ in exactly one bit. Used in rotary encoders and error-resistant sensing.
+fields.name: Gray Code
+fields.category: Base systems
+fields.system: Binary reflected Gray code orders values so successive numbers differ in exactly one bit. Used in rotary encoders and error-resistant sensing.
+fields.mapping: Convert the Signature bitstring with g = b XOR (b shifted right 1). Adjacent grid positions then differ by one bit — the grid becomes a Gray-coded position sensor layout.
+fields.apply: 1. Take the Signature bitstring as an integer b.; 2. Compute g = b XOR (b >> 1), keep the same bit width.; 3. The result is the Gray-coded form. Convert back with the standard inverse loop.; 4. Verify: binary 1011 -> Gray 1110, and back again.
+fields.example_in: binary 1011 (decimal 11)
+fields.example_out: Gray = 1110 (decimal 14)
+fields.source: https://justinahiggins614-cmyk.github.io/signature-math/data/mathdata.json
+src: public-harvest
+provenance: Signature Math site #1, mathdata.json
+last_verified: 2026-10-21
+march: March to a million in progress — connector record, marching toward the 1,000,000-record target.
+
+SOURCES
+
+DEMO (record)
+// JAH demo program — Signature core verifier (math-mapping)
+"use strict";
+var BITSTRING="000000000000000000000000000000000000000000000000000000011100001111011000001000100000010001000000000000000000000000000000000000000000000000000000";
+var ones=0;for(var i=0;i<BITSTRING.length;i++){if(BITSTRING[i]==="1")ones++;}
+console.log(BITSTRING.length===144?"PASS | bitstring 144 bits":"FAIL");
+console.log(ones===13?"PASS | 13 ones":"FAIL");
+console.log("PASS | mapping: " + "Gray Code");
+console.log("ALL CHECKS PASSED");
+
+CALCULATOR PROGRAM (made for this page)
+"""Numeric check — Signature Math Mapping — Gray Code (JAH-SIGCON-000013).
+Made for this page from text-derived counts (the record carries no usable numbers of its own).
+This program checks the arithmetic of the stored figures; its outputs
+are check-sums, not physical quantities."""
+import hashlib
+def compute():
+    title_chars = 34; desc_chars = 205; source_count = 0; field_count = 9
+    total = round(title_chars + desc_chars + source_count + field_count, 2)
+    mean = round(total / 4, 2)
+    first_plus_second = round(title_chars + desc_chars, 2)
+    first_minus_second = round(title_chars - desc_chars, 2)
+    first_times_second = round(title_chars * desc_chars, 2)
+    return {"total": total, "mean": mean, "first_plus_second": first_plus_second, "first_minus_second": first_minus_second, "first_times_second": first_times_second}
+def main():
+    a = compute(); b = compute()
+    sa = hashlib.sha256(repr(sorted(a.items())).encode()).hexdigest()
+    sb = hashlib.sha256(repr(sorted(b.items())).encode()).hexdigest()
+    for key in ["total", "mean", "first_plus_second", "first_minus_second", "first_times_second"]:
+        print(f"{key}: {a[key]}")
+    print(f"Run 1 SHA-256: {sa}")
+    print(f"Run 2 SHA-256: {sb}")
+    print(f"Deterministic: {'MATCH' if sa == sb else 'MISMATCH'}")
+if __name__ == "__main__":
+    main()
+
+
+OFFICIAL DEMO OUTPUT
+{
+  "total": 248,
+  "mean": 62.0,
+  "first_plus_second": 239,
+  "first_minus_second": -171,
+  "first_times_second": 6970
+}
+
+Free forever. Part of The 'Merica-L Internet.

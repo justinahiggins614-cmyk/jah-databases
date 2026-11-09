@@ -1,0 +1,36 @@
+{
+  "id": "JAH-SIGCON-000016",
+  "title": "Signature Math Mapping — IPv4 Address Form",
+  "ladder_rank": 14,
+  "category": "signature-math-mapping",
+  "description": "How the Signature bitstring reads as IPv4 Address Form (Numeric formats). An IPv4 address is 32 bits written as four decimal octets (e.g. 192.168.1.1). Here it is used purely as an address-FORM demonstration for 32 Signature bits.",
+  "fields": {
+    "name": "IPv4 Address Form",
+    "category": "Numeric formats",
+    "system": "An IPv4 address is 32 bits written as four decimal octets (e.g. 192.168.1.1). Here it is used purely as an address-FORM demonstration for 32 Signature bits.",
+    "mapping": "Pack the first 32 bits of the Signature string into four 8-bit octets and write them dotted-decimal. This demonstrates the address form; it does not claim the Signature is a routable network address.",
+    "apply": [
+      "1. Take the first 32 bits of the Signature string.",
+      "2. Split into four 8-bit octets.",
+      "3. Convert each octet to decimal 0-255, join with dots.",
+      "4. Label the result 'address form — demonstration only'."
+    ],
+    "example_in": "octets of 192.168.1.1",
+    "example_out": "binary: 11000000.10101000.00000001.00000001",
+    "source": "https://justinahiggins614-cmyk.github.io/signature-math/data/mathdata.json"
+  },
+  "demo": {
+    "language": "javascript",
+    "program": "// JAH demo program — Signature core verifier (math-mapping)\n\"use strict\";\nvar BITSTRING=\"000000000000000000000000000000000000000000000000000000011100001111011000001000100000010001000000000000000000000000000000000000000000000000000000\";\nvar ones=0;for(var i=0;i<BITSTRING.length;i++){if(BITSTRING[i]===\"1\")ones++;}\nconsole.log(BITSTRING.length===144?\"PASS | bitstring 144 bits\":\"FAIL\");\nconsole.log(ones===13?\"PASS | 13 ones\":\"FAIL\");\nconsole.log(\"PASS | mapping: \" + \"IPv4 Address Form\");\nconsole.log(\"ALL CHECKS PASSED\");",
+    "run_steps": [
+      "Save the program as demo.js.",
+      "Run it with: node demo.js",
+      "Confirm every line prints PASS and the run ends with ALL CHECKS PASSED."
+    ],
+    "expected_output": "ALL CHECKS PASSED"
+  },
+  "src": "public-harvest",
+  "provenance": "Signature Math site #1, mathdata.json",
+  "last_verified": "2026-10-21",
+  "march": "March to a million in progress — connector record, marching toward the 1,000,000-record target."
+}

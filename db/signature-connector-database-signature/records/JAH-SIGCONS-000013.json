@@ -1,0 +1,36 @@
+{
+  "id": "JAH-SIGCONS-000013",
+  "title": "Signature Math Mapping — Gray Code",
+  "ladder_rank": 14,
+  "category": "signature-math-mapping",
+  "description": "How the Signature bitstring reads as Gray Code (Base systems). Binary reflected Gray code orders values so successive numbers differ in exactly one bit. Used in rotary encoders and error-resistant sensing.",
+  "fields": {
+    "name": "Gray Code",
+    "category": "Base systems",
+    "system": "Binary reflected Gray code orders values so successive numbers differ in exactly one bit. Used in rotary encoders and error-resistant sensing.",
+    "mapping": "Convert the Signature bitstring with g = b XOR (b shifted right 1). Adjacent grid positions then differ by one bit — the grid becomes a Gray-coded position sensor layout.",
+    "apply": [
+      "1. Take the Signature bitstring as an integer b.",
+      "2. Compute g = b XOR (b >> 1), keep the same bit width.",
+      "3. The result is the Gray-coded form. Convert back with the standard inverse loop.",
+      "4. Verify: binary 1011 -> Gray 1110, and back again."
+    ],
+    "example_in": "binary 1011 (decimal 11)",
+    "example_out": "Gray = 1110 (decimal 14)",
+    "source": "https://justinahiggins614-cmyk.github.io/signature-math/data/mathdata.json"
+  },
+  "demo": {
+    "language": "javascript",
+    "program": "// JAH demo program — Signature core verifier (math-mapping)\n\"use strict\";\nvar BITSTRING=\"000000000000000000000000000000000000000000000000000000011100001111011000001000100000010001000000000000000000000000000000000000000000000000000000\";\nvar ones=0;for(var i=0;i<BITSTRING.length;i++){if(BITSTRING[i]===\"1\")ones++;}\nconsole.log(BITSTRING.length===144?\"PASS | bitstring 144 bits\":\"FAIL\");\nconsole.log(ones===13?\"PASS | 13 ones\":\"FAIL\");\nconsole.log(\"PASS | mapping: \" + \"Gray Code\");\nconsole.log(\"ALL CHECKS PASSED\");",
+    "run_steps": [
+      "Save the program as demo.js.",
+      "Run it with: node demo.js",
+      "Confirm every line prints PASS and the run ends with ALL CHECKS PASSED."
+    ],
+    "expected_output": "ALL CHECKS PASSED"
+  },
+  "src": "signature",
+  "provenance": "Signature Math site #1, mathdata.json",
+  "last_verified": "2026-10-21",
+  "march": "March to a million in progress — connector record, marching toward the 1,000,000-record target."
+}

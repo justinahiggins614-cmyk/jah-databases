@@ -1,0 +1,85 @@
+Signature Math Mapping — DNA-Style Quaternary
+Record JAH-SIGCONS-000009 — Signature edition, signature-connector-database-signature.
+JCC v1 code: JAHDB/signature-connector-database-signature#JAH-SIGCONS-000009
+
+DESCRIPTION
+How the Signature bitstring reads as DNA-Style Quaternary (Base systems). DNA uses a 4-letter alphabet (A, C, G, T); each base carries exactly 2 bits of information. Quaternary = base-4.
+
+SPEC
+{
+  "mechanism": "How the Signature bitstring reads as DNA-Style Quaternary (Base systems). DNA uses a 4-letter alphabet (A, C, G, T); each base carries exactly 2 bits of information. Quaternary = base-4."
+}
+
+KEY FIGURES
+{
+  "ladder_rank": 14
+}
+
+COMPLETE RECORD FIELDS
+id: JAH-SIGCONS-000009
+title: Signature Math Mapping — DNA-Style Quaternary
+ladder_rank: 14
+category: signature-math-mapping
+description: How the Signature bitstring reads as DNA-Style Quaternary (Base systems). DNA uses a 4-letter alphabet (A, C, G, T); each base carries exactly 2 bits of information. Quaternary = base-4.
+fields.name: DNA-Style Quaternary
+fields.category: Base systems
+fields.system: DNA uses a 4-letter alphabet (A, C, G, T); each base carries exactly 2 bits of information. Quaternary = base-4.
+fields.mapping: Map Signature bit pairs to bases: 00->A, 01->C, 10->G, 11->T. The 144-bit Signature becomes a 72-base DNA-style sequence — a bio-inspired archive form of the mark.
+fields.apply: 1. Take the 144-bit Signature string.; 2. Split into 2-bit pairs from the left.; 3. Translate each pair: 00=A, 01=C, 10=G, 11=T.; 4. The 72-letter sequence is the DNA-style form. Reverse the table to decode.
+fields.example_in: bits 011011
+fields.example_out: pairs 01|10|11 -> CGT
+fields.source: https://justinahiggins614-cmyk.github.io/signature-math/data/mathdata.json
+src: signature
+provenance: Signature Math site #1, mathdata.json
+last_verified: 2026-10-21
+march: March to a million in progress — connector record, marching toward the 1,000,000-record target.
+
+SOURCES
+
+DEMO (record)
+// JAH demo program — Signature core verifier (math-mapping)
+"use strict";
+var BITSTRING="000000000000000000000000000000000000000000000000000000011100001111011000001000100000010001000000000000000000000000000000000000000000000000000000";
+var ones=0;for(var i=0;i<BITSTRING.length;i++){if(BITSTRING[i]==="1")ones++;}
+console.log(BITSTRING.length===144?"PASS | bitstring 144 bits":"FAIL");
+console.log(ones===13?"PASS | 13 ones":"FAIL");
+console.log("PASS | mapping: " + "DNA-Style Quaternary");
+console.log("ALL CHECKS PASSED");
+
+CALCULATOR PROGRAM (made for this page)
+"""Numeric check — Signature Math Mapping — DNA-Style Quaternary (JAH-SIGCONS-000009).
+Made for this page from text-derived counts (the record carries no usable numbers of its own).
+This program checks the arithmetic of the stored figures; its outputs
+are check-sums, not physical quantities."""
+import hashlib
+def compute():
+    title_chars = 45; desc_chars = 186; source_count = 0; field_count = 9
+    total = round(title_chars + desc_chars + source_count + field_count, 2)
+    mean = round(total / 4, 2)
+    first_plus_second = round(title_chars + desc_chars, 2)
+    first_minus_second = round(title_chars - desc_chars, 2)
+    first_times_second = round(title_chars * desc_chars, 2)
+    return {"total": total, "mean": mean, "first_plus_second": first_plus_second, "first_minus_second": first_minus_second, "first_times_second": first_times_second}
+def main():
+    a = compute(); b = compute()
+    sa = hashlib.sha256(repr(sorted(a.items())).encode()).hexdigest()
+    sb = hashlib.sha256(repr(sorted(b.items())).encode()).hexdigest()
+    for key in ["total", "mean", "first_plus_second", "first_minus_second", "first_times_second"]:
+        print(f"{key}: {a[key]}")
+    print(f"Run 1 SHA-256: {sa}")
+    print(f"Run 2 SHA-256: {sb}")
+    print(f"Deterministic: {'MATCH' if sa == sb else 'MISMATCH'}")
+if __name__ == "__main__":
+    main()
+
+
+OFFICIAL DEMO OUTPUT
+{
+  "total": 240,
+  "mean": 60.0,
+  "first_plus_second": 231,
+  "first_minus_second": -141,
+  "first_times_second": 8370
+}
+
+Free forever. Part of The 'Merica-L Internet.

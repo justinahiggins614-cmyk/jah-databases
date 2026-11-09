@@ -1,0 +1,40 @@
+{
+  "id": "JAH-API-000001",
+  "api_id": "JAH-API-000001",
+  "name": "mean",
+  "description": "Arithmetic mean of a list of numbers.",
+  "parameters": {
+    "values": {
+      "type": "array",
+      "description": "Non-empty array of finite numbers."
+    },
+    "round": {
+      "type": "integer",
+      "description": "Decimal places in the result (default 6)."
+    }
+  },
+  "example_call": "`jahdb.math.mean({values:[2,4,6]})`",
+  "example_response": "`{\"result\":4}`",
+  "error_codes": [
+    {
+      "code": "E_EMPTY",
+      "meaning": "The values array is empty."
+    },
+    {
+      "code": "E_VALUE",
+      "meaning": "A value is not finite."
+    }
+  ],
+  "category": "math",
+  "title": "mean",
+  "demo": {
+    "engine": "jahdb-demo-1.0",
+    "kind": "api",
+    "title": "Runnable API mock — mean",
+    "language": "javascript",
+    "program": "/* JAH interactive demo program — jahdb-demo-1.0\n * Database: api-docs · Record: JAH-API-000001 · mean\n * Runnable mock of the \"mean\" endpoint — validates args, returns the documented example response.\n * RUN ON PC: save as demo.js, then run:  node demo.js\n * RUN IN BROWSER: press F12, paste this program into the console, press Enter.\n * RUN IN-PAGE: open this record and press \"Run interactive demo\". */\n(function(){\nvar SPEC={\"name\":\"mean\",\"description\":\"Arithmetic mean of a list of numbers.\",\"parameters\":{\"values\":{\"type\":\"array\",\"description\":\"Non-empty array of finite numbers.\"},\"round\":{\"type\":\"integer\",\"description\":\"Decimal places in the result (default 6).\"}},\"error_codes\":[{\"code\":\"E_EMPTY\",\"meaning\":\"The values array is empty.\"},{\"code\":\"E_VALUE\",\"meaning\":\"A value is not finite.\"}]};\nfunction call(args){\n  args=args||{};\n  console.log(\"> \"+SPEC.name+\"(\"+JSON.stringify(args)+\")\");\n  var missing=Object.keys(SPEC.parameters).filter(function(p){return args[p]===undefined;});\n  if(missing.length){console.log(\"! missing parameters: \"+missing.join(\", \"));return {error:\"E_ARGS\",missing:missing};}\n  var resp=\"{\\\"result\\\":4}\";\n  console.log(\"< \"+resp);\n  return resp;\n}\nconsole.log(\"API: \"+SPEC.name+\" — \"+SPEC.description);\nconsole.log(\"Parameters: \"+Object.keys(SPEC.parameters).map(function(p){return p+\":\"+SPEC.parameters[p].type;}).join(\", \"));\nconsole.log(\"Error codes: \"+SPEC.error_codes.map(function(e){return e.code;}).join(\", \"));\nconsole.log(\"--- documented example ---\");\nconsole.log(\"call: jahdb.math.mean({values:[2,4,6]})\");\nconsole.log(\"--- live mock run ---\");\ncall({\"values\":[],\"round\":1});\nconsole.log(\"Tip: call your own args and watch the mock validate + respond.\");\n})();\n",
+    "run_hint": "PC: save the program as demo.js (or demo.py/demo.sql per language) and run it with node/python3/sqlite3. In-page: open the record, Demo Lab tab, press Run.",
+    "how_to_run": "PC: save the program as demo.js (or demo.py/demo.sql per language) and run it with node/python3/sqlite3. In-page: open the record, Demo Lab tab, press Run.",
+    "runnable": true
+  }
+}

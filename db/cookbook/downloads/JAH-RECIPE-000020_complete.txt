@@ -1,0 +1,107 @@
+Garlic Bread
+Record JAH-RECIPE-000020 — Public edition, cookbook.
+JCC v1 code: JAHDB/cookbook#JAH-RECIPE-000020
+
+DESCRIPTION
+Garlic Bread
+
+SPEC
+{
+  "mechanism": "Garlic Bread"
+}
+
+KEY FIGURES
+{
+  "cook_min": 12,
+  "prep_min": 25,
+  "servings": 4,
+  "total_min": 37
+}
+
+COMPLETE RECORD FIELDS
+id: JAH-RECIPE-000020
+name: Garlic Bread
+chapter: Breads
+section: Flatbreads
+ingredients[0].qty: 2
+ingredients[0].unit: cups
+ingredients[0].item: all-purpose flour
+ingredients[1].qty: 3/4
+ingredients[1].unit: cup
+ingredients[1].item: plain yogurt
+ingredients[2].qty: 4
+ingredients[2].unit: tablespoons
+ingredients[2].item: olive oil
+ingredients[3].qty: 1/2
+ingredients[3].unit: teaspoon
+ingredients[3].item: salt
+steps: Mix the 2 cups all-purpose flour, 3/4 cup plain yogurt, 4 tablespoons olive oil, and 1/2 teaspoon salt into a soft dough; knead 3 minutes and rest 15.; Divide into 6 balls and roll each thin.; Cook in a hot dry skillet 2 minutes per side until puffed and spotted.; Wrap in a clean towel and serve warm.
+prep_min: 25
+cook_min: 12
+total_min: 37
+servings: 4
+difficulty: Easy
+
+SOURCES
+
+DEMO (record)
+/* JAH interactive demo program — jahdb-demo-1.0
+ * Database: cookbook · Record: JAH-RECIPE-000020 · Garlic Bread
+ * Step-by-step simulation of "steps" (4 steps).
+ * RUN ON PC: save as demo.js, then run:  node demo.js
+ * RUN IN BROWSER: press F12, paste this program into the console, press Enter.
+ * RUN IN-PAGE: open this record and press "Run interactive demo". */
+(function(){
+var STEPS=[{"n":1,"label":"Mix the 2 cups all-purpose flour, 3/4 cup plain yogurt, 4 tablespoons …","detail":""},{"n":2,"label":"Divide into 6 balls and roll each thin.","detail":""},{"n":3,"label":"Cook in a hot dry skillet 2 minutes per side until puffed and spotted.","detail":""},{"n":4,"label":"Wrap in a clean towel and serve warm.","detail":""}];
+function render(i){
+  var s=STEPS[i];if(!s){console.log("no step "+i);return;}
+  var pct=Math.round(((i+1)/STEPS.length)*100);
+  var filled=Math.round(pct/5), bar2="█".repeat(filled)+"░".repeat(20-filled);
+  console.log("\n[step "+s.n+"/"+STEPS.length+"] "+bar2+" "+pct+"%");
+  console.log("  "+s.label);
+  if(s.detail)console.log("  → "+s.detail);
+}
+console.log("Simulating steps — "+STEPS.length+" steps");
+for(var i=0;i<STEPS.length;i++)render(i);
+try{globalThis.jahDemoAPI={render:render};}catch(e){}
+console.log("\nSimulation complete ✓  Try: jahDemoAPI.render(0) to replay step 1.");
+})();
+
+
+CALCULATOR PROGRAM (made for this page)
+"""Numeric check — Garlic Bread (JAH-RECIPE-000020).
+Made for this page from the record's own numbers.
+This program checks the arithmetic of the stored figures; its outputs
+are check-sums, not physical quantities."""
+import hashlib
+def compute():
+    servings = 4; cook_min = 12; prep_min = 25; total_min = 37
+    total = round(servings + cook_min + prep_min + total_min, 2)
+    mean = round(total / 4, 2)
+    first_plus_second = round(servings + cook_min, 2)
+    first_minus_second = round(servings - cook_min, 2)
+    first_times_second = round(servings * cook_min, 2)
+    return {"total": total, "mean": mean, "first_plus_second": first_plus_second, "first_minus_second": first_minus_second, "first_times_second": first_times_second}
+def main():
+    a = compute(); b = compute()
+    sa = hashlib.sha256(repr(sorted(a.items())).encode()).hexdigest()
+    sb = hashlib.sha256(repr(sorted(b.items())).encode()).hexdigest()
+    for key in ["total", "mean", "first_plus_second", "first_minus_second", "first_times_second"]:
+        print(f"{key}: {a[key]}")
+    print(f"Run 1 SHA-256: {sa}")
+    print(f"Run 2 SHA-256: {sb}")
+    print(f"Deterministic: {'MATCH' if sa == sb else 'MISMATCH'}")
+if __name__ == "__main__":
+    main()
+
+
+OFFICIAL DEMO OUTPUT
+{
+  "total": 78,
+  "mean": 19.5,
+  "first_plus_second": 16,
+  "first_minus_second": -8,
+  "first_times_second": 48
+}
+
+Free forever. Part of The 'Merica-L Internet.

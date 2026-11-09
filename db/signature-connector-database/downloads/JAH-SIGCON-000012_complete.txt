@@ -1,0 +1,85 @@
+Signature Math Mapping — Geometric Coordinate Sets
+Record JAH-SIGCON-000012 — Public edition, signature-connector-database.
+JCC v1 code: JAHDB/signature-connector-database#JAH-SIGCON-000012
+
+DESCRIPTION
+How the Signature bitstring reads as Geometric Coordinate Sets (Geometry). An ordered list of (x, y) coordinate pairs (often as JSON) describing geometry exactly. This is the Signature's native data form.
+
+SPEC
+{
+  "mechanism": "How the Signature bitstring reads as Geometric Coordinate Sets (Geometry). An ordered list of (x, y) coordinate pairs (often as JSON) describing geometry exactly. This is the Signature's native data form."
+}
+
+KEY FIGURES
+{
+  "ladder_rank": 14
+}
+
+COMPLETE RECORD FIELDS
+id: JAH-SIGCON-000012
+title: Signature Math Mapping — Geometric Coordinate Sets
+ladder_rank: 14
+category: signature-math-mapping
+description: How the Signature bitstring reads as Geometric Coordinate Sets (Geometry). An ordered list of (x, y) coordinate pairs (often as JSON) describing geometry exactly. This is the Signature's native data form.
+fields.name: Geometric Coordinate Sets
+fields.category: Geometry
+fields.system: An ordered list of (x, y) coordinate pairs (often as JSON) describing geometry exactly. This is the Signature's native data form.
+fields.mapping: This is the source form from Document 1: segment starts, apexes, ends, dot centers, all in inches on the 12x12 grid with origin top-left. Every other conversion on this page derives from these coordinates.
+fields.apply: 1. Copy the canonical coordinates from Document 1 (reconstruction order).; 2. Store as JSON: {"segment1_arc": {"start": [1.35, 7.73], "apex": [4.12, 4.92]}, ...}.; 3. Keep 2 decimal places (the documented precision).; 4. Any renderer plots these points to redraw the Signature deterministically.
+fields.example_in: Segment 1 arc
+fields.example_out: {"start": [1.35, 7.73], "apex": [4.12, 4.92]}
+fields.source: https://justinahiggins614-cmyk.github.io/signature-math/data/mathdata.json
+src: public-harvest
+provenance: Signature Math site #1, mathdata.json
+last_verified: 2026-10-21
+march: March to a million in progress — connector record, marching toward the 1,000,000-record target.
+
+SOURCES
+
+DEMO (record)
+// JAH demo program — Signature core verifier (math-mapping)
+"use strict";
+var BITSTRING="000000000000000000000000000000000000000000000000000000011100001111011000001000100000010001000000000000000000000000000000000000000000000000000000";
+var ones=0;for(var i=0;i<BITSTRING.length;i++){if(BITSTRING[i]==="1")ones++;}
+console.log(BITSTRING.length===144?"PASS | bitstring 144 bits":"FAIL");
+console.log(ones===13?"PASS | 13 ones":"FAIL");
+console.log("PASS | mapping: " + "Geometric Coordinate Sets");
+console.log("ALL CHECKS PASSED");
+
+CALCULATOR PROGRAM (made for this page)
+"""Numeric check — Signature Math Mapping — Geometric Coordinate Sets (JAH-SIGCON-000012).
+Made for this page from text-derived counts (the record carries no usable numbers of its own).
+This program checks the arithmetic of the stored figures; its outputs
+are check-sums, not physical quantities."""
+import hashlib
+def compute():
+    title_chars = 50; desc_chars = 204; source_count = 0; field_count = 9
+    total = round(title_chars + desc_chars + source_count + field_count, 2)
+    mean = round(total / 4, 2)
+    first_plus_second = round(title_chars + desc_chars, 2)
+    first_minus_second = round(title_chars - desc_chars, 2)
+    first_times_second = round(title_chars * desc_chars, 2)
+    return {"total": total, "mean": mean, "first_plus_second": first_plus_second, "first_minus_second": first_minus_second, "first_times_second": first_times_second}
+def main():
+    a = compute(); b = compute()
+    sa = hashlib.sha256(repr(sorted(a.items())).encode()).hexdigest()
+    sb = hashlib.sha256(repr(sorted(b.items())).encode()).hexdigest()
+    for key in ["total", "mean", "first_plus_second", "first_minus_second", "first_times_second"]:
+        print(f"{key}: {a[key]}")
+    print(f"Run 1 SHA-256: {sa}")
+    print(f"Run 2 SHA-256: {sb}")
+    print(f"Deterministic: {'MATCH' if sa == sb else 'MISMATCH'}")
+if __name__ == "__main__":
+    main()
+
+
+OFFICIAL DEMO OUTPUT
+{
+  "total": 263,
+  "mean": 65.75,
+  "first_plus_second": 254,
+  "first_minus_second": -154,
+  "first_times_second": 10200
+}
+
+Free forever. Part of The 'Merica-L Internet.

@@ -1,0 +1,79 @@
+Willow Garage Workshop 32
+Record JAH-MAP-000013 — Public edition, space.
+JCC v1 code: JAHDB/space#JAH-MAP-000013
+
+DESCRIPTION
+garage workshop sample layout: garage, workshop, storage.
+
+SPEC
+{
+  "mechanism": "garage workshop sample layout: garage, workshop, storage."
+}
+
+KEY FIGURES
+{}
+
+COMPLETE RECORD FIELDS
+id: JAH-MAP-000013
+name: Willow Garage Workshop 32
+kind: sample
+blurb: garage workshop sample layout: garage, workshop, storage.
+rooms[0].x: 0
+rooms[0].y: 0
+rooms[0].w: 10.5
+rooms[0].h: 12.8
+rooms[0].label: garage
+rooms[1].x: 10.5
+rooms[1].y: 0
+rooms[1].w: 10.9
+rooms[1].h: 10.3
+rooms[1].label: workshop
+rooms[2].x: 21.4
+rooms[2].y: 0
+rooms[2].w: 12.5
+rooms[2].h: 11.3
+rooms[2].label: storage
+doors[0].x: 10.5
+doors[0].y: 5.2
+doors[1].x: 21.4
+doors[1].y: 5.7
+
+SOURCES
+
+DEMO (generated)
+"""Numeric check — Willow Garage Workshop 32 (JAH-MAP-000013).
+Made for this page from text-derived counts (the record carries no usable numbers of its own).
+This program checks the arithmetic of the stored figures; its outputs
+are check-sums, not physical quantities."""
+import hashlib
+def compute():
+    title_chars = 25; desc_chars = 57; source_count = 0; field_count = 4
+    total = round(title_chars + desc_chars + source_count + field_count, 2)
+    mean = round(total / 4, 2)
+    first_plus_second = round(title_chars + desc_chars, 2)
+    first_minus_second = round(title_chars - desc_chars, 2)
+    first_times_second = round(title_chars * desc_chars, 2)
+    return {"total": total, "mean": mean, "first_plus_second": first_plus_second, "first_minus_second": first_minus_second, "first_times_second": first_times_second}
+def main():
+    a = compute(); b = compute()
+    sa = hashlib.sha256(repr(sorted(a.items())).encode()).hexdigest()
+    sb = hashlib.sha256(repr(sorted(b.items())).encode()).hexdigest()
+    for key in ["total", "mean", "first_plus_second", "first_minus_second", "first_times_second"]:
+        print(f"{key}: {a[key]}")
+    print(f"Run 1 SHA-256: {sa}")
+    print(f"Run 2 SHA-256: {sb}")
+    print(f"Deterministic: {'MATCH' if sa == sb else 'MISMATCH'}")
+if __name__ == "__main__":
+    main()
+
+
+OFFICIAL DEMO OUTPUT
+{
+  "total": 86,
+  "mean": 21.5,
+  "first_plus_second": 82,
+  "first_minus_second": -32,
+  "first_times_second": 1425
+}
+
+Free forever. Part of The 'Merica-L Internet.

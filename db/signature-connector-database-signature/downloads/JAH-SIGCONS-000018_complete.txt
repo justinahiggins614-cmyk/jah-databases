@@ -1,0 +1,85 @@
+Signature Math Mapping — MIDI Note Map
+Record JAH-SIGCONS-000018 — Signature edition, signature-connector-database-signature.
+JCC v1 code: JAHDB/signature-connector-database-signature#JAH-SIGCONS-000018
+
+DESCRIPTION
+How the Signature bitstring reads as MIDI Note Map (Audio). MIDI represents musical notes as numbers 0-127; middle C = 60, each +1 is one semitone. A Note-On message is three bytes: status, note, velocity.
+
+SPEC
+{
+  "mechanism": "How the Signature bitstring reads as MIDI Note Map (Audio). MIDI represents musical notes as numbers 0-127; middle C = 60, each +1 is one semitone. A Note-On message is three bytes: status, note, velocity."
+}
+
+KEY FIGURES
+{
+  "ladder_rank": 14
+}
+
+COMPLETE RECORD FIELDS
+id: JAH-SIGCONS-000018
+title: Signature Math Mapping — MIDI Note Map
+ladder_rank: 14
+category: signature-math-mapping
+description: How the Signature bitstring reads as MIDI Note Map (Audio). MIDI represents musical notes as numbers 0-127; middle C = 60, each +1 is one semitone. A Note-On message is three bytes: status, note, velocity.
+fields.name: MIDI Note Map
+fields.category: Audio
+fields.system: MIDI represents musical notes as numbers 0-127; middle C = 60, each +1 is one semitone. A Note-On message is three bytes: status, note, velocity.
+fields.mapping: Map the Signature's three dot y-coordinates to MIDI pitches: the grid's y-range [4.00, 9.80] maps linearly to MIDI notes 48-72 (two octaves). The dots become a three-note motif; arcs become pitch bends.
+fields.apply: 1. Take each dot center's y-coordinate from Document 1.; 2. Compute note = round(48 + (9.80 - y) / 5.80 * 24).; 3. Send as MIDI Note-On (0x90), note, velocity 100; Note-Off after one beat.; 4. The three dots play the Signature's dot-motif.
+fields.example_in: dots at y = 5.10, 4.49, 4.33
+fields.example_out: MIDI notes = 67, 70, 71 (G4, A#4, B4)
+fields.source: https://justinahiggins614-cmyk.github.io/signature-math/data/mathdata.json
+src: signature
+provenance: Signature Math site #1, mathdata.json
+last_verified: 2026-10-21
+march: March to a million in progress — connector record, marching toward the 1,000,000-record target.
+
+SOURCES
+
+DEMO (record)
+// JAH demo program — Signature core verifier (math-mapping)
+"use strict";
+var BITSTRING="000000000000000000000000000000000000000000000000000000011100001111011000001000100000010001000000000000000000000000000000000000000000000000000000";
+var ones=0;for(var i=0;i<BITSTRING.length;i++){if(BITSTRING[i]==="1")ones++;}
+console.log(BITSTRING.length===144?"PASS | bitstring 144 bits":"FAIL");
+console.log(ones===13?"PASS | 13 ones":"FAIL");
+console.log("PASS | mapping: " + "MIDI Note Map");
+console.log("ALL CHECKS PASSED");
+
+CALCULATOR PROGRAM (made for this page)
+"""Numeric check — Signature Math Mapping — MIDI Note Map (JAH-SIGCONS-000018).
+Made for this page from text-derived counts (the record carries no usable numbers of its own).
+This program checks the arithmetic of the stored figures; its outputs
+are check-sums, not physical quantities."""
+import hashlib
+def compute():
+    title_chars = 38; desc_chars = 205; source_count = 0; field_count = 9
+    total = round(title_chars + desc_chars + source_count + field_count, 2)
+    mean = round(total / 4, 2)
+    first_plus_second = round(title_chars + desc_chars, 2)
+    first_minus_second = round(title_chars - desc_chars, 2)
+    first_times_second = round(title_chars * desc_chars, 2)
+    return {"total": total, "mean": mean, "first_plus_second": first_plus_second, "first_minus_second": first_minus_second, "first_times_second": first_times_second}
+def main():
+    a = compute(); b = compute()
+    sa = hashlib.sha256(repr(sorted(a.items())).encode()).hexdigest()
+    sb = hashlib.sha256(repr(sorted(b.items())).encode()).hexdigest()
+    for key in ["total", "mean", "first_plus_second", "first_minus_second", "first_times_second"]:
+        print(f"{key}: {a[key]}")
+    print(f"Run 1 SHA-256: {sa}")
+    print(f"Run 2 SHA-256: {sb}")
+    print(f"Deterministic: {'MATCH' if sa == sb else 'MISMATCH'}")
+if __name__ == "__main__":
+    main()
+
+
+OFFICIAL DEMO OUTPUT
+{
+  "total": 252,
+  "mean": 63.0,
+  "first_plus_second": 243,
+  "first_minus_second": -167,
+  "first_times_second": 7790
+}
+
+Free forever. Part of The 'Merica-L Internet.

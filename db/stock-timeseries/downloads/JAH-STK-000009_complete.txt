@@ -1,0 +1,101 @@
+DVSRG 2024-08-21
+Record JAH-STK-000009 — Public edition, stock-timeseries.
+JCC v1 code: JAHDB/stock-timeseries#JAH-STK-000009
+
+DESCRIPTION
+DVSRG (NASDAQ) 2024-08-21: open $465.76, high $489.85, low $452.15, close $484.29, volume 51,375,829.
+
+SPEC
+{
+  "dimensions": "volume 51375829",
+  "mechanism": "DVSRG (NASDAQ) 2024-08-21: open $465.76, high $489.85, low $452.15, close $484.29, volume 51,375,829."
+}
+
+KEY FIGURES
+{
+  "close": 484.29,
+  "high": 489.85,
+  "low": 452.15,
+  "open": 465.76,
+  "volume": 51375829
+}
+
+COMPLETE RECORD FIELDS
+id: JAH-STK-000009
+ticker: DVSRG
+title: DVSRG 2024-08-21
+description: DVSRG (NASDAQ) 2024-08-21: open $465.76, high $489.85, low $452.15, close $484.29, volume 51,375,829.
+exchange: NASDAQ
+date: 2024-08-21
+open: 465.76
+high: 489.85
+low: 452.15
+close: 484.29
+volume: 51375829
+sector: finance
+_gen_version: jahdb-stock-timeseries-1.0
+_seed: 9
+
+SOURCES
+
+DEMO (record)
+/* JAH interactive demo program — jahdb-demo-1.0
+ * Database: stock-timeseries · Record: JAH-STK-000009 · DVSRG 2024-08-21
+ * Charts this record's numeric fields as ASCII bars with summary statistics.
+ * RUN ON PC: save as demo.js, then run:  node demo.js
+ * RUN IN BROWSER: press F12, paste this program into the console, press Enter.
+ * RUN IN-PAGE: open this record and press "Run interactive demo". */
+(function(){
+var N={"open":465.76,"high":489.85,"low":452.15,"close":484.29,"volume":51375829};
+var ks=Object.keys(N);
+var mx=Math.max.apply(null,ks.map(function(k){return Math.abs(N[k]);}).concat([1]));
+function bar(k){var v=N[k];var n=Math.round(Math.abs(v)/mx*36);console.log(k.padEnd(18," ").slice(0,18)+" | "+(v<0?"-":"")+"#".repeat(n)+" "+v);}
+console.log("=== DVSRG 2024-08-21 ===");
+ks.forEach(bar);
+var vs=ks.map(function(k){return N[k];});
+var sum=vs.reduce(function(a,b){return a+b;},0);
+console.log("--- stats ---");
+console.log("count "+vs.length+" · sum "+(+sum.toFixed(4))+" · mean "+(+(sum/vs.length).toFixed(4))+" · max "+Math.max.apply(null,vs)+" · min "+Math.min.apply(null,vs));
+function whatif(f){console.log("scaled ×"+f+":");ks.forEach(function(k){console.log("  "+k+": "+N[k]+" → "+(+(N[k]*f).toFixed(4)));});}
+try{globalThis.jahDemoAPI={whatif:whatif};}catch(e){}
+console.log("Try: jahDemoAPI.whatif(2)  — scales every value and re-prints.");
+})();
+
+
+CALCULATOR PROGRAM (made for this page)
+"""Numeric check — DVSRG 2024-08-21 (JAH-STK-000009).
+Made for this page from the record's own numbers.
+This program checks the arithmetic of the stored figures; its outputs
+are check-sums, not physical quantities."""
+import hashlib
+def compute():
+    low = 452.149999999999977; open = 465.759999999999991; close = 484.29000000000002; high = 489.850000000000023
+    total = round(low + open + close + high, 2)
+    mean = round(total / 4, 2)
+    first_plus_second = round(low + open, 2)
+    first_minus_second = round(low - open, 2)
+    first_times_second = round(low * open, 2)
+    return {"total": total, "mean": mean, "first_plus_second": first_plus_second, "first_minus_second": first_minus_second, "first_times_second": first_times_second}
+def main():
+    a = compute(); b = compute()
+    sa = hashlib.sha256(repr(sorted(a.items())).encode()).hexdigest()
+    sb = hashlib.sha256(repr(sorted(b.items())).encode()).hexdigest()
+    for key in ["total", "mean", "first_plus_second", "first_minus_second", "first_times_second"]:
+        print(f"{key}: {a[key]}")
+    print(f"Run 1 SHA-256: {sa}")
+    print(f"Run 2 SHA-256: {sb}")
+    print(f"Deterministic: {'MATCH' if sa == sb else 'MISMATCH'}")
+if __name__ == "__main__":
+    main()
+
+
+OFFICIAL DEMO OUTPUT
+{
+  "total": 1892.05,
+  "mean": 473.01,
+  "first_plus_second": 917.91,
+  "first_minus_second": -13.61,
+  "first_times_second": 210593.38
+}
+
+Free forever. Part of The 'Merica-L Internet.

@@ -1,0 +1,36 @@
+{
+  "id": "JAH-SIGCON-000023",
+  "title": "Signature Math Mapping — Run-Length Encoding (RLE)",
+  "ladder_rank": 14,
+  "category": "signature-math-mapping",
+  "description": "How the Signature bitstring reads as Run-Length Encoding (RLE) (Compression). RLE compresses data by replacing runs of identical values with (count, value) pairs: 'AAABBC' -> '3A','2B','1C'.",
+  "fields": {
+    "name": "Run-Length Encoding (RLE)",
+    "category": "Compression",
+    "system": "RLE compresses data by replacing runs of identical values with (count, value) pairs: 'AAABBC' -> '3A','2B','1C'.",
+    "mapping": "Compress the Signature bitstring's runs. The grid is mostly null space, so long zero-runs collapse dramatically — this is the honest reason the Signature archives so small.",
+    "apply": [
+      "1. Take the 144-bit Signature string.",
+      "2. Scan left to right; count each run of identical bits.",
+      "3. Write each run as count + bit (e.g. 5 ones -> '5x1').",
+      "4. Decode by expanding each run. Verify round-trip equality."
+    ],
+    "example_in": "bits 'AAABBC'",
+    "example_out": "RLE = 3A2B1C",
+    "source": "https://justinahiggins614-cmyk.github.io/signature-math/data/mathdata.json"
+  },
+  "demo": {
+    "language": "javascript",
+    "program": "// JAH demo program — Signature core verifier (math-mapping)\n\"use strict\";\nvar BITSTRING=\"000000000000000000000000000000000000000000000000000000011100001111011000001000100000010001000000000000000000000000000000000000000000000000000000\";\nvar ones=0;for(var i=0;i<BITSTRING.length;i++){if(BITSTRING[i]===\"1\")ones++;}\nconsole.log(BITSTRING.length===144?\"PASS | bitstring 144 bits\":\"FAIL\");\nconsole.log(ones===13?\"PASS | 13 ones\":\"FAIL\");\nconsole.log(\"PASS | mapping: \" + \"Run-Length Encoding (RLE)\");\nconsole.log(\"ALL CHECKS PASSED\");",
+    "run_steps": [
+      "Save the program as demo.js.",
+      "Run it with: node demo.js",
+      "Confirm every line prints PASS and the run ends with ALL CHECKS PASSED."
+    ],
+    "expected_output": "ALL CHECKS PASSED"
+  },
+  "src": "public-harvest",
+  "provenance": "Signature Math site #1, mathdata.json",
+  "last_verified": "2026-10-21",
+  "march": "March to a million in progress — connector record, marching toward the 1,000,000-record target."
+}

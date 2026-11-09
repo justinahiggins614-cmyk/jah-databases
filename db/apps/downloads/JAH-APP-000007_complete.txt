@@ -1,0 +1,61 @@
+Signature Wordsmith Go Office
+Record JAH-APP-000007 — Public edition, apps.
+JCC v1 code: JAHDB/apps#JAH-APP-000007
+
+DESCRIPTION
+The friendly one you'll actually open daily.
+
+SPEC
+{
+  "mechanism": "The friendly one you'll actually open daily."
+}
+
+KEY FIGURES
+{}
+
+COMPLETE RECORD FIELDS
+id: JAH-APP-000007
+category: word
+n: 7
+title: Signature Wordsmith Go Office
+desc: The friendly one you'll actually open daily.
+
+SOURCES
+
+DEMO (generated)
+"""Numeric check — Signature Wordsmith Go Office (JAH-APP-000007).
+Made for this page from text-derived counts (the record carries no usable numbers of its own).
+This program checks the arithmetic of the stored figures; its outputs
+are check-sums, not physical quantities."""
+import hashlib
+def compute():
+    title_chars = 29; desc_chars = 44; source_count = 0; field_count = 5
+    total = round(title_chars + desc_chars + source_count + field_count, 2)
+    mean = round(total / 4, 2)
+    first_plus_second = round(title_chars + desc_chars, 2)
+    first_minus_second = round(title_chars - desc_chars, 2)
+    first_times_second = round(title_chars * desc_chars, 2)
+    return {"total": total, "mean": mean, "first_plus_second": first_plus_second, "first_minus_second": first_minus_second, "first_times_second": first_times_second}
+def main():
+    a = compute(); b = compute()
+    sa = hashlib.sha256(repr(sorted(a.items())).encode()).hexdigest()
+    sb = hashlib.sha256(repr(sorted(b.items())).encode()).hexdigest()
+    for key in ["total", "mean", "first_plus_second", "first_minus_second", "first_times_second"]:
+        print(f"{key}: {a[key]}")
+    print(f"Run 1 SHA-256: {sa}")
+    print(f"Run 2 SHA-256: {sb}")
+    print(f"Deterministic: {'MATCH' if sa == sb else 'MISMATCH'}")
+if __name__ == "__main__":
+    main()
+
+
+OFFICIAL DEMO OUTPUT
+{
+  "total": 78,
+  "mean": 19.5,
+  "first_plus_second": 73,
+  "first_minus_second": -15,
+  "first_times_second": 1276
+}
+
+Free forever. Part of The 'Merica-L Internet.

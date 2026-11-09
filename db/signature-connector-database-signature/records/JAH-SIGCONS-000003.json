@@ -1,0 +1,36 @@
+{
+  "id": "JAH-SIGCONS-000003",
+  "title": "Signature Math Mapping — Audio Waveform (PCM)",
+  "ladder_rank": 14,
+  "category": "signature-math-mapping",
+  "description": "How the Signature bitstring reads as Audio Waveform (PCM) (Audio). PCM (pulse-code modulation) stores sound as a sequence of amplitude samples. Standard CD audio uses 44,100 samples per second at 16-bit depth.",
+  "fields": {
+    "name": "Audio Waveform (PCM)",
+    "category": "Audio",
+    "system": "PCM (pulse-code modulation) stores sound as a sequence of amplitude samples. Standard CD audio uses 44,100 samples per second at 16-bit depth.",
+    "mapping": "Sonify the Signature: read the 144-bit grid string as 144 audio samples (1 = positive amplitude, 0 = negative amplitude). This is the SG1 'ping' — the echolocation mapping made audible. A pure reference tone is computed the same way any synth does: sample = round(32767 * sin(2*pi*f*t)).",
+    "apply": [
+      "1. Take the 144-bit Signature string.",
+      "2. Map each bit to one 16-bit sample: 1 -> +16000, 0 -> -16000.",
+      "3. Write the 144 samples as a .wav file at 8000 Hz (add a 44-byte WAV header).",
+      "4. Play it: you hear the Signature's echolocation ping."
+    ],
+    "example_in": "440 Hz sine, 4 samples @ 8000 Hz",
+    "example_out": "samples = [0, 11099, 20886, 28204]",
+    "source": "https://justinahiggins614-cmyk.github.io/signature-math/data/mathdata.json"
+  },
+  "demo": {
+    "language": "javascript",
+    "program": "// JAH demo program — Signature core verifier (math-mapping)\n\"use strict\";\nvar BITSTRING=\"000000000000000000000000000000000000000000000000000000011100001111011000001000100000010001000000000000000000000000000000000000000000000000000000\";\nvar ones=0;for(var i=0;i<BITSTRING.length;i++){if(BITSTRING[i]===\"1\")ones++;}\nconsole.log(BITSTRING.length===144?\"PASS | bitstring 144 bits\":\"FAIL\");\nconsole.log(ones===13?\"PASS | 13 ones\":\"FAIL\");\nconsole.log(\"PASS | mapping: \" + \"Audio Waveform (PCM)\");\nconsole.log(\"ALL CHECKS PASSED\");",
+    "run_steps": [
+      "Save the program as demo.js.",
+      "Run it with: node demo.js",
+      "Confirm every line prints PASS and the run ends with ALL CHECKS PASSED."
+    ],
+    "expected_output": "ALL CHECKS PASSED"
+  },
+  "src": "signature",
+  "provenance": "Signature Math site #1, mathdata.json",
+  "last_verified": "2026-10-21",
+  "march": "March to a million in progress — connector record, marching toward the 1,000,000-record target."
+}

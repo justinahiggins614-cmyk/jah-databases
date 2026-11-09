@@ -1,0 +1,82 @@
+The Crimson Tide
+Record JAH-COMIC-000020 — Public edition, comics.
+JCC v1 code: JAHDB/comics#JAH-COMIC-000020
+
+DESCRIPTION
+TIDEBOUND #3 — The Crimson Tide. The call comes at midnight: the Coral Steps needs Brenlmira. Starring Brenlmira (Zecott Dovex), Thallith (Cormir Minor), Sylnethus (Kacott Tawick), Ulrineia (Sefell Roven). Harbor kids and old sailors bound by tide-oaths guard the sea-roads between Gullrest and the drowned places.
+
+SPEC
+{
+  "mechanism": "TIDEBOUND #3 — The Crimson Tide. The call comes at midnight: the Coral Steps needs Brenlmira. Starring Brenlmira (Zecott Dovex), Thallith (Cormir Minor), Sylnethus (Kacott Tawick), Ulrineia (Sefell Roven). Harbor kids and old sailors bound by tide-oaths guard the sea-roads between Gullrest and the drowned places."
+}
+
+KEY FIGURES
+{
+  "chunk": 1,
+  "pg": 22,
+  "w": 342
+}
+
+COMPLETE RECORD FIELDS
+id: JAH-COMIC-000020
+t: The Crimson Tide
+s: TIDEBOUND
+sk: tide
+n: 3
+ch[0].name: Zecott Dovex
+ch[0].code: Brenlmira
+ch[0].power: current riding
+ch[1].name: Cormir Minor
+ch[1].code: Thallith
+ch[1].power: whale singing
+ch[2].name: Kacott Tawick
+ch[2].code: Sylnethus
+ch[2].power: tide reading
+ch[3].name: Sefell Roven
+ch[3].code: Ulrineia
+ch[3].power: tide reading
+d: TIDEBOUND #3 — The Crimson Tide. The call comes at midnight: the Coral Steps needs Brenlmira. Starring Brenlmira (Zecott Dovex), Thallith (Cormir Minor), Sylnethus (Kacott Tawick), Ulrineia (Sefell Roven). Harbor kids and old sailors bound by tide-oaths guard the sea-roads between Gullrest and the drowned places.
+w: 342
+pg: 22
+chunk: 1
+src: signature
+
+SOURCES
+
+DEMO (generated)
+"""Numeric check — The Crimson Tide (JAH-COMIC-000020).
+Made for this page from the record's own numbers.
+This program checks the arithmetic of the stored figures; its outputs
+are check-sums, not physical quantities."""
+import hashlib
+def compute():
+    chunk = 1; pg = 22; w = 342
+    total = round(chunk + pg + w, 2)
+    mean = round(total / 3, 2)
+    first_plus_second = round(chunk + pg, 2)
+    first_minus_second = round(chunk - pg, 2)
+    first_times_second = round(chunk * pg, 2)
+    return {"total": total, "mean": mean, "first_plus_second": first_plus_second, "first_minus_second": first_minus_second, "first_times_second": first_times_second}
+def main():
+    a = compute(); b = compute()
+    sa = hashlib.sha256(repr(sorted(a.items())).encode()).hexdigest()
+    sb = hashlib.sha256(repr(sorted(b.items())).encode()).hexdigest()
+    for key in ["total", "mean", "first_plus_second", "first_minus_second", "first_times_second"]:
+        print(f"{key}: {a[key]}")
+    print(f"Run 1 SHA-256: {sa}")
+    print(f"Run 2 SHA-256: {sb}")
+    print(f"Deterministic: {'MATCH' if sa == sb else 'MISMATCH'}")
+if __name__ == "__main__":
+    main()
+
+
+OFFICIAL DEMO OUTPUT
+{
+  "total": 365,
+  "mean": 121.67,
+  "first_plus_second": 23,
+  "first_minus_second": -21,
+  "first_times_second": 22
+}
+
+Free forever. Part of The 'Merica-L Internet.

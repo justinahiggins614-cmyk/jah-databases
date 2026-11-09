@@ -1,0 +1,53 @@
+{
+  "title": "EXISTS — semi-join (Sql)",
+  "category": "sql",
+  "language": "sql",
+  "description": "EXISTS stops at the first match, making it the efficient \"is there at least one\" test. Preferred over IN for correlated checks.",
+  "code": "SELECT id FROM a\nWHERE EXISTS (SELECT 1 FROM b WHERE b.id = a.id);",
+  "how_it_works": "For each a row, the subquery probes b; the first hit short-circuits to true.",
+  "complexity": "O(n log n)",
+  "test_cases": [
+    {
+      "input": "sample fixture",
+      "expected": "2",
+      "note": "Only id 2 exists in b."
+    },
+    {
+      "input": "sample fixture — second run",
+      "expected": "2",
+      "note": "Determinism check: re-running the snippet reproduces the identical output."
+    }
+  ],
+  "pitfalls": "SELECT 1 vs SELECT * inside EXISTS makes no difference — the planner ignores the list. Reproduce it once on purpose in a scratch file: seeing the failure teaches the fix faster than reading about it.",
+  "use_cases": "Membership tests, filtered deletes.",
+  "source": "online",
+  "source_ref": "https://www.sqlite.org/lang_expr.html",
+  "creation_mode": "ONLINE-VERIFIED",
+  "id": "JAH-CODE-0000023",
+  "_seed": 23,
+  "demo": {
+    "engine": "jahdb-demo-1.0",
+    "kind": "code",
+    "title": "Runnable code demo — EXISTS — semi-join (Sql)",
+    "language": "sql",
+    "program": "# JAH demo program — jahdb-demo-1.0\n# Database: code-database · Record: JAH-CODE-0000023\n# RUN: PC: save as demo.sql, run `sqlite3 :memory: < demo.sql`.\n\nSELECT id FROM a\nWHERE EXISTS (SELECT 1 FROM b WHERE b.id = a.id);\n",
+    "run_hint": "PC: save as demo.sql, run `sqlite3 :memory: < demo.sql`.",
+    "how_to_run": "PC: save the program as demo.js (or demo.py/demo.sql per language) and run it with node/python3/sqlite3. In-page: open the record, Demo Lab tab, press Run.",
+    "runnable": true,
+    "extras": {
+      "test_cases": [
+        {
+          "input": "sample fixture",
+          "expected": "2",
+          "note": "Only id 2 exists in b."
+        },
+        {
+          "input": "sample fixture — second run",
+          "expected": "2",
+          "note": "Determinism check: re-running the snippet reproduces the identical output."
+        }
+      ]
+    },
+    "note": "For each a row, the subquery probes b; the first hit short-circuits to true."
+  }
+}

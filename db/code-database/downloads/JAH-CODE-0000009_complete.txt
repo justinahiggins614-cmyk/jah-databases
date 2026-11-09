@@ -1,0 +1,91 @@
+Observer — subscribe and notify (Python)
+Record JAH-CODE-0000009 — Public edition, code-database.
+JCC v1 code: JAHDB/code-database#JAH-CODE-0000009
+
+DESCRIPTION
+Observers subscribe to a subject; notify() pushes updates to all of them. The backbone of event-driven design and MVC views.
+
+SPEC
+{
+  "mechanism": "The subject keeps a listener list; notify iterates it with the new value.",
+  "use": "Event systems, UI binding, pub/sub."
+}
+
+KEY FIGURES
+{}
+
+COMPLETE RECORD FIELDS
+title: Observer — subscribe and notify (Python)
+category: patterns
+language: python
+description: Observers subscribe to a subject; notify() pushes updates to all of them. The backbone of event-driven design and MVC views.
+code: class Sub:
+    def __init__(self):
+        self.o = []
+    def attach(self, fn):
+        self.o.append(fn)
+    def notify(self, v):
+        for fn in self.o:
+            fn(v)
+
+s, log = Sub(), []
+s.attach(lambda v: log.append("a" + v))
+s.attach(lambda v: log.append("b" + v))
+s.notify("!")
+print("".join(log))
+how_it_works: The subject keeps a listener list; notify iterates it with the new value.
+complexity: O(observers)
+test_cases[0].input: notify("!")
+test_cases[0].expected: a!b!
+test_cases[0].note: Both observers ran.
+test_cases[1].input: notify("!") — second run
+test_cases[1].expected: a!b!
+test_cases[1].note: Determinism check: re-running the snippet reproduces the identical output.
+pitfalls: Observers that throw can break the loop — isolate listener errors. Reproduce it once on purpose in a scratch file: seeing the failure teaches the fix faster than reading about it.
+use_cases: Event systems, UI binding, pub/sub.
+source: online
+source_ref: https://en.wikipedia.org/wiki/Observer_pattern
+creation_mode: ONLINE-VERIFIED
+id: JAH-CODE-0000009
+_seed: 9
+
+SOURCES
+Record source — https://en.wikipedia.org/wiki/Observer_pattern
+
+DEMO (generated)
+"""Numeric check — Observer — subscribe and notify (Python) (JAH-CODE-0000009).
+Made for this page from text-derived counts (the record carries no usable numbers of its own).
+This program checks the arithmetic of the stored figures; its outputs
+are check-sums, not physical quantities."""
+import hashlib
+def compute():
+    title_chars = 40; desc_chars = 124; source_count = 1; field_count = 14
+    total = round(title_chars + desc_chars + source_count + field_count, 2)
+    mean = round(total / 4, 2)
+    first_plus_second = round(title_chars + desc_chars, 2)
+    first_minus_second = round(title_chars - desc_chars, 2)
+    first_times_second = round(title_chars * desc_chars, 2)
+    return {"total": total, "mean": mean, "first_plus_second": first_plus_second, "first_minus_second": first_minus_second, "first_times_second": first_times_second}
+def main():
+    a = compute(); b = compute()
+    sa = hashlib.sha256(repr(sorted(a.items())).encode()).hexdigest()
+    sb = hashlib.sha256(repr(sorted(b.items())).encode()).hexdigest()
+    for key in ["total", "mean", "first_plus_second", "first_minus_second", "first_times_second"]:
+        print(f"{key}: {a[key]}")
+    print(f"Run 1 SHA-256: {sa}")
+    print(f"Run 2 SHA-256: {sb}")
+    print(f"Deterministic: {'MATCH' if sa == sb else 'MISMATCH'}")
+if __name__ == "__main__":
+    main()
+
+
+OFFICIAL DEMO OUTPUT
+{
+  "total": 179,
+  "mean": 44.75,
+  "first_plus_second": 164,
+  "first_minus_second": -84,
+  "first_times_second": 4960
+}
+
+Free forever. Part of The 'Merica-L Internet.

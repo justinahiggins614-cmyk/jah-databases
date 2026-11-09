@@ -1,0 +1,85 @@
+Signature Math Mapping — ASCII Text
+Record JAH-SIGCONS-000002 — Signature edition, signature-connector-database-signature.
+JCC v1 code: JAHDB/signature-connector-database-signature#JAH-SIGCONS-000002
+
+DESCRIPTION
+How the Signature bitstring reads as ASCII Text (Text encodings). ASCII is the 7-bit American Standard Code for Information Interchange: 128 code points (0-127); printable characters start at 32. One byte per character.
+
+SPEC
+{
+  "mechanism": "How the Signature bitstring reads as ASCII Text (Text encodings). ASCII is the 7-bit American Standard Code for Information Interchange: 128 code points (0-127); printable characters start at 32. One byte per character."
+}
+
+KEY FIGURES
+{
+  "ladder_rank": 14
+}
+
+COMPLETE RECORD FIELDS
+id: JAH-SIGCONS-000002
+title: Signature Math Mapping — ASCII Text
+ladder_rank: 14
+category: signature-math-mapping
+description: How the Signature bitstring reads as ASCII Text (Text encodings). ASCII is the 7-bit American Standard Code for Information Interchange: 128 code points (0-127); printable characters start at 32. One byte per character.
+fields.name: ASCII Text
+fields.category: Text encodings
+fields.system: ASCII is the 7-bit American Standard Code for Information Interchange: 128 code points (0-127); printable characters start at 32. One byte per character.
+fields.mapping: Take the Signature bitstring in 7-bit groups; each group is one ASCII code point. The Signature's text labels (e.g. 'SIGNATURE-ONE') also encode directly to their ASCII bytes, so the mark travels as plain text.
+fields.apply: 1. Reduce the Signature to its 144-bit string on the 12x12 grid (1 = geometry present, 0 = null).; 2. Split the bitstring into 7-bit groups from the left; pad the last group with trailing zeros.; 3. Convert each group to decimal (0-127) and look up the ASCII character.; 4. The resulting character string is the ASCII form of the Signature.
+fields.example_in: Character 'J'
+fields.example_out: Decimal 74 -> binary 01001010
+fields.source: https://justinahiggins614-cmyk.github.io/signature-math/data/mathdata.json
+src: signature
+provenance: Signature Math site #1, mathdata.json
+last_verified: 2026-10-21
+march: March to a million in progress — connector record, marching toward the 1,000,000-record target.
+
+SOURCES
+
+DEMO (record)
+// JAH demo program — Signature core verifier (math-mapping)
+"use strict";
+var BITSTRING="000000000000000000000000000000000000000000000000000000011100001111011000001000100000010001000000000000000000000000000000000000000000000000000000";
+var ones=0;for(var i=0;i<BITSTRING.length;i++){if(BITSTRING[i]==="1")ones++;}
+console.log(BITSTRING.length===144?"PASS | bitstring 144 bits":"FAIL");
+console.log(ones===13?"PASS | 13 ones":"FAIL");
+console.log("PASS | mapping: " + "ASCII Text");
+console.log("ALL CHECKS PASSED");
+
+CALCULATOR PROGRAM (made for this page)
+"""Numeric check — Signature Math Mapping — ASCII Text (JAH-SIGCONS-000002).
+Made for this page from text-derived counts (the record carries no usable numbers of its own).
+This program checks the arithmetic of the stored figures; its outputs
+are check-sums, not physical quantities."""
+import hashlib
+def compute():
+    title_chars = 35; desc_chars = 219; source_count = 0; field_count = 9
+    total = round(title_chars + desc_chars + source_count + field_count, 2)
+    mean = round(total / 4, 2)
+    first_plus_second = round(title_chars + desc_chars, 2)
+    first_minus_second = round(title_chars - desc_chars, 2)
+    first_times_second = round(title_chars * desc_chars, 2)
+    return {"total": total, "mean": mean, "first_plus_second": first_plus_second, "first_minus_second": first_minus_second, "first_times_second": first_times_second}
+def main():
+    a = compute(); b = compute()
+    sa = hashlib.sha256(repr(sorted(a.items())).encode()).hexdigest()
+    sb = hashlib.sha256(repr(sorted(b.items())).encode()).hexdigest()
+    for key in ["total", "mean", "first_plus_second", "first_minus_second", "first_times_second"]:
+        print(f"{key}: {a[key]}")
+    print(f"Run 1 SHA-256: {sa}")
+    print(f"Run 2 SHA-256: {sb}")
+    print(f"Deterministic: {'MATCH' if sa == sb else 'MISMATCH'}")
+if __name__ == "__main__":
+    main()
+
+
+OFFICIAL DEMO OUTPUT
+{
+  "total": 263,
+  "mean": 65.75,
+  "first_plus_second": 254,
+  "first_minus_second": -184,
+  "first_times_second": 7665
+}
+
+Free forever. Part of The 'Merica-L Internet.

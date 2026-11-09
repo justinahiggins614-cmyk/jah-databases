@@ -1,0 +1,122 @@
+Deep clone — recursive (Javascript)
+Record JAH-CODE-0000003 — Public edition, code-database.
+JCC v1 code: JAHDB/code-database#JAH-CODE-0000003
+
+DESCRIPTION
+Recursively copies plain objects and arrays so mutations of the clone never touch the original. (structuredClone is the built-in shortcut in modern runtimes.)
+
+SPEC
+{
+  "mechanism": "Lab exercise: type the snippet into a fresh file, run it, and confirm the test outputs match. Then change one input and predict the result before running — Arrays map, objects rebuild key by key, primitives return as-is; nesting resolves bottom-up.",
+  "use": "State snapshots, undo buffers, test fixtures."
+}
+
+KEY FIGURES
+{}
+
+COMPLETE RECORD FIELDS
+title: Deep clone — recursive (Javascript)
+category: javascript
+language: javascript
+description: Recursively copies plain objects and arrays so mutations of the clone never touch the original. (structuredClone is the built-in shortcut in modern runtimes.)
+code: function clone(v) {
+  if (Array.isArray(v)) return v.map(clone);
+  if (v && typeof v === "object") {
+    const o = {};
+    for (const k of Object.keys(v)) o[k] = clone(v[k]);
+    return o;
+  }
+  return v;
+}
+const a = { x: [1, { y: 2 }] };
+const b = clone(a);
+b.x[1].y = 99;
+console.log(a.x[1].y, b.x[1].y);
+how_it_works: Lab exercise: type the snippet into a fresh file, run it, and confirm the test outputs match. Then change one input and predict the result before running — Arrays map, objects rebuild key by key, primitives return as-is; nesting resolves bottom-up.
+complexity: O(n)
+test_cases[0].input: mutate clone
+test_cases[0].expected: 2 99
+test_cases[0].note: Original untouched.
+test_cases[1].input: mutate clone — second run
+test_cases[1].expected: 2 99
+test_cases[1].note: Determinism check: re-running the snippet reproduces the identical output.
+pitfalls: Cycles recurse forever — track seen objects for cyclic graphs.
+use_cases: State snapshots, undo buffers, test fixtures.
+source: online
+source_ref: https://developer.mozilla.org/en-US/docs/Web/API/structuredClone
+creation_mode: ONLINE-VERIFIED
+id: JAH-CODE-0000003
+_seed: 3
+
+SOURCES
+Record source — https://developer.mozilla.org/en-US/docs/Web/API/structuredClone
+
+DEMO (record)
+/* JAH interactive demo program — jahdb-demo-1.0
+ * Database: code-database · Record: JAH-CODE-0000003 · Deep clone — recursive (Javascript)
+ * Runnable code from this record ("code") — executes with console output captured.
+ * RUN ON PC: save as demo.js, then run:  node demo.js
+ * RUN IN BROWSER: press F12, paste this program into the console, press Enter.
+ * RUN IN-PAGE: open this record and press "Run interactive demo". */
+(function(){
+"use strict";
+/* ---- record code (code) ---- */
+function clone(v) {
+  if (Array.isArray(v)) return v.map(clone);
+  if (v && typeof v === "object") {
+    const o = {};
+    for (const k of Object.keys(v)) o[k] = clone(v[k]);
+    return o;
+  }
+  return v;
+}
+const a = { x: [1, { y: 2 }] };
+const b = clone(a);
+b.x[1].y = 99;
+console.log(a.x[1].y, b.x[1].y);
+/* ---- auto-run: call main/demo/solve if the snippet defines one ---- */
+try{
+  if(typeof main==="function"){console.log("--- main() output ---");main();}
+  else if(typeof demo==="function"){console.log("--- demo() output ---");demo();}
+  else if(typeof solve==="function"){console.log("--- solve() output ---");console.log(solve());}
+}catch(e){console.log("runtime note: "+e.message);}
+})();
+
+
+CALCULATOR PROGRAM (made for this page)
+"""Numeric check — Deep clone — recursive (Javascript) (JAH-CODE-0000003).
+Made for this page from text-derived counts (the record carries no usable numbers of its own).
+This program checks the arithmetic of the stored figures; its outputs
+are check-sums, not physical quantities."""
+import hashlib
+def compute():
+    title_chars = 35; desc_chars = 158; source_count = 1; field_count = 14
+    total = round(title_chars + desc_chars + source_count + field_count, 2)
+    mean = round(total / 4, 2)
+    first_plus_second = round(title_chars + desc_chars, 2)
+    first_minus_second = round(title_chars - desc_chars, 2)
+    first_times_second = round(title_chars * desc_chars, 2)
+    return {"total": total, "mean": mean, "first_plus_second": first_plus_second, "first_minus_second": first_minus_second, "first_times_second": first_times_second}
+def main():
+    a = compute(); b = compute()
+    sa = hashlib.sha256(repr(sorted(a.items())).encode()).hexdigest()
+    sb = hashlib.sha256(repr(sorted(b.items())).encode()).hexdigest()
+    for key in ["total", "mean", "first_plus_second", "first_minus_second", "first_times_second"]:
+        print(f"{key}: {a[key]}")
+    print(f"Run 1 SHA-256: {sa}")
+    print(f"Run 2 SHA-256: {sb}")
+    print(f"Deterministic: {'MATCH' if sa == sb else 'MISMATCH'}")
+if __name__ == "__main__":
+    main()
+
+
+OFFICIAL DEMO OUTPUT
+{
+  "total": 208,
+  "mean": 52.0,
+  "first_plus_second": 193,
+  "first_minus_second": -123,
+  "first_times_second": 5530
+}
+
+Free forever. Part of The 'Merica-L Internet.

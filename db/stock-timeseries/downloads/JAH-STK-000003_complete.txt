@@ -1,0 +1,101 @@
+L 2026-06-15
+Record JAH-STK-000003 — Public edition, stock-timeseries.
+JCC v1 code: JAHDB/stock-timeseries#JAH-STK-000003
+
+DESCRIPTION
+L (NYSE) 2026-06-15: open $131.73, high $135.1, low $131.29, close $134.05, volume 57,117,302.
+
+SPEC
+{
+  "dimensions": "volume 57117302",
+  "mechanism": "L (NYSE) 2026-06-15: open $131.73, high $135.1, low $131.29, close $134.05, volume 57,117,302."
+}
+
+KEY FIGURES
+{
+  "close": 134.05,
+  "high": 135.1,
+  "low": 131.29,
+  "open": 131.73,
+  "volume": 57117302
+}
+
+COMPLETE RECORD FIELDS
+id: JAH-STK-000003
+ticker: L
+title: L 2026-06-15
+description: L (NYSE) 2026-06-15: open $131.73, high $135.1, low $131.29, close $134.05, volume 57,117,302.
+exchange: NYSE
+date: 2026-06-15
+open: 131.73
+high: 135.1
+low: 131.29
+close: 134.05
+volume: 57117302
+sector: consumer
+_gen_version: jahdb-stock-timeseries-1.0
+_seed: 3
+
+SOURCES
+
+DEMO (record)
+/* JAH interactive demo program — jahdb-demo-1.0
+ * Database: stock-timeseries · Record: JAH-STK-000003 · L 2026-06-15
+ * Charts this record's numeric fields as ASCII bars with summary statistics.
+ * RUN ON PC: save as demo.js, then run:  node demo.js
+ * RUN IN BROWSER: press F12, paste this program into the console, press Enter.
+ * RUN IN-PAGE: open this record and press "Run interactive demo". */
+(function(){
+var N={"open":131.73,"high":135.1,"low":131.29,"close":134.05,"volume":57117302};
+var ks=Object.keys(N);
+var mx=Math.max.apply(null,ks.map(function(k){return Math.abs(N[k]);}).concat([1]));
+function bar(k){var v=N[k];var n=Math.round(Math.abs(v)/mx*36);console.log(k.padEnd(18," ").slice(0,18)+" | "+(v<0?"-":"")+"#".repeat(n)+" "+v);}
+console.log("=== L 2026-06-15 ===");
+ks.forEach(bar);
+var vs=ks.map(function(k){return N[k];});
+var sum=vs.reduce(function(a,b){return a+b;},0);
+console.log("--- stats ---");
+console.log("count "+vs.length+" · sum "+(+sum.toFixed(4))+" · mean "+(+(sum/vs.length).toFixed(4))+" · max "+Math.max.apply(null,vs)+" · min "+Math.min.apply(null,vs));
+function whatif(f){console.log("scaled ×"+f+":");ks.forEach(function(k){console.log("  "+k+": "+N[k]+" → "+(+(N[k]*f).toFixed(4)));});}
+try{globalThis.jahDemoAPI={whatif:whatif};}catch(e){}
+console.log("Try: jahDemoAPI.whatif(2)  — scales every value and re-prints.");
+})();
+
+
+CALCULATOR PROGRAM (made for this page)
+"""Numeric check — L 2026-06-15 (JAH-STK-000003).
+Made for this page from the record's own numbers.
+This program checks the arithmetic of the stored figures; its outputs
+are check-sums, not physical quantities."""
+import hashlib
+def compute():
+    low = 131.289999999999992; open = 131.72999999999999; close = 134.050000000000011; high = 135.099999999999994
+    total = round(low + open + close + high, 2)
+    mean = round(total / 4, 2)
+    first_plus_second = round(low + open, 2)
+    first_minus_second = round(low - open, 2)
+    first_times_second = round(low * open, 2)
+    return {"total": total, "mean": mean, "first_plus_second": first_plus_second, "first_minus_second": first_minus_second, "first_times_second": first_times_second}
+def main():
+    a = compute(); b = compute()
+    sa = hashlib.sha256(repr(sorted(a.items())).encode()).hexdigest()
+    sb = hashlib.sha256(repr(sorted(b.items())).encode()).hexdigest()
+    for key in ["total", "mean", "first_plus_second", "first_minus_second", "first_times_second"]:
+        print(f"{key}: {a[key]}")
+    print(f"Run 1 SHA-256: {sa}")
+    print(f"Run 2 SHA-256: {sb}")
+    print(f"Deterministic: {'MATCH' if sa == sb else 'MISMATCH'}")
+if __name__ == "__main__":
+    main()
+
+
+OFFICIAL DEMO OUTPUT
+{
+  "total": 532.17,
+  "mean": 133.04,
+  "first_plus_second": 263.02,
+  "first_minus_second": -0.44,
+  "first_times_second": 17294.83
+}
+
+Free forever. Part of The 'Merica-L Internet.

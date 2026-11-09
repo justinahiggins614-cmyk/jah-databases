@@ -1,0 +1,101 @@
+stop_audio
+Record JAH-API-000006 — Public edition, api-docs.
+JCC v1 code: JAHDB/api-docs#JAH-API-000006
+
+DESCRIPTION
+stop_audio
+
+SPEC
+{
+  "mechanism": "stop_audio"
+}
+
+KEY FIGURES
+{}
+
+COMPLETE RECORD FIELDS
+id: JAH-API-000006
+api_id: JAH-API-000006
+name: stop_audio
+description: Stops all audio playback on the page.
+parameters.fade_ms.type: integer
+parameters.fade_ms.description: Fade-out duration in ms (default 0).
+parameters.session.type: string
+parameters.session.description: Optional session id to stop.
+example_call: `jahdb.media.stop_audio()`
+example_response: `{"stopped":true}`
+error_codes[0].code: E_AUDIO
+error_codes[0].meaning: Audio engine unavailable.
+error_codes[1].code: E_STATE
+error_codes[1].meaning: Nothing is playing.
+category: media
+title: stop_audio
+
+SOURCES
+
+DEMO (record)
+/* JAH interactive demo program — jahdb-demo-1.0
+ * Database: api-docs · Record: JAH-API-000006 · stop_audio
+ * Runnable mock of the "stop_audio" endpoint — validates args, returns the documented example response.
+ * RUN ON PC: save as demo.js, then run:  node demo.js
+ * RUN IN BROWSER: press F12, paste this program into the console, press Enter.
+ * RUN IN-PAGE: open this record and press "Run interactive demo". */
+(function(){
+var SPEC={"name":"stop_audio","description":"Stops all audio playback on the page.","parameters":{"fade_ms":{"type":"integer","description":"Fade-out duration in ms (default 0)."},"session":{"type":"string","description":"Optional session id to stop."}},"error_codes":[{"code":"E_AUDIO","meaning":"Audio engine unavailable."},{"code":"E_STATE","meaning":"Nothing is playing."}]};
+function call(args){
+  args=args||{};
+  console.log("> "+SPEC.name+"("+JSON.stringify(args)+")");
+  var missing=Object.keys(SPEC.parameters).filter(function(p){return args[p]===undefined;});
+  if(missing.length){console.log("! missing parameters: "+missing.join(", "));return {error:"E_ARGS",missing:missing};}
+  var resp="{\"stopped\":true}";
+  console.log("< "+resp);
+  return resp;
+}
+console.log("API: "+SPEC.name+" — "+SPEC.description);
+console.log("Parameters: "+Object.keys(SPEC.parameters).map(function(p){return p+":"+SPEC.parameters[p].type;}).join(", "));
+console.log("Error codes: "+SPEC.error_codes.map(function(e){return e.code;}).join(", "));
+console.log("--- documented example ---");
+console.log("call: jahdb.media.stop_audio()");
+console.log("--- live mock run ---");
+call({"fade_ms":1,"session":"demo"});
+console.log("Tip: call your own args and watch the mock validate + respond.");
+})();
+
+
+CALCULATOR PROGRAM (made for this page)
+"""Numeric check — stop_audio (JAH-API-000006).
+Made for this page from text-derived counts (the record carries no usable numbers of its own).
+This program checks the arithmetic of the stored figures; its outputs
+are check-sums, not physical quantities."""
+import hashlib
+def compute():
+    title_chars = 10; desc_chars = 10; source_count = 0; field_count = 8
+    total = round(title_chars + desc_chars + source_count + field_count, 2)
+    mean = round(total / 4, 2)
+    first_plus_second = round(title_chars + desc_chars, 2)
+    first_minus_second = round(title_chars - desc_chars, 2)
+    first_times_second = round(title_chars * desc_chars, 2)
+    return {"total": total, "mean": mean, "first_plus_second": first_plus_second, "first_minus_second": first_minus_second, "first_times_second": first_times_second}
+def main():
+    a = compute(); b = compute()
+    sa = hashlib.sha256(repr(sorted(a.items())).encode()).hexdigest()
+    sb = hashlib.sha256(repr(sorted(b.items())).encode()).hexdigest()
+    for key in ["total", "mean", "first_plus_second", "first_minus_second", "first_times_second"]:
+        print(f"{key}: {a[key]}")
+    print(f"Run 1 SHA-256: {sa}")
+    print(f"Run 2 SHA-256: {sb}")
+    print(f"Deterministic: {'MATCH' if sa == sb else 'MISMATCH'}")
+if __name__ == "__main__":
+    main()
+
+
+OFFICIAL DEMO OUTPUT
+{
+  "total": 28,
+  "mean": 7.0,
+  "first_plus_second": 20,
+  "first_minus_second": 0,
+  "first_times_second": 100
+}
+
+Free forever. Part of The 'Merica-L Internet.

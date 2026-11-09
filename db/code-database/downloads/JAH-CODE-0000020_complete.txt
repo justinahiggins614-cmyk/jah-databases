@@ -1,0 +1,104 @@
+Flatten nested arrays (Javascript)
+Record JAH-CODE-0000020 — Public edition, code-database.
+JCC v1 code: JAHDB/code-database#JAH-CODE-0000020
+
+DESCRIPTION
+Recursively concatenates nested arrays into one flat list, descending as deep as the nesting goes. Array.prototype.flat(Infinity) is the built-in equivalent.
+
+SPEC
+{
+  "mechanism": "Lab exercise: type the snippet into a fresh file, run it, and confirm the test outputs match. Then change one input and predict the result before running — Reduce accumulates; nested arrays recurse and concat, scalars append directly.",
+  "use": "Tree walks, nested API responses, data normalization."
+}
+
+KEY FIGURES
+{}
+
+COMPLETE RECORD FIELDS
+title: Flatten nested arrays (Javascript)
+category: javascript
+language: javascript
+description: Recursively concatenates nested arrays into one flat list, descending as deep as the nesting goes. Array.prototype.flat(Infinity) is the built-in equivalent.
+code: function flat(a) {
+  return a.reduce((o, x) => o.concat(Array.isArray(x) ? flat(x) : x), []);
+}
+console.log(flat([1, [2, [3, 4], 5], 6]).join(","));
+how_it_works: Lab exercise: type the snippet into a fresh file, run it, and confirm the test outputs match. Then change one input and predict the result before running — Reduce accumulates; nested arrays recurse and concat, scalars append directly.
+complexity: O(n)
+test_cases[0].input: flat([1,[2,[3,4],5],6])
+test_cases[0].expected: 1,2,3,4,5,6
+test_cases[0].note: Fully flattened.
+test_cases[1].input: flat([1,[2,[3,4],5],6]) — second run
+test_cases[1].expected: 1,2,3,4,5,6
+test_cases[1].note: Determinism check: re-running the snippet reproduces the identical output.
+pitfalls: Very deep nesting can overflow the call stack — iterative with an explicit stack is safer.
+use_cases: Tree walks, nested API responses, data normalization.
+source: online
+source_ref: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/flat
+creation_mode: ONLINE-VERIFIED
+id: JAH-CODE-0000020
+_seed: 20
+
+SOURCES
+Record source — https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/flat
+
+DEMO (record)
+/* JAH interactive demo program — jahdb-demo-1.0
+ * Database: code-database · Record: JAH-CODE-0000020 · Flatten nested arrays (Javascript)
+ * Runnable code from this record ("code") — executes with console output captured.
+ * RUN ON PC: save as demo.js, then run:  node demo.js
+ * RUN IN BROWSER: press F12, paste this program into the console, press Enter.
+ * RUN IN-PAGE: open this record and press "Run interactive demo". */
+(function(){
+"use strict";
+/* ---- record code (code) ---- */
+function flat(a) {
+  return a.reduce((o, x) => o.concat(Array.isArray(x) ? flat(x) : x), []);
+}
+console.log(flat([1, [2, [3, 4], 5], 6]).join(","));
+/* ---- auto-run: call main/demo/solve if the snippet defines one ---- */
+try{
+  if(typeof main==="function"){console.log("--- main() output ---");main();}
+  else if(typeof demo==="function"){console.log("--- demo() output ---");demo();}
+  else if(typeof solve==="function"){console.log("--- solve() output ---");console.log(solve());}
+}catch(e){console.log("runtime note: "+e.message);}
+})();
+
+
+CALCULATOR PROGRAM (made for this page)
+"""Numeric check — Flatten nested arrays (Javascript) (JAH-CODE-0000020).
+Made for this page from text-derived counts (the record carries no usable numbers of its own).
+This program checks the arithmetic of the stored figures; its outputs
+are check-sums, not physical quantities."""
+import hashlib
+def compute():
+    title_chars = 34; desc_chars = 157; source_count = 1; field_count = 14
+    total = round(title_chars + desc_chars + source_count + field_count, 2)
+    mean = round(total / 4, 2)
+    first_plus_second = round(title_chars + desc_chars, 2)
+    first_minus_second = round(title_chars - desc_chars, 2)
+    first_times_second = round(title_chars * desc_chars, 2)
+    return {"total": total, "mean": mean, "first_plus_second": first_plus_second, "first_minus_second": first_minus_second, "first_times_second": first_times_second}
+def main():
+    a = compute(); b = compute()
+    sa = hashlib.sha256(repr(sorted(a.items())).encode()).hexdigest()
+    sb = hashlib.sha256(repr(sorted(b.items())).encode()).hexdigest()
+    for key in ["total", "mean", "first_plus_second", "first_minus_second", "first_times_second"]:
+        print(f"{key}: {a[key]}")
+    print(f"Run 1 SHA-256: {sa}")
+    print(f"Run 2 SHA-256: {sb}")
+    print(f"Deterministic: {'MATCH' if sa == sb else 'MISMATCH'}")
+if __name__ == "__main__":
+    main()
+
+
+OFFICIAL DEMO OUTPUT
+{
+  "total": 206,
+  "mean": 51.5,
+  "first_plus_second": 191,
+  "first_minus_second": -123,
+  "first_times_second": 5338
+}
+
+Free forever. Part of The 'Merica-L Internet.

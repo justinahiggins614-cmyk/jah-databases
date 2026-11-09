@@ -1,0 +1,53 @@
+{
+  "title": "Pivot rows to columns — CASE (Sql)",
+  "category": "sql",
+  "language": "sql",
+  "description": "Conditional aggregation pivots quarterly rows into quarter columns: SUM(CASE WHEN ...) totals each quarter separately in one pass.",
+  "code": "SELECT SUM(CASE WHEN q = 'Q1' THEN amt ELSE 0 END) AS q1,\n       SUM(CASE WHEN q = 'Q2' THEN amt ELSE 0 END) AS q2\nFROM sales;",
+  "how_it_works": "Each CASE yields the amount only for its quarter, else zero; SUM collapses to one row.",
+  "complexity": "O(n)",
+  "test_cases": [
+    {
+      "input": "sample fixture",
+      "expected": "15|20",
+      "note": "Q1=10+5, Q2=20."
+    },
+    {
+      "input": "sample fixture — second run",
+      "expected": "15|20",
+      "note": "Determinism check: re-running the snippet reproduces the identical output."
+    }
+  ],
+  "pitfalls": "The FILTER clause is cleaner where supported, but CASE works everywhere. Reproduce it once on purpose in a scratch file: seeing the failure teaches the fix faster than reading about it.",
+  "use_cases": "Crosstabs, quarterly reports.",
+  "source": "online",
+  "source_ref": "https://www.sqlite.org/lang_expr.html",
+  "creation_mode": "ONLINE-VERIFIED",
+  "id": "JAH-CODE-0000016",
+  "_seed": 16,
+  "demo": {
+    "engine": "jahdb-demo-1.0",
+    "kind": "code",
+    "title": "Runnable code demo — Pivot rows to columns — CASE (Sql)",
+    "language": "sql",
+    "program": "# JAH demo program — jahdb-demo-1.0\n# Database: code-database · Record: JAH-CODE-0000016\n# RUN: PC: save as demo.sql, run `sqlite3 :memory: < demo.sql`.\n\nSELECT SUM(CASE WHEN q = 'Q1' THEN amt ELSE 0 END) AS q1,\n       SUM(CASE WHEN q = 'Q2' THEN amt ELSE 0 END) AS q2\nFROM sales;\n",
+    "run_hint": "PC: save as demo.sql, run `sqlite3 :memory: < demo.sql`.",
+    "how_to_run": "PC: save the program as demo.js (or demo.py/demo.sql per language) and run it with node/python3/sqlite3. In-page: open the record, Demo Lab tab, press Run.",
+    "runnable": true,
+    "extras": {
+      "test_cases": [
+        {
+          "input": "sample fixture",
+          "expected": "15|20",
+          "note": "Q1=10+5, Q2=20."
+        },
+        {
+          "input": "sample fixture — second run",
+          "expected": "15|20",
+          "note": "Determinism check: re-running the snippet reproduces the identical output."
+        }
+      ]
+    },
+    "note": "Each CASE yields the amount only for its quarter, else zero; SUM collapses to one row."
+  }
+}

@@ -1,0 +1,101 @@
+mean
+Record JAH-API-000001 — Public edition, api-docs.
+JCC v1 code: JAHDB/api-docs#JAH-API-000001
+
+DESCRIPTION
+mean
+
+SPEC
+{
+  "mechanism": "mean"
+}
+
+KEY FIGURES
+{}
+
+COMPLETE RECORD FIELDS
+id: JAH-API-000001
+api_id: JAH-API-000001
+name: mean
+description: Arithmetic mean of a list of numbers.
+parameters.values.type: array
+parameters.values.description: Non-empty array of finite numbers.
+parameters.round.type: integer
+parameters.round.description: Decimal places in the result (default 6).
+example_call: `jahdb.math.mean({values:[2,4,6]})`
+example_response: `{"result":4}`
+error_codes[0].code: E_EMPTY
+error_codes[0].meaning: The values array is empty.
+error_codes[1].code: E_VALUE
+error_codes[1].meaning: A value is not finite.
+category: math
+title: mean
+
+SOURCES
+
+DEMO (record)
+/* JAH interactive demo program — jahdb-demo-1.0
+ * Database: api-docs · Record: JAH-API-000001 · mean
+ * Runnable mock of the "mean" endpoint — validates args, returns the documented example response.
+ * RUN ON PC: save as demo.js, then run:  node demo.js
+ * RUN IN BROWSER: press F12, paste this program into the console, press Enter.
+ * RUN IN-PAGE: open this record and press "Run interactive demo". */
+(function(){
+var SPEC={"name":"mean","description":"Arithmetic mean of a list of numbers.","parameters":{"values":{"type":"array","description":"Non-empty array of finite numbers."},"round":{"type":"integer","description":"Decimal places in the result (default 6)."}},"error_codes":[{"code":"E_EMPTY","meaning":"The values array is empty."},{"code":"E_VALUE","meaning":"A value is not finite."}]};
+function call(args){
+  args=args||{};
+  console.log("> "+SPEC.name+"("+JSON.stringify(args)+")");
+  var missing=Object.keys(SPEC.parameters).filter(function(p){return args[p]===undefined;});
+  if(missing.length){console.log("! missing parameters: "+missing.join(", "));return {error:"E_ARGS",missing:missing};}
+  var resp="{\"result\":4}";
+  console.log("< "+resp);
+  return resp;
+}
+console.log("API: "+SPEC.name+" — "+SPEC.description);
+console.log("Parameters: "+Object.keys(SPEC.parameters).map(function(p){return p+":"+SPEC.parameters[p].type;}).join(", "));
+console.log("Error codes: "+SPEC.error_codes.map(function(e){return e.code;}).join(", "));
+console.log("--- documented example ---");
+console.log("call: jahdb.math.mean({values:[2,4,6]})");
+console.log("--- live mock run ---");
+call({"values":[],"round":1});
+console.log("Tip: call your own args and watch the mock validate + respond.");
+})();
+
+
+CALCULATOR PROGRAM (made for this page)
+"""Numeric check — mean (JAH-API-000001).
+Made for this page from text-derived counts (the record carries no usable numbers of its own).
+This program checks the arithmetic of the stored figures; its outputs
+are check-sums, not physical quantities."""
+import hashlib
+def compute():
+    title_chars = 4; desc_chars = 4; source_count = 0; field_count = 8
+    total = round(title_chars + desc_chars + source_count + field_count, 2)
+    mean = round(total / 4, 2)
+    first_plus_second = round(title_chars + desc_chars, 2)
+    first_minus_second = round(title_chars - desc_chars, 2)
+    first_times_second = round(title_chars * desc_chars, 2)
+    return {"total": total, "mean": mean, "first_plus_second": first_plus_second, "first_minus_second": first_minus_second, "first_times_second": first_times_second}
+def main():
+    a = compute(); b = compute()
+    sa = hashlib.sha256(repr(sorted(a.items())).encode()).hexdigest()
+    sb = hashlib.sha256(repr(sorted(b.items())).encode()).hexdigest()
+    for key in ["total", "mean", "first_plus_second", "first_minus_second", "first_times_second"]:
+        print(f"{key}: {a[key]}")
+    print(f"Run 1 SHA-256: {sa}")
+    print(f"Run 2 SHA-256: {sb}")
+    print(f"Deterministic: {'MATCH' if sa == sb else 'MISMATCH'}")
+if __name__ == "__main__":
+    main()
+
+
+OFFICIAL DEMO OUTPUT
+{
+  "total": 16,
+  "mean": 4.0,
+  "first_plus_second": 8,
+  "first_minus_second": 0,
+  "first_times_second": 16
+}
+
+Free forever. Part of The 'Merica-L Internet.

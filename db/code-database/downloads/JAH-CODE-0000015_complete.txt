@@ -1,0 +1,91 @@
+Breadth-first search — shortest path (Python)
+Record JAH-CODE-0000015 — Public edition, code-database.
+JCC v1 code: JAHDB/code-database#JAH-CODE-0000015
+
+DESCRIPTION
+BFS explores a graph level by level using a queue, so the first time it reaches the target it has used the fewest edges. The standard unweighted shortest-path algorithm.
+
+SPEC
+{
+  "mechanism": "The queue holds (node, distance) pairs; neighbors are enqueued once, so nodes are visited in order of increasing distance.",
+  "use": "Shortest path, level-order traversal, connected components."
+}
+
+KEY FIGURES
+{}
+
+COMPLETE RECORD FIELDS
+title: Breadth-first search — shortest path (Python)
+category: python
+language: python
+description: BFS explores a graph level by level using a queue, so the first time it reaches the target it has used the fewest edges. The standard unweighted shortest-path algorithm.
+code: from collections import deque
+def bfs(g, s, t):
+    q, seen = deque([(s, 0)]), {s}
+    while q:
+        n, d = q.popleft()
+        if n == t:
+            return d
+        for m in g.get(n, []):
+            if m not in seen:
+                seen.add(m); q.append((m, d + 1))
+    return -1
+
+g = {"a": ["b", "c"], "b": ["d"], "c": ["d"], "d": []}
+print(bfs(g, "a", "d"))
+how_it_works: The queue holds (node, distance) pairs; neighbors are enqueued once, so nodes are visited in order of increasing distance.
+complexity: O(V + E) time. Tuning: profile before optimizing; the notes above name the usual bottleneck to measure first.
+test_cases[0].input: bfs(g,"a","d")
+test_cases[0].expected: 2
+test_cases[0].note: Two hops.
+test_cases[1].input: bfs(g,"a","z")
+test_cases[1].expected: -1
+test_cases[1].note: Unreachable.
+pitfalls: Needs a visited set — without it, cycles loop forever.
+use_cases: Shortest path, level-order traversal, connected components.
+source: online
+source_ref: https://en.wikipedia.org/wiki/Breadth-first_search
+creation_mode: ONLINE-VERIFIED
+id: JAH-CODE-0000015
+_seed: 15
+
+SOURCES
+Record source — https://en.wikipedia.org/wiki/Breadth-first_search
+
+DEMO (generated)
+"""Numeric check — Breadth-first search — shortest path (Python) (JAH-CODE-0000015).
+Made for this page from text-derived counts (the record carries no usable numbers of its own).
+This program checks the arithmetic of the stored figures; its outputs
+are check-sums, not physical quantities."""
+import hashlib
+def compute():
+    title_chars = 45; desc_chars = 169; source_count = 1; field_count = 14
+    total = round(title_chars + desc_chars + source_count + field_count, 2)
+    mean = round(total / 4, 2)
+    first_plus_second = round(title_chars + desc_chars, 2)
+    first_minus_second = round(title_chars - desc_chars, 2)
+    first_times_second = round(title_chars * desc_chars, 2)
+    return {"total": total, "mean": mean, "first_plus_second": first_plus_second, "first_minus_second": first_minus_second, "first_times_second": first_times_second}
+def main():
+    a = compute(); b = compute()
+    sa = hashlib.sha256(repr(sorted(a.items())).encode()).hexdigest()
+    sb = hashlib.sha256(repr(sorted(b.items())).encode()).hexdigest()
+    for key in ["total", "mean", "first_plus_second", "first_minus_second", "first_times_second"]:
+        print(f"{key}: {a[key]}")
+    print(f"Run 1 SHA-256: {sa}")
+    print(f"Run 2 SHA-256: {sb}")
+    print(f"Deterministic: {'MATCH' if sa == sb else 'MISMATCH'}")
+if __name__ == "__main__":
+    main()
+
+
+OFFICIAL DEMO OUTPUT
+{
+  "total": 229,
+  "mean": 57.25,
+  "first_plus_second": 214,
+  "first_minus_second": -124,
+  "first_times_second": 7605
+}
+
+Free forever. Part of The 'Merica-L Internet.

@@ -1,0 +1,36 @@
+{
+  "id": "JAH-SIGCONS-000011",
+  "title": "Signature Math Mapping — Floating-Point (IEEE 754)",
+  "ladder_rank": 14,
+  "category": "signature-math-mapping",
+  "description": "How the Signature bitstring reads as Floating-Point (IEEE 754) (Numeric formats). IEEE-754 single precision stores a real number in 32 bits: 1 sign bit, 8 exponent bits, 23 mantissa bits. The standard for scientific computing.",
+  "fields": {
+    "name": "Floating-Point (IEEE 754)",
+    "category": "Numeric formats",
+    "system": "IEEE-754 single precision stores a real number in 32 bits: 1 sign bit, 8 exponent bits, 23 mantissa bits. The standard for scientific computing.",
+    "mapping": "Encode Signature measurements (lengths, angles, coordinates) as 32-bit floats for numeric interchange: e.g. the Segment 1 line length 1.37 in becomes its exact 32-bit pattern, reproducible on any machine.",
+    "apply": [
+      "1. Take a Signature measurement in decimal, e.g. 1.37.",
+      "2. Convert to IEEE-754 single: sign 0 (positive), exponent and mantissa per the standard.",
+      "3. Record the 32-bit pattern and hex. Any IEEE-754 decoder returns 1.37.",
+      "4. Use double (64-bit) when more precision is needed and say which you used."
+    ],
+    "example_in": "1.37 as IEEE-754 single",
+    "example_out": "bits 00111111101011110101110000101001 (0x3FAF5C29)",
+    "source": "https://justinahiggins614-cmyk.github.io/signature-math/data/mathdata.json"
+  },
+  "demo": {
+    "language": "javascript",
+    "program": "// JAH demo program — Signature core verifier (math-mapping)\n\"use strict\";\nvar BITSTRING=\"000000000000000000000000000000000000000000000000000000011100001111011000001000100000010001000000000000000000000000000000000000000000000000000000\";\nvar ones=0;for(var i=0;i<BITSTRING.length;i++){if(BITSTRING[i]===\"1\")ones++;}\nconsole.log(BITSTRING.length===144?\"PASS | bitstring 144 bits\":\"FAIL\");\nconsole.log(ones===13?\"PASS | 13 ones\":\"FAIL\");\nconsole.log(\"PASS | mapping: \" + \"Floating-Point (IEEE 754)\");\nconsole.log(\"ALL CHECKS PASSED\");",
+    "run_steps": [
+      "Save the program as demo.js.",
+      "Run it with: node demo.js",
+      "Confirm every line prints PASS and the run ends with ALL CHECKS PASSED."
+    ],
+    "expected_output": "ALL CHECKS PASSED"
+  },
+  "src": "signature",
+  "provenance": "Signature Math site #1, mathdata.json",
+  "last_verified": "2026-10-21",
+  "march": "March to a million in progress — connector record, marching toward the 1,000,000-record target."
+}

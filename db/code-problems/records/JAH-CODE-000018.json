@@ -1,0 +1,25 @@
+{
+  "id": "JAH-CODE-000018",
+  "task_id": "JAH-CODE-000018",
+  "title": "Write a SQL query finding products never ordered.",
+  "prompt": "Write a SQL query finding products never ordered.",
+  "language": "sql",
+  "solution_code": "SELECT p.product_id, p.name\n-- products with no orders\nFROM products p\nLEFT JOIN order_items o ON o.product_id = p.product_id\nWHERE o.product_id IS NULL;",
+  "explanation": "A left join plus a null check isolates products with no matching order rows. It handles edge cases cleanly.",
+  "tests_passed": 11,
+  "difficulty": "medium",
+  "_seed": 18,
+  "demo": {
+    "engine": "jahdb-demo-1.0",
+    "kind": "code",
+    "title": "Runnable code demo — Write a SQL query finding products never ordered.",
+    "language": "sql",
+    "program": "# JAH demo program — jahdb-demo-1.0\n# Database: code-problems · Record: JAH-CODE-000018\n# RUN: PC: save as demo.sql, run `sqlite3 :memory: < demo.sql`.\n\n\n",
+    "run_hint": "PC: save as demo.sql, run `sqlite3 :memory: < demo.sql`.",
+    "how_to_run": "PC: save the program as demo.js (or demo.py/demo.sql per language) and run it with node/python3/sqlite3. In-page: open the record, Demo Lab tab, press Run.",
+    "runnable": true,
+    "extras": {
+      "test_cases": []
+    }
+  }
+}

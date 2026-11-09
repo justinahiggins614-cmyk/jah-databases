@@ -1,0 +1,82 @@
+The Engine Reef
+Record JAH-COMIC-000022 — Public edition, comics.
+JCC v1 code: JAHDB/comics#JAH-COMIC-000022
+
+DESCRIPTION
+STARFARER'S LOG #3 — The Engine Reef. the blue hour over the Wayfarer — and Tredoraia is already three steps ahead. Starring Tredoraia (Nebex Mihollow), Nyquis (Nedine Belmere), Nymarae (Deltine Rikem), Sylxor (Dohollow Beltal). An anthology of voyages: the survey ship Wayfarer charts the far dark, one strange world per issue.
+
+SPEC
+{
+  "mechanism": "STARFARER'S LOG #3 — The Engine Reef. the blue hour over the Wayfarer — and Tredoraia is already three steps ahead. Starring Tredoraia (Nebex Mihollow), Nyquis (Nedine Belmere), Nymarae (Deltine Rikem), Sylxor (Dohollow Beltal). An anthology of voyages: the survey ship Wayfarer charts the far dark, one strange world per issue."
+}
+
+KEY FIGURES
+{
+  "chunk": 1,
+  "pg": 22,
+  "w": 371
+}
+
+COMPLETE RECORD FIELDS
+id: JAH-COMIC-000022
+t: The Engine Reef
+s: STARFARER'S LOG
+sk: starlog
+n: 3
+ch[0].name: Nebex Mihollow
+ch[0].code: Tredoraia
+ch[0].power: comet riding
+ch[1].name: Nedine Belmere
+ch[1].code: Nyquis
+ch[1].power: void navigating
+ch[2].name: Deltine Rikem
+ch[2].code: Nymarae
+ch[2].power: star charting
+ch[3].name: Dohollow Beltal
+ch[3].code: Sylxor
+ch[3].power: signal decoding
+d: STARFARER'S LOG #3 — The Engine Reef. the blue hour over the Wayfarer — and Tredoraia is already three steps ahead. Starring Tredoraia (Nebex Mihollow), Nyquis (Nedine Belmere), Nymarae (Deltine Rikem), Sylxor (Dohollow Beltal). An anthology of voyages: the survey ship Wayfarer charts the far dark, one strange world per issue.
+w: 371
+pg: 22
+chunk: 1
+src: signature
+
+SOURCES
+
+DEMO (generated)
+"""Numeric check — The Engine Reef (JAH-COMIC-000022).
+Made for this page from the record's own numbers.
+This program checks the arithmetic of the stored figures; its outputs
+are check-sums, not physical quantities."""
+import hashlib
+def compute():
+    chunk = 1; pg = 22; w = 371
+    total = round(chunk + pg + w, 2)
+    mean = round(total / 3, 2)
+    first_plus_second = round(chunk + pg, 2)
+    first_minus_second = round(chunk - pg, 2)
+    first_times_second = round(chunk * pg, 2)
+    return {"total": total, "mean": mean, "first_plus_second": first_plus_second, "first_minus_second": first_minus_second, "first_times_second": first_times_second}
+def main():
+    a = compute(); b = compute()
+    sa = hashlib.sha256(repr(sorted(a.items())).encode()).hexdigest()
+    sb = hashlib.sha256(repr(sorted(b.items())).encode()).hexdigest()
+    for key in ["total", "mean", "first_plus_second", "first_minus_second", "first_times_second"]:
+        print(f"{key}: {a[key]}")
+    print(f"Run 1 SHA-256: {sa}")
+    print(f"Run 2 SHA-256: {sb}")
+    print(f"Deterministic: {'MATCH' if sa == sb else 'MISMATCH'}")
+if __name__ == "__main__":
+    main()
+
+
+OFFICIAL DEMO OUTPUT
+{
+  "total": 394,
+  "mean": 131.33,
+  "first_plus_second": 23,
+  "first_minus_second": -21,
+  "first_times_second": 22
+}
+
+Free forever. Part of The 'Merica-L Internet.

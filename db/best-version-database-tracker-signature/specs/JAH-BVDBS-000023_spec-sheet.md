@@ -1,0 +1,22 @@
+# Best version of 'a-cappella': The Signature A Cappella Database — Spec sheet
+
+Record JAH-BVDBS-000023 — Signature edition, best-version-database-tracker-signature.
+JCC v1 code: JAHDB/best-version-database-tracker-signature#JAH-BVDBS-000023
+
+## Spec
+- **Mechanism:** Best version of the database subject 'a-cappella': The Signature A Cappella Database (a-cappella-signature), holding 20 records. Why: BEST-VERSION RULE (deterministic, applied identically to every record): 1) the edition / file variant with the highest record_count (or, for files, the greatest byte size, i.e. the most complete variant) wins; 2) tie-break: the Signature edition wins over the public edition (for files: the manifest-declared local_index file wins); 3) final tie-break: alphabetical slug (or filename) order. Losing editions/variants are named with their counts on every record. Reco
+
+## Key figures
+- **generator.hard cap:** 1000000000000000
+- **ladder rank:** 8
+- **million march.target:** 1000000
+- **provenance.editions count:** 2
+
+## Official demo output
+- **total:** 1000010
+- **mean:** 333336.67
+- **first plus second:** 10
+- **first minus second:** -6
+- **first times second:** 16
+
+Free forever. Part of The 'Merica-L Internet.

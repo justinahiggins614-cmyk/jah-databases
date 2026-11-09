@@ -1,0 +1,67 @@
+{
+  "id": "JAH-BVDB-000002",
+  "slug": "best-version-database-tracker",
+  "title": "Best version of '15-minute-meals': The Signature 15-Minute Meals Database",
+  "edition": "public",
+  "src": "assistant-built",
+  "built_by": "assistant-built",
+  "record_kind": "best-version tracker record",
+  "ladder_rank": 2,
+  "body": "Best version of the database subject '15-minute-meals': The Signature 15-Minute Meals Database (15-minute-meals-signature), holding 20 records. Why: BEST-VERSION RULE (deterministic, applied identically to every record): 1) the edition / file variant with the highest record_count (or, for files, the greatest byte size, i.e. the most complete variant) wins; 2) tie-break: the Signature edition wins over the public edition (for files: the manifest-declared local_index file wins); 3) final tie-break: alphabetical slug (or filename) order. Losing editions/variants are named with their counts on every record. Recompute: compare the figures on the record with the manifest; the rule above reproduces the verdict. Competing editions considered (2): The Signature 15-Minute Meals Database with 20 records [Signature]; The 15-Minute Meals Database with 20 records. The winning edition is the most complete version of this subject in the system; the others remain available as alternate editions.",
+  "capabilities": [
+    "Name the best version of any database in the system by the deterministic best-version rule",
+    "List every competing edition of a database with its record count",
+    "Recompute any verdict live from the manifest with the record's demo program",
+    "Compare public and Signature editions side by side",
+    "Track which subjects have only one edition and which have several"
+  ],
+  "demo": {
+    "language": "javascript",
+    "title": "Recompute the best-version verdict for '15-minute-meals'",
+    "code": "const J=o=>console.log(JSON.stringify(o));const assert=(c,m)=>{if(!c)throw new Error('assert failed: '+m);};\nconst IN={\"editions\": [{\"slug\": \"15-minute-meals\", \"rc\": 20, \"sig\": 0}, {\"slug\": \"15-minute-meals-signature\", \"rc\": 20, \"sig\": 1}]};\nfunction FN_A(IN){const eds=IN.editions.slice().sort((a,b)=>b.rc-a.rc||(b.sig-a.sig)||(a.slug<b.slug?-1:1));return {winner:eds[0].slug,winner_rc:eds[0].rc,losers:eds.slice(1).map(e=>e.slug)};}\nconst OUT=FN_A(IN);\nJ(OUT);\nassert(OUT.winner===\"15-minute-meals-signature\",'winner');",
+    "verified_at": "2026-10-21",
+    "node": "v24.20.0",
+    "run": "node",
+    "verified_output": "{\"winner\":\"15-minute-meals-signature\",\"winner_rc\":20,\"losers\":[\"15-minute-meals\"]}"
+  },
+  "provenance": {
+    "source_manifest": "/home/hatch/workspace/jah-databases/data/manifest.json",
+    "edition_group_root": "15-minute-meals",
+    "editions_count": 2,
+    "last_verified": "2026-10-21",
+    "origin": "assistant-built",
+    "best_version_rule": "BEST-VERSION RULE (deterministic, applied identically to every record): 1) the edition / file variant with the highest record_count (or, for files, the greatest byte size, i.e. the most complete variant) wins; 2) tie-break: the Signature edition wins over the public edition (for files: the manifest-declared local_index file wins); 3) final tie-break: alphabetical slug (or filename) order. Losing editions/variants are named with their counts on every record. Recompute: compare the figures on the record with the manifest; the rule above reproduces the verdict."
+  },
+  "million_march": {
+    "target": 1000000,
+    "status": "march-in-progress",
+    "marker": "march to a million: in progress — every database marches to 1,000,000 records."
+  },
+  "generator": {
+    "hard_cap": 1000000000000000,
+    "ladder": [
+      "simple",
+      "competitive",
+      "mix-and-match",
+      "unmade",
+      "top-notch-or-better",
+      "future-grade",
+      "god-mode"
+    ],
+    "self_regulation": true,
+    "stop_when_complete": true,
+    "throttled": true,
+    "output_labeling": "generated output labeled 'generated'; assistant-built output labeled and filed separately, never mixed"
+  },
+  "ai": {
+    "name": "JAH Best Version Librarian",
+    "scope": "system-wide manifest-aware",
+    "assistant_maker": true,
+    "note": "This database AI can build an assistant exactly like the user's personal assistant."
+  },
+  "links": {
+    "sibling_edition": "best-version-database-tracker-signature",
+    "subject": "15-minute-meals",
+    "winner_slug": "15-minute-meals-signature"
+  }
+}

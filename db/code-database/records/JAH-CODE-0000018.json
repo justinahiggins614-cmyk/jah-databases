@@ -1,0 +1,53 @@
+{
+  "title": "Facade — one call, many subsystems (Python)",
+  "category": "patterns",
+  "language": "python",
+  "description": "A facade offers one simple function over several fiddly subsystems. Clients get simplicity; the subsystems stay untouched underneath.",
+  "code": "def _disk():\n    return \"disk-ok\"\ndef _net():\n    return \"net-ok\"\ndef system_ready():\n    return _disk() == \"disk-ok\" and _net() == \"net-ok\"\n\nprint(\"ready\" if system_ready() else \"down\")",
+  "how_it_works": "The facade coordinates the subsystem checks and reduces them to one answer.",
+  "complexity": "O(subsystems). Tuning: profile before optimizing; the notes above name the usual bottleneck to measure first.",
+  "test_cases": [
+    {
+      "input": "system_ready()",
+      "expected": "ready",
+      "note": "All subsystems ok."
+    },
+    {
+      "input": "system_ready() — second run",
+      "expected": "ready",
+      "note": "Determinism check: re-running the snippet reproduces the identical output."
+    }
+  ],
+  "pitfalls": "Facades hide power — expose the subsystems too for advanced users.",
+  "use_cases": "Startup checks, library APIs, onboarding flows.",
+  "source": "online",
+  "source_ref": "https://en.wikipedia.org/wiki/Facade_pattern",
+  "creation_mode": "ONLINE-VERIFIED",
+  "id": "JAH-CODE-0000018",
+  "_seed": 18,
+  "demo": {
+    "engine": "jahdb-demo-1.0",
+    "kind": "code",
+    "title": "Runnable code demo — Facade — one call, many subsystems (Python)",
+    "language": "python",
+    "program": "# JAH demo program — jahdb-demo-1.0\n# Database: code-database · Record: JAH-CODE-0000018\n# RUN: PC: save as demo.py, run `python3 demo.py`.\n\ndef _disk():\n    return \"disk-ok\"\ndef _net():\n    return \"net-ok\"\ndef system_ready():\n    return _disk() == \"disk-ok\" and _net() == \"net-ok\"\n\nprint(\"ready\" if system_ready() else \"down\")\n",
+    "run_hint": "PC: save as demo.py, run `python3 demo.py`.",
+    "how_to_run": "PC: save the program as demo.js (or demo.py/demo.sql per language) and run it with node/python3/sqlite3. In-page: open the record, Demo Lab tab, press Run.",
+    "runnable": true,
+    "extras": {
+      "test_cases": [
+        {
+          "input": "system_ready()",
+          "expected": "ready",
+          "note": "All subsystems ok."
+        },
+        {
+          "input": "system_ready() — second run",
+          "expected": "ready",
+          "note": "Determinism check: re-running the snippet reproduces the identical output."
+        }
+      ]
+    },
+    "note": "The facade coordinates the subsystem checks and reduces them to one answer."
+  }
+}
