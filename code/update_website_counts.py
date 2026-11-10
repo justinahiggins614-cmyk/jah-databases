@@ -2,7 +2,7 @@
 """Hourly website-count updater for the 'Merica-L Boundless Ecosystem OS page.
 
 Counts (from TRACKED files only, so the number matches what is deployed):
-  main sites      = <li> items in <ol class="sites"> on the main OS page
+  original websites = <li> items in <ol class="sites"> on the main OS page
   per-artifact    = DB websites + file websites + mix websites (main pages only):
     DB    = db/*/website/index.html
           + db/marijuana-supplies/index.html
@@ -14,9 +14,9 @@ Counts (from TRACKED files only, so the number matches what is deployed):
           (Wave 1 set master + grinder mix)
 
 Re-stamps both OS pages (main + accessible mirror):
-  - hero: "browse its {M} main sites and {N} per-artifact websites"
-  - every stale "39 websites" -> "{M} main sites"
-  - every "N main sites" -> current M
+  - hero: "browse its {M} original websites and {N} per-artifact websites"
+  - every stale "39 websites" -> "{M} original websites"
+  - every "N original websites" -> current M
   - artifact summary: "(Waves 1-2, {N} websites)"
   - stats tile: "Websites + hub" number -> {M} + {N} total websites,
     with today's count date (main page tile + mirror table row)
@@ -87,21 +87,21 @@ def stamp(path, m_sites, n_art):
     orig = text
     total = m_sites + n_art
     today = today_user()
-    # Hero clause (covers old "39 websites", bare "N main sites", and number updates).
+    # Hero clause (covers old "39 websites", bare "N original websites", and number updates).
     text = re.sub(
-        r"browse its (?:\d+ websites|\d+ main sites(?: and [\d,]+ per-artifact websites)?)",
-        f"browse its {m_sites} main sites and {n_art:,} per-artifact websites",
+        r"browse its (?:\d+ websites|\d+ (?:main sites|original websites)(?: and [\d,]+ per-artifact websites)?)",
+        f"browse its {m_sites} original websites and {n_art:,} per-artifact websites",
         text)
     # Any other stale "39 websites" phrasing for the main-sites list.
-    text = re.sub(r"39 websites", f"{m_sites} main sites", text)
-    # Keep every other "N main sites" in step with the list.
-    text = re.sub(r"\d+ main sites", f"{m_sites} main sites", text)
+    text = re.sub(r"39 websites", f"{m_sites} original websites", text)
+    # Keep every other "N original websites" in step with the list.
+    text = re.sub(r"\d+ (?:main sites|original websites)", f"{m_sites} original websites", text)
     # Per-artifact drop-down summary number.
     text = re.sub(
         r"First live per-artifact websites \(Waves 1–2, [\d,]+ websites\)",
         f"First live per-artifact websites (Waves 1–2, {n_art} websites)",
         text)
-    # Stats tile: total websites (main sites + per-artifact), hub listed separately.
+    # Stats tile: total websites (original websites + per-artifact), hub listed separately.
     text = re.sub(
         r'<div class="stat"><div class="n">[\d,]+</div><div class="l">Websites \+ hub</div>'
         r'<div class="s">counted [\d-]+</div></div>',
@@ -152,7 +152,7 @@ def main():
         return 1
     changed = stamp(MAIN, m_sites, n_art) | stamp(MIRROR, m_sites, n_art)
     if not changed:
-        print(f"STATUS: unchanged — {m_sites} main sites, {n_art} per-artifact "
+        print(f"STATUS: unchanged — {m_sites} original websites, {n_art} per-artifact "
               f"websites (db {n_db} + files {n_files} + mixes {n_mixes})")
         return 0
     # Commit + push only the two OS pages.
@@ -161,7 +161,7 @@ def main():
     run(["git", "add", "the-merica-l-boundless-ecosystem-os.html",
          "accessible/the-merica-l-boundless-ecosystem-os.html"])
     run(["git", "commit", "-qm",
-         f"Hourly website counts: {m_sites} main sites, {n_art} per-artifact websites"])
+         f"Hourly website counts: {m_sites} original websites, {n_art} per-artifact websites"])
     try:
         run(["git", "push", "-q", "origin", "main"])
         run(["git", "push", "-q", "origin", "main:gh-pages"])
@@ -169,7 +169,7 @@ def main():
         run(["git", "reset", "--soft", "HEAD~1"], check=False)
         print(f"STATUS: push failed, commit reset: {e}")
         return 1
-    print(f"STATUS: updated + pushed — {m_sites} main sites, {n_art} per-artifact "
+    print(f"STATUS: updated + pushed — {m_sites} original websites, {n_art} per-artifact "
           f"websites (db {n_db} + files {n_files} + mixes {n_mixes})")
     return 0
 
