@@ -33,6 +33,17 @@ import re
 import subprocess
 import sys
 
+try:
+    from zoneinfo import ZoneInfo
+    USER_TZ = ZoneInfo("America/Los_Angeles")
+except Exception:
+    USER_TZ = datetime.timezone(datetime.timedelta(hours=-8))
+
+
+def today_user():
+    """Today's date on the user's clock (America/Los_Angeles), never the VM's."""
+    return datetime.datetime.now(USER_TZ).date().isoformat()
+
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 MAIN = os.path.join(ROOT, "the-merica-l-boundless-ecosystem-os.html")
 MIRROR = os.path.join(ROOT, "accessible", "the-merica-l-boundless-ecosystem-os.html")
@@ -75,7 +86,7 @@ def stamp(path, m_sites, n_art):
     text = open(path, encoding="utf-8").read()
     orig = text
     total = m_sites + n_art
-    today = datetime.date.today().isoformat()
+    today = today_user()
     # Hero clause (covers old "39 websites", bare "N main sites", and number updates).
     text = re.sub(
         r"browse its (?:\d+ websites|\d+ main sites(?: and [\d,]+ per-artifact websites)?)",
