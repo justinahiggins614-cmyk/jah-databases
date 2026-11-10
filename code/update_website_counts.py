@@ -97,10 +97,15 @@ def stamp(path, m_sites, n_art):
         f'<div class="stat"><div class="n">{total:,}</div><div class="l">Websites + hub</div>'
         f'<div class="s">counted {today}</div></div>',
         text)
+    # Numbers-table Websites row (mirror: plain <td>; main page: <td class="num">).
+    def _web_row(m):
+        cls = m.group(1) or ""
+        return (f'<tr><td>Websites</td><td{cls}>{total:,}, plus the database hub</td>'
+                f'<td>{today}</td></tr>')
     text = re.sub(
-        r'<tr><td>Websites</td><td>[\d,]+, plus the database hub</td><td>[\d-]+</td></tr>',
-        f'<tr><td>Websites</td><td>{total:,}, plus the database hub</td><td>{today}</td></tr>',
-        text)
+        r'<tr><td>Websites</td><td( class="num")?>[\d,]+, plus the database hub</td>'
+        r'<td>[\d-]+</td></tr>',
+        _web_row, text)
     if text != orig:
         open(path, "w", encoding="utf-8").write(text)
     return text != orig
