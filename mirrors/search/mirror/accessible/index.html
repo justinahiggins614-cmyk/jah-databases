@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<!-- LIVE: accessible version of Signature Search.
+     Zero scripts. Same content as the main mirror page, in plain text. -->
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Signature Search — Public Edition — Accessible version</title>
+<meta name="description" content="Accessible version of Signature Search, the Signature mirror of the search-engine kind of website. Plain text, no JavaScript needed." />
+<style>
+body{font-family:Georgia,serif;font-size:18px;line-height:1.65;max-width:900px;margin:0 auto;padding:24px 16px;color:#16130c;background:#fffdf7}
+h1{font-size:36px;line-height:1.1}
+h2{font-size:26px;margin-top:36px;border-bottom:2px solid #a97e00;padding-bottom:6px}
+h3{font-size:18px;text-transform:uppercase;letter-spacing:.05em;margin-top:28px}
+a{color:#1d5c38}
+li{margin-bottom:7px}
+blockquote{border-left:5px solid #a97e00;padding:14px 18px;background:#f3e7bd;font-style:italic}
+.note{font-style:italic;color:#4a4333}
+</style>
+</head>
+<body>
+<p><a href="../index.html">Back to the main page (Signature Search)</a></p>
+<h1>Signature Search</h1>
+<p><i>Search The 'Merica-L Internet.</i></p>
+<p><b>By Anonymous of Peace. Free forever. PUBLIC EDITION — LIVE.</b></p>
+<p>This is the accessible version of Signature Search. It carries the same content as the main page, in plain text, readable without JavaScript.</p>
+<p>Welcome to Signature Search. On the main page, you type what you are looking for and Signature Search looks through the network's own directory: the 39 websites and the 102 per-artifact entry points — database websites, set pages, and mixes. It shows the matching websites, ranked by the mirror's own scoring rule, with the score shown next to each result so you can see why it ranked where it did.</p>
+<p>This is the public edition of Signature Search: the same search mirror, built from public information. This mirror is live and counted as a website. It searches only this network. It never searches the outside web, never tracks you, and never asks for an account.</p>
+
+<h2>Section 1 — Description and history</h2>
+<p>Signature Search is a mirror of the search-engine kind of website: a website whose job is to take a question in plain words and return the websites that hold the answer, ranked best first. The search-engine kind of website began as simple lists of sites, then as indexes of words on pages, and then as ranking systems that score pages against a question. This mirror follows that same shape — a box, a button, and a ranked list of results — rebuilt with Signature branding and the network's own data.</p>
+<p>What this mirror searches is different from the kind it mirrors: it searches only The 'Merica-L Internet's own directory. Its index is built at build time from the network's own pages — the 39 websites and the per-artifact entry points — and it is stored in the page itself. It does not crawl the outside web, it does not keep a history of your searches, and it does not sell or share anything about you, because it never collects anything about you in the first place.</p>
+
+<h2>Section 2 — Math proof (standard math + metamath)</h2>
+<p>The mirror's ranking rule is a deterministic scoring function. For a query Q of words q1 … qn and an index entry E with a name and keywords, the score is: <b>score(Q, E) = 3 × (number of query words appearing in E's name) + 1 × (number of query words appearing in E's keywords)</b></p>
+<p>An entry appears in the results only if every query word appears in its name or its keywords. Results are ordered by score, highest first; ties are broken alphabetically by name, so the order is the same every time for the same query. That is the whole rule — there is no hidden ranking, no paid placement, and no personalisation.</p>
+<p>Worked example: the query "songs" against the entry "Signature Music Studio" (keywords: music songs beats studio). The word "songs" appears in the keywords (1 point) and not in the name (0 points), so score = 3 × 0 + 1 × 1 = 1. The query "music studio" against "Signature Music Studio" scores 3 × 2 + 1 × 2 = 8: both words are in the name (6 points) and both are in the keywords (2 points).</p>
+<p>In metamath form, the rule is a total function from (query, entry) pairs to the natural numbers, and the result order is the total order induced by (score descending, name ascending). Because the function depends only on the query and the fixed index, the same query always returns the same ordered results: the search is deterministic and reproducible.</p>
+
+<h2>Section 3 — Science proof</h2>
+<p>The science behind this mirror is information retrieval: the study of how to find documents that match a question. The mirror uses its simplest honest form. At build time it builds an index: for every website in the directory, it records the website's name and a set of keywords drawn from that name and its description. At search time it compares the query's words against that index, scores the matches, and returns the matches in ranked order.</p>
+<p>Two measures from information retrieval describe how good a search is. <b>Precision</b> is the share of returned results that actually match what was asked. <b>Recall</b> is the share of matching websites in the index that the search actually returned. This mirror's rule — every query word must appear in the name or keywords — favours precision: it returns fewer results, but every result it returns contains every word you asked for.</p>
+<p>The index is static: it is built once, from the network's own pages, and shipped inside the page. That is why the mirror needs no server, no account, and no tracking.</p>
+
+<h2>Section 4 — Relevant data</h2>
+<p>The mirror's index holds the network's directory as of the build: 39 websites and 102 per-artifact entry points, in total. Sample entries: Signature Music Studio (keywords: music, songs, beats, studio); The Signature Cookbook (keywords: cookbook, recipes, food, cooking); Globally Rejustered Patent Catalog (keywords: patents, catalog, inventions); Signature Space Mapping (keywords: space, maps, mapping, stars); JAH Wiki (keywords: wiki, encyclopedia, articles, knowledge).</p>
+
+<h2>Section 5 — Spec / patent + 3D-print version</h2>
+<p><b>Spec.</b> The Signature spec for this mirror is a draft specification for a search mirror over a fixed, network-owned index: the index format (name, link, keywords), the scoring rule from Section 2, the result-order rule, and the no-tracking, no-account, no-server design. The spec is a draft — ready to file, not filed, not a granted patent.</p>
+<p><b>3D-print version.</b> A search mirror is software: it has no physical form, so there is no 3D-print version of it. The mirror says so plainly rather than inventing one.</p>
+
+<h2>Section 6 — Demonstration programs / working prototypes</h2>
+<p>Two programs run on the main page, both live and working: (1) the search itself — type a query, press Search, and the mirror scores its index and shows the ranked results with their scores; (2) the ranking demo — the same program showing its work, with every result carrying its score. Expected output for the query "songs": the top results are the music websites, each with its score shown. For the query "music studio": "Signature Music Studio" scores 8 and ranks first. The programs run entirely in your browser, on the index shipped in the page. Nothing is sent anywhere.</p>
+
+<h2>Section 7 — Two AIs</h2>
+<p><b>1. The Signature Search website AI</b> — discusses the mirror, helps you search in the field, explains any result and why it ranked where it did, and routes detailed questions to the website or database AI that owns the subject. It is networked to the whole network.</p>
+<p><b>2. The AI version of the search engine</b> — Signature Search AI: it takes a question in plain words, searches the mirror's index, and answers from the results it found, naming the websites it used. Its spec is the spec in Section 5.</p>
+<p><b>Both AIs are downloadable with their specs</b> — the website AI and the search-engine AI are both downloadable with their specs now; the website AI with its spec, and the search-engine AI with its spec in Section 5. Every mirrored real website gets its AI version too — two AIs per mirror, the same as the per-artifact websites.</p>
+<p>Live chat with either AI on this page is by design and not yet deployed. Until then, the network's working chat is <a href="https://justinahiggins614-cmyk.github.io/signature-llama/">Signature Llama</a>.</p>
+
+<h2>Section 8 — USE section: use, download, copy</h2>
+<p><b>Use it:</b> use the search box on the main page. <b>Download it:</b> its page, its index, its spec, and both AIs with their specs are downloadable from this section, free forever. <b>Copy it:</b> the scoring rule in Section 2 is short enough to copy by hand: 3 points for a word in the name, 1 point for a word in the keywords, every query word must match, highest score first, ties alphabetical. <b>Make your own mirror:</b> the Signature Website Creator's mirror tool rebuilds a layout shape with your own brand — <a href="https://justinahiggins614-cmyk.github.io/signature-website-creator/mirror.html">Open the mirror tool (Signature Website Creator)</a>.</p>
+
+<h2>Section 9 — Sources, codes, and network</h2>
+<p><b>Sources.</b> The mirror's index comes from the network's own pages: the 'Merica-L Boundless Ecosystem OS page and the 'Merica-L Virtual Internet front door. The ranking rule is the mirror's own rule, stated in full in Section 2. Term-frequency weighting is a standard information-retrieval concept, described here in general terms; no outside source is quoted as the mirror's own method.</p>
+<p><b>Codes.</b> <b>Codes.</b> This is the public edition of a live mirror. The mirror is counted once, as a website, under its main page; this edition page carries the same code as the main page when one is recorded.</p></p>
+<p><b>Network.</b> This mirror belongs to The 'Merica-L Internet: the front door is the <a href="https://justinahiggins614-cmyk.github.io/jah-databases/the-merica-l-virtual-internet.html">'Merica-L Virtual Internet</a>, the network's main page is <a href="https://justinahiggins614-cmyk.github.io/jah-databases/the-merica-l-boundless-ecosystem-os.html">'Merica-L Boundless Ecosystem OS</a>, and the databases live at the <a href="https://justinahiggins614-cmyk.github.io/jah-databases/">database hub</a>. Every mirror carries the same rule: layout inspiration only, never the real website's brand name, logos, trademarks, product names, or copyrighted images.</p>
+
+<hr />
+<p>The 'Merica-L Internet</p>
+<p><a href="../index.html">Back to the main page (Signature Search)</a> &middot; <a href="https://justinahiggins614-cmyk.github.io/jah-databases/the-merica-l-virtual-internet.html">'Merica-L Virtual Internet</a> &middot; <a href="https://justinahiggins614-cmyk.github.io/jah-databases/">Browse the databases (hub)</a> &middot; <a href="../../accessible/index.html">Signature edition</a></p>
+<p class="note">Public edition of a live mirror. The mirror is counted once, as a website, under its main page. Nothing here is for sale. Free forever.</p>
+</body>
+</html>

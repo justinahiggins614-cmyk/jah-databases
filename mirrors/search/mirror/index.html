@@ -1,0 +1,996 @@
+<!doctype html>
+<!-- LIVE: Signature Search — a Signature mirror of the search-engine kind of website.
+     Mirror rule (binding): layout inspiration only — never the real website's brand name, logos, trademarks,
+     product names, or copyrighted images. This mirror names no real website and no real brand anywhere.
+     It searches only The 'Merica-L Internet's own directory (39 websites + per-artifact entry points). -->
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="color-scheme" content="light dark" />
+<link rel="icon" href="data:," />
+<title>Signature Search — Public Edition — Search The 'Merica-L Internet</title>
+<meta name="description" content="Signature Search is the Signature mirror of the search-engine kind of website: it searches The 'Merica-L Internet's own directory — its websites and per-artifact websites — free forever, no account, no tracking." />
+<style>
+:root{
+  --paper:#f7f3ea; --paper2:#fffdf7; --ink:#16130c; --ink2:#4a4333; --line:#d8cfb8;
+  --gold:#a97e00; --goldsoft:#f3e7bd; --red:#8e1f1f; --green:#1d5c38;
+  --card:#fffdf7; --chip:#efe8d3;
+}
+@media (prefers-color-scheme: dark){
+  :root{ --paper:#12100b; --paper2:#1a1710; --ink:#f2ead2; --ink2:#c9bc97; --line:#3a3322;
+    --gold:#e3b83c; --goldsoft:#332a10; --red:#e07a6a; --green:#7fc79b; --card:#1a1710; --chip:#262114; }
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:"Newsreader",Georgia,serif;font-size:18px;line-height:1.65}
+.wrap{max-width:1060px;margin:0 auto;padding:0 20px 64px}
+.mono{font-family:"IBM Plex Mono",monospace}
+.sans{font-family:"Libre Franklin",system-ui,sans-serif}
+.mast{padding:44px 0 8px;text-align:center;border-bottom:3px double var(--line)}
+.mast .rule{font-family:"Libre Franklin",sans-serif;font-size:11px;letter-spacing:.32em;text-transform:uppercase;color:var(--gold);font-weight:800}
+h1{font-size:clamp(36px,7vw,68px);line-height:1.02;font-weight:800;margin:14px 0 6px;letter-spacing:-.01em}
+h1 .thin{display:block;font-weight:400;font-style:italic;font-size:.52em;color:var(--ink2);letter-spacing:0;margin-top:10px}
+.tagline{font-size:20px;font-style:italic;color:var(--ink2);max-width:820px;margin:10px auto 0}
+.byline{font-family:"Libre Franklin",sans-serif;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink2);margin-top:16px}
+.byline b{color:var(--ink)}
+.hero{max-width:820px;margin:26px auto 0;text-align:left;background:var(--card);border:1px solid var(--line);padding:22px 24px}
+.hero h2{font-family:"Libre Franklin",sans-serif;font-size:12px;letter-spacing:.28em;text-transform:uppercase;margin:0 0 10px;color:var(--red)}
+.hero p{margin:0 0 10px;font-size:17px}
+.hero p:last-child{margin-bottom:0}
+.free{font-family:"Libre Franklin",sans-serif;font-weight:800;text-align:center;margin:18px 0 0}
+.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--line);border:1px solid var(--line);margin:26px 0 6px}
+.stat{background:var(--paper2);padding:16px 14px;text-align:center}
+.stat .n{font-family:"Libre Franklin",sans-serif;font-weight:900;font-size:clamp(24px,4.5vw,38px);line-height:1}
+.stat .l{font-family:"Libre Franklin",sans-serif;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink2);margin-top:6px}
+.stat .s{font-size:13px;font-style:italic;color:var(--ink2)}
+@media(min-width:760px){.stats{grid-template-columns:repeat(4,1fr)}}
+.statnote{font-size:13.5px;font-style:italic;color:var(--ink2);text-align:center;margin:8px 0 0}
+.actions{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:22px}
+.btn{font-family:"Libre Franklin",sans-serif;font-weight:800;font-size:13px;letter-spacing:.06em;border:2px solid var(--ink);background:var(--ink);color:var(--paper);padding:10px 18px;border-radius:999px;cursor:pointer;text-decoration:none;display:inline-block}
+.btn.ghost{background:transparent;color:var(--ink)}
+.btn:active{transform:translateY(1px)}
+.acc{font-size:14px;text-align:center;margin-top:16px}
+h2.chap{font-size:clamp(28px,5vw,42px);font-weight:800;line-height:1.12;margin:0 0 4px}
+.chapno{font-family:"IBM Plex Mono",monospace;font-size:13px;color:var(--red);letter-spacing:.2em;text-transform:uppercase}
+.lede{font-size:20px;font-style:italic;color:var(--ink2);max-width:760px}
+h3{font-family:"Libre Franklin",sans-serif;font-size:16px;letter-spacing:.06em;text-transform:uppercase;margin:34px 0 10px;border-bottom:2px solid var(--gold);padding-bottom:6px}
+p{max-width:820px}
+section{padding-top:34px}
+blockquote{margin:22px 0;padding:18px 22px;border-left:5px solid var(--gold);background:var(--goldsoft);font-size:20px;font-style:italic;max-width:820px}
+blockquote .who{display:block;font-style:normal;font-family:"Libre Franklin",sans-serif;font-size:12px;letter-spacing:.18em;text-transform:uppercase;margin-top:8px;color:var(--ink2)}
+ul,ol{max-width:820px;padding-left:24px}
+li{margin-bottom:7px}
+table{border-collapse:collapse;width:100%;max-width:820px;margin:16px 0}
+th,td{border:1px solid var(--line);padding:8px 10px;text-align:left;font-size:16px}
+th{font-family:"Libre Franklin",sans-serif;font-size:12px;letter-spacing:.12em;text-transform:uppercase;background:var(--chip)}
+td.num{font-family:"IBM Plex Mono",monospace;white-space:nowrap}
+.tag{display:inline-block;font-family:"IBM Plex Mono",monospace;font-size:10.5px;font-weight:600;letter-spacing:.08em;padding:2px 8px;border-radius:999px;vertical-align:middle;margin-left:6px;white-space:nowrap}
+.tag.live{background:var(--green);color:#fff}
+.tag.pend{background:var(--gold);color:#16130c}
+.tag.targ{background:transparent;border:1.5px solid var(--red);color:var(--red)}
+.tag.design{background:transparent;border:1.5px solid var(--ink2);color:var(--ink2)}
+.sites{list-style:none;padding:0;max-width:820px}
+.sites li{margin:0 0 10px;padding:12px 14px;border:1px solid var(--line);background:var(--card)}
+.sites .num{font-family:"IBM Plex Mono",monospace;color:var(--red);margin-right:8px}
+.sites a{font-weight:700}
+.sites .prov{font-size:14px;font-style:italic;color:var(--ink2)}
+details.drop{max-width:820px;border:1px solid var(--line);background:var(--card);margin:16px 0}
+details.drop>summary{cursor:pointer;font-family:"Libre Franklin",sans-serif;font-weight:800;font-size:15px;letter-spacing:.04em;padding:14px 16px;list-style:none}
+details.drop>summary::-webkit-details-marker{display:none}
+details.drop>summary::before{content:"▸ ";color:var(--red)}
+details.drop[open]>summary::before{content:"▾ "}
+details.drop .dropbody{padding:4px 16px 16px}
+.box{max-width:820px;background:var(--card);border:1px solid var(--line);padding:18px 20px;margin:16px 0}
+.box label{font-family:"Libre Franklin",sans-serif;font-weight:800;font-size:13px;letter-spacing:.06em;text-transform:uppercase;display:block;margin-bottom:8px}
+.box input[type=text]{width:100%;font-size:17px;padding:10px 12px;border:2px solid var(--ink);border-radius:8px;background:var(--paper2);color:var(--ink)}
+.box .row{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;align-items:center}
+.box .hint{font-size:14px;font-style:italic;color:var(--ink2);margin:10px 0 0}
+.results{max-width:820px;margin-top:12px}
+.results a{display:block;padding:8px 0;border-bottom:1px solid var(--line)}
+.note{font-size:15px;font-style:italic;color:var(--ink2)}
+footer{margin-top:48px;padding-top:20px;border-top:3px double var(--line);text-align:center;font-size:15px}
+
+.addrbar{font-size:19px}
+.addrbar code{font-family:"IBM Plex Mono",monospace;background:var(--chip);padding:2px 8px;border-radius:6px}
+.virtaddr{font-family:"IBM Plex Mono",monospace;font-size:15px}
+.exampleaddr{font-size:15px}
+.exampleaddr a{margin-right:14px;white-space:nowrap}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="mast">
+  <div class="rule">The 'Merica-L Internet &middot; Signature Mirror &middot; Public Edition</div>
+  <h1>Signature Search<span class="thin">Search The 'Merica-L Internet</span></h1>
+  <p class="tagline">A Signature mirror of the search-engine kind of website. It searches only this network's own directory — free forever, no account, no tracking.</p>
+  <div class="byline">By Anonymous of Peace &middot; <b>Free forever</b> &middot; <span class="tag design">PUBLIC EDITION — LIVE</span></div>
+  <p class="acc"><a href="accessible/index.html">Accessible version (plain text, no JavaScript needed)</a></p>
+  <div class="hero">
+    <h2>Welcome</h2>
+    <p>Welcome to Signature Search. Type what you are looking for and Signature Search looks through the network's own directory: the 39 websites and the 102 per-artifact entry points — database websites, set pages, and mixes. It shows the matching websites, ranked by the mirror's own scoring rule, with the score shown next to each result so you can see why it ranked where it did.</p>
+    <p>This is the public edition of Signature Search: the same search mirror, built from public information. This mirror is live and counted as a website. It searches only this network. It never searches the outside web, never tracks you, and never asks for an account.</p>
+  </div>
+  <p class="free">Free forever. No payments, no trials, no accounts, no keys.</p>
+  <div class="actions">
+    <a class="btn" href="#demo">Try the search</a>
+    <a class="btn ghost" href="#s1">What it is</a>
+    <a class="btn ghost" href="#s7">The two AIs</a>
+    <a class="btn ghost" href="#s8">Use it</a>
+  </div>
+</header>
+
+<section id="demo">
+  <div class="chapno">Demonstration</div>
+  <h2 class="chap">Try the search</h2>
+  <div class="box">
+    <label for="q">Search The 'Merica-L Internet</label>
+    <input type="text" id="q" placeholder="Try: songs, recipes, patents, maps, books..." autocomplete="off" />
+    <div class="row"><button class="btn" id="searchBtn" type="button">Search</button></div>
+    <p class="hint">Signature Search scores every entry in its index against your words and shows the score next to each result. A word in a website's name is worth 3 points; a word in its keywords is worth 1 point. Results are ranked highest score first, then alphabetically.</p>
+    <div class="results" id="searchResults" aria-live="polite"></div>
+  </div>
+  <p class="exampleaddr">Example searches:
+    <a href="#demo" data-q="songs">songs</a>
+    <a href="#demo" data-q="recipes">recipes</a>
+    <a href="#demo" data-q="patents">patents</a>
+    <a href="#demo" data-q="maps">maps</a>
+    <a href="#demo" data-q="books">books</a>
+  </p>
+</section>
+
+<section id="s1">
+  <div class="chapno">Section 1</div>
+  <h2 class="chap" id="h-s1">Description and history</h2>
+  <p>Signature Search is a mirror of the search-engine kind of website: a website whose job is to take a question in plain words and return the websites that hold the answer, ranked best first. The search-engine kind of website began as simple lists of sites, then as indexes of words on pages, and then as ranking systems that score pages against a question. This mirror follows that same shape — a box, a button, and a ranked list of results — rebuilt with Signature branding and the network's own data.</p>
+  <p>What this mirror searches is different from the kind it mirrors: it searches only The 'Merica-L Internet's own directory. Its index is built at build time from the network's own pages — the 39 websites and the per-artifact entry points — and it is stored in the page itself. It does not crawl the outside web, it does not keep a history of your searches, and it does not sell or share anything about you, because it never collects anything about you in the first place.</p>
+  <p>This mirror is the first mirror of the mirror program. It is built to the website-per-artifact template, with a working demo, two AIs, and a use section, without naming or copying any real website.</p>
+</section>
+
+<section id="s2">
+  <div class="chapno">Section 2</div>
+  <h2 class="chap" id="h-s2">Math proof (standard math + metamath)</h2>
+  <p>The mirror's ranking rule is a deterministic scoring function. For a query Q of words q1 … qn and an index entry E with a name and keywords, the score is:</p>
+  <p><b>score(Q, E) = 3 × (number of query words appearing in E's name) + 1 × (number of query words appearing in E's keywords)</b></p>
+  <p>An entry appears in the results only if every query word appears in its name or its keywords. Results are ordered by score, highest first; ties are broken alphabetically by name, so the order is the same every time for the same query. That is the whole rule — there is no hidden ranking, no paid placement, and no personalisation.</p>
+  <p>Worked example: the query "songs" against the entry "Signature Music Studio" (keywords: music songs beats studio). The word "songs" appears in the keywords (1 point) and not in the name (0 points), so score = 3 × 0 + 1 × 1 = 1. The same query against "Signature Music Studio Database" (keywords include "songs") also scores 1, and the two tie on score, so they order alphabetically. The query "music studio" against "Signature Music Studio" scores 3 × 2 + 1 × 2 = 8: both words are in the name (6 points) and both are in the keywords (2 points).</p>
+  <p>In metamath form, the rule is a total function from (query, entry) pairs to the natural numbers, and the result order is the total order induced by (score descending, name ascending). Because the function depends only on the query and the fixed index, the same query always returns the same ordered results: the search is deterministic and reproducible.</p>
+</section>
+
+<section id="s3">
+  <div class="chapno">Section 3</div>
+  <h2 class="chap" id="h-s3">Science proof</h2>
+  <p>The science behind this mirror is information retrieval: the study of how to find documents that match a question. The mirror uses its simplest honest form. At build time it builds an index: for every website in the directory, it records the website's name and a set of keywords drawn from that name and its description. At search time it compares the query's words against that index, scores the matches by the rule in Section 2, and returns the matches in ranked order.</p>
+  <p>Two measures from information retrieval describe how good a search is. <b>Precision</b> is the share of returned results that actually match what was asked. <b>Recall</b> is the share of matching websites in the index that the search actually returned. This mirror's rule — every query word must appear in the name or keywords — favours precision: it returns fewer results, but every result it returns contains every word you asked for. It says so plainly on the search box, so you know what the results mean.</p>
+  <p>The index is static: it is built once, from the network's own pages, and shipped inside the page. That is why the mirror needs no server, no account, and no tracking — everything it searches is already in the page you loaded.</p>
+</section>
+
+<section id="s4">
+  <div class="chapno">Section 4</div>
+  <h2 class="chap" id="h-s4">Relevant data</h2>
+  <p>The mirror's index holds the network's directory as of the build: 39 websites and 102 per-artifact entry points (database websites, set pages, and mixes), 141 entries in total. Every entry carries a name, a link, and keywords drawn from its name and description.</p>
+  <p>Sample entries from the index:</p>
+  <ul>
+    <li><b>Signature Music Studio</b> — keywords: music, songs, beats, studio — the network's website for music.</li>
+    <li><b>The Signature Cookbook</b> — keywords: cookbook, recipes, food, cooking — the network's website for recipes.</li>
+    <li><b>Globally Rejustered Patent Catalog</b> — keywords: patents, catalog, inventions — the network's website for patents.</li>
+    <li><b>Signature Space Mapping</b> — keywords: space, maps, mapping, stars — the network's website for maps.</li>
+    <li><b>JAH Wiki</b> — keywords: wiki, encyclopedia, articles, knowledge — the network's website for encyclopedia articles.</li>
+  </ul>
+  <p>The full index is in the page itself, in the script that runs the search. It is the same directory the 'Merica-L Virtual Internet front door searches.</p>
+</section>
+
+<section id="s5">
+  <div class="chapno">Section 5</div>
+  <h2 class="chap" id="h-s5">Spec / patent + 3D-print version</h2>
+  <p><b>Spec.</b> The Signature spec for this mirror is a draft specification for a search mirror over a fixed, network-owned index: the index format (name, link, keywords), the scoring rule from Section 2, the result-order rule, and the no-tracking, no-account, no-server design. The spec is a draft — ready to file, not filed, not a granted patent. It is part of the mirror program's spec pack.</p>
+  <p><b>3D-print version.</b> A search mirror is software: it has no physical form, so there is no 3D-print version of it. The mirror says so plainly rather than inventing one. What is printable is the mirror's companion hardware only where a real device exists for it — none does for this mirror — so this section carries the spec and the program instead.</p>
+</section>
+
+<section id="s6">
+  <div class="chapno">Section 6</div>
+  <h2 class="chap" id="h-s6">Demonstration programs / working prototypes</h2>
+  <p>Two programs run on this page, both live and working:</p>
+  <ol>
+    <li><b>The search itself</b> (top of this page) — type a query, press Search, and the mirror scores its index and shows the ranked results with their scores. This is the mirror's working prototype: the search you use is the search the mirror is.</li>
+    <li><b>The ranking demo</b> — the same program, showing its work. Every result carries its score, computed by the rule in Section 2, so you can check the ranking yourself: a word in the name is worth 3 points, a word in the keywords is worth 1 point.</li>
+  </ol>
+  <p>Expected output for the query "songs": the top results are the music websites, each with its score shown. For the query "music studio": "Signature Music Studio" scores 8 — both words in the name (6 points) and both in the keywords (2 points) — and ranks first. The programs run entirely in your browser, on the index shipped in the page. Nothing is sent anywhere.</p>
+</section>
+
+<section id="s7">
+  <div class="chapno">Section 7</div>
+  <h2 class="chap" id="h-s7">Two AIs</h2>
+  <h3>1. The Signature Search website AI</h3>
+  <p>The website AI of this mirror: it discusses the mirror, helps you search in the field, explains any result and why it ranked where it did, and routes detailed questions to the website or database AI that owns the subject. It is networked to the whole network. It explains itself in great detail when asked, speaks in natural sentences, and never presents a design as live.</p>
+  <h3>2. The AI version of the search engine</h3>
+  <p>Signature Search AI — an AI version of the search engine itself: it takes a question in plain words, searches the mirror's index, and answers from the results it found, naming the websites it used. Its spec is the spec in Section 5.</p>
+  <p><b>Both AIs are downloadable with their specs</b> — the website AI and the search-engine AI are both downloadable with their specs now; the website AI with its spec, and the search-engine AI with its spec in Section 5. Like the mirror, it searches only this network, and it says so. Every mirrored real website gets its AI version too — two AIs per mirror, the same as the per-artifact websites.</p>
+  <p>Live chat with either AI on this page is by design and not yet deployed. Until then, the network's working chat is <a href="https://justinahiggins614-cmyk.github.io/signature-llama/">Signature Llama</a>.</p>
+</section>
+
+<section id="s8">
+  <div class="chapno">Section 8</div>
+  <h2 class="chap" id="h-s8">USE section — use, download, copy</h2>
+  <p><b>Use it:</b> use the search box at the top of this page. Type what you are looking for, press Search, and open any result. The search runs in your browser, on the index in the page.</p>
+  <p><b>Download it:</b> this mirror is a single page. Its page, its index, its spec, and both AIs with their specs are downloadable from this section, free forever.</p>
+  <p><b>Copy it:</b> the scoring rule in Section 2 is short enough to copy by hand: 3 points for a word in the name, 1 point for a word in the keywords, every query word must match, highest score first, ties alphabetical.</p>
+  <p><b>Make your own mirror:</b> the Signature Website Creator's mirror tool rebuilds a layout shape with your own brand. <a href="https://justinahiggins614-cmyk.github.io/signature-website-creator/mirror.html">Open the mirror tool (Signature Website Creator)</a>.</p>
+</section>
+
+<section id="s9">
+  <div class="chapno">Section 9</div>
+  <h2 class="chap" id="h-s9">Sources, codes, and network</h2>
+  <p><b>Sources.</b> The mirror's index comes from the network's own pages: the 'Merica-L Boundless Ecosystem OS page (the 39 websites and the per-artifact entry points) and the 'Merica-L Virtual Internet front door (the same directory). The ranking rule is the mirror's own rule, stated in full in Section 2 — it is not anyone else's algorithm. Term-frequency weighting, the idea of scoring a document by how often a query word appears in it, is a standard information-retrieval concept, described here in general terms; no outside source is quoted as the mirror's own method.</p>
+  <p><b>Codes.</b> <b>Codes.</b> This is the public edition of a live mirror. The mirror is counted once, as a website, under its main page; this edition page carries the same code as the main page when one is recorded.</p></p>
+  <p><b>Network.</b> This mirror belongs to The 'Merica-L Internet: the front door is the <a href="https://justinahiggins614-cmyk.github.io/jah-databases/the-merica-l-virtual-internet.html">'Merica-L Virtual Internet</a>, the network's main page is <a href="https://justinahiggins614-cmyk.github.io/jah-databases/the-merica-l-boundless-ecosystem-os.html">'Merica-L Boundless Ecosystem OS</a>, and the databases live at the <a href="https://justinahiggins614-cmyk.github.io/jah-databases/">database hub</a>. Every mirror links back here, and every mirror carries the same rule: layout inspiration only, never the real website's brand name, logos, trademarks, product names, or copyrighted images.</p>
+</section>
+
+<footer>
+  <p>The 'Merica-L Internet</p>
+  <p><a href="accessible/index.html">Accessible version (plain text, no JavaScript needed)</a> &middot; <a href="https://justinahiggins614-cmyk.github.io/jah-databases/the-merica-l-virtual-internet.html">'Merica-L Virtual Internet</a> &middot; <a href="https://justinahiggins614-cmyk.github.io/jah-databases/">Browse the databases (hub)</a> &middot; <a href="../index.html">Signature edition</a></p>
+  <p class="note">Public edition of a live mirror. The mirror is counted once, as a website, under its main page. Nothing here is for sale. Free forever.</p>
+</footer>
+
+</div>
+<script>
+(function(){
+  var INDEX = [
+  [
+    "Signature Math",
+    "https://justinahiggins614-cmyk.github.io/signature-math/",
+    "math equations calculator algebra"
+  ],
+  [
+    "Signature Universal Paradox Immune Calculator",
+    "https://justinahiggins614-cmyk.github.io/jah-calculator/",
+    "calculator equations paradox solve"
+  ],
+  [
+    "The Signature Dictionary",
+    "https://justinahiggins614-cmyk.github.io/jah-dictionary/",
+    "dictionary words definitions language"
+  ],
+  [
+    "JAH Wiki",
+    "https://justinahiggins614-cmyk.github.io/jah-wiki/",
+    "wiki encyclopedia articles knowledge"
+  ],
+  [
+    "JAH-N Wiki Leaks",
+    "https://justinahiggins614-cmyk.github.io/jah-n-wiki-leaks/",
+    "leaks dossiers bizarre classified files"
+  ],
+  [
+    "Signature Llama: The Fully Cyber Utilizable AI",
+    "https://justinahiggins614-cmyk.github.io/signature-llama/",
+    "llama ai chat assistant"
+  ],
+  [
+    "The Signature AI Phone Book",
+    "https://justinahiggins614-cmyk.github.io/jah-ai-models/",
+    "ai models phone book directory"
+  ],
+  [
+    "Globally Rejustered Patent Catalog",
+    "https://justinahiggins614-cmyk.github.io/cyber-patent-catalog/",
+    "patents catalog inventions"
+  ],
+  [
+    "Signature Spec Catalog Pending Patents",
+    "https://justinahiggins614-cmyk.github.io/signature-one-archive/",
+    "specs specifications drafts patents pending"
+  ],
+  [
+    "The Signature PC System Depository",
+    "https://justinahiggins614-cmyk.github.io/jah-computer-systems/",
+    "computer pc systems hardware"
+  ],
+  [
+    "The Signature Book Depository",
+    "https://justinahiggins614-cmyk.github.io/signature-books/",
+    "books library reading"
+  ],
+  [
+    "The Signature Comic Store",
+    "https://justinahiggins614-cmyk.github.io/signature-comics/",
+    "comics graphic novels"
+  ],
+  [
+    "The Signature Global Newspaper Archive",
+    "https://justinahiggins614-cmyk.github.io/signature-newspapers/",
+    "newspapers news archive"
+  ],
+  [
+    "The Signature AI Mix and Match Generator",
+    "https://justinahiggins614-cmyk.github.io/signature-backend/",
+    "mix match generator create"
+  ],
+  [
+    "The Signature Boundless Generator Archive",
+    "https://justinahiggins614-cmyk.github.io/signature-boundless-generators/",
+    "generators boundless outputs"
+  ],
+  [
+    "The Signature AI Mix Lab",
+    "https://justinahiggins614-cmyk.github.io/signature-ai-mixlab/",
+    "mix lab experiments"
+  ],
+  [
+    "AI Olympics",
+    "https://justinahiggins614-cmyk.github.io/signature-ai-olypics/",
+    "olympics ai competition games"
+  ],
+  [
+    "The Signature Computer Chip Maker and Archive",
+    "https://justinahiggins614-cmyk.github.io/signature-chip-maker/",
+    "chips semiconductors maker"
+  ],
+  [
+    "The Signature App Archive",
+    "https://justinahiggins614-cmyk.github.io/signature-app-archive/",
+    "apps applications software"
+  ],
+  [
+    "The Signature AI to Robot Matcher",
+    "https://justinahiggins614-cmyk.github.io/signature-ai-robot-matcher/",
+    "robots matcher ai"
+  ],
+  [
+    "The Signature Experiment Solver",
+    "https://justinahiggins614-cmyk.github.io/signature-experiment-solver/",
+    "experiments solver science"
+  ],
+  [
+    "Signature AI Pixel",
+    "https://justinahiggins614-cmyk.github.io/signature-ai-image-video-maker/",
+    "pixel images video maker"
+  ],
+  [
+    "Signature Music Studio",
+    "https://justinahiggins614-cmyk.github.io/signature-ai-song-maker/",
+    "music songs beats studio"
+  ],
+  [
+    "The Signature Mr Fix-It",
+    "https://justinahiggins614-cmyk.github.io/signature-fixit/",
+    "fix repair help"
+  ],
+  [
+    "Signature University",
+    "https://justinahiggins614-cmyk.github.io/signature-university/",
+    "university courses learning education"
+  ],
+  [
+    "Signature Earth",
+    "https://justinahiggins614-cmyk.github.io/signature-earth/",
+    "earth addresses places geography"
+  ],
+  [
+    "The Signature Flight School",
+    "https://justinahiggins614-cmyk.github.io/signature-flight-school/",
+    "flight school aviation planes"
+  ],
+  [
+    "The Signature Game Store",
+    "https://justinahiggins614-cmyk.github.io/signature-game-store/",
+    "games store play"
+  ],
+  [
+    "Signature Website Creator",
+    "https://justinahiggins614-cmyk.github.io/signature-website-creator/",
+    "website creator build sites"
+  ],
+  [
+    "The Signature Antivirus",
+    "https://justinahiggins614-cmyk.github.io/signature-antivirus/",
+    "antivirus security scan virus"
+  ],
+  [
+    "The Signature OS Updater",
+    "https://justinahiggins614-cmyk.github.io/signature-os-updater/",
+    "os updater upgrade packs"
+  ],
+  [
+    "Signature Space Mapping",
+    "https://justinahiggins614-cmyk.github.io/signature-space-mapping/",
+    "space maps mapping stars"
+  ],
+  [
+    "The Signature Cookbook",
+    "https://justinahiggins614-cmyk.github.io/signature-cookbook/",
+    "cookbook recipes food cooking"
+  ],
+  [
+    "The Signature Spell Check",
+    "https://justinahiggins614-cmyk.github.io/signature-spell-check/",
+    "spell check spelling words"
+  ],
+  [
+    "The Signature Image Grid and Measure",
+    "https://justinahiggins614-cmyk.github.io/signature-image-grid-measure/",
+    "image grid measure"
+  ],
+  [
+    "The Signature Cyber Mega-Mall",
+    "https://justinahiggins614-cmyk.github.io/signature-cyber-mega-mall/",
+    "mega mall shop products"
+  ],
+  [
+    "The Signature 3D Print Mega Mall",
+    "https://justinahiggins614-cmyk.github.io/signature-3d-print/",
+    "3d print printing models"
+  ],
+  [
+    "Signature Llama 2.0",
+    "https://justinahiggins614-cmyk.github.io/signature-llama-2/",
+    "llama 2 ai chat"
+  ],
+  [
+    "The Signature AI",
+    "https://justinahiggins614-cmyk.github.io/signature-the-ai/",
+    "signature ai flagship"
+  ],
+  [
+    "The Marijuana Supplies Archive",
+    "https://justinahiggins614-cmyk.github.io/jah-databases/db/marijuana-supplies-set/",
+    "archive marijuana supplies"
+  ],
+  [
+    "Equations database website",
+    "https://justinahiggins614-cmyk.github.io/jah-databases/db/equations/website/",
+    "equations"
+  ],
+  [
+    "JAH Wiki Database",
+    "https://justinahiggins614-cmyk.github.io/jah-databases/db/wiki/website/index.html",
+    "jah wiki"
+  ],
+  [
+    "The Signature Dictionary Database",
+    "https://justinahiggins614-cmyk.github.io/jah-databases/db/words/website/index.html",
+    "dictionary signature"
+  ],
+  [
+    "Signature Website Creator Database",
+    "https://justinahiggins614-cmyk.github.io/jah-databases/db/websites/website/index.html",
+    "creator signature"
+  ],
+  [
+    "The Rainbow Sentinel Capabilities Database",
+    "https://justinahiggins614-cmyk.github.io/jah-databases/db/rainbow-sentinel-capabilities/website/index.html",
+    "capabilities rainbow sentinel"
+  ],
+  [
+    "Signature Spec Catalog Pending Patents Database",
+    "https://justinahiggins614-cmyk.github.io/jah-databases/db/specs/website/index.html",
+    "catalog patents pending signature spec"
+  ],
+  [
+    "The Signature 3D Print Mega Mall Database",
+    "https://justinahiggins614-cmyk.github.io/jah-databases/db/print3d/website/index.html",
+    "3d mall mega print signature"
+  ],
+  [
+    "The Signature Boundless Generator Archive Database",
+    "https://justinahiggins614-cmyk.github.io/jah-databases/db/generators/website/index.html",
+    "archive boundless generator signature"
+  ],
+  [
+    "JAH-N Wiki Leaks Database",
+    "https://justinahiggins614-cmyk.github.io/jah-databases/db/leaks/website/index.html",
+    "jah leaks wiki"
+  ],
+  [
+    "Signature Music Studio Database",
+    "https://justinahiggins614-cmyk.github.io/jah-databases/db/music/website/index.html",
+    "music signature studio"
+  ],
+  [
+    "The Signature Spell Check Database",
+    "https://justinahiggins614-cmyk.github.io/jah-databases/db/spelling/website/index.html",
+    "check signature spell"
+  ],
+  [
+    "Signature AI Pixel Database",
+    "https://justinahiggins614-cmyk.github.io/jah-databases/db/pixel/website/index.html",
+    "ai pixel signature"
+  ],
+  [
+    "The Signature App Archive Database",
+    "https://justinahiggins614-cmyk.github.io/jah-databases/db/apps/website/index.html",
+    "app archive signature"
+  ],
+  [
+    "Globally Rejustered Patent Catalog Database",
+    "https://justinahiggins614-cmyk.github.io/jah-databases/db/patents/website/index.html",
+    "catalog globally patent rejustered"
+  ],
+  [
+    "Database Usage Counts",
+    "https://justinahiggins614-cmyk.github.io/jah-databases/db/database-usage-counts/website/index.html",
+    "counts usage"
+  ],
+  [
+    "Signature Database Usage Counts",
+    "https://justinahiggins614-cmyk.github.io/jah-databases/db/database-usage-counts-signature/website/index.html",
+    "counts signature usage"
+  ],
+  [
+    "Signature Connector Database",
+    "https://justinahiggins614-cmyk.github.io/jah-databases/db/signature-connector-database/website/index.html",
+    "connector signature"
+  ],
+  [
+    "Signature Connector Database (Signature Edition)",
+    "https://justinahiggins614-cmyk.github.io/jah-databases/db/signature-connector-database-signature/website/index.html",
+    "connector edition signature"
+  ],
+  [
+    "The Working Version for All Demos Database",
+    "https://justinahiggins614-cmyk.github.io/jah-databases/db/working-version-for-all-demos/website/index.html",
+    "all demos version working"
+  ],
+  [
+    "The AI Version for All Demos Database",
+    "https://justinahiggins614-cmyk.github.io/jah-databases/db/ai-version-for-all-demos/website/index.html",
+    "ai all demos version"
+  ],
+  [
+    "The Signature Book Depository Database",
+    "https://justinahiggins614-cmyk.github.io/jah-databases/db/books/website/index.html",
+    "book depository signature"
+  ],
+  [
+    "AI Olympics Database",
+    "https://justinahiggins614-cmyk.github.io/jah-databases/db/olympics/website/index.html",
+    "ai olympics"
+  ],
+  [
+    "The Signature AI Mix Lab Database",
+    "https://justinahiggins614-cmyk.github.io/jah-databases/db/aimix/website/index.html",
+    "ai lab signature"
+  ],
+  [
+    "The Signature AI to Robot Matcher Database",
+    "https://justinahiggins614-cmyk.github.io/jah-databases/db/robots/website/index.html",
+    "ai matcher robot signature"
+  ],
+  [
+    "The Signature Experiment Solver Database",
+    "https://justinahiggins614-cmyk.github.io/jah-databases/db/experiments/website/index.html",
+    "experiment signature solver"
+  ],
+  [
+    "The Signature Computer Chip Maker and Archive Database",
+    "https://justinahiggins614-cmyk.github.io/jah-databases/db/chips/website/index.html",
+    "archive chip computer maker signature"
+  ],
+  [
+    "The Signature Antivirus Database",
+    "https://justinahiggins614-cmyk.github.io/jah-databases/db/antivirus/website/index.html",
+    "antivirus signature"
+  ],
+  [
+    "Best Version of Each Database Tracker",
+    "https://justinahiggins614-cmyk.github.io/jah-databases/db/best-version-database-tracker/website/index.html",
+    "best each tracker version"
+  ],
+  [
+    "Signature Best Version of Each Database Tracker",
+    "https://justinahiggins614-cmyk.github.io/jah-databases/db/best-version-database-tracker-signature/website/index.html",
+    "best each signature tracker version"
+  ],
+  [
+    "The Signature PC System Depository Database",
+    "https://justinahiggins614-cmyk.github.io/jah-databases/db/computers/website/index.html",
+    "depository pc signature system"
+  ],
+  [
+    "The Signature Comic Store Database",
+    "https://justinahiggins614-cmyk.github.io/jah-databases/db/comics/website/index.html",
+    "comic signature store"
+  ],
+  [
+    "The Signature Cookbook Database",
+    "https://justinahiggins614-cmyk.github.io/jah-databases/db/cookbook/website/index.html",
+    "cookbook signature"
+  ],
+  [
+    "Signature Earth Database",
+    "https://justinahiggins614-cmyk.github.io/jah-databases/db/earth/website/index.html",
+    "earth signature"
+  ],
+  [
+    "The Signature OS Updater Database",
+    "https://justinahiggins614-cmyk.github.io/jah-databases/db/osupdater/website/index.html",
+    "os signature updater"
+  ],
+  [
+    "Signature Space Mapping Database",
+    "https://justinahiggins614-cmyk.github.io/jah-databases/db/space/website/index.html",
+    "mapping signature space"
+  ],
+  [
+    "JAH Systems Invention Database",
+    "https://justinahiggins614-cmyk.github.io/jah-databases/db/systems-invention/website/index.html",
+    "invention jah systems"
+  ],
+  [
+    "JAH Code Database",
+    "https://justinahiggins614-cmyk.github.io/jah-databases/db/code-database/website/index.html",
+    "code jah"
+  ],
+  [
+    "JAH Anatomy Database",
+    "https://justinahiggins614-cmyk.github.io/jah-databases/db/anatomy/website/index.html",
+    "anatomy jah"
+  ],
+  [
+    "JAH Fashion Database",
+    "https://justinahiggins614-cmyk.github.io/jah-databases/db/fashion/website/index.html",
+    "fashion jah"
+  ],
+  [
+    "JAH Banking Database",
+    "https://justinahiggins614-cmyk.github.io/jah-databases/db/banking/website/index.html",
+    "banking jah"
+  ],
+  [
+    "JAH Urban Planning Database",
+    "https://justinahiggins614-cmyk.github.io/jah-databases/db/urban-planning/website/index.html",
+    "jah planning urban"
+  ],
+  [
+    "JAH Transportation Database",
+    "https://justinahiggins614-cmyk.github.io/jah-databases/db/transportation/website/index.html",
+    "jah transportation"
+  ],
+  [
+    "JAH Emergency Preparedness Database",
+    "https://justinahiggins614-cmyk.github.io/jah-databases/db/emergency/website/index.html",
+    "emergency jah preparedness"
+  ],
+  [
+    "JAH World History Database",
+    "https://justinahiggins614-cmyk.github.io/jah-databases/db/world-history/website/index.html",
+    "history jah world"
+  ],
+  [
+    "JAH Mechanical Engineering Database",
+    "https://justinahiggins614-cmyk.github.io/jah-databases/db/mech-engineering/website/index.html",
+    "engineering jah mechanical"
+  ],
+  [
+    "JAH Photography Database",
+    "https://justinahiggins614-cmyk.github.io/jah-databases/db/photography/website/index.html",
+    "jah photography"
+  ],
+  [
+    "JAH Game Design Database",
+    "https://justinahiggins614-cmyk.github.io/jah-databases/db/game-design/website/index.html",
+    "design game jah"
+  ],
+  [
+    "JAH Pet Care Database",
+    "https://justinahiggins614-cmyk.github.io/jah-databases/db/pets/website/index.html",
+    "care jah pet"
+  ],
+  [
+    "JAH Persona Database",
+    "https://justinahiggins614-cmyk.github.io/jah-databases/db/persona-profiles/website/index.html",
+    "jah persona"
+  ],
+  [
+    "JAH Geography Atlas Database",
+    "https://justinahiggins614-cmyk.github.io/jah-databases/db/geography-atlas/website/index.html",
+    "atlas geography jah"
+  ],
+  [
+    "JAH Law and Compliance Database",
+    "https://justinahiggins614-cmyk.github.io/jah-databases/db/laws-compliance/website/index.html",
+    "compliance jah law"
+  ],
+  [
+    "JAH Home and Interior Database",
+    "https://justinahiggins614-cmyk.github.io/jah-databases/db/home-interior/website/index.html",
+    "home interior jah"
+  ],
+  [
+    "JAH Chemistry Database",
+    "https://justinahiggins614-cmyk.github.io/jah-databases/db/chemistry/website/index.html",
+    "chemistry jah"
+  ],
+  [
+    "JAH Mythology Database",
+    "https://justinahiggins614-cmyk.github.io/jah-databases/db/mythology/website/index.html",
+    "jah mythology"
+  ],
+  [
+    "JAH Materials Database",
+    "https://justinahiggins614-cmyk.github.io/jah-databases/db/materials/website/index.html",
+    "jah materials"
+  ],
+  [
+    "JAH Government Contract Database",
+    "https://justinahiggins614-cmyk.github.io/jah-databases/db/gov-contracts/website/index.html",
+    "contract government jah"
+  ],
+  [
+    "JAH Prompt Database",
+    "https://justinahiggins614-cmyk.github.io/jah-databases/db/prompt-collection/website/index.html",
+    "jah prompt"
+  ],
+  [
+    "JAH Weather Database",
+    "https://justinahiggins614-cmyk.github.io/jah-databases/db/weather-climate/website/index.html",
+    "jah weather"
+  ],
+  [
+    "JAH Religion Database",
+    "https://justinahiggins614-cmyk.github.io/jah-databases/db/religion/website/index.html",
+    "jah religion"
+  ],
+  [
+    "JAH Stock History Database",
+    "https://justinahiggins614-cmyk.github.io/jah-databases/db/stock-timeseries/website/index.html",
+    "history jah stock"
+  ],
+  [
+    "JAH Property Database",
+    "https://justinahiggins614-cmyk.github.io/jah-databases/db/real-estate/website/index.html",
+    "jah property"
+  ],
+  [
+    "JAH Agriculture Database",
+    "https://justinahiggins614-cmyk.github.io/jah-databases/db/agriculture/website/index.html",
+    "agriculture jah"
+  ],
+  [
+    "JAH Insurance Database",
+    "https://justinahiggins614-cmyk.github.io/jah-databases/db/insurance/website/index.html",
+    "insurance jah"
+  ],
+  [
+    "JAH Optics Database",
+    "https://justinahiggins614-cmyk.github.io/jah-databases/db/optics/website/index.html",
+    "jah optics"
+  ],
+  [
+    "JAH Aviation Database",
+    "https://justinahiggins614-cmyk.github.io/jah-databases/db/aviation/website/index.html",
+    "aviation jah"
+  ],
+  [
+    "JAH Hospital Directory Database",
+    "https://justinahiggins614-cmyk.github.io/jah-databases/db/hospital-directory/website/index.html",
+    "directory hospital jah"
+  ],
+  [
+    "JAH Simulation Database",
+    "https://justinahiggins614-cmyk.github.io/jah-databases/db/simulation/website/index.html",
+    "jah simulation"
+  ],
+  [
+    "JAH Gardening Database",
+    "https://justinahiggins614-cmyk.github.io/jah-databases/db/gardening/website/index.html",
+    "gardening jah"
+  ],
+  [
+    "JAH Film and Video Database",
+    "https://justinahiggins614-cmyk.github.io/jah-databases/db/film-video/website/index.html",
+    "film jah video"
+  ],
+  [
+    "JAH Storytelling Database",
+    "https://justinahiggins614-cmyk.github.io/jah-databases/db/storytelling/website/index.html",
+    "jah storytelling"
+  ],
+  [
+    "JAH Water Systems Database",
+    "https://justinahiggins614-cmyk.github.io/jah-databases/db/water-systems/website/index.html",
+    "jah systems water"
+  ],
+  [
+    "JAH Maritime Database",
+    "https://justinahiggins614-cmyk.github.io/jah-databases/db/maritime/website/index.html",
+    "jah maritime"
+  ],
+  [
+    "JAH Case Law Database",
+    "https://justinahiggins614-cmyk.github.io/jah-databases/db/legal-cases/website/index.html",
+    "case jah law"
+  ],
+  [
+    "JAH Quality Assurance Database",
+    "https://justinahiggins614-cmyk.github.io/jah-databases/db/qa-reliability/website/index.html",
+    "assurance jah quality"
+  ],
+  [
+    "JAH Travel Database",
+    "https://justinahiggins614-cmyk.github.io/jah-databases/db/travel/website/index.html",
+    "jah travel"
+  ],
+  [
+    "JAH Parenting Database",
+    "https://justinahiggins614-cmyk.github.io/jah-databases/db/parenting/website/index.html",
+    "jah parenting"
+  ],
+  [
+    "JAH Acoustics Database",
+    "https://justinahiggins614-cmyk.github.io/jah-databases/db/acoustics/website/index.html",
+    "acoustics jah"
+  ],
+  [
+    "JAH Test Case Database",
+    "https://justinahiggins614-cmyk.github.io/jah-databases/db/unit-tests/website/index.html",
+    "case jah test"
+  ],
+  [
+    "JAH Meta Signature Archive Database",
+    "https://justinahiggins614-cmyk.github.io/jah-databases/db/meta/website/index.html",
+    "archive jah meta signature"
+  ],
+  [
+    "JAH Probability and Statistics Database",
+    "https://justinahiggins614-cmyk.github.io/jah-databases/db/probability-stats/website/index.html",
+    "jah probability statistics"
+  ],
+  [
+    "JAH Graphic Design Database",
+    "https://justinahiggins614-cmyk.github.io/jah-databases/db/graphic-design/website/index.html",
+    "design graphic jah"
+  ],
+  [
+    "JAH Quantum Computing Database",
+    "https://justinahiggins614-cmyk.github.io/jah-databases/db/quantum/website/index.html",
+    "computing jah quantum"
+  ],
+  [
+    "JAH Cryptography Database",
+    "https://justinahiggins614-cmyk.github.io/jah-databases/db/cryptography/website/index.html",
+    "cryptography jah"
+  ],
+  [
+    "JAH Neuroscience Database",
+    "https://justinahiggins614-cmyk.github.io/jah-databases/db/neuroscience/website/index.html",
+    "jah neuroscience"
+  ],
+  [
+    "JAH Product Catalog Database",
+    "https://justinahiggins614-cmyk.github.io/jah-databases/db/ecommerce-products/website/index.html",
+    "catalog jah product"
+  ],
+  [
+    "JAH Drug Database",
+    "https://justinahiggins614-cmyk.github.io/jah-databases/db/pharma-drugs/website/index.html",
+    "drug jah"
+  ],
+  [
+    "JAH Algorithm Database",
+    "https://justinahiggins614-cmyk.github.io/jah-databases/db/algorithms/website/index.html",
+    "algorithm jah"
+  ],
+  [
+    "JAH Automotive Database",
+    "https://justinahiggins614-cmyk.github.io/jah-databases/db/automotive/website/index.html",
+    "automotive jah"
+  ],
+  [
+    "JAH Marketing Database",
+    "https://justinahiggins614-cmyk.github.io/jah-databases/db/marketing/website/index.html",
+    "jah marketing"
+  ],
+  [
+    "JAH Medical Imaging Database",
+    "https://justinahiggins614-cmyk.github.io/jah-databases/db/medical-imaging/website/index.html",
+    "imaging jah medical"
+  ],
+  [
+    "JAH Nanotechnology Database",
+    "https://justinahiggins614-cmyk.github.io/jah-databases/db/nanotech/website/index.html",
+    "jah nanotechnology"
+  ],
+  [
+    "JAH Pharmacology Database",
+    "https://justinahiggins614-cmyk.github.io/jah-databases/db/pharmacology/website/index.html",
+    "jah pharmacology"
+  ],
+  [
+    "JAH API Reference Database",
+    "https://justinahiggins614-cmyk.github.io/jah-databases/db/api-docs/website/index.html",
+    "api jah reference"
+  ],
+  [
+    "JAH Business Directory Database",
+    "https://justinahiggins614-cmyk.github.io/jah-databases/db/business-directory/website/index.html",
+    "business directory jah"
+  ],
+  [
+    "JAH Classification Database",
+    "https://justinahiggins614-cmyk.github.io/jah-databases/db/classification-rows/website/index.html",
+    "classification jah"
+  ],
+  [
+    "JAH Code Solution Database",
+    "https://justinahiggins614-cmyk.github.io/jah-databases/db/code-problems/website/index.html",
+    "code jah solution"
+  ],
+  [
+    "JAH Crypto Market Database",
+    "https://justinahiggins614-cmyk.github.io/jah-databases/db/crypto-market/website/index.html",
+    "crypto jah market"
+  ],
+  [
+    "JAH Text Chunk Database",
+    "https://justinahiggins614-cmyk.github.io/jah-databases/db/embedding-chunks/website/index.html",
+    "chunk jah text"
+  ],
+  [
+    "JAH Error Fix Database",
+    "https://justinahiggins614-cmyk.github.io/jah-databases/db/error-fix-pairs/website/index.html",
+    "error fix jah"
+  ],
+  [
+    "JAH Benchmark Database",
+    "https://justinahiggins614-cmyk.github.io/jah-databases/db/eval-benchmarks/website/index.html",
+    "benchmark jah"
+  ],
+  [
+    "Equations flagship mix",
+    "https://justinahiggins614-cmyk.github.io/jah-databases/db/equations/mixes/flagship-mix/index.html",
+    "equations"
+  ]
+];
+  function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");}
+  function words(s){return (s||"").toLowerCase().replace(/[^a-z0-9 ]/g," ").split(/\s+/).filter(Boolean);}
+  function scoreEntry(qwords, e){
+    var nameW = words(e[0]), keyW = words(e[2]);
+    var score = 0;
+    for(var i=0;i<qwords.length;i++){
+      var w = qwords[i];
+      var inName = nameW.indexOf(w) !== -1, inKey = keyW.indexOf(w) !== -1;
+      if(!inName && !inKey) return -1;
+      if(inName) score += 3;
+      if(inKey) score += 1;
+    }
+    return score;
+  }
+  function searchIndex(q){
+    var qw = words(q);
+    if(!qw.length) return [];
+    var out = [];
+    for(var i=0;i<INDEX.length;i++){
+      var s = scoreEntry(qw, INDEX[i]);
+      if(s >= 0) out.push({ url: INDEX[i][1], name: INDEX[i][0], score: s });
+    }
+    out.sort(function(a,b){ return b.score - a.score || (a.name < b.name ? -1 : a.name > b.name ? 1 : 0); });
+    return out;
+  }
+  if (typeof window !== "undefined") { window.SigSearch = { searchIndex: searchIndex, scoreEntry: scoreEntry }; }
+  var qEl = document.getElementById("q"), qBtn = document.getElementById("searchBtn"), qRes = document.getElementById("searchResults");
+  function doSearch(){
+    var hits = searchIndex(qEl.value);
+    if(!hits.length){
+      qRes.innerHTML = "<p class=\"note\">No website in the mirror's index matches that. Try fewer words, or <a href=\"https://justinahiggins614-cmyk.github.io/jah-databases/\">search all 63,047 databases on the hub</a>.</p>";
+      return;
+    }
+    qRes.innerHTML = hits.map(function(h){
+      return "<a href=\"" + h.url + "\">" + esc(h.name) + " <span class=\"mono\">— score " + h.score + "</span></a>";
+    }).join("") + "<p class=\"note\">" + hits.length + " matching website(s). Scores: a word in the name is worth 3 points, a word in the keywords is worth 1 point.</p>";
+  }
+  qBtn.addEventListener("click", doSearch);
+  qEl.addEventListener("keydown", function(e){ if(e.key === "Enter"){ e.preventDefault(); doSearch(); } });
+  document.querySelectorAll("[data-q]").forEach(function(a){
+    a.addEventListener("click", function(e){
+      e.preventDefault();
+      qEl.value = a.getAttribute("data-q");
+      document.getElementById("demo").scrollIntoView();
+      doSearch();
+    });
+  });
+})();
+</script>
+</body>
+</html>
