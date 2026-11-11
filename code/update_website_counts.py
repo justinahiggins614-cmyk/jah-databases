@@ -12,8 +12,9 @@ Counts (from TRACKED files only, so the number matches what is deployed):
           + db/marijuana-supplies-set/index.html
           + db/marijuana-supplies-set/complete-grinder-system/index.html
           (Wave 1 set master + grinder mix)
-  mirrors = mirrors/*/index.html (main pages only, excluding /accessible/
-          and /mirror/ — Signature mirrors of real websites online)
+  mirrors = mirrors/<slug>/index.html (main pages only — filtered by
+          path shape, since git's pathspec `*` crosses `/` and the bare
+          glob would also match /accessible/ and /mirror/ pages)
 
 Re-stamps the OS pages (main + accessible mirror) and the 'Merica-L
 Virtual Internet front-door pages (main + accessible mirror):
@@ -92,9 +93,12 @@ def count_per_artifact():
 
 
 def count_mirrors():
-    # Main pages only: the glob mirrors/*/index.html cannot match
-    # mirrors/<slug>/accessible/index.html or mirrors/<slug>/mirror/index.html.
-    return len(ls_files("mirrors/*/index.html"))
+    # Main pages only: exactly mirrors/<slug>/index.html. NOTE: git's
+    # pathspec `*` crosses `/`, so "mirrors/*/index.html" ALSO matches
+    # mirrors/<slug>/accessible/index.html and mirrors/<slug>/mirror/
+    # index.html — filter by shape instead of trusting the glob.
+    return len([p for p in ls_files("mirrors/*/index.html")
+                if re.fullmatch(r"mirrors/[^/]+/index\.html", p)])
 
 
 def hero_clause(m_sites, n_art, n_mir):
