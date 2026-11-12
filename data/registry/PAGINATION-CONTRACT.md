@@ -1,19 +1,21 @@
 # Pagination Contract — JAH Databases registry (Lane B, Fix 2)
 
-**Status: PACKAGE ONLY — NOT LIVE — NOT DEPLOYED.** The page files live in
-`pages/` in this lane dir. Nothing here is merged, pushed, or live.
+**Status: LIVE — deployed on GitHub Pages (merged 2026-11-12).** The page files live in
+`data/pages/` (631 pages, 100 entries each).
 
 ## Why this exists
 
-The outside AI's "400-database exhaustive-search ceiling" is **not ours**:
-`llms.txt` lists 444 databases, and no 400 limit exists in our code or docs
-(see `../STEP-0-1-VERIFICATION.md` §1b — the ceiling is the outside AI's own
+The outside AI's "400-database exhaustive-search ceiling" is its own
 rounding/behavior, most likely its own context/behavior limit after ~400
-entries). This contract does not claim to remove a limit we never imposed.
-What it does is make an exhaustive pass *feasible for a text-fetch reader*
-anyway: instead of one 50.8 MB manifest or one 444-entry `llms.txt`, the
-reader fetches small plain files one at a time, each pointing at the next,
-and can stop and resume at any point without losing its place.
+entries (see `../STEP-0-1-VERIFICATION.md` §1b) — the paginated registry
+itself imposes no 400-database ceiling. But be clear: the in-browser search DOES cap index
+search — `core/jahdb-search.js:15-17` caps it at Quick 12 / Deep 40 /
+Exhaustive 400 database indexes per search. This contract does not claim to
+remove that cap. What it does is make an exhaustive pass *feasible for a
+text-fetch reader* anyway: instead of one 50.8 MB manifest or one 444-entry
+`llms.txt`, the reader fetches small plain files one at a time, each pointing
+at the next, and can stop and resume at any point without losing its place —
+the paginated registry is the path to full coverage.
 
 ## The contract (v1)
 

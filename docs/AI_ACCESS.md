@@ -13,6 +13,13 @@ Base URL: `https://justinahiggins614-cmyk.github.io/jah-databases`
 2. Pick a database and fetch its index file in `/data/<slug>/` (e.g. `/data/patents/patents.idx.json.gz`).
 3. Read rows. `.gz` files are gzip-compressed newline-delimited JSON — one record per line.
 
+## Finding a database without downloading the 50 MB manifest
+
+- Start at `/data/registry/registry.json` — the paginated registry index (63,047 databases, 49 shards).
+- Walk the pages: `/data/pages/page-001.json` through `/data/pages/page-631.json`, 100 databases per page (last page 47). Each page lists slugs and names plus `next_page` / `next_cursor`, so a reader can stop and resume.
+- Need a database's full record? Each page entry names its shard (`shards/manifest-shard-NNN.json` under `/data/registry/`), which carries the complete manifest entry — fetch one shard (under 1 MB) instead of the whole manifest.
+- The full files still exist — `/data/manifest.json` (50,845,023 bytes) and `/api.json` (39,221,262 bytes) — but you do not need them for discovery.
+
 ## Reading a compressed index (curl + python)
 
 ```bash

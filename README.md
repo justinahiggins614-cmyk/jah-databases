@@ -24,9 +24,12 @@ searchable database with:
 - **Cross-database generation** — every generator can sample the other 63046
   databases (`JAHDB.sampleOther`) and fold themes into its own genre.
 
-The original 39 websites are NOT linked from here and this project is NOT
-linked from them. Data is shared invisibly (same data files); navigation is
-separate.
+The original 39 websites are linked from this project through the
+'Merica-L Boundless Ecosystem OS page in this repo
+(`the-merica-l-boundless-ecosystem-os.html`), which lists all 39 — and the
+hub front door (`index.html`) links to that OS page. The 39 sites do not
+currently link back to this project. Data is shared invisibly (same data
+files); navigation is separate.
 
 ## Layout
 
