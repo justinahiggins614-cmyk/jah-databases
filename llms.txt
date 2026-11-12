@@ -4,6 +4,19 @@
 > generator is published and readable by anyone and any AI. No login, no key,
 > no fee. Licensed for open machine reading.
 
+## Start here — the network in seconds (for humans and bots)
+
+- **Main page:** https://justinahiggins614-cmyk.github.io/jah-databases/the-merica-l-boundless-ecosystem-os.html — how to use the network, how to ask the AI, how to cite a record.
+- **Accessible mirror (plain text, no JavaScript):** https://justinahiggins614-cmyk.github.io/jah-databases/accessible/the-merica-l-boundless-ecosystem-os.html
+- **Database hub:** https://justinahiggins614-cmyk.github.io/jah-databases/
+- **Robots / sitemap:** `robots.txt` allows all crawlers; sitemap at https://justinahiggins614-cmyk.github.io/jah-databases/sitemap.xml
+- **Cite a record (JCC v1):** `JAHDB/<slug>#<record-id>` + `k=` + first 8 hex of SHA-256 over the record's canonical JSON (keys sorted, compact separators, UTF-8). Example (verified): `JAHDB/biofonics#JAH-BIOF-000001` · `k=32d2ef75` — permanent URL https://justinahiggins614-cmyk.github.io/jah-databases/db/biofonics/?record=JAH-BIOF-000001
+- **Plain-text mirrors:** where a plain-text mirror exists, the same records are readable as plain JSON lines at `data/<slug>/index.jsonl` beside the `.gz` — no decompression needed. (Live for every .gz in the data-2 repo: 7,548 mirror files, 82,639 records.)
+- **Sharded registry + pagination (live):** registry index `data/registry/registry.json`, shards `data/registry/shards/manifest-shard-001.json` … `-049.json` (63,047 entries), pages `data/pages/page-001.json` … `page-631.json`, page size 100, cursor = page number `page:<n>` (Lane B contract). Full URLs under https://justinahiggins614-cmyk.github.io/jah-databases/.
+- **Static read-only API (live, pilot: 10 databases, 160 records):** host `https://justinahiggins614-cmyk.github.io/jah-databases/api/v1` — `GET /api/v1/record/{slug}/{id}.json` → one full record as JSON; per-database lists at `/api/v1/databases/{slug}/records.json`; database list at `/api/v1/databases.json`, index at `/api/v1/index.json`, router at `/api/v1/router.json`, search index at `/api/v1/search-index.json`.
+- **MCP server (stdio, downloadable package — there is NO hosted MCP endpoint):** `https://justinahiggins614-cmyk.github.io/jah-databases/docs/mcp/mcp_server.py` (Python stdlib only; setup in `docs/mcp/README.md`, tool specs in `docs/mcp/mcp-tool-specs.md`; also copied as `code/mcp_server.py`) — 16 tools, same pagination contract and error shape as the static API; bundled pilot data (10 databases, 160 records) at `docs/mcp/data/`.
+- **Review mode (one database at a time):** tool `code/review_db.py`, template `docs/review/REPORT-TEMPLATE.md`, reports at `docs/review/<slug>.md` — verdict usable / partial / broken, with evidence per check. A database is only "done" when review mode says usable AND the full-file-check program's own verification agrees.
+
 ## How any AI reads every record
 
 1. **Catalog**: fetch `data/manifest.json` — lists every database, its slug,
@@ -12,6 +25,10 @@
    `data/<slug>/`. `.gz` files are gzip-compressed newline-delimited JSON —
    one record per line. Plain `.json` indexes are ordinary JSON.
    (Index paths per database are listed in api.json and below.)
+   Where a plain-text mirror exists, the same records are also readable
+   as plain JSON lines at `data/<slug>/index.jsonl` beside the `.gz` —
+   no decompression needed. (Live for every .gz in the data-2 repo:
+   7,548 mirror files, 82,639 records.)
 3. **Deterministic generator**: `core/jahdb.js` exposes the JAHDB generator
    engine. Any record N can be reproduced from its seed — the million-record
    archives are fully addressable without storing every file.
