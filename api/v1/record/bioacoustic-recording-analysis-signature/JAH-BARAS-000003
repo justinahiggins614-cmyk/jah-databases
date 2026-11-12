@@ -1,0 +1,49 @@
+{
+  "api_version": "v1",
+  "citation": {
+    "api_url": "https://justinahiggins614-cmyk.github.io/jah-databases/api/v1/record/bioacoustic-recording-analysis-signature/JAH-BARAS-000003",
+    "code": "JAHDB/bioacoustic-recording-analysis-signature#JAH-BARAS-000003",
+    "database": "JAHDB/bioacoustic-recording-analysis-signature",
+    "database_name": "The Signature Bioacoustic Recording Analysis Database",
+    "file": "JAHDB/bioacoustic-recording-analysis-signature@index",
+    "file_sha256": "9b11a227f7818a7576d5cc0a2bbc27cd51969c595b8ab0cce6c8b92bd1e74c51",
+    "file_url": "https://justinahiggins614-cmyk.github.io/jah-databases-data-2/data/bioacoustic-recording-analysis-signature/index.jsonl.gz",
+    "key": "k=0fc1926b",
+    "record_kind": "bioacoustic recording analysis record",
+    "record_url": "https://justinahiggins614-cmyk.github.io/jah-databases/db/bioacoustic-recording-analysis-signature/?record=JAH-BARAS-000003",
+    "version": {
+      "api_json_bytes": 39221262,
+      "manifest_bytes": 50845023,
+      "manifest_database_count": 63047,
+      "manifest_sha256_local_clone": "f23795d147b5a6e1e9ccd06c0aef6394690978f9eedf44e63ab610960d34a104",
+      "note": "Version pin at retrieval time: date + manifest database_count. manifest_sha256 is the local-clone hash; the live manifest is marginally older/smaller (see STEP-0-1-VERIFICATION.md), so the count + date are the stable pin, the hash is the clone check.",
+      "retrieved": "2026-11-12"
+    }
+  },
+  "endpoint": "/api/v1/record/bioacoustic-recording-analysis-signature/JAH-BARAS-000003",
+  "record": {
+    "ai_name": "Keeper of Bioacoustic Analysis",
+    "body": "The Signature Nyquist calculator is a designed tool that applies the real Nyquist rule to Signature sounds: given a Signature call's highest frequency, it computes the minimum sample rate, and given a sample rate, it computes the highest frequency that can be captured. The tool itself is an original Signature design, but the rule it applies is real mathematics, and the pair keeps that distinction explicit: the rule is physics, the sounds and the recorder are inventions. The rule governs all three Signature layers equally, biophony, geophony, and anthrophony, and a Signature recording that aliases is defined as invalid in the design.",
+    "cross_links": "db-animal-sounds, future-whale-song-archives, apexcreate-adaptive-music-and-soundscape-composer, bioacoustic-recording-analysis",
+    "demo": {
+      "code": "TITLE = 'Signature Nyquist Calculator: Designed Sample Rates'\nimport math\nSR = 44100\nBITS = 16\nCH = 1\nSEC = 60\nnyq = SR / 2\nbyts = int(SR * (BITS // 8) * CH * SEC)\nprint('Record: ' + TITLE)\nprint('Sample rate: %d samples per second' % SR)\nprint('Nyquist frequency: %.1f hertz' % nyq)\nprint('File size for %d seconds: %d bytes (%.2f megabytes)' % (SEC, byts, byts / 1000000.0))\nprint('Rule: frequencies above the Nyquist frequency alias and cannot be recovered.')\n",
+      "expected_output": "Record: Signature Nyquist Calculator: Designed Sample Rates\nSample rate: 44100 samples per second\nNyquist frequency: 22050.0 hertz\nFile size for 60 seconds: 5292000 bytes (5.29 megabytes)\nRule: frequencies above the Nyquist frequency alias and cannot be recovered.\n",
+      "language": "python"
+    },
+    "description": "The Signature Nyquist calculator is a designed tool that applies the real Nyquist rule to Signature sounds: given a Signature call's highest frequency, it computes the minimum sample rate, and given a sample rate, it computes the highest frequency that can be captured. The tool itself is an original Signature design, but the rule it applies is real mathematics, and the pair keeps that distinction explicit: the rule is physics, the sounds and the recorder are inventions. The rule governs all three Signature layers equally, biophony, geophony, and anthrophony, and a Signature recording that aliases is defined as invalid in the design.",
+    "edition": "signature",
+    "generator": "gen-bioacoustic-recording-analysis-signature.js (seeded, deterministic, max 100 per call, hard stop 10^15, src generated)",
+    "id": "JAH-BARAS-000003",
+    "ladder_rank": "simple",
+    "layers": "biophony",
+    "math_proof": "Math proof: at 44,100 samples per second the Nyquist frequency is 44,100 / 2 = 22,050 hertz, so a designed 30,000 hertz call would alias at that rate.",
+    "record_kind": "bioacoustic recording analysis record",
+    "science_proof": "Science proof: the calculator's correctness is checkable by the Nyquist theorem itself: for any stated sample rate, half that rate is the maximum faithful frequency, a fact independent of the fictional sounds involved.",
+    "slug": "bioacoustic-recording-analysis-signature",
+    "source": "Signature design, original to this database; structural model named in the record body (as of October 2026).",
+    "source_quality": "signature-design",
+    "src": "signature-generated-completion",
+    "status": "built",
+    "title": "Signature Nyquist Calculator: Designed Sample Rates"
+  }
+}

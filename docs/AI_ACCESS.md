@@ -81,3 +81,12 @@ ID prefixes per database are in `/data/manifest.json` (`id_prefix`).
 - `/llms.txt` — llmstxt.org-style map for LLMs
 - `/api.json` — machine-readable catalog of all 63047 databases
 - `/data/manifest.json` — the database catalog itself
+
+## Record API (api/v1) — one record as ordinary JSON
+
+- Record JSON: `/api/v1/record/<database-slug>/<record-id>.json`
+- Citable URL: `/api/v1/record/<database-slug>/<record-id>` (same JSON, no extension) — cite it as `JAHDB/<database-slug>#<record-id>`.
+- Every record JSON carries a `citation` block: `api_url`, `code`, `database`, `database_name`, `file`, `file_sha256`, `file_url`, `key`, `record_kind`, `record_url`, and a `version` pin (retrieval date + manifest database count).
+- Example: `curl -s https://justinahiggins614-cmyk.github.io/jah-databases/api/v1/record/animal-vocal-communication/JAH-AVC-000001.json`
+- Full endpoint contract: `/docs/api-v1-endpoint-contract.md`
+- Coverage (2026-11-12): pilot — 160 records across 10 databases. Plain-text mirrors of the full indexes live beside every data-2 `.gz` file as `.jsonl`; the record API grows with the mirror rollout.
