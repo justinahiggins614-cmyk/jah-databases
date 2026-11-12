@@ -1,0 +1,49 @@
+{
+  "api_version": "v1",
+  "citation": {
+    "api_url": "https://justinahiggins614-cmyk.github.io/jah-databases/api/v1/record/bioacoustic-recording-analysis/JAH-BARA-000003",
+    "code": "JAHDB/bioacoustic-recording-analysis#JAH-BARA-000003",
+    "database": "JAHDB/bioacoustic-recording-analysis",
+    "database_name": "The Bioacoustic Recording Analysis Database",
+    "file": "JAHDB/bioacoustic-recording-analysis@index",
+    "file_sha256": "cb125d28119856d14d0aa242b345d6d6a9d3d474f893d3dd86a26deecaf35cc6",
+    "file_url": "https://justinahiggins614-cmyk.github.io/jah-databases-data-2/data/bioacoustic-recording-analysis/index.jsonl.gz",
+    "key": "k=00e4dde9",
+    "record_kind": "bioacoustic recording analysis record",
+    "record_url": "https://justinahiggins614-cmyk.github.io/jah-databases/db/bioacoustic-recording-analysis/?record=JAH-BARA-000003",
+    "version": {
+      "api_json_bytes": 39221262,
+      "manifest_bytes": 50845023,
+      "manifest_database_count": 63047,
+      "manifest_sha256_local_clone": "f23795d147b5a6e1e9ccd06c0aef6394690978f9eedf44e63ab610960d34a104",
+      "note": "Version pin at retrieval time: date + manifest database_count. manifest_sha256 is the local-clone hash; the live manifest is marginally older/smaller (see STEP-0-1-VERIFICATION.md), so the count + date are the stable pin, the hash is the clone check.",
+      "retrieved": "2026-11-12"
+    }
+  },
+  "endpoint": "/api/v1/record/bioacoustic-recording-analysis/JAH-BARA-000003",
+  "record": {
+    "ai_name": "Keeper of Bioacoustic Analysis",
+    "body": "Digital recording measures sound pressure at regular intervals, and the sample rate is how many measurements are taken per second. The Nyquist rule states that a sample rate can faithfully represent frequencies only up to half the sample rate, called the Nyquist frequency: to capture a 20 kilohertz sound, the sample rate must exceed 40,000 samples per second, and in practice recorders use 44,100 or 48,000 samples per second for audible sound. Sounds above the Nyquist frequency do not simply vanish; they fold back into the recording as false lower frequencies, called aliasing, which is why recorders filter out frequencies above Nyquist before sampling. This rule governs every layer: biophony, geophony, and anthrophony are all subject to the same sampling limit, and a recording that aliases cannot be repaired afterwards.",
+    "cross_links": "db-animal-sounds, future-whale-song-archives, apexcreate-adaptive-music-and-soundscape-composer, bioacoustic-recording-analysis-signature",
+    "demo": {
+      "code": "TITLE = 'Sampling Rate and the Nyquist Rule'\nimport math\nSR = 48000\nBITS = 16\nCH = 1\nSEC = 60\nnyq = SR / 2\nbyts = int(SR * (BITS // 8) * CH * SEC)\nprint('Record: ' + TITLE)\nprint('Sample rate: %d samples per second' % SR)\nprint('Nyquist frequency: %.1f hertz' % nyq)\nprint('File size for %d seconds: %d bytes (%.2f megabytes)' % (SEC, byts, byts / 1000000.0))\nprint('Rule: frequencies above the Nyquist frequency alias and cannot be recovered.')\n",
+      "expected_output": "Record: Sampling Rate and the Nyquist Rule\nSample rate: 48000 samples per second\nNyquist frequency: 24000.0 hertz\nFile size for 60 seconds: 5760000 bytes (5.76 megabytes)\nRule: frequencies above the Nyquist frequency alias and cannot be recovered.\n",
+      "language": "python"
+    },
+    "description": "Digital recording measures sound pressure at regular intervals, and the sample rate is how many measurements are taken per second. The Nyquist rule states that a sample rate can faithfully represent frequencies only up to half the sample rate, called the Nyquist frequency: to capture a 20 kilohertz sound, the sample rate must exceed 40,000 samples per second, and in practice recorders use 44,100 or 48,000 samples per second for audible sound. Sounds above the Nyquist frequency do not simply vanish; they fold back into the recording as false lower frequencies, called aliasing, which is why recorders filter out frequencies above Nyquist before sampling. This rule governs every layer: biophony, geophony, and anthrophony are all subject to the same sampling limit, and a recording that aliases cannot be repaired afterwards.",
+    "edition": "public",
+    "generator": "gen-bioacoustic-recording-analysis.js (seeded, deterministic, max 100 per call, hard stop 10^15, src generated)",
+    "id": "JAH-BARA-000003",
+    "ladder_rank": "simple",
+    "layers": "biophony",
+    "math_proof": "Math proof: at 48,000 samples per second the Nyquist frequency is 48,000 / 2 = 24,000 hertz, so a 30,000 hertz bat call would alias and must not be recorded at that rate.",
+    "record_kind": "bioacoustic recording analysis record",
+    "science_proof": "Science proof: the Nyquist-Shannon sampling theorem, proved in the 20th century, is the mathematical foundation of all digital audio, and aliasing is demonstrated whenever an unfiltered high tone appears as a false low tone in a recording.",
+    "slug": "bioacoustic-recording-analysis",
+    "source": "Nyquist-Shannon sampling theorem (as of October 2026).",
+    "source_quality": "published",
+    "src": "public-harvest",
+    "status": "built",
+    "title": "Sampling Rate and the Nyquist Rule"
+  }
+}
