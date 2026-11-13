@@ -108,11 +108,14 @@ serving the full list is a later phase, not this deploy.
 
 Full-text match over record titles (and, live, over descriptions/bodies).
 Response: paginated `{id, title, slug, code, key, url}` matches, most
-relevant first; `q` is required (empty `q` → 400). Static form:
-`api/v1/search-index.json` — the full 160-entry title index a
-text reader can search client-side; the live endpoint does the matching
-server-side so the reader never downloads an index. Pilot search covers
-the 10 pilot databases' titles only.
+relevant first; `q` is required (empty `q` → the page reports that `q`
+is required; a static host cannot return HTTP 400). Static form
+(live since the L2 fix, 2026-11-12): `api/v1/search.html` with its
+extensionless twin `api/v1/search` — the page matches in the reader's
+browser over `api/v1/search-index.json`, the full 160-entry title index;
+a text-only reader fetches `search-index.json` and matches titles
+client-side. There is no server-side matching on GitHub Pages. Pilot
+search covers the 10 pilot databases' titles only.
 
 ## Versioning
 

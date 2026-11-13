@@ -473,10 +473,12 @@ var JAHSearch = (function () {
     var uncertainties = [];
     if (stats.dbsFailed > 0)
       uncertainties.push(stats.dbsFailed + ' database index(es) could not be loaded and were skipped.');
-    if (mode === 'exhaustive' && stats.coverageCapped)
-      uncertainties.push('Exhaustive search was capped at ' + stats.dbsSearched +
-        ' databases for this session; ' + stats.dbsDiscovered +
-        ' matched the query. The remainder were not searched.');
+    if (stats.coverageCapped)
+      uncertainties.push(mode.charAt(0).toUpperCase() + mode.slice(1) +
+        ' search was capped at ' + stats.dbsSearched +
+        ' database indexes for this session; ' + stats.dbsDiscovered +
+        ' matched the query. The remainder were not searched.' +
+        ' For full coverage, browse the paginated plain-text index.');
     var genCount = findings.filter(function (h) { return h.sourceKind === 'generated'; }).length;
     if (genCount > 0)
       uncertainties.push(genCount + ' result(s) are labeled generated samples, not archived records.');
@@ -550,7 +552,7 @@ var JAHSearch = (function () {
       stats = { dbsDiscovered: discovered.length, dbsTotal: totalFetchable,
         dbsSearched: 0, dbsFailed: 0, recordsExamined: 0, coverageCapped: false };
       var cands = discovered.slice(0, cfg.dbs);
-      if (mode === 'exhaustive' && discovered.length > cfg.dbs) stats.coverageCapped = true;
+      if (discovered.length > cfg.dbs) stats.coverageCapped = true;
       emitProgress(onProgress, { pass: 2, passName: 'Index search — scanning ' + cands.length + ' databases',
         done: 0, total: cands.length });
       return searchIndexes(cands, qu, { perDb: 5 }, function (p) {
