@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="color-scheme" content="light dark" />
+<link rel="icon" href="data:," />
+<title>The 'Merica-L Command Center — Watchdog for Everything</title>
+<meta name="description" content="The 'Merica-L Command Center watches every website and every database in the network, live — website links and database links in two sections, so all works are accounted for. Free forever." />
+<link rel="canonical" href="https://justinahiggins614-cmyk.github.io/jah-databases/command-center.html" />
+<style>
+:root{--paper:#f7f3ea;--paper2:#fffdf7;--ink:#16130c;--ink2:#4a4333;--line:#d8cfb8;
+--gold:#a97e00;--red:#8e1f1f;--green:#1d5c38;--card:#fffdf7}
+@media (prefers-color-scheme: dark){:root{--paper:#12100b;--paper2:#1a1710;--ink:#f2ead2;
+--ink2:#c9bc97;--line:#3a3322;--gold:#e3b83c;--red:#e07a6a;--green:#7fc79b;--card:#1a1710}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);
+font-family:Georgia,'Newsreader',serif;font-size:18px;line-height:1.6}
+.wrap{max-width:1060px;margin:0 auto;padding:0 20px 64px}
+.mono{font-family:monospace}
+.sans{font-family:system-ui,sans-serif}
+.mast{padding:40px 0 8px;text-align:center;border-bottom:3px double var(--line)}
+.mast .rule{font-family:system-ui,sans-serif;font-size:11px;letter-spacing:.32em;
+text-transform:uppercase;color:var(--gold);font-weight:800}
+h1{font-size:clamp(34px,7vw,62px);line-height:1.05;font-weight:800;margin:14px 0 6px}
+.tagline{font-size:20px;font-style:italic;color:var(--ink2);max-width:820px;margin:10px auto 0}
+.byline{font-family:system-ui,sans-serif;font-size:13px;letter-spacing:.14em;
+text-transform:uppercase;color:var(--ink2);margin-top:16px}
+.watch{margin:26px 0 6px;background:var(--card);border:1px solid var(--line);padding:18px 22px;
+text-align:center}
+.watch .nums{font-family:system-ui,sans-serif;font-weight:900;font-size:clamp(24px,5vw,36px)}
+.watch .nums .up{color:var(--green)} .watch .nums .down{color:var(--red)}
+.watch p{margin:8px 0 0;font-size:15px;color:var(--ink2)}
+.btn{font-family:system-ui,sans-serif;font-weight:800;font-size:13px;letter-spacing:.06em;
+border:2px solid var(--ink);background:var(--ink);color:var(--paper);padding:10px 18px;
+border-radius:999px;cursor:pointer;margin-top:12px}
+.btn:disabled{opacity:.55;cursor:wait}
+.acc{font-size:14px;text-align:center;margin-top:14px}
+h2{font-size:clamp(28px,5vw,40px);font-weight:800;line-height:1.12;margin:44px 0 4px}
+.lede{font-size:19px;font-style:italic;color:var(--ink2);max-width:760px}
+h3{font-family:system-ui,sans-serif;font-size:15px;letter-spacing:.06em;text-transform:uppercase;
+margin:30px 0 10px;border-bottom:2px solid var(--gold);padding-bottom:6px}
+table{width:100%;border-collapse:collapse;background:var(--card);font-size:16px}
+th,td{border-bottom:1px solid var(--line);padding:9px 10px;text-align:left;vertical-align:top}
+th{font-family:system-ui,sans-serif;font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+color:var(--ink2)}
+tr.is-down td{background:#fbe9e7}
+@media (prefers-color-scheme: dark){tr.is-down td{background:#3a1712}}
+a{color:var(--ink)}
+.cc-status{font-family:system-ui,sans-serif;font-size:13px;font-weight:700;white-space:nowrap}
+.cc-status.checking{color:var(--ink2)}
+.cc-status.up{color:var(--green)} .cc-status.down{color:var(--red)}
+.note{font-size:15px;font-style:italic;color:var(--ink2)}
+details{margin-top:34px;border:1px solid var(--line);background:var(--card);padding:12px 18px}
+details summary{font-family:system-ui,sans-serif;font-weight:800;cursor:pointer;font-size:14px;
+letter-spacing:.08em;text-transform:uppercase}
+details ul{columns:2;list-style:none;padding:0;margin:12px 0 0}
+details li{margin:0 0 6px;font-size:15px}
+@media(max-width:640px){details ul{columns:1} table{font-size:14px}}
+.foot{margin-top:40px;border-top:3px double var(--line);padding-top:16px;
+font-size:15px;color:var(--ink2);text-align:center}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="mast">
+<div class="rule">The 'Merica-L Internet · Business Watchdog</div>
+<h1>The 'Merica-L<br>Command Center</h1>
+<p class="tagline">One page that watches everything — every website, every database, every file. If something is down, it shows here first.</p>
+<p class="byline">By <b>Anonymous of Peace</b> · Free forever</p>
+</header>
+
+<section class="watch" aria-label="Watchdog status">
+<div class="nums"><span class="up" id="cc-up">…</span> up · <span class="down" id="cc-down">…</span> down · of <span id="cc-total">76</span> links</div>
+<p id="cc-when">Checking every link live, from your browser…</p>
+<button class="btn" id="cc-recheck" disabled>Checking…</button>
+<p class="note">Counts below are stamped with the day they were last observed live. Status is checked fresh every time this page loads. If you are offline, everything will read DOWN — check your connection first.</p>
+</section>
+
+<p class="acc sans"><a href="accessible/command-center.html">Plain accessible version (no JavaScript)</a> · <a href="command-center.txt">Plain-text copy (select and copy anything)</a></p>
+
+<h2>Section 1 — Website Links</h2>
+<p class="lede">Every website in the network. Tap any name to visit it. The watchdog checks each one live.</p>
+
+<h3>Front doors</h3>
+<table><thead><tr><th>Website</th><th>Address</th><th>Status</th></tr></thead><tbody>
+<tr data-url="https://justinahiggins614-cmyk.github.io/jah-databases/"><td><a href="https://justinahiggins614-cmyk.github.io/jah-databases/">The JAH Databases Hub</a><br><span class="note">63,047 databases · 12,349,330 records · manifest recount 11 Nov 2026</span></td><td class="mono"><a href="https://justinahiggins614-cmyk.github.io/jah-databases/">justinahiggins614-cmyk.github.io/jah-databases/</a></td><td class="cc-status checking">Checking…</td></tr>
+<tr data-url="https://justinahiggins614-cmyk.github.io/jah-databases/the-merica-l-boundless-ecosystem-os.html"><td><a href="https://justinahiggins614-cmyk.github.io/jah-databases/the-merica-l-boundless-ecosystem-os.html">&#x27;Merica-L Boundless Ecosystem OS</a><br><span class="note">front door of the whole internet</span></td><td class="mono"><a href="https://justinahiggins614-cmyk.github.io/jah-databases/the-merica-l-boundless-ecosystem-os.html">justinahiggins614-cmyk.github.io/jah-databases/the-merica-l-boundless-ecosystem-os.html</a></td><td class="cc-status checking">Checking…</td></tr>
+<tr data-url="https://justinahiggins614-cmyk.github.io/jah-databases/the-merica-l-virtual-internet.html"><td><a href="https://justinahiggins614-cmyk.github.io/jah-databases/the-merica-l-virtual-internet.html">The &#x27;Merica-L Virtual Internet</a><br><span class="note">2,751 websites counted here</span></td><td class="mono"><a href="https://justinahiggins614-cmyk.github.io/jah-databases/the-merica-l-virtual-internet.html">justinahiggins614-cmyk.github.io/jah-databases/the-merica-l-virtual-internet.html</a></td><td class="cc-status checking">Checking…</td></tr>
+<tr data-url="https://justinahiggins614-cmyk.github.io/jah-databases/the-jah-network-thesis.html"><td><a href="https://justinahiggins614-cmyk.github.io/jah-databases/the-jah-network-thesis.html">The JAH Network Thesis</a><br><span class="note">the whole network, written out</span></td><td class="mono"><a href="https://justinahiggins614-cmyk.github.io/jah-databases/the-jah-network-thesis.html">justinahiggins614-cmyk.github.io/jah-databases/the-jah-network-thesis.html</a></td><td class="cc-status checking">Checking…</td></tr>
+</tbody></table>
+
+<h3>The 39 websites</h3>
+<table><thead><tr><th>Website</th><th>Address</th><th>Status</th></tr></thead><tbody>
+<tr data-url="https://justinahiggins614-cmyk.github.io/signature-math/"><td><a href="https://justinahiggins614-cmyk.github.io/signature-math/">1. Signature Math</a></td><td class="mono"><a href="https://justinahiggins614-cmyk.github.io/signature-math/">justinahiggins614-cmyk.github.io/signature-math/</a></td><td class="cc-status checking">Checking…</td></tr>
+<tr data-url="https://justinahiggins614-cmyk.github.io/jah-calculator/"><td><a href="https://justinahiggins614-cmyk.github.io/jah-calculator/">2. Signature Universal Paradox Immune Calculator</a></td><td class="mono"><a href="https://justinahiggins614-cmyk.github.io/jah-calculator/">justinahiggins614-cmyk.github.io/jah-calculator/</a></td><td class="cc-status checking">Checking…</td></tr>
+<tr data-url="https://justinahiggins614-cmyk.github.io/jah-dictionary/"><td><a href="https://justinahiggins614-cmyk.github.io/jah-dictionary/">3. The Signature Dictionary</a></td><td class="mono"><a href="https://justinahiggins614-cmyk.github.io/jah-dictionary/">justinahiggins614-cmyk.github.io/jah-dictionary/</a></td><td class="cc-status checking">Checking…</td></tr>
+<tr data-url="https://justinahiggins614-cmyk.github.io/jah-wiki/"><td><a href="https://justinahiggins614-cmyk.github.io/jah-wiki/">4. JAH Wiki</a></td><td class="mono"><a href="https://justinahiggins614-cmyk.github.io/jah-wiki/">justinahiggins614-cmyk.github.io/jah-wiki/</a></td><td class="cc-status checking">Checking…</td></tr>
+<tr data-url="https://justinahiggins614-cmyk.github.io/jah-n-wiki-leaks/"><td><a href="https://justinahiggins614-cmyk.github.io/jah-n-wiki-leaks/">5. JAH-N Wiki Leaks</a><br><span class="note">770,020 bizarre dossiers · 14 Nov 2026</span></td><td class="mono"><a href="https://justinahiggins614-cmyk.github.io/jah-n-wiki-leaks/">justinahiggins614-cmyk.github.io/jah-n-wiki-leaks/</a></td><td class="cc-status checking">Checking…</td></tr>
+<tr data-url="https://justinahiggins614-cmyk.github.io/signature-llama/"><td><a href="https://justinahiggins614-cmyk.github.io/signature-llama/">6. Signature Llama: The Fully Cyber Utilizable AI</a></td><td class="mono"><a href="https://justinahiggins614-cmyk.github.io/signature-llama/">justinahiggins614-cmyk.github.io/signature-llama/</a></td><td class="cc-status checking">Checking…</td></tr>
+<tr data-url="https://justinahiggins614-cmyk.github.io/jah-ai-models/"><td><a href="https://justinahiggins614-cmyk.github.io/jah-ai-models/">7. The Signature AI Phone Book</a></td><td class="mono"><a href="https://justinahiggins614-cmyk.github.io/jah-ai-models/">justinahiggins614-cmyk.github.io/jah-ai-models/</a></td><td class="cc-status checking">Checking…</td></tr>
+<tr data-url="https://justinahiggins614-cmyk.github.io/cyber-patent-catalog/"><td><a href="https://justinahiggins614-cmyk.github.io/cyber-patent-catalog/">8. Globally Rejustered Patent Catalog</a><br><span class="note">77,275 patents · last counted 11 Nov 2026</span></td><td class="mono"><a href="https://justinahiggins614-cmyk.github.io/cyber-patent-catalog/">justinahiggins614-cmyk.github.io/cyber-patent-catalog/</a></td><td class="cc-status checking">Checking…</td></tr>
+<tr data-url="https://justinahiggins614-cmyk.github.io/signature-one-archive/"><td><a href="https://justinahiggins614-cmyk.github.io/signature-one-archive/">9. Signature Spec Catalog Pending Patents</a></td><td class="mono"><a href="https://justinahiggins614-cmyk.github.io/signature-one-archive/">justinahiggins614-cmyk.github.io/signature-one-archive/</a></td><td class="cc-status checking">Checking…</td></tr>
+<tr data-url="https://justinahiggins614-cmyk.github.io/jah-computer-systems/"><td><a href="https://justinahiggins614-cmyk.github.io/jah-computer-systems/">10. The Signature PC System Depository</a></td><td class="mono"><a href="https://justinahiggins614-cmyk.github.io/jah-computer-systems/">justinahiggins614-cmyk.github.io/jah-computer-systems/</a></td><td class="cc-status checking">Checking…</td></tr>
+<tr data-url="https://justinahiggins614-cmyk.github.io/signature-books/"><td><a href="https://justinahiggins614-cmyk.github.io/signature-books/">11. The Signature Book Depository</a></td><td class="mono"><a href="https://justinahiggins614-cmyk.github.io/signature-books/">justinahiggins614-cmyk.github.io/signature-books/</a></td><td class="cc-status checking">Checking…</td></tr>
+<tr data-url="https://justinahiggins614-cmyk.github.io/signature-comics/"><td><a href="https://justinahiggins614-cmyk.github.io/signature-comics/">12. The Signature Comic Store</a></td><td class="mono"><a href="https://justinahiggins614-cmyk.github.io/signature-comics/">justinahiggins614-cmyk.github.io/signature-comics/</a></td><td class="cc-status checking">Checking…</td></tr>
+<tr data-url="https://justinahiggins614-cmyk.github.io/signature-newspapers/"><td><a href="https://justinahiggins614-cmyk.github.io/signature-newspapers/">13. The Signature Global Newspaper Archive</a><br><span class="note">270 editions / 1,620 articles · 11 Nov 2026</span></td><td class="mono"><a href="https://justinahiggins614-cmyk.github.io/signature-newspapers/">justinahiggins614-cmyk.github.io/signature-newspapers/</a></td><td class="cc-status checking">Checking…</td></tr>
+<tr data-url="https://justinahiggins614-cmyk.github.io/signature-backend/"><td><a href="https://justinahiggins614-cmyk.github.io/signature-backend/">14. The Signature AI Mix and Match Generator</a></td><td class="mono"><a href="https://justinahiggins614-cmyk.github.io/signature-backend/">justinahiggins614-cmyk.github.io/signature-backend/</a></td><td class="cc-status checking">Checking…</td></tr>
+<tr data-url="https://justinahiggins614-cmyk.github.io/signature-boundless-generators/"><td><a href="https://justinahiggins614-cmyk.github.io/signature-boundless-generators/">15. The Signature Boundless Generator Archive</a><br><span class="note">1,167,075 outputs · 14 Nov 2026</span></td><td class="mono"><a href="https://justinahiggins614-cmyk.github.io/signature-boundless-generators/">justinahiggins614-cmyk.github.io/signature-boundless-generators/</a></td><td class="cc-status checking">Checking…</td></tr>
+<tr data-url="https://justinahiggins614-cmyk.github.io/signature-ai-mixlab/"><td><a href="https://justinahiggins614-cmyk.github.io/signature-ai-mixlab/">16. The Signature AI Mix Lab</a></td><td class="mono"><a href="https://justinahiggins614-cmyk.github.io/signature-ai-mixlab/">justinahiggins614-cmyk.github.io/signature-ai-mixlab/</a></td><td class="cc-status checking">Checking…</td></tr>
+<tr data-url="https://justinahiggins614-cmyk.github.io/signature-ai-olypics/"><td><a href="https://justinahiggins614-cmyk.github.io/signature-ai-olypics/">17. AI Olympics</a></td><td class="mono"><a href="https://justinahiggins614-cmyk.github.io/signature-ai-olypics/">justinahiggins614-cmyk.github.io/signature-ai-olypics/</a></td><td class="cc-status checking">Checking…</td></tr>
+<tr data-url="https://justinahiggins614-cmyk.github.io/signature-chip-maker/"><td><a href="https://justinahiggins614-cmyk.github.io/signature-chip-maker/">18. The Signature Computer Chip Maker and Archive</a></td><td class="mono"><a href="https://justinahiggins614-cmyk.github.io/signature-chip-maker/">justinahiggins614-cmyk.github.io/signature-chip-maker/</a></td><td class="cc-status checking">Checking…</td></tr>
+<tr data-url="https://justinahiggins614-cmyk.github.io/signature-app-archive/"><td><a href="https://justinahiggins614-cmyk.github.io/signature-app-archive/">19. The Signature App Archive</a><br><span class="note">775,536 apps · 14 Nov 2026</span></td><td class="mono"><a href="https://justinahiggins614-cmyk.github.io/signature-app-archive/">justinahiggins614-cmyk.github.io/signature-app-archive/</a></td><td class="cc-status checking">Checking…</td></tr>
+<tr data-url="https://justinahiggins614-cmyk.github.io/signature-ai-robot-matcher/"><td><a href="https://justinahiggins614-cmyk.github.io/signature-ai-robot-matcher/">20. The Signature AI to Robot Matcher</a></td><td class="mono"><a href="https://justinahiggins614-cmyk.github.io/signature-ai-robot-matcher/">justinahiggins614-cmyk.github.io/signature-ai-robot-matcher/</a></td><td class="cc-status checking">Checking…</td></tr>
+<tr data-url="https://justinahiggins614-cmyk.github.io/signature-experiment-solver/"><td><a href="https://justinahiggins614-cmyk.github.io/signature-experiment-solver/">21. The Signature Experiment Solver</a></td><td class="mono"><a href="https://justinahiggins614-cmyk.github.io/signature-experiment-solver/">justinahiggins614-cmyk.github.io/signature-experiment-solver/</a></td><td class="cc-status checking">Checking…</td></tr>
+<tr data-url="https://justinahiggins614-cmyk.github.io/signature-ai-image-video-maker/"><td><a href="https://justinahiggins614-cmyk.github.io/signature-ai-image-video-maker/">22. Signature AI Pixel</a><br><span class="note">745,000 goods / 186,350 ads · 14 Nov 2026</span></td><td class="mono"><a href="https://justinahiggins614-cmyk.github.io/signature-ai-image-video-maker/">justinahiggins614-cmyk.github.io/signature-ai-image-video-maker/</a></td><td class="cc-status checking">Checking…</td></tr>
+<tr data-url="https://justinahiggins614-cmyk.github.io/signature-ai-song-maker/"><td><a href="https://justinahiggins614-cmyk.github.io/signature-ai-song-maker/">23. Signature Music Studio</a><br><span class="note">375,200 songs / 374,950 library / 187,500 beats · 14 Nov 2026</span></td><td class="mono"><a href="https://justinahiggins614-cmyk.github.io/signature-ai-song-maker/">justinahiggins614-cmyk.github.io/signature-ai-song-maker/</a></td><td class="cc-status checking">Checking…</td></tr>
+<tr data-url="https://justinahiggins614-cmyk.github.io/signature-fixit/"><td><a href="https://justinahiggins614-cmyk.github.io/signature-fixit/">24. The Signature Mr Fix-It</a></td><td class="mono"><a href="https://justinahiggins614-cmyk.github.io/signature-fixit/">justinahiggins614-cmyk.github.io/signature-fixit/</a></td><td class="cc-status checking">Checking…</td></tr>
+<tr data-url="https://justinahiggins614-cmyk.github.io/signature-university/"><td><a href="https://justinahiggins614-cmyk.github.io/signature-university/">25. Signature University</a></td><td class="mono"><a href="https://justinahiggins614-cmyk.github.io/signature-university/">justinahiggins614-cmyk.github.io/signature-university/</a></td><td class="cc-status checking">Checking…</td></tr>
+<tr data-url="https://justinahiggins614-cmyk.github.io/signature-earth/"><td><a href="https://justinahiggins614-cmyk.github.io/signature-earth/">26. Signature Earth</a><br><span class="note">50,427 addresses · pool exhausted, awaiting re-seed</span></td><td class="mono"><a href="https://justinahiggins614-cmyk.github.io/signature-earth/">justinahiggins614-cmyk.github.io/signature-earth/</a></td><td class="cc-status checking">Checking…</td></tr>
+<tr data-url="https://justinahiggins614-cmyk.github.io/signature-flight-school/"><td><a href="https://justinahiggins614-cmyk.github.io/signature-flight-school/">27. The Signature Flight School</a></td><td class="mono"><a href="https://justinahiggins614-cmyk.github.io/signature-flight-school/">justinahiggins614-cmyk.github.io/signature-flight-school/</a></td><td class="cc-status checking">Checking…</td></tr>
+<tr data-url="https://justinahiggins614-cmyk.github.io/signature-game-store/"><td><a href="https://justinahiggins614-cmyk.github.io/signature-game-store/">28. The Signature Game Store</a></td><td class="mono"><a href="https://justinahiggins614-cmyk.github.io/signature-game-store/">justinahiggins614-cmyk.github.io/signature-game-store/</a></td><td class="cc-status checking">Checking…</td></tr>
+<tr data-url="https://justinahiggins614-cmyk.github.io/signature-website-creator/"><td><a href="https://justinahiggins614-cmyk.github.io/signature-website-creator/">29. Signature Website Creator</a></td><td class="mono"><a href="https://justinahiggins614-cmyk.github.io/signature-website-creator/">justinahiggins614-cmyk.github.io/signature-website-creator/</a></td><td class="cc-status checking">Checking…</td></tr>
+<tr data-url="https://justinahiggins614-cmyk.github.io/signature-antivirus/"><td><a href="https://justinahiggins614-cmyk.github.io/signature-antivirus/">30. The Signature Antivirus</a><br><span class="note">357,032 add-ons · 14 Nov 2026</span></td><td class="mono"><a href="https://justinahiggins614-cmyk.github.io/signature-antivirus/">justinahiggins614-cmyk.github.io/signature-antivirus/</a></td><td class="cc-status checking">Checking…</td></tr>
+<tr data-url="https://justinahiggins614-cmyk.github.io/signature-os-updater/"><td><a href="https://justinahiggins614-cmyk.github.io/signature-os-updater/">31. The Signature OS Updater</a><br><span class="note">142,600 packs · 14 Nov 2026</span></td><td class="mono"><a href="https://justinahiggins614-cmyk.github.io/signature-os-updater/">justinahiggins614-cmyk.github.io/signature-os-updater/</a></td><td class="cc-status checking">Checking…</td></tr>
+<tr data-url="https://justinahiggins614-cmyk.github.io/signature-space-mapping/"><td><a href="https://justinahiggins614-cmyk.github.io/signature-space-mapping/">32. Signature Space Mapping</a></td><td class="mono"><a href="https://justinahiggins614-cmyk.github.io/signature-space-mapping/">justinahiggins614-cmyk.github.io/signature-space-mapping/</a></td><td class="cc-status checking">Checking…</td></tr>
+<tr data-url="https://justinahiggins614-cmyk.github.io/signature-cookbook/"><td><a href="https://justinahiggins614-cmyk.github.io/signature-cookbook/">33. The Signature Cookbook</a><br><span class="note">203,700 recipes · 13 Nov 2026</span></td><td class="mono"><a href="https://justinahiggins614-cmyk.github.io/signature-cookbook/">justinahiggins614-cmyk.github.io/signature-cookbook/</a></td><td class="cc-status checking">Checking…</td></tr>
+<tr data-url="https://justinahiggins614-cmyk.github.io/signature-spell-check/"><td><a href="https://justinahiggins614-cmyk.github.io/signature-spell-check/">34. The Signature Spell Check</a><br><span class="note">99,227 words · source exhausted</span></td><td class="mono"><a href="https://justinahiggins614-cmyk.github.io/signature-spell-check/">justinahiggins614-cmyk.github.io/signature-spell-check/</a></td><td class="cc-status checking">Checking…</td></tr>
+<tr data-url="https://justinahiggins614-cmyk.github.io/signature-image-grid-measure/"><td><a href="https://justinahiggins614-cmyk.github.io/signature-image-grid-measure/">35. The Signature Image Grid and Measure</a><br><span class="note">79,320 measures · 12 Nov 2026</span></td><td class="mono"><a href="https://justinahiggins614-cmyk.github.io/signature-image-grid-measure/">justinahiggins614-cmyk.github.io/signature-image-grid-measure/</a></td><td class="cc-status checking">Checking…</td></tr>
+<tr data-url="https://justinahiggins614-cmyk.github.io/signature-cyber-mega-mall/"><td><a href="https://justinahiggins614-cmyk.github.io/signature-cyber-mega-mall/">36. The Signature Cyber Mega-Mall</a></td><td class="mono"><a href="https://justinahiggins614-cmyk.github.io/signature-cyber-mega-mall/">justinahiggins614-cmyk.github.io/signature-cyber-mega-mall/</a></td><td class="cc-status checking">Checking…</td></tr>
+<tr data-url="https://justinahiggins614-cmyk.github.io/signature-3d-print/"><td><a href="https://justinahiggins614-cmyk.github.io/signature-3d-print/">37. The Signature 3D Print Mega Mall</a></td><td class="mono"><a href="https://justinahiggins614-cmyk.github.io/signature-3d-print/">justinahiggins614-cmyk.github.io/signature-3d-print/</a></td><td class="cc-status checking">Checking…</td></tr>
+<tr data-url="https://justinahiggins614-cmyk.github.io/signature-llama-2/"><td><a href="https://justinahiggins614-cmyk.github.io/signature-llama-2/">38. Signature Llama 2.0</a></td><td class="mono"><a href="https://justinahiggins614-cmyk.github.io/signature-llama-2/">justinahiggins614-cmyk.github.io/signature-llama-2/</a></td><td class="cc-status checking">Checking…</td></tr>
+<tr data-url="https://justinahiggins614-cmyk.github.io/signature-the-ai/"><td><a href="https://justinahiggins614-cmyk.github.io/signature-the-ai/">39. The Signature AI</a></td><td class="mono"><a href="https://justinahiggins614-cmyk.github.io/signature-the-ai/">justinahiggins614-cmyk.github.io/signature-the-ai/</a></td><td class="cc-status checking">Checking…</td></tr>
+</tbody></table>
+
+<h3>The 12 mirror websites</h3>
+<table><thead><tr><th>Website</th><th>Address</th><th>Status</th></tr></thead><tbody>
+<tr data-url="https://justinahiggins614-cmyk.github.io/jah-databases/mirrors/search/"><td><a href="https://justinahiggins614-cmyk.github.io/jah-databases/mirrors/search/">Signature Search</a></td><td class="mono"><a href="https://justinahiggins614-cmyk.github.io/jah-databases/mirrors/search/">justinahiggins614-cmyk.github.io/jah-databases/mirrors/search/</a></td><td class="cc-status checking">Checking…</td></tr>
+<tr data-url="https://justinahiggins614-cmyk.github.io/jah-databases/mirrors/encyclopedia/"><td><a href="https://justinahiggins614-cmyk.github.io/jah-databases/mirrors/encyclopedia/">Signature Encyclopedia</a></td><td class="mono"><a href="https://justinahiggins614-cmyk.github.io/jah-databases/mirrors/encyclopedia/">justinahiggins614-cmyk.github.io/jah-databases/mirrors/encyclopedia/</a></td><td class="cc-status checking">Checking…</td></tr>
+<tr data-url="https://justinahiggins614-cmyk.github.io/jah-databases/mirrors/news/"><td><a href="https://justinahiggins614-cmyk.github.io/jah-databases/mirrors/news/">Signature News</a></td><td class="mono"><a href="https://justinahiggins614-cmyk.github.io/jah-databases/mirrors/news/">justinahiggins614-cmyk.github.io/jah-databases/mirrors/news/</a></td><td class="cc-status checking">Checking…</td></tr>
+<tr data-url="https://justinahiggins614-cmyk.github.io/jah-databases/mirrors/video/"><td><a href="https://justinahiggins614-cmyk.github.io/jah-databases/mirrors/video/">Signature Video</a></td><td class="mono"><a href="https://justinahiggins614-cmyk.github.io/jah-databases/mirrors/video/">justinahiggins614-cmyk.github.io/jah-databases/mirrors/video/</a></td><td class="cc-status checking">Checking…</td></tr>
+<tr data-url="https://justinahiggins614-cmyk.github.io/jah-databases/mirrors/maps/"><td><a href="https://justinahiggins614-cmyk.github.io/jah-databases/mirrors/maps/">Signature Maps</a></td><td class="mono"><a href="https://justinahiggins614-cmyk.github.io/jah-databases/mirrors/maps/">justinahiggins614-cmyk.github.io/jah-databases/mirrors/maps/</a></td><td class="cc-status checking">Checking…</td></tr>
+<tr data-url="https://justinahiggins614-cmyk.github.io/jah-databases/mirrors/shop/"><td><a href="https://justinahiggins614-cmyk.github.io/jah-databases/mirrors/shop/">Signature Shop</a></td><td class="mono"><a href="https://justinahiggins614-cmyk.github.io/jah-databases/mirrors/shop/">justinahiggins614-cmyk.github.io/jah-databases/mirrors/shop/</a></td><td class="cc-status checking">Checking…</td></tr>
+<tr data-url="https://justinahiggins614-cmyk.github.io/jah-databases/mirrors/weather/"><td><a href="https://justinahiggins614-cmyk.github.io/jah-databases/mirrors/weather/">Signature Weather</a></td><td class="mono"><a href="https://justinahiggins614-cmyk.github.io/jah-databases/mirrors/weather/">justinahiggins614-cmyk.github.io/jah-databases/mirrors/weather/</a></td><td class="cc-status checking">Checking…</td></tr>
+<tr data-url="https://justinahiggins614-cmyk.github.io/jah-databases/mirrors/mail/"><td><a href="https://justinahiggins614-cmyk.github.io/jah-databases/mirrors/mail/">Signature Mail</a></td><td class="mono"><a href="https://justinahiggins614-cmyk.github.io/jah-databases/mirrors/mail/">justinahiggins614-cmyk.github.io/jah-databases/mirrors/mail/</a></td><td class="cc-status checking">Checking…</td></tr>
+<tr data-url="https://justinahiggins614-cmyk.github.io/jah-databases/mirrors/social/"><td><a href="https://justinahiggins614-cmyk.github.io/jah-databases/mirrors/social/">Signature Social</a></td><td class="mono"><a href="https://justinahiggins614-cmyk.github.io/jah-databases/mirrors/social/">justinahiggins614-cmyk.github.io/jah-databases/mirrors/social/</a></td><td class="cc-status checking">Checking…</td></tr>
+<tr data-url="https://justinahiggins614-cmyk.github.io/jah-databases/mirrors/tunes/"><td><a href="https://justinahiggins614-cmyk.github.io/jah-databases/mirrors/tunes/">Signature Tunes</a></td><td class="mono"><a href="https://justinahiggins614-cmyk.github.io/jah-databases/mirrors/tunes/">justinahiggins614-cmyk.github.io/jah-databases/mirrors/tunes/</a></td><td class="cc-status checking">Checking…</td></tr>
+<tr data-url="https://justinahiggins614-cmyk.github.io/jah-databases/mirrors/arcade/"><td><a href="https://justinahiggins614-cmyk.github.io/jah-databases/mirrors/arcade/">Signature Arcade</a></td><td class="mono"><a href="https://justinahiggins614-cmyk.github.io/jah-databases/mirrors/arcade/">justinahiggins614-cmyk.github.io/jah-databases/mirrors/arcade/</a></td><td class="cc-status checking">Checking…</td></tr>
+<tr data-url="https://justinahiggins614-cmyk.github.io/jah-databases/mirrors/library/"><td><a href="https://justinahiggins614-cmyk.github.io/jah-databases/mirrors/library/">Signature Library</a></td><td class="mono"><a href="https://justinahiggins614-cmyk.github.io/jah-databases/mirrors/library/">justinahiggins614-cmyk.github.io/jah-databases/mirrors/library/</a></td><td class="cc-status checking">Checking…</td></tr>
+</tbody></table>
+<p class="note">Plus 2,700 per-artifact websites — one for each of the first files of the 100 largest databases. They are listed on the OS page, Section 5: <a href="https://justinahiggins614-cmyk.github.io/jah-databases/the-merica-l-boundless-ecosystem-os.html">'Merica-L Boundless Ecosystem OS</a>.</p>
+
+<h2>Section 2 — Database Links</h2>
+<p class="lede">Every database in the network — 63,047 databases holding 12,349,330 records (manifest recount, 11 November 2026). The hub is the front door to all of them; the biggest ones have their own links below.</p>
+
+<h3>Database entry points</h3>
+<table><thead><tr><th>Database link</th><th>Address</th><th>Status</th></tr></thead><tbody>
+<tr data-url="https://justinahiggins614-cmyk.github.io/jah-databases/"><td><a href="https://justinahiggins614-cmyk.github.io/jah-databases/">Browse all 63,047 databases</a><br><span class="note">the hub — search and browse every database</span></td><td class="mono"><a href="https://justinahiggins614-cmyk.github.io/jah-databases/">justinahiggins614-cmyk.github.io/jah-databases/</a></td><td class="cc-status checking">Checking…</td></tr>
+<tr data-url="https://justinahiggins614-cmyk.github.io/jah-databases/api/v1/search"><td><a href="https://justinahiggins614-cmyk.github.io/jah-databases/api/v1/search">Search the databases (live API)</a><br><span class="note">read-only API, exact citations</span></td><td class="mono"><a href="https://justinahiggins614-cmyk.github.io/jah-databases/api/v1/search">justinahiggins614-cmyk.github.io/jah-databases/api/v1/search</a></td><td class="cc-status checking">Checking…</td></tr>
+<tr data-url="https://justinahiggins614-cmyk.github.io/jah-databases/api/v1/databases.json"><td><a href="https://justinahiggins614-cmyk.github.io/jah-databases/api/v1/databases.json">All databases as JSON</a><br><span class="note">live list, 160 pilot records with citations</span></td><td class="mono"><a href="https://justinahiggins614-cmyk.github.io/jah-databases/api/v1/databases.json">justinahiggins614-cmyk.github.io/jah-databases/api/v1/databases.json</a></td><td class="cc-status checking">Checking…</td></tr>
+<tr data-url="https://justinahiggins614-cmyk.github.io/jah-databases/external-ai-brain-files/chatgpt-brain.md"><td><a href="https://justinahiggins614-cmyk.github.io/jah-databases/external-ai-brain-files/chatgpt-brain.md">AI brain file — ChatGPT</a><br><span class="note">teaches ChatGPT to use the network</span></td><td class="mono"><a href="https://justinahiggins614-cmyk.github.io/jah-databases/external-ai-brain-files/chatgpt-brain.md">justinahiggins614-cmyk.github.io/jah-databases/external-ai-brain-files/chatgpt-brain.md</a></td><td class="cc-status checking">Checking…</td></tr>
+<tr data-url="https://justinahiggins614-cmyk.github.io/jah-databases/external-ai-brain-files/gemini-brain.md"><td><a href="https://justinahiggins614-cmyk.github.io/jah-databases/external-ai-brain-files/gemini-brain.md">AI brain file — Gemini</a><br><span class="note">teaches Gemini to use the network</span></td><td class="mono"><a href="https://justinahiggins614-cmyk.github.io/jah-databases/external-ai-brain-files/gemini-brain.md">justinahiggins614-cmyk.github.io/jah-databases/external-ai-brain-files/gemini-brain.md</a></td><td class="cc-status checking">Checking…</td></tr>
+<tr data-url="https://justinahiggins614-cmyk.github.io/jah-databases/external-ai-brain-files/copilot-brain.md"><td><a href="https://justinahiggins614-cmyk.github.io/jah-databases/external-ai-brain-files/copilot-brain.md">AI brain file — Copilot</a><br><span class="note">teaches Copilot to use the network</span></td><td class="mono"><a href="https://justinahiggins614-cmyk.github.io/jah-databases/external-ai-brain-files/copilot-brain.md">justinahiggins614-cmyk.github.io/jah-databases/external-ai-brain-files/copilot-brain.md</a></td><td class="cc-status checking">Checking…</td></tr>
+<tr data-url="https://justinahiggins614-cmyk.github.io/jah-databases/external-ai-brain-files/GUIDE-GENERIC.md"><td><a href="https://justinahiggins614-cmyk.github.io/jah-databases/external-ai-brain-files/GUIDE-GENERIC.md">AI guide — any public AI</a><br><span class="note">for every other public AI</span></td><td class="mono"><a href="https://justinahiggins614-cmyk.github.io/jah-databases/external-ai-brain-files/GUIDE-GENERIC.md">justinahiggins614-cmyk.github.io/jah-databases/external-ai-brain-files/GUIDE-GENERIC.md</a></td><td class="cc-status checking">Checking…</td></tr>
+</tbody></table>
+
+<h3>The biggest databases</h3>
+<table><thead><tr><th>Database</th><th>Address</th><th>Status</th></tr></thead><tbody>
+<tr data-url="https://justinahiggins614-cmyk.github.io/jah-databases/db/wiki/"><td><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/wiki/">JAH Wiki Database</a><br><span class="note">1,470,175 records · manifest recount 11 Nov 2026</span></td><td class="mono"><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/wiki/">justinahiggins614-cmyk.github.io/jah-databases/db/wiki/</a></td><td class="cc-status checking">Checking…</td></tr>
+<tr data-url="https://justinahiggins614-cmyk.github.io/jah-databases/db/words/"><td><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/words/">The Signature Dictionary Database</a><br><span class="note">1,127,335 records · manifest recount 11 Nov 2026</span></td><td class="mono"><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/words/">justinahiggins614-cmyk.github.io/jah-databases/db/words/</a></td><td class="cc-status checking">Checking…</td></tr>
+<tr data-url="https://justinahiggins614-cmyk.github.io/jah-databases/db/websites/"><td><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/websites/">Websites Database</a><br><span class="note">1,000,000 records · manifest recount 11 Nov 2026</span></td><td class="mono"><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/websites/">justinahiggins614-cmyk.github.io/jah-databases/db/websites/</a></td><td class="cc-status checking">Checking…</td></tr>
+<tr data-url="https://justinahiggins614-cmyk.github.io/jah-databases/db/rainbow-sentinel-capabilities/"><td><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/rainbow-sentinel-capabilities/">Rainbow Sentinel Capabilities Database</a><br><span class="note">1,000,000 records · manifest recount 11 Nov 2026</span></td><td class="mono"><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/rainbow-sentinel-capabilities/">justinahiggins614-cmyk.github.io/jah-databases/db/rainbow-sentinel-capabilities/</a></td><td class="cc-status checking">Checking…</td></tr>
+<tr data-url="https://justinahiggins614-cmyk.github.io/jah-databases/db/specs/"><td><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/specs/">Specs Database</a><br><span class="note">908,995 records · manifest recount 11 Nov 2026</span></td><td class="mono"><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/specs/">justinahiggins614-cmyk.github.io/jah-databases/db/specs/</a></td><td class="cc-status checking">Checking…</td></tr>
+<tr data-url="https://justinahiggins614-cmyk.github.io/jah-databases/db/print3d/"><td><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/print3d/">3D Print Database</a><br><span class="note">784,662 records · manifest recount 11 Nov 2026</span></td><td class="mono"><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/print3d/">justinahiggins614-cmyk.github.io/jah-databases/db/print3d/</a></td><td class="cc-status checking">Checking…</td></tr>
+<tr data-url="https://justinahiggins614-cmyk.github.io/jah-databases/db/generators/"><td><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/generators/">Generators Database</a><br><span class="note">137,025 records · manifest recount 11 Nov 2026</span></td><td class="mono"><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/generators/">justinahiggins614-cmyk.github.io/jah-databases/db/generators/</a></td><td class="cc-status checking">Checking…</td></tr>
+<tr data-url="https://justinahiggins614-cmyk.github.io/jah-databases/db/equations/"><td><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/equations/">Equations Database</a><br><span class="note">132,300 records · manifest recount 11 Nov 2026</span></td><td class="mono"><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/equations/">justinahiggins614-cmyk.github.io/jah-databases/db/equations/</a></td><td class="cc-status checking">Checking…</td></tr>
+<tr data-url="https://justinahiggins614-cmyk.github.io/jah-databases/db/leaks/"><td><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/leaks/">Leaks Database</a><br><span class="note">121,020 records · manifest recount 11 Nov 2026</span></td><td class="mono"><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/leaks/">justinahiggins614-cmyk.github.io/jah-databases/db/leaks/</a></td><td class="cc-status checking">Checking…</td></tr>
+<tr data-url="https://justinahiggins614-cmyk.github.io/jah-databases/db/music/"><td><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/music/">Music Database</a><br><span class="note">108,050 records · manifest recount 11 Nov 2026</span></td><td class="mono"><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/music/">justinahiggins614-cmyk.github.io/jah-databases/db/music/</a></td><td class="cc-status checking">Checking…</td></tr>
+<tr data-url="https://justinahiggins614-cmyk.github.io/jah-databases/db/spelling/"><td><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/spelling/">Spelling Database</a><br><span class="note">99,227 records · manifest recount 11 Nov 2026</span></td><td class="mono"><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/spelling/">justinahiggins614-cmyk.github.io/jah-databases/db/spelling/</a></td><td class="cc-status checking">Checking…</td></tr>
+<tr data-url="https://justinahiggins614-cmyk.github.io/jah-databases/db/pixel/"><td><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/pixel/">Pixel Database</a><br><span class="note">87,000 records · manifest recount 11 Nov 2026</span></td><td class="mono"><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/pixel/">justinahiggins614-cmyk.github.io/jah-databases/db/pixel/</a></td><td class="cc-status checking">Checking…</td></tr>
+<tr data-url="https://justinahiggins614-cmyk.github.io/jah-databases/db/apps/"><td><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/apps/">Apps Database</a><br><span class="note">86,194 records · manifest recount 11 Nov 2026</span></td><td class="mono"><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/apps/">justinahiggins614-cmyk.github.io/jah-databases/db/apps/</a></td><td class="cc-status checking">Checking…</td></tr>
+<tr data-url="https://justinahiggins614-cmyk.github.io/jah-databases/db/patents/"><td><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/patents/">Patents Database</a><br><span class="note">77,275 records · manifest recount 11 Nov 2026</span></td><td class="mono"><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/patents/">justinahiggins614-cmyk.github.io/jah-databases/db/patents/</a></td><td class="cc-status checking">Checking…</td></tr>
+</tbody></table>
+<p class="note">All 63,047 databases — the rest are reached through the hub above, which searches and browses the full list. Target: 1,000,000,000 databases, 1,000,000,000 files per database, 1,000,000,000 scales per file.</p>
+
+<details>
+<summary>The JAH Network — all 39 websites</summary>
+<ul><li><a href="https://justinahiggins614-cmyk.github.io/signature-math/">Signature Math</a></li><li><a href="https://justinahiggins614-cmyk.github.io/jah-calculator/">Signature Universal Paradox Immune Calculator</a></li><li><a href="https://justinahiggins614-cmyk.github.io/jah-dictionary/">The Signature Dictionary</a></li><li><a href="https://justinahiggins614-cmyk.github.io/jah-wiki/">JAH Wiki</a></li><li><a href="https://justinahiggins614-cmyk.github.io/jah-n-wiki-leaks/">JAH-N Wiki Leaks</a></li><li><a href="https://justinahiggins614-cmyk.github.io/signature-llama/">Signature Llama: The Fully Cyber Utilizable AI</a></li><li><a href="https://justinahiggins614-cmyk.github.io/jah-ai-models/">The Signature AI Phone Book</a></li><li><a href="https://justinahiggins614-cmyk.github.io/cyber-patent-catalog/">Globally Rejustered Patent Catalog</a></li><li><a href="https://justinahiggins614-cmyk.github.io/signature-one-archive/">Signature Spec Catalog Pending Patents</a></li><li><a href="https://justinahiggins614-cmyk.github.io/jah-computer-systems/">The Signature PC System Depository</a></li><li><a href="https://justinahiggins614-cmyk.github.io/signature-books/">The Signature Book Depository</a></li><li><a href="https://justinahiggins614-cmyk.github.io/signature-comics/">The Signature Comic Store</a></li><li><a href="https://justinahiggins614-cmyk.github.io/signature-newspapers/">The Signature Global Newspaper Archive</a></li><li><a href="https://justinahiggins614-cmyk.github.io/signature-backend/">The Signature AI Mix and Match Generator</a></li><li><a href="https://justinahiggins614-cmyk.github.io/signature-boundless-generators/">The Signature Boundless Generator Archive</a></li><li><a href="https://justinahiggins614-cmyk.github.io/signature-ai-mixlab/">The Signature AI Mix Lab</a></li><li><a href="https://justinahiggins614-cmyk.github.io/signature-ai-olypics/">AI Olympics</a></li><li><a href="https://justinahiggins614-cmyk.github.io/signature-chip-maker/">The Signature Computer Chip Maker and Archive</a></li><li><a href="https://justinahiggins614-cmyk.github.io/signature-app-archive/">The Signature App Archive</a></li><li><a href="https://justinahiggins614-cmyk.github.io/signature-ai-robot-matcher/">The Signature AI to Robot Matcher</a></li><li><a href="https://justinahiggins614-cmyk.github.io/signature-experiment-solver/">The Signature Experiment Solver</a></li><li><a href="https://justinahiggins614-cmyk.github.io/signature-ai-image-video-maker/">Signature AI Pixel</a></li><li><a href="https://justinahiggins614-cmyk.github.io/signature-ai-song-maker/">Signature Music Studio</a></li><li><a href="https://justinahiggins614-cmyk.github.io/signature-fixit/">The Signature Mr Fix-It</a></li><li><a href="https://justinahiggins614-cmyk.github.io/signature-university/">Signature University</a></li><li><a href="https://justinahiggins614-cmyk.github.io/signature-earth/">Signature Earth</a></li><li><a href="https://justinahiggins614-cmyk.github.io/signature-flight-school/">The Signature Flight School</a></li><li><a href="https://justinahiggins614-cmyk.github.io/signature-game-store/">The Signature Game Store</a></li><li><a href="https://justinahiggins614-cmyk.github.io/signature-website-creator/">Signature Website Creator</a></li><li><a href="https://justinahiggins614-cmyk.github.io/signature-antivirus/">The Signature Antivirus</a></li><li><a href="https://justinahiggins614-cmyk.github.io/signature-os-updater/">The Signature OS Updater</a></li><li><a href="https://justinahiggins614-cmyk.github.io/signature-space-mapping/">Signature Space Mapping</a></li><li><a href="https://justinahiggins614-cmyk.github.io/signature-cookbook/">The Signature Cookbook</a></li><li><a href="https://justinahiggins614-cmyk.github.io/signature-spell-check/">The Signature Spell Check</a></li><li><a href="https://justinahiggins614-cmyk.github.io/signature-image-grid-measure/">The Signature Image Grid and Measure</a></li><li><a href="https://justinahiggins614-cmyk.github.io/signature-cyber-mega-mall/">The Signature Cyber Mega-Mall</a></li><li><a href="https://justinahiggins614-cmyk.github.io/signature-3d-print/">The Signature 3D Print Mega Mall</a></li><li><a href="https://justinahiggins614-cmyk.github.io/signature-llama-2/">Signature Llama 2.0</a></li><li><a href="https://justinahiggins614-cmyk.github.io/signature-the-ai/">The Signature AI</a></li></ul>
+</details>
+
+<footer class="foot">
+<p>The 'Merica-L Command Center · counts stamped 14 November 2026 · status checked live on every load · free forever</p>
+</footer>
+</div>
+<script>
+// Command Center watchdog: checks every link on this page, live, from your browser.
+// GitHub Pages answers HEAD requests, so a HEAD check is enough — nothing is downloaded.
+(function () {
+  var rows = Array.prototype.slice.call(document.querySelectorAll('tr[data-url]'));
+  var upEl = document.getElementById('cc-up');
+  var downEl = document.getElementById('cc-down');
+  var totalEl = document.getElementById('cc-total');
+  var whenEl = document.getElementById('cc-when');
+  var btn = document.getElementById('cc-recheck');
+  var up = 0, down = 0, done = 0;
+  totalEl.textContent = rows.length;
+  function paint() {
+    upEl.textContent = up;
+    downEl.textContent = down;
+    if (done === rows.length) {
+      var d = new Date();
+      whenEl.textContent = 'Last checked ' + d.toLocaleTimeString();
+      btn.disabled = false;
+      btn.textContent = 'Check again';
+    }
+  }
+  function checkOne(row) {
+    var url = row.getAttribute('data-url');
+    var cell = row.querySelector('.cc-status');
+    var t0 = Date.now();
+    var ctrl = new AbortController();
+    var timer = setTimeout(function () { ctrl.abort(); }, 10000);
+    function settle(ok, ms) {
+      clearTimeout(timer);
+      done++;
+      if (ok) { up++; cell.textContent = 'UP · ' + ms + ' ms'; cell.className = 'cc-status up'; }
+      else { down++; cell.textContent = 'DOWN'; cell.className = 'cc-status down'; row.classList.add('is-down'); }
+      paint();
+    }
+    fetch(url, { method: 'HEAD', cache: 'no-store', signal: ctrl.signal })
+      .then(function (r) { settle(r.ok, Date.now() - t0); })
+      .catch(function () {
+        // Some servers refuse HEAD; one GET try before calling it down.
+        var c2 = new AbortController();
+        var t2 = setTimeout(function () { c2.abort(); }, 10000);
+        fetch(url, { method: 'GET', cache: 'no-store', signal: c2.signal })
+          .then(function (r) { clearTimeout(t2); settle(r.ok, Date.now() - t0); })
+          .catch(function () { clearTimeout(t2); settle(false, 0); });
+      });
+  }
+  function run() {
+    up = 0; down = 0; done = 0;
+    btn.disabled = true; btn.textContent = 'Checking…';
+    rows.forEach(function (row) {
+      row.classList.remove('is-down');
+      var cell = row.querySelector('.cc-status');
+      cell.textContent = 'Checking…'; cell.className = 'cc-status checking';
+    });
+    // Batches of 12 so the browser is not hit with 70+ requests at once.
+    var i = 0;
+    (function nextBatch() {
+      var batch = rows.slice(i, i + 12);
+      batch.forEach(checkOne);
+      i += 12;
+      if (i < rows.length) setTimeout(nextBatch, 600);
+    })();
+  }
+  btn.addEventListener('click', run);
+  run();
+})();
+</script>
+</body>
+</html>
