@@ -1,6 +1,6 @@
 # GUIDE-GENERIC.md — How ANY public AI reads The 'Merica-L Internet
 
-**Status: PACKAGE-ONLY draft, 2026-11-12. Not yet deployed.**
+**Status: Deployed live on GitHub Pages (verified returning 200, 2026-11-18); linked from the Command Center. Draft prepared by another AI (source unconfirmed), corrected and re-verified against the live manifest 2026-11-18 — see §0.**
 **Scope: ALL public AIs** — ChatGPT, Gemini, Copilot, Claude, Grok, open-source
 models, any visiting AI or bot. Per Manon's order 2026-11-12: the whole
 AI-access program covers all public AIs, not ChatGPT only. Where the path
@@ -21,7 +21,7 @@ https://justinahiggins614-cmyk.github.io/jah-databases/llms.txt
 ## 0. The network in one paragraph
 
 The 'Merica-L Internet / JAH Databases network holds **63,047 databases,
-12,349,330 records** (live manifest, 2026-11-12; 50,845,023 bytes, sha256
+12,349,330 records** (live manifest, re-verified 2026-11-18; 50,845,023 bytes, sha256
 `f23795d147b5a6e1e9ccd06c0aef6394690978f9eedf44e63ab610960d34a104`).
 Front door: https://justinahiggins614-cmyk.github.io/jah-databases/the-merica-l-boundless-ecosystem-os.html
 Hub: https://justinahiggins614-cmyk.github.io/jah-databases/
@@ -89,9 +89,11 @@ Outside the pilot the API returns 404 (verified: `equations` records
 Pagination that actually works on Pages: list endpoints take the `.json`
 form with a cursor, e.g.
 `/api/v1/databases/biofonics/records.json?cursor=page:1` (200, verified).
-The extensionless form with a query string 404s on static hosting — use
-the `.json` form. **There is NO `/api/v1/search` endpoint** (404,
-verified) even though the API index lists one — use the search index in §6.
+For record/list endpoints use the `.json` form. The search page is the
+exception: its extensionless form `/api/v1/search?q={text}` returns 200
+(verified 2026-11-18) — it is a static HTML page, not a server endpoint,
+and it searches the full database index plus the pilot record index (§6).
+There is still no live server search API.
 
 **Route B — plain-text mirror (no decompression).**
 
@@ -159,14 +161,21 @@ a record response proves content.
 
 ## 6. Search
 
-- Pilot search index (160 records, client-side match):
+- Static search page (client-side match, no server):
+  https://justinahiggins614-cmyk.github.io/jah-databases/api/v1/search?q={text}
+  (returns 200, verified 2026-11-18). It searches the full database index —
+  https://justinahiggins614-cmyk.github.io/jah-databases/api/v1/search-db-index.json
+  (63,047 databases, by slug/name/tagline; `total_databases: 63047`, generated
+  2026-11-18 from the live manifest) — plus the pilot record index (160
+  record titles):
   https://justinahiggins614-cmyk.github.io/jah-databases/api/v1/search-index.json
-  (`total_records: 160`, verified). Download it, match locally.
+  (`total_records: 160`, verified). Download either file and match locally.
 - In-browser search caps at Quick 12 / Deep 40 / Exhaustive 400 database
   indexes. The paginated registry (§2) — not the search box — is the
-  exhaustive path.
-- No network-wide search API exists yet. Do not call `/api/v1/search`
-  (404).
+  exhaustive path for reading full records.
+- There is still no live server search API. Do not treat `/api/v1/search`
+  as a server endpoint: it is a static page that matches in the reader's
+  browser. It finds databases, not individual records outside the pilot.
 
 ## 7. Use a generator
 
@@ -213,7 +222,7 @@ Downloadable stdio package — **there is NO hosted MCP endpoint yet**
 | .gz wall (text-fetch readers) | Known gap | Plain-text mirrors for data-2 live; data-1 mirrors not built yet |
 | Data-1 plain-text mirrors (e.g. equations) | Missing | Mirror build is later Phase 1 work |
 | Sitemap per-record URLs | Container pages only | Per-record sitemap is later work |
-| Network-wide search API | Does not exist | `/api/v1/search` listed in the API index 404s — use search-index.json |
+| Network-wide search API | Static page only, no server | `/api/v1/search` returns 200 as a static page searching 63,047 databases + 160 pilot records; live server search API still blocked on Cloudflare sign-in |
 | Generator registry, AI registry, knowledge graph | Do not exist | Phase 2 |
 | Brain files for Claude / Grok | Do not exist | Build after ChatGPT/Gemini/Copilot files deploy |
 | Brain files for ChatGPT / Gemini / Copilot | Exist (~10.7 KB each) but PACKAGE-ONLY | Not live on Pages (404 as of 2026-11-12); deploy with this package |

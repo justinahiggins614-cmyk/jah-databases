@@ -109,13 +109,16 @@ serving the full list is a later phase, not this deploy.
 Full-text match over record titles (and, live, over descriptions/bodies).
 Response: paginated `{id, title, slug, code, key, url}` matches, most
 relevant first; `q` is required (empty `q` → the page reports that `q`
-is required; a static host cannot return HTTP 400). Static form
-(live since the L2 fix, 2026-11-12): `api/v1/search.html` with its
-extensionless twin `api/v1/search` — the page matches in the reader's
-browser over `api/v1/search-index.json`, the full 160-entry title index;
-a text-only reader fetches `search-index.json` and matches titles
-client-side. There is no server-side matching on GitHub Pages. Pilot
-search covers the 10 pilot databases' titles only.
+is required; a static host cannot return HTTP 400). Static form (live since the L2 fix, 2026-11-12; database index added
+2026-11-18): `api/v1/search.html` with its extensionless twin
+`api/v1/search` — the page matches in the reader's browser over two
+files: `api/v1/search-db-index.json`, one entry per database in the live
+manifest (63,047 databases: slug, name, tagline, record_count, ai_name;
+generated 2026-11-18), and `api/v1/search-index.json`, the full 160-entry
+pilot title index. A text-only reader fetches both files and matches
+client-side. There is no server-side matching on GitHub Pages and no live
+server search API. Record search covers the 10 pilot databases' titles
+only (160 records); database search covers all 63,047 databases.
 
 ## Versioning
 
@@ -217,6 +220,7 @@ api/
     router.json           # slug -> {records: {id -> file, title, code, key}}
     databases.json        # the 10 pilot databases
     search-index.json     # 160-entry title index (static search form)
+    search-db-index.json  # 63,047-entry database index (added 2026-11-18)
     record/<slug>/<id>.json   # 160 files, one per record
     databases/<slug>/records.json  # 10 list files
 ```

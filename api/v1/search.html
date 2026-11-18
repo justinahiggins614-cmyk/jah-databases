@@ -2,31 +2,45 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>JAH API v1 — Search (static pilot)</title>
-<meta name="description" content="Static search over the 160-record api/v1 pilot title index. No server: matching runs in the reader's browser over search-index.json.">
-<style>body{font-family:system-ui,sans-serif;max-width:720px;margin:2em auto;padding:0 1em;line-height:1.5}code{background:#f0f0f0;padding:0 .2em}li{margin-bottom:.6em}</style>
+<title>JAH API v1 — Search (static)</title>
+<meta name="description" content="Static client-side search over the full database index (63,047 databases) plus the 160-record api/v1 pilot record index. No server: matching runs in the reader's browser.">
+<style>body{font-family:system-ui,sans-serif;max-width:720px;margin:2em auto;padding:0 1em;line-height:1.5}code{background:#f0f0f0;padding:0 .2em}li{margin-bottom:.6em}h2{margin-top:1.5em}</style>
 </head>
 <body>
-<h1>Search — api/v1 (static pilot)</h1>
+<h1>Search — api/v1 (static)</h1>
 <p>This is the static form of <code>GET /api/v1/search?q={text}&amp;cursor=page:&lt;n&gt;</code>.
-There is no server on GitHub Pages: this page matches your query in your browser over
-<a href="search-index.json">search-index.json</a> (160 pilot record titles, 10 databases).
-Text-only readers: fetch <code>search-index.json</code> and match titles client-side
-(case-insensitive; every query word must appear in the title, record id, or database slug).</p>
+There is no server on GitHub Pages and no live server search API: this page matches your query
+in your browser over two files — <a href="search-db-index.json">search-db-index.json</a>
+(one entry per database in the live manifest: 63,047 databases, by slug, name, and tagline)
+and <a href="search-index.json">search-index.json</a> (160 pilot record titles, 10 databases).
+Text-only readers: fetch both files and match client-side
+(case-insensitive; every query word must appear in the searched text).</p>
 <form method="get" action="search">
 <label>Query <input name="q" id="q" size="40" autofocus></label>
 <button type="submit">Search</button>
 </form>
-<noscript><p><b>JavaScript off:</b> fetch <a href="search-index.json">search-index.json</a> and match record titles
-(case-insensitive, all query words must appear in the title, id, or database slug).
-Each match carries <code>id</code>, <code>title</code>, <code>slug</code>, <code>code</code> (JCC v1 citation),
-<code>key</code>, and <code>file</code> (the record JSON path). Sort by most query words in the title, ties by id ascending.
-Page size is 100; use <code>?q={text}&amp;cursor=page:2</code> for the next page.</p></noscript>
+<noscript><p><b>JavaScript off:</b> fetch <a href="search-db-index.json">search-db-index.json</a>
+and <a href="search-index.json">search-index.json</a> and match client-side (case-insensitive,
+all query words must appear in the database slug, name, or tagline for a database match;
+in the record title, id, or database slug for a pilot-record match).
+Database entries are arrays <code>[slug, name, tagline, record_count, ai_name]</code>, ordered by
+slug ascending. Record matches carry <code>id</code>, <code>title</code>, <code>slug</code>,
+<code>code</code> (JCC v1 citation), <code>key</code>, and <code>file</code> (the record JSON path).
+Sort database matches by most query words in the name, ties by slug ascending; sort record matches
+by most query words in the title, ties by id ascending. Page size is 100 per section;
+use <code>?q={text}&amp;cursor=page:2</code> for the next page.</p></noscript>
 <p id="status"></p>
-<ol id="results"></ol>
+<h2 id="db-heading" hidden>Databases</h2>
+<ol id="db-results"></ol>
+<h2 id="rec-heading" hidden>Pilot records</h2>
+<ol id="rec-results"></ol>
 <p id="pages"></p>
-<p><small>Pilot search covers the 10 pilot databases' titles only (160 records).
-For all 63,047 databases, browse the <a href="../data/pages/page-001.json">paginated plain-text index</a>.</small></p>
+<p><small>Database search covers all 63,047 databases in the live manifest
+(source: <code>data/manifest.json</code>, 2026-11-18; index generated 2026-11-18, 15,517,163 bytes).
+Record search covers the 10 pilot databases' titles only (160 records).
+To read records outside the pilot, use the plain-text mirrors or the compressed indexes —
+see the <a href="../../docs/AI_ACCESS.md">AI access guide</a>.
+There is no live server search API; a hosted Worker API is blocked on Cloudflare sign-in.</small></p>
 <script>
 (function(){
   var params = new URLSearchParams(location.search);
@@ -38,43 +52,80 @@ For all 63,047 databases, browse the <a href="../data/pages/page-001.json">pagin
   var input = document.getElementById('q');
   input.value = q;
   var status = document.getElementById('status');
-  var list = document.getElementById('results');
+  var dbList = document.getElementById('db-results');
+  var recList = document.getElementById('rec-results');
   var pages = document.getElementById('pages');
   function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
   if (!q) { status.textContent = 'q is required: add ?q={text} to this URL. Example: search?q=bird'; return; }
-  fetch('search-index.json').then(function(r){ return r.json(); }).then(function(idx){
+  Promise.all([
+    fetch('search-db-index.json').then(function(r){ return r.json(); }),
+    fetch('search-index.json').then(function(r){ return r.json(); })
+  ]).then(function(parts){
+    var dbIdx = parts[0], recIdx = parts[1];
     var tokens = q.toLowerCase().split(/\s+/).filter(Boolean);
-    function titleHits(rec){
-      var t = (rec.title || '').toLowerCase();
+    function hitsIn(text){
+      var t = (text || '').toLowerCase();
       return tokens.filter(function(x){ return t.indexOf(x) >= 0; }).length;
     }
-    var matches = (idx.records || []).filter(function(rec){
+    // --- databases: [slug, name, tagline, record_count, ai_name] ---
+    var dbMatches = (dbIdx.databases || []).filter(function(e){
+      var hay = (e[0] + ' ' + e[1] + ' ' + e[2]).toLowerCase();
+      return tokens.every(function(t){ return hay.indexOf(t) >= 0; });
+    });
+    dbMatches.sort(function(a, b){
+      return (hitsIn(b[1]) - hitsIn(a[1])) || (a[0] < b[0] ? -1 : a[0] > b[0] ? 1 : 0);
+    });
+    // --- pilot records ---
+    var recMatches = (recIdx.records || []).filter(function(rec){
       var hay = ((rec.title || '') + ' ' + (rec.id || '') + ' ' + (rec.slug || '')).toLowerCase();
       return tokens.every(function(t){ return hay.indexOf(t) >= 0; });
     });
-    matches.sort(function(a, b){
-      return (titleHits(b) - titleHits(a)) || (a.id < b.id ? -1 : a.id > b.id ? 1 : 0);
+    recMatches.sort(function(a, b){
+      return (hitsIn(b.title) - hitsIn(a.title)) || (a.id < b.id ? -1 : a.id > b.id ? 1 : 0);
     });
-    var total = matches.length;
-    var totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
+    var dbTotal = dbMatches.length, recTotal = recMatches.length;
+    var totalPages = Math.max(1, Math.ceil(Math.max(dbTotal, recTotal) / PAGE_SIZE));
     if (page > totalPages) page = totalPages;
-    var slice = matches.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
-    status.textContent = total + ' match(es) for "' + q + '" in the 160-record pilot index — page ' + page + ' of ' + totalPages + ' (page size 100).';
-    slice.forEach(function(rec){
-      var li = document.createElement('li');
-      var recordUrl = rec.file.replace(/\.json$/, '');
-      li.innerHTML = '<b>' + esc(rec.title) + '</b> — ' + esc(rec.slug) +
-        '<br><code>' + esc(rec.id) + '</code> · ' + esc(rec.code) + ' · ' + esc(rec.key) +
-        '<br><a href="' + esc(rec.file) + '">Record JSON</a> · <a href="' + esc(recordUrl) + '">Citable URL (no .json)</a>';
-      list.appendChild(li);
-    });
-    if (!slice.length) { var li0 = document.createElement('li'); li0.textContent = 'No matches in the pilot index.'; list.appendChild(li0); }
+    var dbSlice = dbMatches.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
+    var recSlice = recMatches.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
+    status.textContent = dbTotal + ' database match(es) and ' + recTotal +
+      ' pilot-record match(es) for "' + q + '" — page ' + page + ' of ' + totalPages +
+      ' (page size 100 per section). Static client-side search over 63,047 databases + 160 pilot records; no server.';
+    if (dbTotal) {
+      document.getElementById('db-heading').hidden = false;
+      dbSlice.forEach(function(e){
+        var li = document.createElement('li');
+        li.innerHTML = '<b>' + esc(e[1]) + '</b> — <code>' + esc(e[0]) + '</code> · ' +
+          esc(e[3]) + ' record(s)' +
+          (e[2] ? '<br>' + esc(e[2]) : '') +
+          (e[4] ? '<br><small>Librarian AI: ' + esc(e[4]) + '</small>' : '') +
+          '<br><a href="../../db/' + esc(encodeURIComponent(e[0])) + '/">Database page</a>';
+        dbList.appendChild(li);
+      });
+    } else {
+      document.getElementById('db-heading').hidden = false;
+      var li0 = document.createElement('li'); li0.textContent = 'No matching databases.'; dbList.appendChild(li0);
+    }
+    if (recTotal) {
+      document.getElementById('rec-heading').hidden = false;
+      recSlice.forEach(function(rec){
+        var li = document.createElement('li');
+        var recordUrl = rec.file.replace(/\.json$/, '');
+        li.innerHTML = '<b>' + esc(rec.title) + '</b> — ' + esc(rec.slug) +
+          '<br><code>' + esc(rec.id) + '</code> · ' + esc(rec.code) + ' · ' + esc(rec.key) +
+          '<br><a href="' + esc(rec.file) + '">Record JSON</a> · <a href="' + esc(recordUrl) + '">Citable URL (no .json)</a>';
+        recList.appendChild(li);
+      });
+    } else {
+      document.getElementById('rec-heading').hidden = false;
+      var li1 = document.createElement('li'); li1.textContent = 'No matches in the 160-record pilot index.'; recList.appendChild(li1);
+    }
     var nav = [];
     if (page > 1) nav.push('<a href="search?q=' + encodeURIComponent(q) + '&amp;cursor=page:' + (page - 1) + '">\u2190 prev (page:' + (page - 1) + ')</a>');
     if (page < totalPages) nav.push('<a href="search?q=' + encodeURIComponent(q) + '&amp;cursor=page:' + (page + 1) + '">next (page:' + (page + 1) + ') \u2192</a>');
     pages.innerHTML = nav.join(' · ');
   }).catch(function(){
-    status.textContent = 'Could not load search-index.json. Fetch api/v1/search-index.json directly and match titles client-side.';
+    status.textContent = 'Could not load search-db-index.json or search-index.json. Fetch api/v1/search-db-index.json and api/v1/search-index.json directly and match client-side.';
   });
 })();
 </script>
