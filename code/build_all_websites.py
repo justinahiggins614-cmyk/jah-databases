@@ -30,7 +30,7 @@ import os
 import re
 import subprocess
 import sys
-from datetime import date
+from datetime import date, datetime
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BASE = "https://justinahiggins614-cmyk.github.io/"
@@ -219,7 +219,13 @@ def main():
     for _, _, kind in sites:
         counts[kind] = counts.get(kind, 0) + 1
     total = len(sites)
-    today = date.today().isoformat()
+    # The user's date, never the VM's (the VM runs on UTC, a day ahead
+    # of the user late at night).
+    try:
+        from zoneinfo import ZoneInfo
+        today = datetime.now(ZoneInfo("America/New_York")).date().isoformat()
+    except Exception:
+        today = date.today().isoformat()
 
     data = {"generated": today, "total": total,
             "sites": [[n, u, k] for n, u, k in sites]}
