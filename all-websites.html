@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>All Websites — The 'Merica-L Internet</title>
+<meta name="description" content="Every website in The 'Merica-L Internet — 65,799 websites, one list. Main sites, mirrors, database websites, file websites, mix websites, and database pages.">
+<style>
+:root{--bg:#060a14;--panel:#0d1526;--line:#1d2c4d;--ink:#e8f1ff;--dim:#9fb3d8;--acc:#2f7bff;--ok:#00e5a0}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Arial,Helvetica,sans-serif;line-height:1.5}
+.wrap{max-width:1100px;margin:0 auto;padding:16px}
+.hero{background:linear-gradient(135deg,#0b1e3a 0%,#101a30 60%,#0a1428 100%);border:1px solid var(--line);border-radius:16px;padding:28px 22px;text-align:center;margin-bottom:14px}
+.hero h1{margin:0;font-size:2em;letter-spacing:2px}
+.hero p{color:var(--dim);max-width:640px;margin:10px auto}
+.bigstat{background:rgba(13,21,38,.8);border:1px solid var(--line);border-radius:12px;padding:10px 18px;display:inline-block;margin-top:8px}
+.bigstat b{font-size:1.6em;color:var(--ok);display:block}
+.searchrow{display:flex;gap:8px;margin:14px 0}
+.searchrow input{flex:1;font-size:1em;border-radius:10px;border:1px solid var(--line);background:#0a1120;color:var(--ink);padding:11px 12px}
+.kinds{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 6px}
+.kindbtn{font-size:.85em;border-radius:20px;border:1px solid var(--line);background:#0a1120;color:var(--dim);padding:6px 14px;cursor:pointer}
+.kindbtn.on{border-color:var(--ok);color:var(--ok);font-weight:bold}
+.hint{font-size:.85em;color:var(--dim)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px}
+#grid details{grid-column:1/-1}
+#grid details summary{cursor:pointer;font-weight:700;padding:10px 12px;background:var(--panel);border:1px solid var(--line);border-radius:12px;font-size:1.2em}
+#grid details summary:hover{border-color:var(--acc)}
+.letter-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px;margin-top:12px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px;text-decoration:none;color:var(--ink);display:block}
+.card:hover{border-color:var(--acc)}
+.card h3{margin:0 0 4px;font-size:1em}
+.card .k{font-size:.75em;color:var(--ok)}
+.foot{margin-top:26px;padding-top:12px;border-top:1px solid var(--line);color:var(--dim);font-size:.85em;text-align:center}
+.foot a{color:var(--acc)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hero">
+    <h1>ALL WEBSITES</h1>
+    <p>Every website in The 'Merica-L Internet — main sites, mirrors, database websites, file websites, mix websites, and database pages. Each one is free to visit and free to use.</p>
+    <div class="bigstat"><b id="total">65,799</b>websites</div>
+    <p class="hint">List generated 2026-11-20 from the live files on this site. <a href="accessible/all-websites.html" style="color:var(--acc)">Plain list (no JavaScript needed)</a></p>
+  </div>
+  <div class="searchrow">
+    <input id="q" placeholder="Search all websites by name…" aria-label="Search all websites">
+  </div>
+  <div class="kinds" id="kinds">
+    <button class="kindbtn on" data-kind="">All kinds</button>
+    <button class="kindbtn" data-kind="main">Main sites</button>
+    <button class="kindbtn" data-kind="mirror">Mirrors</button>
+    <button class="kindbtn" data-kind="dbweb">Database websites</button>
+    <button class="kindbtn" data-kind="file">File websites</button>
+    <button class="kindbtn" data-kind="mix">Mix websites</button>
+    <button class="kindbtn" data-kind="dbpage">Database pages</button>
+  </div>
+  <p class="hint" id="status">Loading the full list…</p>
+  <div class="grid" id="grid"></div>
+  <div class="foot">
+    <a href="https://justinahiggins614-cmyk.github.io/jah-databases/">JAH Databases — the database hub</a> ·
+    <a href="the-merica-l-boundless-ecosystem-os.html">The 'Merica-L Boundless Ecosystem OS</a> ·
+    <a href="the-merica-l-virtual-internet.html">The 'Merica-L Virtual Internet</a> ·
+    <a href="command-center.html">Command Center</a><br>
+    ✳ The 'Merica-L Internet. Everything free forever.
+  </div>
+</div>
+<script>
+(function(){
+'use strict';
+var KIND_LABELS = {"main":"Main site","mirror":"Mirror","dbweb":"Database website","file":"File website","mix":"Mix website","dbpage":"Database page"};
+var LETTERS = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "0-9", "#"];
+var sites = null, kindFilter = '', grid = document.getElementById('grid'),
+    statusEl = document.getElementById('status'),
+    qEl = document.getElementById('q');
+function esc(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function letterOf(name){
+  var s = String(name||'').replace(/^["'\u201c\u201d\u2018\u2019\(\[{]+/,'');
+  for(var i=0;i<s.length;i++){ var c=s[i]; if(/[A-Za-z]/.test(c)) return c.toUpperCase(); if(/[0-9]/.test(c)) return '0-9'; }
+  return '#';
+}
+function cardFor(s){
+  var a=document.createElement('a');
+  a.className='card'; a.href=s[1];
+  a.innerHTML='<h3>'+esc(s[0])+'</h3><div class="k">'+esc(KIND_LABELS[s[2]]||s[2])+'</div>';
+  return a;
+}
+function matchKind(s){ return !kindFilter || s[2]===kindFilter; }
+function render(){
+  grid.innerHTML='';
+  var q=qEl.value.trim().toLowerCase();
+  if(q){
+    var hits=[], total=0;
+    for(var i=0;i<sites.length;i++){
+      var s=sites[i];
+      if(!matchKind(s)) continue;
+      if(s[0].toLowerCase().indexOf(q)<0) continue;
+      total++;
+      if(hits.length<300) hits.push(s);
+    }
+    statusEl.textContent = total ? ('Found '+total.toLocaleString()+' matching website'+(total===1?'':'s')+(total>300?' — showing the first 300':'')+'.') : 'No website matches that search.';
+    var body=document.createElement('div'); body.className='letter-grid'; body.style.gridColumn='1/-1';
+    hits.forEach(function(s){ body.appendChild(cardFor(s)); });
+    grid.appendChild(body);
+    return;
+  }
+  statusEl.textContent='Browse by first letter — tap a letter to open its websites. Or type in the search box above.';
+  var groups={};
+  sites.forEach(function(s){ if(!matchKind(s)) return; var L=letterOf(s[0]); (groups[L]=groups[L]||[]).push(s); });
+  LETTERS.forEach(function(L){
+    var list=groups[L]; if(!list) return;
+    var det=document.createElement('details');
+    var sum=document.createElement('summary'); sum.textContent=L;
+    var body=document.createElement('div'); body.className='letter-grid';
+    det.appendChild(sum); det.appendChild(body);
+    det.addEventListener('toggle',function(){
+      if(!det.open || det.dataset.loaded) return;
+      det.dataset.loaded='1';
+      list.forEach(function(s){ body.appendChild(cardFor(s)); });
+    });
+    grid.appendChild(det);
+  });
+}
+fetch('all-websites.json').then(function(r){return r.json();}).then(function(d){
+  sites=d.sites||[];
+  var t=document.getElementById('total');
+  if(d.total) t.textContent=Number(d.total).toLocaleString();
+  render();
+}).catch(function(e){
+  statusEl.textContent='The website list failed to load: '+e.message+'. Try the plain list link above.';
+});
+qEl.addEventListener('input',function(){ if(sites) render(); });
+document.getElementById('kinds').addEventListener('click',function(e){
+  var b=e.target.closest ? e.target.closest('.kindbtn') : null;
+  if(!b) return;
+  kindFilter=b.getAttribute('data-kind')||'';
+  var btns=document.querySelectorAll('.kindbtn');
+  for(var i=0;i<btns.length;i++) btns[i].classList.remove('on');
+  b.classList.add('on');
+  if(sites) render();
+});
+})();
+</script>
+</body>
+</html>
