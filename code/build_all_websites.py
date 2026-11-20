@@ -64,6 +64,17 @@ def ls_files(*patterns):
     return [p for p in run(["git", "ls-files"] + list(patterns)) if p]
 
 
+def unescape_stable(s):
+    """html.unescape until stable — page titles and manifest names are
+    sometimes double-encoded (&amp;mdash; / &amp;hellip;)."""
+    for _ in range(3):
+        t = html.unescape(s)
+        if t == s:
+            return t
+        s = t
+    return s
+
+
 def page_title(path):
     """<title> of a tracked HTML file on disk, unescaped, or ''."""
     try:
@@ -74,7 +85,7 @@ def page_title(path):
     m = re.search(r"<title>(.*?)</title>", chunk, re.S | re.I)
     if not m:
         return ""
-    t = html.unescape(m.group(1))
+    t = unescape_stable(m.group(1))
     t = re.sub(r"<[^>]+>", "", t)
     return " ".join(t.split())
 
@@ -106,7 +117,15 @@ def letter_of(name):
 
 def main():
     manifest = json.load(open(MANIFEST, encoding="utf-8"))
-    names = {d["slug"]: d["name"] for d in manifest["databases"]}
+    # Manifest names sometimes carry literal entities ("&mdash;") and the
+    # " — JAH Databases" title suffix — unescape and strip them here so
+    # list names are clean plain text.
+    names = {}
+    for d in manifest["databases"]:
+        nm = unescape_stable(d["name"])
+        if nm.endswith(" — JAH Databases"):
+            nm = nm[: -len(" — JAH Databases")]
+        names[d["slug"]] = nm
 
     sites = []  # [name, url, kind]
 
