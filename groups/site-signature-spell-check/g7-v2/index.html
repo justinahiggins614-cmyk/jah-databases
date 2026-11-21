@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Wren&#x27;s Word Garden — The Signature Spell Check</title>
+<meta name="description" content="Wren&#x27;s Word Garden — the themed second version of The Signature Spell Check.">
+<style>
+body{margin:0;background:#fdfcf7;color:#1f2430;font:17px/1.6 Georgia,serif}
+a{color:#0f766e}.wrap{max-width:960px;margin:0 auto;padding:0 18px 40px}
+header{border-bottom:3px double #d8cfb8;padding:26px 0 10px}
+h1{font-size:34px;margin:0}h2{font-size:24px;margin:30px 0 8px}h3{font-size:19px;margin:20px 0 6px}
+.lede{font-size:18px;color:#5b6472}.note{border-left:4px solid #0f766e;background:#e6f4f1;padding:12px 16px;border-radius:0 10px 10px 0}
+.box{background:#fff;border:1px solid #e3ddcd;border-radius:12px;padding:16px;margin:12px 0}
+details{border:1px solid #e3ddcd;border-radius:10px;background:#fff;padding:10px 14px;margin:8px 0}
+summary{cursor:pointer;font-weight:bold}
+table{border-collapse:collapse;width:100%;background:#fff}
+th,td{border:1px solid #e3ddcd;padding:8px 10px;text-align:left;vertical-align:top;font-size:15px}
+th{background:#e6f4f1}
+footer{margin-top:44px;padding:20px 0 30px;border-top:3px double #d8cfb8;font-size:15px;color:#5b6472}
+.stamp{font-size:13px;color:#5b6472}
+button{font:16px Georgia,serif;border-radius:9px;border:1px solid #d8cfb8;background:#fff;padding:10px 16px;cursor:pointer}
+button.go{background:#0f766e;border-color:#0f766e;color:#fff;font-weight:bold}
+input[type=text],input[type=number]{width:100%;font:16px Georgia,serif;padding:12px;border:1px solid #d8cfb8;border-radius:10px;background:#fff}
+img.hero{width:100%;height:auto;border-radius:12px;border:1px solid #e3ddcd}
+.free{display:inline-block;background:#fef3c7;border:1px solid #fcd34d;border-radius:999px;padding:2px 12px;font-size:14px;color:#7c2d12}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header><h1>Wren&#x27;s Word Garden</h1><p class="lede">Wren&#x27;s Word Garden — the themed second version: a garden where the hedges spell WORD and the stepping stones run A, B, C, D.</p><p><span class="free">Free forever — no sign-in, no payment</span></p></header><img class="hero" src="assets/media-generation-spellcheck-g7-hero-0-a513119a-deff-48b7-aeb3-33d568f3795f.webp" alt="Wren the wren, the mascot of The Signature Spell Check"><main><h2>The themed world</h2><p>Wren&#x27;s Word Garden is a word garden. Walk it in words:</p><ul><li>The Letter Hedges — hedges cut into the letters W, O, R and D.</li><li>The Quill Path — stepping stones lettered A, B, C and D, in order, across the garden.</li><li>The Word Pond — a pond where words float on leaves, one word per leaf.</li><li>The Reading Nook — a quiet corner with a bench and a stack of word cards.</li></ul><h2>Tools</h2><p>Two working tools, plain JavaScript, no backend, no key. The checker works on the shipped sample of the first 200 words of the A list only — it does not hold the whole 99,227-word archive.</p><div class="box"><h3>Check one word</h3><p>Type a word. The tool says whether it is in the shipped sample, whether it is a common misspelling with a known fix, or whether it is not in the sample.</p><label for="w"><b>Word</b></label><input type="text" id="w" value="definately"><p><button class="go" id="wBtn">Check the word</button></p><p id="wOut"></p></div><div class="box"><h3>Quiz — fill the missing letter</h3><p>A quiz drawn from the first 200 words of the A list. It is a game, not a record.</p><p><button class="go" id="quizBtn">New question</button></p><div id="quizOut"></div></div><script src="../g4-generator/assets/engine.js"></script><script src="assets/tools.js"></script><script>
+(function(){
+'use strict';
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+document.getElementById('wBtn').addEventListener('click',function(){var r=SigEngine.checkWord(document.getElementById('w').value);document.getElementById('wOut').textContent=r.error||r.message;});
+var qn=0;document.getElementById('quizBtn').addEventListener('click',function(){qn++;var q=SigTools.makeQuiz('quiz-'+qn);var h='<p><b>'+esc(q.question)+'</b></p>';q.options.forEach(function(o){h+='<button data-a="'+esc(o)+'">'+esc(o)+'</button> ';});h+='<p id="qAns"></p>';document.getElementById('quizOut').innerHTML=h;document.querySelectorAll('#quizOut button[data-a]').forEach(function(b){b.addEventListener('click',function(){document.getElementById('qAns').textContent=(b.getAttribute('data-a')===q.answer)?'Right — the word is "'+q.word+'".':'Not that one. The missing letter is "'+q.answer+'" — the word is "'+q.word+'".';});});});
+})();
+</script>
+<h2>Product lines</h2><p>Three design lines. Every one is labeled Signature or Fun, and none is for sale: designs, printables, and demos only.</p><div class="box"><h3>Wren&#x27;s Word Garden Flash Cards</h3><p><b>Labeled Signature.</b> A set of printable flash cards from the first 200 words of the A list, with the word on the front and its letter on the back.</p><p><b>Making:</b> Print the cards on stiff card and cut along the lines. Read the word aloud, then spell it letter by letter before turning the card over.</p><p><a href="assets/product-1.txt">Download the design sheet</a></p></div><div class="box"><h3>The Quill Pen Guide</h3><p><b>Labeled Signature.</b> A guide to holding a quill and forming letters, written for Wren&#x27;s garden, with practice rows for A, B, C and D.</p><p><b>Making:</b> Print the guide and work through one row a day. Use any pen; the quill in the picture is a drawing, not a tool you must own.</p><p><a href="assets/product-2.txt">Download the design sheet</a></p></div><div class="box"><h3>The Letter Stone Set</h3><p><b>Labeled Fun.</b> A set of stepping stones lettered A to Z, for the garden path. Labeled fun: it is a garden design, not a record.</p><p><b>Making:</b> Cut the letters from paper and lay them on the floor as a path, or paint them on flat stones for a real garden path. A 3D-print version: print a stone 150 mm across with a raised letter.</p><p><a href="assets/product-3.txt">Download the design sheet</a></p></div><h2>Fun stuff</h2><p><b>Fun, labeled fun — not a fact.</b> Wren's tongue-twister, made up for the garden: <i>Wren wrote the wrong word on the wrong wall, / then wrote it right, and read it all.</i> Say it three times fast, then check every word against the word list.</p><h2>Files</h2><p><a href="assets/tools.js">Tools (JavaScript)</a> · <a href="../g4-generator/assets/engine.js">Generator engine (JavaScript)</a> · <a href="accessible/index.html">Plain version (no JavaScript needed)</a> · <a href="../g3-ai/">The helper page (Group 3)</a></p></main>
+<p class="stamp">Generated 2026-11-21 from the Signature Spell Check themed world. Whole-network total: 66,219 websites.</p>
+<footer><p><b>Network.</b> This page belongs to The 'Merica-L Internet: the front door is the <a href="https://justinahiggins614-cmyk.github.io/jah-databases/the-merica-l-virtual-internet.html">'Merica-L Virtual Internet</a>, the network's main page is <a href="https://justinahiggins614-cmyk.github.io/jah-databases/the-merica-l-boundless-ecosystem-os.html">'Merica-L Boundless Ecosystem OS</a>, and the databases live at the <a href="https://justinahiggins614-cmyk.github.io/jah-databases/">database hub</a>. The whole network holds 66,219 websites in total. <a href="https://justinahiggins614-cmyk.github.io/jah-databases/seven-groups.html">The Seven Groups</a> unites all seven lists. <a href="https://justinahiggins614-cmyk.github.io/jah-databases/groups/site-signature-spell-check/">Subject home: The Signature Spell Check</a></p><p>Wren the wren is the mascot; she carries a quill and minds every letter. Free forever. No sign-in, no payment, no tracking.</p></footer>
+</div>
+</body>
+</html>

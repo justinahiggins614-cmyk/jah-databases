@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Coffee — brew ratios, drinks, methods and records, free forever</title>
+<meta name="description" content="Coffee is a free brew-ratio tool plus the drinks, methods and records from the live coffee archive. No sign-in, no payment, free forever.">
+<style>
+  :root{--paper:#fdfcf7;--ink:#1f2430;--muted:#5b6472;--line:#e3ddcd;--card:#fff;--accent:#7c4a21;--accent-soft:#f5e6d3;--teal:#0f766e;--bad:#b91c1c;--bad-soft:#fee2e2;--good:#166534}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font:17px/1.6 Georgia,'Times New Roman',serif}
+  a{color:var(--teal)}
+  header.top{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5}
+  .wrap{max-width:960px;margin:0 auto;padding:0 18px}
+  .bar{display:flex;align-items:center;gap:18px;padding:12px 0}
+  .mark{font-size:22px;font-weight:bold;color:var(--ink);text-decoration:none;white-space:nowrap}
+  .mark span{color:var(--accent)}
+  nav{margin-left:auto;display:flex;gap:16px;flex-wrap:wrap}
+  nav a{color:var(--ink);text-decoration:none;font-size:15px}
+  nav a:hover{text-decoration:underline}
+  .hero{position:relative}
+  .hero img{display:block;width:100%;height:auto;max-height:430px;object-fit:cover;object-position:center 30%}
+  .hero .cap{position:absolute;left:0;right:0;top:0;text-align:center;padding:28px 18px 0}
+  .hero h1{margin:0;font-size:44px;line-height:1.1;color:#3d2c12;text-shadow:0 1px 0 #fff}
+  .hero p{margin:8px 0 0;font-size:19px;color:#4a3a1c}
+  main{padding:28px 0 10px}
+  h2{font-size:26px;margin:34px 0 10px}
+  h3{font-size:20px;margin:0 0 6px}
+  .lede{font-size:19px;color:var(--muted)}
+  .toolcard{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;box-shadow:0 2px 10px rgba(60,40,0,.06)}
+  .row{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;align-items:center}
+  button{font:16px Georgia,serif;border-radius:9px;border:1px solid var(--line);background:#fff;color:var(--ink);padding:10px 16px;cursor:pointer}
+  button.go{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:bold}
+  button:hover{filter:brightness(.97)}
+  input,select{font:16px Georgia,serif;padding:10px;border:1px solid var(--line);border-radius:9px;background:#fff;color:var(--ink)}
+  label{font-weight:bold}
+  .status{font-size:15px;color:var(--muted)}
+  .result{margin-top:14px;padding:14px;border:1px dashed var(--line);border-radius:10px;background:#fff;font-size:19px}
+  .result b{color:var(--accent)}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px}
+  .card p{margin:6px 0 0;color:var(--muted);font-size:15px}
+  .card .rec-link{font-size:14px}
+  .steps{counter-reset:step;display:grid;gap:12px}
+  .steps div{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+  .steps b::before{counter-increment:step;content:counter(step) ". ";color:var(--accent)}
+  .dl a{display:inline-block;margin:6px 10px 6px 0;padding:10px 16px;border:1px solid var(--line);border-radius:9px;background:#fff;text-decoration:none;color:var(--ink)}
+  table{border-collapse:collapse;width:100%;margin:12px 0;background:#fff}
+  th,td{border:1px solid var(--line);padding:8px 10px;text-align:left;font-size:16px}
+  th{background:var(--accent-soft)}
+  details{background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px 16px;margin:10px 0}
+  summary{cursor:pointer;font-weight:bold;font-size:18px}
+  footer{margin-top:48px;padding:22px 0 34px;border-top:3px double var(--line);font-size:15px;color:var(--muted)}
+  footer p{margin:8px 0}
+  .free{display:inline-block;background:var(--accent-soft);border:1px solid #d9a05b;border-radius:999px;padding:2px 12px;font-size:14px;color:#5b3413}
+  .note{background:var(--accent-soft);border:1px solid #d9a05b;border-radius:12px;padding:12px 16px}
+  @media (max-width:640px){.hero h1{font-size:32px}.hero img{max-height:300px}nav{display:none}}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap bar">
+    <a class="mark" href="./">☕ Coffee</a>
+    <nav>
+      <a href="#tool">The Tool</a>
+      <a href="#how">How it works</a>
+      <a href="#drinks">Drinks &amp; methods</a>
+      <a href="#records">Records</a>
+      <a href="#wiki">The seven groups</a>
+      <a href="#files">Files</a>
+    </nav>
+  </div>
+</header>
+
+<div class="hero">
+  <img src="assets/media-generation-coffee-hero-brewster-0-2ce6f69a-e338-41a9-b987-514d9fd765d1.webp" alt="Brewster the coffee bean, the Coffee mascot, holding a steaming cup beside a pour-over dripper and a french press">
+  <div class="cap">
+    <h1>Coffee</h1>
+    <p>Every drink, every method, every ratio — one plain page to brew a better cup.</p>
+  </div>
+</div>
+
+<main class="wrap">
+  <p class="lede">This is the coffee website: a working brew-ratio tool, the drinks and methods from the live coffee archive, and the full records behind them. <span class="free">Free forever — no sign-in, no payment</span></p>
+
+  <h2 id="tool">The Tool — brew ratios</h2>
+  <div class="toolcard">
+    <p>Tell it how much coffee you have and how strong you like it, and it tells you how much water to pour. It works the other way round too. The ratios come from the JAH Coffee Guide Database — pour over 1:16, french press 1:14, AeroPress 1:13, cold brew 1:8, Turkish 1:10, espresso 1:2.</p>
+    <div class="row">
+      <label for="coffeeG">Coffee (grams)</label>
+      <input id="coffeeG" type="number" min="0" step="0.1" value="15" style="width:110px">
+      <label for="ratioSel">Ratio</label>
+      <select id="ratioSel">
+        <option value="15">1:15 — strong pour over</option>
+        <option value="16" selected>1:16 — pour over, Chemex</option>
+        <option value="17">1:17 — light pour over</option>
+        <option value="14">1:14 — french press</option>
+        <option value="13">1:13 — AeroPress</option>
+        <option value="8">1:8 — cold brew</option>
+        <option value="10">1:10 — Turkish / moka</option>
+        <option value="2">1:2 — espresso</option>
+      </select>
+      <button class="go" id="calcBtn">How much water?</button>
+    </div>
+    <div class="row">
+      <span>Method shortcuts:</span>
+      <button data-method="pour-over">Pour over</button>
+      <button data-method="french-press">French press</button>
+      <button data-method="aeropress">AeroPress</button>
+      <button data-method="cold-brew">Cold brew</button>
+      <button data-method="espresso">Espresso</button>
+    </div>
+    <div class="result" id="result" aria-live="polite">15 g of coffee at 1:16 needs 240 g of water.</div>
+    <div class="row">
+      <label for="waterG">Or start from water (grams)</label>
+      <input id="waterG" type="number" min="0" step="1" value="240" style="width:110px">
+      <button id="calcCoffeeBtn">How much coffee?</button>
+      <span class="status" id="status2"></span>
+    </div>
+    <p class="status">Water is weighed in grams, so 1 g of water is 1 ml. The tool works in your browser only — your numbers never leave this page. It does not measure taste: if a cup is sour, grind finer; if bitter, grind coarser (JAH-COF-000029).</p>
+  </div>
+
+  <h2 id="how">How it works</h2>
+  <div class="steps">
+    <div><b>Weigh the coffee.</b> Whole beans, ground fresh, weighed in grams — 15 g is one good mug of pour over.</div>
+    <div><b>Pick a ratio.</b> The ratio is parts of water to one part of coffee. 1:16 is the archive's pour-over figure; 1:14 is french press; 1:2 is espresso.</div>
+    <div><b>Pour the water.</b> Filtered water at 90–96 C (JAH-COF-000026). The tool gives the weight; pour slowly and evenly.</div>
+    <div><b>Wait, then taste.</b> Each method has its time — pour over 3 minutes, french press 4, cold brew 12–24 hours. Adjust the grind, not the ratio, first.</div>
+  </div>
+
+  <h2 id="drinks">Drinks &amp; methods</h2>
+  <p class="lede">From the JAH Coffee Guide Database — 30 records. Each card shows the archive's own words, ratio, grind and time, and links to the full record.</p>
+  <div class="grid">
+<div class="card"><h3>Espresso</h3><p>Espresso is pressure-extracted intensity: 18g in, 36g out, 25-30 seconds. The base of milk drinks.</p><p>ratio: 1:2 coffee to water · grind: fine · time: 25-30 sec</p><p><a class="rec-link" href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-guide/#rec=JAH-COF-000001">Read the full record JAH-COF-000001 →</a></p></div>
+<div class="card"><h3>Americano</h3><p>Americano is espresso lengthened with hot water: clean and strong.</p><p>ratio: espresso + hot water · grind: fine · time: 25-30 sec</p><p><a class="rec-link" href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-guide/#rec=JAH-COF-000002">Read the full record JAH-COF-000002 →</a></p></div>
+<div class="card"><h3>Cappuccino</h3><p>Cappuccino is the classic thirds: dry foam cap, drinkable art.</p><p>ratio: 1/3 espresso, 1/3 milk, 1/3 foam · grind: fine · time: 25-30 sec</p><p><a class="rec-link" href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-guide/#rec=JAH-COF-000003">Read the full record JAH-COF-000003 →</a></p></div>
+<div class="card"><h3>Latte</h3><p>Latte is the milky canvas: espresso softened under steamed milk.</p><p>ratio: 1:5+ espresso to milk · grind: fine · time: 25-30 sec</p><p><a class="rec-link" href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-guide/#rec=JAH-COF-000004">Read the full record JAH-COF-000004 →</a></p></div>
+<div class="card"><h3>Flat white</h3><p>Flat white is the Australian intense latte: less foam, more coffee punch.</p><p>ratio: double ristretto + velvet milk · grind: fine · time: 25-30 sec</p><p><a class="rec-link" href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-guide/#rec=JAH-COF-000005">Read the full record JAH-COF-000005 →</a></p></div>
+<div class="card"><h3>Macchiato</h3><p>Macchiato is espresso stained with foam: small and strong.</p><p>ratio: espresso marked with foam · grind: fine · time: 25-30 sec</p><p><a class="rec-link" href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-guide/#rec=JAH-COF-000006">Read the full record JAH-COF-000006 →</a></p></div>
+<div class="card"><h3>Cortado</h3><p>Cortado is the Spanish equal-parts: no foam, just balance.</p><p>ratio: 1:1 espresso to warm milk · grind: fine · time: 25-30 sec</p><p><a class="rec-link" href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-guide/#rec=JAH-COF-000007">Read the full record JAH-COF-000007 →</a></p></div>
+<div class="card"><h3>Mocha</h3><p>Mocha is dessert coffee: espresso meets chocolate.</p><p>ratio: espresso + chocolate + milk · grind: fine · time: 25-30 sec</p><p><a class="rec-link" href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-guide/#rec=JAH-COF-000008">Read the full record JAH-COF-000008 →</a></p></div>
+<div class="card"><h3>Cold brew</h3><p>Cold brew steeps coarse grounds cold for 12-24 hours: smooth, sweet, low acid.</p><p>ratio: 1:8 steeped 12-24h · grind: coarse · time: 12-24 hours</p><p><a class="rec-link" href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-guide/#rec=JAH-COF-000009">Read the full record JAH-COF-000009 →</a></p></div>
+<div class="card"><h3>Iced coffee</h3><p>Iced coffee is hot coffee flash-chilled: brew strong over ice.</p><p>ratio: double-strength over ice · grind: medium · time: 4 min</p><p><a class="rec-link" href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-guide/#rec=JAH-COF-000010">Read the full record JAH-COF-000010 →</a></p></div>
+<div class="card"><h3>Pour over (V60)</h3><p>Pour over is the clarity method: spiral pours, paper filter, bright cups.</p><p>ratio: 1:16 · grind: medium-fine · time: 3 min</p><p><a class="rec-link" href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-guide/#rec=JAH-COF-000011">Read the full record JAH-COF-000011 →</a></p></div>
+<div class="card"><h3>Chemex</h3><p>Chemex thick filters make the cleanest cup: tea-like and sweet.</p><p>ratio: 1:16 · grind: medium-coarse · time: 4 min</p><p><a class="rec-link" href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-guide/#rec=JAH-COF-000012">Read the full record JAH-COF-000012 →</a></p></div>
+<div class="card"><h3>French press</h3><p>French press is full immersion: heavy body, simple ritual.</p><p>ratio: 1:14 · grind: coarse · time: 4 min</p><p><a class="rec-link" href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-guide/#rec=JAH-COF-000013">Read the full record JAH-COF-000013 →</a></p></div>
+<div class="card"><h3>AeroPress</h3><p>AeroPress is the pressure hack: fast, forgiving, endlessly recipe-tweakable.</p><p>ratio: 1:13 · grind: fine-medium · time: 2 min</p><p><a class="rec-link" href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-guide/#rec=JAH-COF-000014">Read the full record JAH-COF-000014 →</a></p></div>
+<div class="card"><h3>Moka pot</h3><p>Moka pot is stovetop espresso-ish: strong, nostalgic, Italian mornings.</p><p>ratio: fill basket, water to valve · grind: fine-medium · time: 5 min</p><p><a class="rec-link" href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-guide/#rec=JAH-COF-000015">Read the full record JAH-COF-000015 →</a></p></div>
+<div class="card"><h3>Turkish coffee</h3><p>Turkish coffee boils powder-fine grounds in a cezve: intense, with grounds settling.</p><p>ratio: 1:10, unfiltered · grind: powder · time: 3 min</p><p><a class="rec-link" href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-guide/#rec=JAH-COF-000016">Read the full record JAH-COF-000016 →</a></p></div>
+  </div>
+
+  <h2 id="records">Records</h2>
+  <p class="lede">The seven core coffee databases hold 164 public records. The Signature editions hold 154 more — see <a href="https://justinahiggins614-cmyk.github.io/jah-databases/groups/coffee/g6-signature//">Group 6</a>.</p>
+  <table><tr><th>Database</th><th>Records</th><th>About it</th></tr>
+<tr><td><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-guide/">JAH Coffee Guide Database</a></td><td>30</td><td>30 coffee essentials: drinks, brew methods, grinds, beans, roasts, and the skills to make it great.</td></tr>
+<tr><td><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-roasters/">The Coffee Roasters Database</a></td><td>20</td><td>The coffee roaster&#x27;s craft from the ground up: green coffee, roast profiles, cupping, sourcing, and the art of the roast — real, fact-checked profession records.</td></tr>
+<tr><td><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/pour-over-coffee/">The Pour Over Coffee Database</a></td><td>20</td><td>Pour over coffee from the ground up: clarity in a cup — real, fact-checked foodtech records.</td></tr>
+<tr><td><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-brew-ratio-charts/">The Coffee Brew Ratio Charts Database</a></td><td>20</td><td>Coffee brew ratio charts: the golden ratios for every method, from espresso to cold brew — real, fact-checked reference records.</td></tr>
+<tr><td><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/fundamentals-coffee-roasting/">The Fundamentals of Coffee Roasting Database</a></td><td>20</td><td>roasting green coffee at home: roast levels, first crack, and brewing what you roast</td></tr>
+<tr><td><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/db-coffee-discovery/">The Coffee Discovery Database</a></td><td>34</td><td>The coffee discovery database: bean to cup, grinding, French press, pour-over, espresso, milk drinks, cold brew, world traditions, water chemistry, and the master collection — 34 complete records taught progressively along the ladder.</td></tr>
+<tr><td><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/blueprint-coffee-roasteries/">The Coffee Roasteries Blueprint Database</a></td><td>20</td><td>Roaster, production, and cafe plans for coffee roasteries. — Public records — real, fact-checked coffee roastery blueprint records.</td></tr>
+  </table>
+  <p><a href="records.json">Download all 164 public records as JSON →</a></p>
+
+  <h2 id="wiki">The wiki of coffee on this network</h2>
+  <p class="lede">Coffee is one subject with seven websites, one in each group, and sixty databases holding 1,472 records. This section gathers all of it in one place, with every link.</p>
+  <h3>Overview</h3>
+  <p>Coffee runs from the cherry to the cup: beans, roasts, grinds, water, ratios, methods, drinks, roasteries and the tools that make them. The public records below come from the live archive; the Signature records are new work made for this network and labelled as such. Counts were read from the live manifest on 2026-11-21: 60 coffee databases, 868 public records and 604 Signature records.</p>
+  <h3>The seven groups</h3>
+  <div class="grid">
+<div class="card"><h3>Group 1 — Coffee, the full website</h3><p>This page — everything about coffee in one place.</p><p><a href="./">Open it →</a></p></div>
+<div class="card"><h3>Group 2 — Coffee Links, the links-list website</h3><p>Every coffee link on one plain page — sites, databases, records, files.</p><p><a href="https://justinahiggins614-cmyk.github.io/jah-databases/groups/coffee/g2-static//">Open it →</a></p></div>
+<div class="card"><h3>Group 3 — Coffee Questions, the question-and-answer website</h3><p>Ask about coffee and get answers from the archive records.</p><p><a href="https://justinahiggins614-cmyk.github.io/jah-databases/groups/coffee/g3-ai//">Open it →</a></p></div>
+<div class="card"><h3>Group 4 — Coffee Blend Generator</h3><p>Makes new coffee blend and recipe records from a seed you pick.</p><p><a href="https://justinahiggins614-cmyk.github.io/jah-databases/groups/coffee/g4-generator//">Open it →</a></p></div>
+<div class="card"><h3>Group 5 — Coffee Data, the data alone</h3><p>The public coffee data in plain words and tables, no tools, no extras.</p><p><a href="https://justinahiggins614-cmyk.github.io/jah-databases/groups/coffee/g5-data//">Open it →</a></p></div>
+<div class="card"><h3>Group 6 — Signature Coffee Data</h3><p>Only Signature-made coffee records — new blends, guides and roasts made for this network.</p><p><a href="https://justinahiggins614-cmyk.github.io/jah-databases/groups/coffee/g6-signature//">Open it →</a></p></div>
+<div class="card"><h3>Group 7 — Brewster&#x27;s Coffeehouse, version 2</h3><p>The coffeehouse world: rooms, a drinks menu, bean bags, gear and games.</p><p><a href="https://justinahiggins614-cmyk.github.io/jah-databases/groups/coffee/g7-v2//">Open it →</a></p></div>
+  </div>
+  <h3>The subject's databases — public</h3>
+  <table><tr><th>Database</th><th>Records</th><th>About it</th></tr>
+<tr><td><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-guide/">JAH Coffee Guide Database</a></td><td>30</td><td>30 coffee essentials: drinks, brew methods, grinds, beans, roasts, and the skills to make it great.</td></tr>
+<tr><td><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-roasters/">The Coffee Roasters Database</a></td><td>20</td><td>The coffee roaster&#x27;s craft from the ground up: green coffee, roast profiles, cupping, sourcing, and the art of the roast — real, fact-checked profession records.</td></tr>
+<tr><td><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/pour-over-coffee/">The Pour Over Coffee Database</a></td><td>20</td><td>Pour over coffee from the ground up: clarity in a cup — real, fact-checked foodtech records.</td></tr>
+<tr><td><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-brew-ratio-charts/">The Coffee Brew Ratio Charts Database</a></td><td>20</td><td>Coffee brew ratio charts: the golden ratios for every method, from espresso to cold brew — real, fact-checked reference records.</td></tr>
+<tr><td><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/fundamentals-coffee-roasting/">The Fundamentals of Coffee Roasting Database</a></td><td>20</td><td>roasting green coffee at home: roast levels, first crack, and brewing what you roast</td></tr>
+<tr><td><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/db-coffee-discovery/">The Coffee Discovery Database</a></td><td>34</td><td>The coffee discovery database: bean to cup, grinding, French press, pour-over, espresso, milk drinks, cold brew, world traditions, water chemistry, and the master collection — 34 complete records taught progressively along the ladder.</td></tr>
+<tr><td><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/blueprint-coffee-roasteries/">The Coffee Roasteries Blueprint Database</a></td><td>20</td><td>Roaster, production, and cafe plans for coffee roasteries. — Public records — real, fact-checked coffee roastery blueprint records.</td></tr>
+  </table>
+  <p>Beyond these seven, coffee has 23 more public databases: 18 drink databases (affogato, americano, cappuccino, cold brew, cortado, dalgona, espresso, flat white, french press, irish coffee, latte, macchiato, mocha, moka pot, pour over, red eye, turkish coffee and vietnamese coffee — 32 records each), the coffee crop, coffee cake and coffee roasting hobby databases (32 each), the coffee distribution database (8 records) and the drip coffeemaker history database (24 records). Every one of them has a Signature edition too. The full list is on the <a href="https://justinahiggins614-cmyk.github.io/jah-databases/groups/coffee/g2-static//">links-list website (Group 2)</a>.</p>
+  <h3>The subject's databases — Signature</h3>
+  <table><tr><th>Database</th><th>Records</th><th>About it</th></tr>
+<tr><td><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-guide-signature/">The Signature Coffee Guide Database</a></td><td>20</td><td>Signature-original coffee topics — new methods, designs, and works in coffee guide — Signature-original creations from the Signature system, never presented as public record.</td></tr>
+<tr><td><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-roasters-signature/">The Signature Coffee Roasters Database</a></td><td>20</td><td>Signature-original roasting: new fire philosophies, bean-blessing rituals, flavor designs, and roast inventions created in the Signature system — never presented as public record.</td></tr>
+<tr><td><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/pour-over-coffee-signature/">The Signature Pour Over Coffee Database</a></td><td>20</td><td>Signature-original pour over: new mindful philosophies and blooming created in the Signature system — never presented as public record.</td></tr>
+<tr><td><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-brew-ratio-charts-signature/">The Signature Coffee Brew Ratio Charts Database</a></td><td>20</td><td>Signature-original coffee brewing: new perfect-cup philosophies and dialing-in created in the Signature system — never presented as public record.</td></tr>
+<tr><td><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/fundamentals-coffee-roasting-signature/">The Fundamentals of Coffee Roasting Database</a></td><td>20</td><td>roasting green coffee at home: roast levels, first crack, and brewing what you roast — Signature edition: the JAH Signature system&#x27;s own teaching of the field.</td></tr>
+<tr><td><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/db-coffee-discovery-signature/">The Coffee Discovery Database Signature Database</a></td><td>34</td><td>The Signature system&#x27;s expanded treatment of coffee: the same real coffee craft carried forward, plus Signature dialers and profilers original to this system.</td></tr>
+<tr><td><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/blueprint-coffee-roasteries-signature/">The Coffee Roasteries Blueprint Signature Database</a></td><td>20</td><td>Roaster, production, and cafe plans for coffee roasteries. — Signature edition — original Signature-line coffee roastery blueprint records.</td></tr>
+  </table>
+  <p>All seven core Signature editions exist. Signature records are original work made for this network — new guides, blends and roast notes — and are never presented as public record.</p>
+  <h3>Records</h3>
+  <p>The seven core public databases hold 164 records and the seven core Signature editions hold 154, 318 in all. The records section above shows the drinks and methods; every record is listed with its link in <a href="records.json">records.json</a> (public) and in <a href="https://justinahiggins614-cmyk.github.io/jah-databases/groups/coffee/g6-signature//records.json">the Signature records file</a>.</p>
+  <h3>Files</h3>
+  <p>Every file on this website is downloadable: the records files, the ratio table the tool uses, the tool itself, and this page. See <a href="#files">Files</a> below. The plain version of this page needs no JavaScript: <a href="accessible/index.html">accessible version</a>.</p>
+
+  <h2 id="files">Files</h2>
+  <p class="lede">Everything on this page is downloadable. Take the records, the ratio table, the tool, or the page itself.</p>
+  <div class="dl">
+    <a href="records.json" download>⬇ Public records (164, JSON)</a>
+    <a href="assets/brew-ratios.json" download>⬇ Brew ratio table (JSON)</a>
+    <a href="assets/brew-tool.js" download>⬇ The brew tool (JavaScript)</a>
+    <a href="./" download>⬇ This page</a>
+    <a href="accessible/index.html">Plain version (no JavaScript needed)</a>
+  </div>
+</main>
+<footer><div class="wrap"><p><b>Network.</b> This website belongs to The 'Merica-L Internet: the front door is the <a href="https://justinahiggins614-cmyk.github.io/jah-databases/the-merica-l-virtual-internet.html">'Merica-L Virtual Internet</a>, the network's main page is <a href="https://justinahiggins614-cmyk.github.io/jah-databases/the-merica-l-boundless-ecosystem-os.html">'Merica-L Boundless Ecosystem OS</a>, and the databases live at the <a href="https://justinahiggins614-cmyk.github.io/jah-databases/">database hub</a>.</p><p>Coffee is free forever. No sign-in, no payment, no tracking — your numbers never leave this page. Brewster the coffee bean is the mascot; he holds the cup.</p><p><a href="accessible/index.html">Accessible version (plain text, no JavaScript needed)</a></p></div></footer>
+<script src="assets/brew-tool.js"></script>
+<script>
+(function(){
+'use strict';
+var coffeeEl=document.getElementById('coffeeG'), ratioEl=document.getElementById('ratioSel'),
+    resultEl=document.getElementById('result'), waterEl=document.getElementById('waterG'),
+    status2=document.getElementById('status2');
+function show(){
+  var r=brewSummary(coffeeEl.value, ratioEl.value);
+  resultEl.textContent=r.ok?r.text:r.error;
+}
+document.getElementById('calcBtn').addEventListener('click',show);
+coffeeEl.addEventListener('input',show);
+ratioEl.addEventListener('change',show);
+document.querySelectorAll('button[data-method]').forEach(function(b){
+  b.addEventListener('click',function(){
+    var p=BREW_PRESETS[b.getAttribute('data-method')];
+    if(!p)return;
+    ratioEl.value=String(p.ratio);
+    resultEl.textContent=coffeeEl.value+' g of coffee, '+p.label+' at 1:'+p.ratio+
+      ' ('+p.grind+' grind, '+p.time+') needs '+brewWater(coffeeEl.value,p.ratio).water+' g of water.';
+  });
+});
+document.getElementById('calcCoffeeBtn').addEventListener('click',function(){
+  var r=brewCoffee(waterEl.value, ratioEl.value);
+  status2.textContent=r.ok?('Use '+r.coffee+' g of coffee for '+waterEl.value+' g of water at 1:'+ratioEl.value+'.'):r.error;
+});
+show();
+})();
+</script>
+</body>
+</html>

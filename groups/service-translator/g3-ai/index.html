@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Translator — The Translator Helper</title>
+<meta name="description" content="The Translator Helper, alone: ask translator questions and get answers from the translator archive. No key, no sign-in, free forever.">
+<style>
+  body{margin:0;background:#0a1120;color:#e8edf5;font:17px/1.6 Georgia,'Times New Roman',serif}
+  a{color:#7dd3fc}
+  header.top{background:#0f1b33;border-bottom:1px solid #24365c;position:sticky;top:0;z-index:5}
+  .wrap{max-width:960px;margin:0 auto;padding:0 18px}
+  .bar{display:flex;align-items:center;gap:18px;padding:12px 0;flex-wrap:wrap}
+  .mark{font-size:22px;font-weight:bold;color:#e8edf5;text-decoration:none;white-space:nowrap}
+  .mark span{color:#7dd3fc}
+  nav{margin-left:auto;display:flex;gap:14px;flex-wrap:wrap}
+  nav a{color:#e8edf5;text-decoration:none;font-size:15px}
+  nav a:hover{text-decoration:underline}
+  .hero{position:relative}
+  .hero img{display:block;width:100%;height:auto;max-height:430px;object-fit:cover;object-position:center 30%}
+  .hero .cap{position:absolute;left:0;right:0;top:0;text-align:center;padding:28px 18px 0}
+  .hero h1{margin:0;font-size:44px;line-height:1.1;color:#fff;text-shadow:0 1px 6px #000}
+  .hero p{margin:8px 0 0;font-size:19px;color:#e8edf5;text-shadow:0 1px 4px #000}
+  main{padding:28px 0 10px}
+  h2{font-size:26px;margin:34px 0 10px}
+  h3{font-size:20px;margin:0 0 6px}
+  .lede{font-size:19px;color:#b8c4d8}
+  .toolcard,.box{background:#12203d;border:1px solid #24365c;border-radius:14px;padding:18px}
+  textarea,input[type=text],input[type=number],select{width:100%;font:16px/1.6 Georgia,serif;padding:12px;border:1px solid #24365c;border-radius:10px;background:#0a1120;color:#e8edf5}
+  .row{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;align-items:center}
+  button{font:16px Georgia,serif;border-radius:9px;border:1px solid #24365c;background:#12203d;color:#e8edf5;padding:10px 16px;cursor:pointer}
+  button.go{background:#2563eb;border-color:#2563eb;color:#fff;font-weight:bold}
+  .status{font-size:15px;color:#b8c4d8}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
+  .card{background:#12203d;border:1px solid #24365c;border-radius:12px;padding:16px}
+  .card p{margin:6px 0 0;color:#b8c4d8;font-size:15px}
+  table{border-collapse:collapse;width:100%;background:#12203d}
+  th,td{border:1px solid #24365c;padding:8px 10px;text-align:left;vertical-align:top;font-size:15px}
+  th{background:#1a2c4d}
+  .dl a{display:inline-block;margin:6px 10px 6px 0;padding:10px 16px;border:1px solid #24365c;border-radius:9px;background:#12203d;text-decoration:none;color:#e8edf5}
+  .free{display:inline-block;background:#1a2c4d;border:1px solid #3b82f6;border-radius:999px;padding:2px 12px;font-size:14px;color:#bfdbfe}
+  .note{border-left:4px solid #3b82f6;background:#12203d;padding:12px 16px;border-radius:0 10px 10px 0}
+  details{border:1px solid #24365c;border-radius:10px;background:#12203d;padding:10px 14px;margin:8px 0}
+  summary{cursor:pointer;font-weight:bold}
+  footer{margin-top:48px;padding:22px 0 34px;border-top:3px double #24365c;font-size:15px;color:#b8c4d8}
+  footer p{margin:8px 0}
+  .stamp{font-size:14px}
+  @media (max-width:640px){.hero h1{font-size:32px}.hero img{max-height:300px}}
+</style>
+<script src="core/jahdb.js"></script>
+<script>
+(function(){
+'use strict';
+/* CORRECTED call pattern (2026-11-21 fix): the helper calls the library with
+   the database first, then the question, then the context.
+   The old order threw synchronously and left "Thinking..." forever on
+   22,412 pages; the library now also accepts the old order, but this page
+   calls it the right way round. The name drops the leading "The": the
+   library's answer template says "keeper of the <name>", so the full name
+   would double the article in answers. */
+var db={name:"Translators Database",ai_name:"JAH Translator Service Archivist",record_kind:"translator service record",slug:"translators"};
+var archiveSample=["What a Translator Does", "Greetings in Four Languages", "Please, Thank You and Sorry", "Yes, No and Maybe", "Numbers One to Ten in Four Languages", "Days of the Week in Four Languages", "Food and Drink Words", "Asking the Way", "At the Shop: Prices and Change", "At the Doctor: Plain Words", "Hello and Goodbye", "Family Words", "Colours in Four Languages", "The Weather in Words", "Time: Hours and Minutes", "Big and Small, Hot and Cold", "Emergency Words", "How a Phrasebook Works", "Words That Look Alike but Differ", "Formal and Friendly: You in Four Languages", "Reading a Menu", "Writing a Short Note Abroad", "What a Phrasebook Cannot Translate", "The Translator Service Field Guide Index"];
+var ctx=archiveSample.slice(0,8).map(function(r){return r.title;}).join('; ');
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+var log=document.getElementById('log'), qEl=document.getElementById('q'), st=document.getElementById('status');
+function say(who,text){log.innerHTML+='<p><b>'+esc(who)+':</b> '+esc(text)+'</p>';}
+function aiAsk(q){ return JAHDB.aiAnswer(db,q,ctx); }
+function ask(){
+  var q=qEl.value.trim(); if(!q) return;
+  say('You',q); qEl.value='';
+  var tmp=document.createElement('p'); tmp.innerHTML='<b>Helper:</b> <span class="status">Thinking…</span>'; log.appendChild(tmp);
+  Promise.resolve().then(function(){return aiAsk(q);}).then(function(a){
+    tmp.innerHTML='<b>Helper:</b> '+esc(String(a&&a.text||a||'No answer.'));
+  }).catch(function(e){ tmp.innerHTML='<b>Helper:</b> Sorry — something went wrong: '+esc(String(e&&e.message||e)); });
+}
+document.getElementById('askBtn').addEventListener('click',ask);
+qEl.addEventListener('keydown',function(e){if(e.key==='Enter')ask();});
+document.querySelectorAll('button[data-q]').forEach(function(b){b.addEventListener('click',function(){qEl.value=b.getAttribute('data-q');ask();});});
+})();
+</script>
+
+</head>
+<body>
+<header class="top"><div class="wrap bar"><a class="mark" href="https://justinahiggins614-cmyk.github.io/jah-databases/services/translator/">✓ Translator — helper</a><nav><a href="https://justinahiggins614-cmyk.github.io/jah-databases/services/translator/">Group 1</a><a href="../g2-static/">Group 2</a><a href="./">Group 3</a><a href="../g4-generator/">Group 4</a><a href="../g5-data/">Group 5</a><a href="../g6-signature/">Group 6</a><a href="../g7-v2/">Group 7</a><a href="#helper">The helper</a><a href="#groups">Groups</a></nav></div></header>
+<div class="hero"><img src="assets/media-generation-translator-hero-0-57d6478b-799f-44d3-bbd6-72d8e8e7f92f.webp" alt="Ask about translator — it answers from the archive."><div class="cap"><h1>The Translator Helper</h1><p>Ask about translator — it answers from the archive.</p></div></div><main class="wrap">
+
+  <p class="lede">This page is only the translator helper helper. Ask it about translator — it answers from the Translators Database archive. <span class="free">Free forever — no sign-in, no payment</span></p>
+  <div class="note"><b>Plainly stated:</b> the helper on this page answers from the archive stored with this website, using the on-page library — it works right now, with no key and no sign-in. A hosted online helper that could fact-check against the live web is <b>not live yet</b>: that path is blocked until the network owner signs in to the Cloudflare account, and that step is still waiting on him. This page never asks you for a key, and there is no key box anywhere on it.</div>
+  <h2 id="helper">The helper</h2>
+  <div class="toolcard">
+    <label for="q"><b>Your translator question</b></label>
+    <input type="text" id="q" placeholder="e.g. What does a translator do?">
+    <div class="row"><button class="go" id="askBtn">Ask the helper</button>
+    <button data-q="What does a translator do?">What does a translator do?</button><button data-q="How do I say hello in four languages?">How do I say hello in four languages?</button><button data-q="What is a phrasebook?">What is a phrasebook?</button><button data-q="What records are in the translator archive?">What records are in the translator archive?</button>
+    <span class="status" id="status">Helper ready.</span></div>
+    <div id="log" style="margin-top:14px"></div>
+  </div>
+  <p class="lede">The helper knows the 24 public translator records by title, the 34-record Translators Database archive, and the service's own data file. It answers in plain sentences. It does not invent records: when it does not know something, it says so.</p>
+  <h2 id="groups">The seven groups</h2>
+  <table><tr><th>Group</th><th>Website</th><th>What it is</th></tr><tr><td><b>Group 1</b></td><td><a href="https://justinahiggins614-cmyk.github.io/jah-databases/services/translator/">Full website</a></td><td>The full Translator website, with the working tool, the records, the files, and the wiki.</td></tr><tr><td><b>Group 2</b></td><td><a href="../g2-static/">Links list (static)</a></td><td>Every translator link on one plain page, no JavaScript.</td></tr><tr><td><b>Group 3</b></td><td><a href="./">Helper (AI only)</a></td><td>A page that is only the translator helper, answering questions from the archive.</td></tr><tr><td><b>Group 4</b></td><td><a href="../g4-generator/">Phrase quiz generator</a></td><td>A translator generator alone: a phrase quiz: seeded sets of English phrases to translate, with four choices each.</td></tr><tr><td><b>Group 5</b></td><td><a href="../g5-data/">Data alone</a></td><td>The public translator data in plain readable form, no JavaScript.</td></tr><tr><td><b>Group 6</b></td><td><a href="../g6-signature/">Signature data</a></td><td>Only the Signature-created translator records, labeled Signature throughout.</td></tr><tr><td><b>Group 7</b></td><td><a href="../g7-v2/">Version 2 — Lola&#x27;s Language Market</a></td><td>The themed second version: a sunny language market, with working tools and printable packs.</td></tr></table>
+  <h2 id="files">Files</h2>
+  <div class="dl"><a href="assets/archive-sample.json" download>⬇ Archive sample (24 records, JSON)</a>
+  <a href="https://justinahiggins614-cmyk.github.io/jah-databases/services/translator/records.json" download>⬇ Service records (JSON)</a>
+  <a href="accessible/index.html">Plain version (no JavaScript needed)</a></div>
+
+</main>
+<footer><div class="wrap"><p><b>Network.</b> This page belongs to The 'Merica-L Internet: the front door is the <a href="https://justinahiggins614-cmyk.github.io/jah-databases/the-merica-l-virtual-internet.html">'Merica-L Virtual Internet</a>, the network's main page is <a href="https://justinahiggins614-cmyk.github.io/jah-databases/the-merica-l-boundless-ecosystem-os.html">'Merica-L Boundless Ecosystem OS</a>, and the databases live at the <a href="https://justinahiggins614-cmyk.github.io/jah-databases/">database hub</a>.</p><p>Free forever — no sign-in, no payment. Lola the parrot is the mascot; she repeats your phrases in four languages.</p><p class="stamp">Generated 2026-11-21, America/New_York, from The Translator Service service site and pair. The whole network holds 66,219 websites.</p></div></footer>
+</body>
+</html>

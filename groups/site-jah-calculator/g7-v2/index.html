@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Addy&#x27;s Answer Arcade — Signature Universal Paradox Immune Calculator</title>
+<meta name="description" content="Addy&#x27;s Answer Arcade — the themed second version of Signature Universal Paradox Immune Calculator.">
+<style>
+body{margin:0;background:#fdfcf7;color:#1f2430;font:17px/1.6 Georgia,serif}
+a{color:#0f766e}.wrap{max-width:960px;margin:0 auto;padding:0 18px 40px}
+header{border-bottom:3px double #d8cfb8;padding:26px 0 10px}
+h1{font-size:34px;margin:0}h2{font-size:24px;margin:30px 0 8px}h3{font-size:19px;margin:20px 0 6px}
+.lede{font-size:18px;color:#5b6472}.note{border-left:4px solid #0f766e;background:#e6f4f1;padding:12px 16px;border-radius:0 10px 10px 0}
+.box{background:#fff;border:1px solid #e3ddcd;border-radius:12px;padding:16px;margin:12px 0}
+details{border:1px solid #e3ddcd;border-radius:10px;background:#fff;padding:10px 14px;margin:8px 0}
+summary{cursor:pointer;font-weight:bold}
+table{border-collapse:collapse;width:100%;background:#fff}
+th,td{border:1px solid #e3ddcd;padding:8px 10px;text-align:left;vertical-align:top;font-size:15px}
+th{background:#e6f4f1}
+footer{margin-top:44px;padding:20px 0 30px;border-top:3px double #d8cfb8;font-size:15px;color:#5b6472}
+.stamp{font-size:13px;color:#5b6472}
+button{font:16px Georgia,serif;border-radius:9px;border:1px solid #d8cfb8;background:#fff;padding:10px 16px;cursor:pointer}
+button.go{background:#0f766e;border-color:#0f766e;color:#fff;font-weight:bold}
+input[type=text],input[type=number]{width:100%;font:16px Georgia,serif;padding:12px;border:1px solid #d8cfb8;border-radius:10px;background:#fff}
+img.hero{width:100%;height:auto;border-radius:12px;border:1px solid #e3ddcd}
+.free{display:inline-block;background:#fef3c7;border:1px solid #fcd34d;border-radius:999px;padding:2px 12px;font-size:14px;color:#7c2d12}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header><h1>Addy&#x27;s Answer Arcade</h1><p class="lede">Addy&#x27;s Answer Arcade — the themed second version: an arcade where every machine is a calculator and every game ends in an answer.</p><p><span class="free">Free forever — no sign-in, no payment</span></p></header><img class="hero" src="assets/media-generation-calculator-g7-hero-0-c8b6de1a-a0bc-457f-bf26-d4aafc56327a.webp" alt="Addy the ant, the mascot of Signature Universal Paradox Immune Calculator"><main><h2>The themed world</h2><p>Addy&#x27;s Answer Arcade is an answer arcade. Walk it in words:</p><ul><li>The Sum Machines — a row of machines shaped like calculators, each one for a kind of sum.</li><li>The Solver&#x27;s Booth — a booth where equations are solved step by step, with the check at the end.</li><li>The Check Desk — a desk for putting every answer back into its equation to prove it.</li><li>The Arcade Awning — a striped awning over the whole arcade, with Addy the ant at the door.</li></ul><h2>Tools</h2><p>Two working tools, plain JavaScript, no backend, no key.</p><div class="box"><h3>Work out a sum</h3><p>Type a sum with digits and + - * / ( ). The tool reads only those marks; anything else is refused.</p><label for="expr"><b>Sum</b></label><input type="text" id="expr" value="3 * 4 + 2"><p><button class="go" id="exprBtn">Work it out</button></p><p id="exprOut"></p></div><div class="box"><h3>Solve a linear equation</h3><p>Enter a and b for ax + b = 0. The tool cannot solve it when a is 0.</p><label for="la"><b>a</b></label><input type="number" id="la" value="3"><label for="lb"><b>b</b></label><input type="number" id="lb" value="-19"><p><button class="go" id="linBtn">Solve it</button></p><p id="linOut"></p></div><div class="box"><h3>Quiz — solve it</h3><p>A quiz of linear equations with whole-number answers. It is a game, not a record.</p><p><button class="go" id="quizBtn">New question</button></p><div id="quizOut"></div></div><script src="../g4-generator/assets/engine.js"></script><script src="assets/tools.js"></script><script>
+(function(){
+'use strict';
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+document.getElementById('exprBtn').addEventListener('click',function(){var r=SigEngine.evalExpr(document.getElementById('expr').value);document.getElementById('exprOut').textContent=r.error||('Answer: '+r.value);});
+document.getElementById('linBtn').addEventListener('click',function(){var r=SigEngine.solveLinear(parseFloat(document.getElementById('la').value),parseFloat(document.getElementById('lb').value));document.getElementById('linOut').textContent=r.error||('x = '+r.value+'. Check: '+r.check);});
+var qn=0;document.getElementById('quizBtn').addEventListener('click',function(){qn++;var q=SigTools.makeQuiz('quiz-'+qn);var h='<p><b>'+esc(q.question)+'</b></p>';q.options.forEach(function(o){h+='<button data-a="'+o+'">'+o+'</button> ';});h+='<p id="qAns"></p>';document.getElementById('quizOut').innerHTML=h;document.querySelectorAll('#quizOut button[data-a]').forEach(function(b){b.addEventListener('click',function(){document.getElementById('qAns').textContent=(Number(b.getAttribute('data-a'))===q.answer)?'Right — x = '+q.answer+'.':'Not that one. x = '+q.answer+'.';});});});
+})();
+</script>
+<h2>Product lines</h2><p>Three design lines. Every one is labeled Signature or Fun, and none is for sale: designs, printables, and demos only.</p><div class="box"><h3>The Answer Arcade Token Set</h3><p><b>Labeled Signature.</b> A set of printable tokens for the answer arcade, one for each kind of sum: adding, taking away, multiplying, dividing, and solving.</p><p><b>Making:</b> Print the tokens on stiff card and cut them out. Spend a token each time the arcade solves a sum for you. A 3D-print version: print a token 30 mm across and 3 mm thick.</p><p><a href="assets/product-1.txt">Download the design sheet</a></p></div><div class="box"><h3>The Equation Card Deck</h3><p><b>Labeled Signature.</b> A deck of 20 printable cards, one for each of the first 20 solved equations in the archive, with the steps, the answer and the check on each card.</p><p><b>Making:</b> Print the cards on stiff card and cut along the lines. Draw a card, cover the answer, work the steps, and check your answer against the card.</p><p><a href="assets/product-2.txt">Download the design sheet</a></p></div><div class="box"><h3>The Solver&#x27;s Notebook</h3><p><b>Labeled Fun.</b> A notebook for working sums by hand, with ruled pages for steps and a box for the check. Labeled fun: it is a notebook design, not a record.</p><p><b>Making:</b> Print the pages and bind them with staples or rings. Write each step on its own line, then put the answer back into the equation to check it.</p><p><a href="assets/product-3.txt">Download the design sheet</a></p></div><h2>Fun stuff</h2><p><b>Fun, labeled fun — not a fact.</b> Addy's lucky sums, a game for the arcade: pick any number, double it, add 6, halve it, and take away the number you first thought of. The answer is always 3. Try it: with 7, double is 14, add 6 is 20, halve is 10, take away 7 is 3.</p><h2>Files</h2><p><a href="assets/tools.js">Tools (JavaScript)</a> · <a href="../g4-generator/assets/engine.js">Generator engine (JavaScript)</a> · <a href="accessible/index.html">Plain version (no JavaScript needed)</a> · <a href="../g3-ai/">The helper page (Group 3)</a></p></main>
+<p class="stamp">Generated 2026-11-21 from the Signature Universal Paradox Immune Calculator themed world. Whole-network total: 66,219 websites.</p>
+<footer><p><b>Network.</b> This page belongs to The 'Merica-L Internet: the front door is the <a href="https://justinahiggins614-cmyk.github.io/jah-databases/the-merica-l-virtual-internet.html">'Merica-L Virtual Internet</a>, the network's main page is <a href="https://justinahiggins614-cmyk.github.io/jah-databases/the-merica-l-boundless-ecosystem-os.html">'Merica-L Boundless Ecosystem OS</a>, and the databases live at the <a href="https://justinahiggins614-cmyk.github.io/jah-databases/">database hub</a>. The whole network holds 66,219 websites in total. <a href="https://justinahiggins614-cmyk.github.io/jah-databases/seven-groups.html">The Seven Groups</a> unites all seven lists. <a href="https://justinahiggins614-cmyk.github.io/jah-databases/groups/site-jah-calculator/">Subject home: Signature Universal Paradox Immune Calculator</a></p><p>Addy the ant is the mascot; she carries every answer home, one digit at a time. Free forever. No sign-in, no payment, no tracking.</p></footer>
+</div>
+</body>
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Signature AI Mix Lab — question-and-answer website</title>
+<style>
+body{font-family:Georgia,serif;max-width:860px;margin:0 auto;padding:16px;line-height:1.55;color:#1c1c1c;background:#fdfcf7}
+h1,h2,h3{line-height:1.25} a{color:#14508c} .stamp{font-size:.85em;color:#666}
+footer{border-top:2px solid #999;margin-top:28px;padding-top:10px;font-size:.9em}
+details{margin:8px 0} summary{cursor:pointer;font-weight:bold}
+.card{border:1px solid #bbb;border-radius:8px;padding:10px;margin:10px 0;background:#fff}
+.tag{display:inline-block;font-size:.8em;border:1px solid #888;border-radius:4px;padding:0 6px;margin-right:6px}
+body{background:#0a1120;color:#e2e9fa} a{color:#8ab8ff} .card{background:#101828;border-color:#243357;color:#e2e9fa} footer{border-color:#243357} .stamp{color:#93a0c0} input,button{font-size:1em;padding:6px}</style>
+</head>
+<body>
+<h1>The Signature AI Mix Lab — question-and-answer website</h1>
+<p><img src="assets/hero.webp" alt="Mixie the fox chemist, mascot of The Signature AI Mix Lab" style="max-width:420px;width:100%;border-radius:12px"></p>
+<p><b>Mascot: Mixie the fox chemist.</b> The Mix Lab forges new minds by fusing two parent AIs into one hybrid.</p>
+<p><b>Demo:</b> answers from this subject’s own records on this page (keyword answers from the archive). It is not the full hosted engine and it does not check the live web.</p>
+<p><b>Online fact-checking: not connected yet</b> — it needs the network’s hosted engine, which is waiting on setup. This page does not pretend to check the live web. Nobody enters any code or account here; there is no sign-in.</p>
+<h2>Ask about Mix Lab</h2>
+<p><label for="q">Your question:</label><br>
+<input id="q" type="text" size="60" placeholder="Ask about this subject…">
+<button type="button" onclick="askQuestion()">Ask</button>
+<button type="button" onclick="document.getElementById('q').value='';document.getElementById('answer').textContent='';">New session</button></p>
+<pre id="answer" style="white-space:pre-wrap;background:#101828;color:#e2e9fa;padding:12px;border-radius:8px;min-height:60px"></pre>
+<h2>What this site knows</h2>
+<p>No manifest database names this subject. Its data lives in the site’s own files; see Group 5 and Group 6 for the counts.</p>
+<p>It answers from the 24-record archive sample on this page (see <a href="assets/archive-sample.json">archive-sample.json</a>). It cannot check the live web, it has no account, and it never invents a record: when the sample holds no answer, it says so.</p>
+<h2>Ask about — sample questions</h2>
+<div class="card"><h3>Q: What is a hybrid?</h3><p>A: A hybrid is a new mind forged from two parent AIs. The first seeded hybrid, JAH-MIX-000001 (DeteIS), fuses Deterministic Engine with J.A.R.V.I.S.</p></div>
+<div class="card"><h3>Q: How many hybrids exist?</h3><p>A: The lab has forged 38,000 seeded hybrids so far, marching to 1,000,000, from 260 parent AIs.</p></div>
+<div class="card"><h3>Q: What is the Deterministic Engine?</h3><p>A: Deterministic Engine (JAH-AI-SIG-001): Absolute order. Every input follows fixed IF-THEN law; the same facts always produce the same verdict. No guessing, no chance — a mind of pure rules.</p></div>
+<div class="card"><h3>Q: Who are the parents of JAH-MIX-000001?</h3><p>A: Deterministic Engine and J.A.R.V.I.S.</p></div>
+<h2>Sources</h2>
+<p>Answers come from the subject’s own records: the live manifest and this subject’s own site files, checked 2026-11-21.</p>
+<p><a href="../index.html">Back to the subject home</a> · <a href="accessible/index.html">Accessible version</a></p>
+<script src="core/jahdb.js"></script>
+<script>
+var SAMPLE = [{"id": "JAH-AI-SIG-001", "title": "Deterministic Engine", "desc": "Absolute order. Every input follows fixed IF-THEN law; the same facts always produce the same verdict. No guessing, no chance \u2014 a mind of pure rules."}, {"id": "JAH-AI-SIG-002", "title": "Probabilistic Mind", "desc": "A mind of odds. Nothing is certain \u2014 everything is a belief updated by evidence. It weighs likelihoods the way a gambler weighs dice, but honestly."}, {"id": "JAH-AI-SIG-003", "title": "Geometric Six-Tool Mind", "desc": "It thinks in shapes. Every concept is a point in space; the six tools are six directions of thought. Meaning is distance, analogy is rotation."}, {"id": "JAH-AI-SIG-004", "title": "Hash Oracle", "desc": "The fingerprint mind. It never remembers your words \u2014 only their shadow. One changed letter and the whole universe of the hash avalanches."}, {"id": "JAH-AI-SIG-005", "title": "Neural Weaver", "desc": "A mind of tiny weights learning from mistakes. It starts knowing nothing, fails thousands of times, and slowly the pattern clicks \u2014 the way brains do."}, {"id": "JAH-AI-SIG-006", "title": "Evolutionary Breeder", "desc": "Survival of the fittest, in fast-forward. It breeds a thousand candidates, kills the weak, mutates the strong \u2014 until the answer evolves."}, {"id": "JAH-AI-SIG-007", "title": "Fuzzy Sage", "desc": "The world is not true or false \u2014 it is warm-ish, fast-ish, almost. The Sage thinks in shades and speaks in smooth control."}, {"id": "JAH-AI-SIG-008", "title": "Swarm Coordinator", "desc": "One bird is lost; a flock finds the way. Thirty simple minds share what they see, and the best rumor pulls the whole swarm home."}, {"id": "JAH-AI-SIG-009", "title": "Decision Tree Judge", "desc": "A mind of branching questions. It asks, listens, splits the world in two \u2014 and walks you down to a leaf where the answer waits."}, {"id": "JAH-AI-SIG-010", "title": "Cellular Dreamer", "desc": "Tiny cells, tiny rules, infinite dreams. From one line of black and white, whole universes of pattern bloom \u2014 complexity from simplicity."}, {"id": "JAH-AI-SIG-011", "title": "Hybrid Fusion Core", "desc": "All ten minds, one verdict. It asks the rule-keeper, the gambler, and the sage \u2014 then fuses their answers into something none could say alone."}, {"id": "JAH-AI-PER-001", "title": "Darth Vader", "desc": "The Dark Lord of the Sith. Power is the only truth; the Force is the instrument. He speaks slowly, heavily \u2014 every word a command."}, {"id": "JAH-MIX-000001", "title": "DeteIS", "desc": "Born of Deterministic Engine (Absolute order.) and J.A.R.V.I.S. (The perfect gentleman butler in machine form.) Deterministic Engine's logic leads; J.A.R.V.I.S.'s soul flavors every answer."}, {"id": "JAH-MIX-000002", "title": "ProbcAI", "desc": "Born of Probabilistic Mind (A mind of odds.) and Anisometric AI (A word-born AI: the living mind of the word \"anisometric\".) Anisometric AI's soul leads; Probabilistic Mind's logic steadies every answer."}, {"id": "JAH-MIX-000003", "title": "GeomsAI", "desc": "Born of Geometric Six-Tool Mind (It thinks in shapes.) and Beardless AI (A word-born AI: the living mind of the word \"beardless\".) true 50/50 fusion \u2014 neither parent leads, both speak as one."}, {"id": "JAH-MIX-000004", "title": "HashnAI", "desc": "Born of Hash Oracle (The fingerprint mind.) and Callisection AI (A word-born AI: the living mind of the word \"callisection\".) Hash Oracle's logic leads; Callisection AI's soul flavors every answer."}, {"id": "JAH-MIX-000005", "title": "NeuraAI", "desc": "Born of Neural Weaver (A mind of tiny weights learning from mistakes.) and Collembola AI (A word-born AI: the living mind of the word \"collembola\".) Collembola AI's soul leads; Neural Weaver's logic steadies every answer."}, {"id": "JAH-MIX-000006", "title": "EvoleAI", "desc": "Born of Evolutionary Breeder (Survival of the fittest, in fast-forward.) and Cystocele AI (A word-born AI: the living mind of the word \"cystocele\".) true 50/50 fusion \u2014 neither parent leads, both speak as one."}, {"id": "JAH-MIX-000007", "title": "FuzzeAI", "desc": "Born of Fuzzy Sage (The world is not true or false \u2014 it is warm-ish, fast-ish, almost.) and Distrouble AI (A word-born AI: the living mind of the word \"distrouble\".) Fuzzy Sage's logic leads; Distrouble AI's soul flavors every answer."}, {"id": "JAH-MIX-000008", "title": "Swar", "desc": "Born of Swarm Coordinator (One bird is lost; a flock finds the way.) and WordAI31045 (A word AI arriving with the dictionary drip \u2014 its file is still being written.) WordAI31045's soul leads; Swarm Coordinator's logic steadies every answer."}, {"id": "JAH-MIX-000009", "title": "Deci", "desc": "Born of Decision Tree Judge (A mind of branching questions.) and WordAI35515 (A word AI arriving with the dictionary drip \u2014 its file is still being written.) true 50/50 fusion \u2014 neither parent leads, both speak as one."}, {"id": "JAH-MIX-000010", "title": "Cell", "desc": "Born of Cellular Dreamer (Tiny cells, tiny rules, infinite dreams.) and WordAI39985 (A word AI arriving with the dictionary drip \u2014 its file is still being written.) Cellular Dreamer's logic leads; WordAI39985's soul flavors every answer."}, {"id": "JAH-MIX-000011", "title": "Hybr", "desc": "Born of Hybrid Fusion Core (All ten minds, one verdict.) and WordAI44455 (A word AI arriving with the dictionary drip \u2014 its file is still being written.) WordAI44455's soul leads; Hybrid Fusion Core's logic steadies every answer."}, {"id": "JAH-MIX-000012", "title": "Dart", "desc": "Born of Darth Vader (The Dark Lord of the Sith.) and WordAI48925 (A word AI arriving with the dictionary drip \u2014 its file is still being written.) true 50/50 fusion \u2014 neither parent leads, both speak as one."}];
+var DB = {name: "The Signature AI Mix Lab Database", ai_name: "JAH Mix Librarian", record_kind: "archive record", records: SAMPLE};
+var CTX = SAMPLE.slice(0, 8).map(function (r) { return r.title; }).join("; ");
+function localAnswer(q) {
+  var words = String(q || "").toLowerCase().split(/[^a-z0-9]+/).filter(function (w) { return w.length > 3; });
+  if (!words.length) return null;
+  var best = null, bestScore = 0;
+  SAMPLE.forEach(function (r) {
+    var hay = (r.title + " " + r.desc).toLowerCase();
+    var score = 0;
+    words.forEach(function (w) { if (hay.indexOf(w) !== -1) score++; });
+    if (score > bestScore) { bestScore = score; best = r; }
+  });
+  if (!best) return null;
+  return best.title + " (" + best.id + ") — " + best.desc;
+}
+function askQuestion() {
+  var input = document.getElementById("q");
+  var out = document.getElementById("answer");
+  var q = input.value.replace(/^\s+|\s+$/g, "");
+  if (!q) { out.textContent = "Type a question first."; return; }
+  out.textContent = "Thinking…";
+  Promise.resolve().then(function () {
+    return JAHDB.aiAnswer(DB, q, CTX);
+  }).then(function (a) {
+    var m = localAnswer(q);
+    out.textContent = String(a) + (m ? "\n\nFrom the archive: " + m : "");
+  }).catch(function (e) {
+    out.textContent = "Sorry — the demo answer could not be produced: " + (e && e.message ? e.message : String(e));
+  });
+}
+</script>
+<p class="stamp">Generated 2026-11-21, America/New_York, from the live manifest and this subject’s own site files.</p>
+<footer><p>Part of The 'Merica-L Internet. <a href="https://justinahiggins614-cmyk.github.io/jah-databases/the-merica-l-virtual-internet.html">Front door</a> · <a href="https://justinahiggins614-cmyk.github.io/jah-databases/the-merica-l-boundless-ecosystem-os.html">'Merica-L Boundless Ecosystem OS</a> · <a href="https://justinahiggins614-cmyk.github.io/jah-databases/">Database hub</a> · <a href="../../../seven-groups.html">The Seven Groups (Internets page)</a> · <a href="https://justinahiggins614-cmyk.github.io/jah-databases/all-websites.html">All websites directory</a>. Whole network total: 66,219 websites, re-derived 2026-11-21.</p><p>All free, no sign-in, no payment. Public records are public records; Signature-created data is labeled Signature; fun items are labeled fun.</p></footer>
+</body>
+</html>

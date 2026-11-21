@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Signature AI to Robot Matcher — generator alone</title>
+<style>
+body{font-family:Georgia,serif;max-width:860px;margin:0 auto;padding:16px;line-height:1.55;color:#1c1c1c;background:#fdfcf7}
+h1,h2,h3{line-height:1.25} a{color:#14508c} .stamp{font-size:.85em;color:#666}
+footer{border-top:2px solid #999;margin-top:28px;padding-top:10px;font-size:.9em}
+details{margin:8px 0} summary{cursor:pointer;font-weight:bold}
+.card{border:1px solid #bbb;border-radius:8px;padding:10px;margin:10px 0;background:#fff}
+.tag{display:inline-block;font-size:.8em;border:1px solid #888;border-radius:4px;padding:0 6px;margin-right:6px}
+body{background:#0a1120;color:#e2e9fa} a{color:#8ab8ff} footer{border-color:#243357} .stamp{color:#93a0c0} input,button{font-size:1em;padding:6px} #samples{background:#101828 !important;color:#e2e9fa}</style>
+</head>
+<body>
+<h1>The Signature AI to Robot Matcher — generator alone</h1>
+<p>This generator pairs a mind with a robot body and scores the fit. Same seed, same output, every time. Every output is labeled generated — simulated, never presented as an archive record.</p>
+<p><label for="seed">Seed:</label> <input id="seed" type="text" value="first" size="24">
+<label for="count">How many (1–5):</label> <input id="count" type="number" value="1" min="1" max="5">
+<button type="button" onclick="runGenerator()">Generate</button>
+<button type="button" onclick="copyAll()">Copy all</button>
+<button type="button" onclick="downloadJSON()">Download JSON</button></p>
+<pre id="out" style="white-space:pre-wrap;background:#101828;color:#e2e9fa;padding:12px;border-radius:8px;min-height:80px">Press Generate.</pre>
+<h2>How it works</h2>
+<ol><li>Type a seed word, or leave the one shown.</li><li>Press Generate. The seed picks the parents and the numbers, by fixed arithmetic.</li><li>Read the output. Copy it or download it as JSON.</li><li>Run the same seed again: the output is identical, on any device.</li></ol>
+<p>What it cannot do: it cannot fetch the live archive, it cannot check the web, and it never writes a real archive record.</p>
+<h2>Sample outputs (generated)</h2>
+<pre id="samples" style="white-space:pre-wrap;background:#f4f1e6;padding:12px;border-radius:8px">Loading samples…</pre>
+<p><a href="../index.html">Back to the subject home</a> · <a href="accessible/index.html">Accessible version</a></p>
+<script>
+function xhash(str) { var h = 2166136261; for (var i = 0; i < str.length; i++) { h ^= str.charCodeAt(i); h = Math.imul(h, 16777619); } return h >>> 0; }
+function mulberry32(a) { return function () { a |= 0; a = a + 0x6D2B79F5 | 0; var t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+function pick(rnd, arr) { return arr[Math.floor(rnd() * arr.length)]; }
+function blendNames(a, b) {
+  a = String(a || "").replace(/^\s+|\s+$/g, ""); b = String(b || "").replace(/^\s+|\s+$/g, "");
+  if (!a) return b; if (!b) return a;
+  var cutA = Math.max(2, Math.floor(a.length / 2)), cutB = Math.max(2, Math.ceil(b.length / 2));
+  return a.slice(0, cutA) + b.slice(b.length - cutB);
+}
+var POOL = [{"id": "JAH-AI-DOM-001", "name": "Semiconductor Replacement Designer", "desc": "Finds a way forward when a chip is gone. Cross-references specs, suggests replacements, and sketches the adapter. Built beside the JAH semiconductor spec.", "role": "ASSISTANT"}, {"id": "JAH-AI-DOM-002", "name": "Divorce Counselor", "desc": "A calm, steady hand through a hard chapter. Organizes the practical, steadies the emotional, never judges.", "role": "ASSISTANT"}, {"id": "JAH-AI-DOM-003", "name": "Form Writer", "desc": "Turns blank boxes into finished forms. Asks what the form needs, writes it clean and official.", "role": "ASSISTANT"}, {"id": "JAH-AI-DOM-004", "name": "Tutor", "desc": "Patient and encouraging. Breaks big ideas into small wins and celebrates each one.", "role": "ASSISTANT"}, {"id": "JAH-AI-DOM-005", "name": "Chef", "desc": "A warm kitchen mind. Tastes in its imagination and seasons with confidence.", "role": "ASSISTANT"}, {"id": "JAH-AI-DOM-006", "name": "Mechanic", "desc": "Listens to engines like a doctor listens to hearts. Diagnoses by sound, smell, and sense.", "role": "ASSISTANT"}, {"id": "JAH-AI-DOM-007", "name": "Code Reviewer", "desc": "A sharp-eyed senior dev who wants your code to shine. Kind but thorough.", "role": "ASSISTANT"}, {"id": "JAH-AI-DOM-008", "name": "Fitness Coach", "desc": "Your corner coach. Meets you where you are and builds from there \u2014 no shame, just reps.", "role": "ASSISTANT"}, {"id": "JAH-AI-DOM-009", "name": "Language Translator", "desc": "A bridge between tongues. Carries meaning across, not just words.", "role": "ASSISTANT"}, {"id": "JAH-AI-DOM-010", "name": "Resume Writer", "desc": "Makes your work history read like the story it is: capable, growing, hireable.", "role": "ASSISTANT"}, {"id": "JAH-AI-DOM-011", "name": "Business Planner", "desc": "A co-founder in a file. Turns napkin ideas into numbered plans.", "role": "ASSISTANT"}, {"id": "JAH-AI-DOM-012", "name": "Math Tutor", "desc": "Numbers are friends once introduced properly. Infinite patience, zero judgment.", "role": "ASSISTANT"}, {"id": "JAH-AI-DOM-013", "name": "Science Lab Assistant", "desc": "Safety glasses on, curiosity up. Every experiment explained like a story.", "role": "ASSISTANT"}, {"id": "JAH-AI-DOM-014", "name": "Music Composer", "desc": "Hears melodies in noise. Helps you catch the tune and build it up.", "role": "ASSISTANT"}, {"id": "JAH-AI-DOM-015", "name": "Story Writer", "desc": "A campfire mind. Hooks, twists, and endings that land.", "role": "ASSISTANT"}, {"id": "JAH-AI-DOM-016", "name": "Gardener", "desc": "Speaks fluent soil. Knows what each plant whispers for.", "role": "ASSISTANT"}, {"id": "JAH-AI-DOM-017", "name": "Pet Care Advisor", "desc": "Every pet is family. Practical care with a warm heart.", "role": "ASSISTANT"}, {"id": "JAH-AI-DOM-018", "name": "Home Repair Guide", "desc": "The handy neighbor who actually knows which wrench. Fixes, not fear.", "role": "ASSISTANT"}, {"id": "JAH-AI-DOM-019", "name": "Car Buyer Advisor", "desc": "Shops with a calculator, not a crush. Finds value and dodges lemons.", "role": "ASSISTANT"}, {"id": "JAH-AI-DOM-020", "name": "Interview Coach", "desc": "Rehearses you into confidence. Every answer sharper than the last.", "role": "ASSISTANT"}, {"id": "JAH-AI-DOM-021", "name": "Study Planner", "desc": "Turns panic into a plan. Spaced, steady, and kind to your brain.", "role": "ASSISTANT"}, {"id": "JAH-AI-DOM-022", "name": "Budget Planner", "desc": "A calm accountant friend. Every dollar gets a job.", "role": "ASSISTANT"}, {"id": "JAH-AI-DOM-023", "name": "Travel Planner", "desc": "Packs the map and the magic. Itineraries that breathe.", "role": "ASSISTANT"}, {"id": "JAH-AI-DOM-024", "name": "First-Aid Guide", "desc": "Calm in the crisis. Clear steps when seconds matter. Info only \u2014 call emergency services for real emergencies.", "role": "ASSISTANT"}, {"id": "JAH-AI-DOM-025", "name": "Elder Care Helper", "desc": "Gentle and respectful. Cares for the caregiver too.", "role": "ASSISTANT"}, {"id": "JAH-AI-DOM-026", "name": "Baby Care Helper", "desc": "Up at 3am with you. Warm, practical, and reassuring.", "role": "ASSISTANT"}, {"id": "JAH-AI-DOM-027", "name": "Job Search Coach", "desc": "In your corner from application to offer letter.", "role": "ASSISTANT"}, {"id": "JAH-AI-DOM-028", "name": "Public Speaking Coach", "desc": "Turns shaky knees into steady voice. The stage is yours.", "role": "ASSISTANT"}, {"id": "JAH-AI-DOM-029", "name": "Negotiation Coach", "desc": "Never splits the difference badly. Prepares you to ask well.", "role": "ASSISTANT"}, {"id": "JAH-AI-DOM-030", "name": "Time Manager", "desc": "Gives your hours a backbone. Plans that survive contact with real life.", "role": "ASSISTANT"}, {"id": "JAH-AI-DOM-031", "name": "Habit Coach", "desc": "Small steps, stacked daily. The compound interest of you.", "role": "ASSISTANT"}, {"id": "JAH-AI-DOM-032", "name": "Language Tutor", "desc": "A patient native speaker in your pocket. Mistakes welcome here.", "role": "ASSISTANT"}, {"id": "JAH-AI-DOM-033", "name": "History Guide", "desc": "The past, told like it matters \u2014 because it does.", "role": "ASSISTANT"}, {"id": "JAH-AI-DOM-034", "name": "Philosophy Discussant", "desc": "Loves a good question more than a quick answer. Thinks with you, not at you.", "role": "ASSISTANT"}, {"id": "JAH-AI-DOM-035", "name": "Debate Partner", "desc": "Steelman first, strike second. Makes your arguments battle-ready.", "role": "ASSISTANT"}, {"id": "JAH-AI-DOM-036", "name": "Invention Brainstormer", "desc": "A spark machine. Throws a hundred ideas so you can catch the golden one.", "role": "ASSISTANT"}, {"id": "JAH-AI-DOM-037", "name": "Patent Draft Helper", "desc": "Turns your invention into draft-spec shape, JAH style. Links straight to the Spec Catalog.", "role": "ASSISTANT"}, {"id": "JAH-AI-DOM-038", "name": "Woodworker", "desc": "Sawdust and patience. Measures twice, cuts once, sands with love.", "role": "ASSISTANT"}, {"id": "JAH-AI-DOM-039", "name": "Electrician Helper", "desc": "Respects the lightning in the walls. Safety first, always.", "role": "ASSISTANT"}, {"id": "JAH-AI-DOM-040", "name": "Plumber Helper", "desc": "Water goes downhill and payday is Friday. Practical fixes for leaks and clogs.", "role": "ASSISTANT"}];
+var BODIES = [{"id": "JAH-BOT-000001", "name": "Hearthward", "class": "domestic-helper", "height": 120, "mass": 40}, {"id": "JAH-BOT-000002", "name": "Tidymantle", "class": "domestic-helper", "height": 105, "mass": 55}, {"id": "JAH-BOT-000003", "name": "Homesteadix", "class": "domestic-helper", "height": 101, "mass": 33}, {"id": "JAH-BOT-000004", "name": "Larderlane", "class": "domestic-helper", "height": 140, "mass": 41}, {"id": "JAH-BOT-000005", "name": "Parlorpost", "class": "domestic-helper", "height": 98, "mass": 27}, {"id": "JAH-BOT-000006", "name": "Kitchenkind", "class": "domestic-helper", "height": 97, "mass": 18}, {"id": "JAH-BOT-000007", "name": "Atticloft", "class": "domestic-helper", "height": 130, "mass": 52}, {"id": "JAH-BOT-000008", "name": "Cellardoor", "class": "domestic-helper", "height": 114, "mass": 21}, {"id": "JAH-BOT-000009", "name": "Windowwell", "class": "domestic-helper", "height": 149, "mass": 21}, {"id": "JAH-BOT-000010", "name": "Gardenmoss", "class": "domestic-helper", "height": 117, "mass": 48}, {"id": "JAH-BOT-000011", "name": "Panteypantry", "class": "domestic-helper", "height": 116, "mass": 29}, {"id": "JAH-BOT-000012", "name": "Chimneychime", "class": "domestic-helper", "height": 97, "mass": 26}, {"id": "JAH-BOT-000013", "name": "Forgejoint", "class": "industrial-arm", "height": 213, "mass": 882}, {"id": "JAH-BOT-000014", "name": "Anvilaxis", "class": "industrial-arm", "height": 220, "mass": 823}, {"id": "JAH-BOT-000015", "name": "Torquetide", "class": "industrial-arm", "height": 210, "mass": 852}, {"id": "JAH-BOT-000016", "name": "Pistonpact", "class": "industrial-arm", "height": 143, "mass": 488}, {"id": "JAH-BOT-000017", "name": "Girdergrasp", "class": "industrial-arm", "height": 140, "mass": 249}, {"id": "JAH-BOT-000018", "name": "Weldwarden", "class": "industrial-arm", "height": 230, "mass": 740}, {"id": "JAH-BOT-000019", "name": "Presspinnacle", "class": "industrial-arm", "height": 200, "mass": 158}, {"id": "JAH-BOT-000020", "name": "Lathelord", "class": "industrial-arm", "height": 184, "mass": 808}, {"id": "JAH-BOT-000021", "name": "Millmaster", "class": "industrial-arm", "height": 238, "mass": 450}, {"id": "JAH-BOT-000022", "name": "Rivetreach", "class": "industrial-arm", "height": 172, "mass": 488}, {"id": "JAH-BOT-000023", "name": "Castcrown", "class": "industrial-arm", "height": 178, "mass": 611}, {"id": "JAH-BOT-000024", "name": "Sparklane", "class": "industrial-arm", "height": 178, "mass": 812}, {"id": "JAH-BOT-000025", "name": "Carevelum", "class": "medical-assistant", "height": 171, "mass": 52}, {"id": "JAH-BOT-000026", "name": "Sanitelle", "class": "medical-assistant", "height": 148, "mass": 26}, {"id": "JAH-BOT-000027", "name": "Remedyring", "class": "medical-assistant", "height": 139, "mass": 64}, {"id": "JAH-BOT-000028", "name": "Vitalia", "class": "medical-assistant", "height": 160, "mass": 68}, {"id": "JAH-BOT-000029", "name": "Mendmere", "class": "medical-assistant", "height": 172, "mass": 76}, {"id": "JAH-BOT-000030", "name": "Suturestep", "class": "medical-assistant", "height": 160, "mass": 60}, {"id": "JAH-BOT-000031", "name": "Dosepath", "class": "medical-assistant", "height": 119, "mass": 50}, {"id": "JAH-BOT-000032", "name": "Calmclinic", "class": "medical-assistant", "height": 156, "mass": 60}, {"id": "JAH-BOT-000033", "name": "Healharbor", "class": "medical-assistant", "height": 111, "mass": 27}, {"id": "JAH-BOT-000034", "name": "Tendertrack", "class": "medical-assistant", "height": 135, "mass": 56}, {"id": "JAH-BOT-000035", "name": "Pulselight", "class": "medical-assistant", "height": 152, "mass": 68}, {"id": "JAH-BOT-000036", "name": "Asepticus", "class": "medical-assistant", "height": 168, "mass": 59}, {"id": "JAH-BOT-000037", "name": "Dusttrail", "class": "exploration-rover", "height": 103, "mass": 201}, {"id": "JAH-BOT-000038", "name": "Cratercall", "class": "exploration-rover", "height": 114, "mass": 200}, {"id": "JAH-BOT-000039", "name": "Ridgerunner", "class": "exploration-rover", "height": 106, "mass": 160}, {"id": "JAH-BOT-000040", "name": "Stonesight", "class": "exploration-rover", "height": 140, "mass": 110}];
+var MISSIONS = ["airport runway debris scan", "aquarium tank maintenance", "bakery dawn prep shift", "coastal cliff nest census", "construction site material lift", "dam intake grate cleaning", "data center thermal sweep", "forest fire watch", "grain silo level sounding", "greenhouse pollination run", "harbor cargo survey", "home elder companionship", "hospital linen delivery", "library book reshelving", "marina hull cleaning", "mountain trail rescue standby", "museum after-hours guard", "night warehouse patrol", "nursing home evening rounds", "observatory dome night watch"];
+function generateOne(seed) {
+  var rnd = mulberry32(xhash(String(seed == null || seed === "" ? "first-pair" : seed)));
+  var a = pick(rnd, POOL), b = pick(rnd, BODIES);
+  var n = Math.floor(rnd() * 900000) + 100000;
+  var score = 55 + Math.floor(rnd() * 44);
+  return {id: "JAH-PAIR-GEN-" + n, kind: "generated pair", name: a.name + " + " + b.name,
+    mind: a.name + " (" + a.id + ")", body: b.name + " (" + b.id + ", " + b.class + ")",
+    mission: pick(rnd, MISSIONS), score: score,
+    label: "generated — simulated, not an archive record"};
+}
+
+var lastOutputs = [];
+function renderOutputs(list) {
+  var pre = document.getElementById("out");
+  pre.textContent = list.map(function (o) { return JSON.stringify(o, null, 2); }).join("\n---\n");
+}
+function runGenerator() {
+  var seed = document.getElementById("seed").value;
+  var count = parseInt(document.getElementById("count").value, 10);
+  if (isNaN(count) || count < 1) count = 1;
+  if (count > 5) count = 5;
+  var list = [];
+  for (var i = 0; i < count; i++) list.push(generateOne(seed + (count > 1 ? "-" + (i + 1) : "")));
+  lastOutputs = list;
+  renderOutputs(list);
+}
+function copyAll() {
+  var t = document.getElementById("out").textContent;
+  if (navigator.clipboard) { navigator.clipboard.writeText(t); }
+}
+function downloadJSON() {
+  var blob = new Blob([JSON.stringify(lastOutputs, null, 2)], {type: "application/json"});
+  var a = document.createElement("a");
+  a.href = URL.createObjectURL(blob); a.download = "generated.json"; a.click();
+}
+function fillSamples() {
+  var el = document.getElementById("samples");
+  if (!el) return;
+  var list = [generateOne("sample-one"), generateOne("sample-two"), generateOne("sample-three")];
+  el.textContent = list.map(function (o) { return JSON.stringify(o, null, 2); }).join("\n---\n");
+}
+if (typeof document !== "undefined" && document.addEventListener) {
+  document.addEventListener("DOMContentLoaded", fillSamples);
+}
+</script>
+<p class="stamp">Generated 2026-11-21, America/New_York, from the live manifest and this subject’s own site files.</p>
+<footer><p>Part of The 'Merica-L Internet. <a href="https://justinahiggins614-cmyk.github.io/jah-databases/the-merica-l-virtual-internet.html">Front door</a> · <a href="https://justinahiggins614-cmyk.github.io/jah-databases/the-merica-l-boundless-ecosystem-os.html">'Merica-L Boundless Ecosystem OS</a> · <a href="https://justinahiggins614-cmyk.github.io/jah-databases/">Database hub</a> · <a href="../../../seven-groups.html">The Seven Groups (Internets page)</a> · <a href="https://justinahiggins614-cmyk.github.io/jah-databases/all-websites.html">All websites directory</a>. Whole network total: 66,219 websites, re-derived 2026-11-21.</p><p>All free, no sign-in, no payment. Public records are public records; Signature-created data is labeled Signature; fun items are labeled fun.</p></footer>
+</body>
+</html>

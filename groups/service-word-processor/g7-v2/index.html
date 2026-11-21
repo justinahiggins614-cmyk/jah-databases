@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Penny&#x27;s Writing Desk — The Word Processor Service</title>
+<meta name="description" content="Penny&#x27;s Writing Desk: the themed second version of The Word Processor Service — a writer&#x27;s desk world, with working tools and product lines. Free forever.">
+<style>
+  :root{--paper:#fdfcf7;--ink:#1f2430;--muted:#5b6472;--line:#e3ddcd;--card:#fff;--accent:#1d4ed8;--accent-soft:#dbeafe;--teal:#0f766e;--bad:#b91c1c;--good:#166534}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font:17px/1.6 Georgia,'Times New Roman',serif}
+  a{color:var(--teal)}
+  header.top{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5}
+  .wrap{max-width:960px;margin:0 auto;padding:0 18px}
+  .bar{display:flex;align-items:center;gap:18px;padding:12px 0;flex-wrap:wrap}
+  .mark{font-size:22px;font-weight:bold;color:var(--ink);text-decoration:none;white-space:nowrap}
+  .mark span{color:var(--accent)}
+  nav{margin-left:auto;display:flex;gap:14px;flex-wrap:wrap}
+  nav a{color:var(--ink);text-decoration:none;font-size:15px}
+  nav a:hover{text-decoration:underline}
+  .hero{position:relative}
+  .hero img{display:block;width:100%;height:auto;max-height:430px;object-fit:cover;object-position:center 30%}
+  .hero .cap{position:absolute;left:0;right:0;top:0;text-align:center;padding:28px 18px 0}
+  .hero h1{margin:0;font-size:44px;line-height:1.1;color:#3d2c12;text-shadow:0 1px 0 #fff}
+  .hero p{margin:8px 0 0;font-size:19px;color:#4a3a1c}
+  main{padding:28px 0 10px}
+  h2{font-size:26px;margin:34px 0 10px}
+  h3{font-size:20px;margin:0 0 6px}
+  .lede{font-size:19px;color:var(--muted)}
+  .toolcard,.box{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;box-shadow:0 2px 10px rgba(60,40,0,.06)}
+  textarea,input[type=text],input[type=number]{width:100%;font:16px/1.6 Georgia,serif;padding:12px;border:1px solid var(--line);border-radius:10px;background:#fff;color:var(--ink)}
+  textarea{min-height:150px}
+  .row{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;align-items:center}
+  button{font:16px Georgia,serif;border-radius:9px;border:1px solid var(--line);background:#fff;color:var(--ink);padding:10px 16px;cursor:pointer}
+  button.go{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:bold}
+  button:hover{filter:brightness(.97)}
+  .status{font-size:15px;color:var(--muted)}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px}
+  .card p{margin:6px 0 0;color:var(--muted);font-size:15px}
+  .card .rec-link{font-size:14px}
+  table{border-collapse:collapse;width:100%;background:#fff}
+  th,td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top;font-size:15px}
+  th{background:var(--accent-soft)}
+  .dl a{display:inline-block;margin:6px 10px 6px 0;padding:10px 16px;border:1px solid var(--line);border-radius:9px;background:#fff;text-decoration:none;color:var(--ink)}
+  .free{display:inline-block;background:var(--accent-soft);border:1px solid #fcd34d;border-radius:999px;padding:2px 12px;font-size:14px;color:#7c2d12}
+  .note{border-left:4px solid var(--accent);background:var(--accent-soft);padding:12px 16px;border-radius:0 10px 10px 0}
+  details{border:1px solid var(--line);border-radius:10px;background:#fff;padding:10px 14px;margin:8px 0}
+  summary{cursor:pointer;font-weight:bold}
+  footer{margin-top:48px;padding:22px 0 34px;border-top:3px double var(--line);font-size:15px;color:var(--muted)}
+  footer p{margin:8px 0}
+  .words{font-size:15px;line-height:1.9;word-wrap:break-word}
+  .recbody h4{margin:18px 0 6px}
+  @media (max-width:640px){.hero h1{font-size:32px}.hero img{max-height:300px}}
+</style>
+<script>
+
+(function(){
+'use strict';
+/* Pure word-count and download builders: no document access, testable in Node. */
+function countWords(text){
+  var words=(text||'').replace(/<[^>]*>/g,' ').split(/\s+/).filter(function(w){return w.length>0;});
+  var sentences=(text||'').split(/[.!?]+/).filter(function(s){return s.trim().length>0;}).length;
+  return {words:words.length, characters:(text||'').length, sentences:sentences};
+}
+function plainTextFromHtml(html){
+  var t=(html||'').replace(/<\/(p|div|h[1-6]|li|tr)>/gi,'\n').replace(/<br\s*\/?>/gi,'\n').replace(/<[^>]*>/g,'');
+  return t.replace(/&amp;/g,'&').replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&nbsp;/g,' ').replace(/\n{3,}/g,'\n\n').trim();
+}
+function buildTxt(editorHtml){
+  return plainTextFromHtml(editorHtml)+'\n';
+}
+function buildHtmlPage(editorHtml){
+  return '<!DOCTYPE html>\n<html lang="en">\n<head>\n<meta charset="utf-8">\n<title>My document</title>\n</head>\n<body style="font-family:Georgia,serif;max-width:700px;margin:2em auto;line-height:1.6">\n'+editorHtml+'\n</body>\n</html>\n';
+}
+if(typeof window!=='undefined'){ window.WPTool={countWords:countWords,plainTextFromHtml:plainTextFromHtml,buildTxt:buildTxt,buildHtmlPage:buildHtmlPage}; }
+if(typeof document==='undefined'){ return; }
+var editor=document.getElementById('editor');
+var statusEl=document.getElementById('status');
+function updateCount(){
+  var c=countWords(editor.innerText||plainTextFromHtml(editor.innerHTML));
+  statusEl.textContent='Words: '+c.words+'  ·  Characters: '+c.characters+'  ·  Sentences: '+c.sentences;
+}
+function download(name, text, type){
+  var blob=new Blob([text],{type:type});
+  var a=document.createElement('a');
+  a.href=URL.createObjectURL(blob); a.download=name;
+  document.body.appendChild(a); a.click();
+  document.body.removeChild(a);
+  setTimeout(function(){URL.revokeObjectURL(a.href);},1000);
+}
+document.querySelectorAll('.toolbar button[data-cmd]').forEach(function(b){
+  b.addEventListener('click',function(){ editor.focus(); document.execCommand(b.getAttribute('data-cmd'),false,null); updateCount(); });
+});
+document.getElementById('hBtn').addEventListener('click',function(){ editor.focus(); document.execCommand('formatBlock',false,'h2'); updateCount(); });
+document.getElementById('pBtn').addEventListener('click',function(){ editor.focus(); document.execCommand('formatBlock',false,'p'); updateCount(); });
+editor.addEventListener('input',updateCount);
+document.getElementById('txtBtn').addEventListener('click',function(){ download('my-document.txt',buildTxt(editor.innerHTML),'text/plain'); });
+document.getElementById('htmlBtn').addEventListener('click',function(){ download('my-document.html',buildHtmlPage(editor.innerHTML),'text/html'); });
+document.getElementById('sampleBtn').addEventListener('click',function(){
+  editor.innerHTML='<p><b>A letter home</b></p><p>Dear Ana, the garden is full of late roses, and the kitchen smells of fresh bread. I have written three pages today, and the words came easily.</p>';
+  updateCount();
+});
+document.getElementById('clearBtn').addEventListener('click',function(){ editor.innerHTML=''; updateCount(); statusEl.textContent='Cleared.'; });
+updateCount();
+function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+})();
+
+</script>
+<script src="assets/fun.js"></script>
+<script>
+(function(){
+'use strict';
+var DATA=null;
+fetch('assets/gen-data.json').then(function(r){return r.json();}).then(function(list){DATA=list;}).catch(function(){});
+document.getElementById('funBtn').addEventListener('click',function(){
+  if(!DATA) return;
+  var seed=+document.getElementById('funSeed').value||0;
+  var f=makeFun(DATA,seed);
+  document.getElementById('funOut').textContent=f.text+' (Fun — a game, not a fact.)';
+});
+})();
+</script>
+
+</head>
+<body>
+<header class="top"><div class="wrap bar"><a class="mark" href="https://justinahiggins614-cmyk.github.io/jah-databases/services/word-processor/">Word <span>Processor — v2</span></a><nav><a href="https://justinahiggins614-cmyk.github.io/jah-databases/services/word-processor/"></a><a href="https://justinahiggins614-cmyk.github.io/jah-databases/services/word-processor/">Group 1</a><a href="../g2-static/">Group 2</a><a href="../g3-ai/">Group 3</a><a href="../g4-generator/">Group 4</a><a href="../g5-data/">Group 5</a><a href="../g6-signature/">Group 6</a><a href="./">Group 7</a><a href="#world">The world</a><a href="#tools">Tools</a><a href="#products">Product lines</a><a href="#fun">Fun stuff</a><a href="#groups">Groups</a></nav></div></header>
+<div class="hero"><img src="assets/media-generation-word-processor-g7-hero-0-ad0efcb8-9803-482a-8d46-fc39ec4505d0.webp" alt="Penny&#x27;s Writing Desk — the themed second version: a paper workshop where every page begins blank."><div class="cap"><h1>Penny&#x27;s Writing Desk</h1><p>Penny&#x27;s Writing Desk — the themed second version: a paper workshop where every page begins blank.</p></div></div><main class="wrap">
+
+  <p class="lede">Penny&#x27;s Writing Desk — the themed second version: a paper workshop where every page begins blank. <span class="free">Free forever — no sign-in, no payment</span></p>
+  <h2 id="world">The world</h2>
+  <div class="box"><p>Penny&#x27;s Writing Desk is a paper workshop where every page begins blank. Stacks of paper wait on the shelves, pencils stand in a jar, and the lamp over the desk is always on. Penny types at the big keyboard, and every document in the workshop starts the same way: one sentence, then another.</p>
+  <p><b>Penny the penguin</b> runs the world. The tools below are the same working tools as the full website, and the product lines are designs you can print and use — never goods for sale.</p></div>
+  <h2 id="tools">Tools</h2>
+  <h2 id="tool">The Tool</h2>
+  <div class="toolcard">
+    <div class="toolbar">
+      <button type="button" data-cmd="bold" title="Bold"><b>B</b></button>
+      <button type="button" data-cmd="italic" title="Italic"><i>I</i></button>
+      <button type="button" data-cmd="underline" title="Underline"><u>U</u></button>
+      <button type="button" id="hBtn" title="Heading">Heading</button>
+      <button type="button" id="pBtn" title="Plain paragraph">Paragraph</button>
+    </div>
+    <div class="editor" id="editor" contenteditable="true" data-placeholder="Type your words here…"><p><b>A letter home</b></p><p>Dear Ana, the garden is full of late roses, and the kitchen smells of fresh bread. I have written three pages today, and the words came easily.</p></div>
+    <div class="row">
+      <button class="go" id="txtBtn">Download as text (.txt)</button>
+      <button id="htmlBtn">Download as web page (.html)</button>
+      <button id="sampleBtn">Try a sample</button>
+      <button id="clearBtn">Clear</button>
+      <span class="status" id="status">Words: 0</span>
+    </div>
+  </div>
+
+  
+  <h2 id="fun">Fun stuff — a game, not a fact</h2>
+  <div class="toolcard">
+    <p><b>Fun, labeled fun:</b> this game is entertainment. Its words come from real record titles, but the fortune itself is made up — never a fact.</p>
+    <div class="row">
+      <label>Seed <input type="number" id="funSeed" value="7" style="width:120px"></label>
+      <button class="go" id="funBtn">Tell my fortune</button>
+      <span class="status" id="funStatus">Ready.</span>
+    </div>
+    <p id="funOut" style="margin-top:14px"></p>
+  </div>
+  <h2 id="products">Product lines</h2>
+  <p class="lede">Designs, printables, and demos only — free to download and use. Nothing here is for sale: no prices, no buying, no checkout.</p>
+  <div class="grid"><div class="card"><svg width="120" height="80" viewBox="0 0 120 80"><rect width="120" height="80" fill="#dbeafe"/><rect x="15" y="12" width="90" height="56" fill="#fff" stroke="#1d4ed8"/><line x1="25" y1="26" x2="95" y2="26" stroke="#1d4ed8" stroke-width="3"/><line x1="25" y1="38" x2="95" y2="38" stroke="#94a3b8" stroke-width="2"/><line x1="25" y1="50" x2="80" y2="50" stroke="#94a3b8" stroke-width="2"/></svg><h3>The Blank-Page Desk Set</h3><p><b>Signature</b> — A printable desk card with the five-minute blank-page drill: open a blank page, type one sentence, delete one word, move one sentence, count the words.</p><p><b>Making:</b> Print the design sheet on one page. Cut along the lines. Keep it beside the keyboard. The drill comes from the Signature record for What a Word Processor Is.</p><p><a href="assets/product-desk-set.txt" download>⬇ Download the design sheet (text)</a></p></div><div class="card"><svg width="120" height="80" viewBox="0 0 120 80"><rect width="120" height="80" fill="#dbeafe"/><rect x="25" y="10" width="70" height="50" fill="#fff" stroke="#1d4ed8"/><path d="M25 10 L60 38 L95 10" fill="none" stroke="#1d4ed8" stroke-width="3"/></svg><h3>Penny&#x27;s Letter Kit</h3><p><b>Fun</b> — A fun letter-writing kit: a starter letter, three opening lines, and a closing line, all from the archive&#x27;s own sample letter.</p><p><b>Making:</b> Print the design sheet. Fill in the name of the person you are writing to. Write the letter by hand or on the writer above. Labeled fun — a game, not a fact.</p><p><a href="assets/product-letter-kit.txt" download>⬇ Download the design sheet (text)</a></p></div><div class="card"><svg width="120" height="80" viewBox="0 0 120 80"><rect width="120" height="80" fill="#dbeafe"/><rect x="20" y="10" width="80" height="60" fill="#fff" stroke="#1d4ed8"/><line x1="30" y1="24" x2="90" y2="24" stroke="#1d4ed8" stroke-width="3"/><circle cx="32" cy="40" r="4" fill="#1d4ed8"/><circle cx="32" cy="54" r="4" fill="#1d4ed8"/><line x1="42" y1="40" x2="90" y2="40" stroke="#94a3b8" stroke-width="2"/><line x1="42" y1="54" x2="90" y2="54" stroke="#94a3b8" stroke-width="2"/></svg><h3>The Chapter Planner</h3><p><b>Signature</b> — A chapter-planning sheet built from the pair&#x27;s outline records: one heading, three sections, and a word target for each.</p><p><b>Making:</b> Print the design sheet. Write a heading from the outline record, then three section titles from the headings record. Plan first, write second.</p><p><a href="assets/product-chapter-planner.txt" download>⬇ Download the design sheet (text)</a></p></div></div>
+  <h2 id="groups">The seven groups</h2>
+  <table><tr><th>Group</th><th>Website</th><th>What it is</th></tr><tr><td><b>Group 1</b></td><td><a href="https://justinahiggins614-cmyk.github.io/jah-databases/services/word-processor/">Full website</a></td><td>The full Word Processor website, with the working tool, the records, the files, and this wiki.</td></tr><tr><td><b>Group 2</b></td><td><a href="../g2-static/">Links list (static)</a></td><td>Every Word Processor link on one plain page, no JavaScript.</td></tr><tr><td><b>Group 3</b></td><td><a href="../g3-ai/">Word Processor helper (AI only)</a></td><td>A page that is only the word processor helper, answering questions from the archive.</td></tr><tr><td><b>Group 4</b></td><td><a href="../g4-generator/">Generator alone</a></td><td>A Word Processor generator alone: seeded plans, sheets, and documents from the real records.</td></tr><tr><td><b>Group 5</b></td><td><a href="../g5-data/">Data alone</a></td><td>The public Word Processor data in plain readable words, no JavaScript.</td></tr><tr><td><b>Group 6</b></td><td><a href="../g6-signature/">Signature data</a></td><td>Only the Signature-created Word Processor records, labeled Signature throughout.</td></tr><tr><td><b>Group 7</b></td><td><a href="./">Version 2 — Penny&#x27;s Writing Desk</a></td><td>Penny&#x27;s Writing Desk — the themed second version: a paper workshop where every page begins blank.</td></tr></table>
+  <h2 id="files">Files</h2>
+  <div class="dl"><a href="https://justinahiggins614-cmyk.github.io/jah-databases/services/word-processor/assets/sample-document.txt" download>⬇ Sample letter (plain text)</a>
+  <a href="https://justinahiggins614-cmyk.github.io/jah-databases/services/word-processor/records.json" download>⬇ Service records (JSON)</a>
+  <a href="accessible/index.html">Plain version (no JavaScript needed)</a></div>
+
+</main>
+<footer><div class="wrap"><p><b>Network.</b> This page belongs to The 'Merica-L Internet: the front door is the <a href="https://justinahiggins614-cmyk.github.io/jah-databases/the-merica-l-virtual-internet.html">'Merica-L Virtual Internet</a>, the network's main page is <a href="https://justinahiggins614-cmyk.github.io/jah-databases/the-merica-l-boundless-ecosystem-os.html">'Merica-L Boundless Ecosystem OS</a>, and the databases live at the <a href="https://justinahiggins614-cmyk.github.io/jah-databases/">database hub</a>. The whole network holds 66,219 websites.</p><p>Word Processor is free forever. No sign-in, no payment, no tracking. Penny the penguin is the mascot; she types at the desk.</p><p>Generated 2026-11-21, America/New_York, from the word-processor-service pair and the live manifest.</p></div></footer>
+</body>
+</html>

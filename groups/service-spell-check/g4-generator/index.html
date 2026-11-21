@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Spell Check — spelling-drill generator</title>
+<meta name="description" content="A spelling-drill generator alone: seeded drills from real archive headwords, with an answer key. Free forever.">
+<style>
+  :root{--paper:#fdfcf7;--ink:#1f2430;--muted:#5b6472;--line:#e3ddcd;--card:#fff;--accent:#166534;--accent-soft:#dcfce7;--teal:#0f766e;--bad:#b91c1c;--bad-soft:#fee2e2;--good:#166534}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font:17px/1.6 Georgia,'Times New Roman',serif}
+  a{color:var(--teal)}
+  header.top{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5}
+  .wrap{max-width:960px;margin:0 auto;padding:0 18px}
+  .bar{display:flex;align-items:center;gap:18px;padding:12px 0;flex-wrap:wrap}
+  .mark{font-size:22px;font-weight:bold;color:var(--ink);text-decoration:none;white-space:nowrap}
+  .mark span{color:var(--accent)}
+  nav{margin-left:auto;display:flex;gap:14px;flex-wrap:wrap}
+  nav a{color:var(--ink);text-decoration:none;font-size:15px}
+  nav a:hover{text-decoration:underline}
+  .hero{position:relative}
+  .hero img{display:block;width:100%;height:auto;max-height:430px;object-fit:cover;object-position:center 30%}
+  .hero .cap{position:absolute;left:0;right:0;top:0;text-align:center;padding:28px 18px 0}
+  .hero h1{margin:0;font-size:44px;line-height:1.1;color:#3d2c12;text-shadow:0 1px 0 #fff}
+  .hero p{margin:8px 0 0;font-size:19px;color:#4a3a1c}
+  main{padding:28px 0 10px}
+  h2{font-size:26px;margin:34px 0 10px}
+  h3{font-size:20px;margin:0 0 6px}
+  .lede{font-size:19px;color:var(--muted)}
+  .toolcard,.box{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;box-shadow:0 2px 10px rgba(60,40,0,.06)}
+  textarea,input[type=text],input[type=number]{width:100%;font:16px/1.6 Georgia,serif;padding:12px;border:1px solid var(--line);border-radius:10px;background:#fff;color:var(--ink)}
+  textarea{min-height:150px}
+  .row{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;align-items:center}
+  button{font:16px Georgia,serif;border-radius:9px;border:1px solid var(--line);background:#fff;color:var(--ink);padding:10px 16px;cursor:pointer}
+  button.go{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:bold}
+  button:hover{filter:brightness(.97)}
+  .status{font-size:15px;color:var(--muted)}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px}
+  .card p{margin:6px 0 0;color:var(--muted);font-size:15px}
+  .card .rec-link{font-size:14px}
+  table{border-collapse:collapse;width:100%;background:#fff}
+  th,td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top;font-size:15px}
+  th{background:var(--accent-soft)}
+  .dl a{display:inline-block;margin:6px 10px 6px 0;padding:10px 16px;border:1px solid var(--line);border-radius:9px;background:#fff;text-decoration:none;color:var(--ink)}
+  .free{display:inline-block;background:var(--accent-soft);border:1px solid #fcd34d;border-radius:999px;padding:2px 12px;font-size:14px;color:#7c2d12}
+  .note{border-left:4px solid var(--accent);background:var(--accent-soft);padding:12px 16px;border-radius:0 10px 10px 0}
+  details{border:1px solid var(--line);border-radius:10px;background:#fff;padding:10px 14px;margin:8px 0}
+  summary{cursor:pointer;font-weight:bold}
+  footer{margin-top:48px;padding:22px 0 34px;border-top:3px double var(--line);font-size:15px;color:var(--muted)}
+  footer p{margin:8px 0}
+  .words{font-size:15px;line-height:1.9;word-wrap:break-word}
+  @media (max-width:640px){.hero h1{font-size:32px}.hero img{max-height:300px}}
+</style>
+<script src="assets/drill.js"></script>
+<script>
+(function(){
+'use strict';
+var WORDS=null, HEADWORDS=null, drill=null;
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+Promise.all([
+  fetch('assets/sample-words.json').then(function(r){return r.json();}),
+  fetch('https://justinahiggins614-cmyk.github.io/jah-databases/services/spell-check/assets/words.json').then(function(r){return r.json();}).catch(function(){return null;})
+]).then(function(res){
+  WORDS=res[0]; HEADWORDS=res[1]?new Set(res[1]):null;
+  document.getElementById('status').textContent='Word sample ready: '+WORDS.length+' headwords'
+    +(HEADWORDS?' (checked against the full 96,088-headword list so no "mistake" is really a word).':'.');
+  generate();
+}).catch(function(){document.getElementById('status').textContent='Word sample could not be loaded.';});
+function generate(){
+  if(!WORDS) return;
+  var seed=+document.getElementById('seed').value||0;
+  var count=Math.min(40,Math.max(5,+document.getElementById('count').value||10));
+  var rate=Math.min(100,Math.max(0,+document.getElementById('rate').value||40))/100;
+  drill=makeDrill(WORDS,seed,count,rate,HEADWORDS);
+  document.getElementById('key').hidden=true;
+  var bad=drill.items.filter(function(i){return i.misspelled;}).length;
+  document.getElementById('status').textContent='Drill '+seed+': '+drill.items.length+' words, '+bad+' misspelled. Spot them, then check the key.';
+  document.getElementById('drill').innerHTML='<ol>'+drill.items.map(function(it){
+    return '<li><b>'+esc(it.given)+'</b> <span class="status">— right or wrong?</span></li>';
+  }).join('')+'</ol>';
+}
+document.getElementById('genBtn').addEventListener('click',generate);
+document.getElementById('keyBtn').addEventListener('click',function(){
+  if(!drill) return;
+  var k=document.getElementById('key'); k.hidden=!k.hidden;
+  if(!k.hidden){k.innerHTML='<h3>Answer key</h3><ol>'+drill.items.map(function(it){
+    return '<li>'+esc(it.given)+' → <b>'+esc(it.answer)+'</b>'+(it.misspelled?' (was misspelled)':' (was right)')+'</li>';
+  }).join('')+'</ol>';}
+});
+document.getElementById('dlBtn').addEventListener('click',function(){
+  if(!drill) return;
+  var blob=new Blob([JSON.stringify(drill,null,2)],{type:'application/json'});
+  var a=document.createElement('a'); a.href=URL.createObjectURL(blob);
+  a.download='spelling-drill-seed-'+drill.seed+'.json'; a.click();
+});
+})();
+</script>
+
+</head>
+<body>
+<header class="top"><div class="wrap bar"><a class="mark" href="https://justinahiggins614-cmyk.github.io/jah-databases/services/spell-check/">✓ Spell <span>Check</span> — drill generator</a><nav><a href="https://justinahiggins614-cmyk.github.io/jah-databases/services/spell-check/"></a><a href="https://justinahiggins614-cmyk.github.io/jah-databases/services/spell-check/">Group 1</a><a href="../g2-static/">Group 2</a><a href="../g3-ai/">Group 3</a><a href="./">Group 4</a><a href="../g5-data/">Group 5</a><a href="../g6-signature/">Group 6</a><a href="../g7-v2/">Group 7</a><a href="#gen">Generator</a><a href="#how">How it works</a><a href="#groups">Groups</a></nav></div></header>
+<main class="wrap">
+
+  <p class="lede">A spelling-drill generator, alone. Pick a seed and a count, press Generate, and it builds a drill from real archive headwords — some words spelled right, some with one classic mistake slipped in. You spot the mistakes. <span class="free">Free forever — no sign-in, no payment</span></p>
+  <h2 id="gen">The generator</h2>
+  <div class="toolcard">
+    <div class="row">
+      <label>Seed <input type="number" id="seed" value="21" style="width:120px"></label>
+      <label>Words <input type="number" id="count" value="10" min="5" max="40" style="width:90px"></label>
+      <label>Misspelled share <input type="number" id="rate" value="40" min="0" max="100" style="width:90px"> %</label>
+      <button class="go" id="genBtn">Generate drill</button>
+      <button id="keyBtn">Show answer key</button>
+      <button id="dlBtn">Download drill (JSON)</button>
+      <span class="status" id="status">Word sample: loading…</span>
+    </div>
+    <div id="drill" style="margin-top:14px"></div>
+    <div id="key" style="margin-top:14px" hidden></div>
+  </div>
+  <h2 id="how">How it works</h2>
+  <div class="box"><p><b>1. Pick a seed.</b> The seed is a number. The same seed always builds the same drill, so a teacher can hand out seed 21 and everyone gets the same words.</p>
+  <p><b>2. Words come from the archive.</b> The generator draws from a 723-word sample of the 96,088 archive headwords — real words, nothing invented.</p>
+  <p><b>3. Mistakes are rule-based.</b> A misspelled word is the right word with one classic slip: a dropped letter, two letters swapped, a doubled letter undone, or ie/ei mixed up. The answer key lists every right spelling.</p>
+  <p><b>4. Nothing leaves the page.</b> The drill is built in your browser. Download it as JSON to keep or print.</p></div>
+  <p class="lede">What it does not do: it does not grade handwriting, and it does not invent new words — every drill word is a real archive headword.</p>
+  <h2 id="groups">The seven groups</h2>
+  <table><tr><th>Group</th><th>Website</th><th>What it is</th></tr><tr><td><b>Group 1</b></td><td><a href="https://justinahiggins614-cmyk.github.io/jah-databases/services/spell-check/">Full website</a></td><td>The full Spell Check website, with the working checker, the mix-ups, the records, the files, and this wiki.</td></tr><tr><td><b>Group 2</b></td><td><a href="../g2-static/">Links list (static)</a></td><td>Every spell-check link on one plain page, no JavaScript.</td></tr><tr><td><b>Group 3</b></td><td><a href="../g3-ai/">Spelling helper (AI only)</a></td><td>A page that is only the spelling helper, answering questions from the archive.</td></tr><tr><td><b>Group 4</b></td><td><a href="./">Drill generator</a></td><td>A spelling-drill generator alone: seeded word lists and misspelling drills.</td></tr><tr><td><b>Group 5</b></td><td><a href="../g5-data/">Data alone</a></td><td>The public spelling data in plain readable words, no JavaScript.</td></tr><tr><td><b>Group 6</b></td><td><a href="../g6-signature/">Signature data</a></td><td>Only the Signature-created spelling records, labeled Signature throughout.</td></tr><tr><td><b>Group 7</b></td><td><a href="../g7-v2/">Version 2 — Ollie&#x27;s Word Workshop</a></td><td>The themed second version: a word workshop world with games and practice products.</td></tr></table>
+  <h2 id="files">Files</h2>
+  <div class="dl"><a href="assets/sample-words.json" download>⬇ Drill word sample (JSON)</a>
+  <a href="https://justinahiggins614-cmyk.github.io/jah-databases/services/spell-check/assets/words.json" download>⬇ Full word list (96,088 headwords, JSON)</a>
+  <a href="https://justinahiggins614-cmyk.github.io/jah-databases/services/spell-check/records.json" download>⬇ Service records (JSON)</a>
+  <a href="accessible/index.html">Plain version (no JavaScript needed)</a></div>
+
+</main>
+<footer><div class="wrap"><p><b>Network.</b> This page belongs to The 'Merica-L Internet: the front door is the <a href="https://justinahiggins614-cmyk.github.io/jah-databases/the-merica-l-virtual-internet.html">'Merica-L Virtual Internet</a>, the network's main page is <a href="https://justinahiggins614-cmyk.github.io/jah-databases/the-merica-l-boundless-ecosystem-os.html">'Merica-L Boundless Ecosystem OS</a>, and the databases live at the <a href="https://justinahiggins614-cmyk.github.io/jah-databases/">database hub</a>. The spelling archive behind these pages is the <a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/spelling/">Signature Spell Check Database</a> (99,227 records).</p><p>Spell Check is free forever. No sign-in, no payment, no tracking. Ollie the owl is the mascot; he holds the pencil.</p></div></footer>
+</body>
+</html>

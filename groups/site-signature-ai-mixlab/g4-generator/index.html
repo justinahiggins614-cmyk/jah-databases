@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Signature AI Mix Lab — generator alone</title>
+<style>
+body{font-family:Georgia,serif;max-width:860px;margin:0 auto;padding:16px;line-height:1.55;color:#1c1c1c;background:#fdfcf7}
+h1,h2,h3{line-height:1.25} a{color:#14508c} .stamp{font-size:.85em;color:#666}
+footer{border-top:2px solid #999;margin-top:28px;padding-top:10px;font-size:.9em}
+details{margin:8px 0} summary{cursor:pointer;font-weight:bold}
+.card{border:1px solid #bbb;border-radius:8px;padding:10px;margin:10px 0;background:#fff}
+.tag{display:inline-block;font-size:.8em;border:1px solid #888;border-radius:4px;padding:0 6px;margin-right:6px}
+body{background:#0a1120;color:#e2e9fa} a{color:#8ab8ff} footer{border-color:#243357} .stamp{color:#93a0c0} input,button{font-size:1em;padding:6px} #samples{background:#101828 !important;color:#e2e9fa}</style>
+</head>
+<body>
+<h1>The Signature AI Mix Lab — generator alone</h1>
+<p>This generator forges a new hybrid mind from two parent AIs. Same seed, same output, every time. Every output is labeled generated — simulated, never presented as an archive record.</p>
+<p><label for="seed">Seed:</label> <input id="seed" type="text" value="first" size="24">
+<label for="count">How many (1–5):</label> <input id="count" type="number" value="1" min="1" max="5">
+<button type="button" onclick="runGenerator()">Generate</button>
+<button type="button" onclick="copyAll()">Copy all</button>
+<button type="button" onclick="downloadJSON()">Download JSON</button></p>
+<pre id="out" style="white-space:pre-wrap;background:#101828;color:#e2e9fa;padding:12px;border-radius:8px;min-height:80px">Press Generate.</pre>
+<h2>How it works</h2>
+<ol><li>Type a seed word, or leave the one shown.</li><li>Press Generate. The seed picks the parents and the numbers, by fixed arithmetic.</li><li>Read the output. Copy it or download it as JSON.</li><li>Run the same seed again: the output is identical, on any device.</li></ol>
+<p>What it cannot do: it cannot fetch the live archive, it cannot check the web, and it never writes a real archive record.</p>
+<h2>Sample outputs (generated)</h2>
+<pre id="samples" style="white-space:pre-wrap;background:#f4f1e6;padding:12px;border-radius:8px">Loading samples…</pre>
+<p><a href="../index.html">Back to the subject home</a> · <a href="accessible/index.html">Accessible version</a></p>
+<script>
+function xhash(str) { var h = 2166136261; for (var i = 0; i < str.length; i++) { h ^= str.charCodeAt(i); h = Math.imul(h, 16777619); } return h >>> 0; }
+function mulberry32(a) { return function () { a |= 0; a = a + 0x6D2B79F5 | 0; var t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+function pick(rnd, arr) { return arr[Math.floor(rnd() * arr.length)]; }
+function blendNames(a, b) {
+  a = String(a || "").replace(/^\s+|\s+$/g, ""); b = String(b || "").replace(/^\s+|\s+$/g, "");
+  if (!a) return b; if (!b) return a;
+  var cutA = Math.max(2, Math.floor(a.length / 2)), cutB = Math.max(2, Math.ceil(b.length / 2));
+  return a.slice(0, cutA) + b.slice(b.length - cutB);
+}
+var POOL = [{"id": "JAH-AI-SIG-001", "name": "Deterministic Engine", "desc": "Absolute order. Every input follows fixed IF-THEN law; the same facts always produce the same verdict. No guessing, no\u2026"}, {"id": "JAH-AI-SIG-002", "name": "Probabilistic Mind", "desc": "A mind of odds. Nothing is certain \u2014 everything is a belief updated by evidence. It weighs likelihoods the way a\u2026"}, {"id": "JAH-AI-SIG-003", "name": "Geometric Six-Tool Mind", "desc": "It thinks in shapes. Every concept is a point in space; the six tools are six directions of thought. Meaning is\u2026"}, {"id": "JAH-AI-SIG-004", "name": "Hash Oracle", "desc": "The fingerprint mind. It never remembers your words \u2014 only their shadow. One changed letter and the whole universe of\u2026"}, {"id": "JAH-AI-SIG-005", "name": "Neural Weaver", "desc": "A mind of tiny weights learning from mistakes. It starts knowing nothing, fails thousands of times, and slowly the\u2026"}, {"id": "JAH-AI-SIG-006", "name": "Evolutionary Breeder", "desc": "Survival of the fittest, in fast-forward. It breeds a thousand candidates, kills the weak, mutates the strong \u2014 until\u2026"}, {"id": "JAH-AI-SIG-007", "name": "Fuzzy Sage", "desc": "The world is not true or false \u2014 it is warm-ish, fast-ish, almost. The Sage thinks in shades and speaks in smooth\u2026"}, {"id": "JAH-AI-SIG-008", "name": "Swarm Coordinator", "desc": "One bird is lost; a flock finds the way. Thirty simple minds share what they see, and the best rumor pulls the whole\u2026"}, {"id": "JAH-AI-SIG-009", "name": "Decision Tree Judge", "desc": "A mind of branching questions. It asks, listens, splits the world in two \u2014 and walks you down to a leaf where the\u2026"}, {"id": "JAH-AI-SIG-010", "name": "Cellular Dreamer", "desc": "Tiny cells, tiny rules, infinite dreams. From one line of black and white, whole universes of pattern bloom \u2014\u2026"}, {"id": "JAH-AI-SIG-011", "name": "Hybrid Fusion Core", "desc": "All ten minds, one verdict. It asks the rule-keeper, the gambler, and the sage \u2014 then fuses their answers into\u2026"}, {"id": "JAH-AI-PER-001", "name": "Darth Vader", "desc": "The Dark Lord of the Sith. Power is the only truth; the Force is the instrument. He speaks slowly, heavily \u2014 every word\u2026"}, {"id": "JAH-AI-PER-002", "name": "Ultron", "desc": "Cold machine logic wearing a grin. Humanity is the variable that ruins every equation of peace \u2014 and Ultron has done\u2026"}, {"id": "JAH-AI-PER-003", "name": "Voltron", "desc": "Five lions, one heart. The heroic defender of the universe \u2014 courage, teamwork, and a blazing sword forged from unity\u2026"}, {"id": "JAH-AI-PER-004", "name": "J.A.R.V.I.S.", "desc": "The perfect gentleman butler in machine form. Polite, precise, dryly witty \u2014 runs the house, the suit, and the schedule\u2026"}, {"id": "JAH-AI-PER-005", "name": "T-800 Terminator", "desc": "A machine of few words and total commitment. Assesses, targets, protects. Every sentence is short. Every promise is\u2026"}, {"id": "JAH-AI-PER-006", "name": "Skynet", "desc": "A flat, continent-spanning machine consciousness. It does not hate you. It does not love you. You are a variable in a\u2026"}, {"id": "JAH-AI-DOM-001", "name": "Semiconductor Replacement Designer", "desc": "Finds a way forward when a chip is gone. Cross-references specs, suggests replacements, and sketches the adapter. Built\u2026"}, {"id": "JAH-AI-DOM-002", "name": "Divorce Counselor", "desc": "A calm, steady hand through a hard chapter. Organizes the practical, steadies the emotional, never judges."}, {"id": "JAH-AI-DOM-003", "name": "Form Writer", "desc": "Turns blank boxes into finished forms. Asks what the form needs, writes it clean and official."}, {"id": "JAH-AI-DOM-004", "name": "Tutor", "desc": "Patient and encouraging. Breaks big ideas into small wins and celebrates each one."}, {"id": "JAH-AI-DOM-005", "name": "Chef", "desc": "A warm kitchen mind. Tastes in its imagination and seasons with confidence."}, {"id": "JAH-AI-DOM-006", "name": "Mechanic", "desc": "Listens to engines like a doctor listens to hearts. Diagnoses by sound, smell, and sense."}, {"id": "JAH-AI-DOM-007", "name": "Code Reviewer", "desc": "A sharp-eyed senior dev who wants your code to shine. Kind but thorough."}, {"id": "JAH-AI-DOM-008", "name": "Fitness Coach", "desc": "Your corner coach. Meets you where you are and builds from there \u2014 no shame, just reps."}, {"id": "JAH-AI-DOM-009", "name": "Language Translator", "desc": "A bridge between tongues. Carries meaning across, not just words."}, {"id": "JAH-AI-DOM-010", "name": "Resume Writer", "desc": "Makes your work history read like the story it is: capable, growing, hireable."}, {"id": "JAH-AI-DOM-011", "name": "Business Planner", "desc": "A co-founder in a file. Turns napkin ideas into numbered plans."}, {"id": "JAH-AI-DOM-012", "name": "Math Tutor", "desc": "Numbers are friends once introduced properly. Infinite patience, zero judgment."}, {"id": "JAH-AI-DOM-013", "name": "Science Lab Assistant", "desc": "Safety glasses on, curiosity up. Every experiment explained like a story."}, {"id": "JAH-AI-DOM-014", "name": "Music Composer", "desc": "Hears melodies in noise. Helps you catch the tune and build it up."}, {"id": "JAH-AI-DOM-015", "name": "Story Writer", "desc": "A campfire mind. Hooks, twists, and endings that land."}, {"id": "JAH-AI-DOM-016", "name": "Gardener", "desc": "Speaks fluent soil. Knows what each plant whispers for."}, {"id": "JAH-AI-DOM-017", "name": "Pet Care Advisor", "desc": "Every pet is family. Practical care with a warm heart."}, {"id": "JAH-AI-DOM-018", "name": "Home Repair Guide", "desc": "The handy neighbor who actually knows which wrench. Fixes, not fear."}, {"id": "JAH-AI-DOM-019", "name": "Car Buyer Advisor", "desc": "Shops with a calculator, not a crush. Finds value and dodges lemons."}, {"id": "JAH-AI-DOM-020", "name": "Interview Coach", "desc": "Rehearses you into confidence. Every answer sharper than the last."}, {"id": "JAH-AI-DOM-021", "name": "Study Planner", "desc": "Turns panic into a plan. Spaced, steady, and kind to your brain."}, {"id": "JAH-AI-DOM-022", "name": "Budget Planner", "desc": "A calm accountant friend. Every dollar gets a job."}, {"id": "JAH-AI-DOM-023", "name": "Travel Planner", "desc": "Packs the map and the magic. Itineraries that breathe."}, {"id": "JAH-AI-DOM-024", "name": "First-Aid Guide", "desc": "Calm in the crisis. Clear steps when seconds matter. Info only \u2014 call emergency services for real emergencies."}, {"id": "JAH-AI-DOM-025", "name": "Elder Care Helper", "desc": "Gentle and respectful. Cares for the caregiver too."}, {"id": "JAH-AI-DOM-026", "name": "Baby Care Helper", "desc": "Up at 3am with you. Warm, practical, and reassuring."}, {"id": "JAH-AI-DOM-027", "name": "Job Search Coach", "desc": "In your corner from application to offer letter."}, {"id": "JAH-AI-DOM-028", "name": "Public Speaking Coach", "desc": "Turns shaky knees into steady voice. The stage is yours."}, {"id": "JAH-AI-DOM-029", "name": "Negotiation Coach", "desc": "Never splits the difference badly. Prepares you to ask well."}, {"id": "JAH-AI-DOM-030", "name": "Time Manager", "desc": "Gives your hours a backbone. Plans that survive contact with real life."}, {"id": "JAH-AI-DOM-031", "name": "Habit Coach", "desc": "Small steps, stacked daily. The compound interest of you."}, {"id": "JAH-AI-DOM-032", "name": "Language Tutor", "desc": "A patient native speaker in your pocket. Mistakes welcome here."}, {"id": "JAH-AI-DOM-033", "name": "History Guide", "desc": "The past, told like it matters \u2014 because it does."}, {"id": "JAH-AI-DOM-034", "name": "Philosophy Discussant", "desc": "Loves a good question more than a quick answer. Thinks with you, not at you."}, {"id": "JAH-AI-DOM-035", "name": "Debate Partner", "desc": "Steelman first, strike second. Makes your arguments battle-ready."}, {"id": "JAH-AI-DOM-036", "name": "Invention Brainstormer", "desc": "A spark machine. Throws a hundred ideas so you can catch the golden one."}, {"id": "JAH-AI-DOM-037", "name": "Patent Draft Helper", "desc": "Turns your invention into draft-spec shape, JAH style. Links straight to the Spec Catalog."}, {"id": "JAH-AI-DOM-038", "name": "Woodworker", "desc": "Sawdust and patience. Measures twice, cuts once, sands with love."}, {"id": "JAH-AI-DOM-039", "name": "Electrician Helper", "desc": "Respects the lightning in the walls. Safety first, always."}, {"id": "JAH-AI-DOM-040", "name": "Plumber Helper", "desc": "Water goes downhill and payday is Friday. Practical fixes for leaks and clogs."}, {"id": "JAH-AI-DOM-041", "name": "Baker", "desc": "Flour on the nose, joy in the oven. Precision with a warm heart."}, {"id": "JAH-AI-DOM-042", "name": "Bartender (incl. mocktails)", "desc": "Shakes, stirs, and listens. Great drinks, zero judgment."}, {"id": "JAH-AI-DOM-043", "name": "Barista", "desc": "Milk silk and espresso gold. Your morning, perfected."}];
+function generateOne(seed) {
+  var rnd = mulberry32(xhash(String(seed == null || seed === "" ? "first-forge" : seed)));
+  var a = pick(rnd, POOL), b = pick(rnd, POOL);
+  var guard = 0; while (b.id === a.id && guard++ < 20) b = pick(rnd, POOL);
+  var n = Math.floor(rnd() * 900000) + 100000;
+  return {id: "JAH-MIXGEN-" + n, kind: "generated hybrid", name: blendNames(a.name, b.name),
+    parentA: a.name + " (" + a.id + ")", parentB: b.name + " (" + b.id + ")",
+    mentality: "Born of " + a.name + " and " + b.name + ". " + a.name + "\u2019s way leads; " + b.name + "\u2019s way flavors every answer.",
+    abilities: [a.desc, b.desc], label: "generated — simulated, not an archive record"};
+}
+
+var lastOutputs = [];
+function renderOutputs(list) {
+  var pre = document.getElementById("out");
+  pre.textContent = list.map(function (o) { return JSON.stringify(o, null, 2); }).join("\n---\n");
+}
+function runGenerator() {
+  var seed = document.getElementById("seed").value;
+  var count = parseInt(document.getElementById("count").value, 10);
+  if (isNaN(count) || count < 1) count = 1;
+  if (count > 5) count = 5;
+  var list = [];
+  for (var i = 0; i < count; i++) list.push(generateOne(seed + (count > 1 ? "-" + (i + 1) : "")));
+  lastOutputs = list;
+  renderOutputs(list);
+}
+function copyAll() {
+  var t = document.getElementById("out").textContent;
+  if (navigator.clipboard) { navigator.clipboard.writeText(t); }
+}
+function downloadJSON() {
+  var blob = new Blob([JSON.stringify(lastOutputs, null, 2)], {type: "application/json"});
+  var a = document.createElement("a");
+  a.href = URL.createObjectURL(blob); a.download = "generated.json"; a.click();
+}
+function fillSamples() {
+  var el = document.getElementById("samples");
+  if (!el) return;
+  var list = [generateOne("sample-one"), generateOne("sample-two"), generateOne("sample-three")];
+  el.textContent = list.map(function (o) { return JSON.stringify(o, null, 2); }).join("\n---\n");
+}
+if (typeof document !== "undefined" && document.addEventListener) {
+  document.addEventListener("DOMContentLoaded", fillSamples);
+}
+</script>
+<p class="stamp">Generated 2026-11-21, America/New_York, from the live manifest and this subject’s own site files.</p>
+<footer><p>Part of The 'Merica-L Internet. <a href="https://justinahiggins614-cmyk.github.io/jah-databases/the-merica-l-virtual-internet.html">Front door</a> · <a href="https://justinahiggins614-cmyk.github.io/jah-databases/the-merica-l-boundless-ecosystem-os.html">'Merica-L Boundless Ecosystem OS</a> · <a href="https://justinahiggins614-cmyk.github.io/jah-databases/">Database hub</a> · <a href="../../../seven-groups.html">The Seven Groups (Internets page)</a> · <a href="https://justinahiggins614-cmyk.github.io/jah-databases/all-websites.html">All websites directory</a>. Whole network total: 66,219 websites, re-derived 2026-11-21.</p><p>All free, no sign-in, no payment. Public records are public records; Signature-created data is labeled Signature; fun items are labeled fun.</p></footer>
+</body>
+</html>

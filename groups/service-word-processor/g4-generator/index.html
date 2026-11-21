@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Word Processor — generator alone</title>
+<meta name="description" content="A word processor generator alone: seeded outputs from the real records, with downloads. Free forever.">
+<style>
+  :root{--bg:#0a1120;--panel:#111c33;--ink:#e8edf7;--muted:#9fb0cc;--line:#24365c;--accent:#1d4ed8;--accent-soft:#1b2b4d}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.6 Georgia,'Times New Roman',serif}
+  a{color:#8fd3ff}
+  header.top{background:#0d1730;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5}
+  .wrap{max-width:960px;margin:0 auto;padding:0 18px}
+  .bar{display:flex;align-items:center;gap:18px;padding:12px 0;flex-wrap:wrap}
+  .mark{font-size:22px;font-weight:bold;color:var(--ink);text-decoration:none;white-space:nowrap}
+  .mark span{color:#8fd3ff}
+  nav{margin-left:auto;display:flex;gap:14px;flex-wrap:wrap}
+  nav a{color:var(--ink);text-decoration:none;font-size:15px}
+  nav a:hover{text-decoration:underline}
+  .hero{position:relative}
+  .hero img{display:block;width:100%;height:auto;max-height:430px;object-fit:cover;object-position:center 30%}
+  .hero .cap{position:absolute;left:0;right:0;top:0;text-align:center;padding:28px 18px 0}
+  .hero h1{margin:0;font-size:44px;line-height:1.1;color:#fff;text-shadow:0 1px 4px #000}
+  .hero p{margin:8px 0 0;font-size:19px;color:#e8edf7;text-shadow:0 1px 4px #000}
+  main{padding:28px 0 10px}
+  h2{font-size:26px;margin:34px 0 10px}
+  h3{font-size:20px;margin:0 0 6px}
+  .lede{font-size:19px;color:var(--muted)}
+  .toolcard,.box{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px}
+  input[type=text],input[type=number]{width:100%;font:16px/1.6 Georgia,serif;padding:12px;border:1px solid var(--line);border-radius:10px;background:#0d1730;color:var(--ink)}
+  .row{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;align-items:center}
+  button{font:16px Georgia,serif;border-radius:9px;border:1px solid var(--line);background:#1b2b4d;color:var(--ink);padding:10px 16px;cursor:pointer}
+  button.go{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:bold}
+  button:hover{filter:brightness(1.15)}
+  .status{font-size:15px;color:var(--muted)}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px}
+  .card p{margin:6px 0 0;color:var(--muted);font-size:15px}
+  table{border-collapse:collapse;width:100%;background:var(--panel)}
+  th,td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top;font-size:15px}
+  th{background:var(--accent-soft)}
+  .dl a{display:inline-block;margin:6px 10px 6px 0;padding:10px 16px;border:1px solid var(--line);border-radius:9px;background:var(--panel);text-decoration:none;color:var(--ink)}
+  .free{display:inline-block;background:var(--accent-soft);border:1px solid var(--line);border-radius:999px;padding:2px 12px;font-size:14px;color:var(--ink)}
+  .note{border-left:4px solid var(--accent);background:var(--accent-soft);padding:12px 16px;border-radius:0 10px 10px 0}
+  details{border:1px solid var(--line);border-radius:10px;background:var(--panel);padding:10px 14px;margin:8px 0}
+  summary{cursor:pointer;font-weight:bold}
+  footer{margin-top:48px;padding:22px 0 34px;border-top:3px double var(--line);font-size:15px;color:var(--muted)}
+  footer p{margin:8px 0}
+  @media (max-width:640px){.hero h1{font-size:32px}.hero img{max-height:300px}}
+</style>
+<script src="assets/engine.js"></script>
+<script src="assets/gen.js"></script>
+<script>
+(function(){
+'use strict';
+var DATA=null, plan=null;
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+fetch('assets/gen-data.json').then(function(r){return r.json();}).then(function(list){
+  DATA=list; document.getElementById('status').textContent='Record list ready: '+list.length+' public records.';
+  generate();
+}).catch(function(){document.getElementById('status').textContent='Record list could not be loaded.';});
+function generate(){
+  if(!DATA) return;
+  var seed=+document.getElementById('seed').value||0;
+  var count=Math.min(8,Math.max(3,+document.getElementById('count').value||5));
+  plan=makePlan(DATA,seed,count);
+  document.getElementById('status').textContent='Plan '+seed+': '+plan.sections.length+' sections, about '+plan.wordTarget+' words. Generated — not an archive record.';
+  document.getElementById('out').innerHTML='<h3>Your document plan (seed '+plan.seed+')</h3><p>Word target: about '+plan.wordTarget+' words.</p><ol>'+
+    plan.sections.map(function(sec){return '<li><b>'+esc(sec.heading)+'</b> — '+esc(sec.prompt)+'</li>';}).join('')+'</ol>';
+}
+function download(name, text, type){
+  var blob=new Blob([text],{type:type}); var a=document.createElement('a');
+  a.href=URL.createObjectURL(blob); a.download=name; a.click();
+}
+document.getElementById('genBtn').addEventListener('click',generate);
+document.getElementById('dlJsonBtn').addEventListener('click',function(){ if(plan) download('document-plan-seed-'+plan.seed+'.json', JSON.stringify(plan,null,2), 'application/json'); });
+document.getElementById('dlTxtBtn').addEventListener('click',function(){
+  if(!plan) return;
+  var html='<h1>Document plan (seed '+plan.seed+')</h1><p>Word target: about '+plan.wordTarget+' words.</p>'+
+    plan.sections.map(function(sec){return '<h2>'+esc(sec.heading)+'</h2><p>'+esc(sec.prompt)+'</p>';}).join('');
+  download('document-plan-seed-'+plan.seed+'.txt', WPTool.buildTxt(html), 'text/plain');
+});
+})();
+</script>
+
+</head>
+<body>
+<header class="top"><div class="wrap bar"><a class="mark" href="https://justinahiggins614-cmyk.github.io/jah-databases/services/word-processor/">Word <span>Processor — generator</span></a><nav><a href="https://justinahiggins614-cmyk.github.io/jah-databases/services/word-processor/"></a><a href="https://justinahiggins614-cmyk.github.io/jah-databases/services/word-processor/">Group 1</a><a href="../g2-static/">Group 2</a><a href="../g3-ai/">Group 3</a><a href="./">Group 4</a><a href="../g5-data/">Group 5</a><a href="../g6-signature/">Group 6</a><a href="../g7-v2/">Group 7</a><a href="#gen">Generator</a><a href="#how">How it works</a><a href="#groups">Groups</a></nav></div></header>
+<main class="wrap">
+
+  <p class="lede">A document-plan generator, alone. Pick a seed and it builds a writing plan from the real records — a word target and five sections, each headed by a real rule from the pair, with its first line as the prompt. <span class="free">Free forever — no sign-in, no payment</span></p>
+  <h2 id="gen">The generator</h2>
+  <div class="toolcard">
+    <div class="row">
+      <label>Seed <input type="number" id="seed" value="21" style="width:120px"></label>
+      <label>Sections <input type="number" id="count" value="5" min="3" max="8" style="width:90px"></label>
+      <button class="go" id="genBtn">Generate plan</button>
+      <button id="dlJsonBtn">Download plan (JSON)</button>
+      <button id="dlTxtBtn">Download plan (text)</button>
+      <span class="status" id="status">Record list: loading…</span>
+    </div>
+    <div id="out" style="margin-top:14px"></div>
+  </div>
+  <h2 id="how">How it works</h2>
+  <div class="box"><p><b>1. Pick a seed.</b> The seed is a number. The same seed always builds the same output, so a teacher can hand out seed 21 and everyone gets the same result.</p>
+  <p><b>2. It draws from the real records.</b> The generator works from the 24 public records of the word processor pair — titles and first lines only. Nothing is invented.</p>
+  <p><b>3. Every output is labeled generated.</b> What it makes is a sample, clearly marked, never presented as an archive record.</p>
+  <p><b>4. Nothing leaves the page.</b> The output is built in your browser. Download it as JSON or in its own file form to keep or print.</p></div>
+  <p class="lede">What it does not do: it does not write new archive records, and it does not check facts — the records it draws from are the facts.</p>
+  <h2 id="groups">The seven groups</h2>
+  <table><tr><th>Group</th><th>Website</th><th>What it is</th></tr><tr><td><b>Group 1</b></td><td><a href="https://justinahiggins614-cmyk.github.io/jah-databases/services/word-processor/">Full website</a></td><td>The full Word Processor website, with the working tool, the records, the files, and this wiki.</td></tr><tr><td><b>Group 2</b></td><td><a href="../g2-static/">Links list (static)</a></td><td>Every Word Processor link on one plain page, no JavaScript.</td></tr><tr><td><b>Group 3</b></td><td><a href="../g3-ai/">Word Processor helper (AI only)</a></td><td>A page that is only the word processor helper, answering questions from the archive.</td></tr><tr><td><b>Group 4</b></td><td><a href="./">Generator alone</a></td><td>A Word Processor generator alone: seeded plans, sheets, and documents from the real records.</td></tr><tr><td><b>Group 5</b></td><td><a href="../g5-data/">Data alone</a></td><td>The public Word Processor data in plain readable words, no JavaScript.</td></tr><tr><td><b>Group 6</b></td><td><a href="../g6-signature/">Signature data</a></td><td>Only the Signature-created Word Processor records, labeled Signature throughout.</td></tr><tr><td><b>Group 7</b></td><td><a href="../g7-v2/">Version 2 — Penny&#x27;s Writing Desk</a></td><td>Penny&#x27;s Writing Desk — the themed second version: a paper workshop where every page begins blank.</td></tr></table>
+  <h2 id="files">Files</h2>
+  <div class="dl"><a href="assets/gen-data.json" download>⬇ Generator record list (JSON)</a>
+  <a href="https://justinahiggins614-cmyk.github.io/jah-databases/services/word-processor/records.json" download>⬇ Service records (JSON)</a>
+  <a href="accessible/index.html">Plain version (no JavaScript needed)</a></div>
+
+</main>
+<footer><div class="wrap"><p><b>Network.</b> This page belongs to The 'Merica-L Internet: the front door is the <a href="https://justinahiggins614-cmyk.github.io/jah-databases/the-merica-l-virtual-internet.html">'Merica-L Virtual Internet</a>, the network's main page is <a href="https://justinahiggins614-cmyk.github.io/jah-databases/the-merica-l-boundless-ecosystem-os.html">'Merica-L Boundless Ecosystem OS</a>, and the databases live at the <a href="https://justinahiggins614-cmyk.github.io/jah-databases/">database hub</a>. The whole network holds 66,219 websites.</p><p>Word Processor is free forever. No sign-in, no payment, no tracking. Penny the penguin is the mascot; she types at the desk.</p><p>Generated 2026-11-21, America/New_York, from the word-processor-service pair and the live manifest.</p></div></footer>
+</body>
+</html>

@@ -19,6 +19,12 @@ Classification — every live website main page, counted exactly once:
   mix    — db/*/mixes/*/index.html (excluding /accessible/ and /mirror/),
            plus the Wave 1 set master and grinder mix
   dbpage — db/*/index.html, excluding the pages counted above
+  group  — the Seven Website Groups pages: groups/<key>/g2-static/ ...
+           g7-v2/index.html (six per subject), plus the uniting Internets
+           page (seven-groups.html) and the coffee Group 1 site
+           (services/coffee/). Subject homes (groups/<key>/index.html) are
+           hubs, not websites, and are not listed; the other service sites
+           are not listed either (pre-existing directory gap).
 
 NOTE: no group on the page carries its own count, and the main-sites
 group is never counted out loud anywhere in this output — the page
@@ -44,6 +50,7 @@ KINDS = {
     "file": "File website",
     "mix": "Mix website",
     "dbpage": "Database page",
+    "group": "Group website",
 }
 # Wave 1 pages that double as a per-artifact website (counted there, never twice).
 DBWEB_EXTRA = {"marijuana-supplies", "marijuana-supplies-signature"}
@@ -181,6 +188,21 @@ def main():
         name = clean_name(t.split(" — ")[0]) if t else p.split("/")[1].title()
         sites.append([name, p[:-len("index.html")], "mirror"])
 
+    # --- seven-groups websites ---
+    group_paths = [p for p in ls_files("groups/*/g*/index.html")
+                   if re.fullmatch(r"groups/[^/]+/g[2-7]-[a-z0-9-]+/index\.html", p)]
+    group_paths += ["seven-groups.html", "services/coffee/index.html"]
+    for p in sorted(set(group_paths)):
+        t = page_title(p)
+        if t:
+            name = clean_name(t.split(" — ")[0])
+        elif p == "seven-groups.html":
+            name = "The Seven Groups"
+        else:
+            name = p.split("/")[-2].replace("-", " ").title()
+        url = p if p == "seven-groups.html" else p[:-len("index.html")]
+        sites.append([name, url, "group"])
+
     # --- database websites ---
     dbweb_paths = [p for p in ls_files("db/*/website/index.html")
                    if re.fullmatch(r"db/[^/]+/website/index\.html", p)]
@@ -307,6 +329,7 @@ def main():
 
     print(f"STATUS: {total:,} websites total "
           f"(main+hub, mirrors {counts.get('mirror', 0)}, "
+          f"group websites {counts.get('group', 0)}, "
           f"database websites {counts.get('dbweb', 0)}, "
           f"file websites {counts.get('file', 0)}, "
           f"mix websites {counts.get('mix', 0)}, "
@@ -322,7 +345,7 @@ PAGE_TEMPLATE = """<!DOCTYPE html>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>All Websites — The 'Merica-L Internet</title>
-<meta name="description" content="Every website in The 'Merica-L Internet — __TOTAL__ websites, one list. Main sites, mirrors, database websites, file websites, mix websites, and database pages.">
+<meta name="description" content="Every website in The 'Merica-L Internet — __TOTAL__ websites, one list. Main sites, mirrors, group websites, database websites, file websites, mix websites, and database pages.">
 <style>
 :root{--bg:#060a14;--panel:#0d1526;--line:#1d2c4d;--ink:#e8f1ff;--dim:#9fb3d8;--acc:#2f7bff;--ok:#00e5a0}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Arial,Helvetica,sans-serif;line-height:1.5}
@@ -355,7 +378,7 @@ PAGE_TEMPLATE = """<!DOCTYPE html>
 <div class="wrap">
   <div class="hero">
     <h1>ALL WEBSITES</h1>
-    <p>Every website in The 'Merica-L Internet — main sites, mirrors, database websites, file websites, mix websites, and database pages. Each one is free to visit and free to use.</p>
+    <p>Every website in The 'Merica-L Internet — main sites, mirrors, group websites, database websites, file websites, mix websites, and database pages. Each one is free to visit and free to use.</p>
     <div class="bigstat"><b id="total">__TOTAL__</b>websites</div>
     <p class="hint">List generated __DATE__ from the live files on this site. <a href="accessible/all-websites.html" style="color:var(--acc)">Plain list (no JavaScript needed)</a></p>
   </div>
@@ -370,6 +393,7 @@ PAGE_TEMPLATE = """<!DOCTYPE html>
     <button class="kindbtn" data-kind="file">File websites</button>
     <button class="kindbtn" data-kind="mix">Mix websites</button>
     <button class="kindbtn" data-kind="dbpage">Database pages</button>
+    <button class="kindbtn" data-kind="group">Group websites</button>
   </div>
   <p class="hint" id="status">Loading the full list…</p>
   <div class="grid" id="grid"></div>
@@ -384,7 +408,7 @@ PAGE_TEMPLATE = """<!DOCTYPE html>
 <script>
 (function(){
 'use strict';
-var KIND_LABELS = {"main":"Main site","mirror":"Mirror","dbweb":"Database website","file":"File website","mix":"Mix website","dbpage":"Database page"};
+var KIND_LABELS = {"main":"Main site","mirror":"Mirror","dbweb":"Database website","file":"File website","mix":"Mix website","dbpage":"Database page","group":"Group website"};
 var LETTERS = __LETTERS__;
 var sites = null, kindFilter = '', grid = document.getElementById('grid'),
     statusEl = document.getElementById('status'),
@@ -470,7 +494,7 @@ ACC_HEAD = """<!DOCTYPE html>
 </head>
 <body>
 <h1>All Websites — The 'Merica-L Internet</h1>
-<p>Every website in the network — __TOTAL__ websites, one list. Main sites, mirrors, database websites, file websites, mix websites, and database pages. Plain list, no JavaScript needed. Generated __DATE__.</p>
+<p>Every website in the network — __TOTAL__ websites, one list. Main sites, mirrors, group websites, database websites, file websites, mix websites, and database pages. Plain list, no JavaScript needed. Generated __DATE__.</p>
 <p><a href="../all-websites.html">Searchable list (with search box)</a> · <a href="../">JAH Databases — the database hub</a> · <a href="../the-merica-l-boundless-ecosystem-os.html">The 'Merica-L Boundless Ecosystem OS</a></p>
 """
 

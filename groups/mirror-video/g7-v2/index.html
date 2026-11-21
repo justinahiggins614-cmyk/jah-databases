@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Flicker&#x27;s Cinema Meadow — Signature Video</title>
+<meta name="description" content="Flicker&#x27;s Cinema Meadow — the themed second version of Signature Video.">
+<style>
+body{margin:0;background:#fdfcf7;color:#1f2430;font:17px/1.6 Georgia,serif}
+a{color:#0f766e}.wrap{max-width:960px;margin:0 auto;padding:0 18px 40px}
+header{border-bottom:3px double #d8cfb8;padding:26px 0 10px}
+h1{font-size:34px;margin:0}h2{font-size:24px;margin:30px 0 8px}h3{font-size:19px;margin:20px 0 6px}
+.lede{font-size:18px;color:#5b6472}.note{border-left:4px solid #0f766e;background:#e6f4f1;padding:12px 16px;border-radius:0 10px 10px 0}
+.box{background:#fff;border:1px solid #e3ddcd;border-radius:12px;padding:16px;margin:12px 0}
+details{border:1px solid #e3ddcd;border-radius:10px;background:#fff;padding:10px 14px;margin:8px 0}
+summary{cursor:pointer;font-weight:bold}
+table{border-collapse:collapse;width:100%;background:#fff}
+th,td{border:1px solid #e3ddcd;padding:8px 10px;text-align:left;vertical-align:top;font-size:15px}
+th{background:#e6f4f1}
+footer{margin-top:44px;padding:20px 0 30px;border-top:3px double #d8cfb8;font-size:15px;color:#5b6472}
+.stamp{font-size:13px;color:#5b6472}
+button{font:16px Georgia,serif;border-radius:9px;border:1px solid #d8cfb8;background:#fff;padding:10px 16px;cursor:pointer}
+button.go{background:#0f766e;border-color:#0f766e;color:#fff;font-weight:bold}
+input[type=text],input[type=number]{width:100%;font:16px Georgia,serif;padding:12px;border:1px solid #d8cfb8;border-radius:10px;background:#fff}
+img.hero{width:100%;height:auto;border-radius:12px;border:1px solid #e3ddcd}
+.free{display:inline-block;background:#fef3c7;border:1px solid #fcd34d;border-radius:999px;padding:2px 12px;font-size:14px;color:#7c2d12}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header><h1>Flicker&#x27;s Cinema Meadow</h1><p class="lede">Flicker&#x27;s Cinema Meadow — the themed second version: a meadow at dusk where animals gather on blankets to watch the screen.</p><p><span class="free">Free forever — no sign-in, no payment</span></p></header><img class="hero" src="assets/media-generation-video-g7-hero-0-6316e13f-60b5-4131-ad01-7d633c4255cf.webp" alt="Flicker the firefly, the mascot of Signature Video"><main><h2>The themed world</h2><p>Flicker&#x27;s Cinema Meadow is an outdoor cinema meadow. Walk it in words:</p><ul><li>The Screen Hill — the big screen on the hillside, blank until the evening&#x27;s first video.</li><li>The Blanket Rows — blankets laid out in rows, one row for each channel: Sky Watch, Map Walk, Kitchen Table, Song Room, Science Bench, Book Shelf.</li><li>The Firefly Path — a path lit by Flicker and his friends, from the gate to the screen.</li><li>The Ticket Booth — where the ticket set is handed out, one ticket per video.</li></ul><h2>Tools</h2><p>Two working tools, plain JavaScript, no backend, no key. They work on the mirror's own 12 entries only.</p><div class="box"><h3>Search the sample catalog</h3><p>Type a subject or a word — science, bread, maps, birds — and the search scores the catalog the mirror's own way: 3 points for a word in a title, 1 point for a word in a channel or subject.</p><label for="vq"><b>Search words</b></label><input type="text" id="vq" value="bread"><p><button class="go" id="vqBtn">Search videos</button></p><div id="vqOut"></div></div><div class="box"><h3>Add up watch times</h3><p>Enter video lengths in seconds, separated by commas, and the adder gives the total as minutes and seconds.</p><label for="secs"><b>Seconds, separated by commas</b></label><input type="text" id="secs" value="320, 275, 410"><p><button class="go" id="secsBtn">Add them up</button></p><p id="secsOut"></p></div><div class="box"><h3>Quiz — which channel?</h3><p>A quiz drawn from the sample catalog. It is a game, not a record.</p><p><button class="go" id="quizBtn">New question</button></p><div id="quizOut"></div></div><script src="../g4-generator/assets/engine.js"></script><script src="assets/tools.js"></script><script>
+(function(){
+'use strict';
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+document.getElementById('vqBtn').addEventListener('click',function(){var r=SigEngine.scoreVideos(document.getElementById('vq').value);var h=r.length?'<ul>'+r.map(function(x){return '<li>'+esc(x.video.title)+' — '+esc(x.video.channel)+', '+esc(x.video.subject)+', '+SigEngine.formatTime(x.video.seconds)+' (score '+x.score+')</li>';}).join('')+'</ul>':'<p>No sample video matches that. Try fewer words.</p>';document.getElementById('vqOut').innerHTML=h;});
+document.getElementById('secsBtn').addEventListener('click',function(){var r=SigTools.sumSeconds(document.getElementById('secs').value);document.getElementById('secsOut').textContent=r.error||('Total: '+r.label+' ('+r.value+' seconds).');});
+var qn=0;document.getElementById('quizBtn').addEventListener('click',function(){qn++;var q=SigTools.makeQuiz('quiz-'+qn);var h='<p><b>'+esc(q.question)+'</b></p>';q.options.forEach(function(o){h+='<button data-a="'+esc(o)+'">'+esc(o)+'</button> ';});h+='<p id="qAns"></p>';document.getElementById('quizOut').innerHTML=h;document.querySelectorAll('#quizOut button[data-a]').forEach(function(b){b.addEventListener('click',function(){document.getElementById('qAns').textContent=(b.getAttribute('data-a')===q.answer)?'Right — '+q.answer+' made that video.':'Not that one. The channel is '+q.answer+'.';});});});
+})();
+</script>
+<h2>Product lines</h2><p>Three design lines. Every one is labeled Signature or Fun, and none is for sale: designs, printables, and demos only.</p><div class="box"><h3>Cinema Meadow Ticket Set</h3><p><b>Labeled Signature.</b> A set of 12 printable tickets, one for each entry in the sample catalog, with the channel, subject and length on each ticket.</p><p><b>Making:</b> Print the tickets on stiff card and cut along the lines. Hand one out for each video in the evening&#x27;s lineup. A 3D-print version: print a ticket holder, 100 mm wide, with a 2 mm slot.</p><p><a href="assets/product-1.txt">Download the design sheet</a></p></div><div class="box"><h3>Flicker&#x27;s Film Strip Cards</h3><p><b>Labeled Signature.</b> A strip of cards showing how a video is a row of still pictures, one after another, with sound beside them.</p><p><b>Making:</b> Print the strip, cut it out, and fold it like a concertina. Each card is one still picture; flip through them fast to see the idea of motion.</p><p><a href="assets/product-2.txt">Download the design sheet</a></p></div><div class="box"><h3>Screen Night Poster</h3><p><b>Labeled Fun.</b> A poster of the cinema meadow at dusk: the screen, the blankets, and the animals. Labeled fun: it is a picture, not a record.</p><p><b>Making:</b> Print the poster at A3 on heavy paper. Frame it, or pin it to a board.</p><p><a href="assets/product-3.txt">Download the design sheet</a></p></div><h2>Fun stuff</h2><p><b>Fun, labeled fun — not a fact.</b> What the meadow animals watched one evening, made up for the meadow: the fox watched How bridges stand, the raccoon watched How bread is baked, and the owl fell asleep during How clocks keep time.</p><h2>Files</h2><p><a href="assets/tools.js">Tools (JavaScript)</a> · <a href="../g4-generator/assets/engine.js">Generator engine (JavaScript)</a> · <a href="accessible/index.html">Plain version (no JavaScript needed)</a> · <a href="../g3-ai/">The helper page (Group 3)</a></p></main>
+<p class="stamp">Generated 2026-11-21 from the Signature Video themed world. Whole-network total: 66,219 websites.</p>
+<footer><p><b>Network.</b> This page belongs to The 'Merica-L Internet: the front door is the <a href="https://justinahiggins614-cmyk.github.io/jah-databases/the-merica-l-virtual-internet.html">'Merica-L Virtual Internet</a>, the network's main page is <a href="https://justinahiggins614-cmyk.github.io/jah-databases/the-merica-l-boundless-ecosystem-os.html">'Merica-L Boundless Ecosystem OS</a>, and the databases live at the <a href="https://justinahiggins614-cmyk.github.io/jah-databases/">database hub</a>. The whole network holds 66,219 websites in total. <a href="https://justinahiggins614-cmyk.github.io/jah-databases/seven-groups.html">The Seven Groups</a> unites all seven lists. <a href="https://justinahiggins614-cmyk.github.io/jah-databases/groups/mirror-video/">Subject home: Signature Video</a></p><p>Flicker the firefly is the mascot; he carries the film reel and lights the screen. Free forever. No sign-in, no payment, no tracking.</p></footer>
+</div>
+</body>
+</html>

@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Brewster&#x27;s Coffeehouse — the coffee world, version 2</title>
+<meta name="description" content="Step inside the coffeehouse world: rooms, a drinks menu, bean bags, gear and games, all free. Version 2 of the coffee websites.">
+<style>
+  :root{--paper:#fdfcf7;--ink:#1f2430;--muted:#5b6472;--line:#e3ddcd;--card:#fff;--accent:#7c4a21;--accent-soft:#f5e6d3;--teal:#0f766e;--bad:#b91c1c;--bad-soft:#fee2e2;--good:#166534}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font:17px/1.6 Georgia,'Times New Roman',serif}
+  a{color:var(--teal)}
+  header.top{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5}
+  .wrap{max-width:960px;margin:0 auto;padding:0 18px}
+  .bar{display:flex;align-items:center;gap:18px;padding:12px 0}
+  .mark{font-size:22px;font-weight:bold;color:var(--ink);text-decoration:none;white-space:nowrap}
+  .mark span{color:var(--accent)}
+  nav{margin-left:auto;display:flex;gap:16px;flex-wrap:wrap}
+  nav a{color:var(--ink);text-decoration:none;font-size:15px}
+  nav a:hover{text-decoration:underline}
+  .hero{position:relative}
+  .hero img{display:block;width:100%;height:auto;max-height:430px;object-fit:cover;object-position:center 30%}
+  .hero .cap{position:absolute;left:0;right:0;top:0;text-align:center;padding:28px 18px 0}
+  .hero h1{margin:0;font-size:44px;line-height:1.1;color:#3d2c12;text-shadow:0 1px 0 #fff}
+  .hero p{margin:8px 0 0;font-size:19px;color:#4a3a1c}
+  main{padding:28px 0 10px}
+  h2{font-size:26px;margin:34px 0 10px}
+  h3{font-size:20px;margin:0 0 6px}
+  .lede{font-size:19px;color:var(--muted)}
+  .toolcard{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;box-shadow:0 2px 10px rgba(60,40,0,.06)}
+  .row{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;align-items:center}
+  button{font:16px Georgia,serif;border-radius:9px;border:1px solid var(--line);background:#fff;color:var(--ink);padding:10px 16px;cursor:pointer}
+  button.go{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:bold}
+  button:hover{filter:brightness(.97)}
+  input,select{font:16px Georgia,serif;padding:10px;border:1px solid var(--line);border-radius:9px;background:#fff;color:var(--ink)}
+  label{font-weight:bold}
+  .status{font-size:15px;color:var(--muted)}
+  .result{margin-top:14px;padding:14px;border:1px dashed var(--line);border-radius:10px;background:#fff;font-size:19px}
+  .result b{color:var(--accent)}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px}
+  .card p{margin:6px 0 0;color:var(--muted);font-size:15px}
+  .card .rec-link{font-size:14px}
+  .steps{counter-reset:step;display:grid;gap:12px}
+  .steps div{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+  .steps b::before{counter-increment:step;content:counter(step) ". ";color:var(--accent)}
+  .dl a{display:inline-block;margin:6px 10px 6px 0;padding:10px 16px;border:1px solid var(--line);border-radius:9px;background:#fff;text-decoration:none;color:var(--ink)}
+  table{border-collapse:collapse;width:100%;margin:12px 0;background:#fff}
+  th,td{border:1px solid var(--line);padding:8px 10px;text-align:left;font-size:16px}
+  th{background:var(--accent-soft)}
+  details{background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px 16px;margin:10px 0}
+  summary{cursor:pointer;font-weight:bold;font-size:18px}
+  footer{margin-top:48px;padding:22px 0 34px;border-top:3px double var(--line);font-size:15px;color:var(--muted)}
+  footer p{margin:8px 0}
+  .free{display:inline-block;background:var(--accent-soft);border:1px solid #d9a05b;border-radius:999px;padding:2px 12px;font-size:14px;color:#5b3413}
+  .note{background:var(--accent-soft);border:1px solid #d9a05b;border-radius:12px;padding:12px 16px}
+  @media (max-width:640px){.hero h1{font-size:32px}.hero img{max-height:300px}nav{display:none}}
+
+  :root{--accent:#0f766e;--accent-soft:#d7efea}
+  body{background:#fbf6ea}
+  .awning{height:26px;background:repeating-linear-gradient(90deg,#0f766e 0 42px,#fdfcf7 42px 84px);border-bottom:3px solid #0f766e}
+  .hero h1{color:#123f3a}
+  .hero p{color:#234f49}
+  .menu-card{background:#fffdf6;border:2px solid #e8dcc3}
+  .room{background:#fff;border-left:6px solid var(--accent)}
+  .quiz-q{background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-top:12px}
+  .free{background:#d7efea;border-color:#5ab3a6;color:#0b3f39}
+</style>
+</head>
+<body>
+
+<div class="awning"></div>
+<header class="top">
+  <div class="wrap bar">
+    <a class="mark" href="./">☕ Brewster's <span>Coffeehouse</span></a>
+    <nav>
+      <a href="#blend">Today's blend</a>
+      <a href="#rooms">Rooms</a>
+      <a href="#menu">Drinks menu</a>
+      <a href="#beans">Bean bags</a>
+      <a href="#gear">Gear shelf</a>
+      <a href="#quiz">Quiz</a>
+    </nav>
+  </div>
+</header>
+
+<div class="hero">
+  <img src="assets/media-generation-coffeehouse-world-hero-0-f26b3a78-0040-4847-864d-d39cf4518d6b.webp" alt="Brewster the coffee bean waving from the doorway of a cozy coffeehouse village of cups and beans, with shelves of coffee bags and a roaster">
+  <div class="cap">
+    <h1>Brewster's Coffeehouse</h1>
+    <p>Step inside the coffeehouse world — rooms, a drinks menu, bean bags, gear and games.</p>
+  </div>
+</div>
+
+<main class="wrap">
+  <p class="lede">This is the coffeehouse version of coffee: the same archive underneath, dressed up as a little world you can wander. Everything here is free to use, print and take home. <span class="free">Free forever — no sign-in, no payment</span></p>
+
+  <h2 id="blend">Today's house blend</h2>
+  <div class="toolcard">
+    <p>One blend a day, picked by the date — come back tomorrow and it changes. Generated on this page from the same blend maker as Group 4.</p>
+    <div id="blendOut"><p class="lede">Loading today's blend…</p></div>
+  </div>
+
+  <h2 id="tool">The little brew tool</h2>
+  <div class="toolcard">
+    <p>The coffeehouse counter tool: coffee in, water out.</p>
+    <div class="row">
+      <label for="coffeeG">Coffee (grams)</label>
+      <input id="coffeeG" type="number" min="0" step="0.1" value="15" style="width:110px">
+      <label for="ratioSel">Ratio</label>
+      <select id="ratioSel">
+        <option value="16" selected>1:16 — pour over</option>
+        <option value="15">1:15 — strong pour over</option>
+        <option value="17">1:17 — light pour over</option>
+        <option value="14">1:14 — french press</option>
+        <option value="13">1:13 — AeroPress</option>
+        <option value="8">1:8 — cold brew</option>
+        <option value="2">1:2 — espresso</option>
+      </select>
+      <button class="go" id="calcBtn">How much water?</button>
+    </div>
+    <div class="result" id="result" aria-live="polite">15 g of coffee at 1:16 needs 240 g of water.</div>
+  </div>
+
+  <h2 id="rooms">Rooms of the coffeehouse</h2>
+  <div class="grid">
+    <div class="card room"><h3>The Roastery</h3><p>Where green coffee turns brown. First crack, second crack, roast levels and cooling — the full roasting story lives in the <a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/fundamentals-coffee-roasting/">Fundamentals of Coffee Roasting Database</a> (20 records) and the <a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-roasters/">Coffee Roasters Database</a> (20 records).</p></div>
+    <div class="card room"><h3>The Brew Bar</h3><p>Pour over, Chemex, french press, AeroPress, moka pot, Turkish coffee and cold brew — every method with its ratio, grind and time. The bar's recipe book is the <a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-brew-ratio-charts/">Coffee Brew Ratio Charts Database</a> (20 records).</p></div>
+    <div class="card room"><h3>The Reading Nook</h3><p>Thirty drinks, grinds, beans and skills to read with your cup — the <a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-guide/">Coffee Guide Database</a> (30 records) — plus the <a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/db-coffee-discovery/">Coffee Discovery Database</a> (34 records) for the full bean-to-cup ladder.</p></div>
+    <div class="card room"><h3>The Blueprint Loft</h3><p>Roastery plans upstairs: small 12-kg roasteries and production layouts from the <a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/blueprint-coffee-roasteries/">Coffee Roasteries Blueprint Database</a> (20 records).</p></div>
+  </div>
+
+  <h2 id="menu">Drinks menu — house fun versions</h2>
+  <p class="lede">Each drink below starts from the archive's own words and ratio, then adds a house fun twist. The twist is play, not archive — the archive line is the record.</p>
+  <div class="grid">
+<div class="card menu-card"><h3>Brewster&#x27;s Espresso</h3><p>Espresso is pressure-extracted intensity: 18 g in, 36 g out, 25–30 seconds.</p><p>Archive ratio: 1:2 · <a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-guide/#rec=JAH-COF-000001">JAH-COF-000001</a></p><p><i>House fun twist: served in a tiny cup with a bean on the saucer.</i> — house fun version, free recipe card below.</p></div>
+<div class="card menu-card"><h3>The Cloud Cappuccino</h3><p>Cappuccino is the classic thirds: dry foam cap, drinkable art.</p><p>Archive ratio: 1/3 espresso, 1/3 milk, 1/3 foam · <a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-guide/#rec=JAH-COF-000003">JAH-COF-000003</a></p><p><i>House fun twist: a foam heart, drawn fresh each time.</i> — house fun version, free recipe card below.</p></div>
+<div class="card menu-card"><h3>Velvet Latte</h3><p>Latte is the milky canvas: espresso softened under steamed milk.</p><p>Archive ratio: 1:5+ espresso to milk · <a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-guide/#rec=JAH-COF-000004">JAH-COF-000004</a></p><p><i>House fun twist: extra velvet milk, latte art on request.</i> — house fun version, free recipe card below.</p></div>
+<div class="card menu-card"><h3>Flat White Corner</h3><p>Flat white is the Australian intense latte: less foam, more coffee punch.</p><p>Archive ratio: Double ristretto + velvet milk · <a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-guide/#rec=JAH-COF-000005">JAH-COF-000005</a></p><p><i>House fun twist: the corner table&#x27;s favourite, double shot always.</i> — house fun version, free recipe card below.</p></div>
+<div class="card menu-card"><h3>Mocha Hearth</h3><p>Mocha is dessert coffee: espresso meets chocolate.</p><p>Archive ratio: Espresso + chocolate + milk · <a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-guide/#rec=JAH-COF-000008">JAH-COF-000008</a></p><p><i>House fun twist: a square of dark chocolate on the side.</i> — house fun version, free recipe card below.</p></div>
+<div class="card menu-card"><h3>Slow Cold Brew</h3><p>Cold brew steeps coarse grounds cold for 12–24 hours: smooth, sweet, low acid.</p><p>Archive ratio: 1:8, 12–24 hours · <a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-guide/#rec=JAH-COF-000009">JAH-COF-000009</a></p><p><i>House fun twist: brewed overnight in the big glass jar by the window.</i> — house fun version, free recipe card below.</p></div>
+  </div>
+
+  <h2 id="beans">Bean bags — the product line</h2>
+  <p class="lede">Six bags on the shelf, one per origin. These are fun house product lines: the origin notes come from the blend generator's option list, and each card is free to print and take home. Nothing here is for sale.</p>
+  <div class="grid">
+<div class="card"><h3>Brazil beans</h3><p>nutty, chocolate, low acid</p><p>The everyday bag — smooth and kind.</p><p><a href="#beans">Take the card home free — print this page</a></p></div>
+<div class="card"><h3>Ethiopia beans</h3><p>floral, bergamot, bright</p><p>The bright bag — the one that smells like flowers.</p><p><a href="#beans">Take the card home free — print this page</a></p></div>
+<div class="card"><h3>Colombia beans</h3><p>caramel, red apple, balanced</p><p>The balanced bag — nothing out of place.</p><p><a href="#beans">Take the card home free — print this page</a></p></div>
+<div class="card"><h3>Kenya beans</h3><p>blackcurrant, winey, bright</p><p>The bold bag — bright enough to wake the street.</p><p><a href="#beans">Take the card home free — print this page</a></p></div>
+<div class="card"><h3>Sumatra beans</h3><p>earthy, dark chocolate, heavy</p><p>The heavy bag — thick, dark, slow mornings.</p><p><a href="#beans">Take the card home free — print this page</a></p></div>
+<div class="card"><h3>Guatemala beans</h3><p>cocoa, spice, smoky</p><p>The fireside bag — cocoa and a whisper of smoke.</p><p><a href="#beans">Take the card home free — print this page</a></p></div>
+  </div>
+
+  <h2 id="gear">Gear shelf</h2>
+  <p class="lede">The tools of the house, each with its archive record:</p>
+  <ul>
+    <li><b>Pour over (V60)</b> — 1:16, medium-fine, 3 min — <a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-guide/#rec=JAH-COF-000011">JAH-COF-000011</a></li>
+    <li><b>Chemex</b> — 1:16, medium-coarse, 4 min — <a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-guide/#rec=JAH-COF-000012">JAH-COF-000012</a></li>
+    <li><b>French press</b> — 1:14, coarse, 4 min — <a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-guide/#rec=JAH-COF-000013">JAH-COF-000013</a></li>
+    <li><b>AeroPress</b> — 1:13, fine-medium, 2 min — <a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-guide/#rec=JAH-COF-000014">JAH-COF-000014</a></li>
+    <li><b>Moka pot</b> — fill basket, water to valve, 5 min — <a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-guide/#rec=JAH-COF-000015">JAH-COF-000015</a></li>
+    <li><b>Turkish cezve</b> — 1:10, powder, 3 min — <a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-guide/#rec=JAH-COF-000016">JAH-COF-000016</a></li>
+  </ul>
+
+  <h2 id="quiz">Brewster's quiz</h2>
+  <p class="lede">Three questions, all answered by the archive. Pick one and see at once.</p>
+<div class="quiz-q"><p><b>1. What ratio does the archive give for pour over?</b></p><div class="row"><button data-q="0" data-o="0">1:2</button></div><div class="row"><button data-q="0" data-o="1">1:16</button></div><div class="row"><button data-q="0" data-o="2">1:8</button></div><p class="status" id="quiz-0"></p></div><div class="quiz-q"><p><b>2. What grind does french press need?</b></p><div class="row"><button data-q="1" data-o="0">Powder-fine</button></div><div class="row"><button data-q="1" data-o="1">Coarse, like breadcrumbs</button></div><div class="row"><button data-q="1" data-o="2">Fine, like table salt</button></div><p class="status" id="quiz-1"></p></div><div class="quiz-q"><p><b>3. How long does cold brew steep?</b></p><div class="row"><button data-q="2" data-o="0">2 minutes</button></div><div class="row"><button data-q="2" data-o="1">25–30 seconds</button></div><div class="row"><button data-q="2" data-o="2">12–24 hours</button></div><p class="status" id="quiz-2"></p></div>
+  <h2 id="files">Files</h2>
+  <div class="dl">
+    <a href="../g4-generator/assets/generator.js" download>⬇ The blend maker (JavaScript)</a>
+    <a href="https://justinahiggins614-cmyk.github.io/jah-databases/services/coffee/assets/brew-tool.js" download>⬇ The brew tool (JavaScript)</a>
+    <a href="https://justinahiggins614-cmyk.github.io/jah-databases/services/coffee/records.json" download>⬇ Public core records (164, JSON)</a>
+    <a href="./" download>⬇ This page</a>
+    <a href="accessible/index.html">Plain version (no JavaScript needed)</a>
+  </div>
+
+  <h2>The other coffee groups</h2>
+  <p><a href="https://justinahiggins614-cmyk.github.io/jah-databases/services/coffee/">Group 1 — Coffee, the full website</a> · <a href="../g2-static/index.html">Group 2 — Coffee Links</a> · <a href="../g3-ai/index.html">Group 3 — Coffee Questions</a> · <a href="../g4-generator/index.html">Group 4 — Coffee Blend Generator</a> · <a href="../g5-data/index.html">Group 5 — Coffee Data</a> · <a href="../g6-signature/index.html">Group 6 — Signature Coffee Data</a></p>
+</main>
+<footer><div class="wrap"><p><b>Network.</b> This website belongs to The 'Merica-L Internet: the front door is the <a href="https://justinahiggins614-cmyk.github.io/jah-databases/the-merica-l-virtual-internet.html">'Merica-L Virtual Internet</a>, the network's main page is <a href="https://justinahiggins614-cmyk.github.io/jah-databases/the-merica-l-boundless-ecosystem-os.html">'Merica-L Boundless Ecosystem OS</a>, and the databases live at the <a href="https://justinahiggins614-cmyk.github.io/jah-databases/">database hub</a>.</p>
+<p>Brewster's Coffeehouse is free forever. No sign-in, no payment, no tracking. Brewster the coffee bean runs the house; he waves from the door.</p>
+<p><a href="accessible/index.html">Accessible version (plain text, no JavaScript needed)</a></p>
+</div></footer>
+
+<script src="../g4-generator/assets/generator.js"></script>
+<script src="assets/brew-tool.js"></script>
+<script>
+(function(){
+'use strict';
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+/* Blend of the day: seeded by today's date, so it changes daily. */
+var today = new Date();
+var seed = 'house-blend-' + today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+var b = genBlend(seed, 1);
+document.getElementById('blendOut').innerHTML =
+  '<div class="card"><h3>' + esc(b.title) + '</h3>' +
+  '<p><b>' + esc(b.id) + '</b> · house blend for ' + esc(seed.replace('house-blend-', '')) + ' · generated record</p>' +
+  '<p>' + esc(b.beans) + '</p>' +
+  '<p>Roast: ' + esc(b.roast) + ' — ' + esc(b.roastNote) + '</p>' +
+  '<p>Method: ' + esc(b.method) + ' · ' + esc(b.ratio) + ' · ' + esc(b.grind) + ' grind · ' + esc(b.time) + '</p>' +
+  '<p>' + esc(b.steps) + '</p></div>';
+/* Little brew tool. */
+var coffeeEl = document.getElementById('coffeeG'), ratioEl = document.getElementById('ratioSel'),
+    resultEl = document.getElementById('result');
+function show(){
+  var r = brewSummary(coffeeEl.value, ratioEl.value);
+  resultEl.textContent = r.ok ? r.text : r.error;
+}
+document.getElementById('calcBtn').addEventListener('click', show);
+coffeeEl.addEventListener('input', show);
+ratioEl.addEventListener('change', show);
+show();
+/* Quiz. */
+var ANSWERS = [1, 1, 2];
+var WHY = ["Pour over is 1:16 \u2014 record JAH-COF-000011.", "French press grind is coarse, like breadcrumbs \u2014 record JAH-COF-000019.", "Cold brew steeps 12\u201324 hours \u2014 record JAH-COF-000009."];
+document.querySelectorAll('button[data-q]').forEach(function (btn) {
+  btn.addEventListener('click', function () {
+    var qi = +btn.getAttribute('data-q'), oi = +btn.getAttribute('data-o');
+    var el = document.getElementById('quiz-' + qi);
+    el.textContent = (oi === ANSWERS[qi] ? 'Right! ' : 'Not quite — ') + WHY[qi];
+  });
+});
+})();
+</script>
+</body>
+</html>

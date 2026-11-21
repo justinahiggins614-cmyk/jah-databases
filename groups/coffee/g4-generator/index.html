@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Coffee Blend Generator — new coffee blends from a seed</title>
+<meta name="description" content="Pick a seed and make new coffee blend records: beans, roast, method, ratio and steps. Free forever, no sign-in, no payment.">
+<style>
+  :root{--paper:#fdfcf7;--ink:#1f2430;--muted:#5b6472;--line:#e3ddcd;--card:#fff;--accent:#7c4a21;--accent-soft:#f5e6d3;--teal:#0f766e;--bad:#b91c1c;--bad-soft:#fee2e2;--good:#166534}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font:17px/1.6 Georgia,'Times New Roman',serif}
+  a{color:var(--teal)}
+  header.top{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5}
+  .wrap{max-width:960px;margin:0 auto;padding:0 18px}
+  .bar{display:flex;align-items:center;gap:18px;padding:12px 0}
+  .mark{font-size:22px;font-weight:bold;color:var(--ink);text-decoration:none;white-space:nowrap}
+  .mark span{color:var(--accent)}
+  nav{margin-left:auto;display:flex;gap:16px;flex-wrap:wrap}
+  nav a{color:var(--ink);text-decoration:none;font-size:15px}
+  nav a:hover{text-decoration:underline}
+  .hero{position:relative}
+  .hero img{display:block;width:100%;height:auto;max-height:430px;object-fit:cover;object-position:center 30%}
+  .hero .cap{position:absolute;left:0;right:0;top:0;text-align:center;padding:28px 18px 0}
+  .hero h1{margin:0;font-size:44px;line-height:1.1;color:#3d2c12;text-shadow:0 1px 0 #fff}
+  .hero p{margin:8px 0 0;font-size:19px;color:#4a3a1c}
+  main{padding:28px 0 10px}
+  h2{font-size:26px;margin:34px 0 10px}
+  h3{font-size:20px;margin:0 0 6px}
+  .lede{font-size:19px;color:var(--muted)}
+  .toolcard{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;box-shadow:0 2px 10px rgba(60,40,0,.06)}
+  .row{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;align-items:center}
+  button{font:16px Georgia,serif;border-radius:9px;border:1px solid var(--line);background:#fff;color:var(--ink);padding:10px 16px;cursor:pointer}
+  button.go{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:bold}
+  button:hover{filter:brightness(.97)}
+  input,select{font:16px Georgia,serif;padding:10px;border:1px solid var(--line);border-radius:9px;background:#fff;color:var(--ink)}
+  label{font-weight:bold}
+  .status{font-size:15px;color:var(--muted)}
+  .result{margin-top:14px;padding:14px;border:1px dashed var(--line);border-radius:10px;background:#fff;font-size:19px}
+  .result b{color:var(--accent)}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px}
+  .card p{margin:6px 0 0;color:var(--muted);font-size:15px}
+  .card .rec-link{font-size:14px}
+  .steps{counter-reset:step;display:grid;gap:12px}
+  .steps div{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+  .steps b::before{counter-increment:step;content:counter(step) ". ";color:var(--accent)}
+  .dl a{display:inline-block;margin:6px 10px 6px 0;padding:10px 16px;border:1px solid var(--line);border-radius:9px;background:#fff;text-decoration:none;color:var(--ink)}
+  table{border-collapse:collapse;width:100%;margin:12px 0;background:#fff}
+  th,td{border:1px solid var(--line);padding:8px 10px;text-align:left;font-size:16px}
+  th{background:var(--accent-soft)}
+  details{background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px 16px;margin:10px 0}
+  summary{cursor:pointer;font-weight:bold;font-size:18px}
+  footer{margin-top:48px;padding:22px 0 34px;border-top:3px double var(--line);font-size:15px;color:var(--muted)}
+  footer p{margin:8px 0}
+  .free{display:inline-block;background:var(--accent-soft);border:1px solid #d9a05b;border-radius:999px;padding:2px 12px;font-size:14px;color:#5b3413}
+  .note{background:var(--accent-soft);border:1px solid #d9a05b;border-radius:12px;padding:12px 16px}
+  @media (max-width:640px){.hero h1{font-size:32px}.hero img{max-height:300px}nav{display:none}}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap bar">
+    <a class="mark" href="./">☕ Coffee <span>Blend Generator</span></a>
+    <nav>
+      <a href="#make">Make blends</a>
+      <a href="#how">How it works</a>
+      <a href="#files">Files</a>
+    </nav>
+  </div>
+</header>
+<main class="wrap">
+  <p class="lede">Pick a seed and this page makes new coffee blend records — beans, roast, method, ratio and steps. The same seed always makes the same blends. <span class="free">Free forever — no sign-in, no payment</span></p>
+  <p class="note"><b>Generated, not archive:</b> every blend below is newly generated on this page. It is not an archive record and never pretends to be one. Methods, grinds, ratios and roast notes follow the JAH Coffee Guide Database; bean origins are the generator's own option list (Brazil, Ethiopia, Colombia, Kenya, Sumatra, Guatemala).</p>
+
+  <h2 id="make">Make blends</h2>
+  <div class="toolcard">
+    <div class="row">
+      <label for="seed">Seed</label>
+      <input id="seed" type="text" value="morning-cup" style="width:200px">
+      <label for="count">How many</label>
+      <select id="count"><option>1</option><option selected>3</option><option>5</option></select>
+      <button class="go" id="genBtn">Generate blends</button>
+      <button id="copyBtn">Copy all</button>
+      <button id="dlBtn">Download JSON</button>
+    </div>
+    <div class="row">
+      <span class="status">A seed can be any word or number — try "sunday", "42" or your name. Change one letter and every blend changes.</span>
+    </div>
+    <div id="out"></div>
+  </div>
+
+  <h2 id="how">How it works</h2>
+  <div class="steps">
+    <div><b>Pick a seed.</b> Any word or number. The seed is the only input — everything else follows from it.</div>
+    <div><b>Press Generate blends.</b> The page mixes two origins, picks a roast and a method, and works out the dose, ratio and water from the archive's figures.</div>
+    <div><b>Read the record.</b> Each blend is a full record: an ID, the beans and their notes, the roast, the method, the grind, the ratio, the time and the steps.</div>
+    <div><b>Take it with you.</b> Copy all the blends or download them as JSON. Run the same seed again any time — you will get the same blends back.</div>
+  </div>
+  <p class="lede">What it does not do: it does not look up archive records, it does not taste the coffee, and it never claims a generated blend already exists in any database.</p>
+
+  <h2 id="files">Files</h2>
+  <div class="dl">
+    <a href="assets/generator.js" download>⬇ The generator (JavaScript)</a>
+    <a href="https://justinahiggins614-cmyk.github.io/jah-databases/services/coffee/records.json" download>⬇ Public core records (164, JSON)</a>
+    <a href="./" download>⬇ This page</a>
+    <a href="accessible/index.html">Plain version (no JavaScript needed)</a>
+  </div>
+
+  <h2>The other coffee groups</h2>
+  <p><a href="https://justinahiggins614-cmyk.github.io/jah-databases/services/coffee/">Group 1 — Coffee, the full website</a> · <a href="../g2-static/index.html">Group 2 — Coffee Links</a> · <a href="../g3-ai/index.html">Group 3 — Coffee Questions</a> · <a href="../g5-data/index.html">Group 5 — Coffee Data</a> · <a href="../g6-signature/index.html">Group 6 — Signature Coffee Data</a> · <a href="../g7-v2/index.html">Group 7 — Brewster's Coffeehouse</a></p>
+</main>
+<footer><div class="wrap"><p><b>Network.</b> This website belongs to The 'Merica-L Internet: the front door is the <a href="https://justinahiggins614-cmyk.github.io/jah-databases/the-merica-l-virtual-internet.html">'Merica-L Virtual Internet</a>, the network's main page is <a href="https://justinahiggins614-cmyk.github.io/jah-databases/the-merica-l-boundless-ecosystem-os.html">'Merica-L Boundless Ecosystem OS</a>, and the databases live at the <a href="https://justinahiggins614-cmyk.github.io/jah-databases/">database hub</a>.</p>
+<p>The Coffee Blend Generator is free forever. No sign-in, no payment, no tracking. Brewster the coffee bean is the mascot of the coffee websites.</p>
+<p><a href="accessible/index.html">Accessible version (plain text, no JavaScript needed)</a></p>
+</div></footer>
+
+<script src="assets/generator.js"></script>
+<script>
+(function(){
+'use strict';
+var out = document.getElementById('out');
+var last = [];
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function render(){
+  if (!last.length) { out.innerHTML = '<p class="lede">No blends yet — press Generate blends.</p>'; return; }
+  out.innerHTML = last.map(function (b) {
+    return '<div class="card" style="margin-top:12px"><h3>' + esc(b.title) + '</h3>' +
+      '<p><b>' + esc(b.id) + '</b> · seed "' + esc(b.seed) + '" · generated record</p>' +
+      '<p>' + esc(b.beans) + '</p>' +
+      '<p>Roast: ' + esc(b.roast) + ' — ' + esc(b.roastNote) + '</p>' +
+      '<p>Method: ' + esc(b.method) + ' · ' + esc(b.ratio) + ' · ' + esc(b.grind) + ' grind · ' + esc(b.time) + '</p>' +
+      '<p>' + esc(b.steps) + '</p></div>';
+  }).join('');
+}
+function generate(){
+  last = genBlends(document.getElementById('seed').value, document.getElementById('count').value);
+  render();
+}
+document.getElementById('genBtn').addEventListener('click', generate);
+document.getElementById('copyBtn').addEventListener('click', function () {
+  if (!last.length) generate();
+  var txt = JSON.stringify(last, null, 2);
+  if (navigator.clipboard) { navigator.clipboard.writeText(txt); }
+});
+document.getElementById('dlBtn').addEventListener('click', function () {
+  if (!last.length) generate();
+  var blob = new Blob([JSON.stringify(last, null, 2)], {type: 'application/json'});
+  var a = document.createElement('a');
+  a.href = URL.createObjectURL(blob); a.download = 'coffee-blends.json'; a.click();
+});
+generate();
+})();
+</script>
+</body>
+</html>

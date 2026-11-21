@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gridley&#x27;s Geometry Garden — Signature Math</title>
+<meta name="description" content="Gridley&#x27;s Geometry Garden — the themed second version of Signature Math.">
+<style>
+body{margin:0;background:#fdfcf7;color:#1f2430;font:17px/1.6 Georgia,serif}
+a{color:#0f766e}.wrap{max-width:960px;margin:0 auto;padding:0 18px 40px}
+header{border-bottom:3px double #d8cfb8;padding:26px 0 10px}
+h1{font-size:34px;margin:0}h2{font-size:24px;margin:30px 0 8px}h3{font-size:19px;margin:20px 0 6px}
+.lede{font-size:18px;color:#5b6472}.note{border-left:4px solid #0f766e;background:#e6f4f1;padding:12px 16px;border-radius:0 10px 10px 0}
+.box{background:#fff;border:1px solid #e3ddcd;border-radius:12px;padding:16px;margin:12px 0}
+details{border:1px solid #e3ddcd;border-radius:10px;background:#fff;padding:10px 14px;margin:8px 0}
+summary{cursor:pointer;font-weight:bold}
+table{border-collapse:collapse;width:100%;background:#fff}
+th,td{border:1px solid #e3ddcd;padding:8px 10px;text-align:left;vertical-align:top;font-size:15px}
+th{background:#e6f4f1}
+footer{margin-top:44px;padding:20px 0 30px;border-top:3px double #d8cfb8;font-size:15px;color:#5b6472}
+.stamp{font-size:13px;color:#5b6472}
+button{font:16px Georgia,serif;border-radius:9px;border:1px solid #d8cfb8;background:#fff;padding:10px 16px;cursor:pointer}
+button.go{background:#0f766e;border-color:#0f766e;color:#fff;font-weight:bold}
+input[type=text],input[type=number]{width:100%;font:16px Georgia,serif;padding:12px;border:1px solid #d8cfb8;border-radius:10px;background:#fff}
+img.hero{width:100%;height:auto;border-radius:12px;border:1px solid #e3ddcd}
+.free{display:inline-block;background:#fef3c7;border:1px solid #fcd34d;border-radius:999px;padding:2px 12px;font-size:14px;color:#7c2d12}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header><h1>Gridley&#x27;s Geometry Garden</h1><p class="lede">Gridley&#x27;s Geometry Garden — the themed second version: a garden where the hedges are triangles and circles and the paths are numbered stones.</p><p><span class="free">Free forever — no sign-in, no payment</span></p></header><img class="hero" src="assets/media-generation-math-g7-hero-0-b6dd53d4-2540-4c2c-8d7d-88a444160782.webp" alt="Gridley the gecko, the mascot of Signature Math"><main><h2>The themed world</h2><p>Gridley&#x27;s Geometry Garden is a geometry garden. Walk it in words:</p><ul><li>The Triangle Hedge — hedges cut into triangles, each one a different size.</li><li>The Circle Lawn — a round lawn for sitting inside a circle and measuring it.</li><li>The Number Stones — stepping stones numbered 1 to 12, in order, across the garden.</li><li>The Compass Corner — a corner with a compass, a ruler, and a pencil, for drawing what the garden shows.</li></ul><h2>Tools</h2><p>Three working tools, plain JavaScript, no backend, no key.</p><div class="box"><h3>Change a number's base</h3><p>Enter a whole number and pick a base. The tool cannot do fractions, negatives, or bases other than 2, 8 and 16.</p><label for="num"><b>Whole number</b></label><input type="number" id="num" value="74"><label for="base"><b>Base</b></label><input type="number" id="base" value="2"><p><button class="go" id="baseBtn">Change the base</button></p><p id="baseOut"></p></div><div class="box"><h3>Triangle area</h3><p>Enter a base and a height. The area is base times height, halved.</p><label for="tb"><b>Base</b></label><input type="number" id="tb" value="6"><label for="th"><b>Height</b></label><input type="number" id="th" value="4"><p><button class="go" id="triBtn">Work out the area</button></p><p id="triOut"></p></div><div class="box"><h3>Quiz — which group?</h3><p>A quiz drawn from the site's own 32 conversion records. It is a game, not a record.</p><p><button class="go" id="quizBtn">New question</button></p><div id="quizOut"></div></div><script src="../g4-generator/assets/engine.js"></script><script src="assets/tools.js"></script><script>
+(function(){
+'use strict';
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+document.getElementById('baseBtn').addEventListener('click',function(){var r=SigEngine.toBase(parseInt(document.getElementById('num').value,10),parseInt(document.getElementById('base').value,10));document.getElementById('baseOut').textContent=r.error||('Answer: '+r.value);});
+document.getElementById('triBtn').addEventListener('click',function(){var r=SigEngine.triangleArea(parseFloat(document.getElementById('tb').value),parseFloat(document.getElementById('th').value));document.getElementById('triOut').textContent=r.error||('Area: '+r.value);});
+var qn=0;document.getElementById('quizBtn').addEventListener('click',function(){qn++;var q=SigTools.makeQuiz('quiz-'+qn);var h='<p><b>'+esc(q.question)+'</b></p>';q.options.forEach(function(o){h+='<button data-a="'+esc(o)+'">'+esc(o)+'</button> ';});h+='<p id="qAns"></p>';document.getElementById('quizOut').innerHTML=h;document.querySelectorAll('#quizOut button[data-a]').forEach(function(b){b.addEventListener('click',function(){document.getElementById('qAns').textContent=(b.getAttribute('data-a')===q.answer)?'Right — '+q.answer+'.':'Not that one. The group is '+q.answer+'.';});});});
+})();
+</script>
+<h2>Product lines</h2><p>Three design lines. Every one is labeled Signature or Fun, and none is for sale: designs, printables, and demos only.</p><div class="box"><h3>The Geometry Garden Poster</h3><p><b>Labeled Signature.</b> A poster of the geometry garden: triangle hedges, circle lawns, and Gridley on the number stones.</p><p><b>Making:</b> Print the poster at A3 on heavy paper. Frame it, or pin it to a board.</p><p><a href="assets/product-1.txt">Download the design sheet</a></p></div><div class="box"><h3>The Conversion Card Set</h3><p><b>Labeled Signature.</b> A set of 32 printable cards, one for each conversion record in the site&#x27;s own data file, with the record&#x27;s name and group on each card.</p><p><b>Making:</b> Print the cards on stiff card and cut along the lines. Draw a card and say what the conversion does before turning it over. A 3D-print version: print a card box, 100 mm by 70 mm, with a lid.</p><p><a href="assets/product-2.txt">Download the design sheet</a></p></div><div class="box"><h3>The Grid Notebook</h3><p><b>Labeled Fun.</b> A notebook ruled with 12 by 12 grids, for drawing your own Signature grids. Labeled fun: it is a notebook design, not a record.</p><p><b>Making:</b> Print the grid pages and bind them with staples or rings. Draw one grid per page and mark the cells that hold geometry.</p><p><a href="assets/product-3.txt">Download the design sheet</a></p></div><h2>Fun stuff</h2><p><b>Fun, labeled fun — not a fact.</b> Gridley's riddle, made up for the garden: <i>I have three sides and three corners, and my corners always add up to the same number. What am I?</i> Answer: a triangle — its three corners add up to 180 degrees.</p><h2>Files</h2><p><a href="assets/tools.js">Tools (JavaScript)</a> · <a href="../g4-generator/assets/engine.js">Generator engine (JavaScript)</a> · <a href="accessible/index.html">Plain version (no JavaScript needed)</a> · <a href="../g3-ai/">The helper page (Group 3)</a></p></main>
+<p class="stamp">Generated 2026-11-21 from the Signature Math themed world. Whole-network total: 66,219 websites.</p>
+<footer><p><b>Network.</b> This page belongs to The 'Merica-L Internet: the front door is the <a href="https://justinahiggins614-cmyk.github.io/jah-databases/the-merica-l-virtual-internet.html">'Merica-L Virtual Internet</a>, the network's main page is <a href="https://justinahiggins614-cmyk.github.io/jah-databases/the-merica-l-boundless-ecosystem-os.html">'Merica-L Boundless Ecosystem OS</a>, and the databases live at the <a href="https://justinahiggins614-cmyk.github.io/jah-databases/">database hub</a>. The whole network holds 66,219 websites in total. <a href="https://justinahiggins614-cmyk.github.io/jah-databases/seven-groups.html">The Seven Groups</a> unites all seven lists. <a href="https://justinahiggins614-cmyk.github.io/jah-databases/groups/site-signature-math/">Subject home: Signature Math</a></p><p>Gridley the gecko is the mascot; he walks the grid with a pencil and a compass. Free forever. No sign-in, no payment, no tracking.</p></footer>
+</div>
+</body>
+</html>

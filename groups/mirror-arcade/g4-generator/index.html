@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Signature Arcade — Game-night planner</title>
+<meta name="description" content="Game-night planner, alone: Plans a game night from the mirror&#x27;s own catalog: three games, a number of rounds, and a secret-number challenge.">
+<style>
+:root{--bg:#0a1120;--panel:#111c33;--ink:#e8edf7;--muted:#9fb0cc;--line:#24365c;--accent:#1d4ed8;--soft:#1b2b4d}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.6 Georgia,serif}
+a{color:#8fd3ff}
+.wrap{max-width:960px;margin:0 auto;padding:0 18px 40px}
+header.top{background:#0d1730;border-bottom:1px solid var(--line)}
+.bar{display:flex;align-items:center;gap:18px;padding:12px 0;flex-wrap:wrap}
+.mark{font-size:22px;font-weight:bold;color:var(--ink);text-decoration:none}
+.mark span{color:#8fd3ff}
+nav{margin-left:auto;display:flex;gap:14px;flex-wrap:wrap}
+nav a{color:var(--ink);text-decoration:none;font-size:15px}
+.hero img{display:block;width:100%;height:auto;max-height:430px;object-fit:cover}
+.hero .cap{text-align:center;padding:20px 18px 0}
+.hero h1{margin:0;font-size:42px}
+.hero p{margin:8px 0 0;font-size:19px;color:var(--muted)}
+h2{font-size:26px;margin:34px 0 10px}
+h3{font-size:20px;margin:0 0 6px}
+.lede{font-size:19px;color:var(--muted)}
+.box,.toolcard{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px}
+input[type=text],input[type=number]{width:100%;font:16px/1.6 Georgia,serif;padding:12px;border:1px solid var(--line);border-radius:10px;background:#0d1730;color:var(--ink)}
+.row{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;align-items:center}
+button{font:16px Georgia,serif;border-radius:9px;border:1px solid var(--line);background:#1b2b4d;color:var(--ink);padding:10px 16px;cursor:pointer}
+button.go{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:bold}
+button:hover{filter:brightness(1.15)}
+.status{font-size:15px;color:var(--muted)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px}
+.card p{margin:6px 0 0;color:var(--muted);font-size:15px}
+.note{border-left:4px solid var(--accent);background:var(--soft);padding:12px 16px;border-radius:0 10px 10px 0}
+.free{display:inline-block;background:var(--soft);border:1px solid var(--line);border-radius:999px;padding:2px 12px;font-size:14px}
+details{border:1px solid var(--line);border-radius:10px;background:var(--panel);padding:10px 14px;margin:8px 0}
+summary{cursor:pointer;font-weight:bold}
+footer{margin-top:48px;padding:22px 0 34px;border-top:3px double var(--line);font-size:15px;color:var(--muted)}
+footer p{margin:8px 0}
+pre{background:#0d1730;border:1px solid var(--line);border-radius:10px;padding:14px;overflow:auto;font-size:14px}
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap bar"><a class="mark" href=".././">Signature Arcade</a><nav><a href="https://justinahiggins614-cmyk.github.io/jah-databases/mirrors/arcade/">Group 1</a><a href="../g2-static/">Group 2</a><a href="../g3-ai/">Group 3</a><a href="../g4-generator/">Group 4</a><a href="../g5-data/">Group 5</a><a href="../g6-signature/">Group 6</a><a href="../g7-v2/">Group 7</a></nav></div></header><main class="wrap"><h1>Signature Arcade — Game-night planner</h1><p class="lede">Plans a game night from the mirror&#x27;s own catalog: three games, a number of rounds, and a secret-number challenge.</p><p>Seeded and deterministic: the same seed always gives the same output, and different seeds give different outputs. Every output is labeled generated — it is not an archive record.</p><h2 id="generator">The generator</h2><div class="toolcard"><label for="seed">Seed (any words will do)</label><input type="text" id="seed" value="sample-seed" autocomplete="off"><div class="row"><button class="go" id="runBtn" type="button">Generate</button><button id="copyBtn" type="button">Copy output</button><button id="dlBtn" type="button">Download output (.json)</button></div><pre id="out" aria-live="polite"></pre></div><h2>How it works</h2><ol><li>Type a seed — any words — or keep the one shown.</li><li>Press Generate. The engine hashes the seed and picks from the mirror's own catalog.</li><li>The same seed always gives the same output. Change the seed for a different output.</li><li>Copy the output or download it as JSON. Every output is labeled generated.</li></ol><h2>Sample output</h2><p>Worked example for the seed “sample-seed”, made by the engine itself (labeled generated):</p><pre>{
+ &quot;seed&quot;: &quot;sample-seed&quot;,
+ &quot;games&quot;: [
+  &quot;Cloud Hop&quot;,
+  &quot;Harbor Checkers&quot;,
+  &quot;Secret Number&quot;
+ ],
+ &quot;rounds&quot;: 3,
+ &quot;secret&quot;: 3,
+ &quot;targetScore&quot;: 80,
+ &quot;generated&quot;: true
+}</pre><h2>The seven groups</h2><ol>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/mirrors/arcade/">Group 1 — the full website</a> — The full website with everything — this mirror, with a wiki section added.</li>
+<li><a href="../g2-static/">Group 2 — static links list</a> — A static list of every link for this subject — plain text, no JavaScript.</li>
+<li><a href="../g3-ai/">Group 3 — AI-only website</a> — The helper alone: ask about this subject and get answers from the mirror's own records.</li>
+<li><a href="../g4-generator/">Group 4 — generator alone</a> — The generator alone: make new things from the mirror's own catalog, picked by seed.</li>
+<li><a href="../g5-data/">Group 5 — data alone</a> — The public data alone: the mirror's public-reference index, in plain form.</li>
+<li><a href="../g6-signature/">Group 6 — Signature data alone</a> — The Signature data alone: the mirror's own Signature-made content, labeled Signature.</li>
+<li><a href="../g7-v2/">Group 7 — version 2, themed</a> — Version 2, themed: the themed world, working tools, and designs.</li>
+</ol><h2>Files</h2><p class="dl"><a href="assets/engine.js">Generator engine (JavaScript)</a><a href="assets/gen-data.json">Generator data (JSON)</a><a href="assets/sample-seed.json">Worked example (JSON)</a></p><footer><p>The 'Merica-L Internet</p><p><a href="https://justinahiggins614-cmyk.github.io/jah-databases/the-merica-l-virtual-internet.html">Front door</a> &middot; <a href="https://justinahiggins614-cmyk.github.io/jah-databases/the-merica-l-boundless-ecosystem-os.html">'Merica-L Boundless Ecosystem OS</a> &middot; <a href="https://justinahiggins614-cmyk.github.io/jah-databases/">Database hub</a> &middot; <a href="https://justinahiggins614-cmyk.github.io/jah-databases/seven-groups.html">The seven groups (Internets page)</a> &middot; <a href="../">Subject home</a></p><p class="note">Generated 2026-11-21 (America/New_York) from the live mirror page mirrors/arcade/index.html. &middot; Free forever. Nothing here is for sale.</p></footer></main>
+<script src="assets/engine.js"></script>
+<script>
+(function(){
+'use strict';
+var fn=planGameNight;
+var seedEl=document.getElementById('seed'), outEl=document.getElementById('out');
+function run(){
+  var seed=seedEl.value.trim()||'morning-cup';
+  var res=fn(seed);
+  outEl.textContent=JSON.stringify(res,null,1);
+}
+document.getElementById('runBtn').addEventListener('click',run);
+seedEl.addEventListener('keydown',function(e){if(e.key==='Enter')run();});
+document.getElementById('copyBtn').addEventListener('click',function(){
+  if(navigator.clipboard){navigator.clipboard.writeText(outEl.textContent);}
+});
+document.getElementById('dlBtn').addEventListener('click',function(){
+  var blob=new Blob([outEl.textContent],{type:'application/json'});
+  var a=document.createElement('a'); a.href=URL.createObjectURL(blob);
+  a.download='generated-'+(seedEl.value.trim()||'morning-cup')+'.json'; a.click();
+});
+run();
+})();
+</script>
+</body>
+</html>

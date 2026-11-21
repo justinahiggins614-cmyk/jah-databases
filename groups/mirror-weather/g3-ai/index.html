@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Signature Weather Helper — the Signature Weather helper alone</title>
+<meta name="description" content="The Signature Weather Helper, alone: ask weather questions and get answers from the Signature Weather archive. No key, no sign-in, free forever.">
+<style>body{margin:0;background:#0a1120;color:#e8edf5;font:17px/1.6 Georgia,'Times New Roman',serif}
+a{color:#7dd3fc}.wrap{max-width:960px;margin:0 auto;padding:0 18px}
+header.top{background:#0f1b33;border-bottom:1px solid #24365c;position:sticky;top:0;z-index:5}
+.bar{display:flex;align-items:center;gap:18px;padding:12px 0;flex-wrap:wrap}
+.mark{font-size:20px;font-weight:bold;color:#e8edf5;text-decoration:none;white-space:nowrap}
+nav{margin-left:auto;display:flex;gap:14px;flex-wrap:wrap}
+nav a{color:#e8edf5;text-decoration:none;font-size:15px}nav a:hover{text-decoration:underline}
+.hero img{display:block;width:100%;height:auto;max-height:430px;object-fit:cover;object-position:center 30%}
+.hero .cap{text-align:center;padding:20px 18px 0}.hero h1{margin:0;font-size:42px;line-height:1.1;color:#fff}
+.hero p{margin:8px 0 0;font-size:19px;color:#b8c4d8}
+main{padding:24px 0 10px}h2{font-size:26px;margin:34px 0 10px}h3{font-size:20px;margin:0 0 6px}
+.lede{font-size:19px;color:#b8c4d8}
+.toolcard,.box{background:#12203d;border:1px solid #24365c;border-radius:14px;padding:18px}
+textarea,input[type=text],input[type=number],select{width:100%;font:16px/1.6 Georgia,serif;padding:12px;border:1px solid #24365c;border-radius:10px;background:#0a1120;color:#e8edf5}
+.row{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;align-items:center}
+button{font:16px Georgia,serif;border-radius:9px;border:1px solid #24365c;background:#12203d;color:#e8edf5;padding:10px 16px;cursor:pointer}
+button.go{background:#2563eb;border-color:#2563eb;color:#fff;font-weight:bold}
+.status{font-size:15px;color:#b8c4d8}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
+.card{background:#12203d;border:1px solid #24365c;border-radius:12px;padding:16px}
+.card p{margin:6px 0 0;color:#b8c4d8;font-size:15px}
+table{border-collapse:collapse;width:100%;background:#12203d}
+th,td{border:1px solid #24365c;padding:8px 10px;text-align:left;vertical-align:top;font-size:15px}th{background:#1a2c4d}
+.dl a{display:inline-block;margin:6px 10px 6px 0;padding:10px 16px;border:1px solid #24365c;border-radius:9px;background:#12203d;text-decoration:none;color:#e8edf5}
+.free{display:inline-block;background:#1a2c4d;border:1px solid #3b82f6;border-radius:999px;padding:2px 12px;font-size:14px;color:#bfdbfe}
+.note{border-left:4px solid #3b82f6;background:#12203d;padding:12px 16px;border-radius:0 10px 10px 0}
+details{border:1px solid #24365c;border-radius:10px;background:#12203d;padding:10px 14px;margin:8px 0}
+summary{cursor:pointer;font-weight:bold}
+footer{margin-top:48px;padding:22px 0 34px;border-top:3px double #24365c;font-size:15px;color:#b8c4d8}
+footer p{margin:8px 0}.stamp{font-size:14px}
+@media (max-width:640px){.hero h1{font-size:32px}.hero img{max-height:300px}}
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap bar"><a class="mark" href="../">Signature Weather — helper</a><nav><a href="https://justinahiggins614-cmyk.github.io/jah-databases/mirrors/weather/">Group 1</a><a href="../g2-static/">Group 2</a><a href="./">Group 3</a><a href="../g4-generator/">Group 4</a><a href="../g5-data/">Group 5</a><a href="../g6-signature/">Group 6</a><a href="../g7-v2/">Group 7</a></nav></div></header>
+<div class="hero"><img src="assets/media-generation-mirror-weather-hero-0-d52453c2-0f56-4acd-bda4-57ebaf94c690.webp" alt="Willa the weather wren, the mascot of Signature Weather."><div class="cap"><h1>Signature Weather Helper</h1><p>Ask about Signature Weather — it answers from the archive.</p></div></div>
+<main class="wrap">
+<p class="lede">This page is only the Signature Weather helper. Ask it about Signature Weather — it answers from the Signature Weather archive. <span class="free">Free forever — no sign-in, no payment</span></p>
+<div class="note"><b>Plainly stated:</b> the helper on this page is a demo helper. It answers from this subject's own records on this page (keyword answers from the archive sample of 20 records). It is not the full engine and it does not check the live web. Online fact-checking: <b>not connected yet</b> — it is not live yet. It needs the network's hosted helper, which is waiting on setup; that path is blocked until the network owner signs in to the Cloudflare account, and that step is still waiting on him. This page never asks you for a key, and there is no key box anywhere on it. It does not load any key-handling script.</div>
+<h2 id="helper">The helper</h2>
+<div class="toolcard"><label for="q"><b>Your weather question</b></label>
+<input type="text" id="q" placeholder="e.g. What is the forecast for Silver Bay?">
+<div class="row"><button class="go" id="askBtn">Ask the helper</button><button data-q="What is the forecast for Silver Bay?">What is the forecast for Silver Bay?</button><button data-q="How is feels-like worked out?">How is feels-like worked out?</button><button data-q="Which place is warmest?">Which place is warmest?</button><button data-q="What places are in the sample table?">What places are in the sample table?</button>
+<span class="status" id="status">Helper ready.</span></div>
+<div id="log" style="margin-top:14px"></div></div>
+<p class="lede">The helper knows the 20 records of the archive sample by title and text. It answers in plain sentences. It does not invent records: when it does not know something, it says so. The mirror carries two helpers: The Signature Weather website AI, and the weather AI.</p>
+<h2>What this helper knows</h2>
+<table><tr><th>Group</th><th>Website</th><th>What it is</th></tr><tr><td><b>Group 1</b></td><td><a href="https://justinahiggins614-cmyk.github.io/jah-databases/mirrors/weather/">Full website</a></td><td>The full Signature Weather mirror, with the working demo, the sections, and the wiki.</td></tr><tr><td><b>Group 2</b></td><td><a href="../g2-static/">Links list (static)</a></td><td>Every Signature Weather link on one plain page, no JavaScript.</td></tr><tr><td><b>Group 3</b></td><td>Helper (this page)</td><td>A page that is only the Signature Weather helper, answering questions from the archive.</td></tr><tr><td><b>Group 4</b></td><td><a href="../g4-generator/">Forecast-plan generator</a></td><td>Seeded demonstration forecast plans: four sample places, three days each, worked out from the mirror&#x27;s own sample table and its feels-like rule.</td></tr><tr><td><b>Group 5</b></td><td><a href="../g5-data/">Data alone</a></td><td>The public Signature Weather data in plain readable form, no JavaScript.</td></tr><tr><td><b>Group 6</b></td><td><a href="../g6-signature/">Signature data</a></td><td>Only the Signature-created Signature Weather records, labeled Signature throughout.</td></tr><tr><td><b>Group 7</b></td><td><a href="../g7-v2/">Version 2 — Four-Seasons Hill</a></td><td>The themed second version: A green hill where all four seasons sit side by side, each in its own little garden., with working tools and printable lines.</td></tr></table>
+<h2>Ask about — sample questions</h2>
+<div class="grid"><div class="card"><h3>What is the forecast for Silver Bay?</h3><p>Silver Bay — clear skies, 18 degrees (mild), feels like 15 degrees.</p></div><div class="card"><h3>How is feels-like worked out?</h3><p>Feels-like equals temperature minus wind divided by 2. Silver Bay: 18 minus 6 divided by 2 is 15 degrees. The band is warm at 25 or more, mild from 15 to 24, cool from 5 to 14, cold below 5.</p></div><div class="card"><h3>Which place is warmest?</h3><p>Sunfield is warmest at 28 degrees, clear skies.</p></div><div class="card"><h3>What places are in the sample table?</h3><p>Ten sample places: Silver Bay, North Ridge, Harbor Town, Pine Valley, Lakeview, Stonefield, Willow Creek, Frost Hollow, Sunfield, Misty Moor. Every condition is a sample condition, never a real current condition.</p></div></div>
+<h2>Files</h2>
+<div class="dl"><a href="assets/archive-sample.json" download>Archive sample (20 records, JSON)</a>
+<a href="accessible/index.html">Plain version (no JavaScript needed)</a></div>
+</main>
+<footer><div class="wrap"><p><b>Network.</b> This page belongs to The 'Merica-L Internet: the front door is the <a href="https://justinahiggins614-cmyk.github.io/jah-databases/the-merica-l-virtual-internet.html">'Merica-L Virtual Internet</a>, the network's main page is <a href="https://justinahiggins614-cmyk.github.io/jah-databases/the-merica-l-boundless-ecosystem-os.html">'Merica-L Boundless Ecosystem OS</a>, and the databases live at the <a href="https://justinahiggins614-cmyk.github.io/jah-databases/">database hub</a>.</p><p>Free forever — no sign-in, no payment. Willa the weather wren is the mascot. She holds the yellow umbrella and reads the sample table, never the sky.</p><p class="stamp">Generated 2026-11-21, America/New_York, from the live Signature Weather mirror page and its archive sample. The whole network holds 66,219 websites.</p></div></footer>
+<script src="core/jahdb.js"></script>
+<script src="assets/helper.js"></script>
+<script>
+(function(){
+'use strict';
+/* CORRECTED call pattern (2026-11-21 fix): the helper calls the library with
+   the database first, then the question, then the context. The old order threw
+   synchronously and left "Thinking..." forever on 22,412 pages; the library now
+   also accepts the old order, but this page calls it the right way round. */
+var db={"name": "Signature Weather mirror sample table", "ai_name": "Signature Weather Helper", "record_kind": "weather sample record", "slug": "mirror-weather"};
+var records=[{"id": "weather-place-01", "title": "Silver Bay", "text": "Silver Bay — clear skies, 18 degrees, wind 6."}, {"id": "weather-place-02", "title": "North Ridge", "text": "North Ridge — light rain, 12 degrees, wind 4."}, {"id": "weather-place-03", "title": "Harbor Town", "text": "Harbor Town — cloudy, 16 degrees, wind 8."}, {"id": "weather-place-04", "title": "Pine Valley", "text": "Pine Valley — clear skies, 22 degrees, wind 2."}, {"id": "weather-place-05", "title": "Lakeview", "text": "Lakeview — light rain, 14 degrees, wind 10."}, {"id": "weather-place-06", "title": "Stonefield", "text": "Stonefield — cloudy, 20 degrees, wind 4."}, {"id": "weather-place-07", "title": "Willow Creek", "text": "Willow Creek — clear skies, 25 degrees, wind 6."}, {"id": "weather-place-08", "title": "Frost Hollow", "text": "Frost Hollow — snow flurries, 2 degrees, wind 8."}, {"id": "weather-place-09", "title": "Sunfield", "text": "Sunfield — clear skies, 28 degrees, wind 4."}, {"id": "weather-place-10", "title": "Misty Moor", "text": "Misty Moor — fog, 10 degrees, wind 2."}, {"id": "weather-feels-01", "title": "Feels-like for Silver Bay", "text": "Silver Bay has a sample temperature of 18 degrees and a sample wind speed of 6. The feels-like temperature is 18 minus 6 divided by 2, which is 15 degrees. At 18 degrees the band is mild."}, {"id": "weather-feels-02", "title": "Feels-like for North Ridge", "text": "North Ridge has a sample temperature of 12 degrees and a sample wind speed of 4. The feels-like temperature is 12 minus 4 divided by 2, which is 10 degrees. At 12 degrees the band is cool."}, {"id": "weather-feels-03", "title": "Feels-like for Harbor Town", "text": "Harbor Town has a sample temperature of 16 degrees and a sample wind speed of 8. The feels-like temperature is 16 minus 8 divided by 2, which is 12 degrees. At 16 degrees the band is mild."}, {"id": "weather-feels-04", "title": "Feels-like for Pine Valley", "text": "Pine Valley has a sample temperature of 22 degrees and a sample wind speed of 2. The feels-like temperature is 22 minus 2 divided by 2, which is 21 degrees. At 22 degrees the band is mild."}, {"id": "weather-feels-05", "title": "Feels-like for Lakeview", "text": "Lakeview has a sample temperature of 14 degrees and a sample wind speed of 10. The feels-like temperature is 14 minus 10 divided by 2, which is 9 degrees. At 14 degrees the band is cool."}, {"id": "weather-feels-06", "title": "Feels-like for Stonefield", "text": "Stonefield has a sample temperature of 20 degrees and a sample wind speed of 4. The feels-like temperature is 20 minus 4 divided by 2, which is 18 degrees. At 20 degrees the band is mild."}, {"id": "weather-feels-07", "title": "Feels-like for Willow Creek", "text": "Willow Creek has a sample temperature of 25 degrees and a sample wind speed of 6. The feels-like temperature is 25 minus 6 divided by 2, which is 22 degrees. At 25 degrees the band is warm."}, {"id": "weather-feels-08", "title": "Feels-like for Frost Hollow", "text": "Frost Hollow has a sample temperature of 2 degrees and a sample wind speed of 8. The feels-like temperature is 2 minus 8 divided by 2, which is -2 degrees. At 2 degrees the band is cold."}, {"id": "weather-feels-09", "title": "Feels-like for Sunfield", "text": "Sunfield has a sample temperature of 28 degrees and a sample wind speed of 4. The feels-like temperature is 28 minus 4 divided by 2, which is 26 degrees. At 28 degrees the band is warm."}, {"id": "weather-feels-10", "title": "Feels-like for Misty Moor", "text": "Misty Moor has a sample temperature of 10 degrees and a sample wind speed of 2. The feels-like temperature is 10 minus 2 divided by 2, which is 9 degrees. At 10 degrees the band is cool."}];
+var ctx=records.slice(0,8).map(function(r){return r.title;}).join("; ");
+function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
+var log=document.getElementById("log"),qEl=document.getElementById("q");
+function say(who,text){log.innerHTML+="<p><b>"+esc(who)+":</b> "+esc(text)+"</p>";}
+function aiAsk(q){return JAHDB.aiAnswer(db,q,ctx);}
+function ask(){
+  var q=qEl.value.trim();if(!q)return;
+  say("You",q);qEl.value="";
+  var tmp=document.createElement("p");tmp.innerHTML="<b>Helper:</b> <span class=\"status\">Thinking\u2026</span>";log.appendChild(tmp);
+  Promise.resolve().then(function(){
+    var hit=MirrorHelper.lookup(records,q);
+    if(hit){return "From the archive — "+hit.record.title+": "+(hit.record.text||"");}
+    return aiAsk(q);
+  }).then(function(a){tmp.innerHTML="<b>Helper:</b> "+esc(String(a&&a.text||a||"No answer."));})
+  .catch(function(e){tmp.innerHTML="<b>Helper:</b> Sorry \u2014 something went wrong: "+esc(String(e&&e.message||e));});
+}
+document.getElementById("askBtn").addEventListener("click",ask);
+qEl.addEventListener("keydown",function(e){if(e.key==="Enter")ask();});
+document.querySelectorAll("button[data-q]").forEach(function(b){b.addEventListener("click",function(){qEl.value=b.getAttribute("data-q");ask();});});
+})();
+</script>
+</body>
+</html>

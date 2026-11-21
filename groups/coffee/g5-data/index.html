@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Coffee Data — the public coffee data, alone</title>
+<meta name="description" content="The public coffee data in plain words and tables: brew ratios, roasts, beans, caffeine and all 164 core records. No JavaScript.">
+<style>
+  :root{--paper:#fdfcf7;--ink:#1f2430;--muted:#5b6472;--line:#e3ddcd;--card:#fff;--accent:#7c4a21;--accent-soft:#f5e6d3;--teal:#0f766e;--bad:#b91c1c;--bad-soft:#fee2e2;--good:#166534}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font:17px/1.6 Georgia,'Times New Roman',serif}
+  a{color:var(--teal)}
+  header.top{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5}
+  .wrap{max-width:960px;margin:0 auto;padding:0 18px}
+  .bar{display:flex;align-items:center;gap:18px;padding:12px 0}
+  .mark{font-size:22px;font-weight:bold;color:var(--ink);text-decoration:none;white-space:nowrap}
+  .mark span{color:var(--accent)}
+  nav{margin-left:auto;display:flex;gap:16px;flex-wrap:wrap}
+  nav a{color:var(--ink);text-decoration:none;font-size:15px}
+  nav a:hover{text-decoration:underline}
+  .hero{position:relative}
+  .hero img{display:block;width:100%;height:auto;max-height:430px;object-fit:cover;object-position:center 30%}
+  .hero .cap{position:absolute;left:0;right:0;top:0;text-align:center;padding:28px 18px 0}
+  .hero h1{margin:0;font-size:44px;line-height:1.1;color:#3d2c12;text-shadow:0 1px 0 #fff}
+  .hero p{margin:8px 0 0;font-size:19px;color:#4a3a1c}
+  main{padding:28px 0 10px}
+  h2{font-size:26px;margin:34px 0 10px}
+  h3{font-size:20px;margin:0 0 6px}
+  .lede{font-size:19px;color:var(--muted)}
+  .toolcard{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;box-shadow:0 2px 10px rgba(60,40,0,.06)}
+  .row{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;align-items:center}
+  button{font:16px Georgia,serif;border-radius:9px;border:1px solid var(--line);background:#fff;color:var(--ink);padding:10px 16px;cursor:pointer}
+  button.go{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:bold}
+  button:hover{filter:brightness(.97)}
+  input,select{font:16px Georgia,serif;padding:10px;border:1px solid var(--line);border-radius:9px;background:#fff;color:var(--ink)}
+  label{font-weight:bold}
+  .status{font-size:15px;color:var(--muted)}
+  .result{margin-top:14px;padding:14px;border:1px dashed var(--line);border-radius:10px;background:#fff;font-size:19px}
+  .result b{color:var(--accent)}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px}
+  .card p{margin:6px 0 0;color:var(--muted);font-size:15px}
+  .card .rec-link{font-size:14px}
+  .steps{counter-reset:step;display:grid;gap:12px}
+  .steps div{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+  .steps b::before{counter-increment:step;content:counter(step) ". ";color:var(--accent)}
+  .dl a{display:inline-block;margin:6px 10px 6px 0;padding:10px 16px;border:1px solid var(--line);border-radius:9px;background:#fff;text-decoration:none;color:var(--ink)}
+  table{border-collapse:collapse;width:100%;margin:12px 0;background:#fff}
+  th,td{border:1px solid var(--line);padding:8px 10px;text-align:left;font-size:16px}
+  th{background:var(--accent-soft)}
+  details{background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px 16px;margin:10px 0}
+  summary{cursor:pointer;font-weight:bold;font-size:18px}
+  footer{margin-top:48px;padding:22px 0 34px;border-top:3px double var(--line);font-size:15px;color:var(--muted)}
+  footer p{margin:8px 0}
+  .free{display:inline-block;background:var(--accent-soft);border:1px solid #d9a05b;border-radius:999px;padding:2px 12px;font-size:14px;color:#5b3413}
+  .note{background:var(--accent-soft);border:1px solid #d9a05b;border-radius:12px;padding:12px 16px}
+  @media (max-width:640px){.hero h1{font-size:32px}.hero img{max-height:300px}nav{display:none}}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap bar">
+    <a class="mark" href="./">☕ Coffee <span>Data</span></a>
+    <nav>
+      <a href="#ratios">Brew ratios</a>
+      <a href="#roasts">Roasts</a>
+      <a href="#records">All records</a>
+      <a href="#files">Files</a>
+    </nav>
+  </div>
+</header>
+<main class="wrap">
+  <p class="lede">The public coffee data, alone, in plain words and tables. No tools, no extras, no JavaScript on this page. Free forever — no sign-in, no payment. Every figure below comes from the JAH Coffee Guide Database records, retrieved 2026-11-21; each row links to its record.</p>
+
+  <h2 id="ratios">Brew ratios, grinds and times</h2>
+  <table><tr><th>Drink / method</th><th>Ratio</th><th>Grind</th><th>Time</th><th>Record</th></tr>
+<tr><td>Espresso</td><td>1:2 coffee to water</td><td>fine</td><td>25-30 sec</td><td><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-guide/#rec=JAH-COF-000001">JAH-COF-000001</a></td></tr>
+<tr><td>Americano</td><td>espresso + hot water</td><td>fine</td><td>25-30 sec</td><td><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-guide/#rec=JAH-COF-000002">JAH-COF-000002</a></td></tr>
+<tr><td>Cappuccino</td><td>1/3 espresso, 1/3 milk, 1/3 foam</td><td>fine</td><td>25-30 sec</td><td><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-guide/#rec=JAH-COF-000003">JAH-COF-000003</a></td></tr>
+<tr><td>Latte</td><td>1:5+ espresso to milk</td><td>fine</td><td>25-30 sec</td><td><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-guide/#rec=JAH-COF-000004">JAH-COF-000004</a></td></tr>
+<tr><td>Flat white</td><td>double ristretto + velvet milk</td><td>fine</td><td>25-30 sec</td><td><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-guide/#rec=JAH-COF-000005">JAH-COF-000005</a></td></tr>
+<tr><td>Macchiato</td><td>espresso marked with foam</td><td>fine</td><td>25-30 sec</td><td><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-guide/#rec=JAH-COF-000006">JAH-COF-000006</a></td></tr>
+<tr><td>Cortado</td><td>1:1 espresso to warm milk</td><td>fine</td><td>25-30 sec</td><td><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-guide/#rec=JAH-COF-000007">JAH-COF-000007</a></td></tr>
+<tr><td>Mocha</td><td>espresso + chocolate + milk</td><td>fine</td><td>25-30 sec</td><td><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-guide/#rec=JAH-COF-000008">JAH-COF-000008</a></td></tr>
+<tr><td>Cold brew</td><td>1:8 steeped 12-24h</td><td>coarse</td><td>12-24 hours</td><td><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-guide/#rec=JAH-COF-000009">JAH-COF-000009</a></td></tr>
+<tr><td>Iced coffee</td><td>double-strength over ice</td><td>medium</td><td>4 min</td><td><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-guide/#rec=JAH-COF-000010">JAH-COF-000010</a></td></tr>
+<tr><td>Pour over (V60)</td><td>1:16</td><td>medium-fine</td><td>3 min</td><td><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-guide/#rec=JAH-COF-000011">JAH-COF-000011</a></td></tr>
+<tr><td>Chemex</td><td>1:16</td><td>medium-coarse</td><td>4 min</td><td><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-guide/#rec=JAH-COF-000012">JAH-COF-000012</a></td></tr>
+<tr><td>French press</td><td>1:14</td><td>coarse</td><td>4 min</td><td><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-guide/#rec=JAH-COF-000013">JAH-COF-000013</a></td></tr>
+<tr><td>AeroPress</td><td>1:13</td><td>fine-medium</td><td>2 min</td><td><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-guide/#rec=JAH-COF-000014">JAH-COF-000014</a></td></tr>
+<tr><td>Moka pot</td><td>fill basket, water to valve</td><td>fine-medium</td><td>5 min</td><td><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-guide/#rec=JAH-COF-000015">JAH-COF-000015</a></td></tr>
+<tr><td>Turkish coffee</td><td>1:10, unfiltered</td><td>powder</td><td>3 min</td><td><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-guide/#rec=JAH-COF-000016">JAH-COF-000016</a></td></tr>
+  </table>
+  <p>How to read a ratio: 1:16 means 16 parts water to 1 part coffee. 15 g of coffee at 1:16 needs 240 g of water; 15 g at 1:15 needs 225 g; 18 g at 1:2 (espresso) needs 36 g.</p>
+
+  <h2 id="roasts">Roast levels</h2>
+  <table><tr><th>Roast</th><th>What the archive says</th><th>Record</th></tr>
+  <tr><td>Light roast</td><td>Light roast keeps origin character: bright, tea-like.</td><td><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-guide/#rec=JAH-COF-000022">JAH-COF-000022</a></td></tr>
+  <tr><td>Medium roast</td><td>Medium roast balances origin and caramel: the crowd-pleaser.</td><td><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-guide/#rec=JAH-COF-000023">JAH-COF-000023</a></td></tr>
+  <tr><td>Dark roast</td><td>Dark roast is roast flavor forward: smoky, bold, low acid.</td><td><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-guide/#rec=JAH-COF-000024">JAH-COF-000024</a></td></tr>
+  </table>
+  <p>First crack and second crack, green coffee, cooling and degassing are covered in the Fundamentals of Coffee Roasting Database (20 records) — see the record list below.</p>
+
+  <h2>Beans, water and caffeine</h2>
+  <table><tr><th>Topic</th><th>What the archive says</th><th>Record</th></tr>
+  <tr><td>Arabica beans</td><td>Arabica is the quality species: sweeter, more acidic, higher grown.</td><td><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-guide/#rec=JAH-COF-000020">JAH-COF-000020</a></td></tr>
+  <tr><td>Robusta beans</td><td>Robusta is the strong species: more caffeine, more crema, harsher.</td><td><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-guide/#rec=JAH-COF-000021">JAH-COF-000021</a></td></tr>
+  <tr><td>Bean storage</td><td>Store beans airtight, cool, dark — never the freezer for daily use. Whole beans, ground fresh.</td><td><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-guide/#rec=JAH-COF-000025">JAH-COF-000025</a></td></tr>
+  <tr><td>Water for coffee</td><td>Water is 98 percent of coffee: filtered, 90-96 C, not distilled.</td><td><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-guide/#rec=JAH-COF-000026">JAH-COF-000026</a></td></tr>
+  <tr><td>Caffeine content</td><td>Caffeine: espresso shot ~63mg, drip cup ~95mg, cold brew ~200mg. Light roasts edge darker by scoop.</td><td><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-guide/#rec=JAH-COF-000027">JAH-COF-000027</a></td></tr>
+  <tr><td>Dialing in espresso</td><td>Dial in: fix dose, adjust grind for 25-30 seconds. Sour means finer; bitter means coarser.</td><td><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-guide/#rec=JAH-COF-000029">JAH-COF-000029</a></td></tr>
+  <tr><td>Decaf process</td><td>Swiss Water decaf uses water, not chemicals, keeping flavor closest to regular.</td><td><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-guide/#rec=JAH-COF-000030">JAH-COF-000030</a></td></tr>
+  </table>
+
+  <h2 id="records">All 164 public records, by database</h2>
+  <p>Open a database to see every record title; each title links to its full record. The seven core public databases are listed here. The full coffee set is 60 databases with 1,472 records — the whole list is on the <a href="../g2-static/index.html">links-list website (Group 2)</a>.</p>
+<details><summary>JAH Coffee Guide Database — 30 records</summary><ul>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-guide/#rec=JAH-COF-000001">Espresso</a> — JAH-COF-000001</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-guide/#rec=JAH-COF-000002">Americano</a> — JAH-COF-000002</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-guide/#rec=JAH-COF-000003">Cappuccino</a> — JAH-COF-000003</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-guide/#rec=JAH-COF-000004">Latte</a> — JAH-COF-000004</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-guide/#rec=JAH-COF-000005">Flat white</a> — JAH-COF-000005</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-guide/#rec=JAH-COF-000006">Macchiato</a> — JAH-COF-000006</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-guide/#rec=JAH-COF-000007">Cortado</a> — JAH-COF-000007</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-guide/#rec=JAH-COF-000008">Mocha</a> — JAH-COF-000008</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-guide/#rec=JAH-COF-000009">Cold brew</a> — JAH-COF-000009</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-guide/#rec=JAH-COF-000010">Iced coffee</a> — JAH-COF-000010</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-guide/#rec=JAH-COF-000011">Pour over (V60)</a> — JAH-COF-000011</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-guide/#rec=JAH-COF-000012">Chemex</a> — JAH-COF-000012</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-guide/#rec=JAH-COF-000013">French press</a> — JAH-COF-000013</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-guide/#rec=JAH-COF-000014">AeroPress</a> — JAH-COF-000014</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-guide/#rec=JAH-COF-000015">Moka pot</a> — JAH-COF-000015</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-guide/#rec=JAH-COF-000016">Turkish coffee</a> — JAH-COF-000016</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-guide/#rec=JAH-COF-000017">Espresso grind</a> — JAH-COF-000017</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-guide/#rec=JAH-COF-000018">Filter grind</a> — JAH-COF-000018</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-guide/#rec=JAH-COF-000019">French press grind</a> — JAH-COF-000019</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-guide/#rec=JAH-COF-000020">Arabica beans</a> — JAH-COF-000020</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-guide/#rec=JAH-COF-000021">Robusta beans</a> — JAH-COF-000021</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-guide/#rec=JAH-COF-000022">Light roast</a> — JAH-COF-000022</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-guide/#rec=JAH-COF-000023">Medium roast</a> — JAH-COF-000023</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-guide/#rec=JAH-COF-000024">Dark roast</a> — JAH-COF-000024</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-guide/#rec=JAH-COF-000025">Bean storage</a> — JAH-COF-000025</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-guide/#rec=JAH-COF-000026">Water for coffee</a> — JAH-COF-000026</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-guide/#rec=JAH-COF-000027">Caffeine content</a> — JAH-COF-000027</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-guide/#rec=JAH-COF-000028">Latte art basics</a> — JAH-COF-000028</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-guide/#rec=JAH-COF-000029">Dialing in espresso</a> — JAH-COF-000029</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-guide/#rec=JAH-COF-000030">Decaf process</a> — JAH-COF-000030</li>
+</ul></details>
+<details><summary>The Coffee Roasters Database — 20 records</summary><ul>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-roasters/#rec=JAH-CORO-000001">What Coffee Roasters Do</a> — JAH-CORO-000001</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-roasters/#rec=JAH-CORO-000002">A Day in the Life</a> — JAH-CORO-000002</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-roasters/#rec=JAH-CORO-000003">Training and Education Path</a> — JAH-CORO-000003</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-roasters/#rec=JAH-CORO-000004">Green Coffee Basics</a> — JAH-CORO-000004</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-roasters/#rec=JAH-CORO-000005">Roast Science</a> — JAH-CORO-000005</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-roasters/#rec=JAH-CORO-000006">Roasting Equipment</a> — JAH-CORO-000006</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-roasters/#rec=JAH-CORO-000007">Key Terms and Jargon</a> — JAH-CORO-000007</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-roasters/#rec=JAH-CORO-000008">Developing Roast Profiles</a> — JAH-CORO-000008</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-roasters/#rec=JAH-CORO-000009">Cupping Mastery</a> — JAH-CORO-000009</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-roasters/#rec=JAH-CORO-000010">Sourcing Green Coffee</a> — JAH-CORO-000010</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-roasters/#rec=JAH-CORO-000011">Blending</a> — JAH-CORO-000011</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-roasters/#rec=JAH-CORO-000012">Production Roasting</a> — JAH-CORO-000012</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-roasters/#rec=JAH-CORO-000013">Packaging and Freshness</a> — JAH-CORO-000013</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-roasters/#rec=JAH-CORO-000014">Ethics and Professional Conduct</a> — JAH-CORO-000014</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-roasters/#rec=JAH-CORO-000015">Troubleshooting Roast Defects</a> — JAH-CORO-000015</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-roasters/#rec=JAH-CORO-000016">Advanced: Roast Curve Analysis</a> — JAH-CORO-000016</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-roasters/#rec=JAH-CORO-000017">History of Roasting</a> — JAH-CORO-000017</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-roasters/#rec=JAH-CORO-000018">The Business of Roasting</a> — JAH-CORO-000018</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-roasters/#rec=JAH-CORO-000019">Teaching and Mentoring</a> — JAH-CORO-000019</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-roasters/#rec=JAH-CORO-000020">Career Path and the Roastery</a> — JAH-CORO-000020</li>
+</ul></details>
+<details><summary>The Pour Over Coffee Database — 20 records</summary><ul>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/pour-over-coffee/#rec=JAH-POOVC-000001">What Pour Over Coffee Is All About</a> — JAH-POOVC-000001</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/pour-over-coffee/#rec=JAH-POOVC-000002">How Pour Over Guides Fit Into Everyday Life</a> — JAH-POOVC-000002</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/pour-over-coffee/#rec=JAH-POOVC-000003">Core Vocabulary</a> — JAH-POOVC-000003</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/pour-over-coffee/#rec=JAH-POOVC-000004">Getting Started: Your First Steps</a> — JAH-POOVC-000004</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/pour-over-coffee/#rec=JAH-POOVC-000005">Essential Tools and Materials</a> — JAH-POOVC-000005</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/pour-over-coffee/#rec=JAH-POOVC-000006">Myths vs Facts</a> — JAH-POOVC-000006</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/pour-over-coffee/#rec=JAH-POOVC-000007">History and Evolution</a> — JAH-POOVC-000007</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/pour-over-coffee/#rec=JAH-POOVC-000008">Core Skills, Part 1: The Fundamentals</a> — JAH-POOVC-000008</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/pour-over-coffee/#rec=JAH-POOVC-000009">Core Skills, Part 2: Building Control</a> — JAH-POOVC-000009</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/pour-over-coffee/#rec=JAH-POOVC-000010">Planning and Preparation</a> — JAH-POOVC-000010</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/pour-over-coffee/#rec=JAH-POOVC-000011">Safety First</a> — JAH-POOVC-000011</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/pour-over-coffee/#rec=JAH-POOVC-000012">Quality Standards</a> — JAH-POOVC-000012</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/pour-over-coffee/#rec=JAH-POOVC-000013">Troubleshooting Common Problems</a> — JAH-POOVC-000013</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/pour-over-coffee/#rec=JAH-POOVC-000014">Costs and Budgeting</a> — JAH-POOVC-000014</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/pour-over-coffee/#rec=JAH-POOVC-000015">Advanced Techniques</a> — JAH-POOVC-000015</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/pour-over-coffee/#rec=JAH-POOVC-000016">Teaching Others</a> — JAH-POOVC-000016</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/pour-over-coffee/#rec=JAH-POOVC-000017">Cooking for Others and Small Events</a> — JAH-POOVC-000017</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/pour-over-coffee/#rec=JAH-POOVC-000018">Innovations and Future Trends</a> — JAH-POOVC-000018</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/pour-over-coffee/#rec=JAH-POOVC-000019">Real-World Examples</a> — JAH-POOVC-000019</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/pour-over-coffee/#rec=JAH-POOVC-000020">Master Checklist</a> — JAH-POOVC-000020</li>
+</ul></details>
+<details><summary>The Coffee Brew Ratio Charts Database — 20 records</summary><ul>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-brew-ratio-charts/#rec=JAH-COBRR-000001">What Coffee Brew Ratios Is All About</a> — JAH-COBRR-000001</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-brew-ratio-charts/#rec=JAH-COBRR-000002">How Coffee Brewers Fit Into Everyday Life</a> — JAH-COBRR-000002</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-brew-ratio-charts/#rec=JAH-COBRR-000003">Core Vocabulary</a> — JAH-COBRR-000003</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-brew-ratio-charts/#rec=JAH-COBRR-000004">Getting Started: Your First Steps</a> — JAH-COBRR-000004</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-brew-ratio-charts/#rec=JAH-COBRR-000005">Essential Tools and Materials</a> — JAH-COBRR-000005</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-brew-ratio-charts/#rec=JAH-COBRR-000006">Myths vs Facts</a> — JAH-COBRR-000006</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-brew-ratio-charts/#rec=JAH-COBRR-000007">History and Evolution</a> — JAH-COBRR-000007</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-brew-ratio-charts/#rec=JAH-COBRR-000008">Core Skills, Part 1: The Fundamentals</a> — JAH-COBRR-000008</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-brew-ratio-charts/#rec=JAH-COBRR-000009">Core Skills, Part 2: Building Control</a> — JAH-COBRR-000009</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-brew-ratio-charts/#rec=JAH-COBRR-000010">Planning and Preparation</a> — JAH-COBRR-000010</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-brew-ratio-charts/#rec=JAH-COBRR-000011">Safety First</a> — JAH-COBRR-000011</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-brew-ratio-charts/#rec=JAH-COBRR-000012">Quality Standards</a> — JAH-COBRR-000012</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-brew-ratio-charts/#rec=JAH-COBRR-000013">Troubleshooting Common Problems</a> — JAH-COBRR-000013</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-brew-ratio-charts/#rec=JAH-COBRR-000014">Costs and Budgeting</a> — JAH-COBRR-000014</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-brew-ratio-charts/#rec=JAH-COBRR-000015">Advanced Techniques</a> — JAH-COBRR-000015</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-brew-ratio-charts/#rec=JAH-COBRR-000016">Teaching Others</a> — JAH-COBRR-000016</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-brew-ratio-charts/#rec=JAH-COBRR-000017">Teaching Others to Use the Reference</a> — JAH-COBRR-000017</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-brew-ratio-charts/#rec=JAH-COBRR-000018">Innovations and Future Trends</a> — JAH-COBRR-000018</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-brew-ratio-charts/#rec=JAH-COBRR-000019">Real-World Examples</a> — JAH-COBRR-000019</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/coffee-brew-ratio-charts/#rec=JAH-COBRR-000020">Master Checklist</a> — JAH-COBRR-000020</li>
+</ul></details>
+<details><summary>The Fundamentals of Coffee Roasting Database — 20 records</summary><ul>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/fundamentals-coffee-roasting/#rec=JAH-FU-COFF-000001">What Coffee Roasting Studies — Fundamentals of Coffee Roasting</a> — JAH-FU-COFF-000001</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/fundamentals-coffee-roasting/#rec=JAH-FU-COFF-000002">The Core Vocabulary of Coffee Roasting — Fundamentals of Coffee Roasting</a> — JAH-FU-COFF-000002</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/fundamentals-coffee-roasting/#rec=JAH-FU-COFF-000003">The History of Coffee Roasting — Fundamentals of Coffee Roasting</a> — JAH-FU-COFF-000003</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/fundamentals-coffee-roasting/#rec=JAH-FU-COFF-000004">Green coffee — Fundamentals of Coffee Roasting</a> — JAH-FU-COFF-000004</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/fundamentals-coffee-roasting/#rec=JAH-FU-COFF-000005">First crack — Fundamentals of Coffee Roasting</a> — JAH-FU-COFF-000005</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/fundamentals-coffee-roasting/#rec=JAH-FU-COFF-000006">Tools and Methods of Coffee Roasting — Fundamentals of Coffee Roasting</a> — JAH-FU-COFF-000006</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/fundamentals-coffee-roasting/#rec=JAH-FU-COFF-000007">How Coffee Roasting Is Practiced — Fundamentals of Coffee Roasting</a> — JAH-FU-COFF-000007</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/fundamentals-coffee-roasting/#rec=JAH-FU-COFF-000008">Second crack — Fundamentals of Coffee Roasting</a> — JAH-FU-COFF-000008</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/fundamentals-coffee-roasting/#rec=JAH-FU-COFF-000009">Roast levels — Fundamentals of Coffee Roasting</a> — JAH-FU-COFF-000009</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/fundamentals-coffee-roasting/#rec=JAH-FU-COFF-000010">Popper method — Fundamentals of Coffee Roasting</a> — JAH-FU-COFF-000010</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/fundamentals-coffee-roasting/#rec=JAH-FU-COFF-000011">Oven method — Fundamentals of Coffee Roasting</a> — JAH-FU-COFF-000011</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/fundamentals-coffee-roasting/#rec=JAH-FU-COFF-000012">Cooling — Fundamentals of Coffee Roasting</a> — JAH-FU-COFF-000012</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/fundamentals-coffee-roasting/#rec=JAH-FU-COFF-000013">Degassing — Fundamentals of Coffee Roasting</a> — JAH-FU-COFF-000013</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/fundamentals-coffee-roasting/#rec=JAH-FU-COFF-000014">Case Studies in Coffee Roasting — Fundamentals of Coffee Roasting</a> — JAH-FU-COFF-000014</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/fundamentals-coffee-roasting/#rec=JAH-FU-COFF-000015">Listen for the cracks — Fundamentals of Coffee Roasting</a> — JAH-FU-COFF-000015</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/fundamentals-coffee-roasting/#rec=JAH-FU-COFF-000016">Chaff — Fundamentals of Coffee Roasting</a> — JAH-FU-COFF-000016</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/fundamentals-coffee-roasting/#rec=JAH-FU-COFF-000017">Even heat — Fundamentals of Coffee Roasting</a> — JAH-FU-COFF-000017</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/fundamentals-coffee-roasting/#rec=JAH-FU-COFF-000018">Cooling method — Fundamentals of Coffee Roasting</a> — JAH-FU-COFF-000018</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/fundamentals-coffee-roasting/#rec=JAH-FU-COFF-000019">Current Research Frontiers in Coffee Roasting — Fundamentals of Coffee Roasting</a> — JAH-FU-COFF-000019</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/fundamentals-coffee-roasting/#rec=JAH-FU-COFF-000020">The Future of Coffee Roasting — Fundamentals of Coffee Roasting</a> — JAH-FU-COFF-000020</li>
+</ul></details>
+<details><summary>The Coffee Discovery Database — 34 records</summary><ul>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/db-coffee-discovery/#rec=JAH-CFD-000001">Coffee Cherry to Bean</a> — JAH-CFD-000001</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/db-coffee-discovery/#rec=JAH-CFD-000002">Grinding Matters Most</a> — JAH-CFD-000002</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/db-coffee-discovery/#rec=JAH-CFD-000003">French Press</a> — JAH-CFD-000003</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/db-coffee-discovery/#rec=JAH-CFD-000004">Pour-Over (V60 and Friends)</a> — JAH-CFD-000004</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/db-coffee-discovery/#rec=JAH-CFD-000005">Espresso Fundamentals</a> — JAH-CFD-000005</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/db-coffee-discovery/#rec=JAH-CFD-000006">Milk Drinks Decoded</a> — JAH-CFD-000006</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/db-coffee-discovery/#rec=JAH-CFD-000007">Cold Brew</a> — JAH-CFD-000007</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/db-coffee-discovery/#rec=JAH-CFD-000008">Iced Coffee Done Right</a> — JAH-CFD-000008</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/db-coffee-discovery/#rec=JAH-CFD-000009">Tasting Coffee</a> — JAH-CFD-000009</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/db-coffee-discovery/#rec=JAH-CFD-000010">Cafe Drinks at Home</a> — JAH-CFD-000010</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/db-coffee-discovery/#rec=JAH-CFD-000011">Coffee and Food Pairings</a> — JAH-CFD-000011</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/db-coffee-discovery/#rec=JAH-CFD-000012">Moka Pot Mastery</a> — JAH-CFD-000012</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/db-coffee-discovery/#rec=JAH-CFD-000013">AeroPress Versatility</a> — JAH-CFD-000013</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/db-coffee-discovery/#rec=JAH-CFD-000014">Siphon and Showpiece Brewers</a> — JAH-CFD-000014</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/db-coffee-discovery/#rec=JAH-CFD-000015">Latte Art at Home</a> — JAH-CFD-000015</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/db-coffee-discovery/#rec=JAH-CFD-000016">Espresso Tonic and Coffee Sodas</a> — JAH-CFD-000016</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/db-coffee-discovery/#rec=JAH-CFD-000017">Decaf, Done Well</a> — JAH-CFD-000017</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/db-coffee-discovery/#rec=JAH-CFD-000018">Coffee Cocktails (and Mocktails)</a> — JAH-CFD-000018</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/db-coffee-discovery/#rec=JAH-CFD-000019">Roasting at Home</a> — JAH-CFD-000019</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/db-coffee-discovery/#rec=JAH-CFD-000020">Cafe Culture Around the World</a> — JAH-CFD-000020</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/db-coffee-discovery/#rec=JAH-CFD-000021">Advanced: Water Chemistry</a> — JAH-CFD-000021</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/db-coffee-discovery/#rec=JAH-CFD-000022">Advanced: Espresso Profiling</a> — JAH-CFD-000022</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/db-coffee-discovery/#rec=JAH-CFD-000023">Advanced: The Home Barista Station</a> — JAH-CFD-000023</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/db-coffee-discovery/#rec=JAH-CFD-000024">Advanced: Coffee Business Basics</a> — JAH-CFD-000024</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/db-coffee-discovery/#rec=JAH-CFD-000025">The Coffee Discovery Master Collection</a> — JAH-CFD-000025</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/db-coffee-discovery/#rec=JAH-CFD-000026">Turkish Coffee</a> — JAH-CFD-000026</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/db-coffee-discovery/#rec=JAH-CFD-000027">Vietnamese Iced Coffee</a> — JAH-CFD-000027</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/db-coffee-discovery/#rec=JAH-CFD-000028">Cortado vs Flat White Deep Dive</a> — JAH-CFD-000028</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/db-coffee-discovery/#rec=JAH-CFD-000029">Advanced: Coffee and Chocolate Pairing</a> — JAH-CFD-000029</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/db-coffee-discovery/#rec=JAH-CFD-000030">Advanced: The Barista Competition</a> — JAH-CFD-000030</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/db-coffee-discovery/#rec=JAH-CFD-000031">Advanced: Green Coffee Buying</a> — JAH-CFD-000031</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/db-coffee-discovery/#rec=JAH-CFD-000032">Advanced: Espresso Machine Maintenance</a> — JAH-CFD-000032</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/db-coffee-discovery/#rec=JAH-CFD-000033">Advanced: Home Roast Profiles</a> — JAH-CFD-000033</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/db-coffee-discovery/#rec=JAH-CFD-000034">The Coffee Discovery Encyclopedia</a> — JAH-CFD-000034</li>
+</ul></details>
+<details><summary>The Coffee Roasteries Blueprint Database — 20 records</summary><ul>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/blueprint-coffee-roasteries/#rec=JAH-BP-CR-000001">Small 12-kg Roastery Coffee Roastery</a> — JAH-BP-CR-000001</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/blueprint-coffee-roasteries/#rec=JAH-BP-CR-000002">Large 120-kg Coffee Roastery</a> — JAH-BP-CR-000002</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/blueprint-coffee-roasteries/#rec=JAH-BP-CR-000003">Cafe Roastery Coffee Roastery</a> — JAH-BP-CR-000003</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/blueprint-coffee-roasteries/#rec=JAH-BP-CR-000004">Wholesale Coffee Roastery</a> — JAH-BP-CR-000004</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/blueprint-coffee-roasteries/#rec=JAH-BP-CR-000005">Historic Coffee Roastery</a> — JAH-BP-CR-000005</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/blueprint-coffee-roasteries/#rec=JAH-BP-CR-000006">Modern Coffee Roastery</a> — JAH-BP-CR-000006</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/blueprint-coffee-roasteries/#rec=JAH-BP-CR-000007">Urban Coffee Roastery</a> — JAH-BP-CR-000007</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/blueprint-coffee-roasteries/#rec=JAH-BP-CR-000008">Rural Coffee Roastery</a> — JAH-BP-CR-000008</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/blueprint-coffee-roasteries/#rec=JAH-BP-CR-000009">Mountain Coffee Roastery</a> — JAH-BP-CR-000009</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/blueprint-coffee-roasteries/#rec=JAH-BP-CR-000010">Small 12-kg Roastery — Standard Plan Coffee Roastery</a> — JAH-BP-CR-000010</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/blueprint-coffee-roasteries/#rec=JAH-BP-CR-000011">Large 120-kg — Accessible Plan Coffee Roastery</a> — JAH-BP-CR-000011</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/blueprint-coffee-roasteries/#rec=JAH-BP-CR-000012">Cafe Roastery — Cold-Climate Plan Coffee Roastery</a> — JAH-BP-CR-000012</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/blueprint-coffee-roasteries/#rec=JAH-BP-CR-000013">Wholesale — Coastal Plan Coffee Roastery</a> — JAH-BP-CR-000013</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/blueprint-coffee-roasteries/#rec=JAH-BP-CR-000014">Historic — Hillside Plan Coffee Roastery</a> — JAH-BP-CR-000014</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/blueprint-coffee-roasteries/#rec=JAH-BP-CR-000015">Modern — Urban Infill Plan Coffee Roastery</a> — JAH-BP-CR-000015</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/blueprint-coffee-roasteries/#rec=JAH-BP-CR-000016">Urban — Courtyard Plan Coffee Roastery</a> — JAH-BP-CR-000016</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/blueprint-coffee-roasteries/#rec=JAH-BP-CR-000017">Rural — Corner Lot Plan Coffee Roastery</a> — JAH-BP-CR-000017</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/blueprint-coffee-roasteries/#rec=JAH-BP-CR-000018">Mountain — Historic District Plan Coffee Roastery</a> — JAH-BP-CR-000018</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/blueprint-coffee-roasteries/#rec=JAH-BP-CR-000019">Small 12-kg Roastery — Rural Plan Coffee Roastery</a> — JAH-BP-CR-000019</li>
+<li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/blueprint-coffee-roasteries/#rec=JAH-BP-CR-000020">Large 120-kg — Compact Plan Coffee Roastery</a> — JAH-BP-CR-000020</li>
+</ul></details>
+  <h2 id="files">Files</h2>
+  <div class="dl">
+    <a href="records-public.json" download>⬇ Public core records (164, JSON)</a>
+    <a href="https://justinahiggins614-cmyk.github.io/jah-databases/services/coffee/assets/brew-ratios.json" download>⬇ Brew ratio table (JSON)</a>
+    <a href="./" download>⬇ This page</a>
+  </div>
+
+  <h2>The other coffee groups</h2>
+  <p><a href="https://justinahiggins614-cmyk.github.io/jah-databases/services/coffee/">Group 1 — Coffee, the full website</a> · <a href="../g2-static/index.html">Group 2 — Coffee Links</a> · <a href="../g3-ai/index.html">Group 3 — Coffee Questions</a> · <a href="../g4-generator/index.html">Group 4 — Coffee Blend Generator</a> · <a href="../g6-signature/index.html">Group 6 — Signature Coffee Data</a> · <a href="../g7-v2/index.html">Group 7 — Brewster's Coffeehouse</a></p>
+</main>
+<footer><div class="wrap"><p><b>Network.</b> This website belongs to The 'Merica-L Internet: the front door is the <a href="https://justinahiggins614-cmyk.github.io/jah-databases/the-merica-l-virtual-internet.html">'Merica-L Virtual Internet</a>, the network's main page is <a href="https://justinahiggins614-cmyk.github.io/jah-databases/the-merica-l-boundless-ecosystem-os.html">'Merica-L Boundless Ecosystem OS</a>, and the databases live at the <a href="https://justinahiggins614-cmyk.github.io/jah-databases/">database hub</a>.</p>
+<p>Coffee Data is free forever. No sign-in, no payment, no tracking. Brewster the coffee bean is the mascot of the coffee websites.</p>
+</div></footer>
+
+</body>
+</html>

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hazel&#x27;s Element Garden — Periodic Table, version 2</title>
+<meta name="description" content="Hazel&#x27;s Element Garden: the themed second version of Periodic Table — a bright element garden, with working tools and printable packs. Free forever.">
+<style>
+  :root{--paper:#fdfcf7;--ink:#1f2430;--muted:#5b6472;--line:#e3ddcd;--card:#fff;--accent:#1d4ed8;--accent-soft:#dbeafe;--teal:#0f766e;--bad:#b91c1c;--good:#166534}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font:17px/1.6 Georgia,'Times New Roman',serif}
+  a{color:var(--teal)}
+  header.top{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5}
+  .wrap{max-width:960px;margin:0 auto;padding:0 18px}
+  .bar{display:flex;align-items:center;gap:18px;padding:12px 0;flex-wrap:wrap}
+  .mark{font-size:22px;font-weight:bold;color:var(--ink);text-decoration:none;white-space:nowrap}
+  .mark span{color:var(--accent)}
+  nav{margin-left:auto;display:flex;gap:14px;flex-wrap:wrap}
+  nav a{color:var(--ink);text-decoration:none;font-size:15px}
+  nav a:hover{text-decoration:underline}
+  .hero{position:relative}
+  .hero img{display:block;width:100%;height:auto;max-height:430px;object-fit:cover;object-position:center 30%}
+  .hero .cap{position:absolute;left:0;right:0;top:0;text-align:center;padding:28px 18px 0}
+  .hero h1{margin:0;font-size:44px;line-height:1.1;color:#3d2c12;text-shadow:0 1px 0 #fff}
+  .hero p{margin:8px 0 0;font-size:19px;color:#4a3a1c}
+  main{padding:28px 0 10px}
+  h2{font-size:26px;margin:34px 0 10px}
+  h3{font-size:20px;margin:0 0 6px}
+  .lede{font-size:19px;color:var(--muted)}
+  .toolcard,.box{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;box-shadow:0 2px 10px rgba(60,40,0,.06)}
+  textarea,input[type=text],input[type=number],select{width:100%;font:16px/1.6 Georgia,serif;padding:12px;border:1px solid var(--line);border-radius:10px;background:#fff;color:var(--ink)}
+  textarea{min-height:150px}
+  .row{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;align-items:center}
+  button{font:16px Georgia,serif;border-radius:9px;border:1px solid var(--line);background:#fff;color:var(--ink);padding:10px 16px;cursor:pointer}
+  button.go{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:bold}
+  button:hover{filter:brightness(.97)}
+  .status{font-size:15px;color:var(--muted)}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px}
+  .card p{margin:6px 0 0;color:var(--muted);font-size:15px}
+  .card .rec-link{font-size:14px}
+  table{border-collapse:collapse;width:100%;background:#fff}
+  th,td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top;font-size:15px}
+  th{background:var(--accent-soft)}
+  .dl a{display:inline-block;margin:6px 10px 6px 0;padding:10px 16px;border:1px solid var(--line);border-radius:9px;background:#fff;text-decoration:none;color:var(--ink)}
+  .free{display:inline-block;background:var(--accent-soft);border:1px solid #fcd34d;border-radius:999px;padding:2px 12px;font-size:14px;color:#7c2d12}
+  .note{border-left:4px solid var(--accent);background:var(--accent-soft);padding:12px 16px;border-radius:0 10px 10px 0}
+  details{border:1px solid var(--line);border-radius:10px;background:#fff;padding:10px 14px;margin:8px 0}
+  summary{cursor:pointer;font-weight:bold}
+  footer{margin-top:48px;padding:22px 0 34px;border-top:3px double var(--line);font-size:15px;color:var(--muted)}
+  footer p{margin:8px 0}
+  .stamp{font-size:14px}
+  .record{border:1px solid var(--line);border-radius:12px;background:#fff;padding:16px;margin:14px 0}
+  .record h3{font-size:21px}
+  .words{font-size:15px;line-height:1.9;word-wrap:break-word}
+  @media (max-width:640px){.hero h1{font-size:32px}.hero img{max-height:300px}}
+</style>
+<script src="assets/tool-core.js"></script>
+<script>
+(function(){
+'use strict';
+var ELS=null;
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+fetch('assets/elements.json').then(function(r){return r.json();}).then(function(d){
+  ELS=d.elements; document.getElementById('ptStatus').textContent='Table ready: '+ELS.length+' elements.';
+}).catch(function(){document.getElementById('ptStatus').textContent='Table could not be loaded.';});
+function render(list, label){
+  var out=document.getElementById('ptOut');
+  if(!list.length){out.innerHTML='<p>No element matches that search. Try a name, a symbol, a number, or a group.</p>';return;}
+  out.innerHTML='<p><b>'+esc(label)+':</b> '+list.length+' element'+(list.length>1?'s':'')+'</p><table><tr><th>No.</th><th>Symbol</th><th>Name</th><th>Group</th><th>Note</th></tr>'+
+    list.map(function(e){return '<tr><td>'+e.z+'</td><td><b>'+esc(e.symbol)+'</b></td><td>'+esc(e.name)+'</td><td>'+esc(e.category)+'</td><td>'+esc(e.note)+'</td></tr>';}).join('')+'</table>';
+}
+document.getElementById('ptGo').addEventListener('click',function(){
+  if(!ELS) return;
+  var q=document.getElementById('ptSearch').value.trim();
+  render(searchElements(ELS,q),'Results for “'+q+'”');
+});
+document.querySelectorAll('button[data-cat]').forEach(function(b){
+  b.addEventListener('click',function(){
+    if(!ELS) return;
+    render(filterByCategory(ELS,b.getAttribute('data-cat')),b.getAttribute('data-cat'));
+  });
+});
+})();
+</script>
+
+</head>
+<body>
+<header class="top"><div class="wrap bar"><a class="mark" href="https://justinahiggins614-cmyk.github.io/jah-databases/services/periodic-table/">✓ Hazel's Element Garden</a><nav><a href="https://justinahiggins614-cmyk.github.io/jah-databases/services/periodic-table/">Group 1</a><a href="../g2-static/">Group 2</a><a href="../g3-ai/">Group 3</a><a href="../g4-generator/">Group 4</a><a href="../g5-data/">Group 5</a><a href="../g6-signature/">Group 6</a><a href="./">Group 7</a><a href="#world">The world</a><a href="#tools">Tools</a><a href="#packs">Product lines</a><a href="#fun">Fun</a><a href="#groups">Groups</a></nav></div></header>
+<div class="hero"><img src="assets/media-generation-periodic-table-hero-0-52f79f6f-ed84-4c2a-8e35-31eed7d12a46.webp" alt="Hazel the hedgehog runs the place — tools, packs, and fun."><div class="cap"><h1>Hazel&#x27;s Element Garden</h1><p>Hazel the hedgehog runs the place — tools, packs, and fun.</p></div></div><main class="wrap">
+
+  <p class="lede">Welcome to Hazel&#x27;s Element Garden — the themed second version of Periodic Table. Same data, same rules, but a whole world: a bright element garden Hazel the hedgehog runs the place. <span class="free">Free forever — no sign-in, no payment</span></p>
+  <h2 id="world">The world</h2>
+  <div class="box"><p>Hazel&#x27;s Element Garden is a bright garden where each element grows on its own tile, arranged in rows and columns like the table itself. The noble gases float in the top corner, the halogens bloom in a row, and the metals stand in the middle bed.</p></div>
+  <h2 id="tools">Tools</h2>
+  
+  <div class="toolcard">
+    <label for="ptSearch"><b>Find an element</b></label>
+    <input type="text" id="ptSearch" value="gold" placeholder="e.g. gold, Au, 79, noble gas">
+    <div class="row"><button class="go" id="ptGo">Find it</button>
+    <button data-cat="Noble Gas">Noble gases (7)</button>
+    <button data-cat="Halogen">Halogens (6)</button>
+    <button data-cat="Alkali Metal">Alkali metals</button>
+    <span class="status" id="ptStatus">Table: loading…</span></div>
+    <div id="ptOut" style="margin-top:14px"></div>
+  </div>
+  <p class="lede">The lookup searches all 118 elements by name, symbol, number, or group. The counts check: 7 noble gases including oganesson, 6 halogens including tennessine.</p>
+
+  <h2 id="packs">Product lines</h2>
+  <p class="lede">Three printable packs, each a set of cards or worksheets to take home. Every pack is labeled Signature or Fun below, and every pack is free to download — designs and printables only, never goods for sale.</p>
+  <div class="grid"><div class="card"><h3>Noble Gases pack</h3><p>A card set for the 7 noble gases, with a note for each. Seed 7 — the same pack every time.</p><p>A printable tile set: each element on one tile with symbol, number, and note, cut along the lines.</p><p><a href="assets/pack-7.json" download>⬇ Download the pack (JSON, 7 items)</a></p></div><div class="card"><h3>Halogens pack</h3><p>A card set for the 6 halogens, with a note for each. Seed 42.</p><p>A printable tile set, as above, with a note on how halogens behave.</p><p><a href="assets/pack-42.json" download>⬇ Download the pack (JSON, 6 items)</a></p></div><div class="card"><h3>Everyday Elements pack</h3><p>20 element tiles for the elements met every day: iron, copper, oxygen, carbon, and more. Seed 99.</p><p>A printable tile set, as above, with a note on where each element is used.</p><p><a href="assets/pack-99.json" download>⬇ Download the pack (JSON, 20 items)</a></p></div></div>
+  <h2 id="fun">Fun stuff</h2>
+  <div class="box"><p><b>Fun, not fact.</b> Fun, not fact: Hazel claims she grew oganesson in a flowerpot. The garden&#x27;s element-guessing game is a parlour game — oganesson exists only as a handful of atoms made in a laboratory, and the 118 proven elements are the ones in the table.</p></div>
+  <h2 id="groups">The seven groups</h2>
+  <table><tr><th>Group</th><th>Website</th><th>What it is</th></tr><tr><td><b>Group 1</b></td><td><a href="https://justinahiggins614-cmyk.github.io/jah-databases/services/periodic-table/">Full website</a></td><td>The full Periodic Table website, with the working tool, the records, the files, and the wiki.</td></tr><tr><td><b>Group 2</b></td><td><a href="../g2-static/">Links list (static)</a></td><td>Every periodic table link on one plain page, no JavaScript.</td></tr><tr><td><b>Group 3</b></td><td><a href="../g3-ai/">Helper (AI only)</a></td><td>A page that is only the periodic table helper, answering questions from the archive.</td></tr><tr><td><b>Group 4</b></td><td><a href="../g4-generator/">Element quiz generator</a></td><td>A periodic table generator alone: an element quiz: seeded questions on symbols, names, and atomic numbers, drawn from all 118 elements.</td></tr><tr><td><b>Group 5</b></td><td><a href="../g5-data/">Data alone</a></td><td>The public periodic table data in plain readable form, no JavaScript.</td></tr><tr><td><b>Group 6</b></td><td><a href="../g6-signature/">Signature data</a></td><td>Only the Signature-created periodic table records, labeled Signature throughout.</td></tr><tr><td><b>Group 7</b></td><td><a href="./">Version 2 — Hazel&#x27;s Element Garden</a></td><td>The themed second version: a bright element garden, with working tools and printable packs.</td></tr></table>
+  <h2 id="files">Files</h2>
+  <div class="dl"><a href="assets/pack-7.json" download>⬇ Noble Gases pack</a>
+  <a href="assets/pack-42.json" download>⬇ Halogens pack</a>
+  <a href="assets/pack-99.json" download>⬇ Everyday Elements pack</a>
+  <a href="https://justinahiggins614-cmyk.github.io/jah-databases/services/periodic-table/records.json" download>⬇ Service records (JSON)</a>
+  <a href="accessible/index.html">Plain version (no JavaScript needed)</a></div>
+
+</main>
+<footer><div class="wrap"><p><b>Network.</b> This page belongs to The 'Merica-L Internet: the front door is the <a href="https://justinahiggins614-cmyk.github.io/jah-databases/the-merica-l-virtual-internet.html">'Merica-L Virtual Internet</a>, the network's main page is <a href="https://justinahiggins614-cmyk.github.io/jah-databases/the-merica-l-boundless-ecosystem-os.html">'Merica-L Boundless Ecosystem OS</a>, and the databases live at the <a href="https://justinahiggins614-cmyk.github.io/jah-databases/">database hub</a>.</p><p>Free forever — no sign-in, no payment. Hazel the hedgehog is the mascot; she arranges the tiles.</p><p class="stamp">Generated 2026-11-21, America/New_York, from The Periodic Table Service service site and pair. The whole network holds 66,219 websites.</p></div></footer>
+</body>
+</html>

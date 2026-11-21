@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Signature PC System Depository — generator (Group 4)</title>
+<style>body{font-family:Arial,sans-serif;max-width:780px;margin:0 auto;padding:18px;line-height:1.6;color:#dbe4f5;background:#0a1120}h1{font-size:1.6em;color:#ffd97a}h2{font-size:1.25em;margin-top:1.4em;color:#ffd97a}a{color:#8ecbff}details{margin:6px 0;border:1px solid #335;padding:6px 10px}summary{cursor:pointer;font-weight:bold}.card{border:1px solid #335;padding:10px;margin:8px 0;background:#101c36}.stamp{font-size:.85em;color:#9fb0cc}.note{background:#13233f;border:1px solid #e8c766;padding:10px;margin:10px 0;color:#ffe9a8}img{max-width:100%;height:auto}input,select,button{font-size:1em;padding:6px;margin:4px 0}#log{border:1px solid #335;padding:10px;min-height:120px;background:#101c36;white-space:pre-wrap}</style>
+</head>
+<body>
+<h1>The Signature PC System Depository — the generator</h1>
+<p>The on-demand model generator is the depository’s own GEN/2.0 engine: give a seed or a model number from 1 to 1,000,000 and it builds that generated model, the same input always giving the same model.</p>
+<div class="note"><p>Every output here is <b>generated (simulated)</b> — a possible model from the depository’s own GEN/2.0 lattice, built on this page by the depository’s own engine (js/gen.js + js/identity.js, copied unchanged). A generated model is never an archive record, and its ID never collides with an archive ID.</p></div>
+<p><label>Seed (any word): <input type="text" id="seed" value="abacus" size="24"></label> <button id="seedBtn">Generate from seed</button></p>
+<p><label>Model number (1 to 1,000,000): <input type="number" id="model" value="1" min="1" max="1000000"></label> <button id="modelBtn">Generate model</button> <button id="copyBtn">Copy all</button> <button id="dlBtn">Download JSON</button></p>
+<pre id="out" style="white-space:pre-wrap;border:1px solid #335;padding:10px;background:#101c36">Press a Generate button.</pre>
+<h2>How it works</h2>
+<ol><li>You give a seed word or a model number from 1 to 1,000,000.</li><li>A seed word is hashed to a model number; the model number decodes through the mixed-radix lattice (architecture, material, ALU width, registers, cores, era, form factor) to one generated model.</li><li>Same input, same output, every time. Nothing leaves your device.</li></ol>
+<p>What it cannot do: it cannot fetch the live archive, it cannot check the live web, and it cannot make a real archive record. A generated model is a possible model, not evidence the machine exists or was built.</p>
+<h2>Sample output</h2>
+<p id="sampleOut">Loading a sample…</p>
+<p><a href="accessible/index.html">Accessible version of this page</a> · <a href="assets/gen.js">The engine (gen.js, readable)</a> · <a href="assets/identity.js">The identity rules (identity.js, readable)</a></p>
+<script src="assets/identity.js"></script>
+<script src="assets/gen.js"></script>
+<script>
+function hashWord(s){ var h=2166136261; s=String(s); for(var i=0;i<s.length;i++){ h^=s.charCodeAt(i); h=Math.imul(h,16777619); } return h>>>0; }
+function renderModel(m){
+  var c=m.component_set;
+  return 'Generated model '+m.system_id+' (simulated) \u2014 model #'+m.model_number.toLocaleString()+' of 1,000,000\n'
+    +'Name: '+m.name+'\nCategory: '+m.category+'\n'+m.blurb+'\n'
+    +'Parts: '+c.ARCHITECTURE+' architecture, '+c.MATERIAL+' substrate, '+c.ALU_WIDTH_BIT+'-bit ALU, '+c.REGISTERS+' registers, '+c.CORES+' cores, '+c.ERA+', '+c.FORM_FACTOR+' form.\n'
+    +'Validity: '+(m.validity && m.validity.verdict ? m.validity.verdict : 'see engine')+'\nGenerator: '+m.generator_version;
+}
+function showModel(n){
+  var out=document.getElementById('out');
+  try{
+    var m=PCMODELS.at(n-1);
+    window._lastModel=m;
+    out.textContent=renderModel(m);
+  }catch(e){ out.textContent='Error: '+e.message; }
+}
+document.getElementById('seedBtn').addEventListener('click', function(){
+  var seed=document.getElementById('seed').value || 'abacus';
+  var n=PCIDENT.seedToModelNumber(hashWord(seed));
+  showModel(n);
+});
+document.getElementById('modelBtn').addEventListener('click', function(){
+  var n=parseInt(document.getElementById('model').value, 10);
+  if(!isFinite(n) || n<1 || n>1000000){ document.getElementById('out').textContent='Error: model number must be a whole number from 1 to 1,000,000.'; return; }
+  showModel(n);
+});
+document.getElementById('copyBtn').addEventListener('click', function(){
+  var t=document.getElementById('out').textContent;
+  if(navigator.clipboard){ navigator.clipboard.writeText(t); }
+});
+document.getElementById('dlBtn').addEventListener('click', function(){
+  var m=window._lastModel || PCMODELS.at(0);
+  var blob=new Blob([JSON.stringify(m, null, 2)], {type:'application/json'});
+  var a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='generated-model.json'; a.click();
+});
+document.getElementById('sampleOut').textContent='Sample (model #1, generated/simulated): '+renderModel(PCMODELS.at(0));
+
+</script>
+<footer><p>Part of the network. Front door: <a href="https://justinahiggins614-cmyk.github.io/jah-databases/the-merica-l-virtual-internet.html">The ’Merica-L Virtual Internet</a> · <a href="https://justinahiggins614-cmyk.github.io/jah-databases/the-merica-l-boundless-ecosystem-os.html">’Merica-L Boundless Ecosystem OS</a> · <a href="https://justinahiggins614-cmyk.github.io/jah-databases/">Database hub</a> · <a href="https://justinahiggins614-cmyk.github.io/jah-databases/all-websites.html">All websites</a> · <a href="https://justinahiggins614-cmyk.github.io/jah-databases/seven-groups.html">The Seven Groups</a></p><p>The network holds 66,219 websites in total (re-derived 2026-11-21 from the live manifest and directory).</p><p>Generated 2026-11-21, America/New_York, from the live manifest (63,087 databases) and the site’s own files.</p></footer>
+</body>
+</html>

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>R Snippet Generator — make real R code</title>
+<meta name="description" content="A generator website alone: seeded, deterministic R snippets from R&#x27;s built-in datasets.">
+<style>body{font:18px/1.7 Georgia,serif;max-width:860px;margin:0 auto;padding:0 20px 40px;color:#1f2430;background:#fdfcf7}
+a{color:#276dc3}h1{font-size:34px;line-height:1.2}h2{font-size:26px;margin-top:36px;border-top:2px solid #d8d2c4;padding-top:18px}h3{font-size:21px}
+header.site{border-bottom:3px solid #276dc3;padding:14px 0 10px;margin-bottom:8px}
+header.site nav a{margin-right:16px;font-size:16px}
+.hero{margin:18px 0 8px}.hero img{width:100%;border-radius:12px;display:block}
+.hero p.lede{font-size:20px}.card{border:1px solid #d8d2c4;border-radius:10px;padding:14px 16px;margin:12px 0;background:#fff}
+.badge{display:inline-block;background:#e8f0fb;border:1px solid #b9cdec;border-radius:999px;padding:1px 10px;font-size:.82em;margin-right:6px}
+.badge.sig{background:#f1e8fb;border-color:#c9aee8}.dim{color:#5a6272;font-size:.92em}
+pre{background:#0d1526;color:#e8f1ff;border-radius:8px;padding:12px;overflow-x:auto;font-size:14px;line-height:1.5}
+code{background:#eef1f6;padding:1px 5px;border-radius:4px;font-size:.9em}
+input,select,textarea,button{font:16px Georgia,serif;padding:9px 10px;border-radius:8px;border:1px solid #b9bec9}
+button{cursor:pointer;background:#276dc3;color:#fff;border-color:#276dc3;font-weight:bold}
+textarea{width:100%;min-height:90px}table{border-collapse:collapse;width:100%}td,th{border:1px solid #d8d2c4;padding:8px;text-align:left;vertical-align:top}
+ul.tight li{margin-bottom:6px}</style>
+</head>
+<body>
+<header class="site">
+<div><b>R Programming Language</b> &mdash; Seven Website Groups pilot</div>
+<nav><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/prog-lang-r/">Full website</a> | <a href="../g2-static/index.html">Static links list</a> | <a href="../g3-ai/index.html">Archivist</a> | <b>Generator alone</b> | <a href="../g5-data/index.html">Data alone</a> | <a href="../g6-signature/index.html">Signature data</a> | <a href="../g7-v2/index.html">Version 2</a></nav>
+</header>
+
+<h1>R Snippet Generator — make real R code</h1>
+<p class="lede">A generator for real R code: pick a seed and it writes working R snippets — summaries, plots, models and samples — from R's built-in datasets.</p>
+<div class="card">
+<h3>Generate R snippets</h3>
+<div class="row">
+<label>Seed <input id="gSeed" type="number" value="1" style="width:110px"></label>
+<label>Count <input id="gN" type="number" value="3" min="1" max="10" style="width:80px"></label>
+<label>Dataset <select id="gDs"><option value="">any</option><option>mtcars</option><option>iris</option><option>faithful</option><option>AirPassengers</option><option>sleep</option><option>warpbreaks</option></select></label>
+<label>Kind <select id="gOp"><option value="">any</option><option value="summarise">summarise</option><option value="plot">plot</option><option value="model">model</option><option value="sample">sample</option></select></label>
+<button id="gGo">Generate</button>
+</div>
+<p class="dim">Deterministic: the same seed always makes the same snippet. The datasets are the ones shipped with R itself (mtcars, iris, faithful, AirPassengers, sleep, warpbreaks). Every snippet is real R code you can paste into an R session and run.</p>
+<div id="gOut"></div>
+</div>
+<div class="card">
+<h3>How it works</h3>
+<ol>
+<li>Pick a seed number. The generator uses it to choose a dataset, a variable and a kind of snippet.</li>
+<li>Press Generate. Each snippet is a short, complete R script with a comment saying what it does.</li>
+<li>Copy the code or download it as a <code>.R</code> file and run it in R.</li>
+</ol>
+<p class="dim">What it does not do: it only writes snippets from R's built-in datasets. It does not run R for you, and it does not invent new datasets.</p>
+<p>Learn R itself in the archive: <a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/prog-lang-r/">R Programming Language Database</a> (20 public records) and the plain data page <a href="../g5-data/index.html">Group 5 — Data alone</a>. The other R websites: <a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/prog-lang-r/">full website</a> &middot; <a href="../g2-static/index.html">links list</a> &middot; <a href="../g3-ai/index.html">JAH R Archivist</a> &middot; <a href="../g6-signature/index.html">Signature data</a> &middot; <a href="../g7-v2/index.html">The R Workshop</a>.</p>
+</div>
+<script>
+function prng(seed){var a=(seed>>>0)||1;return function(){a|=0;a=(a+0x6D2B79F5)|0;var t=Math.imul(a^(a>>>15),1|a);t=(t+Math.imul(t^(t>>>7),61|t))^t;return((t^(t>>>14))>>>0)/4294967296;};}
+function pick(rnd, arr){ return arr[Math.floor(rnd()*arr.length)]; }
+var DATASETS = ['mtcars','iris','faithful','AirPassengers','sleep','warpbreaks'];
+var OPS = ['summarise','plot','model','sample'];
+var VARS = {
+  mtcars: ['mpg','hp','wt','cyl'],
+  iris: ['Sepal.Length','Petal.Length','Species'],
+  faithful: ['eruptions','waiting'],
+  AirPassengers: ['value'],
+  sleep: ['extra','group'],
+  warpbreaks: ['breaks','wool','tension']
+};
+function generateSnippet(seed, dataset, op){
+  var rnd = prng(seed);
+  dataset = dataset || pick(rnd, DATASETS);
+  op = op || pick(rnd, OPS);
+  var v = pick(rnd, VARS[dataset]);
+  var code = '', title = '';
+  if(op === 'summarise'){
+    title = 'Summarise ' + v + ' in ' + dataset;
+    code = '# ' + title + '\n# seed ' + seed + '\n'
+      + 'x <- ' + dataset + '$' + v + '\n'
+      + 'mean(x, na.rm = TRUE)\nmedian(x, na.rm = TRUE)\nsummary(x)\n';
+  } else if(op === 'plot'){
+    title = 'Plot ' + v + ' from ' + dataset;
+    code = '# ' + title + '\n# seed ' + seed + '\n'
+      + 'plot(' + dataset + '$' + v + ', main = "' + v + ' in ' + dataset + '")\n'
+      + 'hist(' + dataset + '$' + v + ', main = "' + v + '")\n';
+  } else if(op === 'model'){
+    title = 'Fit a model on ' + dataset;
+    var v2 = pick(rnd, VARS[dataset]);
+    code = '# ' + title + '\n# seed ' + seed + '\n'
+      + 'fit <- lm(' + v + ' ~ ' + v2 + ', data = ' + dataset + ')\nsummary(fit)\n';
+  } else {
+    title = 'Sample rows from ' + dataset;
+    code = '# ' + title + '\n# seed ' + seed + '\n'
+      + 'set.seed(' + seed + ')\n'
+      + 'd <- ' + dataset + '[sample(nrow(' + dataset + '), 5), ]\nprint(d)\n';
+  }
+  return {seed: seed, dataset: dataset, op: op, title: title, code: code};
+}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+function runGenerate(){
+  var seed = parseInt(document.getElementById('gSeed').value, 10);
+  if(isNaN(seed)) seed = 1;
+  var n = Math.min(10, Math.max(1, parseInt(document.getElementById('gN').value, 10) || 3));
+  var ds = document.getElementById('gDs').value || '';
+  var op = document.getElementById('gOp').value || '';
+  var out = [];
+  for(var i=0;i<n;i++){ out.push(generateSnippet(seed+i, ds, op)); }
+  var html = '<h3>Generated (' + out.length + ')</h3>';
+  out.forEach(function(s, i){
+    html += '<div class="card"><h3>' + esc(s.title) + '</h3>'
+      + '<p><span class="badge">seed ' + s.seed + '</span><span class="badge">' + esc(s.dataset) + '</span><span class="badge">' + esc(s.op) + '</span></p>'
+      + '<pre>' + esc(s.code) + '</pre>'
+      + '<button data-copy="' + i + '">Copy code</button> '
+      + '<button data-dl="' + i + '">Download .R</button></div>';
+  });
+  document.getElementById('gOut').innerHTML = html;
+  window._snips = out;
+}
+document.addEventListener('DOMContentLoaded', function(){
+  document.getElementById('gGo').addEventListener('click', runGenerate);
+  document.getElementById('gOut').addEventListener('click', function(e){
+    var c = e.target.getAttribute && e.target.getAttribute('data-copy');
+    var d = e.target.getAttribute && e.target.getAttribute('data-dl');
+    if(c !== null && c !== undefined && window._snips){
+      var s = window._snips[parseInt(c,10)];
+      if(navigator.clipboard) navigator.clipboard.writeText(s.code);
+      e.target.textContent = 'Copied';
+    }
+    if(d !== null && d !== undefined && window._snips){
+      var s2 = window._snips[parseInt(d,10)];
+      var blob = new Blob([s2.code], {type:'text/plain'});
+      var a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'r-snippet-seed-' + s2.seed + '.R';
+      document.body.appendChild(a); a.click(); a.remove();
+    }
+  });
+  runGenerate();
+});
+if(typeof module !== 'undefined' && module.exports){
+  module.exports = {generateSnippet: generateSnippet, prng: prng};
+}
+</script>
+<h2>Network</h2>
+<p>This website belongs to The 'Merica-L Internet: the front door is the <a href="https://justinahiggins614-cmyk.github.io/jah-databases/the-merica-l-virtual-internet.html">'Merica-L Virtual Internet</a>, the network's main page is <a href="https://justinahiggins614-cmyk.github.io/jah-databases/the-merica-l-boundless-ecosystem-os.html">'Merica-L Boundless Ecosystem OS</a>, and the databases live at the <a href="https://justinahiggins614-cmyk.github.io/jah-databases/">database hub</a>.</p>
+<p>Free forever. No sign-in, no payment, no tracking. Remy the robin files each snippet.</p>
+<p>Property of Justin Addam Higgins (JAH). Public records organized in the Signature system.</p>
+</body>
+</html>

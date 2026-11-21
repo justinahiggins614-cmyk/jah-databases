@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Melody&#x27;s Listening Garden — Signature Tunes</title>
+<meta name="description" content="Melody&#x27;s Listening Garden — the themed second version of Signature Tunes.">
+<style>
+body{margin:0;background:#fdfcf7;color:#1f2430;font:17px/1.6 Georgia,serif}
+a{color:#0f766e}.wrap{max-width:960px;margin:0 auto;padding:0 18px 40px}
+header{border-bottom:3px double #d8cfb8;padding:26px 0 10px}
+h1{font-size:34px;margin:0}h2{font-size:24px;margin:30px 0 8px}h3{font-size:19px;margin:20px 0 6px}
+.lede{font-size:18px;color:#5b6472}.note{border-left:4px solid #0f766e;background:#e6f4f1;padding:12px 16px;border-radius:0 10px 10px 0}
+.box{background:#fff;border:1px solid #e3ddcd;border-radius:12px;padding:16px;margin:12px 0}
+details{border:1px solid #e3ddcd;border-radius:10px;background:#fff;padding:10px 14px;margin:8px 0}
+summary{cursor:pointer;font-weight:bold}
+table{border-collapse:collapse;width:100%;background:#fff}
+th,td{border:1px solid #e3ddcd;padding:8px 10px;text-align:left;vertical-align:top;font-size:15px}
+th{background:#e6f4f1}
+footer{margin-top:44px;padding:20px 0 30px;border-top:3px double #d8cfb8;font-size:15px;color:#5b6472}
+.stamp{font-size:13px;color:#5b6472}
+button{font:16px Georgia,serif;border-radius:9px;border:1px solid #d8cfb8;background:#fff;padding:10px 16px;cursor:pointer}
+button.go{background:#0f766e;border-color:#0f766e;color:#fff;font-weight:bold}
+input[type=text],input[type=number]{width:100%;font:16px Georgia,serif;padding:12px;border:1px solid #d8cfb8;border-radius:10px;background:#fff}
+img.hero{width:100%;height:auto;border-radius:12px;border:1px solid #e3ddcd}
+.free{display:inline-block;background:#fef3c7;border:1px solid #fcd34d;border-radius:999px;padding:2px 12px;font-size:14px;color:#7c2d12}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header><h1>Melody&#x27;s Listening Garden</h1><p class="lede">Melody&#x27;s Listening Garden — the themed second version: a garden where every flower is a note and every path hums a tune.</p><p><span class="free">Free forever — no sign-in, no payment</span></p></header><img class="hero" src="assets/media-generation-tunes-g7-hero-0-7dd063ef-cea6-437b-af90-a624123f6812.webp" alt="Melody the mockingbird, the mascot of Signature Tunes"><main><h2>The themed world</h2><p>Melody&#x27;s Listening Garden is a listening garden. Walk it in words:</p><ul><li>The Gate — where Melody sings and every visitor is greeted by a tune.</li><li>The Note-Flower Beds — flowers shaped like notes, one bed for each mood: calm, bright, evening, lively.</li><li>The Listening Lawn — a wide lawn for sitting and listening to a whole playlist through.</li><li>The Playlist Pond — still water that holds the total play time of the day&#x27;s playlist.</li></ul><h2>Tools</h2><p>Two working tools, plain JavaScript, no backend, no key. They work on the mirror's own 12 tracks only.</p><div class="box"><h3>Build a playlist by mood</h3><p>Type a mood word — calm, bright, evening, lively, gentle, quiet, soft or fast — and the builder lists every track that matches, with the total play time.</p><label for="mood"><b>Mood word</b></label><input type="text" id="mood" value="calm"><p><button class="go" id="moodBtn">Build the playlist</button></p><div id="moodOut"></div></div><div class="box"><h3>Add up play times</h3><p>Enter track lengths in seconds, separated by commas, and the adder gives the total as minutes and seconds.</p><label for="secs"><b>Seconds, separated by commas</b></label><input type="text" id="secs" value="184, 201, 176"><p><button class="go" id="secsBtn">Add them up</button></p><p id="secsOut"></p></div><div class="box"><h3>Quiz — which mood fits?</h3><p>A quiz drawn from the sample catalog. It is a game, not a record.</p><p><button class="go" id="quizBtn">New question</button></p><div id="quizOut"></div></div><script src="../g4-generator/assets/engine.js"></script><script src="assets/tools.js"></script><script>
+(function(){
+'use strict';
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+document.getElementById('moodBtn').addEventListener('click',function(){var r=SigEngine.buildPlaylist(document.getElementById('mood').value);var h=r.tracks.length?'<ul>'+r.tracks.map(function(t){return '<li>'+esc(t.title)+' — '+SigEngine.formatTime(t.seconds)+'</li>';}).join('')+'</ul><p>Total: '+r.totalLabel+' ('+r.totalSeconds+' seconds).</p>':'<p>No sample track matches that word. Try calm, bright, evening, lively, or gentle.</p>';document.getElementById('moodOut').innerHTML=h;});
+document.getElementById('secsBtn').addEventListener('click',function(){var r=SigTools.sumSeconds(document.getElementById('secs').value);document.getElementById('secsOut').textContent=r.error||('Total: '+r.label+' ('+r.value+' seconds).');});
+var qn=0;document.getElementById('quizBtn').addEventListener('click',function(){qn++;var q=SigTools.makeQuiz('quiz-'+qn);var h='<p><b>'+esc(q.question)+'</b></p>';q.options.forEach(function(o){h+='<button data-a="'+esc(o)+'">'+esc(o)+'</button> ';});h+='<p id="qAns"></p>';document.getElementById('quizOut').innerHTML=h;document.querySelectorAll('#quizOut button[data-a]').forEach(function(b){b.addEventListener('click',function(){document.getElementById('qAns').textContent=(b.getAttribute('data-a')===q.answer)?'Right — '+q.answer+' fits that track.':'Not that one. The mood that fits is '+q.answer+'.';});});});
+})();
+</script>
+<h2>Product lines</h2><p>Three design lines. Every one is labeled Signature or Fun, and none is for sale: designs, printables, and demos only.</p><div class="box"><h3>Melody&#x27;s Song Card Set</h3><p><b>Labeled Signature.</b> A set of 12 printable cards, one for each track in the sample catalog, with the track&#x27;s mood words and length on each card.</p><p><b>Making:</b> Print the cards on stiff card. Cut along the lines. Shuffle the deck and deal three cards to make a playlist, then add the lengths. A 3D-print version: print a small card stand, 90 mm wide, with a 2 mm slot, from the stand sheet.</p><p><a href="assets/product-1.txt">Download the design sheet</a></p></div><div class="box"><h3>The Listening Garden Poster</h3><p><b>Labeled Signature.</b> A poster of the listening garden: the gate, the note-flowers, and Melody on the branch.</p><p><b>Making:</b> Print the poster at A3 on heavy paper. Frame it, or pin it to a board. The poster is a picture only; the garden itself is a place in words on this page.</p><p><a href="assets/product-2.txt">Download the design sheet</a></p></div><div class="box"><h3>The Playlist Wheel</h3><p><b>Labeled Fun.</b> A spinning wheel that picks a mood word for the next playlist. Labeled fun: it is a game, not a record.</p><p><b>Making:</b> Print the wheel and the arrow on stiff card. Cut both out, pin the arrow through the centre, and spin. Whatever mood it lands on, build a playlist from that mood word.</p><p><a href="assets/product-3.txt">Download the design sheet</a></p></div><h2>Fun stuff</h2><p><b>Fun, labeled fun — not a fact.</b> Melody's rainy-day song, made up for the garden: <i>Rain on the roof, rain on the leaves, / the garden hums a tune nobody grieves. / Calm for the morning, bright for the noon, / the wren on the gate sings the evening tune.</i></p><h2>Files</h2><p><a href="assets/tools.js">Tools (JavaScript)</a> · <a href="../g4-generator/assets/engine.js">Generator engine (JavaScript)</a> · <a href="accessible/index.html">Plain version (no JavaScript needed)</a> · <a href="../g3-ai/">The helper page (Group 3)</a></p></main>
+<p class="stamp">Generated 2026-11-21 from the Signature Tunes themed world. Whole-network total: 66,219 websites.</p>
+<footer><p><b>Network.</b> This page belongs to The 'Merica-L Internet: the front door is the <a href="https://justinahiggins614-cmyk.github.io/jah-databases/the-merica-l-virtual-internet.html">'Merica-L Virtual Internet</a>, the network's main page is <a href="https://justinahiggins614-cmyk.github.io/jah-databases/the-merica-l-boundless-ecosystem-os.html">'Merica-L Boundless Ecosystem OS</a>, and the databases live at the <a href="https://justinahiggins614-cmyk.github.io/jah-databases/">database hub</a>. The whole network holds 66,219 websites in total. <a href="https://justinahiggins614-cmyk.github.io/jah-databases/seven-groups.html">The Seven Groups</a> unites all seven lists. <a href="https://justinahiggins614-cmyk.github.io/jah-databases/groups/mirror-tunes/">Subject home: Signature Tunes</a></p><p>Melody the mockingbird is the mascot; she sings from the branch. Free forever. No sign-in, no payment, no tracking.</p></footer>
+</div>
+</body>
+</html>

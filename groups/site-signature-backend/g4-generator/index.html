@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Signature AI Mix and Match Generator — generator alone</title>
+<style>
+body{font-family:Georgia,serif;max-width:860px;margin:0 auto;padding:16px;line-height:1.55;color:#1c1c1c;background:#fdfcf7}
+h1,h2,h3{line-height:1.25} a{color:#14508c} .stamp{font-size:.85em;color:#666}
+footer{border-top:2px solid #999;margin-top:28px;padding-top:10px;font-size:.9em}
+details{margin:8px 0} summary{cursor:pointer;font-weight:bold}
+.card{border:1px solid #bbb;border-radius:8px;padding:10px;margin:10px 0;background:#fff}
+.tag{display:inline-block;font-size:.8em;border:1px solid #888;border-radius:4px;padding:0 6px;margin-right:6px}
+body{background:#0a1120;color:#e2e9fa} a{color:#8ab8ff} footer{border-color:#243357} .stamp{color:#93a0c0} input,button{font-size:1em;padding:6px} #samples{background:#101828 !important;color:#e2e9fa}</style>
+</head>
+<body>
+<h1>The Signature AI Mix and Match Generator — generator alone</h1>
+<p>This generator fuses two Phone Book AIs into a brand-new mix. Same seed, same output, every time. Every output is labeled generated — simulated, never presented as an archive record.</p>
+<p><label for="seed">Seed:</label> <input id="seed" type="text" value="first" size="24">
+<label for="count">How many (1–5):</label> <input id="count" type="number" value="1" min="1" max="5">
+<button type="button" onclick="runGenerator()">Generate</button>
+<button type="button" onclick="copyAll()">Copy all</button>
+<button type="button" onclick="downloadJSON()">Download JSON</button></p>
+<pre id="out" style="white-space:pre-wrap;background:#101828;color:#e2e9fa;padding:12px;border-radius:8px;min-height:80px">Press Generate.</pre>
+<h2>How it works</h2>
+<ol><li>Type a seed word, or leave the one shown.</li><li>Press Generate. The seed picks the parents and the numbers, by fixed arithmetic.</li><li>Read the output. Copy it or download it as JSON.</li><li>Run the same seed again: the output is identical, on any device.</li></ol>
+<p>What it cannot do: it cannot fetch the live archive, it cannot check the web, and it never writes a real archive record.</p>
+<h2>Sample outputs (generated)</h2>
+<pre id="samples" style="white-space:pre-wrap;background:#f4f1e6;padding:12px;border-radius:8px">Loading samples…</pre>
+<p><a href="../index.html">Back to the subject home</a> · <a href="accessible/index.html">Accessible version</a></p>
+<script>
+function xhash(str) { var h = 2166136261; for (var i = 0; i < str.length; i++) { h ^= str.charCodeAt(i); h = Math.imul(h, 16777619); } return h >>> 0; }
+function mulberry32(a) { return function () { a |= 0; a = a + 0x6D2B79F5 | 0; var t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+function pick(rnd, arr) { return arr[Math.floor(rnd() * arr.length)]; }
+function blendNames(a, b) {
+  a = String(a || "").replace(/^\s+|\s+$/g, ""); b = String(b || "").replace(/^\s+|\s+$/g, "");
+  if (!a) return b; if (!b) return a;
+  var cutA = Math.max(2, Math.floor(a.length / 2)), cutB = Math.max(2, Math.ceil(b.length / 2));
+  return a.slice(0, cutA) + b.slice(b.length - cutB);
+}
+var POOL = [{"id": "JAH-AI-SL-121", "name": "Signature Alderward Ear"}, {"id": "JAH-AI-SL-008", "name": "Signature Harbormark Mind"}, {"id": "JAH-AI-DOM-075", "name": "Chess Coach"}, {"id": "JAH-AI-SL-001", "name": "Signature Aldermark Mind"}, {"id": "JAH-AI-DOM-199", "name": "Bait Picker"}, {"id": "JAH-AI-DOM-124", "name": "Allowance Planner"}, {"id": "JAH-AI-SL-011", "name": "Signature Kelpmark Mind"}, {"id": "JAH-AI-DOM-083", "name": "Allergy Checker"}, {"id": "JAH-AI-DOM-188", "name": "Bingo Caller"}, {"id": "JAH-AI-DOM-251", "name": "Architect"}, {"id": "JAH-AI-SL-081", "name": "Signature Indigosong Forge"}, {"id": "JAH-AI-DOM-132", "name": "Power-of-Attorney Explainer"}, {"id": "JAH-AI-SL-049", "name": "Signature Alderfield Canvas"}, {"id": "JAH-AI-DOM-194", "name": "Hike Planner"}, {"id": "JAH-AI-DOM-205", "name": "Airport Navigator"}, {"id": "JAH-AI-DOM-252", "name": "Realtor Guide"}, {"id": "JAH-AI-DOM-238", "name": "Anniversary Dinner Planner"}, {"id": "JAH-AI-DOM-250", "name": "Accountant"}, {"id": "JAH-AI-DOM-137", "name": "Contract Reader (plain words)"}, {"id": "JAH-AI-DOM-185", "name": "Escape Room Designer"}, {"id": "JAH-AI-SL-169", "name": "Signature Aldercrest Engine"}, {"id": "JAH-AI-DOM-026", "name": "Baby Care Helper"}, {"id": "JAH-AI-DOM-100", "name": "Apology Writer"}, {"id": "JAH-AI-SL-038", "name": "Signature Northwise Mind"}, {"id": "JAH-AI-SL-073", "name": "Signature Aldersong Forge"}, {"id": "JAH-AI-DOM-231", "name": "Lunchbox Artist"}, {"id": "JAH-AI-DOM-149", "name": "Ad Writer"}, {"id": "JAH-AI-DOM-169", "name": "Joke Writer"}, {"id": "JAH-AI-DOM-109", "name": "Affirmation Crafter"}, {"id": "JAH-AI-DOM-041", "name": "Baker"}, {"id": "JAH-AI-DOM-166", "name": "World Builder"}, {"id": "JAH-AI-DOM-004", "name": "Tutor"}, {"id": "JAH-AI-DOM-214", "name": "Spice Matcher"}, {"id": "JAH-AI-SL-079", "name": "Signature Grovesong Forge"}, {"id": "JAH-AI-SL-143", "name": "Signature Willowward Pilot"}, {"id": "JAH-AI-DOM-179", "name": "Gig Finder"}, {"id": "JAH-AI-SL-159", "name": "Signature Onyxhelm Sculpt"}, {"id": "JAH-AI-SL-087", "name": "Signature Onyxsong Forge"}, {"id": "JAH-AI-DOM-051", "name": "Laundry Guide"}, {"id": "JAH-AI-DOM-108", "name": "Vision Board Maker"}, {"id": "JAH-AI-DOM-027", "name": "Job Search Coach"}, {"id": "JAH-AI-SL-113", "name": "Signature Quartzlight Voice"}, {"id": "JAH-AI-DOM-215", "name": "Sauce Boss"}, {"id": "JAH-AI-DOM-112", "name": "Anxiety Easer"}, {"id": "JAH-AI-DOM-206", "name": "Flight Delay Helper"}, {"id": "JAH-AI-SL-025", "name": "Signature Alderwise Mind"}, {"id": "JAH-AI-DOM-102", "name": "Toast Writer"}, {"id": "JAH-AI-DOM-043", "name": "Barista"}];
+var ABILITIES = ["AI-native code editor", "Advanced whole-body control", "Allergy-safe", "Amends planning", "Bento ideas", "Blend recipes", "Body copy", "Bookkeeping setup", "Bread formulas", "Buying checklists", "CTA craft", "Cake troubleshooting", "Calling cadence", "Card checks", "Chore pay", "Clause explainers", "Cloud agents for background tasks", "Color picks", "Computer use: operates software and browsers to complete tasks", "Configurable local API support", "Cross-contact tips", "Culture kits", "Delay plans", "Design-ready typography in images", "Dining-out scripts", "Edge and embedded streaming", "Endgame essentials", "Explains any topic simply", "Feeding and sleep basics", "Floor plan feedback", "Free terminal-based coding workflows", "Fresh vs dried", "Frontier-class open-weight release", "Gear lists", "Highest general-intelligence tier in its family", "Highest text-rendering and spelling accuracy", "Hint systems", "Hook lines", "IDE code assistance", "Label reading", "Leading coding benchmark performance of its generation", "Live vs lure", "Long-duration agentic coding sessions", "Magic rules", "Makes practice quizzes", "Map prompts", "Memory touches", "Menu arcs", "Milestone watch", "Morning sets", "Moving timelines", "Much faster than Whisper for live use", "Multi-file agent composer", "Multimodal chat interface", "Native multimodal understanding across text, images, and more", "Next-generation humanoid foundation model", "No-heat lunches", "Offer anatomy", "One-liners", "Open autonomous coding agent", "Open weights", "Opening basics", "Pairing charts", "Pastry basics", "Permit checklists", "Personal affirmations", "Pitch emails", "Prior flagship with 200K-token context", "Prize ideas", "Public preview availability", "Puzzle chains", "Question builders", "Question lists", "Reading a P&L", "Red-flag lists", "Reframe lines", "Remodel roadmaps", "Rigging", "Roast-light", "Route picking", "Safety", "Safety classifiers for sensitive domains", "Savings goals", "Security tips", "Set pricing", "Setup-punch", "Sincere structures", "Software engineering, research, and cybersecurity assistance", "Soothing techniques", "Split systems", "Strong general reasoning", "Tab autocomplete with high acceptance", "Tactic motifs", "Tax season prep", "Theme builds", "Timing guides", "Toasts", "Tone checks", "Tool calling, web search, file search, code execution, and image generation in one session", "Tracks what you have learned", "Type overviews", "Venue matching", "Very large context window (around one million tokens) with long outputs", "Visual grounding and 2D/3D localization", "When-each-applies"];
+function generateOne(seed) {
+  var rnd = mulberry32(xhash(String(seed == null || seed === "" ? "first-mix" : seed)));
+  var a = pick(rnd, POOL), b = pick(rnd, POOL);
+  var guard = 0; while (b.id === a.id && guard++ < 20) b = pick(rnd, POOL);
+  var n = Math.floor(rnd() * 900000) + 100000;
+  var abs = [pick(rnd, ABILITIES), pick(rnd, ABILITIES), pick(rnd, ABILITIES)];
+  return {id: "JAH-AI-MIX-GEN-" + n, kind: "generated mix", name: blendNames(a.name, b.name),
+    parentA: a.name + " (" + a.id + ")", parentB: b.name + " (" + b.id + ")", abilities: abs,
+    label: "generated — simulated, not an archive record"};
+}
+
+var lastOutputs = [];
+function renderOutputs(list) {
+  var pre = document.getElementById("out");
+  pre.textContent = list.map(function (o) { return JSON.stringify(o, null, 2); }).join("\n---\n");
+}
+function runGenerator() {
+  var seed = document.getElementById("seed").value;
+  var count = parseInt(document.getElementById("count").value, 10);
+  if (isNaN(count) || count < 1) count = 1;
+  if (count > 5) count = 5;
+  var list = [];
+  for (var i = 0; i < count; i++) list.push(generateOne(seed + (count > 1 ? "-" + (i + 1) : "")));
+  lastOutputs = list;
+  renderOutputs(list);
+}
+function copyAll() {
+  var t = document.getElementById("out").textContent;
+  if (navigator.clipboard) { navigator.clipboard.writeText(t); }
+}
+function downloadJSON() {
+  var blob = new Blob([JSON.stringify(lastOutputs, null, 2)], {type: "application/json"});
+  var a = document.createElement("a");
+  a.href = URL.createObjectURL(blob); a.download = "generated.json"; a.click();
+}
+function fillSamples() {
+  var el = document.getElementById("samples");
+  if (!el) return;
+  var list = [generateOne("sample-one"), generateOne("sample-two"), generateOne("sample-three")];
+  el.textContent = list.map(function (o) { return JSON.stringify(o, null, 2); }).join("\n---\n");
+}
+if (typeof document !== "undefined" && document.addEventListener) {
+  document.addEventListener("DOMContentLoaded", fillSamples);
+}
+</script>
+<p class="stamp">Generated 2026-11-21, America/New_York, from the live manifest and this subject’s own site files.</p>
+<footer><p>Part of The 'Merica-L Internet. <a href="https://justinahiggins614-cmyk.github.io/jah-databases/the-merica-l-virtual-internet.html">Front door</a> · <a href="https://justinahiggins614-cmyk.github.io/jah-databases/the-merica-l-boundless-ecosystem-os.html">'Merica-L Boundless Ecosystem OS</a> · <a href="https://justinahiggins614-cmyk.github.io/jah-databases/">Database hub</a> · <a href="../../../seven-groups.html">The Seven Groups (Internets page)</a> · <a href="https://justinahiggins614-cmyk.github.io/jah-databases/all-websites.html">All websites directory</a>. Whole network total: 66,219 websites, re-derived 2026-11-21.</p><p>All free, no sign-in, no payment. Public records are public records; Signature-created data is labeled Signature; fun items are labeled fun.</p></footer>
+</body>
+</html>

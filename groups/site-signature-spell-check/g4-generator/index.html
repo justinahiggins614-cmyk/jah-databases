@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Signature Spell Check — the generator (alone)</title>
+<meta name="description" content="The Signature Spell Check — the generator alone.">
+<style>
+body{margin:0;background:#0a1120;color:#e8ecf3;font:17px/1.6 Georgia,serif}
+a{color:#9ecbff}.wrap{max-width:960px;margin:0 auto;padding:0 18px 40px}
+header{border-bottom:3px double #334155;padding:26px 0 10px}
+h1{font-size:34px;margin:0}h2{font-size:24px;margin:30px 0 8px}h3{font-size:19px;margin:20px 0 6px}
+.lede{font-size:18px;color:#b6c2d2}.note{border-left:4px solid #f59e0b;background:#1e293b;padding:12px 16px;border-radius:0 10px 10px 0}
+.box{background:#111c33;border:1px solid #334155;border-radius:12px;padding:16px;margin:12px 0}
+details{border:1px solid #334155;border-radius:10px;background:#111c33;padding:10px 14px;margin:8px 0}
+summary{cursor:pointer;font-weight:bold}
+table{border-collapse:collapse;width:100%;background:#111c33}
+th,td{border:1px solid #334155;padding:8px 10px;text-align:left;vertical-align:top;font-size:15px}
+th{background:#1e293b}
+footer{margin-top:44px;padding:20px 0 30px;border-top:3px double #334155;font-size:15px;color:#b6c2d2}
+.stamp{font-size:13px;color:#b6c2d2}
+button{font:16px Georgia,serif;border-radius:9px;border:1px solid #475569;background:#1e293b;color:#e8ecf3;padding:10px 16px;cursor:pointer}
+button.go{background:#f59e0b;border-color:#f59e0b;color:#111827;font-weight:bold}
+input[type=text],input[type=number]{width:100%;font:16px Georgia,serif;padding:12px;border:1px solid #475569;border-radius:10px;background:#0f172a;color:#e8ecf3}
+img.hero{width:100%;height:auto;border-radius:12px;border:1px solid #334155}
+.free{display:inline-block;background:#422006;border:1px solid #f59e0b;border-radius:999px;padding:2px 12px;font-size:14px;color:#fde68a}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header><h1>The Signature Spell Check — the generator</h1><p class="lede">The Spell Check generator, alone: nothing else on the page competes with it. It generates up to 1,000,000,000 per file, or until genuinely complete.</p><p><span class="free">Free forever — no sign-in, no payment</span></p></header><main><h2>The generator</h2><div class="box"><label for="seed"><b>Seed</b></label><input type="text" id="seed" value="first-word"><label for="count"><b>How many words</b></label><input type="number" id="count" value="5" min="1" max="10"><p><button class="go" id="runBtn">Make a drill</button> <button id="copyBtn">Copy the drill</button> <button id="dlBtn">Download as JSON</button></p><div id="out"><p>Press "Make a drill". The same seed always makes the same drill.</p></div></div><script src="assets/engine.js"></script><script>
+(function(){
+'use strict';
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function run(){var seed=document.getElementById('seed').value||'first-word';var n=parseInt(document.getElementById('count').value,10)||5;var r=SigEngine.makeDrill(seed,n);window._last=r;var h='<p><b>Generated drill</b> (seed "'+esc(seed)+'") — labeled generated, not an archive record.</p>';h+='<p>Spell these words from the A list, then check them against the word list:</p><ol>';r.words.forEach(function(w){h+='<li>'+esc(w)+'</li>';});h+='</ol><p>Now fix these common misspellings:</p><ul>';r.fixThese.forEach(function(f){h+='<li><b>'+esc(f.wrong)+'</b> — the right spelling is <b>'+esc(f.right)+'</b></li>';});h+='</ul>';document.getElementById('out').innerHTML=h;}
+document.getElementById('runBtn').addEventListener('click',run);
+document.getElementById('copyBtn').addEventListener('click',function(){if(window._last){navigator.clipboard.writeText(JSON.stringify(window._last,null,2));}});
+document.getElementById('dlBtn').addEventListener('click',function(){if(!window._last)return;var b=new Blob([JSON.stringify(window._last,null,2)],{type:'application/json'});var a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='generated-drill.json';a.click();});
+run();
+})();
+</script>
+<h2>How it works</h2><ol><li>Type a seed word, or keep the one shown.</li><li>Pick how many words the drill should hold.</li><li>Press Make a drill. The same seed always makes the same drill.</li><li>Spell the words, fix the misspellings, then copy the drill or download it as JSON.</li></ol><p>It generates from the first 200 words of the A list and a short list of common misspellings. Every output is labeled generated and is never presented as an archive record.</p><h2>Sample output</h2><p>Worked example (seed "first-word", 5 words): abearance, abhorrent, abbreviated, abdication, abhominal; fix these: wierd becomes weird; goverment becomes government; enviroment becomes environment.</p><h2>Files</h2><p><a href="assets/engine.js">Generator engine (JavaScript)</a> · <a href="assets/gen-data.json">Generator data (JSON)</a> · <a href="accessible/index.html">Plain version (no JavaScript needed)</a></p></main>
+<p class="stamp">Generated 2026-11-21 from the Signature Spell Check generator engine. Whole-network total: 66,219 websites.</p>
+<footer><p><b>Network.</b> This page belongs to The 'Merica-L Internet: the front door is the <a href="https://justinahiggins614-cmyk.github.io/jah-databases/the-merica-l-virtual-internet.html">'Merica-L Virtual Internet</a>, the network's main page is <a href="https://justinahiggins614-cmyk.github.io/jah-databases/the-merica-l-boundless-ecosystem-os.html">'Merica-L Boundless Ecosystem OS</a>, and the databases live at the <a href="https://justinahiggins614-cmyk.github.io/jah-databases/">database hub</a>. The whole network holds 66,219 websites in total. <a href="https://justinahiggins614-cmyk.github.io/jah-databases/seven-groups.html">The Seven Groups</a> unites all seven lists. <a href="https://justinahiggins614-cmyk.github.io/jah-databases/groups/site-signature-spell-check/">Subject home: The Signature Spell Check</a></p><p>Wren the wren is the mascot; she carries a quill and minds every letter. Free forever. No sign-in, no payment, no tracking.</p></footer>
+</div>
+</body>
+</html>

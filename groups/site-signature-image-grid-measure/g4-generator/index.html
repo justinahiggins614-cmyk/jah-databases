@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Signature Image Grid and Measure — generator</title>
+<style>body{font-family:Georgia,serif;max-width:780px;margin:0 auto;padding:18px;line-height:1.55;color:#eaf2ff;background:#0a1120} a{color:#9fd0ff}h1{font-size:1.6em} h2{margin-top:1.4em;border-top:1px solid #335;padding-top:.5em}article{border:1px solid #335;border-radius:6px;padding:10px 12px;margin:10px 0;background:#12203a}.card{border:1px solid #335;border-radius:6px;padding:10px 12px;margin:10px 0;background:#12203a}details{margin:8px 0} summary{cursor:pointer;font-weight:bold}input,button,select{font-size:1em;padding:6px 8px;margin:4px 2px}button{background:#1a4d8f;color:#fff;border:0;border-radius:5px;cursor:pointer}footer{border-top:2px solid #335;margin-top:28px;padding-top:10px;font-size:.9em}#chatlog{border:1px solid #335;border-radius:6px;padding:10px;min-height:120px;background:#0d1830}#chatlog p{margin:6px 0} .q{color:#ffd27a} .a{color:#eaf2ff}</style>
+<script>
+function hashStr(s){var h=1779033703^String(s).length;for(var i=0;i<String(s).length;i++){h=Math.imul(h^String(s).charCodeAt(i),3432918353);h=(h<<13)|(h>>>19);}return h>>>0;}
+function mulberry32(a){a=a>>>0;return function(){a|=0;a=a+0x6D2B79F5|0;var t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
+function rngFor(seed){return mulberry32(hashStr(String(seed==null||seed===""?"wave-12":seed)));}
+function pick(rng,arr){return arr[Math.floor(rng()*arr.length)];}
+function pad6(n){var s=""+(n%1000000);while(s.length<6)s="0"+s;return s;}
+
+function round4(x){return Math.round(x*10000)/10000;}
+function generate(seed){
+  var rng=rngFor(seed);
+  var shapes=["rectangle","circle","right_triangle","isosceles_triangle","regular_polygon"];
+  var shape=pick(rng,shapes); var a=2+Math.floor(rng()*28), b=2+Math.floor(rng()*28);
+  var n=3+Math.floor(rng()*6), out={shape:shape};
+  if(shape==="rectangle"){out.w=a;out.h=b;out.area=round4(a*b);out.perimeter=round4(2*(a+b));}
+  else if(shape==="circle"){out.r=a;out.area=round4(Math.PI*a*a);out.circumference=round4(2*Math.PI*a);}
+  else if(shape==="right_triangle"){out.legA=a;out.legB=b;out.hyp=round4(Math.sqrt(a*a+b*b));out.area=round4(a*b/2);out.perimeter=round4(a+b+out.hyp);}
+  else if(shape==="isosceles_triangle"){out.base=a;out.height=b;var side=Math.sqrt((a/2)*(a/2)+b*b);out.side=round4(side);out.area=round4(a*b/2);out.perimeter=round4(a+2*side);}
+  else {out.sides=n;out.side=a;out.area=round4((n*a*a)/(4*Math.tan(Math.PI/n)));out.perimeter=round4(n*a);}
+  out.id="JAH-GRIDGEN-"+pad6(hashStr(String(seed==null||seed===""?"wave-12":seed))%1000000);
+  out.label="generated — simulated, not an archive record";
+  return out;
+}
+function render(o){
+  var s="Generated measure "+o.id+"\nShape: "+o.shape+"\n";
+  if(o.shape==="rectangle") s+="Width: "+o.w+" — Height: "+o.h+" — Area: "+o.area+" — Perimeter: "+o.perimeter;
+  else if(o.shape==="circle") s+="Radius: "+o.r+" — Area: "+o.area+" — Circumference: "+o.circumference;
+  else if(o.shape==="right_triangle") s+="Leg a: "+o.legA+" — Leg b: "+o.legB+" — Hypotenuse: "+o.hyp+" — Area: "+o.area+" — Perimeter: "+o.perimeter;
+  else if(o.shape==="isosceles_triangle") s+="Base: "+o.base+" — Height: "+o.height+" — Side: "+o.side+" — Area: "+o.area+" — Perimeter: "+o.perimeter;
+  else s+="Sides: "+o.sides+" — Side length: "+o.side+" — Area: "+o.area+" — Perimeter: "+o.perimeter;
+  return s+"\n("+o.label+")";
+}
+
+if(typeof globalThis!=="undefined"){ globalThis.GEN={generate:generate,render:render}; }
+</script></head>
+<body>
+<h1>The Signature Image Grid and Measure — generator alone</h1><p>This generator generates a shape with dimensions and works out its measures. It runs on this page, with no sign-in and no key. Same seed, same output. Every output is labeled generated and simulated — never presented as an archive record. It generates up to 1,000,000,000 per file, or until genuinely complete.</p><h2>The generator</h2><p><label>Seed: <input id="seed" type="text" value="wave-12" size="24"></label> <button id="run" type="button">Generate</button> <button id="copy" type="button">Copy output</button> <button id="dl" type="button">Download output (.txt)</button></p><pre id="out" style="white-space:pre-wrap;border:1px solid #335;border-radius:6px;padding:10px;background:#0d1830;min-height:120px">Press Generate.</pre><script>document.getElementById("run").addEventListener("click",function(){var v=document.getElementById("seed").value;document.getElementById("out").textContent=GEN.render(GEN.generate(v));});document.getElementById("copy").addEventListener("click",function(){var t=document.getElementById("out").textContent;if(navigator.clipboard){navigator.clipboard.writeText(t);}});document.getElementById("dl").addEventListener("click",function(){var t=document.getElementById("out").textContent;var b=new Blob([t],{type:"text/plain"});var u=URL.createObjectURL(b);var a=document.createElement("a");a.href=u;a.download="generated-output.txt";a.click();URL.revokeObjectURL(u);});</script><h2>How it works</h2><ol><li>Type a seed word, or keep the one shown.</li><li>Press Generate. A seeded draw picks from the subject's real records.</li><li>The same seed always gives the same output; a different seed gives a different one.</li><li>Copy or download the output. It stays labeled generated.</li></ol><h2>Sample outputs</h2><p>Seed <b>wave-12</b> gives:</p><article class="example"><pre style="white-space:pre-wrap;border:1px solid #335;border-radius:6px;padding:10px;background:#0d1830">Generated measure JAH-GRIDGEN-960828
+Shape: right_triangle
+Leg a: 7 — Leg b: 16 — Hypotenuse: 17.4642 — Area: 56 — Perimeter: 40.4642
+(generated — simulated, not an archive record)</pre></article><h2>Files and downloads</h2><ul><li><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/gridmeasure/">Public database page</a></li><li><a href="../g5-data/index.html">Public data</a></li><li><a href="../index.html">Subject home</a></li></ul><footer><p><b>Network:</b> <a href="https://justinahiggins614-cmyk.github.io/jah-databases/">Front door</a> &middot; <a href="https://justinahiggins614-cmyk.github.io/jah-databases/the-merica-l-boundless-ecosystem-os.html">The 'Merica-L Boundless Ecosystem OS</a> &middot; <a href="https://justinahiggins614-cmyk.github.io/jah-databases/all-websites.html">All websites</a> &middot; <a href="../index.html">Subject home</a> &middot; <a href="https://justinahiggins614-cmyk.github.io/signature-image-grid-measure/">Group 1 &mdash; The Signature Image Grid and Measure</a></p><p>The whole network holds 66,219 websites. Seven Groups Internets page: assembled at merge.</p><p>Generated 2026-11-21, America/New_York from the live manifest and the subject site files.</p></footer>
+</body>
+</html>

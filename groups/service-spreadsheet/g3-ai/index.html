@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Spreadsheet — the spreadsheet helper</title>
+<meta name="description" content="The Spreadsheet helper, alone: ask spreadsheet questions and get answers from the spreadsheet archive. No key, no sign-in, free forever.">
+<style>
+  :root{--bg:#0a1120;--panel:#111c33;--ink:#e8edf7;--muted:#9fb0cc;--line:#24365c;--accent:#15803d;--accent-soft:#1b2b4d}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.6 Georgia,'Times New Roman',serif}
+  a{color:#8fd3ff}
+  header.top{background:#0d1730;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5}
+  .wrap{max-width:960px;margin:0 auto;padding:0 18px}
+  .bar{display:flex;align-items:center;gap:18px;padding:12px 0;flex-wrap:wrap}
+  .mark{font-size:22px;font-weight:bold;color:var(--ink);text-decoration:none;white-space:nowrap}
+  .mark span{color:#8fd3ff}
+  nav{margin-left:auto;display:flex;gap:14px;flex-wrap:wrap}
+  nav a{color:var(--ink);text-decoration:none;font-size:15px}
+  nav a:hover{text-decoration:underline}
+  .hero{position:relative}
+  .hero img{display:block;width:100%;height:auto;max-height:430px;object-fit:cover;object-position:center 30%}
+  .hero .cap{position:absolute;left:0;right:0;top:0;text-align:center;padding:28px 18px 0}
+  .hero h1{margin:0;font-size:44px;line-height:1.1;color:#fff;text-shadow:0 1px 4px #000}
+  .hero p{margin:8px 0 0;font-size:19px;color:#e8edf7;text-shadow:0 1px 4px #000}
+  main{padding:28px 0 10px}
+  h2{font-size:26px;margin:34px 0 10px}
+  h3{font-size:20px;margin:0 0 6px}
+  .lede{font-size:19px;color:var(--muted)}
+  .toolcard,.box{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px}
+  input[type=text],input[type=number]{width:100%;font:16px/1.6 Georgia,serif;padding:12px;border:1px solid var(--line);border-radius:10px;background:#0d1730;color:var(--ink)}
+  .row{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;align-items:center}
+  button{font:16px Georgia,serif;border-radius:9px;border:1px solid var(--line);background:#1b2b4d;color:var(--ink);padding:10px 16px;cursor:pointer}
+  button.go{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:bold}
+  button:hover{filter:brightness(1.15)}
+  .status{font-size:15px;color:var(--muted)}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px}
+  .card p{margin:6px 0 0;color:var(--muted);font-size:15px}
+  table{border-collapse:collapse;width:100%;background:var(--panel)}
+  th,td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top;font-size:15px}
+  th{background:var(--accent-soft)}
+  .dl a{display:inline-block;margin:6px 10px 6px 0;padding:10px 16px;border:1px solid var(--line);border-radius:9px;background:var(--panel);text-decoration:none;color:var(--ink)}
+  .free{display:inline-block;background:var(--accent-soft);border:1px solid var(--line);border-radius:999px;padding:2px 12px;font-size:14px;color:var(--ink)}
+  .note{border-left:4px solid var(--accent);background:var(--accent-soft);padding:12px 16px;border-radius:0 10px 10px 0}
+  details{border:1px solid var(--line);border-radius:10px;background:var(--panel);padding:10px 14px;margin:8px 0}
+  summary{cursor:pointer;font-weight:bold}
+  footer{margin-top:48px;padding:22px 0 34px;border-top:3px double var(--line);font-size:15px;color:var(--muted)}
+  footer p{margin:8px 0}
+  @media (max-width:640px){.hero h1{font-size:32px}.hero img{max-height:300px}}
+</style>
+<script src="core/jahdb.js"></script>
+<script src="assets/find.js"></script>
+<script>
+(function(){
+'use strict';
+/* CORRECTED call pattern (2026-11-21 fix): the helper calls aiAnswer(db, question, context),
+   database first, question second. The old swapped order threw synchronously and left
+   "Thinking..." forever on shipped pages; the library now also accepts it, but this page
+   calls it the right way round. db.name drops the leading "The": the library's answer
+   template says "keeper of the <name>", so the full name would double the article. */
+var db={name:'Spreadsheet Service Database',ai_name:'JAH Spreadsheet Service Archivist',record_kind:'spreadsheet service record',slug:'spreadsheet-service'};
+var archiveSample=[{"t": "What a Spreadsheet Is"}, {"t": "Cells, Rows and Columns"}, {"t": "Typing Numbers and Words"}, {"t": "Adding with SUM"}, {"t": "Averaging with AVERAGE"}, {"t": "The Largest and the Smallest: MAX and MIN"}, {"t": "Counting Cells with COUNT"}, {"t": "Arithmetic in a Cell"}, {"t": "Copying a Formula Down a Column"}, {"t": "Money in a Spreadsheet"}, {"t": "Dates in a Spreadsheet"}, {"t": "Sorting a List"}, {"t": "Filtering: Showing Only Some Rows"}, {"t": "Making a Chart from Numbers"}, {"t": "Percentages"}, {"t": "If This, Then That: The IF Formula"}, {"t": "Looking Things Up: VLOOKUP in Plain Words"}, {"t": "Freezing the Top Row"}, {"t": "Printing a Wide Sheet"}, {"t": "Sharing a Sheet Without Breaking It"}, {"t": "Checking a Sheet for Mistakes"}, {"t": "Rounding Numbers"}, {"t": "The Sheet as a Budget: A Worked Example"}, {"t": "The Spreadsheet Service Field Guide Index"}];
+var ctx=archiveSample.slice(0,8).map(function(r){return r.title;}).join('; ');
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+var log=document.getElementById('log'), qEl=document.getElementById('q');
+function say(who,text){log.innerHTML+='<p><b>'+esc(who)+':</b> '+esc(text)+'</p>';}
+function ask(){
+  var q=qEl.value.trim(); if(!q) return;
+  say('You',q); qEl.value='';
+  var tmp=document.createElement('p'); tmp.innerHTML='<b>Helper:</b> <span class="status">Thinking…</span>'; log.appendChild(tmp);
+  Promise.resolve().then(function(){return JAHDB.aiAnswer(db,q,ctx);}).then(function(a){
+    tmp.innerHTML='<b>Helper:</b> '+esc(String(a&&a.text||a||'No answer.'));
+  }).catch(function(e){ tmp.innerHTML='<b>Helper:</b> Sorry — something went wrong: '+esc(String(e&&e.message||e)); });
+}
+document.getElementById('askBtn').addEventListener('click',ask);
+qEl.addEventListener('keydown',function(e){if(e.key==='Enter')ask();});
+document.querySelectorAll('button[data-q]').forEach(function(b){b.addEventListener('click',function(){qEl.value=b.getAttribute('data-q');ask();});});
+fetch('assets/archive-sample.json').then(function(r){return r.json();}).then(function(list){
+  document.getElementById('findStatus').textContent='Archive sample ready: '+list.length+' public records.';
+  document.getElementById('findBtn').addEventListener('click',function(){
+    var q=document.getElementById('fq').value.trim(); if(!q) return;
+    var hits=findRecords(q, list);
+    var out=document.getElementById('findOut');
+    out.innerHTML=hits.length
+      ? '<ul>'+hits.map(function(r){return '<li><b>'+esc(r.title)+'</b> — '+esc(r.id)+'<br>'+esc(r.description.slice(0,160))+'…</li>';}).join('')+'</ul>'
+      : '<p>No record in the sample matches those words. Try one word, such as the name of a rule.</p>';
+  });
+}).catch(function(){document.getElementById('findStatus').textContent='Archive sample could not be loaded.';});
+})();
+</script>
+
+</head>
+<body>
+<header class="top"><div class="wrap bar"><a class="mark" href="https://justinahiggins614-cmyk.github.io/jah-databases/services/spreadsheet/">Spreadsheet<span> — helper</span></a><nav><a href="https://justinahiggins614-cmyk.github.io/jah-databases/services/spreadsheet/"></a><a href="https://justinahiggins614-cmyk.github.io/jah-databases/services/spreadsheet/">Group 1</a><a href="../g2-static/">Group 2</a><a href="./">Group 3</a><a href="../g4-generator/">Group 4</a><a href="../g5-data/">Group 5</a><a href="../g6-signature/">Group 6</a><a href="../g7-v2/">Group 7</a><a href="#helper">The helper</a><a href="#find">Find a record</a><a href="#ask">Ask about</a><a href="#groups">Groups</a></nav></div></header>
+<div class="hero"><img src="assets/mascot.svg" alt="Ask about spreadsheet — it answers from the archive."><div class="cap"><h1>Spreadsheet Helper</h1><p>Ask about spreadsheet — it answers from the archive.</p></div></div><main class="wrap">
+
+  <p class="lede">This page is only the Spreadsheet helper. Ask it about spreadsheet — rules and records — and it answers from the spreadsheet archive. <span class="free">Free forever — no sign-in, no payment</span></p>
+  <div class="note"><b>Plainly stated:</b> the helper on this page is a demo. It answers from the archive stored with this website, using the on-page library — it works right now, with no key and no sign-in. It is not the full engine and it does not check the live web. A hosted online helper that could fact-check against the live web is <b>not live yet</b>: that path is blocked until the network owner signs in to the Cloudflare account, and that step is still waiting on him. This page never asks you for a key, and there is no key box anywhere on it.</div>
+  <h2 id="helper">The helper</h2>
+  <div class="toolcard">
+    <label for="q"><b>Your spreadsheet question</b></label>
+    <input type="text" id="q" placeholder="e.g. What is a spreadsheet?">
+    <div class="row"><button class="go" id="askBtn">Ask the helper</button>
+    <span class="status" id="status">Helper ready.</span></div>
+    <div class="row"><button data-q="What is a spreadsheet?">What is a spreadsheet?</button><button data-q="How do I add numbers with SUM?">How do I add numbers with SUM?</button><button data-q="What does AVERAGE do?">What does AVERAGE do?</button><button data-q="What records are in the spreadsheet archive?">What records are in the spreadsheet archive?</button></div>
+    <div id="log" style="margin-top:14px"></div>
+  </div>
+  <p class="lede">The helper knows the 24 public spreadsheet rules by title, the 21-record live archive, and the pair's 48 records. It answers in plain sentences. It does not invent records: when it does not know something, it says so.</p>
+  <h2 id="find">Find a record</h2>
+  <div class="toolcard">
+    <label for="fq"><b>Words from a record title or description</b></label>
+    <input type="text" id="fq" placeholder="e.g. bold">
+    <div class="row"><button class="go" id="findBtn">Find it</button><span class="status" id="findStatus">Archive sample: loading…</span></div>
+    <div id="findOut" style="margin-top:14px"></div>
+  </div>
+  <h2 id="ask">Ask about — sample questions and their answers</h2>
+  <p class="lede">Four questions the helper can answer, with the answers written out, so you can see what it knows before you type.</p>
+  <div class="box" style="margin:10px 0"><p><b>Q: What is a spreadsheet?</b></p><p>A: A spreadsheet is a grid of rows and columns where numbers and words are kept in cells, and where formulas can add the numbers up by themselves. Change one number and every total that depends on it changes at once. It is used for budgets, lists, and accounts, anywhere that numbers must be added, compared, and kept in order.</p></div><div class="box" style="margin:10px 0"><p><b>Q: How do I add numbers with SUM?</b></p><p>A: SUM is the function that adds up every number in a range, written as =SUM(A1:A5). It takes the five cells A1 through A5 and returns their total in one step. A writer uses SUM for weekly spending, monthly totals, and any list where the total matters more than the single numbers.</p></div><div class="box" style="margin:10px 0"><p><b>Q: What does AVERAGE do?</b></p><p>A: AVERAGE adds up the numbers in a range and divides by how many there are, written as =AVERAGE(A1:A5). It answers the question what is usual here, such as the usual weekly spend or the usual test score. An empty cell is skipped, and a cell holding a word is skipped too, so only real numbers count.</p></div><div class="box" style="margin:10px 0"><p><b>Q: What records are in the spreadsheet archive?</b></p><p>A: The pair holds 24 public records and 24 Signature records. The live Spreadsheet Software Database holds 21 records. Ask me about any of the 24 public rules by name.</p></div>
+  <h2 id="groups">The seven groups</h2>
+  <table><tr><th>Group</th><th>Website</th><th>What it is</th></tr><tr><td><b>Group 1</b></td><td><a href="https://justinahiggins614-cmyk.github.io/jah-databases/services/spreadsheet/">Full website</a></td><td>The full Spreadsheet website, with the working tool, the records, the files, and this wiki.</td></tr><tr><td><b>Group 2</b></td><td><a href="../g2-static/">Links list (static)</a></td><td>Every Spreadsheet link on one plain page, no JavaScript.</td></tr><tr><td><b>Group 3</b></td><td><a href="./">Spreadsheet helper (AI only)</a></td><td>A page that is only the spreadsheet helper, answering questions from the archive.</td></tr><tr><td><b>Group 4</b></td><td><a href="../g4-generator/">Generator alone</a></td><td>A Spreadsheet generator alone: seeded plans, sheets, and documents from the real records.</td></tr><tr><td><b>Group 5</b></td><td><a href="../g5-data/">Data alone</a></td><td>The public Spreadsheet data in plain readable words, no JavaScript.</td></tr><tr><td><b>Group 6</b></td><td><a href="../g6-signature/">Signature data</a></td><td>Only the Signature-created Spreadsheet records, labeled Signature throughout.</td></tr><tr><td><b>Group 7</b></td><td><a href="../g7-v2/">Version 2 — Sammy&#x27;s Counting Garden</a></td><td>Sammy&#x27;s Counting Garden — the themed second version: a garden where every row is a ledger and every acorn counts.</td></tr></table>
+  <h2 id="files">Files</h2>
+  <div class="dl"><a href="assets/archive-sample.json" download>⬇ Archive sample (24 public records, JSON)</a>
+  <a href="https://justinahiggins614-cmyk.github.io/jah-databases/services/spreadsheet/records.json" download>⬇ Service records (JSON)</a>
+  <a href="accessible/index.html">Plain version (no JavaScript needed)</a></div>
+
+</main>
+<footer><div class="wrap"><p><b>Network.</b> This page belongs to The 'Merica-L Internet: the front door is the <a href="https://justinahiggins614-cmyk.github.io/jah-databases/the-merica-l-virtual-internet.html">'Merica-L Virtual Internet</a>, the network's main page is <a href="https://justinahiggins614-cmyk.github.io/jah-databases/the-merica-l-boundless-ecosystem-os.html">'Merica-L Boundless Ecosystem OS</a>, and the databases live at the <a href="https://justinahiggins614-cmyk.github.io/jah-databases/">database hub</a>. The whole network holds 66,219 websites.</p><p>Spreadsheet is free forever. No sign-in, no payment, no tracking. Sammy the squirrel is the mascot; he counts the acorns in rows.</p><p>Generated 2026-11-21, America/New_York, from the spreadsheet-service pair and the live manifest.</p></div></footer>
+</body>
+</html>

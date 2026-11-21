@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Signature Boundless Generator Archive — generator (Group 4)</title>
+<style>body{font-family:Arial,sans-serif;max-width:780px;margin:0 auto;padding:18px;line-height:1.6;color:#dbe4f5;background:#0a1120}h1{font-size:1.6em;color:#ffd97a}h2{font-size:1.25em;margin-top:1.4em;color:#ffd97a}a{color:#8ecbff}details{margin:6px 0;border:1px solid #335;padding:6px 10px}summary{cursor:pointer;font-weight:bold}.card{border:1px solid #335;padding:10px;margin:8px 0;background:#101c36}.stamp{font-size:.85em;color:#9fb0cc}.note{background:#13233f;border:1px solid #e8c766;padding:10px;margin:10px 0;color:#ffe9a8}img{max-width:100%;height:auto}input,select,button{font-size:1em;padding:6px;margin:4px 0}#log{border:1px solid #335;padding:10px;min-height:120px;background:#101c36;white-space:pre-wrap}</style>
+</head>
+<body>
+<h1>The Signature Boundless Generator Archive — the generator</h1>
+<p>The generator-of-generators drafts a new generator record from real archive records: a family, a name in the archive style, and a plain description.</p>
+<div class="note"><p>Every output here is <b>generated (simulated)</b> — made fresh by the generator from the subject’s real data. A generated output is never an archive record, and its ID never collides with an archive ID.</p></div>
+<p><label>Seed: <input type="text" id="seed" value="morning-cup" size="24"></label> <label>How many: <input type="number" id="count" value="3" min="1" max="5"></label> <button id="runBtn">Generate</button> <button id="copyBtn">Copy all</button> <button id="dlBtn">Download JSON</button></p>
+<pre id="out" style="white-space:pre-wrap;border:1px solid #335;padding:10px;background:#101c36">Press Generate.</pre>
+<h2>How it works</h2>
+<ol><li>You give a seed — any word or number.</li><li>The generator picks from the subject’s real data using that seed, the same way every time.</li><li>Same seed, same output. A different seed gives a different output.</li><li>Copy the output or download it as JSON. Nothing leaves your device.</li></ol>
+<p>What it cannot do: it cannot fetch the live archive, it cannot check the live web, and it cannot make a real archive record.</p>
+<h2>Sample outputs</h2>
+<p id="sampleOut">Loading a sample…</p>
+<p><a href="accessible/index.html">Accessible version of this page</a></p>
+<script src="assets/gen.js"></script>
+<script src="assets/gen-data.js"></script>
+<script>
+function render(items){
+  return items.map(function(it){ return it.text; }).join('\n\n---\n\n');
+}
+function run(){
+  var seed=document.getElementById('seed').value || 'morning-cup';
+  var n=parseInt(document.getElementById('count').value, 10);
+  if(!(n>=1)) n=1; if(n>5) n=5;
+  var items=makeOutputs(seed, n, GEN_DATA);
+  document.getElementById('out').textContent=render(items);
+  window._lastItems=items;
+}
+document.getElementById('runBtn').addEventListener('click', run);
+document.getElementById('copyBtn').addEventListener('click', function(){
+  var t=document.getElementById('out').textContent;
+  if(navigator.clipboard){ navigator.clipboard.writeText(t); }
+});
+document.getElementById('dlBtn').addEventListener('click', function(){
+  var items=window._lastItems || makeOutputs('morning-cup', 1, GEN_DATA);
+  var blob=new Blob([JSON.stringify(items, null, 2)], {type:'application/json'});
+  var a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='generated-output.json'; a.click();
+});
+window._sampleItems=makeOutputs('wave10-example', 1, GEN_DATA);
+document.getElementById('sampleOut').textContent='Sample (seed "wave10-example", generated/simulated): ' + window._sampleItems[0].text;
+
+</script>
+<footer><p>Part of the network. Front door: <a href="https://justinahiggins614-cmyk.github.io/jah-databases/the-merica-l-virtual-internet.html">The ’Merica-L Virtual Internet</a> · <a href="https://justinahiggins614-cmyk.github.io/jah-databases/the-merica-l-boundless-ecosystem-os.html">’Merica-L Boundless Ecosystem OS</a> · <a href="https://justinahiggins614-cmyk.github.io/jah-databases/">Database hub</a> · <a href="https://justinahiggins614-cmyk.github.io/jah-databases/all-websites.html">All websites</a> · <a href="https://justinahiggins614-cmyk.github.io/jah-databases/seven-groups.html">The Seven Groups</a></p><p>The network holds 66,219 websites in total (re-derived 2026-11-21 from the live manifest and directory).</p><p>Generated 2026-11-21, America/New_York, from the live manifest (63,087 databases) and the site’s own files.</p></footer>
+</body>
+</html>
