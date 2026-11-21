@@ -115,6 +115,38 @@ def letter_of(name):
     return "#"
 
 
+def letter_rank(L):
+    # Directory order, everywhere (JSON, searchable page, plain page):
+    # numbers first, then A-Z, then '#' (names with no ASCII letter/digit).
+    if L == "0-9":
+        return 0
+    if len(L) == 1 and "A" <= L <= "Z":
+        return 1
+    return 2
+
+
+def sort_name(name):
+    # Sort by the name from its first ASCII letter/digit, so accented
+    # names (Édouard → D, Øresund → R) sort inside their letter group
+    # instead of after Z, matching letter_of() grouping exactly.
+    s = name.lstrip("\"'“”‘([{")
+    for i, ch in enumerate(s):
+        if ("A" <= ch <= "Z" or "a" <= ch <= "z" or ch.isdigit()):
+            return s[i:].lower()
+    return s.lower()
+
+
+# File-record titles that ARE an HTTP error status (records of the Error
+# Fix Database documenting that error) — shown in the directory as what
+# they are, so nobody mistakes the entry for a broken page. The record
+# pages themselves keep their titles; only the directory display changes.
+ERROR_STATUS_RE = re.compile(
+    r"^(404 Not Found|500 Internal Server Error|400 Bad Request|"
+    r"401 Unauthorized|403 Forbidden|408 Request Timeout|"
+    r"429 Too Many Requests|502 Bad Gateway|503 Service Unavailable|"
+    r"504 Gateway Timeout)\b")
+
+
 def main():
     manifest = json.load(open(MANIFEST, encoding="utf-8"))
     # Manifest names sometimes carry literal entities ("&mdash;") and the
@@ -172,6 +204,8 @@ def main():
             name = clean_name(t.split(" — ")[0])
         else:
             name = os.path.basename(p)[:-len(".html")]
+        if ERROR_STATUS_RE.match(name):
+            name = "Error-fix record: " + name
         sites.append([name, p, "file"])
 
     # --- mix websites ---
@@ -213,7 +247,8 @@ def main():
     for name, url, kind in sites:
         by_url.setdefault(url, [name, url, kind])
     sites = sorted(by_url.values(),
-                   key=lambda s: (letter_of(s[0]), s[0].lower(), s[1]))
+                   key=lambda s: (letter_rank(letter_of(s[0])),
+                                  letter_of(s[0]), sort_name(s[0]), s[1]))
 
     counts = {}
     for _, _, kind in sites:
@@ -239,8 +274,8 @@ def main():
         L = letter_of(name)
         if L not in letters:
             letters.append(L)
-    letters.sort(key=lambda L: (0, L) if len(L) == 1 and "A" <= L <= "Z"
-                 else ((1, "") if L == "0-9" else (2, "")))
+    letters.sort(key=lambda L: (0, "") if L == "0-9"
+                 else ((1, L) if len(L) == 1 and "A" <= L <= "Z" else (2, "")))
     page = PAGE_TEMPLATE.replace("__TOTAL__", f"{total:,}") \
         .replace("__DATE__", today) \
         .replace("__LETTERS__", json.dumps(letters))
@@ -256,7 +291,11 @@ def main():
         items = groups[L]
         parts.append(f'  <details>\n    <summary>{html.escape(L)}</summary>\n    <ul>\n')
         for name, url, kind in items:
-            parts.append(f'      <li><a href="{html.escape(url, quote=True)}">'
+            # The plain page lives in accessible/, one level below the
+            # repo root, so repo-root-relative hrefs need a '../' prefix
+            # to resolve; absolute (main-site) URLs are left alone.
+            acc_url = url if url.startswith("http") else "../" + url
+            parts.append(f'      <li><a href="{html.escape(acc_url, quote=True)}">'
                          f'{html.escape(name)}</a> '
                          f'<span class="kind">{KINDS[kind]}</span></li>\n')
         parts.append('    </ul>\n  </details>\n')
