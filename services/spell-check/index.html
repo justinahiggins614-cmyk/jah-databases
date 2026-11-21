@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Spell Check — a free spelling checker that works right here</title>
+<meta name="description" content="Spell Check is a free spelling checker. Paste your words, press Check, and it marks the words it does not know and offers fixes. No sign-in, no payment, free forever.">
+<style>
+  :root{--paper:#fdfcf7;--ink:#1f2430;--muted:#5b6472;--line:#e3ddcd;--card:#fff;--accent:#b45309;--accent-soft:#fef3c7;--teal:#0f766e;--bad:#b91c1c;--bad-soft:#fee2e2;--good:#166534}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font:17px/1.6 Georgia,'Times New Roman',serif}
+  a{color:var(--teal)}
+  header.top{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5}
+  .wrap{max-width:960px;margin:0 auto;padding:0 18px}
+  .bar{display:flex;align-items:center;gap:18px;padding:12px 0}
+  .mark{font-size:22px;font-weight:bold;color:var(--ink);text-decoration:none;white-space:nowrap}
+  .mark span{color:var(--accent)}
+  nav{margin-left:auto;display:flex;gap:16px;flex-wrap:wrap}
+  nav a{color:var(--ink);text-decoration:none;font-size:15px}
+  nav a:hover{text-decoration:underline}
+  .hero{position:relative}
+  .hero img{display:block;width:100%;height:auto;max-height:430px;object-fit:cover;object-position:center 30%}
+  .hero .cap{position:absolute;left:0;right:0;top:0;text-align:center;padding:28px 18px 0}
+  .hero h1{margin:0;font-size:44px;line-height:1.1;color:#3d2c12;text-shadow:0 1px 0 #fff}
+  .hero p{margin:8px 0 0;font-size:19px;color:#4a3a1c}
+  main{padding:28px 0 10px}
+  h2{font-size:26px;margin:34px 0 10px}
+  h3{font-size:20px;margin:0 0 6px}
+  .lede{font-size:19px;color:var(--muted)}
+  .toolcard{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;box-shadow:0 2px 10px rgba(60,40,0,.06)}
+  textarea{width:100%;min-height:150px;font:16px/1.6 Georgia,serif;padding:12px;border:1px solid var(--line);border-radius:10px;background:#fff;color:var(--ink)}
+  .row{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;align-items:center}
+  button{font:16px Georgia,serif;border-radius:9px;border:1px solid var(--line);background:#fff;color:var(--ink);padding:10px 16px;cursor:pointer}
+  button.go{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:bold}
+  button:hover{filter:brightness(.97)}
+  .status{font-size:15px;color:var(--muted)}
+  .checked{margin-top:14px;padding:14px;border:1px dashed var(--line);border-radius:10px;background:#fff;white-space:pre-wrap;word-wrap:break-word}
+  .checked mark{background:var(--bad-soft);color:var(--bad);border-bottom:2px wavy var(--bad);cursor:pointer;padding:0 1px;border-radius:3px}
+  .flag{border:1px solid var(--line);border-radius:10px;padding:12px 14px;margin-top:10px;background:#fff}
+  .flag b{color:var(--bad)}
+  .flag .sug button{margin:3px 6px 3px 0;padding:4px 10px;font-size:15px}
+  .flag .rule{color:var(--muted);font-size:15px;margin-top:4px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px}
+  .card p{margin:6px 0 0;color:var(--muted);font-size:15px}
+  .card .rec-link{font-size:14px}
+  .steps{counter-reset:step;display:grid;gap:12px}
+  .steps div{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+  .steps b::before{counter-increment:step;content:counter(step) ". ";color:var(--accent)}
+  .dl a{display:inline-block;margin:6px 10px 6px 0;padding:10px 16px;border:1px solid var(--line);border-radius:9px;background:#fff;text-decoration:none;color:var(--ink)}
+  footer{margin-top:48px;padding:22px 0 34px;border-top:3px double var(--line);font-size:15px;color:var(--muted)}
+  footer p{margin:8px 0}
+  .free{display:inline-block;background:var(--accent-soft);border:1px solid #fcd34d;border-radius:999px;padding:2px 12px;font-size:14px;color:#7c2d12}
+  @media (max-width:640px){.hero h1{font-size:32px}.hero img{max-height:300px}nav{display:none}}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap bar">
+    <a class="mark" href="./">✓ Spell <span>Check</span></a>
+    <nav>
+      <a href="#tool">The Tool</a>
+      <a href="#how">How it works</a>
+      <a href="#mixups">Common mix-ups</a>
+      <a href="#records">Records</a>
+      <a href="#files">Files</a>
+    </nav>
+  </div>
+</header>
+
+<div class="hero">
+  <img src="assets/media-generation-spell-check-hero-0-6e2f26d0-dd05-4f13-943f-59f4108e0b7c.webp" alt="Ollie the owl, the Spell Check mascot, holding a big red pencil over word cards on a wooden desk">
+  <div class="cap">
+    <h1>Spell Check</h1>
+    <p>Paste your words. We mark the ones that look wrong — and offer fixes.</p>
+  </div>
+</div>
+
+<main class="wrap">
+  <p class="lede">This is a spelling checker that runs entirely in your browser. Your words never leave this page. It checks against 96,088 English headwords taken from the live Spell Check archive, plus their regular forms — plurals, past tense, -ing, and the rest — and it knows the classic mix-ups — their / there / they're, your / you're, and the rest. <span class="free">Free forever — no sign-in, no payment</span></p>
+
+  <h2 id="tool">The Tool</h2>
+  <div class="toolcard">
+    <label for="text"><b>Your text</b></label>
+    <textarea id="text" placeholder="Type or paste your words here…">Thier are definately too many seperate occurrances of mispelled words in this sentance.</textarea>
+    <div class="row">
+      <button class="go" id="checkBtn">Check spelling</button>
+      <button id="sampleBtn">Try a sample</button>
+      <button id="clearBtn">Clear</button>
+      <span class="status" id="status">Word list: loading…</span>
+    </div>
+    <div class="checked" id="checked" hidden></div>
+    <div id="flags"></div>
+  </div>
+
+  <h2 id="how">How it works</h2>
+  <div class="steps">
+    <div><b>Write or paste.</b> Put any English text in the box above — a sentence, a letter, a whole page.</div>
+    <div><b>Press Check spelling.</b> Every word is looked up in the archive's 96,088 headwords, plus their regular forms — plurals, past tense, -ing words, and the rest. Words the list does not know are marked in red.</div>
+    <div><b>Pick a fix.</b> Under each marked word you get the closest real words. Press one and it replaces the word in your text. Mix-ups like their / there get a plain-words note about which one you meant.</div>
+  </div>
+  <p class="lede">What it does not do: it does not guess at names, brand-new words, or words from other languages. A word it marks may still be right — a name, a place, or a new word. You decide.</p>
+
+  <h2 id="mixups">Common mix-ups</h2>
+  <p class="lede">Twelve pairs that trip up nearly everyone. Each one has a full record in the Spell Check Service Database, with the rule, the examples, and a way to remember it.</p>
+  <!-- RECORD LINKS: 7 mix-up cards link to their pair records (JAH-SPCK-000005..11). The other 5 cards have no pair record yet; the card itself carries the rule. -->
+  <div class="grid" id="mixupsGrid">
+    <div class="card"><h3>their / there / they're</h3><p><b>Their</b> shows belonging. <b>There</b> shows a place. <b>They're</b> is short for "they are".</p><p><a class="rec-link" href="../../db/spell-check-service/#rec=JAH-SPCK-000005">Read the full record →</a></p></div>
+    <div class="card"><h3>your / you're</h3><p><b>Your</b> shows belonging. <b>You're</b> is short for "you are". If you can swap in "you are", use you're.</p><p><a class="rec-link" href="../../db/spell-check-service/#rec=JAH-SPCK-000006">Read the full record →</a></p></div>
+    <div class="card"><h3>its / it's</h3><p><b>Its</b> shows belonging. <b>It's</b> is short for "it is" or "it has". No apostrophe ever means belonging here.</p><p><a class="rec-link" href="../../db/spell-check-service/#rec=JAH-SPCK-000007">Read the full record →</a></p></div>
+    <div class="card"><h3>to / too / two</h3><p><b>To</b> points somewhere. <b>Too</b> means "also" or "too much". <b>Two</b> is the number 2.</p><p><a class="rec-link" href="../../db/spell-check-service/#rec=JAH-SPCK-000008">Read the full record →</a></p></div>
+    <div class="card"><h3>affect / effect</h3><p><b>Affect</b> is usually the action — to change something. <b>Effect</b> is usually the result — the change itself.</p><p><a class="rec-link" href="../../db/spell-check-service/#rec=JAH-SPCK-000009">Read the full record →</a></p></div>
+    <div class="card"><h3>then / than</h3><p><b>Then</b> is about time — first this, then that. <b>Than</b> is for comparing — bigger than, smaller than.</p><p><a class="rec-link" href="../../db/spell-check-service/#rec=JAH-SPCK-000010">Read the full record →</a></p></div>
+    <div class="card"><h3>lose / loose</h3><p><b>Lose</b> is to misplace or fail to win. <b>Loose</b> means not tight. Lose has one o, like "lost".</p><p><a class="rec-link" href="../../db/spell-check-service/#rec=JAH-SPCK-000011">Read the full record →</a></p></div>
+    <div class="card"><h3>principle / principal</h3><p><b>Principle</b> is a rule you live by. <b>Principal</b> is the main person, or the main amount of money.</p></div>
+    <div class="card"><h3>compliment / complement</h3><p><b>Compliment</b> is kind words. <b>Complement</b> is something that completes — the other half.</p></div>
+    <div class="card"><h3>stationary / stationery</h3><p><b>Stationary</b> means standing still. <b>Stationery</b> means paper and pens — think "e" for envelope.</p></div>
+    <div class="card"><h3>weather / whether</h3><p><b>Weather</b> is rain and sun. <b>Whether</b> means "if" — as in "whether or not".</p></div>
+    <div class="card"><h3>accept / except</h3><p><b>Accept</b> means to take or agree. <b>Except</b> means "but not" — everyone except Sam.</p></div>
+  </div>
+
+  <h2 id="records">Records</h2>
+  <p class="lede">The Spell Check Service Database holds the full rules behind this checker — 24 public records and 24 Signature records, each one a complete file. The public records are checkable facts; the Signature records are original memory aids and drills made for this service.</p>
+  <div class="grid" id="recordsGrid"><p class="lede">Records load here when the database pair is filed. Browse the full archive meanwhile: <a href="../../db/spelling/">The Signature Spell Check Database</a> — 99,227 records.</p></div>
+
+  <h2 id="files">Files</h2>
+  <p class="lede">Everything on this page is downloadable. Take the word list, the records, or the page itself.</p>
+  <div class="dl">
+    <a href="assets/words.json" download>⬇ Word list (96,088 headwords, JSON)</a>
+    <a href="records.json" download>⬇ Service records (JSON)</a>
+    <a href="./" download>⬇ This page</a>
+    <a href="accessible/index.html">Plain version (no JavaScript needed)</a>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p><b>Network.</b> This service belongs to The 'Merica-L Internet: the front door is the <a href="https://justinahiggins614-cmyk.github.io/jah-databases/the-merica-l-virtual-internet.html">'Merica-L Virtual Internet</a>, the network's main page is <a href="https://justinahiggins614-cmyk.github.io/jah-databases/the-merica-l-boundless-ecosystem-os.html">'Merica-L Boundless Ecosystem OS</a>, and the databases live at the <a href="https://justinahiggins614-cmyk.github.io/jah-databases/">database hub</a>. The spelling archive behind this checker is the <a href="../../db/spelling/">Signature Spell Check Database</a>.</p>
+    <p>Spell Check is free forever. No sign-in, no payment, no tracking — your words never leave this page. Ollie the owl is the mascot; he holds the pencil.</p>
+    <p><a href="accessible/index.html">Accessible version (plain text, no JavaScript needed)</a></p>
+  </div>
+</footer>
+
+<script>
+(function(){
+'use strict';
+var WORDS=null, WORDSET=null;
+var statusEl=document.getElementById('status');
+var textEl=document.getElementById('text');
+var checkedEl=document.getElementById('checked');
+var flagsEl=document.getElementById('flags');
+
+var CONFUSED={
+ 'their':{note:'Their shows belonging — "their books". Did you mean there (a place) or they\'re (they are)?',group:['their','there','they\'re']},
+ 'there':{note:'There shows a place — "over there". Did you mean their (belonging) or they\'re (they are)?',group:['their','there','they\'re']},
+ 'they\'re':{note:'They\'re is short for "they are". Did you mean their (belonging) or there (a place)?',group:['their','there','they\'re']},
+ 'your':{note:'Your shows belonging — "your coat". Did you mean you\'re (you are)?',group:['your','you\'re']},
+ 'you\'re':{note:'You\'re is short for "you are". Did you mean your (belonging)?',group:['your','you\'re']},
+ 'its':{note:'Its shows belonging — "its lid". Did you mean it\'s (it is)?',group:['its','it\'s']},
+ 'it\'s':{note:'It\'s is short for "it is" or "it has". Did you mean its (belonging)?',group:['its','it\'s']},
+ 'to':{note:'To points somewhere — "go to bed". Did you mean too (also / too much) or two (the number)?',group:['to','too','two']},
+ 'too':{note:'Too means "also" or "too much". Did you mean to (pointing) or two (the number)?',group:['to','too','two']},
+ 'two':{note:'Two is the number 2. Did you mean to (pointing) or too (also / too much)?',group:['to','too','two']},
+ 'affect':{note:'Affect is the action — to change something. Did you mean effect (the result)?',group:['affect','effect']},
+ 'effect':{note:'Effect is the result — the change itself. Did you mean affect (the action)?',group:['affect','effect']},
+ 'then':{note:'Then is about time — "first this, then that". Did you mean than (comparing)?',group:['then','than']},
+ 'than':{note:'Than is for comparing — "bigger than". Did you mean then (time)?',group:['then','than']},
+ 'lose':{note:'Lose is to misplace or fail to win. Did you mean loose (not tight)?',group:['lose','loose']},
+ 'loose':{note:'Loose means not tight. Did you mean lose (to misplace)?',group:['lose','loose']}
+};
+
+fetch('assets/words.json').then(function(r){return r.json();}).then(function(list){
+  WORDS=list; WORDSET=new Set(list);
+  statusEl.textContent='Word list ready: '+list.length.toLocaleString()+' headwords from the live archive.';
+  check();
+}).catch(function(){
+  statusEl.textContent='Word list could not be loaded. Check your connection and try again.';
+});
+
+/* The word list holds 96,088 headwords from the live spelling archive.
+   Headwords alone miss plurals and past forms, so membership is tested by
+   rule: a word counts if it IS a headword, or if stripping a regular
+   ending (-s, -es, -ed, -ing, -ly, -ness, -ment, -er, -est, with -y and
+   doubled-letter rules) leaves a headword. Irregulars and contractions
+   are listed outright. Nothing else is accepted. */
+var IRREG=new Set(('made took taken went gone saw seen gave given found men women feet teeth people children mice geese oxen brought bought thought caught taught sold told held kept left lost meant met paid read said sent spent stood understood wrote written drove driven rode ridden rose risen chose chosen broke broken froze frozen stole stolen woke woken swore sworn tore torn wore worn bore borne ate eaten bit bitten hid hidden fell fallen grew grown knew known threw thrown blew blown drew drawn flew flown sang sung sank sunk rang rung drank drunk swam swum began begun ran don\'t can\'t won\'t isn\'t aren\'t wasn\'t weren\'t hasn\'t haven\'t hadn\'t doesn\'t didn\'t couldn\'t shouldn\'t wouldn\'t i\'m i\'ve i\'ll i\'d you\'re you\'ve you\'ll you\'d we\'re we\'ve we\'ll we\'d they\'re they\'ve they\'ll they\'d it\'s that\'s there\'s here\'s what\'s let\'s cannot o\'clock ma\'am y\'all shan\'t mustn\'t needn\'t oughtn\'t daren\'t').split(' '));
+/* Words the rules above would wrongly accept, so they are blocked here,
+   each with its correction. Two causes: the archive lists "mispell",
+   "calender" and "grammer" as variant headwords; and the -ing / -ly rules
+   accept forms that keep a silent e ("makeing") or skip doubling
+   ("prefering"). Standard spelling rejects all of these. */
+var BLOCKED={thier:'their',mispelled:'misspelled',mispell:'misspell',withing:'within',accidently:'accidentally',basicly:'basically',truely:'truly',arguement:'argument',writting:'writing',comming:'coming',geting:'getting',makeing:'making',useing:'using',haveing:'having',liveing:'living',danceing:'dancing',happyness:'happiness',calender:'calendar',grammer:'grammar',prefering:'preferring',refering:'referring'};
+function isWord(w){
+  if(BLOCKED[w]) return false;
+  if(!WORDSET) return true;
+  if(WORDSET.has(w) || IRREG.has(w)) return true;
+  if(w.slice(-2)==="'s" && WORDSET.has(w.slice(0,-2))) return true;
+  if(w.slice(-1)==="'" && WORDSET.has(w.slice(0,-1))) return true;
+  var s;
+  if(w.endsWith('ies') && w.length>3 && WORDSET.has(w.slice(0,-3)+'y')) return true;
+  if(w.endsWith('ied') && w.length>3 && WORDSET.has(w.slice(0,-3)+'y')) return true;
+  if(w.endsWith('ing') && w.length>4){
+    s=w.slice(0,-3);
+    if(WORDSET.has(s) || WORDSET.has(s+'e')) return true;
+    if(s.length>1 && s[s.length-1]===s[s.length-2] && WORDSET.has(s.slice(0,-1))) return true;
+  }
+  if(w.endsWith('ed') && w.length>3){
+    s=w.slice(0,-2);
+    if(WORDSET.has(s) || WORDSET.has(s+'e')) return true;
+    if(s.length>1 && s[s.length-1]===s[s.length-2] && WORDSET.has(s.slice(0,-1))) return true;
+  }
+  if(w.endsWith('es') && w.length>3 && WORDSET.has(w.slice(0,-2))) return true;
+  if(w.endsWith('s') && w.length>2 && WORDSET.has(w.slice(0,-1))) return true;
+  if(w.endsWith('ily') && w.length>4 && WORDSET.has(w.slice(0,-3)+'y')) return true;
+  if(w.endsWith('ly') && w.length>3 && WORDSET.has(w.slice(0,-2))) return true;
+  if(w.endsWith('iness') && w.length>6 && WORDSET.has(w.slice(0,-5)+'y')) return true;
+  if(w.endsWith('ness') && w.length>5 && WORDSET.has(w.slice(0,-4))) return true;
+  if(w.endsWith('ment') && w.length>5 && WORDSET.has(w.slice(0,-4))) return true;
+  if(w.endsWith('ier') && w.length>4 && WORDSET.has(w.slice(0,-3)+'y')) return true;
+  if(w.endsWith('iest') && w.length>5 && WORDSET.has(w.slice(0,-4)+'y')) return true;
+  if(w.endsWith('er') && w.length>3){
+    s=w.slice(0,-2);
+    if(WORDSET.has(s) || WORDSET.has(s+'e')) return true;
+    if(s.length>1 && s[s.length-1]===s[s.length-2] && WORDSET.has(s.slice(0,-1))) return true;
+  }
+  if(w.endsWith('est') && w.length>4){
+    s=w.slice(0,-3);
+    if(WORDSET.has(s) || WORDSET.has(s+'e')) return true;
+    if(s.length>1 && s[s.length-1]===s[s.length-2] && WORDSET.has(s.slice(0,-1))) return true;
+  }
+  return false;
+}
+function edits1(w){
+  var out={}, i, c, letters='abcdefghijklmnopqrstuvwxyz';
+  for(i=0;i<w.length;i++){ out[w.slice(0,i)+w.slice(i+1)]=1; }
+  for(i=0;i<w.length-1;i++){ out[w.slice(0,i)+w[i+1]+w[i]+w.slice(i+2)]=1; }
+  for(i=0;i<w.length;i++) for(c=0;c<26;c++){ out[w.slice(0,i)+letters[c]+w.slice(i+1)]=1; }
+  for(i=0;i<=w.length;i++) for(c=0;c<26;c++){ out[w.slice(0,i)+letters[c]+w.slice(i)]=1; }
+  return Object.keys(out);
+}
+function suggestions(w){
+  var out=[];
+  if(BLOCKED[w]) out.push(BLOCKED[w]);
+  var cands=edits1(w).filter(function(c){return isWord(c);});
+  cands.sort(function(a,b){
+    var da=Math.abs(a.length-w.length), db=Math.abs(b.length-w.length);
+    return da-db || (a<b?-1:a>b?1:0);
+  });
+  for(var i=0;i<cands.length && out.length<5;i++){ if(out.indexOf(cands[i])<0) out.push(cands[i]); }
+  return out;
+}
+function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+
+function check(){
+  if(!WORDSET){ return; }
+  var text=textEl.value;
+  var re=/[A-Za-z]+(?:'[A-Za-z]+)?/g, m, out='', last=0, flags=[];
+  while((m=re.exec(text))!==null){
+    var word=m[0], low=word.toLowerCase();
+    var known=isWord(low);
+    out+=esc(text.slice(last,m.index));
+    if(known){
+      out+=esc(word);
+      if(CONFUSED[low]){
+        flags.push({word:word,low:low,confused:true,sugs:CONFUSED[low].group.filter(function(g){return g!==low;}),rule:CONFUSED[low].note});
+        out+='';
+      }
+    }else{
+      out+='<mark data-w="'+esc(word)+'" data-i="'+m.index+'">'+esc(word)+'</mark>';
+      flags.push({word:word,low:low,confused:false,sugs:suggestions(low),rule:null});
+    }
+    last=m.index+word.length;
+  }
+  out+=esc(text.slice(last));
+  checkedEl.innerHTML=out;
+  checkedEl.hidden=false;
+  renderFlags(flags);
+  var bad=flags.filter(function(f){return !f.confused;}).length;
+  var mix=flags.length-bad;
+  statusEl.textContent=bad
+    ? bad+' misspelled word'+(bad>1?'s':'')+(mix?' + '+mix+' mix-up'+(mix>1?'s':'')+' to double-check':'')+'.'
+    : (mix ? 'No misspellings — '+mix+' mix-up'+(mix>1?'s':'')+' to double-check below.' : 'No problems found — every word is in the list.');
+}
+function renderFlags(flags){
+  if(!flags.length){ flagsEl.innerHTML='<p class="lede">Nothing flagged. Your words all check out.</p>'; return; }
+  flagsEl.innerHTML=flags.map(function(f,i){
+    var h='<div class="flag"><b>'+esc(f.word)+'</b>';
+    if(f.confused){ h+=' <span class="rule">— this word is often mixed up.</span>'; }
+    if(f.sugs.length){
+      h+='<div class="sug">Did you mean: '+f.sugs.map(function(s){
+        return '<button data-fi="'+i+'" data-sug="'+esc(s)+'">'+esc(s)+'</button>';
+      }).join('')+'</div>';
+    } else {
+      h+='<div class="rule">No close match in the word list. It may be a name, a place, or a new word.</div>';
+    }
+    if(f.rule){ h+='<div class="rule">'+esc(f.rule)+'</div>'; }
+    h+='</div>';
+    return h;
+  }).join('');
+  flagsEl.querySelectorAll('button[data-sug]').forEach(function(b){
+    b.addEventListener('click',function(){
+      var fi=+b.getAttribute('data-fi'), sug=b.getAttribute('data-sug');
+      var cur=textEl.value;
+      var re=/[A-Za-z]+(?:'[A-Za-z]+)?/g, m, seen=-1, target=null;
+      var want=flags[fi].word, count=0;
+      while((m=re.exec(cur))!==null){
+        if(m[0]===want){ if(count===0){ target=m; break; } count++; }
+      }
+      if(!target){ var idx=cur.indexOf(want); if(idx<0) return; target={index:idx}; target[0]=want; }
+      var before=cur.slice(0,target.index), after=cur.slice(target.index+target[0].length);
+      var first=target[0].charAt(0);
+      var rep=(first===first.toUpperCase()&&first!==first.toLowerCase())
+        ? sug.charAt(0).toUpperCase()+sug.slice(1) : sug;
+      textEl.value=before+rep+after;
+      check();
+    });
+  });
+  checkedEl.querySelectorAll('mark').forEach(function(mk){
+    mk.addEventListener('click',function(){
+      var cards=flagsEl.querySelectorAll('.flag');
+      var w=mk.getAttribute('data-w');
+      for(var i=0;i<cards.length;i++){ if(cards[i].querySelector('b') && cards[i].querySelector('b').textContent===w){ cards[i].scrollIntoView({block:'center'}); break; } }
+    });
+  });
+}
+document.getElementById('checkBtn').addEventListener('click',check);
+document.getElementById('clearBtn').addEventListener('click',function(){
+  textEl.value=''; checkedEl.hidden=true; flagsEl.innerHTML=''; statusEl.textContent='Cleared.';
+});
+document.getElementById('sampleBtn').addEventListener('click',function(){
+  textEl.value='Thier are definately too many seperate occurrances of mispelled words in this sentance. Its a commmon problem, and your going to loose marks if its not fixed.';
+  check();
+});
+/* Records: filled from records.json once the pair is filed; until then the
+   placeholder above stands. */
+fetch('records.json').then(function(r){return r.json();}).then(function(recs){
+  if(!recs || !recs.length) return;
+  var grid=document.getElementById('recordsGrid');
+  grid.innerHTML=recs.map(function(rec){
+    var link=rec.url?'<p><a class="rec-link" href="'+rec.url+'">Read the full record →</a></p>':'';
+    return '<div class="card"><h3>'+esc(rec.title||rec.id)+'</h3><p>'+esc(rec.description||'')+'</p>'+link+'</div>';
+  }).join('');
+}).catch(function(){ /* records load with the database pair */ });
+})();
+</script>
+</body>
+</html>

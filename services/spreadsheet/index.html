@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Spreadsheet — a free spreadsheet that works right here</title>
+<meta name="description" content="Spreadsheet is a free spreadsheet. Type numbers and words into the grid, write formulas like =SUM(A1:A3), and watch the totals work out. No sign-in, no payment, free forever.">
+<style>
+  :root{--paper:#fdfcf7;--ink:#1f2430;--muted:#5b6472;--line:#e3ddcd;--card:#fff;--accent:#15803d;--accent-soft:#dcfce7;--teal:#0f766e;--bad:#b91c1c;--good:#166534}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font:17px/1.6 Georgia,'Times New Roman',serif}
+  a{color:var(--teal)}
+  header.top{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5}
+  .wrap{max-width:960px;margin:0 auto;padding:0 18px}
+  .bar{display:flex;align-items:center;gap:18px;padding:12px 0}
+  .mark{font-size:22px;font-weight:bold;color:var(--ink);text-decoration:none;white-space:nowrap}
+  .mark span{color:var(--accent)}
+  nav{margin-left:auto;display:flex;gap:16px;flex-wrap:wrap}
+  nav a{color:var(--ink);text-decoration:none;font-size:15px}
+  nav a:hover{text-decoration:underline}
+  .hero{position:relative}
+  .hero img{display:block;width:100%;height:auto;max-height:430px;object-fit:cover;object-position:center 30%}
+  .hero .cap{position:absolute;left:0;right:0;top:0;text-align:center;padding:28px 18px 0}
+  .hero h1{margin:0;font-size:44px;line-height:1.1;color:#14301c;text-shadow:0 1px 0 #fff}
+  .hero p{margin:8px 0 0;font-size:19px;color:#24402c}
+  main{padding:28px 0 10px}
+  h2{font-size:26px;margin:34px 0 10px}
+  h3{font-size:20px;margin:0 0 6px}
+  .lede{font-size:19px;color:var(--muted)}
+  .toolcard{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;box-shadow:0 2px 10px rgba(20,60,20,.06)}
+  table.sheet{border-collapse:collapse;width:100%;margin:6px 0}
+  table.sheet th,table.sheet td{border:1px solid var(--line);padding:0;text-align:left}
+  table.sheet th{background:var(--accent-soft);padding:6px 8px;font-size:15px}
+  table.sheet td input{width:100%;border:0;padding:8px;font:15px Georgia,serif;color:var(--ink);background:#fff}
+  table.sheet td input:focus{outline:2px solid var(--accent)}
+  table.sheet td.out{padding:8px;font-size:15px;min-width:80px}
+  table.sheet td.err{color:var(--bad)}
+  .row{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;align-items:center}
+  button{font:16px Georgia,serif;border-radius:9px;border:1px solid var(--line);background:#fff;color:var(--ink);padding:10px 16px;cursor:pointer}
+  button.go{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:bold}
+  button:hover{filter:brightness(.97)}
+  .status{font-size:15px;color:var(--muted)}
+  code{background:#eef2ee;padding:1px 5px;border-radius:4px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px}
+  .card p{margin:6px 0 0;color:var(--muted);font-size:15px}
+  .card .rec-link{font-size:14px}
+  .steps{counter-reset:step;display:grid;gap:12px}
+  .steps div{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+  .steps b::before{counter-increment:step;content:counter(step) ". ";color:var(--accent)}
+  .dl a{display:inline-block;margin:6px 10px 6px 0;padding:10px 16px;border:1px solid var(--line);border-radius:9px;background:#fff;text-decoration:none;color:var(--ink)}
+  footer{margin-top:48px;padding:22px 0 34px;border-top:3px double var(--line);font-size:15px;color:var(--muted)}
+  footer p{margin:8px 0}
+  .free{display:inline-block;background:var(--accent-soft);border:1px solid #86efac;border-radius:999px;padding:2px 12px;font-size:14px;color:#14532d}
+  @media (max-width:640px){.hero h1{font-size:32px}.hero img{max-height:300px}nav{display:none}}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap bar">
+    <a class="mark" href="./">▦ Spread<span>sheet</span></a>
+    <nav>
+      <a href="#tool">The Tool</a>
+      <a href="#how">How it works</a>
+      <a href="#features">What it does</a>
+      <a href="#records">Records</a>
+      <a href="#files">Files</a>
+    </nav>
+  </div>
+</header>
+
+<div class="hero">
+  <img src="assets/media-generation-spreadsheet-hero-0-f6c13bf7-dc2e-4933-9ed7-d98d708c3e1f.webp" alt="Sammy the squirrel, the Spreadsheet mascot, sitting beside a big friendly grid like a ledger sheet">
+  <div class="cap">
+    <h1>Spreadsheet</h1>
+    <p>Type numbers in the grid. Write a formula, and the totals work themselves out.</p>
+  </div>
+</div>
+
+<main class="wrap">
+  <p class="lede">This is a spreadsheet that runs entirely in your browser. Your numbers never leave this page. Type numbers and words into the grid, write a formula starting with <code>=</code>, and press Work it out. Change one number and every total that depends on it changes at once. <span class="free">Free forever — no sign-in, no payment</span></p>
+
+  <h2 id="tool">The Tool</h2>
+  <div class="toolcard">
+    <p><b>Your grid</b> — five columns (A to E) and six rows. Type a number, a word, or a formula like <code>=SUM(A1:A3)</code>.</p>
+    <table class="sheet" id="grid"></table>
+    <div class="row">
+      <button class="go" id="calcBtn">Work it out</button>
+      <button id="sampleBtn">Try a sample</button>
+      <button id="clearBtn">Clear</button>
+      <span class="status" id="status">Formulas: =SUM(A1:A3) adds a range, =AVERAGE(A1:A3) averages it, =MAX and =MIN find the largest and smallest, =COUNT counts the numbers. You can also write plain sums like =A1+B1*2.</span>
+    </div>
+    <h3 style="margin-top:18px">Worked-out answers</h3>
+    <table class="sheet" id="answers"></table>
+    <p class="status" id="totals"></p>
+  </div>
+
+  <h2 id="how">How it works</h2>
+  <div class="steps">
+    <div><b>Type in the grid.</b> Each box is a cell, named by its column letter and row number, such as B3. A cell holds one number, one word, or one formula.</div>
+    <div><b>Write a formula.</b> Start with <code>=</code>, then name cells and functions: <code>=SUM(A1:A3)</code> adds the three cells, <code>=AVERAGE(A1:A3)</code> averages them, and <code>=A1+B1*2</code> does plain arithmetic. Brackets set the order.</div>
+    <div><b>Press Work it out.</b> The answers appear in the table below, with a total for each column. Change a number and press the button again — every total follows the change.</div>
+  </div>
+  <p class="lede">What it does not do: it does not save your sheet for you, it does not draw charts, and it does not look things up in another sheet. Download your sheet as a CSV file before you leave, or your numbers will be gone when the page closes.</p>
+
+  <h2 id="features">What it does</h2>
+  <p class="lede">Twelve things every spreadsheet does. Each one has a full record in the Spreadsheet Service Database.</p>
+  <div class="grid">
+    <div class="card"><h3>What a spreadsheet is</h3><p>A grid where numbers live in cells and formulas add them up by themselves.</p><p><a class="rec-link" href="../../db/spreadsheet-service/#rec=JAH-SHTS-000001">Read the full record →</a></p></div>
+    <div class="card"><h3>Cells, rows and columns</h3><p>One box, named by its letter and number, holding one number, word, or formula.</p><p><a class="rec-link" href="../../db/spreadsheet-service/#rec=JAH-SHTS-000002">Read the full record →</a></p></div>
+    <div class="card"><h3>Typing numbers and words</h3><p>Numbers line up on the right and can be added; words line up on the left and cannot.</p><p><a class="rec-link" href="../../db/spreadsheet-service/#rec=JAH-SHTS-000003">Read the full record →</a></p></div>
+    <div class="card"><h3>Adding with SUM</h3><p>=SUM(A1:A5) adds up every number in a range in one step.</p><p><a class="rec-link" href="../../db/spreadsheet-service/#rec=JAH-SHTS-000004">Read the full record →</a></p></div>
+    <div class="card"><h3>Averaging with AVERAGE</h3><p>=AVERAGE(A1:A5) answers the question: what is usual here?</p><p><a class="rec-link" href="../../db/spreadsheet-service/#rec=JAH-SHTS-000005">Read the full record →</a></p></div>
+    <div class="card"><h3>The largest and the smallest</h3><p>MAX finds the biggest number in a range, MIN finds the smallest.</p><p><a class="rec-link" href="../../db/spreadsheet-service/#rec=JAH-SHTS-000006">Read the full record →</a></p></div>
+    <div class="card"><h3>Counting cells with COUNT</h3><p>COUNT says how many cells in a range hold numbers, so you can check a list is complete.</p><p><a class="rec-link" href="../../db/spreadsheet-service/#rec=JAH-SHTS-000007">Read the full record →</a></p></div>
+    <div class="card"><h3>Arithmetic in a cell</h3><p>Add, take away, multiply, and divide, with brackets to set the order.</p><p><a class="rec-link" href="../../db/spreadsheet-service/#rec=JAH-SHTS-000008">Read the full record →</a></p></div>
+    <div class="card"><h3>Copying a formula down a column</h3><p>Write a formula once and let the sheet repeat it for every row.</p><p><a class="rec-link" href="../../db/spreadsheet-service/#rec=JAH-SHTS-000009">Read the full record →</a></p></div>
+    <div class="card"><h3>Money in a spreadsheet</h3><p>Money is kept as plain numbers, shown with a pound sign and two places after the point.</p><p><a class="rec-link" href="../../db/spreadsheet-service/#rec=JAH-SHTS-000010">Read the full record →</a></p></div>
+    <div class="card"><h3>Dates in a spreadsheet</h3><p>Dates are numbers of days, so one date taken from another tells how many days passed.</p><p><a class="rec-link" href="../../db/spreadsheet-service/#rec=JAH-SHTS-000011">Read the full record →</a></p></div>
+    <div class="card"><h3>Sorting a list</h3><p>Putting rows in order by a chosen column, smallest to largest or A to Z.</p><p><a class="rec-link" href="../../db/spreadsheet-service/#rec=JAH-SHTS-000012">Read the full record →</a></p></div>
+  </div>
+
+  <h2 id="records">Records</h2>
+  <p class="lede">The Spreadsheet Service Database holds the full guide behind this tool — 24 public records and 24 Signature records, each one a complete file.</p>
+  <div class="grid" id="recordsGrid"></div>
+
+  <h2 id="files">Files</h2>
+  <p class="lede">Everything on this page is downloadable. Take the sample sheet, the records, or the page itself.</p>
+  <div class="dl">
+    <a href="assets/sample-sheet.csv" download>⬇ Sample sheet (CSV)</a>
+    <a href="records.json" download>⬇ Service records (JSON)</a>
+    <a href="./" download>⬇ This page</a>
+    <a href="accessible/index.html">Plain version (no JavaScript needed)</a>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p><b>Network.</b> This service belongs to The 'Merica-L Internet: the front door is the <a href="https://justinahiggins614-cmyk.github.io/jah-databases/the-merica-l-virtual-internet.html">'Merica-L Virtual Internet</a>, the network's main page is <a href="https://justinahiggins614-cmyk.github.io/jah-databases/the-merica-l-boundless-ecosystem-os.html">'Merica-L Boundless Ecosystem OS</a>, and the databases live at the <a href="https://justinahiggins614-cmyk.github.io/jah-databases/">database hub</a>. The spreadsheet archive behind this tool is the <a href="../../db/spreadsheet-software/">spreadsheet software database</a>.</p>
+    <p>Spreadsheet is free forever. No sign-in, no payment, no tracking — your numbers never leave this page. Sammy the squirrel is the mascot; he counts the acorns in rows.</p>
+    <p><a href="accessible/index.html">Accessible version (plain text, no JavaScript needed)</a></p>
+  </div>
+</footer>
+
+<script>
+(function(){
+'use strict';
+/* Pure formula engine: no document access, testable in Node. */
+var COLS=['A','B','C','D','E'], ROWS=6;
+function colToNum(c){ return c.charCodeAt(0)-64; }
+function numToCol(n){ return String.fromCharCode(64+n); }
+function refParts(ref){ var m=/^([A-E])([1-9])$/.exec(ref); return m?{col:colToNum(m[1]),row:+m[2]}:null; }
+function expandRange(a,b){
+  var pa=refParts(a), pb=refParts(b); if(!pa||!pb) throw new Error('bad range '+a+':'+b);
+  var out=[];
+  for(var r=Math.min(pa.row,pb.row); r<=Math.max(pa.row,pb.row); r++)
+    for(var c=Math.min(pa.col,pb.col); c<=Math.max(pa.col,pb.col); c++) out.push(numToCol(c)+r);
+  return out;
+}
+function tokenize(expr){
+  var toks=[], i=0;
+  while(i<expr.length){
+    var ch=expr[i];
+    if(/\s/.test(ch)){ i++; continue; }
+    if(/[0-9.]/.test(ch)){ var m=/^[0-9]*\.?[0-9]+/.exec(expr.slice(i)); toks.push({t:'num',v:parseFloat(m[0])}); i+=m[0].length; continue; }
+    if(/[A-Za-z]/.test(ch)){ var w=/^[A-Za-z]+/.exec(expr.slice(i))[0]; i+=w.length;
+      if(/^[0-9]/.test(expr.slice(i))){ var d=/^[0-9]+/.exec(expr.slice(i))[0]; i+=d.length; toks.push({t:'ref',v:(w+d).toUpperCase()}); }
+      else toks.push({t:'name',v:w.toUpperCase()});
+      continue; }
+    if('+-*/(),:'.indexOf(ch)>=0){ toks.push({t:ch,v:ch}); i++; continue; }
+    throw new Error('unexpected character '+ch);
+  }
+  return toks;
+}
+function evalFormulaText(formula, values){
+  /* values: {A1: raw string}. Returns {value} or {error}. */
+  var memo={}, visiting={};
+  function resolveRef(ref){
+    if(memo.hasOwnProperty(ref)) return memo[ref];
+    if(visiting[ref]) throw new Error('circular reference at '+ref);
+    var raw=(values[ref]===undefined)?'':String(values[ref]).trim();
+    if(raw==='') return {num:false,value:''};
+    if(raw.charAt(0)==='='){ visiting[ref]=1; var r=evalExpr(raw.slice(1)); delete visiting[ref]; memo[ref]=r; return r; }
+    var n=Number(raw);
+    if(raw!=='' && !isNaN(n)) return {num:true,value:n};
+    return {num:false,value:raw};
+  }
+  function evalExpr(expr){
+    var toks=tokenize(expr), pos=0;
+    function peek(){ return toks[pos]; }
+    function next(){ return toks[pos++]; }
+    function parseExpr(){ var v=parseTerm(); while(peek()&&(peek().t==='+'||peek().t==='-')){ var op=next().t; var r=parseTerm(); v=op==='+'?v+r:v-r; } return v; }
+    function parseTerm(){ var v=parseFactor(); while(peek()&&(peek().t==='*'||peek().t==='/')){ var op=next().t; var r=parseFactor(); v=op==='*'?v*r:v/r; } return v; }
+    function numOf(x){ if(typeof x==='object'){ if(!x.num) throw new Error('not a number'); return x.value; } return x; }
+    function parseFactor(){
+      var tk=peek(); if(!tk) throw new Error('empty formula');
+      if(tk.t==='-'){ next(); return -parseFactor(); }
+      if(tk.t==='('){ next(); var v=parseExpr(); if(!peek()||peek().t!==')') throw new Error('missing )'); next(); return v; }
+      if(tk.t==='num'){ next(); return tk.v; }
+      if(tk.t==='ref'){ next(); var cell=resolveRef(tk.v); if(!cell.num) throw new Error(tk.v+' is not a number'); return cell.value; }
+      if(tk.t==='name'){
+        var fn=next().v;
+        if(!peek()||peek().t!=='(') throw new Error(fn+' needs ( )');
+        next();
+        var args=[];
+        if(peek()&&peek().t!==')'){
+          while(true){
+            if(peek()&&peek().t==='ref'){
+              var a=next().v;
+              if(peek()&&peek().t===':'){ next(); var b=next(); if(!b||b.t!=='ref') throw new Error('bad range end'); expandRange(a,b.v).forEach(function(r){args.push(r);}); }
+              else args.push(a);
+            } else args.push(parseExpr());
+            if(peek()&&peek().t===','){ next(); continue; }
+            break;
+          }
+        }
+        if(!peek()||peek().t!==')') throw new Error('missing ) after '+fn);
+        next();
+        var nums=args.map(function(a){ if(typeof a==='string'){ var c=resolveRef(a); return c.num?c.value:null; } return (typeof a==='number')?a:null; }).filter(function(x){return x!==null;});
+        if(fn==='SUM') return nums.reduce(function(s,x){return s+x;},0);
+        if(fn==='AVERAGE') return nums.length?nums.reduce(function(s,x){return s+x;},0)/nums.length:0;
+        if(fn==='MAX') return nums.length?Math.max.apply(null,nums):0;
+        if(fn==='MIN') return nums.length?Math.min.apply(null,nums):0;
+        if(fn==='COUNT') return nums.length;
+        throw new Error('unknown function '+fn);
+      }
+      throw new Error('unexpected token');
+    }
+    var v=parseExpr();
+    if(pos<toks.length) throw new Error('extra text after formula');
+    return {num:true,value:v};
+  }
+  try{
+    var f=String(formula||'').trim();
+    if(f.charAt(0)==='=') f=f.slice(1);
+    return evalExpr(f);
+  }catch(e){ return {error:e.message}; }
+}
+function cellValue(raw, values){
+  var s=String(raw===undefined?'':raw).trim();
+  if(s==='') return {value:''};
+  if(s.charAt(0)==='=') return evalFormulaText(s, values);
+  var n=Number(s);
+  if(!isNaN(n)) return {num:true,value:n};
+  return {num:false,value:s};
+}
+function computeGrid(values){
+  var out={};
+  COLS.forEach(function(c){ for(var r=1;r<=ROWS;r++){ var ref=c+r; out[ref]=cellValue(values[ref], values); } });
+  return out;
+}
+function gridToCsv(values){
+  var lines=[];
+  COLS.forEach(function(c){});
+  lines.push(','+COLS.join(','));
+  for(var r=1;r<=ROWS;r++){
+    var row=[r];
+    COLS.forEach(function(c){ var v=String(values[c+r]===undefined?'':values[c+r]); row.push(v.indexOf(',')>=0?'"'+v.replace(/"/g,'""')+'"':v); });
+    lines.push(row.join(','));
+  }
+  return lines.join('\n')+'\n';
+}
+if(typeof window!=='undefined'){ window.SheetTool={evalFormulaText:evalFormulaText,cellValue:cellValue,computeGrid:computeGrid,expandRange:expandRange,gridToCsv:gridToCsv,COLS:COLS,ROWS:ROWS}; }
+if(typeof document==='undefined'){ return; }
+var gridEl=document.getElementById('grid');
+var ansEl=document.getElementById('answers');
+function buildGrid(){
+  var h='<tr><th></th>'+COLS.map(function(c){return '<th>'+c+'</th>';}).join('')+'</tr>';
+  for(var r=1;r<=ROWS;r++){
+    h+='<tr><th>'+r+'</th>';
+    COLS.forEach(function(c){ h+='<td><input data-ref="'+c+r+'" aria-label="Cell '+c+r+'"></td>'; });
+    h+='</tr>';
+  }
+  gridEl.innerHTML=h;
+}
+function readValues(){
+  var v={};
+  gridEl.querySelectorAll('input[data-ref]').forEach(function(inp){ v[inp.getAttribute('data-ref')]=inp.value; });
+  return v;
+}
+function setValues(v){
+  gridEl.querySelectorAll('input[data-ref]').forEach(function(inp){ inp.value=v[inp.getAttribute('data-ref')]||''; });
+}
+function fmt(cell){
+  if(cell===undefined) return '';
+  if(cell.error) return '!';
+  if(cell.num!==undefined&&cell.num) return String(Math.round(cell.value*100)/100);
+  return String(cell.value===undefined?'':cell.value);
+}
+function calculate(){
+  var values=readValues();
+  var out=computeGrid(values);
+  var h='<tr><th></th>'+COLS.map(function(c){return '<th>'+c+'</th>';}).join('')+'</tr>';
+  for(var r=1;r<=ROWS;r++){
+    h+='<tr><th>'+r+'</th>';
+    COLS.forEach(function(c){
+      var cell=out[c+r];
+      h+='<td class="out'+(cell.error?' err':'')+'"'+(cell.error?' title="'+cell.error.replace(/"/g,'')+'"':'')+'>'+esc(fmt(cell))+'</td>';
+    });
+    h+='</tr>';
+  }
+  ansEl.innerHTML=h;
+  var totals=COLS.map(function(c){
+    var s=0, n=0;
+    for(var r=1;r<=ROWS;r++){ var cell=out[c+r]; if(cell.num){ s+=cell.value; n++; } }
+    return c+': total '+(Math.round(s*100)/100)+' over '+n+' numbers';
+  }).join('  ·  ');
+  document.getElementById('totals').textContent='Column totals — '+totals;
+  document.getElementById('status').textContent='Worked out. A ! means the formula could not be worked out — hover over it to see why.';
+}
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+buildGrid();
+document.getElementById('calcBtn').addEventListener('click',calculate);
+document.getElementById('sampleBtn').addEventListener('click',function(){
+  setValues({A1:'Bread',B1:'12',C1:'8',D1:'5',A2:'Milk',B2:'9',C2:'11',D2:'7',A3:'Eggs',B3:'6',C3:'4',D3:'9',A4:'Total',B4:'=SUM(B1:B3)',C4:'=SUM(C1:C3)',D4:'=SUM(D1:D3)',A5:'Average',B5:'=AVERAGE(B1:B3)',C5:'=AVERAGE(C1:C3)',D5:'=AVERAGE(D1:D3)',A6:'Biggest',B6:'=MAX(B1:B3)',C6:'=MAX(C1:C3)',D6:'=MAX(D1:D3)'});
+  calculate();
+});
+document.getElementById('clearBtn').addEventListener('click',function(){ setValues({}); ansEl.innerHTML=''; document.getElementById('totals').textContent=''; document.getElementById('status').textContent='Cleared.'; });
+fetch('records.json').then(function(r){return r.json();}).then(function(recs){
+  if(!recs || !recs.length) return;
+  var grid=document.getElementById('recordsGrid');
+  grid.innerHTML=recs.map(function(rec){
+    var link=rec.url?'<p><a class="rec-link" href="'+rec.url+'">Read the full record →</a></p>':'';
+    return '<div class="card"><h3>'+esc(rec.title||rec.id)+'</h3><p>'+esc(rec.description||'')+'</p>'+link+'</div>';
+  }).join('');
+}).catch(function(){
+  document.getElementById('recordsGrid').innerHTML='<p class="lede">Browse the full archive meanwhile: <a href="../../db/spreadsheet-software/">spreadsheet software database</a> — 21 records.</p>';
+});
+})();
+</script>
+</body>
+</html>

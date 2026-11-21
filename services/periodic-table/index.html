@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Periodic Table — a free interactive periodic table that works right here</title>
+<meta name="description" content="Periodic Table is a free interactive table of all 118 elements. Pick any square for its full details, search by name or symbol, and filter by category. No sign-in, no payment, free forever.">
+<style>
+  :root{--paper:#fdfcf7;--ink:#1f2430;--muted:#5b6472;--line:#e3ddcd;--card:#fff;--accent:#1d4ed8;--accent-soft:#dbeafe;--teal:#0f766e;--bad:#b91c1c;--bad-soft:#fee2e2;--good:#166534}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font:17px/1.6 Georgia,'Times New Roman',serif}
+  a{color:var(--teal)}
+  header.top{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5}
+  .wrap{max-width:960px;margin:0 auto;padding:0 18px}
+  .bar{display:flex;align-items:center;gap:18px;padding:12px 0}
+  .mark{font-size:22px;font-weight:bold;color:var(--ink);text-decoration:none;white-space:nowrap}
+  .mark span{color:var(--accent)}
+  nav{margin-left:auto;display:flex;gap:16px;flex-wrap:wrap}
+  nav a{color:var(--ink);text-decoration:none;font-size:15px}
+  nav a:hover{text-decoration:underline}
+  .hero{position:relative}
+  .hero img{display:block;width:100%;height:auto;max-height:430px;object-fit:cover;object-position:center 30%}
+  .hero .cap{position:absolute;left:0;right:0;top:0;text-align:center;padding:28px 18px 0}
+  .hero h1{margin:0;font-size:44px;line-height:1.1;color:#3d2c12;text-shadow:0 1px 0 #fff}
+  .hero p{margin:8px 0 0;font-size:19px;color:#4a3a1c}
+  main{padding:28px 0 10px}
+  h2{font-size:26px;margin:34px 0 10px}
+  h3{font-size:20px;margin:0 0 6px}
+  .lede{font-size:19px;color:var(--muted)}
+  .toolcard{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;box-shadow:0 2px 10px rgba(60,40,0,.06)}
+  textarea{width:100%;min-height:150px;font:16px/1.6 Georgia,serif;padding:12px;border:1px solid var(--line);border-radius:10px;background:#fff;color:var(--ink)}
+  input[type=text],input[type=number],select{font:16px Georgia,serif;padding:10px 12px;border:1px solid var(--line);border-radius:9px;background:#fff;color:var(--ink)}
+  .row{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;align-items:center}
+  button{font:16px Georgia,serif;border-radius:9px;border:1px solid var(--line);background:#fff;color:var(--ink);padding:10px 16px;cursor:pointer}
+  button.go{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:bold}
+  button:hover{filter:brightness(.97)}
+  .status{font-size:15px;color:var(--muted)}
+  .out{margin-top:14px;padding:14px;border:1px dashed var(--line);border-radius:10px;background:#fff;white-space:pre-wrap;word-wrap:break-word}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px}
+  .card p{margin:6px 0 0;color:var(--muted);font-size:15px}
+  .card .rec-link{font-size:14px}
+  .steps{counter-reset:step;display:grid;gap:12px}
+  .steps div{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+  .steps b::before{counter-increment:step;content:counter(step) ". ";color:var(--accent)}
+  .dl a{display:inline-block;margin:6px 10px 6px 0;padding:10px 16px;border:1px solid var(--line);border-radius:9px;background:#fff;text-decoration:none;color:var(--ink)}
+  .meter{height:14px;border:1px solid var(--line);border-radius:999px;overflow:hidden;background:#fff}
+  .meter i{display:block;height:100%;background:var(--accent)}
+  .tiles{display:grid;grid-template-columns:repeat(18,1fr);gap:4px}
+  .tile{border:1px solid var(--line);border-radius:6px;background:#fff;padding:4px 2px;text-align:center;cursor:pointer;font-size:12px;line-height:1.3}
+  .tile b{display:block;font-size:14px}
+  .tile small{color:var(--muted);font-size:10px}
+  .tile.sel{outline:3px solid var(--accent)}
+  .detail{margin-top:14px;padding:14px;border:1px solid var(--line);border-radius:10px;background:#fff}
+  table.data{border-collapse:collapse;width:100%;font-size:15px}
+  table.data th,table.data td{border:1px solid var(--line);padding:6px 8px;text-align:left}
+  footer{margin-top:48px;padding:22px 0 34px;border-top:3px double var(--line);font-size:15px;color:var(--muted)}
+  footer p{margin:8px 0}
+  .free{display:inline-block;background:var(--accent-soft);border:1px solid #fcd34d;border-radius:999px;padding:2px 12px;font-size:14px;color:#7c2d12}
+  @media (max-width:640px){.hero h1{font-size:32px}.hero img{max-height:300px}nav{display:none}.tiles{grid-template-columns:repeat(9,1fr)}}
+
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap bar">
+    <a class="mark" href="./">⚛ Periodic <span>Table</span></a>
+    <nav>
+      <a href="#tool">The Tool</a>
+      <a href="#how">How it works</a>
+      <a href="#cards">Good to know</a>
+      <a href="#records">Records</a>
+      <a href="#files">Files</a>
+    </nav>
+  </div>
+</header>
+
+<div class="hero">
+  <img src="assets/media-generation-periodic-table-hero-0-52f79f6f-ed84-4c2a-8e35-31eed7d12a46.webp" alt="Hazel the hedgehog, the Periodic Table mascot, arranging colourful square element tiles on a wooden table">
+  <div class="cap">
+    <h1>Periodic Table</h1>
+    <p>All 118 elements — pick any square to see the whole story.</p>
+  </div>
+</div>
+
+<main class="wrap">
+  <p class="lede">This is an interactive periodic table that runs entirely in your browser. It holds all 118 elements, each with its real name, symbol, atomic number, category, group, period, and atomic mass. Pick any square for the full details, search by name or symbol, or filter by category. <span class="free">Free forever — no sign-in, no payment</span></p>
+
+  <h2 id="tool">The Tool</h2>
+  <div class="toolcard">
+    <div class="row">
+      <label for="ptSearch"><b>Search</b></label>
+      <input type="text" id="ptSearch" placeholder="Name, symbol, or number — try gold, Fe, or 79" style="width:320px">
+      <label for="ptCat"><b>Category</b></label>
+      <select id="ptCat">
+        <option value="all">All categories</option>
+        <option>Alkali Metal</option>
+        <option>Alkaline Earth Metal</option>
+        <option>Transition Metal</option>
+        <option>Post-Transition Metal</option>
+        <option>Metalloid</option>
+        <option>Nonmetal</option>
+        <option>Halogen</option>
+        <option>Noble Gas</option>
+        <option>Lanthanide</option>
+        <option>Actinide</option>
+      </select>
+      <span class="status" id="ptStatus">Loading the 118 elements…</span>
+    </div>
+    <div class="tiles" id="ptGrid" style="margin-top:14px"></div>
+    <div class="detail" id="ptDetail"><p>Pick any square to see the full details of that element.</p></div>
+  </div>
+
+  <h2 id="how">How it works</h2>
+  <div class="steps">
+    <div><b>Pick any square.</b> Every square is one element: its number, its symbol, its name, and its mass. The square&#x27;s place says how it behaves.</div>
+    <div><b>Read the details.</b> Below the table you get the element&#x27;s category, group, period, and atomic mass — and a plain-words note about what it does.</div>
+    <div><b>Search or filter.</b> Type a name, a symbol, or a number, or pick a category such as Noble Gas, and the table narrows to the matches.</div>
+  </div>
+  <p class="lede">What it cannot do: it cannot show what an element looks like in a laboratory, it cannot predict a reaction, and the masses shown for elements made only in laboratories are the whole numbers of their longest-lived forms, such as 294 for oganesson, not measured averages. All 118 names, symbols, atomic numbers, and categories come from the live Periodic Elements Database, which holds 118 full records.</p>
+
+  <h2 id="cards">Good to know</h2>
+  <p class="lede">Six things worth knowing about the table.</p>
+  <div class="grid" id="cardsGrid">
+    <div class="card"><h3>Hydrogen, element 1</h3><p>The lightest element, one proton, one electron — and the most common element in the universe. It makes water with oxygen.</p><p><a class="rec-link" href="../../db/periodic-table-service/#rec=JAH-PTAB-000002">Read the full record →</a></p></div>
+    <div class="card"><h3>Iron, copper, zinc</h3><p>The metals of daily life: iron builds bridges, copper carries electricity, zinc coats steel against rust.</p><p><a class="rec-link" href="../../db/periodic-table-service/#rec=JAH-PTAB-000010">Read the full record →</a></p></div>
+    <div class="card"><h3>Gold and silver</h3><p>They do not tarnish and do not rust. Gold never corrodes; silver is the best carrier of electricity of any metal.</p><p><a class="rec-link" href="../../db/periodic-table-service/#rec=JAH-PTAB-000011">Read the full record →</a></p></div>
+    <div class="card"><h3>Silicon, element 14</h3><p>The second most common element in the Earth&#x27;s crust — and the heart of every computer chip and solar cell.</p><p><a class="rec-link" href="../../db/periodic-table-service/#rec=JAH-PTAB-000012">Read the full record →</a></p></div>
+    <div class="card"><h3>The noble gases</h3><p>Helium, neon, argon, krypton, xenon, radon, and oganesson — full outer shells, so they react with almost nothing.</p><p><a class="rec-link" href="../../db/periodic-table-service/#rec=JAH-PTAB-000009">Read the full record →</a></p></div>
+    <div class="card"><h3>Made, not found</h3><p>Elements past uranium do not occur in nature. They are made one atom at a time — oganesson, 118, exists only as a handful of atoms.</p><p><a class="rec-link" href="../../db/periodic-table-service/#rec=JAH-PTAB-000022">Read the full record →</a></p></div>
+  </div>
+
+  <h2 id="records">Records</h2>
+  <p class="lede">The Periodic Table Service Database holds the full story behind this table — 24 public records and 24 Signature records, each one a complete file.</p>
+  <div class="grid" id="recordsGrid"><p class="lede">Records load here when the database pair is filed. Browse the full archive meanwhile: <a href="../../db/periodic-elements/">The JAH Periodic Elements Database</a> — 118 records.</p></div>
+
+  <h2 id="files">Files</h2>
+  <p class="lede">Everything on this page is downloadable. Take the tool's data, the records, or the page itself.</p>
+  <div class="dl">
+    <a href="assets/elements.json" download>⬇ Element list — all 118 (JSON)</a>
+    <a href="records.json" download>⬇ Service records (JSON)</a>
+    <a href="./" download>⬇ This page</a>
+    <a href="accessible/index.html">Plain version (no JavaScript needed)</a>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p><b>Network.</b> This service belongs to The 'Merica-L Internet: the front door is the <a href="https://justinahiggins614-cmyk.github.io/jah-databases/the-merica-l-virtual-internet.html">'Merica-L Virtual Internet</a>, the network's main page is <a href="https://justinahiggins614-cmyk.github.io/jah-databases/the-merica-l-boundless-ecosystem-os.html">'Merica-L Boundless Ecosystem OS</a>, and the databases live at the <a href="https://justinahiggins614-cmyk.github.io/jah-databases/">database hub</a>. The archive behind this service is the <a href="../../db/periodic-elements/">The JAH Periodic Elements Database</a>.</p>
+    <p>Periodic Table is free forever. No sign-in, no payment, no tracking — your words never leave this page. Hazel the hedgehog is the mascot; she arranges the tiles.</p>
+    <p><a href="accessible/index.html">Accessible version (plain text, no JavaScript needed)</a></p>
+  </div>
+</footer>
+
+<script>
+/* PURE TOOL FUNCTIONS — the page's own working tool, tested in Node. */
+function elementByNumber(list, z){
+  for(var i=0;i<list.length;i++){ if(list[i].z===z) return list[i]; }
+  return null;
+}
+function elementBySymbol(list, sym){
+  var s=String(sym).toLowerCase();
+  for(var i=0;i<list.length;i++){ if(list[i].symbol.toLowerCase()===s) return list[i]; }
+  return null;
+}
+function elementByName(list, name){
+  var s=String(name).toLowerCase();
+  for(var i=0;i<list.length;i++){ if(list[i].name.toLowerCase()===s) return list[i]; }
+  return null;
+}
+function filterByCategory(list, cat){
+  return list.filter(function(e){ return e.category===cat; });
+}
+function searchElements(list, q){
+  var s=String(q||'').trim().toLowerCase();
+  if(!s) return list.slice();
+  return list.filter(function(e){
+    return e.name.toLowerCase().indexOf(s)>=0 || e.symbol.toLowerCase()===s ||
+      String(e.z)===s || e.category.toLowerCase().indexOf(s)>=0;
+  });
+}
+
+</script>
+<script>
+(function(){
+'use strict';
+var ptGrid=document.getElementById('ptGrid'), ptDetail=document.getElementById('ptDetail'),
+    ptSearch=document.getElementById('ptSearch'), ptCat=document.getElementById('ptCat'),
+    ptStatus=document.getElementById('ptStatus'), ptData=null;
+var PT_COLORS={'Alkali Metal':'#fde68a','Alkaline Earth Metal':'#fcd34d','Transition Metal':'#bfdbfe','Post-Transition Metal':'#c7d2fe','Metalloid':'#a7f3d0','Nonmetal':'#fecaca','Halogen':'#fbcfe8','Noble Gas':'#ddd6fe','Lanthanide':'#fed7aa','Actinide':'#fca5a5'};
+function ptShow(e){
+  if(!e){ ptDetail.innerHTML='<p>Pick any square to see the full details of that element.</p>'; return; }
+  ptDetail.innerHTML='<h3>'+e.z+' — '+e.name+' ('+e.symbol+')</h3>'+
+    '<p><b>Category:</b> '+e.category+' &nbsp; <b>Group:</b> '+e.group+' &nbsp; <b>Period:</b> '+e.period+' &nbsp; <b>Atomic mass:</b> '+e.mass+'</p>'+
+    '<p>'+e.note+'</p>';
+  var tiles=ptGrid.querySelectorAll('.tile');
+  tiles.forEach(function(t){ t.classList.toggle('sel', t.getAttribute('data-z')===String(e.z)); });
+}
+function ptBuild(){
+  var main=ptData.filter(function(e){ return e.z<57 || (e.z>71 && e.z<89) || e.z>103; });
+  var byPos={};
+  main.forEach(function(e){ byPos[e.period+'-'+e.group]=e; });
+  var h='';
+  for(var p=1;p<=7;p++){
+    for(var g=1;g<=18;g++){
+      var e=byPos[p+'-'+g];
+      if(e){ h+='<button type="button" class="tile" data-z="'+e.z+'" style="background:'+(PT_COLORS[e.category]||'#fff')+'" title="'+e.name+'"><b>'+e.symbol+'</b>'+e.z+'<br><small>'+e.name+'</small></button>'; }
+      else if((p===6||p===7) && g===3){ h+='<button type="button" class="tile" data-range="'+(p===6?'57-71':'89-103')+'" title="See the row below"><b>*</b>'+(p===6?'57–71':'89–103')+'<br><small>see below</small></button>'; }
+      else { h+='<span></span>'; }
+    }
+  }
+  ptGrid.innerHTML=h;
+  var lan=ptData.filter(function(e){ return e.z>=57 && e.z<=71; });
+  var act=ptData.filter(function(e){ return e.z>=89 && e.z<=103; });
+  function row(list, label){
+    return '<h3 style="margin-top:14px">'+label+'</h3><div class="tiles" style="grid-template-columns:repeat(15,1fr)">'+
+      list.map(function(e){ return '<button type="button" class="tile" data-z="'+e.z+'" style="background:'+(PT_COLORS[e.category]||'#fff')+'" title="'+e.name+'"><b>'+e.symbol+'</b>'+e.z+'<br><small>'+e.name+'</small></button>'; }).join('')+'</div>';
+  }
+  ptGrid.innerHTML+=row(lan,'Lanthanides (57–71)')+row(act,'Actinides (89–103)');
+  ptGrid.querySelectorAll('.tile[data-z]').forEach(function(t){
+    t.addEventListener('click', function(){ ptShow(elementByNumber(ptData, parseInt(t.getAttribute('data-z'),10))); });
+  });
+  ptGrid.querySelectorAll('.tile[data-range]').forEach(function(t){
+    t.addEventListener('click', function(){ ptStatus.textContent='The two rows below hold those elements: lanthanides 57 to 71, actinides 89 to 103.'; });
+  });
+}
+function ptFilter(){
+  var q=ptSearch.value, cat=ptCat.value, hits=searchElements(ptData, q);
+  if(cat!=='all') hits=hits.filter(function(e){ return e.category===cat; });
+  ptGrid.querySelectorAll('.tile[data-z]').forEach(function(t){
+    var z=parseInt(t.getAttribute('data-z'),10);
+    var on=hits.some(function(e){ return e.z===z; });
+    t.style.opacity=on?'1':'0.25';
+  });
+  ptStatus.textContent=hits.length+' of 118 elements match.';
+  if(hits.length===1) ptShow(hits[0]);
+}
+ptSearch.addEventListener('input', ptFilter);
+ptCat.addEventListener('change', ptFilter);
+fetch('assets/elements.json').then(function(r){ return r.json(); }).then(function(d){
+  ptData=d.elements;
+  ptBuild();
+  ptShow(elementByNumber(ptData, 6));
+  ptStatus.textContent='All 118 elements loaded. Pick any square.';
+}).catch(function(){ ptStatus.textContent='The element list could not be loaded.'; });
+
+fetch('records.json').then(function(r){return r.json();}).then(function(recs){
+  if(!recs || !recs.length) return;
+  var grid=document.getElementById('recordsGrid');
+  function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+  grid.innerHTML=recs.map(function(rec){
+    var link=rec.url?'<p><a class="rec-link" href="'+rec.url+'">Read the full record →</a></p>':'';
+    return '<div class="card"><h3>'+esc(rec.title||rec.id)+'</h3><p>'+esc(rec.description||'')+'</p>'+link+'</div>';
+  }).join('');
+}).catch(function(){ /* records load with the database pair */ });
+})();
+</script>
+</body>
+</html>

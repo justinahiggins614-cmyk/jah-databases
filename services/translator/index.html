@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Translator — a free phrasebook translator that works right here</title>
+<meta name="description" content="Translator is a free phrasebook translator. Type a phrase and read it in Spanish, French, German, or Italian, from a book of checked phrases. No sign-in, no payment, free forever.">
+<style>
+  :root{--paper:#fdfcf7;--ink:#1f2430;--muted:#5b6472;--line:#e3ddcd;--card:#fff;--accent:#7c3aed;--accent-soft:#ede9fe;--teal:#0f766e;--bad:#b91c1c;--good:#166534}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font:17px/1.6 Georgia,'Times New Roman',serif}
+  a{color:var(--teal)}
+  header.top{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5}
+  .wrap{max-width:960px;margin:0 auto;padding:0 18px}
+  .bar{display:flex;align-items:center;gap:18px;padding:12px 0}
+  .mark{font-size:22px;font-weight:bold;color:var(--ink);text-decoration:none;white-space:nowrap}
+  .mark span{color:var(--accent)}
+  nav{margin-left:auto;display:flex;gap:16px;flex-wrap:wrap}
+  nav a{color:var(--ink);text-decoration:none;font-size:15px}
+  nav a:hover{text-decoration:underline}
+  .hero{position:relative}
+  .hero img{display:block;width:100%;height:auto;max-height:430px;object-fit:cover;object-position:center 30%}
+  .hero .cap{position:absolute;left:0;right:0;top:0;text-align:center;padding:28px 18px 0}
+  .hero h1{margin:0;font-size:44px;line-height:1.1;color:#2e1a5e;text-shadow:0 1px 0 #fff}
+  .hero p{margin:8px 0 0;font-size:19px;color:#3d2a6e}
+  main{padding:28px 0 10px}
+  h2{font-size:26px;margin:34px 0 10px}
+  h3{font-size:20px;margin:0 0 6px}
+  .lede{font-size:19px;color:var(--muted)}
+  .toolcard{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;box-shadow:0 2px 10px rgba(60,20,120,.06)}
+  label{display:block;font-weight:bold;margin:10px 0 4px}
+  input[type=text],select{font:16px Georgia,serif;padding:10px;border:1px solid var(--line);border-radius:10px;background:#fff;color:var(--ink)}
+  input[type=text]{width:100%}
+  .result{margin-top:14px;padding:14px;border:1px solid var(--line);border-radius:10px;background:#fff}
+  .result .big{font-size:22px}
+  .result .miss{color:var(--bad)}
+  .row{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;align-items:center}
+  button{font:16px Georgia,serif;border-radius:9px;border:1px solid var(--line);background:#fff;color:var(--ink);padding:10px 16px;cursor:pointer}
+  button.go{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:bold}
+  button:hover{filter:brightness(.97)}
+  .status{font-size:15px;color:var(--muted)}
+  .book{columns:2;column-gap:28px;font-size:15px}
+  .book p{margin:4px 0;break-inside:avoid}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px}
+  .card p{margin:6px 0 0;color:var(--muted);font-size:15px}
+  .card .rec-link{font-size:14px}
+  .steps{counter-reset:step;display:grid;gap:12px}
+  .steps div{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+  .steps b::before{counter-increment:step;content:counter(step) ". ";color:var(--accent)}
+  .dl a{display:inline-block;margin:6px 10px 6px 0;padding:10px 16px;border:1px solid var(--line);border-radius:9px;background:#fff;text-decoration:none;color:var(--ink)}
+  footer{margin-top:48px;padding:22px 0 34px;border-top:3px double var(--line);font-size:15px;color:var(--muted)}
+  footer p{margin:8px 0}
+  .free{display:inline-block;background:var(--accent-soft);border:1px solid #c4b5fd;border-radius:999px;padding:2px 12px;font-size:14px;color:#4c1d95}
+  @media (max-width:640px){.hero h1{font-size:32px}.hero img{max-height:300px}nav{display:none}.book{columns:1}}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap bar">
+    <a class="mark" href="./">◉ Trans<span>lator</span></a>
+    <nav>
+      <a href="#tool">The Tool</a>
+      <a href="#how">How it works</a>
+      <a href="#book">The phrasebook</a>
+      <a href="#records">Records</a>
+      <a href="#files">Files</a>
+    </nav>
+  </div>
+</header>
+
+<div class="hero">
+  <img src="assets/media-generation-translator-hero-0-57d6478b-799f-44d3-bbd6-72d8e8e7f92f.webp" alt="Lola the parrot, the Translator mascot, perched on a branch with three round empty speech bubbles beside her">
+  <div class="cap">
+    <h1>Translator</h1>
+    <p>Type a phrase. Read it in Spanish, French, German, or Italian.</p>
+  </div>
+</div>
+
+<main class="wrap">
+  <p class="lede">This is a phrasebook translator that runs entirely in your browser. Your words never leave this page. Type a phrase in English, pick a language, and read the translation from a book of checked phrases — the same phrases held in the Translator Service Database. <span class="free">Free forever — no sign-in, no payment</span></p>
+
+  <h2 id="tool">The Tool</h2>
+  <div class="toolcard">
+    <label for="text">Your words (in English)</label>
+    <input type="text" id="text" value="hello please thank you">
+    <div class="row">
+      <label for="lang" style="margin:0">Into:</label>
+      <select id="lang">
+        <option value="es">Spanish</option>
+        <option value="fr">French</option>
+        <option value="de">German</option>
+        <option value="it">Italian</option>
+      </select>
+      <button class="go" id="goBtn">Translate</button>
+      <button id="sampleBtn">Try a sample</button>
+      <button id="clearBtn">Clear</button>
+    </div>
+    <div class="result" id="result" hidden></div>
+    <p class="status" id="status"></p>
+  </div>
+
+  <h2 id="how">How it works</h2>
+  <div class="steps">
+    <div><b>Type a phrase.</b> Write English words in the box — a greeting, a question, a few plain words.</div>
+    <div><b>Pick a language.</b> Choose Spanish, French, German, or Italian, then press Translate.</div>
+    <div><b>Read the answer.</b> The tool looks each phrase up in its book and shows the translation. Words the book does not hold are marked plainly as not in this phrasebook — it never guesses.</div>
+  </div>
+  <p class="lede">What it covers: the phrases in its book — greetings, thanks, numbers, days, food, asking the way, at the shop, at the doctor, family, colours, weather, time, and emergency words — across four languages. What it does not do: it does not translate a sentence it has never seen, a joke, or a long speech. What it cannot translate, it says so in plain words.</p>
+
+  <h2 id="book">The phrasebook</h2>
+  <p class="lede">Every phrase the tool knows, in English with its four translations. The same book is downloadable below as phrasebook.json.</p>
+  <div class="book" id="bookList"></div>
+
+  <h2 id="features">What it does</h2>
+  <p class="lede">Twelve things about translating. Each one has a full record in the Translator Service Database.</p>
+  <div class="grid">
+    <div class="card"><h3>What a translator does</h3><p>Saying the same thing in another language, so a person who speaks it understands.</p><p><a class="rec-link" href="../../db/translator-service/#rec=JAH-TRSL-000001">Read the full record →</a></p></div>
+    <div class="card"><h3>Greetings in four languages</h3><p>Hello, good morning, and good evening — the first words a traveller learns.</p><p><a class="rec-link" href="../../db/translator-service/#rec=JAH-TRSL-000002">Read the full record →</a></p></div>
+    <div class="card"><h3>Please, thank you and sorry</h3><p>Three words that carry a traveller further than any other three.</p><p><a class="rec-link" href="../../db/translator-service/#rec=JAH-TRSL-000003">Read the full record →</a></p></div>
+    <div class="card"><h3>Yes, no and maybe</h3><p>With these three, a traveller can answer nearly any simple question.</p><p><a class="rec-link" href="../../db/translator-service/#rec=JAH-TRSL-000004">Read the full record →</a></p></div>
+    <div class="card"><h3>Numbers one to ten</h3><p>Needed for what things cost, for times, and for addresses.</p><p><a class="rec-link" href="../../db/translator-service/#rec=JAH-TRSL-000005">Read the full record →</a></p></div>
+    <div class="card"><h3>Days of the week</h3><p>Monday to Sunday in four languages, so a traveller can keep a meeting.</p><p><a class="rec-link" href="../../db/translator-service/#rec=JAH-TRSL-000006">Read the full record →</a></p></div>
+    <div class="card"><h3>Food and drink words</h3><p>Water, bread, coffee, cheese, and wine — the keys to most menus.</p><p><a class="rec-link" href="../../db/translator-service/#rec=JAH-TRSL-000007">Read the full record →</a></p></div>
+    <div class="card"><h3>Asking the way</h3><p>Where is the station, left, right, and straight ahead.</p><p><a class="rec-link" href="../../db/translator-service/#rec=JAH-TRSL-000008">Read the full record →</a></p></div>
+    <div class="card"><h3>At the shop</h3><p>Asking what things cost, and asking for the change.</p><p><a class="rec-link" href="../../db/translator-service/#rec=JAH-TRSL-000009">Read the full record →</a></p></div>
+    <div class="card"><h3>At the doctor: plain words</h3><p>I need a doctor, and it hurts here — the words that matter most when someone is hurt.</p><p><a class="rec-link" href="../../db/translator-service/#rec=JAH-TRSL-000010">Read the full record →</a></p></div>
+    <div class="card"><h3>Hello and goodbye</h3><p>Goodbye, good night, see you tomorrow, and welcome.</p><p><a class="rec-link" href="../../db/translator-service/#rec=JAH-TRSL-000011">Read the full record →</a></p></div>
+    <div class="card"><h3>Family words</h3><p>Mother, father, friend, and child — the first words about the people we love.</p><p><a class="rec-link" href="../../db/translator-service/#rec=JAH-TRSL-000012">Read the full record →</a></p></div>
+  </div>
+
+  <h2 id="records">Records</h2>
+  <p class="lede">The Translator Service Database holds the full guide behind this tool — 24 public records and 24 Signature records, each one a complete file.</p>
+  <div class="grid" id="recordsGrid"></div>
+
+  <h2 id="files">Files</h2>
+  <p class="lede">Everything on this page is downloadable. Take the phrasebook, the records, or the page itself.</p>
+  <div class="dl">
+    <a href="assets/phrasebook.json" download>⬇ Phrasebook (JSON)</a>
+    <a href="records.json" download>⬇ Service records (JSON)</a>
+    <a href="./" download>⬇ This page</a>
+    <a href="accessible/index.html">Plain version (no JavaScript needed)</a>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p><b>Network.</b> This service belongs to The 'Merica-L Internet: the front door is the <a href="https://justinahiggins614-cmyk.github.io/jah-databases/the-merica-l-virtual-internet.html">'Merica-L Virtual Internet</a>, the network's main page is <a href="https://justinahiggins614-cmyk.github.io/jah-databases/the-merica-l-boundless-ecosystem-os.html">'Merica-L Boundless Ecosystem OS</a>, and the databases live at the <a href="https://justinahiggins614-cmyk.github.io/jah-databases/">database hub</a>. The translator archive behind this tool is the <a href="../../db/translators/">translators database</a>.</p>
+    <p>Translator is free forever. No sign-in, no payment, no tracking — your words never leave this page. Lola the parrot is the mascot; she repeats your phrases in four languages.</p>
+    <p><a href="accessible/index.html">Accessible version (plain text, no JavaScript needed)</a></p>
+  </div>
+</footer>
+
+<script>
+(function(){
+'use strict';
+/* Phrasebook: checked phrases in four languages. The same book is
+   downloadable as assets/phrasebook.json. Plain spellings, no accents,
+   so every phrase can be typed on any keyboard. */
+var LANGS={es:'Spanish',fr:'French',de:'German',it:'Italian'};
+var PHRASES={
+ 'hello':{es:'hola',fr:'bonjour',de:'Hallo',it:'ciao'},
+ 'good morning':{es:'buenos dias',fr:'bonjour',de:'Guten Morgen',it:'buongiorno'},
+ 'good afternoon':{es:'buenas tardes',fr:'bon apres-midi',de:'Guten Tag',it:'buon pomeriggio'},
+ 'good evening':{es:'buenas noches',fr:'bonsoir',de:'Guten Abend',it:'buonasera'},
+ 'goodbye':{es:'adios',fr:'au revoir',de:'auf Wiedersehen',it:'arrivederci'},
+ 'good night':{es:'buenas noches',fr:'bonne nuit',de:'Gute Nacht',it:'buonanotte'},
+ 'welcome':{es:'bienvenido',fr:'bienvenue',de:'willkommen',it:'benvenuto'},
+ 'how are you':{es:'como estas',fr:'comment allez-vous',de:'wie geht es dir',it:'come stai'},
+ 'i am well':{es:'estoy bien',fr:'je vais bien',de:'mir geht es gut',it:'sto bene'},
+ 'nice to meet you':{es:'mucho gusto',fr:'enchante',de:'freut mich',it:'piacere'},
+ 'please':{es:'por favor',fr:"s'il vous plait",de:'bitte',it:'per favore'},
+ 'thank you':{es:'gracias',fr:'merci',de:'danke',it:'grazie'},
+ 'thank you very much':{es:'muchas gracias',fr:'merci beaucoup',de:'vielen Dank',it:'grazie mille'},
+ 'sorry':{es:'lo siento',fr:'desole',de:'es tut mir leid',it:'mi dispiace'},
+ 'excuse me':{es:'perdon',fr:'excusez-moi',de:'entschuldigen Sie',it:'mi scusi'},
+ 'yes':{es:'si',fr:'oui',de:'ja',it:'si'},
+ 'no':{es:'no',fr:'non',de:'nein',it:'no'},
+ 'maybe':{es:'quiza',fr:'peut-etre',de:'vielleicht',it:'forse'},
+ 'i do not understand':{es:'no entiendo',fr:'je ne comprends pas',de:'ich verstehe nicht',it:'non capisco'},
+ 'do you speak english':{es:'hablas ingles',fr:'parlez-vous anglais',de:'sprechen Sie Englisch',it:'parla inglese'},
+ 'help':{es:'ayuda',fr:'au secours',de:'Hilfe',it:'aiuto'},
+ 'one':{es:'uno',fr:'un',de:'eins',it:'uno'},
+ 'two':{es:'dos',fr:'deux',de:'zwei',it:'due'},
+ 'three':{es:'tres',fr:'trois',de:'drei',it:'tre'},
+ 'four':{es:'cuatro',fr:'quatre',de:'vier',it:'quattro'},
+ 'five':{es:'cinco',fr:'cinq',de:'funf',it:'cinque'},
+ 'six':{es:'seis',fr:'six',de:'sechs',it:'sei'},
+ 'seven':{es:'siete',fr:'sept',de:'sieben',it:'sette'},
+ 'eight':{es:'ocho',fr:'huit',de:'acht',it:'otto'},
+ 'nine':{es:'nueve',fr:'neuf',de:'neun',it:'nove'},
+ 'ten':{es:'diez',fr:'dix',de:'zehn',it:'dieci'},
+ 'monday':{es:'lunes',fr:'lundi',de:'Montag',it:'lunedi'},
+ 'tuesday':{es:'martes',fr:'mardi',de:'Dienstag',it:'martedi'},
+ 'wednesday':{es:'miercoles',fr:'mercredi',de:'Mittwoch',it:'mercoledi'},
+ 'thursday':{es:'jueves',fr:'jeudi',de:'Donnerstag',it:'giovedi'},
+ 'friday':{es:'viernes',fr:'vendredi',de:'Freitag',it:'venerdi'},
+ 'saturday':{es:'sabado',fr:'samedi',de:'Samstag',it:'sabato'},
+ 'sunday':{es:'domingo',fr:'dimanche',de:'Sonntag',it:'domenica'},
+ 'water':{es:'agua',fr:'eau',de:'Wasser',it:'acqua'},
+ 'bread':{es:'pan',fr:'pain',de:'Brot',it:'pane'},
+ 'cheese':{es:'queso',fr:'fromage',de:'Kase',it:'formaggio'},
+ 'coffee':{es:'cafe',fr:'cafe',de:'Kaffee',it:'caffe'},
+ 'wine':{es:'vino',fr:'vin',de:'Wein',it:'vino'},
+ 'the bill please':{es:'la cuenta por favor',fr:"l'addition s'il vous plait",de:'die Rechnung bitte',it:'il conto per favore'},
+ 'where is the station':{es:'donde esta la estacion',fr:'ou est la gare',de:'wo ist der Bahnhof',it:"dov'e la stazione"},
+ 'left':{es:'izquierda',fr:'gauche',de:'links',it:'sinistra'},
+ 'right':{es:'derecha',fr:'droite',de:'rechts',it:'destra'},
+ 'straight ahead':{es:'todo recto',fr:'tout droit',de:'geradeaus',it:'dritto'},
+ 'how much':{es:'cuanto cuesta',fr:'combien ca coute',de:'wie viel kostet das',it:'quanto costa'},
+ 'how much does it cost':{es:'cuanto cuesta',fr:'combien ca coute',de:'wie viel kostet das',it:'quanto costa'},
+ 'too expensive':{es:'demasiado caro',fr:'trop cher',de:'zu teuer',it:'troppo caro'},
+ 'the change':{es:'el cambio',fr:'la monnaie',de:'das Wechselgeld',it:'il resto'},
+ 'mother':{es:'madre',fr:'mere',de:'Mutter',it:'madre'},
+ 'father':{es:'padre',fr:'pere',de:'Vater',it:'padre'},
+ 'friend':{es:'amigo',fr:'ami',de:'Freund',it:'amico'},
+ 'child':{es:'nino',fr:'enfant',de:'Kind',it:'bambino'},
+ 'red':{es:'rojo',fr:'rouge',de:'rot',it:'rosso'},
+ 'blue':{es:'azul',fr:'bleu',de:'blau',it:'blu'},
+ 'green':{es:'verde',fr:'vert',de:'grun',it:'verde'},
+ 'yellow':{es:'amarillo',fr:'jaune',de:'gelb',it:'giallo'},
+ 'black':{es:'negro',fr:'noir',de:'schwarz',it:'nero'},
+ 'white':{es:'blanco',fr:'blanc',de:'weiss',it:'bianco'},
+ 'it is sunny':{es:'hace sol',fr:'il fait beau',de:'es ist sonnig',it:"c'e il sole"},
+ 'it is raining':{es:'esta lloviendo',fr:'il pleut',de:'es regnet',it:'piove'},
+ 'it is cold':{es:'hace frio',fr:'il fait froid',de:'es ist kalt',it:'fa freddo'},
+ 'it is hot':{es:'hace calor',fr:'il fait chaud',de:'es ist heiss',it:'fa caldo'},
+ 'what time is it':{es:'que hora es',fr:'quelle heure est-il',de:'wie spat ist es',it:'che ore sono'},
+ 'today':{es:'hoy',fr:"aujourd'hui",de:'heute',it:'oggi'},
+ 'tomorrow':{es:'manana',fr:'demain',de:'morgen',it:'domani'},
+ 'yesterday':{es:'ayer',fr:'hier',de:'gestern',it:'ieri'},
+ 'big':{es:'grande',fr:'grand',de:'gross',it:'grande'},
+ 'small':{es:'pequeno',fr:'petit',de:'klein',it:'piccolo'},
+ 'good':{es:'bueno',fr:'bon',de:'gut',it:'buono'},
+ 'bad':{es:'malo',fr:'mauvais',de:'schlecht',it:'cattivo'},
+ 'call a doctor':{es:'llame a un medico',fr:'appelez un medecin',de:'rufen Sie einen Arzt',it:'chiamate un medico'},
+ 'i need help':{es:'necesito ayuda',fr:"j'ai besoin d'aide",de:'ich brauche Hilfe',it:'ho bisogno di aiuto'},
+ 'i need a doctor':{es:'necesito un medico',fr:"j'ai besoin d'un medecin",de:'ich brauche einen Arzt',it:'ho bisogno di un medico'},
+ 'it hurts here':{es:'me duele aqui',fr:'ca me fait mal ici',de:'es tut hier weh',it:'mi fa male qui'},
+ 'see you tomorrow':{es:'hasta manana',fr:'a demain',de:'bis morgen',it:'a domani'},
+ 'thank you for your help':{es:'gracias por su ayuda',fr:'merci de votre aide',de:'danke fur Ihre Hilfe',it:'grazie per il suo aiuto'}
+};
+var PHRASE_LIST=Object.keys(PHRASES).sort(function(a,b){
+  var da=a.split(' ').length, db=b.split(' ').length;
+  return db-da || b.length-a.length;
+});
+function translate(text, lang){
+  var words=String(text||'').toLowerCase().replace(/[.!?,:;]+/g,' ').split(/\s+/).filter(function(w){return w;});
+  var out=[], uncovered=[], covered=0, i=0;
+  while(i<words.length){
+    var matched=null, mlen=0;
+    for(var k=0;k<PHRASE_LIST.length;k++){
+      var ph=PHRASE_LIST[k], pw=ph.split(' ');
+      if(pw.length<=mlen) continue;
+      if(words.slice(i,i+pw.length).join(' ')===ph){ matched=ph; mlen=pw.length; break; }
+    }
+    if(matched){ out.push(PHRASES[matched][lang]); covered+=mlen; i+=mlen; }
+    else if(PHRASES[words[i]]){ out.push(PHRASES[words[i]][lang]); covered++; i++; }
+    else { out.push('['+words[i]+']'); uncovered.push(words[i]); i++; }
+  }
+  return {text:out.join(' '), covered:covered, uncovered:uncovered, total:words.length};
+}
+if(typeof window!=='undefined'){ window.TranslatorTool={translate:translate,PHRASES:PHRASES,LANGS:LANGS}; }
+if(typeof document==='undefined'){ return; }
+var bookEl=document.getElementById('bookList');
+bookEl.innerHTML=Object.keys(PHRASES).sort().map(function(en){
+  var p=PHRASES[en];
+  return '<p><b>'+esc(en)+'</b> — Spanish: '+esc(p.es)+'; French: '+esc(p.fr)+'; German: '+esc(p.de)+'; Italian: '+esc(p.it)+'.</p>';
+}).join('');
+document.getElementById('status').textContent='This book holds '+Object.keys(PHRASES).length+' phrases and words across four languages: Spanish, French, German, Italian.';
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function doTranslate(){
+  var text=document.getElementById('text').value;
+  var lang=document.getElementById('lang').value;
+  var r=translate(text, lang);
+  var box=document.getElementById('result');
+  box.hidden=false;
+  var h='<p class="big">'+esc(r.text)+'</p>';
+  if(r.uncovered.length){
+    h+='<p class="miss">Not in this phrasebook: '+r.uncovered.map(esc).join(', ')+'. The book covers the phrases listed below, and it does not guess at the rest.</p>';
+  } else if(r.total){
+    h+='<p>Every word was found in the phrasebook.</p>';
+  }
+  h+='<p class="status">English: '+esc(text)+'  ·  '+LANGS[lang]+'  ·  '+r.covered+' of '+r.total+' words covered.</p>';
+  box.innerHTML=h;
+}
+document.getElementById('goBtn').addEventListener('click',doTranslate);
+document.getElementById('text').addEventListener('keydown',function(e){ if(e.key==='Enter'){ doTranslate(); } });
+document.getElementById('sampleBtn').addEventListener('click',function(){
+  document.getElementById('text').value='good morning where is the station please';
+  document.getElementById('lang').value='es';
+  doTranslate();
+});
+document.getElementById('clearBtn').addEventListener('click',function(){
+  document.getElementById('text').value='';
+  document.getElementById('result').hidden=true;
+  document.getElementById('result').innerHTML='';
+});
+fetch('records.json').then(function(r){return r.json();}).then(function(recs){
+  if(!recs || !recs.length) return;
+  var grid=document.getElementById('recordsGrid');
+  grid.innerHTML=recs.map(function(rec){
+    var link=rec.url?'<p><a class="rec-link" href="'+rec.url+'">Read the full record →</a></p>':'';
+    return '<div class="card"><h3>'+esc(rec.title||rec.id)+'</h3><p>'+esc(rec.description||'')+'</p>'+link+'</div>';
+  }).join('');
+}).catch(function(){
+  document.getElementById('recordsGrid').innerHTML='<p class="lede">Browse the full archive meanwhile: <a href="../../db/translators/">translators database</a> — 34 records.</p>';
+});
+})();
+</script>
+</body>
+</html>

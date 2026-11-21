@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>File Converter — a free file converter that works right here</title>
+<meta name="description" content="File Converter is a free file converter. Turn CSV into JSON, Markdown into HTML, change text case, and convert pictures — all in your browser. No sign-in, no payment, free forever.">
+<style>
+  :root{--paper:#fdfcf7;--ink:#1f2430;--muted:#5b6472;--line:#e3ddcd;--card:#fff;--accent:#0f766e;--accent-soft:#ccfbf1;--teal:#0f766e;--bad:#b91c1c;--bad-soft:#fee2e2;--good:#166534}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font:17px/1.6 Georgia,'Times New Roman',serif}
+  a{color:var(--teal)}
+  header.top{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5}
+  .wrap{max-width:960px;margin:0 auto;padding:0 18px}
+  .bar{display:flex;align-items:center;gap:18px;padding:12px 0}
+  .mark{font-size:22px;font-weight:bold;color:var(--ink);text-decoration:none;white-space:nowrap}
+  .mark span{color:var(--accent)}
+  nav{margin-left:auto;display:flex;gap:16px;flex-wrap:wrap}
+  nav a{color:var(--ink);text-decoration:none;font-size:15px}
+  nav a:hover{text-decoration:underline}
+  .hero{position:relative}
+  .hero img{display:block;width:100%;height:auto;max-height:430px;object-fit:cover;object-position:center 30%}
+  .hero .cap{position:absolute;left:0;right:0;top:0;text-align:center;padding:28px 18px 0}
+  .hero h1{margin:0;font-size:44px;line-height:1.1;color:#3d2c12;text-shadow:0 1px 0 #fff}
+  .hero p{margin:8px 0 0;font-size:19px;color:#4a3a1c}
+  main{padding:28px 0 10px}
+  h2{font-size:26px;margin:34px 0 10px}
+  h3{font-size:20px;margin:0 0 6px}
+  .lede{font-size:19px;color:var(--muted)}
+  .toolcard{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;box-shadow:0 2px 10px rgba(60,40,0,.06)}
+  textarea{width:100%;min-height:150px;font:16px/1.6 Georgia,serif;padding:12px;border:1px solid var(--line);border-radius:10px;background:#fff;color:var(--ink)}
+  input[type=text],input[type=number],select{font:16px Georgia,serif;padding:10px 12px;border:1px solid var(--line);border-radius:9px;background:#fff;color:var(--ink)}
+  .row{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;align-items:center}
+  button{font:16px Georgia,serif;border-radius:9px;border:1px solid var(--line);background:#fff;color:var(--ink);padding:10px 16px;cursor:pointer}
+  button.go{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:bold}
+  button:hover{filter:brightness(.97)}
+  .status{font-size:15px;color:var(--muted)}
+  .out{margin-top:14px;padding:14px;border:1px dashed var(--line);border-radius:10px;background:#fff;white-space:pre-wrap;word-wrap:break-word}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px}
+  .card p{margin:6px 0 0;color:var(--muted);font-size:15px}
+  .card .rec-link{font-size:14px}
+  .steps{counter-reset:step;display:grid;gap:12px}
+  .steps div{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+  .steps b::before{counter-increment:step;content:counter(step) ". ";color:var(--accent)}
+  .dl a{display:inline-block;margin:6px 10px 6px 0;padding:10px 16px;border:1px solid var(--line);border-radius:9px;background:#fff;text-decoration:none;color:var(--ink)}
+  .meter{height:14px;border:1px solid var(--line);border-radius:999px;overflow:hidden;background:#fff}
+  .meter i{display:block;height:100%;background:var(--accent)}
+  .tiles{display:grid;grid-template-columns:repeat(18,1fr);gap:4px}
+  .tile{border:1px solid var(--line);border-radius:6px;background:#fff;padding:4px 2px;text-align:center;cursor:pointer;font-size:12px;line-height:1.3}
+  .tile b{display:block;font-size:14px}
+  .tile small{color:var(--muted);font-size:10px}
+  .tile.sel{outline:3px solid var(--accent)}
+  .detail{margin-top:14px;padding:14px;border:1px solid var(--line);border-radius:10px;background:#fff}
+  table.data{border-collapse:collapse;width:100%;font-size:15px}
+  table.data th,table.data td{border:1px solid var(--line);padding:6px 8px;text-align:left}
+  footer{margin-top:48px;padding:22px 0 34px;border-top:3px double var(--line);font-size:15px;color:var(--muted)}
+  footer p{margin:8px 0}
+  .free{display:inline-block;background:var(--accent-soft);border:1px solid #fcd34d;border-radius:999px;padding:2px 12px;font-size:14px;color:#7c2d12}
+  @media (max-width:640px){.hero h1{font-size:32px}.hero img{max-height:300px}nav{display:none}.tiles{grid-template-columns:repeat(9,1fr)}}
+
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap bar">
+    <a class="mark" href="./">⇄ File <span>Converter</span></a>
+    <nav>
+      <a href="#tool">The Tool</a>
+      <a href="#how">How it works</a>
+      <a href="#cards">Good to know</a>
+      <a href="#records">Records</a>
+      <a href="#files">Files</a>
+    </nav>
+  </div>
+</header>
+
+<div class="hero">
+  <img src="assets/media-generation-file-converter-hero-0-8b2992c4-faf1-4f12-a7fd-94d55ef82fb6.webp" alt="Fiona the fox, the File Converter mascot, stacking paper files and folders on a wooden desk">
+  <div class="cap">
+    <h1>File Converter</h1>
+    <p>Turn one kind of file into another — right here, in your browser.</p>
+  </div>
+</div>
+
+<main class="wrap">
+  <p class="lede">This is a file converter that runs entirely in your browser. Your files never leave this page. It turns CSV tables into JSON, Markdown into HTML, plain text into JSON, and pictures from one format to another — and it shows you the result before you download it. <span class="free">Free forever — no sign-in, no payment</span></p>
+
+  <h2 id="tool">The Tool</h2>
+  <div class="toolcard">
+    <label for="fcIn"><b>Your text or file content</b></label>
+    <textarea id="fcIn" placeholder="Paste your text, CSV, JSON, Markdown, or HTML here…">name,atomic_number
+Hydrogen,1
+Helium,2
+Carbon,6</textarea>
+    <div class="row">
+      <label for="fcMode"><b>Convert</b></label>
+      <select id="fcMode">
+        <option value="csv-json">CSV to JSON</option>
+        <option value="json-csv">JSON to CSV</option>
+        <option value="text-json">Plain text to JSON</option>
+        <option value="md-html">Markdown to HTML</option>
+        <option value="html-text">HTML to plain text</option>
+        <option value="json-pretty">JSON pretty-print</option>
+        <option value="json-minify">JSON minify</option>
+        <option value="case-upper">Text to UPPER CASE</option>
+        <option value="case-lower">Text to lower case</option>
+        <option value="case-title">Text to Title Case</option>
+        <option value="case-sentence">Text to Sentence case</option>
+      </select>
+      <button class="go" id="fcGo">Convert</button>
+      <button id="fcSample">Try a sample</button>
+      <button id="fcClear">Clear</button>
+      <span class="status" id="fcStatus">Ready.</span>
+    </div>
+    <div class="out" id="fcOut" hidden></div>
+    <div class="row">
+      <button id="fcDl">Download the result</button>
+      <button id="fcCopy">Copy the result</button>
+    </div>
+    <h3 style="margin-top:22px">Picture conversion</h3>
+    <p class="lede">Pick a picture on your device and change its format. JPEG is smaller but loses fine detail; WebP keeps more detail in less space; PNG keeps every pixel exactly.</p>
+    <div class="row">
+      <input type="file" id="imgFile" accept="image/*">
+      <label for="imgFmt"><b>To</b></label>
+      <select id="imgFmt">
+        <option value="image/jpeg">JPEG</option>
+        <option value="image/webp">WebP</option>
+        <option value="image/png">PNG</option>
+      </select>
+      <label for="imgQ"><b>Quality</b></label>
+      <input type="number" id="imgQ" min="0.5" max="1" step="0.05" value="0.85" style="width:80px">
+      <button class="go" id="imgGo">Convert picture</button>
+      <span class="status" id="imgStatus"></span>
+    </div>
+    <div class="row"><a id="imgDl" href="#" hidden>Download the converted picture</a></div>
+  </div>
+
+  <h2 id="how">How it works</h2>
+  <div class="steps">
+    <div><b>Paste your content.</b> Put text, a CSV table, JSON, Markdown, or HTML in the box above — or pick a picture file for picture conversion.</div>
+    <div><b>Pick the conversion.</b> Choose what to turn it into from the list: CSV to JSON, Markdown to HTML, upper case, and the rest.</div>
+    <div><b>Press Convert.</b> The result appears below, with its size. Download it or copy it — it never leaves this page.</div>
+  </div>
+  <p class="lede">What it cannot do: it converts text and pictures in your browser only — it cannot open files from other websites, it cannot read password-locked files, and a JPEG made from a PNG cannot be turned back into the original PNG, because the JPEG has already thrown away fine detail. A conversion that fails says so plainly, with the reason.</p>
+
+  <h2 id="cards">Good to know</h2>
+  <p class="lede">Six things worth knowing before you convert anything.</p>
+  <div class="grid" id="cardsGrid">
+    <div class="card"><h3>CSV to JSON</h3><p>The first row gives the field names, and every later row becomes one record. Commas inside quoted fields stay inside their field.</p><p><a class="rec-link" href="../../db/file-converter-service/#rec=JAH-FCON-000002">Read the full record →</a></p></div>
+    <div class="card"><h3>Markdown to HTML</h3><p>A line starting with # becomes a heading, a line starting with - becomes a list item, and **word** becomes bold.</p><p><a class="rec-link" href="../../db/file-converter-service/#rec=JAH-FCON-000004">Read the full record →</a></p></div>
+    <div class="card"><h3>PNG to JPEG</h3><p>JPEG stores photographs in far less space by throwing away fine detail the eye barely notices. The JPEG is smaller but not identical.</p><p><a class="rec-link" href="../../db/file-converter-service/#rec=JAH-FCON-000009">Read the full record →</a></p></div>
+    <div class="card"><h3>Lossy and lossless</h3><p>JPEG is lossy: it throws away detail. PNG and lossless WebP are lossless: they keep every pixel exactly.</p><p><a class="rec-link" href="../../db/file-converter-service/#rec=JAH-FCON-000021">Read the full record →</a></p></div>
+    <div class="card"><h3>Checking a conversion</h3><p>Compare before and after: the same words, the same rows, the same numbers, in the same order. The tool prints the counts.</p><p><a class="rec-link" href="../../db/file-converter-service/#rec=JAH-FCON-000022">Read the full record →</a></p></div>
+    <div class="card"><h3>UTF-8 encoding</h3><p>The tool reads and writes UTF-8, which covers nearly every written language, so letters with marks survive the trip.</p><p><a class="rec-link" href="../../db/file-converter-service/#rec=JAH-FCON-000018">Read the full record →</a></p></div>
+  </div>
+
+  <h2 id="records">Records</h2>
+  <p class="lede">The File Converter Service Database holds the full rules behind this converter — 24 public records and 24 Signature records, each one a complete file. It also covers document conversion, which shares the same evidence, so no separate document-converter pair was built.</p>
+  <div class="grid" id="recordsGrid"><p class="lede">Records load here when the database pair is filed. Browse the full archive meanwhile: <a href="../../db/file-conversion-and-format-interoperability/">The File Conversion and Format Interoperability Database</a> — 16 records.</p></div>
+
+  <h2 id="files">Files</h2>
+  <p class="lede">Everything on this page is downloadable. Take the tool's data, the records, or the page itself.</p>
+  <div class="dl">
+    <a href="assets/formats.json" download>⬇ Conversion list (JSON)</a>
+    <a href="records.json" download>⬇ Service records (JSON)</a>
+    <a href="./" download>⬇ This page</a>
+    <a href="accessible/index.html">Plain version (no JavaScript needed)</a>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p><b>Network.</b> This service belongs to The 'Merica-L Internet: the front door is the <a href="https://justinahiggins614-cmyk.github.io/jah-databases/the-merica-l-virtual-internet.html">'Merica-L Virtual Internet</a>, the network's main page is <a href="https://justinahiggins614-cmyk.github.io/jah-databases/the-merica-l-boundless-ecosystem-os.html">'Merica-L Boundless Ecosystem OS</a>, and the databases live at the <a href="https://justinahiggins614-cmyk.github.io/jah-databases/">database hub</a>. The archive behind this service is the <a href="../../db/file-conversion-and-format-interoperability/">The File Conversion and Format Interoperability Database</a>.</p>
+    <p>File Converter is free forever. No sign-in, no payment, no tracking — your words never leave this page. Fiona the fox is the mascot; she stacks the files.</p>
+    <p><a href="accessible/index.html">Accessible version (plain text, no JavaScript needed)</a></p>
+  </div>
+</footer>
+
+<script>
+/* PURE TOOL FUNCTIONS — the page's own working tool, tested in Node. */
+var FC_SETS = null;
+function csvParse(text){
+  var rows=[], row=[], cur='', inQ=false;
+  for(var i=0;i<text.length;i++){
+    var c=text[i];
+    if(inQ){
+      if(c==='"'){ if(text[i+1]==='"'){cur+='"';i++;} else {inQ=false;} }
+      else {cur+=c;}
+    } else if(c==='"'){ inQ=true; }
+    else if(c===','){ row.push(cur); cur=''; }
+    else if(c==='\n' || c==='\r'){ if(c==='\r' && text[i+1]==='\n') i++; row.push(cur); cur=''; rows.push(row); row=[]; }
+    else {cur+=c;}
+  }
+  if(cur!=='' || row.length){ row.push(cur); rows.push(row); }
+  return rows.filter(function(r){ return r.length>1 || (r.length===1 && r[0].trim()!==''); });
+}
+function csvToJson(text){
+  var rows=csvParse(text);
+  if(!rows.length) return '[]';
+  var headers=rows[0].map(function(h){return h.trim();});
+  var out=rows.slice(1).map(function(r){
+    var o={};
+    headers.forEach(function(h,i){ o[h]=(i<r.length?r[i]:''); });
+    return o;
+  });
+  return JSON.stringify(out, null, 2);
+}
+function jsonToCsv(text){
+  var data=JSON.parse(text);
+  if(!Array.isArray(data) || !data.length) throw new Error('JSON must be a list of records.');
+  var headers=[];
+  data.forEach(function(r){ Object.keys(r).forEach(function(k){ if(headers.indexOf(k)<0) headers.push(k); }); });
+  function cell(v){
+    var s=(v===null||v===undefined)?'':String(v);
+    return /[",\n]/.test(s) ? '"'+s.replace(/"/g,'""')+'"' : s;
+  }
+  var lines=[headers.map(cell).join(',')];
+  data.forEach(function(r){ lines.push(headers.map(function(h){ return cell(r[h]); }).join(',')); });
+  return lines.join('\n');
+}
+function textToJson(text){ return JSON.stringify({text: text}, null, 2); }
+function escHtml(s){ return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function mdInline(s){
+  s=escHtml(s);
+  s=s.replace(/`([^`]+)`/g,'<code>$1</code>');
+  s=s.replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>');
+  s=s.replace(/\*([^*]+)\*/g,'<em>$1</em>');
+  s=s.replace(/\[([^\]]+)\]\(([^)]+)\)/g,'<a href="$2">$1</a>');
+  return s;
+}
+function markdownToHtml(md){
+  var lines=md.split('\n'), out=[], inList=false;
+  function closeList(){ if(inList){ out.push('</ul>'); inList=false; } }
+  lines.forEach(function(line){
+    var m;
+    if((m=line.match(/^(#{1,6})\s+(.*)$/))){ closeList(); out.push('<h'+m[1].length+'>'+mdInline(m[2])+'</h'+m[1].length+'>'); }
+    else if((m=line.match(/^[-*]\s+(.*)$/))){ if(!inList){ out.push('<ul>'); inList=true; } out.push('<li>'+mdInline(m[1])+'</li>'); }
+    else if(line.trim()===''){ closeList(); }
+    else { closeList(); out.push('<p>'+mdInline(line)+'</p>'); }
+  });
+  closeList();
+  return out.join('\n');
+}
+function htmlToText(htmlStr){
+  var s=htmlStr.replace(/<(h[1-6]|p|div|li|tr|br)[^>]*>/gi,'\n');
+  s=s.replace(/<[^>]+>/g,'');
+  s=s.replace(/&amp;/g,'&').replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&quot;/g,'"').replace(/&#39;/g,"'").replace(/&nbsp;/g,' ');
+  return s.replace(/\n{3,}/g,'\n\n').trim();
+}
+function changeCase(text, mode){
+  if(mode==='upper') return text.toUpperCase();
+  if(mode==='lower') return text.toLowerCase();
+  if(mode==='title') return text.replace(/\w\S*/g,function(w){ return w.charAt(0).toUpperCase()+w.slice(1).toLowerCase(); });
+  if(mode==='sentence') return text.replace(/(^\s*[a-z]|[.!?]\s+[a-z])/g,function(m){ return m.toUpperCase(); });
+  return text;
+}
+function prettyJson(text){ return JSON.stringify(JSON.parse(text), null, 2); }
+function minifyJson(text){ return JSON.stringify(JSON.parse(text)); }
+
+</script>
+<script>
+(function(){
+'use strict';
+var fcIn=document.getElementById('fcIn'), fcMode=document.getElementById('fcMode'),
+    fcOut=document.getElementById('fcOut'), fcStatus=document.getElementById('fcStatus');
+function fcConvert(){
+  var mode=fcMode.value, input=fcIn.value, out='';
+  try{
+    if(mode==='csv-json') out=csvToJson(input);
+    else if(mode==='json-csv') out=jsonToCsv(input);
+    else if(mode==='text-json') out=textToJson(input);
+    else if(mode==='md-html') out=markdownToHtml(input);
+    else if(mode==='html-text') out=htmlToText(input);
+    else if(mode==='json-pretty') out=prettyJson(input);
+    else if(mode==='json-minify') out=minifyJson(input);
+    else if(mode.indexOf('case-')===0) out=changeCase(input, mode.slice(5));
+    fcOut.textContent=out; fcOut.hidden=false;
+    fcStatus.textContent='Converted. '+out.length+' letters in the result.';
+  }catch(e){ fcOut.textContent=''; fcOut.hidden=true; fcStatus.textContent='That did not convert: '+e.message; }
+}
+document.getElementById('fcGo').addEventListener('click', fcConvert);
+document.getElementById('fcSample').addEventListener('click', function(){
+  var m=fcMode.value;
+  if(m==='csv-json') fcIn.value='name,atomic_number\nHydrogen,1\nHelium,2\nCarbon,6';
+  else if(m==='json-csv') fcIn.value='[{"name":"Hydrogen","atomic_number":1},{"name":"Helium","atomic_number":2}]';
+  else if(m==='md-html') fcIn.value='# A heading\n\nSome **bold** words and a [link](https://example.org).\n\n- one\n- two';
+  else if(m==='html-text') fcIn.value='<h1>A heading</h1><p>Some words in a <b>paragraph</b>.</p>';
+  else if(m==='json-pretty'||m==='json-minify') fcIn.value='{"name":"Hydrogen","atomic_number":1}';
+  else fcIn.value='The quick brown fox jumps over the lazy dog.';
+  fcConvert();
+});
+document.getElementById('fcClear').addEventListener('click', function(){ fcIn.value=''; fcOut.textContent=''; fcOut.hidden=true; fcStatus.textContent='Cleared.'; });
+document.getElementById('fcDl').addEventListener('click', function(){
+  if(fcOut.hidden || !fcOut.textContent){ fcStatus.textContent='Convert something first, then download it.'; return; }
+  var ext=fcMode.value==='md-html'?'.html':(fcMode.value.indexOf('json')>=0||fcMode.value==='csv-json'||fcMode.value==='text-json'?'.json':'.txt');
+  var blob=new Blob([fcOut.textContent], {type:'text/plain'});
+  var a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='converted'+ext; a.click();
+  setTimeout(function(){ URL.revokeObjectURL(a.href); }, 1000);
+});
+document.getElementById('fcCopy').addEventListener('click', function(){
+  if(fcOut.hidden || !fcOut.textContent){ fcStatus.textContent='Convert something first, then copy it.'; return; }
+  if(navigator.clipboard){ navigator.clipboard.writeText(fcOut.textContent).then(function(){ fcStatus.textContent='Copied.'; }); }
+  else { fcStatus.textContent='Copy is not available in this browser.'; }
+});
+var imgFile=document.getElementById('imgFile'), imgFmt=document.getElementById('imgFmt'),
+    imgQ=document.getElementById('imgQ'), imgStatus=document.getElementById('imgStatus'),
+    imgDl=document.getElementById('imgDl');
+document.getElementById('imgGo').addEventListener('click', function(){
+  var f=imgFile.files && imgFile.files[0];
+  if(!f){ imgStatus.textContent='Pick a picture file first.'; return; }
+  var fmt=imgFmt.value, q=parseFloat(imgQ.value);
+  var reader=new FileReader();
+  reader.onload=function(){
+    var im=new Image();
+    im.onload=function(){
+      var cv=document.createElement('canvas'); cv.width=im.width; cv.height=im.height;
+      var cx=cv.getContext('2d');
+      if(fmt==='image/jpeg'){ cx.fillStyle='#ffffff'; cx.fillRect(0,0,cv.width,cv.height); }
+      cx.drawImage(im,0,0);
+      cv.toBlob(function(blob){
+        if(!blob){ imgStatus.textContent='That picture did not convert.'; return; }
+        imgStatus.textContent='Converted: '+f.name+' ('+Math.round(f.size/1024)+' KB) became '+Math.round(blob.size/1024)+' KB as '+fmt.split('/')[1].toUpperCase()+'.';
+        imgDl.href=URL.createObjectURL(blob);
+        imgDl.download='converted.'+(fmt==='image/jpeg'?'jpg':fmt.split('/')[1]);
+        imgDl.hidden=false; imgDl.textContent='Download the converted picture';
+      }, fmt, q);
+    };
+    im.onerror=function(){ imgStatus.textContent='That file is not a picture this browser can read.'; };
+    im.src=reader.result;
+  };
+  reader.readAsDataURL(f);
+});
+
+fetch('records.json').then(function(r){return r.json();}).then(function(recs){
+  if(!recs || !recs.length) return;
+  var grid=document.getElementById('recordsGrid');
+  function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+  grid.innerHTML=recs.map(function(rec){
+    var link=rec.url?'<p><a class="rec-link" href="'+rec.url+'">Read the full record →</a></p>':'';
+    return '<div class="card"><h3>'+esc(rec.title||rec.id)+'</h3><p>'+esc(rec.description||'')+'</p>'+link+'</div>';
+  }).join('');
+}).catch(function(){ /* records load with the database pair */ });
+})();
+</script>
+</body>
+</html>

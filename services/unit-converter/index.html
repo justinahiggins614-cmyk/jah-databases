@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Unit Converter — a free unit converter that works right here</title>
+<meta name="description" content="Unit Converter is a free unit converter. Turn kilometres into miles, Celsius into Fahrenheit, kilograms into pounds, and more — with exact ratios. No sign-in, no payment, free forever.">
+<style>
+  :root{--paper:#fdfcf7;--ink:#1f2430;--muted:#5b6472;--line:#e3ddcd;--card:#fff;--accent:#c2410c;--accent-soft:#ffedd5;--teal:#0f766e;--bad:#b91c1c;--bad-soft:#fee2e2;--good:#166534}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font:17px/1.6 Georgia,'Times New Roman',serif}
+  a{color:var(--teal)}
+  header.top{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5}
+  .wrap{max-width:960px;margin:0 auto;padding:0 18px}
+  .bar{display:flex;align-items:center;gap:18px;padding:12px 0}
+  .mark{font-size:22px;font-weight:bold;color:var(--ink);text-decoration:none;white-space:nowrap}
+  .mark span{color:var(--accent)}
+  nav{margin-left:auto;display:flex;gap:16px;flex-wrap:wrap}
+  nav a{color:var(--ink);text-decoration:none;font-size:15px}
+  nav a:hover{text-decoration:underline}
+  .hero{position:relative}
+  .hero img{display:block;width:100%;height:auto;max-height:430px;object-fit:cover;object-position:center 30%}
+  .hero .cap{position:absolute;left:0;right:0;top:0;text-align:center;padding:28px 18px 0}
+  .hero h1{margin:0;font-size:44px;line-height:1.1;color:#3d2c12;text-shadow:0 1px 0 #fff}
+  .hero p{margin:8px 0 0;font-size:19px;color:#4a3a1c}
+  main{padding:28px 0 10px}
+  h2{font-size:26px;margin:34px 0 10px}
+  h3{font-size:20px;margin:0 0 6px}
+  .lede{font-size:19px;color:var(--muted)}
+  .toolcard{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;box-shadow:0 2px 10px rgba(60,40,0,.06)}
+  textarea{width:100%;min-height:150px;font:16px/1.6 Georgia,serif;padding:12px;border:1px solid var(--line);border-radius:10px;background:#fff;color:var(--ink)}
+  input[type=text],input[type=number],select{font:16px Georgia,serif;padding:10px 12px;border:1px solid var(--line);border-radius:9px;background:#fff;color:var(--ink)}
+  .row{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;align-items:center}
+  button{font:16px Georgia,serif;border-radius:9px;border:1px solid var(--line);background:#fff;color:var(--ink);padding:10px 16px;cursor:pointer}
+  button.go{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:bold}
+  button:hover{filter:brightness(.97)}
+  .status{font-size:15px;color:var(--muted)}
+  .out{margin-top:14px;padding:14px;border:1px dashed var(--line);border-radius:10px;background:#fff;white-space:pre-wrap;word-wrap:break-word}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px}
+  .card p{margin:6px 0 0;color:var(--muted);font-size:15px}
+  .card .rec-link{font-size:14px}
+  .steps{counter-reset:step;display:grid;gap:12px}
+  .steps div{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+  .steps b::before{counter-increment:step;content:counter(step) ". ";color:var(--accent)}
+  .dl a{display:inline-block;margin:6px 10px 6px 0;padding:10px 16px;border:1px solid var(--line);border-radius:9px;background:#fff;text-decoration:none;color:var(--ink)}
+  .meter{height:14px;border:1px solid var(--line);border-radius:999px;overflow:hidden;background:#fff}
+  .meter i{display:block;height:100%;background:var(--accent)}
+  .tiles{display:grid;grid-template-columns:repeat(18,1fr);gap:4px}
+  .tile{border:1px solid var(--line);border-radius:6px;background:#fff;padding:4px 2px;text-align:center;cursor:pointer;font-size:12px;line-height:1.3}
+  .tile b{display:block;font-size:14px}
+  .tile small{color:var(--muted);font-size:10px}
+  .tile.sel{outline:3px solid var(--accent)}
+  .detail{margin-top:14px;padding:14px;border:1px solid var(--line);border-radius:10px;background:#fff}
+  table.data{border-collapse:collapse;width:100%;font-size:15px}
+  table.data th,table.data td{border:1px solid var(--line);padding:6px 8px;text-align:left}
+  footer{margin-top:48px;padding:22px 0 34px;border-top:3px double var(--line);font-size:15px;color:var(--muted)}
+  footer p{margin:8px 0}
+  .free{display:inline-block;background:var(--accent-soft);border:1px solid #fcd34d;border-radius:999px;padding:2px 12px;font-size:14px;color:#7c2d12}
+  @media (max-width:640px){.hero h1{font-size:32px}.hero img{max-height:300px}nav{display:none}.tiles{grid-template-columns:repeat(9,1fr)}}
+
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap bar">
+    <a class="mark" href="./">📏 Unit <span>Converter</span></a>
+    <nav>
+      <a href="#tool">The Tool</a>
+      <a href="#how">How it works</a>
+      <a href="#cards">Good to know</a>
+      <a href="#records">Records</a>
+      <a href="#files">Files</a>
+    </nav>
+  </div>
+</header>
+
+<div class="hero">
+  <img src="assets/media-generation-unit-converter-hero-0-46a8c595-42bf-462a-9c91-cac35e15b8dd.webp" alt="Benny the beaver, the Unit Converter mascot, holding a wooden ruler beside brass weighing scales on a desk">
+  <div class="cap">
+    <h1>Unit Converter</h1>
+    <p>Kilometres to miles, Celsius to Fahrenheit — worked out exactly.</p>
+  </div>
+</div>
+
+<main class="wrap">
+  <p class="lede">This is a unit converter that runs entirely in your browser. Your numbers never leave this page. It converts length, weight, temperature, volume, speed, area, time, data size, pressure, energy, power, and angles — and it works from exact ratios, so every answer can be checked by hand. <span class="free">Free forever — no sign-in, no payment</span></p>
+
+  <h2 id="tool">The Tool</h2>
+  <div class="toolcard">
+    <div class="row">
+      <label for="ucCat"><b>Kind</b></label>
+      <select id="ucCat">
+        <option value="length">Length</option>
+        <option value="weight">Weight</option>
+        <option value="temperature">Temperature</option>
+        <option value="volume">Volume</option>
+        <option value="speed">Speed</option>
+        <option value="area">Area</option>
+        <option value="time">Time</option>
+        <option value="data">Data size</option>
+        <option value="pressure">Pressure</option>
+        <option value="energy">Energy</option>
+        <option value="power">Power</option>
+        <option value="angle">Angle</option>
+      </select>
+      <label for="ucVal"><b>Value</b></label>
+      <input type="number" id="ucVal" value="5" step="any" style="width:110px">
+      <label for="ucFrom"><b>From</b></label>
+      <select id="ucFrom"></select>
+      <label for="ucTo"><b>To</b></label>
+      <select id="ucTo"></select>
+    </div>
+    <div class="row">
+      <button class="go" id="ucGo">Convert</button>
+      <button id="ucSwap">Swap</button>
+      <span class="status" id="ucStatus"></span>
+    </div>
+    <div class="out" id="ucOut"></div>
+    <p class="lede" style="margin-top:14px">Money is not converted here. Money rates change by the hour, and no fixed table can hold a moving rate — this tool converts physical units only, where the ratios are fixed.</p>
+  </div>
+
+  <h2 id="how">How it works</h2>
+  <div class="steps">
+    <div><b>Pick the kind.</b> Length, weight, temperature, volume, speed, area, and the rest — twelve kinds, each with its own units.</div>
+    <div><b>Type a number and pick the units.</b> Choose what to convert from and what to convert to. The answer appears at once.</div>
+    <div><b>Check the factor.</b> Every answer is worked out from an exact ratio, shown in the records below. Swap the units to convert back and check.</div>
+  </div>
+  <p class="lede">What it cannot do: it cannot convert money, because money rates change by the hour and this tool holds no live-rates feed; it cannot convert a cup of flour to grams without knowing what is in the cup, because a cup is a volume and a gram is a weight; and a month is not a fixed number of days, so months convert by the average month of 30.44 days, stated beside the answer. All other ratios here are exact and printed in the records below.</p>
+
+  <h2 id="cards">Good to know</h2>
+  <p class="lede">Six things worth knowing before you convert anything.</p>
+  <div class="grid" id="cardsGrid">
+    <div class="card"><h3>1 mile = 1.609344 km</h3><p>The mile is defined as 1,609.344 metres exactly, so every length conversion in this tool is exact, not rounded at the factor.</p><p><a class="rec-link" href="../../db/unit-converter-service/#rec=JAH-UCON-000001">Read the full record →</a></p></div>
+    <div class="card"><h3>0°C = 32°F, 100°C = 212°F</h3><p>Temperature is a shift and a stretch: multiply by 9, divide by 5, add 32. The two scales meet only at -40.</p><p><a class="rec-link" href="../../db/unit-converter-service/#rec=JAH-UCON-000005">Read the full record →</a></p></div>
+    <div class="card"><h3>Two gallons</h3><p>An imperial gallon is 4.54609 litres; an American gallon is 3.78541 litres. A gallon without a country is not a unit.</p><p><a class="rec-link" href="../../db/unit-converter-service/#rec=JAH-UCON-000009">Read the full record →</a></p></div>
+    <div class="card"><h3>A tonne is not a ton</h3><p>A tonne is 1,000 kg. A long ton is 1,016.047 kg. A short ton is 907.18474 kg. Three tons, three weights.</p><p><a class="rec-link" href="../../db/unit-converter-service/#rec=JAH-UCON-000004">Read the full record →</a></p></div>
+    <div class="card"><h3>Data: 1,000, not 1,024</h3><p>This tool uses the decimal scale: 1 MB is 1,000,000 bytes. The binary scale counts 1,024 — a different, larger number.</p><p><a class="rec-link" href="../../db/unit-converter-service/#rec=JAH-UCON-000017">Read the full record →</a></p></div>
+    <div class="card"><h3>Why money is not converted</h3><p>Money rates move by the hour. A fixed table would be wrong within hours, so money stays out of this tool.</p><p><a class="rec-link" href="../../db/unit-converter-service/#rec=JAH-UCON-000023">Read the full record →</a></p></div>
+  </div>
+
+  <h2 id="records">Records</h2>
+  <p class="lede">The Unit Converter Service Database holds the full rules behind this converter — 24 public records and 24 Signature records, each one a complete file.</p>
+  <div class="grid" id="recordsGrid"><p class="lede">Records load here when the database pair is filed. Browse the full archive meanwhile: <a href="../../db/software-unit-converters/">The Unit Converter Software Database</a> — 20 records.</p></div>
+
+  <h2 id="files">Files</h2>
+  <p class="lede">Everything on this page is downloadable. Take the tool's data, the records, or the page itself.</p>
+  <div class="dl">
+    <a href="assets/units.json" download>⬇ Conversion tables (JSON)</a>
+    <a href="records.json" download>⬇ Service records (JSON)</a>
+    <a href="./" download>⬇ This page</a>
+    <a href="accessible/index.html">Plain version (no JavaScript needed)</a>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p><b>Network.</b> This service belongs to The 'Merica-L Internet: the front door is the <a href="https://justinahiggins614-cmyk.github.io/jah-databases/the-merica-l-virtual-internet.html">'Merica-L Virtual Internet</a>, the network's main page is <a href="https://justinahiggins614-cmyk.github.io/jah-databases/the-merica-l-boundless-ecosystem-os.html">'Merica-L Boundless Ecosystem OS</a>, and the databases live at the <a href="https://justinahiggins614-cmyk.github.io/jah-databases/">database hub</a>. The archive behind this service is the <a href="../../db/software-unit-converters/">The Unit Converter Software Database</a>.</p>
+    <p>Unit Converter is free forever. No sign-in, no payment, no tracking — your words never leave this page. Benny the beaver is the mascot; he holds the ruler.</p>
+    <p><a href="accessible/index.html">Accessible version (plain text, no JavaScript needed)</a></p>
+  </div>
+</footer>
+
+<script>
+/* PURE TOOL FUNCTIONS — the page's own working tool, tested in Node. */
+var UC_UNITS={
+ length:{base:'m',label:'Length',units:{mm:0.001,cm:0.01,m:1,km:1000,'in':0.0254,ft:0.3048,yd:0.9144,mi:1609.344}},
+ weight:{base:'kg',label:'Weight',units:{mg:0.000001,g:0.001,kg:1,t:1000,oz:0.028349523125,lb:0.45359237,st:6.35029318}},
+ volume:{base:'l',label:'Volume',units:{ml:0.001,l:1,m3:1000,gal_us:3.785411784,gal_uk:4.54609,pt_us:0.473176473,pt_uk:0.56826125,cup_us:0.2365882365,tbsp:0.0147867648,tsp:0.00492892159}},
+ speed:{base:'km/h',label:'Speed',units:{'m/s':3.6,'km/h':1,'mi/h':1.609344,kn:1.852}},
+ area:{base:'m2',label:'Area',units:{m2:1,km2:1000000,ft2:0.09290304,mi2:2589988.110336,acre:4046.8564224,ha:10000}},
+ time:{base:'s',label:'Time',units:{s:1,min:60,h:3600,day:86400,week:604800}},
+ data:{base:'MB',label:'Data size',units:{B:0.000001,KB:0.001,MB:1,GB:1000,TB:1000000}},
+ pressure:{base:'Pa',label:'Pressure',units:{Pa:1,kPa:1000,bar:100000,psi:6894.757293168}},
+ energy:{base:'J',label:'Energy',units:{J:1,kJ:1000,cal:4.184,kcal:4184,'kWh':3600000}},
+ power:{base:'W',label:'Power',units:{W:1,kW:1000,hp:745.699872,hp_metric:735.49875}},
+ angle:{base:'deg',label:'Angle',units:{deg:1,rad:57.29577951308232}}
+};
+var UC_TEMP={c:{label:'Celsius'},f:{label:'Fahrenheit'},k:{label:'Kelvin'}};
+function ucConvert(value, category, from, to){
+  if(category==='temperature'){
+    var c;
+    if(from==='c') c=value;
+    else if(from==='f') c=(value-32)*5/9;
+    else if(from==='k') c=value-273.15;
+    else throw new Error('Unknown temperature unit.');
+    if(to==='c') return c;
+    if(to==='f') return c*9/5+32;
+    if(to==='k') return c+273.15;
+    throw new Error('Unknown temperature unit.');
+  }
+  var t=UC_UNITS[category];
+  if(!t) throw new Error('Unknown kind of unit.');
+  if(!(from in t.units) || !(to in t.units)) throw new Error('Unknown unit for this kind.');
+  return value*t.units[from]/t.units[to];
+}
+function ucFormat(v){
+  if(v===0) return '0';
+  var a=Math.abs(v);
+  if(a>=1000000 || a<0.000001) return v.toExponential(6);
+  var s=String(Math.round(v*1000000)/1000000);
+  return s;
+}
+
+</script>
+<script>
+(function(){
+'use strict';
+var ucCat=document.getElementById('ucCat'), ucFrom=document.getElementById('ucFrom'),
+    ucTo=document.getElementById('ucTo'), ucVal=document.getElementById('ucVal'),
+    ucOut=document.getElementById('ucOut'), ucStatus=document.getElementById('ucStatus');
+function ucFill(){
+  var cat=ucCat.value, opts=[];
+  if(cat==='temperature'){ opts=[['c','Celsius (°C)'],['f','Fahrenheit (°F)'],['k','Kelvin (K)']]; }
+  else { Object.keys(UC_UNITS[cat].units).forEach(function(u){ opts.push([u,u]); }); }
+  [ucFrom,ucTo].forEach(function(sel,idx){
+    sel.innerHTML='';
+    opts.forEach(function(o){ var op=document.createElement('option'); op.value=o[0]; op.textContent=o[1]; sel.appendChild(op); });
+    sel.selectedIndex=idx===0?0:1;
+  });
+  if(cat==='length'){ ucFrom.value='km'; ucTo.value='mi'; }
+  if(cat==='weight'){ ucFrom.value='kg'; ucTo.value='lb'; }
+  if(cat==='temperature'){ ucFrom.value='c'; ucTo.value='f'; }
+  ucConvert();
+}
+function ucConvert(){
+  var v=parseFloat(ucVal.value);
+  if(isNaN(v)){ ucStatus.textContent='Type a number first.'; ucOut.textContent=''; return; }
+  try{
+    var r=ucConvert(v, ucCat.value, ucFrom.value, ucTo.value);
+    ucOut.textContent=ucVal.value+' '+ucFrom.value+' = '+ucFormat(r)+' '+ucTo.value;
+    ucStatus.textContent='Exact factor; only the shown answer is rounded.';
+  }catch(e){ ucStatus.textContent=e.message; ucOut.textContent=''; }
+}
+ucCat.addEventListener('change', ucFill);
+ucFrom.addEventListener('change', ucConvert);
+ucTo.addEventListener('change', ucConvert);
+ucVal.addEventListener('input', ucConvert);
+document.getElementById('ucSwap').addEventListener('click', function(){
+  var t=ucFrom.value; ucFrom.value=ucTo.value; ucTo.value=t; ucConvert();
+});
+document.getElementById('ucGo').addEventListener('click', ucConvert);
+ucFill();
+
+fetch('records.json').then(function(r){return r.json();}).then(function(recs){
+  if(!recs || !recs.length) return;
+  var grid=document.getElementById('recordsGrid');
+  function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+  grid.innerHTML=recs.map(function(rec){
+    var link=rec.url?'<p><a class="rec-link" href="'+rec.url+'">Read the full record →</a></p>':'';
+    return '<div class="card"><h3>'+esc(rec.title||rec.id)+'</h3><p>'+esc(rec.description||'')+'</p>'+link+'</div>';
+  }).join('');
+}).catch(function(){ /* records load with the database pair */ });
+})();
+</script>
+</body>
+</html>

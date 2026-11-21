@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Password Generator — plain version</title>
+<meta name="description" content="Plain-text version of Password Generator, a free service. No JavaScript needed.">
+<style>body{font:18px/1.7 Georgia,serif;max-width:720px;margin:0 auto;padding:20px;color:#1f2430;background:#fdfcf7}a{color:#0f766e}h1{font-size:32px}h2{font-size:24px;margin-top:32px}li{margin-bottom:8px}table{border-collapse:collapse}td,th{border:1px solid #e3ddcd;padding:4px 8px;text-align:left}</style>
+</head>
+<body>
+<h1>Password Generator</h1>
+<p>A free password maker. Pick a length, press Make, and copy the password into your keeper. No sign-in, no payment, free forever. Your words never leave the page.</p>
+<p><a href="../index.html">Open the working tool (needs JavaScript)</a></p>
+
+<h2>How it works</h2>
+<ol>
+<li>Pick a length from 8 to 64 and tick the sets of letters to use: lower-case, upper-case, digits, and marks.</li>
+<li>Press Make a password. The letters are drawn from the browser&#x27;s secure random source.</li>
+<li>Read the strength meter: it shows the length, the bits of guessing work, and a rating from weak to very strong.</li>
+<li>Copy the password into your keeper. Give every place its own password.</li>
+<li>Or press Make a passphrase for four words picked at random from a list of 128 ordinary words, or Make a 6-digit PIN for a device that locks after a few wrong tries.</li>
+</ol>
+<p>What it cannot do: it cannot remember your passwords for you, it cannot check whether a password has leaked elsewhere, and a password it makes is only strong if you keep it secret and use it in one place only. The letters are drawn with crypto.getRandomValues, the browser's secure random source — never from a fixed list and never from a simple formula. A passphrase uses a word list of 128 ordinary words, loaded from the files below.</p>
+
+<h2>The rules</h2>
+<p>The rules the tool follows, in plain words:</p>
+<ul>
+<li><b>Length matters most.</b> 12 letters is the minimum; 16 is the standard; 20 is for a master password.</li>
+<li><b>Four sets.</b> Lower-case letters, upper-case letters, digits, and marks such as ! and #. Each letter drawn from all four sets carries more guessing work.</li>
+<li><b>Random means unpredictable.</b> Letters come from crypto.getRandomValues, the browser's secure random source, never from a fixed list.</li>
+<li><b>Strength in bits.</b> A 16-letter password from all four sets carries about 105 bits of guessing work and rates very strong; an 8-letter password of lower-case letters alone carries about 38 bits and rates weak.</li>
+<li><b>Passphrases.</b> Four words picked at random from a list of 128 ordinary words carry about 28 bits each, 112 bits in all — strong, and plain enough to remember.</li>
+<li><b>PINs.</b> A 6-digit PIN carries about 20 bits. It is safe only where the device locks after a few wrong tries.</li>
+<li><b>One password per place.</b> Never reuse a password. A leak in one place must not open the rest.</li>
+</ul>
+<p>The full rules live in the <a href="../../../db/password-generator-service/">Password Generator Service Database</a> — 24 public records and 24 Signature records.</p>
+
+<h2>Records</h2>
+<p>The Password Generator Service Database holds the full rules behind this maker — 24 public records and 24 Signature records, each one a complete file.</p>
+
+<h2>Files</h2>
+<ul>
+<li><a href="../assets/wordlist.json">⬇ Passphrase word list (128 words, JSON)</a></li>
+<li><a href="../records.json">Service records (JSON)</a></li>
+<li><a href="../index.html">This page</a></li>
+</ul>
+
+<h2>Network</h2>
+<p>This service belongs to The 'Merica-L Internet: the front door is the <a href="https://justinahiggins614-cmyk.github.io/jah-databases/the-merica-l-virtual-internet.html">'Merica-L Virtual Internet</a>, the network's main page is <a href="https://justinahiggins614-cmyk.github.io/jah-databases/the-merica-l-boundless-ecosystem-os.html">'Merica-L Boundless Ecosystem OS</a>, and the databases live at the <a href="https://justinahiggins614-cmyk.github.io/jah-databases/">database hub</a>.</p>
+<p>Password Generator is free forever. No sign-in, no payment, no tracking. Bruno the badger is the mascot; he holds the key.</p>
+</body>
+</html>

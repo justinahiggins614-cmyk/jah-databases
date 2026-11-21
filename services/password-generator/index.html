@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Password Generator — a free password maker that works right here</title>
+<meta name="description" content="Password Generator is a free password maker. Make long, random passwords with the browser's secure random source, or a passphrase of four words. No sign-in, no payment, free forever.">
+<style>
+  :root{--paper:#fdfcf7;--ink:#1f2430;--muted:#5b6472;--line:#e3ddcd;--card:#fff;--accent:#6d28d9;--accent-soft:#ede9fe;--teal:#0f766e;--bad:#b91c1c;--bad-soft:#fee2e2;--good:#166534}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font:17px/1.6 Georgia,'Times New Roman',serif}
+  a{color:var(--teal)}
+  header.top{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5}
+  .wrap{max-width:960px;margin:0 auto;padding:0 18px}
+  .bar{display:flex;align-items:center;gap:18px;padding:12px 0}
+  .mark{font-size:22px;font-weight:bold;color:var(--ink);text-decoration:none;white-space:nowrap}
+  .mark span{color:var(--accent)}
+  nav{margin-left:auto;display:flex;gap:16px;flex-wrap:wrap}
+  nav a{color:var(--ink);text-decoration:none;font-size:15px}
+  nav a:hover{text-decoration:underline}
+  .hero{position:relative}
+  .hero img{display:block;width:100%;height:auto;max-height:430px;object-fit:cover;object-position:center 30%}
+  .hero .cap{position:absolute;left:0;right:0;top:0;text-align:center;padding:28px 18px 0}
+  .hero h1{margin:0;font-size:44px;line-height:1.1;color:#3d2c12;text-shadow:0 1px 0 #fff}
+  .hero p{margin:8px 0 0;font-size:19px;color:#4a3a1c}
+  main{padding:28px 0 10px}
+  h2{font-size:26px;margin:34px 0 10px}
+  h3{font-size:20px;margin:0 0 6px}
+  .lede{font-size:19px;color:var(--muted)}
+  .toolcard{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;box-shadow:0 2px 10px rgba(60,40,0,.06)}
+  textarea{width:100%;min-height:150px;font:16px/1.6 Georgia,serif;padding:12px;border:1px solid var(--line);border-radius:10px;background:#fff;color:var(--ink)}
+  input[type=text],input[type=number],select{font:16px Georgia,serif;padding:10px 12px;border:1px solid var(--line);border-radius:9px;background:#fff;color:var(--ink)}
+  .row{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;align-items:center}
+  button{font:16px Georgia,serif;border-radius:9px;border:1px solid var(--line);background:#fff;color:var(--ink);padding:10px 16px;cursor:pointer}
+  button.go{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:bold}
+  button:hover{filter:brightness(.97)}
+  .status{font-size:15px;color:var(--muted)}
+  .out{margin-top:14px;padding:14px;border:1px dashed var(--line);border-radius:10px;background:#fff;white-space:pre-wrap;word-wrap:break-word}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px}
+  .card p{margin:6px 0 0;color:var(--muted);font-size:15px}
+  .card .rec-link{font-size:14px}
+  .steps{counter-reset:step;display:grid;gap:12px}
+  .steps div{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+  .steps b::before{counter-increment:step;content:counter(step) ". ";color:var(--accent)}
+  .dl a{display:inline-block;margin:6px 10px 6px 0;padding:10px 16px;border:1px solid var(--line);border-radius:9px;background:#fff;text-decoration:none;color:var(--ink)}
+  .meter{height:14px;border:1px solid var(--line);border-radius:999px;overflow:hidden;background:#fff}
+  .meter i{display:block;height:100%;background:var(--accent)}
+  .tiles{display:grid;grid-template-columns:repeat(18,1fr);gap:4px}
+  .tile{border:1px solid var(--line);border-radius:6px;background:#fff;padding:4px 2px;text-align:center;cursor:pointer;font-size:12px;line-height:1.3}
+  .tile b{display:block;font-size:14px}
+  .tile small{color:var(--muted);font-size:10px}
+  .tile.sel{outline:3px solid var(--accent)}
+  .detail{margin-top:14px;padding:14px;border:1px solid var(--line);border-radius:10px;background:#fff}
+  table.data{border-collapse:collapse;width:100%;font-size:15px}
+  table.data th,table.data td{border:1px solid var(--line);padding:6px 8px;text-align:left}
+  footer{margin-top:48px;padding:22px 0 34px;border-top:3px double var(--line);font-size:15px;color:var(--muted)}
+  footer p{margin:8px 0}
+  .free{display:inline-block;background:var(--accent-soft);border:1px solid #fcd34d;border-radius:999px;padding:2px 12px;font-size:14px;color:#7c2d12}
+  @media (max-width:640px){.hero h1{font-size:32px}.hero img{max-height:300px}nav{display:none}.tiles{grid-template-columns:repeat(9,1fr)}}
+
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap bar">
+    <a class="mark" href="./">🔑 Password <span>Generator</span></a>
+    <nav>
+      <a href="#tool">The Tool</a>
+      <a href="#how">How it works</a>
+      <a href="#cards">Good to know</a>
+      <a href="#records">Records</a>
+      <a href="#files">Files</a>
+    </nav>
+  </div>
+</header>
+
+<div class="hero">
+  <img src="assets/media-generation-password-generator-hero-0-fbc65d26-b715-40ae-bbbb-dd6fa4464608.webp" alt="Bruno the badger, the Password Generator mascot, holding a big old brass key beside a wooden chest">
+  <div class="cap">
+    <h1>Password Generator</h1>
+    <p>Long, random passwords — made here, kept by you.</p>
+  </div>
+</div>
+
+<main class="wrap">
+  <p class="lede">This is a password maker that runs entirely in your browser. Your passwords never leave this page. It draws letters from the browser's own secure random source, shows how strong the password is, and can also make a passphrase of four words or a 6-digit PIN. <span class="free">Free forever — no sign-in, no payment</span></p>
+
+  <h2 id="tool">The Tool</h2>
+  <div class="toolcard">
+    <label for="pwOut"><b>Your password</b></label>
+    <input type="text" id="pwOut" readonly style="width:100%;font-size:20px" value="">
+    <div class="meter" style="margin-top:12px"><i id="pwMeter" style="width:0%"></i></div>
+    <p class="status" id="pwBits"></p>
+    <div class="row">
+      <label for="pwLen"><b>Length</b></label>
+      <input type="number" id="pwLen" min="8" max="64" value="16" style="width:80px">
+      <label><input type="checkbox" id="setLower" checked> lower-case</label>
+      <label><input type="checkbox" id="setUpper" checked> UPPER-CASE</label>
+      <label><input type="checkbox" id="setDigits" checked> digits</label>
+      <label><input type="checkbox" id="setMarks" checked> marks !#$%</label>
+    </div>
+    <div class="row">
+      <button class="go" id="pwGo">Make a password</button>
+      <button id="pwPhrase">Make a passphrase (4 words)</button>
+      <button id="pwPin">Make a 6-digit PIN</button>
+      <button id="pwCopy">Copy</button>
+      <span class="status" id="pwStatus"></span>
+    </div>
+  </div>
+
+  <h2 id="how">How it works</h2>
+  <div class="steps">
+    <div><b>Pick a length and the sets.</b> Sixteen letters from all four sets is the standard. Longer is stronger — every extra letter multiplies the guessing work.</div>
+    <div><b>Press Make a password.</b> The letters are drawn from the browser&#x27;s own secure random source, so no pattern can be learned and no two runs give the same password.</div>
+    <div><b>Copy it into your keeper.</b> Give every place its own password. The password never leaves this page and is never stored here.</div>
+  </div>
+  <p class="lede">What it cannot do: it cannot remember your passwords for you, it cannot check whether a password has leaked elsewhere, and a password it makes is only strong if you keep it secret and use it in one place only. The letters are drawn with crypto.getRandomValues, the browser's secure random source — never from a fixed list and never from a simple formula. A passphrase uses a word list of 128 ordinary words, loaded from the files below.</p>
+
+  <h2 id="cards">Good to know</h2>
+  <p class="lede">Six things worth knowing before you pick a password.</p>
+  <div class="grid" id="cardsGrid">
+    <div class="card"><h3>Length first</h3><p>Every extra letter multiplies the guessing work. A 16-letter password from all four sets is the standard; 12 is the minimum.</p><p><a class="rec-link" href="../../db/password-generator-service/#rec=JAH-PWGN-000002">Read the full record →</a></p></div>
+    <div class="card"><h3>Four words in a row</h3><p>A passphrase of four words picked at random is long, strong, and plain enough to remember — but the words must be picked at random.</p><p><a class="rec-link" href="../../db/password-generator-service/#rec=JAH-PWGN-000005">Read the full record →</a></p></div>
+    <div class="card"><h3>One password per place</h3><p>Reusing one password means one leak opens every place at once. A fresh password per place stops that chain.</p><p><a class="rec-link" href="../../db/password-generator-service/#rec=JAH-PWGN-000008">Read the full record →</a></p></div>
+    <div class="card"><h3>Reading the strength meter</h3><p>The meter counts length and character sets into bits of guessing work: weak, fair, strong, or very strong.</p><p><a class="rec-link" href="../../db/password-generator-service/#rec=JAH-PWGN-000012">Read the full record →</a></p></div>
+    <div class="card"><h3>PINs and their limits</h3><p>A 4-digit PIN has only 10,000 possibilities. It is safe only where the device locks after a few wrong tries.</p><p><a class="rec-link" href="../../db/password-generator-service/#rec=JAH-PWGN-000018">Read the full record →</a></p></div>
+    <div class="card"><h3>Keyboard patterns to avoid</h3><p>qwerty and 123456 are among the first guesses any attacker tries. The generator never draws from keyboard order.</p><p><a class="rec-link" href="../../db/password-generator-service/#rec=JAH-PWGN-000021">Read the full record →</a></p></div>
+  </div>
+
+  <h2 id="records">Records</h2>
+  <p class="lede">The Password Generator Service Database holds the full rules behind this maker — 24 public records and 24 Signature records, each one a complete file.</p>
+  <div class="grid" id="recordsGrid"><p class="lede">Records load here when the database pair is filed. Browse the full archive meanwhile: <a href="../../db/software-password-generators/">The Password Generator Tools Database</a> — 20 records.</p></div>
+
+  <h2 id="files">Files</h2>
+  <p class="lede">Everything on this page is downloadable. Take the tool's data, the records, or the page itself.</p>
+  <div class="dl">
+    <a href="assets/wordlist.json" download>⬇ Passphrase word list (128 words, JSON)</a>
+    <a href="records.json" download>⬇ Service records (JSON)</a>
+    <a href="./" download>⬇ This page</a>
+    <a href="accessible/index.html">Plain version (no JavaScript needed)</a>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p><b>Network.</b> This service belongs to The 'Merica-L Internet: the front door is the <a href="https://justinahiggins614-cmyk.github.io/jah-databases/the-merica-l-virtual-internet.html">'Merica-L Virtual Internet</a>, the network's main page is <a href="https://justinahiggins614-cmyk.github.io/jah-databases/the-merica-l-boundless-ecosystem-os.html">'Merica-L Boundless Ecosystem OS</a>, and the databases live at the <a href="https://justinahiggins614-cmyk.github.io/jah-databases/">database hub</a>. The archive behind this service is the <a href="../../db/software-password-generators/">The Password Generator Tools Database</a>.</p>
+    <p>Password Generator is free forever. No sign-in, no payment, no tracking — your words never leave this page. Bruno the badger is the mascot; he holds the key.</p>
+    <p><a href="accessible/index.html">Accessible version (plain text, no JavaScript needed)</a></p>
+  </div>
+</footer>
+
+<script>
+/* PURE TOOL FUNCTIONS — the page's own working tool, tested in Node. */
+var PW_LOWER='abcdefghijklmnopqrstuvwxyz';
+var PW_UPPER='ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+var PW_DIGITS='0123456789';
+var PW_MARKS='!#$%&*+-=?@^_~';
+function secureRandomByte(){
+  var a=new Uint32Array(1);
+  crypto.getRandomValues(a);
+  return a[0]/4294967296;
+}
+function generatePassword(length, opts, rand){
+  rand=rand||secureRandomByte;
+  var sets=[];
+  if(opts.lower) sets.push(PW_LOWER);
+  if(opts.upper) sets.push(PW_UPPER);
+  if(opts.digits) sets.push(PW_DIGITS);
+  if(opts.marks) sets.push(PW_MARKS);
+  if(!sets.length) throw new Error('Pick at least one set of letters.');
+  if(length<sets.length) throw new Error('Length must be at least the number of sets picked.');
+  var pool=sets.join('');
+  var chars=[];
+  sets.forEach(function(s){ chars.push(s[Math.floor(rand()*s.length)]); });
+  while(chars.length<length){ chars.push(pool[Math.floor(rand()*pool.length)]); }
+  for(var i=chars.length-1;i>0;i--){ var j=Math.floor(rand()*(i+1)); var t=chars[i]; chars[i]=chars[j]; chars[j]=t; }
+  return chars.join('');
+}
+function strengthBits(length, poolSize){ return length*(Math.log(poolSize)/Math.log(2)); }
+function strengthLabel(bits){
+  if(bits<40) return 'weak';
+  if(bits<60) return 'fair';
+  if(bits<90) return 'strong';
+  return 'very strong';
+}
+function generatePassphrase(words, count, rand){
+  rand=rand||secureRandomByte;
+  var out=[];
+  for(var i=0;i<count;i++){ out.push(words[Math.floor(rand()*words.length)]); }
+  return out.join(' ');
+}
+function makePin(digits, rand){
+  rand=rand||secureRandomByte;
+  var out='';
+  for(var i=0;i<digits;i++){ out+=String(Math.floor(rand()*10)); }
+  return out;
+}
+
+</script>
+<script>
+(function(){
+'use strict';
+var pwOut=document.getElementById('pwOut'), pwLen=document.getElementById('pwLen'),
+    pwStatus=document.getElementById('pwStatus'), pwMeter=document.getElementById('pwMeter'),
+    pwBits=document.getElementById('pwBits');
+var wordList=null;
+function pwOpts(){
+  return {lower:document.getElementById('setLower').checked,
+          upper:document.getElementById('setUpper').checked,
+          digits:document.getElementById('setDigits').checked,
+          marks:document.getElementById('setMarks').checked};
+}
+function poolSize(o){
+  var n=0;
+  if(o.lower) n+=26; if(o.upper) n+=26; if(o.digits) n+=10; if(o.marks) n+=15;
+  return n;
+}
+function showPw(pw){
+  pwOut.value=pw;
+  var o=pwOpts(), bits=strengthBits(pw.length, poolSize(o));
+  var label=strengthLabel(bits);
+  pwMeter.style.width=Math.min(100, Math.round(bits/1.3))+'%';
+  pwBits.textContent=pw.length+' letters, '+Math.round(bits)+' bits of guessing work — '+label+'.';
+  pwStatus.textContent='Made with the browser\'s own secure random source. Nothing was sent anywhere.';
+}
+document.getElementById('pwGo').addEventListener('click', function(){
+  var len=parseInt(pwLen.value,10);
+  if(!len || len<8 || len>64){ pwStatus.textContent='Pick a length from 8 to 64.'; return; }
+  try{ showPw(generatePassword(len, pwOpts())); }
+  catch(e){ pwStatus.textContent=e.message; }
+});
+document.getElementById('pwCopy').addEventListener('click', function(){
+  if(!pwOut.value){ pwStatus.textContent='Make a password first, then copy it.'; return; }
+  if(navigator.clipboard){ navigator.clipboard.writeText(pwOut.value).then(function(){ pwStatus.textContent='Copied. Paste it into your keeper, then clear the clipboard.'; }); }
+  else { pwStatus.textContent='Copy is not available in this browser.'; }
+});
+document.getElementById('pwPhrase').addEventListener('click', function(){
+  function make(){
+    if(!wordList || !wordList.length){ pwStatus.textContent='The word list could not be loaded.'; return; }
+    var phrase=generatePassphrase(wordList, 4);
+    pwOut.value=phrase;
+    var bits=4*(Math.log(wordList.length)/Math.log(2));
+    pwMeter.style.width=Math.min(100, Math.round(bits/1.3))+'%';
+    pwBits.textContent='4 words from a list of '+wordList.length+', '+Math.round(bits)+' bits of guessing work — '+strengthLabel(bits)+'.';
+    pwStatus.textContent='A passphrase of four words picked at random. Nothing was sent anywhere.';
+  }
+  if(wordList){ make(); return; }
+  fetch('assets/wordlist.json').then(function(r){ return r.json(); }).then(function(list){ wordList=list.words||list; make(); })
+  .catch(function(){ pwStatus.textContent='The word list could not be loaded.'; });
+});
+document.getElementById('pwPin').addEventListener('click', function(){
+  pwOut.value=makePin(6);
+  pwMeter.style.width='15%';
+  pwBits.textContent='6 digits, about 20 bits of guessing work — weak on its own. A PIN is safe only where the device locks after a few wrong tries.';
+  pwStatus.textContent='A random 6-digit PIN. A PIN is not a password.';
+});
+showPw(generatePassword(16, {lower:true,upper:true,digits:true,marks:true}));
+
+fetch('records.json').then(function(r){return r.json();}).then(function(recs){
+  if(!recs || !recs.length) return;
+  var grid=document.getElementById('recordsGrid');
+  function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+  grid.innerHTML=recs.map(function(rec){
+    var link=rec.url?'<p><a class="rec-link" href="'+rec.url+'">Read the full record →</a></p>':'';
+    return '<div class="card"><h3>'+esc(rec.title||rec.id)+'</h3><p>'+esc(rec.description||'')+'</p>'+link+'</div>';
+  }).join('');
+}).catch(function(){ /* records load with the database pair */ });
+})();
+</script>
+</body>
+</html>
