@@ -407,15 +407,39 @@ var JAHDB = (function () {
   /* Uses Standard 1.0 on-device always (no key). If an Apex backend URL or key
      is configured (shared with The Signature AI), cloud answers come from there. */
   function aiAnswer(db, userText, context) {
+    /* 2026-11-21 FIX (chat hang, "Thinking..." forever): many shipped pages call
+       aiAnswer(q, {db, role, network, archive}) with the arguments SWAPPED —
+       question first, options object second (22,412 pages). The old code then
+       threw TypeError inside standardAnswer (userText.toLowerCase on an object)
+       synchronously, BEFORE the caller's promise chain was attached, so the
+       "Thinking..." bubble stayed forever and no error ever showed. Accept
+       both orders: if the first argument is a string and the second is an
+       options object carrying .db, swap them back. Also coerce inputs so no
+       caller shape can ever throw synchronously out of here again. */
+    if (typeof db === 'string' && userText && typeof userText === 'object' && userText.db) {
+      var _opts = userText;
+      userText = db;
+      db = _opts.db;
+      if (context == null && _opts.archive && _opts.archive.length) {
+        context = _opts.archive.slice(0, 8).map(function (r) {
+          return (r && (r.t || r.title || r.id)) || '';
+        }).filter(Boolean).join('; ');
+      }
+    }
+    db = (db && typeof db === 'object') ? db : {};
+    userText = String(userText == null ? '' : userText);
+    var _aiName = db.ai_name || 'JAH Archivist';
+    var _dbName = db.name || 'this database';
+    var _kind = db.record_kind || 'archive';
     /* Explicit cross-database questions get real cross-database answers —
        real stored records with deep links, never invented ones. */
     try { if (crossDbIntent(userText)) return crossAnswer(db, userText); } catch (e) {}
     /* Deep investigations ("deep search", "investigate", "research") get the
        multi-pass universal search engine when it is loaded. */
     try { if (typeof JAHSearch !== 'undefined' && JAHSearch.deepSearchIntent(userText)) return JAHSearch.aiDeepSearch(db, userText); } catch (e) {}
-    var persona = 'You are ' + db.ai_name + ', the archive-aware librarian of the ' +
-      db.name + ' (JAH Databases, property of Justin Addam Higgins). ' +
-      'This database holds ' + db.record_kind + ' records. Answer in natural sentences. ' +
+    var persona = 'You are ' + _aiName + ', the archive-aware librarian of the ' +
+      _dbName + ' (JAH Databases, property of Justin Addam Higgins). ' +
+      'This database holds ' + _kind + ' records. Answer in natural sentences. ' +
       'When the user asks you to make something, describe the record you would generate ' +
       'in this archive\'s format, or run the generator if one is available on the page. ' +
       'Never invent archive records as if they already exist — say what is generated vs stored.';
@@ -430,19 +454,26 @@ var JAHDB = (function () {
     return Promise.resolve(standardAnswer(db, userText));
   }
   function standardAnswer(db, userText) {
+    /* 2026-11-21: coerce inputs — a non-string userText used to throw
+       TypeError on .toLowerCase() and hang the chat (see aiAnswer note). */
+    db = (db && typeof db === 'object') ? db : {};
+    userText = String(userText == null ? '' : userText);
+    var _aiName = db.ai_name || 'JAH Archivist';
+    var _dbName = db.name || 'this database';
+    var _kind = db.record_kind || 'archive';
     try {
       if (typeof LlamaStandard !== 'undefined' && LlamaStandard.chat)
-        return String(LlamaStandard.chat(db.ai_name + ' of the ' + db.name + '. ' + userText));
+        return String(LlamaStandard.chat(_aiName + ' of the ' + _dbName + '. ' + userText));
     } catch (e) {}
     var t = userText.toLowerCase();
     if (/generat|make|create|new/.test(t))
-      return 'I can generate new ' + db.record_kind + ' records in this archive\'s exact format. ' +
+      return 'I can generate new ' + _kind + ' records in this archive\'s exact format. ' +
         'Open the Generator tab, pick a seed, and I\'ll produce validated records — or tell me a theme and I\'ll shape the next batch around it.';
     if (/search|find|look/.test(t))
-      return 'Use the Archive tab to search the stored ' + db.record_kind + ' records. ' +
+      return 'Use the Archive tab to search the stored ' + _kind + ' records. ' +
         'Tell me what you\'re hunting for and I\'ll help narrow it down.';
-    return 'I\'m ' + db.ai_name + ', keeper of the ' + db.name + '. Ask me to search the archive, ' +
-      'explain a record, or generate new ' + db.record_kind + ' records in archive style.';
+    return 'I\'m ' + _aiName + ', keeper of the ' + _dbName + '. Ask me to search the archive, ' +
+      'explain a record, or generate new ' + _kind + ' records in archive style.';
   }
 
   return {

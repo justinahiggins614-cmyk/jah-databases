@@ -338,7 +338,12 @@ function greet(){
   log.innerHTML='<div class="msg a"><div class="b">'+esc('I am the JAH R Archivist. Ask me about R — syntax, idioms, ecosystem.')+'</div></div>';
 }
 function aiAsk(q){
-  return JAHDB.aiAnswer(q,{db:db,role:ROLE,network:NETWORK,archive:archiveSample});
+  /* 2026-11-21 FIX: was aiAnswer(q, {db, role, network, archive}) — arguments
+     swapped, which threw synchronously and left "Thinking..." forever. Correct
+     order is aiAnswer(db, question, context). The shared library now also
+     accepts the old order, but the call site is fixed here. */
+  var ctx=archiveSample.slice(0,8).map(function(r){return (r&&(r.t||r.title||r.id))||'';}).filter(Boolean).join('; ');
+  return JAHDB.aiAnswer(db,q,ctx);
 }
 $('chatGo').addEventListener('click',function(){
   var q=$('chatIn').value.trim(); if(!q)return;
@@ -347,7 +352,9 @@ $('chatGo').addEventListener('click',function(){
   $('chatIn').value='';
   log.innerHTML+='<div class="msg a"><div class="b" id="aiTmp"><span class="dim">Thinking…</span></div></div>';
   log.scrollTop=log.scrollHeight;
-  Promise.resolve(aiAsk(q)).then(function(a){
+  /* 2026-11-21: chain off a resolved promise so a synchronous throw inside
+     aiAsk becomes a rejection handled by .catch below, never a stuck bubble. */
+  Promise.resolve().then(function(){return aiAsk(q);}).then(function(a){
     var t=$('aiTmp'); if(t){t.innerHTML=esc(String(a&&a.text||a||'No answer.'));t.removeAttribute('id');}
     log.scrollTop=log.scrollHeight;
   }).catch(function(e){

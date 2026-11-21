@@ -313,7 +313,10 @@ function greet(){
   log.innerHTML='<div class="msg a"><div class="b">'+esc('%%GREET%%')+'</div></div>';
 }
 function aiAsk(q){
-  return JAHDB.aiAnswer(q,{db:db,role:ROLE,network:NETWORK,archive:archiveSample});
+  /* 2026-11-21 FIX: correct arg order aiAnswer(db, question, context); the old
+     swapped call threw synchronously and left "Thinking..." forever. */
+  var ctx=archiveSample.slice(0,8).map(function(r){return (r&&(r.t||r.title||r.id))||'';}).filter(Boolean).join('; ');
+  return JAHDB.aiAnswer(db,q,ctx);
 }
 $('chatGo').addEventListener('click',function(){
   var q=$('chatIn').value.trim(); if(!q)return;
@@ -322,7 +325,7 @@ $('chatGo').addEventListener('click',function(){
   $('chatIn').value='';
   log.innerHTML+='<div class="msg a"><div class="b" id="aiTmp"><span class="dim">Thinking…</span></div></div>';
   log.scrollTop=log.scrollHeight;
-  Promise.resolve(aiAsk(q)).then(function(a){
+  Promise.resolve().then(function(){return aiAsk(q);}).then(function(a){
     var t=$('aiTmp'); if(t){t.innerHTML=esc(String(a&&a.text||a||'No answer.'));t.removeAttribute('id');}
     log.scrollTop=log.scrollHeight;
   }).catch(function(e){
