@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Image Editor — a free picture editor that works right here</title>
+<meta name="description" content="Image Editor is a free picture editor. Crop, resize, rotate, and try filters on a sample picture — all in your browser. No sign-in, no payment, free forever.">
+<style>
+  :root{--paper:#fdfcf7;--ink:#1f2430;--muted:#5b6472;--line:#e3ddcd;--card:#fff;--accent:#0f766e;--accent-soft:#ccfbf1;--teal:#0f766e;--bad:#b91c1c;--bad-soft:#fee2e2;--good:#166534}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font:17px/1.6 Georgia,'Times New Roman',serif}
+  a{color:var(--teal)}
+  header.top{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5}
+  .wrap{max-width:960px;margin:0 auto;padding:0 18px}
+  .bar{display:flex;align-items:center;gap:18px;padding:12px 0}
+  .mark{font-size:22px;font-weight:bold;color:var(--ink);text-decoration:none;white-space:nowrap}
+  .mark span{color:var(--accent)}
+  nav{margin-left:auto;display:flex;gap:16px;flex-wrap:wrap}
+  nav a{color:var(--ink);text-decoration:none;font-size:15px}
+  nav a:hover{text-decoration:underline}
+  .hero{position:relative}
+  .hero img{display:block;width:100%;height:auto;max-height:430px;object-fit:cover;object-position:center 30%}
+  .hero .cap{position:absolute;left:0;right:0;top:0;text-align:center;padding:28px 18px 0}
+  .hero h1{margin:0;font-size:44px;line-height:1.1;color:#3d2c12;text-shadow:0 1px 0 #fff}
+  .hero p{margin:8px 0 0;font-size:19px;color:#4a3a1c}
+  main{padding:28px 0 10px}
+  h2{font-size:26px;margin:34px 0 10px}
+  h3{font-size:20px;margin:0 0 6px}
+  .lede{font-size:19px;color:var(--muted)}
+  .toolcard{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;box-shadow:0 2px 10px rgba(60,40,0,.06)}
+  textarea{width:100%;min-height:150px;font:16px/1.6 Georgia,serif;padding:12px;border:1px solid var(--line);border-radius:10px;background:#fff;color:var(--ink)}
+  input[type=text],input[type=number],select{font:16px Georgia,serif;padding:10px 12px;border:1px solid var(--line);border-radius:9px;background:#fff;color:var(--ink)}
+  .row{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;align-items:center}
+  button{font:16px Georgia,serif;border-radius:9px;border:1px solid var(--line);background:#fff;color:var(--ink);padding:10px 16px;cursor:pointer}
+  button.go{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:bold}
+  button:hover{filter:brightness(.97)}
+  .status{font-size:15px;color:var(--muted)}
+  .out{margin-top:14px;padding:14px;border:1px dashed var(--line);border-radius:10px;background:#fff;white-space:pre-wrap;word-wrap:break-word}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px}
+  .card p{margin:6px 0 0;color:var(--muted);font-size:15px}
+  .card .rec-link{font-size:14px}
+  .steps{counter-reset:step;display:grid;gap:12px}
+  .steps div{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+  .steps b::before{counter-increment:step;content:counter(step) ". ";color:var(--accent)}
+  .dl a{display:inline-block;margin:6px 10px 6px 0;padding:10px 16px;border:1px solid var(--line);border-radius:9px;background:#fff;text-decoration:none;color:var(--ink)}
+  .meter{height:14px;border:1px solid var(--line);border-radius:999px;overflow:hidden;background:#fff}
+  .meter i{display:block;height:100%;background:var(--accent)}
+  .tiles{display:grid;grid-template-columns:repeat(18,1fr);gap:4px}
+  .tile{border:1px solid var(--line);border-radius:6px;background:#fff;padding:4px 2px;text-align:center;cursor:pointer;font-size:12px;line-height:1.3}
+  .tile b{display:block;font-size:14px}
+  .tile small{color:var(--muted);font-size:10px}
+  .tile.sel{outline:3px solid var(--accent)}
+  .detail{margin-top:14px;padding:14px;border:1px solid var(--line);border-radius:10px;background:#fff}
+  table.data{border-collapse:collapse;width:100%;font-size:15px}
+  table.data th,table.data td{border:1px solid var(--line);padding:6px 8px;text-align:left}
+  footer{margin-top:48px;padding:22px 0 34px;border-top:3px double var(--line);font-size:15px;color:var(--muted)}
+  footer p{margin:8px 0}
+  .free{display:inline-block;background:var(--accent-soft);border:1px solid #fcd34d;border-radius:999px;padding:2px 12px;font-size:14px;color:#7c2d12}
+  @media (max-width:640px){.hero h1{font-size:32px}.hero img{max-height:300px}nav{display:none}.tiles{grid-template-columns:repeat(9,1fr)}}
+
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap bar">
+    <a class="mark" href="./">🖌 Image <span>Editor</span></a>
+    <nav>
+      <a href="#tool">The Tool</a>
+      <a href="#how">How it works</a>
+      <a href="#cards">Good to know</a>
+      <a href="#records">Records</a>
+      <a href="#files">Files</a>
+    </nav>
+  </div>
+</header>
+
+<div class="hero">
+  <img src="assets/image-editor-hero.svg" alt="Iris the iguana, the Image Editor mascot, painting a landscape on a canvas">
+  <div class="cap">
+    <h1>Image Editor</h1>
+    <p>Crop it, resize it, change its colours — right here.</p>
+  </div>
+</div>
+
+<main class="wrap">
+  <p class="lede">This is a picture editor that runs entirely in your browser. Your pictures never leave this page. Try the filters on the sample picture, and work out crop, resize, and rotation sizes with the size tools. <span class="free">Free forever — no sign-in, no payment</span></p>
+
+  <h2 id="tool">The Tool</h2>
+  <div class="toolcard">
+<p>Try it on a sample picture: six rows of coloured squares. Press a filter to change the whole sample at once.</p>
+<div class="row"><button class="go" id="ieGray" type="button">Grey</button>
+<button id="ieInvert" type="button">Invert</button><button id="ieSepia" type="button">Sepia</button>
+<button id="ieBright" type="button">Brighten</button><button id="ieDark" type="button">Darken</button>
+<button id="ieReset" type="button">Back to the sample</button></div>
+<div id="ieGrid" style="display:grid;grid-template-columns:repeat(8,1fr);gap:4px;margin-top:12px"></div>
+<p class="status" id="ieInfo"></p>
+<h3>Size tools</h3>
+<p><label>Picture width <input type="number" id="ieW" value="800" style="width:90px"></label>
+<label>height <input type="number" id="ieH" value="600" style="width:90px"></label></p>
+<p><label>Crop from x <input type="number" id="ieX" value="100" style="width:70px"></label>
+<label>y <input type="number" id="ieY" value="100" style="width:70px"></label>
+<label>width <input type="number" id="ieCW" value="400" style="width:70px"></label>
+<label>height <input type="number" id="ieCH" value="300" style="width:70px"></label>
+<button id="ieCrop" type="button">Crop size</button></p>
+<p><label>Resize to width <input type="number" id="ieNW" value="400" style="width:90px"></label>
+<button id="ieResize" type="button">Resize</button>
+<label>Rotate <select id="ieDeg"><option>90</option><option>180</option><option>270</option></select></label>
+<button id="ieRotate" type="button">Rotate size</button></p>
+<div class="out" id="ieOut">Size answers will appear here.</div>
+  </div>
+
+  <h2 id="how">How it works</h2>
+  <div class="steps">
+    <div><b>Look at the sample</b> Six rows of coloured squares stand in for a picture.</div>
+    <div><b>Press a filter</b> Grey, invert, sepia, brighten, or darken — one change at a time, so you can see what it did.</div>
+    <div><b>Read the average colour</b> The tool reads the average colour of the sample after each change.</div>
+    <div><b>Work out a size</b> Type a picture&#x27;s size, then crop, resize, or rotate it — the tool gives the new size in pixels.</div>
+    <div><b>Keep the original</b> A filter can be taken away only if the original is kept.</div>
+  </div>
+  <p class="lede">This editor works on a sample picture on the page, to show how the tools work. It does not upload or keep your pictures. The database records explain cropping, resizing, layers, and saving as PNG or JPG.</p>
+
+  <h2 id="cards">Good to know</h2>
+  <p class="lede">Six things worth knowing before you change a picture.</p>
+  <div class="grid" id="cardsGrid">
+    <div class="card"><h3>Cropping a Picture</h3><p>A good crop removes empty sky and stray hands, so the subject fills the frame.</p><p><a class="rec-link" href="../../db/image-editor-service/#rec=JAH-IMGED-000003">Read the full record →</a></p></div>
+    <div class="card"><h3>Layers: Pictures on Pictures</h3><p>Layers let the editor change one part of a picture without touching the rest.</p><p><a class="rec-link" href="../../db/image-editor-service/#rec=JAH-IMGED-000010">Read the full record →</a></p></div>
+    <div class="card"><h3>Brightness and Contrast</h3><p>A little of each fixes a dull photograph. Too much washes it out.</p><p><a class="rec-link" href="../../db/image-editor-service/#rec=JAH-IMGED-000007">Read the full record →</a></p></div>
+    <div class="card"><h3>Saving as PNG</h3><p>PNG keeps every pixel exactly, so the picture stays sharp.</p><p><a class="rec-link" href="../../db/image-editor-service/#rec=JAH-IMGED-000018">Read the full record →</a></p></div>
+    <div class="card"><h3>The Difference Between PNG and JPG</h3><p>Sharp means PNG, small means JPG. Detail lost in JPG can never be got back.</p><p><a class="rec-link" href="../../db/image-editor-service/#rec=JAH-IMGED-000020">Read the full record →</a></p></div>
+    <div class="card"><h3>Checking a Picture Before Sharing</h3><p>Look at it at its real size, read its words, and check its file size.</p><p><a class="rec-link" href="../../db/image-editor-service/#rec=JAH-IMGED-000023">Read the full record →</a></p></div>
+  </div>
+
+  <h2 id="records">Records</h2>
+  <p class="lede">The Image Editor Service Database holds the full rules behind this editor — 24 public records and 24 Signature records, each one a complete file.</p>
+  <div class="grid" id="recordsGrid"><p class="lede">Records load here when the database pair is filed. Browse the full archive meanwhile: <a href="../../db/public-photoshop/">The Public Photoshop Database</a> — 60 records.</p></div>
+
+  <h2 id="files">Files</h2>
+  <p class="lede">Everything on this page is downloadable. Take the tool's data, the records, or the page itself.</p>
+  <div class="dl">
+    <a href="assets/filters.json" download>⬇ Filter list and size rules (JSON)</a>
+    <a href="records.json" download>⬇ Service records (JSON)</a>
+    <a href="./" download>⬇ This page</a>
+    <a href="accessible/index.html">Plain version (no JavaScript needed)</a>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p><b>Network.</b> This service belongs to The 'Merica-L Internet: the front door is the <a href="https://justinahiggins614-cmyk.github.io/jah-databases/the-merica-l-virtual-internet.html">'Merica-L Virtual Internet</a>, the network's main page is <a href="https://justinahiggins614-cmyk.github.io/jah-databases/the-merica-l-boundless-ecosystem-os.html">'Merica-L Boundless Ecosystem OS</a>, and the databases live at the <a href="https://justinahiggins614-cmyk.github.io/jah-databases/">database hub</a>. The archive behind this service is the <a href="../../db/public-photoshop/">The Public Photoshop Database</a>.</p>
+    <p>Image Editor is free forever. No sign-in, no payment, no tracking — your words never leave this page. Iris the iguana is the mascot; she paints the landscape.</p>
+    <p><a href="accessible/index.html">Accessible version (plain text, no JavaScript needed)</a></p>
+  </div>
+</footer>
+
+<script>
+/* PURE TOOL FUNCTIONS — the page's own working tool, tested in Node. */
+/* Image Editor — pure tool functions.
+   Pixels are flat arrays of [r, g, b] triples, length w * h.
+   All processing happens in the browser; no uploads are kept. */
+var IE_FILTERS = ["none", "grayscale", "invert", "sepia", "brighten", "darken"];
+function ieClamp(v) { return Math.max(0, Math.min(255, Math.round(v))); }
+function ieApplyFilter(pixels, filter) {
+  if (IE_FILTERS.indexOf(filter) === -1) return null;
+  return pixels.map(function (p) {
+    var r = p[0], g = p[1], b = p[2];
+    if (filter === "none") return [r, g, b];
+    if (filter === "grayscale") { var y = Math.round(0.299 * r + 0.587 * g + 0.114 * b); return [y, y, y]; }
+    if (filter === "invert") return [255 - r, 255 - g, 255 - b];
+    if (filter === "sepia") return [ieClamp(0.393 * r + 0.769 * g + 0.189 * b), ieClamp(0.349 * r + 0.686 * g + 0.168 * b), ieClamp(0.272 * r + 0.534 * g + 0.131 * b)];
+    if (filter === "brighten") return [ieClamp(r + 30), ieClamp(g + 30), ieClamp(b + 30)];
+    if (filter === "darken") return [ieClamp(r - 30), ieClamp(g - 30), ieClamp(b - 30)];
+    return [r, g, b];
+  });
+}
+function ieCropSize(w, h, x, y, cw, ch) {
+  if (x < 0 || y < 0 || cw <= 0 || ch <= 0 || x + cw > w || y + ch > h) return null;
+  return { width: cw, height: ch, pixels: cw * ch };
+}
+function ieResizeSize(w, h, newW) {
+  if (w <= 0 || h <= 0 || newW <= 0) return null;
+  var newH = Math.max(1, Math.round(h * newW / w));
+  return { width: newW, height: newH };
+}
+function ieRotateSize(w, h, deg) {
+  if (deg === 90 || deg === 270) return { width: h, height: w };
+  if (deg === 180 || deg === 0 || deg === 360) return { width: w, height: h };
+  return null;
+}
+function iePixelCount(w, h) { return w * h; }
+function ieAverageColour(pixels) {
+  if (!pixels.length) return null;
+  var r = 0, g = 0, b = 0;
+  pixels.forEach(function (p) { r += p[0]; g += p[1]; b += p[2]; });
+  return [Math.round(r / pixels.length), Math.round(g / pixels.length), Math.round(b / pixels.length)];
+}
+if (typeof module !== "undefined" && module.exports) {
+  module.exports = { IE_FILTERS: IE_FILTERS, ieClamp: ieClamp, ieApplyFilter: ieApplyFilter, ieCropSize: ieCropSize, ieResizeSize: ieResizeSize, ieRotateSize: ieRotateSize, iePixelCount: iePixelCount, ieAverageColour: ieAverageColour };
+}
+
+</script>
+<script>
+(function(){
+'use strict';
+var ieBase = [[200,60,60],[220,120,40],[240,200,60],[120,180,80],[60,140,160],[80,90,200],[160,80,180],[90,90,90],[255,255,255],[30,30,30],[180,180,180],[120,60,30],[60,120,60],[30,60,120],[200,160,200],[100,100,200],[220,80,120],[80,200,160],[160,200,80],[200,200,120],[140,90,40],[40,140,90],[90,40,140],[210,210,210],[0,0,0],[255,220,150],[150,220,255],[220,150,255],[120,220,120],[255,150,150],[150,150,255],[220,220,220],[80,80,80],[190,120,80],[80,190,120],[120,80,190],[230,180,90],[90,230,180],[180,90,230],[200,100,100],[100,200,100],[100,100,200],[240,240,240],[60,60,60],[170,170,90],[90,170,170],[170,90,170],[210,140,140]];
+var iePixels = ieBase.slice();
+function ieDraw(){ var g = document.getElementById('ieGrid'); g.innerHTML = iePixels.map(function(p){ return '<div style="height:34px;background:rgb(' + p[0] + ',' + p[1] + ',' + p[2] + ')"></div>'; }).join(''); var avg = ieAverageColour(iePixels); document.getElementById('ieInfo').textContent = iePixelCount(8, 6) + ' squares in the sample. Average colour: rgb(' + avg.join(', ') + ').'; }
+function ieDo(f){ iePixels = ieApplyFilter(iePixels, f) || iePixels; ieDraw(); }
+document.getElementById('ieGray').addEventListener('click', function(){ ieDo('grayscale'); });
+document.getElementById('ieInvert').addEventListener('click', function(){ ieDo('invert'); });
+document.getElementById('ieSepia').addEventListener('click', function(){ ieDo('sepia'); });
+document.getElementById('ieBright').addEventListener('click', function(){ ieDo('brighten'); });
+document.getElementById('ieDark').addEventListener('click', function(){ ieDo('darken'); });
+document.getElementById('ieReset').addEventListener('click', function(){ iePixels = ieBase.slice(); ieDraw(); });
+function ieNums(ids){ return ids.map(function(id){ return +document.getElementById(id).value; }); }
+document.getElementById('ieCrop').addEventListener('click', function(){ var v = ieNums(['ieW','ieH','ieX','ieY','ieCW','ieCH']); var r = ieCropSize(v[0], v[1], v[2], v[3], v[4], v[5]); document.getElementById('ieOut').textContent = r ? ('Cropped picture: ' + r.width + ' x ' + r.height + ' pixels (' + r.pixels + ' pixels).') : 'That crop does not fit inside the picture. Check the numbers and try again.'; });
+document.getElementById('ieResize').addEventListener('click', function(){ var v = ieNums(['ieW','ieH','ieNW']); var r = ieResizeSize(v[0], v[1], v[2]); document.getElementById('ieOut').textContent = r ? ('Resized picture: ' + r.width + ' x ' + r.height + ' pixels. The shape is kept.') : 'Those numbers do not make a picture. Check them and try again.'; });
+document.getElementById('ieRotate').addEventListener('click', function(){ var v = ieNums(['ieW','ieH']); var r = ieRotateSize(v[0], v[1], +document.getElementById('ieDeg').value); document.getElementById('ieOut').textContent = 'Rotated picture: ' + r.width + ' x ' + r.height + ' pixels.'; });
+ieDraw();
+fetch('records.json').then(function(r){return r.json();}).then(function(recs){
+  if(!recs || !recs.length) return;
+  var grid=document.getElementById('recordsGrid');
+  function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+  grid.innerHTML=recs.map(function(rec){
+    var link=rec.url?'<p><a class="rec-link" href="'+rec.url+'">Read the full record →</a></p>':'';
+    return '<div class="card"><h3>'+esc(rec.title||rec.id)+'</h3><p>'+esc(rec.description||'')+'</p>'+link+'</div>';
+  }).join('');
+}).catch(function(){ /* records load with the database pair */ });
+})();
+</script>
+</body>
+</html>

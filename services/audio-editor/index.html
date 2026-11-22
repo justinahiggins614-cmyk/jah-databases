@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Audio Editor — a free sound editor that works right here</title>
+<meta name="description" content="Audio Editor is a free sound editor. Trim silence, fade in and out, change volume and speed on a sample sound — all in your browser. No sign-in, no payment, free forever.">
+<style>
+  :root{--paper:#fdfcf7;--ink:#1f2430;--muted:#5b6472;--line:#e3ddcd;--card:#fff;--accent:#7c3aed;--accent-soft:#ede9fe;--teal:#0f766e;--bad:#b91c1c;--bad-soft:#fee2e2;--good:#166534}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font:17px/1.6 Georgia,'Times New Roman',serif}
+  a{color:var(--teal)}
+  header.top{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5}
+  .wrap{max-width:960px;margin:0 auto;padding:0 18px}
+  .bar{display:flex;align-items:center;gap:18px;padding:12px 0}
+  .mark{font-size:22px;font-weight:bold;color:var(--ink);text-decoration:none;white-space:nowrap}
+  .mark span{color:var(--accent)}
+  nav{margin-left:auto;display:flex;gap:16px;flex-wrap:wrap}
+  nav a{color:var(--ink);text-decoration:none;font-size:15px}
+  nav a:hover{text-decoration:underline}
+  .hero{position:relative}
+  .hero img{display:block;width:100%;height:auto;max-height:430px;object-fit:cover;object-position:center 30%}
+  .hero .cap{position:absolute;left:0;right:0;top:0;text-align:center;padding:28px 18px 0}
+  .hero h1{margin:0;font-size:44px;line-height:1.1;color:#3d2c12;text-shadow:0 1px 0 #fff}
+  .hero p{margin:8px 0 0;font-size:19px;color:#4a3a1c}
+  main{padding:28px 0 10px}
+  h2{font-size:26px;margin:34px 0 10px}
+  h3{font-size:20px;margin:0 0 6px}
+  .lede{font-size:19px;color:var(--muted)}
+  .toolcard{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;box-shadow:0 2px 10px rgba(60,40,0,.06)}
+  textarea{width:100%;min-height:150px;font:16px/1.6 Georgia,serif;padding:12px;border:1px solid var(--line);border-radius:10px;background:#fff;color:var(--ink)}
+  input[type=text],input[type=number],select{font:16px Georgia,serif;padding:10px 12px;border:1px solid var(--line);border-radius:9px;background:#fff;color:var(--ink)}
+  .row{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;align-items:center}
+  button{font:16px Georgia,serif;border-radius:9px;border:1px solid var(--line);background:#fff;color:var(--ink);padding:10px 16px;cursor:pointer}
+  button.go{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:bold}
+  button:hover{filter:brightness(.97)}
+  .status{font-size:15px;color:var(--muted)}
+  .out{margin-top:14px;padding:14px;border:1px dashed var(--line);border-radius:10px;background:#fff;white-space:pre-wrap;word-wrap:break-word}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px}
+  .card p{margin:6px 0 0;color:var(--muted);font-size:15px}
+  .card .rec-link{font-size:14px}
+  .steps{counter-reset:step;display:grid;gap:12px}
+  .steps div{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+  .steps b::before{counter-increment:step;content:counter(step) ". ";color:var(--accent)}
+  .dl a{display:inline-block;margin:6px 10px 6px 0;padding:10px 16px;border:1px solid var(--line);border-radius:9px;background:#fff;text-decoration:none;color:var(--ink)}
+  .meter{height:14px;border:1px solid var(--line);border-radius:999px;overflow:hidden;background:#fff}
+  .meter i{display:block;height:100%;background:var(--accent)}
+  .tiles{display:grid;grid-template-columns:repeat(18,1fr);gap:4px}
+  .tile{border:1px solid var(--line);border-radius:6px;background:#fff;padding:4px 2px;text-align:center;cursor:pointer;font-size:12px;line-height:1.3}
+  .tile b{display:block;font-size:14px}
+  .tile small{color:var(--muted);font-size:10px}
+  .tile.sel{outline:3px solid var(--accent)}
+  .detail{margin-top:14px;padding:14px;border:1px solid var(--line);border-radius:10px;background:#fff}
+  table.data{border-collapse:collapse;width:100%;font-size:15px}
+  table.data th,table.data td{border:1px solid var(--line);padding:6px 8px;text-align:left}
+  footer{margin-top:48px;padding:22px 0 34px;border-top:3px double var(--line);font-size:15px;color:var(--muted)}
+  footer p{margin:8px 0}
+  .free{display:inline-block;background:var(--accent-soft);border:1px solid #fcd34d;border-radius:999px;padding:2px 12px;font-size:14px;color:#7c2d12}
+  @media (max-width:640px){.hero h1{font-size:32px}.hero img{max-height:300px}nav{display:none}.tiles{grid-template-columns:repeat(9,1fr)}}
+
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap bar">
+    <a class="mark" href="./">♪ Audio <span>Editor</span></a>
+    <nav>
+      <a href="#tool">The Tool</a>
+      <a href="#how">How it works</a>
+      <a href="#cards">Good to know</a>
+      <a href="#records">Records</a>
+      <a href="#files">Files</a>
+    </nav>
+  </div>
+</header>
+
+<div class="hero">
+  <img src="assets/audio-editor-hero.svg" alt="Aria the alpaca, the Audio Editor mascot, listening to a large horn gramophone">
+  <div class="cap">
+    <h1>Audio Editor</h1>
+    <p>Sound you can see — trim it, fade it, play it.</p>
+  </div>
+</div>
+
+<main class="wrap">
+  <p class="lede">This is a sound editor that runs entirely in your browser. Your recordings never leave this page. Try the tools on a sample sound, drawn as bars, and read its loudness and silence. <span class="free">Free forever — no sign-in, no payment</span></p>
+
+  <h2 id="tool">The Tool</h2>
+  <div class="toolcard">
+<p>Try it on a sample sound: a short wave drawn as bars. Press a button to change it, and watch the bars move.</p>
+<div id="aeBars" style="display:flex;align-items:flex-end;gap:2px;height:120px;border:1px solid #e3ddcd;border-radius:10px;padding:8px;background:#fff"></div>
+<p class="status" id="aeStats"></p>
+<div class="row"><button class="go" id="aeTrim" type="button">Trim silence</button>
+<button id="aeFadeIn" type="button">Fade in</button><button id="aeFadeOut" type="button">Fade out</button></div>
+<p><label>Volume <select id="aeGain"><option value="0.5">Quieter (half)</option><option value="1" selected>Same</option><option value="1.5">Louder (half as much again)</option></select></label>
+<button id="aeGainGo" type="button">Set volume</button>
+<label>Speed <select id="aeSpeed"><option value="0.5">Half speed</option><option value="1" selected>Normal</option><option value="2">Double speed</option></select></label>
+<button id="aeSpeedGo" type="button">Set speed</button>
+<button id="aeReset" type="button">Back to the sample</button></p>
+<div class="out" id="aeOut">Sound answers will appear here.</div>
+  </div>
+
+  <h2 id="how">How it works</h2>
+  <div class="steps">
+    <div><b>Look at the sample sound</b> Bars show the wave: taller means louder, flat means silent.</div>
+    <div><b>Trim the silence</b> Cut the flat lines at the start and the end, so the sound starts when it should.</div>
+    <div><b>Fade in and out</b> A gentle start and a gentle end, instead of a jolt.</div>
+    <div><b>Set the volume and speed</b> Louder or quieter, faster or slower — and read the new length at once.</div>
+  </div>
+  <p class="lede">This editor works on a sample sound on the page, to show how the tools work. It does not upload or keep your recordings. The database records explain trimming, fading, volume, speed, and saving as a sound file.</p>
+
+  <h2 id="cards">Good to know</h2>
+  <p class="lede">Six things worth knowing before you change a sound.</p>
+  <div class="grid" id="cardsGrid">
+    <div class="card"><h3>The Waveform: Sound You Can See</h3><p>Taller means louder, flatter means quieter. Silence is a flat line.</p><p><a class="rec-link" href="../../db/audio-editor-service/#rec=JAH-AUDED-000002">Read the full record →</a></p></div>
+    <div class="card"><h3>Cutting a Clip</h3><p>Split on both sides of a cough, delete the middle, and join the good halves.</p><p><a class="rec-link" href="../../db/audio-editor-service/#rec=JAH-AUDED-000005">Read the full record →</a></p></div>
+    <div class="card"><h3>Fading In</h3><p>A slow rise from silence, so the beginning is gentle instead of a jolt.</p><p><a class="rec-link" href="../../db/audio-editor-service/#rec=JAH-AUDED-000006">Read the full record →</a></p></div>
+    <div class="card"><h3>Volume: Louder and Quieter</h3><p>Small, even changes. A recording that jumps in volume is tiring to hear.</p><p><a class="rec-link" href="../../db/audio-editor-service/#rec=JAH-AUDED-000008">Read the full record →</a></p></div>
+    <div class="card"><h3>The Difference Between Sound Formats</h3><p>Keep it true in WAV, share it small in MP3.</p><p><a class="rec-link" href="../../db/audio-editor-service/#rec=JAH-AUDED-000013">Read the full record →</a></p></div>
+    <div class="card"><h3>Checking a Sound Before Sharing</h3><p>Play it from start to finish and listen for bad joins and sudden changes.</p><p><a class="rec-link" href="../../db/audio-editor-service/#rec=JAH-AUDED-000023">Read the full record →</a></p></div>
+  </div>
+
+  <h2 id="records">Records</h2>
+  <p class="lede">The Audio Editor Service Database holds the full rules behind this editor — 24 public records and 24 Signature records, each one a complete file.</p>
+  <div class="grid" id="recordsGrid"><p class="lede">Records load here when the database pair is filed. Browse the full archive meanwhile: <a href="../../db/software-audio-editors/">The Audio Editors Software Database</a> — 20 records.</p></div>
+
+  <h2 id="files">Files</h2>
+  <p class="lede">Everything on this page is downloadable. Take the tool's data, the records, or the page itself.</p>
+  <div class="dl">
+    <a href="assets/sound.json" download>⬇ Sample sound and sound rules (JSON)</a>
+    <a href="records.json" download>⬇ Service records (JSON)</a>
+    <a href="./" download>⬇ This page</a>
+    <a href="accessible/index.html">Plain version (no JavaScript needed)</a>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p><b>Network.</b> This service belongs to The 'Merica-L Internet: the front door is the <a href="https://justinahiggins614-cmyk.github.io/jah-databases/the-merica-l-virtual-internet.html">'Merica-L Virtual Internet</a>, the network's main page is <a href="https://justinahiggins614-cmyk.github.io/jah-databases/the-merica-l-boundless-ecosystem-os.html">'Merica-L Boundless Ecosystem OS</a>, and the databases live at the <a href="https://justinahiggins614-cmyk.github.io/jah-databases/">database hub</a>. The archive behind this service is the <a href="../../db/software-audio-editors/">The Audio Editors Software Database</a>.</p>
+    <p>Audio Editor is free forever. No sign-in, no payment, no tracking — your words never leave this page. Aria the alpaca is the mascot; she listens to the gramophone.</p>
+    <p><a href="accessible/index.html">Accessible version (plain text, no JavaScript needed)</a></p>
+  </div>
+</footer>
+
+<script>
+/* PURE TOOL FUNCTIONS — the page's own working tool, tested in Node. */
+/* Audio Editor — pure tool functions.
+   Sound is an array of samples between -1 and 1, at a fixed rate.
+   All processing happens in the browser; no uploads are kept. */
+function aeTrim(samples, start, end) {
+  if (start < 0 || end > samples.length || start >= end) return null;
+  return samples.slice(start, end);
+}
+function aeFadeIn(samples, n) {
+  if (n <= 0) return samples.slice();
+  return samples.map(function (v, i) {
+    var f = i < n ? (i + 1) / n : 1;
+    return v * f;
+  });
+}
+function aeFadeOut(samples, n) {
+  if (n <= 0) return samples.slice();
+  var len = samples.length;
+  return samples.map(function (v, i) {
+    var fromEnd = len - 1 - i;
+    var f = fromEnd < n ? fromEnd / n : 1;
+    return v * f;
+  });
+}
+function aeGain(samples, factor) {
+  if (!(factor >= 0)) return null;
+  return samples.map(function (v) {
+    var x = v * factor;
+    return x > 1 ? 1 : (x < -1 ? -1 : x);
+  });
+}
+function aeChangeSpeed(samples, factor) {
+  if (!(factor > 0)) return null;
+  var outLen = Math.max(1, Math.round(samples.length / factor));
+  var out = [];
+  for (var i = 0; i < outLen; i++) {
+    var pos = i * factor;
+    var lo = Math.floor(pos), hi = Math.min(samples.length - 1, lo + 1);
+    var frac = pos - lo;
+    out.push(samples[lo] * (1 - frac) + samples[hi] * frac);
+  }
+  return out;
+}
+function aeMix(a, b) {
+  var len = Math.max(a.length, b.length), out = [];
+  for (var i = 0; i < len; i++) {
+    var x = (a[i] || 0) + (b[i] || 0);
+    out.push(x > 1 ? 1 : (x < -1 ? -1 : x));
+  }
+  return out;
+}
+function aePeak(samples) {
+  return samples.reduce(function (m, v) { return Math.max(m, Math.abs(v)); }, 0);
+}
+function aeSilence(samples) {
+  var n = 0;
+  samples.forEach(function (v) { if (Math.abs(v) < 0.01) n++; });
+  return n;
+}
+if (typeof module !== "undefined" && module.exports) {
+  module.exports = { aeTrim: aeTrim, aeFadeIn: aeFadeIn, aeFadeOut: aeFadeOut, aeGain: aeGain, aeChangeSpeed: aeChangeSpeed, aeMix: aeMix, aePeak: aePeak, aeSilence: aeSilence };
+}
+
+</script>
+<script>
+(function(){
+'use strict';
+var aeBase = [0,0,0,0.2,0.5,0.8,1,0.8,0.5,0.2,0,-0.2,-0.5,-0.8,-1,-0.8,-0.5,-0.2,0,0.2,0.5,0.8,0.6,0.3,0,0,0,0];
+var aeSamples = aeBase.slice();
+function aeDraw(){ var box = document.getElementById('aeBars'); box.innerHTML = aeSamples.map(function(v){ var h = Math.round(Math.abs(v) * 100); return '<div style="flex:1;background:' + (v >= 0 ? '#0f766e' : '#b91c1c') + ';height:' + Math.max(2, h) + 'px"></div>'; }).join(''); document.getElementById('aeStats').textContent = 'Samples: ' + aeSamples.length + ' — loudest: ' + aePeak(aeSamples).toFixed(2) + ' — silent samples: ' + aeSilence(aeSamples) + '.'; }
+function aeNote(t){ document.getElementById('aeOut').textContent = t; aeDraw(); }
+document.getElementById('aeTrim').addEventListener('click', function(){ var s = 0, e = aeSamples.length; while(s < e && Math.abs(aeSamples[s]) < 0.01) s++; while(e > s && Math.abs(aeSamples[e-1]) < 0.01) e--; var t = aeTrim(aeSamples, s, e); if(t){ aeSamples = t; aeNote('Trimmed the silence. ' + aeSamples.length + ' samples are left.'); } else { aeNote('Nothing to trim: the sound starts and ends with sound.'); } });
+document.getElementById('aeFadeIn').addEventListener('click', function(){ aeSamples = aeFadeIn(aeSamples, 4); aeNote('Faded in over the first 4 samples. The start is gentle now.'); });
+document.getElementById('aeFadeOut').addEventListener('click', function(){ aeSamples = aeFadeOut(aeSamples, 4); aeNote('Faded out over the last 4 samples. The end is gentle now.'); });
+document.getElementById('aeGainGo').addEventListener('click', function(){ aeSamples = aeGain(aeSamples, +document.getElementById('aeGain').value); aeNote('Volume set. Loudest is now ' + aePeak(aeSamples).toFixed(2) + '.'); });
+document.getElementById('aeSpeedGo').addEventListener('click', function(){ aeSamples = aeChangeSpeed(aeSamples, +document.getElementById('aeSpeed').value); aeNote('Speed set. ' + aeSamples.length + ' samples now.'); });
+document.getElementById('aeReset').addEventListener('click', function(){ aeSamples = aeBase.slice(); aeNote('Back to the sample sound.'); });
+aeDraw();
+fetch('records.json').then(function(r){return r.json();}).then(function(recs){
+  if(!recs || !recs.length) return;
+  var grid=document.getElementById('recordsGrid');
+  function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+  grid.innerHTML=recs.map(function(rec){
+    var link=rec.url?'<p><a class="rec-link" href="'+rec.url+'">Read the full record →</a></p>':'';
+    return '<div class="card"><h3>'+esc(rec.title||rec.id)+'</h3><p>'+esc(rec.description||'')+'</p>'+link+'</div>';
+  }).join('');
+}).catch(function(){ /* records load with the database pair */ });
+})();
+</script>
+</body>
+</html>

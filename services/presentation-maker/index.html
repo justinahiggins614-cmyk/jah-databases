@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Presentation Maker — a free slide-deck maker that works right here</title>
+<meta name="description" content="Presentation Maker is a free slide-deck maker. Add slides, write bullets, reorder, pick a theme, and export your deck as text — all in your browser. No sign-in, no payment, free forever.">
+<style>
+  :root{--paper:#fdfcf7;--ink:#1f2430;--muted:#5b6472;--line:#e3ddcd;--card:#fff;--accent:#1d4ed8;--accent-soft:#dbeafe;--teal:#0f766e;--bad:#b91c1c;--bad-soft:#fee2e2;--good:#166534}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font:17px/1.6 Georgia,'Times New Roman',serif}
+  a{color:var(--teal)}
+  header.top{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5}
+  .wrap{max-width:960px;margin:0 auto;padding:0 18px}
+  .bar{display:flex;align-items:center;gap:18px;padding:12px 0}
+  .mark{font-size:22px;font-weight:bold;color:var(--ink);text-decoration:none;white-space:nowrap}
+  .mark span{color:var(--accent)}
+  nav{margin-left:auto;display:flex;gap:16px;flex-wrap:wrap}
+  nav a{color:var(--ink);text-decoration:none;font-size:15px}
+  nav a:hover{text-decoration:underline}
+  .hero{position:relative}
+  .hero img{display:block;width:100%;height:auto;max-height:430px;object-fit:cover;object-position:center 30%}
+  .hero .cap{position:absolute;left:0;right:0;top:0;text-align:center;padding:28px 18px 0}
+  .hero h1{margin:0;font-size:44px;line-height:1.1;color:#3d2c12;text-shadow:0 1px 0 #fff}
+  .hero p{margin:8px 0 0;font-size:19px;color:#4a3a1c}
+  main{padding:28px 0 10px}
+  h2{font-size:26px;margin:34px 0 10px}
+  h3{font-size:20px;margin:0 0 6px}
+  .lede{font-size:19px;color:var(--muted)}
+  .toolcard{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;box-shadow:0 2px 10px rgba(60,40,0,.06)}
+  textarea{width:100%;min-height:150px;font:16px/1.6 Georgia,serif;padding:12px;border:1px solid var(--line);border-radius:10px;background:#fff;color:var(--ink)}
+  input[type=text],input[type=number],select{font:16px Georgia,serif;padding:10px 12px;border:1px solid var(--line);border-radius:9px;background:#fff;color:var(--ink)}
+  .row{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;align-items:center}
+  button{font:16px Georgia,serif;border-radius:9px;border:1px solid var(--line);background:#fff;color:var(--ink);padding:10px 16px;cursor:pointer}
+  button.go{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:bold}
+  button:hover{filter:brightness(.97)}
+  .status{font-size:15px;color:var(--muted)}
+  .out{margin-top:14px;padding:14px;border:1px dashed var(--line);border-radius:10px;background:#fff;white-space:pre-wrap;word-wrap:break-word}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px}
+  .card p{margin:6px 0 0;color:var(--muted);font-size:15px}
+  .card .rec-link{font-size:14px}
+  .steps{counter-reset:step;display:grid;gap:12px}
+  .steps div{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+  .steps b::before{counter-increment:step;content:counter(step) ". ";color:var(--accent)}
+  .dl a{display:inline-block;margin:6px 10px 6px 0;padding:10px 16px;border:1px solid var(--line);border-radius:9px;background:#fff;text-decoration:none;color:var(--ink)}
+  .meter{height:14px;border:1px solid var(--line);border-radius:999px;overflow:hidden;background:#fff}
+  .meter i{display:block;height:100%;background:var(--accent)}
+  .tiles{display:grid;grid-template-columns:repeat(18,1fr);gap:4px}
+  .tile{border:1px solid var(--line);border-radius:6px;background:#fff;padding:4px 2px;text-align:center;cursor:pointer;font-size:12px;line-height:1.3}
+  .tile b{display:block;font-size:14px}
+  .tile small{color:var(--muted);font-size:10px}
+  .tile.sel{outline:3px solid var(--accent)}
+  .detail{margin-top:14px;padding:14px;border:1px solid var(--line);border-radius:10px;background:#fff}
+  table.data{border-collapse:collapse;width:100%;font-size:15px}
+  table.data th,table.data td{border:1px solid var(--line);padding:6px 8px;text-align:left}
+  footer{margin-top:48px;padding:22px 0 34px;border-top:3px double var(--line);font-size:15px;color:var(--muted)}
+  footer p{margin:8px 0}
+  .free{display:inline-block;background:var(--accent-soft);border:1px solid #fcd34d;border-radius:999px;padding:2px 12px;font-size:14px;color:#7c2d12}
+  @media (max-width:640px){.hero h1{font-size:32px}.hero img{max-height:300px}nav{display:none}.tiles{grid-template-columns:repeat(9,1fr)}}
+
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap bar">
+    <a class="mark" href="./">🖼 Presentation <span>Maker</span></a>
+    <nav>
+      <a href="#tool">The Tool</a>
+      <a href="#how">How it works</a>
+      <a href="#cards">Good to know</a>
+      <a href="#records">Records</a>
+      <a href="#files">Files</a>
+    </nav>
+  </div>
+</header>
+
+<div class="hero">
+  <img src="assets/presentation-maker-hero.svg" alt="Penny the penguin, the Presentation Maker mascot, standing beside a slide deck on an easel">
+  <div class="cap">
+    <h1>Presentation Maker</h1>
+    <p>Slides for your talk — built here, shown anywhere.</p>
+  </div>
+</div>
+
+<main class="wrap">
+  <p class="lede">This is a slide-deck maker that runs entirely in your browser. Your words never leave this page. Add slides, write bullets, move slides into order, pick a theme, and export the deck as text. <span class="free">Free forever — no sign-in, no payment</span></p>
+
+  <h2 id="tool">The Tool</h2>
+  <div class="toolcard">
+<p><label>Slide title <input type="text" id="pmTitle" size="40" placeholder="Opening"></label></p>
+<div class="row"><button class="go" id="pmAdd" type="button">Add slide</button>
+<button id="pmUp" type="button">Move up</button><button id="pmDown" type="button">Move down</button>
+<button id="pmDel" type="button">Delete slide</button></div>
+<p><label>Bullet for the chosen slide <input type="text" id="pmBullet" size="40" placeholder="One short line"></label>
+<button id="pmAddBullet" type="button">Add bullet</button></p>
+<p><label>Theme <select id="pmTheme"><option>plain</option><option>sunrise</option><option>forest</option><option>ocean</option><option>ink</option></select></label>
+<label>Chosen slide <input type="number" id="pmSel" value="1" min="1" style="width:70px"></label></p>
+<div class="row"><button id="pmExport" type="button">Export deck as text</button></div>
+<div class="out" id="pmOut">Your deck will appear here. Start by adding a slide.</div>
+  </div>
+
+  <h2 id="how">How it works</h2>
+  <div class="steps">
+    <div><b>Add a slide</b> Give it a title. One slide holds one idea.</div>
+    <div><b>Add bullets</b> Short lines under the title. If it cannot be read from the back, it is too long.</div>
+    <div><b>Move slides into order</b> The order is the talk. Move a slide earlier or later until the story flows.</div>
+    <div><b>Pick a theme</b> One theme dresses the whole deck at once.</div>
+    <div><b>Export the deck</b> Take the deck as text, and keep it with your notes.</div>
+  </div>
+  <p class="lede">The maker keeps your deck on this page only. It does not save files to a server, and it does not open decks made elsewhere — the database records explain how to open a deck from another maker.</p>
+
+  <h2 id="cards">Good to know</h2>
+  <p class="lede">Six things worth knowing before you build a deck.</p>
+  <div class="grid" id="cardsGrid">
+    <div class="card"><h3>What a Slide Deck Is</h3><p>A deck is a set of slides that makes one talk, one idea per slide.</p><p><a class="rec-link" href="../../db/presentation-maker-service/#rec=JAH-PRSMK-000001">Read the full record →</a></p></div>
+    <div class="card"><h3>Choosing a Theme</h3><p>A theme dresses every slide at once, so the deck looks like one talk.</p><p><a class="rec-link" href="../../db/presentation-maker-service/#rec=JAH-PRSMK-000006">Read the full record →</a></p></div>
+    <div class="card"><h3>Fonts for Slides</h3><p>Large letters are read from far away. Titles are big, body text never too small.</p><p><a class="rec-link" href="../../db/presentation-maker-service/#rec=JAH-PRSMK-000008">Read the full record →</a></p></div>
+    <div class="card"><h3>Speaker Notes</h3><p>Notes under a slide hold the full sentences, so the slide can stay short.</p><p><a class="rec-link" href="../../db/presentation-maker-service/#rec=JAH-PRSMK-000013">Read the full record →</a></p></div>
+    <div class="card"><h3>Timing a Talk</h3><p>Time a practice run, write the time beside each slide, and cut when it runs long.</p><p><a class="rec-link" href="../../db/presentation-maker-service/#rec=JAH-PRSMK-000016">Read the full record →</a></p></div>
+    <div class="card"><h3>Checking a Deck Before the Talk</h3><p>Present it full screen, read every slide, and fix what you find.</p><p><a class="rec-link" href="../../db/presentation-maker-service/#rec=JAH-PRSMK-000023">Read the full record →</a></p></div>
+  </div>
+
+  <h2 id="records">Records</h2>
+  <p class="lede">The Presentation Maker Service Database holds the full rules behind this maker — 24 public records and 24 Signature records, each one a complete file.</p>
+  <div class="grid" id="recordsGrid"><p class="lede">Records load here when the database pair is filed. Browse the full archive meanwhile: <a href="../../db/software-presentation/">The Presentation Software Database</a> — 20 records.</p></div>
+
+  <h2 id="files">Files</h2>
+  <p class="lede">Everything on this page is downloadable. Take the tool's data, the records, or the page itself.</p>
+  <div class="dl">
+    <a href="assets/deck.json" download>⬇ Deck themes and rules (JSON)</a>
+    <a href="records.json" download>⬇ Service records (JSON)</a>
+    <a href="./" download>⬇ This page</a>
+    <a href="accessible/index.html">Plain version (no JavaScript needed)</a>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p><b>Network.</b> This service belongs to The 'Merica-L Internet: the front door is the <a href="https://justinahiggins614-cmyk.github.io/jah-databases/the-merica-l-virtual-internet.html">'Merica-L Virtual Internet</a>, the network's main page is <a href="https://justinahiggins614-cmyk.github.io/jah-databases/the-merica-l-boundless-ecosystem-os.html">'Merica-L Boundless Ecosystem OS</a>, and the databases live at the <a href="https://justinahiggins614-cmyk.github.io/jah-databases/">database hub</a>. The archive behind this service is the <a href="../../db/software-presentation/">The Presentation Software Database</a>.</p>
+    <p>Presentation Maker is free forever. No sign-in, no payment, no tracking — your words never leave this page. Penny the penguin is the mascot; she stands by the easel.</p>
+    <p><a href="accessible/index.html">Accessible version (plain text, no JavaScript needed)</a></p>
+  </div>
+</footer>
+
+<script>
+/* PURE TOOL FUNCTIONS — the page's own working tool, tested in Node. */
+/* Presentation Maker — pure tool functions.
+   A deck is { theme, slides: [{ title, bullets: [] }] }.
+   All work happens in the browser; nothing is uploaded or kept. */
+var PM_THEMES = ["plain", "sunrise", "forest", "ocean", "ink"];
+function pmCreateDeck() { return { theme: "plain", slides: [] }; }
+function pmAddSlide(deck, title) {
+  if (!deck || typeof title !== "string" || !title.trim()) return null;
+  var s = { title: title.trim(), bullets: [] };
+  deck.slides.push(s); return s;
+}
+function pmAddBullet(deck, index, text) {
+  var s = deck.slides[index];
+  if (!s || typeof text !== "string" || !text.trim()) return false;
+  s.bullets.push(text.trim()); return true;
+}
+function pmMoveSlide(deck, from, to) {
+  if (from < 0 || from >= deck.slides.length) return false;
+  if (to < 0 || to >= deck.slides.length) return false;
+  var s = deck.slides.splice(from, 1)[0];
+  deck.slides.splice(to, 0, s); return true;
+}
+function pmRemoveSlide(deck, index) {
+  if (index < 0 || index >= deck.slides.length) return false;
+  deck.slides.splice(index, 1); return true;
+}
+function pmSetTheme(deck, theme) {
+  if (PM_THEMES.indexOf(theme) === -1) return false;
+  deck.theme = theme; return true;
+}
+function pmSlideCount(deck) { return deck.slides.length; }
+function pmWordCount(deck) {
+  var n = 0;
+  deck.slides.forEach(function (s) {
+    n += s.title.split(/\s+/).filter(Boolean).length;
+    s.bullets.forEach(function (b) { n += b.split(/\s+/).filter(Boolean).length; });
+  });
+  return n;
+}
+function pmPresentOrder(deck) { return deck.slides.map(function (s) { return s.title; }); }
+function pmExportDeck(deck) {
+  var out = ["Presentation deck — theme: " + deck.theme, "Slides: " + deck.slides.length, ""];
+  deck.slides.forEach(function (s, i) {
+    out.push((i + 1) + ". " + s.title);
+    s.bullets.forEach(function (b) { out.push("   - " + b); });
+  });
+  return out.join("\n");
+}
+if (typeof module !== "undefined" && module.exports) {
+  module.exports = { PM_THEMES: PM_THEMES, pmCreateDeck: pmCreateDeck, pmAddSlide: pmAddSlide, pmAddBullet: pmAddBullet, pmMoveSlide: pmMoveSlide, pmRemoveSlide: pmRemoveSlide, pmSetTheme: pmSetTheme, pmSlideCount: pmSlideCount, pmWordCount: pmWordCount, pmPresentOrder: pmPresentOrder, pmExportDeck: pmExportDeck };
+}
+
+</script>
+<script>
+(function(){
+'use strict';
+var pmDeck = pmCreateDeck();
+function pmRender(){ var o = document.getElementById('pmOut'); if(!pmDeck.slides.length){ o.textContent = 'Your deck is empty. Add a slide to begin.'; return; } var lines = ['Theme: ' + pmDeck.theme + ' — ' + pmDeck.slides.length + ' slides, ' + pmWordCount(pmDeck) + ' words', '']; pmDeck.slides.forEach(function(s, i){ lines.push((i+1) + '. ' + s.title); s.bullets.forEach(function(b){ lines.push('   - ' + b); }); }); o.textContent = lines.join('\n'); var sel = document.getElementById('pmSel'); sel.max = pmDeck.slides.length; if(+sel.value > pmDeck.slides.length) sel.value = pmDeck.slides.length; }
+document.getElementById('pmAdd').addEventListener('click', function(){ var t = document.getElementById('pmTitle'); if(pmAddSlide(pmDeck, t.value)){ t.value=''; } pmRender(); });
+document.getElementById('pmAddBullet').addEventListener('click', function(){ var b = document.getElementById('pmBullet'); var i = (+document.getElementById('pmSel').value || 1) - 1; if(pmAddBullet(pmDeck, i, b.value)){ b.value=''; } pmRender(); });
+document.getElementById('pmUp').addEventListener('click', function(){ var i = (+document.getElementById('pmSel').value || 1) - 1; pmMoveSlide(pmDeck, i, i-1); pmRender(); });
+document.getElementById('pmDown').addEventListener('click', function(){ var i = (+document.getElementById('pmSel').value || 1) - 1; pmMoveSlide(pmDeck, i, i+1); pmRender(); });
+document.getElementById('pmDel').addEventListener('click', function(){ var i = (+document.getElementById('pmSel').value || 1) - 1; pmRemoveSlide(pmDeck, i); pmRender(); });
+document.getElementById('pmTheme').addEventListener('change', function(){ pmSetTheme(pmDeck, this.value); pmRender(); });
+document.getElementById('pmExport').addEventListener('click', function(){ document.getElementById('pmOut').textContent = pmExportDeck(pmDeck); });
+pmRender();
+fetch('records.json').then(function(r){return r.json();}).then(function(recs){
+  if(!recs || !recs.length) return;
+  var grid=document.getElementById('recordsGrid');
+  function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+  grid.innerHTML=recs.map(function(rec){
+    var link=rec.url?'<p><a class="rec-link" href="'+rec.url+'">Read the full record →</a></p>':'';
+    return '<div class="card"><h3>'+esc(rec.title||rec.id)+'</h3><p>'+esc(rec.description||'')+'</p>'+link+'</div>';
+  }).join('');
+}).catch(function(){ /* records load with the database pair */ });
+})();
+</script>
+</body>
+</html>

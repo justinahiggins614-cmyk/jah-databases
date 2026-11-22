@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Chat Tool — a free local demo chat that works right here</title>
+<meta name="description" content="AI Chat Tool is a free local demo chat. Ask about the database and get answers from its records, in plain words. No sign-in, no payment, free forever. No key is ever asked for.">
+<style>
+  :root{--paper:#fdfcf7;--ink:#1f2430;--muted:#5b6472;--line:#e3ddcd;--card:#fff;--accent:#6d28d9;--accent-soft:#ede9fe;--teal:#0f766e;--bad:#b91c1c;--bad-soft:#fee2e2;--good:#166534}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font:17px/1.6 Georgia,'Times New Roman',serif}
+  a{color:var(--teal)}
+  header.top{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5}
+  .wrap{max-width:960px;margin:0 auto;padding:0 18px}
+  .bar{display:flex;align-items:center;gap:18px;padding:12px 0}
+  .mark{font-size:22px;font-weight:bold;color:var(--ink);text-decoration:none;white-space:nowrap}
+  .mark span{color:var(--accent)}
+  nav{margin-left:auto;display:flex;gap:16px;flex-wrap:wrap}
+  nav a{color:var(--ink);text-decoration:none;font-size:15px}
+  nav a:hover{text-decoration:underline}
+  .hero{position:relative}
+  .hero img{display:block;width:100%;height:auto;max-height:430px;object-fit:cover;object-position:center 30%}
+  .hero .cap{position:absolute;left:0;right:0;top:0;text-align:center;padding:28px 18px 0}
+  .hero h1{margin:0;font-size:44px;line-height:1.1;color:#3d2c12;text-shadow:0 1px 0 #fff}
+  .hero p{margin:8px 0 0;font-size:19px;color:#4a3a1c}
+  main{padding:28px 0 10px}
+  h2{font-size:26px;margin:34px 0 10px}
+  h3{font-size:20px;margin:0 0 6px}
+  .lede{font-size:19px;color:var(--muted)}
+  .toolcard{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;box-shadow:0 2px 10px rgba(60,40,0,.06)}
+  textarea{width:100%;min-height:150px;font:16px/1.6 Georgia,serif;padding:12px;border:1px solid var(--line);border-radius:10px;background:#fff;color:var(--ink)}
+  input[type=text],input[type=number],select{font:16px Georgia,serif;padding:10px 12px;border:1px solid var(--line);border-radius:9px;background:#fff;color:var(--ink)}
+  .row{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;align-items:center}
+  button{font:16px Georgia,serif;border-radius:9px;border:1px solid var(--line);background:#fff;color:var(--ink);padding:10px 16px;cursor:pointer}
+  button.go{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:bold}
+  button:hover{filter:brightness(.97)}
+  .status{font-size:15px;color:var(--muted)}
+  .out{margin-top:14px;padding:14px;border:1px dashed var(--line);border-radius:10px;background:#fff;white-space:pre-wrap;word-wrap:break-word}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px}
+  .card p{margin:6px 0 0;color:var(--muted);font-size:15px}
+  .card .rec-link{font-size:14px}
+  .steps{counter-reset:step;display:grid;gap:12px}
+  .steps div{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+  .steps b::before{counter-increment:step;content:counter(step) ". ";color:var(--accent)}
+  .dl a{display:inline-block;margin:6px 10px 6px 0;padding:10px 16px;border:1px solid var(--line);border-radius:9px;background:#fff;text-decoration:none;color:var(--ink)}
+  .meter{height:14px;border:1px solid var(--line);border-radius:999px;overflow:hidden;background:#fff}
+  .meter i{display:block;height:100%;background:var(--accent)}
+  .tiles{display:grid;grid-template-columns:repeat(18,1fr);gap:4px}
+  .tile{border:1px solid var(--line);border-radius:6px;background:#fff;padding:4px 2px;text-align:center;cursor:pointer;font-size:12px;line-height:1.3}
+  .tile b{display:block;font-size:14px}
+  .tile small{color:var(--muted);font-size:10px}
+  .tile.sel{outline:3px solid var(--accent)}
+  .detail{margin-top:14px;padding:14px;border:1px solid var(--line);border-radius:10px;background:#fff}
+  table.data{border-collapse:collapse;width:100%;font-size:15px}
+  table.data th,table.data td{border:1px solid var(--line);padding:6px 8px;text-align:left}
+  footer{margin-top:48px;padding:22px 0 34px;border-top:3px double var(--line);font-size:15px;color:var(--muted)}
+  footer p{margin:8px 0}
+  .free{display:inline-block;background:var(--accent-soft);border:1px solid #fcd34d;border-radius:999px;padding:2px 12px;font-size:14px;color:#7c2d12}
+  @media (max-width:640px){.hero h1{font-size:32px}.hero img{max-height:300px}nav{display:none}.tiles{grid-template-columns:repeat(9,1fr)}}
+
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap bar">
+    <a class="mark" href="./">💬 AI Chat <span>Tool</span></a>
+    <nav>
+      <a href="#tool">The Tool</a>
+      <a href="#how">How it works</a>
+      <a href="#cards">Good to know</a>
+      <a href="#records">Records</a>
+      <a href="#files">Files</a>
+    </nav>
+  </div>
+</header>
+
+<div class="hero">
+  <img src="assets/ai-chat-tool-hero.svg" alt="Asha the axolotl, the AI Chat Tool mascot, reading a large open book beside a speech bubble">
+  <div class="cap">
+    <h1>AI Chat Tool</h1>
+    <p>Ask the archive — it answers from its records, or says so.</p>
+  </div>
+</div>
+
+<main class="wrap">
+  <p class="lede">This is a local demo chat that runs entirely in your browser. It answers only from the 48 records of its own database, in plain words, and it says plainly when it does not know. Hosted fact-checking is blocked until the provider sign-in is given. <span class="free">Free forever — no sign-in, no payment</span></p>
+
+  <h2 id="tool">The Tool</h2>
+  <div class="toolcard">
+<p class="status"><strong>Local demo only.</strong> This chat answers only from the 48 records of its own database, in plain words. Hosted fact-checking is blocked until the provider sign-in is given. No key is ever asked for — there is nowhere on this page to type one.</p>
+<div class="row" id="acPresets"></div>
+<div class="out" id="acLog" style="min-height:120px">Press a preset question, or write your own below.</div>
+<p><label>Your question <input type="text" id="acQ" size="50" placeholder="What is a slide deck?"></label>
+<button class="go" id="acAsk" type="button">Ask</button>
+<button id="acNew" type="button">New conversation</button></p>
+  </div>
+
+  <h2 id="how">How it works</h2>
+  <div class="steps">
+    <div><b>Press a preset question</b> Five ready-made questions show what the demo can answer.</div>
+    <div><b>Or write your own</b> Short questions with one clear subject get the best answers.</div>
+    <div><b>Read the answer</b> Every answer names the record it came from, so you can open it and check.</div>
+    <div><b>Start a new conversation</b> A new subject deserves a clean page. History lives on this page only.</div>
+  </div>
+  <p class="lede">Local demo only. The demo answers only from the records stored on this page. It cannot look anything up live, cannot send mail, and cannot check a fact against the live web. Hosted fact-checking is blocked until the provider sign-in is given. No key is ever asked for, and there is nowhere on this page to type one.</p>
+
+  <h2 id="cards">Good to know</h2>
+  <p class="lede">Six things worth knowing before you ask.</p>
+  <div class="grid" id="cardsGrid">
+    <div class="card"><h3>The Local Demo Answer</h3><p>Every answer names its record, so it can be checked by opening the record.</p><p><a class="rec-link" href="../../db/ai-chat-tool-service/#rec=JAH-AICHT-000003">Read the full record →</a></p></div>
+    <div class="card"><h3>The Limits of a Local Demo</h3><p>It answers only from its records. It never pretends to be more than it is.</p><p><a class="rec-link" href="../../db/ai-chat-tool-service/#rec=JAH-AICHT-000007">Read the full record →</a></p></div>
+    <div class="card"><h3>Hosted Fact-Checking Is Blocked</h3><p>Checking against live sources needs a sign-in that has not been given yet.</p><p><a class="rec-link" href="../../db/ai-chat-tool-service/#rec=JAH-AICHT-000008">Read the full record →</a></p></div>
+    <div class="card"><h3>No Keys, No Sign-In</h3><p>This site never asks for a key, and there is nowhere to type one.</p><p><a class="rec-link" href="../../db/ai-chat-tool-service/#rec=JAH-AICHT-000009">Read the full record →</a></p></div>
+    <div class="card"><h3>When the Demo Does Not Know</h3><p>A plain no beats a pretty invention.</p><p><a class="rec-link" href="../../db/ai-chat-tool-service/#rec=JAH-AICHT-000014">Read the full record →</a></p></div>
+    <div class="card"><h3>The Demo&#x27;s Honest Fallback</h3><p>It says it does not know, names the records it searched, and suggests a nearer question.</p><p><a class="rec-link" href="../../db/ai-chat-tool-service/#rec=JAH-AICHT-000016">Read the full record →</a></p></div>
+  </div>
+
+  <h2 id="records">Records</h2>
+  <p class="lede">The AI Chat Tool Service Database holds the full rules behind this chat — 24 public records and 24 Signature records, each one a complete file.</p>
+  <div class="grid" id="recordsGrid"><p class="lede">Records load here when the database pair is filed. Browse the full archive meanwhile: <a href="../../db/ai-tools/">The AI Tools Database</a> — 287 records.</p></div>
+
+  <h2 id="files">Files</h2>
+  <p class="lede">Everything on this page is downloadable. Take the tool's data, the records, or the page itself.</p>
+  <div class="dl">
+    <a href="assets/prompts.json" download>⬇ Preset prompts and fallback (JSON)</a>
+    <a href="records.json" download>⬇ Service records (JSON)</a>
+    <a href="./" download>⬇ This page</a>
+    <a href="accessible/index.html">Plain version (no JavaScript needed)</a>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p><b>Network.</b> This service belongs to The 'Merica-L Internet: the front door is the <a href="https://justinahiggins614-cmyk.github.io/jah-databases/the-merica-l-virtual-internet.html">'Merica-L Virtual Internet</a>, the network's main page is <a href="https://justinahiggins614-cmyk.github.io/jah-databases/the-merica-l-boundless-ecosystem-os.html">'Merica-L Boundless Ecosystem OS</a>, and the databases live at the <a href="https://justinahiggins614-cmyk.github.io/jah-databases/">database hub</a>. The archive behind this service is the <a href="../../db/ai-tools/">The AI Tools Database</a>.</p>
+    <p>AI Chat Tool is free forever. No sign-in, no payment, no tracking — your words never leave this page. Asha the axolotl is the mascot; she reads the big book.</p>
+    <p><a href="accessible/index.html">Accessible version (plain text, no JavaScript needed)</a></p>
+  </div>
+</footer>
+
+<script>
+/* PURE TOOL FUNCTIONS — the page's own working tool, tested in Node. */
+/* AI Chat Tool — pure functions for the LOCAL DEMO chat.
+   Local demo only: answers come from the record titles given to it, in
+   plain words. Hosted fact-checking is BLOCKED until the provider sign-in
+   is given. No key is ever asked for; nothing leaves this page. */
+var AC_FALLBACK = "I do not know from the records in this database. No record title matches that question, so I will not invent an answer. Try asking about one of the record titles, such as what a slide deck is, or what a chat tool does.";
+function acWords(s) {
+  return (String(s || "").toLowerCase().match(/[a-z]+/g) || []).filter(function (w) { return w.length > 3; });
+}
+function acScore(question, title) {
+  var qw = {};
+  acWords(question).forEach(function (w) { qw[w] = true; });
+  var n = 0;
+  acWords(title).forEach(function (w) { if (qw[w]) n++; });
+  return n;
+}
+function acAnswer(question, titles) {
+  var best = null, bestScore = 0;
+  titles.forEach(function (t) {
+    var s = acScore(question, t);
+    if (s > bestScore) { bestScore = s; best = t; }
+  });
+  if (!best) return { answer: AC_FALLBACK, record: null, score: 0 };
+  return { answer: "From the record '" + best + "': this database holds a full record on that subject — its history, its method, its checks, and its sources. Open the record to read the whole file.", record: best, score: bestScore };
+}
+function acCreateChat() { return { history: [] }; }
+function acAsk(chat, question, titles) {
+  if (!question || !String(question).trim()) return null;
+  var r = acAnswer(question, titles);
+  chat.history.push({ who: "you", text: String(question).trim() });
+  chat.history.push({ who: "demo", text: r.answer, record: r.record });
+  return r;
+}
+function acNewChat(chat) { chat.history = []; }
+function acPresetPrompts() {
+  return ["What is a slide deck?", "What does an image editor do?", "How does the local demo find an answer?", "What is a database explorer?", "When does the demo say it does not know?"];
+}
+if (typeof module !== "undefined" && module.exports) {
+  module.exports = { AC_FALLBACK: AC_FALLBACK, acWords: acWords, acScore: acScore, acAnswer: acAnswer, acCreateChat: acCreateChat, acAsk: acAsk, acNewChat: acNewChat, acPresetPrompts: acPresetPrompts };
+}
+
+</script>
+<script>
+(function(){
+'use strict';
+var acChat = acCreateChat();
+var acTitles = ["What a Chat Tool Does", "Asking a Question", "The Local Demo Answer", "Preset Prompts", "Conversation History", "Starting a New Conversation", "The Limits of a Local Demo", "Hosted Fact-Checking Is Blocked", "No Keys, No Sign-In", "How the Demo Finds an Answer", "The Record Titles as the Answer Book", "Asking About One Record", "Asking About the Whole Network", "When the Demo Does Not Know", "Words the Demo Understands", "The Demo's Honest Fallback", "Keeping a Conversation on This Page", "Copying an Answer", "Asking in Plain Words", "The Difference Between a Demo and a Service", "Checking an Answer Against Its Record", "Chatting with the Archive", "Saving a Conversation as Text", "The AI Chat Tool Service Field Guide Index"];
+function acRender(){ var log = document.getElementById('acLog'); if(!acChat.history.length){ log.textContent = 'Press a preset question, or write your own below.'; return; } log.innerHTML = acChat.history.map(function(h){ return '<div style="margin:6px 0"><b>' + (h.who === 'you' ? 'You' : 'Local demo') + ':</b> ' + h.text + (h.record ? ' <span style="color:#5b6472">[from the record: ' + h.record + ']</span>' : '') + '</div>'; }).join(''); }
+var acBox = document.getElementById('acPresets');
+acPresetPrompts().forEach(function(p){ var b = document.createElement('button'); b.type = 'button'; b.textContent = p; b.addEventListener('click', function(){ acAsk(acChat, p, acTitles); acRender(); }); acBox.appendChild(b); });
+function acGo(){ var q = document.getElementById('acQ'); if(acAsk(acChat, q.value, acTitles)){ q.value=''; } acRender(); }
+document.getElementById('acAsk').addEventListener('click', acGo);
+document.getElementById('acQ').addEventListener('keydown', function(e){ if(e.key === 'Enter') acGo(); });
+document.getElementById('acNew').addEventListener('click', function(){ acNewChat(acChat); acRender(); });
+acRender();
+fetch('records.json').then(function(r){return r.json();}).then(function(recs){
+  if(!recs || !recs.length) return;
+  var grid=document.getElementById('recordsGrid');
+  function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+  grid.innerHTML=recs.map(function(rec){
+    var link=rec.url?'<p><a class="rec-link" href="'+rec.url+'">Read the full record →</a></p>':'';
+    return '<div class="card"><h3>'+esc(rec.title||rec.id)+'</h3><p>'+esc(rec.description||'')+'</p>'+link+'</div>';
+  }).join('');
+}).catch(function(){ /* records load with the database pair */ });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>3D Modeler — a free 3D modeler that works right here</title>
+<meta name="description" content="3D Modeler is a free 3D modeler. Build shapes, move them, grow them, colour them, and orbit the view — all in your browser. No sign-in, no payment, free forever.">
+<style>
+  :root{--paper:#fdfcf7;--ink:#1f2430;--muted:#5b6472;--line:#e3ddcd;--card:#fff;--accent:#0e7490;--accent-soft:#cffafe;--teal:#0f766e;--bad:#b91c1c;--bad-soft:#fee2e2;--good:#166534}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font:17px/1.6 Georgia,'Times New Roman',serif}
+  a{color:var(--teal)}
+  header.top{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5}
+  .wrap{max-width:960px;margin:0 auto;padding:0 18px}
+  .bar{display:flex;align-items:center;gap:18px;padding:12px 0}
+  .mark{font-size:22px;font-weight:bold;color:var(--ink);text-decoration:none;white-space:nowrap}
+  .mark span{color:var(--accent)}
+  nav{margin-left:auto;display:flex;gap:16px;flex-wrap:wrap}
+  nav a{color:var(--ink);text-decoration:none;font-size:15px}
+  nav a:hover{text-decoration:underline}
+  .hero{position:relative}
+  .hero img{display:block;width:100%;height:auto;max-height:430px;object-fit:cover;object-position:center 30%}
+  .hero .cap{position:absolute;left:0;right:0;top:0;text-align:center;padding:28px 18px 0}
+  .hero h1{margin:0;font-size:44px;line-height:1.1;color:#3d2c12;text-shadow:0 1px 0 #fff}
+  .hero p{margin:8px 0 0;font-size:19px;color:#4a3a1c}
+  main{padding:28px 0 10px}
+  h2{font-size:26px;margin:34px 0 10px}
+  h3{font-size:20px;margin:0 0 6px}
+  .lede{font-size:19px;color:var(--muted)}
+  .toolcard{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;box-shadow:0 2px 10px rgba(60,40,0,.06)}
+  textarea{width:100%;min-height:150px;font:16px/1.6 Georgia,serif;padding:12px;border:1px solid var(--line);border-radius:10px;background:#fff;color:var(--ink)}
+  input[type=text],input[type=number],select{font:16px Georgia,serif;padding:10px 12px;border:1px solid var(--line);border-radius:9px;background:#fff;color:var(--ink)}
+  .row{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;align-items:center}
+  button{font:16px Georgia,serif;border-radius:9px;border:1px solid var(--line);background:#fff;color:var(--ink);padding:10px 16px;cursor:pointer}
+  button.go{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:bold}
+  button:hover{filter:brightness(.97)}
+  .status{font-size:15px;color:var(--muted)}
+  .out{margin-top:14px;padding:14px;border:1px dashed var(--line);border-radius:10px;background:#fff;white-space:pre-wrap;word-wrap:break-word}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px}
+  .card p{margin:6px 0 0;color:var(--muted);font-size:15px}
+  .card .rec-link{font-size:14px}
+  .steps{counter-reset:step;display:grid;gap:12px}
+  .steps div{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+  .steps b::before{counter-increment:step;content:counter(step) ". ";color:var(--accent)}
+  .dl a{display:inline-block;margin:6px 10px 6px 0;padding:10px 16px;border:1px solid var(--line);border-radius:9px;background:#fff;text-decoration:none;color:var(--ink)}
+  .meter{height:14px;border:1px solid var(--line);border-radius:999px;overflow:hidden;background:#fff}
+  .meter i{display:block;height:100%;background:var(--accent)}
+  .tiles{display:grid;grid-template-columns:repeat(18,1fr);gap:4px}
+  .tile{border:1px solid var(--line);border-radius:6px;background:#fff;padding:4px 2px;text-align:center;cursor:pointer;font-size:12px;line-height:1.3}
+  .tile b{display:block;font-size:14px}
+  .tile small{color:var(--muted);font-size:10px}
+  .tile.sel{outline:3px solid var(--accent)}
+  .detail{margin-top:14px;padding:14px;border:1px solid var(--line);border-radius:10px;background:#fff}
+  table.data{border-collapse:collapse;width:100%;font-size:15px}
+  table.data th,table.data td{border:1px solid var(--line);padding:6px 8px;text-align:left}
+  footer{margin-top:48px;padding:22px 0 34px;border-top:3px double var(--line);font-size:15px;color:var(--muted)}
+  footer p{margin:8px 0}
+  .free{display:inline-block;background:var(--accent-soft);border:1px solid #fcd34d;border-radius:999px;padding:2px 12px;font-size:14px;color:#7c2d12}
+  @media (max-width:640px){.hero h1{font-size:32px}.hero img{max-height:300px}nav{display:none}.tiles{grid-template-columns:repeat(9,1fr)}}
+
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap bar">
+    <a class="mark" href="./">⬡ 3D <span>Modeler</span></a>
+    <nav>
+      <a href="#tool">The Tool</a>
+      <a href="#how">How it works</a>
+      <a href="#cards">Good to know</a>
+      <a href="#records">Records</a>
+      <a href="#files">Files</a>
+    </nav>
+  </div>
+</header>
+
+<div class="hero">
+  <img src="assets/3d-modeler-hero.svg" alt="Milo the mole, the 3D Modeler mascot, building a tower of cubes and spheres">
+  <div class="cap">
+    <h1>3D Modeler</h1>
+    <p>Simple shapes, joined well, make real things.</p>
+  </div>
+</div>
+
+<main class="wrap">
+  <p class="lede">This is a 3D modeler that runs entirely in your browser. Your models never leave this page. Build from cubes, spheres, cylinders, and cones, move them, grow them, colour them, and orbit the view. <span class="free">Free forever — no sign-in, no payment</span></p>
+
+  <h2 id="tool">The Tool</h2>
+  <div class="toolcard">
+<p><label>Shape <select id="tdType"><option>cube</option><option>sphere</option><option>cylinder</option><option>cone</option></select></label>
+<label>Size <input type="number" id="tdSize" value="2" min="1" max="10" style="width:70px"></label>
+<button class="go" id="tdAdd" type="button">Add shape</button></p>
+<p><label>Chosen shape <select id="tdSel"></select></label>
+<label>Move x <input type="number" id="tdDX" value="1" style="width:60px"></label>
+<label>y <input type="number" id="tdDY" value="0" style="width:60px"></label>
+<label>z <input type="number" id="tdDZ" value="0" style="width:60px"></label>
+<button id="tdMove" type="button">Move</button></p>
+<p><label>Grow by <select id="tdFactor"><option value="2">double</option><option value="0.5">half</option></select></label>
+<button id="tdScale" type="button">Resize shape</button>
+<label>Colour <input type="color" id="tdColour" value="#888888"></label>
+<button id="tdColourGo" type="button">Set colour</button></p>
+<p><label>Orbit: turn <input type="number" id="tdAz" value="45" style="width:70px"> degrees around, tilt <input type="number" id="tdEl" value="20" style="width:70px"> degrees up</label>
+<button id="tdOrbit" type="button">Where is the camera?</button></p>
+<div class="row"><button id="tdExport" type="button">Export scene</button></div>
+<canvas id="tdCanvas" width="600" height="260" style="width:100%;border:1px solid #e3ddcd;border-radius:10px;background:#fff;margin-top:12px"></canvas>
+<div class="out" id="tdOut">Your scene will appear here. Add a shape to begin.</div>
+  </div>
+
+  <h2 id="how">How it works</h2>
+  <div class="steps">
+    <div><b>Add a shape</b> Pick a cube, a sphere, a cylinder, or a cone, and set its size.</div>
+    <div><b>Move it</b> Slide it along the three axes until it sits where it belongs.</div>
+    <div><b>Grow it and colour it</b> Double it or halve it, and give it a colour and a material of its own.</div>
+    <div><b>Orbit the view</b> Turn the camera around the model and check it from every side.</div>
+  </div>
+  <p class="lede">This modeler builds simple shapes on the page, to show how the tools work. It does not upload or keep your models, and it does not run a printer. The database records explain joining shapes, the ground plane, and checking a model before sharing.</p>
+
+  <h2 id="cards">Good to know</h2>
+  <p class="lede">Six things worth knowing before you build a model.</p>
+  <div class="grid" id="cardsGrid">
+    <div class="card"><h3>The Cube</h3><p>Six square faces, twelve edges. The first shape most models are built from.</p><p><a class="rec-link" href="../../db/3d-modeler-service/#rec=JAH-3DMOD-000003">Read the full record →</a></p></div>
+    <div class="card"><h3>The Sphere</h3><p>A perfectly round ball. Used for balls, heads, and any round part.</p><p><a class="rec-link" href="../../db/3d-modeler-service/#rec=JAH-3DMOD-000004">Read the full record →</a></p></div>
+    <div class="card"><h3>The Orbit View</h3><p>Walk around the model. A model right from the front may be wrong from the back.</p><p><a class="rec-link" href="../../db/3d-modeler-service/#rec=JAH-3DMOD-000012">Read the full record →</a></p></div>
+    <div class="card"><h3>The Ground Plane</h3><p>Shapes that float look wrong. Lower every shape until it touches the floor.</p><p><a class="rec-link" href="../../db/3d-modeler-service/#rec=JAH-3DMOD-000016">Read the full record →</a></p></div>
+    <div class="card"><h3>Printing a Model in Plain Words</h3><p>Whole and thick prints; floating and thin does not.</p><p><a class="rec-link" href="../../db/3d-modeler-service/#rec=JAH-3DMOD-000020">Read the full record →</a></p></div>
+    <div class="card"><h3>Checking a Model Before Sharing</h3><p>Orbit all the way around, check the top and the side, and measure it.</p><p><a class="rec-link" href="../../db/3d-modeler-service/#rec=JAH-3DMOD-000021">Read the full record →</a></p></div>
+  </div>
+
+  <h2 id="records">Records</h2>
+  <p class="lede">The 3D Modeler Service Database holds the full rules behind this modeler — 24 public records and 24 Signature records, each one a complete file.</p>
+  <div class="grid" id="recordsGrid"><p class="lede">Records load here when the database pair is filed. Browse the full archive meanwhile: <a href="../../db/software-3d-modeling/">The 3D Modeling Software Database</a> — 20 records.</p></div>
+
+  <h2 id="files">Files</h2>
+  <p class="lede">Everything on this page is downloadable. Take the tool's data, the records, or the page itself.</p>
+  <div class="dl">
+    <a href="assets/shapes.json" download>⬇ Primitives and volume rules (JSON)</a>
+    <a href="records.json" download>⬇ Service records (JSON)</a>
+    <a href="./" download>⬇ This page</a>
+    <a href="accessible/index.html">Plain version (no JavaScript needed)</a>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p><b>Network.</b> This service belongs to The 'Merica-L Internet: the front door is the <a href="https://justinahiggins614-cmyk.github.io/jah-databases/the-merica-l-virtual-internet.html">'Merica-L Virtual Internet</a>, the network's main page is <a href="https://justinahiggins614-cmyk.github.io/jah-databases/the-merica-l-boundless-ecosystem-os.html">'Merica-L Boundless Ecosystem OS</a>, and the databases live at the <a href="https://justinahiggins614-cmyk.github.io/jah-databases/">database hub</a>. The archive behind this service is the <a href="../../db/software-3d-modeling/">The 3D Modeling Software Database</a>.</p>
+    <p>3D Modeler is free forever. No sign-in, no payment, no tracking — your words never leave this page. Milo the mole is the mascot; he builds the tower.</p>
+    <p><a href="accessible/index.html">Accessible version (plain text, no JavaScript needed)</a></p>
+  </div>
+</footer>
+
+<script>
+/* PURE TOOL FUNCTIONS — the page's own working tool, tested in Node. */
+/* 3D Modeler — pure tool functions.
+   A scene is { shapes: [{ id, type, pos, size, rot, colour }] }.
+   All work happens in the browser; nothing is uploaded. */
+var TD_TYPES = ["cube", "sphere", "cylinder", "cone"];
+function tdCreateScene() { return { shapes: [], nextId: 1 }; }
+function tdAddShape(scene, type, size) {
+  if (TD_TYPES.indexOf(type) === -1) return null;
+  if (!(size > 0)) return null;
+  var s = { id: scene.nextId++, type: type, pos: [0, 0, 0], size: size, rot: [0, 0, 0], colour: "#888888" };
+  scene.shapes.push(s); return s;
+}
+function tdMoveShape(shape, dx, dy, dz) {
+  shape.pos = [shape.pos[0] + dx, shape.pos[1] + dy, shape.pos[2] + dz];
+  return shape.pos;
+}
+function tdRotatePoint(point, axis, deg) {
+  var rad = deg * Math.PI / 180, c = Math.cos(rad), s = Math.sin(rad);
+  var x = point[0], y = point[1], z = point[2];
+  if (axis === "x") return [x, y * c - z * s, y * s + z * c];
+  if (axis === "y") return [x * c + z * s, y, -x * s + z * c];
+  if (axis === "z") return [x * c - y * s, x * s + y * c, z];
+  return null;
+}
+function tdScaleShape(shape, factor) {
+  if (!(factor > 0)) return false;
+  shape.size = shape.size * factor; return true;
+}
+function tdVolume(shape) {
+  var s = shape.size;
+  if (shape.type === "cube") return s * s * s;
+  if (shape.type === "sphere") return (4 / 3) * Math.PI * Math.pow(s / 2, 3);
+  if (shape.type === "cylinder") return Math.PI * Math.pow(s / 2, 2) * s;
+  if (shape.type === "cone") return (1 / 3) * Math.PI * Math.pow(s / 2, 2) * s;
+  return null;
+}
+function tdSetColour(shape, colour) {
+  if (!/^#[0-9a-fA-F]{6}$/.test(colour)) return false;
+  shape.colour = colour; return true;
+}
+function tdOrbitCamera(azDeg, elDeg, radius) {
+  var az = azDeg * Math.PI / 180, el = elDeg * Math.PI / 180;
+  return [radius * Math.cos(el) * Math.sin(az), radius * Math.sin(el), radius * Math.cos(el) * Math.cos(az)];
+}
+function tdLowestPoint(scene) {
+  var low = null;
+  scene.shapes.forEach(function (s) {
+    var bottom = s.pos[1] - s.size / 2;
+    if (low === null || bottom < low) low = bottom;
+  });
+  return low;
+}
+function tdExportScene(scene) {
+  return JSON.stringify({ shapes: scene.shapes, count: scene.shapes.length }, null, 1);
+}
+if (typeof module !== "undefined" && module.exports) {
+  module.exports = { TD_TYPES: TD_TYPES, tdCreateScene: tdCreateScene, tdAddShape: tdAddShape, tdMoveShape: tdMoveShape, tdRotatePoint: tdRotatePoint, tdScaleShape: tdScaleShape, tdVolume: tdVolume, tdSetColour: tdSetColour, tdOrbitCamera: tdOrbitCamera, tdLowestPoint: tdLowestPoint, tdExportScene: tdExportScene };
+}
+
+</script>
+<script>
+(function(){
+'use strict';
+var tdScene = tdCreateScene();
+function tdRender(){ var o = document.getElementById('tdOut'); var sel = document.getElementById('tdSel'); sel.innerHTML = tdScene.shapes.map(function(s, i){ return '<option value="' + i + '">' + (i+1) + '. ' + s.type + ' (size ' + s.size + ')</option>'; }).join(''); if(!tdScene.shapes.length){ o.textContent = 'The scene is empty. Add a shape to begin.'; } else { o.textContent = 'Scene — ' + tdScene.shapes.length + ' shapes\n' + tdScene.shapes.map(function(s, i){ return (i+1) + '. ' + s.type + ' — size ' + s.size + ', at (' + s.pos.join(', ') + '), colour ' + s.colour + ', volume ' + tdVolume(s).toFixed(2); }).join('\n') + '\nLowest point: ' + tdLowestPoint(tdScene) + ' (the ground plane is 0).'; } var cv = document.getElementById('tdCanvas'); var ctx = cv.getContext('2d'); ctx.clearRect(0, 0, cv.width, cv.height); ctx.strokeStyle = '#e3ddcd'; ctx.beginPath(); ctx.moveTo(0, 130); ctx.lineTo(600, 130); ctx.stroke(); ctx.fillStyle = '#5b6472'; ctx.font = '14px Georgia'; ctx.fillText('Top view — ground plane is the line. Shapes sit where they stand.', 10, 20); tdScene.shapes.forEach(function(s, i){ var x = 300 + s.pos[0] * 30, y = 130 - s.pos[2] * 30; ctx.fillStyle = s.colour; ctx.beginPath(); ctx.arc(x, y, Math.max(6, s.size * 8), 0, 2 * Math.PI); ctx.fill(); ctx.fillStyle = '#1f2430'; ctx.fillText((i+1) + ' ' + s.type, x + 12, y + 4); }); }
+document.getElementById('tdAdd').addEventListener('click', function(){ tdAddShape(tdScene, document.getElementById('tdType').value, +document.getElementById('tdSize').value); tdRender(); });
+function tdSelShape(){ return tdScene.shapes[+document.getElementById('tdSel').value]; }
+document.getElementById('tdMove').addEventListener('click', function(){ var s = tdSelShape(); if(s) tdMoveShape(s, +document.getElementById('tdDX').value, +document.getElementById('tdDY').value, +document.getElementById('tdDZ').value); tdRender(); });
+document.getElementById('tdScale').addEventListener('click', function(){ var s = tdSelShape(); if(s) tdScaleShape(s, +document.getElementById('tdFactor').value); tdRender(); });
+document.getElementById('tdColourGo').addEventListener('click', function(){ var s = tdSelShape(); if(s) tdSetColour(s, document.getElementById('tdColour').value); tdRender(); });
+document.getElementById('tdOrbit').addEventListener('click', function(){ var c = tdOrbitCamera(+document.getElementById('tdAz').value, +document.getElementById('tdEl').value, 5); document.getElementById('tdOut').textContent = 'The camera stands at (' + c.map(function(v){ return v.toFixed(2); }).join(', ') + '), five steps from the middle of the scene, looking at it.'; });
+document.getElementById('tdExport').addEventListener('click', function(){ document.getElementById('tdOut').textContent = tdExportScene(tdScene); });
+tdRender();
+fetch('records.json').then(function(r){return r.json();}).then(function(recs){
+  if(!recs || !recs.length) return;
+  var grid=document.getElementById('recordsGrid');
+  function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+  grid.innerHTML=recs.map(function(rec){
+    var link=rec.url?'<p><a class="rec-link" href="'+rec.url+'">Read the full record →</a></p>':'';
+    return '<div class="card"><h3>'+esc(rec.title||rec.id)+'</h3><p>'+esc(rec.description||'')+'</p>'+link+'</div>';
+  }).join('');
+}).catch(function(){ /* records load with the database pair */ });
+})();
+</script>
+</body>
+</html>

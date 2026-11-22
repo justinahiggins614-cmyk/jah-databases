@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Video Editor — a free video editor that works right here</title>
+<meta name="description" content="Video Editor is a free video editor. Trim, split, reorder, title, and plan a video on a timeline — all in your browser. No sign-in, no payment, free forever.">
+<style>
+  :root{--paper:#fdfcf7;--ink:#1f2430;--muted:#5b6472;--line:#e3ddcd;--card:#fff;--accent:#b91c1c;--accent-soft:#fee2e2;--teal:#0f766e;--bad:#b91c1c;--bad-soft:#fee2e2;--good:#166534}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font:17px/1.6 Georgia,'Times New Roman',serif}
+  a{color:var(--teal)}
+  header.top{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5}
+  .wrap{max-width:960px;margin:0 auto;padding:0 18px}
+  .bar{display:flex;align-items:center;gap:18px;padding:12px 0}
+  .mark{font-size:22px;font-weight:bold;color:var(--ink);text-decoration:none;white-space:nowrap}
+  .mark span{color:var(--accent)}
+  nav{margin-left:auto;display:flex;gap:16px;flex-wrap:wrap}
+  nav a{color:var(--ink);text-decoration:none;font-size:15px}
+  nav a:hover{text-decoration:underline}
+  .hero{position:relative}
+  .hero img{display:block;width:100%;height:auto;max-height:430px;object-fit:cover;object-position:center 30%}
+  .hero .cap{position:absolute;left:0;right:0;top:0;text-align:center;padding:28px 18px 0}
+  .hero h1{margin:0;font-size:44px;line-height:1.1;color:#3d2c12;text-shadow:0 1px 0 #fff}
+  .hero p{margin:8px 0 0;font-size:19px;color:#4a3a1c}
+  main{padding:28px 0 10px}
+  h2{font-size:26px;margin:34px 0 10px}
+  h3{font-size:20px;margin:0 0 6px}
+  .lede{font-size:19px;color:var(--muted)}
+  .toolcard{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;box-shadow:0 2px 10px rgba(60,40,0,.06)}
+  textarea{width:100%;min-height:150px;font:16px/1.6 Georgia,serif;padding:12px;border:1px solid var(--line);border-radius:10px;background:#fff;color:var(--ink)}
+  input[type=text],input[type=number],select{font:16px Georgia,serif;padding:10px 12px;border:1px solid var(--line);border-radius:9px;background:#fff;color:var(--ink)}
+  .row{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;align-items:center}
+  button{font:16px Georgia,serif;border-radius:9px;border:1px solid var(--line);background:#fff;color:var(--ink);padding:10px 16px;cursor:pointer}
+  button.go{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:bold}
+  button:hover{filter:brightness(.97)}
+  .status{font-size:15px;color:var(--muted)}
+  .out{margin-top:14px;padding:14px;border:1px dashed var(--line);border-radius:10px;background:#fff;white-space:pre-wrap;word-wrap:break-word}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px}
+  .card p{margin:6px 0 0;color:var(--muted);font-size:15px}
+  .card .rec-link{font-size:14px}
+  .steps{counter-reset:step;display:grid;gap:12px}
+  .steps div{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+  .steps b::before{counter-increment:step;content:counter(step) ". ";color:var(--accent)}
+  .dl a{display:inline-block;margin:6px 10px 6px 0;padding:10px 16px;border:1px solid var(--line);border-radius:9px;background:#fff;text-decoration:none;color:var(--ink)}
+  .meter{height:14px;border:1px solid var(--line);border-radius:999px;overflow:hidden;background:#fff}
+  .meter i{display:block;height:100%;background:var(--accent)}
+  .tiles{display:grid;grid-template-columns:repeat(18,1fr);gap:4px}
+  .tile{border:1px solid var(--line);border-radius:6px;background:#fff;padding:4px 2px;text-align:center;cursor:pointer;font-size:12px;line-height:1.3}
+  .tile b{display:block;font-size:14px}
+  .tile small{color:var(--muted);font-size:10px}
+  .tile.sel{outline:3px solid var(--accent)}
+  .detail{margin-top:14px;padding:14px;border:1px solid var(--line);border-radius:10px;background:#fff}
+  table.data{border-collapse:collapse;width:100%;font-size:15px}
+  table.data th,table.data td{border:1px solid var(--line);padding:6px 8px;text-align:left}
+  footer{margin-top:48px;padding:22px 0 34px;border-top:3px double var(--line);font-size:15px;color:var(--muted)}
+  footer p{margin:8px 0}
+  .free{display:inline-block;background:var(--accent-soft);border:1px solid #fcd34d;border-radius:999px;padding:2px 12px;font-size:14px;color:#7c2d12}
+  @media (max-width:640px){.hero h1{font-size:32px}.hero img{max-height:300px}nav{display:none}.tiles{grid-template-columns:repeat(9,1fr)}}
+
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap bar">
+    <a class="mark" href="./">🎬 Video <span>Editor</span></a>
+    <nav>
+      <a href="#tool">The Tool</a>
+      <a href="#how">How it works</a>
+      <a href="#cards">Good to know</a>
+      <a href="#records">Records</a>
+      <a href="#files">Files</a>
+    </nav>
+  </div>
+</header>
+
+<div class="hero">
+  <img src="assets/video-editor-hero.svg" alt="Vera the vixen, the Video Editor mascot, cutting strips of film at a wooden table">
+  <div class="cap">
+    <h1>Video Editor</h1>
+    <p>Cut what bores, keep what tells.</p>
+  </div>
+</div>
+
+<main class="wrap">
+  <p class="lede">This is a video editor that runs entirely in your browser. Your clips never leave this page. Build a timeline from demo clips, trim them, split them, add titles, and export the plan. <span class="free">Free forever — no sign-in, no payment</span></p>
+
+  <h2 id="tool">The Tool</h2>
+  <div class="toolcard">
+<p><label>Clip name <input type="text" id="veName" size="30" placeholder="Opening shot"></label>
+<label>Length in seconds <input type="number" id="veDur" value="10" min="1" style="width:80px"></label>
+<button class="go" id="veAdd" type="button">Add clip</button></p>
+<p><label>Chosen clip <select id="veSel"></select></label>
+<label>Trim off the start <input type="number" id="veTrimS" value="0" min="0" style="width:70px"></label>
+<label>and the end <input type="number" id="veTrimE" value="0" min="0" style="width:70px"></label>
+<button id="veTrim" type="button">Trim</button></p>
+<p><label>Split at second <input type="number" id="veSplitAt" value="5" min="1" style="width:70px"></label>
+<button id="veSplit" type="button">Split clip</button>
+<label>Title on screen <input type="text" id="veTitle" size="30" placeholder="Our village"></label>
+<button id="veAddTitle" type="button">Add title</button></p>
+<p><label>Transition <select id="veTrans"><option>cut</option><option>fade</option><option>dissolve</option></select></label>
+<button id="veSetTrans" type="button">Set transition</button>
+<button id="veUp" type="button">Move earlier</button><button id="veDown" type="button">Move later</button></p>
+<div class="row"><button id="vePlan" type="button">Export plan</button></div>
+<div class="out" id="veOut">Your timeline will appear here. Add a clip to begin — try the demo clips below.</div>
+<p class="status">Demo clips: Opening shot (12s), Walk (20s), Market (15s). <button id="veDemo" type="button">Load demo clips</button></p>
+  </div>
+
+  <h2 id="how">How it works</h2>
+  <div class="steps">
+    <div><b>Load the demo clips</b> Three clips appear on the timeline, in order, with their lengths.</div>
+    <div><b>Trim a clip</b> Cut the dull start or the trailing end off the chosen clip.</div>
+    <div><b>Split a clip</b> Cut one clip into two at the second you choose, and delete the dull middle.</div>
+    <div><b>Add a title</b> Words on screen, long enough to read, placed where the picture is plain.</div>
+    <div><b>Export the plan</b> Take the timeline as text: every clip, its start, its length, its title.</div>
+  </div>
+  <p class="lede">This editor plans a video from demo clips on the page. It does not upload or keep your recordings, and it does not export a finished video file. The database records explain trimming, splitting, titles, and exporting a finished video.</p>
+
+  <h2 id="cards">Good to know</h2>
+  <p class="lede">Six things worth knowing before you cut a video.</p>
+  <div class="grid" id="cardsGrid">
+    <div class="card"><h3>Trimming a Clip</h3><p>A well-trimmed clip starts with the action and ends before the dull part.</p><p><a class="rec-link" href="../../db/video-editor-service/#rec=JAH-VIDED-000003">Read the full record →</a></p></div>
+    <div class="card"><h3>Splitting a Clip</h3><p>Split on both sides of a mistake, delete the middle, and join the good halves.</p><p><a class="rec-link" href="../../db/video-editor-service/#rec=JAH-VIDED-000004">Read the full record →</a></p></div>
+    <div class="card"><h3>Transitions Between Clips</h3><p>Straight cuts suit most joins. Fades suit a change of place or time.</p><p><a class="rec-link" href="../../db/video-editor-service/#rec=JAH-VIDED-000007">Read the full record →</a></p></div>
+    <div class="card"><h3>The Audio Track</h3><p>Sound must stay lined up with the pictures, or the video feels wrong.</p><p><a class="rec-link" href="../../db/video-editor-service/#rec=JAH-VIDED-000008">Read the full record →</a></p></div>
+    <div class="card"><h3>Exporting a Finished Video</h3><p>Exporting writes one file from the whole timeline. Play it through once before sharing.</p><p><a class="rec-link" href="../../db/video-editor-service/#rec=JAH-VIDED-000013">Read the full record →</a></p></div>
+    <div class="card"><h3>Checking a Video Before Sharing</h3><p>Play it from start to finish and write down every fault before fixing any.</p><p><a class="rec-link" href="../../db/video-editor-service/#rec=JAH-VIDED-000015">Read the full record →</a></p></div>
+  </div>
+
+  <h2 id="records">Records</h2>
+  <p class="lede">The Video Editor Service Database holds the full rules behind this editor — 24 public records and 24 Signature records, each one a complete file.</p>
+  <div class="grid" id="recordsGrid"><p class="lede">Records load here when the database pair is filed. Browse the full archive meanwhile: <a href="../../db/public-video-editing-software/">The Public Video Editing Software Database</a> — 60 records.</p></div>
+
+  <h2 id="files">Files</h2>
+  <p class="lede">Everything on this page is downloadable. Take the tool's data, the records, or the page itself.</p>
+  <div class="dl">
+    <a href="assets/timeline.json" download>⬇ Timeline rules and demo clips (JSON)</a>
+    <a href="records.json" download>⬇ Service records (JSON)</a>
+    <a href="./" download>⬇ This page</a>
+    <a href="accessible/index.html">Plain version (no JavaScript needed)</a>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p><b>Network.</b> This service belongs to The 'Merica-L Internet: the front door is the <a href="https://justinahiggins614-cmyk.github.io/jah-databases/the-merica-l-virtual-internet.html">'Merica-L Virtual Internet</a>, the network's main page is <a href="https://justinahiggins614-cmyk.github.io/jah-databases/the-merica-l-boundless-ecosystem-os.html">'Merica-L Boundless Ecosystem OS</a>, and the databases live at the <a href="https://justinahiggins614-cmyk.github.io/jah-databases/">database hub</a>. The archive behind this service is the <a href="../../db/public-video-editing-software/">The Public Video Editing Software Database</a>.</p>
+    <p>Video Editor is free forever. No sign-in, no payment, no tracking — your words never leave this page. Vera the vixen is the mascot; she cuts the film.</p>
+    <p><a href="accessible/index.html">Accessible version (plain text, no JavaScript needed)</a></p>
+  </div>
+</footer>
+
+<script>
+/* PURE TOOL FUNCTIONS — the page's own working tool, tested in Node. */
+/* Video Editor — pure tool functions.
+   A timeline is { clips: [{ id, name, start, dur, title }] }.
+   Clips are demo clips; no uploads are kept. */
+var VE_TRANSITIONS = ["cut", "fade", "dissolve"];
+function veCreateTimeline() { return { clips: [], nextId: 1 }; }
+function veAddClip(tl, name, dur) {
+  if (!name || !(dur > 0)) return null;
+  var start = veTotalDuration(tl);
+  var c = { id: tl.nextId++, name: name, start: start, dur: dur, title: "", transition: "cut" };
+  tl.clips.push(c); return c;
+}
+function veTotalDuration(tl) {
+  return tl.clips.reduce(function (a, c) { return a + c.dur; }, 0);
+}
+function veTrimClip(clip, cutStart, cutEnd) {
+  if (cutStart < 0 || cutEnd < 0 || cutStart + cutEnd >= clip.dur) return null;
+  return { id: clip.id, name: clip.name, start: clip.start + cutStart, dur: clip.dur - cutStart - cutEnd, title: clip.title, transition: clip.transition };
+}
+function veSplitClip(clip, at) {
+  if (at <= 0 || at >= clip.dur) return null;
+  var a = { id: clip.id, name: clip.name + " (part 1)", start: clip.start, dur: at, title: clip.title, transition: clip.transition };
+  var b = { id: clip.id + 1000, name: clip.name + " (part 2)", start: clip.start + at, dur: clip.dur - at, title: "", transition: "cut" };
+  return [a, b];
+}
+function veMoveClip(tl, from, to) {
+  if (from < 0 || from >= tl.clips.length) return false;
+  if (to < 0 || to >= tl.clips.length) return false;
+  var c = tl.clips.splice(from, 1)[0];
+  tl.clips.splice(to, 0, c);
+  var t = 0;
+  tl.clips.forEach(function (x) { x.start = t; t += x.dur; });
+  return true;
+}
+function veAddTitle(clip, text) {
+  if (typeof text !== "string" || !text.trim()) return false;
+  clip.title = text.trim(); return true;
+}
+function veSetTransition(clip, kind) {
+  if (VE_TRANSITIONS.indexOf(kind) === -1) return false;
+  clip.transition = kind; return true;
+}
+function veExportPlan(tl) {
+  var out = ["Video — " + tl.clips.length + " clips, " + veTotalDuration(tl) + " seconds", ""];
+  tl.clips.forEach(function (c, i) {
+    out.push((i + 1) + ". " + c.name + " — " + c.dur + "s from " + c.start + "s" +
+      (c.title ? " — title: " + c.title : "") + " — " + c.transition);
+  });
+  return out.join("\n");
+}
+if (typeof module !== "undefined" && module.exports) {
+  module.exports = { VE_TRANSITIONS: VE_TRANSITIONS, veCreateTimeline: veCreateTimeline, veAddClip: veAddClip, veTotalDuration: veTotalDuration, veTrimClip: veTrimClip, veSplitClip: veSplitClip, veMoveClip: veMoveClip, veAddTitle: veAddTitle, veSetTransition: veSetTransition, veExportPlan: veExportPlan };
+}
+
+</script>
+<script>
+(function(){
+'use strict';
+var veTl = veCreateTimeline();
+function veRender(){ var o = document.getElementById('veOut'); var sel = document.getElementById('veSel'); sel.innerHTML = veTl.clips.map(function(c, i){ return '<option value="' + i + '">' + (i+1) + '. ' + c.name + ' (' + c.dur + 's)</option>'; }).join(''); if(!veTl.clips.length){ o.textContent = 'The timeline is empty. Add a clip, or load the demo clips.'; return; } o.textContent = 'Timeline — ' + veTl.clips.length + ' clips, ' + veTotalDuration(veTl) + ' seconds\n' + veTl.clips.map(function(c, i){ return (i+1) + '. ' + c.name + ' — ' + c.dur + 's from ' + c.start + 's' + (c.title ? ' — title: ' + c.title : '') + ' — ' + c.transition; }).join('\n'); }
+document.getElementById('veDemo').addEventListener('click', function(){ veTl = veCreateTimeline(); veAddClip(veTl, 'Opening shot', 12); veAddClip(veTl, 'Walk', 20); veAddClip(veTl, 'Market', 15); veRender(); });
+document.getElementById('veAdd').addEventListener('click', function(){ var n = document.getElementById('veName').value; var d = +document.getElementById('veDur').value; if(veAddClip(veTl, n, d)){ document.getElementById('veName').value=''; } veRender(); });
+function veSelClip(){ return veTl.clips[+document.getElementById('veSel').value]; }
+document.getElementById('veTrim').addEventListener('click', function(){ var c = veSelClip(); if(!c) return; var t = veTrimClip(c, +document.getElementById('veTrimS').value, +document.getElementById('veTrimE').value); if(t){ var i = veTl.clips.indexOf(c); veTl.clips[i] = t; var tt = 0; veTl.clips.forEach(function(x){ x.start = tt; tt += x.dur; }); } veRender(); });
+document.getElementById('veSplit').addEventListener('click', function(){ var c = veSelClip(); if(!c) return; var parts = veSplitClip(c, +document.getElementById('veSplitAt').value); if(parts){ var i = veTl.clips.indexOf(c); veTl.clips.splice(i, 1, parts[0], parts[1]); var tt = 0; veTl.clips.forEach(function(x){ x.start = tt; tt += x.dur; }); } veRender(); });
+document.getElementById('veAddTitle').addEventListener('click', function(){ var c = veSelClip(); if(c) veAddTitle(c, document.getElementById('veTitle').value); veRender(); });
+document.getElementById('veSetTrans').addEventListener('click', function(){ var c = veSelClip(); if(c) veSetTransition(c, document.getElementById('veTrans').value); veRender(); });
+document.getElementById('veUp').addEventListener('click', function(){ var i = +document.getElementById('veSel').value; veMoveClip(veTl, i, i-1); veRender(); });
+document.getElementById('veDown').addEventListener('click', function(){ var i = +document.getElementById('veSel').value; veMoveClip(veTl, i, i+1); veRender(); });
+document.getElementById('vePlan').addEventListener('click', function(){ document.getElementById('veOut').textContent = veExportPlan(veTl); });
+veRender();
+fetch('records.json').then(function(r){return r.json();}).then(function(recs){
+  if(!recs || !recs.length) return;
+  var grid=document.getElementById('recordsGrid');
+  function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+  grid.innerHTML=recs.map(function(rec){
+    var link=rec.url?'<p><a class="rec-link" href="'+rec.url+'">Read the full record →</a></p>':'';
+    return '<div class="card"><h3>'+esc(rec.title||rec.id)+'</h3><p>'+esc(rec.description||'')+'</p>'+link+'</div>';
+  }).join('');
+}).catch(function(){ /* records load with the database pair */ });
+})();
+</script>
+</body>
+</html>

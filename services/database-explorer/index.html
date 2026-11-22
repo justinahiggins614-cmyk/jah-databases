@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Database Explorer — a free database explorer that works right here</title>
+<meta name="description" content="Database Explorer is a free database explorer. Search a sample of the hub registry, filter by kind or letter, and open a full record — all in your browser. No sign-in, no payment, free forever.">
+<style>
+  :root{--paper:#fdfcf7;--ink:#1f2430;--muted:#5b6472;--line:#e3ddcd;--card:#fff;--accent:#155e75;--accent-soft:#cffafe;--teal:#0f766e;--bad:#b91c1c;--bad-soft:#fee2e2;--good:#166534}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font:17px/1.6 Georgia,'Times New Roman',serif}
+  a{color:var(--teal)}
+  header.top{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5}
+  .wrap{max-width:960px;margin:0 auto;padding:0 18px}
+  .bar{display:flex;align-items:center;gap:18px;padding:12px 0}
+  .mark{font-size:22px;font-weight:bold;color:var(--ink);text-decoration:none;white-space:nowrap}
+  .mark span{color:var(--accent)}
+  nav{margin-left:auto;display:flex;gap:16px;flex-wrap:wrap}
+  nav a{color:var(--ink);text-decoration:none;font-size:15px}
+  nav a:hover{text-decoration:underline}
+  .hero{position:relative}
+  .hero img{display:block;width:100%;height:auto;max-height:430px;object-fit:cover;object-position:center 30%}
+  .hero .cap{position:absolute;left:0;right:0;top:0;text-align:center;padding:28px 18px 0}
+  .hero h1{margin:0;font-size:44px;line-height:1.1;color:#3d2c12;text-shadow:0 1px 0 #fff}
+  .hero p{margin:8px 0 0;font-size:19px;color:#4a3a1c}
+  main{padding:28px 0 10px}
+  h2{font-size:26px;margin:34px 0 10px}
+  h3{font-size:20px;margin:0 0 6px}
+  .lede{font-size:19px;color:var(--muted)}
+  .toolcard{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;box-shadow:0 2px 10px rgba(60,40,0,.06)}
+  textarea{width:100%;min-height:150px;font:16px/1.6 Georgia,serif;padding:12px;border:1px solid var(--line);border-radius:10px;background:#fff;color:var(--ink)}
+  input[type=text],input[type=number],select{font:16px Georgia,serif;padding:10px 12px;border:1px solid var(--line);border-radius:9px;background:#fff;color:var(--ink)}
+  .row{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;align-items:center}
+  button{font:16px Georgia,serif;border-radius:9px;border:1px solid var(--line);background:#fff;color:var(--ink);padding:10px 16px;cursor:pointer}
+  button.go{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:bold}
+  button:hover{filter:brightness(.97)}
+  .status{font-size:15px;color:var(--muted)}
+  .out{margin-top:14px;padding:14px;border:1px dashed var(--line);border-radius:10px;background:#fff;white-space:pre-wrap;word-wrap:break-word}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px}
+  .card p{margin:6px 0 0;color:var(--muted);font-size:15px}
+  .card .rec-link{font-size:14px}
+  .steps{counter-reset:step;display:grid;gap:12px}
+  .steps div{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+  .steps b::before{counter-increment:step;content:counter(step) ". ";color:var(--accent)}
+  .dl a{display:inline-block;margin:6px 10px 6px 0;padding:10px 16px;border:1px solid var(--line);border-radius:9px;background:#fff;text-decoration:none;color:var(--ink)}
+  .meter{height:14px;border:1px solid var(--line);border-radius:999px;overflow:hidden;background:#fff}
+  .meter i{display:block;height:100%;background:var(--accent)}
+  .tiles{display:grid;grid-template-columns:repeat(18,1fr);gap:4px}
+  .tile{border:1px solid var(--line);border-radius:6px;background:#fff;padding:4px 2px;text-align:center;cursor:pointer;font-size:12px;line-height:1.3}
+  .tile b{display:block;font-size:14px}
+  .tile small{color:var(--muted);font-size:10px}
+  .tile.sel{outline:3px solid var(--accent)}
+  .detail{margin-top:14px;padding:14px;border:1px solid var(--line);border-radius:10px;background:#fff}
+  table.data{border-collapse:collapse;width:100%;font-size:15px}
+  table.data th,table.data td{border:1px solid var(--line);padding:6px 8px;text-align:left}
+  footer{margin-top:48px;padding:22px 0 34px;border-top:3px double var(--line);font-size:15px;color:var(--muted)}
+  footer p{margin:8px 0}
+  .free{display:inline-block;background:var(--accent-soft);border:1px solid #fcd34d;border-radius:999px;padding:2px 12px;font-size:14px;color:#7c2d12}
+  @media (max-width:640px){.hero h1{font-size:32px}.hero img{max-height:300px}nav{display:none}.tiles{grid-template-columns:repeat(9,1fr)}}
+
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap bar">
+    <a class="mark" href="./">🔎 Database <span>Explorer</span></a>
+    <nav>
+      <a href="#tool">The Tool</a>
+      <a href="#how">How it works</a>
+      <a href="#cards">Good to know</a>
+      <a href="#records">Records</a>
+      <a href="#files">Files</a>
+    </nav>
+  </div>
+</header>
+
+<div class="hero">
+  <img src="assets/database-explorer-hero.svg" alt="Dexter the dolphin, the Database Explorer mascot, leaping over a shelf of labelled archive boxes">
+  <div class="cap">
+    <h1>Database Explorer</h1>
+    <p>The front door to the whole network — find it, open it, run it.</p>
+  </div>
+</div>
+
+<main class="wrap">
+  <p class="lede">This is a database explorer that runs entirely in your browser. It searches a sample of the hub registry, filters by kind or letter, and opens a full record with its demo and its generator. The full registry is the live manifest. <span class="free">Free forever — no sign-in, no payment</span></p>
+
+  <h2 id="tool">The Tool</h2>
+  <div class="toolcard">
+<p><label>Search the sample registry <input type="text" id="deQ" size="30" placeholder="a word in a name or a kind"></label>
+<button class="go" id="deGo" type="button">Search</button>
+<button id="deAll" type="button">Show all</button></p>
+<p><label>Kind <select id="deKind"><option value="">any kind</option></select></label>
+<label>Letter <select id="deLetter"><option value="">any letter</option></select></p>
+<div class="out" id="deList">The sample registry will appear here.</div>
+<div class="out" id="deDetail">Press a database to see its full entry.</div>
+  </div>
+
+  <h2 id="how">How it works</h2>
+  <div class="steps">
+    <div><b>Search the sample</b> One word finds every database in the sample whose name or kind holds it.</div>
+    <div><b>Filter by kind or letter</b> Narrow the sample to one kind of record, or one starting letter.</div>
+    <div><b>Press a database</b> Read its full entry: its slug, its kind, and its record count.</div>
+    <div><b>Open the database</b> Follow the link to the full database and read its records.</div>
+  </div>
+  <p class="lede">This explorer searches a sample of the hub registry on the page, not the whole live manifest. The sample holds 18 of the 20 Wave 1 entries, the databases they expand, and a spread of live databases. The full registry is the live manifest, re-derived at merge time.</p>
+
+  <h2 id="cards">Good to know</h2>
+  <p class="lede">Six things worth knowing before you explore.</p>
+  <div class="grid" id="cardsGrid">
+    <div class="card"><h3>The Hub Registry</h3><p>Every database that exists is listed there, and none is hidden.</p><p><a class="rec-link" href="../../db/database-explorer-service/#rec=JAH-DBEXP-000002">Read the full record →</a></p></div>
+    <div class="card"><h3>Searching Inside Records</h3><p>The deepest search: it reads the contents, not just the names.</p><p><a class="rec-link" href="../../db/database-explorer-service/#rec=JAH-DBEXP-000005">Read the full record →</a></p></div>
+    <div class="card"><h3>Opening a Full Record</h3><p>Every record is the full file, with all its data. One click opens it.</p><p><a class="rec-link" href="../../db/database-explorer-service/#rec=JAH-DBEXP-000006">Read the full record →</a></p></div>
+    <div class="card"><h3>Counting Records</h3><p>Counts are re-derived from the stored files, never typed by hand.</p><p><a class="rec-link" href="../../db/database-explorer-service/#rec=JAH-DBEXP-000011">Read the full record →</a></p></div>
+    <div class="card"><h3>Counting the Whole Network</h3><p>The whole-network total only, re-derived, never a small group count.</p><p><a class="rec-link" href="../../db/database-explorer-service/#rec=JAH-DBEXP-000016">Read the full record →</a></p></div>
+    <div class="card"><h3>Checking a Record Before Trusting It</h3><p>Read its source, run its demo, and run its program.</p><p><a class="rec-link" href="../../db/database-explorer-service/#rec=JAH-DBEXP-000023">Read the full record →</a></p></div>
+  </div>
+
+  <h2 id="records">Records</h2>
+  <p class="lede">The Database Explorer Service Database holds the full rules behind this explorer — 24 public records and 24 Signature records, each one a complete file.</p>
+  <div class="grid" id="recordsGrid"><p class="lede">Records load here when the database pair is filed. Browse the full archive meanwhile: <a href="../../db/database-builder/">The Database Builder Database</a> — 168 records.</p></div>
+
+  <h2 id="files">Files</h2>
+  <p class="lede">Everything on this page is downloadable. Take the tool's data, the records, or the page itself.</p>
+  <div class="dl">
+    <a href="assets/registry.json" download>⬇ Sample registry (JSON)</a>
+    <a href="records.json" download>⬇ Service records (JSON)</a>
+    <a href="./" download>⬇ This page</a>
+    <a href="accessible/index.html">Plain version (no JavaScript needed)</a>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p><b>Network.</b> This service belongs to The 'Merica-L Internet: the front door is the <a href="https://justinahiggins614-cmyk.github.io/jah-databases/the-merica-l-virtual-internet.html">'Merica-L Virtual Internet</a>, the network's main page is <a href="https://justinahiggins614-cmyk.github.io/jah-databases/the-merica-l-boundless-ecosystem-os.html">'Merica-L Boundless Ecosystem OS</a>, and the databases live at the <a href="https://justinahiggins614-cmyk.github.io/jah-databases/">database hub</a>. The archive behind this service is the <a href="../../db/database-builder/">The Database Builder Database</a>.</p>
+    <p>Database Explorer is free forever. No sign-in, no payment, no tracking — your words never leave this page. Dexter the dolphin is the mascot; he leaps over the archive boxes.</p>
+    <p><a href="accessible/index.html">Accessible version (plain text, no JavaScript needed)</a></p>
+  </div>
+</footer>
+
+<script>
+/* PURE TOOL FUNCTIONS — the page's own working tool, tested in Node. */
+/* Database Explorer — pure tool functions.
+   The registry here is a sample of the hub registry: the Wave 1 pairs,
+   the databases they expand, and a spread of live databases. The full
+   registry is the live manifest; this sample is for browsing and searching
+   on the page. A few slugs are left out of the sample so the page keeps
+   its plain-words rule; the full registry in the manifest holds them all. */
+var DE_REGISTRY = null; /* filled by the builder from assets/registry.json */
+function deSearch(registry, q) {
+  q = String(q || "").toLowerCase().trim();
+  if (!q) return [];
+  return registry.filter(function (e) {
+    return (e.slug + " " + e.name + " " + e.kind).toLowerCase().indexOf(q) !== -1;
+  });
+}
+function deByKind(registry, kind) {
+  return registry.filter(function (e) { return e.kind === kind; });
+}
+function deOpen(registry, slug) {
+  var found = registry.filter(function (e) { return e.slug === slug; });
+  return found.length ? found[0] : null;
+}
+function deByLetter(registry, letter) {
+  letter = String(letter || "").toLowerCase();
+  return registry.filter(function (e) { return e.slug.charAt(0) === letter; });
+}
+function deCountByKind(registry) {
+  var out = {};
+  registry.forEach(function (e) { out[e.kind] = (out[e.kind] || 0) + 1; });
+  return out;
+}
+function deTotalRecords(registry) {
+  return registry.reduce(function (a, e) { return a + (e.records || 0); }, 0);
+}
+if (typeof module !== "undefined" && module.exports) {
+  module.exports = { deSearch: deSearch, deByKind: deByKind, deOpen: deOpen, deByLetter: deByLetter, deCountByKind: deCountByKind, deTotalRecords: deTotalRecords };
+}
+
+</script>
+<script>
+(function(){
+'use strict';
+var deReg = [];
+var deKinds = {};
+function deRenderList(list){ var o = document.getElementById('deList'); if(!list.length){ o.textContent = 'Nothing in the sample matches that search.'; return; } o.innerHTML = '<strong>' + list.length + ' databases in the sample</strong><br>' + list.map(function(e){ return '<div style="margin:6px 0;cursor:pointer" data-slug="' + e.slug + '"><b>' + e.name + '</b> <span style="color:#5b6472">(' + e.slug + ' — ' + e.records + ' records)</span></div>'; }).join(''); o.querySelectorAll('[data-slug]').forEach(function(el){ el.addEventListener('click', function(){ var e = deOpen(deReg, el.getAttribute('data-slug')); if(e){ document.getElementById('deDetail').innerHTML = '<b>' + e.name + '</b><br>Slug: ' + e.slug + '<br>Kind: ' + e.kind + '<br>Records: ' + e.records + '<br><a href="../../db/' + e.slug + '/">Open the database →</a>'; } }); }); }
+fetch('assets/registry.json').then(function(r){ return r.json(); }).then(function(data){ deReg = data.entries; var kinds = {}; deReg.forEach(function(e){ kinds[e.kind] = true; }); var ks = document.getElementById('deKind'); Object.keys(kinds).sort().forEach(function(k){ var o = document.createElement('option'); o.value = k; o.textContent = k; ks.appendChild(o); }); var ls = document.getElementById('deLetter'); 'abcdefghijklmnopqrstuvwxyz'.split('').forEach(function(ch){ var o = document.createElement('option'); o.value = ch; o.textContent = ch; ls.appendChild(o); }); document.getElementById('deDetail').textContent = 'Sample registry: ' + deReg.length + ' databases, ' + deTotalRecords(deReg) + ' records between them. The full registry is the live manifest.'; deRenderList(deReg); }).catch(function(){ document.getElementById('deList').textContent = 'The sample registry could not be loaded. It lives in assets/registry.json.'; });
+document.getElementById('deGo').addEventListener('click', function(){ var q = document.getElementById('deQ').value; var list = deSearch(deReg, q); var k = document.getElementById('deKind').value; if(k) list = list.filter(function(e){ return e.kind === k; }); deRenderList(list); });
+document.getElementById('deAll').addEventListener('click', function(){ deRenderList(deReg); });
+document.getElementById('deKind').addEventListener('change', function(){ var k = this.value; deRenderList(k ? deByKind(deReg, k) : deReg); });
+document.getElementById('deLetter').addEventListener('change', function(){ var l = this.value; deRenderList(l ? deByLetter(deReg, l) : deReg); });
+fetch('records.json').then(function(r){return r.json();}).then(function(recs){
+  if(!recs || !recs.length) return;
+  var grid=document.getElementById('recordsGrid');
+  function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+  grid.innerHTML=recs.map(function(rec){
+    var link=rec.url?'<p><a class="rec-link" href="'+rec.url+'">Read the full record →</a></p>':'';
+    return '<div class="card"><h3>'+esc(rec.title||rec.id)+'</h3><p>'+esc(rec.description||'')+'</p>'+link+'</div>';
+  }).join('');
+}).catch(function(){ /* records load with the database pair */ });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Email Client — a free demo mailbox that works right here</title>
+<meta name="description" content="Email Client is a free demo mailbox. Read sample messages, search, file, flag, and write drafts — all in your browser. No sign-in, no payment, free forever. No real mail is ever sent.">
+<style>
+  :root{--paper:#fdfcf7;--ink:#1f2430;--muted:#5b6472;--line:#e3ddcd;--card:#fff;--accent:#7c2d12;--accent-soft:#ffedd5;--teal:#0f766e;--bad:#b91c1c;--bad-soft:#fee2e2;--good:#166534}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font:17px/1.6 Georgia,'Times New Roman',serif}
+  a{color:var(--teal)}
+  header.top{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5}
+  .wrap{max-width:960px;margin:0 auto;padding:0 18px}
+  .bar{display:flex;align-items:center;gap:18px;padding:12px 0}
+  .mark{font-size:22px;font-weight:bold;color:var(--ink);text-decoration:none;white-space:nowrap}
+  .mark span{color:var(--accent)}
+  nav{margin-left:auto;display:flex;gap:16px;flex-wrap:wrap}
+  nav a{color:var(--ink);text-decoration:none;font-size:15px}
+  nav a:hover{text-decoration:underline}
+  .hero{position:relative}
+  .hero img{display:block;width:100%;height:auto;max-height:430px;object-fit:cover;object-position:center 30%}
+  .hero .cap{position:absolute;left:0;right:0;top:0;text-align:center;padding:28px 18px 0}
+  .hero h1{margin:0;font-size:44px;line-height:1.1;color:#3d2c12;text-shadow:0 1px 0 #fff}
+  .hero p{margin:8px 0 0;font-size:19px;color:#4a3a1c}
+  main{padding:28px 0 10px}
+  h2{font-size:26px;margin:34px 0 10px}
+  h3{font-size:20px;margin:0 0 6px}
+  .lede{font-size:19px;color:var(--muted)}
+  .toolcard{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;box-shadow:0 2px 10px rgba(60,40,0,.06)}
+  textarea{width:100%;min-height:150px;font:16px/1.6 Georgia,serif;padding:12px;border:1px solid var(--line);border-radius:10px;background:#fff;color:var(--ink)}
+  input[type=text],input[type=number],select{font:16px Georgia,serif;padding:10px 12px;border:1px solid var(--line);border-radius:9px;background:#fff;color:var(--ink)}
+  .row{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;align-items:center}
+  button{font:16px Georgia,serif;border-radius:9px;border:1px solid var(--line);background:#fff;color:var(--ink);padding:10px 16px;cursor:pointer}
+  button.go{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:bold}
+  button:hover{filter:brightness(.97)}
+  .status{font-size:15px;color:var(--muted)}
+  .out{margin-top:14px;padding:14px;border:1px dashed var(--line);border-radius:10px;background:#fff;white-space:pre-wrap;word-wrap:break-word}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px}
+  .card p{margin:6px 0 0;color:var(--muted);font-size:15px}
+  .card .rec-link{font-size:14px}
+  .steps{counter-reset:step;display:grid;gap:12px}
+  .steps div{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+  .steps b::before{counter-increment:step;content:counter(step) ". ";color:var(--accent)}
+  .dl a{display:inline-block;margin:6px 10px 6px 0;padding:10px 16px;border:1px solid var(--line);border-radius:9px;background:#fff;text-decoration:none;color:var(--ink)}
+  .meter{height:14px;border:1px solid var(--line);border-radius:999px;overflow:hidden;background:#fff}
+  .meter i{display:block;height:100%;background:var(--accent)}
+  .tiles{display:grid;grid-template-columns:repeat(18,1fr);gap:4px}
+  .tile{border:1px solid var(--line);border-radius:6px;background:#fff;padding:4px 2px;text-align:center;cursor:pointer;font-size:12px;line-height:1.3}
+  .tile b{display:block;font-size:14px}
+  .tile small{color:var(--muted);font-size:10px}
+  .tile.sel{outline:3px solid var(--accent)}
+  .detail{margin-top:14px;padding:14px;border:1px solid var(--line);border-radius:10px;background:#fff}
+  table.data{border-collapse:collapse;width:100%;font-size:15px}
+  table.data th,table.data td{border:1px solid var(--line);padding:6px 8px;text-align:left}
+  footer{margin-top:48px;padding:22px 0 34px;border-top:3px double var(--line);font-size:15px;color:var(--muted)}
+  footer p{margin:8px 0}
+  .free{display:inline-block;background:var(--accent-soft);border:1px solid #fcd34d;border-radius:999px;padding:2px 12px;font-size:14px;color:#7c2d12}
+  @media (max-width:640px){.hero h1{font-size:32px}.hero img{max-height:300px}nav{display:none}.tiles{grid-template-columns:repeat(9,1fr)}}
+
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap bar">
+    <a class="mark" href="./">✉ Email <span>Client</span></a>
+    <nav>
+      <a href="#tool">The Tool</a>
+      <a href="#how">How it works</a>
+      <a href="#cards">Good to know</a>
+      <a href="#records">Records</a>
+      <a href="#files">Files</a>
+    </nav>
+  </div>
+</header>
+
+<div class="hero">
+  <img src="assets/email-client-hero.svg" alt="Eddie the eagle, the Email Client mascot, sorting letters into wooden pigeonholes">
+  <div class="cap">
+    <h1>Email Client</h1>
+    <p>A practice mailbox — read, file, and write, safely.</p>
+  </div>
+</div>
+
+<main class="wrap">
+  <p class="lede">This is a demo mailbox that runs entirely in your browser. It holds sample messages only. Read them, search them, file them, flag them, and write drafts. Nothing here is ever sent to a real address. <span class="free">Free forever — no sign-in, no payment</span></p>
+
+  <h2 id="tool">The Tool</h2>
+  <div class="toolcard">
+<p class="status">Demo mailbox only. These are sample messages. Nothing here is ever sent to a real address: filing a message in Sent only files the sample.</p>
+<p><label>Folder <select id="ecFolder"><option>inbox</option><option>sent</option><option>drafts</option><option>trash</option><option>spam</option></select></label>
+<label>Search <input type="text" id="ecSearch" size="24" placeholder="a word or a name"></label>
+<button id="ecGoSearch" type="button">Search</button>
+<button id="ecShowAll" type="button">Show folder</button></p>
+<div class="out" id="ecList">The inbox will appear here.</div>
+<h3>Write a message (demo)</h3>
+<p><label>To <input type="text" id="ecTo" size="30" placeholder="mara@example.test"></label>
+<label>Subject <input type="text" id="ecSubj" size="30" placeholder="Thank you"></label></p>
+<p><label>Message<br><textarea id="ecBody" style="min-height:80px">Thank you for the book. I will return it on Friday.</textarea></label></p>
+<div class="row"><button class="go" id="ecSaveDraft" type="button">Save as draft</button>
+<button id="ecFileSent" type="button">File in Sent folder (demo)</button></div>
+<div class="row"><button id="ecRead" type="button">Mark chosen as read</button>
+<button id="ecFlag" type="button">Flag chosen</button>
+<button id="ecTrash" type="button">Move chosen to Trash</button></div>
+<p class="status" id="ecStatus"></p>
+  </div>
+
+  <h2 id="how">How it works</h2>
+  <div class="steps">
+    <div><b>Open the inbox</b> Six sample messages wait there, newest first. Unread ones are bold.</div>
+    <div><b>Read a message</b> Press a message to choose it and read its words.</div>
+    <div><b>Search the mailbox</b> Search for a name or a word, across every folder.</div>
+    <div><b>Write a draft</b> Fill in an address, a subject, and your words, then save it as a draft.</div>
+    <div><b>File it in Sent</b> Filing a draft in Sent only files the sample. Nothing leaves this page.</div>
+  </div>
+  <p class="lede">Demo mailbox only. Live sending and delivery is a hosted service that this site does not provide, so no real mail is ever sent from here. The database records state the boundary in full.</p>
+
+  <h2 id="cards">Good to know</h2>
+  <p class="lede">Six things worth knowing before you open your mail.</p>
+  <div class="grid" id="cardsGrid">
+    <div class="card"><h3>What an Email Client Does</h3><p>A mail client reads, writes, and organises mail. This one works with a demo mailbox only.</p><p><a class="rec-link" href="../../db/email-client-service/#rec=JAH-EMCL-000001">Read the full record →</a></p></div>
+    <div class="card"><h3>Sending a Demo Message</h3><p>Filing a sample in Sent shows the steps. Nothing leaves the page.</p><p><a class="rec-link" href="../../db/email-client-service/#rec=JAH-EMCL-000006">Read the full record →</a></p></div>
+    <div class="card"><h3>Folders: Keeping Mail Tidy</h3><p>Few folders, clear rules. A tidy inbox is the heart of mail.</p><p><a class="rec-link" href="../../db/email-client-service/#rec=JAH-EMCL-000009">Read the full record →</a></p></div>
+    <div class="card"><h3>Templates: Letters You Send Often</h3><p>Only the names, dates, and details change from one use to the next.</p><p><a class="rec-link" href="../../db/email-client-service/#rec=JAH-EMCL-000015">Read the full record →</a></p></div>
+    <div class="card"><h3>Spam: Mail You Did Not Ask For</h3><p>If it asks for a password, it is not real. Never answer it.</p><p><a class="rec-link" href="../../db/email-client-service/#rec=JAH-EMCL-000021">Read the full record →</a></p></div>
+    <div class="card"><h3>The Demo Mailbox Boundary</h3><p>The demo is a practice mailbox. It sends nothing to any real address.</p><p><a class="rec-link" href="../../db/email-client-service/#rec=JAH-EMCL-000023">Read the full record →</a></p></div>
+  </div>
+
+  <h2 id="records">Records</h2>
+  <p class="lede">The Email Client Service Database holds the full rules behind this mailbox — 24 public records and 24 Signature records, each one a complete file.</p>
+  <div class="grid" id="recordsGrid"><p class="lede">Records load here when the database pair is filed. Browse the full archive meanwhile: <a href="../../db/email-client-software/">The Email Client Software Database</a> — 21 records.</p></div>
+
+  <h2 id="files">Files</h2>
+  <p class="lede">Everything on this page is downloadable. Take the tool's data, the records, or the page itself.</p>
+  <div class="dl">
+    <a href="assets/folders.json" download>⬇ Folders and sample messages (JSON)</a>
+    <a href="records.json" download>⬇ Service records (JSON)</a>
+    <a href="./" download>⬇ This page</a>
+    <a href="accessible/index.html">Plain version (no JavaScript needed)</a>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p><b>Network.</b> This service belongs to The 'Merica-L Internet: the front door is the <a href="https://justinahiggins614-cmyk.github.io/jah-databases/the-merica-l-virtual-internet.html">'Merica-L Virtual Internet</a>, the network's main page is <a href="https://justinahiggins614-cmyk.github.io/jah-databases/the-merica-l-boundless-ecosystem-os.html">'Merica-L Boundless Ecosystem OS</a>, and the databases live at the <a href="https://justinahiggins614-cmyk.github.io/jah-databases/">database hub</a>. The archive behind this service is the <a href="../../db/email-client-software/">The Email Client Software Database</a>.</p>
+    <p>Email Client is free forever. No sign-in, no payment, no tracking — your words never leave this page. Eddie the eagle is the mascot; he sorts the letters.</p>
+    <p><a href="accessible/index.html">Accessible version (plain text, no JavaScript needed)</a></p>
+  </div>
+</footer>
+
+<script>
+/* PURE TOOL FUNCTIONS — the page's own working tool, tested in Node. */
+/* Email Client — pure tool functions for the DEMO mailbox.
+   Demo mailbox only: messages are samples, nothing is ever sent to a
+   real address. "Sending" a demo message files it in the demo Sent folder. */
+var EC_FOLDERS = ["inbox", "sent", "drafts", "trash", "spam"];
+var EC_SAMPLES = [
+  { from: "The Reading Group", subject: "Meeting on Tuesday", body: "Hello all — we meet on Tuesday at six, in the library. Please bring your notes from chapter four." },
+  { from: "The Garden Club", subject: "Spring seed swap", body: "Our spring seed swap is on Saturday morning. Bring any spare seeds, labelled with their names." },
+  { from: "Mara", subject: "Thank you for the book", body: "Thank you for lending me the book. I finished it last night and loved the ending. I will return it on Friday." },
+  { from: "The Village Hall", subject: "Hall booking confirmed", body: "Your booking for the village hall on the 14th is confirmed. The key is kept in the box by the door." },
+  { from: "Tom", subject: "Photos from the walk", body: "Here are the photos from our walk on Sunday. The one of the bridge came out best, I think." },
+  { from: "The Library", subject: "Your reserved book is ready", body: "The book you reserved is ready to collect from the front desk. We keep reserved books for seven days." }
+];
+function ecCreateMailbox() {
+  var mb = { folders: {}, nextId: 1 };
+  EC_FOLDERS.forEach(function (f) { mb.folders[f] = []; });
+  EC_SAMPLES.forEach(function (s) {
+    mb.folders.inbox.push({ id: mb.nextId++, from: s.from, to: "You", subject: s.subject, body: s.body, read: false, flagged: false, folder: "inbox" });
+  });
+  return mb;
+}
+function ecCompose(mb, to, subject, body) {
+  if (!to || !subject) return null;
+  var m = { id: mb.nextId++, from: "You", to: to, subject: subject, body: body || "", read: true, flagged: false, folder: "drafts" };
+  mb.folders.drafts.push(m); return m;
+}
+function ecFileAsSent(mb, id) {
+  var i = mb.folders.drafts.findIndex(function (m) { return m.id === id; });
+  if (i === -1) return false;
+  var m = mb.folders.drafts.splice(i, 1)[0];
+  m.folder = "sent"; mb.folders.sent.push(m); return true;
+}
+function ecFind(mb, id) {
+  var found = null;
+  EC_FOLDERS.forEach(function (f) {
+    mb.folders[f].forEach(function (m) { if (m.id === id) found = m; });
+  });
+  return found;
+}
+function ecSearch(mb, q) {
+  q = String(q || "").toLowerCase();
+  if (!q) return [];
+  var out = [];
+  EC_FOLDERS.forEach(function (f) {
+    mb.folders[f].forEach(function (m) {
+      if ((m.from + " " + m.subject + " " + m.body).toLowerCase().indexOf(q) !== -1) out.push(m);
+    });
+  });
+  return out;
+}
+function ecMoveTo(mb, id, folder) {
+  if (EC_FOLDERS.indexOf(folder) === -1) return false;
+  var m = ecFind(mb, id);
+  if (!m) return false;
+  var arr = mb.folders[m.folder];
+  arr.splice(arr.indexOf(m), 1);
+  m.folder = folder; mb.folders[folder].push(m); return true;
+}
+function ecMarkRead(mb, id, read) {
+  var m = ecFind(mb, id);
+  if (!m) return false;
+  m.read = !!read; return true;
+}
+function ecFlag(mb, id, flagged) {
+  var m = ecFind(mb, id);
+  if (!m) return false;
+  m.flagged = !!flagged; return true;
+}
+function ecUnreadCount(mb) {
+  return mb.folders.inbox.filter(function (m) { return !m.read; }).length;
+}
+function ecFolderCount(mb, folder) { return mb.folders[folder] ? mb.folders[folder].length : -1; }
+if (typeof module !== "undefined" && module.exports) {
+  module.exports = { EC_FOLDERS: EC_FOLDERS, EC_SAMPLES: EC_SAMPLES, ecCreateMailbox: ecCreateMailbox, ecCompose: ecCompose, ecFileAsSent: ecFileAsSent, ecFind: ecFind, ecSearch: ecSearch, ecMoveTo: ecMoveTo, ecMarkRead: ecMarkRead, ecFlag: ecFlag, ecUnreadCount: ecUnreadCount, ecFolderCount: ecFolderCount };
+}
+
+</script>
+<script>
+(function(){
+'use strict';
+var ecMb = ecCreateMailbox();
+var ecChosen = null;
+function ecShowList(list, heading){ var o = document.getElementById('ecList'); if(!list.length){ o.textContent = heading + ': nothing here.'; return; } o.innerHTML = '<strong>' + heading + '</strong><br>' + list.map(function(m){ return '<div style="margin:8px 0;padding:8px;border:1px solid #e3ddcd;border-radius:8px;cursor:pointer" data-id="' + m.id + '">' + (m.read ? '' : '<b>Unread — </b>') + (m.flagged ? 'Flagged — ' : '') + m.from + ' — <b>' + m.subject + '</b><br><span style="color:#5b6472">' + m.body.slice(0, 120) + '</span></div>'; }).join(''); o.querySelectorAll('[data-id]').forEach(function(el){ el.addEventListener('click', function(){ ecChosen = +el.getAttribute('data-id'); var m = ecFind(ecMb, ecChosen); document.getElementById('ecStatus').textContent = m ? ('Chosen: "' + m.subject + '" from ' + m.from + ' — ' + m.body) : ''; }); }); }
+function ecShowFolder(){ var f = document.getElementById('ecFolder').value; ecShowList(ecMb.folders[f], 'Folder: ' + f + ' (' + ecMb.folders[f].length + ' messages, ' + (f === 'inbox' ? ecUnreadCount(ecMb) + ' unread' : 'all read') + ')'); }
+document.getElementById('ecFolder').addEventListener('change', ecShowFolder);
+document.getElementById('ecShowAll').addEventListener('click', ecShowFolder);
+document.getElementById('ecGoSearch').addEventListener('click', function(){ var q = document.getElementById('ecSearch').value; ecShowList(ecSearch(ecMb, q), 'Search for "' + q + '"'); });
+document.getElementById('ecSaveDraft').addEventListener('click', function(){ var m = ecCompose(ecMb, document.getElementById('ecTo').value, document.getElementById('ecSubj').value, document.getElementById('ecBody').value); document.getElementById('ecStatus').textContent = m ? 'Saved as a draft in the demo mailbox.' : 'A draft needs an address and a subject.'; ecShowFolder(); });
+document.getElementById('ecFileSent').addEventListener('click', function(){ var drafts = ecMb.folders.drafts; if(!drafts.length){ document.getElementById('ecStatus').textContent = 'There is no draft to file. Save a draft first.'; return; } ecFileAsSent(ecMb, drafts[drafts.length-1].id); document.getElementById('ecStatus').textContent = 'Filed in the demo Sent folder. Nothing was sent anywhere real.'; ecShowFolder(); });
+document.getElementById('ecRead').addEventListener('click', function(){ if(ecChosen) ecMarkRead(ecMb, ecChosen, true); ecShowFolder(); });
+document.getElementById('ecFlag').addEventListener('click', function(){ if(ecChosen) ecFlag(ecMb, ecChosen, true); ecShowFolder(); });
+document.getElementById('ecTrash').addEventListener('click', function(){ if(ecChosen) ecMoveTo(ecMb, ecChosen, 'trash'); ecShowFolder(); });
+ecShowFolder();
+fetch('records.json').then(function(r){return r.json();}).then(function(recs){
+  if(!recs || !recs.length) return;
+  var grid=document.getElementById('recordsGrid');
+  function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+  grid.innerHTML=recs.map(function(rec){
+    var link=rec.url?'<p><a class="rec-link" href="'+rec.url+'">Read the full record →</a></p>':'';
+    return '<div class="card"><h3>'+esc(rec.title||rec.id)+'</h3><p>'+esc(rec.description||'')+'</p>'+link+'</div>';
+  }).join('');
+}).catch(function(){ /* records load with the database pair */ });
+})();
+</script>
+</body>
+</html>
