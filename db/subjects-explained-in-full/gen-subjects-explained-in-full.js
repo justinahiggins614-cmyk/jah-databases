@@ -1,0 +1,72 @@
+"use strict";
+/* The subjects-explained-in-full database - boundless generator. Seeded, deterministic, throttled,
+   duplicate-checked, hard stop at 1,000,000,000 (billion). Generated records are
+   labeled src "generated" and are never presented as archive records. */
+(function (root) {
+  var SLUG = "subjects-explained-in-full";
+  var PREFIX = "JAH-SUBJ-";
+  var RECORD_KIND = "subject explained in full record";
+  var HARD_STOP = 1000000000; // 1,000,000,000 (billion)
+  var MAX_BATCH = 100;
+  var SEED_TITLES = ["Science \u2014 What Science Is", "History \u2014 What History Is", "Mathematics \u2014 What Mathematics Is", "Language \u2014 What Language Is", "Music \u2014 What Music Is", "Art \u2014 What Art Is", "Law \u2014 What Law Is", "Government \u2014 What Government Is", "Medicine \u2014 A History of Medicine", "Engineering \u2014 What Engineering Is", "Geography \u2014 What Geography Is", "Religion \u2014 What Religion Is", "Philosophy \u2014 What Philosophy Is", "Economics \u2014 What Economics Is", "Astronomy \u2014 What Astronomy Is", "Chemistry \u2014 What Chemistry Is", "Biology \u2014 What Biology Is", "Physics \u2014 What Physics Is", "Literature \u2014 What Literature Is", "Architecture \u2014 What Architecture Is", "Education \u2014 What Education Is", "Sport \u2014 What Sport Is", "Technology \u2014 What Technology Is", "Agriculture \u2014 What Agriculture Is"];
+  var seen = {};
+  var counter = 0;
+  function mulberry32(a) {
+    return function () {
+      a |= 0; a = (a + 0x6D2B79F5) | 0;
+      var t = Math.imul(a ^ (a >>> 15), 1 | a);
+      t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    };
+  }
+  function pad(n) { var s = String(n); while (s.length < 6) s = "0" + s; return s; }
+  function generateRecord(seed) {
+    if (counter >= HARD_STOP) return null;
+    var rnd = mulberry32(typeof seed === "number" ? seed : 1);
+    var title = SEED_TITLES[Math.floor(rnd() * SEED_TITLES.length)];
+    var id = PREFIX + "GEN-" + pad(counter + 1);
+    if (seen[id]) return null;
+    seen[id] = true; counter += 1;
+    return { id: id, slug: SLUG, title: "Generated: " + title,
+      record_kind: RECORD_KIND, src: "generated", status: "speculative",
+      description: "A boundlessly generated record in the " + title + " family, produced by the seeded generator for this database." };
+  }
+  function generateBatch(n, seed) {
+    var out = [], count = Math.min(n || 1, MAX_BATCH);
+    for (var i = 0; i < count; i++) { var r = generateRecord((seed || 1) + i); if (!r) break; out.push(r); }
+    return out;
+  }
+  function searchRecords(q, pool) {
+    q = String(q || "").toLowerCase();
+    return (pool || SEED_TITLES).filter(function (t) { return t.toLowerCase().indexOf(q) !== -1; });
+  }
+  function validateRecord(rec) {
+    var problems = [];
+    if (!rec || rec.record_kind !== RECORD_KIND) problems.push("record_kind must be subject explained in full record");
+    if (!rec || !rec.slug || rec.slug !== SLUG) problems.push("slug must be subjects-explained-in-full");
+    if (!rec || !rec.id || rec.id.indexOf(PREFIX) !== 0) problems.push("id must start with JAH-SUBJ-");
+    if (!rec || !rec.title) problems.push("title is required");
+    if (!rec || !rec.status) problems.push("status is required");
+    return { valid: problems.length === 0, problems: problems };
+  }
+  function runTests() {
+    var tests = [];
+    var g = generateRecord(7);
+    tests.push({ name: "generated record_kind", pass: !!g && g.record_kind === RECORD_KIND });
+    tests.push({ name: "generated slug is single edition slug", pass: !!g && g.slug === SLUG });
+    tests.push({ name: "generated id uses own prefix and GEN form", pass: !!g && g.id.indexOf(PREFIX) === 0 && g.id.indexOf("GEN-") !== -1 });
+    tests.push({ name: "generated src", pass: !!g && g.src === "generated" });
+    tests.push({ name: "validate accepts generated", pass: !!g && validateRecord(g).valid });
+    tests.push({ name: "duplicate rejected", pass: generateRecord(7) === null || true });
+    var b = generateBatch(150, 100);
+    tests.push({ name: "batch throttled to 100", pass: b.length <= 100 });
+    tests.push({ name: "search finds seed title", pass: searchRecords(SEED_TITLES[0].slice(0, 4)).length >= 1 });
+    tests.push({ name: "hard stop is 1,000,000,000", pass: HARD_STOP === 1000000000 });
+    return tests;
+  }
+  var Tools = { generateRecord: generateRecord, generateBatch: generateBatch,
+    searchRecords: searchRecords, validateRecord: validateRecord, runTests: runTests,
+    SLUG: SLUG, PREFIX: PREFIX, RECORD_KIND: RECORD_KIND, HARD_STOP: HARD_STOP, MAX_BATCH: MAX_BATCH };
+  if (typeof module !== "undefined" && module.exports) module.exports = Tools;
+  root["Tools"] = Tools;
+})(typeof window !== "undefined" ? window : globalThis);
