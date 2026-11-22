@@ -1,3 +1,4 @@
+/* WAVE 1 FULL-FILE CHECK 2026-11-02: record_kind added to the emitted record (GEN GATE: emitted record_kind must equal the manifest record_kind). No other behaviour changed. */
 (function(){'use strict';
 /* Signature Movies Database generator — jahdb-movies-signature-generator-1.0.
    Property of Justin Addam Higgins (JAH).
@@ -18,7 +19,7 @@ function generate(seed,opts){
   var desc=topic[1];
   var content=topic[0]+' \u2014 '+topic[1];
   return {
-    id:id, title:title, description:desc, genre:angle,
+    id:id, title:title, description:desc, genre:angle, record_kind:'signature movie creation',
     type:'signature movie creation', content:content, content_completeness:'stub',
     stub_note:'Topic stub: the topic title and its one-line brief are real; the full guide article is not yet written. This record does not present shell text as a complete guide.',
     demo:null, src:'signature', _seed:seed

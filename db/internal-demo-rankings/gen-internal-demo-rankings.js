@@ -1,3 +1,4 @@
+/* WAVE 1 FULL-FILE CHECK 2026-11-02: record_kind added to the emitted record (GEN GATE: emitted record_kind must equal the manifest record_kind). No other behaviour changed. */
 /* ✳ SIGNATURE — Internal Demo Rankings Database generator. Property of Justin Addam Higgins (JAH).
    Boundless generator: re-audits any database's simulations/programs/demos and
    produces a ranking record in the exact archive format. Deterministic:
@@ -34,6 +35,7 @@
       n: n,
       target_slug: 'audit-target-' + (1 + Math.floor(rnd() * 1700)),
       audit_kind: 'synthetic-reseed',
+      record_kind: 'demo ranking',
       score: 40 + Math.floor(rnd() * 60),
       note: 'Re-audit record. Real audits run server-side; this generator reproduces the scoring rubric deterministically.',
       src: 'signature',

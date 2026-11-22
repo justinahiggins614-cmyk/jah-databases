@@ -230,6 +230,20 @@ JAHDB.loadManifest().then(function(m){manifest=m;db=JAHDB.dbBySlug(m,SLUG)||db;}
   greet();
   deepOpen();
 }).catch(function(e){ $('stCount').textContent='archive unreachable ('+e.message+')'; });
+
+/* BLANK-FIX (Wave 1 full-file check 2026-11-02): position-based chunk loading.
+   The original index rows carry no 'c' chunk pointer, so grouping by r.c
+   fetched a nonexistent chunk file and every group rendered 'Nothing loaded.'
+   CHUNK_SIZES lists the real record count of each chunk file in order (from
+   the archive layout); index order == chunk order (verified), so a row's chunk
+   follows from its position. */
+var CHUNK_SIZES=[100, 31];
+function chunkForPos(pos){ var s=0,i; for(i=0;i<CHUNK_SIZES.length;i++){ s+=CHUNK_SIZES[i]; if(pos<s) return i+1; } return CHUNK_SIZES.length; }
+function chunkForRow(r){
+  var idx=archiveIdx.findIndex(function(x){return x.id===r.id;});
+  return idx<0?1:chunkForPos(idx);
+}
+function groupByPosition(rows){ var by={}; rows.forEach(function(r){ var c=chunkForRow(r); (by[c]=by[c]||[]).push(r.id); }); return by; }
 function chunkName(c){ return 'chunks/chunk-'+String(c).padStart(4,'0')+'.jsonl.gz'; }
 function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
 function fmtVal(v){
@@ -298,8 +312,7 @@ function buildGroups(){
 function loadCatSample(genre,body){
   body.innerHTML='<p class="dim">Loading…</p>';
   var rows=archiveIdx.filter(function(r){return r.g===genre;}).slice(0,25);
-  var byChunk={};
-  rows.forEach(function(r){ (byChunk[r.c]=byChunk[r.c]||[]).push(r.id); });
+  var byChunk=groupByPosition(rows);
   var jobs=Object.keys(byChunk).map(function(c){
     return JAHDB.fetchJsonlGz(LOCAL+chunkName(+c)).then(function(recs){
       var want={}; byChunk[c].forEach(function(id){want[id]=1;});
@@ -318,8 +331,7 @@ function doSearch(){
   var hits=archiveIdx.filter(function(r){return (r.t+' '+r.id+' '+(r.g||'')).toLowerCase().indexOf(q)>=0;}).slice(0,12);
   if(!hits.length){box.innerHTML='<p class="dim">No archive hits. Try the Generator tab to make one — describe anything.</p>';return;}
   box.innerHTML='<h3>Archive hits ('+hits.length+')</h3>';
-  var byChunk={};
-  hits.forEach(function(r){(byChunk[r.c]=byChunk[r.c]||[]).push(r.id);});
+  var byChunk=groupByPosition(hits);
   Object.keys(byChunk).forEach(function(c){
     JAHDB.fetchJsonlGz(LOCAL+chunkName(+c)).then(function(recs){
       var want={};byChunk[c].forEach(function(id){want[id]=1;});
@@ -423,7 +435,7 @@ function aiFind(q){
   }).filter(function(x){return x.s>0;}).sort(function(a,b){return b.s-a.s;}).slice(0,5);
   if(!scored.length){ say('a','No stored records match “'+q+'”. Try the Archive tab search, or ask me to GENERATE a brand-new record on that theme — any topic, any type.'); return; }
   say('a','Pulled up '+scored.length+' stored record'+(scored.length>1?'s':'')+' matching “'+q+'”:');
-  var byChunk={}; scored.forEach(function(x){ (byChunk[x.r.c]=byChunk[x.r.c]||[]).push(x.r.id); });
+  var byChunk=groupByPosition(scored.map(function(x){return x.r;}));
   var jobs=Object.keys(byChunk).map(function(c){
     return JAHDB.fetchJsonlGz(LOCAL+chunkName(+c)).then(function(recs){
       var want={}; byChunk[c].forEach(function(id){want[id]=1;});

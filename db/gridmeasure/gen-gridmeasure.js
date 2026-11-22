@@ -1,3 +1,4 @@
+/* WAVE 1 FULL-FILE CHECK 2026-11-02: record_kind added to the emitted record (GEN GATE: emitted record_kind must equal the manifest record_kind). No other behaviour changed. */
 /* ✳ SIGNATURE — JAH Image Measure Data Base generator. Property of Justin Addam Higgins (JAH).
    Boundless generator: produces NEW measure records in the exact archive format
    (id, name, shape, svg, table[[label, value]]). Deterministic: same seed +
@@ -93,6 +94,7 @@
     };
     var pub = {};
     ['id', 'n', 'name', 'shape', 'svg', 'table'].forEach(function (k) { pub[k] = rec[k]; });
+    pub.record_kind = 'measure record';
     pub._priv = { shape: shape, p: p, label: label };
     return pub;
   }

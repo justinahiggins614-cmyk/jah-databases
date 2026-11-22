@@ -1,3 +1,4 @@
+/* WAVE 1 FULL-FILE CHECK 2026-11-02: record_kind added to the emitted record (GEN GATE: emitted record_kind must equal the manifest record_kind). No other behaviour changed. */
 /* ✳ SIGNATURE — JAH Flight Data Base generator. Property of Justin Addam Higgins (JAH).
    Boundless generator: produces NEW flight-lesson records in the archive's exact
    format (id, name, letter, region, distance_km, skill, craft, highlights,
@@ -68,6 +69,7 @@
     var n = (opts.baseN || 0) + seed;
     var pub = {
       id: ID_PREFIX + String(n).padStart(ID_DIGITS, '0'),
+      record_kind: 'flight record',
       n: n,
       name: name,
       letter: letter,

@@ -1,3 +1,4 @@
+/* WAVE 1 FULL-FILE CHECK 2026-11-02: record_kind added to the emitted record (GEN GATE: emitted record_kind must equal the manifest record_kind). No other behaviour changed. */
 (function(){'use strict';
 /* EXPANSION 2026-10-18 group-1: new-category branches added. */
 /* Signature Oddities Database generator — jahdb-oddities-generator-1.0.
@@ -75,7 +76,7 @@ function generate(seed,opts){
   var desc=topic[1];
   var content=topic[0]+' \u2014 '+topic[1];
   return {
-    id:id, title:title, description:desc, genre:angle,
+    id:id, title:title, description:desc, genre:angle, record_kind:'oddities exploration',
     type:'oddities exploration', content:content, content_completeness:'stub',
     stub_note:'Topic stub: the topic title and its one-line brief are real; the full guide article is not yet written. This record does not present shell text as a complete guide.',
     demo:null, src:'signature', _seed:seed
