@@ -1,0 +1,44 @@
+# Sources — The Signature Functional Analysis Research Database (Signature edition)
+
+28 distinct sources cited across the 24 records of `functional-analysis-signature`.
+Each source names the records that cite it. Sources are listed last, as citations for the whole database.
+Each source's establishes note records its retrieval (2026-11-17, HTTP 200).
+
+- [Wikipedia - Normed vector space](https://en.wikipedia.org/wiki/Normed_vector_space) — Normed vector space: the three norm axioms. Retrieved 2026-11-17; HTTP 200 verified by curl before citation. (cited by JAH-FUNAS-000001, JAH-FUNAS-000002, JAH-FUNAS-000005, JAH-FUNAS-000009)
+- [Wikipedia - Banach space](https://en.wikipedia.org/wiki/Banach_space) — Banach space: complete normed spaces. Retrieved 2026-11-17; HTTP 200 verified by curl before citation. (cited by JAH-FUNAS-000001, JAH-FUNAS-000002, JAH-FUNAS-000003, JAH-FUNAS-000005, JAH-FUNAS-000006, JAH-FUNAS-000007, JAH-FUNAS-000008, JAH-FUNAS-000020, JAH-FUNAS-000021, JAH-FUNAS-000022, JAH-FUNAS-000023)
+- [Wikipedia - Functional analysis](https://en.wikipedia.org/wiki/Functional_analysis) — Functional analysis: normed spaces as its setting. Retrieved 2026-11-17; HTTP 200 verified by curl before citation. (cited by JAH-FUNAS-000001, JAH-FUNAS-000024)
+- [Wikipedia - Lp space](https://en.wikipedia.org/wiki/Lp_space) — Lp space: Riesz-Fischer completeness. Retrieved 2026-11-17; HTTP 200 verified by curl before citation. (cited by JAH-FUNAS-000002, JAH-FUNAS-000015, JAH-FUNAS-000016)
+- [Wikipedia - Hilbert space](https://en.wikipedia.org/wiki/Hilbert_space) — Hilbert space: inner products and the projection theorem. Retrieved 2026-11-17; HTTP 200 verified by curl before citation. (cited by JAH-FUNAS-000003, JAH-FUNAS-000004, JAH-FUNAS-000010, JAH-FUNAS-000012, JAH-FUNAS-000015, JAH-FUNAS-000017, JAH-FUNAS-000024)
+- [MathWorld - Hilbert Space](https://mathworld.wolfram.com/HilbertSpace.html) — MathWorld Hilbert space: reference definitions. Retrieved 2026-11-17; HTTP 200 verified by curl before citation. (cited by JAH-FUNAS-000003)
+- [Wikipedia - Riesz representation theorem](https://en.wikipedia.org/wiki/Riesz_representation_theorem) — Riesz representation theorem: functionals as inner products. Retrieved 2026-11-17; HTTP 200 verified by curl before citation. (cited by JAH-FUNAS-000004, JAH-FUNAS-000017)
+- [Wikipedia - Dual space](https://en.wikipedia.org/wiki/Dual_space) — Dual space: continuous linear functionals. Retrieved 2026-11-17; HTTP 200 verified by curl before citation. (cited by JAH-FUNAS-000004, JAH-FUNAS-000009, JAH-FUNAS-000010, JAH-FUNAS-000014, JAH-FUNAS-000020)
+- [Wikipedia - Bounded operator](https://en.wikipedia.org/wiki/Bounded_operator) — Bounded operator: the operator norm and continuity. Retrieved 2026-11-17; HTTP 200 verified by curl before citation. (cited by JAH-FUNAS-000005, JAH-FUNAS-000007, JAH-FUNAS-000024)
+- [Wikipedia - Uniform boundedness principle](https://en.wikipedia.org/wiki/Uniform_boundedness_principle) — Uniform boundedness principle: pointwise bounded implies uniformly bounded. Retrieved 2026-11-17; HTTP 200 verified by curl before citation. (cited by JAH-FUNAS-000006)
+- [Wikipedia - Fourier transform](https://en.wikipedia.org/wiki/Fourier_transform) — Fourier transform: the divergent-series application. Retrieved 2026-11-17; HTTP 200 verified by curl before citation. (cited by JAH-FUNAS-000006, JAH-FUNAS-000015)
+- [Wikipedia - Open mapping theorem (functional analysis)](https://en.wikipedia.org/wiki/Open_mapping_theorem_(functional_analysis)) — Open mapping theorem: surjective bounded operators are open. Retrieved 2026-11-17; HTTP 200 verified by curl before citation. (cited by JAH-FUNAS-000007, JAH-FUNAS-000008)
+- [Wikipedia - Closed graph theorem](https://en.wikipedia.org/wiki/Closed_graph_theorem) — Closed graph theorem: closed graph implies bounded. Retrieved 2026-11-17; HTTP 200 verified by curl before citation. (cited by JAH-FUNAS-000008)
+- [Wikipedia - Hahn-Banach theorem](https://en.wikipedia.org/wiki/Hahn%E2%80%93Banach_theorem) — Hahn-Banach theorem: extension of dominated functionals. Retrieved 2026-11-17; HTTP 200 verified by curl before citation. (cited by JAH-FUNAS-000009, JAH-FUNAS-000010)
+- [Wikipedia - Compact operator](https://en.wikipedia.org/wiki/Compact_operator) — Compact operator: relatively compact images and spectra. Retrieved 2026-11-17; HTTP 200 verified by curl before citation. (cited by JAH-FUNAS-000011, JAH-FUNAS-000012, JAH-FUNAS-000013)
+- [Wikipedia - Spectral theorem](https://en.wikipedia.org/wiki/Spectral_theorem) — Spectral theorem: diagonalization. Retrieved 2026-11-17; HTTP 200 verified by curl before citation. (cited by JAH-FUNAS-000011, JAH-FUNAS-000012, JAH-FUNAS-000013, JAH-FUNAS-000018, JAH-FUNAS-000019, JAH-FUNAS-000022)
+- [Wikipedia - Fredholm alternative](https://en.wikipedia.org/wiki/Fredholm_alternative) — Fredholm alternative: solvability. Retrieved 2026-11-17; HTTP 200 verified by curl before citation. (cited by JAH-FUNAS-000011, JAH-FUNAS-000013)
+- [Wikipedia - Distribution (mathematics)](https://en.wikipedia.org/wiki/Distribution_(mathematics)) — Distribution: generalized functions as functionals. Retrieved 2026-11-17; HTTP 200 verified by curl before citation. (cited by JAH-FUNAS-000014, JAH-FUNAS-000016)
+- [Wikipedia - Sobolev space](https://en.wikipedia.org/wiki/Sobolev_space) — Sobolev space: functions with distributional derivatives. Retrieved 2026-11-17; HTTP 200 verified by curl before citation. (cited by JAH-FUNAS-000014, JAH-FUNAS-000016, JAH-FUNAS-000018)
+- [Wikipedia - Lax-Milgram theorem](https://en.wikipedia.org/wiki/Lax%E2%80%93Milgram_theorem) — Lax-Milgram theorem: bounded coercive forms give unique solutions. Retrieved 2026-11-17; HTTP 200 verified by curl before citation. (cited by JAH-FUNAS-000017)
+- [Wikipedia - Unbounded operator](https://en.wikipedia.org/wiki/Unbounded_operator) — Unbounded operator: domains, closed operators, adjoints. Retrieved 2026-11-17; HTTP 200 verified by curl before citation. (cited by JAH-FUNAS-000018, JAH-FUNAS-000019)
+- [Wikipedia - Hille-Yosida theorem](https://en.wikipedia.org/wiki/Hille%E2%80%93Yosida_theorem) — Hille-Yosida theorem: generators of contraction semigroups. Retrieved 2026-11-17; HTTP 200 verified by curl before citation. (cited by JAH-FUNAS-000019)
+- [Wikipedia - Krein-Milman theorem](https://en.wikipedia.org/wiki/Krein%E2%80%93Milman_theorem) — Krein-Milman theorem: compact convex sets from extreme points. Retrieved 2026-11-17; HTTP 200 verified by curl before citation. (cited by JAH-FUNAS-000020)
+- [Wikipedia - Banach fixed-point theorem](https://en.wikipedia.org/wiki/Banach_fixed-point_theorem) — Banach fixed-point theorem: contractions have unique fixed points. Retrieved 2026-11-17; HTTP 200 verified by curl before citation. (cited by JAH-FUNAS-000021)
+- [Wikipedia - Metric space](https://en.wikipedia.org/wiki/Metric_space) — Metric space: the complete setting. Retrieved 2026-11-17; HTTP 200 verified by curl before citation. (cited by JAH-FUNAS-000021)
+- [Wikipedia - Gelfand representation](https://en.wikipedia.org/wiki/Gelfand_representation) — Gelfand representation: commutative C-star algebras as function algebras. Retrieved 2026-11-17; HTTP 200 verified by curl before citation. (cited by JAH-FUNAS-000022)
+- [Wikipedia - Stone-Weierstrass theorem](https://en.wikipedia.org/wiki/Stone%E2%80%93Weierstrass_theorem) — Stone-Weierstrass theorem: dense subalgebras. Retrieved 2026-11-17; HTTP 200 verified by curl before citation. (cited by JAH-FUNAS-000023)
+- [Wikipedia - Compact space](https://en.wikipedia.org/wiki/Compact_space) — Compact space: the compact domain. Retrieved 2026-11-17; HTTP 200 verified by curl before citation. (cited by JAH-FUNAS-000023)
+
+## Honesty limits
+
+- PACKAGE-ONLY — not live. This website is part of a package-only build: nothing here is deployed, pushed, or merged.
+- Evidence status is stated on every record exactly as the sources support it — Proposed, Derived, Simulated, Experimentally tested, Independently reproduced, Formally verified, or Peer reviewed. An open problem is reported open; nothing here upgrades an open problem to a solved one.
+- Signature edition records are Signature-made design studies. Their framing is a SIGNATURE DESIGN CLAIM only, never established fact and never presented as authentic public record.
+- Every technical term is defined in plain words on first use, and the wave glossary is linked on every page. No term is assumed known.
+- Every cited URL was verified HTTP 200 at Wave 1 validation (2026-11-17). No URL is invented: every link is a real URL from the records or a real relative path.
+- The demo on each page actually ran: the output shown is the real executed output, byte-identical to the record's expected output.
+- A SHA-256 fingerprint identifies a record; it does not prove ownership or correctness of the mathematics.

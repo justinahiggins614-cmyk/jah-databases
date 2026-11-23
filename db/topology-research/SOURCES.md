@@ -1,0 +1,39 @@
+# Sources — Topology Research Database (Public edition)
+
+23 distinct sources cited across the 24 records of `topology-research`.
+Each source names the records that cite it. Sources are listed last, as citations for the whole database.
+Each source's establishes note records its retrieval (2026-11-17, HTTP 200).
+
+- [Wikipedia - Topology](https://en.wikipedia.org/wiki/Topology) — Topology: the definition of a topological space, open sets, and continuity. Retrieved 2026-11-17; HTTP 200 verified by curl before citation. (cited by JAH-TOPR-000001, JAH-TOPR-000002, JAH-TOPR-000003, JAH-TOPR-000004, JAH-TOPR-000005, JAH-TOPR-000012, JAH-TOPR-000014, JAH-TOPR-000020, JAH-TOPR-000024)
+- [Wikipedia - Point-set topology](https://en.wikipedia.org/wiki/Point-set_topology) — Point-set topology: the open-set axioms and the basic examples. Retrieved 2026-11-17; HTTP 200 verified by curl before citation. (cited by JAH-TOPR-000001, JAH-TOPR-000002, JAH-TOPR-000003, JAH-TOPR-000006, JAH-TOPR-000018)
+- [MathWorld - Topology](https://mathworld.wolfram.com/Topology.html) — MathWorld topology: open sets and continuity in compact reference form. Retrieved 2026-11-17; HTTP 200 verified by curl before citation. (cited by JAH-TOPR-000001)
+- [Wikipedia - Product topology](https://en.wikipedia.org/wiki/Product_topology) — Product topology: the standard example of a topology defined by a subbase. Retrieved 2026-11-17; HTTP 200 verified by curl before citation. (cited by JAH-TOPR-000002, JAH-TOPR-000007)
+- [Wikipedia - Metric space](https://en.wikipedia.org/wiki/Metric_space) — Metric space: the four metric axioms, Cauchy sequences, and completeness. Retrieved 2026-11-17; HTTP 200 verified by curl before citation. (cited by JAH-TOPR-000003, JAH-TOPR-000004, JAH-TOPR-000005, JAH-TOPR-000006, JAH-TOPR-000018)
+- [Wikipedia - Compact space](https://en.wikipedia.org/wiki/Compact_space) — Compact space: open covers, finite subcovers, and the Heine-Borel theorem. Retrieved 2026-11-17; HTTP 200 verified by curl before citation. (cited by JAH-TOPR-000004, JAH-TOPR-000019)
+- [Wikipedia - Connected space](https://en.wikipedia.org/wiki/Connected_space) — Connected space: separation, components, and path connectedness. Retrieved 2026-11-17; HTTP 200 verified by curl before citation. (cited by JAH-TOPR-000005, JAH-TOPR-000016, JAH-TOPR-000017)
+- [Wikipedia - Hausdorff space](https://en.wikipedia.org/wiki/Hausdorff_space) — Hausdorff space: the separation axiom and uniqueness of limits. Retrieved 2026-11-17; HTTP 200 verified by curl before citation. (cited by JAH-TOPR-000006, JAH-TOPR-000018, JAH-TOPR-000019)
+- [Wikipedia - Quotient space (topology)](https://en.wikipedia.org/wiki/Quotient_space_(topology)) — Quotient space: identification and the quotient topology. Retrieved 2026-11-17; HTTP 200 verified by curl before citation. (cited by JAH-TOPR-000007)
+- [Wikipedia - Surface (topology)](https://en.wikipedia.org/wiki/Surface_(topology)) — Surface (topology): the torus as a quotient of a square. Retrieved 2026-11-17; HTTP 200 verified by curl before citation. (cited by JAH-TOPR-000007, JAH-TOPR-000011, JAH-TOPR-000012, JAH-TOPR-000013)
+- [Wikipedia - Fundamental group](https://en.wikipedia.org/wiki/Fundamental_group) — Fundamental group: loops, homotopy classes, and the circle. Retrieved 2026-11-17; HTTP 200 verified by curl before citation. (cited by JAH-TOPR-000008, JAH-TOPR-000009, JAH-TOPR-000015, JAH-TOPR-000022, JAH-TOPR-000023)
+- [Wikipedia - Homotopy](https://en.wikipedia.org/wiki/Homotopy) — Homotopy: deformation of maps and paths. Retrieved 2026-11-17; HTTP 200 verified by curl before citation. (cited by JAH-TOPR-000008, JAH-TOPR-000009, JAH-TOPR-000015, JAH-TOPR-000023)
+- [Wikipedia - Algebraic topology](https://en.wikipedia.org/wiki/Algebraic_topology) — Algebraic topology: the fundamental group as its first invariant. Retrieved 2026-11-17; HTTP 200 verified by curl before citation. (cited by JAH-TOPR-000008, JAH-TOPR-000009, JAH-TOPR-000023)
+- [Wikipedia - Homology (mathematics)](https://en.wikipedia.org/wiki/Homology_(mathematics)) — Homology: chain complexes, cycles, boundaries, and Betti numbers. Retrieved 2026-11-17; HTTP 200 verified by curl before citation. (cited by JAH-TOPR-000010, JAH-TOPR-000011, JAH-TOPR-000016, JAH-TOPR-000017, JAH-TOPR-000020, JAH-TOPR-000021)
+- [Wikipedia - Euler characteristic](https://en.wikipedia.org/wiki/Euler_characteristic) — Euler characteristic: the alternating sum of Betti numbers. Retrieved 2026-11-17; HTTP 200 verified by curl before citation. (cited by JAH-TOPR-000010, JAH-TOPR-000011, JAH-TOPR-000013, JAH-TOPR-000021)
+- [Wikipedia - Simplicial complex](https://en.wikipedia.org/wiki/Simplicial_complex) — Simplicial complex: triangulations from which homology is computed. Retrieved 2026-11-17; HTTP 200 verified by curl before citation. (cited by JAH-TOPR-000010, JAH-TOPR-000021)
+- [Wikipedia - Manifold](https://en.wikipedia.org/wiki/Manifold) — Manifold: charts, atlases, and smooth structure. Retrieved 2026-11-17; HTTP 200 verified by curl before citation. (cited by JAH-TOPR-000012, JAH-TOPR-000013, JAH-TOPR-000014, JAH-TOPR-000022, JAH-TOPR-000024)
+- [Wikipedia - Knot theory](https://en.wikipedia.org/wiki/Knot_theory) — Knot theory: diagrams, Reidemeister moves, and invariants. Retrieved 2026-11-17; HTTP 200 verified by curl before citation. (cited by JAH-TOPR-000014, JAH-TOPR-000024)
+- [Wikipedia - Covering space](https://en.wikipedia.org/wiki/Covering_space) — Covering space: sheets, universal covers, and the subgroup correspondence. Retrieved 2026-11-17; HTTP 200 verified by curl before citation. (cited by JAH-TOPR-000015)
+- [Wikipedia - Brouwer fixed-point theorem](https://en.wikipedia.org/wiki/Brouwer_fixed-point_theorem) — Brouwer fixed-point theorem: every continuous self-map of a ball has a fixed point. Retrieved 2026-11-17; HTTP 200 verified by curl before citation. (cited by JAH-TOPR-000016, JAH-TOPR-000020)
+- [Wikipedia - Jordan curve theorem](https://en.wikipedia.org/wiki/Jordan_curve_theorem) — Jordan curve theorem: a simple closed curve separates the plane into two components. Retrieved 2026-11-17; HTTP 200 verified by curl before citation. (cited by JAH-TOPR-000017)
+- [Wikipedia - Compactification (mathematics)](https://en.wikipedia.org/wiki/Compactification_(mathematics)) — Compactification: one-point and Stone-Cech compactifications. Retrieved 2026-11-17; HTTP 200 verified by curl before citation. (cited by JAH-TOPR-000019)
+- [Wikipedia - Topological group](https://en.wikipedia.org/wiki/Topological_group) — Topological group: groups with continuous operations. Retrieved 2026-11-17; HTTP 200 verified by curl before citation. (cited by JAH-TOPR-000022)
+
+## Honesty limits
+
+- PACKAGE-ONLY — not live. This website is part of a package-only build: nothing here is deployed, pushed, or merged.
+- Evidence status is stated on every record exactly as the sources support it — Proposed, Derived, Simulated, Experimentally tested, Independently reproduced, Formally verified, or Peer reviewed. An open problem is reported open; nothing here upgrades an open problem to a solved one.
+- Signature edition records are Signature-made design studies. Their framing is a SIGNATURE DESIGN CLAIM only, never established fact and never presented as authentic public record.
+- Every technical term is defined in plain words on first use, and the wave glossary is linked on every page. No term is assumed known.
+- Every cited URL was verified HTTP 200 at Wave 1 validation (2026-11-17). No URL is invented: every link is a real URL from the records or a real relative path.
+- The demo on each page actually ran: the output shown is the real executed output, byte-identical to the record's expected output.
+- A SHA-256 fingerprint identifies a record; it does not prove ownership or correctness of the mathematics.
