@@ -1,0 +1,12 @@
+const crypto = require("crypto");
+const figures = {"owners_found": 6, "properties_reassigned": 2, "properties_recovered": 8, "public_notices": 8};
+const keys = Object.keys(figures).sort();
+const totalA = keys.reduce((a, k) => a + figures[k], 0);
+let totalB = 0;
+for (const k of keys) totalB += figures[k];
+const d1 = crypto.createHash("sha256").update(String(totalA)).digest("hex");
+const d2 = crypto.createHash("sha256").update(String(totalB)).digest("hex");
+console.log("total=" + totalA);
+console.log("digest_a=" + d1);
+console.log("digest_b=" + d2);
+console.log("match=" + (d1 === d2 ? "True" : "False"));
