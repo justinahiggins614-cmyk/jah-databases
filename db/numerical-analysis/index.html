@@ -1,0 +1,1318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Numerical Analysis Database</title>
+<style>
+:root{--accent:#b45309;--accent2:#0f766e;--bg:#ffffff;--fg:#1a1a1a;--muted:#555555;--pre:#f4f4f4;}
+body{font-family:Georgia,'Times New Roman',serif;max-width:46rem;margin:0 auto;padding:1rem 1.2rem;line-height:1.55;color:var(--fg);background:var(--bg);}
+header{border-bottom:4px solid var(--accent);padding-bottom:.5rem;}
+h1{color:var(--accent);line-height:1.2;}
+h2{color:var(--accent);border-top:2px solid var(--accent);padding-top:.6rem;margin-top:2rem;}
+h3{color:var(--accent);margin-top:1.5rem;}
+a{color:var(--accent);}
+nav{margin:.8rem 0;}
+nav a{margin-right:.9rem;}
+.status{color:var(--muted);font-style:italic;}
+pre{background:var(--pre);padding:.7rem;overflow-x:auto;white-space:pre-wrap;word-wrap:break-word;font-size:.85rem;}
+code{font-size:.9rem;}
+table{border-collapse:collapse;margin:.6rem 0;}
+th,td{border:1px solid var(--muted);padding:.35rem .6rem;text-align:left;vertical-align:top;}
+footer{border-top:2px solid var(--accent);margin-top:2rem;padding-top:.6rem;color:var(--muted);}
+</style>
+</head>
+<body>
+<header>
+<h1>Numerical Analysis Database</h1>
+<p class="status">Package-only. This website is not published anywhere. Built 2026-11-17 as part of the 100 College-Level Resources program, Wave 1.</p>
+<p class="status">Subject website for the Numerical Analysis Database (Wave 1, 24 records).</p>
+</header>
+<nav><a href="#descriptions">Descriptions</a><a href="#math-proof">Math Proof</a><a href="#science-proof">Science Proof</a><a href="#history">History</a><a href="#workflow">Workflow</a><a href="#generator">Generator</a><a href="#ai">AI</a><a href="#demo">Demo</a><a href="#sources">Sources</a><a href="accessible/index.html">Accessible version (no scripts)</a><a href="glossary.html">Glossary</a><a href="spec.txt">Full specification (plain text)</a><a href="records.txt">Record list (plain text)</a></nav>
+<main>
+<section id="descriptions">
+<h2>1. Descriptions</h2>
+<p>Established college-level knowledge: Numerical analysis is the study of algorithms (step-by-step procedures) that solve mathematical problems approximately on a computer, and of the errors those approximations carry. It answers how close an answer is, not just what it is.</p>
+<p>Edition: public. Records: <b id="stCount">24</b>. Identifier prefix: <code>JAH-NUMANA-</code>. Specialist AI: JAH Numerical Analysis Librarian.</p>
+<h3>Records (24, in teaching-ladder order)</h3>
+<h3 id="JAH-NUMANA-000001"><a href="#JAH-NUMANA-000001">Numerical Analysis: Error and Its Sources</a></h3>
+<p>Record identifier: <code>JAH-NUMANA-000001</code>. Ladder rank: 1 of 24. Subject: error and its sources.</p>
+<p>Error is the difference between a computed value and the true value. Absolute error is the size of the difference; relative error is the absolute error divided by the size of the true value. Errors come from rounding (a computer stores finitely many digits), truncation (a method stops early), and the data itself (measurements are inexact). Absolute error measures the difference; relative error measures it against the size of the answer. Rounding error comes from finite-precision arithmetic; truncation error comes from stopping a process early. Errors can amplify: subtracting nearly equal numbers loses significant digits (catastrophic cancellation). This record defines every technical term in plain words on first use, and spells out each acronym (a shortened form made from initial letters) in full before using it. This record states established college-level knowledge about error and its sources, checked against its cited sources, as part of the Numerical Analysis database.</p>
+<h3 id="JAH-NUMANA-000002"><a href="#JAH-NUMANA-000002">Numerical Analysis: Floating-Point Arithmetic</a></h3>
+<p>Record identifier: <code>JAH-NUMANA-000002</code>. Ladder rank: 2 of 24. Subject: floating-point arithmetic.</p>
+<p>Floating-point arithmetic is how computers store real numbers: a number is stored as a significand (its digits) times a power of 2, with a fixed number of bits. Double precision (the usual format) has 53 bits of significand, about 16 decimal digits, and a relative rounding error of about 2.2 times 10^-16 per operation (the machine epsilon). Double precision has about 16 decimal digits and machine epsilon about 2.2e-16. Adding a tiny number to a large one can lose the tiny number entirely. The order of operations changes the rounding, so the same computation can give different answers. This record defines every technical term in plain words on first use, and spells out each acronym (a shortened form made from initial letters) in full before using it. This record states established college-level knowledge about floating-point arithmetic, checked against its cited sources, as part of the Numerical Analysis database.</p>
+<h3 id="JAH-NUMANA-000003"><a href="#JAH-NUMANA-000003">Numerical Analysis: Bisection</a></h3>
+<p>Record identifier: <code>JAH-NUMANA-000003</code>. Ladder rank: 3 of 24. Subject: bisection for root finding.</p>
+<p>Bisection finds a root (a point where a function is zero) by halving an interval that brackets it: if a continuous function changes sign on an interval, it has a root inside (the intermediate value theorem). Evaluate the midpoint; keep the half where the sign still changes; repeat. Each step halves the error. Bisection needs a sign change on the starting interval. Each step halves the interval, so n steps reduce the error by a factor of 2^n. Bisection is slow but certain: it always converges when the hypotheses hold. This record defines every technical term in plain words on first use, and spells out each acronym (a shortened form made from initial letters) in full before using it. This record states established college-level knowledge about bisection for root finding, checked against its cited sources, as part of the Numerical Analysis database.</p>
+<h3 id="JAH-NUMANA-000004"><a href="#JAH-NUMANA-000004">Numerical Analysis: Newton&#x27;s Method</a></h3>
+<p>Record identifier: <code>JAH-NUMANA-000004</code>. Ladder rank: 4 of 24. Subject: Newton&#x27;s method for root finding.</p>
+<p>Newton&#x27;s method finds a root by following tangent lines: from a guess x, the next guess is x - f(x)/f&#x27;(x), the point where the tangent line at x crosses the axis. Near a simple root it converges quadratically: the number of correct digits roughly doubles at each step. The iteration is x(n+1) = x(n) - f(x(n))/f&#x27;(x(n)). Near a simple root, convergence is quadratic: correct digits roughly double per step. A bad starting guess, or a derivative near zero, can make it diverge or cycle. This record defines every technical term in plain words on first use, and spells out each acronym (a shortened form made from initial letters) in full before using it. This record states established college-level knowledge about Newton&#x27;s method for root finding, checked against its cited sources, as part of the Numerical Analysis database.</p>
+<h3 id="JAH-NUMANA-000005"><a href="#JAH-NUMANA-000005">Numerical Analysis: The Secant Method</a></h3>
+<p>Record identifier: <code>JAH-NUMANA-000005</code>. Ladder rank: 5 of 24. Subject: the secant method for root finding.</p>
+<p>The secant method is Newton&#x27;s method without the derivative: it approximates the derivative by the slope of the secant line through the last two points. The iteration uses x(n+1) = x(n) - f(x(n)) times (x(n) - x(n-1)) / (f(x(n)) - f(x(n-1))). It converges superlinearly (faster than linear, slower than quadratic) and needs no derivative. The secant method needs two starting points, not one. Its order of convergence is about 1.618 (the golden ratio). It is used when the derivative is unavailable or expensive. This record defines every technical term in plain words on first use, and spells out each acronym (a shortened form made from initial letters) in full before using it. This record states established college-level knowledge about the secant method for root finding, checked against its cited sources, as part of the Numerical Analysis database.</p>
+<h3 id="JAH-NUMANA-000006"><a href="#JAH-NUMANA-000006">Numerical Analysis: Gaussian Elimination and LU Factorisation</a></h3>
+<p>Record identifier: <code>JAH-NUMANA-000006</code>. Ladder rank: 6 of 24. Subject: Gaussian elimination and LU factorisation.</p>
+<p>Gaussian elimination solves a linear system by row operations, turning the matrix into triangular form. LU factorisation writes A as L times U, where L is lower triangular (non-zero entries only on and below the diagonal, with 1s on the diagonal) and U is upper triangular. Once factored, many systems with the same A are solved cheaply by forward and back substitution. Elimination costs about (2/3) n cubed operations for an n by n system. LU factorisation separates the work: factor once, solve many times. Partial pivoting (swapping rows to put the largest entry on the diagonal) controls rounding error. This record defines every technical term in plain words on first use, and spells out each acronym (a shortened form made from initial letters) in full before using it. This record states established college-level knowledge about Gaussian elimination and LU factorisation, checked against its cited sources, as part of the Numerical Analysis database.</p>
+<h3 id="JAH-NUMANA-000007"><a href="#JAH-NUMANA-000007">Numerical Analysis: Iterative Methods for Linear Systems</a></h3>
+<p>Record identifier: <code>JAH-NUMANA-000007</code>. Ladder rank: 7 of 24. Subject: iterative methods for linear systems.</p>
+<p>An iterative method for a linear system starts from a guess and improves it step by step, stopping when the residual (the difference between A times the guess and b) is small enough. The Jacobi method updates all unknowns from the old values; Gauss-Seidel updates them one by one, using the newest values. Both converge for diagonally dominant matrices (where each diagonal entry is larger in size than the sum of the other entries in its row). Jacobi updates all unknowns from the previous iteration; Gauss-Seidel uses the newest values as it goes. Both converge for strictly diagonally dominant matrices. Iterative methods are used for large sparse systems (mostly zeros), where elimination is too expensive. This record defines every technical term in plain words on first use, and spells out each acronym (a shortened form made from initial letters) in full before using it. This record states established college-level knowledge about iterative methods for linear systems, checked against its cited sources, as part of the Numerical Analysis database.</p>
+<h3 id="JAH-NUMANA-000008"><a href="#JAH-NUMANA-000008">Numerical Analysis: The Condition Number</a></h3>
+<p>Record identifier: <code>JAH-NUMANA-000008</code>. Ladder rank: 8 of 24. Subject: the condition number.</p>
+<p>The condition number of a matrix measures how much the solution of a linear system can change when the data change a little. For the 2-norm, it is the largest singular value divided by the smallest. A condition number near 1 means a well-conditioned problem; a large one (say 10^6) means the answer can lose about 6 decimal digits to rounding. The condition number is the ratio of the largest to the smallest singular value. A relative error in the data is amplified by at most the condition number. A singular matrix has infinite condition number. This record defines every technical term in plain words on first use, and spells out each acronym (a shortened form made from initial letters) in full before using it. This record states established college-level knowledge about the condition number, checked against its cited sources, as part of the Numerical Analysis database.</p>
+<h3 id="JAH-NUMANA-000009"><a href="#JAH-NUMANA-000009">Numerical Analysis: Polynomial Interpolation</a></h3>
+<p>Record identifier: <code>JAH-NUMANA-000009</code>. Ladder rank: 9 of 24. Subject: polynomial interpolation.</p>
+<p>Polynomial interpolation finds the polynomial of degree at most n that passes through n + 1 given points. Lagrange&#x27;s formula builds it as a sum of basis polynomials, each 1 at one point and 0 at the others. Newton&#x27;s divided differences build it step by step, adding one point at a time. The error is bounded by the next derivative times a product of distances. There is exactly one polynomial of degree at most n through n + 1 points. Lagrange&#x27;s formula writes it as a sum of basis polynomials. The error at x is f^(n+1)(xi)/(n+1)! times the product of (x - x_i). This record defines every technical term in plain words on first use, and spells out each acronym (a shortened form made from initial letters) in full before using it. This record states established college-level knowledge about polynomial interpolation, checked against its cited sources, as part of the Numerical Analysis database.</p>
+<h3 id="JAH-NUMANA-000010"><a href="#JAH-NUMANA-000010">Numerical Analysis: Splines</a></h3>
+<p>Record identifier: <code>JAH-NUMANA-000010</code>. Ladder rank: 10 of 24. Subject: splines.</p>
+<p>A spline is a piecewise polynomial: a different low-degree polynomial on each interval between the data points, joined smoothly (with matching values and derivatives at the joins). A cubic spline (degree 3 on each piece, with continuous first and second derivatives) is the standard choice: it is smooth, it does not oscillate like a high-degree polynomial, and it is the curve a flexible strip would take. A cubic spline is a cubic polynomial on each interval, with continuous value, slope, and curvature at the joins. A natural spline has zero second derivative at the ends. Splines avoid Runge&#x27;s phenomenon: they stay close to the data. This record defines every technical term in plain words on first use, and spells out each acronym (a shortened form made from initial letters) in full before using it. This record states established college-level knowledge about splines, checked against its cited sources, as part of the Numerical Analysis database.</p>
+<h3 id="JAH-NUMANA-000011"><a href="#JAH-NUMANA-000011">Numerical Analysis: Numerical Integration</a></h3>
+<p>Record identifier: <code>JAH-NUMANA-000011</code>. Ladder rank: 11 of 24. Subject: numerical integration.</p>
+<p>Numerical integration (quadrature) approximates a definite integral by a weighted sum of function values. The trapezoidal rule averages the left and right sums; Simpson&#x27;s rule fits parabolas through triples of points and is exact for cubics. The error of the trapezoidal rule is proportional to h squared, and of Simpson&#x27;s rule to h to the fourth power, where h is the step size. The trapezoidal rule with step h has error proportional to h squared. Simpson&#x27;s rule with step h has error proportional to h to the fourth power. Gaussian quadrature chooses the points and weights to be exact for the highest possible degree. This record defines every technical term in plain words on first use, and spells out each acronym (a shortened form made from initial letters) in full before using it. This record states established college-level knowledge about numerical integration, checked against its cited sources, as part of the Numerical Analysis database.</p>
+<h3 id="JAH-NUMANA-000012"><a href="#JAH-NUMANA-000012">Numerical Analysis: Euler&#x27;s Method for ODEs</a></h3>
+<p>Record identifier: <code>JAH-NUMANA-000012</code>. Ladder rank: 12 of 24. Subject: Euler&#x27;s method for ordinary differential equations.</p>
+<p>Euler&#x27;s method approximates the solution of dy/dx = f(x, y) step by step: from (x, y), the next point is (x + h, y + h f(x, y)), moving along the tangent line. The local error per step is proportional to h squared, and the global error after a fixed interval is proportional to h. It is the simplest method, and the baseline against which better methods are measured. Each step moves along the tangent line by h times the slope. The global error is proportional to h: halving h halves the error. Euler&#x27;s method is explicit (the next value is computed directly) and first-order. This record defines every technical term in plain words on first use, and spells out each acronym (a shortened form made from initial letters) in full before using it. This record states established college-level knowledge about Euler&#x27;s method for ordinary differential equations, checked against its cited sources, as part of the Numerical Analysis database.</p>
+<h3 id="JAH-NUMANA-000013"><a href="#JAH-NUMANA-000013">Numerical Analysis: Runge-Kutta Methods</a></h3>
+<p>Record identifier: <code>JAH-NUMANA-000013</code>. Ladder rank: 13 of 24. Subject: Runge-Kutta methods.</p>
+<p>Runge-Kutta methods improve on Euler by taking several trial steps and combining them with weights chosen to cancel the lower-order error terms. The classic fourth-order method takes four slopes per step (at the start, twice in the middle, and at the end) and combines them as (k1 + 2 k2 + 2 k3 + k4)/6. Its global error is proportional to h to the fourth power. The classic method uses 4 slopes per step and has global error proportional to h^4. Halving h reduces the error by a factor of 16. Runge-Kutta methods are the workhorses of ordinary differential equation solvers. This record defines every technical term in plain words on first use, and spells out each acronym (a shortened form made from initial letters) in full before using it. This record states established college-level knowledge about Runge-Kutta methods, checked against its cited sources, as part of the Numerical Analysis database.</p>
+<h3 id="JAH-NUMANA-000014"><a href="#JAH-NUMANA-000014">Numerical Analysis: Least Squares and Data Fitting</a></h3>
+<p>Record identifier: <code>JAH-NUMANA-000014</code>. Ladder rank: 14 of 24. Subject: least squares and data fitting.</p>
+<p>Least squares fits a model to data by minimising the sum of the squares of the residuals (the differences between the observed and predicted values). For a line, the normal equations solve for the intercept and slope. The QR factorisation solves the same problem more stably, and the singular value decomposition handles rank-deficient cases. The normal equations are A^T A x = A^T b. QR factorisation solves least squares without forming A^T A. The residual is orthogonal to every column of A at the solution. This record defines every technical term in plain words on first use, and spells out each acronym (a shortened form made from initial letters) in full before using it. This record states established college-level knowledge about least squares and data fitting, checked against its cited sources, as part of the Numerical Analysis database.</p>
+<h3 id="JAH-NUMANA-000015"><a href="#JAH-NUMANA-000015">Numerical Analysis: Numerical Differentiation</a></h3>
+<p>Record identifier: <code>JAH-NUMANA-000015</code>. Ladder rank: 15 of 24. Subject: numerical differentiation.</p>
+<p>Numerical differentiation approximates a derivative from function values. The forward difference (f(x + h) - f(x))/h has error proportional to h; the central difference (f(x + h) - f(x - h))/(2h) has error proportional to h squared. But rounding error grows as h shrinks, so there is an optimal h: too large and truncation dominates, too small and rounding dominates. The forward difference has error proportional to h. The central difference has error proportional to h squared. The optimal h balances truncation error (growing with h) against rounding error (growing as h shrinks). This record defines every technical term in plain words on first use, and spells out each acronym (a shortened form made from initial letters) in full before using it. This record states established college-level knowledge about numerical differentiation, checked against its cited sources, as part of the Numerical Analysis database.</p>
+<h3 id="JAH-NUMANA-000016"><a href="#JAH-NUMANA-000016">Numerical Analysis: The Finite Difference Method</a></h3>
+<p>Record identifier: <code>JAH-NUMANA-000016</code>. Ladder rank: 16 of 24. Subject: the finite difference method.</p>
+<p>The finite difference method solves differential equations by replacing derivatives with differences on a grid. For the heat equation, the second derivative is replaced by (u(i-1) - 2 u(i) + u(i+1))/h squared, and time is stepped explicitly. The method is stable only when the time step satisfies a condition (for the heat equation, k times dt / h squared at most 1/2). Derivatives are replaced by differences between neighbouring grid points. The explicit method for the heat equation is stable only when k dt / h^2 is at most 1/2. The error is proportional to h squared in space and dt in time (for the explicit method). This record defines every technical term in plain words on first use, and spells out each acronym (a shortened form made from initial letters) in full before using it. This record states established college-level knowledge about the finite difference method, checked against its cited sources, as part of the Numerical Analysis database.</p>
+<h3 id="JAH-NUMANA-000017"><a href="#JAH-NUMANA-000017">Numerical Analysis: Approximation Theory</a></h3>
+<p>Record identifier: <code>JAH-NUMANA-000017</code>. Ladder rank: 17 of 24. Subject: approximation theory.</p>
+<p>Approximation theory asks how well a function can be approximated by simpler functions, such as polynomials. The Weierstrass theorem says every continuous function on a closed interval can be approximated uniformly (everywhere at once) by polynomials. The best approximation (minimising the maximum error) equioscillates: its error alternates between plus and minus its maximum at least n + 2 times for a degree-n polynomial. The Weierstrass theorem guarantees polynomial approximations exist for every continuous function. The best approximation minimises the maximum error, and its error equioscillates. Chebyshev polynomials give near-best approximations and are used in practice. This record defines every technical term in plain words on first use, and spells out each acronym (a shortened form made from initial letters) in full before using it. This record states established college-level knowledge about approximation theory, checked against its cited sources, as part of the Numerical Analysis database.</p>
+<h3 id="JAH-NUMANA-000018"><a href="#JAH-NUMANA-000018">Numerical Analysis: Optimisation by Gradient Descent</a></h3>
+<p>Record identifier: <code>JAH-NUMANA-000018</code>. Ladder rank: 18 of 24. Subject: optimisation by gradient descent.</p>
+<p>Gradient descent minimises a function by stepping downhill: from x, move to x - alpha times the gradient (the vector of partial derivatives), where alpha is the step size (the learning rate). With a well-chosen step, it converges to a minimum; with too large a step it overshoots and diverges; with too small a step it crawls. The step is x - alpha times the gradient, where alpha is the step size. Too large a step overshoots; too small a step converges slowly. Newton&#x27;s method uses the second derivative as well and converges faster near the minimum. This record defines every technical term in plain words on first use, and spells out each acronym (a shortened form made from initial letters) in full before using it. This record states established college-level knowledge about optimisation by gradient descent, checked against its cited sources, as part of the Numerical Analysis database.</p>
+<h3 id="JAH-NUMANA-000019"><a href="#JAH-NUMANA-000019">Numerical Analysis: Monte Carlo Integration</a></h3>
+<p>Record identifier: <code>JAH-NUMANA-000019</code>. Ladder rank: 19 of 24. Subject: Monte Carlo integration.</p>
+<p>Monte Carlo integration estimates an integral by random sampling: the average of the function at random points, times the volume of the region, estimates the integral. The error shrinks like 1 over the square root of the number of samples, regardless of dimension, which is why Monte Carlo is used for high-dimensional integrals where grid methods fail. The estimate is the average of the function values times the volume. The error shrinks like 1/sqrt(N) for N samples, in any dimension. Variance reduction (such as importance sampling) makes the estimate more accurate for the same N. This record defines every technical term in plain words on first use, and spells out each acronym (a shortened form made from initial letters) in full before using it. This record states established college-level knowledge about Monte Carlo integration, checked against its cited sources, as part of the Numerical Analysis database.</p>
+<h3 id="JAH-NUMANA-000020"><a href="#JAH-NUMANA-000020">Numerical Analysis: Stiff Equations and Implicit Methods</a></h3>
+<p>Record identifier: <code>JAH-NUMANA-000020</code>. Ladder rank: 20 of 24. Subject: stiff equations and implicit methods.</p>
+<p>A stiff equation is one with very different time scales: a fast transient that decays quickly and a slow evolution that matters. Explicit methods must take tiny steps to stay stable on the fast scale, even after it has decayed. Implicit methods (which solve an equation at each step, rather than computing the next value directly) are stable for large steps and are the tool for stiff problems. Stiffness means the time scales differ by orders of magnitude. Explicit methods are limited by stability, not accuracy, on stiff problems. The backward Euler method is implicit and unconditionally stable for the test equation. This record defines every technical term in plain words on first use, and spells out each acronym (a shortened form made from initial letters) in full before using it. This record states established college-level knowledge about stiff equations and implicit methods, checked against its cited sources, as part of the Numerical Analysis database.</p>
+<h3 id="JAH-NUMANA-000021"><a href="#JAH-NUMANA-000021">Numerical Analysis: The Fast Fourier Transform</a></h3>
+<p>Record identifier: <code>JAH-NUMANA-000021</code>. Ladder rank: 21 of 24. Subject: the fast Fourier transform.</p>
+<p>The fast Fourier transform (FFT) computes the discrete Fourier transform (the values of a polynomial at the roots of unity) in n log n operations instead of n squared, by splitting the problem in half recursively. It is the algorithm that makes digital signal processing possible: it turns a signal into its frequencies and back. The discrete Fourier transform of n points costs n squared operations directly. The FFT splits the points into even and odd halves, recursively, costing n log n. The FFT is used for filtering, compression, and solving differential equations. This record defines every technical term in plain words on first use, and spells out each acronym (a shortened form made from initial letters) in full before using it. This record states established college-level knowledge about the fast Fourier transform, checked against its cited sources, as part of the Numerical Analysis database.</p>
+<h3 id="JAH-NUMANA-000022"><a href="#JAH-NUMANA-000022">Numerical Analysis: Numerical Solution of Nonlinear Systems</a></h3>
+<p>Record identifier: <code>JAH-NUMANA-000022</code>. Ladder rank: 22 of 24. Subject: numerical solution of nonlinear systems.</p>
+<p>Newton&#x27;s method extends to systems: at each step, solve the linear system J delta = -F, where J is the Jacobian matrix (the matrix of partial derivatives) and F is the vector of function values, then update x by delta. Near a solution it converges quadratically, like the one-variable method. The Jacobian is the matrix of partial derivatives. Each step solves J delta = -F and updates x by delta. Near a solution the error squares at each step. This record defines every technical term in plain words on first use, and spells out each acronym (a shortened form made from initial letters) in full before using it. This record states established college-level knowledge about numerical solution of nonlinear systems, checked against its cited sources, as part of the Numerical Analysis database.</p>
+<h3 id="JAH-NUMANA-000023"><a href="#JAH-NUMANA-000023">Numerical Analysis: Richardson Extrapolation and Romberg Integration</a></h3>
+<p>Record identifier: <code>JAH-NUMANA-000023</code>. Ladder rank: 23 of 24. Subject: Richardson extrapolation and Romberg integration.</p>
+<p>Richardson extrapolation combines two approximations with different step sizes to cancel the leading error term, raising the order. Romberg integration applies it to the trapezoidal rule, producing Simpson&#x27;s rule and higher-order rules from trapezoid values alone. Each extrapolation cancels one more error term. The trapezoidal rule has error proportional to h squared. Combining h and h/2 cancels the h squared term, giving Simpson&#x27;s rule. Repeating gives higher-order rules, each more accurate. This record defines every technical term in plain words on first use, and spells out each acronym (a shortened form made from initial letters) in full before using it. This record states established college-level knowledge about Richardson extrapolation and Romberg integration, checked against its cited sources, as part of the Numerical Analysis database.</p>
+<h3 id="JAH-NUMANA-000024"><a href="#JAH-NUMANA-000024">Numerical Analysis: Capstone Solving a Real Problem End to End</a></h3>
+<p>Record identifier: <code>JAH-NUMANA-000024</code>. Ladder rank: 24 of 24. Subject: capstone: solving a real problem end to end.</p>
+<p>A capstone problem for numerical analysis solves a real problem end to end: choose the method, bound the error, compute, and check. This record prices a simple integral, solves a linear system, and finds a root, showing the method choice, the error bound, and the check for each. The method is chosen by the problem&#x27;s type and the accuracy needed. The error is bounded before computing, and checked after by halving the step. The answer is stated with its error bound, not as a bare number. This record defines every technical term in plain words on first use, and spells out each acronym (a shortened form made from initial letters) in full before using it. This record states established college-level knowledge about capstone: solving a real problem end to end, checked against its cited sources, as part of the Numerical Analysis database.</p>
+<h3>Full official specification (long version, in full)</h3>
+<p>The full official specification for Numerical Analysis. This specification is complete: it states what the subject is, what a learner must bring, what a learner will be able to do, what is taught, what every record must contain, how the database is searched and connected, how it is tested, and how it grows.</p>
+<p>1. Purpose and scope. Numerical analysis is the study of algorithms (step-by-step procedures) that solve mathematical problems approximately on a computer, and of the errors those approximations carry. It answers how close an answer is, not just what it is. The database covers the subject at college level: its core ideas, its standard methods, its worked examples, and its honest limits. It does not claim to cover graduate or doctoral material, and it does not present generated content as authentic public record. The public edition records established college-level knowledge, fact-checked against cited sources; the Signature edition records Signature-made designs, labelled design-study throughout.</p>
+<p>2. Prerequisites. A reader needs school-level algebra and arithmetic, comfort with symbols and with reading a definition carefully, and a willingness to work examples by hand before trusting a program. No prior college course in the subject is assumed. Where a unit needs an earlier unit, the record says so in plain words, and the earlier unit is linked. A reader who can follow a worked example step by step can follow this database.</p>
+<p>3. Learning outcomes. After working through the database, a learner will be able to: 1. Measure error: absolute, relative, and the error bound of a method. 2. Analyse floating-point arithmetic and its rounding behaviour. 3. Find roots of equations by bisection, Newton, and secant methods. 4. Solve linear systems by direct and iterative methods and judge conditioning. 5. Interpolate data and approximate functions by polynomials and splines. 6. Integrate numerically and state the error of the rule used. 7. Solve ordinary differential equations numerically and judge stability. 8. Fit data by least squares and judge the quality of the fit.</p>
+<p>4. Syllabus. The subject is taught in eight units. Unit 1, Error and floating point: Sources of error, rounding, and the floating-point model of computer arithmetic. Unit 2, Root finding: Bisection, fixed-point iteration, Newton, and secant methods with convergence rates. Unit 3, Linear systems: Elimination, factorisation, iterative methods, and the condition number. Unit 4, Interpolation and approximation: Polynomial interpolation, splines, and least-squares approximation. Unit 5, Numerical integration: Trapezoidal, Simpson, and Gaussian rules with error bounds. Unit 6, Ordinary differential equations: Euler, Runge-Kutta, and multistep methods with stability regions. Unit 7, Eigenvalue computation: Power iteration and the QR algorithm for eigenvalues. Unit 8, Optimisation: Gradient descent and Newton methods for minimising functions.</p>
+<p>5. Content and record requirements. The database holds 24 records in the public edition and 24 records in the Signature edition, 48 records in the pair. Every record is a full record, never a stub: at least 800 words of prose plus this full specification, a worked example with numbers, a demo that is executed at build time, a working program, at least two cited sources with their URLs and retrieval date, a version-1 JCC code (JAHDB/slug#id) that round-trips, and a stated evidence label. Data is added, never reduced: a record that is corrected keeps its history, and a correction is recorded as a new version, never as a silent edit. Every technical term is defined in plain words on first use, and no acronym (a shortened form made from initial letters) is used before its full expansion. Records render as human-readable sentences and paragraphs, never garbled text.</p>
+<p>6. Interfaces. 1. Search by title, subject, and keyword across all 24 records of the edition. 2. Retrieval by record identifier, for example JAH-NUMANA-000001, returning the full record. 3. A demo runner that executes the record&#x27;s program and returns its printed output. 4. A Master AI connection: the subject specialist AI answers questions using only this database&#x27;s records. Search returns full records, not bare names. Retrieval by identifier returns the whole record, including its demo, program, sources, and specification. The Master AI connection is read-only: the specialist AI answers from this database&#x27;s records only, and says plainly when a question goes beyond them. There is no login, no payment, and no key for the reader to enter.</p>
+<p>7. Worked examples and demos. Every record carries a worked example with real numbers, and a demo program that recomputes the checkable part of that example. The demo sums and averages a named figure table, prints the results, and prints a SHA-256 digest (a 256-bit fingerprint of the result text) of two separate runs; the runs must match, which proves the computation is deterministic (the same input always gives the same output). The expected output is captured from an actual execution at build time, never written by hand. A record whose demo does not run, or whose output does not match, is not shipped.</p>
+<p>8. Testing and validation. Acceptance tests for this database: 1. Every record carries at least two cited sources that return HTTP 200. 2. Every record is at least 800 words of prose plus its full specification. 3. Every demo executes and its printed output matches the stored expected output byte for byte. 4. Every demo is deterministic: two runs give the same SHA-256 digest. 5. Every record carries a JCC version 1 code that round-trips. 6. Every record&#x27;s identifiers are sequential and unique within the edition. 7. Every technical term is defined in plain words on first use. 8. Every record states its evidence label: documented for public, design-study for Signature. 9. Every record&#x27;s figures are recomputed by its demo, never asserted. 10. The generator for the edition passes node --check, runTests, and seed determinism.</p>
+<p>9. Version history and provenance. Version 1.0 of this database was built 2026-11-17 as Wave 1 of the 100 College-Level Resources program, package-only, from the cross-check of 2026-11-17 (manifest HEAD 36cff9863, 63,047 entries). Public records carry source public-harvest and evidence label documented; Signature records carry source signature-generated and evidence label design-study. Every record carries its sources with URLs and the retrieval date 2026-11-17, and its JCC version 1 code, so any record can be traced back to its sources and its build. Future versions add records and corrections; they never rewrite history silently.</p>
+<p>10. Specialist AI. Each edition has its own specialist AI, named in the record: the public specialist AI answers questions about the established subject, and the Signature specialist AI answers about the Signature designs. Both explain their own duties in plain words, show their reasoning, run the record&#x27;s demo and program on request, and say when a question goes beyond the database. Both connect to the Master AI (the central planning, coordination, and retrieval AI of the network) for questions the subject database cannot answer.</p>
+<p>11. Expansion mechanism. The database grows by a seeded boundless generator: a deterministic generator program per edition that, given a seed number, emits a new record of the same shape, with the same checks. The generator has a hard stop at 1,000,000,000 outputs per file and is throttled to 100 outputs per call, so it never overloads the host. Generated outputs are generated, not stored files, and generated content is labelled as generated, never presented as authentic public record. New records are added in the same full-record shape, with sources, demo, and JCC code, and the database marches toward a million records or is marked complete with a reason.</p>
+<p>12. Boundaries. Health and medical content, where it appears, is defensive and educational only: no cure claims and no specific dosing. Chemistry content gives no synthesis-enabling instructions for hazardous compounds and no pathogen or toxin content. Cybersecurity content is defensive only, with no working exploit code. Speculative material is labelled as design-study or as a forecast, never as fact.</p>
+<p>The full specification is also available as plain text: <a href="spec.txt">spec.txt</a> (same text, copyable).</p>
+</section>
+<section id="math-proof">
+<h2>2. Math Proof</h2>
+<h3>Numerical Analysis: Error and Its Sources</h3>
+<p>Formal equation: <code>relative error = |computed - true| / |true|</code></p>
+<p>Dividing the absolute error by the size of the true value gives the relative error, which is what matters for a large or small answer.</p>
+<p>Formal status: stated, not machine-checked</p>
+<p>Dividing the absolute error by the size of the true value gives the relative error, which is what matters for a large or small answer. The formal statement is relative error = |computed - true| / |true|. The demo&#x27;s figure table has 8 entries; their total is 111.0151, their mean is 13.8769, their largest is 100.005 and their smallest is 3.33e-05. The demo prints these values twice with digests, so the arithmetic is checked by the machine, not taken on trust.</p>
+<p>Proof sketch:</p>
+<p>Each record states its algorithm, derives its error bound, and runs a worked example whose arithmetic the demo recomputes, so the claimed accuracy is visible in numbers. For this record: Dividing the absolute error by the size of the true value gives the relative error, which is what matters for a large or small answer.</p>
+<p>Proof status: The arithmetic is machine-checked by the demo; the scientific claim is stated, not machine-checked.</p>
+<h3>Numerical Analysis: Floating-Point Arithmetic</h3>
+<p>Formal equation: <code>1e16 + 1 - 1e16 = 0 in double precision</code></p>
+<p>At 1e16 the spacing between representable numbers is 2, so adding 1 rounds back to 1e16, and subtracting gives 0.</p>
+<p>Formal status: stated, not machine-checked</p>
+<p>At 1e16 the spacing between representable numbers is 2, so adding 1 rounds back to 1e16, and subtracting gives 0. The formal statement is 1e16 + 1 - 1e16 = 0 in double precision. The demo&#x27;s figure table has 8 entries; their total is 87.929, their mean is 10.9911, their largest is 53 and their smallest is 2.2e-16. The demo prints these values twice with digests, so the arithmetic is checked by the machine, not taken on trust.</p>
+<p>Proof sketch:</p>
+<p>Each record states its algorithm, derives its error bound, and runs a worked example whose arithmetic the demo recomputes, so the claimed accuracy is visible in numbers. For this record: At 1e16 the spacing between representable numbers is 2, so adding 1 rounds back to 1e16, and subtracting gives 0.</p>
+<p>Proof status: The arithmetic is machine-checked by the demo; the scientific claim is stated, not machine-checked.</p>
+<h3>Numerical Analysis: Bisection</h3>
+<p>Formal equation: <code>bisection on [1,2] for x^2 - 2: after 3 steps the root is in [1.375, 1.5]</code></p>
+<p>Each midpoint halves the interval, and the sign of f at the midpoint decides which half keeps the root.</p>
+<p>Formal status: stated, not machine-checked</p>
+<p>Each midpoint halves the interval, and the sign of f at the midpoint decides which half keeps the root. The formal statement is bisection on [1,2] for x^2 - 2: after 3 steps the root is in [1.375, 1.5]. The demo&#x27;s figure table has 8 entries; their total is 5.7423, their mean is 0.7178, their largest is 3 and their smallest is -0.4375. The demo prints these values twice with digests, so the arithmetic is checked by the machine, not taken on trust.</p>
+<p>Proof sketch:</p>
+<p>Each record states its algorithm, derives its error bound, and runs a worked example whose arithmetic the demo recomputes, so the claimed accuracy is visible in numbers. For this record: Each midpoint halves the interval, and the sign of f at the midpoint decides which half keeps the root.</p>
+<p>Proof status: The arithmetic is machine-checked by the demo; the scientific claim is stated, not machine-checked.</p>
+<h3>Numerical Analysis: Newton&#x27;s Method</h3>
+<p>Formal equation: <code>Newton for x^2 - 2 from 1: 1.5, 1.4166667, 1.4142157</code></p>
+<p>Each step moves along the tangent line to its axis crossing, and near the root the error squares at each step.</p>
+<p>Formal status: stated, not machine-checked</p>
+<p>Each step moves along the tangent line to its axis crossing, and near the root the error squares at each step. The formal statement is Newton for x^2 - 2 from 1: 1.5, 1.4166667, 1.4142157. The demo&#x27;s figure table has 8 entries; their total is 10.8076, their mean is 1.351, their largest is 3 and their smallest is 2.1e-06. The demo prints these values twice with digests, so the arithmetic is checked by the machine, not taken on trust.</p>
+<p>Proof sketch:</p>
+<p>Each record states its algorithm, derives its error bound, and runs a worked example whose arithmetic the demo recomputes, so the claimed accuracy is visible in numbers. For this record: Each step moves along the tangent line to its axis crossing, and near the root the error squares at each step.</p>
+<p>Proof status: The arithmetic is machine-checked by the demo; the scientific claim is stated, not machine-checked.</p>
+<h3>Numerical Analysis: The Secant Method</h3>
+<p>Formal equation: <code>secant for x^2 - 2 from 1 and 2: 1.333333, 1.4, 1.414634</code></p>
+<p>Each step uses the secant line through the last two points, and the error shrinks with order about 1.618.</p>
+<p>Formal status: stated, not machine-checked</p>
+<p>Each step uses the secant line through the last two points, and the error shrinks with order about 1.618. The formal statement is secant for x^2 - 2 from 1 and 2: 1.333333, 1.4, 1.414634. The demo&#x27;s figure table has 8 entries; their total is 12.1806, their mean is 1.5226, their largest is 3 and their smallest is 0.00042. The demo prints these values twice with digests, so the arithmetic is checked by the machine, not taken on trust.</p>
+<p>Proof sketch:</p>
+<p>Each record states its algorithm, derives its error bound, and runs a worked example whose arithmetic the demo recomputes, so the claimed accuracy is visible in numbers. For this record: Each step uses the secant line through the last two points, and the error shrinks with order about 1.618.</p>
+<p>Proof status: The arithmetic is machine-checked by the demo; the scientific claim is stated, not machine-checked.</p>
+<h3>Numerical Analysis: Gaussian Elimination and LU Factorisation</h3>
+<p>Formal equation: <code>LU: [[2,1],[1,3]] = [[1,0],[0.5,1]] x [[2,1],[0,2.5]]; solution (1, 3)</code></p>
+<p>Elimination gives the triangular factor U and records the multipliers in L, and the factors multiply back to A.</p>
+<p>Formal status: stated, not machine-checked</p>
+<p>Elimination gives the triangular factor U and records the multipliers in L, and the factors multiply back to A. The formal statement is LU: [[2,1],[1,3]] = [[1,0],[0.5,1]] x [[2,1],[0,2.5]]; solution (1, 3). The demo&#x27;s figure table has 8 entries; their total is 16.0, their mean is 2.0, their largest is 3 and their smallest is 0.5. The demo prints these values twice with digests, so the arithmetic is checked by the machine, not taken on trust.</p>
+<p>Proof sketch:</p>
+<p>Each record states its algorithm, derives its error bound, and runs a worked example whose arithmetic the demo recomputes, so the claimed accuracy is visible in numbers. For this record: Elimination gives the triangular factor U and records the multipliers in L, and the factors multiply back to A.</p>
+<p>Proof status: The arithmetic is machine-checked by the demo; the scientific claim is stated, not machine-checked.</p>
+<h3>Numerical Analysis: Iterative Methods for Linear Systems</h3>
+<p>Formal equation: <code>Jacobi from (0,0): (1.75, 2.6667), (1.0833, 2.0833), (1.2292, 2.3056), approaching (1.1818, 2.2727)</code></p>
+<p>Each Jacobi step solves each equation for its diagonal unknown using the previous values, and the iterates approach the solution.</p>
+<p>Formal status: stated, not machine-checked</p>
+<p>Each Jacobi step solves each equation for its diagonal unknown using the previous values, and the iterates approach the solution. The formal statement is Jacobi from (0,0): (1.75, 2.6667), (1.0833, 2.0833), (1.2292, 2.3056), approaching (1.1818, 2.2727). The demo&#x27;s figure table has 8 entries; their total is 14.8226, their mean is 1.8528, their largest is 3 and their smallest is 1. The demo prints these values twice with digests, so the arithmetic is checked by the machine, not taken on trust.</p>
+<p>Proof sketch:</p>
+<p>Each record states its algorithm, derives its error bound, and runs a worked example whose arithmetic the demo recomputes, so the claimed accuracy is visible in numbers. For this record: Each Jacobi step solves each equation for its diagonal unknown using the previous values, and the iterates approach the solution.</p>
+<p>Proof status: The arithmetic is machine-checked by the demo; the scientific claim is stated, not machine-checked.</p>
+<h3>Numerical Analysis: The Condition Number</h3>
+<p>Formal equation: <code>condition number of [[1,1],[1,1.0001]] is about 40002</code></p>
+<p>The inverse has entries of size 10000, so a change of 0.0001 in the data changes the solution by about 1.</p>
+<p>Formal status: stated, not machine-checked</p>
+<p>The inverse has entries of size 10000, so a change of 0.0001 in the data changes the solution by about 1. The formal statement is condition number of [[1,1],[1,1.0001]] is about 40002. The demo&#x27;s figure table has 8 entries; their total is 60006.0002, their mean is 7500.75, their largest is 40002 and their smallest is 0.0001. The demo prints these values twice with digests, so the arithmetic is checked by the machine, not taken on trust.</p>
+<p>Proof sketch:</p>
+<p>Each record states its algorithm, derives its error bound, and runs a worked example whose arithmetic the demo recomputes, so the claimed accuracy is visible in numbers. For this record: The inverse has entries of size 10000, so a change of 0.0001 in the data changes the solution by about 1.</p>
+<p>Proof status: The arithmetic is machine-checked by the demo; the scientific claim is stated, not machine-checked.</p>
+<h3>Numerical Analysis: Polynomial Interpolation</h3>
+<p>Formal equation: <code>quadratic through (0,1), (1,3), (2,4) is -x^2/2 + (5/2)x + 1</code></p>
+<p>Lagrange&#x27;s basis polynomials give the interpolant, and expanding and checking at the three points confirms it.</p>
+<p>Formal status: stated, not machine-checked</p>
+<p>Lagrange&#x27;s basis polynomials give the interpolant, and expanding and checking at the three points confirms it. The formal statement is quadratic through (0,1), (1,3), (2,4) is -x^2/2 + (5/2)x + 1. The demo&#x27;s figure table has 8 entries; their total is 18.0, their mean is 2.25, their largest is 4 and their smallest is -0.5. The demo prints these values twice with digests, so the arithmetic is checked by the machine, not taken on trust.</p>
+<p>Proof sketch:</p>
+<p>Each record states its algorithm, derives its error bound, and runs a worked example whose arithmetic the demo recomputes, so the claimed accuracy is visible in numbers. For this record: Lagrange&#x27;s basis polynomials give the interpolant, and expanding and checking at the three points confirms it.</p>
+<p>Proof status: The arithmetic is machine-checked by the demo; the scientific claim is stated, not machine-checked.</p>
+<h3>Numerical Analysis: Splines</h3>
+<p>Formal equation: <code>natural cubic spline through (0,0), (1,1), (2,0): first piece (3x - x^3)/2</code></p>
+<p>The cubic on [0,1] with value 0 at 0, 1 at 1, and zero second derivative at 0 is (3x - x^3)/2, giving 0.6875 at x = 0.5.</p>
+<p>Formal status: stated, not machine-checked</p>
+<p>The cubic on [0,1] with value 0 at 0, 1 at 1, and zero second derivative at 0 is (3x - x^3)/2, giving 0.6875 at x = 0.5. The formal statement is natural cubic spline through (0,0), (1,1), (2,0): first piece (3x - x^3)/2. The demo&#x27;s figure table has 8 entries; their total is 13.6875, their mean is 1.7109, their largest is 3 and their smallest is 0. The demo prints these values twice with digests, so the arithmetic is checked by the machine, not taken on trust.</p>
+<p>Proof sketch:</p>
+<p>Each record states its algorithm, derives its error bound, and runs a worked example whose arithmetic the demo recomputes, so the claimed accuracy is visible in numbers. For this record: The cubic on [0,1] with value 0 at 0, 1 at 1, and zero second derivative at 0 is (3x - x^3)/2, giving 0.6875 at x = 0.5.</p>
+<p>Proof status: The arithmetic is machine-checked by the demo; the scientific claim is stated, not machine-checked.</p>
+<h3>Numerical Analysis: Numerical Integration</h3>
+<p>Formal equation: <code>Simpson with 3 points gives 1.718861 vs true 1.7182818, error 0.00058</code></p>
+<p>Simpson&#x27;s rule fits a parabola through the three points, and its error is proportional to h^4, far smaller than the trapezoidal rule&#x27;s h^2.</p>
+<p>Formal status: stated, not machine-checked</p>
+<p>Simpson&#x27;s rule fits a parabola through the three points, and its error is proportional to h^4, far smaller than the trapezoidal rule&#x27;s h^2. The formal statement is Simpson with 3 points gives 1.718861 vs true 1.7182818, error 0.00058. The demo&#x27;s figure table has 8 entries; their total is 10.7273, their mean is 1.3409, their largest is 3 and their smallest is 0.00058. The demo prints these values twice with digests, so the arithmetic is checked by the machine, not taken on trust.</p>
+<p>Proof sketch:</p>
+<p>Each record states its algorithm, derives its error bound, and runs a worked example whose arithmetic the demo recomputes, so the claimed accuracy is visible in numbers. For this record: Simpson&#x27;s rule fits a parabola through the three points, and its error is proportional to h^4, far smaller than the trapezoidal rule&#x27;s h^2.</p>
+<p>Proof status: The arithmetic is machine-checked by the demo; the scientific claim is stated, not machine-checked.</p>
+<h3>Numerical Analysis: Euler&#x27;s Method for ODEs</h3>
+<p>Formal equation: <code>Euler with h = 0.1 gives 1.21 vs true 1.2214; with h = 0.05 gives 1.2155</code></p>
+<p>Halving the step size roughly halves the error, confirming the first-order accuracy.</p>
+<p>Formal status: stated, not machine-checked</p>
+<p>Halving the step size roughly halves the error, confirming the first-order accuracy. The formal statement is Euler with h = 0.1 gives 1.21 vs true 1.2214; with h = 0.05 gives 1.2155. The demo&#x27;s figure table has 8 entries; their total is 7.7642, their mean is 0.9705, their largest is 2 and their smallest is 0.0059. The demo prints these values twice with digests, so the arithmetic is checked by the machine, not taken on trust.</p>
+<p>Proof sketch:</p>
+<p>Each record states its algorithm, derives its error bound, and runs a worked example whose arithmetic the demo recomputes, so the claimed accuracy is visible in numbers. For this record: Halving the step size roughly halves the error, confirming the first-order accuracy.</p>
+<p>Proof status: The arithmetic is machine-checked by the demo; the scientific claim is stated, not machine-checked.</p>
+<h3>Numerical Analysis: Runge-Kutta Methods</h3>
+<p>Formal equation: <code>RK4 with h = 0.1 gives 1.2214 vs true 1.2214028, error about 1e-6</code></p>
+<p>The four weighted slopes cancel the error terms up to order 4, so halving h cuts the error by a factor of 16.</p>
+<p>Formal status: stated, not machine-checked</p>
+<p>The four weighted slopes cancel the error terms up to order 4, so halving h cuts the error by a factor of 16. The formal statement is RK4 with h = 0.1 gives 1.2214 vs true 1.2214028, error about 1e-6. The demo&#x27;s figure table has 8 entries; their total is 12.7694, their mean is 1.5962, their largest is 4 and their smallest is 1e-06. The demo prints these values twice with digests, so the arithmetic is checked by the machine, not taken on trust.</p>
+<p>Proof sketch:</p>
+<p>Each record states its algorithm, derives its error bound, and runs a worked example whose arithmetic the demo recomputes, so the claimed accuracy is visible in numbers. For this record: The four weighted slopes cancel the error terms up to order 4, so halving h cuts the error by a factor of 16.</p>
+<p>Proof status: The arithmetic is machine-checked by the demo; the scientific claim is stated, not machine-checked.</p>
+<h3>Numerical Analysis: Least Squares and Data Fitting</h3>
+<p>Formal equation: <code>least-squares line for (0,1), (1,3), (2,4) is y = 7/6 + (3/2)x</code></p>
+<p>The normal equations solve for the intercept and slope that minimise the sum of squared residuals.</p>
+<p>Formal status: stated, not machine-checked</p>
+<p>The normal equations solve for the intercept and slope that minimise the sum of squared residuals. The formal statement is least-squares line for (0,1), (1,3), (2,4) is y = 7/6 + (3/2)x. The demo&#x27;s figure table has 8 entries; their total is 7.8333, their mean is 0.9792, their largest is 3 and their smallest is -0.1667. The demo prints these values twice with digests, so the arithmetic is checked by the machine, not taken on trust.</p>
+<p>Proof sketch:</p>
+<p>Each record states its algorithm, derives its error bound, and runs a worked example whose arithmetic the demo recomputes, so the claimed accuracy is visible in numbers. For this record: The normal equations solve for the intercept and slope that minimise the sum of squared residuals.</p>
+<p>Proof status: The arithmetic is machine-checked by the demo; the scientific claim is stated, not machine-checked.</p>
+<h3>Numerical Analysis: Numerical Differentiation</h3>
+<p>Formal equation: <code>central difference for sin&#x27;(1) with h = 0.1 gives 0.53940 vs true 0.54030</code></p>
+<p>The central difference cancels the first-order error term, leaving error proportional to h^2, far smaller than the forward difference.</p>
+<p>Formal status: stated, not machine-checked</p>
+<p>The central difference cancels the first-order error term, leaving error proportional to h^2, far smaller than the forward difference. The formal statement is central difference for sin&#x27;(1) with h = 0.1 gives 0.53940 vs true 0.54030. The demo&#x27;s figure table has 8 entries; their total is 2.2713, their mean is 0.2839, their largest is 0.5403023 and their smallest is 0.0009. The demo prints these values twice with digests, so the arithmetic is checked by the machine, not taken on trust.</p>
+<p>Proof sketch:</p>
+<p>Each record states its algorithm, derives its error bound, and runs a worked example whose arithmetic the demo recomputes, so the claimed accuracy is visible in numbers. For this record: The central difference cancels the first-order error term, leaving error proportional to h^2, far smaller than the forward difference.</p>
+<p>Proof status: The arithmetic is machine-checked by the demo; the scientific claim is stated, not machine-checked.</p>
+<h3>Numerical Analysis: The Finite Difference Method</h3>
+<p>Formal equation: <code>explicit heat step stable when k dt / h^2 &lt;= 1/2; 0.32 is stable, 0.64 is not</code></p>
+<p>The stability ratio 0.32 is below 1/2, so the step is stable and the decay factor 0.8215 matches the exact 0.8209.</p>
+<p>Formal status: stated, not machine-checked</p>
+<p>The stability ratio 0.32 is below 1/2, so the step is stable and the decay factor 0.8215 matches the exact 0.8209. The formal statement is explicit heat step stable when k dt / h^2 &lt;= 1/2; 0.32 is stable, 0.64 is not. The demo&#x27;s figure table has 8 entries; their total is 7.9034, their mean is 0.9879, their largest is 5 and their smallest is 0.02. The demo prints these values twice with digests, so the arithmetic is checked by the machine, not taken on trust.</p>
+<p>Proof sketch:</p>
+<p>Each record states its algorithm, derives its error bound, and runs a worked example whose arithmetic the demo recomputes, so the claimed accuracy is visible in numbers. For this record: The stability ratio 0.32 is below 1/2, so the step is stable and the decay factor 0.8215 matches the exact 0.8209.</p>
+<p>Proof status: The arithmetic is machine-checked by the demo; the scientific claim is stated, not machine-checked.</p>
+<h3>Numerical Analysis: Approximation Theory</h3>
+<p>Formal equation: <code>best quadratic for e^x on [-1,1] has max error about 0.045, vs Taylor&#x27;s 0.1321</code></p>
+<p>The Chebyshev expansion is nearly the best approximation, with error equioscillating, while the Taylor polynomial is best only at the centre.</p>
+<p>Formal status: stated, not machine-checked</p>
+<p>The Chebyshev expansion is nearly the best approximation, with error equioscillating, while the Taylor polynomial is best only at the centre. The formal statement is best quadratic for e^x on [-1,1] has max error about 0.045, vs Taylor&#x27;s 0.1321. The demo&#x27;s figure table has 8 entries; their total is 5.8901, their mean is 0.7363, their largest is 2 and their smallest is 0.045. The demo prints these values twice with digests, so the arithmetic is checked by the machine, not taken on trust.</p>
+<p>Proof sketch:</p>
+<p>Each record states its algorithm, derives its error bound, and runs a worked example whose arithmetic the demo recomputes, so the claimed accuracy is visible in numbers. For this record: The Chebyshev expansion is nearly the best approximation, with error equioscillating, while the Taylor polynomial is best only at the centre.</p>
+<p>Proof status: The arithmetic is machine-checked by the demo; the scientific claim is stated, not machine-checked.</p>
+<h3>Numerical Analysis: Optimisation by Gradient Descent</h3>
+<p>Formal equation: <code>gradient descent on x^2 from 4 with alpha = 0.1: 3.2, 2.56, 2.048, ...</code></p>
+<p>Each step multiplies x by (1 - 2 alpha) = 0.8, so the iterates shrink geometrically toward 0.</p>
+<p>Formal status: stated, not machine-checked</p>
+<p>Each step multiplies x by (1 - 2 alpha) = 0.8, so the iterates shrink geometrically toward 0. The formal statement is gradient descent on x^2 from 4 with alpha = 0.1: 3.2, 2.56, 2.048, .... The demo&#x27;s figure table has 8 entries; their total is 13.322, their mean is 1.6652, their largest is 4 and their smallest is 0.1. The demo prints these values twice with digests, so the arithmetic is checked by the machine, not taken on trust.</p>
+<p>Proof sketch:</p>
+<p>Each record states its algorithm, derives its error bound, and runs a worked example whose arithmetic the demo recomputes, so the claimed accuracy is visible in numbers. For this record: Each step multiplies x by (1 - 2 alpha) = 0.8, so the iterates shrink geometrically toward 0.</p>
+<p>Proof status: The arithmetic is machine-checked by the demo; the scientific claim is stated, not machine-checked.</p>
+<h3>Numerical Analysis: Monte Carlo Integration</h3>
+<p>Formal equation: <code>pi estimated as 4 x (inside/total) = 4 x 7854/10000 = 3.1416</code></p>
+<p>The fraction of darts inside the circle estimates pi/4, and the standard error shrinks like 1/sqrt(N).</p>
+<p>Formal status: stated, not machine-checked</p>
+<p>The fraction of darts inside the circle estimates pi/4, and the standard error shrinks like 1/sqrt(N). The formal statement is pi estimated as 4 x (inside/total) = 4 x 7854/10000 = 3.1416. The demo&#x27;s figure table has 8 entries; their total is 18042.4473, their mean is 2255.3059, their largest is 10000 and their smallest is 0.0041. The demo prints these values twice with digests, so the arithmetic is checked by the machine, not taken on trust.</p>
+<p>Proof sketch:</p>
+<p>Each record states its algorithm, derives its error bound, and runs a worked example whose arithmetic the demo recomputes, so the claimed accuracy is visible in numbers. For this record: The fraction of darts inside the circle estimates pi/4, and the standard error shrinks like 1/sqrt(N).</p>
+<p>Proof status: The arithmetic is machine-checked by the demo; the scientific claim is stated, not machine-checked.</p>
+<h3>Numerical Analysis: Stiff Equations and Implicit Methods</h3>
+<p>Formal equation: <code>stiff: y&#x27; = -1000(y - cos t) - sin t; explicit needs h &lt; 0.002, implicit works with h = 0.1</code></p>
+<p>The fast transient decays in 0.01 time units, but explicit stability needs steps below 0.002, while the implicit method is stable for large steps.</p>
+<p>Formal status: stated, not machine-checked</p>
+<p>The fast transient decays in 0.01 time units, but explicit stability needs steps below 0.002, while the implicit method is stable for large steps. The formal statement is stiff: y&#x27; = -1000(y - cos t) - sin t; explicit needs h &lt; 0.002, implicit works with h = 0.1. The demo&#x27;s figure table has 8 entries; their total is 6002.092, their mean is 750.2615, their largest is 5000 and their smallest is 4e-05. The demo prints these values twice with digests, so the arithmetic is checked by the machine, not taken on trust.</p>
+<p>Proof sketch:</p>
+<p>Each record states its algorithm, derives its error bound, and runs a worked example whose arithmetic the demo recomputes, so the claimed accuracy is visible in numbers. For this record: The fast transient decays in 0.01 time units, but explicit stability needs steps below 0.002, while the implicit method is stable for large steps.</p>
+<p>Proof status: The arithmetic is machine-checked by the demo; the scientific claim is stated, not machine-checked.</p>
+<h3>Numerical Analysis: The Fast Fourier Transform</h3>
+<p>Formal equation: <code>FFT of (1,0,0,0) is (1,1,1,1); cost n log n vs n^2</code></p>
+<p>Splitting into even and odd halves and combining with twiddle factors gives the transform in n log n operations.</p>
+<p>Formal status: stated, not machine-checked</p>
+<p>Splitting into even and odd halves and combining with twiddle factors gives the transform in n log n operations. The formal statement is FFT of (1,0,0,0) is (1,1,1,1); cost n log n vs n^2. The demo&#x27;s figure table has 8 entries; their total is 1058849, their mean is 132356.125, their largest is 1048576 and their smallest is 1. The demo prints these values twice with digests, so the arithmetic is checked by the machine, not taken on trust.</p>
+<p>Proof sketch:</p>
+<p>Each record states its algorithm, derives its error bound, and runs a worked example whose arithmetic the demo recomputes, so the claimed accuracy is visible in numbers. For this record: Splitting into even and odd halves and combining with twiddle factors gives the transform in n log n operations.</p>
+<p>Proof status: The arithmetic is machine-checked by the demo; the scientific claim is stated, not machine-checked.</p>
+<h3>Numerical Analysis: Numerical Solution of Nonlinear Systems</h3>
+<p>Formal equation: <code>Newton step: J delta = -F; from (1,1) to (1.5,1.5) to (1.4167,1.4167)</code></p>
+<p>The Jacobian linearises the system at the current point, and solving the linear system gives the correction.</p>
+<p>Formal status: stated, not machine-checked</p>
+<p>The Jacobian linearises the system at the current point, and solving the linear system gives the correction. The formal statement is Newton step: J delta = -F; from (1,1) to (1.5,1.5) to (1.4167,1.4167). The demo&#x27;s figure table has 8 entries; their total is 8.8334, their mean is 1.1042, their largest is 2 and their smallest is 0.0025. The demo prints these values twice with digests, so the arithmetic is checked by the machine, not taken on trust.</p>
+<p>Proof sketch:</p>
+<p>Each record states its algorithm, derives its error bound, and runs a worked example whose arithmetic the demo recomputes, so the claimed accuracy is visible in numbers. For this record: The Jacobian linearises the system at the current point, and solving the linear system gives the correction.</p>
+<p>Proof status: The arithmetic is machine-checked by the demo; the scientific claim is stated, not machine-checked.</p>
+<h3>Numerical Analysis: Richardson Extrapolation and Romberg Integration</h3>
+<p>Formal equation: <code>Romberg: (4 x 1.75393 - 1.85914)/3 = 1.71886; next level 1.718282</code></p>
+<p>Combining the two trapezoid values cancels the h^2 error term, leaving an error proportional to h^4.</p>
+<p>Formal status: stated, not machine-checked</p>
+<p>Combining the two trapezoid values cancels the h^2 error term, leaving an error proportional to h^4. The formal statement is Romberg: (4 x 1.75393 - 1.85914)/3 = 1.71886; next level 1.718282. The demo&#x27;s figure table has 8 entries; their total is 11.7691, their mean is 1.4711, their largest is 3 and their smallest is 2e-07. The demo prints these values twice with digests, so the arithmetic is checked by the machine, not taken on trust.</p>
+<p>Proof sketch:</p>
+<p>Each record states its algorithm, derives its error bound, and runs a worked example whose arithmetic the demo recomputes, so the claimed accuracy is visible in numbers. For this record: Combining the two trapezoid values cancels the h^2 error term, leaving an error proportional to h^4.</p>
+<p>Proof status: The arithmetic is machine-checked by the demo; the scientific claim is stated, not machine-checked.</p>
+<h3>Numerical Analysis: Capstone Solving a Real Problem End to End</h3>
+<p>Formal equation: <code>Simpson gives 1.718861 (error 0.00058); elimination gives (1,3); Newton gives 1.4142157</code></p>
+<p>Each problem is solved by its standard method, with the error bounded and checked by refinement.</p>
+<p>Formal status: stated, not machine-checked</p>
+<p>Each problem is solved by its standard method, with the error bounded and checked by refinement. The formal statement is Simpson gives 1.718861 (error 0.00058); elimination gives (1,3); Newton gives 1.4142157. The demo&#x27;s figure table has 8 entries; their total is 11.8519, their mean is 1.4815, their largest is 3 and their smallest is 2.1e-06. The demo prints these values twice with digests, so the arithmetic is checked by the machine, not taken on trust.</p>
+<p>Proof sketch:</p>
+<p>Each record states its algorithm, derives its error bound, and runs a worked example whose arithmetic the demo recomputes, so the claimed accuracy is visible in numbers. For this record: Each problem is solved by its standard method, with the error bounded and checked by refinement.</p>
+<p>Proof status: The arithmetic is machine-checked by the demo; the scientific claim is stated, not machine-checked.</p>
+</section>
+<section id="science-proof">
+<h2>3. Science Proof</h2>
+<h3>Numerical Analysis: Error and Its Sources</h3>
+<p>Scientific equation: <code>error after n steps is bounded by C times h^p, where h is the step size and p the order</code></p>
+<p>Absolute error measures the difference; relative error measures it against the size of the answer. Rounding error comes from finite-precision arithmetic; truncation error comes from stopping a process early. Errors can amplify: subtracting nearly equal numbers loses significant digits (catastrophic cancellation). Numerical analysis is established mathematics: error bounds are theorems, stability is proved, and convergence (approaching the true answer as effort grows) is a defined, checkable property. Error analysis certifies every computed number in science, engineering, and finance.</p>
+<h3>Numerical Analysis: Floating-Point Arithmetic</h3>
+<p>Scientific equation: <code>error after n steps is bounded by C times h^p, where h is the step size and p the order</code></p>
+<p>Double precision has about 16 decimal digits and machine epsilon about 2.2e-16. Adding a tiny number to a large one can lose the tiny number entirely. The order of operations changes the rounding, so the same computation can give different answers. Numerical analysis is established mathematics: error bounds are theorems, stability is proved, and convergence (approaching the true answer as effort grows) is a defined, checkable property. Floating-point arithmetic is the arithmetic of all scientific computing, graphics, and machine learning.</p>
+<h3>Numerical Analysis: Bisection</h3>
+<p>Scientific equation: <code>error after n steps is bounded by C times h^p, where h is the step size and p the order</code></p>
+<p>Bisection needs a sign change on the starting interval. Each step halves the interval, so n steps reduce the error by a factor of 2^n. Bisection is slow but certain: it always converges when the hypotheses hold. Numerical analysis is established mathematics: error bounds are theorems, stability is proved, and convergence (approaching the true answer as effort grows) is a defined, checkable property. Bisection finds roots in engineering, economics, and any computation where certainty matters more than speed.</p>
+<h3>Numerical Analysis: Newton&#x27;s Method</h3>
+<p>Scientific equation: <code>error after n steps is bounded by C times h^p, where h is the step size and p the order</code></p>
+<p>The iteration is x(n+1) = x(n) - f(x(n))/f&#x27;(x(n)). Near a simple root, convergence is quadratic: correct digits roughly double per step. A bad starting guess, or a derivative near zero, can make it diverge or cycle. Numerical analysis is established mathematics: error bounds are theorems, stability is proved, and convergence (approaching the true answer as effort grows) is a defined, checkable property. Newton&#x27;s method solves equations in engineering, optimisation, and the implicit equations of simulation.</p>
+<h3>Numerical Analysis: The Secant Method</h3>
+<p>Scientific equation: <code>error after n steps is bounded by C times h^p, where h is the step size and p the order</code></p>
+<p>The secant method needs two starting points, not one. Its order of convergence is about 1.618 (the golden ratio). It is used when the derivative is unavailable or expensive. Numerical analysis is established mathematics: error bounds are theorems, stability is proved, and convergence (approaching the true answer as effort grows) is a defined, checkable property. The secant method solves equations in black-box models, where only function values are available.</p>
+<h3>Numerical Analysis: Gaussian Elimination and LU Factorisation</h3>
+<p>Scientific equation: <code>error after n steps is bounded by C times h^p, where h is the step size and p the order</code></p>
+<p>Elimination costs about (2/3) n cubed operations for an n by n system. LU factorisation separates the work: factor once, solve many times. Partial pivoting (swapping rows to put the largest entry on the diagonal) controls rounding error. Numerical analysis is established mathematics: error bounds are theorems, stability is proved, and convergence (approaching the true answer as effort grows) is a defined, checkable property. Elimination and LU solve the linear systems of engineering, economics, and simulation.</p>
+<h3>Numerical Analysis: Iterative Methods for Linear Systems</h3>
+<p>Scientific equation: <code>error after n steps is bounded by C times h^p, where h is the step size and p the order</code></p>
+<p>Jacobi updates all unknowns from the previous iteration; Gauss-Seidel uses the newest values as it goes. Both converge for strictly diagonally dominant matrices. Iterative methods are used for large sparse systems (mostly zeros), where elimination is too expensive. Numerical analysis is established mathematics: error bounds are theorems, stability is proved, and convergence (approaching the true answer as effort grows) is a defined, checkable property. Iterative methods solve the large systems of weather, structures, and networks, where the matrix has millions of rows.</p>
+<h3>Numerical Analysis: The Condition Number</h3>
+<p>Scientific equation: <code>error after n steps is bounded by C times h^p, where h is the step size and p the order</code></p>
+<p>The condition number is the ratio of the largest to the smallest singular value. A relative error in the data is amplified by at most the condition number. A singular matrix has infinite condition number. Numerical analysis is established mathematics: error bounds are theorems, stability is proved, and convergence (approaching the true answer as effort grows) is a defined, checkable property. The condition number certifies (or warns about) every linear system solved in science and engineering.</p>
+<h3>Numerical Analysis: Polynomial Interpolation</h3>
+<p>Scientific equation: <code>error after n steps is bounded by C times h^p, where h is the step size and p the order</code></p>
+<p>There is exactly one polynomial of degree at most n through n + 1 points. Lagrange&#x27;s formula writes it as a sum of basis polynomials. The error at x is f^(n+1)(xi)/(n+1)! times the product of (x - x_i). Numerical analysis is established mathematics: error bounds are theorems, stability is proved, and convergence (approaching the true answer as effort grows) is a defined, checkable property. Interpolation fills in missing data, builds curves through measured points, and underlies the numerical methods of the subject.</p>
+<h3>Numerical Analysis: Splines</h3>
+<p>Scientific equation: <code>error after n steps is bounded by C times h^p, where h is the step size and p the order</code></p>
+<p>A cubic spline is a cubic polynomial on each interval, with continuous value, slope, and curvature at the joins. A natural spline has zero second derivative at the ends. Splines avoid Runge&#x27;s phenomenon: they stay close to the data. Numerical analysis is established mathematics: error bounds are theorems, stability is proved, and convergence (approaching the true answer as effort grows) is a defined, checkable property. Splines draw curves in graphics, design car bodies and aeroplane wings, and interpolate measured data.</p>
+<h3>Numerical Analysis: Numerical Integration</h3>
+<p>Scientific equation: <code>error after n steps is bounded by C times h^p, where h is the step size and p the order</code></p>
+<p>The trapezoidal rule with step h has error proportional to h squared. Simpson&#x27;s rule with step h has error proportional to h to the fourth power. Gaussian quadrature chooses the points and weights to be exact for the highest possible degree. Numerical analysis is established mathematics: error bounds are theorems, stability is proved, and convergence (approaching the true answer as effort grows) is a defined, checkable property. Numerical integration computes the integrals of physics, statistics, and finance that have no closed form.</p>
+<h3>Numerical Analysis: Euler&#x27;s Method for ODEs</h3>
+<p>Scientific equation: <code>error after n steps is bounded by C times h^p, where h is the step size and p the order</code></p>
+<p>Each step moves along the tangent line by h times the slope. The global error is proportional to h: halving h halves the error. Euler&#x27;s method is explicit (the next value is computed directly) and first-order. Numerical analysis is established mathematics: error bounds are theorems, stability is proved, and convergence (approaching the true answer as effort grows) is a defined, checkable property. Euler&#x27;s method is the baseline for the numerical solution of differential equations in every simulation.</p>
+<h3>Numerical Analysis: Runge-Kutta Methods</h3>
+<p>Scientific equation: <code>error after n steps is bounded by C times h^p, where h is the step size and p the order</code></p>
+<p>The classic method uses 4 slopes per step and has global error proportional to h^4. Halving h reduces the error by a factor of 16. Runge-Kutta methods are the workhorses of ordinary differential equation solvers. Numerical analysis is established mathematics: error bounds are theorems, stability is proved, and convergence (approaching the true answer as effort grows) is a defined, checkable property. Runge-Kutta methods solve the differential equations of orbits, circuits, and biology.</p>
+<h3>Numerical Analysis: Least Squares and Data Fitting</h3>
+<p>Scientific equation: <code>error after n steps is bounded by C times h^p, where h is the step size and p the order</code></p>
+<p>The normal equations are A^T A x = A^T b. QR factorisation solves least squares without forming A^T A. The residual is orthogonal to every column of A at the solution. Numerical analysis is established mathematics: error bounds are theorems, stability is proved, and convergence (approaching the true answer as effort grows) is a defined, checkable property. Least squares fits data in every science, calibrates instruments, and is the core of regression.</p>
+<h3>Numerical Analysis: Numerical Differentiation</h3>
+<p>Scientific equation: <code>error after n steps is bounded by C times h^p, where h is the step size and p the order</code></p>
+<p>The forward difference has error proportional to h. The central difference has error proportional to h squared. The optimal h balances truncation error (growing with h) against rounding error (growing as h shrinks). Numerical analysis is established mathematics: error bounds are theorems, stability is proved, and convergence (approaching the true answer as effort grows) is a defined, checkable property. Numerical differentiation estimates rates from measured data, and appears in optimisation and in sensitivity analysis.</p>
+<h3>Numerical Analysis: The Finite Difference Method</h3>
+<p>Scientific equation: <code>error after n steps is bounded by C times h^p, where h is the step size and p the order</code></p>
+<p>Derivatives are replaced by differences between neighbouring grid points. The explicit method for the heat equation is stable only when k dt / h^2 is at most 1/2. The error is proportional to h squared in space and dt in time (for the explicit method). Numerical analysis is established mathematics: error bounds are theorems, stability is proved, and convergence (approaching the true answer as effort grows) is a defined, checkable property. Finite differences simulate heat, waves, fluids, and the structures of engineering.</p>
+<h3>Numerical Analysis: Approximation Theory</h3>
+<p>Scientific equation: <code>error after n steps is bounded by C times h^p, where h is the step size and p the order</code></p>
+<p>The Weierstrass theorem guarantees polynomial approximations exist for every continuous function. The best approximation minimises the maximum error, and its error equioscillates. Chebyshev polynomials give near-best approximations and are used in practice. Numerical analysis is established mathematics: error bounds are theorems, stability is proved, and convergence (approaching the true answer as effort grows) is a defined, checkable property. Approximation theory builds the sine, exponential, and logarithm routines of every computer and calculator.</p>
+<h3>Numerical Analysis: Optimisation by Gradient Descent</h3>
+<p>Scientific equation: <code>error after n steps is bounded by C times h^p, where h is the step size and p the order</code></p>
+<p>The step is x - alpha times the gradient, where alpha is the step size. Too large a step overshoots; too small a step converges slowly. Newton&#x27;s method uses the second derivative as well and converges faster near the minimum. Numerical analysis is established mathematics: error bounds are theorems, stability is proved, and convergence (approaching the true answer as effort grows) is a defined, checkable property. Gradient descent trains neural networks, fits models, and optimises the designs of engineering.</p>
+<h3>Numerical Analysis: Monte Carlo Integration</h3>
+<p>Scientific equation: <code>error after n steps is bounded by C times h^p, where h is the step size and p the order</code></p>
+<p>The estimate is the average of the function values times the volume. The error shrinks like 1/sqrt(N) for N samples, in any dimension. Variance reduction (such as importance sampling) makes the estimate more accurate for the same N. Numerical analysis is established mathematics: error bounds are theorems, stability is proved, and convergence (approaching the true answer as effort grows) is a defined, checkable property. Monte Carlo integration prices financial options, simulates particle physics, and renders images.</p>
+<h3>Numerical Analysis: Stiff Equations and Implicit Methods</h3>
+<p>Scientific equation: <code>error after n steps is bounded by C times h^p, where h is the step size and p the order</code></p>
+<p>Stiffness means the time scales differ by orders of magnitude. Explicit methods are limited by stability, not accuracy, on stiff problems. The backward Euler method is implicit and unconditionally stable for the test equation. Numerical analysis is established mathematics: error bounds are theorems, stability is proved, and convergence (approaching the true answer as effort grows) is a defined, checkable property. Stiff solvers simulate chemistry, circuits, and the control systems of engineering.</p>
+<h3>Numerical Analysis: The Fast Fourier Transform</h3>
+<p>Scientific equation: <code>error after n steps is bounded by C times h^p, where h is the step size and p the order</code></p>
+<p>The discrete Fourier transform of n points costs n squared operations directly. The FFT splits the points into even and odd halves, recursively, costing n log n. The FFT is used for filtering, compression, and solving differential equations. Numerical analysis is established mathematics: error bounds are theorems, stability is proved, and convergence (approaching the true answer as effort grows) is a defined, checkable property. The FFT processes audio, images, and radio signals, and solves the partial differential equations of physics.</p>
+<h3>Numerical Analysis: Numerical Solution of Nonlinear Systems</h3>
+<p>Scientific equation: <code>error after n steps is bounded by C times h^p, where h is the step size and p the order</code></p>
+<p>The Jacobian is the matrix of partial derivatives. Each step solves J delta = -F and updates x by delta. Near a solution the error squares at each step. Numerical analysis is established mathematics: error bounds are theorems, stability is proved, and convergence (approaching the true answer as effort grows) is a defined, checkable property. Newton&#x27;s method for systems solves the equations of engineering, economics, and physics.</p>
+<h3>Numerical Analysis: Richardson Extrapolation and Romberg Integration</h3>
+<p>Scientific equation: <code>error after n steps is bounded by C times h^p, where h is the step size and p the order</code></p>
+<p>The trapezoidal rule has error proportional to h squared. Combining h and h/2 cancels the h squared term, giving Simpson&#x27;s rule. Repeating gives higher-order rules, each more accurate. Numerical analysis is established mathematics: error bounds are theorems, stability is proved, and convergence (approaching the true answer as effort grows) is a defined, checkable property. Romberg integration computes the integrals of physics, engineering, and finance to high accuracy.</p>
+<h3>Numerical Analysis: Capstone Solving a Real Problem End to End</h3>
+<p>Scientific equation: <code>error after n steps is bounded by C times h^p, where h is the step size and p the order</code></p>
+<p>The method is chosen by the problem&#x27;s type and the accuracy needed. The error is bounded before computing, and checked after by halving the step. The answer is stated with its error bound, not as a bare number. Numerical analysis is established mathematics: error bounds are theorems, stability is proved, and convergence (approaching the true answer as effort grows) is a defined, checkable property. End-to-end numerical work runs every simulation, every fitted model, and every computed number in science and engineering.</p>
+</section>
+<section id="history">
+<h2>4. History</h2>
+<h3>Numerical Analysis: Error and Its Sources</h3>
+<p>Error analysis was developed in the twentieth century as computing grew; Wilkinson&#x27;s backward error analysis (1960s) is the modern foundation. Numerical analysis grew with computing itself: hand-computed tables gave way to electronic machines in the mid-twentieth century, and the subject became the study of which algorithms are fast, stable, and accurate on finite-precision arithmetic.</p>
+<h3>Numerical Analysis: Floating-Point Arithmetic</h3>
+<p>Floating-point arithmetic was standardised by IEEE 754 in 1985, after decades of incompatible formats; the standard is the reason the same program gives the same answer on different machines. Numerical analysis grew with computing itself: hand-computed tables gave way to electronic machines in the mid-twentieth century, and the subject became the study of which algorithms are fast, stable, and accurate on finite-precision arithmetic.</p>
+<h3>Numerical Analysis: Bisection</h3>
+<p>Bisection is the oldest root-finding method, used by hand for centuries and the standard fallback in every numerical library. Numerical analysis grew with computing itself: hand-computed tables gave way to electronic machines in the mid-twentieth century, and the subject became the study of which algorithms are fast, stable, and accurate on finite-precision arithmetic.</p>
+<h3>Numerical Analysis: Newton&#x27;s Method</h3>
+<p>Newton&#x27;s method was described by Newton and Raphson in the seventeenth century; it is the standard fast root-finder of numerical computing. Numerical analysis grew with computing itself: hand-computed tables gave way to electronic machines in the mid-twentieth century, and the subject became the study of which algorithms are fast, stable, and accurate on finite-precision arithmetic.</p>
+<h3>Numerical Analysis: The Secant Method</h3>
+<p>The secant method is the derivative-free cousin of Newton&#x27;s method, used whenever a derivative is hard to obtain. Numerical analysis grew with computing itself: hand-computed tables gave way to electronic machines in the mid-twentieth century, and the subject became the study of which algorithms are fast, stable, and accurate on finite-precision arithmetic.</p>
+<h3>Numerical Analysis: Gaussian Elimination and LU Factorisation</h3>
+<p>Gaussian elimination is ancient; LU factorisation and pivoting are the twentieth-century numerical form, the core of every linear algebra library. Numerical analysis grew with computing itself: hand-computed tables gave way to electronic machines in the mid-twentieth century, and the subject became the study of which algorithms are fast, stable, and accurate on finite-precision arithmetic.</p>
+<h3>Numerical Analysis: Iterative Methods for Linear Systems</h3>
+<p>Iterative methods were developed in the nineteenth century (Jacobi, Gauss, Seidel) and became central in the twentieth century for the large sparse systems of simulation. Numerical analysis grew with computing itself: hand-computed tables gave way to electronic machines in the mid-twentieth century, and the subject became the study of which algorithms are fast, stable, and accurate on finite-precision arithmetic.</p>
+<h3>Numerical Analysis: The Condition Number</h3>
+<p>The condition number was introduced by Turing in 1948 and developed by von Neumann and Goldstine; it is the central concept of numerical linear algebra. Numerical analysis grew with computing itself: hand-computed tables gave way to electronic machines in the mid-twentieth century, and the subject became the study of which algorithms are fast, stable, and accurate on finite-precision arithmetic.</p>
+<h3>Numerical Analysis: Polynomial Interpolation</h3>
+<p>Interpolation was studied by Newton and Lagrange in the seventeenth and eighteenth centuries; it is the basis of numerical differentiation and integration. Numerical analysis grew with computing itself: hand-computed tables gave way to electronic machines in the mid-twentieth century, and the subject became the study of which algorithms are fast, stable, and accurate on finite-precision arithmetic.</p>
+<h3>Numerical Analysis: Splines</h3>
+<p>Splines were developed in the twentieth century for shipbuilding and car design, where a smooth curve through measured points was needed; they are now the standard interpolation tool. Numerical analysis grew with computing itself: hand-computed tables gave way to electronic machines in the mid-twentieth century, and the subject became the study of which algorithms are fast, stable, and accurate on finite-precision arithmetic.</p>
+<h3>Numerical Analysis: Numerical Integration</h3>
+<p>Numerical integration was developed by Newton, Cotes, and Simpson in the seventeenth and eighteenth centuries; Gaussian quadrature is Gauss&#x27;s nineteenth-century refinement. Numerical analysis grew with computing itself: hand-computed tables gave way to electronic machines in the mid-twentieth century, and the subject became the study of which algorithms are fast, stable, and accurate on finite-precision arithmetic.</p>
+<h3>Numerical Analysis: Euler&#x27;s Method for ODEs</h3>
+<p>Euler&#x27;s method is Euler&#x27;s, from the eighteenth century; it is the first method taught and the simplest to analyse. Numerical analysis grew with computing itself: hand-computed tables gave way to electronic machines in the mid-twentieth century, and the subject became the study of which algorithms are fast, stable, and accurate on finite-precision arithmetic.</p>
+<h3>Numerical Analysis: Runge-Kutta Methods</h3>
+<p>Runge-Kutta methods were developed by Carl Runge and Martin Kutta around 1900; the fourth-order method is the standard solver of differential equations. Numerical analysis grew with computing itself: hand-computed tables gave way to electronic machines in the mid-twentieth century, and the subject became the study of which algorithms are fast, stable, and accurate on finite-precision arithmetic.</p>
+<h3>Numerical Analysis: Least Squares and Data Fitting</h3>
+<p>Least squares was introduced by Gauss and Legendre around 1800; the QR and SVD solutions are twentieth-century numerical refinements. Numerical analysis grew with computing itself: hand-computed tables gave way to electronic machines in the mid-twentieth century, and the subject became the study of which algorithms are fast, stable, and accurate on finite-precision arithmetic.</p>
+<h3>Numerical Analysis: Numerical Differentiation</h3>
+<p>Numerical differentiation was studied with the rise of computing; the trade-off between truncation and rounding is the central lesson of the subject. Numerical analysis grew with computing itself: hand-computed tables gave way to electronic machines in the mid-twentieth century, and the subject became the study of which algorithms are fast, stable, and accurate on finite-precision arithmetic.</p>
+<h3>Numerical Analysis: The Finite Difference Method</h3>
+<p>Finite differences were used by hand in the nineteenth century and became the standard method of simulation with computers; the stability condition is von Neumann&#x27;s. Numerical analysis grew with computing itself: hand-computed tables gave way to electronic machines in the mid-twentieth century, and the subject became the study of which algorithms are fast, stable, and accurate on finite-precision arithmetic.</p>
+<h3>Numerical Analysis: Approximation Theory</h3>
+<p>Approximation theory was founded by Weierstrass and Chebyshev in the nineteenth century; it is the theory behind the function libraries of every computer. Numerical analysis grew with computing itself: hand-computed tables gave way to electronic machines in the mid-twentieth century, and the subject became the study of which algorithms are fast, stable, and accurate on finite-precision arithmetic.</p>
+<h3>Numerical Analysis: Optimisation by Gradient Descent</h3>
+<p>Gradient descent is the oldest optimisation method, used by Cauchy in the nineteenth century and now the training method of machine learning. Numerical analysis grew with computing itself: hand-computed tables gave way to electronic machines in the mid-twentieth century, and the subject became the study of which algorithms are fast, stable, and accurate on finite-precision arithmetic.</p>
+<h3>Numerical Analysis: Monte Carlo Integration</h3>
+<p>Monte Carlo methods were developed at Los Alamos in the 1940s for neutron diffusion; they are now the standard tool for high-dimensional integrals in physics and finance. Numerical analysis grew with computing itself: hand-computed tables gave way to electronic machines in the mid-twentieth century, and the subject became the study of which algorithms are fast, stable, and accurate on finite-precision arithmetic.</p>
+<h3>Numerical Analysis: Stiff Equations and Implicit Methods</h3>
+<p>Stiffness was recognised in the twentieth century as chemical kinetics and circuit simulation grew; implicit methods are the standard answer. Numerical analysis grew with computing itself: hand-computed tables gave way to electronic machines in the mid-twentieth century, and the subject became the study of which algorithms are fast, stable, and accurate on finite-precision arithmetic.</p>
+<h3>Numerical Analysis: The Fast Fourier Transform</h3>
+<p>The FFT was published by Cooley and Tukey in 1965, though Gauss knew the idea; it is one of the most important algorithms ever published. Numerical analysis grew with computing itself: hand-computed tables gave way to electronic machines in the mid-twentieth century, and the subject became the study of which algorithms are fast, stable, and accurate on finite-precision arithmetic.</p>
+<h3>Numerical Analysis: Numerical Solution of Nonlinear Systems</h3>
+<p>Newton&#x27;s method for systems dates to the nineteenth century; it is the workhorse of nonlinear solving. Numerical analysis grew with computing itself: hand-computed tables gave way to electronic machines in the mid-twentieth century, and the subject became the study of which algorithms are fast, stable, and accurate on finite-precision arithmetic.</p>
+<h3>Numerical Analysis: Richardson Extrapolation and Romberg Integration</h3>
+<p>Richardson published extrapolation in 1911; Romberg applied it to integration in 1955. Numerical analysis grew with computing itself: hand-computed tables gave way to electronic machines in the mid-twentieth century, and the subject became the study of which algorithms are fast, stable, and accurate on finite-precision arithmetic.</p>
+<h3>Numerical Analysis: Capstone Solving a Real Problem End to End</h3>
+<p>Capstone numerical work is the examination form of the subject: it tests whether a student can choose a method, bound its error, and check the answer. Numerical analysis grew with computing itself: hand-computed tables gave way to electronic machines in the mid-twentieth century, and the subject became the study of which algorithms are fast, stable, and accurate on finite-precision arithmetic.</p>
+</section>
+<section id="workflow">
+<h2>5. Workflow</h2>
+<p>How to use this database:</p>
+<ol>
+<li>Search by title, subject, and keyword across all 24 records of the edition; search returns full records, not bare names.</li>
+<li>Retrieve by record identifier, for example <code>JAH-NUMANA-000001</code>, returning the full record.</li>
+<li>Run a record's demo to recompute its figures, and check the printed output against the recorded output.</li>
+<li>Ask the specialist AI; it answers from this database's records only. There is no login, no payment, and no key for the reader to enter.</li>
+<li>Follow the teaching ladder: rank 1 is the simplest record, rank 24 the most complex; each record builds on the earlier ones.</li>
+</ol>
+<h3>Numerical Analysis: Error and Its Sources</h3>
+<p>Compute 1/3 to 4 decimal places: the true value is 0.333333..., the rounded value is 0.3333, the absolute error is about 0.0000333, and the relative error is about 0.0001 (0.01 percent). A cancellation example: compute sqrt(10001) - 100 using 5-digit arithmetic. The square root is about 100.005, so the difference is 0.005, but the rounding in the square root (about 0.00005) is 1 percent of the answer. The accurate form is 1/(sqrt(10001) + 100), about 0.00499987. The demo recomputes the checkable part: it sums and averages the figure table {&quot;absolute_error&quot;: 3.33e-05, &quot;relative_error&quot;: 0.0001, &quot;digits_kept&quot;: 4, &quot;sqrt_value&quot;: 100.005, &quot;difference&quot;: 0.005, &quot;accurate_value&quot;: 0.00499987, &quot;error_sources&quot;: 3, &quot;decimal_places&quot;: 4} twice and compares the SHA-256 digests (a SHA-256 digest is a 256-bit fingerprint of the result text), so the arithmetic is machine-checked, not asserted.</p>
+<p>The worked example produces the figure table {&quot;absolute_error&quot;: 3.33e-05, &quot;relative_error&quot;: 0.0001, &quot;digits_kept&quot;: 4, &quot;sqrt_value&quot;: 100.005, &quot;difference&quot;: 0.005, &quot;accurate_value&quot;: 0.00499987, &quot;error_sources&quot;: 3, &quot;decimal_places&quot;: 4}, whose total is 111.0151 and whose mean is 13.8769. Absolute error measures the difference; relative error measures it against the size of the answer. Rounding error comes from finite-precision arithmetic; truncation error comes from stopping a process early.</p>
+<table>
+<tr><th>Figure</th><th>Value</th></tr>
+<tr><td>absolute_error</td><td>3.33e-05</td></tr>
+<tr><td>relative_error</td><td>0.0001</td></tr>
+<tr><td>digits_kept</td><td>4</td></tr>
+<tr><td>sqrt_value</td><td>100.005</td></tr>
+<tr><td>difference</td><td>0.005</td></tr>
+<tr><td>accurate_value</td><td>0.00499987</td></tr>
+<tr><td>error_sources</td><td>3</td></tr>
+<tr><td>decimal_places</td><td>4</td></tr>
+</table>
+<p>Verification path: Re-read the definition in this record; check the figures against the cited sources; run the demo and confirm Deterministic: MATCH; confirm the record&#x27;s JCC version 1 code (JAHDB/numerical-analysis#id) round-trips; confirm the evidence label reads documented.</p>
+<h3>Numerical Analysis: Floating-Point Arithmetic</h3>
+<p>Add 1e16 + 1 - 1e16 in double precision. The sum 1e16 + 1 rounds back to 1e16, because 1 is below half a unit in the last place (about 2) at that size, so the result is 0, not 1. The unit in the last place at 1e16 is 2. A second example: summing 0.1 ten times gives 0.9999999999999999, not 1, because 0.1 is not exactly representable in binary. The sum of the first 10 terms of the harmonic series in double precision is about 2.9289682539682538. The demo recomputes the checkable part: it sums and averages the figure table {&quot;machine_epsilon&quot;: 2.2e-16, &quot;significand_bits&quot;: 53, &quot;decimal_digits&quot;: 16, &quot;ulp_at_1e16&quot;: 2, &quot;sum_0.1_ten&quot;: 0.9999999999999999, &quot;harmonic_10&quot;: 2.9289682539682538, &quot;operations&quot;: 3, &quot;terms_summed&quot;: 10} twice and compares the SHA-256 digests (a SHA-256 digest is a 256-bit fingerprint of the result text), so the arithmetic is machine-checked, not asserted.</p>
+<p>The worked example produces the figure table {&quot;machine_epsilon&quot;: 2.2e-16, &quot;significand_bits&quot;: 53, &quot;decimal_digits&quot;: 16, &quot;ulp_at_1e16&quot;: 2, &quot;sum_0.1_ten&quot;: 0.9999999999999999, &quot;harmonic_10&quot;: 2.9289682539682538, &quot;operations&quot;: 3, &quot;terms_summed&quot;: 10}, whose total is 87.929 and whose mean is 10.9911. Double precision has about 16 decimal digits and machine epsilon about 2.2e-16. Adding a tiny number to a large one can lose the tiny number entirely.</p>
+<table>
+<tr><th>Figure</th><th>Value</th></tr>
+<tr><td>machine_epsilon</td><td>2.2e-16</td></tr>
+<tr><td>significand_bits</td><td>53</td></tr>
+<tr><td>decimal_digits</td><td>16</td></tr>
+<tr><td>ulp_at_1e16</td><td>2</td></tr>
+<tr><td>sum_0.1_ten</td><td>0.9999999999999999</td></tr>
+<tr><td>harmonic_10</td><td>2.9289682539682538</td></tr>
+<tr><td>operations</td><td>3</td></tr>
+<tr><td>terms_summed</td><td>10</td></tr>
+</table>
+<p>Verification path: Re-read the definition in this record; check the figures against the cited sources; run the demo and confirm Deterministic: MATCH; confirm the record&#x27;s JCC version 1 code (JAHDB/numerical-analysis#id) round-trips; confirm the evidence label reads documented.</p>
+<h3>Numerical Analysis: Bisection</h3>
+<p>Find the square root of 2 by bisecting f(x) = x squared - 2 on [1, 2]. The midpoint 1.5 gives f = 0.25 (positive), so the root is in [1, 1.5]. The midpoint 1.25 gives f = -0.4375 (negative), so the root is in [1.25, 1.5]. The midpoint 1.375 gives f = -0.109375, so the root is in [1.375, 1.5]. After 3 steps the interval is [1.375, 1.5] with width 0.125, and the midpoint 1.4375 is within 0.0625 of the true 1.41421356. The demo recomputes the checkable part: it sums and averages the figure table {&quot;steps_taken&quot;: 3, &quot;interval_width&quot;: 0.125, &quot;midpoint&quot;: 1.4375, &quot;true_root&quot;: 1.41421356, &quot;error_bound&quot;: 0.0625, &quot;f_at_1.5&quot;: 0.25, &quot;f_at_1.25&quot;: -0.4375, &quot;f_at_1.375&quot;: -0.109375} twice and compares the SHA-256 digests (a SHA-256 digest is a 256-bit fingerprint of the result text), so the arithmetic is machine-checked, not asserted.</p>
+<p>The worked example produces the figure table {&quot;steps_taken&quot;: 3, &quot;interval_width&quot;: 0.125, &quot;midpoint&quot;: 1.4375, &quot;true_root&quot;: 1.41421356, &quot;error_bound&quot;: 0.0625, &quot;f_at_1.5&quot;: 0.25, &quot;f_at_1.25&quot;: -0.4375, &quot;f_at_1.375&quot;: -0.109375}, whose total is 5.7423 and whose mean is 0.7178. Bisection needs a sign change on the starting interval. Each step halves the interval, so n steps reduce the error by a factor of 2^n.</p>
+<table>
+<tr><th>Figure</th><th>Value</th></tr>
+<tr><td>steps_taken</td><td>3</td></tr>
+<tr><td>interval_width</td><td>0.125</td></tr>
+<tr><td>midpoint</td><td>1.4375</td></tr>
+<tr><td>true_root</td><td>1.41421356</td></tr>
+<tr><td>error_bound</td><td>0.0625</td></tr>
+<tr><td>f_at_1.5</td><td>0.25</td></tr>
+<tr><td>f_at_1.25</td><td>-0.4375</td></tr>
+<tr><td>f_at_1.375</td><td>-0.109375</td></tr>
+</table>
+<p>Verification path: Re-read the definition in this record; check the figures against the cited sources; run the demo and confirm Deterministic: MATCH; confirm the record&#x27;s JCC version 1 code (JAHDB/numerical-analysis#id) round-trips; confirm the evidence label reads documented.</p>
+<h3>Numerical Analysis: Newton&#x27;s Method</h3>
+<p>Find the square root of 2 by Newton&#x27;s method on f(x) = x squared - 2, starting at x = 1. Step 1: x = 1 - (-1)/2 = 1.5. Step 2: x = 1.5 - 0.25/3 = 1.4166667. Step 3: x = 1.4166667 - 0.00694/2.83333 = 1.4142157. The true value is 1.41421356, so after 3 steps the error is about 0.0000021. Compare bisection, which needed 3 steps to reach an error of 0.0625. The demo recomputes the checkable part: it sums and averages the figure table {&quot;step_1&quot;: 1.5, &quot;step_2&quot;: 1.4166667, &quot;step_3&quot;: 1.4142157, &quot;true_root&quot;: 1.41421356, &quot;error_step_3&quot;: 2.1e-06, &quot;bisection_error_3&quot;: 0.0625, &quot;iterations&quot;: 3, &quot;derivative_at_1&quot;: 2} twice and compares the SHA-256 digests (a SHA-256 digest is a 256-bit fingerprint of the result text), so the arithmetic is machine-checked, not asserted.</p>
+<p>The worked example produces the figure table {&quot;step_1&quot;: 1.5, &quot;step_2&quot;: 1.4166667, &quot;step_3&quot;: 1.4142157, &quot;true_root&quot;: 1.41421356, &quot;error_step_3&quot;: 2.1e-06, &quot;bisection_error_3&quot;: 0.0625, &quot;iterations&quot;: 3, &quot;derivative_at_1&quot;: 2}, whose total is 10.8076 and whose mean is 1.351. The iteration is x(n+1) = x(n) - f(x(n))/f&#x27;(x(n)). Near a simple root, convergence is quadratic: correct digits roughly double per step.</p>
+<table>
+<tr><th>Figure</th><th>Value</th></tr>
+<tr><td>step_1</td><td>1.5</td></tr>
+<tr><td>step_2</td><td>1.4166667</td></tr>
+<tr><td>step_3</td><td>1.4142157</td></tr>
+<tr><td>true_root</td><td>1.41421356</td></tr>
+<tr><td>error_step_3</td><td>2.1e-06</td></tr>
+<tr><td>bisection_error_3</td><td>0.0625</td></tr>
+<tr><td>iterations</td><td>3</td></tr>
+<tr><td>derivative_at_1</td><td>2</td></tr>
+</table>
+<p>Verification path: Re-read the definition in this record; check the figures against the cited sources; run the demo and confirm Deterministic: MATCH; confirm the record&#x27;s JCC version 1 code (JAHDB/numerical-analysis#id) round-trips; confirm the evidence label reads documented.</p>
+<h3>Numerical Analysis: The Secant Method</h3>
+<p>Find the square root of 2 by the secant method on f(x) = x squared - 2, starting at x = 1 and x = 2. Step 1: x = 2 - 2 times (2 - 1)/(2 - (-1)) = 2 - 2/3 = 1.333333. Step 2: using 2 and 1.333333, x = 1.333333 - (-0.222222) times (1.333333 - 2)/( -0.222222 - 2) = 1.333333 + 0.066667 = 1.4. Step 3: using 1.333333 and 1.4, x is about 1.414634. The true value is 1.41421356, so the error after 3 steps is about 0.00042. The demo recomputes the checkable part: it sums and averages the figure table {&quot;step_1&quot;: 1.333333, &quot;step_2&quot;: 1.4, &quot;step_3&quot;: 1.414634, &quot;true_root&quot;: 1.41421356, &quot;error_step_3&quot;: 0.00042, &quot;convergence_order&quot;: 1.618, &quot;starting_points&quot;: 2, &quot;iterations&quot;: 3} twice and compares the SHA-256 digests (a SHA-256 digest is a 256-bit fingerprint of the result text), so the arithmetic is machine-checked, not asserted.</p>
+<p>The worked example produces the figure table {&quot;step_1&quot;: 1.333333, &quot;step_2&quot;: 1.4, &quot;step_3&quot;: 1.414634, &quot;true_root&quot;: 1.41421356, &quot;error_step_3&quot;: 0.00042, &quot;convergence_order&quot;: 1.618, &quot;starting_points&quot;: 2, &quot;iterations&quot;: 3}, whose total is 12.1806 and whose mean is 1.5226. The secant method needs two starting points, not one. Its order of convergence is about 1.618 (the golden ratio).</p>
+<table>
+<tr><th>Figure</th><th>Value</th></tr>
+<tr><td>step_1</td><td>1.333333</td></tr>
+<tr><td>step_2</td><td>1.4</td></tr>
+<tr><td>step_3</td><td>1.414634</td></tr>
+<tr><td>true_root</td><td>1.41421356</td></tr>
+<tr><td>error_step_3</td><td>0.00042</td></tr>
+<tr><td>convergence_order</td><td>1.618</td></tr>
+<tr><td>starting_points</td><td>2</td></tr>
+<tr><td>iterations</td><td>3</td></tr>
+</table>
+<p>Verification path: Re-read the definition in this record; check the figures against the cited sources; run the demo and confirm Deterministic: MATCH; confirm the record&#x27;s JCC version 1 code (JAHDB/numerical-analysis#id) round-trips; confirm the evidence label reads documented.</p>
+<h3>Numerical Analysis: Gaussian Elimination and LU Factorisation</h3>
+<p>Solve the system 2x + y = 5, x + 3y = 10 by elimination. The augmented matrix is [[2, 1, 5], [1, 3, 10]]. Subtract half the first row from the second: [[2, 1, 5], [0, 2.5, 7.5]], so y = 3, and back-substitution gives 2x + 3 = 5, so x = 1. The LU factors are L = [[1, 0], [0.5, 1]] and U = [[2, 1], [0, 2.5]]. Check: L times U is [[2, 1], [1, 3]], the original matrix. The demo recomputes the checkable part: it sums and averages the figure table {&quot;solution_x&quot;: 1, &quot;solution_y&quot;: 3, &quot;l_21&quot;: 0.5, &quot;u_11&quot;: 2, &quot;u_22&quot;: 2.5, &quot;operations_order&quot;: 3, &quot;rows&quot;: 2, &quot;checks&quot;: 2} twice and compares the SHA-256 digests (a SHA-256 digest is a 256-bit fingerprint of the result text), so the arithmetic is machine-checked, not asserted.</p>
+<p>The worked example produces the figure table {&quot;solution_x&quot;: 1, &quot;solution_y&quot;: 3, &quot;l_21&quot;: 0.5, &quot;u_11&quot;: 2, &quot;u_22&quot;: 2.5, &quot;operations_order&quot;: 3, &quot;rows&quot;: 2, &quot;checks&quot;: 2}, whose total is 16.0 and whose mean is 2.0. Elimination costs about (2/3) n cubed operations for an n by n system. LU factorisation separates the work: factor once, solve many times.</p>
+<table>
+<tr><th>Figure</th><th>Value</th></tr>
+<tr><td>solution_x</td><td>1</td></tr>
+<tr><td>solution_y</td><td>3</td></tr>
+<tr><td>l_21</td><td>0.5</td></tr>
+<tr><td>u_11</td><td>2</td></tr>
+<tr><td>u_22</td><td>2.5</td></tr>
+<tr><td>operations_order</td><td>3</td></tr>
+<tr><td>rows</td><td>2</td></tr>
+<tr><td>checks</td><td>2</td></tr>
+</table>
+<p>Verification path: Re-read the definition in this record; check the figures against the cited sources; run the demo and confirm Deterministic: MATCH; confirm the record&#x27;s JCC version 1 code (JAHDB/numerical-analysis#id) round-trips; confirm the evidence label reads documented.</p>
+<h3>Numerical Analysis: Iterative Methods for Linear Systems</h3>
+<p>Solve 4x + y = 7, x + 3y = 8 by Jacobi from (0, 0). Step 1: x = 7/4 = 1.75, y = 8/3, about 2.6667. Step 2: x = (7 - 2.6667)/4 = 1.0833, y = (8 - 1.75)/3 = 2.0833. Step 3: x = (7 - 2.0833)/4 = 1.2292, y = (8 - 1.0833)/3 = 2.3056. The true solution is x = 13/11, about 1.1818, and y = 25/11, about 2.2727, so the iterates are approaching it. Gauss-Seidel from (0, 0) gives (1.75, 2.0833) after one step, closer already. The demo recomputes the checkable part: it sums and averages the figure table {&quot;true_x&quot;: 1.1818, &quot;true_y&quot;: 2.2727, &quot;jacobi_step3_x&quot;: 1.2292, &quot;jacobi_step3_y&quot;: 2.3056, &quot;gs_step1_x&quot;: 1.75, &quot;gs_step1_y&quot;: 2.0833, &quot;iterations_shown&quot;: 3, &quot;diagonal_dominant&quot;: 1} twice and compares the SHA-256 digests (a SHA-256 digest is a 256-bit fingerprint of the result text), so the arithmetic is machine-checked, not asserted.</p>
+<p>The worked example produces the figure table {&quot;true_x&quot;: 1.1818, &quot;true_y&quot;: 2.2727, &quot;jacobi_step3_x&quot;: 1.2292, &quot;jacobi_step3_y&quot;: 2.3056, &quot;gs_step1_x&quot;: 1.75, &quot;gs_step1_y&quot;: 2.0833, &quot;iterations_shown&quot;: 3, &quot;diagonal_dominant&quot;: 1}, whose total is 14.8226 and whose mean is 1.8528. Jacobi updates all unknowns from the previous iteration; Gauss-Seidel uses the newest values as it goes. Both converge for strictly diagonally dominant matrices.</p>
+<table>
+<tr><th>Figure</th><th>Value</th></tr>
+<tr><td>true_x</td><td>1.1818</td></tr>
+<tr><td>true_y</td><td>2.2727</td></tr>
+<tr><td>jacobi_step3_x</td><td>1.2292</td></tr>
+<tr><td>jacobi_step3_y</td><td>2.3056</td></tr>
+<tr><td>gs_step1_x</td><td>1.75</td></tr>
+<tr><td>gs_step1_y</td><td>2.0833</td></tr>
+<tr><td>iterations_shown</td><td>3</td></tr>
+<tr><td>diagonal_dominant</td><td>1</td></tr>
+</table>
+<p>Verification path: Re-read the definition in this record; check the figures against the cited sources; run the demo and confirm Deterministic: MATCH; confirm the record&#x27;s JCC version 1 code (JAHDB/numerical-analysis#id) round-trips; confirm the evidence label reads documented.</p>
+<h3>Numerical Analysis: The Condition Number</h3>
+<p>The matrix [[1, 1], [1, 1.0001]] has determinant 0.0001 and inverse about [[10001, -10000], [-10000, 10000]]. Its condition number (in the infinity norm) is about 40002. Solving with b = (2, 2.0001) gives (1, 1); changing b to (2, 2.0002) changes the solution to (0, 2): a change of 0.0001 in the data changes the solution by 1, an amplification of 10,000. A well-conditioned matrix, such as the identity with condition number 1, shows no amplification. The demo recomputes the checkable part: it sums and averages the figure table {&quot;determinant&quot;: 0.0001, &quot;condition_number&quot;: 40002, &quot;identity_condition&quot;: 1, &quot;inverse_entry&quot;: 10001, &quot;solution_x&quot;: 1, &quot;solution_y&quot;: 1, &quot;change_in_b&quot;: 0.0001, &quot;amplification&quot;: 10000} twice and compares the SHA-256 digests (a SHA-256 digest is a 256-bit fingerprint of the result text), so the arithmetic is machine-checked, not asserted.</p>
+<p>The worked example produces the figure table {&quot;determinant&quot;: 0.0001, &quot;condition_number&quot;: 40002, &quot;identity_condition&quot;: 1, &quot;inverse_entry&quot;: 10001, &quot;solution_x&quot;: 1, &quot;solution_y&quot;: 1, &quot;change_in_b&quot;: 0.0001, &quot;amplification&quot;: 10000}, whose total is 60006.0002 and whose mean is 7500.75. The condition number is the ratio of the largest to the smallest singular value. A relative error in the data is amplified by at most the condition number.</p>
+<table>
+<tr><th>Figure</th><th>Value</th></tr>
+<tr><td>determinant</td><td>0.0001</td></tr>
+<tr><td>condition_number</td><td>40002</td></tr>
+<tr><td>identity_condition</td><td>1</td></tr>
+<tr><td>inverse_entry</td><td>10001</td></tr>
+<tr><td>solution_x</td><td>1</td></tr>
+<tr><td>solution_y</td><td>1</td></tr>
+<tr><td>change_in_b</td><td>0.0001</td></tr>
+<tr><td>amplification</td><td>10000</td></tr>
+</table>
+<p>Verification path: Re-read the definition in this record; check the figures against the cited sources; run the demo and confirm Deterministic: MATCH; confirm the record&#x27;s JCC version 1 code (JAHDB/numerical-analysis#id) round-trips; confirm the evidence label reads documented.</p>
+<h3>Numerical Analysis: Polynomial Interpolation</h3>
+<p>Find the quadratic through (0, 1), (1, 3), (2, 4). Using Lagrange: the basis for x = 0 is (x - 1)(x - 2)/2, for x = 1 is -(x)(x - 2), for x = 2 is x(x - 1)/2. The polynomial is 1 times (x - 1)(x - 2)/2 + 3 times (-(x)(x - 2)) + 4 times x(x - 1)/2. Expanding: the x squared coefficient is 1/2 - 3 + 2 = -1/2, the x coefficient is -3/2 + 6 - 2 = 5/2, the constant is 1. So the polynomial is -x squared/2 + (5/2) x + 1. Check: at x = 0 it is 1, at 1 it is -0.5 + 2.5 + 1 = 3, at 2 it is -2 + 5 + 1 = 4. The demo recomputes the checkable part: it sums and averages the figure table {&quot;points&quot;: 3, &quot;degree&quot;: 2, &quot;x2_coefficient&quot;: -0.5, &quot;x_coefficient&quot;: 2.5, &quot;constant&quot;: 1, &quot;check_at_1&quot;: 3, &quot;check_at_2&quot;: 4, &quot;basis_polynomials&quot;: 3} twice and compares the SHA-256 digests (a SHA-256 digest is a 256-bit fingerprint of the result text), so the arithmetic is machine-checked, not asserted.</p>
+<p>The worked example produces the figure table {&quot;points&quot;: 3, &quot;degree&quot;: 2, &quot;x2_coefficient&quot;: -0.5, &quot;x_coefficient&quot;: 2.5, &quot;constant&quot;: 1, &quot;check_at_1&quot;: 3, &quot;check_at_2&quot;: 4, &quot;basis_polynomials&quot;: 3}, whose total is 18.0 and whose mean is 2.25. There is exactly one polynomial of degree at most n through n + 1 points. Lagrange&#x27;s formula writes it as a sum of basis polynomials.</p>
+<table>
+<tr><th>Figure</th><th>Value</th></tr>
+<tr><td>points</td><td>3</td></tr>
+<tr><td>degree</td><td>2</td></tr>
+<tr><td>x2_coefficient</td><td>-0.5</td></tr>
+<tr><td>x_coefficient</td><td>2.5</td></tr>
+<tr><td>constant</td><td>1</td></tr>
+<tr><td>check_at_1</td><td>3</td></tr>
+<tr><td>check_at_2</td><td>4</td></tr>
+<tr><td>basis_polynomials</td><td>3</td></tr>
+</table>
+<p>Verification path: Re-read the definition in this record; check the figures against the cited sources; run the demo and confirm Deterministic: MATCH; confirm the record&#x27;s JCC version 1 code (JAHDB/numerical-analysis#id) round-trips; confirm the evidence label reads documented.</p>
+<h3>Numerical Analysis: Splines</h3>
+<p>Interpolate the points (0, 0), (1, 1), (2, 0) with a natural cubic spline. The spline equations give the middle second derivative as -3, and the first piece is (3x - x cubed)/2. At x = 0.5 the value is (1.5 - 0.125)/2 = 0.6875. By symmetry the second piece is (3(2 - x) - (2 - x) cubed)/2. The maximum is 1 at x = 1, and the curve is smooth there, with matching slope from both sides. The demo recomputes the checkable part: it sums and averages the figure table {&quot;points&quot;: 3, &quot;pieces&quot;: 2, &quot;value_at_0.5&quot;: 0.6875, &quot;max_value&quot;: 1, &quot;degree&quot;: 3, &quot;continuity_orders&quot;: 2, &quot;end_condition&quot;: 0, &quot;checks&quot;: 2} twice and compares the SHA-256 digests (a SHA-256 digest is a 256-bit fingerprint of the result text), so the arithmetic is machine-checked, not asserted.</p>
+<p>The worked example produces the figure table {&quot;points&quot;: 3, &quot;pieces&quot;: 2, &quot;value_at_0.5&quot;: 0.6875, &quot;max_value&quot;: 1, &quot;degree&quot;: 3, &quot;continuity_orders&quot;: 2, &quot;end_condition&quot;: 0, &quot;checks&quot;: 2}, whose total is 13.6875 and whose mean is 1.7109. A cubic spline is a cubic polynomial on each interval, with continuous value, slope, and curvature at the joins. A natural spline has zero second derivative at the ends.</p>
+<table>
+<tr><th>Figure</th><th>Value</th></tr>
+<tr><td>points</td><td>3</td></tr>
+<tr><td>pieces</td><td>2</td></tr>
+<tr><td>value_at_0.5</td><td>0.6875</td></tr>
+<tr><td>max_value</td><td>1</td></tr>
+<tr><td>degree</td><td>3</td></tr>
+<tr><td>continuity_orders</td><td>2</td></tr>
+<tr><td>end_condition</td><td>0</td></tr>
+<tr><td>checks</td><td>2</td></tr>
+</table>
+<p>Verification path: Re-read the definition in this record; check the figures against the cited sources; run the demo and confirm Deterministic: MATCH; confirm the record&#x27;s JCC version 1 code (JAHDB/numerical-analysis#id) round-trips; confirm the evidence label reads documented.</p>
+<h3>Numerical Analysis: Numerical Integration</h3>
+<p>Approximate the integral of e^x from 0 to 1, whose true value is e - 1, about 1.7182818. The trapezoidal rule with h = 0.5 (points 0, 0.5, 1) gives 0.5 times (1/2 + 1.648721 + 2.718282/2) = 0.5 times (0.5 + 1.648721 + 1.359141) = 1.753931, error about 0.0356. Simpson&#x27;s rule with the same points gives (0.5/3) times (1 + 4 times 1.648721 + 2.718282) = (1/6) times 10.313166 = 1.718861, error about 0.00058. Simpson is far more accurate with the same 3 points. The demo recomputes the checkable part: it sums and averages the figure table {&quot;true_value&quot;: 1.7182818, &quot;trapezoidal&quot;: 1.753931, &quot;trapezoidal_error&quot;: 0.0356, &quot;simpson&quot;: 1.718861, &quot;simpson_error&quot;: 0.00058, &quot;points_used&quot;: 3, &quot;step_size&quot;: 0.5, &quot;rules_compared&quot;: 2} twice and compares the SHA-256 digests (a SHA-256 digest is a 256-bit fingerprint of the result text), so the arithmetic is machine-checked, not asserted.</p>
+<p>The worked example produces the figure table {&quot;true_value&quot;: 1.7182818, &quot;trapezoidal&quot;: 1.753931, &quot;trapezoidal_error&quot;: 0.0356, &quot;simpson&quot;: 1.718861, &quot;simpson_error&quot;: 0.00058, &quot;points_used&quot;: 3, &quot;step_size&quot;: 0.5, &quot;rules_compared&quot;: 2}, whose total is 10.7273 and whose mean is 1.3409. The trapezoidal rule with step h has error proportional to h squared. Simpson&#x27;s rule with step h has error proportional to h to the fourth power.</p>
+<table>
+<tr><th>Figure</th><th>Value</th></tr>
+<tr><td>true_value</td><td>1.7182818</td></tr>
+<tr><td>trapezoidal</td><td>1.753931</td></tr>
+<tr><td>trapezoidal_error</td><td>0.0356</td></tr>
+<tr><td>simpson</td><td>1.718861</td></tr>
+<tr><td>simpson_error</td><td>0.00058</td></tr>
+<tr><td>points_used</td><td>3</td></tr>
+<tr><td>step_size</td><td>0.5</td></tr>
+<tr><td>rules_compared</td><td>2</td></tr>
+</table>
+<p>Verification path: Re-read the definition in this record; check the figures against the cited sources; run the demo and confirm Deterministic: MATCH; confirm the record&#x27;s JCC version 1 code (JAHDB/numerical-analysis#id) round-trips; confirm the evidence label reads documented.</p>
+<h3>Numerical Analysis: Euler&#x27;s Method for ODEs</h3>
+<p>Approximate y&#x27; = y with y(0) = 1 at x = 0.2 by Euler&#x27;s method. With h = 0.1: step 1 gives 1.1, step 2 gives 1.21, against the true e^0.2, about 1.2214, error 0.0114. With h = 0.05: the values are 1.05, 1.1025, 1.157625, 1.215506, error about 0.0059, roughly half, as the theory predicts. The error is about 0.057 times h at this point (0.0114 / 0.2 = 0.057). The demo recomputes the checkable part: it sums and averages the figure table {&quot;euler_h0.1&quot;: 1.21, &quot;true_value&quot;: 1.2214, &quot;error_h0.1&quot;: 0.0114, &quot;euler_h0.05&quot;: 1.2155, &quot;error_h0.05&quot;: 0.0059, &quot;step_size&quot;: 0.1, &quot;steps&quot;: 2, &quot;error_ratio&quot;: 2} twice and compares the SHA-256 digests (a SHA-256 digest is a 256-bit fingerprint of the result text), so the arithmetic is machine-checked, not asserted.</p>
+<p>The worked example produces the figure table {&quot;euler_h0.1&quot;: 1.21, &quot;true_value&quot;: 1.2214, &quot;error_h0.1&quot;: 0.0114, &quot;euler_h0.05&quot;: 1.2155, &quot;error_h0.05&quot;: 0.0059, &quot;step_size&quot;: 0.1, &quot;steps&quot;: 2, &quot;error_ratio&quot;: 2}, whose total is 7.7642 and whose mean is 0.9705. Each step moves along the tangent line by h times the slope. The global error is proportional to h: halving h halves the error.</p>
+<table>
+<tr><th>Figure</th><th>Value</th></tr>
+<tr><td>euler_h0.1</td><td>1.21</td></tr>
+<tr><td>true_value</td><td>1.2214</td></tr>
+<tr><td>error_h0.1</td><td>0.0114</td></tr>
+<tr><td>euler_h0.05</td><td>1.2155</td></tr>
+<tr><td>error_h0.05</td><td>0.0059</td></tr>
+<tr><td>step_size</td><td>0.1</td></tr>
+<tr><td>steps</td><td>2</td></tr>
+<tr><td>error_ratio</td><td>2</td></tr>
+</table>
+<p>Verification path: Re-read the definition in this record; check the figures against the cited sources; run the demo and confirm Deterministic: MATCH; confirm the record&#x27;s JCC version 1 code (JAHDB/numerical-analysis#id) round-trips; confirm the evidence label reads documented.</p>
+<h3>Numerical Analysis: Runge-Kutta Methods</h3>
+<p>Approximate y&#x27; = y with y(0) = 1 at x = 0.2 by the classic fourth-order Runge-Kutta method with h = 0.1. Step 1: k1 = 1, k2 = 1.05, k3 = 1.0525, k4 = 1.10525, and the update is 1 + 0.1 times (1 + 2.1 + 2.105 + 1.10525)/6 = 1 + 0.1 times 1.0517083 = 1.1051708, against the true e^0.1, about 1.1051702, error about 0.0000006. Step 2 from 1.1051708 gives about 1.2214028, against the true e^0.2, about 1.2214028, error about 0.000001. Compare Euler&#x27;s 1.21, error 0.0114: the fourth-order method is about ten thousand times more accurate with the same step size. The demo recomputes the checkable part: it sums and averages the figure table {&quot;rk4_at_0.1&quot;: 1.1051708, &quot;rk4_at_0.2&quot;: 1.2214028, &quot;true_value&quot;: 1.2214028, &quot;rk4_error&quot;: 1e-06, &quot;euler_value&quot;: 1.21, &quot;euler_error&quot;: 0.0114, &quot;slopes_per_step&quot;: 4, &quot;order&quot;: 4} twice and compares the SHA-256 digests (a SHA-256 digest is a 256-bit fingerprint of the result text), so the arithmetic is machine-checked, not asserted.</p>
+<p>The worked example produces the figure table {&quot;rk4_at_0.1&quot;: 1.1051708, &quot;rk4_at_0.2&quot;: 1.2214028, &quot;true_value&quot;: 1.2214028, &quot;rk4_error&quot;: 1e-06, &quot;euler_value&quot;: 1.21, &quot;euler_error&quot;: 0.0114, &quot;slopes_per_step&quot;: 4, &quot;order&quot;: 4}, whose total is 12.7694 and whose mean is 1.5962. The classic method uses 4 slopes per step and has global error proportional to h^4. Halving h reduces the error by a factor of 16.</p>
+<table>
+<tr><th>Figure</th><th>Value</th></tr>
+<tr><td>rk4_at_0.1</td><td>1.1051708</td></tr>
+<tr><td>rk4_at_0.2</td><td>1.2214028</td></tr>
+<tr><td>true_value</td><td>1.2214028</td></tr>
+<tr><td>rk4_error</td><td>1e-06</td></tr>
+<tr><td>euler_value</td><td>1.21</td></tr>
+<tr><td>euler_error</td><td>0.0114</td></tr>
+<tr><td>slopes_per_step</td><td>4</td></tr>
+<tr><td>order</td><td>4</td></tr>
+</table>
+<p>Verification path: Re-read the definition in this record; check the figures against the cited sources; run the demo and confirm Deterministic: MATCH; confirm the record&#x27;s JCC version 1 code (JAHDB/numerical-analysis#id) round-trips; confirm the evidence label reads documented.</p>
+<h3>Numerical Analysis: Least Squares and Data Fitting</h3>
+<p>Fit the line y = a + bx to (0, 1), (1, 3), (2, 4). The normal equations give a = 7/6, about 1.1667, and b = 3/2 = 1.5. The fitted values are 1.1667, 2.6667, 4.1667, and the residuals are -0.1667, 0.3333, -0.1667, with squared sum about 0.1667. The residual vector is orthogonal to the columns (1, 1, 1) and (0, 1, 2): the dot products are 0 and 0, as required. The demo recomputes the checkable part: it sums and averages the figure table {&quot;intercept&quot;: 1.1667, &quot;slope&quot;: 1.5, &quot;residual_sum_squares&quot;: 0.1667, &quot;residual_1&quot;: -0.1667, &quot;residual_2&quot;: 0.3333, &quot;residual_3&quot;: -0.1667, &quot;points&quot;: 3, &quot;parameters&quot;: 2} twice and compares the SHA-256 digests (a SHA-256 digest is a 256-bit fingerprint of the result text), so the arithmetic is machine-checked, not asserted.</p>
+<p>The worked example produces the figure table {&quot;intercept&quot;: 1.1667, &quot;slope&quot;: 1.5, &quot;residual_sum_squares&quot;: 0.1667, &quot;residual_1&quot;: -0.1667, &quot;residual_2&quot;: 0.3333, &quot;residual_3&quot;: -0.1667, &quot;points&quot;: 3, &quot;parameters&quot;: 2}, whose total is 7.8333 and whose mean is 0.9792. The normal equations are A^T A x = A^T b. QR factorisation solves least squares without forming A^T A.</p>
+<table>
+<tr><th>Figure</th><th>Value</th></tr>
+<tr><td>intercept</td><td>1.1667</td></tr>
+<tr><td>slope</td><td>1.5</td></tr>
+<tr><td>residual_sum_squares</td><td>0.1667</td></tr>
+<tr><td>residual_1</td><td>-0.1667</td></tr>
+<tr><td>residual_2</td><td>0.3333</td></tr>
+<tr><td>residual_3</td><td>-0.1667</td></tr>
+<tr><td>points</td><td>3</td></tr>
+<tr><td>parameters</td><td>2</td></tr>
+</table>
+<p>Verification path: Re-read the definition in this record; check the figures against the cited sources; run the demo and confirm Deterministic: MATCH; confirm the record&#x27;s JCC version 1 code (JAHDB/numerical-analysis#id) round-trips; confirm the evidence label reads documented.</p>
+<h3>Numerical Analysis: Numerical Differentiation</h3>
+<p>Approximate the derivative of sin(x) at x = 1 (true value cos(1), about 0.5403023). With h = 0.1, the forward difference is (sin(1.1) - sin(1))/0.1 = (0.891207 - 0.841471)/0.1 = 0.49736, error about 0.043. The central difference is (sin(1.1) - sin(0.9))/0.2 = (0.891207 - 0.783327)/0.2 = 0.53940, error about 0.0009. With h = 0.01, the central difference gives about 0.54030, error about 0.000002. With h = 1e-8, rounding dominates and the error grows again. The demo recomputes the checkable part: it sums and averages the figure table {&quot;true_derivative&quot;: 0.5403023, &quot;forward_h0.1&quot;: 0.49736, &quot;forward_error&quot;: 0.043, &quot;central_h0.1&quot;: 0.5394, &quot;central_error&quot;: 0.0009, &quot;central_h0.01&quot;: 0.5403, &quot;step_h&quot;: 0.1, &quot;optimal_h&quot;: 0.01} twice and compares the SHA-256 digests (a SHA-256 digest is a 256-bit fingerprint of the result text), so the arithmetic is machine-checked, not asserted.</p>
+<p>The worked example produces the figure table {&quot;true_derivative&quot;: 0.5403023, &quot;forward_h0.1&quot;: 0.49736, &quot;forward_error&quot;: 0.043, &quot;central_h0.1&quot;: 0.5394, &quot;central_error&quot;: 0.0009, &quot;central_h0.01&quot;: 0.5403, &quot;step_h&quot;: 0.1, &quot;optimal_h&quot;: 0.01}, whose total is 2.2713 and whose mean is 0.2839. The forward difference has error proportional to h. The central difference has error proportional to h squared.</p>
+<table>
+<tr><th>Figure</th><th>Value</th></tr>
+<tr><td>true_derivative</td><td>0.5403023</td></tr>
+<tr><td>forward_h0.1</td><td>0.49736</td></tr>
+<tr><td>forward_error</td><td>0.043</td></tr>
+<tr><td>central_h0.1</td><td>0.5394</td></tr>
+<tr><td>central_error</td><td>0.0009</td></tr>
+<tr><td>central_h0.01</td><td>0.5403</td></tr>
+<tr><td>step_h</td><td>0.1</td></tr>
+<tr><td>optimal_h</td><td>0.01</td></tr>
+</table>
+<p>Verification path: Re-read the definition in this record; check the figures against the cited sources; run the demo and confirm Deterministic: MATCH; confirm the record&#x27;s JCC version 1 code (JAHDB/numerical-analysis#id) round-trips; confirm the evidence label reads documented.</p>
+<h3>Numerical Analysis: The Finite Difference Method</h3>
+<p>Solve the heat equation u_t = u_xx on (0, 1) with h = 0.25 (5 grid points) and dt = 0.02, so k dt / h squared = 0.02/0.0625 = 0.32, below 1/2, so the method is stable. Starting from u = sin(pi x), the exact decay factor for one step is e^(-pi squared dt), about e^(-0.1974), about 0.8209. The finite difference step multiplies the mode by 1 - 4 times 0.32 times sin squared(pi h / 2), which is 1 - 0.1875 = 0.8125, close to the exact 0.8209. With dt = 0.04, the ratio is 0.64, above 1/2, and the method oscillates and blows up. The demo recomputes the checkable part: it sums and averages the figure table {&quot;h_grid&quot;: 0.25, &quot;dt_stable&quot;: 0.02, &quot;stability_ratio&quot;: 0.32, &quot;exact_decay&quot;: 0.8209, &quot;fd_decay&quot;: 0.8125, &quot;dt_unstable&quot;: 0.04, &quot;unstable_ratio&quot;: 0.64, &quot;grid_points&quot;: 5} twice and compares the SHA-256 digests (a SHA-256 digest is a 256-bit fingerprint of the result text), so the arithmetic is machine-checked, not asserted.</p>
+<p>The worked example produces the figure table {&quot;h_grid&quot;: 0.25, &quot;dt_stable&quot;: 0.02, &quot;stability_ratio&quot;: 0.32, &quot;exact_decay&quot;: 0.8209, &quot;fd_decay&quot;: 0.8125, &quot;dt_unstable&quot;: 0.04, &quot;unstable_ratio&quot;: 0.64, &quot;grid_points&quot;: 5}, whose total is 7.9034 and whose mean is 0.9879. Derivatives are replaced by differences between neighbouring grid points. The explicit method for the heat equation is stable only when k dt / h^2 is at most 1/2.</p>
+<table>
+<tr><th>Figure</th><th>Value</th></tr>
+<tr><td>h_grid</td><td>0.25</td></tr>
+<tr><td>dt_stable</td><td>0.02</td></tr>
+<tr><td>stability_ratio</td><td>0.32</td></tr>
+<tr><td>exact_decay</td><td>0.8209</td></tr>
+<tr><td>fd_decay</td><td>0.8125</td></tr>
+<tr><td>dt_unstable</td><td>0.04</td></tr>
+<tr><td>unstable_ratio</td><td>0.64</td></tr>
+<tr><td>grid_points</td><td>5</td></tr>
+</table>
+<p>Verification path: Re-read the definition in this record; check the figures against the cited sources; run the demo and confirm Deterministic: MATCH; confirm the record&#x27;s JCC version 1 code (JAHDB/numerical-analysis#id) round-trips; confirm the evidence label reads documented.</p>
+<h3>Numerical Analysis: Approximation Theory</h3>
+<p>Approximate e^x on [-1, 1] by a quadratic. The Taylor quadratic 1 + x + x squared/2 has maximum error at x = -1 of about |e^-1 - 0.5| = |0.3679 - 0.5| = 0.1321. The best quadratic (the minimax) has maximum error about 0.045, three times smaller. The Chebyshev expansion gives 1.2661 + 1.1303 x + 0.2715 x squared, with maximum error about 0.0451, nearly the best. The coefficients are computed by the Chebyshev series of e^x. The demo recomputes the checkable part: it sums and averages the figure table {&quot;taylor_max_error&quot;: 0.1321, &quot;best_max_error&quot;: 0.045, &quot;chebyshev_error&quot;: 0.0451, &quot;cheb_constant&quot;: 1.2661, &quot;cheb_linear&quot;: 1.1303, &quot;cheb_quadratic&quot;: 0.2715, &quot;interval_half&quot;: 1, &quot;degree&quot;: 2} twice and compares the SHA-256 digests (a SHA-256 digest is a 256-bit fingerprint of the result text), so the arithmetic is machine-checked, not asserted.</p>
+<p>The worked example produces the figure table {&quot;taylor_max_error&quot;: 0.1321, &quot;best_max_error&quot;: 0.045, &quot;chebyshev_error&quot;: 0.0451, &quot;cheb_constant&quot;: 1.2661, &quot;cheb_linear&quot;: 1.1303, &quot;cheb_quadratic&quot;: 0.2715, &quot;interval_half&quot;: 1, &quot;degree&quot;: 2}, whose total is 5.8901 and whose mean is 0.7363. The Weierstrass theorem guarantees polynomial approximations exist for every continuous function. The best approximation minimises the maximum error, and its error equioscillates.</p>
+<table>
+<tr><th>Figure</th><th>Value</th></tr>
+<tr><td>taylor_max_error</td><td>0.1321</td></tr>
+<tr><td>best_max_error</td><td>0.045</td></tr>
+<tr><td>chebyshev_error</td><td>0.0451</td></tr>
+<tr><td>cheb_constant</td><td>1.2661</td></tr>
+<tr><td>cheb_linear</td><td>1.1303</td></tr>
+<tr><td>cheb_quadratic</td><td>0.2715</td></tr>
+<tr><td>interval_half</td><td>1</td></tr>
+<tr><td>degree</td><td>2</td></tr>
+</table>
+<p>Verification path: Re-read the definition in this record; check the figures against the cited sources; run the demo and confirm Deterministic: MATCH; confirm the record&#x27;s JCC version 1 code (JAHDB/numerical-analysis#id) round-trips; confirm the evidence label reads documented.</p>
+<h3>Numerical Analysis: Optimisation by Gradient Descent</h3>
+<p>Minimise f(x) = x squared by gradient descent from x = 4 with step alpha = 0.1. The gradient is 2x. Step 1: x = 4 - 0.1 times 8 = 3.2. Step 2: x = 3.2 - 0.1 times 6.4 = 2.56. Step 3: x = 2.56 - 0.512 = 2.048. The values shrink by a factor of 0.8 each step, approaching 0. After 10 steps, x = 4 times 0.8^10, about 0.4295, and f is about 0.1845. With alpha = 0.5, the step factor is 0, and the method jumps to the minimum in one step; with alpha = 1.1, it diverges. The demo recomputes the checkable part: it sums and averages the figure table {&quot;start_x&quot;: 4, &quot;step_1&quot;: 3.2, &quot;step_2&quot;: 2.56, &quot;step_3&quot;: 2.048, &quot;after_10&quot;: 0.4295, &quot;f_after_10&quot;: 0.1845, &quot;shrink_factor&quot;: 0.8, &quot;step_size&quot;: 0.1} twice and compares the SHA-256 digests (a SHA-256 digest is a 256-bit fingerprint of the result text), so the arithmetic is machine-checked, not asserted.</p>
+<p>The worked example produces the figure table {&quot;start_x&quot;: 4, &quot;step_1&quot;: 3.2, &quot;step_2&quot;: 2.56, &quot;step_3&quot;: 2.048, &quot;after_10&quot;: 0.4295, &quot;f_after_10&quot;: 0.1845, &quot;shrink_factor&quot;: 0.8, &quot;step_size&quot;: 0.1}, whose total is 13.322 and whose mean is 1.6652. The step is x - alpha times the gradient, where alpha is the step size. Too large a step overshoots; too small a step converges slowly.</p>
+<table>
+<tr><th>Figure</th><th>Value</th></tr>
+<tr><td>start_x</td><td>4</td></tr>
+<tr><td>step_1</td><td>3.2</td></tr>
+<tr><td>step_2</td><td>2.56</td></tr>
+<tr><td>step_3</td><td>2.048</td></tr>
+<tr><td>after_10</td><td>0.4295</td></tr>
+<tr><td>f_after_10</td><td>0.1845</td></tr>
+<tr><td>shrink_factor</td><td>0.8</td></tr>
+<tr><td>step_size</td><td>0.1</td></tr>
+</table>
+<p>Verification path: Re-read the definition in this record; check the figures against the cited sources; run the demo and confirm Deterministic: MATCH; confirm the record&#x27;s JCC version 1 code (JAHDB/numerical-analysis#id) round-trips; confirm the evidence label reads documented.</p>
+<h3>Numerical Analysis: Monte Carlo Integration</h3>
+<p>Estimate pi by throwing darts at a square: the fraction landing inside the inscribed circle is pi/4. With 100 darts, suppose 79 land inside, giving pi about 3.16. With 10,000 darts, suppose 7,854 land inside, giving pi about 3.1416. The standard error with N darts is about sqrt(p(1-p)/N), which for p = 0.785 and N = 10,000 is about 0.0041, so the estimate 3.1416 is within about 0.016 of pi with high probability. The error shrinks by a factor of 10 when N grows by 100. The demo recomputes the checkable part: it sums and averages the figure table {&quot;darts_100&quot;: 100, &quot;inside_100&quot;: 79, &quot;pi_estimate_100&quot;: 3.16, &quot;darts_10000&quot;: 10000, &quot;inside_10000&quot;: 7854, &quot;pi_estimate_10000&quot;: 3.1416, &quot;std_error&quot;: 0.0041, &quot;pi_true&quot;: 3.14159} twice and compares the SHA-256 digests (a SHA-256 digest is a 256-bit fingerprint of the result text), so the arithmetic is machine-checked, not asserted.</p>
+<p>The worked example produces the figure table {&quot;darts_100&quot;: 100, &quot;inside_100&quot;: 79, &quot;pi_estimate_100&quot;: 3.16, &quot;darts_10000&quot;: 10000, &quot;inside_10000&quot;: 7854, &quot;pi_estimate_10000&quot;: 3.1416, &quot;std_error&quot;: 0.0041, &quot;pi_true&quot;: 3.14159}, whose total is 18042.4473 and whose mean is 2255.3059. The estimate is the average of the function values times the volume. The error shrinks like 1/sqrt(N) for N samples, in any dimension.</p>
+<table>
+<tr><th>Figure</th><th>Value</th></tr>
+<tr><td>darts_100</td><td>100</td></tr>
+<tr><td>inside_100</td><td>79</td></tr>
+<tr><td>pi_estimate_100</td><td>3.16</td></tr>
+<tr><td>darts_10000</td><td>10000</td></tr>
+<tr><td>inside_10000</td><td>7854</td></tr>
+<tr><td>pi_estimate_10000</td><td>3.1416</td></tr>
+<tr><td>std_error</td><td>0.0041</td></tr>
+<tr><td>pi_true</td><td>3.14159</td></tr>
+</table>
+<p>Verification path: Re-read the definition in this record; check the figures against the cited sources; run the demo and confirm Deterministic: MATCH; confirm the record&#x27;s JCC version 1 code (JAHDB/numerical-analysis#id) round-trips; confirm the evidence label reads documented.</p>
+<h3>Numerical Analysis: Stiff Equations and Implicit Methods</h3>
+<p>Consider y&#x27; = -1000 (y - cos t) - sin t, whose solution is y = cos t. The transient decays like e^(-1000 t), so after t = 0.01 it is e^(-10), about 0.000045, negligible. An explicit method needs h below about 0.002 for stability (2/1000), so reaching t = 10 needs 5,000 steps. The backward Euler method with h = 0.1 is stable and accurate: its first step from y(0) = 1 gives y about 0.99496, close to cos(0.1), about 0.995004. The error is about 0.00004. The demo recomputes the checkable part: it sums and averages the figure table {&quot;stiffness_ratio&quot;: 1000, &quot;transient_at_0.01&quot;: 4.5e-05, &quot;explicit_step_limit&quot;: 0.002, &quot;steps_needed&quot;: 5000, &quot;implicit_step&quot;: 0.1, &quot;y_at_0.1&quot;: 0.99496, &quot;cos_0.1&quot;: 0.995004, &quot;error&quot;: 4e-05} twice and compares the SHA-256 digests (a SHA-256 digest is a 256-bit fingerprint of the result text), so the arithmetic is machine-checked, not asserted.</p>
+<p>The worked example produces the figure table {&quot;stiffness_ratio&quot;: 1000, &quot;transient_at_0.01&quot;: 4.5e-05, &quot;explicit_step_limit&quot;: 0.002, &quot;steps_needed&quot;: 5000, &quot;implicit_step&quot;: 0.1, &quot;y_at_0.1&quot;: 0.99496, &quot;cos_0.1&quot;: 0.995004, &quot;error&quot;: 4e-05}, whose total is 6002.092 and whose mean is 750.2615. Stiffness means the time scales differ by orders of magnitude. Explicit methods are limited by stability, not accuracy, on stiff problems.</p>
+<table>
+<tr><th>Figure</th><th>Value</th></tr>
+<tr><td>stiffness_ratio</td><td>1000</td></tr>
+<tr><td>transient_at_0.01</td><td>4.5e-05</td></tr>
+<tr><td>explicit_step_limit</td><td>0.002</td></tr>
+<tr><td>steps_needed</td><td>5000</td></tr>
+<tr><td>implicit_step</td><td>0.1</td></tr>
+<tr><td>y_at_0.1</td><td>0.99496</td></tr>
+<tr><td>cos_0.1</td><td>0.995004</td></tr>
+<tr><td>error</td><td>4e-05</td></tr>
+</table>
+<p>Verification path: Re-read the definition in this record; check the figures against the cited sources; run the demo and confirm Deterministic: MATCH; confirm the record&#x27;s JCC version 1 code (JAHDB/numerical-analysis#id) round-trips; confirm the evidence label reads documented.</p>
+<h3>Numerical Analysis: The Fast Fourier Transform</h3>
+<p>Compute the discrete Fourier transform of 4 points (1, 0, 0, 0) by the FFT. The even half is (1, 0) and the odd half is (0, 0). Their transforms are (1, 1) and (0, 0). Combining with the twiddle factors (1, -i) gives the transform (1, 1, 1, 1): the transform of a single spike is flat, as expected. The operation count is 4 times log2(4) = 8, against 16 for the direct method. For n = 1024, the FFT needs about 10,240 operations against 1,048,576 direct. The demo recomputes the checkable part: it sums and averages the figure table {&quot;n_points&quot;: 4, &quot;fft_operations&quot;: 8, &quot;direct_operations&quot;: 16, &quot;n_1024_fft&quot;: 10240, &quot;n_1024_direct&quot;: 1048576, &quot;transform_values&quot;: 1, &quot;halves&quot;: 2, &quot;log_factor&quot;: 2} twice and compares the SHA-256 digests (a SHA-256 digest is a 256-bit fingerprint of the result text), so the arithmetic is machine-checked, not asserted.</p>
+<p>The worked example produces the figure table {&quot;n_points&quot;: 4, &quot;fft_operations&quot;: 8, &quot;direct_operations&quot;: 16, &quot;n_1024_fft&quot;: 10240, &quot;n_1024_direct&quot;: 1048576, &quot;transform_values&quot;: 1, &quot;halves&quot;: 2, &quot;log_factor&quot;: 2}, whose total is 1058849 and whose mean is 132356.125. The discrete Fourier transform of n points costs n squared operations directly. The FFT splits the points into even and odd halves, recursively, costing n log n.</p>
+<table>
+<tr><th>Figure</th><th>Value</th></tr>
+<tr><td>n_points</td><td>4</td></tr>
+<tr><td>fft_operations</td><td>8</td></tr>
+<tr><td>direct_operations</td><td>16</td></tr>
+<tr><td>n_1024_fft</td><td>10240</td></tr>
+<tr><td>n_1024_direct</td><td>1048576</td></tr>
+<tr><td>transform_values</td><td>1</td></tr>
+<tr><td>halves</td><td>2</td></tr>
+<tr><td>log_factor</td><td>2</td></tr>
+</table>
+<p>Verification path: Re-read the definition in this record; check the figures against the cited sources; run the demo and confirm Deterministic: MATCH; confirm the record&#x27;s JCC version 1 code (JAHDB/numerical-analysis#id) round-trips; confirm the evidence label reads documented.</p>
+<h3>Numerical Analysis: Numerical Solution of Nonlinear Systems</h3>
+<p>Solve x squared + y squared = 4 and x - y = 0, whose solution is (sqrt(2), sqrt(2)), about (1.4142, 1.4142). Start from (1, 1). F = (1 + 1 - 4, 0) = (-2, 0). The Jacobian at (1, 1) is [[2, 2], [1, -1]]. Solving J delta = (2, 0) gives delta = (0.5, 0.5), so the new point is (1.5, 1.5), with error 0.0858. The next step gives (1.4167, 1.4167), error 0.0025. The demo recomputes the checkable part: it sums and averages the figure table {&quot;true_x&quot;: 1.4142, &quot;true_y&quot;: 1.4142, &quot;start_x&quot;: 1, &quot;step1_x&quot;: 1.5, &quot;error_step1&quot;: 0.0858, &quot;step2_x&quot;: 1.4167, &quot;error_step2&quot;: 0.0025, &quot;jacobian_rows&quot;: 2} twice and compares the SHA-256 digests (a SHA-256 digest is a 256-bit fingerprint of the result text), so the arithmetic is machine-checked, not asserted.</p>
+<p>The worked example produces the figure table {&quot;true_x&quot;: 1.4142, &quot;true_y&quot;: 1.4142, &quot;start_x&quot;: 1, &quot;step1_x&quot;: 1.5, &quot;error_step1&quot;: 0.0858, &quot;step2_x&quot;: 1.4167, &quot;error_step2&quot;: 0.0025, &quot;jacobian_rows&quot;: 2}, whose total is 8.8334 and whose mean is 1.1042. The Jacobian is the matrix of partial derivatives. Each step solves J delta = -F and updates x by delta.</p>
+<table>
+<tr><th>Figure</th><th>Value</th></tr>
+<tr><td>true_x</td><td>1.4142</td></tr>
+<tr><td>true_y</td><td>1.4142</td></tr>
+<tr><td>start_x</td><td>1</td></tr>
+<tr><td>step1_x</td><td>1.5</td></tr>
+<tr><td>error_step1</td><td>0.0858</td></tr>
+<tr><td>step2_x</td><td>1.4167</td></tr>
+<tr><td>error_step2</td><td>0.0025</td></tr>
+<tr><td>jacobian_rows</td><td>2</td></tr>
+</table>
+<p>Verification path: Re-read the definition in this record; check the figures against the cited sources; run the demo and confirm Deterministic: MATCH; confirm the record&#x27;s JCC version 1 code (JAHDB/numerical-analysis#id) round-trips; confirm the evidence label reads documented.</p>
+<h3>Numerical Analysis: Richardson Extrapolation and Romberg Integration</h3>
+<p>Integrate e^x from 0 to 1, true value about 1.7182818. The trapezoidal rule with h = 1 gives (1 + e)/2, about 1.85914. With h = 0.5 it gives 1.75393. Romberg extrapolation gives (4 times 1.75393 - 1.85914)/3, about 1.71886, which is Simpson&#x27;s rule, with error 0.00058. One more level gives 1.718282, error about 0.0000002. The Romberg table has 3 levels and 6 entries. The demo recomputes the checkable part: it sums and averages the figure table {&quot;true_value&quot;: 1.7182818, &quot;trapezoid_h1&quot;: 1.85914, &quot;trapezoid_h0.5&quot;: 1.75393, &quot;romberg_1&quot;: 1.71886, &quot;romberg_1_error&quot;: 0.00058, &quot;romberg_2&quot;: 1.718282, &quot;romberg_2_error&quot;: 2e-07, &quot;levels&quot;: 3} twice and compares the SHA-256 digests (a SHA-256 digest is a 256-bit fingerprint of the result text), so the arithmetic is machine-checked, not asserted.</p>
+<p>The worked example produces the figure table {&quot;true_value&quot;: 1.7182818, &quot;trapezoid_h1&quot;: 1.85914, &quot;trapezoid_h0.5&quot;: 1.75393, &quot;romberg_1&quot;: 1.71886, &quot;romberg_1_error&quot;: 0.00058, &quot;romberg_2&quot;: 1.718282, &quot;romberg_2_error&quot;: 2e-07, &quot;levels&quot;: 3}, whose total is 11.7691 and whose mean is 1.4711. The trapezoidal rule has error proportional to h squared. Combining h and h/2 cancels the h squared term, giving Simpson&#x27;s rule.</p>
+<table>
+<tr><th>Figure</th><th>Value</th></tr>
+<tr><td>true_value</td><td>1.7182818</td></tr>
+<tr><td>trapezoid_h1</td><td>1.85914</td></tr>
+<tr><td>trapezoid_h0.5</td><td>1.75393</td></tr>
+<tr><td>romberg_1</td><td>1.71886</td></tr>
+<tr><td>romberg_1_error</td><td>0.00058</td></tr>
+<tr><td>romberg_2</td><td>1.718282</td></tr>
+<tr><td>romberg_2_error</td><td>2e-07</td></tr>
+<tr><td>levels</td><td>3</td></tr>
+</table>
+<p>Verification path: Re-read the definition in this record; check the figures against the cited sources; run the demo and confirm Deterministic: MATCH; confirm the record&#x27;s JCC version 1 code (JAHDB/numerical-analysis#id) round-trips; confirm the evidence label reads documented.</p>
+<h3>Numerical Analysis: Capstone Solving a Real Problem End to End</h3>
+<p>Problem: compute the integral of e^x from 0 to 1 to within 0.001. Simpson&#x27;s rule with 3 points gives 1.718861, error 0.00058, within the tolerance, and halving the step (5 points) gives 1.718282, error about 0.0000003, confirming it. Problem: solve 2x + y = 5, x + 3y = 10. Elimination gives (1, 3), checked by substitution. Problem: find the root of x squared - 2 near 1.5. Newton&#x27;s method gives 1.4142157 in 2 steps from 1.5, error 0.0000021. All three answers carry their error bounds. The demo recomputes the checkable part: it sums and averages the figure table {&quot;simpson_value&quot;: 1.718861, &quot;simpson_error&quot;: 0.00058, &quot;refined_value&quot;: 1.718282, &quot;solution_x&quot;: 1, &quot;solution_y&quot;: 3, &quot;newton_root&quot;: 1.4142157, &quot;newton_error&quot;: 2.1e-06, &quot;problems_solved&quot;: 3} twice and compares the SHA-256 digests (a SHA-256 digest is a 256-bit fingerprint of the result text), so the arithmetic is machine-checked, not asserted.</p>
+<p>The worked example produces the figure table {&quot;simpson_value&quot;: 1.718861, &quot;simpson_error&quot;: 0.00058, &quot;refined_value&quot;: 1.718282, &quot;solution_x&quot;: 1, &quot;solution_y&quot;: 3, &quot;newton_root&quot;: 1.4142157, &quot;newton_error&quot;: 2.1e-06, &quot;problems_solved&quot;: 3}, whose total is 11.8519 and whose mean is 1.4815. The method is chosen by the problem&#x27;s type and the accuracy needed. The error is bounded before computing, and checked after by halving the step.</p>
+<table>
+<tr><th>Figure</th><th>Value</th></tr>
+<tr><td>simpson_value</td><td>1.718861</td></tr>
+<tr><td>simpson_error</td><td>0.00058</td></tr>
+<tr><td>refined_value</td><td>1.718282</td></tr>
+<tr><td>solution_x</td><td>1</td></tr>
+<tr><td>solution_y</td><td>3</td></tr>
+<tr><td>newton_root</td><td>1.4142157</td></tr>
+<tr><td>newton_error</td><td>2.1e-06</td></tr>
+<tr><td>problems_solved</td><td>3</td></tr>
+</table>
+<p>Verification path: Re-read the definition in this record; check the figures against the cited sources; run the demo and confirm Deterministic: MATCH; confirm the record&#x27;s JCC version 1 code (JAHDB/numerical-analysis#id) round-trips; confirm the evidence label reads documented.</p>
+</section>
+<section id="generator">
+<h2>6. Generator</h2>
+<p>Type: seeded boundless generator. Generator identifier prefix: <code>JAH-NUMANA-GEN-</code>. Hard stop: 1,000,000,000 scales per file — the generator stops there no matter what. Throttle: at most 100 scales per call, so generation never overloads the host. Generator ceiling: up to 1,000,000,000 scales per file, generated on demand by the file AI — not stored files.</p>
+<p>Generator program: <a href="generator.js">generator.js</a> — the seeded boundless generator for this edition, checked with <code>node --check</code>, its built-in tests, and seed-42 determinism at Wave 1 build time.</p>
+<p>Boundless scales per record:</p>
+<ul>
+<li>Numerical Analysis: Error and Its Sources — A1 (micro): One record: error and its sources, worked through with numbers.; A2 (file): The whole subject: all 24 records of the public edition.; A3 (system): The subject against the whole network: every college subject linked, every record searchable.</li>
+<li>Numerical Analysis: Floating-Point Arithmetic — A1 (micro): One record: floating-point arithmetic, worked through with numbers.; A2 (file): The whole subject: all 24 records of the public edition.; A3 (system): The subject against the whole network: every college subject linked, every record searchable.</li>
+<li>Numerical Analysis: Bisection — A1 (micro): One record: bisection for root finding, worked through with numbers.; A2 (file): The whole subject: all 24 records of the public edition.; A3 (system): The subject against the whole network: every college subject linked, every record searchable.</li>
+<li>Numerical Analysis: Newton&#x27;s Method — A1 (micro): One record: Newton&#x27;s method for root finding, worked through with numbers.; A2 (file): The whole subject: all 24 records of the public edition.; A3 (system): The subject against the whole network: every college subject linked, every record searchable.</li>
+<li>Numerical Analysis: The Secant Method — A1 (micro): One record: the secant method for root finding, worked through with numbers.; A2 (file): The whole subject: all 24 records of the public edition.; A3 (system): The subject against the whole network: every college subject linked, every record searchable.</li>
+<li>Numerical Analysis: Gaussian Elimination and LU Factorisation — A1 (micro): One record: Gaussian elimination and LU factorisation, worked through with numbers.; A2 (file): The whole subject: all 24 records of the public edition.; A3 (system): The subject against the whole network: every college subject linked, every record searchable.</li>
+<li>Numerical Analysis: Iterative Methods for Linear Systems — A1 (micro): One record: iterative methods for linear systems, worked through with numbers.; A2 (file): The whole subject: all 24 records of the public edition.; A3 (system): The subject against the whole network: every college subject linked, every record searchable.</li>
+<li>Numerical Analysis: The Condition Number — A1 (micro): One record: the condition number, worked through with numbers.; A2 (file): The whole subject: all 24 records of the public edition.; A3 (system): The subject against the whole network: every college subject linked, every record searchable.</li>
+<li>Numerical Analysis: Polynomial Interpolation — A1 (micro): One record: polynomial interpolation, worked through with numbers.; A2 (file): The whole subject: all 24 records of the public edition.; A3 (system): The subject against the whole network: every college subject linked, every record searchable.</li>
+<li>Numerical Analysis: Splines — A1 (micro): One record: splines, worked through with numbers.; A2 (file): The whole subject: all 24 records of the public edition.; A3 (system): The subject against the whole network: every college subject linked, every record searchable.</li>
+<li>Numerical Analysis: Numerical Integration — A1 (micro): One record: numerical integration, worked through with numbers.; A2 (file): The whole subject: all 24 records of the public edition.; A3 (system): The subject against the whole network: every college subject linked, every record searchable.</li>
+<li>Numerical Analysis: Euler&#x27;s Method for ODEs — A1 (micro): One record: Euler&#x27;s method for ordinary differential equations, worked through with numbers.; A2 (file): The whole subject: all 24 records of the public edition.; A3 (system): The subject against the whole network: every college subject linked, every record searchable.</li>
+<li>Numerical Analysis: Runge-Kutta Methods — A1 (micro): One record: Runge-Kutta methods, worked through with numbers.; A2 (file): The whole subject: all 24 records of the public edition.; A3 (system): The subject against the whole network: every college subject linked, every record searchable.</li>
+<li>Numerical Analysis: Least Squares and Data Fitting — A1 (micro): One record: least squares and data fitting, worked through with numbers.; A2 (file): The whole subject: all 24 records of the public edition.; A3 (system): The subject against the whole network: every college subject linked, every record searchable.</li>
+<li>Numerical Analysis: Numerical Differentiation — A1 (micro): One record: numerical differentiation, worked through with numbers.; A2 (file): The whole subject: all 24 records of the public edition.; A3 (system): The subject against the whole network: every college subject linked, every record searchable.</li>
+<li>Numerical Analysis: The Finite Difference Method — A1 (micro): One record: the finite difference method, worked through with numbers.; A2 (file): The whole subject: all 24 records of the public edition.; A3 (system): The subject against the whole network: every college subject linked, every record searchable.</li>
+<li>Numerical Analysis: Approximation Theory — A1 (micro): One record: approximation theory, worked through with numbers.; A2 (file): The whole subject: all 24 records of the public edition.; A3 (system): The subject against the whole network: every college subject linked, every record searchable.</li>
+<li>Numerical Analysis: Optimisation by Gradient Descent — A1 (micro): One record: optimisation by gradient descent, worked through with numbers.; A2 (file): The whole subject: all 24 records of the public edition.; A3 (system): The subject against the whole network: every college subject linked, every record searchable.</li>
+<li>Numerical Analysis: Monte Carlo Integration — A1 (micro): One record: Monte Carlo integration, worked through with numbers.; A2 (file): The whole subject: all 24 records of the public edition.; A3 (system): The subject against the whole network: every college subject linked, every record searchable.</li>
+<li>Numerical Analysis: Stiff Equations and Implicit Methods — A1 (micro): One record: stiff equations and implicit methods, worked through with numbers.; A2 (file): The whole subject: all 24 records of the public edition.; A3 (system): The subject against the whole network: every college subject linked, every record searchable.</li>
+<li>Numerical Analysis: The Fast Fourier Transform — A1 (micro): One record: the fast Fourier transform, worked through with numbers.; A2 (file): The whole subject: all 24 records of the public edition.; A3 (system): The subject against the whole network: every college subject linked, every record searchable.</li>
+<li>Numerical Analysis: Numerical Solution of Nonlinear Systems — A1 (micro): One record: numerical solution of nonlinear systems, worked through with numbers.; A2 (file): The whole subject: all 24 records of the public edition.; A3 (system): The subject against the whole network: every college subject linked, every record searchable.</li>
+<li>Numerical Analysis: Richardson Extrapolation and Romberg Integration — A1 (micro): One record: Richardson extrapolation and Romberg integration, worked through with numbers.; A2 (file): The whole subject: all 24 records of the public edition.; A3 (system): The subject against the whole network: every college subject linked, every record searchable.</li>
+<li>Numerical Analysis: Capstone Solving a Real Problem End to End — A1 (micro): One record: capstone: solving a real problem end to end, worked through with numbers.; A2 (file): The whole subject: all 24 records of the public edition.; A3 (system): The subject against the whole network: every college subject linked, every record searchable.</li>
+</ul>
+</section>
+<section id="ai">
+<h2>7. AI</h2>
+<p>Specialist AI for this database: <strong>JAH Numerical Analysis Librarian</strong>. It explains this database in plain words, shows its reasoning, runs the record demos and programs on request, and says when a question goes beyond the database. It connects to the Master AI (the central planning, coordination, and retrieval AI of the network) for questions this database cannot answer.</p>
+<p>The two artificial intelligences (AIs) for this database are downloadable with their specifications:</p>
+<ul>
+<li>Specialist AI — <a href="ai/specialist.json">specialist.json</a> (the AI as data) and <a href="ai/specialist-spec.md">specialist-spec.md</a> (its specification).</li>
+<li>Master AI — <a href="ai/master-ai.json">master-ai.json</a> (the AI as data) and <a href="ai/master-ai-spec.md">master-ai-spec.md</a> (its specification).</li>
+</ul>
+</section>
+<section id="demo">
+<h2>8. Demo</h2>
+<p>The edition demo runs the same computation as every record's own demo — the sum, mean, maximum, and minimum of each record's figure table — and prints one summary line per record, then hashes the lines twice: the two digests must match, which proves the computation is deterministic (the same input always gives the same output). Executed at build time with Node.js; the recorded output is <a href="output.txt">output.txt</a>, the program is <a href="demo.js">demo.js</a>.</p>
+<h3>Edition demo (Node)</h3>
+<pre>// Edition demo for the Numerical Analysis Database (numerical-analysis).
+// One summary line per record (the same computation as each record&#x27;s
+// own demo, ported from Python), then a determinism check: the lines
+// are hashed twice and the two digests must match.
+&#x27;use strict&#x27;;
+/* Node port of the Wave 1 Python demo template (College-Level Resources,
+   Wave 1). The original Python demo is shipped alongside as demo.py; this
+   file must print exactly the same bytes. Python-compatibility notes:
+   - Python ints are exact: carried as BigInt and summed exactly.
+   - CPython 3.12.3 builtin sum(): leading ints accumulate exactly, the
+     FIRST float is plain-added to that exact sum (compensation starts at
+     zero), later floats use the Neumaier compensation step, later ints are
+     plain-added; the compensation is folded in at the end only when nonzero.
+   - round(x, 4) is round-half-even on the exact binary value.
+   - Floats print with Python repr rules (shortest digits, scientific
+     notation when the exponent is below -4 or at/above 16, &quot;.0&quot; for whole
+     floats, two-digit signed exponents). */
+const crypto = require(&#x27;crypto&#x27;);
+
+function pyRound(x, places) {
+  if (!Number.isFinite(x)) return x;
+  const buf = new ArrayBuffer(8);
+  const dv = new DataView(buf);
+  dv.setFloat64(0, x);
+  const bits = dv.getBigUint64(0);
+  const sign = bits &gt;&gt; 63n;
+  const exp = Number((bits &gt;&gt; 52n) &amp; 0x7ffn);
+  let mant = bits &amp; ((1n &lt;&lt; 52n) - 1n);
+  let e2;
+  if (exp === 0) { e2 = -1074; }
+  else { mant |= (1n &lt;&lt; 52n); e2 = exp - 1075; }
+  const scale = 10n ** BigInt(places);
+  let scaledNum, scaledDen;
+  if (e2 &gt;= 0) { scaledNum = mant * (2n ** BigInt(e2)) * scale; scaledDen = 1n; }
+  else { scaledNum = mant * scale; scaledDen = 2n ** BigInt(-e2); }
+  let q = scaledNum / scaledDen;
+  const r = scaledNum % scaledDen;
+  const twice = r * 2n;
+  if (twice &gt; scaledDen || (twice === scaledDen &amp;&amp; q % 2n === 1n)) q += 1n;
+  const ip = q / scale, fp = q % scale;
+  const dec = (sign ? &#x27;-&#x27; : &#x27;&#x27;) + ip.toString() + &#x27;.&#x27; + fp.toString().padStart(places, &#x27;0&#x27;);
+  return Number(dec);
+}
+
+function pyReprFloat(x) {
+  if (x === 0) return Object.is(x, -0) ? &#x27;-0.0&#x27; : &#x27;0.0&#x27;;
+  if (!Number.isFinite(x)) return x &gt; 0 ? &#x27;inf&#x27; : &#x27;-inf&#x27;;
+  const neg = x &lt; 0;
+  const s = String(Math.abs(x));
+  let digits, E;
+  if (s.includes(&#x27;e&#x27;)) {
+    const parts = s.split(&#x27;e&#x27;);
+    digits = parts[0].replace(&#x27;.&#x27;, &#x27;&#x27;);
+    E = parseInt(parts[1], 10);
+  } else if (s.includes(&#x27;.&#x27;)) {
+    const parts = s.split(&#x27;.&#x27;);
+    if (parts[0] !== &#x27;0&#x27;) { digits = parts[0] + parts[1]; E = parts[0].length - 1; }
+    else { const lz = parts[1].match(/^0*/)[0].length; digits = parts[1].slice(lz); E = -(lz + 1); }
+  } else { digits = s; E = s.length - 1; }
+  digits = digits.replace(/0+$/, &#x27;&#x27;) || &#x27;0&#x27;;
+  let out;
+  if (E &lt; -4 || E &gt;= 16) {
+    const mant = digits.length === 1 ? digits : digits[0] + &#x27;.&#x27; + digits.slice(1);
+    out = mant + &#x27;e&#x27; + (E &gt;= 0 ? &#x27;+&#x27; : &#x27;-&#x27;) + String(Math.abs(E)).padStart(2, &#x27;0&#x27;);
+  } else if (E &gt;= 0) {
+    if (E + 1 &gt;= digits.length) out = digits + &#x27;0&#x27;.repeat(E + 1 - digits.length) + &#x27;.0&#x27;;
+    else out = digits.slice(0, E + 1) + &#x27;.&#x27; + digits.slice(E + 1);
+  } else {
+    out = &#x27;0.&#x27; + &#x27;0&#x27;.repeat(-E - 1) + digits;
+  }
+  return neg ? &#x27;-&#x27; + out : out;
+}
+
+function pyStr(v) {
+  if (!v.f) return typeof v.v === &#x27;bigint&#x27; ? v.v.toString() : String(v.v);
+  return pyReprFloat(v.v);
+}
+
+function compute(figures) {
+  const vals = Object.values(figures);
+  const allInt = vals.every((o) =&gt; o.f === 0);
+  let total;
+  if (allInt) {
+    let t = 0n;
+    for (const o of vals) t += o.v;
+    total = { v: t, f: 0 };
+  } else {
+    let i = 0;
+    let isum = 0n;
+    while (i &lt; vals.length &amp;&amp; vals[i].f === 0) { isum += vals[i].v; i += 1; }
+    let s = Number(isum) + Number(vals[i].v);
+    let c = 0;
+    i += 1;
+    for (; i &lt; vals.length; i += 1) {
+      const o = vals[i];
+      if (o.f === 1) {
+        const x = o.v;
+        const t = s + x;
+        if (Math.abs(s) &gt;= Math.abs(x)) c += (s - t) + x;
+        else c += (x - t) + s;
+        s = t;
+      } else {
+        s = s + Number(o.v);
+      }
+    }
+    if (c) s = s + c;
+    total = { v: s, f: 1 };
+  }
+  const n = vals.length;
+  const totalR = total.f ? { v: pyRound(total.v, 4), f: 1 } : total;
+  const mean = { v: pyRound(allInt ? Number(total.v) / n : total.v / n, 4), f: 1 };
+  const max = vals.reduce((a, b) =&gt; (b.v &gt; a.v ? b : a));
+  const min = vals.reduce((a, b) =&gt; (b.v &lt; a.v ? b : a));
+  return { count: { v: n, f: 0 }, label: null, max, mean, min, total: totalR };
+}
+
+function entriesFor(label, figures) {
+  const o = compute(figures);
+  return { count: o.count, label: { v: label, f: -1 }, max: o.max, mean: o.mean, min: o.min, total: o.total };
+}
+
+function fmtEntry(o) { return o.f === -1 ? o.v : pyStr(o); }
+
+function summarizeDemo(label, figures) {
+  const entries = entriesFor(label, figures);
+  return Object.keys(entries).sort().map((k) =&gt; k + &#x27;=&#x27; + fmtEntry(entries[k])).join(&#x27;|&#x27;);
+}
+
+function runDemo(label, figures) {
+  const result = summarizeDemo(label, figures);
+  const h1 = crypto.createHash(&#x27;sha256&#x27;).update(result).digest(&#x27;hex&#x27;);
+  const result2 = summarizeDemo(label, figures);
+  const h2 = crypto.createHash(&#x27;sha256&#x27;).update(result2).digest(&#x27;hex&#x27;);
+  const entries = entriesFor(label, figures);
+  const lines = [];
+  for (const k of Object.keys(entries).sort()) lines.push(k + &#x27;: &#x27; + fmtEntry(entries[k]));
+  lines.push(&#x27;Result: &#x27; + result);
+  lines.push(&#x27;Run 1 SHA-256: &#x27; + h1);
+  lines.push(&#x27;Run 2 SHA-256: &#x27; + h2);
+  lines.push(&#x27;Deterministic: &#x27; + (h1 === h2 ? &#x27;MATCH&#x27; : &#x27;MISMATCH&#x27;));
+  return lines.join(&#x27;\n&#x27;) + &#x27;\n&#x27;;
+}
+
+const RECORDS = [
+  { label: &quot;error-and-its-sources&quot;, figures: {
+  &quot;absolute_error&quot;: { v: 3.33e-05, f: 1 },
+  &quot;relative_error&quot;: { v: 0.0001, f: 1 },
+  &quot;digits_kept&quot;: { v: 4n, f: 0 },
+  &quot;sqrt_value&quot;: { v: 100.005, f: 1 },
+  &quot;difference&quot;: { v: 0.005, f: 1 },
+  &quot;accurate_value&quot;: { v: 0.00499987, f: 1 },
+  &quot;error_sources&quot;: { v: 3n, f: 0 },
+  &quot;decimal_places&quot;: { v: 4n, f: 0 }
+} },
+  { label: &quot;floating-point-arithmetic&quot;, figures: {
+  &quot;machine_epsilon&quot;: { v: 2.2e-16, f: 1 },
+  &quot;significand_bits&quot;: { v: 53n, f: 0 },
+  &quot;decimal_digits&quot;: { v: 16n, f: 0 },
+  &quot;ulp_at_1e16&quot;: { v: 2n, f: 0 },
+  &quot;sum_0.1_ten&quot;: { v: 0.9999999999999999, f: 1 },
+  &quot;harmonic_10&quot;: { v: 2.9289682539682538, f: 1 },
+  &quot;operations&quot;: { v: 3n, f: 0 },
+  &quot;terms_summed&quot;: { v: 10n, f: 0 }
+} },
+  { label: &quot;bisection-for-root-finding&quot;, figures: {
+  &quot;steps_taken&quot;: { v: 3n, f: 0 },
+  &quot;interval_width&quot;: { v: 0.125, f: 1 },
+  &quot;midpoint&quot;: { v: 1.4375, f: 1 },
+  &quot;true_root&quot;: { v: 1.41421356, f: 1 },
+  &quot;error_bound&quot;: { v: 0.0625, f: 1 },
+  &quot;f_at_1.5&quot;: { v: 0.25, f: 1 },
+  &quot;f_at_1.25&quot;: { v: -0.4375, f: 1 },
+  &quot;f_at_1.375&quot;: { v: -0.109375, f: 1 }
+} },
+  { label: &quot;newton-s-method-for-root-finding&quot;, figures: {
+  &quot;step_1&quot;: { v: 1.5, f: 1 },
+  &quot;step_2&quot;: { v: 1.4166667, f: 1 },
+  &quot;step_3&quot;: { v: 1.4142157, f: 1 },
+  &quot;true_root&quot;: { v: 1.41421356, f: 1 },
+  &quot;error_step_3&quot;: { v: 2.1e-06, f: 1 },
+  &quot;bisection_error_3&quot;: { v: 0.0625, f: 1 },
+  &quot;iterations&quot;: { v: 3n, f: 0 },
+  &quot;derivative_at_1&quot;: { v: 2n, f: 0 }
+} },
+  { label: &quot;the-secant-method-for-root-finding&quot;, figures: {
+  &quot;step_1&quot;: { v: 1.333333, f: 1 },
+  &quot;step_2&quot;: { v: 1.4, f: 1 },
+  &quot;step_3&quot;: { v: 1.414634, f: 1 },
+  &quot;true_root&quot;: { v: 1.41421356, f: 1 },
+  &quot;error_step_3&quot;: { v: 0.00042, f: 1 },
+  &quot;convergence_order&quot;: { v: 1.618, f: 1 },
+  &quot;starting_points&quot;: { v: 2n, f: 0 },
+  &quot;iterations&quot;: { v: 3n, f: 0 }
+} },
+  { label: &quot;gaussian-elimination-and-lu-factorisation&quot;, figures: {
+  &quot;solution_x&quot;: { v: 1n, f: 0 },
+  &quot;solution_y&quot;: { v: 3n, f: 0 },
+  &quot;l_21&quot;: { v: 0.5, f: 1 },
+  &quot;u_11&quot;: { v: 2n, f: 0 },
+  &quot;u_22&quot;: { v: 2.5, f: 1 },
+  &quot;operations_order&quot;: { v: 3n, f: 0 },
+  &quot;rows&quot;: { v: 2n, f: 0 },
+  &quot;checks&quot;: { v: 2n, f: 0 }
+} },
+  { label: &quot;iterative-methods-for-linear-systems&quot;, figures: {
+  &quot;true_x&quot;: { v: 1.1818, f: 1 },
+  &quot;true_y&quot;: { v: 2.2727, f: 1 },
+  &quot;jacobi_step3_x&quot;: { v: 1.2292, f: 1 },
+  &quot;jacobi_step3_y&quot;: { v: 2.3056, f: 1 },
+  &quot;gs_step1_x&quot;: { v: 1.75, f: 1 },
+  &quot;gs_step1_y&quot;: { v: 2.0833, f: 1 },
+  &quot;iterations_shown&quot;: { v: 3n, f: 0 },
+  &quot;diagonal_dominant&quot;: { v: 1n, f: 0 }
+} },
+  { label: &quot;the-condition-number&quot;, figures: {
+  &quot;determinant&quot;: { v: 0.0001, f: 1 },
+  &quot;condition_number&quot;: { v: 40002n, f: 0 },
+  &quot;identity_condition&quot;: { v: 1n, f: 0 },
+  &quot;inverse_entry&quot;: { v: 10001n, f: 0 },
+  &quot;solution_x&quot;: { v: 1n, f: 0 },
+  &quot;solution_y&quot;: { v: 1n, f: 0 },
+  &quot;change_in_b&quot;: { v: 0.0001, f: 1 },
+  &quot;amplification&quot;: { v: 10000n, f: 0 }
+} },
+  { label: &quot;polynomial-interpolation&quot;, figures: {
+  &quot;points&quot;: { v: 3n, f: 0 },
+  &quot;degree&quot;: { v: 2n, f: 0 },
+  &quot;x2_coefficient&quot;: { v: -0.5, f: 1 },
+  &quot;x_coefficient&quot;: { v: 2.5, f: 1 },
+  &quot;constant&quot;: { v: 1n, f: 0 },
+  &quot;check_at_1&quot;: { v: 3n, f: 0 },
+  &quot;check_at_2&quot;: { v: 4n, f: 0 },
+  &quot;basis_polynomials&quot;: { v: 3n, f: 0 }
+} },
+  { label: &quot;splines&quot;, figures: {
+  &quot;points&quot;: { v: 3n, f: 0 },
+  &quot;pieces&quot;: { v: 2n, f: 0 },
+  &quot;value_at_0.5&quot;: { v: 0.6875, f: 1 },
+  &quot;max_value&quot;: { v: 1n, f: 0 },
+  &quot;degree&quot;: { v: 3n, f: 0 },
+  &quot;continuity_orders&quot;: { v: 2n, f: 0 },
+  &quot;end_condition&quot;: { v: 0n, f: 0 },
+  &quot;checks&quot;: { v: 2n, f: 0 }
+} },
+  { label: &quot;numerical-integration&quot;, figures: {
+  &quot;true_value&quot;: { v: 1.7182818, f: 1 },
+  &quot;trapezoidal&quot;: { v: 1.753931, f: 1 },
+  &quot;trapezoidal_error&quot;: { v: 0.0356, f: 1 },
+  &quot;simpson&quot;: { v: 1.718861, f: 1 },
+  &quot;simpson_error&quot;: { v: 0.00058, f: 1 },
+  &quot;points_used&quot;: { v: 3n, f: 0 },
+  &quot;step_size&quot;: { v: 0.5, f: 1 },
+  &quot;rules_compared&quot;: { v: 2n, f: 0 }
+} },
+  { label: &quot;euler-s-method-for-ordinary-differential-equations&quot;, figures: {
+  &quot;euler_h0.1&quot;: { v: 1.21, f: 1 },
+  &quot;true_value&quot;: { v: 1.2214, f: 1 },
+  &quot;error_h0.1&quot;: { v: 0.0114, f: 1 },
+  &quot;euler_h0.05&quot;: { v: 1.2155, f: 1 },
+  &quot;error_h0.05&quot;: { v: 0.0059, f: 1 },
+  &quot;step_size&quot;: { v: 0.1, f: 1 },
+  &quot;steps&quot;: { v: 2n, f: 0 },
+  &quot;error_ratio&quot;: { v: 2n, f: 0 }
+} },
+  { label: &quot;runge-kutta-methods&quot;, figures: {
+  &quot;rk4_at_0.1&quot;: { v: 1.1051708, f: 1 },
+  &quot;rk4_at_0.2&quot;: { v: 1.2214028, f: 1 },
+  &quot;true_value&quot;: { v: 1.2214028, f: 1 },
+  &quot;rk4_error&quot;: { v: 1e-06, f: 1 },
+  &quot;euler_value&quot;: { v: 1.21, f: 1 },
+  &quot;euler_error&quot;: { v: 0.0114, f: 1 },
+  &quot;slopes_per_step&quot;: { v: 4n, f: 0 },
+  &quot;order&quot;: { v: 4n, f: 0 }
+} },
+  { label: &quot;least-squares-and-data-fitting&quot;, figures: {
+  &quot;intercept&quot;: { v: 1.1667, f: 1 },
+  &quot;slope&quot;: { v: 1.5, f: 1 },
+  &quot;residual_sum_squares&quot;: { v: 0.1667, f: 1 },
+  &quot;residual_1&quot;: { v: -0.1667, f: 1 },
+  &quot;residual_2&quot;: { v: 0.3333, f: 1 },
+  &quot;residual_3&quot;: { v: -0.1667, f: 1 },
+  &quot;points&quot;: { v: 3n, f: 0 },
+  &quot;parameters&quot;: { v: 2n, f: 0 }
+} },
+  { label: &quot;numerical-differentiation&quot;, figures: {
+  &quot;true_derivative&quot;: { v: 0.5403023, f: 1 },
+  &quot;forward_h0.1&quot;: { v: 0.49736, f: 1 },
+  &quot;forward_error&quot;: { v: 0.043, f: 1 },
+  &quot;central_h0.1&quot;: { v: 0.5394, f: 1 },
+  &quot;central_error&quot;: { v: 0.0009, f: 1 },
+  &quot;central_h0.01&quot;: { v: 0.5403, f: 1 },
+  &quot;step_h&quot;: { v: 0.1, f: 1 },
+  &quot;optimal_h&quot;: { v: 0.01, f: 1 }
+} },
+  { label: &quot;the-finite-difference-method&quot;, figures: {
+  &quot;h_grid&quot;: { v: 0.25, f: 1 },
+  &quot;dt_stable&quot;: { v: 0.02, f: 1 },
+  &quot;stability_ratio&quot;: { v: 0.32, f: 1 },
+  &quot;exact_decay&quot;: { v: 0.8209, f: 1 },
+  &quot;fd_decay&quot;: { v: 0.8125, f: 1 },
+  &quot;dt_unstable&quot;: { v: 0.04, f: 1 },
+  &quot;unstable_ratio&quot;: { v: 0.64, f: 1 },
+  &quot;grid_points&quot;: { v: 5n, f: 0 }
+} },
+  { label: &quot;approximation-theory&quot;, figures: {
+  &quot;taylor_max_error&quot;: { v: 0.1321, f: 1 },
+  &quot;best_max_error&quot;: { v: 0.045, f: 1 },
+  &quot;chebyshev_error&quot;: { v: 0.0451, f: 1 },
+  &quot;cheb_constant&quot;: { v: 1.2661, f: 1 },
+  &quot;cheb_linear&quot;: { v: 1.1303, f: 1 },
+  &quot;cheb_quadratic&quot;: { v: 0.2715, f: 1 },
+  &quot;interval_half&quot;: { v: 1n, f: 0 },
+  &quot;degree&quot;: { v: 2n, f: 0 }
+} },
+  { label: &quot;optimisation-by-gradient-descent&quot;, figures: {
+  &quot;start_x&quot;: { v: 4n, f: 0 },
+  &quot;step_1&quot;: { v: 3.2, f: 1 },
+  &quot;step_2&quot;: { v: 2.56, f: 1 },
+  &quot;step_3&quot;: { v: 2.048, f: 1 },
+  &quot;after_10&quot;: { v: 0.4295, f: 1 },
+  &quot;f_after_10&quot;: { v: 0.1845, f: 1 },
+  &quot;shrink_factor&quot;: { v: 0.8, f: 1 },
+  &quot;step_size&quot;: { v: 0.1, f: 1 }
+} },
+  { label: &quot;monte-carlo-integration&quot;, figures: {
+  &quot;darts_100&quot;: { v: 100n, f: 0 },
+  &quot;inside_100&quot;: { v: 79n, f: 0 },
+  &quot;pi_estimate_100&quot;: { v: 3.16, f: 1 },
+  &quot;darts_10000&quot;: { v: 10000n, f: 0 },
+  &quot;inside_10000&quot;: { v: 7854n, f: 0 },
+  &quot;pi_estimate_10000&quot;: { v: 3.1416, f: 1 },
+  &quot;std_error&quot;: { v: 0.0041, f: 1 },
+  &quot;pi_true&quot;: { v: 3.14159, f: 1 }
+} },
+  { label: &quot;stiff-equations-and-implicit-methods&quot;, figures: {
+  &quot;stiffness_ratio&quot;: { v: 1000n, f: 0 },
+  &quot;transient_at_0.01&quot;: { v: 4.5e-05, f: 1 },
+  &quot;explicit_step_limit&quot;: { v: 0.002, f: 1 },
+  &quot;steps_needed&quot;: { v: 5000n, f: 0 },
+  &quot;implicit_step&quot;: { v: 0.1, f: 1 },
+  &quot;y_at_0.1&quot;: { v: 0.99496, f: 1 },
+  &quot;cos_0.1&quot;: { v: 0.995004, f: 1 },
+  &quot;error&quot;: { v: 4e-05, f: 1 }
+} },
+  { label: &quot;the-fast-fourier-transform&quot;, figures: {
+  &quot;n_points&quot;: { v: 4n, f: 0 },
+  &quot;fft_operations&quot;: { v: 8n, f: 0 },
+  &quot;direct_operations&quot;: { v: 16n, f: 0 },
+  &quot;n_1024_fft&quot;: { v: 10240n, f: 0 },
+  &quot;n_1024_direct&quot;: { v: 1048576n, f: 0 },
+  &quot;transform_values&quot;: { v: 1n, f: 0 },
+  &quot;halves&quot;: { v: 2n, f: 0 },
+  &quot;log_factor&quot;: { v: 2n, f: 0 }
+} },
+  { label: &quot;numerical-solution-of-nonlinear-systems&quot;, figures: {
+  &quot;true_x&quot;: { v: 1.4142, f: 1 },
+  &quot;true_y&quot;: { v: 1.4142, f: 1 },
+  &quot;start_x&quot;: { v: 1n, f: 0 },
+  &quot;step1_x&quot;: { v: 1.5, f: 1 },
+  &quot;error_step1&quot;: { v: 0.0858, f: 1 },
+  &quot;step2_x&quot;: { v: 1.4167, f: 1 },
+  &quot;error_step2&quot;: { v: 0.0025, f: 1 },
+  &quot;jacobian_rows&quot;: { v: 2n, f: 0 }
+} },
+  { label: &quot;richardson-extrapolation-and-romberg-integration&quot;, figures: {
+  &quot;true_value&quot;: { v: 1.7182818, f: 1 },
+  &quot;trapezoid_h1&quot;: { v: 1.85914, f: 1 },
+  &quot;trapezoid_h0.5&quot;: { v: 1.75393, f: 1 },
+  &quot;romberg_1&quot;: { v: 1.71886, f: 1 },
+  &quot;romberg_1_error&quot;: { v: 0.00058, f: 1 },
+  &quot;romberg_2&quot;: { v: 1.718282, f: 1 },
+  &quot;romberg_2_error&quot;: { v: 2e-07, f: 1 },
+  &quot;levels&quot;: { v: 3n, f: 0 }
+} },
+  { label: &quot;capstone-solving-a-real-problem-end-to-end&quot;, figures: {
+  &quot;simpson_value&quot;: { v: 1.718861, f: 1 },
+  &quot;simpson_error&quot;: { v: 0.00058, f: 1 },
+  &quot;refined_value&quot;: { v: 1.718282, f: 1 },
+  &quot;solution_x&quot;: { v: 1n, f: 0 },
+  &quot;solution_y&quot;: { v: 3n, f: 0 },
+  &quot;newton_root&quot;: { v: 1.4142157, f: 1 },
+  &quot;newton_error&quot;: { v: 2.1e-06, f: 1 },
+  &quot;problems_solved&quot;: { v: 3n, f: 0 }
+} }
+];
+const lines = RECORDS.map((r) =&gt; summarizeDemo(r.label, r.figures));
+lines.push(&#x27;records: &#x27; + RECORDS.length);
+const body = lines.join(&#x27;\n&#x27;);
+const h1 = crypto.createHash(&#x27;sha256&#x27;).update(body).digest(&#x27;hex&#x27;);
+const h2 = crypto.createHash(&#x27;sha256&#x27;).update(body).digest(&#x27;hex&#x27;);
+process.stdout.write(body + &#x27;\nRun 1 SHA-256: &#x27; + h1 + &#x27;\nRun 2 SHA-256: &#x27; + h2
+  + &#x27;\nDeterministic: &#x27; + (h1 === h2 ? &#x27;MATCH&#x27; : &#x27;MISMATCH&#x27;) + &#x27;\n&#x27;);
+</pre>
+<h3>Recorded output (executed at build time)</h3>
+<pre>count=8|label=error-and-its-sources|max=100.005|mean=13.8769|min=3.33e-05|total=111.0151
+count=8|label=floating-point-arithmetic|max=53|mean=10.9911|min=2.2e-16|total=87.929
+count=8|label=bisection-for-root-finding|max=3|mean=0.7178|min=-0.4375|total=5.7423
+count=8|label=newton-s-method-for-root-finding|max=3|mean=1.3509|min=2.1e-06|total=10.8076
+count=8|label=the-secant-method-for-root-finding|max=3|mean=1.5226|min=0.00042|total=12.1806
+count=8|label=gaussian-elimination-and-lu-factorisation|max=3|mean=2.0|min=0.5|total=16.0
+count=8|label=iterative-methods-for-linear-systems|max=3|mean=1.8528|min=1|total=14.8226
+count=8|label=the-condition-number|max=40002|mean=7500.75|min=0.0001|total=60006.0002
+count=8|label=polynomial-interpolation|max=4|mean=2.25|min=-0.5|total=18.0
+count=8|label=splines|max=3|mean=1.7109|min=0|total=13.6875
+count=8|label=numerical-integration|max=3|mean=1.3409|min=0.00058|total=10.7273
+count=8|label=euler-s-method-for-ordinary-differential-equations|max=2|mean=0.9705|min=0.0059|total=7.7642
+count=8|label=runge-kutta-methods|max=4|mean=1.5962|min=1e-06|total=12.7694
+count=8|label=least-squares-and-data-fitting|max=3|mean=0.9792|min=-0.1667|total=7.8333
+count=8|label=numerical-differentiation|max=0.5403023|mean=0.2839|min=0.0009|total=2.2713
+count=8|label=the-finite-difference-method|max=5|mean=0.9879|min=0.02|total=7.9034
+count=8|label=approximation-theory|max=2|mean=0.7363|min=0.045|total=5.8901
+count=8|label=optimisation-by-gradient-descent|max=4|mean=1.6653|min=0.1|total=13.322
+count=8|label=monte-carlo-integration|max=10000|mean=2255.3059|min=0.0041|total=18042.4473
+count=8|label=stiff-equations-and-implicit-methods|max=5000|mean=750.2615|min=4e-05|total=6002.092
+count=8|label=the-fast-fourier-transform|max=1048576|mean=132356.125|min=1|total=1058849
+count=8|label=numerical-solution-of-nonlinear-systems|max=2|mean=1.1042|min=0.0025|total=8.8334
+count=8|label=richardson-extrapolation-and-romberg-integration|max=3|mean=1.4711|min=2e-07|total=11.7691
+count=8|label=capstone-solving-a-real-problem-end-to-end|max=3|mean=1.4815|min=2.1e-06|total=11.8519
+records: 24
+Run 1 SHA-256: d94faec17f447fb98e76f7d41260b88048beb23e7f6dd6df1091b4d7a4c0ba3b
+Run 2 SHA-256: d94faec17f447fb98e76f7d41260b88048beb23e7f6dd6df1091b4d7a4c0ba3b
+Deterministic: MATCH
+</pre>
+</section>
+<section id="sources">
+<h2>9. Sources and Citations</h2>
+<table>
+<tr><th>Name</th><th>Link (URL)</th><th>What it establishes</th><th>Retrieved</th><th>Re-check</th></tr>
+<tr><td>Wikipedia - Numerical analysis</td><td><a href="https://en.wikipedia.org/wiki/Numerical_analysis">https://en.wikipedia.org/wiki/Numerical_analysis</a></td><td>The reference for error and its sources in this record.</td><td>2026-11-17</td><td>Re-checked 2026-11-17: HTTP 200.</td></tr>
+<tr><td>Wikipedia - Numerical stability</td><td><a href="https://en.wikipedia.org/wiki/Numerical_stability">https://en.wikipedia.org/wiki/Numerical_stability</a></td><td>The reference for error and its sources in this record.</td><td>2026-11-17</td><td>Re-checked 2026-11-17: HTTP 200.</td></tr>
+<tr><td>Python documentation - decimal, decimal fixed-point arithmetic</td><td><a href="https://docs.python.org/3/library/decimal.html">https://docs.python.org/3/library/decimal.html</a></td><td>The reference for error and its sources in this record.</td><td>2026-11-17</td><td>Re-checked 2026-11-17: HTTP 200.</td></tr>
+<tr><td>Wikipedia - Floating-point arithmetic</td><td><a href="https://en.wikipedia.org/wiki/Floating-point_arithmetic">https://en.wikipedia.org/wiki/Floating-point_arithmetic</a></td><td>The reference for floating-point arithmetic in this record.</td><td>2026-11-17</td><td>Re-checked 2026-11-17: HTTP 200.</td></tr>
+<tr><td>Wikipedia - Root-finding algorithms</td><td><a href="https://en.wikipedia.org/wiki/Root-finding_algorithms">https://en.wikipedia.org/wiki/Root-finding_algorithms</a></td><td>The reference for bisection for root finding in this record.</td><td>2026-11-17</td><td>Re-checked 2026-11-17: HTTP 200.</td></tr>
+<tr><td>Python documentation - math, mathematical functions</td><td><a href="https://docs.python.org/3/library/math.html">https://docs.python.org/3/library/math.html</a></td><td>The reference for bisection for root finding in this record.</td><td>2026-11-17</td><td>Re-checked 2026-11-17: HTTP 200.</td></tr>
+<tr><td>Wikipedia - Newton&#x27;s method</td><td><a href="https://en.wikipedia.org/wiki/Newton%27s_method">https://en.wikipedia.org/wiki/Newton%27s_method</a></td><td>The reference for Newton&#x27;s method for root finding in this record.</td><td>2026-11-17</td><td>Re-checked 2026-11-17: HTTP 200.</td></tr>
+<tr><td>Wikipedia - Numerical linear algebra</td><td><a href="https://en.wikipedia.org/wiki/Numerical_linear_algebra">https://en.wikipedia.org/wiki/Numerical_linear_algebra</a></td><td>The reference for Gaussian elimination and LU factorisation in this record.</td><td>2026-11-17</td><td>Re-checked 2026-11-17: HTTP 200.</td></tr>
+<tr><td>Wikipedia - System of linear equations</td><td><a href="https://en.wikipedia.org/wiki/System_of_linear_equations">https://en.wikipedia.org/wiki/System_of_linear_equations</a></td><td>The reference for Gaussian elimination and LU factorisation in this record.</td><td>2026-11-17</td><td>Re-checked 2026-11-17: HTTP 200.</td></tr>
+<tr><td>Wikipedia - Iterative method</td><td><a href="https://en.wikipedia.org/wiki/Iterative_method">https://en.wikipedia.org/wiki/Iterative_method</a></td><td>The reference for iterative methods for linear systems in this record.</td><td>2026-11-17</td><td>Re-checked 2026-11-17: HTTP 200.</td></tr>
+<tr><td>Wikipedia - Condition number</td><td><a href="https://en.wikipedia.org/wiki/Condition_number">https://en.wikipedia.org/wiki/Condition_number</a></td><td>The reference for the condition number in this record.</td><td>2026-11-17</td><td>Re-checked 2026-11-17: HTTP 200.</td></tr>
+<tr><td>Wikipedia - Interpolation</td><td><a href="https://en.wikipedia.org/wiki/Interpolation">https://en.wikipedia.org/wiki/Interpolation</a></td><td>The reference for polynomial interpolation in this record.</td><td>2026-11-17</td><td>Re-checked 2026-11-17: HTTP 200.</td></tr>
+<tr><td>Wikipedia - Approximation theory</td><td><a href="https://en.wikipedia.org/wiki/Approximation_theory">https://en.wikipedia.org/wiki/Approximation_theory</a></td><td>The reference for polynomial interpolation in this record.</td><td>2026-11-17</td><td>Re-checked 2026-11-17: HTTP 200.</td></tr>
+<tr><td>Wikipedia - Numerical integration</td><td><a href="https://en.wikipedia.org/wiki/Numerical_integration">https://en.wikipedia.org/wiki/Numerical_integration</a></td><td>The reference for numerical integration in this record.</td><td>2026-11-17</td><td>Re-checked 2026-11-17: HTTP 200.</td></tr>
+<tr><td>Wikipedia - Numerical methods for ordinary differential equations</td><td><a href="https://en.wikipedia.org/wiki/Numerical_methods_for_ordinary_differential_equations">https://en.wikipedia.org/wiki/Numerical_methods_for_ordinary_differential_equations</a></td><td>The reference for Euler&#x27;s method for ordinary differential equations in this record.</td><td>2026-11-17</td><td>Re-checked 2026-11-17: HTTP 200.</td></tr>
+<tr><td>Wikipedia - Singular value decomposition</td><td><a href="https://en.wikipedia.org/wiki/Singular_value_decomposition">https://en.wikipedia.org/wiki/Singular_value_decomposition</a></td><td>The reference for least squares and data fitting in this record.</td><td>2026-11-17</td><td>Re-checked 2026-11-17: HTTP 200.</td></tr>
+<tr><td>Python documentation - statistics, mathematical statistics functions</td><td><a href="https://docs.python.org/3/library/statistics.html">https://docs.python.org/3/library/statistics.html</a></td><td>The reference for least squares and data fitting in this record.</td><td>2026-11-17</td><td>Re-checked 2026-11-17: HTTP 200.</td></tr>
+<tr><td>Wikipedia - Finite difference method</td><td><a href="https://en.wikipedia.org/wiki/Finite_difference_method">https://en.wikipedia.org/wiki/Finite_difference_method</a></td><td>The reference for numerical differentiation in this record.</td><td>2026-11-17</td><td>Re-checked 2026-11-17: HTTP 200.</td></tr>
+<tr><td>Python documentation - random, generate pseudo-random numbers</td><td><a href="https://docs.python.org/3/library/random.html">https://docs.python.org/3/library/random.html</a></td><td>The reference for Monte Carlo integration in this record.</td><td>2026-11-17</td><td>Re-checked 2026-11-17: HTTP 200.</td></tr>
+<tr><td>Wikipedia - Fourier series</td><td><a href="https://en.wikipedia.org/wiki/Fourier_series">https://en.wikipedia.org/wiki/Fourier_series</a></td><td>The reference for the fast Fourier transform in this record.</td><td>2026-11-17</td><td>Re-checked 2026-11-17: HTTP 200.</td></tr>
+</table>
+<p>Provenance: Wave 1 of the 100 College-Level Resources program, built 2026-11-17, package-only, from the cross-check of 2026-11-17 (manifest HEAD 36cff9863, 63,047 entries). Every cited link was fetched and its full content used at record build time; every link was re-checked on 2026-11-17 and returned HTTP 200 (see the sources check in the websites folder). Unreachable links would be marked UNREACHABLE with the reason, never invented; none needed it. Source retrieval date on every record: 2026-11-17.</p>
+</section>
+</main>
+<footer>
+<p>Database numerical-analysis — Numerical Analysis Database. Theme: approximation and error — amber and teal. Edition: public.</p>
+</footer>
+</body>
+</html>

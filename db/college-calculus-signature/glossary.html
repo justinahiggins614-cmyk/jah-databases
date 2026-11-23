@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Glossary — 100 College-Level Resources, Wave 1</title>
+</head>
+<body>
+<p><a href="index.html">Back to the database</a></p>
+<dl>
+<h1>Glossary — Wave 1, 100 College-Level Resources Program</h1>
+<p>Every network term used in this wave&#x27;s records and reports, defined in</p>
+<p>plain words. No acronym is used without its full expansion first.</p>
+<dt>API</dt>
+<dd>Application Programming Interface. A documented way for one program to ask another program for data or work, with exact request and response formats. &quot;Live read-only API&quot; means the network&#x27;s data can be read through such an interface without changing anything.</dd>
+<dt>boundless generator</dt>
+<dd>A program that creates new records on demand from a deterministic seed, up to a hard stop, instead of storing every possible record as a file. Each record it makes is a scale of its database.</dd>
+<dt>ceiling</dt>
+<dd>The maximum a generator is allowed to produce: 1,000,000,000 (one billion) scales per file, generated on demand by the file AI — not stored files.</dd>
+<dt>deterministic</dt>
+<dd>Same input always gives the same output, byte for byte. Every demo and generator in this wave is deterministic: run it twice and the outputs match exactly, which is what the `Deterministic: MATCH` line proves.</dd>
+<dt>demo</dt>
+<dd>A short working program (Python) stored on a record that runs and prints the record&#x27;s worked example. Its printed output is stored as `expected_output` and re-executed byte-identically at validation time.</dd>
+<dt>design-study</dt>
+<dd>The evidence label on Signature-edition records. It means the record is a Signature-made design (a study of how a thing could be designed), not an established public fact. Never presented as authentic public record.</dd>
+<dt>documented</dt>
+<dd>The evidence label on public-edition records. It means the record states established college-level knowledge backed by cited sources.</dd>
+<dt>edition</dt>
+<dd>One of the two versions of a database pair: `public` (established knowledge, fact-checked, sourced) or `signature` (Signature-made design studies).</dd>
+<dt>expected output</dt>
+<dd>The exact text a demo prints when it runs, as recorded at build time. Validation re-runs the demo and compares its output to this string byte for byte.</dd>
+<dt>generator gate</dt>
+<dd>The set of checks a generator must pass before it counts as verified: `node --check` (syntax), `runTests` (11 built-in tests), and seed-42 determinism (same seed twice gives identical output).</dd>
+<dt>hard stop</dt>
+<dd>The generator&#x27;s absolute production limit: 1,000,000,000 scales per file. It stops there no matter what.</dd>
+<dt>JCC</dt>
+<dd>JAH Condensed Code, version 1. A short key that points to one record: `JAHDB/&lt;slug&gt;#&lt;id&gt;`, for example `JAHDB/college-mathematics#JAH-COLMATH-000001`. The matching `jcc_key` (`k=` + 8 hex characters) is a fingerprint of the record&#x27;s contents, so the code round-trips: recompute the fingerprint from the record and it must match.</dd>
+<dt>ladder rank</dt>
+<dd>The record&#x27;s position (1–24) on its pair&#x27;s teaching ladder, from simple to compounded to most complex.</dd>
+<dt>manifest</dt>
+<dd>The network&#x27;s master list of databases (`data/manifest.json` in the jah-databases repo), the single source of truth for which slugs and id prefixes exist and how many entries and records the network holds. At Wave 1 build time: HEAD `36cff9863`, 63,047 entries.</dd>
+<dt>Master AI</dt>
+<dd>The network&#x27;s top-level AI that the specialist AIs connect to. Each database has its own specialist AI (for example the JAH College Mathematics Librarian) that explains its database; the Master AI coordinates across them.</dd>
+<dt>MCP</dt>
+<dd>Model Context Protocol. A standard way to plug a data source into an AI assistant so the assistant can read it directly.</dd>
+<dt>pair</dt>
+<dd>A public database and its Signature counterpart on the same subject, built together (24 records each, 48 per pair). Wave 1 has 9 pairs.</dd>
+<dt>provenance</dt>
+<dd>The recorded history of a record: where its facts came from (sources), when they were retrieved, and what changed in each version.</dd>
+<dt>record</dt>
+<dd>One full entry in a database: title, description, proofs, worked example, demo, program, sources, specification, and codes. Never a stub; every record carries the full file.</dd>
+<dt>record_kind</dt>
+<dd>The type label of a pair&#x27;s records, for example `college mathematics record`.</dd>
+<dt>retrieval</dt>
+<dd>Fetching a source (a web page, a paper, a dataset) and recording what it establishes, its URL, and the retrieval date (2026-11-17 for this wave).</dd>
+<dt>scale</dt>
+<dd>One generated output of a boundless generator: a record produced on demand at a given seed and scale level (A1 micro, A2 file, A3 system).</dd>
+<dt>SHA-256</dt>
+<dd>Secure Hash Algorithm 256. A fingerprint function: feed it any text and it returns a fixed 64-character fingerprint. The JCC key uses the first 8 hex characters of the SHA-256 of the record&#x27;s canonical form.</dd>
+<dt>slug</dt>
+<dd>The short hyphenated identifier of a database, used in URLs and file paths, for example `college-mathematics`. Signature editions add `-signature`.</dd>
+<dt>source</dt>
+<dd>A cited reference for a record&#x27;s facts: name, URL, what it establishes, and retrieval date. Every record has at least two, and every URL was verified to return HTTP 200 at validation time.</dd>
+<dt>specialist AI</dt>
+<dd>The AI that belongs to one database and explains it in detail (for example the JAH Calculus Librarian). Every pair has one per edition.</dd>
+<dt>SQLite</dt>
+<dd>A small file-based database format (one file per database) used for local, offline querying of network data.</dd>
+<dt>throttle</dt>
+<dd>The generator&#x27;s per-call limit: at most 100 scales produced per call, so generation never overloads the host.</dd>
+<dt>UNREACHABLE</dt>
+<dd>The mark a source would carry if its URL failed to respond at validation time, with the reason recorded. No source in this wave needed it: all 113 cited URLs returned HTTP 200.</dd>
+<h2>Extension — website program (2026-11-17)</h2>
+<p>Every further acronym and all-caps term that appears in the Wave 1</p>
+<p>records or on the Wave 1 websites, defined in plain words. Roman</p>
+<p>numerals II and III (as in &quot;Calculus I–III&quot;) are numbers, not acronyms.</p>
+<dt>AB</dt>
+<dd>The product of matrix A and matrix B. In linear algebra AB usually differs from BA: matrix multiplication is not commutative.</dd>
+<dt>ADD</dt>
+<dd>A processor instruction that adds two numbers (computer architecture).</dd>
+<dt>AI</dt>
+<dd>Artificial Intelligence. A program that performs tasks that usually need human thought, such as answering questions, recognising patterns, or explaining a subject.</dd>
+<dt>ALU</dt>
+<dd>Arithmetic Logic Unit. The part of a processor (CPU) that does arithmetic (adding, subtracting) and logic (comparing).</dd>
+<dt>ARM</dt>
+<dd>Advanced RISC Machines. A family of processor designs used in most phones and many small computers.</dd>
+<dt>ARPANET</dt>
+<dd>Advanced Research Projects Agency Network. The early research network (1969) from which the internet grew.</dd>
+<dt>AU</dt>
+<dd>Astronomical Unit. The average distance from the Earth to the Sun, about 150 million kilometres; used to measure distances in space.</dd>
+<dt>AVL</dt>
+<dd>Adelson-Velsky and Landis. A kind of balanced binary search tree named after its two inventors; it keeps itself balanced so searches stay fast.</dd>
+<dt>BA</dt>
+<dd>The product of matrix B and matrix A. In linear algebra BA usually differs from AB.</dd>
+<dt>BCE</dt>
+<dd>Before the Common Era. The years counted before year 1 in the common calendar (the same years once called BC).</dd>
+<dt>BC</dt>
+<dd>Before Christ. The older name for the years now called BCE (Before the Common Era).</dd>
+<dt>BFS</dt>
+<dd>Breadth-First Search. Searching a graph (a network of points joined by lines) level by level, visiting all neighbours before going deeper.</dd>
+<dt>BST</dt>
+<dd>Binary Search Tree. A tree-shaped data structure where each node has at most two children and smaller values sit to the left.</dd>
+<dt>CISC</dt>
+<dd>Complex Instruction Set Computer. A processor design with many complex instructions, each doing a lot of work (the older x86 family is CISC).</dd>
+<dt>CPI</dt>
+<dd>Cycles Per Instruction. The average number of processor clock cycles one instruction takes.</dd>
+<dt>CPU</dt>
+<dd>Central Processing Unit. The processor: the part of a computer that executes instructions.</dd>
+<dt>CSS</dt>
+<dd>Cascading Style Sheets. The language that describes how a web page looks (colours, layout, type) separately from its content.</dd>
+<dt>CUDA</dt>
+<dd>Compute Unified Device Architecture. NVIDIA&#x27;s platform for running general programs on a graphics processor (GPU).</dd>
+<dt>DFS</dt>
+<dd>Depth-First Search. Searching a graph (a network of points joined by lines) by going as deep as possible along one path before backtracking.</dd>
+<dt>DMA</dt>
+<dd>Direct Memory Access. A way for a device to move data to and from memory without the processor handling every byte.</dd>
+<dt>DNA</dt>
+<dd>Deoxyribonucleic Acid. The molecule that carries genetic instructions in living things.</dd>
+<dt>DP</dt>
+<dd>Dynamic Programming. Solving a problem by breaking it into smaller overlapping subproblems, solving each once, and reusing the answers.</dd>
+<dt>DRAM</dt>
+<dd>Dynamic Random-Access Memory. The main memory of a computer; it must be refreshed regularly or it forgets.</dd>
+<dt>ECC</dt>
+<dd>Error-Correcting Code. Extra stored information that lets a memory or disk detect and fix small errors.</dd>
+<dt>EDSAC</dt>
+<dd>Electronic Delay Storage Automatic Calculator. One of the first stored-program computers (Cambridge, 1949).</dd>
+<dt>EDVAC</dt>
+<dd>Electronic Discrete Variable Automatic Computer. An early stored-program computer design (1945–1951).</dd>
+<dt>FFT</dt>
+<dd>Fast Fourier Transform. A fast algorithm for turning a signal into its frequency parts (and back).</dd>
+<dt>FIFO</dt>
+<dd>First-In, First-Out. A queue rule: the first item added is the first removed.</dd>
+<dt>FIT</dt>
+<dd>Failures In Time. A failure-rate unit: 1 FIT means one failure per billion device-hours.</dd>
+<dt>GB</dt>
+<dd>Gigabyte. About one billion bytes of storage or memory.</dd>
+<dt>GCD</dt>
+<dd>Greatest Common Divisor. The largest whole number that divides two given numbers exactly.</dd>
+<dt>GM</dt>
+<dd>The product of the gravitational constant G and a mass M; it sets the strength of that mass&#x27;s gravity.</dd>
+<dt>GPS</dt>
+<dd>Global Positioning System. The satellite system that tells a receiver its position on Earth.</dd>
+<dt>GPU</dt>
+<dd>Graphics Processing Unit. A processor built to do many similar calculations at once, first for graphics, now also for general computing.</dd>
+<dt>HBM</dt>
+<dd>High Bandwidth Memory. Memory stacked in layers close to a processor for very fast data transfer.</dd>
+<dt>HDD</dt>
+<dd>Hard Disk Drive. Storage that keeps data on spinning magnetic disks.</dd>
+<dt>HEAD</dt>
+<dd>In version control (git), the latest commit on the current branch.</dd>
+<dt>HTTP</dt>
+<dd>Hypertext Transfer Protocol. The protocol (agreed rules) a browser uses to fetch a web page.</dd>
+<dt>HTML</dt>
+<dd>HyperText Markup Language. The language web pages are written in: text with tags marking headings, paragraphs, and links.</dd>
+<dt>IBM</dt>
+<dd>International Business Machines. The computer company.</dd>
+<dt>IEEE</dt>
+<dd>Institute of Electrical and Electronics Engineers. The professional body that publishes standards such as IEEE 754 for floating-point arithmetic.</dd>
+<dt>ILP</dt>
+<dd>Instruction-Level Parallelism. Doing several instructions at once inside one processor by overlapping their steps.</dd>
+<dt>IP</dt>
+<dd>Internet Protocol. The addressing and routing rules of the internet.</dd>
+<dt>IPC</dt>
+<dd>Instructions Per Cycle. How many instructions a processor completes per clock cycle on average.</dd>
+<dt>IPL</dt>
+<dd>Information Processing Language. An early list-processing language (1950s) used for the first artificial-intelligence programs.</dd>
+<dt>ISA</dt>
+<dd>Instruction Set Architecture. The set of instructions a processor understands, and how programs use them.</dd>
+<dt>JAH</dt>
+<dd>Justin Addam Higgins. The maker&#x27;s name; the Signature network&#x27;s author mark.</dd>
+<dt>JAHDB</dt>
+<dd>JAH Database. The prefix of a JAH Condensed Code (JCC code): `JAHDB/&lt;slug&gt;#&lt;id&gt;`.</dd>
+<dt>JSON</dt>
+<dd>JavaScript Object Notation. A plain-text format for structured data: objects with named fields, lists, numbers, and strings.</dd>
+<dt>KB</dt>
+<dd>Kilobyte. About one thousand bytes.</dd>
+<dt>KMP</dt>
+<dd>Knuth-Morris-Pratt. A fast string-search algorithm named after its three inventors.</dd>
+<dt>LIFO</dt>
+<dd>Last-In, First-Out. A stack rule: the last item added is the first removed.</dd>
+<dt>LU</dt>
+<dd>LU factorisation. Writing a matrix A as the product of a lower-triangular matrix L and an upper-triangular matrix U, used to solve linear systems.</dd>
+<dt>LW</dt>
+<dd>Load Word. A MIPS processor instruction that loads one word (a fixed-size number) from memory into a register.</dd>
+<dt>MATCH</dt>
+<dd>The word a demo prints when its two runs produce identical output (`Deterministic: MATCH`).</dd>
+<dt>MB</dt>
+<dd>Megabyte. About one million bytes.</dd>
+<dt>MIPS</dt>
+<dd>Million Instructions Per Second. A rough speed measure for a processor; also the name of a processor family (Microprocessor without Interlocked Pipeline Stages).</dd>
+<dt>MST</dt>
+<dd>Minimum Spanning Tree. The cheapest set of edges that connects all points of a graph (a network of points joined by lines) without cycles.</dd>
+<dt>NP</dt>
+<dd>Nondeterministic Polynomial time. The class of problems whose proposed solutions can be checked quickly, even if finding one is hard.</dd>
+<dt>NVIDIA</dt>
+<dd>The company that makes graphics processors (GPUs) and the CUDA platform.</dd>
+<dt>PARC</dt>
+<dd>Palo Alto Research Center. Xerox&#x27;s research centre where Ethernet and many personal-computing ideas began.</dd>
+<dt>QR</dt>
+<dd>QR factorisation. Writing a matrix A as the product of an orthogonal matrix Q and an upper-triangular matrix R, used to solve least-squares problems.</dd>
+<dt>RAID</dt>
+<dd>Redundant Array of Independent Disks. Several disks working together so data survives a disk failure.</dd>
+<dt>RAID-5</dt>
+<dd>One level of RAID: data and parity (error-checking information) are spread across the disks, so any one disk can fail without data loss.</dd>
+<dt>RAM</dt>
+<dd>Random-Access Memory. Memory a processor can read and write quickly; it forgets when power is off.</dd>
+<dt>RAMAC</dt>
+<dd>Random Access Method of Accounting and Control. IBM&#x27;s first hard disk drive (1956).</dd>
+<dt>RISC</dt>
+<dd>Reduced Instruction Set Computer. A processor design with a small set of simple, fast instructions.</dd>
+<dt>RISC-CISC</dt>
+<dd>The pair of processor design choices, RISC versus CISC, compared side by side.</dd>
+<dt>RISC-V</dt>
+<dd>An open instruction set architecture (ISA) in the RISC family, free for anyone to implement.</dd>
+<dt>ROB</dt>
+<dd>Reorder Buffer. A buffer that holds finished instructions until they can be committed in the original program order.</dd>
+<dt>RS/6000</dt>
+<dd>IBM RISC System/6000. IBM&#x27;s workstation and server line (1990) that introduced superscalar execution.</dd>
+<dt>RSA</dt>
+<dd>Rivest–Shamir–Adleman. A public-key cryptosystem named after its three inventors; its security rests on factoring large numbers being hard.</dd>
+<dt>SAT</dt>
+<dd>Boolean Satisfiability (problem). The question of whether a logical formula can be made true; the first problem proved NP-complete.</dd>
+<dt>SIMD</dt>
+<dd>Single Instruction, Multiple Data. One instruction applied to many numbers at once (data-level parallelism).</dd>
+<dt>SPEC</dt>
+<dd>Standard Performance Evaluation Corporation. The body that publishes standard computer performance benchmarks.</dd>
+<dt>SSD</dt>
+<dd>Solid-State Drive. Storage with no moving parts, kept in flash memory chips.</dd>
+<dt>SVD</dt>
+<dd>Singular Value Decomposition. Writing a matrix as three factors that expose its most important directions; used for compression and data analysis.</dd>
+<dt>SW</dt>
+<dd>Store Word. A MIPS processor instruction that stores one word from a register into memory.</dd>
+<dt>TB</dt>
+<dd>Terabyte. About one trillion bytes.</dd>
+<dt>TFLOPS</dt>
+<dd>Trillion Floating-Point Operations Per Second. A speed measure: how many trillion arithmetic operations a machine does per second.</dd>
+<dt>TLB</dt>
+<dd>Translation Lookaside Buffer. A small fast cache that remembers recent virtual-to-physical address translations.</dd>
+<dt>TSP</dt>
+<dd>Travelling Salesman Problem. Finding the shortest tour that visits each city once; a classic hard (NP-hard) problem.</dd>
+<dt>URL</dt>
+<dd>Uniform Resource Locator. A web address: the full string that names where a resource lives.</dd>
+<dt>VLIW</dt>
+<dd>Very Long Instruction Word. A processor design where each instruction word bundles several independent operations.</dd>
+</dl>
+<p>Package-only. This website is not published anywhere. Built 2026-11-17 as part of the 100 College-Level Resources program, Wave 1.</p>
+</body>
+</html>
