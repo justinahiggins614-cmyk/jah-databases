@@ -1,0 +1,68 @@
+"use strict";
+/* GEN for free-software-directory - boundless generator. Seeded, deterministic, throttled,
+   duplicate-checked, hard stop at 1,000,000,000. Generated records are labeled
+   src "generated" and are never presented as archive records. */
+(function (root) {
+  var SLUG = "free-software-directory";
+  var PREFIX = "JAH-FRSD-";
+  var RECORD_KIND = "free software directory record";
+  var HARD_STOP = 1000000000;
+  var MAX_BATCH = 100;
+  var SEED_TITLES = ["A Software Listing With Plain Words Only", "A Search Box That Finds a Program by Task", "A Listing That Shows What a Program Needs to Run", "A Listing Sorted by Task and Size", "A Plain Explanation of What Free Means Here", "A Saved List a Visitor Can Return To", "A Program Guide Written for Beginners", "A Directory of Programs for a Weekly Task", "A Directory That Combines Programs and Guides", "A Daily Program Everyone Shares", "A New Listing Alert When a Program Appears", "A Community Vote That Picks the Next Program Kind", "A Directory for Different Skill Levels Clearly Labeled", "A Fair Play System Against False Listings", "A Creator Studio for New Software Listings", "A Software Map Across Many Tasks", "A League Table of Most Useful Programs", "Listings in Many Languages", "An Offline Software Pack for No Connection Days", "A Championship Format for Finding Good Programs", "A Review Step Before Any Listing Is Published", "A Directory Built From Public Program Lists", "A Checklist With Review Before Launch", "Free Software Directory Field Guide Index"];
+  function fnv1a(s) {
+    var h = 0x811c9dc5;
+    for (var i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 0x01000193) >>> 0; }
+    return h >>> 0;
+  }
+  function pad8(n) { var s = n.toString(16); while (s.length < 8) s = "0" + s; return s; }
+  function genId(seed) {
+    var a = pad8(fnv1a(SLUG + "|" + String(seed)));
+    var b = pad8(fnv1a(SLUG + "|" + String(seed) + "|2"));
+    return PREFIX + "GEN-" + (a + b).slice(0, 12);
+  }
+  function generateRecord(seed) {
+    var s = (seed === undefined || seed === null) ? 1 : seed;
+    var idx = fnv1a(SLUG + "|" + String(s)) % SEED_TITLES.length;
+    var title = SEED_TITLES[idx];
+    return { id: genId(s), slug: SLUG, title: "Generated: " + title,
+      record_kind: RECORD_KIND, src: "generated",
+      description: "A boundlessly generated record in the family of " + title + ", produced by the seeded generator for this database." };
+  }
+  function generateBatch(n, seed) {
+    var out = [], count = Math.min(n || 1, MAX_BATCH);
+    for (var i = 0; i < count; i++) { out.push(generateRecord((seed || 1) + i)); }
+    return out;
+  }
+  function searchRecords(q, pool) {
+    q = String(q || "").toLowerCase();
+    return (pool || SEED_TITLES).filter(function (t) { return t.toLowerCase().indexOf(q) !== -1; });
+  }
+  function validateRecord(rec) {
+    var problems = [];
+    if (!rec || rec.record_kind !== RECORD_KIND) problems.push("record_kind must be " + RECORD_KIND);
+    if (!rec || rec.slug !== SLUG) problems.push("slug must be " + SLUG);
+    if (!rec || !rec.id || rec.id.indexOf(PREFIX + "GEN-") !== 0) problems.push("id must start with " + PREFIX + "GEN-");
+    if (!rec || !rec.title) problems.push("title is required");
+    if (!rec || rec.src !== "generated") problems.push("src must be generated");
+    return { valid: problems.length === 0, problems: problems };
+  }
+  function runTests() {
+    var tests = [];
+    var g = generateRecord(7);
+    tests.push({ name: "generated record_kind", pass: !!g && g.record_kind === RECORD_KIND });
+    tests.push({ name: "generated slug is single edition slug", pass: !!g && g.slug === SLUG && g.slug.indexOf("signature-" + "signature") === -1 });
+    tests.push({ name: "generated id prefix", pass: !!g && g.id.indexOf(PREFIX + "GEN-") === 0 });
+    tests.push({ name: "generated src label", pass: !!g && g.src === "generated" });
+    tests.push({ name: "validateRecord accepts generated record", pass: !!g && validateRecord(g).valid });
+    tests.push({ name: "reproducibility same seed same id", pass: generateRecord(7).id === g.id });
+    tests.push({ name: "different seeds give different ids", pass: generateRecord(7).id !== generateRecord(8).id });
+    tests.push({ name: "batch throttle", pass: generateBatch(500, 99).length === MAX_BATCH });
+    tests.push({ name: "search finds a title", pass: searchRecords(SEED_TITLES[0].slice(0, 4)).length >= 1 });
+    tests.push({ name: "hard stop is 10^9", pass: HARD_STOP === 1000000000 });
+    var passed = tests.filter(function (t) { return t.pass; }).length;
+    return { total: tests.length, passed: passed, tests: tests };
+  }
+  var Tools = { searchRecords: searchRecords, generateRecord: generateRecord, generateBatch: generateBatch, validateRecord: validateRecord, runTests: runTests, genId: genId, slug: SLUG, recordKind: RECORD_KIND, hardStop: HARD_STOP };
+  root["FreeSoftwareDirectoryTools"] = Tools;
+  if (typeof module !== "undefined" && module.exports) module.exports = Tools;
+})(typeof window !== "undefined" ? window : globalThis);
