@@ -13,8 +13,7 @@ Classification — every live website main page, counted exactly once:
   main   — the main sites from the OS page's own sites list, plus the
            database hub itself (JAH Databases)
   mirror — mirrors/<slug>/index.html
-  dbweb  — db/*/website/index.html, plus the two Wave 1 database pages
-           (db/marijuana-supplies, db/marijuana-supplies-signature)
+  dbweb  — db/*/website/index.html
   file   — db/*/records/*.html, excluding /accessible/ and /mirror/
   mix    — db/*/mixes/*/index.html (excluding /accessible/ and /mirror/),
            plus the Wave 1 set master and grinder mix
@@ -52,12 +51,11 @@ KINDS = {
     "dbpage": "Database page",
     "group": "Group website",
 }
-# Wave 1 pages that double as a per-artifact website (counted there, never twice).
-DBWEB_EXTRA = {"marijuana-supplies", "marijuana-supplies-signature"}
+# Wave 1 set master and grinder mix (counted as mix websites, never twice).
 MIX_EXTRA = {"db/marijuana-supplies-set/index.html",
              "db/marijuana-supplies-set/complete-grinder-system/index.html"}
-DBPAGE_EXCLUDE = {"marijuana-supplies", "marijuana-supplies-signature",
-                  "marijuana-supplies-set"}
+# The Wave 1 set page is a mix page, not a database page.
+DBPAGE_EXCLUDE = {"marijuana-supplies-set"}
 
 
 def run(cmd):
@@ -206,8 +204,6 @@ def main():
     # --- database websites ---
     dbweb_paths = [p for p in ls_files("db/*/website/index.html")
                    if re.fullmatch(r"db/[^/]+/website/index\.html", p)]
-    for slug in sorted(DBWEB_EXTRA):
-        dbweb_paths.append(f"db/{slug}/index.html")
     for p in dbweb_paths:
         slug = p.split("/")[1]
         t = page_title(p)

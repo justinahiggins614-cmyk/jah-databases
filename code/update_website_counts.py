@@ -7,8 +7,6 @@ Counts (from TRACKED files only, so the number matches what is deployed):
                    its own count anywhere — it only feeds the network total)
   per-artifact   = DB websites + file websites + mix websites (main pages only):
     DB    = db/*/website/index.html
-          + db/marijuana-supplies/index.html
-          + db/marijuana-supplies-signature/index.html   (Wave 1 pre-merge placement)
     files = db/*/records/*.html, excluding /accessible/ and /mirror/
     mixes = db/*/mixes/*/index.html, excluding /accessible/ and /mirror/
           + db/marijuana-supplies-set/index.html
@@ -18,9 +16,8 @@ Counts (from TRACKED files only, so the number matches what is deployed):
                    path shape, since git's pathspec `*` crosses `/` and the
                    bare glob would also match /accessible/ and /mirror/ pages)
   database pages = db/<slug>/index.html (main pages only, shape-filtered),
-                   excluding the three Wave 1 set pages counted above
-                   (marijuana-supplies, marijuana-supplies-signature,
-                   marijuana-supplies-set)
+                   excluding the Wave 1 set page counted above
+                   (marijuana-supplies-set)
   group websites = the Seven Website Groups pages, same definition as
                    code/build_all_websites.py (the All websites directory
                    builder — the two formulas must agree):
@@ -76,9 +73,12 @@ MIRROR = os.path.join(ROOT, "accessible", "the-merica-l-boundless-ecosystem-os.h
 FRONT_MAIN = os.path.join(ROOT, "the-merica-l-virtual-internet.html")
 FRONT_ACC = os.path.join(ROOT, "accessible", "the-merica-l-virtual-internet.html")
 
-# Wave 1 set pages counted as per-artifact websites, never as database pages.
-DBPAGE_EXCLUDE = {"marijuana-supplies", "marijuana-supplies-signature",
-                  "marijuana-supplies-set"}
+# Wave 1 set page counted as a per-artifact website, never as a database page.
+# (The two marijuana database websites moved to db/<slug>/website/ at the
+# 2026-11-22 Batch G merge, so they are counted by the general db/*/website/
+# pattern now; their hub catalog pages at db/<slug>/index.html count as
+# database pages.)
+DBPAGE_EXCLUDE = {"marijuana-supplies-set"}
 
 
 def run(cmd, check=True):
@@ -106,8 +106,6 @@ def count_main_sites():
 def count_per_artifact():
     db = [p for p in ls_files("db/*/website/index.html")
           if re.fullmatch(r"db/[^/]+/website/index\.html", p)]
-    db += ls_files("db/marijuana-supplies/index.html",
-                   "db/marijuana-supplies-signature/index.html")
     files = [p for p in ls_files("db/*/records/*.html")
              if re.fullmatch(r"db/[^/]+/records/[^/]+\.html", p)]
     mixes = [p for p in ls_files("db/*/mixes/*/index.html")

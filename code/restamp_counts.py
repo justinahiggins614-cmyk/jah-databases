@@ -21,10 +21,9 @@ What it stamps, all from n = len(manifest["databases"]):
      load, so per-page record counts are always current by
      construction). Any page missing that wiring is reported and the
      script exits 1. Scoped to manifest slugs on purpose: db/ also
-     holds per-artifact website pages (Wave 1: db/marijuana-supplies/,
-     db/marijuana-supplies-signature/) and set/mix pages
-     (db/marijuana-supplies-set/) that are NOT hub catalog pages and
-     carry their own counts — they are not audited here. A live
+     holds per-artifact website pages (at db/<slug>/website/, plus the
+     set/mix page db/marijuana-supplies-set/) that are NOT hub catalog
+     pages and carry their own counts — they are not audited here. A live
      database whose hub page loses its wiring still fails.
 
   7. README.md + docs/AI_ACCESS.md count stamping: the same three counters
