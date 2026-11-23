@@ -25,10 +25,15 @@ Counts (from TRACKED files only, so the number matches what is deployed):
                    + seven-groups.html (the uniting Internets page)
                    + services/coffee/index.html (coffee Group 1 site)
                    Subject homes (groups/<key>/index.html) are NOT counted.
+  service sites  = services/<slug>/index.html (main pages only,
+                   shape-filtered), excluding services/coffee/index.html,
+                   which is counted as a group website above, never twice.
   hub            = 1 (the database hub itself, JAH Databases)
 
   TOTAL = main sites + per-artifact + mirrors + database pages
-          + group websites + hub.
+          + group websites + service sites + hub.
+  Only the TOTAL is ever printed, committed, or stamped anywhere: no
+  per-kind counts appear in any output, message, or page.
   The TOTAL is the one website count shown anywhere; it is also the
   total on the All websites list page (all-websites.html), which the
   OS page and the front door link to.
@@ -141,6 +146,16 @@ def count_groups():
     extra = [p for p in ("seven-groups.html", "services/coffee/index.html")
              if p in ls_files(p)]
     return len(group) + len(extra)
+
+
+def count_services():
+    # Same definition as code/build_all_websites.py: every service site's
+    # main page, except coffee, which is a group website (counted in
+    # count_groups). The accessible mirrors (services/<slug>/accessible/)
+    # are NOT websites in this count.
+    paths = [p for p in ls_files("services/*/index.html")
+             if re.fullmatch(r"services/[^/]+/index\.html", p)]
+    return len([p for p in paths if p != "services/coffee/index.html"])
 
 
 def hero_text(total, prefix=""):
@@ -256,7 +271,8 @@ def main():
     n_mir = count_mirrors()
     n_dbpages = count_dbpages()
     n_grp = count_groups()
-    total = m_sites + n_art + n_mir + n_dbpages + n_grp + 1  # +1: the database hub
+    n_svc = count_services()
+    total = m_sites + n_art + n_mir + n_dbpages + n_grp + n_svc + 1  # +1: the database hub
     # Never stamp a lower per-artifact count than the page already shows.
     hero_now = open(MAIN, encoding="utf-8").read()
     prev = re.search(r"Per-artifact websites live so far: ([\d,]+)\.", hero_now)
@@ -280,9 +296,7 @@ def main():
                | stamp_front_door(FRONT_MAIN, total)
                | stamp_front_door(FRONT_ACC, total, prefix="../"))
     if not changed:
-        print(f"STATUS: unchanged — {total:,} websites total "
-              f"(per-artifact {n_art} = db {n_db} + files {n_files} + mixes {n_mixes}; "
-              f"mirrors {n_mir}; database pages {n_dbpages}; group {n_grp})")
+        print(f"STATUS: unchanged — {total:,} websites total")
         return 0
     # Commit + push only the two OS pages and the two front-door pages.
     run(["git", "config", "user.name", "JAH System"], check=False)
@@ -292,9 +306,7 @@ def main():
          "the-merica-l-virtual-internet.html",
          "accessible/the-merica-l-virtual-internet.html"])
     run(["git", "commit", "-qm",
-         f"Hourly website counts: {total:,} websites total "
-         f"(per-artifact {n_art}, mirrors {n_mir}, database pages {n_dbpages}, "
-         f"group {n_grp})"])
+         f"Hourly website counts: {total:,} websites total"])
     try:
         run(["git", "push", "-q", "origin", "main"])
         run(["git", "push", "-q", "origin", "main:gh-pages"])
@@ -302,9 +314,7 @@ def main():
         run(["git", "reset", "--soft", "HEAD~1"], check=False)
         print(f"STATUS: push failed, commit reset: {e}")
         return 1
-    print(f"STATUS: updated + pushed — {total:,} websites total "
-          f"(per-artifact {n_art} = db {n_db} + files {n_files} + mixes {n_mixes}; "
-          f"mirrors {n_mir}; database pages {n_dbpages}; group {n_grp})")
+    print(f"STATUS: updated + pushed — {total:,} websites total")
     return 0
 
 
