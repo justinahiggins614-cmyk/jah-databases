@@ -1,7 +1,7 @@
 # Pagination Contract — JAH Databases registry (Lane B, Fix 2)
 
-**Status: LIVE — deployed on GitHub Pages (merged 2026-11-12).** The page files live in
-`data/pages/` (631 pages, 100 entries each).
+**Status: LIVE — deployed on GitHub Pages (rebuilt 2026-11-23 from the live manifest).** The page files live in
+`data/pages/` (639 pages, 100 entries each).
 
 ## Why this exists
 
@@ -12,7 +12,7 @@ itself imposes no 400-database ceiling. But be clear: the in-browser search DOES
 search — `core/jahdb-search.js:15-17` caps it at Quick 12 / Deep 40 /
 Exhaustive 400 database indexes per search. This contract does not claim to
 remove that cap. What it does is make an exhaustive pass *feasible for a
-text-fetch reader* anyway: instead of one 50.8 MB manifest or one 444-entry
+text-fetch reader* anyway: instead of one 52.0 MB manifest or one 444-entry
 `llms.txt`, the reader fetches small plain files one at a time, each pointing
 at the next, and can stop and resume at any point without losing its place —
 the paginated registry is the path to full coverage.
@@ -22,12 +22,12 @@ the paginated registry is the path to full coverage.
 | Rule | Value |
 |---|---|
 | Ordering | **Slug ascending, byte order** (plain Python `sorted()` on the slug string). Stable: the same source registry always yields the same pages. A new database inserted later shifts later pages — pages are a snapshot, stamped with the source registry fingerprint (see below). |
-| Page size | **100 entries per page**, except the last page (47 entries). |
-| Page count | **631 pages** for 63,047 entries at build time (630 × 100 + 47). |
-| Page identity | `pages/page-NNN.json`, NNN zero-padded (001–631). |
+| Page size | **100 entries per page**, except the last page (26 entries). |
+| Page count | **639 pages** for 63,826 entries at build time (638 × 100 + 26). |
+| Page identity | `pages/page-NNN.json`, NNN zero-padded (001–639). |
 | Cursor | The cursor IS the page number: `page:<n>`. No server, no session, no expiry. To resume, fetch `page-<n>.json` for the next unprocessed page. The cursor is printed in every page as `next_cursor` (null on the last page). |
 | Entry format | Each entry: `{"slug", "name", "record_count", "shard"}` — `shard` is the manifest-shard file (`shards/manifest-shard-NNN.json`) holding the entry's full manifest record. Nothing else is in the entry: the page is an index, the shard is the record. |
-| Totals | Every page carries `total_items` (63,047), `total_pages` (631), `page_size` (100), `items_on_page`, and `remaining_after_this_page` so the reader always knows how far along it is. |
+| Totals | Every page carries `total_items` (63,826), `total_pages` (639), `page_size` (100), `items_on_page`, and `remaining_after_this_page` so the reader always knows how far along it is. |
 | Navigation | Every page carries `prev_page` and `next_page` (file names, null at the ends) AND `next_cursor`. A reader needs only the current page to find the next one. |
 | Source stamp | Every page carries `source_registry_sha256` (the registry.json source fingerprint) and `generated_date`, so a reader can tell whether the pages match the registry it is also reading. If the manifest moves, regenerate pages; do not mix snapshots. |
 
@@ -37,20 +37,20 @@ the paginated registry is the path to full coverage.
 {
   "page": 1,
   "page_size": 100,
-  "total_items": 63047,
-  "total_pages": 631,
+  "total_items": 63826,
+  "total_pages": 639,
   "items_on_page": 100,
   "first_slug": "15-minute-cities",
   "last_slug": "ai-build-...",
   "prev_page": null,
   "next_page": "page-002.json",
   "next_cursor": "page:2",
-  "remaining_after_this_page": 62947,
+  "remaining_after_this_page": 63726,
   "source_registry_sha256": "<sha256 of source manifest>",
-  "generated_date": "2026-11-02",
+  "generated_date": "2026-11-23",
   "entries": [
     {"slug": "15-minute-cities", "name": "Signature 15 Minute Cities Database",
-     "record_count": 98, "shard": "shards/manifest-shard-001.json"},
+     "record_count": 98, "shard": "../registry/shards/manifest-shard-001.json"},
     ...
   ]
 }
@@ -74,8 +74,8 @@ Notes:
 
 ## How a text-fetch AI does an exhaustive pass
 
-1. Fetch `pages/page-001.json`. Note `total_items` (63,047) and
-   `total_pages` (631).
+1. Fetch `pages/page-001.json`. Note `total_items` (63,826) and
+   `total_pages` (639).
 2. Record the 100 slugs. Fetch `next_page` (`page-002.json`). Repeat.
 3. If interrupted: the last page fully read gives `next_cursor`, e.g.
    `page:315`. Fetch `page-315.json` and continue — no re-reading, no gaps.
@@ -84,10 +84,21 @@ Notes:
 
 ## Resume points (verified)
 
-- Resume from **page 315** (mid-point): pages 315–631 complete the set
-  started by pages 1–314 with no gaps and no dupes (see `verify_pagination.py`).
+- Resume from **page 315** (mid-point): pages 315–639 complete the set
+  started by pages 1–314 with no gaps and no dupes (re-verified 2026-11-23
+  by `code/verify_paginated_registry.py` on the rebuilt snapshot).
 - Independent re-check resumes from **page 500** instead and reaches the
-  same result (see LANE-REPORT.md, Validation section).
+  same result (re-verified 2026-11-23 by the same script).
+
+## Rebuilds
+
+The registry lane is rebuilt from the live manifest with
+`code/build_paginated_registry.py` (shards + `registry.json` + pages in
+one run, so the three can never drift apart) and checked with
+`code/verify_paginated_registry.py` (registry + pagination checks, run
+before any rebuild is called done). Rebuilt 2026-11-23: 63,826 databases,
+51 shards, 639 pages. The previous snapshot (2026-11-12) covered 63,047
+databases in 49 shards and 631 pages.
 
 ## Honest limits
 
@@ -96,7 +107,7 @@ Notes:
   contract can force a reader to keep going. The fix removes the *excuse*
   (one giant file), not the reader's own limit.
 - Pages are a **snapshot**: they match the manifest as measured at build
-  time (50,845,023 bytes, sha256 in `registry.json`). If the manifest
+  time (51,995,485 bytes, sha256 in `registry.json`). If the manifest
   grows, pages go stale until regenerated — the `source_registry_sha256`
   on every page is how a reader detects that.
 - Page files are **not a server API**: there is no filtering, sorting, or
