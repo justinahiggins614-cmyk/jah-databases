@@ -28,10 +28,18 @@ Counts (from TRACKED files only, so the number matches what is deployed):
   service sites  = services/<slug>/index.html (main pages only,
                    shape-filtered), excluding services/coffee/index.html,
                    which is counted as a group website above, never twice.
+  combo websites = the Combo Router (combos/index.html, a service
+                   website) + each stored combo page
+                   (combos/<slug>/index.html, a file website).
+                   On-demand combos have no stored page and are never
+                   counted; the Router's accessible mirror
+                   (combos/accessible/index.html) is not a website.
+                   Same definition as code/build_all_websites.py —
+                   the two formulas must agree.
   hub            = 1 (the database hub itself, JAH Databases)
 
   TOTAL = main sites + per-artifact + mirrors + database pages
-          + group websites + service sites + hub.
+          + group websites + service sites + combo websites + hub.
   Only the TOTAL is ever printed, committed, or stamped anywhere: no
   per-kind counts appear in any output, message, or page.
   The TOTAL is the one website count shown anywhere; it is also the
@@ -158,6 +166,20 @@ def count_services():
     return len([p for p in paths if p != "services/coffee/index.html"])
 
 
+def count_combos():
+    # Same definition as code/build_all_websites.py: the Combo Router
+    # (combos/index.html, counted as a service website) plus each stored
+    # combo page (combos/<slug>/index.html, counted as a file website).
+    # The Router's accessible mirror (combos/accessible/index.html) is
+    # NOT a website, and on-demand combos have no stored page and are
+    # never counted.
+    n = 1 if "combos/index.html" in ls_files("combos/index.html") else 0
+    stored = [p for p in ls_files("combos/*/index.html")
+              if re.fullmatch(r"combos/[^/]+/index\.html", p)
+              and p != "combos/accessible/index.html"]
+    return n + len(stored)
+
+
 def hero_text(total, prefix=""):
     return (f"browse all {total:,} websites in the network — the full list is on the "
             f"<a href=\"{prefix}all-websites.html\">All websites</a> page")
@@ -272,7 +294,8 @@ def main():
     n_dbpages = count_dbpages()
     n_grp = count_groups()
     n_svc = count_services()
-    total = m_sites + n_art + n_mir + n_dbpages + n_grp + n_svc + 1  # +1: the database hub
+    n_combos = count_combos()
+    total = m_sites + n_art + n_mir + n_dbpages + n_grp + n_svc + n_combos + 1  # +1: the database hub
     # Never stamp a lower per-artifact count than the page already shows.
     hero_now = open(MAIN, encoding="utf-8").read()
     prev = re.search(r"Per-artifact websites live so far: ([\d,]+)\.", hero_now)

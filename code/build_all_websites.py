@@ -26,6 +26,13 @@ Classification — every live website main page, counted exactly once:
   service — the other service sites: services/<slug>/index.html
            (coffee is a group website, not a service website, and is
            excluded here so it is counted exactly once).
+  combo   — the word-combo websites: the Combo Router (combos/,
+           a service website) plus each STORED combo page
+           (combos/<slug>/, a file website). On-demand combos have
+           no stored page and are never listed: only stored pages
+           are websites here. The Router's accessible mirror
+           (combos/accessible/) is not a website, like every other
+           accessible mirror.
 
 NOTE: no group on the page carries its own count, and the main-sites
 group is never counted out loud anywhere in this output — the page
@@ -214,6 +221,23 @@ def main():
         name = clean_name(t.split(" — ")[0]) if t \
             else p.split("/")[1].replace("-", " ").title()
         sites.append([name, p[:-len("index.html")], "service"])
+
+    # --- word-combo websites: the Combo Router (a service site) + the
+    # stored combo pages (file websites). On-demand combos have no stored
+    # page and are never listed; the Router's accessible mirror is not a
+    # website, like every other accessible mirror.
+    if "combos/index.html" in ls_files("combos/index.html"):
+        t = page_title("combos/index.html")
+        name = clean_name(t.split(" — ")[0]) if t else "Combo Router"
+        sites.append([name, "combos/", "service"])
+    combo_paths = [p for p in ls_files("combos/*/index.html")
+                   if re.fullmatch(r"combos/[^/]+/index\.html", p)
+                   and p != "combos/accessible/index.html"]
+    for p in sorted(combo_paths):
+        t = page_title(p)
+        name = clean_name(t.split(" — ")[0]) if t \
+            else p.split("/")[1].replace("-", " ").title()
+        sites.append([name, p[:-len("index.html")], "file"])
 
     # --- database websites ---
     dbweb_paths = [p for p in ls_files("db/*/website/index.html")

@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Combo Router — Signature Word Combos</title>
+<style>body{font-family:Georgia,serif;max-width:780px;margin:0 auto;padding:1em;line-height:1.55;color:#1a1a1a;background:#fff}h1{font-size:1.6em}h2{border-top:1px solid #ccc;padding-top:.6em}button{cursor:pointer;padding:.4em .8em;margin:.2em}footer{border-top:2px solid #333;margin-top:2em;padding-top:.8em;font-size:.9em}input,select{padding:.4em;margin:.2em}table{border-collapse:collapse}td,th{border:1px solid #999;padding:.3em .6em;text-align:left}#combo-list{columns:2}</style>
+</head>
+<body>
+<h1>Combo Router — Signature Word Combos</h1>
+<p><i>One router for every word combo up to 7 words — so any search lands on an active Signature website. Site slug: <b>signature-word-combos</b> (verified free against the live manifest, 63,826 databases, read 2026-11-23). Home of the <b>combos/</b> namespace.</i></p>
+<h2>1. What this site does</h2>
+<p>Every word combination of 2 to 7 words has one stable URL: <b>combos/&lt;combo-slug&gt;/</b> — the hyphenated lowercase combo, for example combos/joke-generator/ or combos/ai-meme-generator/. Type any combo in the search box below and this Router takes you to its page. If the combo is one of the 103 stored Wave 1 pages, you get the pre-rendered page. If it is not stored, the same URL builds the combo's full page on demand in your browser — never a dead link, never a "not built yet" page.</p>
+<h2>2. Find a combo (working demo — the search box itself)</h2>
+<p><label>Words (2 to 7, separated by spaces): <input id="combo-in" type="text" size="40" placeholder="ai meme generator"></label> <button id="combo-go" type="button">Go to this combo</button></p>
+<p id="combo-out"></p>
+<p>Try: <a href="joke-generator/">joke generator</a> · <a href="ai-tutor/">ai tutor</a> · <a href="daily-trivia/">daily trivia</a> · <a href="number-puzzles/">number puzzles</a> · <a href="ai-meme-generator/">ai meme generator</a> (on demand) · <a href="ai-that-can-coordinate-millions-of-specialized-ai-agents/">ai that can coordinate millions of specialized ai agents</a> (on demand, 7 words)</p>
+<h2>3. Math proof — how big the space is</h2>
+<p>The vocabulary is the <b>102,223 Dictionary headwords</b>. Word order matters in search, so the space is ordered permutations P(102,223,k):</p>
+<table><tr><th>Length</th><th>Ordered combos</th></tr>
+<tr><td>2 words</td><td>P(102,223,2) = 10,449,439,506</td></tr>
+<tr><td>3 words</td><td>P(102,223,3) = 1,068,152,155,742,826</td></tr>
+<tr><td>4 words</td><td>P(102,223,4) = 109,186,513,360,031,673,720</td></tr>
+<tr><td>5 words</td><td>P(102,223,5) = 11,160,936,209,149,077,655,984,680</td></tr>
+<tr><td>6 words</td><td>P(102,223,6) = 1,140,848,577,426,800,419,839,442,020,240</td></tr>
+<tr><td>7 words</td><td>P(102,223,7) = 116,614,119,038,835,258,514,728,244,982,872,080</td></tr>
+<tr><td><b>Total, 2–7 words</b></td><td><b>116,615,259,898,573,730,711,878,684,717,733,052</b></td></tr></table>
+<p>Wave 1 stores <b>103</b> combo pages — the two-word items of the trending/viral demand list (List 03). The remaining <b>347</b> List 03 items (293 three-word, 49 four-word, 5 five-word) resolve on demand through this Router, so all <b>450</b> demand combos have a working URL. The full space is generator option space, sampled and verified, never stored: 103 stored pages are a rounding error of it, and no report claims otherwise. Of the 103 stored combos, 57 consist entirely of Dictionary headwords and have a computable deterministic rank; the other 46 contain at least one word that is not a Dictionary headword (for example meme, podcast, marketplace) and their records say so.</p>
+<h2>4. Science proof — what the words are</h2>
+<p>Word linguistics come from the Signature Dictionary record for each word. The Dictionary holds 102,223 headwords: noun 36,592 · no part of speech recorded 35,654 · adjective 17,223 · verb 7,804 · adverb 2,723 · phrase 1,497 · prefix 270 · interjection 107 · suffix 95 · preposition 93 · abbreviation 65 · pronoun 62 · conjunction 32 · article 6. Definitions: 99,579 headwords defined — 58,223 authored, 41,356 template-filled (always labelled as such), 2,644 still pending (always labelled pending, never faked). Roughly one word in five in the Dictionary is an everyday word an ordinary adult knows; the rest are uncommon, archaic or technical — which is why Wave 1 stores only the combos people actually search for, from the demand lists, and leaves the rest to on-demand generation.</p>
+<h2>5. Relevant data</h2>
+<p><a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/word-combos/">The Signature Word Combos Database</a> (106 records: 3 meta + 103 combos; IDs JAH-WCOM-000001–JAH-WCOM-000106) and its Signature edition (JAH-WCOMS-000001–JAH-WCOMS-000106) · <a href="https://justinahiggins614-cmyk.github.io/jah-dictionary/">The Signature Dictionary</a> · <a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/words/">The Signature Dictionary Database</a> (record count 1,127,335, of which only 102,223 are full headword records — the vocabulary is 102,223, never 1,127,335).</p>
+<h2>6. Spec</h2>
+<ul><li>Router site slug: signature-word-combos (verified free, live manifest 63,826 databases, 2026-11-23)</li><li>Combo URL pattern: combos/&lt;hyphenated-lowercase-combo&gt;/</li><li>Stored Wave 1 pages: 103 (2-word List 03 items)</li><li>On-demand coverage: all other 2–7-word combos, via combos/combo-page.js + the repo-level 404.html fallback</li><li>Generator: word-combo-gen 1.0.1 (SPACE constants fixed in 1.0.1; this Router uses the verified math.perm values)</li><li>Verification stamp: word-combo-gen 1.0.1 / 2026-11-23; Router CHECK 1, 2026-11-23</li></ul>
+<h2>7. Working demo — the combo explorer</h2>
+<p>The search box above is the demo: it resolves any combo to its page. Below is the index of the 103 stored combos. Filter it, or open any combo:</p>
+<p><label>Filter the 103 stored combos: <input id="filter-in" type="text" size="30" placeholder="joke"></label></p>
+<ul id="combo-list">
+<li><a href="joke-generator/">Joke generator</a> — combos/joke-generator/ (List 03 item 14, JAH-WCOM-000004)</li>
+<li><a href="joke-competition/">Joke competition</a> — combos/joke-competition/ (List 03 item 15, JAH-WCOM-000005)</li>
+<li><a href="ai-tutor/">AI tutor</a> — combos/ai-tutor/ (List 03 item 34, JAH-WCOM-000006)</li>
+<li><a href="ai-translator/">AI translator</a> — combos/ai-translator/ (List 03 item 50, JAH-WCOM-000007)</li>
+<li><a href="photo-to-cartoon-converter/">Photo-to-cartoon converter</a> — combos/photo-to-cartoon-converter/ (List 03 item 61, JAH-WCOM-000008)</li>
+<li><a href="photo-to-anime-converter/">Photo-to-anime converter</a> — combos/photo-to-anime-converter/ (List 03 item 62, JAH-WCOM-000009)</li>
+<li><a href="photo-restoration/">Photo restoration</a> — combos/photo-restoration/ (List 03 item 67, JAH-WCOM-000010)</li>
+<li><a href="old-photo-colorization/">Old-photo colorization</a> — combos/old-photo-colorization/ (List 03 item 68, JAH-WCOM-000011)</li>
+<li><a href="photo-enhancement/">Photo enhancement</a> — combos/photo-enhancement/ (List 03 item 69, JAH-WCOM-000012)</li>
+<li><a href="image-upscaler/">Image upscaler</a> — combos/image-upscaler/ (List 03 item 70, JAH-WCOM-000013)</li>
+<li><a href="hairstyle-preview/">Hairstyle preview</a> — combos/hairstyle-preview/ (List 03 item 73, JAH-WCOM-000014)</li>
+<li><a href="poster-creator/">Poster creator</a> — combos/poster-creator/ (List 03 item 78, JAH-WCOM-000015)</li>
+<li><a href="creature-generator/">Creature generator</a> — combos/creature-generator/ (List 03 item 89, JAH-WCOM-000016)</li>
+<li><a href="daily-trivia/">Daily trivia</a> — combos/daily-trivia/ (List 03 item 91, JAH-WCOM-000017)</li>
+<li><a href="number-puzzles/">Number puzzles</a> — combos/number-puzzles/ (List 03 item 97, JAH-WCOM-000018)</li>
+<li><a href="memory-games/">Memory games</a> — combos/memory-games/ (List 03 item 100, JAH-WCOM-000019)</li>
+<li><a href="chess-platform/">Chess platform</a> — combos/chess-platform/ (List 03 item 101, JAH-WCOM-000020)</li>
+<li><a href="checkers-platform/">Checkers platform</a> — combos/checkers-platform/ (List 03 item 102, JAH-WCOM-000021)</li>
+<li><a href="guess-the-picture-game/">Guess-the-picture game</a> — combos/guess-the-picture-game/ (List 03 item 106, JAH-WCOM-000022)</li>
+<li><a href="guess-the-song-game/">Guess-the-song game</a> — combos/guess-the-song-game/ (List 03 item 107, JAH-WCOM-000023)</li>
+<li><a href="guess-the-movie-game/">Guess-the-movie game</a> — combos/guess-the-movie-game/ (List 03 item 108, JAH-WCOM-000024)</li>
+<li><a href="guess-the-personality-game/">Guess-the-personality game</a> — combos/guess-the-personality-game/ (List 03 item 109, JAH-WCOM-000025)</li>
+<li><a href="build-your-own-world-platform/">Build-your-own-world platform</a> — combos/build-your-own-world-platform/ (List 03 item 116, JAH-WCOM-000026)</li>
+<li><a href="question-and-answer-community/">Question-and-answer community</a> — combos/question-and-answer-community/ (List 03 item 124, JAH-WCOM-000027)</li>
+<li><a href="hobby-communities/">Hobby communities</a> — combos/hobby-communities/ (List 03 item 128, JAH-WCOM-000028)</li>
+<li><a href="fan-communities/">Fan communities</a> — combos/fan-communities/ (List 03 item 129, JAH-WCOM-000029)</li>
+<li><a href="creator-communities/">Creator communities</a> — combos/creator-communities/ (List 03 item 130, JAH-WCOM-000030)</li>
+<li><a href="accountability-groups/">Accountability groups</a> — combos/accountability-groups/ (List 03 item 135, JAH-WCOM-000031)</li>
+<li><a href="community-competitions/">Community competitions</a> — combos/community-competitions/ (List 03 item 136, JAH-WCOM-000032)</li>
+<li><a href="public-polls/">Public polls</a> — combos/public-polls/ (List 03 item 137, JAH-WCOM-000033)</li>
+<li><a href="shared-collections/">Shared collections</a> — combos/shared-collections/ (List 03 item 142, JAH-WCOM-000034)</li>
+<li><a href="community-recommendations/">Community recommendations</a> — combos/community-recommendations/ (List 03 item 143, JAH-WCOM-000035)</li>
+<li><a href="virtual-meetups/">Virtual meetups</a> — combos/virtual-meetups/ (List 03 item 146, JAH-WCOM-000036)</li>
+<li><a href="coupon-finder/">Coupon finder</a> — combos/coupon-finder/ (List 03 item 153, JAH-WCOM-000037)</li>
+<li><a href="discount-tracker/">Discount tracker</a> — combos/discount-tracker/ (List 03 item 154, JAH-WCOM-000038)</li>
+<li><a href="price-drop-alerts/">Price-drop alerts</a> — combos/price-drop-alerts/ (List 03 item 155, JAH-WCOM-000039)</li>
+<li><a href="used-item-marketplace/">Used-item marketplace</a> — combos/used-item-marketplace/ (List 03 item 163, JAH-WCOM-000040)</li>
+<li><a href="subscription-tracker/">Subscription tracker</a> — combos/subscription-tracker/ (List 03 item 166, JAH-WCOM-000041)</li>
+<li><a href="cost-of-living-comparison/">Cost-of-living comparison</a> — combos/cost-of-living-comparison/ (List 03 item 170, JAH-WCOM-000042)</li>
+<li><a href="universal-calculator/">Universal calculator</a> — combos/universal-calculator/ (List 03 item 181, JAH-WCOM-000043)</li>
+<li><a href="mortgage-calculator/">Mortgage calculator</a> — combos/mortgage-calculator/ (List 03 item 182, JAH-WCOM-000044)</li>
+<li><a href="loan-calculator/">Loan calculator</a> — combos/loan-calculator/ (List 03 item 183, JAH-WCOM-000045)</li>
+<li><a href="interest-calculator/">Interest calculator</a> — combos/interest-calculator/ (List 03 item 184, JAH-WCOM-000046)</li>
+<li><a href="tax-estimator/">Tax estimator</a> — combos/tax-estimator/ (List 03 item 185, JAH-WCOM-000047)</li>
+<li><a href="salary-calculator/">Salary calculator</a> — combos/salary-calculator/ (List 03 item 186, JAH-WCOM-000048)</li>
+<li><a href="paycheck-calculator/">Paycheck calculator</a> — combos/paycheck-calculator/ (List 03 item 187, JAH-WCOM-000049)</li>
+<li><a href="inflation-calculator/">Inflation calculator</a> — combos/inflation-calculator/ (List 03 item 188, JAH-WCOM-000050)</li>
+<li><a href="retirement-calculator/">Retirement calculator</a> — combos/retirement-calculator/ (List 03 item 190, JAH-WCOM-000051)</li>
+<li><a href="unit-converter/">Unit converter</a> — combos/unit-converter/ (List 03 item 191, JAH-WCOM-000052)</li>
+<li><a href="currency-converter/">Currency converter</a> — combos/currency-converter/ (List 03 item 192, JAH-WCOM-000053)</li>
+<li><a href="time-zone-converter/">Time-zone converter</a> — combos/time-zone-converter/ (List 03 item 193, JAH-WCOM-000054)</li>
+<li><a href="date-calculator/">Date calculator</a> — combos/date-calculator/ (List 03 item 194, JAH-WCOM-000055)</li>
+<li><a href="age-calculator/">Age calculator</a> — combos/age-calculator/ (List 03 item 195, JAH-WCOM-000056)</li>
+<li><a href="percentage-calculator/">Percentage calculator</a> — combos/percentage-calculator/ (List 03 item 196, JAH-WCOM-000057)</li>
+<li><a href="measurement-calculator/">Measurement calculator</a> — combos/measurement-calculator/ (List 03 item 197, JAH-WCOM-000058)</li>
+<li><a href="construction-calculator/">Construction calculator</a> — combos/construction-calculator/ (List 03 item 198, JAH-WCOM-000059)</li>
+<li><a href="probability-calculator/">Probability calculator</a> — combos/probability-calculator/ (List 03 item 205, JAH-WCOM-000060)</li>
+<li><a href="statistics-calculator/">Statistics calculator</a> — combos/statistics-calculator/ (List 03 item 206, JAH-WCOM-000061)</li>
+<li><a href="grade-calculator/">Grade calculator</a> — combos/grade-calculator/ (List 03 item 207, JAH-WCOM-000062)</li>
+<li><a href="gpa-calculator/">GPA calculator</a> — combos/gpa-calculator/ (List 03 item 208, JAH-WCOM-000063)</li>
+<li><a href="fitness-calculator/">Fitness calculator</a> — combos/fitness-calculator/ (List 03 item 209, JAH-WCOM-000064)</li>
+<li><a href="one-minute-lessons/">One-minute lessons</a> — combos/one-minute-lessons/ (List 03 item 212, JAH-WCOM-000065)</li>
+<li><a href="interactive-encyclopedia/">Interactive encyclopedia</a> — combos/interactive-encyclopedia/ (List 03 item 214, JAH-WCOM-000066)</li>
+<li><a href="universal-dictionary/">Universal dictionary</a> — combos/universal-dictionary/ (List 03 item 215, JAH-WCOM-000067)</li>
+<li><a href="word-of-the-day-service/">Word-of-the-day service</a> — combos/word-of-the-day-service/ (List 03 item 216, JAH-WCOM-000068)</li>
+<li><a href="vocabulary-games/">Vocabulary games</a> — combos/vocabulary-games/ (List 03 item 218, JAH-WCOM-000069)</li>
+<li><a href="geography-explorer/">Geography explorer</a> — combos/geography-explorer/ (List 03 item 222, JAH-WCOM-000070)</li>
+<li><a href="animal-encyclopedia/">Animal encyclopedia</a> — combos/animal-encyclopedia/ (List 03 item 224, JAH-WCOM-000071)</li>
+<li><a href="flashcard-generator/">Flashcard generator</a> — combos/flashcard-generator/ (List 03 item 232, JAH-WCOM-000072)</li>
+<li><a href="interactive-classroom/">Interactive classroom</a> — combos/interactive-classroom/ (List 03 item 235, JAH-WCOM-000073)</li>
+<li><a href="knowledge-competition/">Knowledge competition</a> — combos/knowledge-competition/ (List 03 item 239, JAH-WCOM-000074)</li>
+<li><a href="daily-planner/">Daily planner</a> — combos/daily-planner/ (List 03 item 241, JAH-WCOM-000075)</li>
+<li><a href="habit-tracker/">Habit tracker</a> — combos/habit-tracker/ (List 03 item 242, JAH-WCOM-000076)</li>
+<li><a href="goal-tracker/">Goal tracker</a> — combos/goal-tracker/ (List 03 item 243, JAH-WCOM-000077)</li>
+<li><a href="personal-journal/">Personal journal</a> — combos/personal-journal/ (List 03 item 244, JAH-WCOM-000078)</li>
+<li><a href="digital-diary/">Digital diary</a> — combos/digital-diary/ (List 03 item 245, JAH-WCOM-000079)</li>
+<li><a href="mood-journal/">Mood journal</a> — combos/mood-journal/ (List 03 item 246, JAH-WCOM-000080)</li>
+<li><a href="workout-planner/">Workout planner</a> — combos/workout-planner/ (List 03 item 248, JAH-WCOM-000081)</li>
+<li><a href="meal-planner/">Meal planner</a> — combos/meal-planner/ (List 03 item 249, JAH-WCOM-000082)</li>
+<li><a href="recipe-discovery/">Recipe discovery</a> — combos/recipe-discovery/ (List 03 item 250, JAH-WCOM-000083)</li>
+<li><a href="wardrobe-organizer/">Wardrobe organizer</a> — combos/wardrobe-organizer/ (List 03 item 255, JAH-WCOM-000084)</li>
+<li><a href="gardening-planner/">Gardening planner</a> — combos/gardening-planner/ (List 03 item 264, JAH-WCOM-000085)</li>
+<li><a href="content-calendar/">Content calendar</a> — combos/content-calendar/ (List 03 item 335, JAH-WCOM-000086)</li>
+<li><a href="caption-generator/">Caption generator</a> — combos/caption-generator/ (List 03 item 338, JAH-WCOM-000087)</li>
+<li><a href="newsletter-creator/">Newsletter creator</a> — combos/newsletter-creator/ (List 03 item 341, JAH-WCOM-000088)</li>
+<li><a href="ebook-creator/">Ebook creator</a> — combos/ebook-creator/ (List 03 item 343, JAH-WCOM-000089)</li>
+<li><a href="audiobook-creator/">Audiobook creator</a> — combos/audiobook-creator/ (List 03 item 344, JAH-WCOM-000090)</li>
+<li><a href="creator-storefront/">Creator storefront</a> — combos/creator-storefront/ (List 03 item 347, JAH-WCOM-000091)</li>
+<li><a href="restaurant-discovery/">Restaurant discovery</a> — combos/restaurant-discovery/ (List 03 item 361, JAH-WCOM-000092)</li>
+<li><a href="recipe-community/">Recipe community</a> — combos/recipe-community/ (List 03 item 365, JAH-WCOM-000093)</li>
+<li><a href="concert-discovery/">Concert discovery</a> — combos/concert-discovery/ (List 03 item 372, JAH-WCOM-000094)</li>
+<li><a href="festival-directory/">Festival directory</a> — combos/festival-directory/ (List 03 item 373, JAH-WCOM-000095)</li>
+<li><a href="movie-discovery/">Movie discovery</a> — combos/movie-discovery/ (List 03 item 374, JAH-WCOM-000096)</li>
+<li><a href="music-discovery/">Music discovery</a> — combos/music-discovery/ (List 03 item 377, JAH-WCOM-000097)</li>
+<li><a href="podcast-discovery/">Podcast discovery</a> — combos/podcast-discovery/ (List 03 item 379, JAH-WCOM-000098)</li>
+<li><a href="museum-discovery/">Museum discovery</a> — combos/museum-discovery/ (List 03 item 382, JAH-WCOM-000099)</li>
+<li><a href="attraction-discovery/">Attraction discovery</a> — combos/attraction-discovery/ (List 03 item 383, JAH-WCOM-000100)</li>
+<li><a href="future-self-simulator/">Future-self simulator</a> — combos/future-self-simulator/ (List 03 item 397, JAH-WCOM-000101)</li>
+<li><a href="monster-creator/">Monster creator</a> — combos/monster-creator/ (List 03 item 405, JAH-WCOM-000102)</li>
+<li><a href="superhero-creator/">Superhero creator</a> — combos/superhero-creator/ (List 03 item 406, JAH-WCOM-000103)</li>
+<li><a href="superpower-generator/">Superpower generator</a> — combos/superpower-generator/ (List 03 item 407, JAH-WCOM-000104)</li>
+<li><a href="mystery-solving-community/">Mystery-solving community</a> — combos/mystery-solving-community/ (List 03 item 419, JAH-WCOM-000105)</li>
+<li><a href="community-marketplace/">Community marketplace</a> — combos/community-marketplace/ (List 03 item 441, JAH-WCOM-000106)</li>
+</ul>
+<h2>8. Two AIs</h2>
+<p><b>Combo Librarian</b> answers what any combo means, finds related combos and live sites. <b>Combo Builder</b> generates a combo's page, spec and demo from the template. Both ship as downloadable specs with this Router:</p>
+<ul><li><a href="combo-librarian.spec.md">combo-librarian.spec.md</a></li><li><a href="combo-builder.spec.md">combo-builder.spec.md</a></li></ul>
+<p>Every stored combo page also carries its own pair of specs, grounded in that combo.</p>
+<h2>9. Use</h2>
+<p>Search any combo of 2 to 7 words, share its stable URL (combos/&lt;slug&gt;/), or build on it: the Combo Builder spec describes how to generate a page for any related combo. A combo with no stored page yet still has a working page at its URL — open it, and the Router builds it on the spot.</p>
+<h2>10. Sources</h2>
+<p>The Signature Dictionary headwords file (102,223 headwords, counted 2026-11-23); the Dictionary definitions file (99,579 defined: 58,223 authored, 41,356 template-filled, 2,644 pending); the trending/viral demand list (03-trending-viral-450.md, 450 items) and the future-internet list (04-future-internet-230.md); the live manifest of the jah-databases network (63,826 databases, read 2026-11-23). No external website was scraped; no brand name, logo, trademark, product name or copyrighted image appears anywhere on this site.</p>
+<h2>11. Accessible version</h2>
+<p><a href="accessible/index.html">Plain-HTML version of this Router</a> — the same meaning, math, links and Use section, readable without JavaScript.</p>
+<footer><p>THE JAH NETWORK — <a href="https://justinahiggins614-cmyk.github.io/jah-databases/">The 'Merica-L Boundless Ecosystem OS</a> · <a href="https://justinahiggins614-cmyk.github.io/jah-dictionary/">The Signature Dictionary</a> · <a href="https://justinahiggins614-cmyk.github.io/jah-databases/db/word-combos/">The Signature Word Combos Database</a></p></footer>
+<script>
+function slugify(t){return String(t).toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'');}
+document.getElementById('combo-go').addEventListener('click',function(){
+  var raw=document.getElementById('combo-in').value.trim();
+  var words=raw.split(/\s+/).filter(Boolean);
+  var out=document.getElementById('combo-out');
+  if(words.length<2||words.length>7){out.textContent='Enter 2 to 7 words. You entered '+words.length+'.';return;}
+  var slug=words.map(slugify).join('-');
+  out.textContent='Opening combos/'+slug+'/ …';
+  window.location.href=slug+'/';
+});
+document.getElementById('combo-in').addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();document.getElementById('combo-go').click();}});
+document.getElementById('filter-in').addEventListener('input',function(){
+  var q=this.value.trim().toLowerCase();
+  document.querySelectorAll('#combo-list li').forEach(function(li){li.style.display=!q||li.textContent.toLowerCase().includes(q)?'':'none';});
+});
+</script>
+</body>
+</html>
