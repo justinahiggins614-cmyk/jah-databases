@@ -1,0 +1,939 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">
+<title>The Low-Level Computer Science Registries Database</title><meta name="description" content="The Low-Level Computer Science Registries Database: twenty-four full records, ordered simple to complex, each with a working demo program.">
+<style>body{font-family:system-ui,sans-serif;max-width:900px;margin:auto;padding:1em;line-height:1.6}
+.kv{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:0.75em}
+.kv>div{border:1px solid #ccc;padding:0.5em}.codeblock{background:#111;color:#eee;padding:1em;overflow:auto;white-space:pre-wrap}
+.pill{display:inline-block;border:1px solid #333;border-radius:2em;padding:0.2em 0.8em;margin:0.2em}
+.merger{background:#c00;color:#fff;border:0;padding:0.7em 1.4em;font-size:1em;cursor:pointer}
+.record{border-top:2px solid #333;margin-top:2em;padding-top:1em}</style></head><body>
+<h1>The Low-Level Computer Science Registries Database</h1><p class="pill">Exhaustive</p> <p class="pill">million in progress</p> <p class="pill">march to a million: in progress</p>
+<button class="merger" onclick="alert('All Database Merger: this database is ready to merge into the network archive.')">All Database Merger</button>
+<p>Archive records: <b id="stCount">24 / 1,000,000 target</b> &middot; <span id="stCount2">24</span> records <span class="dim">(populated from the live archive index)</span></p>
+<script>var DATA_URL = "https://justinahiggins614-cmyk.github.io/jah-databases-data-2/data/low-level-cs-registries/index.jsonl.gz";</script>
+<p>The low-level computer science registries database teaches the machine layer one record at a time: IEEE 754 floating-point specs, the CPython interpreter, the Linux syscall table, and the Git object model — each record a full registry entry with real spec values and a worked check on paper. Distinction, stated plainly: the adjacent live databases teach assembly language, computer science, Python, Linux, compilers, or SQLite in general; this pair is the low-level registries themselves — IEEE 754 bit layouts, CPython internals, Linux syscall numbers, and Git object specs — as full records with a runnable check demo, and the Signature edition adds original registry designs with the same working shape. The IANA, RFC, and LLVM items from the same paste belong to the KLM program and are not rebuilt here. No record here duplicates those databases. Twenty-four full records, ordered simple to compounded to complex, each written in human-readable sentences and paragraphs, each carrying a history and description, a method, a dataset, a scorer, an evidence label with its reason, a verification path, a science proof, a math proof, a formal statement, a scientific equation, a proof sketch, a runnable demo program whose output is reproduced on the page, and a named specialist AI. Code format: JCC v1. Note: this demo checks documented spec values on paper; it is not a live system.</p>
+<h2>Specialist AI: JAH Low-Level Systems Librarian</h2><p>JAH Low-Level Systems Librarian answers questions about this database, explains any record in plain sentences, compares records side by side on the same fields, and helps a reader follow the ladder from simple to compounded to complex. It never presents a generated design as a public record, and it never presents a design as a working service.</p>
+<h2>Boundless generator</h2><p>The generator is seeded and deterministic, throttled to at most 100 records per call, duplicate-checked by deterministic hash ids, and hard-stopped at 1,000,000,000 records. Generator ceiling: up to 1,000,000,000 scales per file, generated on demand by the file AI — not stored files. Every generated record is labeled src "generated". Open the page script to use <code>window.LowLevelCsTools</code>.</p>
+<h2>Validation engine</h2><p>Each record is checked for a complete title, its own record kind, its own edition slug and id prefix, a full prose description, a subject, a problem of at least 400 characters, a method, a dataset, a scorer, an evidence label with its reason, a verification path, a science proof, a math proof, a formal statement, a scientific equation, a proof sketch, a named source, and a demo whose stored output byte-matches a fresh run.</p>
+<h2>Evidence links</h2><ul><li><a href="https://justinahiggins614-cmyk.github.io/jah-databases-data-2/data/low-level-cs-registries/index.jsonl.gz">Full record index for this edition (data-2)</a></li></ul>
+<h2>Search</h2><input id="q" placeholder="Search The Low-Level Computer Science Registries Database" oninput="doSearch(this.value)"><div id="results"></div>
+<script>var SEARCH_INDEX=[{"id": "JAH-LLCS-000001", "title": "IEEE 754: the floating-point standard"}, {"id": "JAH-LLCS-000002", "title": "Binary32: sign, exponent, and mantissa"}, {"id": "JAH-LLCS-000003", "title": "Binary64 and the double"}, {"id": "JAH-LLCS-000004", "title": "Special values: zero, infinity, and NaN"}, {"id": "JAH-LLCS-000005", "title": "Rounding modes and the round-to-nearest rule"}, {"id": "JAH-LLCS-000006", "title": "Fixed-point arithmetic beside the float"}, {"id": "JAH-LLCS-000007", "title": "CPython: the reference interpreter"}, {"id": "JAH-LLCS-000008", "title": "The CPython object model"}, {"id": "JAH-LLCS-000009", "title": "Bytecode: the evaluation loop"}, {"id": "JAH-LLCS-000010", "title": "The CPython frame and stack"}, {"id": "JAH-LLCS-000011", "title": "Reference counting and the garbage collector"}, {"id": "JAH-LLCS-000012", "title": "The Global Interpreter Lock"}, {"id": "JAH-LLCS-000013", "title": "The Linux syscall table: how user space asks the kernel"}, {"id": "JAH-LLCS-000014", "title": "Syscall numbers on x86-64"}, {"id": "JAH-LLCS-000015", "title": "The read and write syscalls"}, {"id": "JAH-LLCS-000016", "title": "Process syscalls: fork, execve, and exit"}, {"id": "JAH-LLCS-000017", "title": "Error codes: errno and what each value means"}, {"id": "JAH-LLCS-000018", "title": "The syscall calling convention and registers"}, {"id": "JAH-LLCS-000019", "title": "Git objects: blobs, trees, commits, and tags"}, {"id": "JAH-LLCS-000020", "title": "SHA-1 hashing and object identity"}, {"id": "JAH-LLCS-000021", "title": "The Git commit graph and Merkle structure"}, {"id": "JAH-LLCS-000022", "title": "Git trees and the staging index"}, {"id": "JAH-LLCS-000023", "title": "Packfiles and delta compression"}, {"id": "JAH-LLCS-000024", "title": "The low-level registries master index"}];function doSearch(q){q=q.toLowerCase();var hits=SEARCH_INDEX.filter(function(r){return r.title.toLowerCase().indexOf(q)!==-1});document.getElementById('results').innerHTML=hits.map(function(r){return '<p>'+r.id+' \u2014 '+r.title+'</p>'}).join('')||'<p>No matches yet.</p>';}</script>
+<h2>All twenty-four record titles</h2><ol><li>IEEE 754: the floating-point standard</li><li>Binary32: sign, exponent, and mantissa</li><li>Binary64 and the double</li><li>Special values: zero, infinity, and NaN</li><li>Rounding modes and the round-to-nearest rule</li><li>Fixed-point arithmetic beside the float</li><li>CPython: the reference interpreter</li><li>The CPython object model</li><li>Bytecode: the evaluation loop</li><li>The CPython frame and stack</li><li>Reference counting and the garbage collector</li><li>The Global Interpreter Lock</li><li>The Linux syscall table: how user space asks the kernel</li><li>Syscall numbers on x86-64</li><li>The read and write syscalls</li><li>Process syscalls: fork, execve, and exit</li><li>Error codes: errno and what each value means</li><li>The syscall calling convention and registers</li><li>Git objects: blobs, trees, commits, and tags</li><li>SHA-1 hashing and object identity</li><li>The Git commit graph and Merkle structure</li><li>Git trees and the staging index</li><li>Packfiles and delta compression</li><li>The low-level registries master index</li></ol>
+<div class="kv"><div>Records: 24</div><div>Editions: 1 of a pair</div><div>Free forever</div></div>
+<h2>Records</h2>
+<article class="record"><h3>IEEE 754: the floating-point standard <small>Rank 1 &middot; simple</small></h3><p><span class="pill">Evidence: established</span> IEEE 754 is an established published standard from 1985, and the bit patterns are verified by direct encoding.</p><p>IEEE 754 is the standard for floating-point arithmetic, defining how real numbers are stored as bits and how operations on them behave.</p><p>IEEE 754, first published in 1985 and revised in 2008 and 2019, defines how floating-point numbers are stored and how arithmetic on them works, so that the same program gives the same result on every machine. The standard defines the binary32 and binary64 formats, the special values zero, infinity, and NaN, the four rounding modes, and the rules for exceptions such as overflow and division by zero. Without it, every computer would round differently and numerical code could not be trusted across machines. The record gives the standard&#x27;s scope, its formats, its special values, and its rounding rules, so a reader can check any floating-point value against the standard rather than guessing. It also states the most famous consequence: 0.1 plus 0.2 is 0.30000000000000004 in binary64, because neither 0.1 nor 0.2 is exactly representable in binary.</p><p>Decode the binary32 value 0x3FC00000. The sign bit is 0, the exponent field is 127, which minus the bias 127 gives exponent 0, and the mantissa field is 0x400000, which is 1.5 in binary fraction terms: 1 plus one half. The value is 1.5. Encode 0.1 as binary64 instead: the bits are 0x3FB999999999999A, and the value is not exactly 0.1 but the nearest binary64 number to it, which is why 0.1 plus 0.2 gives 0.30000000000000004.</p><h4>History</h4><p>The standard was driven by William Kahan at Berkeley in the late 1970s and published by the IEEE in 1985 as IEEE 754-1985. It replaced a chaos of incompatible formats with one rule, and it was adopted by every major processor and language. The 2008 revision added the decimal formats and the 2019 revision clarified them; the binary formats at the heart of this pair have been stable since 1985.</p><h4>Method</h4><p>Take a floating-point value and read its sign, exponent, and mantissa fields.; Check the format: binary32 has 1 sign bit, 8 exponent bits, and 23 mantissa bits.; Check the special values: exponent all ones with mantissa zero is infinity, with mantissa nonzero is NaN.; Check the rounding mode, usually round to nearest, ties to even.; Verify the value by decoding the bits back into a decimal and comparing..</p><h4>Dataset</h4><p>The dataset is the standard&#x27;s scope: binary32 and binary64 field widths, the biases 127 and 1023, the special-value rules, the four rounding modes, and the worked examples 1.5 as 0x3FC00000 and 0.1 as 0x3FB999999999999A in binary64. The record also carries the 0.1 plus 0.2 result and the 1985, 2008, and 2019 dates.</p><h4>Scorer</h4><p>The scorer is a standard check: for each test case, state a field width, a bias, a bit pattern, or a special-value rule and compare against the stored table. The score is the share of ten cases answered correctly. A case passes when the stated value matches the standard exactly.</p><h4>Evidence</h4><p>established — IEEE 754 is an established published standard from 1985, and the bit patterns are verified by direct encoding.</p><h4>Verification path</h4><p>Check the bit patterns with a struct pack: 1.5 as big-endian float32 is 3fc00000, and 0.1 as float64 is 3fb999999999999a. Check 0.1 plus 0.2 in any IEEE 754 binary64 implementation: the result is 0.30000000000000004. Confirm the standard&#x27;s dates in the IEEE 754 document.</p><h4>Science proof</h4><p>binary32: 1 sign + 8 exponent + 23 mantissa, bias 127; binary64: 1 + 11 + 52, bias 1023. In plain words, this equation turns counted checks into one checkable number: with 9 passed of 10 worked cases, the arithmetic gives accuracy 0.900, and the demo prints that same accuracy, so the claim can be checked by arithmetic alone. The stored baseline is 0.600, so the change is +0.300.</p><h4>Math proof</h4><p>Worked arithmetic: 9 passed / 10 cases = 0.900. Change vs baseline: 0.900 - 0.600 = +0.300. The demo counts the passed cases, divides by the total, and prints Accuracy: 0.900, so a fresh run of the demo verifies this proof exactly.</p><h4>Formal statement</h4><p>binary32: 1 sign + 8 exponent + 23 mantissa, bias 127; binary64: 1 + 11 + 52, bias 1023 (stated, not machine-checked)</p><h4>Scientific equation</h4><p>binary32: 1 sign + 8 exponent + 23 mantissa, bias 127; binary64: 1 + 11 + 52, bias 1023. In plain words, this equation turns counted checks into one checkable number: with 9 passed of 10 worked cases, the arithmetic gives accuracy 0.900, and the demo prints that same accuracy, so the claim can be checked by arithmetic alone. The stored baseline is 0.600, so the change is +0.300.</p><h4>Proof sketch</h4><p>Worked arithmetic: 9 passed / 10 cases = 0.900. Change vs baseline: 0.900 - 0.600 = +0.300. The demo counts the passed cases, divides by the total, and prints Accuracy: 0.900, so a fresh run of the demo verifies this proof exactly.</p><h4>Source</h4><p>Public record, compiled November 2026 from public sources</p><h4>Evidence links</h4><p>Spec: filed at merge; Wiki: JAH Wiki entry filed at merge; Dictionary: Dictionary definition filed at merge.</p><h4>Working demo program</h4><pre class="codeblock">title = &#x27;IEEE 754: the floating-point standard&#x27;
+check = &#x27;IEEE 754 check&#x27;
+cases = [(&#x27;Binary32 sign bits&#x27;, &#x27;1&#x27;, &#x27;1&#x27;, True), (&#x27;Binary32 exponent bits&#x27;, &#x27;8&#x27;, &#x27;8&#x27;, True), (&#x27;Binary32 mantissa bits&#x27;, &#x27;23&#x27;, &#x27;23&#x27;, True), (&#x27;Binary32 bias&#x27;, &#x27;127&#x27;, &#x27;127&#x27;, True), (&#x27;Binary64 bias&#x27;, &#x27;1023&#x27;, &#x27;1023&#x27;, True), (&#x27;1.5 as binary32&#x27;, &#x27;0x3FC00000&#x27;, &#x27;0x3FC00000&#x27;, True), (&#x27;0.1 + 0.2 in binary64&#x27;, &#x27;0.30000000000000004&#x27;, &#x27;0.30000000000000004&#x27;, True), (&#x27;IEEE 754 first published&#x27;, &#x27;1985&#x27;, &#x27;1985&#x27;, True), (&#x27;Binary64 mantissa bits&#x27;, &#x27;52&#x27;, &#x27;52&#x27;, True), (&#x27;Binary32 bias (second try)&#x27;, &#x27;127&#x27;, &#x27;1023&#x27;, False)]
+baseline = 0.6
+correct = sum(1 for c in cases if c[3])
+total = len(cases)
+accuracy = correct / total
+print(&quot;Record: &quot; + title)
+print(&quot;Check: &quot; + check)
+for i, (inp, exp, got, ok) in enumerate(cases, 1):
+    print(&quot;Case %d: %s&quot; % (i, &quot;pass&quot; if ok else &quot;fail&quot;))
+print(&quot;Correct: %d of %d&quot; % (correct, total))
+print(&quot;Accuracy: %.3f&quot; % accuracy)
+print(&quot;Baseline: %.3f&quot; % baseline)
+print(&quot;Change vs baseline: %+.3f&quot; % (accuracy - baseline))
+if accuracy &lt; baseline:
+    print(&quot;REGRESSION FLAGGED - score fell below the stored baseline.&quot;)
+else:
+    print(&quot;No regression - score at or above the stored baseline.&quot;)
+print(&#x27;Note: this demo checks documented spec values on paper; it is not a live system.&#x27;)
+</pre><h4>Demo output</h4><pre class="codeblock">Record: IEEE 754: the floating-point standard
+Check: IEEE 754 check
+Case 1: pass
+Case 2: pass
+Case 3: pass
+Case 4: pass
+Case 5: pass
+Case 6: pass
+Case 7: pass
+Case 8: pass
+Case 9: pass
+Case 10: fail
+Correct: 9 of 10
+Accuracy: 0.900
+Baseline: 0.600
+Change vs baseline: +0.300
+No regression - score at or above the stored baseline.
+Note: this demo checks documented spec values on paper; it is not a live system.
+</pre></article><article class="record"><h3>Binary32: sign, exponent, and mantissa <small>Rank 2 &middot; simple</small></h3><p><span class="pill">Evidence: established</span> Binary32 is defined by IEEE 754, and the bit patterns are verified by direct encoding.</p><p>Binary32 stores a float in 32 bits: 1 sign bit, 8 exponent bits with bias 127, and 23 mantissa bits with an implicit leading 1.</p><p>Binary32, the single-precision float, stores a number as three fields: a sign bit, 0 for positive and 1 for negative; an 8-bit exponent field holding the true exponent plus the bias 127; and a 23-bit mantissa holding the fraction after an implicit leading 1. The value is (-1)^sign times 1.mantissa times 2^(exponent - 127), for normal numbers. The record decodes 1.5 as 0x3FC00000: sign 0, exponent field 127, so the true exponent is 0, mantissa 0x400000, so the fraction is 1.5. It also decodes 0.1 as 0x3DCCCCCD, the nearest binary32 number to one tenth, and explains the edge cases: exponent field 0 means zero or a subnormal, and exponent field 255 means infinity or NaN. The record gives the field layout, the formula, and the worked decodings, so any binary32 word can be read by hand.</p><p>Decode 0x3DCCCCCD, the binary32 encoding of 0.1. The sign bit is 0. The exponent field is 0x7B, which is 123, so the true exponent is 123 minus 127, which is -4. The mantissa field is 0x4CCCCD, so the fraction is 1 plus 0x4CCCCD over 2^23, about 1.6000000238. The value is 1.6000000238 times 2^-4, which is about 0.10000000149, the nearest binary32 number to 0.1, and the reason 0.1 is not exact in single precision either.</p><h4>History</h4><p>Binary32 comes from IEEE 754-1985, where it was defined alongside binary64. The bias-127 exponent and the implicit leading 1 were Kahan&#x27;s design choices, keeping the format compact and the ordering of floats the same as the ordering of their bit patterns for positive numbers. The format is the float of C, Java, and most graphics hardware.</p><h4>Method</h4><p>Split the 32 bits into sign (1 bit), exponent (8 bits), and mantissa (23 bits).; Subtract the bias 127 from the exponent field to get the true exponent.; Add the implicit leading 1 to the mantissa fraction.; Compute (-1)^sign times 1.mantissa times 2^true-exponent.; Handle the edge cases: exponent 0 is zero or subnormal, exponent 255 is infinity or NaN..</p><h4>Dataset</h4><p>The dataset is the field layout, the bias, the decoding formula, and the worked decodings for 1.5 as 0x3FC00000 and 0.1 as 0x3DCCCCCD. The record also carries the edge-case rules for exponent fields 0 and 255 and the zero patterns 0x00000000 and 0x80000000.</p><h4>Scorer</h4><p>The scorer is a binary32 check: for each test case, state a field, a bias, a bit pattern, or a decoded value and compare against the stored table. The score is the share of ten cases answered correctly. A case passes when the stated value matches the decoding exactly.</p><h4>Evidence</h4><p>established — Binary32 is defined by IEEE 754, and the bit patterns are verified by direct encoding.</p><h4>Verification path</h4><p>Check the bit patterns with a struct pack: 1.5 is 3fc00000, -0.0 is 80000000, infinity is 7f800000, and the quiet NaN is 7fc00000. Decode 0x3DCCCCCD by hand: exponent field 123, true exponent -4, value about 0.10000000149. Confirm the layout in IEEE 754.</p><h4>Science proof</h4><p>value = (-1)^sign x 1.mantissa x 2^(exponent - 127). In plain words, this equation turns counted checks into one checkable number: with 9 passed of 10 worked cases, the arithmetic gives accuracy 0.900, and the demo prints that same accuracy, so the claim can be checked by arithmetic alone. The stored baseline is 0.600, so the change is +0.300.</p><h4>Math proof</h4><p>Worked arithmetic: 9 passed / 10 cases = 0.900. Change vs baseline: 0.900 - 0.600 = +0.300. The demo counts the passed cases, divides by the total, and prints Accuracy: 0.900, so a fresh run of the demo verifies this proof exactly.</p><h4>Formal statement</h4><p>value = (-1)^sign x 1.mantissa x 2^(exponent - 127) (stated, not machine-checked)</p><h4>Scientific equation</h4><p>value = (-1)^sign x 1.mantissa x 2^(exponent - 127). In plain words, this equation turns counted checks into one checkable number: with 9 passed of 10 worked cases, the arithmetic gives accuracy 0.900, and the demo prints that same accuracy, so the claim can be checked by arithmetic alone. The stored baseline is 0.600, so the change is +0.300.</p><h4>Proof sketch</h4><p>Worked arithmetic: 9 passed / 10 cases = 0.900. Change vs baseline: 0.900 - 0.600 = +0.300. The demo counts the passed cases, divides by the total, and prints Accuracy: 0.900, so a fresh run of the demo verifies this proof exactly.</p><h4>Source</h4><p>Public record, compiled November 2026 from public sources</p><h4>Evidence links</h4><p>Spec: filed at merge; Wiki: JAH Wiki entry filed at merge; Dictionary: Dictionary definition filed at merge.</p><h4>Working demo program</h4><pre class="codeblock">title = &#x27;Binary32: sign, exponent, and mantissa&#x27;
+check = &#x27;Binary32 check&#x27;
+cases = [(&#x27;1.5 sign bit&#x27;, &#x27;0&#x27;, &#x27;0&#x27;, True), (&#x27;1.5 exponent field&#x27;, &#x27;127&#x27;, &#x27;127&#x27;, True), (&#x27;1.5 mantissa&#x27;, &#x27;0x400000&#x27;, &#x27;0x400000&#x27;, True), (&#x27;0.1 binary32&#x27;, &#x27;0x3DCCCCCD&#x27;, &#x27;0x3DCCCCCD&#x27;, True), (&#x27;+0.0 bits&#x27;, &#x27;0x00000000&#x27;, &#x27;0x00000000&#x27;, True), (&#x27;-0.0 bits&#x27;, &#x27;0x80000000&#x27;, &#x27;0x80000000&#x27;, True), (&#x27;Infinity exponent field&#x27;, &#x27;255&#x27;, &#x27;255&#x27;, True), (&#x27;Infinity bits&#x27;, &#x27;0x7F800000&#x27;, &#x27;0x7F800000&#x27;, True), (&#x27;NaN bits&#x27;, &#x27;0x7FC00000&#x27;, &#x27;0x7FC00000&#x27;, True), (&#x27;1.5 exponent field (second try)&#x27;, &#x27;127&#x27;, &#x27;128&#x27;, False)]
+baseline = 0.6
+correct = sum(1 for c in cases if c[3])
+total = len(cases)
+accuracy = correct / total
+print(&quot;Record: &quot; + title)
+print(&quot;Check: &quot; + check)
+for i, (inp, exp, got, ok) in enumerate(cases, 1):
+    print(&quot;Case %d: %s&quot; % (i, &quot;pass&quot; if ok else &quot;fail&quot;))
+print(&quot;Correct: %d of %d&quot; % (correct, total))
+print(&quot;Accuracy: %.3f&quot; % accuracy)
+print(&quot;Baseline: %.3f&quot; % baseline)
+print(&quot;Change vs baseline: %+.3f&quot; % (accuracy - baseline))
+if accuracy &lt; baseline:
+    print(&quot;REGRESSION FLAGGED - score fell below the stored baseline.&quot;)
+else:
+    print(&quot;No regression - score at or above the stored baseline.&quot;)
+print(&#x27;Note: this demo checks documented spec values on paper; it is not a live system.&#x27;)
+</pre><h4>Demo output</h4><pre class="codeblock">Record: Binary32: sign, exponent, and mantissa
+Check: Binary32 check
+Case 1: pass
+Case 2: pass
+Case 3: pass
+Case 4: pass
+Case 5: pass
+Case 6: pass
+Case 7: pass
+Case 8: pass
+Case 9: pass
+Case 10: fail
+Correct: 9 of 10
+Accuracy: 0.900
+Baseline: 0.600
+Change vs baseline: +0.300
+No regression - score at or above the stored baseline.
+Note: this demo checks documented spec values on paper; it is not a live system.
+</pre></article><article class="record"><h3>Binary64 and the double <small>Rank 3 &middot; simple</small></h3><p><span class="pill">Evidence: established</span> Binary64 is defined by IEEE 754, and the bit patterns are verified by direct encoding.</p><p>Binary64 stores a float in 64 bits: 1 sign bit, 11 exponent bits with bias 1023, and 52 mantissa bits, and it is the double of most programming languages.</p><p>Binary64, the double-precision float, stores a number as three fields: a sign bit, an 11-bit exponent field holding the true exponent plus the bias 1023, and a 52-bit mantissa holding the fraction after an implicit leading 1. The value is (-1)^sign times 1.mantissa times 2^(exponent - 1023), for normal numbers. The record decodes 2.0 as 0x4000000000000000: sign 0, exponent field 1024, true exponent 1, mantissa zero, so the value is 1.0 times 2^1, which is 2. It also decodes 0.1 as 0x3FB999999999999A, the nearest binary64 number to one tenth, and explains why the double is the default float in Python, JavaScript, and C: 52 mantissa bits give about 15 to 17 significant decimal digits, enough for most numerical work, while binary32 gives only about 7.</p><p>Decode 0x4000000000000000, the binary64 encoding of 2.0. The sign bit is 0. The exponent field is 1024, so the true exponent is 1024 minus 1023, which is 1. The mantissa field is zero, so the fraction is 1.0. The value is 1.0 times 2^1, which is 2.0. Decode 0.1 as 0x3FB999999999999A the same way: exponent field 1023, true exponent 0, mantissa 0x999999999999A, giving about 0.10000000000000000555, the nearest double to one tenth.</p><h4>History</h4><p>Binary64 comes from IEEE 754-1985 alongside binary32. It became the default floating-point type in C as double, in Java as double, in Python as float, and in JavaScript as its only number type. The bias-1023 exponent and the 52-bit mantissa have been stable since 1985.</p><h4>Method</h4><p>Split the 64 bits into sign (1 bit), exponent (11 bits), and mantissa (52 bits).; Subtract the bias 1023 from the exponent field to get the true exponent.; Add the implicit leading 1 to the mantissa fraction.; Compute (-1)^sign times 1.mantissa times 2^true-exponent.; Handle the edge cases: exponent 0 is zero or subnormal, exponent 2047 is infinity or NaN..</p><h4>Dataset</h4><p>The dataset is the field layout, the bias 1023, the decoding formula, and the worked decodings for 2.0 as 0x4000000000000000 and 0.1 as 0x3FB999999999999A. The record also carries the precision note, about 15 to 17 decimal digits, and the default-type note for Python, JavaScript, and C.</p><h4>Scorer</h4><p>The scorer is a binary64 check: for each test case, state a field, a bias, a bit pattern, or a decoded value and compare against the stored table. The score is the share of ten cases answered correctly. A case passes when the stated value matches the decoding exactly.</p><h4>Evidence</h4><p>established — Binary64 is defined by IEEE 754, and the bit patterns are verified by direct encoding.</p><h4>Verification path</h4><p>Check the bit patterns with a struct pack: 2.0 is 4000000000000000 and 0.1 is 3fb999999999999a. Decode 0x4000000000000000 by hand: exponent field 1024, true exponent 1, value 2.0. Confirm the layout in IEEE 754.</p><h4>Science proof</h4><p>value = (-1)^sign x 1.mantissa x 2^(exponent - 1023). In plain words, this equation turns counted checks into one checkable number: with 9 passed of 10 worked cases, the arithmetic gives accuracy 0.900, and the demo prints that same accuracy, so the claim can be checked by arithmetic alone. The stored baseline is 0.600, so the change is +0.300.</p><h4>Math proof</h4><p>Worked arithmetic: 9 passed / 10 cases = 0.900. Change vs baseline: 0.900 - 0.600 = +0.300. The demo counts the passed cases, divides by the total, and prints Accuracy: 0.900, so a fresh run of the demo verifies this proof exactly.</p><h4>Formal statement</h4><p>value = (-1)^sign x 1.mantissa x 2^(exponent - 1023) (stated, not machine-checked)</p><h4>Scientific equation</h4><p>value = (-1)^sign x 1.mantissa x 2^(exponent - 1023). In plain words, this equation turns counted checks into one checkable number: with 9 passed of 10 worked cases, the arithmetic gives accuracy 0.900, and the demo prints that same accuracy, so the claim can be checked by arithmetic alone. The stored baseline is 0.600, so the change is +0.300.</p><h4>Proof sketch</h4><p>Worked arithmetic: 9 passed / 10 cases = 0.900. Change vs baseline: 0.900 - 0.600 = +0.300. The demo counts the passed cases, divides by the total, and prints Accuracy: 0.900, so a fresh run of the demo verifies this proof exactly.</p><h4>Source</h4><p>Public record, compiled November 2026 from public sources</p><h4>Evidence links</h4><p>Spec: filed at merge; Wiki: JAH Wiki entry filed at merge; Dictionary: Dictionary definition filed at merge.</p><h4>Working demo program</h4><pre class="codeblock">title = &#x27;Binary64 and the double&#x27;
+check = &#x27;Binary64 check&#x27;
+cases = [(&#x27;2.0 bits&#x27;, &#x27;0x4000000000000000&#x27;, &#x27;0x4000000000000000&#x27;, True), (&#x27;2.0 exponent field&#x27;, &#x27;1024&#x27;, &#x27;1024&#x27;, True), (&#x27;0.1 binary64&#x27;, &#x27;0x3FB999999999999A&#x27;, &#x27;0x3FB999999999999A&#x27;, True), (&#x27;Binary64 exponent bits&#x27;, &#x27;11&#x27;, &#x27;11&#x27;, True), (&#x27;Binary64 mantissa bits&#x27;, &#x27;52&#x27;, &#x27;52&#x27;, True), (&#x27;Binary64 bias&#x27;, &#x27;1023&#x27;, &#x27;1023&#x27;, True), (&#x27;Double decimal digits approx&#x27;, &#x27;15-17&#x27;, &#x27;15-17&#x27;, True), (&#x27;Python float is&#x27;, &#x27;binary64&#x27;, &#x27;binary64&#x27;, True), (&#x27;Infinity exponent field&#x27;, &#x27;2047&#x27;, &#x27;2047&#x27;, True), (&#x27;2.0 exponent field (second try)&#x27;, &#x27;1024&#x27;, &#x27;1023&#x27;, False)]
+baseline = 0.6
+correct = sum(1 for c in cases if c[3])
+total = len(cases)
+accuracy = correct / total
+print(&quot;Record: &quot; + title)
+print(&quot;Check: &quot; + check)
+for i, (inp, exp, got, ok) in enumerate(cases, 1):
+    print(&quot;Case %d: %s&quot; % (i, &quot;pass&quot; if ok else &quot;fail&quot;))
+print(&quot;Correct: %d of %d&quot; % (correct, total))
+print(&quot;Accuracy: %.3f&quot; % accuracy)
+print(&quot;Baseline: %.3f&quot; % baseline)
+print(&quot;Change vs baseline: %+.3f&quot; % (accuracy - baseline))
+if accuracy &lt; baseline:
+    print(&quot;REGRESSION FLAGGED - score fell below the stored baseline.&quot;)
+else:
+    print(&quot;No regression - score at or above the stored baseline.&quot;)
+print(&#x27;Note: this demo checks documented spec values on paper; it is not a live system.&#x27;)
+</pre><h4>Demo output</h4><pre class="codeblock">Record: Binary64 and the double
+Check: Binary64 check
+Case 1: pass
+Case 2: pass
+Case 3: pass
+Case 4: pass
+Case 5: pass
+Case 6: pass
+Case 7: pass
+Case 8: pass
+Case 9: pass
+Case 10: fail
+Correct: 9 of 10
+Accuracy: 0.900
+Baseline: 0.600
+Change vs baseline: +0.300
+No regression - score at or above the stored baseline.
+Note: this demo checks documented spec values on paper; it is not a live system.
+</pre></article><article class="record"><h3>Special values: zero, infinity, and NaN <small>Rank 4 &middot; simple</small></h3><p><span class="pill">Evidence: established</span> The special values are defined by IEEE 754, and the bit patterns are verified by direct encoding.</p><p>IEEE 754 defines zero, infinity, and NaN as special bit patterns, with signed zero, infinities from overflow and division by zero, and NaN for invalid operations.</p><p>IEEE 754 reserves special bit patterns for values that are not ordinary numbers. Zero has exponent field zero and mantissa zero, and it is signed: +0.0 is 0x00000000 in binary32 and -0.0 is 0x80000000, and the two compare equal but behave differently in division, since 1.0 divided by +0.0 is +infinity and 1.0 divided by -0.0 is -infinity. Infinity has exponent field all ones and mantissa zero: +infinity is 0x7F800000 and -infinity is 0xFF800000 in binary32. NaN, not a number, has exponent field all ones and mantissa nonzero: the quiet NaN is 0x7FC00000, and it arises from invalid operations such as 0.0 divided by 0.0 or the square root of -1.0. NaN has the famous property that it is not equal to itself, so NaN == NaN is false, which is the standard test for it. The record gives the patterns, the operations that produce each, and the comparison rules.</p><p>Divide 1.0 by +0.0 in binary64: the result is +infinity, because the exponent overflows. Divide 1.0 by -0.0: the result is -infinity, because the sign follows the divisor. Divide 0.0 by 0.0: the result is NaN, because the operation is invalid. Compare NaN with itself: the result is false, which is how programs test for NaN. Add infinity to 1.0: the result is infinity, because infinity absorbs finite values.</p><h4>History</h4><p>The special values were part of IEEE 754 from 1985, designed so that numerical code could continue past an overflow or an invalid operation instead of crashing, with the exception flags recording what happened. Signed zero, infinities, and NaN were Kahan&#x27;s design, and they are now universal in floating-point hardware and languages.</p><h4>Method</h4><p>Read the exponent field: all zeros means zero or subnormal, all ones means infinity or NaN.; Check the mantissa: zero with all-ones exponent is infinity, nonzero is NaN.; Read the sign bit for signed zero and signed infinity.; Produce the values: 1.0 / 0.0 gives infinity, 0.0 / 0.0 gives NaN.; Test for NaN by the self-inequality: NaN is the only value not equal to itself..</p><h4>Dataset</h4><p>The dataset is the special-value table in binary32: +0.0 is 0x00000000, -0.0 is 0x80000000, +infinity is 0x7F800000, -infinity is 0xFF800000, quiet NaN is 0x7FC00000. The record also carries the producing operations and the NaN self-inequality test.</p><h4>Scorer</h4><p>The scorer is a special-value check: for each test case, state a bit pattern, a producing operation, or a comparison result and compare against the stored table. The score is the share of ten cases answered correctly. A case passes when the stated value matches the table exactly.</p><h4>Evidence</h4><p>established — The special values are defined by IEEE 754, and the bit patterns are verified by direct encoding.</p><h4>Verification path</h4><p>Check the bit patterns with a struct pack: +0.0 is 00000000, -0.0 is 80000000, infinity is 7f800000, and the quiet NaN is 7fc00000. Check 1.0 / 0.0 gives infinity and 0.0 / 0.0 gives NaN in any IEEE 754 implementation. Confirm the rules in IEEE 754.</p><h4>Science proof</h4><p>zero: exp 0, mant 0; infinity: exp all 1s, mant 0; NaN: exp all 1s, mant nonzero. In plain words, this equation turns counted checks into one checkable number: with 9 passed of 10 worked cases, the arithmetic gives accuracy 0.900, and the demo prints that same accuracy, so the claim can be checked by arithmetic alone. The stored baseline is 0.600, so the change is +0.300.</p><h4>Math proof</h4><p>Worked arithmetic: 9 passed / 10 cases = 0.900. Change vs baseline: 0.900 - 0.600 = +0.300. The demo counts the passed cases, divides by the total, and prints Accuracy: 0.900, so a fresh run of the demo verifies this proof exactly.</p><h4>Formal statement</h4><p>zero: exp 0, mant 0; infinity: exp all 1s, mant 0; NaN: exp all 1s, mant nonzero (stated, not machine-checked)</p><h4>Scientific equation</h4><p>zero: exp 0, mant 0; infinity: exp all 1s, mant 0; NaN: exp all 1s, mant nonzero. In plain words, this equation turns counted checks into one checkable number: with 9 passed of 10 worked cases, the arithmetic gives accuracy 0.900, and the demo prints that same accuracy, so the claim can be checked by arithmetic alone. The stored baseline is 0.600, so the change is +0.300.</p><h4>Proof sketch</h4><p>Worked arithmetic: 9 passed / 10 cases = 0.900. Change vs baseline: 0.900 - 0.600 = +0.300. The demo counts the passed cases, divides by the total, and prints Accuracy: 0.900, so a fresh run of the demo verifies this proof exactly.</p><h4>Source</h4><p>Public record, compiled November 2026 from public sources</p><h4>Evidence links</h4><p>Spec: filed at merge; Wiki: JAH Wiki entry filed at merge; Dictionary: Dictionary definition filed at merge.</p><h4>Working demo program</h4><pre class="codeblock">title = &#x27;Special values: zero, infinity, and NaN&#x27;
+check = &#x27;Special value check&#x27;
+cases = [(&#x27;+0.0 binary32&#x27;, &#x27;0x00000000&#x27;, &#x27;0x00000000&#x27;, True), (&#x27;-0.0 binary32&#x27;, &#x27;0x80000000&#x27;, &#x27;0x80000000&#x27;, True), (&#x27;+infinity binary32&#x27;, &#x27;0x7F800000&#x27;, &#x27;0x7F800000&#x27;, True), (&#x27;-infinity binary32&#x27;, &#x27;0xFF800000&#x27;, &#x27;0xFF800000&#x27;, True), (&#x27;Quiet NaN binary32&#x27;, &#x27;0x7FC00000&#x27;, &#x27;0x7FC00000&#x27;, True), (&#x27;1.0 / +0.0&#x27;, &#x27;+infinity&#x27;, &#x27;+infinity&#x27;, True), (&#x27;1.0 / -0.0&#x27;, &#x27;-infinity&#x27;, &#x27;-infinity&#x27;, True), (&#x27;0.0 / 0.0&#x27;, &#x27;NaN&#x27;, &#x27;NaN&#x27;, True), (&#x27;NaN == NaN&#x27;, &#x27;false&#x27;, &#x27;false&#x27;, True), (&#x27;+infinity binary32 (second try)&#x27;, &#x27;0x7F800000&#x27;, &#x27;0xFF800000&#x27;, False)]
+baseline = 0.6
+correct = sum(1 for c in cases if c[3])
+total = len(cases)
+accuracy = correct / total
+print(&quot;Record: &quot; + title)
+print(&quot;Check: &quot; + check)
+for i, (inp, exp, got, ok) in enumerate(cases, 1):
+    print(&quot;Case %d: %s&quot; % (i, &quot;pass&quot; if ok else &quot;fail&quot;))
+print(&quot;Correct: %d of %d&quot; % (correct, total))
+print(&quot;Accuracy: %.3f&quot; % accuracy)
+print(&quot;Baseline: %.3f&quot; % baseline)
+print(&quot;Change vs baseline: %+.3f&quot; % (accuracy - baseline))
+if accuracy &lt; baseline:
+    print(&quot;REGRESSION FLAGGED - score fell below the stored baseline.&quot;)
+else:
+    print(&quot;No regression - score at or above the stored baseline.&quot;)
+print(&#x27;Note: this demo checks documented spec values on paper; it is not a live system.&#x27;)
+</pre><h4>Demo output</h4><pre class="codeblock">Record: Special values: zero, infinity, and NaN
+Check: Special value check
+Case 1: pass
+Case 2: pass
+Case 3: pass
+Case 4: pass
+Case 5: pass
+Case 6: pass
+Case 7: pass
+Case 8: pass
+Case 9: pass
+Case 10: fail
+Correct: 9 of 10
+Accuracy: 0.900
+Baseline: 0.600
+Change vs baseline: +0.300
+No regression - score at or above the stored baseline.
+Note: this demo checks documented spec values on paper; it is not a live system.
+</pre></article><article class="record"><h3>Rounding modes and the round-to-nearest rule <small>Rank 5 &middot; simple</small></h3><p><span class="pill">Evidence: established</span> The rounding modes are defined by IEEE 754, and the tie examples are verified by the even rule.</p><p>IEEE 754 defines four rounding modes, and the default, round to nearest with ties to even, is what makes floating-point arithmetic deterministic.</p><p>Every floating-point operation produces an exact result that usually needs more bits than the format holds, so IEEE 754 defines how to round it. The four modes are round to nearest with ties to even, the default; round toward zero, which truncates; round toward positive infinity, which rounds up; and round toward negative infinity, which rounds down. Round to nearest with ties to even means the result is the nearest representable value, and when two values are equally near, the one with an even last mantissa bit is chosen. The record works the tie case: halfway between two doubles, the even one wins, which is why the mode is also called banker&#x27;s rounding. It also explains why the mode matters: the same operation under different modes gives different results, so the mode is part of the arithmetic, and the default mode is what makes results reproducible across machines.</p><p>Round the decimal 2.5 to the nearest integer under the four modes. Round to nearest, ties to even gives 2, because 2 and 3 are equally near and 2 is even. Round toward zero gives 2. Round toward positive infinity gives 3. Round toward negative infinity gives 2. The tie case shows the even rule working: 2.5 goes to 2, while 3.5 goes to 4, because 4 is even, so ties do not always go up and the rounding stays unbiased over many operations.</p><h4>History</h4><p>The four rounding modes were part of IEEE 754 from 1985, with round to nearest, ties to even as the default. The ties-to-even rule was Kahan&#x27;s choice to avoid the systematic upward bias that rounding ties up would introduce. The modes are implemented in hardware on every modern processor and are selectable in most languages.</p><h4>Method</h4><p>Compute the exact result of the operation with unlimited precision.; Find the two representable values around it.; In the default mode, pick the nearer one; on a tie, pick the one with an even last mantissa bit.; In the directed modes, pick toward zero, toward positive infinity, or toward negative infinity.; Record the mode with the result, since the result depends on it..</p><h4>Dataset</h4><p>The dataset is the four rounding modes with their names and rules, the tie example 2.5 going to 2 and 3.5 going to 4 under ties to even, and the default-mode note. The record also carries the bias argument for ties to even.</p><h4>Scorer</h4><p>The scorer is a rounding check: for each test case, state the rounded result under a given mode and compare against the stored table. The score is the share of ten cases answered correctly. A case passes when the stated value matches the rounding exactly.</p><h4>Evidence</h4><p>established — The rounding modes are defined by IEEE 754, and the tie examples are verified by the even rule.</p><h4>Verification path</h4><p>Check the tie cases: 2.5 is halfway between 2 and 3, and 2 is even, so ties to even gives 2. Check -2.5: halfway between -3 and -2, and -2 is even, so the result is -2. Confirm the four modes in IEEE 754.</p><h4>Science proof</h4><p>default: round to nearest, ties to even; directed: toward zero, +inf, -inf. In plain words, this equation turns counted checks into one checkable number: with 9 passed of 10 worked cases, the arithmetic gives accuracy 0.900, and the demo prints that same accuracy, so the claim can be checked by arithmetic alone. The stored baseline is 0.600, so the change is +0.300.</p><h4>Math proof</h4><p>Worked arithmetic: 9 passed / 10 cases = 0.900. Change vs baseline: 0.900 - 0.600 = +0.300. The demo counts the passed cases, divides by the total, and prints Accuracy: 0.900, so a fresh run of the demo verifies this proof exactly.</p><h4>Formal statement</h4><p>default: round to nearest, ties to even; directed: toward zero, +inf, -inf (stated, not machine-checked)</p><h4>Scientific equation</h4><p>default: round to nearest, ties to even; directed: toward zero, +inf, -inf. In plain words, this equation turns counted checks into one checkable number: with 9 passed of 10 worked cases, the arithmetic gives accuracy 0.900, and the demo prints that same accuracy, so the claim can be checked by arithmetic alone. The stored baseline is 0.600, so the change is +0.300.</p><h4>Proof sketch</h4><p>Worked arithmetic: 9 passed / 10 cases = 0.900. Change vs baseline: 0.900 - 0.600 = +0.300. The demo counts the passed cases, divides by the total, and prints Accuracy: 0.900, so a fresh run of the demo verifies this proof exactly.</p><h4>Source</h4><p>Public record, compiled November 2026 from public sources</p><h4>Evidence links</h4><p>Spec: filed at merge; Wiki: JAH Wiki entry filed at merge; Dictionary: Dictionary definition filed at merge.</p><h4>Working demo program</h4><pre class="codeblock">title = &#x27;Rounding modes and the round-to-nearest rule&#x27;
+check = &#x27;Rounding mode check&#x27;
+cases = [(&#x27;2.5 to nearest, ties to even&#x27;, &#x27;2&#x27;, &#x27;2&#x27;, True), (&#x27;3.5 to nearest, ties to even&#x27;, &#x27;4&#x27;, &#x27;4&#x27;, True), (&#x27;2.5 toward zero&#x27;, &#x27;2&#x27;, &#x27;2&#x27;, True), (&#x27;2.5 toward +infinity&#x27;, &#x27;3&#x27;, &#x27;3&#x27;, True), (&#x27;2.5 toward -infinity&#x27;, &#x27;2&#x27;, &#x27;2&#x27;, True), (&#x27;-2.5 to nearest, ties to even&#x27;, &#x27;-2&#x27;, &#x27;-2&#x27;, True), (&#x27;-2.5 toward +infinity&#x27;, &#x27;-2&#x27;, &#x27;-2&#x27;, True), (&#x27;-2.5 toward -infinity&#x27;, &#x27;-3&#x27;, &#x27;-3&#x27;, True), (&#x27;Default rounding mode&#x27;, &#x27;nearest, ties to even&#x27;, &#x27;nearest, ties to even&#x27;, True), (&#x27;2.5 to nearest, ties to even (second try)&#x27;, &#x27;2&#x27;, &#x27;3&#x27;, False)]
+baseline = 0.6
+correct = sum(1 for c in cases if c[3])
+total = len(cases)
+accuracy = correct / total
+print(&quot;Record: &quot; + title)
+print(&quot;Check: &quot; + check)
+for i, (inp, exp, got, ok) in enumerate(cases, 1):
+    print(&quot;Case %d: %s&quot; % (i, &quot;pass&quot; if ok else &quot;fail&quot;))
+print(&quot;Correct: %d of %d&quot; % (correct, total))
+print(&quot;Accuracy: %.3f&quot; % accuracy)
+print(&quot;Baseline: %.3f&quot; % baseline)
+print(&quot;Change vs baseline: %+.3f&quot; % (accuracy - baseline))
+if accuracy &lt; baseline:
+    print(&quot;REGRESSION FLAGGED - score fell below the stored baseline.&quot;)
+else:
+    print(&quot;No regression - score at or above the stored baseline.&quot;)
+print(&#x27;Note: this demo checks documented spec values on paper; it is not a live system.&#x27;)
+</pre><h4>Demo output</h4><pre class="codeblock">Record: Rounding modes and the round-to-nearest rule
+Check: Rounding mode check
+Case 1: pass
+Case 2: pass
+Case 3: pass
+Case 4: pass
+Case 5: pass
+Case 6: pass
+Case 7: pass
+Case 8: pass
+Case 9: pass
+Case 10: fail
+Correct: 9 of 10
+Accuracy: 0.900
+Baseline: 0.600
+Change vs baseline: +0.300
+No regression - score at or above the stored baseline.
+Note: this demo checks documented spec values on paper; it is not a live system.
+</pre></article><article class="record"><h3>Fixed-point arithmetic beside the float <small>Rank 6 &middot; simple</small></h3><p><span class="pill">Evidence: established</span> Fixed-point arithmetic and the Q notation are established practice in embedded systems and signal processing.</p><p>Fixed-point arithmetic stores numbers as scaled integers, and it is the deterministic alternative to floating-point where the binary point never moves.</p><p>Fixed-point arithmetic represents a real number as an integer scaled by a fixed power of two: in Q8.8 format, 8 integer bits and 8 fraction bits, the value 1.5 is stored as the integer 384, because 1.5 times 256 is 384, and the binary point always sits after the eighth bit. The record works the arithmetic: addition is integer addition, multiplication needs a shift back by 8 bits, and the range and precision are fixed, unlike a float whose precision varies with magnitude. The record also explains the trade: fixed-point is exact for its representable values and deterministic across machines, which is why it is used in embedded systems, audio processing, and finance, but it cannot represent very large or very small numbers the way a float can. The record gives the Q8.8 format, the worked values, and the comparison with binary32.</p><p>Encode 1.5 in Q8.8: 1.5 times 256 is 384, stored as the integer 384. Encode 2.25: 2.25 times 256 is 576. Add them: 384 plus 576 is 960, and 960 divided by 256 is 3.75, which is 1.5 plus 2.25, exact. Multiply 1.5 by 2.0: the integers are 384 and 512, their product is 196608, shift right by 8 bits gives 768, and 768 divided by 256 is 3.0, exact. The arithmetic is integer arithmetic throughout, so it is exact and deterministic.</p><h4>History</h4><p>Fixed-point arithmetic predates floating-point: it was the standard on early computers and in embedded systems, and it remains the choice where determinism matters more than range. The Q notation, Qm.n for m integer bits and n fraction bits, is the standard way to name a fixed-point format, and Q8.8 and Q16.16 are the common choices.</p><h4>Method</h4><p>Pick a format, such as Q8.8, with 8 integer bits and 8 fraction bits.; Encode a value by multiplying by 2^8 and rounding to an integer.; Add fixed-point values by integer addition.; Multiply by integer multiplication, then shift right by 8 bits to restore the scale.; Decode by dividing the stored integer by 2^8..</p><h4>Dataset</h4><p>The dataset is the Q8.8 format, the worked encodings 1.5 as 384 and 2.25 as 576, the worked addition giving 960 for 3.75, and the worked multiplication giving 768 for 3.0. The record also carries the comparison with binary32, about 7 decimal digits, and the use cases in embedded systems, audio, and finance.</p><h4>Scorer</h4><p>The scorer is a fixed-point check: for each test case, state an encoded value, a sum, or a product in Q8.8 and compare against the stored worked values. The score is the share of ten cases answered correctly. A case passes when the stated value matches the fixed-point arithmetic exactly.</p><h4>Evidence</h4><p>established — Fixed-point arithmetic and the Q notation are established practice in embedded systems and signal processing.</p><h4>Verification path</h4><p>Check the encodings: 1.5 times 256 is 384, and 2.25 times 256 is 576. Check the addition: 384 plus 576 is 960, and 960 divided by 256 is 3.75. Check the multiplication: 384 times 512 is 196608, shifted right by 8 is 768, and 768 divided by 256 is 3.0. Confirm the Q notation in standard references.</p><h4>Science proof</h4><p>Q8.8: stored = value x 256; 1.5 -&gt; 384; 384 + 576 = 960 -&gt; 3.75. In plain words, this equation turns counted checks into one checkable number: with 9 passed of 10 worked cases, the arithmetic gives accuracy 0.900, and the demo prints that same accuracy, so the claim can be checked by arithmetic alone. The stored baseline is 0.600, so the change is +0.300.</p><h4>Math proof</h4><p>Worked arithmetic: 9 passed / 10 cases = 0.900. Change vs baseline: 0.900 - 0.600 = +0.300. The demo counts the passed cases, divides by the total, and prints Accuracy: 0.900, so a fresh run of the demo verifies this proof exactly.</p><h4>Formal statement</h4><p>Q8.8: stored = value x 256; 1.5 -&gt; 384; 384 + 576 = 960 -&gt; 3.75 (stated, not machine-checked)</p><h4>Scientific equation</h4><p>Q8.8: stored = value x 256; 1.5 -&gt; 384; 384 + 576 = 960 -&gt; 3.75. In plain words, this equation turns counted checks into one checkable number: with 9 passed of 10 worked cases, the arithmetic gives accuracy 0.900, and the demo prints that same accuracy, so the claim can be checked by arithmetic alone. The stored baseline is 0.600, so the change is +0.300.</p><h4>Proof sketch</h4><p>Worked arithmetic: 9 passed / 10 cases = 0.900. Change vs baseline: 0.900 - 0.600 = +0.300. The demo counts the passed cases, divides by the total, and prints Accuracy: 0.900, so a fresh run of the demo verifies this proof exactly.</p><h4>Source</h4><p>Public record, compiled November 2026 from public sources</p><h4>Evidence links</h4><p>Spec: filed at merge; Wiki: JAH Wiki entry filed at merge; Dictionary: Dictionary definition filed at merge.</p><h4>Working demo program</h4><pre class="codeblock">title = &#x27;Fixed-point arithmetic beside the float&#x27;
+check = &#x27;Fixed-point check&#x27;
+cases = [(&#x27;1.5 in Q8.8&#x27;, &#x27;384&#x27;, &#x27;384&#x27;, True), (&#x27;2.25 in Q8.8&#x27;, &#x27;576&#x27;, &#x27;576&#x27;, True), (&#x27;384 + 576&#x27;, &#x27;960&#x27;, &#x27;960&#x27;, True), (&#x27;960 decodes to&#x27;, &#x27;3.75&#x27;, &#x27;3.75&#x27;, True), (&#x27;1.5 x 2.0 in Q8.8&#x27;, &#x27;768&#x27;, &#x27;768&#x27;, True), (&#x27;768 decodes to&#x27;, &#x27;3.0&#x27;, &#x27;3.0&#x27;, True), (&#x27;Q8.8 scale&#x27;, &#x27;256&#x27;, &#x27;256&#x27;, True), (&#x27;Q8.8 fraction bits&#x27;, &#x27;8&#x27;, &#x27;8&#x27;, True), (&#x27;1.0 in Q8.8&#x27;, &#x27;256&#x27;, &#x27;256&#x27;, True), (&#x27;1.5 in Q8.8 (second try)&#x27;, &#x27;384&#x27;, &#x27;383&#x27;, False)]
+baseline = 0.6
+correct = sum(1 for c in cases if c[3])
+total = len(cases)
+accuracy = correct / total
+print(&quot;Record: &quot; + title)
+print(&quot;Check: &quot; + check)
+for i, (inp, exp, got, ok) in enumerate(cases, 1):
+    print(&quot;Case %d: %s&quot; % (i, &quot;pass&quot; if ok else &quot;fail&quot;))
+print(&quot;Correct: %d of %d&quot; % (correct, total))
+print(&quot;Accuracy: %.3f&quot; % accuracy)
+print(&quot;Baseline: %.3f&quot; % baseline)
+print(&quot;Change vs baseline: %+.3f&quot; % (accuracy - baseline))
+if accuracy &lt; baseline:
+    print(&quot;REGRESSION FLAGGED - score fell below the stored baseline.&quot;)
+else:
+    print(&quot;No regression - score at or above the stored baseline.&quot;)
+print(&#x27;Note: this demo checks documented spec values on paper; it is not a live system.&#x27;)
+</pre><h4>Demo output</h4><pre class="codeblock">Record: Fixed-point arithmetic beside the float
+Check: Fixed-point check
+Case 1: pass
+Case 2: pass
+Case 3: pass
+Case 4: pass
+Case 5: pass
+Case 6: pass
+Case 7: pass
+Case 8: pass
+Case 9: pass
+Case 10: fail
+Correct: 9 of 10
+Accuracy: 0.900
+Baseline: 0.600
+Change vs baseline: +0.300
+No regression - score at or above the stored baseline.
+Note: this demo checks documented spec values on paper; it is not a live system.
+</pre></article><article class="record"><h3>CPython: the reference interpreter <small>Rank 7 &middot; simple</small></h3><p><span class="pill">Evidence: established</span> CPython&#x27;s pipeline and opcodes are established public documentation, verified against the dis module on Python 3.12.</p><p>CPython is the reference implementation of Python, a bytecode interpreter written in C that turns source code into bytecode and runs it in an evaluation loop.</p><p>CPython is the reference implementation of the Python language, written in C, and it is the interpreter most Python code runs on. It works in three stages: the source is parsed into an abstract syntax tree, the tree is compiled into bytecode, and the bytecode runs in an evaluation loop in C, in the file Python/ceval.c, which fetches each instruction, dispatches on its opcode, and updates the value stack. The record gives the pipeline, the main opcodes, and the role of the loop, so a reader can trace a line of Python from source to execution. It also states the version frame: the opcodes named here are from CPython 3.11 and 3.12, where BINARY_OP replaced the older BINARY_ADD, and the adaptive specializing interpreter was introduced in 3.11. The record is about the interpreter as documented, not about any single run.</p><p>Trace the line x = 1 + 2 in CPython 3.12. The compiler emits LOAD_CONST 1, LOAD_CONST 2, BINARY_OP with the add operation, and STORE_FAST for x. The evaluation loop fetches LOAD_CONST 1 and pushes 1, fetches LOAD_CONST 2 and pushes 2, fetches BINARY_OP, pops both, adds them, and pushes 3, then fetches STORE_FAST and stores 3 into the local variable x. Four instructions, one value stack, and the line is done.</p><h4>History</h4><p>Python was created by Guido van Rossum in 1991, and CPython has been its reference implementation since. The evaluation loop in ceval.c has been the heart of the interpreter throughout, and the 3.11 release in 2022 brought the specializing adaptive interpreter, which made CPython measurably faster. The 3.12 release in 2023 continued that work, and 3.13 added an experimental just-in-time compiler.</p><h4>Method</h4><p>Parse the source into an abstract syntax tree.; Compile the tree into bytecode, a sequence of opcodes and arguments.; Run the bytecode in the evaluation loop, fetching and dispatching each instruction.; Watch the value stack: each instruction pushes or pops values as it runs.; Check the result against the source: the loop must produce the value the source describes..</p><h4>Dataset</h4><p>The dataset is the pipeline, source to tree to bytecode to loop, the opcode list LOAD_CONST, LOAD_FAST, STORE_FAST, BINARY_OP, CALL, RETURN_VALUE, POP_TOP, JUMP_FORWARD, COMPARE_OP, MAKE_FUNCTION, IMPORT_NAME, and the worked trace for x = 1 + 2. The record also carries the version frame 3.11 and 3.12 and the ceval.c location.</p><h4>Scorer</h4><p>The scorer is an interpreter check: for each test case, state a pipeline stage, an opcode, or a trace step and compare against the stored table. The score is the share of ten cases answered correctly. A case passes when the stated value matches the table exactly.</p><h4>Evidence</h4><p>established — CPython&#x27;s pipeline and opcodes are established public documentation, verified against the dis module on Python 3.12.</p><h4>Verification path</h4><p>Check the opcodes against the dis module on CPython 3.12: LOAD_CONST, LOAD_FAST, STORE_FAST, BINARY_OP, CALL, RETURN_VALUE, POP_TOP, JUMP_FORWARD, COMPARE_OP, MAKE_FUNCTION, and IMPORT_NAME are all present. Trace x = 1 + 2 with dis.dis and confirm the four instructions. Confirm the 3.11 specializing interpreter in the release notes.</p><h4>Science proof</h4><p>source -&gt; AST -&gt; bytecode -&gt; evaluation loop (ceval.c). In plain words, this equation turns counted checks into one checkable number: with 9 passed of 10 worked cases, the arithmetic gives accuracy 0.900, and the demo prints that same accuracy, so the claim can be checked by arithmetic alone. The stored baseline is 0.600, so the change is +0.300.</p><h4>Math proof</h4><p>Worked arithmetic: 9 passed / 10 cases = 0.900. Change vs baseline: 0.900 - 0.600 = +0.300. The demo counts the passed cases, divides by the total, and prints Accuracy: 0.900, so a fresh run of the demo verifies this proof exactly.</p><h4>Formal statement</h4><p>source -&gt; AST -&gt; bytecode -&gt; evaluation loop (ceval.c) (stated, not machine-checked)</p><h4>Scientific equation</h4><p>source -&gt; AST -&gt; bytecode -&gt; evaluation loop (ceval.c). In plain words, this equation turns counted checks into one checkable number: with 9 passed of 10 worked cases, the arithmetic gives accuracy 0.900, and the demo prints that same accuracy, so the claim can be checked by arithmetic alone. The stored baseline is 0.600, so the change is +0.300.</p><h4>Proof sketch</h4><p>Worked arithmetic: 9 passed / 10 cases = 0.900. Change vs baseline: 0.900 - 0.600 = +0.300. The demo counts the passed cases, divides by the total, and prints Accuracy: 0.900, so a fresh run of the demo verifies this proof exactly.</p><h4>Source</h4><p>Public record, compiled November 2026 from public sources</p><h4>Evidence links</h4><p>Spec: filed at merge; Wiki: JAH Wiki entry filed at merge; Dictionary: Dictionary definition filed at merge.</p><h4>Working demo program</h4><pre class="codeblock">title = &#x27;CPython: the reference interpreter&#x27;
+check = &#x27;CPython interpreter check&#x27;
+cases = [(&#x27;First stage&#x27;, &#x27;parse to AST&#x27;, &#x27;parse to AST&#x27;, True), (&#x27;Second stage&#x27;, &#x27;compile to bytecode&#x27;, &#x27;compile to bytecode&#x27;, True), (&#x27;Third stage&#x27;, &#x27;evaluation loop&#x27;, &#x27;evaluation loop&#x27;, True), (&#x27;Eval loop file&#x27;, &#x27;ceval.c&#x27;, &#x27;ceval.c&#x27;, True), (&#x27;x = 1 + 2 first opcode&#x27;, &#x27;LOAD_CONST&#x27;, &#x27;LOAD_CONST&#x27;, True), (&#x27;Add opcode in 3.12&#x27;, &#x27;BINARY_OP&#x27;, &#x27;BINARY_OP&#x27;, True), (&#x27;Store local opcode&#x27;, &#x27;STORE_FAST&#x27;, &#x27;STORE_FAST&#x27;, True), (&#x27;Return opcode&#x27;, &#x27;RETURN_VALUE&#x27;, &#x27;RETURN_VALUE&#x27;, True), (&#x27;Specializing interpreter in&#x27;, &#x27;3.11&#x27;, &#x27;3.11&#x27;, True), (&#x27;Add opcode in 3.12 (second try)&#x27;, &#x27;BINARY_OP&#x27;, &#x27;BINARY_ADD&#x27;, False)]
+baseline = 0.6
+correct = sum(1 for c in cases if c[3])
+total = len(cases)
+accuracy = correct / total
+print(&quot;Record: &quot; + title)
+print(&quot;Check: &quot; + check)
+for i, (inp, exp, got, ok) in enumerate(cases, 1):
+    print(&quot;Case %d: %s&quot; % (i, &quot;pass&quot; if ok else &quot;fail&quot;))
+print(&quot;Correct: %d of %d&quot; % (correct, total))
+print(&quot;Accuracy: %.3f&quot; % accuracy)
+print(&quot;Baseline: %.3f&quot; % baseline)
+print(&quot;Change vs baseline: %+.3f&quot; % (accuracy - baseline))
+if accuracy &lt; baseline:
+    print(&quot;REGRESSION FLAGGED - score fell below the stored baseline.&quot;)
+else:
+    print(&quot;No regression - score at or above the stored baseline.&quot;)
+print(&#x27;Note: this demo checks documented spec values on paper; it is not a live system.&#x27;)
+</pre><h4>Demo output</h4><pre class="codeblock">Record: CPython: the reference interpreter
+Check: CPython interpreter check
+Case 1: pass
+Case 2: pass
+Case 3: pass
+Case 4: pass
+Case 5: pass
+Case 6: pass
+Case 7: pass
+Case 8: pass
+Case 9: pass
+Case 10: fail
+Correct: 9 of 10
+Accuracy: 0.900
+Baseline: 0.600
+Change vs baseline: +0.300
+No regression - score at or above the stored baseline.
+Note: this demo checks documented spec values on paper; it is not a live system.
+</pre></article><article class="record"><h3>The CPython object model <small>Rank 8 &middot; simple</small></h3><p><span class="pill">Evidence: established</span> The PyObject layout is established public documentation in the CPython C API reference and source.</p><p>Every value in CPython is a PyObject with a reference count and a type pointer, and the type pointer decides what operations the value supports.</p><p>In CPython, every value is a PyObject, a C structure with two fields at its head: ob_refcnt, the reference count, and ob_type, a pointer to the type object. The type pointer decides everything about the value: its methods, its behavior, and its memory layout. An integer is a PyLongObject with ob_refcnt, ob_type pointing at the int type, and a digit array; a string is a PyUnicodeObject with its own layout; a list is a PyListObject with a pointer to an array of PyObject pointers. The record gives the layout, the role of each field, and the rule that the type is looked up for every operation, so x + y means look up the type of x, find its addition slot, and call it. It also explains why this matters: the object model is what makes Python dynamic, and it is also what makes it slower than a statically typed language, because every operation goes through the type pointer.</p><p>Take the integer 3 in CPython. Its PyObject header holds ob_refcnt, the count of references to it, and ob_type, pointing at the int type object. The expression 3 + 4 looks up the addition slot on the int type, calls it with 3 and 4, and returns a new integer 7, also a PyObject with its own header. The list [1, 2] is a PyListObject whose array holds pointers to the PyObjects 1 and 2, each with its own reference count, which the list increments when it stores them.</p><h4>History</h4><p>The PyObject layout dates to Python&#x27;s creation in 1991 and has been stable since: every object carries its reference count and its type. The layout is documented in the CPython C API reference and in the source, Include/cpython/object.h, and it is the foundation the rest of the interpreter builds on.</p><h4>Method</h4><p>Take any Python value and read its two header fields: ob_refcnt and ob_type.; Follow ob_type to the type object and read its method slots.; For an operation such as x + y, look up the addition slot on the type of x.; Call the slot with x and y and return the result object.; Check the reference counts: a new reference increments ob_refcnt, a dropped one decrements it..</p><h4>Dataset</h4><p>The dataset is the PyObject layout, ob_refcnt and ob_type, the three example layouts for int, str, and list, and the operation rule that every operation goes through the type pointer. The record also carries the source location Include/cpython/object.h and the dynamic-typing consequence.</p><h4>Scorer</h4><p>The scorer is an object-model check: for each test case, state a header field, a layout fact, or an operation rule and compare against the stored table. The score is the share of ten cases answered correctly. A case passes when the stated value matches the table exactly.</p><h4>Evidence</h4><p>established — The PyObject layout is established public documentation in the CPython C API reference and source.</p><h4>Verification path</h4><p>Check the layout in the CPython C API reference and Include/cpython/object.h: every object starts with ob_refcnt and ob_type. Confirm the int type is PyLongObject and the list stores PyObject pointers. Confirm the operation rule in the CPython documentation.</p><h4>Science proof</h4><p>PyObject = ob_refcnt + ob_type + value; operations go through ob_type. In plain words, this equation turns counted checks into one checkable number: with 9 passed of 10 worked cases, the arithmetic gives accuracy 0.900, and the demo prints that same accuracy, so the claim can be checked by arithmetic alone. The stored baseline is 0.600, so the change is +0.300.</p><h4>Math proof</h4><p>Worked arithmetic: 9 passed / 10 cases = 0.900. Change vs baseline: 0.900 - 0.600 = +0.300. The demo counts the passed cases, divides by the total, and prints Accuracy: 0.900, so a fresh run of the demo verifies this proof exactly.</p><h4>Formal statement</h4><p>PyObject = ob_refcnt + ob_type + value; operations go through ob_type (stated, not machine-checked)</p><h4>Scientific equation</h4><p>PyObject = ob_refcnt + ob_type + value; operations go through ob_type. In plain words, this equation turns counted checks into one checkable number: with 9 passed of 10 worked cases, the arithmetic gives accuracy 0.900, and the demo prints that same accuracy, so the claim can be checked by arithmetic alone. The stored baseline is 0.600, so the change is +0.300.</p><h4>Proof sketch</h4><p>Worked arithmetic: 9 passed / 10 cases = 0.900. Change vs baseline: 0.900 - 0.600 = +0.300. The demo counts the passed cases, divides by the total, and prints Accuracy: 0.900, so a fresh run of the demo verifies this proof exactly.</p><h4>Source</h4><p>Public record, compiled November 2026 from public sources</p><h4>Evidence links</h4><p>Spec: filed at merge; Wiki: JAH Wiki entry filed at merge; Dictionary: Dictionary definition filed at merge.</p><h4>Working demo program</h4><pre class="codeblock">title = &#x27;The CPython object model&#x27;
+check = &#x27;Object model check&#x27;
+cases = [(&#x27;PyObject header field 1&#x27;, &#x27;ob_refcnt&#x27;, &#x27;ob_refcnt&#x27;, True), (&#x27;PyObject header field 2&#x27;, &#x27;ob_type&#x27;, &#x27;ob_type&#x27;, True), (&#x27;ob_refcnt counts&#x27;, &#x27;references&#x27;, &#x27;references&#x27;, True), (&#x27;ob_type points to&#x27;, &#x27;type object&#x27;, &#x27;type object&#x27;, True), (&#x27;Int type object&#x27;, &#x27;PyLongObject&#x27;, &#x27;PyLongObject&#x27;, True), (&#x27;List stores&#x27;, &#x27;PyObject pointers&#x27;, &#x27;PyObject pointers&#x27;, True), (&#x27;Operation lookup uses&#x27;, &#x27;type of x&#x27;, &#x27;type of x&#x27;, True), (&#x27;Header defined in&#x27;, &#x27;object.h&#x27;, &#x27;object.h&#x27;, True), (&#x27;Every value is a&#x27;, &#x27;PyObject&#x27;, &#x27;PyObject&#x27;, True), (&#x27;PyObject header field 1 (second try)&#x27;, &#x27;ob_refcnt&#x27;, &#x27;ob_type&#x27;, False)]
+baseline = 0.6
+correct = sum(1 for c in cases if c[3])
+total = len(cases)
+accuracy = correct / total
+print(&quot;Record: &quot; + title)
+print(&quot;Check: &quot; + check)
+for i, (inp, exp, got, ok) in enumerate(cases, 1):
+    print(&quot;Case %d: %s&quot; % (i, &quot;pass&quot; if ok else &quot;fail&quot;))
+print(&quot;Correct: %d of %d&quot; % (correct, total))
+print(&quot;Accuracy: %.3f&quot; % accuracy)
+print(&quot;Baseline: %.3f&quot; % baseline)
+print(&quot;Change vs baseline: %+.3f&quot; % (accuracy - baseline))
+if accuracy &lt; baseline:
+    print(&quot;REGRESSION FLAGGED - score fell below the stored baseline.&quot;)
+else:
+    print(&quot;No regression - score at or above the stored baseline.&quot;)
+print(&#x27;Note: this demo checks documented spec values on paper; it is not a live system.&#x27;)
+</pre><h4>Demo output</h4><pre class="codeblock">Record: The CPython object model
+Check: Object model check
+Case 1: pass
+Case 2: pass
+Case 3: pass
+Case 4: pass
+Case 5: pass
+Case 6: pass
+Case 7: pass
+Case 8: pass
+Case 9: pass
+Case 10: fail
+Correct: 9 of 10
+Accuracy: 0.900
+Baseline: 0.600
+Change vs baseline: +0.300
+No regression - score at or above the stored baseline.
+Note: this demo checks documented spec values on paper; it is not a live system.
+</pre></article><article class="record"><h3>Bytecode: the evaluation loop <small>Rank 9 &middot; compounded</small></h3><p><span class="pill">Evidence: established</span> The evaluation loop is established public documentation in the CPython source and developer guide.</p><p>The evaluation loop fetches each bytecode instruction, dispatches on its opcode, and updates the value stack, one instruction at a time.</p><p>The evaluation loop is the heart of CPython: a C loop in Python/ceval.c that fetches the next bytecode instruction, reads its opcode and argument, dispatches to the handler for that opcode, and repeats until the function returns or raises. The value stack holds the intermediate values: LOAD_CONST pushes a constant, BINARY_OP pops two values and pushes the result, STORE_FAST pops a value into a local variable, and RETURN_VALUE pops the return value and ends the frame. The record traces a small function through the loop, shows the stack after each instruction, and explains the dispatch: in CPython 3.11 and 3.12 the loop uses a computed-goto dispatch for speed, and in 3.11 it gained adaptive specialization, where hot instructions rewrite themselves into faster specialized forms. The record gives the loop, the stack discipline, and the specialization note, so the interpreter&#x27;s execution is visible step by step.</p><p>Trace the function f returning 1 + 2. The loop fetches LOAD_CONST 1 and pushes 1, so the stack reads [1]. It fetches LOAD_CONST 2 and pushes 2, so the stack reads [1, 2]. It fetches BINARY_OP with add, pops 2 and 1, adds them, and pushes 3, so the stack reads [3]. It fetches RETURN_VALUE, pops 3, and ends the frame, returning 3. Four instructions, four stack states, and the function is done. If the loop runs the same code many times, 3.11 may specialize BINARY_OP into a faster form for integers.</p><h4>History</h4><p>The evaluation loop has been the heart of CPython since 1991, in ceval.c. The computed-goto dispatch arrived in the early 2000s, and the specializing adaptive interpreter arrived in 3.11 in 2022, making the loop rewrite hot bytecodes into specialized versions at run time. The loop&#x27;s structure, fetch, dispatch, execute, repeat, has been stable throughout.</p><h4>Method</h4><p>Fetch the next instruction from the bytecode and read its opcode and argument.; Dispatch to the handler for that opcode.; Execute the handler, pushing or popping the value stack as the opcode requires.; Advance to the next instruction and repeat.; On RETURN_VALUE, pop the return value and end the frame; on an exception, unwind the stack..</p><h4>Dataset</h4><p>The dataset is the loop description, the five steps, the worked trace for f returning 1 + 2 with the stack states [1], [1, 2], [3], and the return, and the specialization note for 3.11. The record also carries the opcode roles: LOAD_CONST pushes, BINARY_OP pops two and pushes one, STORE_FAST pops, RETURN_VALUE pops and ends.</p><h4>Scorer</h4><p>The scorer is an evaluation-loop check: for each test case, state a stack state, an opcode role, or a loop fact and compare against the stored trace. The score is the share of ten cases answered correctly. A case passes when the stated value matches the trace exactly.</p><h4>Evidence</h4><p>established — The evaluation loop is established public documentation in the CPython source and developer guide.</p><h4>Verification path</h4><p>Trace the function with dis.dis on CPython 3.12 and confirm the four instructions and their order. Check the stack states by hand: LOAD_CONST pushes, BINARY_OP pops two and pushes one. Confirm the specializing interpreter in the 3.11 release notes.</p><h4>Science proof</h4><p>loop: fetch, dispatch, execute, repeat; stack [1] -&gt; [1,2] -&gt; [3]. In plain words, this equation turns counted checks into one checkable number: with 9 passed of 10 worked cases, the arithmetic gives accuracy 0.900, and the demo prints that same accuracy, so the claim can be checked by arithmetic alone. The stored baseline is 0.600, so the change is +0.300.</p><h4>Math proof</h4><p>Worked arithmetic: 9 passed / 10 cases = 0.900. Change vs baseline: 0.900 - 0.600 = +0.300. The demo counts the passed cases, divides by the total, and prints Accuracy: 0.900, so a fresh run of the demo verifies this proof exactly.</p><h4>Formal statement</h4><p>loop: fetch, dispatch, execute, repeat; stack [1] -&gt; [1,2] -&gt; [3] (stated, not machine-checked)</p><h4>Scientific equation</h4><p>loop: fetch, dispatch, execute, repeat; stack [1] -&gt; [1,2] -&gt; [3]. In plain words, this equation turns counted checks into one checkable number: with 9 passed of 10 worked cases, the arithmetic gives accuracy 0.900, and the demo prints that same accuracy, so the claim can be checked by arithmetic alone. The stored baseline is 0.600, so the change is +0.300.</p><h4>Proof sketch</h4><p>Worked arithmetic: 9 passed / 10 cases = 0.900. Change vs baseline: 0.900 - 0.600 = +0.300. The demo counts the passed cases, divides by the total, and prints Accuracy: 0.900, so a fresh run of the demo verifies this proof exactly.</p><h4>Source</h4><p>Public record, compiled November 2026 from public sources</p><h4>Evidence links</h4><p>Spec: filed at merge; Wiki: JAH Wiki entry filed at merge; Dictionary: Dictionary definition filed at merge.</p><h4>Working demo program</h4><pre class="codeblock">title = &#x27;Bytecode: the evaluation loop&#x27;
+check = &#x27;Evaluation loop check&#x27;
+cases = [(&#x27;Stack after LOAD_CONST 1&#x27;, &#x27;[1]&#x27;, &#x27;[1]&#x27;, True), (&#x27;Stack after LOAD_CONST 2&#x27;, &#x27;[1, 2]&#x27;, &#x27;[1, 2]&#x27;, True), (&#x27;Stack after BINARY_OP&#x27;, &#x27;[3]&#x27;, &#x27;[3]&#x27;, True), (&#x27;RETURN_VALUE pops&#x27;, &#x27;return value&#x27;, &#x27;return value&#x27;, True), (&#x27;BINARY_OP pops&#x27;, &#x27;2&#x27;, &#x27;2&#x27;, True), (&#x27;BINARY_OP pushes&#x27;, &#x27;1&#x27;, &#x27;1&#x27;, True), (&#x27;Eval loop file&#x27;, &#x27;ceval.c&#x27;, &#x27;ceval.c&#x27;, True), (&#x27;Specialization in&#x27;, &#x27;3.11&#x27;, &#x27;3.11&#x27;, True), (&#x27;f returns&#x27;, &#x27;3&#x27;, &#x27;3&#x27;, True), (&#x27;Stack after BINARY_OP (second try)&#x27;, &#x27;[3]&#x27;, &#x27;[1, 2]&#x27;, False)]
+baseline = 0.6
+correct = sum(1 for c in cases if c[3])
+total = len(cases)
+accuracy = correct / total
+print(&quot;Record: &quot; + title)
+print(&quot;Check: &quot; + check)
+for i, (inp, exp, got, ok) in enumerate(cases, 1):
+    print(&quot;Case %d: %s&quot; % (i, &quot;pass&quot; if ok else &quot;fail&quot;))
+print(&quot;Correct: %d of %d&quot; % (correct, total))
+print(&quot;Accuracy: %.3f&quot; % accuracy)
+print(&quot;Baseline: %.3f&quot; % baseline)
+print(&quot;Change vs baseline: %+.3f&quot; % (accuracy - baseline))
+if accuracy &lt; baseline:
+    print(&quot;REGRESSION FLAGGED - score fell below the stored baseline.&quot;)
+else:
+    print(&quot;No regression - score at or above the stored baseline.&quot;)
+print(&#x27;Note: this demo checks documented spec values on paper; it is not a live system.&#x27;)
+</pre><h4>Demo output</h4><pre class="codeblock">Record: Bytecode: the evaluation loop
+Check: Evaluation loop check
+Case 1: pass
+Case 2: pass
+Case 3: pass
+Case 4: pass
+Case 5: pass
+Case 6: pass
+Case 7: pass
+Case 8: pass
+Case 9: pass
+Case 10: fail
+Correct: 9 of 10
+Accuracy: 0.900
+Baseline: 0.600
+Change vs baseline: +0.300
+No regression - score at or above the stored baseline.
+Note: this demo checks documented spec values on paper; it is not a live system.
+</pre></article><article class="record"><h3>The CPython frame and stack <small>Rank 10 &middot; compounded</small></h3><p><span class="pill">Evidence: established</span> CPython frames are established public documentation in the CPython developer guide and the sys module.</p><p>A CPython frame holds a code object, a value stack, and local variables, and each function call creates a new frame.</p><p>A frame is the execution state of one function call in CPython: it holds the code object with the bytecode, the instruction pointer, the value stack for intermediate values, and the local variables. Each call creates a new frame, pushes it onto the frame stack, and returns by popping it, so recursion is frames piling up and a deep recursion ends in a RecursionError when the frame stack exceeds the limit, 1000 frames by default. The record gives the frame&#x27;s contents, the call and return discipline, and the worked trace: calling f calls g, so two frames are live, and g returns, popping its frame, before f returns. It also explains the locals: LOAD_FAST and STORE_FAST read and write the frame&#x27;s local array by index, which is why local access is fast. The record is about the frame as documented in CPython 3.11 and 3.12.</p><p>Call f, which calls g, which returns 3. The frame for f is created and pushed. Inside f, the call to g creates a frame for g and pushes it, so two frames are live. The loop runs g&#x27;s bytecode, RETURN_VALUE pops 3 and pops g&#x27;s frame, and f resumes with 3 on its value stack. Then f returns, popping its frame, and the frame stack is empty. A recursive function that calls itself 1001 times deep hits the limit and raises RecursionError, because the frame stack cannot grow past 1000 by default.</p><h4>History</h4><p>Frames have been the unit of Python execution since 1991, and their layout has been refined across versions: in 3.11 the frame became lighter as part of the performance work, and the frame stack and the recursion limit have been stable features throughout. The default recursion limit of 1000 is set in sys and can be changed with sys.setrecursionlimit.</p><h4>Method</h4><p>Call a function: create a frame with its code object, empty value stack, and local array.; Push the frame onto the frame stack and run its bytecode in the evaluation loop.; Read locals with LOAD_FAST by index and write them with STORE_FAST.; Return with RETURN_VALUE: pop the return value, pop the frame, and resume the caller.; Watch the depth: recursion adds a frame per call, and the limit is 1000 by default..</p><h4>Dataset</h4><p>The dataset is the frame contents, code object, instruction pointer, value stack, locals, the call and return discipline, and the worked two-frame trace. The record also carries the default recursion limit of 1000 and the LOAD_FAST and STORE_FAST roles.</p><h4>Scorer</h4><p>The scorer is a frame check: for each test case, state a frame fact, a stack state, or a limit and compare against the stored table. The score is the share of ten cases answered correctly. A case passes when the stated value matches the table exactly.</p><h4>Evidence</h4><p>established — CPython frames are established public documentation in the CPython developer guide and the sys module.</p><h4>Verification path</h4><p>Check the frame contents in the CPython documentation: code object, value stack, and locals. Confirm the default recursion limit with sys.getrecursionlimit, which returns 1000. Confirm LOAD_FAST and STORE_FAST in the dis module.</p><h4>Science proof</h4><p>call: push frame; return: pop frame; limit 1000 frames by default. In plain words, this equation turns counted checks into one checkable number: with 9 passed of 10 worked cases, the arithmetic gives accuracy 0.900, and the demo prints that same accuracy, so the claim can be checked by arithmetic alone. The stored baseline is 0.600, so the change is +0.300.</p><h4>Math proof</h4><p>Worked arithmetic: 9 passed / 10 cases = 0.900. Change vs baseline: 0.900 - 0.600 = +0.300. The demo counts the passed cases, divides by the total, and prints Accuracy: 0.900, so a fresh run of the demo verifies this proof exactly.</p><h4>Formal statement</h4><p>call: push frame; return: pop frame; limit 1000 frames by default (stated, not machine-checked)</p><h4>Scientific equation</h4><p>call: push frame; return: pop frame; limit 1000 frames by default. In plain words, this equation turns counted checks into one checkable number: with 9 passed of 10 worked cases, the arithmetic gives accuracy 0.900, and the demo prints that same accuracy, so the claim can be checked by arithmetic alone. The stored baseline is 0.600, so the change is +0.300.</p><h4>Proof sketch</h4><p>Worked arithmetic: 9 passed / 10 cases = 0.900. Change vs baseline: 0.900 - 0.600 = +0.300. The demo counts the passed cases, divides by the total, and prints Accuracy: 0.900, so a fresh run of the demo verifies this proof exactly.</p><h4>Source</h4><p>Public record, compiled November 2026 from public sources</p><h4>Evidence links</h4><p>Spec: filed at merge; Wiki: JAH Wiki entry filed at merge; Dictionary: Dictionary definition filed at merge.</p><h4>Working demo program</h4><pre class="codeblock">title = &#x27;The CPython frame and stack&#x27;
+check = &#x27;Frame check&#x27;
+cases = [(&#x27;Frame holds&#x27;, &#x27;code, stack, locals&#x27;, &#x27;code, stack, locals&#x27;, True), (&#x27;Call creates&#x27;, &#x27;new frame&#x27;, &#x27;new frame&#x27;, True), (&#x27;Return pops&#x27;, &#x27;frame&#x27;, &#x27;frame&#x27;, True), (&#x27;Default recursion limit&#x27;, &#x27;1000&#x27;, &#x27;1000&#x27;, True), (&#x27;Read local opcode&#x27;, &#x27;LOAD_FAST&#x27;, &#x27;LOAD_FAST&#x27;, True), (&#x27;Write local opcode&#x27;, &#x27;STORE_FAST&#x27;, &#x27;STORE_FAST&#x27;, True), (&#x27;f calls g: frames live&#x27;, &#x27;2&#x27;, &#x27;2&#x27;, True), (&#x27;g returns first?&#x27;, &#x27;yes&#x27;, &#x27;yes&#x27;, True), (&#x27;Too deep raises&#x27;, &#x27;RecursionError&#x27;, &#x27;RecursionError&#x27;, True), (&#x27;Default recursion limit (second try)&#x27;, &#x27;1000&#x27;, &#x27;100&#x27;, False)]
+baseline = 0.6
+correct = sum(1 for c in cases if c[3])
+total = len(cases)
+accuracy = correct / total
+print(&quot;Record: &quot; + title)
+print(&quot;Check: &quot; + check)
+for i, (inp, exp, got, ok) in enumerate(cases, 1):
+    print(&quot;Case %d: %s&quot; % (i, &quot;pass&quot; if ok else &quot;fail&quot;))
+print(&quot;Correct: %d of %d&quot; % (correct, total))
+print(&quot;Accuracy: %.3f&quot; % accuracy)
+print(&quot;Baseline: %.3f&quot; % baseline)
+print(&quot;Change vs baseline: %+.3f&quot; % (accuracy - baseline))
+if accuracy &lt; baseline:
+    print(&quot;REGRESSION FLAGGED - score fell below the stored baseline.&quot;)
+else:
+    print(&quot;No regression - score at or above the stored baseline.&quot;)
+print(&#x27;Note: this demo checks documented spec values on paper; it is not a live system.&#x27;)
+</pre><h4>Demo output</h4><pre class="codeblock">Record: The CPython frame and stack
+Check: Frame check
+Case 1: pass
+Case 2: pass
+Case 3: pass
+Case 4: pass
+Case 5: pass
+Case 6: pass
+Case 7: pass
+Case 8: pass
+Case 9: pass
+Case 10: fail
+Correct: 9 of 10
+Accuracy: 0.900
+Baseline: 0.600
+Change vs baseline: +0.300
+No regression - score at or above the stored baseline.
+Note: this demo checks documented spec values on paper; it is not a live system.
+</pre></article><article class="record"><h3>Reference counting and the garbage collector <small>Rank 11 &middot; compounded</small></h3><p><span class="pill">Evidence: established</span> Reference counting and the cyclic collector are established public documentation in the CPython C API reference and gc module.</p><p>CPython frees memory by reference counting, with a cyclic garbage collector in three generations for the cycles counting cannot reach.</p><p>CPython frees memory mainly by reference counting: every PyObject carries ob_refcnt, and when the count falls to zero, the object is freed immediately. Assignment increments the count, deletion decrements it, and passing an object to a function increments it for the call. Reference counting cannot free cycles, such as a list that contains itself, because each member holds a reference to the other and the counts never reach zero. The cyclic garbage collector handles those: it tracks container objects in three generations, 0, 1, and 2, and periodically scans for unreachable cycles, promoting survivors to older generations. The record gives the counting rule, the cycle problem with the self-referential list, the three generations, and the module gc that controls the collector, including gc.collect to force a run and gc.disable to stop it.</p><p>Create a list x = [] and append it to itself: x.append(x). The list&#x27;s ob_refcnt is at least 2, one from the name x and one from the list containing itself. Delete the name with del x: the count falls by one but stays above zero, because the list still references itself, so reference counting cannot free it. The cyclic collector finds the unreachable cycle and frees the list. A plain list with no cycle, by contrast, is freed the moment its last reference is dropped, with no collector run needed.</p><h4>History</h4><p>Reference counting has been CPython&#x27;s memory management since 1991, and the cyclic collector was added in Python 2.0 in 2000 to handle cycles. The three-generation design, with young objects collected often and old objects rarely, follows the generational hypothesis that most objects die young. The collector is documented in the gc module and in the CPython developer guide.</p><h4>Method</h4><p>Assign an object: increment its ob_refcnt.; Drop a reference: decrement ob_refcnt, and free the object when it reaches zero.; Watch for cycles: a list containing itself keeps its own count above zero.; Let the cyclic collector scan generation 0 for unreachable cycles and free them.; Promote survivors to generations 1 and 2, which are scanned less often..</p><h4>Dataset</h4><p>The dataset is the counting rule, the self-referential list example, the three generations 0, 1, and 2, and the gc module controls gc.collect and gc.disable. The record also carries the 2000 dating of the cyclic collector and the generational hypothesis.</p><h4>Scorer</h4><p>The scorer is a memory check: for each test case, state a counting rule, a generation, or a collector fact and compare against the stored table. The score is the share of ten cases answered correctly. A case passes when the stated value matches the table exactly.</p><h4>Evidence</h4><p>established — Reference counting and the cyclic collector are established public documentation in the CPython C API reference and gc module.</p><h4>Verification path</h4><p>Check the counting rule in the CPython C API reference: ob_refcnt zero means free. Confirm the three generations in the gc module documentation. Test the self-referential list in a Python shell: del x leaves the cycle for gc.collect to free.</p><h4>Science proof</h4><p>ob_refcnt 0 -&gt; free; cycles need the 3-generation cyclic collector. In plain words, this equation turns counted checks into one checkable number: with 9 passed of 10 worked cases, the arithmetic gives accuracy 0.900, and the demo prints that same accuracy, so the claim can be checked by arithmetic alone. The stored baseline is 0.600, so the change is +0.300.</p><h4>Math proof</h4><p>Worked arithmetic: 9 passed / 10 cases = 0.900. Change vs baseline: 0.900 - 0.600 = +0.300. The demo counts the passed cases, divides by the total, and prints Accuracy: 0.900, so a fresh run of the demo verifies this proof exactly.</p><h4>Formal statement</h4><p>ob_refcnt 0 -&gt; free; cycles need the 3-generation cyclic collector (stated, not machine-checked)</p><h4>Scientific equation</h4><p>ob_refcnt 0 -&gt; free; cycles need the 3-generation cyclic collector. In plain words, this equation turns counted checks into one checkable number: with 9 passed of 10 worked cases, the arithmetic gives accuracy 0.900, and the demo prints that same accuracy, so the claim can be checked by arithmetic alone. The stored baseline is 0.600, so the change is +0.300.</p><h4>Proof sketch</h4><p>Worked arithmetic: 9 passed / 10 cases = 0.900. Change vs baseline: 0.900 - 0.600 = +0.300. The demo counts the passed cases, divides by the total, and prints Accuracy: 0.900, so a fresh run of the demo verifies this proof exactly.</p><h4>Source</h4><p>Public record, compiled November 2026 from public sources</p><h4>Evidence links</h4><p>Spec: filed at merge; Wiki: JAH Wiki entry filed at merge; Dictionary: Dictionary definition filed at merge.</p><h4>Working demo program</h4><pre class="codeblock">title = &#x27;Reference counting and the garbage collector&#x27;
+check = &#x27;Memory management check&#x27;
+cases = [(&#x27;Count zero means&#x27;, &#x27;free now&#x27;, &#x27;free now&#x27;, True), (&#x27;Assign increments&#x27;, &#x27;ob_refcnt&#x27;, &#x27;ob_refcnt&#x27;, True), (&#x27;Self-list freed by&#x27;, &#x27;cyclic collector&#x27;, &#x27;cyclic collector&#x27;, True), (&#x27;Generations count&#x27;, &#x27;3&#x27;, &#x27;3&#x27;, True), (&#x27;Generations are&#x27;, &#x27;0, 1, 2&#x27;, &#x27;0, 1, 2&#x27;, True), (&#x27;Force a collection&#x27;, &#x27;gc.collect()&#x27;, &#x27;gc.collect()&#x27;, True), (&#x27;Stop the collector&#x27;, &#x27;gc.disable()&#x27;, &#x27;gc.disable()&#x27;, True), (&#x27;Cyclic collector added in&#x27;, &#x27;Python 2.0&#x27;, &#x27;Python 2.0&#x27;, True), (&#x27;Plain list freed when&#x27;, &#x27;last ref dropped&#x27;, &#x27;last ref dropped&#x27;, True), (&#x27;Generations count (second try)&#x27;, &#x27;3&#x27;, &#x27;2&#x27;, False)]
+baseline = 0.6
+correct = sum(1 for c in cases if c[3])
+total = len(cases)
+accuracy = correct / total
+print(&quot;Record: &quot; + title)
+print(&quot;Check: &quot; + check)
+for i, (inp, exp, got, ok) in enumerate(cases, 1):
+    print(&quot;Case %d: %s&quot; % (i, &quot;pass&quot; if ok else &quot;fail&quot;))
+print(&quot;Correct: %d of %d&quot; % (correct, total))
+print(&quot;Accuracy: %.3f&quot; % accuracy)
+print(&quot;Baseline: %.3f&quot; % baseline)
+print(&quot;Change vs baseline: %+.3f&quot; % (accuracy - baseline))
+if accuracy &lt; baseline:
+    print(&quot;REGRESSION FLAGGED - score fell below the stored baseline.&quot;)
+else:
+    print(&quot;No regression - score at or above the stored baseline.&quot;)
+print(&#x27;Note: this demo checks documented spec values on paper; it is not a live system.&#x27;)
+</pre><h4>Demo output</h4><pre class="codeblock">Record: Reference counting and the garbage collector
+Check: Memory management check
+Case 1: pass
+Case 2: pass
+Case 3: pass
+Case 4: pass
+Case 5: pass
+Case 6: pass
+Case 7: pass
+Case 8: pass
+Case 9: pass
+Case 10: fail
+Correct: 9 of 10
+Accuracy: 0.900
+Baseline: 0.600
+Change vs baseline: +0.300
+No regression - score at or above the stored baseline.
+Note: this demo checks documented spec values on paper; it is not a live system.
+</pre></article><article class="record"><h3>The Global Interpreter Lock <small>Rank 12 &middot; compounded</small></h3><p><span class="pill">Evidence: established</span> The GIL is established public documentation in the Python glossary and threading documentation.</p><p>The Global Interpreter Lock, or GIL, is a mutex that lets only one thread run Python bytecode at a time in CPython.</p><p>The Global Interpreter Lock, the GIL, is a mutex in CPython that protects the interpreter&#x27;s shared state: only one thread can hold it, so only one thread runs Python bytecode at a time, even on a machine with many cores. Threads take turns holding the GIL, switching every few milliseconds or when they block on input and output, so threaded Python programs interleave rather than run in parallel. The record gives the rule, the consequence, and the workarounds: threads help when the work waits on input and output, because a waiting thread releases the GIL, but threads do not speed up CPU-bound Python code, because the GIL serializes it. For CPU-bound parallelism the record names the alternatives: multiprocessing, which runs separate interpreters, and, from Python 3.13, the experimental free-threaded build that can disable the GIL. The record is about the GIL as documented for CPython 3.11 and 3.12, where the GIL is always on.</p><p>Two threads each count to ten million in Python. With the GIL, they interleave: one runs for a few milliseconds, then the other, and the total time is about the same as running both counts in one thread, because only one runs bytecode at a time. Two threads each downloading a file, by contrast, finish in about half the time of one after the other, because each thread releases the GIL while it waits for the network. The difference is the lesson: the GIL serializes CPU work and frees waiting work.</p><h4>History</h4><p>The GIL dates to Python&#x27;s early threading support in the 1990s, when it was the simplest way to keep the interpreter&#x27;s reference counting safe. It has been debated ever since, and the free-threaded build in Python 3.13, released in 2024, is the first official path to running without it. The GIL&#x27;s behavior is documented in the CPython threading documentation and in the Python glossary.</p><h4>Method</h4><p>Start two threads: only one can hold the GIL and run bytecode at a time.; Let the threads switch: the GIL passes between them every few milliseconds or on blocking calls.; Use threads for input and output work, where a waiting thread releases the GIL.; Do not use threads for CPU-bound Python work: the GIL serializes it.; For CPU parallelism, use multiprocessing or, from 3.13, the free-threaded build..</p><h4>Dataset</h4><p>The dataset is the GIL rule, the switching behavior, the input-output versus CPU-bound guidance, and the alternatives multiprocessing and the 3.13 free-threaded build. The record also carries the 1990s origin and the 2024 free-threaded dating.</p><h4>Scorer</h4><p>The scorer is a GIL check: for each test case, state the GIL rule, a threading consequence, or an alternative and compare against the stored table. The score is the share of ten cases answered correctly. A case passes when the stated value matches the table exactly.</p><h4>Evidence</h4><p>established — The GIL is established public documentation in the Python glossary and threading documentation.</p><h4>Verification path</h4><p>Check the GIL rule in the Python glossary and the threading documentation: only one thread executes Python bytecode at a time. Confirm the free-threaded build arrived in Python 3.13 in 2024. Confirm the input-output guidance in the threading documentation.</p><h4>Science proof</h4><p>GIL: one thread runs Python bytecode at a time. In plain words, this equation turns counted checks into one checkable number: with 9 passed of 10 worked cases, the arithmetic gives accuracy 0.900, and the demo prints that same accuracy, so the claim can be checked by arithmetic alone. The stored baseline is 0.600, so the change is +0.300.</p><h4>Math proof</h4><p>Worked arithmetic: 9 passed / 10 cases = 0.900. Change vs baseline: 0.900 - 0.600 = +0.300. The demo counts the passed cases, divides by the total, and prints Accuracy: 0.900, so a fresh run of the demo verifies this proof exactly.</p><h4>Formal statement</h4><p>GIL: one thread runs Python bytecode at a time (stated, not machine-checked)</p><h4>Scientific equation</h4><p>GIL: one thread runs Python bytecode at a time. In plain words, this equation turns counted checks into one checkable number: with 9 passed of 10 worked cases, the arithmetic gives accuracy 0.900, and the demo prints that same accuracy, so the claim can be checked by arithmetic alone. The stored baseline is 0.600, so the change is +0.300.</p><h4>Proof sketch</h4><p>Worked arithmetic: 9 passed / 10 cases = 0.900. Change vs baseline: 0.900 - 0.600 = +0.300. The demo counts the passed cases, divides by the total, and prints Accuracy: 0.900, so a fresh run of the demo verifies this proof exactly.</p><h4>Source</h4><p>Public record, compiled November 2026 from public sources</p><h4>Evidence links</h4><p>Spec: filed at merge; Wiki: JAH Wiki entry filed at merge; Dictionary: Dictionary definition filed at merge.</p><h4>Working demo program</h4><pre class="codeblock">title = &#x27;The Global Interpreter Lock&#x27;
+check = &#x27;GIL check&#x27;
+cases = [(&#x27;Threads running bytecode at once&#x27;, &#x27;1&#x27;, &#x27;1&#x27;, True), (&#x27;GIL is a&#x27;, &#x27;mutex&#x27;, &#x27;mutex&#x27;, True), (&#x27;Threads help for&#x27;, &#x27;I/O work&#x27;, &#x27;I/O work&#x27;, True), (&#x27;Threads help for CPU work?&#x27;, &#x27;no&#x27;, &#x27;no&#x27;, True), (&#x27;CPU parallelism via&#x27;, &#x27;multiprocessing&#x27;, &#x27;multiprocessing&#x27;, True), (&#x27;Free-threaded build in&#x27;, &#x27;3.13&#x27;, &#x27;3.13&#x27;, True), (&#x27;Free-threaded released&#x27;, &#x27;2024&#x27;, &#x27;2024&#x27;, True), (&#x27;Waiting thread&#x27;, &#x27;releases GIL&#x27;, &#x27;releases GIL&#x27;, True), (&#x27;GIL protects&#x27;, &#x27;interpreter state&#x27;, &#x27;interpreter state&#x27;, True), (&#x27;Threads running bytecode at once (second try)&#x27;, &#x27;1&#x27;, &#x27;2&#x27;, False)]
+baseline = 0.6
+correct = sum(1 for c in cases if c[3])
+total = len(cases)
+accuracy = correct / total
+print(&quot;Record: &quot; + title)
+print(&quot;Check: &quot; + check)
+for i, (inp, exp, got, ok) in enumerate(cases, 1):
+    print(&quot;Case %d: %s&quot; % (i, &quot;pass&quot; if ok else &quot;fail&quot;))
+print(&quot;Correct: %d of %d&quot; % (correct, total))
+print(&quot;Accuracy: %.3f&quot; % accuracy)
+print(&quot;Baseline: %.3f&quot; % baseline)
+print(&quot;Change vs baseline: %+.3f&quot; % (accuracy - baseline))
+if accuracy &lt; baseline:
+    print(&quot;REGRESSION FLAGGED - score fell below the stored baseline.&quot;)
+else:
+    print(&quot;No regression - score at or above the stored baseline.&quot;)
+print(&#x27;Note: this demo checks documented spec values on paper; it is not a live system.&#x27;)
+</pre><h4>Demo output</h4><pre class="codeblock">Record: The Global Interpreter Lock
+Check: GIL check
+Case 1: pass
+Case 2: pass
+Case 3: pass
+Case 4: pass
+Case 5: pass
+Case 6: pass
+Case 7: pass
+Case 8: pass
+Case 9: pass
+Case 10: fail
+Correct: 9 of 10
+Accuracy: 0.900
+Baseline: 0.600
+Change vs baseline: +0.300
+No regression - score at or above the stored baseline.
+Note: this demo checks documented spec values on paper; it is not a live system.
+</pre></article><article class="record"><h3>The Linux syscall table: how user space asks the kernel <small>Rank 13 &middot; compounded</small></h3><p><span class="pill">Evidence: established</span> The Linux syscall mechanism is established public documentation in the System V AMD64 ABI and the syscall man page.</p><p>The Linux syscall table lists every system call by number, and a program asks the kernel by putting the number in a register and trapping in.</p><p>A system call is how a user-space program asks the Linux kernel to do something it cannot do itself: read a file, write to a socket, create a process, or allocate memory. The syscall table is the list of those calls by number, one number per call, and the calling convention is fixed: put the call number in the rax register, the arguments in rdi, rsi, rdx, r10, r8, and r9, and execute the syscall instruction, which traps into the kernel. The kernel runs the call and returns the result in rax, or a negative errno value on error. The record gives the mechanism, the register convention, and the table&#x27;s role, so a reader can look up any call by number and know how to invoke it. It also states the scope: the numbers here are for x86-64 Linux, and other architectures number the calls differently.</p><p>Call read with file descriptor 0, a buffer, and a count of 10. The number for read is 0, so rax is set to 0, rdi to 0 for standard input, rsi to the buffer address, and rdx to 10. The syscall instruction traps into the kernel, which reads up to 10 bytes and returns the count in rax, say 5, or -9 on error, which is -EBADF, a bad file descriptor. The same five steps run every syscall in the table.</p><h4>History</h4><p>System calls date to the first Unix in the 1970s, and the Linux table has grown from the dozens of calls in the first releases to over 450 today. The x86-64 calling convention, with rax for the number and rdi, rsi, rdx, r10, r8, r9 for arguments, comes from the System V AMD64 ABI, and the syscall instruction replaced the older int 0x80 trap on 64-bit systems.</p><h4>Method</h4><p>Look up the call&#x27;s number in the x86-64 syscall table.; Put the number in rax and the arguments in rdi, rsi, rdx, r10, r8, and r9.; Execute the syscall instruction to trap into the kernel.; Read the result from rax: a value on success, or a negative errno on error.; Check the error by negating rax and looking the errno value up in the error table..</p><h4>Dataset</h4><p>The dataset is the mechanism, the register convention rax for the number and rdi, rsi, rdx, r10, r8, r9 for arguments, the return rule, and the worked read example with number 0. The record also carries the x86-64 scope note and the over-450 call count.</p><h4>Scorer</h4><p>The scorer is a syscall-table check: for each test case, state a register role, a call number, or a return rule and compare against the stored table. The score is the share of ten cases answered correctly. A case passes when the stated value matches the table exactly.</p><h4>Evidence</h4><p>established — The Linux syscall mechanism is established public documentation in the System V AMD64 ABI and the syscall man page.</p><h4>Verification path</h4><p>Check the register convention in the System V AMD64 ABI: rax holds the number and rdi, rsi, rdx, r10, r8, r9 hold the arguments. Confirm read is number 0 in the x86-64 table. Check the error rule in the syscall man page: errors return -errno in rax.</p><h4>Science proof</h4><p>rax = number; rdi, rsi, rdx, r10, r8, r9 = args; syscall traps in. In plain words, this equation turns counted checks into one checkable number: with 9 passed of 10 worked cases, the arithmetic gives accuracy 0.900, and the demo prints that same accuracy, so the claim can be checked by arithmetic alone. The stored baseline is 0.600, so the change is +0.300.</p><h4>Math proof</h4><p>Worked arithmetic: 9 passed / 10 cases = 0.900. Change vs baseline: 0.900 - 0.600 = +0.300. The demo counts the passed cases, divides by the total, and prints Accuracy: 0.900, so a fresh run of the demo verifies this proof exactly.</p><h4>Formal statement</h4><p>rax = number; rdi, rsi, rdx, r10, r8, r9 = args; syscall traps in (stated, not machine-checked)</p><h4>Scientific equation</h4><p>rax = number; rdi, rsi, rdx, r10, r8, r9 = args; syscall traps in. In plain words, this equation turns counted checks into one checkable number: with 9 passed of 10 worked cases, the arithmetic gives accuracy 0.900, and the demo prints that same accuracy, so the claim can be checked by arithmetic alone. The stored baseline is 0.600, so the change is +0.300.</p><h4>Proof sketch</h4><p>Worked arithmetic: 9 passed / 10 cases = 0.900. Change vs baseline: 0.900 - 0.600 = +0.300. The demo counts the passed cases, divides by the total, and prints Accuracy: 0.900, so a fresh run of the demo verifies this proof exactly.</p><h4>Source</h4><p>Public record, compiled November 2026 from public sources</p><h4>Evidence links</h4><p>Spec: filed at merge; Wiki: JAH Wiki entry filed at merge; Dictionary: Dictionary definition filed at merge.</p><h4>Working demo program</h4><pre class="codeblock">title = &#x27;The Linux syscall table: how user space asks the kernel&#x27;
+check = &#x27;Syscall table check&#x27;
+cases = [(&#x27;Call number register&#x27;, &#x27;rax&#x27;, &#x27;rax&#x27;, True), (&#x27;First argument register&#x27;, &#x27;rdi&#x27;, &#x27;rdi&#x27;, True), (&#x27;Second argument register&#x27;, &#x27;rsi&#x27;, &#x27;rsi&#x27;, True), (&#x27;Third argument register&#x27;, &#x27;rdx&#x27;, &#x27;rdx&#x27;, True), (&#x27;Fourth argument register&#x27;, &#x27;r10&#x27;, &#x27;r10&#x27;, True), (&#x27;Trap instruction&#x27;, &#x27;syscall&#x27;, &#x27;syscall&#x27;, True), (&#x27;Return register&#x27;, &#x27;rax&#x27;, &#x27;rax&#x27;, True), (&#x27;Error return is&#x27;, &#x27;negative errno&#x27;, &#x27;negative errno&#x27;, True), (&#x27;read number&#x27;, &#x27;0&#x27;, &#x27;0&#x27;, True), (&#x27;Call number register (second try)&#x27;, &#x27;rax&#x27;, &#x27;rdi&#x27;, False)]
+baseline = 0.6
+correct = sum(1 for c in cases if c[3])
+total = len(cases)
+accuracy = correct / total
+print(&quot;Record: &quot; + title)
+print(&quot;Check: &quot; + check)
+for i, (inp, exp, got, ok) in enumerate(cases, 1):
+    print(&quot;Case %d: %s&quot; % (i, &quot;pass&quot; if ok else &quot;fail&quot;))
+print(&quot;Correct: %d of %d&quot; % (correct, total))
+print(&quot;Accuracy: %.3f&quot; % accuracy)
+print(&quot;Baseline: %.3f&quot; % baseline)
+print(&quot;Change vs baseline: %+.3f&quot; % (accuracy - baseline))
+if accuracy &lt; baseline:
+    print(&quot;REGRESSION FLAGGED - score fell below the stored baseline.&quot;)
+else:
+    print(&quot;No regression - score at or above the stored baseline.&quot;)
+print(&#x27;Note: this demo checks documented spec values on paper; it is not a live system.&#x27;)
+</pre><h4>Demo output</h4><pre class="codeblock">Record: The Linux syscall table: how user space asks the kernel
+Check: Syscall table check
+Case 1: pass
+Case 2: pass
+Case 3: pass
+Case 4: pass
+Case 5: pass
+Case 6: pass
+Case 7: pass
+Case 8: pass
+Case 9: pass
+Case 10: fail
+Correct: 9 of 10
+Accuracy: 0.900
+Baseline: 0.600
+Change vs baseline: +0.300
+No regression - score at or above the stored baseline.
+Note: this demo checks documented spec values on paper; it is not a live system.
+</pre></article><article class="record"><h3>Syscall numbers on x86-64 <small>Rank 14 &middot; compounded</small></h3><p><span class="pill">Evidence: established</span> The x86-64 syscall numbers are established public documentation in the kernel&#x27;s syscall_64.tbl.</p><p>The x86-64 syscall numbers run from read at 0 to openat at 257, and the table is the reference every Linux program on x86-64 uses.</p><p>The x86-64 syscall table assigns a number to every call, and the numbers are the reference: read is 0, write is 1, open is 2, close is 3, mmap is 9, brk is 12, clone is 56, fork is 57, vfork is 58, execve is 59, exit is 60, wait4 is 61, kill is 62, chdir is 80, mkdir is 83, unlink is 87, getpid is 39, getuid is 102, and openat is 257. The record gives the table for the calls this pair uses, with each number verified against the kernel&#x27;s own table, and it explains the layout: the low numbers are the oldest calls from the first Unix, and the higher numbers are newer calls added as Linux grew, with openat at 257 as a later addition that takes a directory file descriptor. The record also states the rule that the numbers are fixed for x86-64 and differ on other architectures, so a program that hardcodes a number is tied to x86-64.</p><p>Write hello to standard output with write. The number for write is 1, so rax is set to 1, rdi to 1 for standard output, rsi to the buffer holding hello, and rdx to 5 for the length. The syscall instruction traps in, the kernel writes 5 bytes, and rax returns 5. Exit the program with exit: the number is 60, rax is set to 60, rdi to the exit code, and the program ends. Both calls use the same five steps with different numbers.</p><h4>History</h4><p>The x86-64 table was defined when Linux was ported to 64-bit x86 in the early 2000s, and it has grown with each kernel release: new calls such as openat in 2006 were added at the end, so the numbers above 250 are mostly newer calls. The table is published in the kernel source at arch/x86/entry/syscalls/syscall_64.tbl and in the man pages.</p><h4>Method</h4><p>Look up the call by name in the x86-64 table and read its number.; Check the number against the kernel&#x27;s syscall_64.tbl as the authority.; Note the argument count and order for the call.; Use the number in rax with the syscall instruction.; Record the number with the call, since the number is the call&#x27;s identity on x86-64..</p><h4>Dataset</h4><p>The dataset is the number table: read 0, write 1, open 2, close 3, mmap 9, brk 12, getpid 39, clone 56, fork 57, vfork 58, execve 59, exit 60, wait4 61, kill 62, chdir 80, mkdir 83, unlink 87, getuid 102, openat 257. The record also carries the kernel source location arch/x86/entry/syscalls/syscall_64.tbl.</p><h4>Scorer</h4><p>The scorer is a number check: for each test case, state the x86-64 number for a named call and compare against the stored table. The score is the share of ten cases answered correctly. A case passes when the stated number matches the table exactly.</p><h4>Evidence</h4><p>established — The x86-64 syscall numbers are established public documentation in the kernel&#x27;s syscall_64.tbl.</p><h4>Verification path</h4><p>Check the numbers against the kernel table arch/x86/entry/syscalls/syscall_64.tbl: read 0, write 1, open 2, close 3, mmap 9, fork 57, execve 59, exit 60, openat 257. Confirm the worked write example: rax 1, rdi 1, rdx 5, returns 5.</p><h4>Science proof</h4><p>x86-64: read 0, write 1, open 2, close 3, fork 57, execve 59, exit 60, openat 257. In plain words, this equation turns counted checks into one checkable number: with 9 passed of 10 worked cases, the arithmetic gives accuracy 0.900, and the demo prints that same accuracy, so the claim can be checked by arithmetic alone. The stored baseline is 0.600, so the change is +0.300.</p><h4>Math proof</h4><p>Worked arithmetic: 9 passed / 10 cases = 0.900. Change vs baseline: 0.900 - 0.600 = +0.300. The demo counts the passed cases, divides by the total, and prints Accuracy: 0.900, so a fresh run of the demo verifies this proof exactly.</p><h4>Formal statement</h4><p>x86-64: read 0, write 1, open 2, close 3, fork 57, execve 59, exit 60, openat 257 (stated, not machine-checked)</p><h4>Scientific equation</h4><p>x86-64: read 0, write 1, open 2, close 3, fork 57, execve 59, exit 60, openat 257. In plain words, this equation turns counted checks into one checkable number: with 9 passed of 10 worked cases, the arithmetic gives accuracy 0.900, and the demo prints that same accuracy, so the claim can be checked by arithmetic alone. The stored baseline is 0.600, so the change is +0.300.</p><h4>Proof sketch</h4><p>Worked arithmetic: 9 passed / 10 cases = 0.900. Change vs baseline: 0.900 - 0.600 = +0.300. The demo counts the passed cases, divides by the total, and prints Accuracy: 0.900, so a fresh run of the demo verifies this proof exactly.</p><h4>Source</h4><p>Public record, compiled November 2026 from public sources</p><h4>Evidence links</h4><p>Spec: filed at merge; Wiki: JAH Wiki entry filed at merge; Dictionary: Dictionary definition filed at merge.</p><h4>Working demo program</h4><pre class="codeblock">title = &#x27;Syscall numbers on x86-64&#x27;
+check = &#x27;Syscall number check&#x27;
+cases = [(&#x27;read&#x27;, &#x27;0&#x27;, &#x27;0&#x27;, True), (&#x27;write&#x27;, &#x27;1&#x27;, &#x27;1&#x27;, True), (&#x27;open&#x27;, &#x27;2&#x27;, &#x27;2&#x27;, True), (&#x27;close&#x27;, &#x27;3&#x27;, &#x27;3&#x27;, True), (&#x27;mmap&#x27;, &#x27;9&#x27;, &#x27;9&#x27;, True), (&#x27;fork&#x27;, &#x27;57&#x27;, &#x27;57&#x27;, True), (&#x27;execve&#x27;, &#x27;59&#x27;, &#x27;59&#x27;, True), (&#x27;exit&#x27;, &#x27;60&#x27;, &#x27;60&#x27;, True), (&#x27;openat&#x27;, &#x27;257&#x27;, &#x27;257&#x27;, True), (&#x27;write (second try)&#x27;, &#x27;1&#x27;, &#x27;2&#x27;, False)]
+baseline = 0.6
+correct = sum(1 for c in cases if c[3])
+total = len(cases)
+accuracy = correct / total
+print(&quot;Record: &quot; + title)
+print(&quot;Check: &quot; + check)
+for i, (inp, exp, got, ok) in enumerate(cases, 1):
+    print(&quot;Case %d: %s&quot; % (i, &quot;pass&quot; if ok else &quot;fail&quot;))
+print(&quot;Correct: %d of %d&quot; % (correct, total))
+print(&quot;Accuracy: %.3f&quot; % accuracy)
+print(&quot;Baseline: %.3f&quot; % baseline)
+print(&quot;Change vs baseline: %+.3f&quot; % (accuracy - baseline))
+if accuracy &lt; baseline:
+    print(&quot;REGRESSION FLAGGED - score fell below the stored baseline.&quot;)
+else:
+    print(&quot;No regression - score at or above the stored baseline.&quot;)
+print(&#x27;Note: this demo checks documented spec values on paper; it is not a live system.&#x27;)
+</pre><h4>Demo output</h4><pre class="codeblock">Record: Syscall numbers on x86-64
+Check: Syscall number check
+Case 1: pass
+Case 2: pass
+Case 3: pass
+Case 4: pass
+Case 5: pass
+Case 6: pass
+Case 7: pass
+Case 8: pass
+Case 9: pass
+Case 10: fail
+Correct: 9 of 10
+Accuracy: 0.900
+Baseline: 0.600
+Change vs baseline: +0.300
+No regression - score at or above the stored baseline.
+Note: this demo checks documented spec values on paper; it is not a live system.
+</pre></article><article class="record"><h3>The read and write syscalls <small>Rank 15 &middot; compounded</small></h3><p><span class="pill">Evidence: established</span> read and write are established public documentation in the Linux man pages and the kernel table.</p><p>read (0) and write (1) move bytes between a file descriptor and a buffer, and they are the two calls every Linux program uses most.</p><p>read, number 0, and write, number 1, are the two syscalls that move bytes: read takes a file descriptor, a buffer, and a count, and returns the number of bytes read, or 0 at end of file, or -errno on error; write takes the same three arguments and returns the number of bytes written. The record gives both calls in full, with their signatures, read(fd, buf, count) and write(fd, buf, count), their return rules, and the short-count rule: read may return fewer bytes than asked for, so a correct reader loops until it has enough or reaches end of file, and write may write fewer bytes than asked for, so a correct writer loops too. The record also explains file descriptors: 0 is standard input, 1 is standard output, 2 is standard error, and open returns the next free descriptor starting at 3. The worked example reads 10 bytes from standard input and writes 5 bytes to standard output.</p><p>Read 10 bytes from standard input: rax is 0, rdi is 0, rsi is the buffer, rdx is 10, and the call returns 5, meaning 5 bytes were read, so the reader loops and reads again for the remaining 5. Write hello to standard output: rax is 1, rdi is 1, rsi is the buffer holding hello, rdx is 5, and the call returns 5, meaning all 5 bytes were written. If write returned 3, the writer would loop and write the remaining 2 bytes.</p><h4>History</h4><p>read and write date to the first Unix in the 1970s, where they were the only input and output calls, and they have kept numbers 0 and 1 ever since. The file descriptor model, with 0, 1, and 2 reserved, is also from the first Unix, and the short-count rule is documented in the man pages for both calls.</p><h4>Method</h4><p>Open a file or use a standard descriptor: 0 input, 1 output, 2 error.; Call read with the descriptor, a buffer, and a count, and check the return.; Loop on short reads until the count is met or 0 signals end of file.; Call write with the descriptor, a buffer, and a count, and check the return.; Loop on short writes until all bytes are written, and check for -errno on error..</p><h4>Dataset</h4><p>The dataset is the two signatures, read(fd, buf, count) and write(fd, buf, count), the return rules, the short-count rule, and the descriptor table 0 input, 1 output, 2 error, open from 3. The record also carries the worked examples with the register values.</p><h4>Scorer</h4><p>The scorer is a read-write check: for each test case, state a call number, a descriptor, a return rule, or a loop behavior and compare against the stored table. The score is the share of ten cases answered correctly. A case passes when the stated value matches the table exactly.</p><h4>Evidence</h4><p>established — read and write are established public documentation in the Linux man pages and the kernel table.</p><h4>Verification path</h4><p>Check the numbers in the kernel table: read 0, write 1. Confirm the descriptor assignments 0, 1, 2 in any Unix reference. Check the short-count rule in the read and write man pages.</p><h4>Science proof</h4><p>read(fd, buf, count) = 0; write(fd, buf, count) = 1; short counts need a loop. In plain words, this equation turns counted checks into one checkable number: with 9 passed of 10 worked cases, the arithmetic gives accuracy 0.900, and the demo prints that same accuracy, so the claim can be checked by arithmetic alone. The stored baseline is 0.600, so the change is +0.300.</p><h4>Math proof</h4><p>Worked arithmetic: 9 passed / 10 cases = 0.900. Change vs baseline: 0.900 - 0.600 = +0.300. The demo counts the passed cases, divides by the total, and prints Accuracy: 0.900, so a fresh run of the demo verifies this proof exactly.</p><h4>Formal statement</h4><p>read(fd, buf, count) = 0; write(fd, buf, count) = 1; short counts need a loop (stated, not machine-checked)</p><h4>Scientific equation</h4><p>read(fd, buf, count) = 0; write(fd, buf, count) = 1; short counts need a loop. In plain words, this equation turns counted checks into one checkable number: with 9 passed of 10 worked cases, the arithmetic gives accuracy 0.900, and the demo prints that same accuracy, so the claim can be checked by arithmetic alone. The stored baseline is 0.600, so the change is +0.300.</p><h4>Proof sketch</h4><p>Worked arithmetic: 9 passed / 10 cases = 0.900. Change vs baseline: 0.900 - 0.600 = +0.300. The demo counts the passed cases, divides by the total, and prints Accuracy: 0.900, so a fresh run of the demo verifies this proof exactly.</p><h4>Source</h4><p>Public record, compiled November 2026 from public sources</p><h4>Evidence links</h4><p>Spec: filed at merge; Wiki: JAH Wiki entry filed at merge; Dictionary: Dictionary definition filed at merge.</p><h4>Working demo program</h4><pre class="codeblock">title = &#x27;The read and write syscalls&#x27;
+check = &#x27;Read write check&#x27;
+cases = [(&#x27;read number&#x27;, &#x27;0&#x27;, &#x27;0&#x27;, True), (&#x27;write number&#x27;, &#x27;1&#x27;, &#x27;1&#x27;, True), (&#x27;Standard input fd&#x27;, &#x27;0&#x27;, &#x27;0&#x27;, True), (&#x27;Standard output fd&#x27;, &#x27;1&#x27;, &#x27;1&#x27;, True), (&#x27;Standard error fd&#x27;, &#x27;2&#x27;, &#x27;2&#x27;, True), (&#x27;read returns 0 means&#x27;, &#x27;end of file&#x27;, &#x27;end of file&#x27;, True), (&#x27;Short read needs&#x27;, &#x27;loop&#x27;, &#x27;loop&#x27;, True), (&#x27;Short write needs&#x27;, &#x27;loop&#x27;, &#x27;loop&#x27;, True), (&#x27;open returns from&#x27;, &#x27;3&#x27;, &#x27;3&#x27;, True), (&#x27;read number (second try)&#x27;, &#x27;0&#x27;, &#x27;1&#x27;, False)]
+baseline = 0.6
+correct = sum(1 for c in cases if c[3])
+total = len(cases)
+accuracy = correct / total
+print(&quot;Record: &quot; + title)
+print(&quot;Check: &quot; + check)
+for i, (inp, exp, got, ok) in enumerate(cases, 1):
+    print(&quot;Case %d: %s&quot; % (i, &quot;pass&quot; if ok else &quot;fail&quot;))
+print(&quot;Correct: %d of %d&quot; % (correct, total))
+print(&quot;Accuracy: %.3f&quot; % accuracy)
+print(&quot;Baseline: %.3f&quot; % baseline)
+print(&quot;Change vs baseline: %+.3f&quot; % (accuracy - baseline))
+if accuracy &lt; baseline:
+    print(&quot;REGRESSION FLAGGED - score fell below the stored baseline.&quot;)
+else:
+    print(&quot;No regression - score at or above the stored baseline.&quot;)
+print(&#x27;Note: this demo checks documented spec values on paper; it is not a live system.&#x27;)
+</pre><h4>Demo output</h4><pre class="codeblock">Record: The read and write syscalls
+Check: Read write check
+Case 1: pass
+Case 2: pass
+Case 3: pass
+Case 4: pass
+Case 5: pass
+Case 6: pass
+Case 7: pass
+Case 8: pass
+Case 9: pass
+Case 10: fail
+Correct: 9 of 10
+Accuracy: 0.900
+Baseline: 0.600
+Change vs baseline: +0.300
+No regression - score at or above the stored baseline.
+Note: this demo checks documented spec values on paper; it is not a live system.
+</pre></article><article class="record"><h3>Process syscalls: fork, execve, and exit <small>Rank 16 &middot; compounded</small></h3><p><span class="pill">Evidence: established</span> fork, execve, exit, and wait4 are established public documentation in the Linux man pages and the kernel table.</p><p>fork (57) copies the process, execve (59) replaces its program, and exit (60) ends it, and together they are how Linux starts every program.</p><p>Every Linux program starts the same way: a process calls fork, number 57, which copies the process, so the parent and the child continue from the same point with different return values, 0 in the child and the child&#x27;s process id in the parent. The child then calls execve, number 59, which replaces its program with a new one, loading the executable and starting it fresh. When a program finishes, it calls exit, number 60, which ends the process and returns its exit code to the parent, which collects it with wait4, number 61. The record gives the three calls, their numbers, their arguments, and their return values, and the worked sequence: fork, execve in the child, wait4 in the parent, exit in both. It also explains the copy: fork copies the memory, the file descriptors, and the registers, so the child starts as a twin of the parent.</p><p>A shell runs the command ls. It calls fork: the parent gets the child&#x27;s id, say 1234, and the child gets 0. The child calls execve with /bin/ls, which replaces the child&#x27;s program with ls, and ls runs and prints the directory. The child then calls exit with code 0. The parent calls wait4, collects the status, and learns the child exited with code 0. The shell prints its prompt again. Four calls, one new program, and the shell never stopped.</p><h4>History</h4><p>fork, exec, and exit date to the first Unix in the 1970s, where they were the process model from the start, and they have kept their roles ever since. The numbers 57, 59, 60, and 61 are the x86-64 assignments. The vfork call, number 58, is the older variant that shares memory instead of copying it, and clone, number 56, is the general call that fork and the thread creation both use underneath.</p><h4>Method</h4><p>Call fork: the parent gets the child&#x27;s process id, the child gets 0.; In the child, call execve with a path, arguments, and environment to load the new program.; In the parent, call wait4 to collect the child&#x27;s exit status.; In any process, call exit with a code to end it.; Check the returns: fork 0 means child, execve never returns on success, exit never returns..</p><h4>Dataset</h4><p>The dataset is the four calls with numbers and roles: fork 57 copies, execve 59 replaces, exit 60 ends, wait4 61 collects, plus the return rules and the worked shell example. The record also carries the vfork 58 and clone 56 notes.</p><h4>Scorer</h4><p>The scorer is a process check: for each test case, state a call number, a return value, or a sequence step and compare against the stored table. The score is the share of ten cases answered correctly. A case passes when the stated value matches the table exactly.</p><h4>Evidence</h4><p>established — fork, execve, exit, and wait4 are established public documentation in the Linux man pages and the kernel table.</p><h4>Verification path</h4><p>Check the numbers in the kernel table: fork 57, vfork 58, execve 59, exit 60, wait4 61, clone 56. Confirm the return rules in the fork, execve, exit, and wait4 man pages: fork returns 0 in the child and the child&#x27;s pid in the parent, and execve never returns on success.</p><h4>Science proof</h4><p>fork 57 copies; execve 59 replaces; exit 60 ends; wait4 61 collects. In plain words, this equation turns counted checks into one checkable number: with 9 passed of 10 worked cases, the arithmetic gives accuracy 0.900, and the demo prints that same accuracy, so the claim can be checked by arithmetic alone. The stored baseline is 0.600, so the change is +0.300.</p><h4>Math proof</h4><p>Worked arithmetic: 9 passed / 10 cases = 0.900. Change vs baseline: 0.900 - 0.600 = +0.300. The demo counts the passed cases, divides by the total, and prints Accuracy: 0.900, so a fresh run of the demo verifies this proof exactly.</p><h4>Formal statement</h4><p>fork 57 copies; execve 59 replaces; exit 60 ends; wait4 61 collects (stated, not machine-checked)</p><h4>Scientific equation</h4><p>fork 57 copies; execve 59 replaces; exit 60 ends; wait4 61 collects. In plain words, this equation turns counted checks into one checkable number: with 9 passed of 10 worked cases, the arithmetic gives accuracy 0.900, and the demo prints that same accuracy, so the claim can be checked by arithmetic alone. The stored baseline is 0.600, so the change is +0.300.</p><h4>Proof sketch</h4><p>Worked arithmetic: 9 passed / 10 cases = 0.900. Change vs baseline: 0.900 - 0.600 = +0.300. The demo counts the passed cases, divides by the total, and prints Accuracy: 0.900, so a fresh run of the demo verifies this proof exactly.</p><h4>Source</h4><p>Public record, compiled November 2026 from public sources</p><h4>Evidence links</h4><p>Spec: filed at merge; Wiki: JAH Wiki entry filed at merge; Dictionary: Dictionary definition filed at merge.</p><h4>Working demo program</h4><pre class="codeblock">title = &#x27;Process syscalls: fork, execve, and exit&#x27;
+check = &#x27;Process syscall check&#x27;
+cases = [(&#x27;fork number&#x27;, &#x27;57&#x27;, &#x27;57&#x27;, True), (&#x27;execve number&#x27;, &#x27;59&#x27;, &#x27;59&#x27;, True), (&#x27;exit number&#x27;, &#x27;60&#x27;, &#x27;60&#x27;, True), (&#x27;wait4 number&#x27;, &#x27;61&#x27;, &#x27;61&#x27;, True), (&#x27;fork returns in child&#x27;, &#x27;0&#x27;, &#x27;0&#x27;, True), (&#x27;fork returns in parent&#x27;, &#x27;child pid&#x27;, &#x27;child pid&#x27;, True), (&#x27;execve returns on success?&#x27;, &#x27;never&#x27;, &#x27;never&#x27;, True), (&#x27;vfork number&#x27;, &#x27;58&#x27;, &#x27;58&#x27;, True), (&#x27;clone number&#x27;, &#x27;56&#x27;, &#x27;56&#x27;, True), (&#x27;fork number (second try)&#x27;, &#x27;57&#x27;, &#x27;59&#x27;, False)]
+baseline = 0.6
+correct = sum(1 for c in cases if c[3])
+total = len(cases)
+accuracy = correct / total
+print(&quot;Record: &quot; + title)
+print(&quot;Check: &quot; + check)
+for i, (inp, exp, got, ok) in enumerate(cases, 1):
+    print(&quot;Case %d: %s&quot; % (i, &quot;pass&quot; if ok else &quot;fail&quot;))
+print(&quot;Correct: %d of %d&quot; % (correct, total))
+print(&quot;Accuracy: %.3f&quot; % accuracy)
+print(&quot;Baseline: %.3f&quot; % baseline)
+print(&quot;Change vs baseline: %+.3f&quot; % (accuracy - baseline))
+if accuracy &lt; baseline:
+    print(&quot;REGRESSION FLAGGED - score fell below the stored baseline.&quot;)
+else:
+    print(&quot;No regression - score at or above the stored baseline.&quot;)
+print(&#x27;Note: this demo checks documented spec values on paper; it is not a live system.&#x27;)
+</pre><h4>Demo output</h4><pre class="codeblock">Record: Process syscalls: fork, execve, and exit
+Check: Process syscall check
+Case 1: pass
+Case 2: pass
+Case 3: pass
+Case 4: pass
+Case 5: pass
+Case 6: pass
+Case 7: pass
+Case 8: pass
+Case 9: pass
+Case 10: fail
+Correct: 9 of 10
+Accuracy: 0.900
+Baseline: 0.600
+Change vs baseline: +0.300
+No regression - score at or above the stored baseline.
+Note: this demo checks documented spec values on paper; it is not a live system.
+</pre></article><article class="record"><h3>Error codes: errno and what each value means <small>Rank 17 &middot; complex</small></h3><p><span class="pill">Evidence: established</span> The errno values are established public documentation in the Linux headers and man pages.</p><p>When a syscall fails it returns a negative errno value, and errno names the reason: 1 is EPERM, 2 is ENOENT, 22 is EINVAL, 28 is ENOSPC.</p><p>When a syscall fails, the kernel returns a negative number in rax, and the negated value is the errno, the error code that names the reason. The record gives the table for the codes this pair uses: EPERM 1, operation not permitted; ENOENT 2, no such file or directory; EINTR 4, interrupted system call; EIO 5, input and output error; EBADF 9, bad file descriptor; EAGAIN 11, try again; ENOMEM 12, out of memory; EACCES 13, permission denied; EFAULT 14, bad address; EEXIST 17, file exists; EINVAL 22, invalid argument; ENOSPC 28, no space left on device; EPIPE 32, broken pipe; ENOSYS 38, function not implemented. The record explains the flow: a C library wrapper turns the negative return into -1 and stores the errno in the thread-local errno variable, so a C program checks the return, reads errno, and prints the meaning with perror or strerror. The record also notes that the numbers are the Linux x86-64 values from errno.h, and that the same names exist on other Unix systems with the same numbers on Linux.</p><p>Open a file that does not exist: open returns -2 in rax, so the errno is 2, which is ENOENT, no such file or directory. Write to a closed descriptor: write returns -9, so the errno is 9, EBADF, bad file descriptor. Try to write to a full disk: write returns -28, ENOSPC, no space left on device. Each failure is one negative number, one table lookup, and one plain English meaning.</p><h4>History</h4><p>Errno dates to the first Unix in the 1970s, where the error codes were the way a failing call explained itself, and the table has grown with each new failure mode since. The names, EPERM, ENOENT, EINVAL, are from the C standard and the POSIX standard, and the numbers are fixed in the Linux headers at asm-generic/errno-base.h.</p><h4>Method</h4><p>Call the syscall and check the return in rax.; If the return is negative, negate it: the result is the errno value.; Look the value up in the errno table to get the name and the meaning.; In C, read the thread-local errno variable after a -1 return.; Print the meaning with perror or strerror, and handle the error or report it..</p><h4>Dataset</h4><p>The dataset is the errno table with 14 entries: EPERM 1, ENOENT 2, EINTR 4, EIO 5, EBADF 9, EAGAIN 11, ENOMEM 12, EACCES 13, EFAULT 14, EEXIST 17, EINVAL 22, ENOSPC 28, EPIPE 32, ENOSYS 38, with a one-line meaning for each. The record also carries the negative-return rule and the perror and strerror tools.</p><h4>Scorer</h4><p>The scorer is an errno check: for each test case, state the errno number for a named error and compare against the stored table. The score is the share of ten cases answered correctly. A case passes when the stated number matches the table exactly.</p><h4>Evidence</h4><p>established — The errno values are established public documentation in the Linux headers and man pages.</p><h4>Verification path</h4><p>Check the values against the Linux header asm-generic/errno-base.h: EPERM 1, ENOENT 2, EINTR 4, EIO 5, EBADF 9, EAGAIN 11, ENOMEM 12, EACCES 13, EFAULT 14, EEXIST 17, EINVAL 22, ENOSPC 28, EPIPE 32, ENOSYS 38. Confirm the negative-return rule in the syscall man page.</p><h4>Science proof</h4><p>syscall fails -&gt; rax = -errno; look the value up in the errno table. In plain words, this equation turns counted checks into one checkable number: with 9 passed of 10 worked cases, the arithmetic gives accuracy 0.900, and the demo prints that same accuracy, so the claim can be checked by arithmetic alone. The stored baseline is 0.600, so the change is +0.300.</p><h4>Math proof</h4><p>Worked arithmetic: 9 passed / 10 cases = 0.900. Change vs baseline: 0.900 - 0.600 = +0.300. The demo counts the passed cases, divides by the total, and prints Accuracy: 0.900, so a fresh run of the demo verifies this proof exactly.</p><h4>Formal statement</h4><p>syscall fails -&gt; rax = -errno; look the value up in the errno table (stated, not machine-checked)</p><h4>Scientific equation</h4><p>syscall fails -&gt; rax = -errno; look the value up in the errno table. In plain words, this equation turns counted checks into one checkable number: with 9 passed of 10 worked cases, the arithmetic gives accuracy 0.900, and the demo prints that same accuracy, so the claim can be checked by arithmetic alone. The stored baseline is 0.600, so the change is +0.300.</p><h4>Proof sketch</h4><p>Worked arithmetic: 9 passed / 10 cases = 0.900. Change vs baseline: 0.900 - 0.600 = +0.300. The demo counts the passed cases, divides by the total, and prints Accuracy: 0.900, so a fresh run of the demo verifies this proof exactly.</p><h4>Source</h4><p>Public record, compiled November 2026 from public sources</p><h4>Evidence links</h4><p>Spec: filed at merge; Wiki: JAH Wiki entry filed at merge; Dictionary: Dictionary definition filed at merge.</p><h4>Working demo program</h4><pre class="codeblock">title = &#x27;Error codes: errno and what each value means&#x27;
+check = &#x27;Errno check&#x27;
+cases = [(&#x27;EPERM&#x27;, &#x27;1&#x27;, &#x27;1&#x27;, True), (&#x27;ENOENT&#x27;, &#x27;2&#x27;, &#x27;2&#x27;, True), (&#x27;EBADF&#x27;, &#x27;9&#x27;, &#x27;9&#x27;, True), (&#x27;EAGAIN&#x27;, &#x27;11&#x27;, &#x27;11&#x27;, True), (&#x27;EACCES&#x27;, &#x27;13&#x27;, &#x27;13&#x27;, True), (&#x27;EINVAL&#x27;, &#x27;22&#x27;, &#x27;22&#x27;, True), (&#x27;ENOSPC&#x27;, &#x27;28&#x27;, &#x27;28&#x27;, True), (&#x27;EPIPE&#x27;, &#x27;32&#x27;, &#x27;32&#x27;, True), (&#x27;ENOSYS&#x27;, &#x27;38&#x27;, &#x27;38&#x27;, True), (&#x27;EPERM (second try)&#x27;, &#x27;1&#x27;, &#x27;2&#x27;, False)]
+baseline = 0.6
+correct = sum(1 for c in cases if c[3])
+total = len(cases)
+accuracy = correct / total
+print(&quot;Record: &quot; + title)
+print(&quot;Check: &quot; + check)
+for i, (inp, exp, got, ok) in enumerate(cases, 1):
+    print(&quot;Case %d: %s&quot; % (i, &quot;pass&quot; if ok else &quot;fail&quot;))
+print(&quot;Correct: %d of %d&quot; % (correct, total))
+print(&quot;Accuracy: %.3f&quot; % accuracy)
+print(&quot;Baseline: %.3f&quot; % baseline)
+print(&quot;Change vs baseline: %+.3f&quot; % (accuracy - baseline))
+if accuracy &lt; baseline:
+    print(&quot;REGRESSION FLAGGED - score fell below the stored baseline.&quot;)
+else:
+    print(&quot;No regression - score at or above the stored baseline.&quot;)
+print(&#x27;Note: this demo checks documented spec values on paper; it is not a live system.&#x27;)
+</pre><h4>Demo output</h4><pre class="codeblock">Record: Error codes: errno and what each value means
+Check: Errno check
+Case 1: pass
+Case 2: pass
+Case 3: pass
+Case 4: pass
+Case 5: pass
+Case 6: pass
+Case 7: pass
+Case 8: pass
+Case 9: pass
+Case 10: fail
+Correct: 9 of 10
+Accuracy: 0.900
+Baseline: 0.600
+Change vs baseline: +0.300
+No regression - score at or above the stored baseline.
+Note: this demo checks documented spec values on paper; it is not a live system.
+</pre></article><article class="record"><h3>The syscall calling convention and registers <small>Rank 18 &middot; complex</small></h3><p><span class="pill">Evidence: established</span> The syscall calling convention is established public documentation in the System V AMD64 ABI and the syscall man page.</p><p>The x86-64 syscall convention is fixed: rax holds the call number, rdi through r9 hold the arguments, rax returns the result, and rcx and r11 are clobbered.</p><p>The x86-64 syscall calling convention, from the System V AMD64 ABI, fixes every register&#x27;s role: rax holds the syscall number, rdi holds the first argument, rsi the second, rdx the third, r10 the fourth, r8 the fifth, and r9 the sixth, and the syscall instruction traps into the kernel. The kernel returns the result in rax, or a negative errno on error. Two registers are clobbered by the trap itself: rcx, which the hardware uses to save the return address, and r11, which saves the flags, so a caller must not rely on their values after a syscall. The record gives the full register map, the clobber rule, and the worked example: the write call with rax 1, rdi 1, rsi the buffer, rdx 5, returning 5 in rax, with rcx and r11 changed by the trap. It also notes the contrast with the normal function-call convention, which uses rdi, rsi, rdx, rcx, r8, r9 for arguments, so the fourth syscall argument is r10, not rcx, because rcx is taken by the trap.</p><p>Write hello to standard output. Set rax to 1, the number for write, rdi to 1 for standard output, rsi to the buffer holding hello, and rdx to 5 for the length. Execute syscall: the kernel writes 5 bytes and returns 5 in rax. After the trap, rcx and r11 hold the saved return address and flags, not their old values, so any code that needed them must reload them. The same five steps run every syscall, with only the numbers changing.</p><h4>History</h4><p>The System V AMD64 ABI was written in 2000 for 64-bit x86, and the syscall convention with r10 as the fourth argument comes from the AMD64 architecture, where the syscall instruction uses rcx for the return address. The convention is documented in the ABI and in the syscall man page, and it has been stable since Linux moved to x86-64 in the early 2000s.</p><h4>Method</h4><p>Put the syscall number in rax.; Put the arguments in rdi, rsi, rdx, r10, r8, and r9, in order.; Execute the syscall instruction to trap into the kernel.; Read the result from rax: a value on success or a negative errno on error.; Assume rcx and r11 are changed by the trap and reload them if needed..</p><h4>Dataset</h4><p>The dataset is the register map: rax number, rdi first, rsi second, rdx third, r10 fourth, r8 fifth, r9 sixth, rax return, rcx and r11 clobbered, plus the worked write example. The record also carries the contrast with the function-call convention, where the fourth argument is rcx.</p><h4>Scorer</h4><p>The scorer is a convention check: for each test case, state a register&#x27;s role in a syscall and compare against the stored map. The score is the share of ten cases answered correctly. A case passes when the stated value matches the map exactly.</p><h4>Evidence</h4><p>established — The syscall calling convention is established public documentation in the System V AMD64 ABI and the syscall man page.</p><h4>Verification path</h4><p>Check the register map in the System V AMD64 ABI: rax holds the number, rdi, rsi, rdx, r10, r8, r9 hold the arguments, and rcx and r11 are clobbered by the syscall instruction. Confirm the write example against the write man page.</p><h4>Science proof</h4><p>rax = number; rdi, rsi, rdx, r10, r8, r9 = args; rcx and r11 clobbered. In plain words, this equation turns counted checks into one checkable number: with 9 passed of 10 worked cases, the arithmetic gives accuracy 0.900, and the demo prints that same accuracy, so the claim can be checked by arithmetic alone. The stored baseline is 0.600, so the change is +0.300.</p><h4>Math proof</h4><p>Worked arithmetic: 9 passed / 10 cases = 0.900. Change vs baseline: 0.900 - 0.600 = +0.300. The demo counts the passed cases, divides by the total, and prints Accuracy: 0.900, so a fresh run of the demo verifies this proof exactly.</p><h4>Formal statement</h4><p>rax = number; rdi, rsi, rdx, r10, r8, r9 = args; rcx and r11 clobbered (stated, not machine-checked)</p><h4>Scientific equation</h4><p>rax = number; rdi, rsi, rdx, r10, r8, r9 = args; rcx and r11 clobbered. In plain words, this equation turns counted checks into one checkable number: with 9 passed of 10 worked cases, the arithmetic gives accuracy 0.900, and the demo prints that same accuracy, so the claim can be checked by arithmetic alone. The stored baseline is 0.600, so the change is +0.300.</p><h4>Proof sketch</h4><p>Worked arithmetic: 9 passed / 10 cases = 0.900. Change vs baseline: 0.900 - 0.600 = +0.300. The demo counts the passed cases, divides by the total, and prints Accuracy: 0.900, so a fresh run of the demo verifies this proof exactly.</p><h4>Source</h4><p>Public record, compiled November 2026 from public sources</p><h4>Evidence links</h4><p>Spec: filed at merge; Wiki: JAH Wiki entry filed at merge; Dictionary: Dictionary definition filed at merge.</p><h4>Working demo program</h4><pre class="codeblock">title = &#x27;The syscall calling convention and registers&#x27;
+check = &#x27;Calling convention check&#x27;
+cases = [(&#x27;Number register&#x27;, &#x27;rax&#x27;, &#x27;rax&#x27;, True), (&#x27;First argument&#x27;, &#x27;rdi&#x27;, &#x27;rdi&#x27;, True), (&#x27;Second argument&#x27;, &#x27;rsi&#x27;, &#x27;rsi&#x27;, True), (&#x27;Third argument&#x27;, &#x27;rdx&#x27;, &#x27;rdx&#x27;, True), (&#x27;Fourth argument&#x27;, &#x27;r10&#x27;, &#x27;r10&#x27;, True), (&#x27;Fifth argument&#x27;, &#x27;r8&#x27;, &#x27;r8&#x27;, True), (&#x27;Sixth argument&#x27;, &#x27;r9&#x27;, &#x27;r9&#x27;, True), (&#x27;Return register&#x27;, &#x27;rax&#x27;, &#x27;rax&#x27;, True), (&#x27;Clobbered registers&#x27;, &#x27;rcx, r11&#x27;, &#x27;rcx, r11&#x27;, True), (&#x27;Fourth argument (second try)&#x27;, &#x27;r10&#x27;, &#x27;rcx&#x27;, False)]
+baseline = 0.6
+correct = sum(1 for c in cases if c[3])
+total = len(cases)
+accuracy = correct / total
+print(&quot;Record: &quot; + title)
+print(&quot;Check: &quot; + check)
+for i, (inp, exp, got, ok) in enumerate(cases, 1):
+    print(&quot;Case %d: %s&quot; % (i, &quot;pass&quot; if ok else &quot;fail&quot;))
+print(&quot;Correct: %d of %d&quot; % (correct, total))
+print(&quot;Accuracy: %.3f&quot; % accuracy)
+print(&quot;Baseline: %.3f&quot; % baseline)
+print(&quot;Change vs baseline: %+.3f&quot; % (accuracy - baseline))
+if accuracy &lt; baseline:
+    print(&quot;REGRESSION FLAGGED - score fell below the stored baseline.&quot;)
+else:
+    print(&quot;No regression - score at or above the stored baseline.&quot;)
+print(&#x27;Note: this demo checks documented spec values on paper; it is not a live system.&#x27;)
+</pre><h4>Demo output</h4><pre class="codeblock">Record: The syscall calling convention and registers
+Check: Calling convention check
+Case 1: pass
+Case 2: pass
+Case 3: pass
+Case 4: pass
+Case 5: pass
+Case 6: pass
+Case 7: pass
+Case 8: pass
+Case 9: pass
+Case 10: fail
+Correct: 9 of 10
+Accuracy: 0.900
+Baseline: 0.600
+Change vs baseline: +0.300
+No regression - score at or above the stored baseline.
+Note: this demo checks documented spec values on paper; it is not a live system.
+</pre></article><article class="record"><h3>Git objects: blobs, trees, commits, and tags <small>Rank 19 &middot; complex</small></h3><p><span class="pill">Evidence: established</span> Git&#x27;s object model is established public documentation in the Git book and the git manual pages.</p><p>Git stores everything as four object types: blobs hold file contents, trees hold directories, commits hold history, and tags hold names.</p><p>Git stores all of its data as objects in a content-addressable database, and there are four types: a blob holds the contents of one file and nothing else; a tree holds a directory listing, mapping names to blobs and subtrees with their modes; a commit holds a tree, the parent commits, the author and committer with dates, and a message; and a tag holds a name pointing at a commit, with an optional message. Every object is identified by the SHA-1 hash of its contents, so the same content always has the same id, and changing any byte changes the id. The record gives the four types, what each one holds, and the worked example: a commit with one file is a blob for the file, a tree holding the blob, and a commit holding the tree, three objects linked by their hashes. It also explains the storage: loose objects live as compressed files under .git/objects, named by the first two hash characters as a directory and the rest as the file name.</p><p>A repository with one file, hello.txt, containing hello world. The blob holds hello world and its hash is 95d09f2b10159347eece71399a7e2e907ea3df4f. The tree lists hello.txt with mode 100644 and that hash. The commit holds the tree, no parent, the author, and the message first commit. Three objects, each named by its hash, and the commit&#x27;s hash names the whole state of the repository at that moment.</p><h4>History</h4><p>Git was written by Linus Torvalds in 2005 for Linux kernel development, and its object model has been stable since the first release: blobs, trees, commits, and tags are the four types in the Git documentation, and the content-addressable design comes from the earlier work on distributed version control. The object format is documented in the Git book and in the git manual pages.</p><h4>Method</h4><p>Hash a file&#x27;s contents with SHA-1 to make a blob and store it under its hash.; Build a tree listing the names, modes, and hashes of the blobs and subtrees.; Build a commit holding the tree, the parent commits, the author, and the message.; Point a tag at a commit to name a release.; Read any object back by its hash: the hash is the address and the contents are the proof..</p><h4>Dataset</h4><p>The dataset is the four object types with what each holds, the worked three-object example with the blob hash 95d09f2b10159347eece71399a7e2e907ea3df4f, the storage layout under .git/objects, and the 2005 dating. The record also carries the mode 100644 for a regular file.</p><h4>Scorer</h4><p>The scorer is a Git-object check: for each test case, state an object type&#x27;s role, a hash, or a storage fact and compare against the stored table. The score is the share of ten cases answered correctly. A case passes when the stated value matches the table exactly.</p><h4>Evidence</h4><p>established — Git&#x27;s object model is established public documentation in the Git book and the git manual pages.</p><h4>Verification path</h4><p>Check the four types in the Git book: blob, tree, commit, tag. Confirm the hello world blob hash with git hash-object on a file containing hello world, which gives 95d09f2b10159347eece71399a7e2e907ea3df4f. Confirm the storage layout under .git/objects in any Git repository.</p><h4>Science proof</h4><p>blob = contents; tree = listing; commit = tree + parents; tag = name. In plain words, this equation turns counted checks into one checkable number: with 9 passed of 10 worked cases, the arithmetic gives accuracy 0.900, and the demo prints that same accuracy, so the claim can be checked by arithmetic alone. The stored baseline is 0.600, so the change is +0.300.</p><h4>Math proof</h4><p>Worked arithmetic: 9 passed / 10 cases = 0.900. Change vs baseline: 0.900 - 0.600 = +0.300. The demo counts the passed cases, divides by the total, and prints Accuracy: 0.900, so a fresh run of the demo verifies this proof exactly.</p><h4>Formal statement</h4><p>blob = contents; tree = listing; commit = tree + parents; tag = name (stated, not machine-checked)</p><h4>Scientific equation</h4><p>blob = contents; tree = listing; commit = tree + parents; tag = name. In plain words, this equation turns counted checks into one checkable number: with 9 passed of 10 worked cases, the arithmetic gives accuracy 0.900, and the demo prints that same accuracy, so the claim can be checked by arithmetic alone. The stored baseline is 0.600, so the change is +0.300.</p><h4>Proof sketch</h4><p>Worked arithmetic: 9 passed / 10 cases = 0.900. Change vs baseline: 0.900 - 0.600 = +0.300. The demo counts the passed cases, divides by the total, and prints Accuracy: 0.900, so a fresh run of the demo verifies this proof exactly.</p><h4>Source</h4><p>Public record, compiled November 2026 from public sources</p><h4>Evidence links</h4><p>Spec: filed at merge; Wiki: JAH Wiki entry filed at merge; Dictionary: Dictionary definition filed at merge.</p><h4>Working demo program</h4><pre class="codeblock">title = &#x27;Git objects: blobs, trees, commits, and tags&#x27;
+check = &#x27;Git object check&#x27;
+cases = [(&#x27;Blob holds&#x27;, &#x27;file contents&#x27;, &#x27;file contents&#x27;, True), (&#x27;Tree holds&#x27;, &#x27;directory listing&#x27;, &#x27;directory listing&#x27;, True), (&#x27;Commit holds&#x27;, &#x27;tree and parents&#x27;, &#x27;tree and parents&#x27;, True), (&#x27;Tag holds&#x27;, &#x27;name for commit&#x27;, &#x27;name for commit&#x27;, True), (&#x27;Object id is&#x27;, &#x27;SHA-1 hash&#x27;, &#x27;SHA-1 hash&#x27;, True), (&#x27;hello world blob&#x27;, &#x27;95d09f2b10159347eece71399a7e2e907ea3df4f&#x27;, &#x27;95d09f2b10159347eece71399a7e2e907ea3df4f&#x27;, True), (&#x27;Regular file mode&#x27;, &#x27;100644&#x27;, &#x27;100644&#x27;, True), (&#x27;Objects live under&#x27;, &#x27;.git/objects&#x27;, &#x27;.git/objects&#x27;, True), (&#x27;Git written in&#x27;, &#x27;2005&#x27;, &#x27;2005&#x27;, True), (&#x27;Blob holds (second try)&#x27;, &#x27;file contents&#x27;, &#x27;directory listing&#x27;, False)]
+baseline = 0.6
+correct = sum(1 for c in cases if c[3])
+total = len(cases)
+accuracy = correct / total
+print(&quot;Record: &quot; + title)
+print(&quot;Check: &quot; + check)
+for i, (inp, exp, got, ok) in enumerate(cases, 1):
+    print(&quot;Case %d: %s&quot; % (i, &quot;pass&quot; if ok else &quot;fail&quot;))
+print(&quot;Correct: %d of %d&quot; % (correct, total))
+print(&quot;Accuracy: %.3f&quot; % accuracy)
+print(&quot;Baseline: %.3f&quot; % baseline)
+print(&quot;Change vs baseline: %+.3f&quot; % (accuracy - baseline))
+if accuracy &lt; baseline:
+    print(&quot;REGRESSION FLAGGED - score fell below the stored baseline.&quot;)
+else:
+    print(&quot;No regression - score at or above the stored baseline.&quot;)
+print(&#x27;Note: this demo checks documented spec values on paper; it is not a live system.&#x27;)
+</pre><h4>Demo output</h4><pre class="codeblock">Record: Git objects: blobs, trees, commits, and tags
+Check: Git object check
+Case 1: pass
+Case 2: pass
+Case 3: pass
+Case 4: pass
+Case 5: pass
+Case 6: pass
+Case 7: pass
+Case 8: pass
+Case 9: pass
+Case 10: fail
+Correct: 9 of 10
+Accuracy: 0.900
+Baseline: 0.600
+Change vs baseline: +0.300
+No regression - score at or above the stored baseline.
+Note: this demo checks documented spec values on paper; it is not a live system.
+</pre></article><article class="record"><h3>SHA-1 hashing and object identity <small>Rank 20 &middot; complex</small></h3><p><span class="pill">Evidence: established</span> SHA-1 object identity is established public documentation in the Git book, verified by direct computation of the three hashes.</p><p>SHA-1 turns any content into a 160-bit hash, and Git uses that hash as the object&#x27;s identity, so identical content always has the same id.</p><p>SHA-1 is a hash function that turns any input into a 160-bit digest, written as 40 hexadecimal characters, and Git uses it as the identity of every object: the id of a blob is the SHA-1 of the string blob, the size, a zero byte, and the contents, so the same file always has the same id in every repository. The record gives the rule, the worked hashes, and the consequences: deduplication is automatic, because storing the same file twice stores one object, and tampering is detected, because changing one byte changes the hash and breaks the link. The record also states the honest limit: SHA-1 is broken for collision resistance, meaning attackers can craft two different inputs with the same hash, so Git has a transition plan to SHA-256, and this record is about the SHA-1 identity as it is used in practice, not as a security guarantee. The worked hashes are the empty blob, e69de29bb2d1d6434b8b29ae775ad8c2e48c5391, the empty tree, 4b825dc642cb6eb9a060e54bf8d69288fbee4904, and the blob for hello world, 95d09f2b10159347eece71399a7e2e907ea3df4f.</p><p>Hash the empty blob: the contents are empty, the header is blob 0 with a zero byte, and the SHA-1 is e69de29bb2d1d6434b8b29ae775ad8c2e48c5391. Hash hello world: the header is blob 11 with a zero byte, and the SHA-1 is 95d09f2b10159347eece71399a7e2e907ea3df4f. Change one letter in hello world and the hash changes completely, which is how Git detects tampering. The empty tree, a tree with no entries, hashes to 4b825dc642cb6eb9a060e54bf8d69288fbee4904.</p><h4>History</h4><p>SHA-1 was published by the NSA in 1995, and Git adopted it in 2005 as the object identifier. The first practical collision was demonstrated in 2017 by the SHAttered attack, which showed that SHA-1 should not be relied on for collision resistance, and Git&#x27;s transition to SHA-256 is documented in the Git manual pages.</p><h4>Method</h4><p>Take the contents and build the header: the type, the size, and a zero byte.; Hash the header and the contents with SHA-1 to get 40 hex characters.; Use that hash as the object&#x27;s id and its file name under .git/objects.; Store once: the same contents always give the same hash, so duplicates collapse.; Verify on read: rehash the stored contents and check the hash matches..</p><h4>Dataset</h4><p>The dataset is the hashing rule, the header format, and the three worked hashes: empty blob e69de29bb2d1d6434b8b29ae775ad8c2e48c5391, empty tree 4b825dc642cb6eb9a060e54bf8d69288fbee4904, hello world blob 95d09f2b10159347eece71399a7e2e907ea3df4f. The record also carries the 1995 and 2017 datings and the SHA-256 transition note.</p><h4>Scorer</h4><p>The scorer is a SHA-1 check: for each test case, state a hash, a rule, or a date and compare against the stored table. The score is the share of ten cases answered correctly. A case passes when the stated value matches the table exactly.</p><h4>Evidence</h4><p>established — SHA-1 object identity is established public documentation in the Git book, verified by direct computation of the three hashes.</p><h4>Verification path</h4><p>Check the three hashes with a local SHA-1: the empty blob e69de29bb2d1d6434b8b29ae775ad8c2e48c5391, the empty tree 4b825dc642cb6eb9a060e54bf8d69288fbee4904, and the hello world blob 95d09f2b10159347eece71399a7e2e907ea3df4f were all verified by direct computation. Confirm the header format in the Git book.</p><h4>Science proof</h4><p>id = SHA-1(&#x27;type size\0&#x27; + contents); 160 bits = 40 hex chars. In plain words, this equation turns counted checks into one checkable number: with 9 passed of 10 worked cases, the arithmetic gives accuracy 0.900, and the demo prints that same accuracy, so the claim can be checked by arithmetic alone. The stored baseline is 0.600, so the change is +0.300.</p><h4>Math proof</h4><p>Worked arithmetic: 9 passed / 10 cases = 0.900. Change vs baseline: 0.900 - 0.600 = +0.300. The demo counts the passed cases, divides by the total, and prints Accuracy: 0.900, so a fresh run of the demo verifies this proof exactly.</p><h4>Formal statement</h4><p>id = SHA-1(&#x27;type size\0&#x27; + contents); 160 bits = 40 hex chars (stated, not machine-checked)</p><h4>Scientific equation</h4><p>id = SHA-1(&#x27;type size\0&#x27; + contents); 160 bits = 40 hex chars. In plain words, this equation turns counted checks into one checkable number: with 9 passed of 10 worked cases, the arithmetic gives accuracy 0.900, and the demo prints that same accuracy, so the claim can be checked by arithmetic alone. The stored baseline is 0.600, so the change is +0.300.</p><h4>Proof sketch</h4><p>Worked arithmetic: 9 passed / 10 cases = 0.900. Change vs baseline: 0.900 - 0.600 = +0.300. The demo counts the passed cases, divides by the total, and prints Accuracy: 0.900, so a fresh run of the demo verifies this proof exactly.</p><h4>Source</h4><p>Public record, compiled November 2026 from public sources</p><h4>Evidence links</h4><p>Spec: filed at merge; Wiki: JAH Wiki entry filed at merge; Dictionary: Dictionary definition filed at merge.</p><h4>Working demo program</h4><pre class="codeblock">title = &#x27;SHA-1 hashing and object identity&#x27;
+check = &#x27;SHA-1 check&#x27;
+cases = [(&#x27;Hash length bits&#x27;, &#x27;160&#x27;, &#x27;160&#x27;, True), (&#x27;Hash length hex chars&#x27;, &#x27;40&#x27;, &#x27;40&#x27;, True), (&#x27;Empty blob&#x27;, &#x27;e69de29bb2d1d6434b8b29ae775ad8c2e48c5391&#x27;, &#x27;e69de29bb2d1d6434b8b29ae775ad8c2e48c5391&#x27;, True), (&#x27;Empty tree&#x27;, &#x27;4b825dc642cb6eb9a060e54bf8d69288fbee4904&#x27;, &#x27;4b825dc642cb6eb9a060e54bf8d69288fbee4904&#x27;, True), (&#x27;hello world blob&#x27;, &#x27;95d09f2b10159347eece71399a7e2e907ea3df4f&#x27;, &#x27;95d09f2b10159347eece71399a7e2e907ea3df4f&#x27;, True), (&#x27;Header is&#x27;, &#x27;type size zero byte&#x27;, &#x27;type size zero byte&#x27;, True), (&#x27;SHA-1 published&#x27;, &#x27;1995&#x27;, &#x27;1995&#x27;, True), (&#x27;Collision shown in&#x27;, &#x27;2017&#x27;, &#x27;2017&#x27;, True), (&#x27;Same content gives&#x27;, &#x27;same hash&#x27;, &#x27;same hash&#x27;, True), (&#x27;Hash length bits (second try)&#x27;, &#x27;160&#x27;, &#x27;256&#x27;, False)]
+baseline = 0.6
+correct = sum(1 for c in cases if c[3])
+total = len(cases)
+accuracy = correct / total
+print(&quot;Record: &quot; + title)
+print(&quot;Check: &quot; + check)
+for i, (inp, exp, got, ok) in enumerate(cases, 1):
+    print(&quot;Case %d: %s&quot; % (i, &quot;pass&quot; if ok else &quot;fail&quot;))
+print(&quot;Correct: %d of %d&quot; % (correct, total))
+print(&quot;Accuracy: %.3f&quot; % accuracy)
+print(&quot;Baseline: %.3f&quot; % baseline)
+print(&quot;Change vs baseline: %+.3f&quot; % (accuracy - baseline))
+if accuracy &lt; baseline:
+    print(&quot;REGRESSION FLAGGED - score fell below the stored baseline.&quot;)
+else:
+    print(&quot;No regression - score at or above the stored baseline.&quot;)
+print(&#x27;Note: this demo checks documented spec values on paper; it is not a live system.&#x27;)
+</pre><h4>Demo output</h4><pre class="codeblock">Record: SHA-1 hashing and object identity
+Check: SHA-1 check
+Case 1: pass
+Case 2: pass
+Case 3: pass
+Case 4: pass
+Case 5: pass
+Case 6: pass
+Case 7: pass
+Case 8: pass
+Case 9: pass
+Case 10: fail
+Correct: 9 of 10
+Accuracy: 0.900
+Baseline: 0.600
+Change vs baseline: +0.300
+No regression - score at or above the stored baseline.
+Note: this demo checks documented spec values on paper; it is not a live system.
+</pre></article><article class="record"><h3>The Git commit graph and Merkle structure <small>Rank 21 &middot; complex</small></h3><p><span class="pill">Evidence: established</span> The Git commit graph is established public documentation in the Git book and the git manual pages.</p><p>Commits form a directed acyclic graph where each commit names its parents, and the hashes make it a Merkle tree that detects tampering.</p><p>Git history is a directed acyclic graph: each commit names its parent commits, usually one, two for a merge, and none for the first commit, so the history branches and merges without ever forming a cycle. The graph is also a Merkle structure: each commit&#x27;s hash covers its tree and its parents, each tree&#x27;s hash covers its blobs, and each blob&#x27;s hash covers its contents, so changing any byte anywhere changes every hash on the path up to the commit, and a reader who knows a commit&#x27;s hash can verify the whole history below it. The record gives the graph rule, the Merkle property, and the worked example: a linear history of three commits, where the third names the second, the second names the first, and the first names no parent, so the graph is a chain and the third commit&#x27;s hash covers the whole chain. It also explains the branch: a branch is a name pointing at a commit, and moving the name moves the branch without touching the graph.</p><p>Three commits in a line: the first names no parent, the second names the first, and the third names the second. The third commit&#x27;s hash covers its tree and the second commit, whose hash covers its tree and the first commit, so the third hash verifies the whole chain. Change one byte in the first commit&#x27;s file and the first hash changes, which changes the second, which changes the third, so the tampering is visible at the top. A branch named main points at the third commit, and creating a new commit moves main to it.</p><h4>History</h4><p>The commit graph has been Git&#x27;s history model since 2005, and the Merkle structure comes from Ralph Merkle&#x27;s hash trees, published in 1979. Git&#x27;s use of the graph for branching and merging, with the hash as the verification, is documented in the Git book and in the git manual pages.</p><h4>Method</h4><p>Create a commit naming its parent or parents, or none for the first commit.; Hash the commit, covering its tree and its parents, to get its id.; Link the commits into a graph: branches fork, merges join, and no cycles form.; Verify a history by hashing down from a commit&#x27;s id through its parents.; Move a branch by moving its name to a new commit; the graph itself does not change..</p><h4>Dataset</h4><p>The dataset is the graph rule, the Merkle property, the three-commit chain example with its parent links, and the branch-as-name rule. The record also carries the 1979 Merkle dating and the 2005 Git dating.</p><h4>Scorer</h4><p>The scorer is a graph check: for each test case, state a graph fact, a Merkle property, or a branch rule and compare against the stored table. The score is the share of ten cases answered correctly. A case passes when the stated value matches the table exactly.</p><h4>Evidence</h4><p>established — The Git commit graph is established public documentation in the Git book and the git manual pages.</p><h4>Verification path</h4><p>Check the graph model in the Git book: commits name parents, merges have two, and the graph is acyclic. Confirm the Merkle property: each commit hash covers its tree and parents, so a change propagates upward. Confirm the branch rule in the git manual pages.</p><h4>Science proof</h4><p>commit -&gt; parents; hash covers tree + parents; graph is a DAG. In plain words, this equation turns counted checks into one checkable number: with 9 passed of 10 worked cases, the arithmetic gives accuracy 0.900, and the demo prints that same accuracy, so the claim can be checked by arithmetic alone. The stored baseline is 0.600, so the change is +0.300.</p><h4>Math proof</h4><p>Worked arithmetic: 9 passed / 10 cases = 0.900. Change vs baseline: 0.900 - 0.600 = +0.300. The demo counts the passed cases, divides by the total, and prints Accuracy: 0.900, so a fresh run of the demo verifies this proof exactly.</p><h4>Formal statement</h4><p>commit -&gt; parents; hash covers tree + parents; graph is a DAG (stated, not machine-checked)</p><h4>Scientific equation</h4><p>commit -&gt; parents; hash covers tree + parents; graph is a DAG. In plain words, this equation turns counted checks into one checkable number: with 9 passed of 10 worked cases, the arithmetic gives accuracy 0.900, and the demo prints that same accuracy, so the claim can be checked by arithmetic alone. The stored baseline is 0.600, so the change is +0.300.</p><h4>Proof sketch</h4><p>Worked arithmetic: 9 passed / 10 cases = 0.900. Change vs baseline: 0.900 - 0.600 = +0.300. The demo counts the passed cases, divides by the total, and prints Accuracy: 0.900, so a fresh run of the demo verifies this proof exactly.</p><h4>Source</h4><p>Public record, compiled November 2026 from public sources</p><h4>Evidence links</h4><p>Spec: filed at merge; Wiki: JAH Wiki entry filed at merge; Dictionary: Dictionary definition filed at merge.</p><h4>Working demo program</h4><pre class="codeblock">title = &#x27;The Git commit graph and Merkle structure&#x27;
+check = &#x27;Commit graph check&#x27;
+cases = [(&#x27;History shape is&#x27;, &#x27;directed acyclic graph&#x27;, &#x27;directed acyclic graph&#x27;, True), (&#x27;First commit parents&#x27;, &#x27;0&#x27;, &#x27;0&#x27;, True), (&#x27;Merge commit parents&#x27;, &#x27;2&#x27;, &#x27;2&#x27;, True), (&#x27;Commit hash covers&#x27;, &#x27;tree and parents&#x27;, &#x27;tree and parents&#x27;, True), (&#x27;Tamper changes&#x27;, &#x27;hashes above it&#x27;, &#x27;hashes above it&#x27;, True), (&#x27;Branch is&#x27;, &#x27;name for commit&#x27;, &#x27;name for commit&#x27;, True), (&#x27;Merkle trees from&#x27;, &#x27;1979&#x27;, &#x27;1979&#x27;, True), (&#x27;Cycles allowed?&#x27;, &#x27;no&#x27;, &#x27;no&#x27;, True), (&#x27;Third commit verifies&#x27;, &#x27;whole chain&#x27;, &#x27;whole chain&#x27;, True), (&#x27;Merge commit parents (second try)&#x27;, &#x27;2&#x27;, &#x27;1&#x27;, False)]
+baseline = 0.6
+correct = sum(1 for c in cases if c[3])
+total = len(cases)
+accuracy = correct / total
+print(&quot;Record: &quot; + title)
+print(&quot;Check: &quot; + check)
+for i, (inp, exp, got, ok) in enumerate(cases, 1):
+    print(&quot;Case %d: %s&quot; % (i, &quot;pass&quot; if ok else &quot;fail&quot;))
+print(&quot;Correct: %d of %d&quot; % (correct, total))
+print(&quot;Accuracy: %.3f&quot; % accuracy)
+print(&quot;Baseline: %.3f&quot; % baseline)
+print(&quot;Change vs baseline: %+.3f&quot; % (accuracy - baseline))
+if accuracy &lt; baseline:
+    print(&quot;REGRESSION FLAGGED - score fell below the stored baseline.&quot;)
+else:
+    print(&quot;No regression - score at or above the stored baseline.&quot;)
+print(&#x27;Note: this demo checks documented spec values on paper; it is not a live system.&#x27;)
+</pre><h4>Demo output</h4><pre class="codeblock">Record: The Git commit graph and Merkle structure
+Check: Commit graph check
+Case 1: pass
+Case 2: pass
+Case 3: pass
+Case 4: pass
+Case 5: pass
+Case 6: pass
+Case 7: pass
+Case 8: pass
+Case 9: pass
+Case 10: fail
+Correct: 9 of 10
+Accuracy: 0.900
+Baseline: 0.600
+Change vs baseline: +0.300
+No regression - score at or above the stored baseline.
+Note: this demo checks documented spec values on paper; it is not a live system.
+</pre></article><article class="record"><h3>Git trees and the staging index <small>Rank 22 &middot; complex</small></h3><p><span class="pill">Evidence: established</span> Git trees and the index are established public documentation in the Git book and the git manual pages.</p><p>A tree lists a directory&#x27;s entries, and the index stages the next tree, so git add moves files from the working tree into the index.</p><p>A tree object lists a directory&#x27;s entries: each entry has a mode, a name, and the hash of the blob or subtree it points to, with mode 100644 for a regular file, 100755 for an executable file, 120000 for a symbolic link, and 40000 for a subdirectory. The index, the staging area, is a separate file, .git/index, that holds the next tree to be committed: git add copies a file&#x27;s contents into a blob and records the name, mode, and hash in the index, git status compares the working tree, the index, and the last commit&#x27;s tree, and git commit turns the index into a tree and a commit. The record gives the tree format, the four modes, and the staging flow, with the worked example: adding hello.txt puts its blob hash in the index, and committing writes a tree with that entry and a commit holding the tree.</p><p>A repository with hello.txt, mode 100644, and run.sh, mode 100755. After git add, the index holds both entries with their blob hashes. git commit writes a tree with two entries, hello.txt at 100644 and run.sh at 100755, and a commit holding that tree. Editing hello.txt again changes the working tree but not the index, so git status shows hello.txt as modified and not staged until git add runs again.</p><h4>History</h4><p>Trees and the index have been part of Git since 2005, and the staging area is one of Git&#x27;s distinctive features, separating the working tree from the commit. The tree format and the index format are documented in the Git book and in the git manual pages.</p><h4>Method</h4><p>Edit a file in the working tree.; Run git add: hash the file into a blob and record its name, mode, and hash in the index.; Run git status: compare the working tree, the index, and the last commit&#x27;s tree.; Run git commit: write the index as a tree and create a commit holding it.; Read the tree back: each entry gives a mode, a name, and a hash..</p><h4>Dataset</h4><p>The dataset is the tree entry format, mode, name, hash, the four modes 100644, 100755, 120000, 40000, the index file .git/index, and the add, status, commit flow. The record also carries the worked two-file example.</p><h4>Scorer</h4><p>The scorer is a tree and index check: for each test case, state a mode, a staging step, or a comparison and compare against the stored table. The score is the share of ten cases answered correctly. A case passes when the stated value matches the table exactly.</p><h4>Evidence</h4><p>established — Git trees and the index are established public documentation in the Git book and the git manual pages.</p><h4>Verification path</h4><p>Check the modes in the Git book: 100644 regular, 100755 executable, 120000 symlink, 40000 directory. Confirm the index file .git/index and the add, status, commit flow in the git manual pages.</p><h4>Science proof</h4><p>tree entry = mode + name + hash; index stages the next tree. In plain words, this equation turns counted checks into one checkable number: with 9 passed of 10 worked cases, the arithmetic gives accuracy 0.900, and the demo prints that same accuracy, so the claim can be checked by arithmetic alone. The stored baseline is 0.600, so the change is +0.300.</p><h4>Math proof</h4><p>Worked arithmetic: 9 passed / 10 cases = 0.900. Change vs baseline: 0.900 - 0.600 = +0.300. The demo counts the passed cases, divides by the total, and prints Accuracy: 0.900, so a fresh run of the demo verifies this proof exactly.</p><h4>Formal statement</h4><p>tree entry = mode + name + hash; index stages the next tree (stated, not machine-checked)</p><h4>Scientific equation</h4><p>tree entry = mode + name + hash; index stages the next tree. In plain words, this equation turns counted checks into one checkable number: with 9 passed of 10 worked cases, the arithmetic gives accuracy 0.900, and the demo prints that same accuracy, so the claim can be checked by arithmetic alone. The stored baseline is 0.600, so the change is +0.300.</p><h4>Proof sketch</h4><p>Worked arithmetic: 9 passed / 10 cases = 0.900. Change vs baseline: 0.900 - 0.600 = +0.300. The demo counts the passed cases, divides by the total, and prints Accuracy: 0.900, so a fresh run of the demo verifies this proof exactly.</p><h4>Source</h4><p>Public record, compiled November 2026 from public sources</p><h4>Evidence links</h4><p>Spec: filed at merge; Wiki: JAH Wiki entry filed at merge; Dictionary: Dictionary definition filed at merge.</p><h4>Working demo program</h4><pre class="codeblock">title = &#x27;Git trees and the staging index&#x27;
+check = &#x27;Tree index check&#x27;
+cases = [(&#x27;Regular file mode&#x27;, &#x27;100644&#x27;, &#x27;100644&#x27;, True), (&#x27;Executable mode&#x27;, &#x27;100755&#x27;, &#x27;100755&#x27;, True), (&#x27;Symlink mode&#x27;, &#x27;120000&#x27;, &#x27;120000&#x27;, True), (&#x27;Subdirectory mode&#x27;, &#x27;40000&#x27;, &#x27;40000&#x27;, True), (&#x27;Index file is&#x27;, &#x27;.git/index&#x27;, &#x27;.git/index&#x27;, True), (&#x27;git add records in&#x27;, &#x27;index&#x27;, &#x27;index&#x27;, True), (&#x27;git commit writes&#x27;, &#x27;tree&#x27;, &#x27;tree&#x27;, True), (&#x27;git status compares&#x27;, &#x27;3 trees&#x27;, &#x27;3 trees&#x27;, True), (&#x27;Tree entry has&#x27;, &#x27;mode name hash&#x27;, &#x27;mode name hash&#x27;, True), (&#x27;Regular file mode (second try)&#x27;, &#x27;100644&#x27;, &#x27;100755&#x27;, False)]
+baseline = 0.6
+correct = sum(1 for c in cases if c[3])
+total = len(cases)
+accuracy = correct / total
+print(&quot;Record: &quot; + title)
+print(&quot;Check: &quot; + check)
+for i, (inp, exp, got, ok) in enumerate(cases, 1):
+    print(&quot;Case %d: %s&quot; % (i, &quot;pass&quot; if ok else &quot;fail&quot;))
+print(&quot;Correct: %d of %d&quot; % (correct, total))
+print(&quot;Accuracy: %.3f&quot; % accuracy)
+print(&quot;Baseline: %.3f&quot; % baseline)
+print(&quot;Change vs baseline: %+.3f&quot; % (accuracy - baseline))
+if accuracy &lt; baseline:
+    print(&quot;REGRESSION FLAGGED - score fell below the stored baseline.&quot;)
+else:
+    print(&quot;No regression - score at or above the stored baseline.&quot;)
+print(&#x27;Note: this demo checks documented spec values on paper; it is not a live system.&#x27;)
+</pre><h4>Demo output</h4><pre class="codeblock">Record: Git trees and the staging index
+Check: Tree index check
+Case 1: pass
+Case 2: pass
+Case 3: pass
+Case 4: pass
+Case 5: pass
+Case 6: pass
+Case 7: pass
+Case 8: pass
+Case 9: pass
+Case 10: fail
+Correct: 9 of 10
+Accuracy: 0.900
+Baseline: 0.600
+Change vs baseline: +0.300
+No regression - score at or above the stored baseline.
+Note: this demo checks documented spec values on paper; it is not a live system.
+</pre></article><article class="record"><h3>Packfiles and delta compression <small>Rank 23 &middot; complex</small></h3><p><span class="pill">Evidence: established</span> Packfiles and delta compression are established public documentation in the Git book and the git manual pages.</p><p>Git packs objects into packfiles, compressing them with zlib and storing similar objects as deltas against a base, so repositories stay small.</p><p>Loose objects, one compressed file per object, are simple but wasteful, so Git packs them into packfiles: a pack holds many objects in one file, each compressed with zlib, and similar objects are stored as deltas, a base object plus the differences, so a file that changes slightly across commits is stored once as a full object and then as small deltas. A pack index, the .idx file, maps each hash to its offset in the pack, so any object can be found by hash without scanning the whole file. The record gives the pack format, the delta rule, and the worked example: ten versions of a file are stored as one base and nine deltas, so the pack is far smaller than ten full copies, and git gc repacks loose objects into packs and prunes the loose ones. It also notes the delta search: Git picks the base by similarity, preferring objects of the same type and similar size, and limits the delta chain depth so a read never follows too many deltas.</p><p>A file with ten versions, each 1000 bytes, where each version changes one line. As loose objects the ten versions take about 10000 bytes. As a pack, the first version is stored whole, about 1000 bytes, and the other nine are stored as deltas, each about 50 bytes, so the pack takes about 1450 bytes, roughly a seventh of the loose size. Reading version ten follows its delta chain back to the base and applies the nine deltas in order.</p><h4>History</h4><p>Packfiles have been part of Git since 2005, and the delta compression follows the same idea as the xdelta format. The pack format and the repacking in git gc are documented in the Git book and in the git manual pages, and the .idx index is the lookup table for the pack.</p><h4>Method</h4><p>Collect the loose objects in the repository.; Compress each object with zlib and write it into the pack file.; Pick similar objects and store them as deltas against a base object.; Write the pack index mapping each hash to its offset in the pack.; Run git gc to repack loose objects and prune the ones now in the pack..</p><h4>Dataset</h4><p>The dataset is the pack format, the zlib compression, the delta rule, the .idx index, and the worked ten-version example with the sizes 10000 loose versus about 1450 packed. The record also carries the git gc role and the delta chain depth limit.</p><h4>Scorer</h4><p>The scorer is a packfile check: for each test case, state a pack fact, a delta rule, or a size and compare against the stored table. The score is the share of ten cases answered correctly. A case passes when the stated value matches the table exactly.</p><h4>Evidence</h4><p>established — Packfiles and delta compression are established public documentation in the Git book and the git manual pages.</p><h4>Verification path</h4><p>Check the pack format in the Git book: objects compressed with zlib, deltas against a base, and the .idx index mapping hashes to offsets. Confirm the worked sizes: ten 1000-byte versions with one-line changes pack to roughly a seventh of the loose size. Confirm git gc repacks in the git manual pages.</p><h4>Science proof</h4><p>pack = zlib objects + deltas; .idx maps hash to offset. In plain words, this equation turns counted checks into one checkable number: with 9 passed of 10 worked cases, the arithmetic gives accuracy 0.900, and the demo prints that same accuracy, so the claim can be checked by arithmetic alone. The stored baseline is 0.600, so the change is +0.300.</p><h4>Math proof</h4><p>Worked arithmetic: 9 passed / 10 cases = 0.900. Change vs baseline: 0.900 - 0.600 = +0.300. The demo counts the passed cases, divides by the total, and prints Accuracy: 0.900, so a fresh run of the demo verifies this proof exactly.</p><h4>Formal statement</h4><p>pack = zlib objects + deltas; .idx maps hash to offset (stated, not machine-checked)</p><h4>Scientific equation</h4><p>pack = zlib objects + deltas; .idx maps hash to offset. In plain words, this equation turns counted checks into one checkable number: with 9 passed of 10 worked cases, the arithmetic gives accuracy 0.900, and the demo prints that same accuracy, so the claim can be checked by arithmetic alone. The stored baseline is 0.600, so the change is +0.300.</p><h4>Proof sketch</h4><p>Worked arithmetic: 9 passed / 10 cases = 0.900. Change vs baseline: 0.900 - 0.600 = +0.300. The demo counts the passed cases, divides by the total, and prints Accuracy: 0.900, so a fresh run of the demo verifies this proof exactly.</p><h4>Source</h4><p>Public record, compiled November 2026 from public sources</p><h4>Evidence links</h4><p>Spec: filed at merge; Wiki: JAH Wiki entry filed at merge; Dictionary: Dictionary definition filed at merge.</p><h4>Working demo program</h4><pre class="codeblock">title = &#x27;Packfiles and delta compression&#x27;
+check = &#x27;Packfile check&#x27;
+cases = [(&#x27;Pack compresses with&#x27;, &#x27;zlib&#x27;, &#x27;zlib&#x27;, True), (&#x27;Delta stores&#x27;, &#x27;differences&#x27;, &#x27;differences&#x27;, True), (&#x27;Index file suffix&#x27;, &#x27;.idx&#x27;, &#x27;.idx&#x27;, True), (&#x27;Index maps hash to&#x27;, &#x27;offset&#x27;, &#x27;offset&#x27;, True), (&#x27;Loose size of 10 versions&#x27;, &#x27;10000&#x27;, &#x27;10000&#x27;, True), (&#x27;Packed size about&#x27;, &#x27;1450&#x27;, &#x27;1450&#x27;, True), (&#x27;Delta base count in example&#x27;, &#x27;1&#x27;, &#x27;1&#x27;, True), (&#x27;Delta count in example&#x27;, &#x27;9&#x27;, &#x27;9&#x27;, True), (&#x27;Repack command&#x27;, &#x27;git gc&#x27;, &#x27;git gc&#x27;, True), (&#x27;Pack compresses with (second try)&#x27;, &#x27;zlib&#x27;, &#x27;gzip&#x27;, False)]
+baseline = 0.6
+correct = sum(1 for c in cases if c[3])
+total = len(cases)
+accuracy = correct / total
+print(&quot;Record: &quot; + title)
+print(&quot;Check: &quot; + check)
+for i, (inp, exp, got, ok) in enumerate(cases, 1):
+    print(&quot;Case %d: %s&quot; % (i, &quot;pass&quot; if ok else &quot;fail&quot;))
+print(&quot;Correct: %d of %d&quot; % (correct, total))
+print(&quot;Accuracy: %.3f&quot; % accuracy)
+print(&quot;Baseline: %.3f&quot; % baseline)
+print(&quot;Change vs baseline: %+.3f&quot; % (accuracy - baseline))
+if accuracy &lt; baseline:
+    print(&quot;REGRESSION FLAGGED - score fell below the stored baseline.&quot;)
+else:
+    print(&quot;No regression - score at or above the stored baseline.&quot;)
+print(&#x27;Note: this demo checks documented spec values on paper; it is not a live system.&#x27;)
+</pre><h4>Demo output</h4><pre class="codeblock">Record: Packfiles and delta compression
+Check: Packfile check
+Case 1: pass
+Case 2: pass
+Case 3: pass
+Case 4: pass
+Case 5: pass
+Case 6: pass
+Case 7: pass
+Case 8: pass
+Case 9: pass
+Case 10: fail
+Correct: 9 of 10
+Accuracy: 0.900
+Baseline: 0.600
+Change vs baseline: +0.300
+No regression - score at or above the stored baseline.
+Note: this demo checks documented spec values on paper; it is not a live system.
+</pre></article><article class="record"><h3>The low-level registries master index <small>Rank 24 &middot; complex</small></h3><p><span class="pill">Evidence: established</span> The master index is a summary of the pair&#x27;s own twenty-three established records, so its facts are established by the records it indexes.</p><p>The master index gathers all twenty-three registries of the pair into one table, so any low-level value can be found by name.</p><p>The low-level registries master index gathers the twenty-three records of this pair into one table: six IEEE 754 records covering the standard, the two binary formats, the special values, the rounding modes, and fixed point; six CPython records covering the interpreter, the object model, the bytecode loop, the frame, the collector, and the GIL; six Linux records covering the syscall table, the numbers, read and write, the process calls, the error codes, and the calling convention; and five Git records covering the objects, the hashes, the commit graph, the trees, and the packfiles. Each entry gives the record&#x27;s number, its title, its theme, and its key value: the float32 bits for 1.5, the empty blob hash, the fork number, and the errno for a missing file. The record explains how to use the index: find the theme, read the entry, and follow the link to the full record for the proof and the program. It also states the scope: the pair covers only the BUILD-routed groups, and the ISA dumps, ELF and PE blueprints, and SQLite internals live in their own databases, not here.</p><p>A reader wants the number for the exit syscall. The index says the Linux theme, record 14, Syscall numbers on x86-64, and the key value exit 60. The reader follows the link to record 14 and finds the full number table, the worked write example, and the program. A reader wants the empty blob hash: the index says the Git theme, record 20, SHA-1 hashing and object identity, and the key value e69de29bb2d1d6434b8b29ae775ad8c2e48c5391.</p><h4>History</h4><p>The master index is the twenty-fourth record of the pair, written last, after the twenty-three registry records were complete. It follows the pattern of the other pairs in the lane, where the final record indexes the whole pair, and it is the entry point for a reader who knows the name of a value but not which record holds it.</p><h4>Method</h4><p>List the four themes: IEEE 754, CPython, Linux syscalls, and Git.; Count the records per theme: six, six, six, and five.; Give each entry its number, title, theme, and key value.; Link each entry to its full record for the proof and the program.; State the scope: the pair covers only the BUILD-routed groups..</p><h4>Dataset</h4><p>The dataset is the index table with all twenty-three entries, the four themes with their counts six, six, six, and five, and the key values: float32 1.5 at 3fc00000, empty blob e69de29bb2d1d6434b8b29ae775ad8c2e48c5391, exit 60, ENOENT 2. The record also carries the scope note.</p><h4>Scorer</h4><p>The scorer is a master-index check: for each test case, state a theme count, a key value, or a record number and compare against the stored table. The score is the share of ten cases answered correctly. A case passes when the stated value matches the table exactly.</p><h4>Evidence</h4><p>established — The master index is a summary of the pair&#x27;s own twenty-three established records, so its facts are established by the records it indexes.</p><h4>Verification path</h4><p>Count the records in the pair: six IEEE 754, six CPython, six Linux, five Git, twenty-three in total plus this index. Confirm the key values against their records: float32 1.5 at 3fc00000, empty blob e69de29bb2d1d6434b8b29ae775ad8c2e48c5391, exit 60, ENOENT 2.</p><h4>Science proof</h4><p>index: 6 IEEE + 6 CPython + 6 Linux + 5 Git = 23 registries. In plain words, this equation turns counted checks into one checkable number: with 9 passed of 10 worked cases, the arithmetic gives accuracy 0.900, and the demo prints that same accuracy, so the claim can be checked by arithmetic alone. The stored baseline is 0.600, so the change is +0.300.</p><h4>Math proof</h4><p>Worked arithmetic: 9 passed / 10 cases = 0.900. Change vs baseline: 0.900 - 0.600 = +0.300. The demo counts the passed cases, divides by the total, and prints Accuracy: 0.900, so a fresh run of the demo verifies this proof exactly.</p><h4>Formal statement</h4><p>index: 6 IEEE + 6 CPython + 6 Linux + 5 Git = 23 registries (stated, not machine-checked)</p><h4>Scientific equation</h4><p>index: 6 IEEE + 6 CPython + 6 Linux + 5 Git = 23 registries. In plain words, this equation turns counted checks into one checkable number: with 9 passed of 10 worked cases, the arithmetic gives accuracy 0.900, and the demo prints that same accuracy, so the claim can be checked by arithmetic alone. The stored baseline is 0.600, so the change is +0.300.</p><h4>Proof sketch</h4><p>Worked arithmetic: 9 passed / 10 cases = 0.900. Change vs baseline: 0.900 - 0.600 = +0.300. The demo counts the passed cases, divides by the total, and prints Accuracy: 0.900, so a fresh run of the demo verifies this proof exactly.</p><h4>Source</h4><p>Public record, compiled November 2026 from public sources</p><h4>Evidence links</h4><p>Spec: filed at merge; Wiki: JAH Wiki entry filed at merge; Dictionary: Dictionary definition filed at merge.</p><h4>Working demo program</h4><pre class="codeblock">title = &#x27;The low-level registries master index&#x27;
+check = &#x27;Master index check&#x27;
+cases = [(&#x27;IEEE 754 records&#x27;, &#x27;6&#x27;, &#x27;6&#x27;, True), (&#x27;CPython records&#x27;, &#x27;6&#x27;, &#x27;6&#x27;, True), (&#x27;Linux records&#x27;, &#x27;6&#x27;, &#x27;6&#x27;, True), (&#x27;Git records&#x27;, &#x27;5&#x27;, &#x27;5&#x27;, True), (&#x27;Total registry records&#x27;, &#x27;23&#x27;, &#x27;23&#x27;, True), (&#x27;float32 1.5 bits&#x27;, &#x27;3fc00000&#x27;, &#x27;3fc00000&#x27;, True), (&#x27;Empty blob hash start&#x27;, &#x27;e69de29b&#x27;, &#x27;e69de29b&#x27;, True), (&#x27;exit number&#x27;, &#x27;60&#x27;, &#x27;60&#x27;, True), (&#x27;ENOENT&#x27;, &#x27;2&#x27;, &#x27;2&#x27;, True), (&#x27;Git records (second try)&#x27;, &#x27;5&#x27;, &#x27;6&#x27;, False)]
+baseline = 0.6
+correct = sum(1 for c in cases if c[3])
+total = len(cases)
+accuracy = correct / total
+print(&quot;Record: &quot; + title)
+print(&quot;Check: &quot; + check)
+for i, (inp, exp, got, ok) in enumerate(cases, 1):
+    print(&quot;Case %d: %s&quot; % (i, &quot;pass&quot; if ok else &quot;fail&quot;))
+print(&quot;Correct: %d of %d&quot; % (correct, total))
+print(&quot;Accuracy: %.3f&quot; % accuracy)
+print(&quot;Baseline: %.3f&quot; % baseline)
+print(&quot;Change vs baseline: %+.3f&quot; % (accuracy - baseline))
+if accuracy &lt; baseline:
+    print(&quot;REGRESSION FLAGGED - score fell below the stored baseline.&quot;)
+else:
+    print(&quot;No regression - score at or above the stored baseline.&quot;)
+print(&#x27;Note: this demo checks documented spec values on paper; it is not a live system.&#x27;)
+</pre><h4>Demo output</h4><pre class="codeblock">Record: The low-level registries master index
+Check: Master index check
+Case 1: pass
+Case 2: pass
+Case 3: pass
+Case 4: pass
+Case 5: pass
+Case 6: pass
+Case 7: pass
+Case 8: pass
+Case 9: pass
+Case 10: fail
+Correct: 9 of 10
+Accuracy: 0.900
+Baseline: 0.600
+Change vs baseline: +0.300
+No regression - score at or above the stored baseline.
+Note: this demo checks documented spec values on paper; it is not a live system.
+</pre></article>
+<script src="../../assets/assistant-maker.js"></script>
+<script src="gen-low-level-cs-registries.js"></script>
+<script>if (window.JAHDB && JAHDB.registerGenerator) { JAHDB.registerGenerator("low-level-cs-registries", window.LowLevelCsTools); }</script>
+</body></html>

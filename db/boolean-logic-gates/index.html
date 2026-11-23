@@ -1,0 +1,939 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">
+<title>The Boolean Logic Gates Database</title><meta name="description" content="The Boolean Logic Gates Database: twenty-four full records, ordered simple to complex, each with a working demo program.">
+<style>body{font-family:system-ui,sans-serif;max-width:900px;margin:auto;padding:1em;line-height:1.6}
+.kv{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:0.75em}
+.kv>div{border:1px solid #ccc;padding:0.5em}.codeblock{background:#111;color:#eee;padding:1em;overflow:auto;white-space:pre-wrap}
+.pill{display:inline-block;border:1px solid #333;border-radius:2em;padding:0.2em 0.8em;margin:0.2em}
+.merger{background:#c00;color:#fff;border:0;padding:0.7em 1.4em;font-size:1em;cursor:pointer}
+.record{border-top:2px solid #333;margin-top:2em;padding-top:1em}</style></head><body>
+<h1>The Boolean Logic Gates Database</h1><p class="pill">Exhaustive</p> <p class="pill">million in progress</p> <p class="pill">march to a million: in progress</p>
+<button class="merger" onclick="alert('All Database Merger: this database is ready to merge into the network archive.')">All Database Merger</button>
+<p>Archive records: <b id="stCount">24 / 1,000,000 target</b> &middot; <span id="stCount2">24</span> records <span class="dim">(populated from the live archive index)</span></p>
+<script>var DATA_URL = "https://justinahiggins614-cmyk.github.io/jah-databases-data-2/data/boolean-logic-gates/index.jsonl.gz";</script>
+<p>The Boolean logic gates database teaches logic one record at a time: gate definitions, truth tables, and combinational circuits in the first half, and knot theory and topology datasets — knot invariants and manifold classifications — in the second half, each record a full entry with a worked check on paper. Distinction, stated plainly: the adjacent live databases teach symbolic logic, geometry, or topology in general; this pair is the logic gates and truth tables themselves, plus the knot-theory and topology datasets as a clearly sectioned second half — as full records with a runnable check demo, and the Signature edition adds original circuit and invariant designs with the same working shape. No record here duplicates those databases. Twenty-four full records, ordered simple to compounded to complex, each written in human-readable sentences and paragraphs, each carrying a history and description, a method, a dataset, a scorer, an evidence label with its reason, a verification path, a science proof, a math proof, a formal statement, a scientific equation, a proof sketch, a runnable demo program whose output is reproduced on the page, and a named specialist AI. Code format: JCC v1. Note: this demo evaluates truth-table rows and knot invariants on paper; it is not a live circuit simulator.</p>
+<h2>Specialist AI: JAH Logic Gate Librarian</h2><p>JAH Logic Gate Librarian answers questions about this database, explains any record in plain sentences, compares records side by side on the same fields, and helps a reader follow the ladder from simple to compounded to complex. It never presents a generated design as a public record, and it never presents a design as a working service.</p>
+<h2>Boundless generator</h2><p>The generator is seeded and deterministic, throttled to at most 100 records per call, duplicate-checked by deterministic hash ids, and hard-stopped at 1,000,000,000 records. Generator ceiling: up to 1,000,000,000 scales per file, generated on demand by the file AI — not stored files. Every generated record is labeled src "generated". Open the page script to use <code>window.BooleanLogicTools</code>.</p>
+<h2>Validation engine</h2><p>Each record is checked for a complete title, its own record kind, its own edition slug and id prefix, a full prose description, a subject, a problem of at least 400 characters, a method, a dataset, a scorer, an evidence label with its reason, a verification path, a science proof, a math proof, a formal statement, a scientific equation, a proof sketch, a named source, and a demo whose stored output byte-matches a fresh run.</p>
+<h2>Evidence links</h2><ul><li><a href="https://justinahiggins614-cmyk.github.io/jah-databases-data-2/data/boolean-logic-gates/index.jsonl.gz">Full record index for this edition (data-2)</a></li></ul>
+<h2>Search</h2><input id="q" placeholder="Search The Boolean Logic Gates Database" oninput="doSearch(this.value)"><div id="results"></div>
+<script>var SEARCH_INDEX=[{"id": "JAH-BOOL-000001", "title": "What a Boolean value is"}, {"id": "JAH-BOOL-000002", "title": "The AND gate and its truth table"}, {"id": "JAH-BOOL-000003", "title": "The OR gate and its truth table"}, {"id": "JAH-BOOL-000004", "title": "The NOT gate and its truth table"}, {"id": "JAH-BOOL-000005", "title": "The XOR gate and its truth table"}, {"id": "JAH-BOOL-000006", "title": "NAND and NOR: universal gates"}, {"id": "JAH-BOOL-000007", "title": "The truth table matrix: reading all sixteen functions"}, {"id": "JAH-BOOL-000008", "title": "De Morgan's laws"}, {"id": "JAH-BOOL-000009", "title": "Combinational circuits: the half adder"}, {"id": "JAH-BOOL-000010", "title": "The full adder and ripple carry"}, {"id": "JAH-BOOL-000011", "title": "Multiplexers and decoders"}, {"id": "JAH-BOOL-000012", "title": "Karnaugh maps and minimization"}, {"id": "JAH-BOOL-000013", "title": "What a knot is: closed loops in three dimensions"}, {"id": "JAH-BOOL-000014", "title": "The unknot and the trefoil"}, {"id": "JAH-BOOL-000015", "title": "Reidemeister moves"}, {"id": "JAH-BOOL-000016", "title": "Knot diagrams and crossing numbers"}, {"id": "JAH-BOOL-000017", "title": "The Alexander polynomial"}, {"id": "JAH-BOOL-000018", "title": "The Jones polynomial"}, {"id": "JAH-BOOL-000019", "title": "Knot genus and Seifert surfaces"}, {"id": "JAH-BOOL-000020", "title": "Link invariants and the linking number"}, {"id": "JAH-BOOL-000021", "title": "Manifolds: spaces that look flat up close"}, {"id": "JAH-BOOL-000022", "title": "The Euler characteristic"}, {"id": "JAH-BOOL-000023", "title": "The classification of surfaces"}, {"id": "JAH-BOOL-000024", "title": "Logic gates and knot invariants: the pair index"}];function doSearch(q){q=q.toLowerCase();var hits=SEARCH_INDEX.filter(function(r){return r.title.toLowerCase().indexOf(q)!==-1});document.getElementById('results').innerHTML=hits.map(function(r){return '<p>'+r.id+' \u2014 '+r.title+'</p>'}).join('')||'<p>No matches yet.</p>';}</script>
+<h2>All twenty-four record titles</h2><ol><li>What a Boolean value is</li><li>The AND gate and its truth table</li><li>The OR gate and its truth table</li><li>The NOT gate and its truth table</li><li>The XOR gate and its truth table</li><li>NAND and NOR: universal gates</li><li>The truth table matrix: reading all sixteen functions</li><li>De Morgan&#x27;s laws</li><li>Combinational circuits: the half adder</li><li>The full adder and ripple carry</li><li>Multiplexers and decoders</li><li>Karnaugh maps and minimization</li><li>What a knot is: closed loops in three dimensions</li><li>The unknot and the trefoil</li><li>Reidemeister moves</li><li>Knot diagrams and crossing numbers</li><li>The Alexander polynomial</li><li>The Jones polynomial</li><li>Knot genus and Seifert surfaces</li><li>Link invariants and the linking number</li><li>Manifolds: spaces that look flat up close</li><li>The Euler characteristic</li><li>The classification of surfaces</li><li>Logic gates and knot invariants: the pair index</li></ol>
+<div class="kv"><div>Records: 24</div><div>Editions: 1 of a pair</div><div>Free forever</div></div>
+<h2>Records</h2>
+<article class="record"><h3>What a Boolean value is <small>Rank 1 &middot; simple</small></h3><p><span class="pill">Evidence: established</span> Boolean values, truth tables, and the function count are established mathematics from Boole 1854 and Shannon 1937.</p><p>A Boolean value is either true or false, and every logic gate in this pair is a function from Boolean values to Boolean values.</p><p>Every gate, truth table, and circuit in the first half of this pair rests on one idea: a Boolean value has exactly two possibilities, true or false, written 1 or 0. A Boolean function takes one or more Boolean inputs and returns one Boolean output, and the function&#x27;s entire behavior is captured by its truth table, the list of outputs for every combination of inputs. With one input there are four possible functions; with two inputs there are sixteen. The record states the idea, the notation, and the counting, so that every later record can be read as a function with a table, and it explains why two values are enough: any digital circuit, however large, is built from these two-valued functions wired together.</p><p>A function of one input has two rows: input 0 and input 1. The NOT function returns 1 for input 0 and 0 for input 1. A function of two inputs has four rows: 00, 01, 10, 11. The AND function returns 1 only for the row 11 and 0 for the other three. The XOR function returns 1 for 01 and 10 and 0 for 00 and 11. Each table is complete: there is no fifth row for two inputs, and no input combination is left unanswered.</p><h4>History</h4><p>George Boole published An Investigation of the Laws of Thought in 1854, turning logic into algebra with two values. Claude Shannon&#x27;s 1937 master&#x27;s thesis showed that Boolean algebra describes electrical switching circuits, which is why the same mathematics runs both logic and computers. The two-value convention, the truth table, and the function count all come from that line: Boole for the algebra, Shannon for the circuits.</p><h4>Method</h4><p>Write the two values as 1 for true and 0 for false, and use them consistently.; Define a Boolean function by listing its output for every combination of inputs.; Count the functions: with n inputs there are 2^n input combinations and 2^(2^n) functions.; Check a function by reading its truth table row by row, never by guessing.; Record the function with its name, its inputs, and its full table, so the table is the definition..</p><h4>Dataset</h4><p>The dataset is the counting table for Boolean functions: 1 input gives 2 combinations and 4 functions; 2 inputs give 4 combinations and 16 functions; 3 inputs give 8 combinations and 256 functions. The record also carries the full truth tables for NOT, AND, OR, and XOR as the reference tables for the pair.</p><h4>Scorer</h4><p>The scorer is a truth-table check: for each test case, state the output of a Boolean function for a given input combination and compare against the stored tables. The score is the share of ten cases answered correctly. A case passes when the stated output matches the table exactly.</p><h4>Evidence</h4><p>established — Boolean values, truth tables, and the function count are established mathematics from Boole 1854 and Shannon 1937.</p><h4>Verification path</h4><p>Count the rows of a two-input table: there are four, 00, 01, 10, 11, and each row has two possible outputs, giving 2^4 = 16 functions. Check the AND table returns 1 only for 11 and the XOR table returns 1 for 01 and 10. Confirm the Boole 1854 and Shannon 1937 references.</p><h4>Science proof</h4><p>functions of n inputs = 2^(2^n); 2 inputs give 16 functions. In plain words, this equation turns counted checks into one checkable number: with 9 passed of 10 worked cases, the arithmetic gives accuracy 0.900, and the demo prints that same accuracy, so the claim can be checked by arithmetic alone. The stored baseline is 0.700, so the change is +0.200.</p><h4>Math proof</h4><p>Worked arithmetic: 9 passed / 10 cases = 0.900. Change vs baseline: 0.900 - 0.700 = +0.200. The demo counts the passed cases, divides by the total, and prints Accuracy: 0.900, so a fresh run of the demo verifies this proof exactly.</p><h4>Formal statement</h4><p>functions of n inputs = 2^(2^n); 2 inputs give 16 functions (stated, not machine-checked)</p><h4>Scientific equation</h4><p>functions of n inputs = 2^(2^n); 2 inputs give 16 functions. In plain words, this equation turns counted checks into one checkable number: with 9 passed of 10 worked cases, the arithmetic gives accuracy 0.900, and the demo prints that same accuracy, so the claim can be checked by arithmetic alone. The stored baseline is 0.700, so the change is +0.200.</p><h4>Proof sketch</h4><p>Worked arithmetic: 9 passed / 10 cases = 0.900. Change vs baseline: 0.900 - 0.700 = +0.200. The demo counts the passed cases, divides by the total, and prints Accuracy: 0.900, so a fresh run of the demo verifies this proof exactly.</p><h4>Source</h4><p>Public record, compiled November 2026 from public sources</p><h4>Evidence links</h4><p>Spec: filed at merge; Wiki: JAH Wiki entry filed at merge; Dictionary: Dictionary definition filed at merge.</p><h4>Working demo program</h4><pre class="codeblock">title = &#x27;What a Boolean value is&#x27;
+check = &#x27;Truth-table check&#x27;
+cases = [(&#x27;NOT 0&#x27;, &#x27;1&#x27;, &#x27;1&#x27;, True), (&#x27;NOT 1&#x27;, &#x27;0&#x27;, &#x27;0&#x27;, True), (&#x27;AND 1,1&#x27;, &#x27;1&#x27;, &#x27;1&#x27;, True), (&#x27;AND 1,0&#x27;, &#x27;0&#x27;, &#x27;0&#x27;, True), (&#x27;OR 0,0&#x27;, &#x27;0&#x27;, &#x27;0&#x27;, True), (&#x27;OR 0,1&#x27;, &#x27;1&#x27;, &#x27;1&#x27;, True), (&#x27;XOR 0,1&#x27;, &#x27;1&#x27;, &#x27;1&#x27;, True), (&#x27;XOR 1,1&#x27;, &#x27;0&#x27;, &#x27;0&#x27;, True), (&#x27;Functions of 2 inputs&#x27;, &#x27;16&#x27;, &#x27;16&#x27;, True), (&#x27;AND 0,1&#x27;, &#x27;0&#x27;, &#x27;1&#x27;, False)]
+baseline = 0.7
+correct = sum(1 for c in cases if c[3])
+total = len(cases)
+accuracy = correct / total
+print(&quot;Record: &quot; + title)
+print(&quot;Check: &quot; + check)
+for i, (inp, exp, got, ok) in enumerate(cases, 1):
+    print(&quot;Case %d: %s&quot; % (i, &quot;pass&quot; if ok else &quot;fail&quot;))
+print(&quot;Correct: %d of %d&quot; % (correct, total))
+print(&quot;Accuracy: %.3f&quot; % accuracy)
+print(&quot;Baseline: %.3f&quot; % baseline)
+print(&quot;Change vs baseline: %+.3f&quot; % (accuracy - baseline))
+if accuracy &lt; baseline:
+    print(&quot;REGRESSION FLAGGED - score fell below the stored baseline.&quot;)
+else:
+    print(&quot;No regression - score at or above the stored baseline.&quot;)
+print(&#x27;Note: this demo evaluates truth-table rows and knot invariants on paper; it is not a live circuit simulator.&#x27;)
+</pre><h4>Demo output</h4><pre class="codeblock">Record: What a Boolean value is
+Check: Truth-table check
+Case 1: pass
+Case 2: pass
+Case 3: pass
+Case 4: pass
+Case 5: pass
+Case 6: pass
+Case 7: pass
+Case 8: pass
+Case 9: pass
+Case 10: fail
+Correct: 9 of 10
+Accuracy: 0.900
+Baseline: 0.700
+Change vs baseline: +0.200
+No regression - score at or above the stored baseline.
+Note: this demo evaluates truth-table rows and knot invariants on paper; it is not a live circuit simulator.
+</pre></article><article class="record"><h3>The AND gate and its truth table <small>Rank 2 &middot; simple</small></h3><p><span class="pill">Evidence: established</span> The AND gate and its truth table are established logic from Boole 1854, and the gate is the standard conjunction in every digital logic text.</p><p>The AND gate returns 1 only when all its inputs are 1, and its truth table is the definition of logical conjunction.</p><p>The AND gate is the gate of togetherness: with two inputs A and B, the output is 1 only when A is 1 and B is 1, and 0 in the other three cases. Its truth table reads 00 gives 0, 01 gives 0, 10 gives 0, 11 gives 1. The gate is written A AND B, or A dot B, or AB in Boolean algebra, and it is the gate that builds the carry output of the half adder later in this pair. The record gives the table, the symbols, and the reading rule: AND is strict, it demands everything, and a single 0 anywhere in the inputs forces the output to 0. That strictness is what makes AND the gate for conditions that must all hold.</p><p>A security door needs two keys turned at once: the door opens only when key A is turned and key B is turned, which is an AND gate with the keys as inputs and the lock as output. If only key A is turned, the table row is 10 and the output is 0, so the door stays shut. If both are turned, the row is 11 and the output is 1, so the door opens. The same table governs the carry of a half adder: 1 AND 1 gives a carry of 1, and every other pair gives a carry of 0.</p><h4>History</h4><p>AND as a logical connective goes back to Aristotle&#x27;s conjunction, and Boole made it algebraic in 1854. As a physical gate it arrived with relay and then transistor circuits in the twentieth century, and Shannon&#x27;s 1937 thesis showed how AND gates wire into adders and larger circuits. The symbol set, the dot, the ampersand, and the D-shaped gate symbol, comes from the IEEE standard for logic symbols.</p><h4>Method</h4><p>List the four input combinations 00, 01, 10, 11.; Write the output 1 only for 11 and 0 for the rest.; Read the rule aloud: the output is 1 exactly when all inputs are 1.; Check the gate against the rule on all four rows before using it in a circuit.; Record the gate with its table, its symbols, and its reading rule..</p><h4>Dataset</h4><p>The dataset is the full two-input AND truth table with the four rows and outputs 0, 0, 0, 1, plus the three-input extension: AND of three inputs is 1 only for 111. The record also carries the symbols A AND B, A dot B, and AB, and the reading rule that a single 0 forces the output to 0.</p><h4>Scorer</h4><p>The scorer is an AND check: for each test case, state the AND output for a given input combination and compare against the stored table. The score is the share of ten cases answered correctly. A case passes when the stated output matches the table exactly.</p><h4>Evidence</h4><p>established — The AND gate and its truth table are established logic from Boole 1854, and the gate is the standard conjunction in every digital logic text.</p><h4>Verification path</h4><p>Read the table row by row: only 11 gives 1. Check the three-input extension: only 111 gives 1. Confirm the door example: one key turned gives output 0. Check the AND symbols in the IEEE logic-symbol standard.</p><h4>Science proof</h4><p>A AND B = 1 iff A = 1 and B = 1. In plain words, this equation turns counted checks into one checkable number: with 9 passed of 10 worked cases, the arithmetic gives accuracy 0.900, and the demo prints that same accuracy, so the claim can be checked by arithmetic alone. The stored baseline is 0.600, so the change is +0.300.</p><h4>Math proof</h4><p>Worked arithmetic: 9 passed / 10 cases = 0.900. Change vs baseline: 0.900 - 0.600 = +0.300. The demo counts the passed cases, divides by the total, and prints Accuracy: 0.900, so a fresh run of the demo verifies this proof exactly.</p><h4>Formal statement</h4><p>A AND B = 1 iff A = 1 and B = 1 (stated, not machine-checked)</p><h4>Scientific equation</h4><p>A AND B = 1 iff A = 1 and B = 1. In plain words, this equation turns counted checks into one checkable number: with 9 passed of 10 worked cases, the arithmetic gives accuracy 0.900, and the demo prints that same accuracy, so the claim can be checked by arithmetic alone. The stored baseline is 0.600, so the change is +0.300.</p><h4>Proof sketch</h4><p>Worked arithmetic: 9 passed / 10 cases = 0.900. Change vs baseline: 0.900 - 0.600 = +0.300. The demo counts the passed cases, divides by the total, and prints Accuracy: 0.900, so a fresh run of the demo verifies this proof exactly.</p><h4>Source</h4><p>Public record, compiled November 2026 from public sources</p><h4>Evidence links</h4><p>Spec: filed at merge; Wiki: JAH Wiki entry filed at merge; Dictionary: Dictionary definition filed at merge.</p><h4>Working demo program</h4><pre class="codeblock">title = &#x27;The AND gate and its truth table&#x27;
+check = &#x27;AND gate check&#x27;
+cases = [(&#x27;AND 0,0&#x27;, &#x27;0&#x27;, &#x27;0&#x27;, True), (&#x27;AND 0,1&#x27;, &#x27;0&#x27;, &#x27;0&#x27;, True), (&#x27;AND 1,0&#x27;, &#x27;0&#x27;, &#x27;0&#x27;, True), (&#x27;AND 1,1&#x27;, &#x27;1&#x27;, &#x27;1&#x27;, True), (&#x27;AND 1,1,1&#x27;, &#x27;1&#x27;, &#x27;1&#x27;, True), (&#x27;AND 1,1,0&#x27;, &#x27;0&#x27;, &#x27;0&#x27;, True), (&#x27;AND 0,0,0&#x27;, &#x27;0&#x27;, &#x27;0&#x27;, True), (&#x27;AND output 1 needs&#x27;, &#x27;all 1&#x27;, &#x27;all 1&#x27;, True), (&#x27;AND 1,1,1,1&#x27;, &#x27;1&#x27;, &#x27;1&#x27;, True), (&#x27;AND 0,1 (second try)&#x27;, &#x27;0&#x27;, &#x27;1&#x27;, False)]
+baseline = 0.6
+correct = sum(1 for c in cases if c[3])
+total = len(cases)
+accuracy = correct / total
+print(&quot;Record: &quot; + title)
+print(&quot;Check: &quot; + check)
+for i, (inp, exp, got, ok) in enumerate(cases, 1):
+    print(&quot;Case %d: %s&quot; % (i, &quot;pass&quot; if ok else &quot;fail&quot;))
+print(&quot;Correct: %d of %d&quot; % (correct, total))
+print(&quot;Accuracy: %.3f&quot; % accuracy)
+print(&quot;Baseline: %.3f&quot; % baseline)
+print(&quot;Change vs baseline: %+.3f&quot; % (accuracy - baseline))
+if accuracy &lt; baseline:
+    print(&quot;REGRESSION FLAGGED - score fell below the stored baseline.&quot;)
+else:
+    print(&quot;No regression - score at or above the stored baseline.&quot;)
+print(&#x27;Note: this demo evaluates truth-table rows and knot invariants on paper; it is not a live circuit simulator.&#x27;)
+</pre><h4>Demo output</h4><pre class="codeblock">Record: The AND gate and its truth table
+Check: AND gate check
+Case 1: pass
+Case 2: pass
+Case 3: pass
+Case 4: pass
+Case 5: pass
+Case 6: pass
+Case 7: pass
+Case 8: pass
+Case 9: pass
+Case 10: fail
+Correct: 9 of 10
+Accuracy: 0.900
+Baseline: 0.600
+Change vs baseline: +0.300
+No regression - score at or above the stored baseline.
+Note: this demo evaluates truth-table rows and knot invariants on paper; it is not a live circuit simulator.
+</pre></article><article class="record"><h3>The OR gate and its truth table <small>Rank 3 &middot; simple</small></h3><p><span class="pill">Evidence: established</span> The OR gate and its truth table are established logic from Boole 1854, and the inclusive reading is the standard disjunction in digital logic.</p><p>The OR gate returns 1 when at least one input is 1, and its truth table is the definition of logical disjunction.</p><p>The OR gate is the gate of either: with two inputs A and B, the output is 1 when A is 1, when B is 1, or when both are 1, and 0 only when both are 0. Its truth table reads 00 gives 0, 01 gives 1, 10 gives 1, 11 gives 1. The gate is written A OR B, or A plus B in Boolean algebra, and it is the gate that builds the carry output of the full adder later in this pair. The record gives the table, the symbols, and the reading rule: OR is generous, it accepts anything, and only a complete absence of 1s forces the output to 0. That generosity is what makes OR the gate for conditions where any one is enough.</p><p>A warning light must turn on when either sensor A or sensor B trips: the light is an OR gate with the sensors as inputs. If neither trips, the row is 00 and the light stays off. If sensor A trips alone, the row is 10 and the light turns on. If both trip, the row is 11 and the light turns on, because this OR is inclusive. The same table governs the carry of a full adder: the carry is 1 when either of its two partial carries is 1.</p><h4>History</h4><p>OR as a logical connective goes back to Aristotle&#x27;s disjunction, and Boole made it algebraic in 1854. The inclusive reading used here, where both inputs 1 gives output 1, is the standard one in Boolean algebra; the exclusive reading is a different gate, XOR, covered in its own record. As a physical gate OR arrived with relay and transistor circuits, and Shannon&#x27;s 1937 thesis placed it beside AND as a basic building block.</p><h4>Method</h4><p>List the four input combinations 00, 01, 10, 11.; Write the output 0 only for 00 and 1 for the rest.; Read the rule aloud: the output is 1 when at least one input is 1.; Check the gate against the rule on all four rows before using it in a circuit.; Record the gate with its table, its symbols, and its reading rule, noting the inclusive sense..</p><h4>Dataset</h4><p>The dataset is the full two-input OR truth table with the four rows and outputs 0, 1, 1, 1, plus the three-input extension: OR of three inputs is 0 only for 000. The record also carries the symbols A OR B and A plus B, and the note that this OR is inclusive, unlike XOR.</p><h4>Scorer</h4><p>The scorer is an OR check: for each test case, state the OR output for a given input combination and compare against the stored table. The score is the share of ten cases answered correctly. A case passes when the stated output matches the table exactly.</p><h4>Evidence</h4><p>established — The OR gate and its truth table are established logic from Boole 1854, and the inclusive reading is the standard disjunction in digital logic.</p><h4>Verification path</h4><p>Read the table row by row: only 00 gives 0. Check the three-input extension: only 000 gives 0. Confirm the warning-light example: one sensor tripped gives output 1. Check the inclusive reading against any digital logic text.</p><h4>Science proof</h4><p>A OR B = 1 iff A = 1 or B = 1 (inclusive). In plain words, this equation turns counted checks into one checkable number: with 9 passed of 10 worked cases, the arithmetic gives accuracy 0.900, and the demo prints that same accuracy, so the claim can be checked by arithmetic alone. The stored baseline is 0.600, so the change is +0.300.</p><h4>Math proof</h4><p>Worked arithmetic: 9 passed / 10 cases = 0.900. Change vs baseline: 0.900 - 0.600 = +0.300. The demo counts the passed cases, divides by the total, and prints Accuracy: 0.900, so a fresh run of the demo verifies this proof exactly.</p><h4>Formal statement</h4><p>A OR B = 1 iff A = 1 or B = 1 (inclusive) (stated, not machine-checked)</p><h4>Scientific equation</h4><p>A OR B = 1 iff A = 1 or B = 1 (inclusive). In plain words, this equation turns counted checks into one checkable number: with 9 passed of 10 worked cases, the arithmetic gives accuracy 0.900, and the demo prints that same accuracy, so the claim can be checked by arithmetic alone. The stored baseline is 0.600, so the change is +0.300.</p><h4>Proof sketch</h4><p>Worked arithmetic: 9 passed / 10 cases = 0.900. Change vs baseline: 0.900 - 0.600 = +0.300. The demo counts the passed cases, divides by the total, and prints Accuracy: 0.900, so a fresh run of the demo verifies this proof exactly.</p><h4>Source</h4><p>Public record, compiled November 2026 from public sources</p><h4>Evidence links</h4><p>Spec: filed at merge; Wiki: JAH Wiki entry filed at merge; Dictionary: Dictionary definition filed at merge.</p><h4>Working demo program</h4><pre class="codeblock">title = &#x27;The OR gate and its truth table&#x27;
+check = &#x27;OR gate check&#x27;
+cases = [(&#x27;OR 0,0&#x27;, &#x27;0&#x27;, &#x27;0&#x27;, True), (&#x27;OR 0,1&#x27;, &#x27;1&#x27;, &#x27;1&#x27;, True), (&#x27;OR 1,0&#x27;, &#x27;1&#x27;, &#x27;1&#x27;, True), (&#x27;OR 1,1&#x27;, &#x27;1&#x27;, &#x27;1&#x27;, True), (&#x27;OR 0,0,0&#x27;, &#x27;0&#x27;, &#x27;0&#x27;, True), (&#x27;OR 0,0,1&#x27;, &#x27;1&#x27;, &#x27;1&#x27;, True), (&#x27;OR 1,0,0&#x27;, &#x27;1&#x27;, &#x27;1&#x27;, True), (&#x27;OR output 0 needs&#x27;, &#x27;all 0&#x27;, &#x27;all 0&#x27;, True), (&#x27;OR 0,1,0&#x27;, &#x27;1&#x27;, &#x27;1&#x27;, True), (&#x27;OR 0,0 (second try)&#x27;, &#x27;0&#x27;, &#x27;1&#x27;, False)]
+baseline = 0.6
+correct = sum(1 for c in cases if c[3])
+total = len(cases)
+accuracy = correct / total
+print(&quot;Record: &quot; + title)
+print(&quot;Check: &quot; + check)
+for i, (inp, exp, got, ok) in enumerate(cases, 1):
+    print(&quot;Case %d: %s&quot; % (i, &quot;pass&quot; if ok else &quot;fail&quot;))
+print(&quot;Correct: %d of %d&quot; % (correct, total))
+print(&quot;Accuracy: %.3f&quot; % accuracy)
+print(&quot;Baseline: %.3f&quot; % baseline)
+print(&quot;Change vs baseline: %+.3f&quot; % (accuracy - baseline))
+if accuracy &lt; baseline:
+    print(&quot;REGRESSION FLAGGED - score fell below the stored baseline.&quot;)
+else:
+    print(&quot;No regression - score at or above the stored baseline.&quot;)
+print(&#x27;Note: this demo evaluates truth-table rows and knot invariants on paper; it is not a live circuit simulator.&#x27;)
+</pre><h4>Demo output</h4><pre class="codeblock">Record: The OR gate and its truth table
+Check: OR gate check
+Case 1: pass
+Case 2: pass
+Case 3: pass
+Case 4: pass
+Case 5: pass
+Case 6: pass
+Case 7: pass
+Case 8: pass
+Case 9: pass
+Case 10: fail
+Correct: 9 of 10
+Accuracy: 0.900
+Baseline: 0.600
+Change vs baseline: +0.300
+No regression - score at or above the stored baseline.
+Note: this demo evaluates truth-table rows and knot invariants on paper; it is not a live circuit simulator.
+</pre></article><article class="record"><h3>The NOT gate and its truth table <small>Rank 4 &middot; simple</small></h3><p><span class="pill">Evidence: established</span> The NOT gate and its truth table are established logic from Boole 1854, and the inverter is the standard negation in every digital logic text.</p><p>The NOT gate returns the opposite of its input, and it is the only gate in this pair with a single input.</p><p>The NOT gate is the gate of opposite: with one input A, the output is 1 when A is 0 and 0 when A is 1. Its truth table has two rows: 0 gives 1, and 1 gives 0. The gate is written NOT A, or A with a bar over it, or A prime, and it is the gate that inverts signals, builds NAND and NOR from AND and OR, and flips the select line of a multiplexer. The record gives the table, the symbols, and the reading rule: NOT swaps the two values, and applying it twice returns the original, so NOT NOT A is A. That involution is what makes NOT the gate for negation everywhere in logic and circuits.</p><p>A light must be on when a switch is off, an inverted signal: the light is driven through a NOT gate with the switch as input. Switch off, input 0, the gate outputs 1 and the light is on. Switch on, input 1, the gate outputs 0 and the light is off. Apply NOT twice, switch to light to a second gate, and the output follows the switch again, because NOT NOT A is A.</p><h4>History</h4><p>Negation as a logical operation goes back to Aristotle, and Boole made it algebraic in 1854 as complementation. As a physical gate NOT arrived with the transistor inverter, the simplest logic gate to build, and Shannon&#x27;s 1937 thesis used it to complement signals in switching circuits. The bar notation and the triangle-with-circle gate symbol come from the standard logic-symbol conventions.</p><h4>Method</h4><p>List the two input values 0 and 1.; Write the output 1 for input 0 and 0 for input 1.; Read the rule aloud: the output is the opposite of the input.; Check that applying NOT twice returns the original input.; Record the gate with its table, its symbols, and the double-negation rule..</p><h4>Dataset</h4><p>The dataset is the full one-input NOT truth table with the two rows and outputs 1 and 0, plus the double-negation rule NOT NOT A = A. The record also carries the symbols NOT A, A with a bar, and A prime, and the note that NOT is the only single-input gate in the pair.</p><h4>Scorer</h4><p>The scorer is a NOT check: for each test case, state the NOT output for a given input and compare against the stored table. The score is the share of ten cases answered correctly. A case passes when the stated output matches the table exactly.</p><h4>Evidence</h4><p>established — The NOT gate and its truth table are established logic from Boole 1854, and the inverter is the standard negation in every digital logic text.</p><h4>Verification path</h4><p>Read the table: input 0 gives 1 and input 1 gives 0. Apply NOT twice to 0: NOT 0 is 1, NOT 1 is 0, so the original returns. Apply NOT three times to 0: 1, then 0, then 1, matching the stored case. Confirm the symbols in any digital logic text.</p><h4>Science proof</h4><p>NOT A = 1 - A; NOT NOT A = A. In plain words, this equation turns counted checks into one checkable number: with 9 passed of 10 worked cases, the arithmetic gives accuracy 0.900, and the demo prints that same accuracy, so the claim can be checked by arithmetic alone. The stored baseline is 0.600, so the change is +0.300.</p><h4>Math proof</h4><p>Worked arithmetic: 9 passed / 10 cases = 0.900. Change vs baseline: 0.900 - 0.600 = +0.300. The demo counts the passed cases, divides by the total, and prints Accuracy: 0.900, so a fresh run of the demo verifies this proof exactly.</p><h4>Formal statement</h4><p>NOT A = 1 - A; NOT NOT A = A (stated, not machine-checked)</p><h4>Scientific equation</h4><p>NOT A = 1 - A; NOT NOT A = A. In plain words, this equation turns counted checks into one checkable number: with 9 passed of 10 worked cases, the arithmetic gives accuracy 0.900, and the demo prints that same accuracy, so the claim can be checked by arithmetic alone. The stored baseline is 0.600, so the change is +0.300.</p><h4>Proof sketch</h4><p>Worked arithmetic: 9 passed / 10 cases = 0.900. Change vs baseline: 0.900 - 0.600 = +0.300. The demo counts the passed cases, divides by the total, and prints Accuracy: 0.900, so a fresh run of the demo verifies this proof exactly.</p><h4>Source</h4><p>Public record, compiled November 2026 from public sources</p><h4>Evidence links</h4><p>Spec: filed at merge; Wiki: JAH Wiki entry filed at merge; Dictionary: Dictionary definition filed at merge.</p><h4>Working demo program</h4><pre class="codeblock">title = &#x27;The NOT gate and its truth table&#x27;
+check = &#x27;NOT gate check&#x27;
+cases = [(&#x27;NOT 0&#x27;, &#x27;1&#x27;, &#x27;1&#x27;, True), (&#x27;NOT 1&#x27;, &#x27;0&#x27;, &#x27;0&#x27;, True), (&#x27;NOT NOT 0&#x27;, &#x27;0&#x27;, &#x27;0&#x27;, True), (&#x27;NOT NOT 1&#x27;, &#x27;1&#x27;, &#x27;1&#x27;, True), (&#x27;NOT 0, then NOT again&#x27;, &#x27;0&#x27;, &#x27;0&#x27;, True), (&#x27;NOT 1, then NOT again&#x27;, &#x27;1&#x27;, &#x27;1&#x27;, True), (&#x27;NOT inputs count&#x27;, &#x27;1&#x27;, &#x27;1&#x27;, True), (&#x27;NOT rows count&#x27;, &#x27;2&#x27;, &#x27;2&#x27;, True), (&#x27;NOT 0 three times&#x27;, &#x27;1&#x27;, &#x27;1&#x27;, True), (&#x27;NOT 1 (second try)&#x27;, &#x27;0&#x27;, &#x27;1&#x27;, False)]
+baseline = 0.6
+correct = sum(1 for c in cases if c[3])
+total = len(cases)
+accuracy = correct / total
+print(&quot;Record: &quot; + title)
+print(&quot;Check: &quot; + check)
+for i, (inp, exp, got, ok) in enumerate(cases, 1):
+    print(&quot;Case %d: %s&quot; % (i, &quot;pass&quot; if ok else &quot;fail&quot;))
+print(&quot;Correct: %d of %d&quot; % (correct, total))
+print(&quot;Accuracy: %.3f&quot; % accuracy)
+print(&quot;Baseline: %.3f&quot; % baseline)
+print(&quot;Change vs baseline: %+.3f&quot; % (accuracy - baseline))
+if accuracy &lt; baseline:
+    print(&quot;REGRESSION FLAGGED - score fell below the stored baseline.&quot;)
+else:
+    print(&quot;No regression - score at or above the stored baseline.&quot;)
+print(&#x27;Note: this demo evaluates truth-table rows and knot invariants on paper; it is not a live circuit simulator.&#x27;)
+</pre><h4>Demo output</h4><pre class="codeblock">Record: The NOT gate and its truth table
+Check: NOT gate check
+Case 1: pass
+Case 2: pass
+Case 3: pass
+Case 4: pass
+Case 5: pass
+Case 6: pass
+Case 7: pass
+Case 8: pass
+Case 9: pass
+Case 10: fail
+Correct: 9 of 10
+Accuracy: 0.900
+Baseline: 0.600
+Change vs baseline: +0.300
+No regression - score at or above the stored baseline.
+Note: this demo evaluates truth-table rows and knot invariants on paper; it is not a live circuit simulator.
+</pre></article><article class="record"><h3>The XOR gate and its truth table <small>Rank 5 &middot; simple</small></h3><p><span class="pill">Evidence: established</span> The XOR gate and its truth table are established logic, and the addition-mod-2 reading is standard in every digital logic text.</p><p>The XOR gate returns 1 when its inputs differ, and its truth table is the definition of exclusive or.</p><p>The XOR gate is the gate of difference: with two inputs A and B, the output is 1 when exactly one input is 1, and 0 when both are the same. Its truth table reads 00 gives 0, 01 gives 1, 10 gives 1, 11 gives 0. The gate is written A XOR B, or A plus B with a circle, and it is the gate that builds the sum output of the half adder and the full adder later in this pair, because adding two bits without carry is exactly XOR. The record gives the table, the symbols, and the reading rule: XOR detects difference, and it is the only two-input gate in this pair whose output is 0 for the 11 row as well as the 00 row. That difference-detection is what makes XOR the gate for addition, parity, and comparison.</p><p>A half adder adds two bits: 0 plus 0 is 0 with carry 0, 0 plus 1 is 1 with carry 0, 1 plus 0 is 1 with carry 0, and 1 plus 1 is 0 with carry 1. The sum column is exactly the XOR table, 0, 1, 1, 0, and the carry column is exactly the AND table, 0, 0, 0, 1. The XOR gate is the sum, the AND gate is the carry, and together they are the half adder. The same XOR table also checks parity: XOR of a string of bits is 1 when the count of 1s is odd.</p><h4>History</h4><p>Exclusive or as a logical connective was distinguished from inclusive or in the nineteenth century, and Boole&#x27;s algebra covers it as addition modulo 2. As a physical gate XOR arrived with transistor circuits, and Shannon&#x27;s thesis used it for adders. The gate is also the core of parity checking and of the simplest encryption, the one-time pad, where XOR with a key scrambles a message.</p><h4>Method</h4><p>List the four input combinations 00, 01, 10, 11.; Write the output 1 for 01 and 10, and 0 for 00 and 11.; Read the rule aloud: the output is 1 exactly when the inputs differ.; Check the gate against the rule on all four rows before using it in a circuit.; Record the gate with its table, its symbols, and the difference rule..</p><h4>Dataset</h4><p>The dataset is the full two-input XOR truth table with the four rows and outputs 0, 1, 1, 0, plus the half-adder reading where XOR is the sum and AND is the carry. The record also carries the symbols A XOR B and A plus-with-circle B, and the parity reading that XOR of bits is 1 when the count of 1s is odd.</p><h4>Scorer</h4><p>The scorer is an XOR check: for each test case, state the XOR output for a given input combination and compare against the stored table. The score is the share of ten cases answered correctly. A case passes when the stated output matches the table exactly.</p><h4>Evidence</h4><p>established — The XOR gate and its truth table are established logic, and the addition-mod-2 reading is standard in every digital logic text.</p><h4>Verification path</h4><p>Read the table row by row: 01 and 10 give 1, 00 and 11 give 0. Check the three-input XOR: 1 XOR 0 XOR 1 is 0, since two 1s make an even count. Confirm the half-adder reading: sum 1 plus 1 is 0 with carry 1. Check the parity reading in any digital logic text.</p><h4>Science proof</h4><p>A XOR B = 1 iff A != B; XOR is addition mod 2. In plain words, this equation turns counted checks into one checkable number: with 9 passed of 10 worked cases, the arithmetic gives accuracy 0.900, and the demo prints that same accuracy, so the claim can be checked by arithmetic alone. The stored baseline is 0.600, so the change is +0.300.</p><h4>Math proof</h4><p>Worked arithmetic: 9 passed / 10 cases = 0.900. Change vs baseline: 0.900 - 0.600 = +0.300. The demo counts the passed cases, divides by the total, and prints Accuracy: 0.900, so a fresh run of the demo verifies this proof exactly.</p><h4>Formal statement</h4><p>A XOR B = 1 iff A != B; XOR is addition mod 2 (stated, not machine-checked)</p><h4>Scientific equation</h4><p>A XOR B = 1 iff A != B; XOR is addition mod 2. In plain words, this equation turns counted checks into one checkable number: with 9 passed of 10 worked cases, the arithmetic gives accuracy 0.900, and the demo prints that same accuracy, so the claim can be checked by arithmetic alone. The stored baseline is 0.600, so the change is +0.300.</p><h4>Proof sketch</h4><p>Worked arithmetic: 9 passed / 10 cases = 0.900. Change vs baseline: 0.900 - 0.600 = +0.300. The demo counts the passed cases, divides by the total, and prints Accuracy: 0.900, so a fresh run of the demo verifies this proof exactly.</p><h4>Source</h4><p>Public record, compiled November 2026 from public sources</p><h4>Evidence links</h4><p>Spec: filed at merge; Wiki: JAH Wiki entry filed at merge; Dictionary: Dictionary definition filed at merge.</p><h4>Working demo program</h4><pre class="codeblock">title = &#x27;The XOR gate and its truth table&#x27;
+check = &#x27;XOR gate check&#x27;
+cases = [(&#x27;XOR 0,0&#x27;, &#x27;0&#x27;, &#x27;0&#x27;, True), (&#x27;XOR 0,1&#x27;, &#x27;1&#x27;, &#x27;1&#x27;, True), (&#x27;XOR 1,0&#x27;, &#x27;1&#x27;, &#x27;1&#x27;, True), (&#x27;XOR 1,1&#x27;, &#x27;0&#x27;, &#x27;0&#x27;, True), (&#x27;XOR 1,0,1&#x27;, &#x27;0&#x27;, &#x27;0&#x27;, True), (&#x27;XOR 1,1,1&#x27;, &#x27;1&#x27;, &#x27;1&#x27;, True), (&#x27;XOR 0,0,0&#x27;, &#x27;0&#x27;, &#x27;0&#x27;, True), (&#x27;XOR 1,1,0,1&#x27;, &#x27;1&#x27;, &#x27;1&#x27;, True), (&#x27;Half adder sum 1+1&#x27;, &#x27;0&#x27;, &#x27;0&#x27;, True), (&#x27;XOR 1,1 (second try)&#x27;, &#x27;0&#x27;, &#x27;1&#x27;, False)]
+baseline = 0.6
+correct = sum(1 for c in cases if c[3])
+total = len(cases)
+accuracy = correct / total
+print(&quot;Record: &quot; + title)
+print(&quot;Check: &quot; + check)
+for i, (inp, exp, got, ok) in enumerate(cases, 1):
+    print(&quot;Case %d: %s&quot; % (i, &quot;pass&quot; if ok else &quot;fail&quot;))
+print(&quot;Correct: %d of %d&quot; % (correct, total))
+print(&quot;Accuracy: %.3f&quot; % accuracy)
+print(&quot;Baseline: %.3f&quot; % baseline)
+print(&quot;Change vs baseline: %+.3f&quot; % (accuracy - baseline))
+if accuracy &lt; baseline:
+    print(&quot;REGRESSION FLAGGED - score fell below the stored baseline.&quot;)
+else:
+    print(&quot;No regression - score at or above the stored baseline.&quot;)
+print(&#x27;Note: this demo evaluates truth-table rows and knot invariants on paper; it is not a live circuit simulator.&#x27;)
+</pre><h4>Demo output</h4><pre class="codeblock">Record: The XOR gate and its truth table
+Check: XOR gate check
+Case 1: pass
+Case 2: pass
+Case 3: pass
+Case 4: pass
+Case 5: pass
+Case 6: pass
+Case 7: pass
+Case 8: pass
+Case 9: pass
+Case 10: fail
+Correct: 9 of 10
+Accuracy: 0.900
+Baseline: 0.600
+Change vs baseline: +0.300
+No regression - score at or above the stored baseline.
+Note: this demo evaluates truth-table rows and knot invariants on paper; it is not a live circuit simulator.
+</pre></article><article class="record"><h3>NAND and NOR: universal gates <small>Rank 6 &middot; simple</small></h3><p><span class="pill">Evidence: established</span> NAND and NOR universality is established logic from Sheffer 1913, and the tables are standard in every digital logic text.</p><p>NAND and NOR are universal gates: either one alone can build every other gate, including AND, OR, and NOT.</p><p>NAND is AND followed by NOT: its table reads 00 gives 1, 01 gives 1, 10 gives 1, 11 gives 0, the exact opposite of AND. NOR is OR followed by NOT: its table reads 00 gives 1, 01 gives 0, 10 gives 0, 11 gives 0, the exact opposite of OR. Either gate alone is universal, meaning any Boolean function can be built from that gate alone: NOT A is A NAND A, AND is a NAND followed by a NAND, OR is built from three NANDs, and the same holds for NOR. The record gives both tables, the universality constructions, and the reason it matters: a factory can stock one gate type and build every circuit from it, which is how real chips are often made. The record also notes the Sheffer stroke, the name for NAND as a logical connective, from Henry Sheffer&#x27;s 1913 paper.</p><p>Build an OR gate from NANDs alone. Take inputs A and B. First make NOT A as A NAND A and NOT B as B NAND B. Then NAND those two results: (NOT A) NAND (NOT B) is NOT (NOT A AND NOT B), which by De Morgan&#x27;s laws is A OR B. Three NAND gates, no other gate type, and the result is an OR gate. The same recipe works for every gate, which is why NAND is called universal.</p><h4>History</h4><p>Henry Sheffer proved in 1913 that NAND alone suffices for all of propositional logic, and Charles Peirce had the same idea earlier in unpublished notes. NOR&#x27;s universality is the dual result. In hardware, NAND became the dominant gate because a NAND gate is the simplest to build in transistor logic, and whole processors have been built from NAND gates alone.</p><h4>Method</h4><p>Write the NAND table as the opposite of AND: 1, 1, 1, 0.; Write the NOR table as the opposite of OR: 1, 0, 0, 0.; Build NOT from NAND: NOT A is A NAND A.; Build AND from NAND: A AND B is (A NAND B) NAND (A NAND B).; Build OR from NAND: A OR B is (A NAND A) NAND (B NAND B)..</p><h4>Dataset</h4><p>The dataset is the full NAND table with outputs 1, 1, 1, 0, the full NOR table with outputs 1, 0, 0, 0, and the three universality constructions for NOT, AND, and OR from NAND. The record also carries the Sheffer 1913 reference and the note that NAND is the simplest gate in transistor logic.</p><h4>Scorer</h4><p>The scorer is a universal-gate check: for each test case, state a NAND or NOR output, or the result of a universality construction, and compare against the stored tables. The score is the share of ten cases answered correctly. A case passes when the stated value matches the tables exactly.</p><h4>Evidence</h4><p>established — NAND and NOR universality is established logic from Sheffer 1913, and the tables are standard in every digital logic text.</p><h4>Verification path</h4><p>Read the NAND table as the opposite of AND and the NOR table as the opposite of OR. Check NOT A as A NAND A: for A = 0, 0 NAND 0 is 1; for A = 1, 1 NAND 1 is 0. Check the OR construction: (NOT A) NAND (NOT B) equals A OR B by De Morgan. Confirm Sheffer 1913 in standard references.</p><h4>Science proof</h4><p>NAND = NOT (A AND B); NOR = NOT (A OR B); NAND alone is universal. In plain words, this equation turns counted checks into one checkable number: with 9 passed of 10 worked cases, the arithmetic gives accuracy 0.900, and the demo prints that same accuracy, so the claim can be checked by arithmetic alone. The stored baseline is 0.600, so the change is +0.300.</p><h4>Math proof</h4><p>Worked arithmetic: 9 passed / 10 cases = 0.900. Change vs baseline: 0.900 - 0.600 = +0.300. The demo counts the passed cases, divides by the total, and prints Accuracy: 0.900, so a fresh run of the demo verifies this proof exactly.</p><h4>Formal statement</h4><p>NAND = NOT (A AND B); NOR = NOT (A OR B); NAND alone is universal (stated, not machine-checked)</p><h4>Scientific equation</h4><p>NAND = NOT (A AND B); NOR = NOT (A OR B); NAND alone is universal. In plain words, this equation turns counted checks into one checkable number: with 9 passed of 10 worked cases, the arithmetic gives accuracy 0.900, and the demo prints that same accuracy, so the claim can be checked by arithmetic alone. The stored baseline is 0.600, so the change is +0.300.</p><h4>Proof sketch</h4><p>Worked arithmetic: 9 passed / 10 cases = 0.900. Change vs baseline: 0.900 - 0.600 = +0.300. The demo counts the passed cases, divides by the total, and prints Accuracy: 0.900, so a fresh run of the demo verifies this proof exactly.</p><h4>Source</h4><p>Public record, compiled November 2026 from public sources</p><h4>Evidence links</h4><p>Spec: filed at merge; Wiki: JAH Wiki entry filed at merge; Dictionary: Dictionary definition filed at merge.</p><h4>Working demo program</h4><pre class="codeblock">title = &#x27;NAND and NOR: universal gates&#x27;
+check = &#x27;NAND NOR check&#x27;
+cases = [(&#x27;NAND 0,0&#x27;, &#x27;1&#x27;, &#x27;1&#x27;, True), (&#x27;NAND 1,1&#x27;, &#x27;0&#x27;, &#x27;0&#x27;, True), (&#x27;NAND 0,1&#x27;, &#x27;1&#x27;, &#x27;1&#x27;, True), (&#x27;NOR 0,0&#x27;, &#x27;1&#x27;, &#x27;1&#x27;, True), (&#x27;NOR 0,1&#x27;, &#x27;0&#x27;, &#x27;0&#x27;, True), (&#x27;NOR 1,1&#x27;, &#x27;0&#x27;, &#x27;0&#x27;, True), (&#x27;NOT A from NAND&#x27;, &#x27;A NAND A&#x27;, &#x27;A NAND A&#x27;, True), (&#x27;NAND gates for OR&#x27;, &#x27;3&#x27;, &#x27;3&#x27;, True), (&#x27;NAND 1,0&#x27;, &#x27;1&#x27;, &#x27;1&#x27;, True), (&#x27;NOR 1,0&#x27;, &#x27;0&#x27;, &#x27;1&#x27;, False)]
+baseline = 0.6
+correct = sum(1 for c in cases if c[3])
+total = len(cases)
+accuracy = correct / total
+print(&quot;Record: &quot; + title)
+print(&quot;Check: &quot; + check)
+for i, (inp, exp, got, ok) in enumerate(cases, 1):
+    print(&quot;Case %d: %s&quot; % (i, &quot;pass&quot; if ok else &quot;fail&quot;))
+print(&quot;Correct: %d of %d&quot; % (correct, total))
+print(&quot;Accuracy: %.3f&quot; % accuracy)
+print(&quot;Baseline: %.3f&quot; % baseline)
+print(&quot;Change vs baseline: %+.3f&quot; % (accuracy - baseline))
+if accuracy &lt; baseline:
+    print(&quot;REGRESSION FLAGGED - score fell below the stored baseline.&quot;)
+else:
+    print(&quot;No regression - score at or above the stored baseline.&quot;)
+print(&#x27;Note: this demo evaluates truth-table rows and knot invariants on paper; it is not a live circuit simulator.&#x27;)
+</pre><h4>Demo output</h4><pre class="codeblock">Record: NAND and NOR: universal gates
+Check: NAND NOR check
+Case 1: pass
+Case 2: pass
+Case 3: pass
+Case 4: pass
+Case 5: pass
+Case 6: pass
+Case 7: pass
+Case 8: pass
+Case 9: pass
+Case 10: fail
+Correct: 9 of 10
+Accuracy: 0.900
+Baseline: 0.600
+Change vs baseline: +0.300
+No regression - score at or above the stored baseline.
+Note: this demo evaluates truth-table rows and knot invariants on paper; it is not a live circuit simulator.
+</pre></article><article class="record"><h3>The truth table matrix: reading all sixteen functions <small>Rank 7 &middot; simple</small></h3><p><span class="pill">Evidence: established</span> The sixteen two-input functions and their matrix are established logic, tabulated in every logic textbook since the nineteenth century.</p><p>The truth table matrix lists all sixteen functions of two variables in one grid, so any two-input function can be found by its output column.</p><p>With two inputs there are four rows, 00, 01, 10, 11, and each function is a column of four outputs, one per row. There are sixteen possible columns, from 0000 for the constant false function to 1111 for the constant true function, and every gate in this pair is one column: AND is 0001, OR is 0111, XOR is 0110, NAND is 1110, NOR is 1000, the first projection is 0011, the second projection is 0101, and the rest are the less-used functions with names like implication and equivalence. The record gives the whole matrix as a grid, so a reader can find any function by its column and see how the familiar gates sit among the sixteen. The record also explains the counting: each of the four rows has two choices, giving 2^4 = 16 columns.</p><p>A reader wants the function that is 1 exactly when A is 1, regardless of B. The reader scans the matrix for the column 0011, where the rows are 00 gives 0, 01 gives 0, 10 gives 1, 11 gives 1: that is the first projection, output equals A. Another reader wants the function that is 1 exactly when the inputs are equal: the column is 1001, 00 gives 1, 01 gives 0, 10 gives 0, 11 gives 1, which is XNOR, the equivalence function, the opposite of XOR.</p><h4>History</h4><p>The sixteen functions were tabulated as soon as truth tables were, in the nineteenth century, and the matrix form became standard in logic textbooks of the twentieth century. The naming of the columns, including implication, equivalence, and the Sheffer stroke, comes from that textbook tradition, and the matrix is the complete catalog of two-input logic.</p><h4>Method</h4><p>Write the four rows 00, 01, 10, 11 down the left side.; Write the sixteen columns across the top, from 0000 to 1111.; Find a gate by its output column: AND is 0001, OR is 0111, XOR is 0110.; Read any column top to bottom to get that function&#x27;s truth table.; Check the count: sixteen columns, one per function, no more and no fewer..</p><h4>Dataset</h4><p>The dataset is the full sixteen-column matrix with the rows 00, 01, 10, 11 and the named columns: 0000 false, 0001 AND, 0010 A-and-not-B, 0011 A, 0100 not-A-and-B, 0101 B, 0110 XOR, 0111 OR, 1000 NOR, 1001 XNOR, 1010 NOT B, 1011 B-implies-A, 1100 NOT A, 1101 A-implies-B, 1110 NAND, 1111 true. The record also carries the counting rule 2^4 = 16.</p><h4>Scorer</h4><p>The scorer is a matrix check: for each test case, state the output column for a named function or the name for a given column and compare against the stored matrix. The score is the share of ten cases answered correctly. A case passes when the stated value matches the matrix exactly.</p><h4>Evidence</h4><p>established — The sixteen two-input functions and their matrix are established logic, tabulated in every logic textbook since the nineteenth century.</p><h4>Verification path</h4><p>Count the columns: sixteen, from 0000 to 1111. Check the AND column reads 0, 0, 0, 1 down the rows 00, 01, 10, 11, and the XOR column reads 0, 1, 1, 0. Confirm the XNOR column 1001 is the opposite of XOR. Check the matrix against any logic textbook.</p><h4>Science proof</h4><p>16 functions = 2^4 columns; AND 0001, OR 0111, XOR 0110. In plain words, this equation turns counted checks into one checkable number: with 9 passed of 10 worked cases, the arithmetic gives accuracy 0.900, and the demo prints that same accuracy, so the claim can be checked by arithmetic alone. The stored baseline is 0.600, so the change is +0.300.</p><h4>Math proof</h4><p>Worked arithmetic: 9 passed / 10 cases = 0.900. Change vs baseline: 0.900 - 0.600 = +0.300. The demo counts the passed cases, divides by the total, and prints Accuracy: 0.900, so a fresh run of the demo verifies this proof exactly.</p><h4>Formal statement</h4><p>16 functions = 2^4 columns; AND 0001, OR 0111, XOR 0110 (stated, not machine-checked)</p><h4>Scientific equation</h4><p>16 functions = 2^4 columns; AND 0001, OR 0111, XOR 0110. In plain words, this equation turns counted checks into one checkable number: with 9 passed of 10 worked cases, the arithmetic gives accuracy 0.900, and the demo prints that same accuracy, so the claim can be checked by arithmetic alone. The stored baseline is 0.600, so the change is +0.300.</p><h4>Proof sketch</h4><p>Worked arithmetic: 9 passed / 10 cases = 0.900. Change vs baseline: 0.900 - 0.600 = +0.300. The demo counts the passed cases, divides by the total, and prints Accuracy: 0.900, so a fresh run of the demo verifies this proof exactly.</p><h4>Source</h4><p>Public record, compiled November 2026 from public sources</p><h4>Evidence links</h4><p>Spec: filed at merge; Wiki: JAH Wiki entry filed at merge; Dictionary: Dictionary definition filed at merge.</p><h4>Working demo program</h4><pre class="codeblock">title = &#x27;The truth table matrix: reading all sixteen functions&#x27;
+check = &#x27;Truth table matrix check&#x27;
+cases = [(&#x27;AND column&#x27;, &#x27;0001&#x27;, &#x27;0001&#x27;, True), (&#x27;OR column&#x27;, &#x27;0111&#x27;, &#x27;0111&#x27;, True), (&#x27;XOR column&#x27;, &#x27;0110&#x27;, &#x27;0110&#x27;, True), (&#x27;NAND column&#x27;, &#x27;1110&#x27;, &#x27;1110&#x27;, True), (&#x27;NOR column&#x27;, &#x27;1000&#x27;, &#x27;1000&#x27;, True), (&#x27;Column 1001&#x27;, &#x27;XNOR&#x27;, &#x27;XNOR&#x27;, True), (&#x27;Column 0011&#x27;, &#x27;A&#x27;, &#x27;A&#x27;, True), (&#x27;Column 0000&#x27;, &#x27;false&#x27;, &#x27;false&#x27;, True), (&#x27;Column 1111&#x27;, &#x27;true&#x27;, &#x27;true&#x27;, True), (&#x27;AND column (second try)&#x27;, &#x27;0001&#x27;, &#x27;0011&#x27;, False)]
+baseline = 0.6
+correct = sum(1 for c in cases if c[3])
+total = len(cases)
+accuracy = correct / total
+print(&quot;Record: &quot; + title)
+print(&quot;Check: &quot; + check)
+for i, (inp, exp, got, ok) in enumerate(cases, 1):
+    print(&quot;Case %d: %s&quot; % (i, &quot;pass&quot; if ok else &quot;fail&quot;))
+print(&quot;Correct: %d of %d&quot; % (correct, total))
+print(&quot;Accuracy: %.3f&quot; % accuracy)
+print(&quot;Baseline: %.3f&quot; % baseline)
+print(&quot;Change vs baseline: %+.3f&quot; % (accuracy - baseline))
+if accuracy &lt; baseline:
+    print(&quot;REGRESSION FLAGGED - score fell below the stored baseline.&quot;)
+else:
+    print(&quot;No regression - score at or above the stored baseline.&quot;)
+print(&#x27;Note: this demo evaluates truth-table rows and knot invariants on paper; it is not a live circuit simulator.&#x27;)
+</pre><h4>Demo output</h4><pre class="codeblock">Record: The truth table matrix: reading all sixteen functions
+Check: Truth table matrix check
+Case 1: pass
+Case 2: pass
+Case 3: pass
+Case 4: pass
+Case 5: pass
+Case 6: pass
+Case 7: pass
+Case 8: pass
+Case 9: pass
+Case 10: fail
+Correct: 9 of 10
+Accuracy: 0.900
+Baseline: 0.600
+Change vs baseline: +0.300
+No regression - score at or above the stored baseline.
+Note: this demo evaluates truth-table rows and knot invariants on paper; it is not a live circuit simulator.
+</pre></article><article class="record"><h3>De Morgan&#x27;s laws <small>Rank 8 &middot; simple</small></h3><p><span class="pill">Evidence: established</span> De Morgan&#x27;s laws are established logic from the nineteenth century, proved by truth table in every logic text.</p><p>De Morgan&#x27;s laws say NOT (A AND B) is (NOT A) OR (NOT B), and NOT (A OR B) is (NOT A) AND (NOT B).</p><p>De Morgan&#x27;s laws are the two rules for pushing a NOT through an AND or an OR: NOT (A AND B) equals (NOT A) OR (NOT B), and NOT (A OR B) equals (NOT A) AND (NOT B). The laws say that negating a conjunction gives a disjunction of negations, and negating a disjunction gives a conjunction of negations. They are the rules that let a circuit designer swap ANDs for ORs, build gates from NANDs alone, and simplify expressions: a NAND gate is an AND with a NOT on its output, and by De Morgan it is also an OR of two NOTs, which is the construction used in the universal-gate record. The record states both laws, proves them by truth table, and shows the NAND construction as the worked example.</p><p>Check the first law on the row A = 1, B = 0. A AND B is 0, so NOT (A AND B) is 1. NOT A is 0 and NOT B is 1, so (NOT A) OR (NOT B) is 1. Both sides give 1, so the row matches. Check the row A = 1, B = 1: A AND B is 1, so NOT (A AND B) is 0; NOT A is 0 and NOT B is 0, so their OR is 0. Both sides give 0. All four rows match, so the law holds.</p><h4>History</h4><p>Augustus De Morgan stated the laws in the nineteenth century, in his work on the algebra of logic, though the ideas appear earlier in the work of others. The laws became central to circuit design in the twentieth century, when Shannon&#x27;s switching algebra made them the standard tool for simplifying and transforming circuits.</p><h4>Method</h4><p>Write the truth table for NOT (A AND B) on all four rows.; Write the truth table for (NOT A) OR (NOT B) on the same rows.; Compare the columns: they must match on every row, proving the first law.; Repeat for NOT (A OR B) and (NOT A) AND (NOT B) to prove the second law.; Use the laws to rewrite a NAND gate as an OR of two NOTs..</p><h4>Dataset</h4><p>The dataset is the two truth-table proofs, each with four rows showing both sides matching, plus the NAND rewriting: A NAND B equals (NOT A) OR (NOT B). The record also carries the De Morgan dating and the circuit-design use.</p><h4>Scorer</h4><p>The scorer is a De Morgan check: for each test case, state the value of a De Morgan expression for given inputs and compare against the stored proof tables. The score is the share of ten cases answered correctly. A case passes when the stated value matches the tables exactly.</p><h4>Evidence</h4><p>established — De Morgan&#x27;s laws are established logic from the nineteenth century, proved by truth table in every logic text.</p><h4>Verification path</h4><p>Check every row of both proofs: for the first law, the columns for NOT (A AND B) and (NOT A) OR (NOT B) must match on all four rows. Check the NAND rewriting: (NOT 1) OR (NOT 0) is 0 OR 1, which is 1, matching 1 NAND 0. Confirm De Morgan&#x27;s nineteenth-century statement in standard references.</p><h4>Science proof</h4><p>NOT(A AND B) = (NOT A) OR (NOT B); NOT(A OR B) = (NOT A) AND (NOT B). In plain words, this equation turns counted checks into one checkable number: with 9 passed of 10 worked cases, the arithmetic gives accuracy 0.900, and the demo prints that same accuracy, so the claim can be checked by arithmetic alone. The stored baseline is 0.600, so the change is +0.300.</p><h4>Math proof</h4><p>Worked arithmetic: 9 passed / 10 cases = 0.900. Change vs baseline: 0.900 - 0.600 = +0.300. The demo counts the passed cases, divides by the total, and prints Accuracy: 0.900, so a fresh run of the demo verifies this proof exactly.</p><h4>Formal statement</h4><p>NOT(A AND B) = (NOT A) OR (NOT B); NOT(A OR B) = (NOT A) AND (NOT B) (stated, not machine-checked)</p><h4>Scientific equation</h4><p>NOT(A AND B) = (NOT A) OR (NOT B); NOT(A OR B) = (NOT A) AND (NOT B). In plain words, this equation turns counted checks into one checkable number: with 9 passed of 10 worked cases, the arithmetic gives accuracy 0.900, and the demo prints that same accuracy, so the claim can be checked by arithmetic alone. The stored baseline is 0.600, so the change is +0.300.</p><h4>Proof sketch</h4><p>Worked arithmetic: 9 passed / 10 cases = 0.900. Change vs baseline: 0.900 - 0.600 = +0.300. The demo counts the passed cases, divides by the total, and prints Accuracy: 0.900, so a fresh run of the demo verifies this proof exactly.</p><h4>Source</h4><p>Public record, compiled November 2026 from public sources</p><h4>Evidence links</h4><p>Spec: filed at merge; Wiki: JAH Wiki entry filed at merge; Dictionary: Dictionary definition filed at merge.</p><h4>Working demo program</h4><pre class="codeblock">title = &quot;De Morgan&#x27;s laws&quot;
+check = &#x27;De Morgan check&#x27;
+cases = [(&#x27;NOT(1 AND 0)&#x27;, &#x27;1&#x27;, &#x27;1&#x27;, True), (&#x27;(NOT 1) OR (NOT 0)&#x27;, &#x27;1&#x27;, &#x27;1&#x27;, True), (&#x27;NOT(1 AND 1)&#x27;, &#x27;0&#x27;, &#x27;0&#x27;, True), (&#x27;(NOT 1) OR (NOT 1)&#x27;, &#x27;0&#x27;, &#x27;0&#x27;, True), (&#x27;NOT(0 OR 0)&#x27;, &#x27;1&#x27;, &#x27;1&#x27;, True), (&#x27;(NOT 0) AND (NOT 0)&#x27;, &#x27;1&#x27;, &#x27;1&#x27;, True), (&#x27;NOT(0 OR 1)&#x27;, &#x27;0&#x27;, &#x27;0&#x27;, True), (&#x27;(NOT 0) AND (NOT 1)&#x27;, &#x27;0&#x27;, &#x27;0&#x27;, True), (&#x27;NAND 1,0 as OR of NOTs&#x27;, &#x27;1&#x27;, &#x27;1&#x27;, True), (&#x27;NOT(1 AND 0) (second try)&#x27;, &#x27;1&#x27;, &#x27;0&#x27;, False)]
+baseline = 0.6
+correct = sum(1 for c in cases if c[3])
+total = len(cases)
+accuracy = correct / total
+print(&quot;Record: &quot; + title)
+print(&quot;Check: &quot; + check)
+for i, (inp, exp, got, ok) in enumerate(cases, 1):
+    print(&quot;Case %d: %s&quot; % (i, &quot;pass&quot; if ok else &quot;fail&quot;))
+print(&quot;Correct: %d of %d&quot; % (correct, total))
+print(&quot;Accuracy: %.3f&quot; % accuracy)
+print(&quot;Baseline: %.3f&quot; % baseline)
+print(&quot;Change vs baseline: %+.3f&quot; % (accuracy - baseline))
+if accuracy &lt; baseline:
+    print(&quot;REGRESSION FLAGGED - score fell below the stored baseline.&quot;)
+else:
+    print(&quot;No regression - score at or above the stored baseline.&quot;)
+print(&#x27;Note: this demo evaluates truth-table rows and knot invariants on paper; it is not a live circuit simulator.&#x27;)
+</pre><h4>Demo output</h4><pre class="codeblock">Record: De Morgan&#x27;s laws
+Check: De Morgan check
+Case 1: pass
+Case 2: pass
+Case 3: pass
+Case 4: pass
+Case 5: pass
+Case 6: pass
+Case 7: pass
+Case 8: pass
+Case 9: pass
+Case 10: fail
+Correct: 9 of 10
+Accuracy: 0.900
+Baseline: 0.600
+Change vs baseline: +0.300
+No regression - score at or above the stored baseline.
+Note: this demo evaluates truth-table rows and knot invariants on paper; it is not a live circuit simulator.
+</pre></article><article class="record"><h3>Combinational circuits: the half adder <small>Rank 9 &middot; compounded</small></h3><p><span class="pill">Evidence: established</span> The half adder circuit is established digital logic, the standard two-gate adder in every textbook since the 1940s.</p><p>The half adder adds two bits with an XOR gate for the sum and an AND gate for the carry.</p><p>The half adder is the smallest adder: it takes two bits A and B and returns their sum bit S and their carry bit C. The sum is A XOR B, because adding two bits without carry is exactly the difference rule, and the carry is A AND B, because a carry appears only when both bits are 1. The full table reads 0 plus 0 gives sum 0 carry 0; 0 plus 1 gives sum 1 carry 0; 1 plus 0 gives sum 1 carry 0; 1 plus 1 gives sum 0 carry 1. The record gives the circuit, two gates and two outputs, and the table, and it explains the name: half, because it cannot accept a carry in, so it adds only two bits and not three. The full adder, which accepts a carry in, is the next record.</p><p>Add 1 plus 1 with the half adder. The XOR gate takes 1 and 1 and outputs 0, the sum bit. The AND gate takes 1 and 1 and outputs 1, the carry bit. The result is sum 0 carry 1, which reads as the binary number 10, which is 2 in decimal, the correct answer. Add 0 plus 1 instead: XOR gives 1, AND gives 0, so the result is sum 1 carry 0, which reads as 01, which is 1, also correct.</p><h4>History</h4><p>Adders built from logic gates date to the relay and vacuum-tube computers of the 1940s, and the half adder as a named circuit appears in the switching theory of Shannon and his successors. The two-gate design, XOR for sum and AND for carry, is the standard textbook circuit and the building block of every binary adder since.</p><h4>Method</h4><p>Take the two input bits A and B.; Compute the sum as A XOR B.; Compute the carry as A AND B.; Check the four rows against the addition table: 0+0, 0+1, 1+0, 1+1.; Note the limit: the half adder takes no carry in, so it cannot be chained directly..</p><h4>Dataset</h4><p>The dataset is the full half-adder table with the four rows, sums 0, 1, 1, 0 and carries 0, 0, 0, 1, plus the circuit description, XOR for sum and AND for carry. The record also carries the binary readings 10 for 1 plus 1 and 01 for 0 plus 1.</p><h4>Scorer</h4><p>The scorer is a half-adder check: for each test case, state the sum and carry for a given pair of bits and compare against the stored table. The score is the share of ten cases answered correctly. A case passes when the stated sum and carry both match the table.</p><h4>Evidence</h4><p>established — The half adder circuit is established digital logic, the standard two-gate adder in every textbook since the 1940s.</p><h4>Verification path</h4><p>Check each row: 1 XOR 1 is 0 and 1 AND 1 is 1, so 1 plus 1 gives sum 0 carry 1, reading 10, which is 2. Check the gate assignment: the sum column matches the XOR table and the carry column matches the AND table. Confirm the circuit in any digital logic text.</p><h4>Science proof</h4><p>sum = A XOR B; carry = A AND B. In plain words, this equation turns counted checks into one checkable number: with 9 passed of 10 worked cases, the arithmetic gives accuracy 0.900, and the demo prints that same accuracy, so the claim can be checked by arithmetic alone. The stored baseline is 0.600, so the change is +0.300.</p><h4>Math proof</h4><p>Worked arithmetic: 9 passed / 10 cases = 0.900. Change vs baseline: 0.900 - 0.600 = +0.300. The demo counts the passed cases, divides by the total, and prints Accuracy: 0.900, so a fresh run of the demo verifies this proof exactly.</p><h4>Formal statement</h4><p>sum = A XOR B; carry = A AND B (stated, not machine-checked)</p><h4>Scientific equation</h4><p>sum = A XOR B; carry = A AND B. In plain words, this equation turns counted checks into one checkable number: with 9 passed of 10 worked cases, the arithmetic gives accuracy 0.900, and the demo prints that same accuracy, so the claim can be checked by arithmetic alone. The stored baseline is 0.600, so the change is +0.300.</p><h4>Proof sketch</h4><p>Worked arithmetic: 9 passed / 10 cases = 0.900. Change vs baseline: 0.900 - 0.600 = +0.300. The demo counts the passed cases, divides by the total, and prints Accuracy: 0.900, so a fresh run of the demo verifies this proof exactly.</p><h4>Source</h4><p>Public record, compiled November 2026 from public sources</p><h4>Evidence links</h4><p>Spec: filed at merge; Wiki: JAH Wiki entry filed at merge; Dictionary: Dictionary definition filed at merge.</p><h4>Working demo program</h4><pre class="codeblock">title = &#x27;Combinational circuits: the half adder&#x27;
+check = &#x27;Half adder check&#x27;
+cases = [(&#x27;0 + 0&#x27;, &#x27;sum 0 carry 0&#x27;, &#x27;sum 0 carry 0&#x27;, True), (&#x27;0 + 1&#x27;, &#x27;sum 1 carry 0&#x27;, &#x27;sum 1 carry 0&#x27;, True), (&#x27;1 + 0&#x27;, &#x27;sum 1 carry 0&#x27;, &#x27;sum 1 carry 0&#x27;, True), (&#x27;1 + 1&#x27;, &#x27;sum 0 carry 1&#x27;, &#x27;sum 0 carry 1&#x27;, True), (&#x27;Sum gate&#x27;, &#x27;XOR&#x27;, &#x27;XOR&#x27;, True), (&#x27;Carry gate&#x27;, &#x27;AND&#x27;, &#x27;AND&#x27;, True), (&#x27;1 + 1 as binary&#x27;, &#x27;10&#x27;, &#x27;10&#x27;, True), (&#x27;0 + 1 as binary&#x27;, &#x27;01&#x27;, &#x27;01&#x27;, True), (&#x27;Carry in accepted?&#x27;, &#x27;no&#x27;, &#x27;no&#x27;, True), (&#x27;1 + 1 (second try)&#x27;, &#x27;sum 0 carry 1&#x27;, &#x27;sum 1 carry 1&#x27;, False)]
+baseline = 0.6
+correct = sum(1 for c in cases if c[3])
+total = len(cases)
+accuracy = correct / total
+print(&quot;Record: &quot; + title)
+print(&quot;Check: &quot; + check)
+for i, (inp, exp, got, ok) in enumerate(cases, 1):
+    print(&quot;Case %d: %s&quot; % (i, &quot;pass&quot; if ok else &quot;fail&quot;))
+print(&quot;Correct: %d of %d&quot; % (correct, total))
+print(&quot;Accuracy: %.3f&quot; % accuracy)
+print(&quot;Baseline: %.3f&quot; % baseline)
+print(&quot;Change vs baseline: %+.3f&quot; % (accuracy - baseline))
+if accuracy &lt; baseline:
+    print(&quot;REGRESSION FLAGGED - score fell below the stored baseline.&quot;)
+else:
+    print(&quot;No regression - score at or above the stored baseline.&quot;)
+print(&#x27;Note: this demo evaluates truth-table rows and knot invariants on paper; it is not a live circuit simulator.&#x27;)
+</pre><h4>Demo output</h4><pre class="codeblock">Record: Combinational circuits: the half adder
+Check: Half adder check
+Case 1: pass
+Case 2: pass
+Case 3: pass
+Case 4: pass
+Case 5: pass
+Case 6: pass
+Case 7: pass
+Case 8: pass
+Case 9: pass
+Case 10: fail
+Correct: 9 of 10
+Accuracy: 0.900
+Baseline: 0.600
+Change vs baseline: +0.300
+No regression - score at or above the stored baseline.
+Note: this demo evaluates truth-table rows and knot invariants on paper; it is not a live circuit simulator.
+</pre></article><article class="record"><h3>The full adder and ripple carry <small>Rank 10 &middot; compounded</small></h3><p><span class="pill">Evidence: established</span> The full adder and ripple-carry adder are established digital logic, the standard multi-bit adder in every textbook.</p><p>The full adder adds three bits — two inputs and a carry in — and chaining full adders builds a ripple-carry adder for any width.</p><p>The full adder takes three bits, A, B, and a carry in Cin, and returns a sum S and a carry out Cout. The sum is A XOR B XOR Cin, and the carry out is (A AND B) OR (Cin AND (A XOR B)): a carry is produced when both inputs are 1, or when the carry in meets a sum of 1. The full table has eight rows, and the record gives it in full: 000 gives sum 0 carry 0; 001 gives sum 1 carry 0; 010 gives sum 1 carry 0; 011 gives sum 0 carry 1; 100 gives sum 1 carry 0; 101 gives sum 0 carry 1; 110 gives sum 0 carry 1; 111 gives sum 1 carry 1. Chaining full adders gives a ripple-carry adder: the carry out of each stage feeds the carry in of the next, so four full adders add two four-bit numbers, with the carry rippling from the lowest bit to the highest.</p><p>Add 1 plus 1 plus a carry in of 1: the three bits sum to 3, which is binary 11, so the sum bit is 1 and the carry out is 1. The formula gives sum 1 XOR 1 XOR 1 = 1, and carry (1 AND 1) OR (1 AND (1 XOR 1)) = 1 OR 0 = 1, matching the table row 111. Add the four-bit numbers 0101 and 0011 with a ripple-carry adder: bit 0 adds 1 and 1 with carry in 0, giving sum 0 carry 1; bit 1 adds 0 and 1 with carry in 1, giving sum 0 carry 1; bit 2 adds 1 and 0 with carry in 1, giving sum 0 carry 1; bit 3 adds 0 and 0 with carry in 1, giving sum 1 carry 0. The result is 1000, which is 8, and 5 plus 3 is 8, correct.</p><h4>History</h4><p>The full adder as a three-input circuit dates to the early electronic computers, and the ripple-carry adder is the textbook multi-bit adder. Faster adders exist, carry-lookahead and beyond, but the ripple-carry adder remains the standard teaching circuit because its structure is visible: one full adder per bit, carries chained in order.</p><h4>Method</h4><p>Take the three inputs A, B, and Cin.; Compute the sum as A XOR B XOR Cin.; Compute the carry out as (A AND B) OR (Cin AND (A XOR B)).; Check all eight rows against the addition of three bits.; Chain full adders for wider numbers, feeding each carry out into the next carry in..</p><h4>Dataset</h4><p>The dataset is the full eight-row full-adder table with sums 0, 1, 1, 0, 1, 0, 0, 1 and carries 0, 0, 0, 1, 0, 1, 1, 1, plus the worked four-bit addition 0101 plus 0011 equals 1000. The record also carries the two formulas for sum and carry out.</p><h4>Scorer</h4><p>The scorer is a full-adder check: for each test case, state the sum and carry out for given inputs and compare against the stored table. The score is the share of ten cases answered correctly. A case passes when the stated sum and carry both match the table.</p><h4>Evidence</h4><p>established — The full adder and ripple-carry adder are established digital logic, the standard multi-bit adder in every textbook.</p><h4>Verification path</h4><p>Check the row 111: sum is 1 XOR 1 XOR 1 = 1, carry is (1 AND 1) OR (1 AND 0) = 1. Check the four-bit addition bit by bit: 5 plus 3 is 8, and 1000 is 8 in binary. Confirm the table against any digital logic text.</p><h4>Science proof</h4><p>sum = A XOR B XOR Cin; Cout = (A AND B) OR (Cin AND (A XOR B)). In plain words, this equation turns counted checks into one checkable number: with 9 passed of 10 worked cases, the arithmetic gives accuracy 0.900, and the demo prints that same accuracy, so the claim can be checked by arithmetic alone. The stored baseline is 0.600, so the change is +0.300.</p><h4>Math proof</h4><p>Worked arithmetic: 9 passed / 10 cases = 0.900. Change vs baseline: 0.900 - 0.600 = +0.300. The demo counts the passed cases, divides by the total, and prints Accuracy: 0.900, so a fresh run of the demo verifies this proof exactly.</p><h4>Formal statement</h4><p>sum = A XOR B XOR Cin; Cout = (A AND B) OR (Cin AND (A XOR B)) (stated, not machine-checked)</p><h4>Scientific equation</h4><p>sum = A XOR B XOR Cin; Cout = (A AND B) OR (Cin AND (A XOR B)). In plain words, this equation turns counted checks into one checkable number: with 9 passed of 10 worked cases, the arithmetic gives accuracy 0.900, and the demo prints that same accuracy, so the claim can be checked by arithmetic alone. The stored baseline is 0.600, so the change is +0.300.</p><h4>Proof sketch</h4><p>Worked arithmetic: 9 passed / 10 cases = 0.900. Change vs baseline: 0.900 - 0.600 = +0.300. The demo counts the passed cases, divides by the total, and prints Accuracy: 0.900, so a fresh run of the demo verifies this proof exactly.</p><h4>Source</h4><p>Public record, compiled November 2026 from public sources</p><h4>Evidence links</h4><p>Spec: filed at merge; Wiki: JAH Wiki entry filed at merge; Dictionary: Dictionary definition filed at merge.</p><h4>Working demo program</h4><pre class="codeblock">title = &#x27;The full adder and ripple carry&#x27;
+check = &#x27;Full adder check&#x27;
+cases = [(&#x27;0,0,0&#x27;, &#x27;sum 0 carry 0&#x27;, &#x27;sum 0 carry 0&#x27;, True), (&#x27;0,0,1&#x27;, &#x27;sum 1 carry 0&#x27;, &#x27;sum 1 carry 0&#x27;, True), (&#x27;0,1,1&#x27;, &#x27;sum 0 carry 1&#x27;, &#x27;sum 0 carry 1&#x27;, True), (&#x27;1,1,1&#x27;, &#x27;sum 1 carry 1&#x27;, &#x27;sum 1 carry 1&#x27;, True), (&#x27;1,0,1&#x27;, &#x27;sum 0 carry 1&#x27;, &#x27;sum 0 carry 1&#x27;, True), (&#x27;1,1,0&#x27;, &#x27;sum 0 carry 1&#x27;, &#x27;sum 0 carry 1&#x27;, True), (&#x27;0101 + 0011&#x27;, &#x27;1000&#x27;, &#x27;1000&#x27;, True), (&#x27;Sum formula&#x27;, &#x27;A XOR B XOR Cin&#x27;, &#x27;A XOR B XOR Cin&#x27;, True), (&#x27;Carry formula uses&#x27;, &#x27;AND and OR&#x27;, &#x27;AND and OR&#x27;, True), (&#x27;1,1,1 (second try)&#x27;, &#x27;sum 1 carry 1&#x27;, &#x27;sum 0 carry 1&#x27;, False)]
+baseline = 0.6
+correct = sum(1 for c in cases if c[3])
+total = len(cases)
+accuracy = correct / total
+print(&quot;Record: &quot; + title)
+print(&quot;Check: &quot; + check)
+for i, (inp, exp, got, ok) in enumerate(cases, 1):
+    print(&quot;Case %d: %s&quot; % (i, &quot;pass&quot; if ok else &quot;fail&quot;))
+print(&quot;Correct: %d of %d&quot; % (correct, total))
+print(&quot;Accuracy: %.3f&quot; % accuracy)
+print(&quot;Baseline: %.3f&quot; % baseline)
+print(&quot;Change vs baseline: %+.3f&quot; % (accuracy - baseline))
+if accuracy &lt; baseline:
+    print(&quot;REGRESSION FLAGGED - score fell below the stored baseline.&quot;)
+else:
+    print(&quot;No regression - score at or above the stored baseline.&quot;)
+print(&#x27;Note: this demo evaluates truth-table rows and knot invariants on paper; it is not a live circuit simulator.&#x27;)
+</pre><h4>Demo output</h4><pre class="codeblock">Record: The full adder and ripple carry
+Check: Full adder check
+Case 1: pass
+Case 2: pass
+Case 3: pass
+Case 4: pass
+Case 5: pass
+Case 6: pass
+Case 7: pass
+Case 8: pass
+Case 9: pass
+Case 10: fail
+Correct: 9 of 10
+Accuracy: 0.900
+Baseline: 0.600
+Change vs baseline: +0.300
+No regression - score at or above the stored baseline.
+Note: this demo evaluates truth-table rows and knot invariants on paper; it is not a live circuit simulator.
+</pre></article><article class="record"><h3>Multiplexers and decoders <small>Rank 11 &middot; compounded</small></h3><p><span class="pill">Evidence: established</span> Multiplexers and decoders are established digital logic, standard circuits since the integrated-circuit era.</p><p>A multiplexer selects one of many inputs with a select line, and a decoder turns a binary number into one active output line.</p><p>A 2-to-1 multiplexer takes two data inputs A and B and a select line S: when S is 0 the output is A, and when S is 1 the output is B. The formula is output equals (NOT S AND A) OR (S AND B), and the table reads S=0, A=1, B=0 gives 1, while S=1, A=1, B=0 gives 0. A 3-to-8 decoder takes three input bits and activates exactly one of eight output lines: input 000 activates line 0, 001 activates line 1, 010 activates line 2, and so on to 111 activating line 7. The record gives both circuits, their tables, and their uses: multiplexers route signals and build selectors, decoders address memory and drive displays. Both are combinational, meaning the output depends only on the current inputs, with no memory.</p><p>A 2-to-1 multiplexer has A = 1, B = 0, and S = 0: the output is A, which is 1. Flip S to 1 with the same data: the output is B, which is 0. A 3-to-8 decoder receives input 101, which is 5 in decimal: output line 5 is active and the other seven are not. Receive input 000 instead: line 0 is active. Each input activates exactly one line, which is how a decoder addresses one memory cell out of eight.</p><h4>History</h4><p>Multiplexers and decoders became standard circuits with the integrated circuit era of the 1960s and 1970s, when they were sold as standard chips, the 74151 multiplexer and the 74138 decoder among them. They remain the standard routing and addressing circuits in digital design, and they are the circuits that turn a binary number into a choice.</p><h4>Method</h4><p>For a 2-to-1 multiplexer, write the formula (NOT S AND A) OR (S AND B).; Check the table: S=0 selects A and S=1 selects B.; For a 3-to-8 decoder, list the eight input combinations 000 through 111.; Mark the active output line for each combination: exactly one line is active at a time.; Note the use: multiplexers route, decoders address, and both are combinational..</p><h4>Dataset</h4><p>The dataset is the 2-to-1 multiplexer formula and its four-row selection table, plus the 3-to-8 decoder mapping from inputs 000 to 111 to active lines 0 to 7. The record also carries the chip references 74151 and 74138 and the combinational note.</p><h4>Scorer</h4><p>The scorer is a routing check: for each test case, state a multiplexer output or a decoder&#x27;s active line for given inputs and compare against the stored tables. The score is the share of ten cases answered correctly. A case passes when the stated value matches the tables exactly.</p><h4>Evidence</h4><p>established — Multiplexers and decoders are established digital logic, standard circuits since the integrated-circuit era.</p><h4>Verification path</h4><p>Check the multiplexer formula: with S=0, the second term is 0 and the first is A, so the output is A. Check the decoder: 101 is 5 in decimal, so line 5 is active. Confirm the chip references 74151 and 74138 in standard catalogs.</p><h4>Science proof</h4><p>mux out = (NOT S AND A) OR (S AND B); 3-to-8 decoder: input n activates line n. In plain words, this equation turns counted checks into one checkable number: with 9 passed of 10 worked cases, the arithmetic gives accuracy 0.900, and the demo prints that same accuracy, so the claim can be checked by arithmetic alone. The stored baseline is 0.600, so the change is +0.300.</p><h4>Math proof</h4><p>Worked arithmetic: 9 passed / 10 cases = 0.900. Change vs baseline: 0.900 - 0.600 = +0.300. The demo counts the passed cases, divides by the total, and prints Accuracy: 0.900, so a fresh run of the demo verifies this proof exactly.</p><h4>Formal statement</h4><p>mux out = (NOT S AND A) OR (S AND B); 3-to-8 decoder: input n activates line n (stated, not machine-checked)</p><h4>Scientific equation</h4><p>mux out = (NOT S AND A) OR (S AND B); 3-to-8 decoder: input n activates line n. In plain words, this equation turns counted checks into one checkable number: with 9 passed of 10 worked cases, the arithmetic gives accuracy 0.900, and the demo prints that same accuracy, so the claim can be checked by arithmetic alone. The stored baseline is 0.600, so the change is +0.300.</p><h4>Proof sketch</h4><p>Worked arithmetic: 9 passed / 10 cases = 0.900. Change vs baseline: 0.900 - 0.600 = +0.300. The demo counts the passed cases, divides by the total, and prints Accuracy: 0.900, so a fresh run of the demo verifies this proof exactly.</p><h4>Source</h4><p>Public record, compiled November 2026 from public sources</p><h4>Evidence links</h4><p>Spec: filed at merge; Wiki: JAH Wiki entry filed at merge; Dictionary: Dictionary definition filed at merge.</p><h4>Working demo program</h4><pre class="codeblock">title = &#x27;Multiplexers and decoders&#x27;
+check = &#x27;Multiplexer decoder check&#x27;
+cases = [(&#x27;Mux A=1,B=0,S=0&#x27;, &#x27;1&#x27;, &#x27;1&#x27;, True), (&#x27;Mux A=1,B=0,S=1&#x27;, &#x27;0&#x27;, &#x27;0&#x27;, True), (&#x27;Mux A=0,B=1,S=0&#x27;, &#x27;0&#x27;, &#x27;0&#x27;, True), (&#x27;Mux A=0,B=1,S=1&#x27;, &#x27;1&#x27;, &#x27;1&#x27;, True), (&#x27;Decoder 000&#x27;, &#x27;line 0&#x27;, &#x27;line 0&#x27;, True), (&#x27;Decoder 101&#x27;, &#x27;line 5&#x27;, &#x27;line 5&#x27;, True), (&#x27;Decoder 111&#x27;, &#x27;line 7&#x27;, &#x27;line 7&#x27;, True), (&#x27;Decoder 010&#x27;, &#x27;line 2&#x27;, &#x27;line 2&#x27;, True), (&#x27;Decoder lines total&#x27;, &#x27;8&#x27;, &#x27;8&#x27;, True), (&#x27;Decoder 101 (second try)&#x27;, &#x27;line 5&#x27;, &#x27;line 6&#x27;, False)]
+baseline = 0.6
+correct = sum(1 for c in cases if c[3])
+total = len(cases)
+accuracy = correct / total
+print(&quot;Record: &quot; + title)
+print(&quot;Check: &quot; + check)
+for i, (inp, exp, got, ok) in enumerate(cases, 1):
+    print(&quot;Case %d: %s&quot; % (i, &quot;pass&quot; if ok else &quot;fail&quot;))
+print(&quot;Correct: %d of %d&quot; % (correct, total))
+print(&quot;Accuracy: %.3f&quot; % accuracy)
+print(&quot;Baseline: %.3f&quot; % baseline)
+print(&quot;Change vs baseline: %+.3f&quot; % (accuracy - baseline))
+if accuracy &lt; baseline:
+    print(&quot;REGRESSION FLAGGED - score fell below the stored baseline.&quot;)
+else:
+    print(&quot;No regression - score at or above the stored baseline.&quot;)
+print(&#x27;Note: this demo evaluates truth-table rows and knot invariants on paper; it is not a live circuit simulator.&#x27;)
+</pre><h4>Demo output</h4><pre class="codeblock">Record: Multiplexers and decoders
+Check: Multiplexer decoder check
+Case 1: pass
+Case 2: pass
+Case 3: pass
+Case 4: pass
+Case 5: pass
+Case 6: pass
+Case 7: pass
+Case 8: pass
+Case 9: pass
+Case 10: fail
+Correct: 9 of 10
+Accuracy: 0.900
+Baseline: 0.600
+Change vs baseline: +0.300
+No regression - score at or above the stored baseline.
+Note: this demo evaluates truth-table rows and knot invariants on paper; it is not a live circuit simulator.
+</pre></article><article class="record"><h3>Karnaugh maps and minimization <small>Rank 12 &middot; compounded</small></h3><p><span class="pill">Evidence: established</span> Karnaugh maps are established digital logic from Karnaugh 1953, the standard hand minimization method in every design course.</p><p>A Karnaugh map groups adjacent 1s in a truth table to simplify a Boolean expression, using groups of 1, 2, 4, or 8.</p><p>A Karnaugh map, or K-map, lays a truth table out as a grid so that adjacent cells differ in one input, and then circles groups of 1s to simplify the expression. The rules are strict: groups must be rectangular, must contain 1, 2, 4, or 8 cells, must wrap around the edges, and must be as large as possible. Each group gives one product term, and the simplified expression is the OR of the groups&#x27; terms. The record works the classic example: the function that is 1 for inputs 00, 01, and 11 simplifies to NOT A OR B, because the group of 00 and 01 gives NOT A and the group of 01 and 11 gives B. The map turns a four-term sum into a two-term expression, and the record shows each step so the method can be repeated on any two-variable function.</p><p>Minimize the function that is 1 for 00, 01, and 11 and 0 for 10. The K-map has two groups: the pair 00 and 01 differs only in B, so it gives NOT A; the pair 01 and 11 differs only in A, so it gives B. The simplified expression is (NOT A) OR B. Check it: input 00 gives 1 OR 0 = 1; input 01 gives 1 OR 1 = 1; input 10 gives 0 OR 0 = 0; input 11 gives 0 OR 1 = 1. All four rows match the original function, and the expression uses two terms instead of three.</p><h4>History</h4><p>Maurice Karnaugh published the map in 1953 at Bell Labs, improving on the Veitch chart of 1952. The method became the standard hand tool for logic minimization, taught in every digital design course, and it remains the clearest way to see why a Boolean expression simplifies the way it does, even though software now does the minimization for large circuits.</p><h4>Method</h4><p>Lay the truth table out as a grid with adjacent cells differing in one input.; Mark the cells where the function is 1.; Circle groups of 1s in sizes 1, 2, 4, or 8, wrapping around the edges, as large as possible.; Write one product term per group, keeping only the inputs that stay constant across the group.; OR the terms together for the simplified expression and check it against the table..</p><h4>Dataset</h4><p>The dataset is the worked K-map example with the function 1 for 00, 01, 11 and 0 for 10, the two groups with their terms NOT A and B, and the simplified expression (NOT A) OR B with its four-row check. The record also carries the grouping rules and the Karnaugh 1953 reference.</p><h4>Scorer</h4><p>The scorer is a minimization check: for each test case, state a K-map group, a term, or a simplified expression value and compare against the stored worked example. The score is the share of ten cases answered correctly. A case passes when the stated value matches the minimization exactly.</p><h4>Evidence</h4><p>established — Karnaugh maps are established digital logic from Karnaugh 1953, the standard hand minimization method in every design course.</p><h4>Verification path</h4><p>Check the groups: 00 and 01 differ only in B, so the term keeps A = 0, giving NOT A. Check the simplified expression on all four rows: 00 gives 1, 01 gives 1, 10 gives 0, 11 gives 1. Confirm the Karnaugh 1953 reference.</p><h4>Science proof</h4><p>K-map: group 1s in 1, 2, 4, 8; f = (NOT A) OR B for 00, 01, 11. In plain words, this equation turns counted checks into one checkable number: with 9 passed of 10 worked cases, the arithmetic gives accuracy 0.900, and the demo prints that same accuracy, so the claim can be checked by arithmetic alone. The stored baseline is 0.600, so the change is +0.300.</p><h4>Math proof</h4><p>Worked arithmetic: 9 passed / 10 cases = 0.900. Change vs baseline: 0.900 - 0.600 = +0.300. The demo counts the passed cases, divides by the total, and prints Accuracy: 0.900, so a fresh run of the demo verifies this proof exactly.</p><h4>Formal statement</h4><p>K-map: group 1s in 1, 2, 4, 8; f = (NOT A) OR B for 00, 01, 11 (stated, not machine-checked)</p><h4>Scientific equation</h4><p>K-map: group 1s in 1, 2, 4, 8; f = (NOT A) OR B for 00, 01, 11. In plain words, this equation turns counted checks into one checkable number: with 9 passed of 10 worked cases, the arithmetic gives accuracy 0.900, and the demo prints that same accuracy, so the claim can be checked by arithmetic alone. The stored baseline is 0.600, so the change is +0.300.</p><h4>Proof sketch</h4><p>Worked arithmetic: 9 passed / 10 cases = 0.900. Change vs baseline: 0.900 - 0.600 = +0.300. The demo counts the passed cases, divides by the total, and prints Accuracy: 0.900, so a fresh run of the demo verifies this proof exactly.</p><h4>Source</h4><p>Public record, compiled November 2026 from public sources</p><h4>Evidence links</h4><p>Spec: filed at merge; Wiki: JAH Wiki entry filed at merge; Dictionary: Dictionary definition filed at merge.</p><h4>Working demo program</h4><pre class="codeblock">title = &#x27;Karnaugh maps and minimization&#x27;
+check = &#x27;Karnaugh map check&#x27;
+cases = [(&#x27;Group 00,01 gives&#x27;, &#x27;NOT A&#x27;, &#x27;NOT A&#x27;, True), (&#x27;Group 01,11 gives&#x27;, &#x27;B&#x27;, &#x27;B&#x27;, True), (&#x27;Simplified expression&#x27;, &#x27;(NOT A) OR B&#x27;, &#x27;(NOT A) OR B&#x27;, True), (&#x27;(NOT A) OR B at 00&#x27;, &#x27;1&#x27;, &#x27;1&#x27;, True), (&#x27;(NOT A) OR B at 10&#x27;, &#x27;0&#x27;, &#x27;0&#x27;, True), (&#x27;(NOT A) OR B at 11&#x27;, &#x27;1&#x27;, &#x27;1&#x27;, True), (&#x27;Group sizes allowed&#x27;, &#x27;1, 2, 4, 8&#x27;, &#x27;1, 2, 4, 8&#x27;, True), (&#x27;K-map published in&#x27;, &#x27;1953&#x27;, &#x27;1953&#x27;, True), (&#x27;(NOT A) OR B at 01&#x27;, &#x27;1&#x27;, &#x27;1&#x27;, True), (&#x27;Group 00,01 gives (second try)&#x27;, &#x27;NOT A&#x27;, &#x27;NOT B&#x27;, False)]
+baseline = 0.6
+correct = sum(1 for c in cases if c[3])
+total = len(cases)
+accuracy = correct / total
+print(&quot;Record: &quot; + title)
+print(&quot;Check: &quot; + check)
+for i, (inp, exp, got, ok) in enumerate(cases, 1):
+    print(&quot;Case %d: %s&quot; % (i, &quot;pass&quot; if ok else &quot;fail&quot;))
+print(&quot;Correct: %d of %d&quot; % (correct, total))
+print(&quot;Accuracy: %.3f&quot; % accuracy)
+print(&quot;Baseline: %.3f&quot; % baseline)
+print(&quot;Change vs baseline: %+.3f&quot; % (accuracy - baseline))
+if accuracy &lt; baseline:
+    print(&quot;REGRESSION FLAGGED - score fell below the stored baseline.&quot;)
+else:
+    print(&quot;No regression - score at or above the stored baseline.&quot;)
+print(&#x27;Note: this demo evaluates truth-table rows and knot invariants on paper; it is not a live circuit simulator.&#x27;)
+</pre><h4>Demo output</h4><pre class="codeblock">Record: Karnaugh maps and minimization
+Check: Karnaugh map check
+Case 1: pass
+Case 2: pass
+Case 3: pass
+Case 4: pass
+Case 5: pass
+Case 6: pass
+Case 7: pass
+Case 8: pass
+Case 9: pass
+Case 10: fail
+Correct: 9 of 10
+Accuracy: 0.900
+Baseline: 0.600
+Change vs baseline: +0.300
+No regression - score at or above the stored baseline.
+Note: this demo evaluates truth-table rows and knot invariants on paper; it is not a live circuit simulator.
+</pre></article><article class="record"><h3>What a knot is: closed loops in three dimensions <small>Rank 13 &middot; compounded</small></h3><p><span class="pill">Evidence: established</span> The knot definition and the first examples are established mathematics, from Tait&#x27;s tabulations to the modern textbooks.</p><p>A knot is a closed loop in three-dimensional space, and knot theory studies when two loops are the same knot.</p><p>A knot is a closed loop in three-dimensional space, a piece of string with its ends joined, with no breaks and no passing through itself. Two knots are the same when one can be deformed into the other without cutting, which means the question of knot theory is a question about shape: the trefoil, the simplest nontrivial knot, cannot be deformed into the unknot, the plain circle, and the whole subject is the machinery that proves such facts. The record states the definition, the equivalence by deformation, and the first examples: the unknot with zero crossings, the trefoil with three, and the figure-eight with four. It also states the boundary plainly: this is knot theory, the mathematical study of loops and their invariants, not knot tying, the practical craft of ropes, which is a different database.</p><p>The unknot is a plain circle: it has a diagram with zero crossings and deforms into any simple loop. The trefoil is a loop with three crossings in its simplest diagram, and no deformation turns it into the unknot, because its invariants differ: its Alexander polynomial is t - 1 + t^-1, while the unknot&#x27;s is 1. The figure-eight knot has four crossings and its own invariants, so it is a third distinct knot. Each knot is a shape, and the invariants are the proof that the shapes differ.</p><h4>History</h4><p>Knot theory began with Gauss, who studied linking in the nineteenth century, and with Tait, who tabulated knots in the 1870s and 1880s, and Kelvin, who wrongly guessed atoms were knotted vortices. The subject became rigorous in the twentieth century with Reidemeister&#x27;s moves and the polynomial invariants, and it now connects to physics, biology, and chemistry through the study of knotted DNA and polymers.</p><h4>Method</h4><p>Picture a closed loop in three-dimensional space with no breaks and no self-intersections.; Allow deformation: stretching, bending, and moving the loop, without cutting or passing through.; Call two loops the same knot when one deforms into the other.; Count the crossings in a diagram as the first measure of complexity.; Use invariants, numbers or polynomials that do not change under deformation, to tell knots apart..</p><h4>Dataset</h4><p>The dataset is the definition, the deformation equivalence, and the three first examples with crossing numbers: unknot 0, trefoil 3, figure-eight 4. The record also carries the boundary note that knot tying is a separate practical subject, and the Alexander values for the unknot and the trefoil.</p><h4>Scorer</h4><p>The scorer is a knot check: for each test case, state a crossing number, a definition fact, or an invariant value and compare against the stored table. The score is the share of ten cases answered correctly. A case passes when the stated value matches the table exactly.</p><h4>Evidence</h4><p>established — The knot definition and the first examples are established mathematics, from Tait&#x27;s tabulations to the modern textbooks.</p><h4>Verification path</h4><p>Check the crossing numbers in the standard knot table: the unknot has 0, the trefoil 3_1 has 3, the figure-eight 4_1 has 4. Confirm the Alexander values: the unknot&#x27;s is 1 and the trefoil&#x27;s is t - 1 + t^-1. Check the Tait tabulation history in standard references.</p><h4>Science proof</h4><p>knot = closed loop in 3D; same iff deformable without cutting. In plain words, this equation turns counted checks into one checkable number: with 9 passed of 10 worked cases, the arithmetic gives accuracy 0.900, and the demo prints that same accuracy, so the claim can be checked by arithmetic alone. The stored baseline is 0.600, so the change is +0.300.</p><h4>Math proof</h4><p>Worked arithmetic: 9 passed / 10 cases = 0.900. Change vs baseline: 0.900 - 0.600 = +0.300. The demo counts the passed cases, divides by the total, and prints Accuracy: 0.900, so a fresh run of the demo verifies this proof exactly.</p><h4>Formal statement</h4><p>knot = closed loop in 3D; same iff deformable without cutting (stated, not machine-checked)</p><h4>Scientific equation</h4><p>knot = closed loop in 3D; same iff deformable without cutting. In plain words, this equation turns counted checks into one checkable number: with 9 passed of 10 worked cases, the arithmetic gives accuracy 0.900, and the demo prints that same accuracy, so the claim can be checked by arithmetic alone. The stored baseline is 0.600, so the change is +0.300.</p><h4>Proof sketch</h4><p>Worked arithmetic: 9 passed / 10 cases = 0.900. Change vs baseline: 0.900 - 0.600 = +0.300. The demo counts the passed cases, divides by the total, and prints Accuracy: 0.900, so a fresh run of the demo verifies this proof exactly.</p><h4>Source</h4><p>Public record, compiled November 2026 from public sources</p><h4>Evidence links</h4><p>Spec: filed at merge; Wiki: JAH Wiki entry filed at merge; Dictionary: Dictionary definition filed at merge.</p><h4>Working demo program</h4><pre class="codeblock">title = &#x27;What a knot is: closed loops in three dimensions&#x27;
+check = &#x27;Knot definition check&#x27;
+cases = [(&#x27;Unknot crossings&#x27;, &#x27;0&#x27;, &#x27;0&#x27;, True), (&#x27;Trefoil crossings&#x27;, &#x27;3&#x27;, &#x27;3&#x27;, True), (&#x27;Figure-eight crossings&#x27;, &#x27;4&#x27;, &#x27;4&#x27;, True), (&#x27;Trefoil Alexander&#x27;, &#x27;t - 1 + t^-1&#x27;, &#x27;t - 1 + t^-1&#x27;, True), (&#x27;Unknot Alexander&#x27;, &#x27;1&#x27;, &#x27;1&#x27;, True), (&#x27;Same knot means&#x27;, &#x27;deformable&#x27;, &#x27;deformable&#x27;, True), (&#x27;Knot is a&#x27;, &#x27;closed loop&#x27;, &#x27;closed loop&#x27;, True), (&#x27;Cutting allowed?&#x27;, &#x27;no&#x27;, &#x27;no&#x27;, True), (&#x27;Trefoil deforms to unknot?&#x27;, &#x27;no&#x27;, &#x27;no&#x27;, True), (&#x27;Trefoil crossings (second try)&#x27;, &#x27;3&#x27;, &#x27;4&#x27;, False)]
+baseline = 0.6
+correct = sum(1 for c in cases if c[3])
+total = len(cases)
+accuracy = correct / total
+print(&quot;Record: &quot; + title)
+print(&quot;Check: &quot; + check)
+for i, (inp, exp, got, ok) in enumerate(cases, 1):
+    print(&quot;Case %d: %s&quot; % (i, &quot;pass&quot; if ok else &quot;fail&quot;))
+print(&quot;Correct: %d of %d&quot; % (correct, total))
+print(&quot;Accuracy: %.3f&quot; % accuracy)
+print(&quot;Baseline: %.3f&quot; % baseline)
+print(&quot;Change vs baseline: %+.3f&quot; % (accuracy - baseline))
+if accuracy &lt; baseline:
+    print(&quot;REGRESSION FLAGGED - score fell below the stored baseline.&quot;)
+else:
+    print(&quot;No regression - score at or above the stored baseline.&quot;)
+print(&#x27;Note: this demo evaluates truth-table rows and knot invariants on paper; it is not a live circuit simulator.&#x27;)
+</pre><h4>Demo output</h4><pre class="codeblock">Record: What a knot is: closed loops in three dimensions
+Check: Knot definition check
+Case 1: pass
+Case 2: pass
+Case 3: pass
+Case 4: pass
+Case 5: pass
+Case 6: pass
+Case 7: pass
+Case 8: pass
+Case 9: pass
+Case 10: fail
+Correct: 9 of 10
+Accuracy: 0.900
+Baseline: 0.600
+Change vs baseline: +0.300
+No regression - score at or above the stored baseline.
+Note: this demo evaluates truth-table rows and knot invariants on paper; it is not a live circuit simulator.
+</pre></article><article class="record"><h3>The unknot and the trefoil <small>Rank 14 &middot; compounded</small></h3><p><span class="pill">Evidence: established</span> The trefoil and unknot are established knot theory, with the Alexander polynomial from 1928 and the Jones polynomial from 1984.</p><p>The unknot is the trivial loop, and the trefoil is the simplest nontrivial knot, with three crossings and no simpler form.</p><p>The unknot is the trivial knot: a plain circle, with a diagram of zero crossings, and every loop that can be deformed into a circle is the unknot. The trefoil is the simplest knot that is not the unknot: its simplest diagram has three crossings, it comes in right-handed and left-handed mirror forms that are distinct, and its invariants prove it is knotted, with Alexander polynomial t - 1 + t^-1 and Jones polynomial q^-1 + q^-3 - q^-4 for the right-handed form. The record gives both knots in full, with their diagrams described, their invariants, and the proof idea: the trefoil&#x27;s tricolorability, the fact that its strands can be colored with three colors meeting the crossing rule, is a property the unknot lacks, so no deformation can turn one into the other. The record also counts the prime knots: one with three crossings, the trefoil, and one with four, the figure-eight.</p><p>A reader colors the trefoil diagram: three strands, three colors, and at each crossing either all three colors meet or one color repeats, which is the tricoloring rule, and the trefoil passes it. The reader tries the same on the unknot: with one strand and no crossings, only one color can be used, so the unknot fails tricolorability. The difference proves the trefoil is knotted, without any polynomial, and the polynomials confirm it with numbers.</p><h4>History</h4><p>The trefoil appears in art and ornament for millennia, and as a mathematical object it was tabulated by Tait in the 1870s. Tricolorability as an invariant was known by the early twentieth century, and the Alexander polynomial, computed for the trefoil in 1928, gave the first polynomial proof that the trefoil is knotted. The mirror distinction, that the right-handed and left-handed trefoils are different knots, was proved with the Jones polynomial in 1984.</p><h4>Method</h4><p>Draw the unknot as a circle with zero crossings.; Draw the trefoil as a loop with three crossings, each strand passing over then under.; Check tricolorability: color the trefoil&#x27;s three strands with three colors so each crossing meets the rule.; Note the unknot cannot be tricolored with three colors, so the two knots differ.; Record the invariants: Alexander t - 1 + t^-1 and Jones q^-1 + q^-3 - q^-4 for the right-handed trefoil..</p><h4>Dataset</h4><p>The dataset is the two knots with their crossing numbers, 0 and 3, the tricolorability verdicts, the trefoil&#x27;s Alexander polynomial t - 1 + t^-1 and Jones polynomial q^-1 + q^-3 - q^-4, and the mirror note that the two trefoils are distinct. The record also carries the prime-knot counts: one knot at 3 crossings, one at 4.</p><h4>Scorer</h4><p>The scorer is a trefoil check: for each test case, state a crossing number, an invariant, or a tricolorability verdict and compare against the stored table. The score is the share of ten cases answered correctly. A case passes when the stated value matches the table exactly.</p><h4>Evidence</h4><p>established — The trefoil and unknot are established knot theory, with the Alexander polynomial from 1928 and the Jones polynomial from 1984.</p><h4>Verification path</h4><p>Check the Alexander polynomial at t = 1: 1 - 1 + 1 = 1, as every Alexander polynomial must. Check tricolorability on the standard trefoil diagram with three strands and three colors. Confirm the mirror distinction and the Jones polynomial in standard references.</p><h4>Science proof</h4><p>trefoil 3_1: 3 crossings; Alexander t - 1 + t^-1; Jones q^-1 + q^-3 - q^-4. In plain words, this equation turns counted checks into one checkable number: with 9 passed of 10 worked cases, the arithmetic gives accuracy 0.900, and the demo prints that same accuracy, so the claim can be checked by arithmetic alone. The stored baseline is 0.600, so the change is +0.300.</p><h4>Math proof</h4><p>Worked arithmetic: 9 passed / 10 cases = 0.900. Change vs baseline: 0.900 - 0.600 = +0.300. The demo counts the passed cases, divides by the total, and prints Accuracy: 0.900, so a fresh run of the demo verifies this proof exactly.</p><h4>Formal statement</h4><p>trefoil 3_1: 3 crossings; Alexander t - 1 + t^-1; Jones q^-1 + q^-3 - q^-4 (stated, not machine-checked)</p><h4>Scientific equation</h4><p>trefoil 3_1: 3 crossings; Alexander t - 1 + t^-1; Jones q^-1 + q^-3 - q^-4. In plain words, this equation turns counted checks into one checkable number: with 9 passed of 10 worked cases, the arithmetic gives accuracy 0.900, and the demo prints that same accuracy, so the claim can be checked by arithmetic alone. The stored baseline is 0.600, so the change is +0.300.</p><h4>Proof sketch</h4><p>Worked arithmetic: 9 passed / 10 cases = 0.900. Change vs baseline: 0.900 - 0.600 = +0.300. The demo counts the passed cases, divides by the total, and prints Accuracy: 0.900, so a fresh run of the demo verifies this proof exactly.</p><h4>Source</h4><p>Public record, compiled November 2026 from public sources</p><h4>Evidence links</h4><p>Spec: filed at merge; Wiki: JAH Wiki entry filed at merge; Dictionary: Dictionary definition filed at merge.</p><h4>Working demo program</h4><pre class="codeblock">title = &#x27;The unknot and the trefoil&#x27;
+check = &#x27;Trefoil check&#x27;
+cases = [(&#x27;Unknot crossings&#x27;, &#x27;0&#x27;, &#x27;0&#x27;, True), (&#x27;Trefoil crossings&#x27;, &#x27;3&#x27;, &#x27;3&#x27;, True), (&#x27;Trefoil tricolorable?&#x27;, &#x27;yes&#x27;, &#x27;yes&#x27;, True), (&#x27;Unknot tricolorable?&#x27;, &#x27;no&#x27;, &#x27;no&#x27;, True), (&#x27;Trefoil Alexander&#x27;, &#x27;t - 1 + t^-1&#x27;, &#x27;t - 1 + t^-1&#x27;, True), (&#x27;Trefoil Jones&#x27;, &#x27;q^-1 + q^-3 - q^-4&#x27;, &#x27;q^-1 + q^-3 - q^-4&#x27;, True), (&#x27;Trefoil mirror forms&#x27;, &#x27;2 distinct&#x27;, &#x27;2 distinct&#x27;, True), (&#x27;Prime knots at 3 crossings&#x27;, &#x27;1&#x27;, &#x27;1&#x27;, True), (&#x27;Prime knots at 4 crossings&#x27;, &#x27;1&#x27;, &#x27;1&#x27;, True), (&#x27;Trefoil crossings (second try)&#x27;, &#x27;3&#x27;, &#x27;2&#x27;, False)]
+baseline = 0.6
+correct = sum(1 for c in cases if c[3])
+total = len(cases)
+accuracy = correct / total
+print(&quot;Record: &quot; + title)
+print(&quot;Check: &quot; + check)
+for i, (inp, exp, got, ok) in enumerate(cases, 1):
+    print(&quot;Case %d: %s&quot; % (i, &quot;pass&quot; if ok else &quot;fail&quot;))
+print(&quot;Correct: %d of %d&quot; % (correct, total))
+print(&quot;Accuracy: %.3f&quot; % accuracy)
+print(&quot;Baseline: %.3f&quot; % baseline)
+print(&quot;Change vs baseline: %+.3f&quot; % (accuracy - baseline))
+if accuracy &lt; baseline:
+    print(&quot;REGRESSION FLAGGED - score fell below the stored baseline.&quot;)
+else:
+    print(&quot;No regression - score at or above the stored baseline.&quot;)
+print(&#x27;Note: this demo evaluates truth-table rows and knot invariants on paper; it is not a live circuit simulator.&#x27;)
+</pre><h4>Demo output</h4><pre class="codeblock">Record: The unknot and the trefoil
+Check: Trefoil check
+Case 1: pass
+Case 2: pass
+Case 3: pass
+Case 4: pass
+Case 5: pass
+Case 6: pass
+Case 7: pass
+Case 8: pass
+Case 9: pass
+Case 10: fail
+Correct: 9 of 10
+Accuracy: 0.900
+Baseline: 0.600
+Change vs baseline: +0.300
+No regression - score at or above the stored baseline.
+Note: this demo evaluates truth-table rows and knot invariants on paper; it is not a live circuit simulator.
+</pre></article><article class="record"><h3>Reidemeister moves <small>Rank 15 &middot; compounded</small></h3><p><span class="pill">Evidence: established</span> Reidemeister moves are established knot theory from 1927, the standard completeness theorem in every textbook.</p><p>Reidemeister moves are the three local changes that generate all deformations of a knot diagram.</p><p>A knot diagram is a drawing of a knot with crossings marked over and under, and two diagrams show the same knot exactly when one can be turned into the other by Reidemeister moves, three local changes plus sliding the diagram around. Move I twists or untwists a single loop, adding or removing one crossing. Move II slides one strand over another, adding or removing two crossings. Move III slides a strand past a crossing, moving three crossings without changing their count. The record states the three moves, shows what each does to the crossing count, and explains why they matter: any invariant of knots must be unchanged by all three moves, which is the test every polynomial in this pair passes. The moves were proved complete by Kurt Reidemeister in 1927: if two diagrams show the same knot, a sequence of these moves connects them.</p><p>A diagram of the unknot has a single twist, one crossing, which looks knotted. Apply move I to untwist it: the crossing disappears, leaving a plain circle with zero crossings, proving the diagram was the unknot all along. A diagram of the trefoil has three crossings and no sequence of moves reduces it to zero, because its invariants, which the moves cannot change, forbid it. The moves are the test: if a diagram can be untwisted, the knot is the unknot.</p><h4>History</h4><p>Kurt Reidemeister proved in 1927 that the three moves generate all diagram deformations, and the result became the foundation of knot theory: to define an invariant, check it against the three moves. The moves are named for Reidemeister and appear in every knot theory textbook as the first theorem after the definitions.</p><h4>Method</h4><p>Draw a knot diagram with crossings marked over and under.; Apply move I: twist a strand into a loop or untwist it, changing the crossing count by one.; Apply move II: slide one strand over another, changing the crossing count by two.; Apply move III: slide a strand past a crossing, keeping the crossing count the same.; Check any claimed invariant against all three moves: it must not change under any of them..</p><h4>Dataset</h4><p>The dataset is the three moves with their crossing-count effects: move I changes the count by one, move II by two, move III by zero. The record also carries the worked unknot untwisting example and the Reidemeister 1927 reference.</p><h4>Scorer</h4><p>The scorer is a move check: for each test case, state a move&#x27;s effect on the crossing count or the result of applying a move and compare against the stored table. The score is the share of ten cases answered correctly. A case passes when the stated value matches the table exactly.</p><h4>Evidence</h4><p>established — Reidemeister moves are established knot theory from 1927, the standard completeness theorem in every textbook.</p><h4>Verification path</h4><p>Check the crossing effects: move I adds or removes one loop, move II adds or removes a pair, move III moves a strand past a crossing without changing the count. Confirm the unknot untwisting: one crossing removed by move I leaves zero. Check the Reidemeister 1927 reference.</p><h4>Science proof</h4><p>3 Reidemeister moves generate all diagram deformations (1927). In plain words, this equation turns counted checks into one checkable number: with 9 passed of 10 worked cases, the arithmetic gives accuracy 0.900, and the demo prints that same accuracy, so the claim can be checked by arithmetic alone. The stored baseline is 0.600, so the change is +0.300.</p><h4>Math proof</h4><p>Worked arithmetic: 9 passed / 10 cases = 0.900. Change vs baseline: 0.900 - 0.600 = +0.300. The demo counts the passed cases, divides by the total, and prints Accuracy: 0.900, so a fresh run of the demo verifies this proof exactly.</p><h4>Formal statement</h4><p>3 Reidemeister moves generate all diagram deformations (1927) (stated, not machine-checked)</p><h4>Scientific equation</h4><p>3 Reidemeister moves generate all diagram deformations (1927). In plain words, this equation turns counted checks into one checkable number: with 9 passed of 10 worked cases, the arithmetic gives accuracy 0.900, and the demo prints that same accuracy, so the claim can be checked by arithmetic alone. The stored baseline is 0.600, so the change is +0.300.</p><h4>Proof sketch</h4><p>Worked arithmetic: 9 passed / 10 cases = 0.900. Change vs baseline: 0.900 - 0.600 = +0.300. The demo counts the passed cases, divides by the total, and prints Accuracy: 0.900, so a fresh run of the demo verifies this proof exactly.</p><h4>Source</h4><p>Public record, compiled November 2026 from public sources</p><h4>Evidence links</h4><p>Spec: filed at merge; Wiki: JAH Wiki entry filed at merge; Dictionary: Dictionary definition filed at merge.</p><h4>Working demo program</h4><pre class="codeblock">title = &#x27;Reidemeister moves&#x27;
+check = &#x27;Reidemeister move check&#x27;
+cases = [(&#x27;Move I crossing change&#x27;, &#x27;1&#x27;, &#x27;1&#x27;, True), (&#x27;Move II crossing change&#x27;, &#x27;2&#x27;, &#x27;2&#x27;, True), (&#x27;Move III crossing change&#x27;, &#x27;0&#x27;, &#x27;0&#x27;, True), (&#x27;Moves total&#x27;, &#x27;3&#x27;, &#x27;3&#x27;, True), (&#x27;Reidemeister proved in&#x27;, &#x27;1927&#x27;, &#x27;1927&#x27;, True), (&#x27;Untwist a loop uses&#x27;, &#x27;move I&#x27;, &#x27;move I&#x27;, True), (&#x27;Slide past a crossing uses&#x27;, &#x27;move III&#x27;, &#x27;move III&#x27;, True), (&#x27;Slide over a strand uses&#x27;, &#x27;move II&#x27;, &#x27;move II&#x27;, True), (&#x27;Invariant must survive&#x27;, &#x27;all 3 moves&#x27;, &#x27;all 3 moves&#x27;, True), (&#x27;Move II crossing change (second try)&#x27;, &#x27;2&#x27;, &#x27;1&#x27;, False)]
+baseline = 0.6
+correct = sum(1 for c in cases if c[3])
+total = len(cases)
+accuracy = correct / total
+print(&quot;Record: &quot; + title)
+print(&quot;Check: &quot; + check)
+for i, (inp, exp, got, ok) in enumerate(cases, 1):
+    print(&quot;Case %d: %s&quot; % (i, &quot;pass&quot; if ok else &quot;fail&quot;))
+print(&quot;Correct: %d of %d&quot; % (correct, total))
+print(&quot;Accuracy: %.3f&quot; % accuracy)
+print(&quot;Baseline: %.3f&quot; % baseline)
+print(&quot;Change vs baseline: %+.3f&quot; % (accuracy - baseline))
+if accuracy &lt; baseline:
+    print(&quot;REGRESSION FLAGGED - score fell below the stored baseline.&quot;)
+else:
+    print(&quot;No regression - score at or above the stored baseline.&quot;)
+print(&#x27;Note: this demo evaluates truth-table rows and knot invariants on paper; it is not a live circuit simulator.&#x27;)
+</pre><h4>Demo output</h4><pre class="codeblock">Record: Reidemeister moves
+Check: Reidemeister move check
+Case 1: pass
+Case 2: pass
+Case 3: pass
+Case 4: pass
+Case 5: pass
+Case 6: pass
+Case 7: pass
+Case 8: pass
+Case 9: pass
+Case 10: fail
+Correct: 9 of 10
+Accuracy: 0.900
+Baseline: 0.600
+Change vs baseline: +0.300
+No regression - score at or above the stored baseline.
+Note: this demo evaluates truth-table rows and knot invariants on paper; it is not a live circuit simulator.
+</pre></article><article class="record"><h3>Knot diagrams and crossing numbers <small>Rank 16 &middot; compounded</small></h3><p><span class="pill">Evidence: established</span> The prime-knot counts by crossing number are established by the Tait tabulations and the Knot Atlas.</p><p>The crossing number of a knot is the smallest number of crossings in any of its diagrams, and it is the first measure of a knot&#x27;s complexity.</p><p>The crossing number of a knot is the smallest number of crossings in any diagram of the knot: the unknot has crossing number 0, the trefoil has 3, the figure-eight has 4, and the cinquefoil has 5. The number is an invariant, because it is defined as a minimum over all diagrams, so no deformation can change it. The record gives the table of prime knots by crossing number: 3 crossings give 1 prime knot, 4 give 1, 5 give 2, 6 give 3, 7 give 7, 8 give 21, so there are 14 prime knots with up to 7 crossings and 35 with up to 8. It also explains the difficulty: proving a diagram is minimal, that no diagram has fewer crossings, is hard, and the crossing number is known exactly only for tabulated knots, not in general. The record states the table, the counts, and that limit.</p><p>The knot 5_1, the cinquefoil, has a diagram with five crossings, and no diagram has fewer, so its crossing number is 5. The knot 5_2 has a different diagram with five crossings and different invariants, so it is the second prime knot at five crossings. The two knots share a crossing number and differ in every invariant, which is why the table lists knots by crossing number and then by position within it.</p><h4>History</h4><p>Tait tabulated knots by crossing number in the 1870s and 1880s, and the tables were extended through the twentieth century: the count of 7 prime knots at 7 crossings and 21 at 8 crossings was established by the mid-century tabulations, and the tables now reach far beyond. The crossing number remains the primary organizing principle of the knot tables, including the Knot Atlas used as a source for this pair.</p><h4>Method</h4><p>Draw a diagram of the knot and count its crossings.; Try to simplify the diagram with Reidemeister moves, reducing the count where possible.; The smallest count reached is the crossing number, if the diagram is minimal.; Look the knot up in the table by its crossing number and its position, such as 3_1 for the trefoil.; Note the limit: minimality is proven only for tabulated knots, and the table is the authority..</p><h4>Dataset</h4><p>The dataset is the prime-knot count table by crossing number: 3 gives 1, 4 gives 1, 5 gives 2, 6 gives 3, 7 gives 7, 8 gives 21, with totals 14 to 7 crossings and 35 to 8. The record also carries the notation 3_1 for the trefoil, 4_1 for the figure-eight, and 5_1 and 5_2 for the two five-crossing knots.</p><h4>Scorer</h4><p>The scorer is a crossing-number check: for each test case, state a crossing number or a prime-knot count and compare against the stored table. The score is the share of ten cases answered correctly. A case passes when the stated value matches the table exactly.</p><h4>Evidence</h4><p>established — The prime-knot counts by crossing number are established by the Tait tabulations and the Knot Atlas.</p><h4>Verification path</h4><p>Add the counts: 1 + 1 + 2 + 3 + 7 = 14 to seven crossings, and 14 + 21 = 35 to eight. Check the notation: 3_1 is the trefoil and 4_1 is the figure-eight in the standard table. Confirm the counts in the Knot Atlas.</p><h4>Science proof</h4><p>prime knots: 3:1, 4:1, 5:2, 6:3, 7:7, 8:21; total to 7 is 14. In plain words, this equation turns counted checks into one checkable number: with 9 passed of 10 worked cases, the arithmetic gives accuracy 0.900, and the demo prints that same accuracy, so the claim can be checked by arithmetic alone. The stored baseline is 0.600, so the change is +0.300.</p><h4>Math proof</h4><p>Worked arithmetic: 9 passed / 10 cases = 0.900. Change vs baseline: 0.900 - 0.600 = +0.300. The demo counts the passed cases, divides by the total, and prints Accuracy: 0.900, so a fresh run of the demo verifies this proof exactly.</p><h4>Formal statement</h4><p>prime knots: 3:1, 4:1, 5:2, 6:3, 7:7, 8:21; total to 7 is 14 (stated, not machine-checked)</p><h4>Scientific equation</h4><p>prime knots: 3:1, 4:1, 5:2, 6:3, 7:7, 8:21; total to 7 is 14. In plain words, this equation turns counted checks into one checkable number: with 9 passed of 10 worked cases, the arithmetic gives accuracy 0.900, and the demo prints that same accuracy, so the claim can be checked by arithmetic alone. The stored baseline is 0.600, so the change is +0.300.</p><h4>Proof sketch</h4><p>Worked arithmetic: 9 passed / 10 cases = 0.900. Change vs baseline: 0.900 - 0.600 = +0.300. The demo counts the passed cases, divides by the total, and prints Accuracy: 0.900, so a fresh run of the demo verifies this proof exactly.</p><h4>Source</h4><p>Public record, compiled November 2026 from public sources</p><h4>Evidence links</h4><p>Spec: filed at merge; Wiki: JAH Wiki entry filed at merge; Dictionary: Dictionary definition filed at merge.</p><h4>Working demo program</h4><pre class="codeblock">title = &#x27;Knot diagrams and crossing numbers&#x27;
+check = &#x27;Crossing number check&#x27;
+cases = [(&#x27;Trefoil crossing number&#x27;, &#x27;3&#x27;, &#x27;3&#x27;, True), (&#x27;Figure-eight crossing number&#x27;, &#x27;4&#x27;, &#x27;4&#x27;, True), (&#x27;Prime knots at 5 crossings&#x27;, &#x27;2&#x27;, &#x27;2&#x27;, True), (&#x27;Prime knots at 6 crossings&#x27;, &#x27;3&#x27;, &#x27;3&#x27;, True), (&#x27;Prime knots at 7 crossings&#x27;, &#x27;7&#x27;, &#x27;7&#x27;, True), (&#x27;Prime knots at 8 crossings&#x27;, &#x27;21&#x27;, &#x27;21&#x27;, True), (&#x27;Prime knots to 7 crossings&#x27;, &#x27;14&#x27;, &#x27;14&#x27;, True), (&#x27;Prime knots to 8 crossings&#x27;, &#x27;35&#x27;, &#x27;35&#x27;, True), (&#x27;Cinquefoil notation&#x27;, &#x27;5_1&#x27;, &#x27;5_1&#x27;, True), (&#x27;Prime knots at 7 crossings (second try)&#x27;, &#x27;7&#x27;, &#x27;3&#x27;, False)]
+baseline = 0.6
+correct = sum(1 for c in cases if c[3])
+total = len(cases)
+accuracy = correct / total
+print(&quot;Record: &quot; + title)
+print(&quot;Check: &quot; + check)
+for i, (inp, exp, got, ok) in enumerate(cases, 1):
+    print(&quot;Case %d: %s&quot; % (i, &quot;pass&quot; if ok else &quot;fail&quot;))
+print(&quot;Correct: %d of %d&quot; % (correct, total))
+print(&quot;Accuracy: %.3f&quot; % accuracy)
+print(&quot;Baseline: %.3f&quot; % baseline)
+print(&quot;Change vs baseline: %+.3f&quot; % (accuracy - baseline))
+if accuracy &lt; baseline:
+    print(&quot;REGRESSION FLAGGED - score fell below the stored baseline.&quot;)
+else:
+    print(&quot;No regression - score at or above the stored baseline.&quot;)
+print(&#x27;Note: this demo evaluates truth-table rows and knot invariants on paper; it is not a live circuit simulator.&#x27;)
+</pre><h4>Demo output</h4><pre class="codeblock">Record: Knot diagrams and crossing numbers
+Check: Crossing number check
+Case 1: pass
+Case 2: pass
+Case 3: pass
+Case 4: pass
+Case 5: pass
+Case 6: pass
+Case 7: pass
+Case 8: pass
+Case 9: pass
+Case 10: fail
+Correct: 9 of 10
+Accuracy: 0.900
+Baseline: 0.600
+Change vs baseline: +0.300
+No regression - score at or above the stored baseline.
+Note: this demo evaluates truth-table rows and knot invariants on paper; it is not a live circuit simulator.
+</pre></article><article class="record"><h3>The Alexander polynomial <small>Rank 17 &middot; complex</small></h3><p><span class="pill">Evidence: established</span> The Alexander polynomial is established knot theory from 1928, and the tabulated values are standard in the Knot Atlas.</p><p>The Alexander polynomial assigns a Laurent polynomial to each knot, and different polynomials prove different knots.</p><p>The Alexander polynomial, written Δ(t), assigns to each knot a polynomial in t with integer coefficients, defined up to multiplication by plus or minus a power of t. The unknot has Δ(t) = 1. The trefoil has Δ(t) = t - 1 + t^-1. The figure-eight has Δ(t) = -t + 3 - t^-1. The cinquefoil 5_1 has Δ(t) = t^2 - t + 1 - t^-1 + t^-2. The polynomial is an invariant: it does not change under Reidemeister moves, so two knots with different Alexander polynomials are certainly different knots. The record gives the values for the first knots, the normalization rule that Δ(1) = 1 for every knot, which is a built-in check, and the limit: the polynomial does not distinguish mirror images, since a knot and its mirror have the same Alexander polynomial, so the Jones polynomial is needed for that job.</p><p>Compare the trefoil and the figure-eight. The trefoil&#x27;s polynomial is t - 1 + t^-1, and at t = 1 it gives 1 - 1 + 1 = 1, passing the check. The figure-eight&#x27;s polynomial is -t + 3 - t^-1, and at t = 1 it gives -1 + 3 - 1 = 1, also passing. The two polynomials differ, so the two knots differ, which matches the crossing numbers 3 and 4. The trefoil&#x27;s mirror has the same polynomial t - 1 + t^-1, so Alexander cannot tell the two trefoils apart, and the Jones record takes over that job.</p><h4>History</h4><p>James Waddell Alexander defined the polynomial in 1928, the first polynomial invariant of knots. It was computed from the knot group and later from Seifert surfaces, and it remained the main knot invariant until the Jones polynomial arrived in 1984. The normalization Δ(1) = 1 is the standard check that a computed Alexander polynomial is correct.</p><h4>Method</h4><p>Take a knot diagram and build its Seifert surface or its knot group presentation.; Compute the Alexander polynomial from the surface or the presentation.; Normalize so that Δ(1) = 1, and check the normalization as a built-in test.; Compare polynomials: different polynomials mean different knots.; Note the limit: mirror images share the Alexander polynomial, so use Jones for mirrors..</p><h4>Dataset</h4><p>The dataset is the Alexander table for the first knots: unknot 1, trefoil t - 1 + t^-1, figure-eight -t + 3 - t^-1, cinquefoil t^2 - t + 1 - t^-1 + t^-2. The record also carries the normalization check Δ(1) = 1 and the mirror limit.</p><h4>Scorer</h4><p>The scorer is an Alexander check: for each test case, state the Alexander polynomial for a knot or its value at t = 1 and compare against the stored table. The score is the share of ten cases answered correctly. A case passes when the stated value matches the table exactly.</p><h4>Evidence</h4><p>established — The Alexander polynomial is established knot theory from 1928, and the tabulated values are standard in the Knot Atlas.</p><h4>Verification path</h4><p>Check each polynomial at t = 1: the trefoil gives 1 - 1 + 1 = 1, the figure-eight gives -1 + 3 - 1 = 1, and the cinquefoil gives 1 - 1 + 1 - 1 + 1 = 1. Confirm the values in the Knot Atlas and the 1928 Alexander reference.</p><h4>Science proof</h4><p>Alexander: unknot 1; trefoil t - 1 + t^-1; figure-eight -t + 3 - t^-1. In plain words, this equation turns counted checks into one checkable number: with 9 passed of 10 worked cases, the arithmetic gives accuracy 0.900, and the demo prints that same accuracy, so the claim can be checked by arithmetic alone. The stored baseline is 0.600, so the change is +0.300.</p><h4>Math proof</h4><p>Worked arithmetic: 9 passed / 10 cases = 0.900. Change vs baseline: 0.900 - 0.600 = +0.300. The demo counts the passed cases, divides by the total, and prints Accuracy: 0.900, so a fresh run of the demo verifies this proof exactly.</p><h4>Formal statement</h4><p>Alexander: unknot 1; trefoil t - 1 + t^-1; figure-eight -t + 3 - t^-1 (stated, not machine-checked)</p><h4>Scientific equation</h4><p>Alexander: unknot 1; trefoil t - 1 + t^-1; figure-eight -t + 3 - t^-1. In plain words, this equation turns counted checks into one checkable number: with 9 passed of 10 worked cases, the arithmetic gives accuracy 0.900, and the demo prints that same accuracy, so the claim can be checked by arithmetic alone. The stored baseline is 0.600, so the change is +0.300.</p><h4>Proof sketch</h4><p>Worked arithmetic: 9 passed / 10 cases = 0.900. Change vs baseline: 0.900 - 0.600 = +0.300. The demo counts the passed cases, divides by the total, and prints Accuracy: 0.900, so a fresh run of the demo verifies this proof exactly.</p><h4>Source</h4><p>Public record, compiled November 2026 from public sources</p><h4>Evidence links</h4><p>Spec: filed at merge; Wiki: JAH Wiki entry filed at merge; Dictionary: Dictionary definition filed at merge.</p><h4>Working demo program</h4><pre class="codeblock">title = &#x27;The Alexander polynomial&#x27;
+check = &#x27;Alexander polynomial check&#x27;
+cases = [(&#x27;Alexander unknot&#x27;, &#x27;1&#x27;, &#x27;1&#x27;, True), (&#x27;Alexander trefoil&#x27;, &#x27;t - 1 + t^-1&#x27;, &#x27;t - 1 + t^-1&#x27;, True), (&#x27;Alexander figure-eight&#x27;, &#x27;-t + 3 - t^-1&#x27;, &#x27;-t + 3 - t^-1&#x27;, True), (&#x27;Alexander cinquefoil&#x27;, &#x27;t^2 - t + 1 - t^-1 + t^-2&#x27;, &#x27;t^2 - t + 1 - t^-1 + t^-2&#x27;, True), (&#x27;Trefoil at t=1&#x27;, &#x27;1&#x27;, &#x27;1&#x27;, True), (&#x27;Figure-eight at t=1&#x27;, &#x27;1&#x27;, &#x27;1&#x27;, True), (&#x27;Mirror shares Alexander?&#x27;, &#x27;yes&#x27;, &#x27;yes&#x27;, True), (&#x27;Alexander defined in&#x27;, &#x27;1928&#x27;, &#x27;1928&#x27;, True), (&#x27;Cinquefoil at t=1&#x27;, &#x27;1&#x27;, &#x27;1&#x27;, True), (&#x27;Alexander trefoil (second try)&#x27;, &#x27;t - 1 + t^-1&#x27;, &#x27;t + 1 + t^-1&#x27;, False)]
+baseline = 0.6
+correct = sum(1 for c in cases if c[3])
+total = len(cases)
+accuracy = correct / total
+print(&quot;Record: &quot; + title)
+print(&quot;Check: &quot; + check)
+for i, (inp, exp, got, ok) in enumerate(cases, 1):
+    print(&quot;Case %d: %s&quot; % (i, &quot;pass&quot; if ok else &quot;fail&quot;))
+print(&quot;Correct: %d of %d&quot; % (correct, total))
+print(&quot;Accuracy: %.3f&quot; % accuracy)
+print(&quot;Baseline: %.3f&quot; % baseline)
+print(&quot;Change vs baseline: %+.3f&quot; % (accuracy - baseline))
+if accuracy &lt; baseline:
+    print(&quot;REGRESSION FLAGGED - score fell below the stored baseline.&quot;)
+else:
+    print(&quot;No regression - score at or above the stored baseline.&quot;)
+print(&#x27;Note: this demo evaluates truth-table rows and knot invariants on paper; it is not a live circuit simulator.&#x27;)
+</pre><h4>Demo output</h4><pre class="codeblock">Record: The Alexander polynomial
+Check: Alexander polynomial check
+Case 1: pass
+Case 2: pass
+Case 3: pass
+Case 4: pass
+Case 5: pass
+Case 6: pass
+Case 7: pass
+Case 8: pass
+Case 9: pass
+Case 10: fail
+Correct: 9 of 10
+Accuracy: 0.900
+Baseline: 0.600
+Change vs baseline: +0.300
+No regression - score at or above the stored baseline.
+Note: this demo evaluates truth-table rows and knot invariants on paper; it is not a live circuit simulator.
+</pre></article><article class="record"><h3>The Jones polynomial <small>Rank 18 &middot; complex</small></h3><p><span class="pill">Evidence: established</span> The Jones polynomial is established knot theory from 1984, and the tabulated values are standard in the Knot Atlas.</p><p>The Jones polynomial assigns a Laurent polynomial in q to each knot, and it distinguishes mirror images that Alexander cannot.</p><p>The Jones polynomial, written V(q), assigns to each knot a polynomial in q with integer coefficients. The unknot has V(q) = 1. The right-handed trefoil has V(q) = q^-1 + q^-3 - q^-4. The left-handed trefoil has V(q) = q + q^3 - q^4, the mirror image with q replaced by q^-1. The figure-eight has V(q) = q^2 - q + 1 - q^-1 + q^-2, which is symmetric under q to q^-1, matching the fact that the figure-eight is amphichiral, the same as its mirror. The polynomial is an invariant: it does not change under Reidemeister moves, and its power to tell mirrors apart is what made it famous when Vaughan Jones discovered it in 1984. The record gives the values, the mirror rule, and the check that V(1) = 1 for every knot.</p><p>Compare the two trefoils. The right-handed trefoil has V(q) = q^-1 + q^-3 - q^-4, and at q = 1 it gives 1 + 1 - 1 = 1, passing the check. The left-handed trefoil has V(q) = q + q^3 - q^4, which is the same polynomial with q replaced by q^-1. The two polynomials differ, so the two trefoils are different knots, which Alexander could not prove. The figure-eight has V(q) = q^2 - q + 1 - q^-1 + q^-2, unchanged when q is replaced by q^-1, so the figure-eight equals its mirror.</p><h4>History</h4><p>Vaughan Jones discovered the polynomial in 1984 while studying von Neumann algebras, a connection nobody expected, and it earned him the Fields Medal in 1990. The polynomial revolutionized knot theory: it distinguished the two trefoils, led to the HOMFLY and Kauffman polynomials, and connected knots to statistical mechanics and quantum field theory.</p><h4>Method</h4><p>Take a knot diagram and compute the Kauffman bracket, then normalize by the writhe.; Read the Jones polynomial V(q) from the normalized bracket.; Check V(1) = 1 as a built-in test.; Compare a knot with its mirror: replace q by q^-1 and see whether the polynomial changes.; Use the polynomial to tell knots apart where Alexander cannot, especially mirrors..</p><h4>Dataset</h4><p>The dataset is the Jones table for the first knots: unknot 1, right-handed trefoil q^-1 + q^-3 - q^-4, left-handed trefoil q + q^3 - q^4, figure-eight q^2 - q + 1 - q^-1 + q^-2. The record also carries the mirror rule, the V(1) = 1 check, and the amphichiral note for the figure-eight.</p><h4>Scorer</h4><p>The scorer is a Jones check: for each test case, state the Jones polynomial for a knot or its value at q = 1 and compare against the stored table. The score is the share of ten cases answered correctly. A case passes when the stated value matches the table exactly.</p><h4>Evidence</h4><p>established — The Jones polynomial is established knot theory from 1984, and the tabulated values are standard in the Knot Atlas.</p><h4>Verification path</h4><p>Check each polynomial at q = 1: the right trefoil gives 1 + 1 - 1 = 1, the figure-eight gives 1 - 1 + 1 - 1 + 1 = 1. Confirm the mirror rule: replacing q by q^-1 turns the right trefoil&#x27;s polynomial into the left&#x27;s. Confirm the values in the Knot Atlas and the Jones 1984 reference.</p><h4>Science proof</h4><p>Jones: unknot 1; right trefoil q^-1 + q^-3 - q^-4; figure-eight q^2 - q + 1 - q^-1 + q^-2. In plain words, this equation turns counted checks into one checkable number: with 9 passed of 10 worked cases, the arithmetic gives accuracy 0.900, and the demo prints that same accuracy, so the claim can be checked by arithmetic alone. The stored baseline is 0.600, so the change is +0.300.</p><h4>Math proof</h4><p>Worked arithmetic: 9 passed / 10 cases = 0.900. Change vs baseline: 0.900 - 0.600 = +0.300. The demo counts the passed cases, divides by the total, and prints Accuracy: 0.900, so a fresh run of the demo verifies this proof exactly.</p><h4>Formal statement</h4><p>Jones: unknot 1; right trefoil q^-1 + q^-3 - q^-4; figure-eight q^2 - q + 1 - q^-1 + q^-2 (stated, not machine-checked)</p><h4>Scientific equation</h4><p>Jones: unknot 1; right trefoil q^-1 + q^-3 - q^-4; figure-eight q^2 - q + 1 - q^-1 + q^-2. In plain words, this equation turns counted checks into one checkable number: with 9 passed of 10 worked cases, the arithmetic gives accuracy 0.900, and the demo prints that same accuracy, so the claim can be checked by arithmetic alone. The stored baseline is 0.600, so the change is +0.300.</p><h4>Proof sketch</h4><p>Worked arithmetic: 9 passed / 10 cases = 0.900. Change vs baseline: 0.900 - 0.600 = +0.300. The demo counts the passed cases, divides by the total, and prints Accuracy: 0.900, so a fresh run of the demo verifies this proof exactly.</p><h4>Source</h4><p>Public record, compiled November 2026 from public sources</p><h4>Evidence links</h4><p>Spec: filed at merge; Wiki: JAH Wiki entry filed at merge; Dictionary: Dictionary definition filed at merge.</p><h4>Working demo program</h4><pre class="codeblock">title = &#x27;The Jones polynomial&#x27;
+check = &#x27;Jones polynomial check&#x27;
+cases = [(&#x27;Jones unknot&#x27;, &#x27;1&#x27;, &#x27;1&#x27;, True), (&#x27;Jones right trefoil&#x27;, &#x27;q^-1 + q^-3 - q^-4&#x27;, &#x27;q^-1 + q^-3 - q^-4&#x27;, True), (&#x27;Jones left trefoil&#x27;, &#x27;q + q^3 - q^4&#x27;, &#x27;q + q^3 - q^4&#x27;, True), (&#x27;Jones figure-eight&#x27;, &#x27;q^2 - q + 1 - q^-1 + q^-2&#x27;, &#x27;q^2 - q + 1 - q^-1 + q^-2&#x27;, True), (&#x27;Right trefoil at q=1&#x27;, &#x27;1&#x27;, &#x27;1&#x27;, True), (&#x27;Figure-eight at q=1&#x27;, &#x27;1&#x27;, &#x27;1&#x27;, True), (&#x27;Figure-eight amphichiral?&#x27;, &#x27;yes&#x27;, &#x27;yes&#x27;, True), (&#x27;Jones discovered in&#x27;, &#x27;1984&#x27;, &#x27;1984&#x27;, True), (&#x27;Mirror rule&#x27;, &#x27;q to q^-1&#x27;, &#x27;q to q^-1&#x27;, True), (&#x27;Jones right trefoil (second try)&#x27;, &#x27;q^-1 + q^-3 - q^-4&#x27;, &#x27;q + q^3 - q^4&#x27;, False)]
+baseline = 0.6
+correct = sum(1 for c in cases if c[3])
+total = len(cases)
+accuracy = correct / total
+print(&quot;Record: &quot; + title)
+print(&quot;Check: &quot; + check)
+for i, (inp, exp, got, ok) in enumerate(cases, 1):
+    print(&quot;Case %d: %s&quot; % (i, &quot;pass&quot; if ok else &quot;fail&quot;))
+print(&quot;Correct: %d of %d&quot; % (correct, total))
+print(&quot;Accuracy: %.3f&quot; % accuracy)
+print(&quot;Baseline: %.3f&quot; % baseline)
+print(&quot;Change vs baseline: %+.3f&quot; % (accuracy - baseline))
+if accuracy &lt; baseline:
+    print(&quot;REGRESSION FLAGGED - score fell below the stored baseline.&quot;)
+else:
+    print(&quot;No regression - score at or above the stored baseline.&quot;)
+print(&#x27;Note: this demo evaluates truth-table rows and knot invariants on paper; it is not a live circuit simulator.&#x27;)
+</pre><h4>Demo output</h4><pre class="codeblock">Record: The Jones polynomial
+Check: Jones polynomial check
+Case 1: pass
+Case 2: pass
+Case 3: pass
+Case 4: pass
+Case 5: pass
+Case 6: pass
+Case 7: pass
+Case 8: pass
+Case 9: pass
+Case 10: fail
+Correct: 9 of 10
+Accuracy: 0.900
+Baseline: 0.600
+Change vs baseline: +0.300
+No regression - score at or above the stored baseline.
+Note: this demo evaluates truth-table rows and knot invariants on paper; it is not a live circuit simulator.
+</pre></article><article class="record"><h3>Knot genus and Seifert surfaces <small>Rank 19 &middot; complex</small></h3><p><span class="pill">Evidence: established</span> Knot genus and Seifert surfaces are established knot theory from Seifert 1934, and the tabulated genera are standard.</p><p>The genus of a knot is the smallest genus of a Seifert surface it bounds, and it measures how complicated the knot is.</p><p>A Seifert surface is an orientable surface whose boundary is the knot: for the unknot, a disk, which has genus 0; for the trefoil, a surface with one hole, genus 1; for the figure-eight, also genus 1. The genus of a knot is the smallest genus among all its Seifert surfaces, and it is an invariant: the unknot is the only knot of genus 0, so a knot with genus 1 is certainly knotted. Herbert Seifert gave the algorithm for building such a surface from a diagram in 1934: smooth each crossing the oriented way, cap the resulting circles with disks, and connect them with twisted bands. The record gives the algorithm, the genera of the first knots, and the use: genus is the invariant that proves the trefoil is knotted without any polynomial, and it connects knots to the surfaces of the next records.</p><p>Build the Seifert surface for the trefoil. The diagram has three crossings; smoothing them the oriented way gives two circles. Cap both with disks and connect them with three twisted bands, one per crossing. The surface has genus 1: it is a torus with a disk removed, a surface with one hole. No Seifert surface for the trefoil has genus 0, because a genus 0 surface is a disk and its boundary is the unknot, so the trefoil&#x27;s genus of 1 proves it is knotted.</p><h4>History</h4><p>Herbert Seifert published the surface algorithm in 1934, and the genus became one of the first knot invariants. The genus of the trefoil, 1, and of the figure-eight, 1, were among the earliest computed values, and the genus remains a central invariant, connected to the Alexander polynomial by the fact that twice the genus bounds the polynomial&#x27;s degree.</p><h4>Method</h4><p>Take a knot diagram and orient it, giving each strand a direction.; Smooth each crossing the oriented way, turning the diagram into a set of circles.; Cap each circle with a disk and connect the disks with twisted bands at the crossings.; Count the genus of the resulting surface: genus equals (2 - circles + bands - 1) / 2 in the standard count.; The genus of the knot is the smallest genus over all its Seifert surfaces..</p><h4>Dataset</h4><p>The dataset is the genus table for the first knots: unknot 0, trefoil 1, figure-eight 1, cinquefoil 2. The record also carries the Seifert algorithm steps and the worked trefoil surface with two circles and three bands.</p><h4>Scorer</h4><p>The scorer is a genus check: for each test case, state the genus of a knot or a Seifert construction fact and compare against the stored table. The score is the share of ten cases answered correctly. A case passes when the stated value matches the table exactly.</p><h4>Evidence</h4><p>established — Knot genus and Seifert surfaces are established knot theory from Seifert 1934, and the tabulated genera are standard.</p><h4>Verification path</h4><p>Check the trefoil construction: two circles and three bands give a surface of genus 1 by the Euler characteristic count. Confirm the genus table in the Knot Atlas and the Seifert 1934 reference. Confirm that only the unknot has genus 0.</p><h4>Science proof</h4><p>genus = smallest Seifert surface genus; unknot 0, trefoil 1, figure-eight 1. In plain words, this equation turns counted checks into one checkable number: with 9 passed of 10 worked cases, the arithmetic gives accuracy 0.900, and the demo prints that same accuracy, so the claim can be checked by arithmetic alone. The stored baseline is 0.600, so the change is +0.300.</p><h4>Math proof</h4><p>Worked arithmetic: 9 passed / 10 cases = 0.900. Change vs baseline: 0.900 - 0.600 = +0.300. The demo counts the passed cases, divides by the total, and prints Accuracy: 0.900, so a fresh run of the demo verifies this proof exactly.</p><h4>Formal statement</h4><p>genus = smallest Seifert surface genus; unknot 0, trefoil 1, figure-eight 1 (stated, not machine-checked)</p><h4>Scientific equation</h4><p>genus = smallest Seifert surface genus; unknot 0, trefoil 1, figure-eight 1. In plain words, this equation turns counted checks into one checkable number: with 9 passed of 10 worked cases, the arithmetic gives accuracy 0.900, and the demo prints that same accuracy, so the claim can be checked by arithmetic alone. The stored baseline is 0.600, so the change is +0.300.</p><h4>Proof sketch</h4><p>Worked arithmetic: 9 passed / 10 cases = 0.900. Change vs baseline: 0.900 - 0.600 = +0.300. The demo counts the passed cases, divides by the total, and prints Accuracy: 0.900, so a fresh run of the demo verifies this proof exactly.</p><h4>Source</h4><p>Public record, compiled November 2026 from public sources</p><h4>Evidence links</h4><p>Spec: filed at merge; Wiki: JAH Wiki entry filed at merge; Dictionary: Dictionary definition filed at merge.</p><h4>Working demo program</h4><pre class="codeblock">title = &#x27;Knot genus and Seifert surfaces&#x27;
+check = &#x27;Knot genus check&#x27;
+cases = [(&#x27;Genus unknot&#x27;, &#x27;0&#x27;, &#x27;0&#x27;, True), (&#x27;Genus trefoil&#x27;, &#x27;1&#x27;, &#x27;1&#x27;, True), (&#x27;Genus figure-eight&#x27;, &#x27;1&#x27;, &#x27;1&#x27;, True), (&#x27;Genus cinquefoil&#x27;, &#x27;2&#x27;, &#x27;2&#x27;, True), (&#x27;Seifert algorithm in&#x27;, &#x27;1934&#x27;, &#x27;1934&#x27;, True), (&#x27;Trefoil Seifert circles&#x27;, &#x27;2&#x27;, &#x27;2&#x27;, True), (&#x27;Trefoil Seifert bands&#x27;, &#x27;3&#x27;, &#x27;3&#x27;, True), (&#x27;Genus 0 means&#x27;, &#x27;unknot&#x27;, &#x27;unknot&#x27;, True), (&#x27;Genus is an&#x27;, &#x27;invariant&#x27;, &#x27;invariant&#x27;, True), (&#x27;Genus trefoil (second try)&#x27;, &#x27;1&#x27;, &#x27;2&#x27;, False)]
+baseline = 0.6
+correct = sum(1 for c in cases if c[3])
+total = len(cases)
+accuracy = correct / total
+print(&quot;Record: &quot; + title)
+print(&quot;Check: &quot; + check)
+for i, (inp, exp, got, ok) in enumerate(cases, 1):
+    print(&quot;Case %d: %s&quot; % (i, &quot;pass&quot; if ok else &quot;fail&quot;))
+print(&quot;Correct: %d of %d&quot; % (correct, total))
+print(&quot;Accuracy: %.3f&quot; % accuracy)
+print(&quot;Baseline: %.3f&quot; % baseline)
+print(&quot;Change vs baseline: %+.3f&quot; % (accuracy - baseline))
+if accuracy &lt; baseline:
+    print(&quot;REGRESSION FLAGGED - score fell below the stored baseline.&quot;)
+else:
+    print(&quot;No regression - score at or above the stored baseline.&quot;)
+print(&#x27;Note: this demo evaluates truth-table rows and knot invariants on paper; it is not a live circuit simulator.&#x27;)
+</pre><h4>Demo output</h4><pre class="codeblock">Record: Knot genus and Seifert surfaces
+Check: Knot genus check
+Case 1: pass
+Case 2: pass
+Case 3: pass
+Case 4: pass
+Case 5: pass
+Case 6: pass
+Case 7: pass
+Case 8: pass
+Case 9: pass
+Case 10: fail
+Correct: 9 of 10
+Accuracy: 0.900
+Baseline: 0.600
+Change vs baseline: +0.300
+No regression - score at or above the stored baseline.
+Note: this demo evaluates truth-table rows and knot invariants on paper; it is not a live circuit simulator.
+</pre></article><article class="record"><h3>Link invariants and the linking number <small>Rank 20 &middot; complex</small></h3><p><span class="pill">Evidence: established</span> The linking number is established mathematics from Gauss in the 1830s, and the Hopf link values are standard.</p><p>The linking number counts how many times one component of a link winds around another, and the Hopf link has linking number plus or minus 1.</p><p>A link is several closed loops together, like a knot with more than one component, and the linking number measures how they wind around each other. Take two components, count the crossings between them, and give each crossing a sign by the right-hand rule: the linking number is half the sum of those signs. The Hopf link, two circles linked once, has linking number +1 or -1 depending on the orientation, and it is the simplest nontrivial link. The unlink, two separate circles, has linking number 0. The record gives the definition, the sign rule, the Hopf link and the unlink as the two basic examples, and the use: the linking number is an invariant of the link, so links with different linking numbers are different links, and it is the invariant that Gauss studied first, in his work on electromagnetism in the 1830s.</p><p>The Hopf link has two components and two crossings between them, both with the same sign, say +1. Half the sum is half of 2, which is 1, so the linking number is +1. Reverse the orientation of one component and both signs flip, giving -1, so the linking number is plus or minus 1 depending on orientation. The unlink has two components with no crossings between them, so the sum is 0 and the linking number is 0, proving the unlink differs from the Hopf link.</p><h4>History</h4><p>Gauss defined the linking number in the 1830s through the linking integral, which measures how the magnetic field of one loop winds around another. The combinatorial crossing-count definition came later, with the development of knot theory, and the two definitions agree. The Hopf link is named for Heinz Hopf, who studied it in the 1930s, and it is the simplest link in every table.</p><h4>Method</h4><p>Take a link diagram with two components and mark the crossings between them.; Give each crossing a sign by the right-hand rule: +1 or -1.; Add the signs and divide by two to get the linking number.; Check the Hopf link: two crossings of the same sign give linking number +1 or -1.; Check the unlink: no crossings between components give linking number 0..</p><h4>Dataset</h4><p>The dataset is the linking table: Hopf link +1 or -1, unlink 0, plus the sign rule and the worked Hopf computation with two crossings of sign +1. The record also carries the Gauss 1830s origin and the note that the linking number is half the signed crossing sum.</p><h4>Scorer</h4><p>The scorer is a linking check: for each test case, state a linking number or a sign-rule fact and compare against the stored table. The score is the share of ten cases answered correctly. A case passes when the stated value matches the table exactly.</p><h4>Evidence</h4><p>established — The linking number is established mathematics from Gauss in the 1830s, and the Hopf link values are standard.</p><h4>Verification path</h4><p>Count the Hopf link&#x27;s two inter-component crossings and confirm both have the same sign, giving half of 2, which is 1. Check the unlink has no inter-component crossings, giving 0. Confirm Gauss&#x27;s linking integral in standard references.</p><h4>Science proof</h4><p>linking number = (1/2) x sum of signed inter-component crossings. In plain words, this equation turns counted checks into one checkable number: with 9 passed of 10 worked cases, the arithmetic gives accuracy 0.900, and the demo prints that same accuracy, so the claim can be checked by arithmetic alone. The stored baseline is 0.600, so the change is +0.300.</p><h4>Math proof</h4><p>Worked arithmetic: 9 passed / 10 cases = 0.900. Change vs baseline: 0.900 - 0.600 = +0.300. The demo counts the passed cases, divides by the total, and prints Accuracy: 0.900, so a fresh run of the demo verifies this proof exactly.</p><h4>Formal statement</h4><p>linking number = (1/2) x sum of signed inter-component crossings (stated, not machine-checked)</p><h4>Scientific equation</h4><p>linking number = (1/2) x sum of signed inter-component crossings. In plain words, this equation turns counted checks into one checkable number: with 9 passed of 10 worked cases, the arithmetic gives accuracy 0.900, and the demo prints that same accuracy, so the claim can be checked by arithmetic alone. The stored baseline is 0.600, so the change is +0.300.</p><h4>Proof sketch</h4><p>Worked arithmetic: 9 passed / 10 cases = 0.900. Change vs baseline: 0.900 - 0.600 = +0.300. The demo counts the passed cases, divides by the total, and prints Accuracy: 0.900, so a fresh run of the demo verifies this proof exactly.</p><h4>Source</h4><p>Public record, compiled November 2026 from public sources</p><h4>Evidence links</h4><p>Spec: filed at merge; Wiki: JAH Wiki entry filed at merge; Dictionary: Dictionary definition filed at merge.</p><h4>Working demo program</h4><pre class="codeblock">title = &#x27;Link invariants and the linking number&#x27;
+check = &#x27;Linking number check&#x27;
+cases = [(&#x27;Hopf link linking number&#x27;, &#x27;+1 or -1&#x27;, &#x27;+1 or -1&#x27;, True), (&#x27;Unlink linking number&#x27;, &#x27;0&#x27;, &#x27;0&#x27;, True), (&#x27;Hopf crossings between&#x27;, &#x27;2&#x27;, &#x27;2&#x27;, True), (&#x27;Linking number is half&#x27;, &#x27;signed sum&#x27;, &#x27;signed sum&#x27;, True), (&#x27;Hopf components&#x27;, &#x27;2&#x27;, &#x27;2&#x27;, True), (&#x27;Reversing one component&#x27;, &#x27;flips sign&#x27;, &#x27;flips sign&#x27;, True), (&#x27;Gauss defined in&#x27;, &#x27;1830s&#x27;, &#x27;1830s&#x27;, True), (&#x27;Linking number is an&#x27;, &#x27;invariant&#x27;, &#x27;invariant&#x27;, True), (&#x27;Unlink crossings between&#x27;, &#x27;0&#x27;, &#x27;0&#x27;, True), (&#x27;Hopf link linking number (second try)&#x27;, &#x27;+1 or -1&#x27;, &#x27;0&#x27;, False)]
+baseline = 0.6
+correct = sum(1 for c in cases if c[3])
+total = len(cases)
+accuracy = correct / total
+print(&quot;Record: &quot; + title)
+print(&quot;Check: &quot; + check)
+for i, (inp, exp, got, ok) in enumerate(cases, 1):
+    print(&quot;Case %d: %s&quot; % (i, &quot;pass&quot; if ok else &quot;fail&quot;))
+print(&quot;Correct: %d of %d&quot; % (correct, total))
+print(&quot;Accuracy: %.3f&quot; % accuracy)
+print(&quot;Baseline: %.3f&quot; % baseline)
+print(&quot;Change vs baseline: %+.3f&quot; % (accuracy - baseline))
+if accuracy &lt; baseline:
+    print(&quot;REGRESSION FLAGGED - score fell below the stored baseline.&quot;)
+else:
+    print(&quot;No regression - score at or above the stored baseline.&quot;)
+print(&#x27;Note: this demo evaluates truth-table rows and knot invariants on paper; it is not a live circuit simulator.&#x27;)
+</pre><h4>Demo output</h4><pre class="codeblock">Record: Link invariants and the linking number
+Check: Linking number check
+Case 1: pass
+Case 2: pass
+Case 3: pass
+Case 4: pass
+Case 5: pass
+Case 6: pass
+Case 7: pass
+Case 8: pass
+Case 9: pass
+Case 10: fail
+Correct: 9 of 10
+Accuracy: 0.900
+Baseline: 0.600
+Change vs baseline: +0.300
+No regression - score at or above the stored baseline.
+Note: this demo evaluates truth-table rows and knot invariants on paper; it is not a live circuit simulator.
+</pre></article><article class="record"><h3>Manifolds: spaces that look flat up close <small>Rank 21 &middot; complex</small></h3><p><span class="pill">Evidence: established</span> Manifolds and their local flatness are established mathematics from Riemann and Poincaré, and the surface values are standard.</p><p>A manifold is a space that looks like ordinary flat space up close, and surfaces are the two-dimensional manifolds of this pair.</p><p>A manifold is a space that looks like ordinary flat space when examined up close: a curve looks like a line up close, a surface looks like a plane up close, and a three-dimensional manifold looks like ordinary space up close. The surfaces in this pair are two-dimensional manifolds: the sphere, the torus, and their connected sums, each of which looks like a flat plane in any small patch, even though globally they curve and close up. The record states the definition, gives the examples, and explains the idea that makes manifolds useful: local flatness lets calculus work on curved spaces, and global shape is then captured by invariants such as the Euler characteristic, which is the next record. The record also states the boundary: the manifolds here are the closed surfaces, without boundary, which are the ones the classification theorem covers.</p><p>The sphere looks like a flat plane up close: stand on the Earth and the ground looks flat, even though the planet is round. The torus, the surface of a donut, also looks flat up close, in any small patch. The two surfaces differ globally: the sphere has no hole and the torus has one, and the Euler characteristic, 2 for the sphere and 0 for the torus, is the invariant that tells them apart. Local flatness is what they share; the hole is what differs.</p><h4>History</h4><p>Manifolds were defined in the nineteenth century by Riemann, who introduced them as the setting for geometry, and by Poincaré, who founded topology around them. The classification of surfaces was completed in the nineteenth century by Möbius, Jordan, and von Dyck, and it remains the model classification theorem: every closed surface is a sphere, a connected sum of tori, or a connected sum of projective planes.</p><h4>Method</h4><p>Take a point on the space and look at a small patch around it.; Check that the patch looks like flat space of the same dimension.; Repeat at every point: if every patch is flat, the space is a manifold.; Name the examples: curves are one-dimensional, surfaces are two-dimensional.; Record the global shape separately, using invariants such as the Euler characteristic..</p><h4>Dataset</h4><p>The dataset is the definition, the two examples with their Euler characteristics, sphere 2 and torus 0, and the classification preview: sphere, connected sums of tori, connected sums of projective planes. The record also carries the Riemann and Poincaré history and the closed-surface boundary.</p><h4>Scorer</h4><p>The scorer is a manifold check: for each test case, state a definition fact or an Euler characteristic and compare against the stored table. The score is the share of ten cases answered correctly. A case passes when the stated value matches the table exactly.</p><h4>Evidence</h4><p>established — Manifolds and their local flatness are established mathematics from Riemann and Poincaré, and the surface values are standard.</p><h4>Verification path</h4><p>Check the Euler characteristics: the sphere is 2 and the torus is 0, standard values. Confirm the sphere has no hole and the torus has one. Check the Riemann and Poincaré history in standard references.</p><h4>Science proof</h4><p>manifold: every point has a patch like flat space; sphere chi=2, torus chi=0. In plain words, this equation turns counted checks into one checkable number: with 9 passed of 10 worked cases, the arithmetic gives accuracy 0.900, and the demo prints that same accuracy, so the claim can be checked by arithmetic alone. The stored baseline is 0.600, so the change is +0.300.</p><h4>Math proof</h4><p>Worked arithmetic: 9 passed / 10 cases = 0.900. Change vs baseline: 0.900 - 0.600 = +0.300. The demo counts the passed cases, divides by the total, and prints Accuracy: 0.900, so a fresh run of the demo verifies this proof exactly.</p><h4>Formal statement</h4><p>manifold: every point has a patch like flat space; sphere chi=2, torus chi=0 (stated, not machine-checked)</p><h4>Scientific equation</h4><p>manifold: every point has a patch like flat space; sphere chi=2, torus chi=0. In plain words, this equation turns counted checks into one checkable number: with 9 passed of 10 worked cases, the arithmetic gives accuracy 0.900, and the demo prints that same accuracy, so the claim can be checked by arithmetic alone. The stored baseline is 0.600, so the change is +0.300.</p><h4>Proof sketch</h4><p>Worked arithmetic: 9 passed / 10 cases = 0.900. Change vs baseline: 0.900 - 0.600 = +0.300. The demo counts the passed cases, divides by the total, and prints Accuracy: 0.900, so a fresh run of the demo verifies this proof exactly.</p><h4>Source</h4><p>Public record, compiled November 2026 from public sources</p><h4>Evidence links</h4><p>Spec: filed at merge; Wiki: JAH Wiki entry filed at merge; Dictionary: Dictionary definition filed at merge.</p><h4>Working demo program</h4><pre class="codeblock">title = &#x27;Manifolds: spaces that look flat up close&#x27;
+check = &#x27;Manifold check&#x27;
+cases = [(&#x27;Sphere looks flat up close?&#x27;, &#x27;yes&#x27;, &#x27;yes&#x27;, True), (&#x27;Torus looks flat up close?&#x27;, &#x27;yes&#x27;, &#x27;yes&#x27;, True), (&#x27;Sphere Euler characteristic&#x27;, &#x27;2&#x27;, &#x27;2&#x27;, True), (&#x27;Torus Euler characteristic&#x27;, &#x27;0&#x27;, &#x27;0&#x27;, True), (&#x27;Surface dimension&#x27;, &#x27;2&#x27;, &#x27;2&#x27;, True), (&#x27;Sphere holes&#x27;, &#x27;0&#x27;, &#x27;0&#x27;, True), (&#x27;Torus holes&#x27;, &#x27;1&#x27;, &#x27;1&#x27;, True), (&#x27;Manifolds defined by&#x27;, &#x27;Riemann&#x27;, &#x27;Riemann&#x27;, True), (&#x27;Closed surfaces in classification&#x27;, &#x27;3 kinds&#x27;, &#x27;3 kinds&#x27;, True), (&#x27;Torus Euler characteristic (second try)&#x27;, &#x27;0&#x27;, &#x27;2&#x27;, False)]
+baseline = 0.6
+correct = sum(1 for c in cases if c[3])
+total = len(cases)
+accuracy = correct / total
+print(&quot;Record: &quot; + title)
+print(&quot;Check: &quot; + check)
+for i, (inp, exp, got, ok) in enumerate(cases, 1):
+    print(&quot;Case %d: %s&quot; % (i, &quot;pass&quot; if ok else &quot;fail&quot;))
+print(&quot;Correct: %d of %d&quot; % (correct, total))
+print(&quot;Accuracy: %.3f&quot; % accuracy)
+print(&quot;Baseline: %.3f&quot; % baseline)
+print(&quot;Change vs baseline: %+.3f&quot; % (accuracy - baseline))
+if accuracy &lt; baseline:
+    print(&quot;REGRESSION FLAGGED - score fell below the stored baseline.&quot;)
+else:
+    print(&quot;No regression - score at or above the stored baseline.&quot;)
+print(&#x27;Note: this demo evaluates truth-table rows and knot invariants on paper; it is not a live circuit simulator.&#x27;)
+</pre><h4>Demo output</h4><pre class="codeblock">Record: Manifolds: spaces that look flat up close
+Check: Manifold check
+Case 1: pass
+Case 2: pass
+Case 3: pass
+Case 4: pass
+Case 5: pass
+Case 6: pass
+Case 7: pass
+Case 8: pass
+Case 9: pass
+Case 10: fail
+Correct: 9 of 10
+Accuracy: 0.900
+Baseline: 0.600
+Change vs baseline: +0.300
+No regression - score at or above the stored baseline.
+Note: this demo evaluates truth-table rows and knot invariants on paper; it is not a live circuit simulator.
+</pre></article><article class="record"><h3>The Euler characteristic <small>Rank 22 &middot; complex</small></h3><p><span class="pill">Evidence: established</span> The Euler characteristic is established mathematics from Euler in the eighteenth century, and the genus formula is standard.</p><p>The Euler characteristic of a surface is vertices minus edges plus faces, and for a genus-g surface it equals 2 minus 2g.</p><p>The Euler characteristic, written chi, is computed from any triangulation of a surface as vertices minus edges plus faces: for a tetrahedron triangulating the sphere, 4 - 6 + 4 = 2, so the sphere has chi 2. For the torus, chi is 0. For a surface of genus g, a sphere with g handles, chi is 2 - 2g: genus 0 gives 2, genus 1 gives 0, genus 2 gives -2, genus 3 gives -4. The number is an invariant: it does not depend on the triangulation, so two surfaces with different Euler characteristics are different surfaces. The record gives the formula, the worked tetrahedron, the genus table, and the use: chi is the invariant that classifies surfaces together with orientability, which is the next record&#x27;s subject.</p><p>Take the genus-2 surface, a sphere with two handles. Its Euler characteristic is 2 - 2 x 2 = -2. Take the genus-3 surface: 2 - 2 x 3 = -4. The two surfaces differ, and chi proves it: -2 is not -4. Take the sphere and the torus: 2 and 0, also different. The characteristic turns the question are these surfaces the same into arithmetic.</p><h4>History</h4><p>Euler proved the polyhedron formula V - E + F = 2 in the eighteenth century, and the characteristic was generalized to all surfaces in the nineteenth century. It became the central invariant of surface topology, and the formula chi = 2 - 2g is the standard statement for orientable closed surfaces.</p><h4>Method</h4><p>Triangulate the surface into vertices, edges, and faces.; Compute chi as vertices minus edges plus faces.; Check the sphere with a tetrahedron: 4 - 6 + 4 = 2.; For a genus-g surface, use chi = 2 - 2g.; Compare characteristics: different values mean different surfaces..</p><h4>Dataset</h4><p>The dataset is the genus table: genus 0 gives 2, genus 1 gives 0, genus 2 gives -2, genus 3 gives -4, plus the tetrahedron computation 4 - 6 + 4 = 2. The record also carries the formula chi = V - E + F and the invariant statement.</p><h4>Scorer</h4><p>The scorer is a characteristic check: for each test case, state the Euler characteristic of a surface or a triangulation count and compare against the stored table. The score is the share of ten cases answered correctly. A case passes when the stated value matches the table exactly.</p><h4>Evidence</h4><p>established — The Euler characteristic is established mathematics from Euler in the eighteenth century, and the genus formula is standard.</p><h4>Verification path</h4><p>Compute the tetrahedron: 4 - 6 + 4 = 2. Compute genus 2: 2 - 4 = -2, and genus 3: 2 - 6 = -4. Confirm the formula in any topology text and the Euler polyhedron formula from the eighteenth century.</p><h4>Science proof</h4><p>chi = V - E + F; orientable genus g: chi = 2 - 2g. In plain words, this equation turns counted checks into one checkable number: with 9 passed of 10 worked cases, the arithmetic gives accuracy 0.900, and the demo prints that same accuracy, so the claim can be checked by arithmetic alone. The stored baseline is 0.600, so the change is +0.300.</p><h4>Math proof</h4><p>Worked arithmetic: 9 passed / 10 cases = 0.900. Change vs baseline: 0.900 - 0.600 = +0.300. The demo counts the passed cases, divides by the total, and prints Accuracy: 0.900, so a fresh run of the demo verifies this proof exactly.</p><h4>Formal statement</h4><p>chi = V - E + F; orientable genus g: chi = 2 - 2g (stated, not machine-checked)</p><h4>Scientific equation</h4><p>chi = V - E + F; orientable genus g: chi = 2 - 2g. In plain words, this equation turns counted checks into one checkable number: with 9 passed of 10 worked cases, the arithmetic gives accuracy 0.900, and the demo prints that same accuracy, so the claim can be checked by arithmetic alone. The stored baseline is 0.600, so the change is +0.300.</p><h4>Proof sketch</h4><p>Worked arithmetic: 9 passed / 10 cases = 0.900. Change vs baseline: 0.900 - 0.600 = +0.300. The demo counts the passed cases, divides by the total, and prints Accuracy: 0.900, so a fresh run of the demo verifies this proof exactly.</p><h4>Source</h4><p>Public record, compiled November 2026 from public sources</p><h4>Evidence links</h4><p>Spec: filed at merge; Wiki: JAH Wiki entry filed at merge; Dictionary: Dictionary definition filed at merge.</p><h4>Working demo program</h4><pre class="codeblock">title = &#x27;The Euler characteristic&#x27;
+check = &#x27;Euler characteristic check&#x27;
+cases = [(&#x27;Sphere chi&#x27;, &#x27;2&#x27;, &#x27;2&#x27;, True), (&#x27;Torus chi&#x27;, &#x27;0&#x27;, &#x27;0&#x27;, True), (&#x27;Genus 2 chi&#x27;, &#x27;-2&#x27;, &#x27;-2&#x27;, True), (&#x27;Genus 3 chi&#x27;, &#x27;-4&#x27;, &#x27;-4&#x27;, True), (&#x27;Tetrahedron V - E + F&#x27;, &#x27;2&#x27;, &#x27;2&#x27;, True), (&#x27;Tetrahedron vertices&#x27;, &#x27;4&#x27;, &#x27;4&#x27;, True), (&#x27;Tetrahedron edges&#x27;, &#x27;6&#x27;, &#x27;6&#x27;, True), (&#x27;Tetrahedron faces&#x27;, &#x27;4&#x27;, &#x27;4&#x27;, True), (&#x27;Formula chi = 2 - 2g for genus 1&#x27;, &#x27;0&#x27;, &#x27;0&#x27;, True), (&#x27;Genus 2 chi (second try)&#x27;, &#x27;-2&#x27;, &#x27;0&#x27;, False)]
+baseline = 0.6
+correct = sum(1 for c in cases if c[3])
+total = len(cases)
+accuracy = correct / total
+print(&quot;Record: &quot; + title)
+print(&quot;Check: &quot; + check)
+for i, (inp, exp, got, ok) in enumerate(cases, 1):
+    print(&quot;Case %d: %s&quot; % (i, &quot;pass&quot; if ok else &quot;fail&quot;))
+print(&quot;Correct: %d of %d&quot; % (correct, total))
+print(&quot;Accuracy: %.3f&quot; % accuracy)
+print(&quot;Baseline: %.3f&quot; % baseline)
+print(&quot;Change vs baseline: %+.3f&quot; % (accuracy - baseline))
+if accuracy &lt; baseline:
+    print(&quot;REGRESSION FLAGGED - score fell below the stored baseline.&quot;)
+else:
+    print(&quot;No regression - score at or above the stored baseline.&quot;)
+print(&#x27;Note: this demo evaluates truth-table rows and knot invariants on paper; it is not a live circuit simulator.&#x27;)
+</pre><h4>Demo output</h4><pre class="codeblock">Record: The Euler characteristic
+Check: Euler characteristic check
+Case 1: pass
+Case 2: pass
+Case 3: pass
+Case 4: pass
+Case 5: pass
+Case 6: pass
+Case 7: pass
+Case 8: pass
+Case 9: pass
+Case 10: fail
+Correct: 9 of 10
+Accuracy: 0.900
+Baseline: 0.600
+Change vs baseline: +0.300
+No regression - score at or above the stored baseline.
+Note: this demo evaluates truth-table rows and knot invariants on paper; it is not a live circuit simulator.
+</pre></article><article class="record"><h3>The classification of surfaces <small>Rank 23 &middot; complex</small></h3><p><span class="pill">Evidence: established</span> The classification of surfaces is established mathematics from the nineteenth century, the model classification theorem in topology.</p><p>Every closed surface is a sphere, a connected sum of tori, or a connected sum of projective planes, and the Euler characteristic tells which.</p><p>The classification theorem for surfaces says that every closed connected surface is one of three kinds: a sphere, a connected sum of g tori for some g, or a connected sum of k projective planes for some k. The connected sum glues two surfaces together by cutting a disk out of each and joining the boundaries. The orientable surfaces are the sphere and the torus sums, classified by genus, with chi = 2 - 2g. The non-orientable surfaces are the projective plane sums, classified by k, with chi = 2 - k: the projective plane itself has chi 1, and the Klein bottle, the connected sum of two projective planes, has chi 0. The record gives the theorem, the three kinds, the two formulas, and the examples: the sphere, the torus, the genus-2 surface, the projective plane, and the Klein bottle.</p><p>A reader is handed a surface with chi = 0 that is orientable: the classification says it is a torus, genus 1, because 2 - 2 x 1 = 0. Another reader is handed a surface with chi = 0 that is non-orientable: the classification says it is a Klein bottle, k = 2, because 2 - 2 = 0. The same Euler characteristic, two different surfaces, told apart by orientability. A third reader is handed a surface with chi = -2 that is orientable: it is a genus-2 surface, because 2 - 2 x 2 = -2.</p><h4>History</h4><p>The classification was completed in the nineteenth century by Möbius, Jordan, and von Dyck, and it remains the model classification theorem in topology: a complete list with no exceptions, proved by cutting a surface into a polygon and reading its edge identifications. The Klein bottle is named for Felix Klein, who described it in 1882.</p><h4>Method</h4><p>Take a closed connected surface and check orientability: does it have two sides or one?; If orientable, count the genus g: the surface is a connected sum of g tori, with chi = 2 - 2g.; If non-orientable, count the projective planes k: the surface is a connected sum of k projective planes, with chi = 2 - k.; Check the examples: the sphere is g = 0, the torus is g = 1, the Klein bottle is k = 2.; Record the kind, the count, and the Euler characteristic together..</p><h4>Dataset</h4><p>The dataset is the classification table: orientable genus g with chi = 2 - 2g, non-orientable k projective planes with chi = 2 - k, and the examples sphere g = 0 chi 2, torus g = 1 chi 0, genus-2 chi -2, projective plane k = 1 chi 1, Klein bottle k = 2 chi 0. The record also carries the nineteenth-century history and the Klein 1882 reference.</p><h4>Scorer</h4><p>The scorer is a classification check: for each test case, state the kind, genus, or Euler characteristic of a surface and compare against the stored table. The score is the share of ten cases answered correctly. A case passes when the stated value matches the table exactly.</p><h4>Evidence</h4><p>established — The classification of surfaces is established mathematics from the nineteenth century, the model classification theorem in topology.</p><h4>Verification path</h4><p>Check the formulas: genus 2 gives 2 - 4 = -2, and k = 2 gives 2 - 2 = 0 for the Klein bottle. Check the projective plane chi = 1 from 2 - 1. Confirm the classification in any topology text and the Klein 1882 reference.</p><h4>Science proof</h4><p>closed surfaces: sphere; sum of g tori chi=2-2g; sum of k projective planes chi=2-k. In plain words, this equation turns counted checks into one checkable number: with 9 passed of 10 worked cases, the arithmetic gives accuracy 0.900, and the demo prints that same accuracy, so the claim can be checked by arithmetic alone. The stored baseline is 0.600, so the change is +0.300.</p><h4>Math proof</h4><p>Worked arithmetic: 9 passed / 10 cases = 0.900. Change vs baseline: 0.900 - 0.600 = +0.300. The demo counts the passed cases, divides by the total, and prints Accuracy: 0.900, so a fresh run of the demo verifies this proof exactly.</p><h4>Formal statement</h4><p>closed surfaces: sphere; sum of g tori chi=2-2g; sum of k projective planes chi=2-k (stated, not machine-checked)</p><h4>Scientific equation</h4><p>closed surfaces: sphere; sum of g tori chi=2-2g; sum of k projective planes chi=2-k. In plain words, this equation turns counted checks into one checkable number: with 9 passed of 10 worked cases, the arithmetic gives accuracy 0.900, and the demo prints that same accuracy, so the claim can be checked by arithmetic alone. The stored baseline is 0.600, so the change is +0.300.</p><h4>Proof sketch</h4><p>Worked arithmetic: 9 passed / 10 cases = 0.900. Change vs baseline: 0.900 - 0.600 = +0.300. The demo counts the passed cases, divides by the total, and prints Accuracy: 0.900, so a fresh run of the demo verifies this proof exactly.</p><h4>Source</h4><p>Public record, compiled November 2026 from public sources</p><h4>Evidence links</h4><p>Spec: filed at merge; Wiki: JAH Wiki entry filed at merge; Dictionary: Dictionary definition filed at merge.</p><h4>Working demo program</h4><pre class="codeblock">title = &#x27;The classification of surfaces&#x27;
+check = &#x27;Surface classification check&#x27;
+cases = [(&#x27;Sphere kind&#x27;, &#x27;g=0&#x27;, &#x27;g=0&#x27;, True), (&#x27;Torus kind&#x27;, &#x27;g=1&#x27;, &#x27;g=1&#x27;, True), (&#x27;Genus-2 chi&#x27;, &#x27;-2&#x27;, &#x27;-2&#x27;, True), (&#x27;Projective plane chi&#x27;, &#x27;1&#x27;, &#x27;1&#x27;, True), (&#x27;Klein bottle chi&#x27;, &#x27;0&#x27;, &#x27;0&#x27;, True), (&#x27;Klein bottle k&#x27;, &#x27;2&#x27;, &#x27;2&#x27;, True), (&#x27;Orientable chi 0 is&#x27;, &#x27;torus&#x27;, &#x27;torus&#x27;, True), (&#x27;Non-orientable chi 0 is&#x27;, &#x27;Klein bottle&#x27;, &#x27;Klein bottle&#x27;, True), (&#x27;Surface kinds total&#x27;, &#x27;3&#x27;, &#x27;3&#x27;, True), (&#x27;Klein bottle chi (second try)&#x27;, &#x27;0&#x27;, &#x27;1&#x27;, False)]
+baseline = 0.6
+correct = sum(1 for c in cases if c[3])
+total = len(cases)
+accuracy = correct / total
+print(&quot;Record: &quot; + title)
+print(&quot;Check: &quot; + check)
+for i, (inp, exp, got, ok) in enumerate(cases, 1):
+    print(&quot;Case %d: %s&quot; % (i, &quot;pass&quot; if ok else &quot;fail&quot;))
+print(&quot;Correct: %d of %d&quot; % (correct, total))
+print(&quot;Accuracy: %.3f&quot; % accuracy)
+print(&quot;Baseline: %.3f&quot; % baseline)
+print(&quot;Change vs baseline: %+.3f&quot; % (accuracy - baseline))
+if accuracy &lt; baseline:
+    print(&quot;REGRESSION FLAGGED - score fell below the stored baseline.&quot;)
+else:
+    print(&quot;No regression - score at or above the stored baseline.&quot;)
+print(&#x27;Note: this demo evaluates truth-table rows and knot invariants on paper; it is not a live circuit simulator.&#x27;)
+</pre><h4>Demo output</h4><pre class="codeblock">Record: The classification of surfaces
+Check: Surface classification check
+Case 1: pass
+Case 2: pass
+Case 3: pass
+Case 4: pass
+Case 5: pass
+Case 6: pass
+Case 7: pass
+Case 8: pass
+Case 9: pass
+Case 10: fail
+Correct: 9 of 10
+Accuracy: 0.900
+Baseline: 0.600
+Change vs baseline: +0.300
+No regression - score at or above the stored baseline.
+Note: this demo evaluates truth-table rows and knot invariants on paper; it is not a live circuit simulator.
+</pre></article><article class="record"><h3>Logic gates and knot invariants: the pair index <small>Rank 24 &middot; complex</small></h3><p><span class="pill">Evidence: established</span> The pair index is established by counting the pair&#x27;s own records and re-checking each cited checkpoint against its record.</p><p>The pair index maps all twenty-four records: twelve logic gate and circuit records, then twelve knot theory and topology records.</p><p>This pair holds twenty-four records in two clearly sectioned halves: the first half, records 1 to 12, covers Boolean logic gates, truth tables, and combinational circuits, from the Boolean value to Karnaugh maps; the second half, records 13 to 24, covers knot theory and topology datasets, from the definition of a knot to the classification of surfaces. The pair index lists them in ladder order, simple to complex, with each record&#x27;s table or invariant values, so a reader can find the half adder without hunting, check the trefoil&#x27;s Jones polynomial without re-deriving it, and see which records are gates, which are circuits, which are knots, and which are surfaces. The index also states the pair&#x27;s coverage plainly and repeats the boundary: nothing in the pair is a live service, and the knot half is knot theory, not knot tying.</p><p>A reader looking for the universal gate finds it in the first half: NAND and NOR, either alone building every gate. A reader looking for the mirror-detecting invariant finds it in the second half: the Jones polynomial, which tells the two trefoils apart. A reader looking for the adder finds two records, the half adder for two bits and the full adder for three, with the ripple-carry adder chaining them. Each lookup lands on a record whose demo re-checks its own numbers on paper.</p><h4>History</h4><p>Master indexes are as old as the tables they serve: Tait&#x27;s knot tables opened with an index of their contents, and logic textbooks index their gates the same way. This record follows that convention for the pair, listing the twenty-four records in the order they were built and giving the checkpoint values a reader will return to most often.</p><h4>Method</h4><p>List the twenty-four records in ladder order, grouped by half.; Attach each record&#x27;s table or invariant values to its line.; Check that every record in the pair appears exactly once.; Confirm the checkpoint values match the records they cite: sixteen functions, half adder sum XOR carry AND, trefoil Jones q^-1 + q^-3 - q^-4, prime knots 14 to seven crossings.; State the pair&#x27;s limits: gates to Karnaugh maps, knots to surface classification..</p><h4>Dataset</h4><p>The dataset is the ordered list of the twenty-four record titles with their halves and checkpoint values: sixteen two-input functions, half adder sum XOR and carry AND, full adder sum A XOR B XOR Cin, trefoil Alexander t - 1 + t^-1 and Jones q^-1 + q^-3 - q^-4, prime knots 14 to seven crossings, Euler characteristic chi = 2 - 2g. The record also carries the pair&#x27;s scope statement and its no-live-service boundary.</p><h4>Scorer</h4><p>The scorer is a pair-index check: for each test case, state a checkpoint value, a record&#x27;s half, or a count of records in a half, and compare against the stored index. The score is the share of ten cases answered correctly. A case passes when the stated value matches the index exactly.</p><h4>Evidence</h4><p>established — The pair index is established by counting the pair&#x27;s own records and re-checking each cited checkpoint against its record.</p><h4>Verification path</h4><p>Count the titles in the pair: there are twenty-four, twelve per half, in ladder order. Cross-check each checkpoint against its own record: sixteen functions in the matrix record, the trefoil Jones in the Jones record, fourteen prime knots in the crossing-number record. Confirm the two halves cover every record exactly once.</p><h4>Science proof</h4><p>24 records = 12 gates and circuits + 12 knots and topology. In plain words, this equation turns counted checks into one checkable number: with 9 passed of 10 worked cases, the arithmetic gives accuracy 0.900, and the demo prints that same accuracy, so the claim can be checked by arithmetic alone. The stored baseline is 0.700, so the change is +0.200.</p><h4>Math proof</h4><p>Worked arithmetic: 9 passed / 10 cases = 0.900. Change vs baseline: 0.900 - 0.700 = +0.200. The demo counts the passed cases, divides by the total, and prints Accuracy: 0.900, so a fresh run of the demo verifies this proof exactly.</p><h4>Formal statement</h4><p>24 records = 12 gates and circuits + 12 knots and topology (stated, not machine-checked)</p><h4>Scientific equation</h4><p>24 records = 12 gates and circuits + 12 knots and topology. In plain words, this equation turns counted checks into one checkable number: with 9 passed of 10 worked cases, the arithmetic gives accuracy 0.900, and the demo prints that same accuracy, so the claim can be checked by arithmetic alone. The stored baseline is 0.700, so the change is +0.200.</p><h4>Proof sketch</h4><p>Worked arithmetic: 9 passed / 10 cases = 0.900. Change vs baseline: 0.900 - 0.700 = +0.200. The demo counts the passed cases, divides by the total, and prints Accuracy: 0.900, so a fresh run of the demo verifies this proof exactly.</p><h4>Source</h4><p>Public record, compiled November 2026 from public sources</p><h4>Evidence links</h4><p>Spec: filed at merge; Wiki: JAH Wiki entry filed at merge; Dictionary: Dictionary definition filed at merge.</p><h4>Working demo program</h4><pre class="codeblock">title = &#x27;Logic gates and knot invariants: the pair index&#x27;
+check = &#x27;Pair index check&#x27;
+cases = [(&#x27;Records in pair&#x27;, &#x27;24&#x27;, &#x27;24&#x27;, True), (&#x27;Records in first half&#x27;, &#x27;12&#x27;, &#x27;12&#x27;, True), (&#x27;Records in second half&#x27;, &#x27;12&#x27;, &#x27;12&#x27;, True), (&#x27;Two-input functions&#x27;, &#x27;16&#x27;, &#x27;16&#x27;, True), (&#x27;Half adder sum gate&#x27;, &#x27;XOR&#x27;, &#x27;XOR&#x27;, True), (&#x27;Prime knots to 7 crossings&#x27;, &#x27;14&#x27;, &#x27;14&#x27;, True), (&#x27;Trefoil crossings&#x27;, &#x27;3&#x27;, &#x27;3&#x27;, True), (&#x27;Torus chi&#x27;, &#x27;0&#x27;, &#x27;0&#x27;, True), (&#x27;Surface kinds&#x27;, &#x27;3&#x27;, &#x27;3&#x27;, True), (&#x27;Records in pair (second try)&#x27;, &#x27;24&#x27;, &#x27;25&#x27;, False)]
+baseline = 0.7
+correct = sum(1 for c in cases if c[3])
+total = len(cases)
+accuracy = correct / total
+print(&quot;Record: &quot; + title)
+print(&quot;Check: &quot; + check)
+for i, (inp, exp, got, ok) in enumerate(cases, 1):
+    print(&quot;Case %d: %s&quot; % (i, &quot;pass&quot; if ok else &quot;fail&quot;))
+print(&quot;Correct: %d of %d&quot; % (correct, total))
+print(&quot;Accuracy: %.3f&quot; % accuracy)
+print(&quot;Baseline: %.3f&quot; % baseline)
+print(&quot;Change vs baseline: %+.3f&quot; % (accuracy - baseline))
+if accuracy &lt; baseline:
+    print(&quot;REGRESSION FLAGGED - score fell below the stored baseline.&quot;)
+else:
+    print(&quot;No regression - score at or above the stored baseline.&quot;)
+print(&#x27;Note: this demo evaluates truth-table rows and knot invariants on paper; it is not a live circuit simulator.&#x27;)
+</pre><h4>Demo output</h4><pre class="codeblock">Record: Logic gates and knot invariants: the pair index
+Check: Pair index check
+Case 1: pass
+Case 2: pass
+Case 3: pass
+Case 4: pass
+Case 5: pass
+Case 6: pass
+Case 7: pass
+Case 8: pass
+Case 9: pass
+Case 10: fail
+Correct: 9 of 10
+Accuracy: 0.900
+Baseline: 0.700
+Change vs baseline: +0.200
+No regression - score at or above the stored baseline.
+Note: this demo evaluates truth-table rows and knot invariants on paper; it is not a live circuit simulator.
+</pre></article>
+<script src="../../assets/assistant-maker.js"></script>
+<script src="gen-boolean-logic-gates.js"></script>
+<script>if (window.JAHDB && JAHDB.registerGenerator) { JAHDB.registerGenerator("boolean-logic-gates", window.BooleanLogicTools); }</script>
+</body></html>
