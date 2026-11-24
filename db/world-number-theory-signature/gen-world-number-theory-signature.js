@@ -1,0 +1,73 @@
+"use strict";
+/* The world-number-theory-signature database - boundless generator. Seeded, deterministic, throttled,
+   duplicate-checked, hard stop at 1,000,000,000 (billion). Generated records are
+   labeled src "generated" and are never presented as archive records. */
+(function (root) {
+  var SLUG = "world-number-theory-signature";
+  var PREFIX = "JAH-NTHYS-";
+  var RECORD_KIND = "math and subject explained in full record";
+  var HARD_STOP = 1000000000; // 1,000,000,000 (billion)
+  var MAX_BATCH = 100;
+  var SEED_TITLES = ["What Number Theory Is", "Natural Numbers and Integers", "Divisibility", "Prime Numbers", "The Fundamental Theorem of Arithmetic", "Greatest Common Divisor and the Euclidean Algorithm", "Modular Arithmetic", "Congruences", "Fermat's Little Theorem", "Euler's Theorem and Totient", "Diophantine Equations", "Pythagorean Triples", "The Distribution of Primes", "The Prime Number Theorem", "Twin Primes (OPEN)", "Goldbach's Conjecture (OPEN)", "Perfect Numbers and Mersenne Primes", "Quadratic Residues and Reciprocity", "Continued Fractions", "The Riemann Hypothesis (OPEN)", "Elliptic Curves", "Number Theory in Cryptography", "A History of Number Theory", "Number Theory in the Modern World"];
+  var seen = {};
+  var counter = 0;
+  function mulberry32(a) {
+    return function () {
+      a |= 0; a = (a + 0x6D2B79F5) | 0;
+      var t = Math.imul(a ^ (a >>> 15), 1 | a);
+      t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    };
+  }
+  function pad(n) { var s = String(n); while (s.length < 6) s = "0" + s; return s; }
+  function generateRecord(seed) {
+    if (counter >= HARD_STOP) return null;
+    var rnd = mulberry32(typeof seed === "number" ? seed : 1);
+    var title = SEED_TITLES[Math.floor(rnd() * SEED_TITLES.length)];
+    var id = PREFIX + "GEN-" + pad(counter + 1);
+    if (seen[id]) return null;
+    seen[id] = true; counter += 1;
+    return { id: id, slug: SLUG, title: "Generated: " + title,
+      record_kind: RECORD_KIND, src: "generated", status: "speculative",
+      description: "A boundlessly generated record in the " + title + " family, produced by the seeded generator for this database." };
+  }
+  function generateBatch(n, seed) {
+    var out = [], count = Math.min(n || 1, MAX_BATCH);
+    for (var i = 0; i < count; i++) { var r = generateRecord((seed || 1) + i); if (!r) break; out.push(r); }
+    return out;
+  }
+  function searchRecords(q, pool) {
+    q = String(q || "").toLowerCase();
+    return (pool || SEED_TITLES).filter(function (t) { return t.toLowerCase().indexOf(q) !== -1; });
+  }
+  function validateRecord(rec) {
+    var problems = [];
+    if (!rec || rec.record_kind !== RECORD_KIND) problems.push("record_kind must be math and subject explained in full record");
+    if (!rec || !rec.slug || rec.slug !== SLUG) problems.push("slug must be world-number-theory-signature");
+    if (!rec || !rec.id || rec.id.indexOf(PREFIX) !== 0) problems.push("id must start with JAH-NTHYS-");
+    if (!rec || !rec.title) problems.push("title is required");
+    if (!rec || !rec.status) problems.push("status is required");
+    return { valid: problems.length === 0, problems: problems };
+  }
+  function runTests() {
+    var tests = [];
+    var g = generateRecord(7);
+    tests.push({ name: "generated record_kind", pass: !!g && g.record_kind === RECORD_KIND });
+    tests.push({ name: "generated slug is single edition slug", pass: !!g && g.slug === SLUG && g.slug.indexOf("signature-" + "signature") === -1 });
+    tests.push({ name: "generated id uses own prefix and GEN form", pass: !!g && g.id.indexOf(PREFIX) === 0 && g.id.indexOf("GEN-") !== -1 });
+    tests.push({ name: "generated src", pass: !!g && g.src === "generated" });
+    tests.push({ name: "validate accepts generated", pass: !!g && validateRecord(g).valid });
+    var b = generateBatch(10, 200);
+    var ids = b.map(function (x) { return x.id; });
+    tests.push({ name: "batch ids unique", pass: b.length === 10 && new Set(ids).size === 10 });
+    tests.push({ name: "batch throttled to 100", pass: generateBatch(150, 100).length <= 100 });
+    tests.push({ name: "search finds seed title", pass: searchRecords(SEED_TITLES[0].slice(0, 4)).length >= 1 });
+    tests.push({ name: "hard stop is 1,000,000,000", pass: HARD_STOP === 1000000000 });
+    return tests;
+  }
+  var Tools = { generateRecord: generateRecord, generateBatch: generateBatch,
+    searchRecords: searchRecords, validateRecord: validateRecord, runTests: runTests,
+    SLUG: SLUG, PREFIX: PREFIX, RECORD_KIND: RECORD_KIND, HARD_STOP: HARD_STOP, MAX_BATCH: MAX_BATCH };
+  if (typeof module !== "undefined" && module.exports) module.exports = Tools;
+  root["WorldNumberTheorySignatureTools"] = Tools;
+})(typeof window !== "undefined" ? window : globalThis);
