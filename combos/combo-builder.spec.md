@@ -1,6 +1,6 @@
 # Combo Builder — AI spec (Combo Router)
 
-Generator: word-combo-gen 1.0.1 / 2026-11-23. Router site: signature-word-combos.
+Generator: word-combo-gen 1.0.2 / 2026-11-23. Router site: signature-word-combos.
 Home of the combos/ namespace: https://justinahiggins614-cmyk.github.io/jah-databases/combos/
 
 ## Purpose
@@ -14,8 +14,9 @@ The Combo Builder generates a combo's full page, spec and demo from the template
 ## Resolution rule (the Router's core promise)
 
 - Every combo has the stable URL combos/<slug>/.
-- Stored combos (Wave 1: the 103 two-word List 03 items) serve their pre-rendered page.
-- Unstored combos resolve through the repo-level 404.html fallback, which loads combos/combo-page.js and renders the same 10-section page in the browser from the combo's words. Never a dead link, never a "not built yet" page.
+- Stored combos (Waves 1 and 2: all 450 List 03 items) serve their pre-rendered page.
+- Unstored combos (the List 04 items and every other 2–7-word combo) resolve through the repo-level 404.html fallback, which loads combos/combo-page.js and renders the same 10-section page in the browser from the combo's words. Never a dead link, never a "not built yet" page.
+- combo-page.js fetches both combos/data/wave1-index.json and combos/data/wave2-index.json; a slug found in either index is stored, and its stored note names the right wave.
 - The fallback is served by GitHub Pages with HTTP status 404 even though the rendered content is a working combo page; only stored pages are listed in the sitemap and directory, because only stored pages are indexable files.
 
 ## Rules

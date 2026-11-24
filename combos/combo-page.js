@@ -1,16 +1,21 @@
 /* combo-page.js — browser build of the Word-Combo generator template.
  *
- * Part of Word-Combo Websites Wave 1 (Router site: signature-word-combos).
+ * Part of Word-Combo Websites Wave 2 (Router site: signature-word-combos).
+ * Wave 2 update of the Wave 1 renderer: fetches both wave1-index.json and
+ * wave2-index.json, names the right wave in the stored note, and states the
+ * post-Wave-2 truth (450 stored List 03 combos) in its rendered text.
+ * Wave 1 file kept pristine; this is the Wave 2 copy, emitted by
+ * wave2/router-build/build-router-wave2.js.
  * Loaded by the repo-level 404.html fallback for any combos/<slug>/ URL that
  * has no stored page, and by nothing else. It renders the combo's full
  * 10-section page in the browser from the combo's words, using the same
- * template logic as word-combo-gen 1.0.1 (gen-word-combo.js) — same sections,
+ * template logic as word-combo-gen 1.0.2 (gen-word-combo.js) — same sections,
  * same demo choice, same demo code, same boundary refusal, same definition
  * labels — so a stored page and a generated page are the same page shape.
  *
  * Data fetched at render time (all shipped under combos/data/):
  *   definitions-lookup.json, demand-lists.json, demo-data.json,
- *   wave1-index.json, vocabulary.json (1.2 MB; needed only for the rank).
+ *   wave1-index.json, wave2-index.json, vocabulary.json (1.2 MB; needed only for the rank).
  * If a fetch fails, the page says so and renders what it can — it never
  * invents a definition, a rank, or a demo.
  *
@@ -28,7 +33,7 @@
 (function (global) {
   "use strict";
 
-  var GEN_VERSION = "word-combo-gen 1.0.1";
+  var GEN_VERSION = "word-combo-gen 1.0.2";
   var BUILD_DATE = "2026-11-23";
   var VOCAB_N = 102223;
   /* Verified math.perm(102223,k) — NOT the generator's combo-lib.js values. */
@@ -201,9 +206,20 @@
       fetchJson(env, base + "demand-lists.json").catch(function () { return { list03: [], list04: [] }; }),
       fetchJson(env, base + "demo-data.json").catch(function () { return { jokes: [], trivia: [], memory_words: [], caption_templates: [], creature_parts: { bodies: [], heads: [], homes: [], powers: [] } }; }),
       fetchJson(env, base + "wave1-index.json").catch(function () { return { combos: {} }; }),
+      fetchJson(env, base + "wave2-index.json").catch(function () { return { combos: {} }; }),
       fetchJson(env, base + "vocabulary.json").catch(function () { return null; })
     ]).then(function (parts) {
-      var vocab = parts[4];
+      var vocab = parts[5];
+      /* Wave 2: merge both indexes; each entry carries its wave so the
+       * stored note names the right wave. A slug in either index is stored. */
+      var mergedIndex = {};
+      [1, 2].forEach(function (wave) {
+        var entries = (parts[2 + wave].combos || {});
+        Object.keys(entries).forEach(function (slug) {
+          var e = entries[slug];
+          mergedIndex[slug] = { id: e.id, list03_item: e.list03_item, title: e.title, wave: wave };
+        });
+      });
       var vocabIndex = null, vocabSet = null;
       if (vocab && vocab.words) {
         vocabIndex = new Map();
@@ -211,7 +227,7 @@
         vocabSet = new Set(vocab.words.map(function (w) { return w.toLowerCase(); }));
       }
       return { lookup: parts[0].definitions || {}, demand: parts[1], demo: parts[2],
-               index: parts[3].combos || {}, vocabIndex: vocabIndex, vocabSet: vocabSet,
+               index: mergedIndex, vocabIndex: vocabIndex, vocabSet: vocabSet,
                vocabLoaded: !!vocabIndex };
     });
   }
@@ -523,7 +539,7 @@
     var words = o.words, slug = o.slug, title = o.title, defs = o.defs,
         rankInfo = o.rankInfo, demo = o.demo, related = o.related,
         perms = o.perms, totalPerms = o.totalPerms, storedId = o.storedId,
-        listItem = o.listItem;
+        listItem = o.listItem, storedWave = o.storedWave;
     var k = words.length;
     var rankText = rankInfo.rank !== null
       ? "Its deterministic rank is <b>" + rankInfo.rank.toString() + "</b> (0-based) in the ordered " + k + "-word space, " + spaceLine(k) + ". The full ordered space of 2- to 7-word combos is " + fmt(SPACE_TOTAL_2_TO_7) + " combos."
@@ -553,8 +569,8 @@
       return '<a href="https://justinahiggins614-cmyk.github.io/jah-dictionary/az/' + letter + '.html">' + escapeHtml(w) + ' in the Dictionary A–Z</a>';
     }).join(" · ");
     var storedNote = storedId
-      ? "This combo is one of the 103 stored Wave 1 combos (List 03 item " + listItem + ", pair record " + storedId + "). This copy was generated on demand at the same URL; the stored page is the frozen, verified copy."
-      : "This combo is not a stored Wave 1 combo. It is generated on demand by the Combo Router at this same URL; no stored record exists for it, and none is claimed."
+      ? "This combo is one of the " + (storedWave === 2 ? "347 stored Wave 2 combos" : "103 stored Wave 1 combos") + " (List 03 item " + listItem + ", pair record " + storedId + "). This copy was generated on demand at the same URL; the stored page is the frozen, verified copy."
+      : "This combo is not one of the 450 stored combos (Waves 1 and 2, all List 03 items). It is generated on demand by the Combo Router at this same URL; no stored record exists for it, and none is claimed."
       + (o.wordsExact ? "" : " The words were read from the URL by splitting on hyphens; a hyphenated word reads as separate words here unless the combo is in the demand lists.");
     var css = "body{font-family:Georgia,serif;max-width:760px;margin:0 auto;padding:1em;line-height:1.55;color:#1a1a1a;background:#fff}"
       + "h1{font-size:1.6em}h2{border-top:1px solid #ccc;padding-top:.6em}button{cursor:pointer;padding:.4em .8em;margin:.2em}"
@@ -566,7 +582,7 @@
       + "<h1>" + escapeHtml(title) + "</h1>\n<p><i>A Signature word-combo page. Stable URL: combos/" + slug + "/ — generated on demand by the Combo Router.</i></p>\n"
       + "<h2>1. What the combo means</h2>\n" + defParas
       + "\n<p><b>Signature reading.</b> " + escapeHtml(reading) + "</p>\n"
-      + "<h2>2. Math proof</h2>\n<p>" + rankText + " Wave 1 stores 103 combo pages; every other combo of 2 to 7 words is generator option space, resolved on demand and never stored. The generator is deterministic: the same combo always produces the same page and the same record, and the hyphenated slug is the combo's identity, so no combo can be stored or generated twice under a different identity.</p>\n"
+      + "<h2>2. Math proof</h2>\n<p>" + rankText + " Waves 1 and 2 together store 450 combo pages (Wave 1: 103 two-word List 03 items; Wave 2: 347 three-, four- and five-word List 03 items); every other combo of 2 to 7 words (the List 04 items and all the rest) is generator option space, resolved on demand and never stored. The generator is deterministic: the same combo always produces the same page and the same record, and the hyphenated slug is the combo's identity, so no combo can be stored or generated twice under a different identity.</p>\n"
       + "<h2>3. Science proof</h2>\n<p>Word etymology and linguistics come from the Dictionary record for each word, linked below. " + (isSentence ? "This combo is a sentence-like query, so this section is a design-study explanation, labelled as such — not a claim about the world." : "Where the combo is speculative, this page labels it design-study or entertainment, never fact. No facts are invented here.") + "</p>\n"
       + "<h2>4. Relevant data</h2>\n<p>" + azLinks + "</p>\n<p>" + escapeHtml(storedNote) + "</p>\n"
       + "<h2>5. Spec</h2>\n<ul><li>Words: " + words.map(escapeHtml).join(", ") + "</li><li>Length class: " + k + "-word</li><li>Slug: " + slug + "</li><li>Generator: " + GEN_VERSION + " (browser build; space sizes are the verified math.perm values)</li><li>Verification stamp: " + GEN_VERSION + " / " + BUILD_DATE + "</li>" + (storedId ? "<li>Pair record: " + storedId + "</li>" : "<li>Pair record: none — generated on demand</li>") + "</ul>\n"
@@ -583,7 +599,7 @@
   function buildAccessibleHtml(o) {
     var words = o.words, slug = o.slug, title = o.title, defs = o.defs,
         rankInfo = o.rankInfo, demo = o.demo, related = o.related,
-        storedId = o.storedId, listItem = o.listItem;
+        storedId = o.storedId, listItem = o.listItem, storedWave = o.storedWave;
     var k = words.length;
     var rankText = rankInfo.rank !== null
       ? "Its deterministic rank is " + rankInfo.rank.toString() + " (0-based) in the ordered " + k + "-word space, " + spaceLine(k) + "."
@@ -610,8 +626,8 @@
       + "<h1>" + escapeHtml(title) + " (accessible version)</h1>\n<p>No JavaScript is used on this page. Full version: <a href=\"index.html\">index.html</a>.</p>\n"
       + "<h2>What the combo means</h2>\n" + defParas
       + "\n<p>Signature reading: the phrase names a tool, service, thing or question built from its words. This reading is a Signature reading, labelled as such — not an established fact.</p>\n"
-      + "<h2>Math proof</h2>\n<p>" + rankText + " Wave 1 stores 103 combo pages; every other combo is generator option space.</p>\n"
-      + "<h2>Relevant data</h2>\n<p>" + (storedId ? "Stored Wave 1 combo (List 03 item " + listItem + ", pair record " + storedId + ")." : "Generated on demand; no stored record exists for this combo.") + "</p>\n"
+      + "<h2>Math proof</h2>\n<p>" + rankText + " Waves 1 and 2 together store 450 combo pages (Wave 1: 103; Wave 2: 347); every other combo is generator option space.</p>\n"
+      + "<h2>Relevant data</h2>\n<p>" + (storedId ? "Stored Wave " + storedWave + " combo (List 03 item " + listItem + ", pair record " + storedId + ")." : "Generated on demand; no stored record exists for this combo.") + "</p>\n"
       + "<h2>Demo</h2>\n" + demoStatic + "\n"
       + "<h2>Related combos</h2>\n" + relList + "\n"
       + "<h2>Use</h2>\n<p>Search this combo, share its stable URL (combos/" + slug + "/), or build on it.</p>\n"
@@ -712,6 +728,7 @@
       var o = { words: words, slug: slug, title: title, defs: defs, rankInfo: rankInfo,
                 demo: demo, related: related, perms: perms, totalPerms: totalPerms,
                 storedId: stored ? stored.id : null, listItem: stored ? stored.list03_item : null,
+                storedWave: stored ? stored.wave : null,
                 data: data, wordsExact: found.exact };
       var html = parsed.accessible ? buildAccessibleHtml(o) : buildPageHtml(o);
       /* The 404 document's own <head> stays; render the page body markup
