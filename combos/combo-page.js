@@ -1,12 +1,12 @@
 /* combo-page.js — browser build of the Word-Combo generator template.
  *
- * Part of Word-Combo Websites Wave 3 (Router site: signature-word-combos).
- * Wave 3 update of the Wave 2 renderer: fetches all three index files plus
+ * Part of Word-Combo Websites Wave 4 (Router site: signature-word-combos).
+ * Wave 4 update of the Wave 3 renderer: fetches all four index files plus
  * list04-bold-201-208.json, names the right wave and the right list in the
- * stored note, and states the post-Wave-3 truth (498 stored combos) in its
+ * stored note, and states the post-Wave-4 truth (641 stored combos) in its
  * rendered text.
- * Wave 2 file kept pristine; this is the Wave 3 copy, emitted by
- * wave3/router-build/build-router-wave3.js.
+ * Wave 3 file kept pristine; this is the Wave 4 copy, emitted by
+ * wave4/router-build/build-router-wave4.js.
  * Wave 2 update of the Wave 1 renderer: fetches both wave1-index.json and
  * wave2-index.json, names the right wave in the stored note, and states the
  * post-Wave-2 truth (450 stored List 03 combos) in its rendered text.
@@ -15,13 +15,13 @@
  * Loaded by the repo-level 404.html fallback for any combos/<slug>/ URL that
  * has no stored page, and by nothing else. It renders the combo's full
  * 10-section page in the browser from the combo's words, using the same
- * template logic as word-combo-gen 1.0.3 (gen-word-combo.js) — same sections,
+ * template logic as word-combo-gen 1.0.4 (gen-word-combo.js) — same sections,
  * same demo choice, same demo code, same boundary refusal, same definition
  * labels — so a stored page and a generated page are the same page shape.
  *
  * Data fetched at render time (all shipped under combos/data/):
  *   definitions-lookup.json, demand-lists.json, demo-data.json,
- *   wave1-index.json, wave2-index.json, wave3-index.json, list04-bold-201-208.json, vocabulary.json (1.2 MB; needed only for the rank).
+ *   wave1-index.json, wave2-index.json, wave3-index.json, wave4-index.json, list04-bold-201-208.json, vocabulary.json (1.2 MB; needed only for the rank).
  * If a fetch fails, the page says so and renders what it can — it never
  * invents a definition, a rank, or a demo.
  *
@@ -39,7 +39,7 @@
 (function (global) {
   "use strict";
 
-  var GEN_VERSION = "word-combo-gen 1.0.3";
+  var GEN_VERSION = "word-combo-gen 1.0.4";
   var BUILD_DATE = "2026-11-23";
   var VOCAB_N = 102223;
   /* Verified math.perm(102223,k) — NOT the generator's combo-lib.js values. */
@@ -214,26 +214,27 @@
       fetchJson(env, base + "wave1-index.json").catch(function () { return { combos: {} }; }),
       fetchJson(env, base + "wave2-index.json").catch(function () { return { combos: {} }; }),
       fetchJson(env, base + "wave3-index.json").catch(function () { return { combos: {} }; }),
+      fetchJson(env, base + "wave4-index.json").catch(function () { return { combos: {} }; }),
       fetchJson(env, base + "vocabulary.json").catch(function () { return null; }),
       fetchJson(env, base + "list04-bold-201-208.json").catch(function () { return { items: [] }; })
     ]).then(function (parts) {
-      var vocab = parts[6];
-      /* Wave 3: merge all three indexes; each entry carries its wave and its
+      var vocab = parts[7];
+      /* Wave 4: merge all four indexes; each entry carries its wave and its
        * demand-list item number, so the stored note names the right wave and
        * the right list. A slug in any index is stored. */
       var mergedIndex = {};
-      [1, 2, 3].forEach(function (wave) {
+      [1, 2, 3, 4].forEach(function (wave) {
         var entries = (parts[2 + wave].combos || {});
         Object.keys(entries).forEach(function (slug) {
           var e = entries[slug];
-          mergedIndex[slug] = { id: e.id, list_item: wave === 3 ? e.list04_item : e.list03_item, list: wave === 3 ? "List 04" : "List 03", title: e.title, wave: wave };
+          mergedIndex[slug] = { id: e.id, list_item: wave === 3 || wave === 4 ? e.list04_item : e.list03_item, list: wave === 3 || wave === 4 ? "List 04" : "List 03", title: e.title, wave: wave };
         });
       });
       /* The shipped demand-lists.json holds only the 222 numbered List 04
        * items; merge the 8 bold titles 201-208 so wordsForSlug and
        * relatedCombos see the full 230-item List 04. */
-      if (parts[7] && parts[7].items) {
-        parts[1].list04 = (parts[1].list04 || []).concat(parts[7].items);
+      if (parts[8] && parts[8].items) {
+        parts[1].list04 = (parts[1].list04 || []).concat(parts[8].items);
       }
       var vocabIndex = null, vocabSet = null;
       if (vocab && vocab.words) {
@@ -584,8 +585,8 @@
       return '<a href="https://justinahiggins614-cmyk.github.io/jah-dictionary/az/' + letter + '.html">' + escapeHtml(w) + ' in the Dictionary A–Z</a>';
     }).join(" · ");
     var storedNote = storedId
-      ? "This combo is one of the " + (storedWave === 3 ? "48 stored Wave 3 combos" : storedWave === 2 ? "347 stored Wave 2 combos" : "103 stored Wave 1 combos") + " (" + listLabel + listItem + ", pair record " + storedId + "). This copy was generated on demand at the same URL; the stored page is the frozen, verified copy."
-      : "This combo is not one of the 498 stored combos (Waves 1, 2 and 3: all 450 List 03 items plus 48 List 04 items). It is generated on demand by the Combo Router at this same URL; no stored record exists for it, and none is claimed."
+      ? "This combo is one of the " + (storedWave === 4 ? "143 stored Wave 4 combos" : storedWave === 3 ? "48 stored Wave 3 combos" : storedWave === 2 ? "347 stored Wave 2 combos" : "103 stored Wave 1 combos") + " (" + listLabel + listItem + ", pair record " + storedId + "). This copy was generated on demand at the same URL; the stored page is the frozen, verified copy."
+      : "This combo is not one of the 641 stored combos (Waves 1, 2, 3 and 4: all 450 List 03 items plus 191 List 04 items). It is generated on demand by the Combo Router at this same URL; no stored record exists for it, and none is claimed."
       + (o.wordsExact ? "" : " The words were read from the URL by splitting on hyphens; a hyphenated word reads as separate words here unless the combo is in the demand lists.");
     var css = "body{font-family:Georgia,serif;max-width:760px;margin:0 auto;padding:1em;line-height:1.55;color:#1a1a1a;background:#fff}"
       + "h1{font-size:1.6em}h2{border-top:1px solid #ccc;padding-top:.6em}button{cursor:pointer;padding:.4em .8em;margin:.2em}"
@@ -597,7 +598,7 @@
       + "<h1>" + escapeHtml(title) + "</h1>\n<p><i>A Signature word-combo page. Stable URL: combos/" + slug + "/ — generated on demand by the Combo Router.</i></p>\n"
       + "<h2>1. What the combo means</h2>\n" + defParas
       + "\n<p><b>Signature reading.</b> " + escapeHtml(reading) + "</p>\n"
-      + "<h2>2. Math proof</h2>\n<p>" + rankText + " Waves 1, 2 and 3 together store 498 combo pages (Wave 1: 103 two-word List 03 items; Wave 2: 347 three-, four- and five-word List 03 items; Wave 3: 48 two/three-word and six/seven-word List 04 items); every other combo of 2 to 7 words (the remaining List 04 items and all the rest) is generator option space, resolved on demand and never stored. The generator is deterministic: the same combo always produces the same page and the same record, and the hyphenated slug is the combo's identity, so no combo can be stored or generated twice under a different identity.</p>\n"
+      + "<h2>2. Math proof</h2>\n<p>" + rankText + " Waves 1, 2, 3 and 4 together store 641 combo pages (Wave 1: 103 two-word List 03 items; Wave 2: 347 three-, four- and five-word List 03 items; Wave 3: 48 two/three-word and six/seven-word List 04 items; Wave 4: 143 four- and five-word List 04 items); every other combo of 2 to 7 words is generator option space, resolved on demand and never stored. The generator is deterministic: the same combo always produces the same page and the same record, and the hyphenated slug is the combo's identity, so no combo can be stored or generated twice under a different identity.</p>\n"
       + "<h2>3. Science proof</h2>\n<p>Word etymology and linguistics come from the Dictionary record for each word, linked below. " + (isSentence ? "This combo is a sentence-like query, so this section is a design-study explanation, labelled as such — not a claim about the world." : "Where the combo is speculative, this page labels it design-study or entertainment, never fact. No facts are invented here.") + "</p>\n"
       + "<h2>4. Relevant data</h2>\n<p>" + azLinks + "</p>\n<p>" + escapeHtml(storedNote) + "</p>\n"
       + "<h2>5. Spec</h2>\n<ul><li>Words: " + words.map(escapeHtml).join(", ") + "</li><li>Length class: " + k + "-word</li><li>Slug: " + slug + "</li><li>Generator: " + GEN_VERSION + " (browser build; space sizes are the verified math.perm values)</li><li>Verification stamp: " + GEN_VERSION + " / " + BUILD_DATE + "</li>" + (storedId ? "<li>Pair record: " + storedId + "</li>" : "<li>Pair record: none — generated on demand</li>") + "</ul>\n"
@@ -641,7 +642,7 @@
       + "<h1>" + escapeHtml(title) + " (accessible version)</h1>\n<p>No JavaScript is used on this page. Full version: <a href=\"index.html\">index.html</a>.</p>\n"
       + "<h2>What the combo means</h2>\n" + defParas
       + "\n<p>Signature reading: the phrase names a tool, service, thing or question built from its words. This reading is a Signature reading, labelled as such — not an established fact.</p>\n"
-      + "<h2>Math proof</h2>\n<p>" + rankText + " Waves 1, 2 and 3 together store 498 combo pages (Wave 1: 103; Wave 2: 347; Wave 3: 48); every other combo is generator option space.</p>\n"
+      + "<h2>Math proof</h2>\n<p>" + rankText + " Waves 1, 2, 3 and 4 together store 641 combo pages (Wave 1: 103; Wave 2: 347; Wave 3: 48; Wave 4: 143); every other combo is generator option space.</p>\n"
       + "<h2>Relevant data</h2>\n<p>" + (storedId ? "Stored Wave " + storedWave + " combo (" + listLabel + listItem + ", pair record " + storedId + ")." : "Generated on demand; no stored record exists for this combo.") + "</p>\n"
       + "<h2>Demo</h2>\n" + demoStatic + "\n"
       + "<h2>Related combos</h2>\n" + relList + "\n"

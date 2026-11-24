@@ -1,6 +1,6 @@
 # Combo Librarian — AI spec (Combo Router)
 
-Generator: word-combo-gen 1.0.3 / 2026-11-23. Router site: signature-word-combos.
+Generator: word-combo-gen 1.0.4 / 2026-11-23. Router site: signature-word-combos.
 Home of the combos/ namespace: https://justinahiggins614-cmyk.github.io/jah-databases/combos/
 
 ## Purpose
@@ -19,8 +19,8 @@ The Combo Librarian answers what any word combo means, finds related combos and 
 
 - Vocabulary: the 102,223 Dictionary headwords (never the 1,127,335 words-database record count, which includes unverified generator/invention records).
 - Ordered combo space, 2 to 7 words: P(102,223,2) = 10,449,439,506; P(102,223,3) = 1,068,152,155,742,826; P(102,223,4) = 109,186,513,360,031,673,720; P(102,223,5) = 11,160,936,209,149,077,655,984,680; P(102,223,6) = 1,140,848,577,426,800,419,839,442,020,240; P(102,223,7) = 116,614,119,038,835,258,514,728,244,982,872,080. Total 2-7 words: 116,615,259,898,573,730,711,878,684,717,733,052.
-- Stored in Waves 1, 2 and 3: 498 combo pages — all 450 items of the trending/viral demand list (List 03) plus 48 items of the future-internet demand list (List 04): Wave 1, the 103 two-word items; Wave 2, the 347 three-, four- and five-word items (293 + 49 + 5); Wave 3, the 48 two/three-word and six/seven-word items (3 + 17 + 17 + 11). Every other combo — the remaining List 04 items (99 four-word and 44 five-word) and every other 2–7-word combo — is generator option space, resolved on demand at combos/<slug>/ and never stored. The 39 eight-plus-word List 04 items are outside the 7-word cap. List 04's true inventory is 230 items (numbered lines plus the 8 bold-title items 201–208, which the shipped demand-lists.json never contained — see the Wave 3 report).
-- Rank computability (counted): 57 of the 103 Wave 1 stored combos, 187 of the 347 Wave 2 stored combos (3-word 152/293, 4-word 32/49, 5-word 3/5) and 11 of the 48 Wave 3 stored combos (2-word 2/3, 3-word 3/17, 6-word 4/17, 7-word 2/11) have a computable deterministic rank; together 255 of 498. The rest contain at least one non-headword and their records say so.
+- Stored in Waves 1, 2, 3 and 4: 641 combo pages — all 450 items of the trending/viral demand list (List 03) plus all 191 items of 2 to 7 words of the future-internet demand list (List 04): Wave 1, the 103 two-word items; Wave 2, the 347 three-, four- and five-word items (293 + 49 + 5); Wave 3, the 48 two/three-word and six/seven-word items (3 + 17 + 17 + 11); Wave 4, the 143 four- and five-word items (99 + 44). Every other 2–7-word combo is generator option space, resolved on demand at combos/<slug>/ and never stored. The 39 eight-plus-word List 04 items are outside the 7-word cap. List 04's true inventory is 230 items (numbered lines plus the 8 bold-title items 201–208, which the shipped demand-lists.json never contained — see the Wave 3 report).
+- Rank computability (counted): 57 of the 103 Wave 1 stored combos, 187 of the 347 Wave 2 stored combos (3-word 152/293, 4-word 32/49, 5-word 3/5), 11 of the 48 Wave 3 stored combos (2-word 2/3, 3-word 3/17, 6-word 4/17, 7-word 2/11) and 55 of the 143 Wave 4 stored combos (4-word 33/99, 5-word 22/44) have a computable deterministic rank; together 310 of 641. The rest contain at least one non-headword and their records say so.
 
 ## Boundaries
 
