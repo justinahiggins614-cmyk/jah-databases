@@ -1,13 +1,17 @@
 /* combo-page.js — browser build of the Word-Combo generator template.
  *
- * Part of Word-Combo Websites S1 (Router site: signature-word-combos).
- * S1 update of the Wave 4 renderer: fetches all five index files plus
- * dictionary-pair-definitions.json, names the right wave and the right
- * list in the stored note, quotes the Dictionary pair definition for
- * stored S1 combos, and states the post-S1 truth (665 stored combos) in
- * its rendered text.
- * Wave 4 file kept pristine; this is the S1 copy, emitted by
- * wave-s1/router-build/build-router-s1.js.
+ * Part of Word-Combo Websites S2 (Router site: signature-word-combos).
+ * S2 update of the S1 renderer: fetches all six index files plus
+ * dictionary-pair-definitions.json (S1) and
+ * dictionary-pair-definitions-s2.json (S2), names the right wave and the
+ * right list in the stored note, quotes the Dictionary pair definition
+ * for stored S1/S2 combos (or the pending/unsure note), and states the
+ * post-S2 truth (689 stored combos) in its rendered text. The S1 pair
+ * definition wording is FROZEN (shipped 1.0.5); S2 uses the corrected
+ * kind wording. The renderer stamps S2 combos 2026-11-24 and every
+ * earlier wave 2026-11-23 (stampDate).
+ * S1 file kept pristine; this is the S2 copy, emitted by
+ * wave-s2/router-build/build-router-s2.js.
  * Wave 2 update of the Wave 1 renderer: fetches both wave1-index.json and
  * wave2-index.json, names the right wave in the stored note, and states the
  * post-Wave-2 truth (450 stored List 03 combos) in its rendered text.
@@ -16,13 +20,13 @@
  * Loaded by the repo-level 404.html fallback for any combos/<slug>/ URL that
  * has no stored page, and by nothing else. It renders the combo's full
  * 10-section page in the browser from the combo's words, using the same
- * template logic as word-combo-gen 1.0.5 (gen-word-combo.js) — same sections,
+ * template logic as word-combo-gen 1.0.6 (gen-word-combo.js) — same sections,
  * same demo choice, same demo code, same boundary refusal, same definition
  * labels — so a stored page and a generated page are the same page shape.
  *
  * Data fetched at render time (all shipped under combos/data/):
  *   definitions-lookup.json, demand-lists.json, demo-data.json,
- *   wave1-index.json, wave2-index.json, wave3-index.json, wave4-index.json, s1-index.json, dictionary-pair-definitions.json, list04-bold-201-208.json, vocabulary.json (1.2 MB; needed only for the rank).
+ *   wave1-index.json, wave2-index.json, wave3-index.json, wave4-index.json, s1-index.json, s2-index.json, dictionary-pair-definitions.json, dictionary-pair-definitions-s2.json, list04-bold-201-208.json, vocabulary.json (1.2 MB; needed only for the rank).
  * If a fetch fails, the page says so and renders what it can — it never
  * invents a definition, a rank, or a demo.
  *
@@ -40,8 +44,15 @@
 (function (global) {
   "use strict";
 
-  var GEN_VERSION = "word-combo-gen 1.0.5";
+  var GEN_VERSION = "word-combo-gen 1.0.6";
   var BUILD_DATE = "2026-11-23";
+  /* Stamp date by stored wave: S2 combos were built 2026-11-24; every
+   * earlier wave keeps the frozen 2026-11-23, so its rendered stamp still
+   * matches its pair record. On-demand (null) keeps BUILD_DATE. Same fix
+   * as the generator's stampDate (gen-word-combo.js 1.0.6). */
+  function stampDate(storedWave) {
+    return storedWave === "S2" ? "2026-11-24" : BUILD_DATE;
+  }
   var VOCAB_N = 102223;
   /* Verified math.perm(102223,k) — NOT the generator's combo-lib.js values. */
   var SPACE = {
@@ -217,15 +228,18 @@
       fetchJson(env, base + "wave3-index.json").catch(function () { return { combos: {} }; }),
       fetchJson(env, base + "wave4-index.json").catch(function () { return { combos: {} }; }),
       fetchJson(env, base + "s1-index.json").catch(function () { return { combos: {} }; }),
+      fetchJson(env, base + "s2-index.json").catch(function () { return { combos: {} }; }),
       fetchJson(env, base + "dictionary-pair-definitions.json").catch(function () { return { pairs: {} }; }),
+      fetchJson(env, base + "dictionary-pair-definitions-s2.json").catch(function () { return { pairs: {} }; }),
       fetchJson(env, base + "vocabulary.json").catch(function () { return null; }),
       fetchJson(env, base + "list04-bold-201-208.json").catch(function () { return { items: [] }; })
     ]).then(function (parts) {
-      var vocab = parts[9];
-      /* S1: merge all five indexes; each entry carries its wave and its
+      var vocab = parts[11];
+      /* S2: merge all six indexes; each entry carries its wave and its
        * demand-list item number, so the stored note names the right wave and
-       * the right list. A slug in any index is stored. S1 entries carry
-       * list "Dictionary multi-word headword" and list_item = s1_queue. */
+       * the right list. A slug in any index is stored. S1/S2 entries carry
+       * list "Dictionary multi-word headword" and list_item = s1_queue /
+       * s2_queue. */
       var mergedIndex = {};
       [1, 2, 3, 4].forEach(function (wave) {
         var entries = (parts[2 + wave].combos || {});
@@ -238,18 +252,29 @@
         var e = parts[7].combos[slug];
         mergedIndex[slug] = { id: e.id, list_item: e.s1_queue, list: "Dictionary multi-word headword", title: e.title, wave: "S1" };
       });
-      /* Dictionary pair definitions, keyed by slug; the 5 pending pairs are
-       * simply absent (their pages carry the pending note instead). */
-      var pairDefs = {};
-      Object.keys((parts[8] && parts[8].pairs) || {}).forEach(function (pairTitle) {
-        var slugKey = pairTitle.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
-        pairDefs[slugKey] = parts[8].pairs[pairTitle];
+      Object.keys((parts[8].combos || {})).forEach(function (slug) {
+        var e = parts[8].combos[slug];
+        mergedIndex[slug] = { id: e.id, list_item: e.s2_queue, list: "Dictionary multi-word headword", title: e.title, wave: "S2" };
       });
+      /* Dictionary pair definitions, keyed by slug; the S1 pairs from
+       * parts[9] and the S2 pairs from parts[10] (no slug overlap). The
+       * pending pairs are simply absent (their pages carry the pending
+       * note instead); the 2 S2 unsure pairs are tracked separately. */
+      var pairDefs = {};
+      [parts[9], parts[10]].forEach(function (pd) {
+        Object.keys((pd && pd.pairs) || {}).forEach(function (pairTitle) {
+          var slugKey = pairTitle.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+          pairDefs[slugKey] = pd.pairs[pairTitle];
+        });
+      });
+      var pairDefsUnsure = new Set(((parts[10] && parts[10].pending_unsure) || []).map(function (t) {
+        return t.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+      }));
       /* The shipped demand-lists.json holds only the 222 numbered List 04
        * items; merge the 8 bold titles 201-208 so wordsForSlug and
        * relatedCombos see the full 230-item List 04. */
-      if (parts[10] && parts[10].items) {
-        parts[1].list04 = (parts[1].list04 || []).concat(parts[10].items);
+      if (parts[12] && parts[12].items) {
+        parts[1].list04 = (parts[1].list04 || []).concat(parts[12].items);
       }
       var vocabIndex = null, vocabSet = null;
       if (vocab && vocab.words) {
@@ -258,7 +283,7 @@
         vocabSet = new Set(vocab.words.map(function (w) { return w.toLowerCase(); }));
       }
       return { lookup: parts[0].definitions || {}, demand: parts[1], demo: parts[2],
-               index: mergedIndex, pairDefs: pairDefs, vocabIndex: vocabIndex, vocabSet: vocabSet,
+               index: mergedIndex, pairDefs: pairDefs, pairDefsUnsure: pairDefsUnsure, vocabIndex: vocabIndex, vocabSet: vocabSet,
                vocabLoaded: !!vocabIndex };
     });
   }
@@ -592,7 +617,7 @@
       ? "<p>" + escapeHtml(demo.note) + "</p>\n" + demo.html
       : "<p>" + escapeHtml(demo.note) + "</p>\n" + explorerHtml(words, defs, related, perms, totalPerms);
     var isSentence = k >= 5;
-    var reading = storedWave === "S1"
+    var reading = storedWave === "S1" || storedWave === "S2"
       ? "The phrase names a thing or topic built from its words. This reading is a Signature reading of the phrase, labelled as such — not an established fact about any existing product."
       : "The phrase names " + (toolLike ? "a tool or service" : isSentence ? "a question or an idea to be explained" : "a thing or topic") +
       " built from its words. This reading is a Signature reading of the phrase, labelled as such — not an established fact about any existing product.";
@@ -602,8 +627,8 @@
       return '<a href="https://justinahiggins614-cmyk.github.io/jah-dictionary/az/' + letter + '.html">' + escapeHtml(w) + ' in the Dictionary A–Z</a>';
     }).join(" · ");
     var storedNote = storedId
-      ? "This combo is one of the " + (storedWave === "S1" ? "24 stored S1 combos" : storedWave === 4 ? "143 stored Wave 4 combos" : storedWave === 3 ? "48 stored Wave 3 combos" : storedWave === 2 ? "347 stored Wave 2 combos" : "103 stored Wave 1 combos") + " (" + listLabel + listItem + ", pair record " + storedId + "). This copy was generated on demand at the same URL; the stored page is the frozen, verified copy."
-      : "This combo is not one of the 665 stored combos (Waves 1, 2, 3, 4 and S1: all 450 List 03 items plus 191 List 04 items plus 24 Dictionary multi-word headwords). It is generated on demand by the Combo Router at this same URL; no stored record exists for it, and none is claimed."
+      ? "This combo is one of the " + (storedWave === "S2" ? "24 stored S2 combos" : storedWave === "S1" ? "24 stored S1 combos" : storedWave === 4 ? "143 stored Wave 4 combos" : storedWave === 3 ? "48 stored Wave 3 combos" : storedWave === 2 ? "347 stored Wave 2 combos" : "103 stored Wave 1 combos") + " (" + listLabel + listItem + ", pair record " + storedId + "). This copy was generated on demand at the same URL; the stored page is the frozen, verified copy."
+      : "This combo is not one of the 689 stored combos (Waves 1, 2, 3, 4, S1 and S2: all 450 List 03 items plus 191 List 04 items plus 48 Dictionary multi-word headwords). It is generated on demand by the Combo Router at this same URL; no stored record exists for it, and none is claimed."
       + (o.wordsExact ? "" : " The words were read from the URL by splitting on hyphens; a hyphenated word reads as separate words here unless the combo is in the demand lists.");
     var css = "body{font-family:Georgia,serif;max-width:760px;margin:0 auto;padding:1em;line-height:1.55;color:#1a1a1a;background:#fff}"
       + "h1{font-size:1.6em}h2{border-top:1px solid #ccc;padding-top:.6em}button{cursor:pointer;padding:.4em .8em;margin:.2em}"
@@ -615,15 +640,15 @@
       + "<h1>" + escapeHtml(title) + "</h1>\n<p><i>A Signature word-combo page. Stable URL: combos/" + slug + "/ — generated on demand by the Combo Router.</i></p>\n"
       + "<h2>1. What the combo means</h2>\n" + defParas + pairDefPara
       + "\n<p><b>Signature reading.</b> " + escapeHtml(reading) + "</p>\n"
-      + "<h2>2. Math proof</h2>\n<p>" + rankText + " Waves 1, 2, 3, 4 and S1 together store 665 combo pages (Wave 1: 103 two-word List 03 items; Wave 2: 347 three-, four- and five-word List 03 items; Wave 3: 48 two/three-word and six/seven-word List 04 items; Wave 4: 143 four- and five-word List 04 items; S1: 24 two-word Dictionary-attested headwords); every other combo of 2 to 7 words is generator option space, resolved on demand and never stored. The generator is deterministic: the same combo always produces the same page and the same record, and the hyphenated slug is the combo's identity, so no combo can be stored or generated twice under a different identity.</p>\n"
+      + "<h2>2. Math proof</h2>\n<p>" + rankText + " Waves 1, 2, 3, 4, S1 and S2 together store 689 combo pages (Wave 1: 103 two-word List 03 items; Wave 2: 347 three-, four- and five-word List 03 items; Wave 3: 48 two/three-word and six/seven-word List 04 items; Wave 4: 143 four- and five-word List 04 items; S1: 24 two-word Dictionary-attested headwords; S2: 24 two-word Dictionary-attested headwords); every other combo of 2 to 7 words is generator option space, resolved on demand and never stored. The generator is deterministic: the same combo always produces the same page and the same record, and the hyphenated slug is the combo's identity, so no combo can be stored or generated twice under a different identity.</p>\n"
       + "<h2>3. Science proof</h2>\n<p>Word etymology and linguistics come from the Dictionary record for each word, linked below. " + (isSentence ? "This combo is a sentence-like query, so this section is a design-study explanation, labelled as such — not a claim about the world." : "Where the combo is speculative, this page labels it design-study or entertainment, never fact. No facts are invented here.") + "</p>\n"
       + "<h2>4. Relevant data</h2>\n<p>" + azLinks + "</p>\n<p>" + escapeHtml(storedNote) + "</p>\n"
-      + "<h2>5. Spec</h2>\n<ul><li>Words: " + words.map(escapeHtml).join(", ") + "</li><li>Length class: " + k + "-word</li><li>Slug: " + slug + "</li><li>Generator: " + GEN_VERSION + " (browser build; space sizes are the verified math.perm values)</li><li>Verification stamp: " + GEN_VERSION + " / " + BUILD_DATE + "</li>" + (storedId ? "<li>Pair record: " + storedId + "</li>" : "<li>Pair record: none — generated on demand</li>") + "</ul>\n"
+      + "<h2>5. Spec</h2>\n<ul><li>Words: " + words.map(escapeHtml).join(", ") + "</li><li>Length class: " + k + "-word</li><li>Slug: " + slug + "</li><li>Generator: " + GEN_VERSION + " (browser build; space sizes are the verified math.perm values)</li><li>Verification stamp: " + GEN_VERSION + " / " + stampDate(storedWave) + "</li>" + (storedId ? "<li>Pair record: " + storedId + "</li>" : "<li>Pair record: none — generated on demand</li>") + "</ul>\n"
       + "<h2>6. Working demo</h2>\n" + demoBlock + "\n"
       + "<h2>7. Two AIs</h2>\n<p><b>Combo Librarian</b> answers what any combo means, finds related combos and live sites. <b>Combo Builder</b> generates a combo's page, spec and demo from this template. Both ship as downloadable specs with this page:</p>\n"
       + "<ul><li><button type=\"button\" data-spec=\"librarian\">Download combo-librarian.spec.md</button></li><li><button type=\"button\" data-spec=\"builder\">Download combo-builder.spec.md</button></li></ul>\n"
       + "<h2>8. Use</h2>\n<p>Search this combo, share its stable URL (combos/" + slug + "/), or build on it: the Combo Builder spec describes how to generate a page for any related combo.</p>\n"
-      + "<h2>9. Sources</h2>\n<p>" + (storedWave === "S1" ? "The Signature Dictionary headwords file (102,223 headwords, counted 2026-11-23); the Dictionary definitions file (99,579 defined: 58,223 authored, 41,356 template-filled, 2,644 pending); the Everyday Core v1 definition (1,195 core headwords; 68 attested 2-word Dictionary headwords with both words in the core, ranked by min-frequency); the Dictionary pair-definitions file (19 of the 24 S1 pairs defined verbatim, 5 pending). This pair is Dictionary-attested as a multi-word headword; that attestation plus core membership is its demand basis — not measured search volume. The live manifest of the jah-databases network (63,826 databases, read 2026-11-23). No external website was scraped; no brand name, logo, trademark, product name or copyrighted image appears anywhere on this page." : "The Signature Dictionary headwords file (102,223 headwords, counted 2026-11-23); the Dictionary definitions file (99,579 defined: 58,223 authored, 41,356 template-filled, 2,644 pending); the trending/viral and future-internet demand lists; the live manifest of the jah-databases network (63,826 databases, read 2026-11-23). No external website was scraped; no brand name, logo, trademark, product name or copyrighted image appears anywhere on this page.") + "</p>\n"
+      + "<h2>9. Sources</h2>\n<p>" + (storedWave === "S1" ? "The Signature Dictionary headwords file (102,223 headwords, counted 2026-11-23); the Dictionary definitions file (99,579 defined: 58,223 authored, 41,356 template-filled, 2,644 pending); the Everyday Core v1 definition (1,195 core headwords; 68 attested 2-word Dictionary headwords with both words in the core, ranked by min-frequency); the Dictionary pair-definitions file (19 of the 24 S1 pairs defined verbatim, 5 pending). This pair is Dictionary-attested as a multi-word headword; that attestation plus core membership is its demand basis — not measured search volume. The live manifest of the jah-databases network (63,826 databases, read 2026-11-23). No external website was scraped; no brand name, logo, trademark, product name or copyrighted image appears anywhere on this page." : storedWave === "S2" ? "The Signature Dictionary headwords file (102,223 headwords, counted 2026-11-23); the Dictionary definitions file (99,579 defined: 58,223 authored, 41,356 template-filled, 2,644 pending); the Everyday Core v1 definition (1,195 core headwords; 68 attested 2-word Dictionary headwords, ranked by min-frequency — 23 of the 24 S2 pairs have both words in the core, and the one exception, 'culture features', is recorded with reason); the Dictionary pair-definitions file (15 of the 24 S2 pairs defined verbatim, 9 pending). This pair is Dictionary-attested as a multi-word headword; that attestation plus core membership is its demand basis — not measured search volume. The live manifest of the jah-databases network (63,826 databases, read 2026-11-23). No external website was scraped; no brand name, logo, trademark, product name or copyrighted image appears anywhere on this page." : "The Signature Dictionary headwords file (102,223 headwords, counted 2026-11-23); the Dictionary definitions file (99,579 defined: 58,223 authored, 41,356 template-filled, 2,644 pending); the trending/viral and future-internet demand lists; the live manifest of the jah-databases network (63,826 databases, read 2026-11-23). No external website was scraped; no brand name, logo, trademark, product name or copyrighted image appears anywhere on this page.") + "</p>\n"
       + "<h2>10. Accessible version</h2>\n<p><a href=\"accessible.html\">Plain-HTML version of this page</a> — the same meaning, definitions, math, links and Use section, readable without JavaScript.</p>\n"
       + "<footer><p>THE JAH NETWORK — <a href=\"../index.html\">Combo Router</a> · <a href=\"https://justinahiggins614-cmyk.github.io/jah-dictionary/\">The Signature Dictionary</a> · <a href=\"https://justinahiggins614-cmyk.github.io/jah-databases/\">The 'Merica-L Boundless Ecosystem OS</a></p></footer>\n"
       + "</body>\n</html>\n";
@@ -659,19 +684,19 @@
       + "<h1>" + escapeHtml(title) + " (accessible version)</h1>\n<p>No JavaScript is used on this page. Full version: <a href=\"index.html\">index.html</a>.</p>\n"
       + "<h2>What the combo means</h2>\n" + defParas + pairDefPara
       + "\n<p>Signature reading: the phrase names a tool, service, thing or question built from its words. This reading is a Signature reading, labelled as such — not an established fact.</p>\n"
-      + "<h2>Math proof</h2>\n<p>" + rankText + " Waves 1, 2, 3, 4 and S1 together store 665 combo pages (Wave 1: 103; Wave 2: 347; Wave 3: 48; Wave 4: 143; S1: 24); every other combo is generator option space.</p>\n"
+      + "<h2>Math proof</h2>\n<p>" + rankText + " Waves 1, 2, 3, 4, S1 and S2 together store 689 combo pages (Wave 1: 103; Wave 2: 347; Wave 3: 48; Wave 4: 143; S1: 24; S2: 24); every other combo is generator option space.</p>\n"
       + "<h2>Relevant data</h2>\n<p>" + (storedId ? "Stored Wave " + storedWave + " combo (" + listLabel + listItem + ", pair record " + storedId + ")." : "Generated on demand; no stored record exists for this combo.") + "</p>\n"
       + "<h2>Demo</h2>\n" + demoStatic + "\n"
       + "<h2>Related combos</h2>\n" + relList + "\n"
       + "<h2>Use</h2>\n<p>Search this combo, share its stable URL (combos/" + slug + "/), or build on it.</p>\n"
-      + "<h2>Sources</h2>\n<p>" + (storedWave === "S1" ? "The Signature Dictionary headwords (102,223) and definitions (99,579 defined: 58,223 authored, 41,356 template-filled, 2,644 pending); the Everyday Core v1 definition (1,195 core headwords; 68 attested 2-word Dictionary headwords); the Dictionary pair-definitions file (19 of the 24 S1 pairs defined verbatim, 5 pending). This pair is Dictionary-attested as a multi-word headword; that attestation plus core membership is its demand basis — not measured search volume. The live manifest (63,826 databases, 2026-11-23). Nothing was scraped; no brand names, logos, trademarks, product names or copyrighted images." : "The Signature Dictionary headwords (102,223) and definitions (99,579 defined: 58,223 authored, 41,356 template-filled, 2,644 pending); the demand lists; the live manifest (63,826 databases, 2026-11-23). Nothing was scraped; no brand names, logos, trademarks, product names or copyrighted images.") + "</p>\n"
+      + "<h2>Sources</h2>\n<p>" + (storedWave === "S1" ? "The Signature Dictionary headwords (102,223) and definitions (99,579 defined: 58,223 authored, 41,356 template-filled, 2,644 pending); the Everyday Core v1 definition (1,195 core headwords; 68 attested 2-word Dictionary headwords); the Dictionary pair-definitions file (19 of the 24 S1 pairs defined verbatim, 5 pending). This pair is Dictionary-attested as a multi-word headword; that attestation plus core membership is its demand basis — not measured search volume. The live manifest (63,826 databases, 2026-11-23). Nothing was scraped; no brand names, logos, trademarks, product names or copyrighted images." : storedWave === "S2" ? "The Signature Dictionary headwords (102,223) and definitions (99,579 defined: 58,223 authored, 41,356 template-filled, 2,644 pending); the Everyday Core v1 definition (1,195 core headwords; 68 attested 2-word Dictionary headwords); the Dictionary pair-definitions file (15 of the 24 S2 pairs defined verbatim, 9 pending). This pair is Dictionary-attested as a multi-word headword; that attestation plus core membership is its demand basis — not measured search volume. The live manifest (63,826 databases, 2026-11-23). Nothing was scraped; no brand names, logos, trademarks, product names or copyrighted images." : "The Signature Dictionary headwords (102,223) and definitions (99,579 defined: 58,223 authored, 41,356 template-filled, 2,644 pending); the demand lists; the live manifest (63,826 databases, 2026-11-23). Nothing was scraped; no brand names, logos, trademarks, product names or copyrighted images.") + "</p>\n"
       + "</body>\n</html>\n";
   }
 
   function librarianSpec(o) {
-    var words = o.words, slug = o.slug, title = o.title;
+    var words = o.words, slug = o.slug, title = o.title, storedWave = o.storedWave;
     return "# Combo Librarian — AI spec for the combo \"" + title + "\"\n\n" +
-      "Generator: " + GEN_VERSION + " / " + BUILD_DATE + " (browser build). Combo slug: " + slug + ". Words: " + words.join(", ") + ".\n\n" +
+      "Generator: " + GEN_VERSION + " / " + stampDate(storedWave) + " (browser build). Combo slug: " + slug + ". Words: " + words.join(", ") + ".\n\n" +
       "## Purpose\n\nThe Combo Librarian answers what any word combo means, finds related combos and live sites, and explains the combo's place in the deterministic ordering.\n\n" +
       "## Capabilities\n\n- Define each word of a combo from the Signature Dictionary: authored definitions as written, template-filled definitions labelled as such, pending headwords labelled pending, non-headwords labelled not-a-Dictionary-headword. Never invent a definition.\n- Give the combo's Signature reading, labelled as a Signature reading, never as established fact.\n- Report the combo's deterministic rank when it is defined, or explain honestly why it is not defined.\n- Find related combos from the demand lists that share a word, and route to their stable combos/<slug>/ URLs.\n- Route to related live sites: the Dictionary A-Z pages, the words database, and the Combo Router.\n\n" +
       "## Boundaries\n\n- Never generate content for a refused combo (defeat-military-system, pathogen, toxin, explosive, ballistics, gene-drive content). Refuse with the recorded reason.\n- No brand names, logos, trademarks, product names or copyrighted images. Nothing scraped or copied from any real website.\n- Speculative material is labelled design-study or entertainment, never fact.\n\n" +
@@ -679,9 +704,9 @@
   }
 
   function builderSpec(o) {
-    var words = o.words, slug = o.slug, title = o.title, demo = o.demo;
+    var words = o.words, slug = o.slug, title = o.title, demo = o.demo, storedWave = o.storedWave;
     return "# Combo Builder — AI spec for the combo \"" + title + "\"\n\n" +
-      "Generator: " + GEN_VERSION + " / " + BUILD_DATE + " (browser build). Combo slug: " + slug + ". Words: " + words.join(", ") + ".\n\n" +
+      "Generator: " + GEN_VERSION + " / " + stampDate(storedWave) + " (browser build). Combo slug: " + slug + ". Words: " + words.join(", ") + ".\n\n" +
       "## Purpose\n\nThe Combo Builder generates a combo's full page, spec and demo from the template in REVIEW §3.4, deterministically: the same combo in always produces byte-identical output.\n\n" +
       "## Template (10 sections)\n\n1. What the combo means. 2. Math proof (deterministic rank + space sizes). 3. Science proof (Dictionary linguistics only; speculative material labelled design-study). 4. Relevant data (Dictionary links, related live sites). 5. Spec (words, order, length class, demand source, generator version, verification stamp). 6. Working demo that genuinely executes. 7. Two AIs, downloadable with specs. 8. Use. 9. Sources. 10. Accessible zero-script version.\n\n" +
       "## Demo for this combo\n\nDemo kind: " + demo.kind + ". " + demo.note + "\n\n" +
@@ -758,19 +783,26 @@
       var totalPerms = factorial(words.length);
       var perms = permutations(words, 24);
       var stored = data.index[slug] || null;
-      /* S1 pair definition paragraph: the Dictionary's own definition of the
-       * pair, quoted verbatim when held; the pending note when the pair is a
-       * headword with no held definition. Only S1 stored combos get one. */
-      var pairEntry = (stored && stored.wave === "S1") ? ((data.pairDefs || {})[slug] || null) : null;
-      var pairDefPara = (stored && stored.wave === "S1")
-        ? pairEntry
+      /* S1/S2 pair definition paragraph: the Dictionary's own definition of
+       * the pair, quoted verbatim when held; the pending note when the pair
+       * is a headword with no held definition; the unsure-entry note when
+       * the pair's entry carries no definitions. Only S1/S2 stored combos
+       * get one. S1 wording is FROZEN (1.0.5 shipped "as a phrase (noun)"
+       * for safety chain); S2 uses the corrected kind wording. */
+      var isS = stored && (stored.wave === "S1" || stored.wave === "S2");
+      var pairEntry = isS ? ((data.pairDefs || {})[slug] || null) : null;
+      var pairKind = pairEntry ? (pairEntry.pos === "phrase" ? "a phrase" : "a " + pairEntry.pos) : null;
+      var pairDefPara = !isS ? "" : pairEntry
+        ? stored.wave === "S1"
           ? "\n<p><b>Dictionary definition of the pair.</b> The Dictionary defines &quot;" + escapeHtml(title) + "&quot; as a phrase (" + escapeHtml(pairEntry.pos) + "): " + pairEntry.d.map(escapeHtml).join(" ") + " This definition is quoted verbatim from the Dictionary definitions file (src iwb); the reading below adds nothing to it.</p>"
-          : "\n<p><b>Dictionary definition of the pair.</b> The Dictionary holds &quot;" + escapeHtml(title) + "&quot; as a multi-word headword but no definition for the pair itself (one of the Dictionary's pending headwords), so the reading below is a Signature reading from the two words' definitions, labelled as such — it is not presented as a Dictionary definition.</p>"
-        : "";
+          : "\n<p><b>Dictionary definition of the pair.</b> The Dictionary defines &quot;" + escapeHtml(title) + "&quot; as " + pairKind + " (" + escapeHtml(pairEntry.pos) + "): " + pairEntry.d.map(escapeHtml).join(" ") + " This definition is quoted verbatim from the Dictionary definitions file (src iwb); the reading below adds nothing to it.</p>"
+        : (data.pairDefsUnsure && data.pairDefsUnsure.has(slug))
+          ? "\n<p><b>Dictionary definition of the pair.</b> The Dictionary holds &quot;" + escapeHtml(title) + "&quot; as a multi-word headword and holds an entry for the pair, but that entry carries no definitions (marked unsure), so the reading below is a Signature reading from the two words' definitions, labelled as such — it is not presented as a Dictionary definition.</p>"
+          : "\n<p><b>Dictionary definition of the pair.</b> The Dictionary holds &quot;" + escapeHtml(title) + "&quot; as a multi-word headword but no definition for the pair itself (one of the Dictionary's pending headwords), so the reading below is a Signature reading from the two words' definitions, labelled as such — it is not presented as a Dictionary definition.</p>";
       var o = { words: words, slug: slug, title: title, defs: defs, rankInfo: rankInfo, pairDefPara: pairDefPara,
                 demo: demo, related: related, perms: perms, totalPerms: totalPerms,
                 storedId: stored ? stored.id : null, listItem: stored ? stored.list_item : null,
-                listLabel: stored ? (stored.wave === "S1" ? "Dictionary multi-word headword " : stored.list + " item ") : null,
+                listLabel: stored ? (stored.wave === "S1" || stored.wave === "S2" ? "Dictionary multi-word headword " : stored.list + " item ") : null,
                 storedWave: stored ? stored.wave : null,
                 data: data, wordsExact: found.exact };
       var html = parsed.accessible ? buildAccessibleHtml(o) : buildPageHtml(o);
