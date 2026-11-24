@@ -75,7 +75,7 @@ ID prefixes per database are in `/data/manifest.json` (`id_prefix`).
 
 > To read any JAH Data Base, paste this URL:
 > `https://justinahiggins614-cmyk.github.io/jah-databases/llms.txt`
-> It lists all 64628 databases with page URLs and index file URLs.
+> It lists all 64652 databases with page URLs and index file URLs.
 > (count re-stamped from data/manifest.json by code/restamp_counts.py)
 > Fetch `api.json` at the same base for the machine-readable catalog.
 > Every `.gz` index is gzip-compressed newline-delimited JSON, one record per line.
@@ -86,7 +86,7 @@ ID prefixes per database are in `/data/manifest.json` (`id_prefix`).
 - `/robots.txt` — all crawlers allowed, sitemap declared
 - `/sitemap.xml` — every database page and every data file
 - `/llms.txt` — llmstxt.org-style map for LLMs
-- `/api.json` — machine-readable catalog of all 64628 databases
+- `/api.json` — machine-readable catalog of all 64652 databases
 - `/data/manifest.json` — the database catalog itself
 
 ## Record API (api/v1) — one record as ordinary JSON
