@@ -1,6 +1,6 @@
 # Combo Builder — AI spec (Combo Router)
 
-Generator: word-combo-gen 1.0.2 / 2026-11-23. Router site: signature-word-combos.
+Generator: word-combo-gen 1.0.3 / 2026-11-23. Router site: signature-word-combos.
 Home of the combos/ namespace: https://justinahiggins614-cmyk.github.io/jah-databases/combos/
 
 ## Purpose
@@ -14,9 +14,9 @@ The Combo Builder generates a combo's full page, spec and demo from the template
 ## Resolution rule (the Router's core promise)
 
 - Every combo has the stable URL combos/<slug>/.
-- Stored combos (Waves 1 and 2: all 450 List 03 items) serve their pre-rendered page.
-- Unstored combos (the List 04 items and every other 2–7-word combo) resolve through the repo-level 404.html fallback, which loads combos/combo-page.js and renders the same 10-section page in the browser from the combo's words. Never a dead link, never a "not built yet" page.
-- combo-page.js fetches both combos/data/wave1-index.json and combos/data/wave2-index.json; a slug found in either index is stored, and its stored note names the right wave.
+- Stored combos (Waves 1, 2 and 3: all 450 List 03 items plus 48 List 04 items, 498 in all) serve their pre-rendered page.
+- Unstored combos (the remaining List 04 items and every other 2–7-word combo) resolve through the repo-level 404.html fallback, which loads combos/combo-page.js and renders the same 10-section page in the browser from the combo's words. Never a dead link, never a "not built yet" page. The 39 eight-plus-word List 04 items are outside the 7-word cap.
+- combo-page.js fetches combos/data/wave1-index.json, combos/data/wave2-index.json and combos/data/wave3-index.json (plus combos/data/list04-bold-201-208.json, which completes the 230-item List 04); a slug found in any index is stored, and its stored note names the right wave and the right list.
 - The fallback is served by GitHub Pages with HTTP status 404 even though the rendered content is a working combo page; only stored pages are listed in the sitemap and directory, because only stored pages are indexable files.
 
 ## Rules
