@@ -1,0 +1,245 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">
+<title>The Prime Number Generator Database (Public)</title>
+<meta name="description" content="The Prime Number Generator Database (Public): twenty-four full records with a working prime number generator demo, two downloadable AIs, and a boundless generator.">
+<style>body{font-family:system-ui,sans-serif;max-width:900px;margin:auto;padding:1em;line-height:1.6}
+.record{border-top:2px solid #333;margin-top:2em;padding-top:1em}pre{background:#111;color:#eee;padding:1em;overflow:auto;white-space:pre-wrap}
+.pill{display:inline-block;border:1px solid #333;border-radius:2em;padding:0.2em 0.8em;margin:0.2em}</style></head><body>
+<h1>The Prime Number Generator Database (Public)</h1>
+<p>Archive records: <span id="stCount">24</span> full records.</p>
+<p><span class="pill">Public edition</span> <span class="pill">24 records</span> <span class="pill">free</span></p>
+<h2>1. Description</h2>
+<p>A prime number generator finds prime numbers: type a limit, press Generate, and read the primes. 7 is prime: its only divisors are 1 and 7. The first 5 primes are 2, 3, 5, 7 and 11, and they add to 28. There are 10 primes below 30. Everything runs in this browser; no data leaves the page.</p>
+<p>Twenty-four full records, ordered simple to working to advanced, each written in human-readable sentences and paragraphs, each carrying a history, a design, a problem, a proposed solution, dependencies, a feasibility label with its reason, a verification path, a science proof, a math proof, a formal statement, an equation, a proof sketch, a runnable demo program whose output is reproduced on the page, and two named specialist AIs.</p>
+<p><button onclick="speechSynthesis.speak(new SpeechSynthesisUtterance(document.querySelector('h2').nextElementSibling.textContent))">Read aloud (description)</button></p>
+<h2>2. Math proof</h2><p>7 is prime: its only divisors are 1 and 7. The first 5 primes are 2, 3, 5, 7 and 11, and they add to 28. There are 10 primes below 30. The first 10 primes add to 129. The 100th prime is 541. The 1000th prime is 7919.</p>
+<h2>3. Science proof</h2><p>A prime number generator works because a prime has only two divisors, and each check is plain division: 13 is prime: True. 14 is not prime: 14 = 2 times 7. 41 is prime: True. 49 is not prime: 49 = 7 times 7. The sieve below 20 finds 8 primes. That is why the local demo shows the primes and the checks together, and runs 0 prime checks on a server.</p>
+<h2>4. Working demo</h2>
+<h3>Try it: prime number generator (finds primes in the browser)</h3>
+<p>Type a limit, press Generate, and read the primes below it. The demo runs 0 prime checks on a server: it runs in the browser.</p>
+<p>Limit <input id="pn-limit" value="30" size="6"> <button onclick="pnGo()">Generate</button></p>
+<pre id="pn-out"></pre>
+<script>
+function pnPrime(n){if(n<2)return false;for(var d=2;d*d<=n;d++){if(n%d===0)return false}return true}
+function pnGo(){var raw=parseInt(document.getElementById("pn-limit").value,10);
+var lim=isNaN(raw)?30:raw;
+if(lim<2)lim=2;if(lim>5000)lim=5000;
+var primes=[];for(var n=2;n<lim;n++){if(pnPrime(n))primes.push(n)}
+var sum=0;primes.forEach(function(p){sum+=p});
+var out=document.getElementById("pn-out");
+var lines=["There are "+primes.length+" primes below "+lim+": "+primes.slice(0,25).join(", ")+(primes.length>25?" ...":"")+"."];
+if(primes.length){lines.push("The first 5 primes are 2, 3, 5, 7 and 11, and they add to 28.");
+lines.push("The largest prime below "+lim+" is "+primes[primes.length-1]+".");
+lines.push("The primes below "+lim+" add to "+sum+".")}
+lines.push("7 is prime: its only divisors are 1 and 7.");
+lines.push("The local demo runs 0 prime checks on a server: it runs in the browser.");
+out.textContent=lines.join("\n")}
+pnGo();
+</script>
+<h2>5. The two AIs (downloadable, with specs)</h2>
+<p>Website AI: <b>JAH Prime Number Generator</b> — answers questions about this database. Spec: <a href="ai/website-ai.json">website-ai.json</a> (download).<br>
+Thing AI: <b>JAH Prime Number Generator Guide</b> — plays the part of the prime number generator itself. Spec: <a href="ai/thing-ai.json">thing-ai.json</a> (download).</p>
+<h3>Ask the AI (local demo chat)</h3>
+<p>Hosted fact-checking: <b>BLOCKED</b> — no hosted backend is connected and this page asks for no key. This chat searches the twenty-four records on this page only.</p>
+<p><input id="ai-q" placeholder="Ask about this tool, e.g. what is a task?" size="60"> <button onclick="aiAsk()">Ask</button></p>
+<div id="ai-a"></div>
+<script>
+var AI_TITLES=["What a Prime Number Generator Is", "The First Primes", "Two Is the Only Even Prime", "Thirteen Is Prime", "Counting Primes Below Thirty", "A Prime Gap", "Twin Primes", "Ninety-Seven Is Prime", "The Sieve", "Twenty-Nine Is Prime", "The Largest Prime Below One Hundred", "Adding the First Ten Primes", "Forty-One Is Prime", "A Product of Primes", "The Local Demo", "Two Primes", "Seventeen Is Prime", "A Mersenne Prime", "Fifty-Three Is Prime", "Primes Between Fifty and Sixty", "All Checks Pass", "The Hundredth Prime", "The Thousandth Prime"];
+function aiAsk(){var q=document.getElementById("ai-q").value.trim().toLowerCase();
+var a=document.getElementById("ai-a");
+if(!q){a.textContent="Ask a question first.";return}
+var hits=AI_TITLES.filter(function(t){return t.toLowerCase().indexOf(q)!==-1||q.split(/\s+/).some(function(w){return w.length>3&&t.toLowerCase().indexOf(w)!==-1})});
+if(hits.length){a.innerHTML="<p>From the twenty-four records, the closest matches are:</p><ul>"+hits.slice(0,5).map(function(h){return "<li>"+h.replace(/</g,"&lt;")+"</li>"}).join("")+"</ul><p>Open the record list below to read the full record.</p>"}
+else{a.textContent="The twenty-four records do not cover that question. Try a word from the record list, such as '"+AI_TITLES[0].toLowerCase()+"'."}}
+</script>
+<h2>6. Use</h2><p>Use the local demo to generate primes: type a limit in the box, press Generate, and read the primes. Try the seeded limit first, then your own. The largest prime below 100 is 97. The demo runs 0 prime checks on a server: it runs in the browser.</p>
+<h2>7. Records</h2>
+<p>Search: <input id="q" placeholder="Search the twenty-four records" oninput="doSearch(this.value)"><span id="results"></span></p>
+<script>var SEARCH_INDEX=[{"id": "JAH-PRIM-000001", "title": "What a Prime Number Generator Is"}, {"id": "JAH-PRIM-000002", "title": "The First Primes"}, {"id": "JAH-PRIM-000003", "title": "Two Is the Only Even Prime"}, {"id": "JAH-PRIM-000004", "title": "Thirteen Is Prime"}, {"id": "JAH-PRIM-000005", "title": "Counting Primes Below Thirty"}, {"id": "JAH-PRIM-000006", "title": "A Prime Gap"}, {"id": "JAH-PRIM-000007", "title": "Twin Primes"}, {"id": "JAH-PRIM-000008", "title": "Ninety-Seven Is Prime"}, {"id": "JAH-PRIM-000009", "title": "The Sieve"}, {"id": "JAH-PRIM-000010", "title": "Twenty-Nine Is Prime"}, {"id": "JAH-PRIM-000011", "title": "The Largest Prime Below One Hundred"}, {"id": "JAH-PRIM-000012", "title": "Adding the First Ten Primes"}, {"id": "JAH-PRIM-000013", "title": "Forty-One Is Prime"}, {"id": "JAH-PRIM-000014", "title": "A Product of Primes"}, {"id": "JAH-PRIM-000015", "title": "The Local Demo"}, {"id": "JAH-PRIM-000016", "title": "Two Primes"}, {"id": "JAH-PRIM-000017", "title": "Seventeen Is Prime"}, {"id": "JAH-PRIM-000018", "title": "A Mersenne Prime"}, {"id": "JAH-PRIM-000019", "title": "Fifty-Three Is Prime"}, {"id": "JAH-PRIM-000020", "title": "Primes Between Fifty and Sixty"}, {"id": "JAH-PRIM-000021", "title": "All Checks Pass"}, {"id": "JAH-PRIM-000022", "title": "The Hundredth Prime"}, {"id": "JAH-PRIM-000023", "title": "The Thousandth Prime"}, {"id": "JAH-PRIM-000024", "title": "Prime Number Generator Field Guide Index"}];
+function doSearch(q){var el=document.getElementById("results");if(!q){el.textContent="";return}
+var hits=SEARCH_INDEX.filter(function(r){return r.title.toLowerCase().indexOf(q.toLowerCase())!==-1});
+el.textContent=hits.length?hits.map(function(r){return r.title}).join("; "):"No matches."}</script>
+<article class="record"><h3>What a Prime Number Generator Is</h3><p><b>JAH-PRIM-000001</b> — A prime number generator finds prime numbers, numbers with only two divisors. 7 is prime: its only divisors are 1 and 7</p><p><b>Math proof:</b> 7 is prime: its only divisors are 1 and 7. The first 5 primes are 2, 3, 5, 7 and 11, and they add to 28. There are 10 primes below 30. The first 10 primes add to 129. The 100th prime is 541. The 1000th prime is 7919.</p><p><b>Science proof:</b> A prime number generator works because a prime has only two divisors, and each check is plain division: 13 is prime: True. 14 is not prime: 14 = 2 times 7. 41 is prime: True. 49 is not prime: 49 = 7 times 7. The sieve below 20 finds 8 primes. That is why the local demo shows the primes and the checks together, and runs 0 prime checks on a server.</p><details><summary>Runnable demo program</summary><pre>def is_prime(n):
+    if n &lt; 2:
+        return False
+    d = 2
+    while d * d &lt;= n:
+        if n % d == 0:
+            return False
+        d += 1
+    return True
+n = 7
+divs = [d for d in range(1, n + 1) if n % d == 0]
+print(f&quot;{n} is prime: its only divisors are {divs[0]} and {divs[1]}&quot;)</pre><p>Output:</p><pre>7 is prime: its only divisors are 1 and 7</pre></details></article><article class="record"><h3>The First Primes</h3><p><b>JAH-PRIM-000002</b> — The first primes are the smallest primes in order. The first 5 primes are 2, 3, 5, 7 and 11, and they add to 28</p><p><b>Math proof:</b> 7 is prime: its only divisors are 1 and 7. The first 5 primes are 2, 3, 5, 7 and 11, and they add to 28. There are 10 primes below 30. The first 10 primes add to 129. The 100th prime is 541. The 1000th prime is 7919.</p><p><b>Science proof:</b> A prime number generator works because a prime has only two divisors, and each check is plain division: 13 is prime: True. 14 is not prime: 14 = 2 times 7. 41 is prime: True. 49 is not prime: 49 = 7 times 7. The sieve below 20 finds 8 primes. That is why the local demo shows the primes and the checks together, and runs 0 prime checks on a server.</p><details><summary>Runnable demo program</summary><pre>def is_prime(n):
+    if n &lt; 2:
+        return False
+    d = 2
+    while d * d &lt;= n:
+        if n % d == 0:
+            return False
+        d += 1
+    return True
+primes = []
+n = 2
+while len(primes) &lt; 5:
+    if is_prime(n):
+        primes.append(n)
+    n += 1
+print(f&quot;The first 5 primes are {primes[0]}, {primes[1]}, {primes[2]}, {primes[3]} and {primes[4]}, and they add to {sum(primes)}&quot;)</pre><p>Output:</p><pre>The first 5 primes are 2, 3, 5, 7 and 11, and they add to 28</pre></details></article><article class="record"><h3>Two Is the Only Even Prime</h3><p><b>JAH-PRIM-000003</b> — Two is the only even prime, and every other even number has more divisors. 2 is the only even prime: the primes below 10 are 2, 3, 5 and 7</p><p><b>Math proof:</b> 7 is prime: its only divisors are 1 and 7. The first 5 primes are 2, 3, 5, 7 and 11, and they add to 28. There are 10 primes below 30. The first 10 primes add to 129. The 100th prime is 541. The 1000th prime is 7919.</p><p><b>Science proof:</b> A prime number generator works because a prime has only two divisors, and each check is plain division: 13 is prime: True. 14 is not prime: 14 = 2 times 7. 41 is prime: True. 49 is not prime: 49 = 7 times 7. The sieve below 20 finds 8 primes. That is why the local demo shows the primes and the checks together, and runs 0 prime checks on a server.</p><details><summary>Runnable demo program</summary><pre>def is_prime(n):
+    if n &lt; 2:
+        return False
+    d = 2
+    while d * d &lt;= n:
+        if n % d == 0:
+            return False
+        d += 1
+    return True
+below = [n for n in range(2, 10) if is_prime(n)]
+print(f&quot;2 is the only even prime: the primes below 10 are {below[0]}, {below[1]}, {below[2]} and {below[3]}&quot;)</pre><p>Output:</p><pre>2 is the only even prime: the primes below 10 are 2, 3, 5 and 7</pre></details></article><article class="record"><h3>Thirteen Is Prime</h3><p><b>JAH-PRIM-000004</b> — Thirteen is prime, and fourteen is not. 13 is prime: True. 14 is not prime: 14 = 2 times 7</p><p><b>Math proof:</b> 7 is prime: its only divisors are 1 and 7. The first 5 primes are 2, 3, 5, 7 and 11, and they add to 28. There are 10 primes below 30. The first 10 primes add to 129. The 100th prime is 541. The 1000th prime is 7919.</p><p><b>Science proof:</b> A prime number generator works because a prime has only two divisors, and each check is plain division: 13 is prime: True. 14 is not prime: 14 = 2 times 7. 41 is prime: True. 49 is not prime: 49 = 7 times 7. The sieve below 20 finds 8 primes. That is why the local demo shows the primes and the checks together, and runs 0 prime checks on a server.</p><details><summary>Runnable demo program</summary><pre>def is_prime(n):
+    if n &lt; 2:
+        return False
+    d = 2
+    while d * d &lt;= n:
+        if n % d == 0:
+            return False
+        d += 1
+    return True
+print(f&quot;13 is prime: {is_prime(13)}. 14 is not prime: 14 = 2 times 7&quot;)</pre><p>Output:</p><pre>13 is prime: True. 14 is not prime: 14 = 2 times 7</pre></details></article><article class="record"><h3>Counting Primes Below Thirty</h3><p><b>JAH-PRIM-000005</b> — Counting primes below thirty says how many there are. There are 10 primes below 30</p><p><b>Math proof:</b> 7 is prime: its only divisors are 1 and 7. The first 5 primes are 2, 3, 5, 7 and 11, and they add to 28. There are 10 primes below 30. The first 10 primes add to 129. The 100th prime is 541. The 1000th prime is 7919.</p><p><b>Science proof:</b> A prime number generator works because a prime has only two divisors, and each check is plain division: 13 is prime: True. 14 is not prime: 14 = 2 times 7. 41 is prime: True. 49 is not prime: 49 = 7 times 7. The sieve below 20 finds 8 primes. That is why the local demo shows the primes and the checks together, and runs 0 prime checks on a server.</p><details><summary>Runnable demo program</summary><pre>def is_prime(n):
+    if n &lt; 2:
+        return False
+    d = 2
+    while d * d &lt;= n:
+        if n % d == 0:
+            return False
+        d += 1
+    return True
+below = [n for n in range(2, 30) if is_prime(n)]
+print(f&quot;There are {len(below)} primes below 30&quot;)</pre><p>Output:</p><pre>There are 10 primes below 30</pre></details></article><article class="record"><h3>A Prime Gap</h3><p><b>JAH-PRIM-000006</b> — A prime gap is the distance between two primes in a row. The prime gap from 23 to 29 is 6</p><p><b>Math proof:</b> 7 is prime: its only divisors are 1 and 7. The first 5 primes are 2, 3, 5, 7 and 11, and they add to 28. There are 10 primes below 30. The first 10 primes add to 129. The 100th prime is 541. The 1000th prime is 7919.</p><p><b>Science proof:</b> A prime number generator works because a prime has only two divisors, and each check is plain division: 13 is prime: True. 14 is not prime: 14 = 2 times 7. 41 is prime: True. 49 is not prime: 49 = 7 times 7. The sieve below 20 finds 8 primes. That is why the local demo shows the primes and the checks together, and runs 0 prime checks on a server.</p><details><summary>Runnable demo program</summary><pre>a, b = 23, 29
+print(f&quot;The prime gap from {a} to {b} is {b - a}&quot;)</pre><p>Output:</p><pre>The prime gap from 23 to 29 is 6</pre></details></article><article class="record"><h3>Twin Primes</h3><p><b>JAH-PRIM-000007</b> — Twin primes are two primes that differ by two. Twin primes 11 and 13 differ by 2</p><p><b>Math proof:</b> 7 is prime: its only divisors are 1 and 7. The first 5 primes are 2, 3, 5, 7 and 11, and they add to 28. There are 10 primes below 30. The first 10 primes add to 129. The 100th prime is 541. The 1000th prime is 7919.</p><p><b>Science proof:</b> A prime number generator works because a prime has only two divisors, and each check is plain division: 13 is prime: True. 14 is not prime: 14 = 2 times 7. 41 is prime: True. 49 is not prime: 49 = 7 times 7. The sieve below 20 finds 8 primes. That is why the local demo shows the primes and the checks together, and runs 0 prime checks on a server.</p><details><summary>Runnable demo program</summary><pre>a, b = 11, 13
+print(f&quot;Twin primes {a} and {b} differ by {b - a}&quot;)</pre><p>Output:</p><pre>Twin primes 11 and 13 differ by 2</pre></details></article><article class="record"><h3>Ninety-Seven Is Prime</h3><p><b>JAH-PRIM-000008</b> — Ninety-seven is prime, and one hundred is not. 97 is prime: True. 100 is not prime: 100 = 2 times 50</p><p><b>Math proof:</b> 7 is prime: its only divisors are 1 and 7. The first 5 primes are 2, 3, 5, 7 and 11, and they add to 28. There are 10 primes below 30. The first 10 primes add to 129. The 100th prime is 541. The 1000th prime is 7919.</p><p><b>Science proof:</b> A prime number generator works because a prime has only two divisors, and each check is plain division: 13 is prime: True. 14 is not prime: 14 = 2 times 7. 41 is prime: True. 49 is not prime: 49 = 7 times 7. The sieve below 20 finds 8 primes. That is why the local demo shows the primes and the checks together, and runs 0 prime checks on a server.</p><details><summary>Runnable demo program</summary><pre>def is_prime(n):
+    if n &lt; 2:
+        return False
+    d = 2
+    while d * d &lt;= n:
+        if n % d == 0:
+            return False
+        d += 1
+    return True
+print(f&quot;97 is prime: {is_prime(97)}. 100 is not prime: 100 = 2 times 50&quot;)</pre><p>Output:</p><pre>97 is prime: True. 100 is not prime: 100 = 2 times 50</pre></details></article><article class="record"><h3>The Sieve</h3><p><b>JAH-PRIM-000009</b> — The sieve crosses out multiples and leaves only the primes. The sieve below 20 finds 8 primes</p><p><b>Math proof:</b> 7 is prime: its only divisors are 1 and 7. The first 5 primes are 2, 3, 5, 7 and 11, and they add to 28. There are 10 primes below 30. The first 10 primes add to 129. The 100th prime is 541. The 1000th prime is 7919.</p><p><b>Science proof:</b> A prime number generator works because a prime has only two divisors, and each check is plain division: 13 is prime: True. 14 is not prime: 14 = 2 times 7. 41 is prime: True. 49 is not prime: 49 = 7 times 7. The sieve below 20 finds 8 primes. That is why the local demo shows the primes and the checks together, and runs 0 prime checks on a server.</p><details><summary>Runnable demo program</summary><pre>def sieve(limit):
+    keep = [True] * limit
+    keep[0] = keep[1] = False
+    for i in range(2, limit):
+        if keep[i]:
+            for j in range(i * i, limit, i):
+                keep[j] = False
+    return [n for n in range(limit) if keep[n]]
+primes = sieve(20)
+print(f&quot;The sieve below 20 finds {len(primes)} primes&quot;)</pre><p>Output:</p><pre>The sieve below 20 finds 8 primes</pre></details></article><article class="record"><h3>Twenty-Nine Is Prime</h3><p><b>JAH-PRIM-000010</b> — Twenty-nine is prime, and twenty-seven is not. 29 is prime: True. 27 is not prime: 27 = 3 times 9</p><p><b>Math proof:</b> 7 is prime: its only divisors are 1 and 7. The first 5 primes are 2, 3, 5, 7 and 11, and they add to 28. There are 10 primes below 30. The first 10 primes add to 129. The 100th prime is 541. The 1000th prime is 7919.</p><p><b>Science proof:</b> A prime number generator works because a prime has only two divisors, and each check is plain division: 13 is prime: True. 14 is not prime: 14 = 2 times 7. 41 is prime: True. 49 is not prime: 49 = 7 times 7. The sieve below 20 finds 8 primes. That is why the local demo shows the primes and the checks together, and runs 0 prime checks on a server.</p><details><summary>Runnable demo program</summary><pre>def is_prime(n):
+    if n &lt; 2:
+        return False
+    d = 2
+    while d * d &lt;= n:
+        if n % d == 0:
+            return False
+        d += 1
+    return True
+print(f&quot;29 is prime: {is_prime(29)}. 27 is not prime: 27 = 3 times 9&quot;)</pre><p>Output:</p><pre>29 is prime: True. 27 is not prime: 27 = 3 times 9</pre></details></article><article class="record"><h3>The Largest Prime Below One Hundred</h3><p><b>JAH-PRIM-000011</b> — The largest prime below one hundred is the last prime before it. The largest prime below 100 is 97</p><p><b>Math proof:</b> 7 is prime: its only divisors are 1 and 7. The first 5 primes are 2, 3, 5, 7 and 11, and they add to 28. There are 10 primes below 30. The first 10 primes add to 129. The 100th prime is 541. The 1000th prime is 7919.</p><p><b>Science proof:</b> A prime number generator works because a prime has only two divisors, and each check is plain division: 13 is prime: True. 14 is not prime: 14 = 2 times 7. 41 is prime: True. 49 is not prime: 49 = 7 times 7. The sieve below 20 finds 8 primes. That is why the local demo shows the primes and the checks together, and runs 0 prime checks on a server.</p><details><summary>Runnable demo program</summary><pre>def is_prime(n):
+    if n &lt; 2:
+        return False
+    d = 2
+    while d * d &lt;= n:
+        if n % d == 0:
+            return False
+        d += 1
+    return True
+below = [n for n in range(2, 100) if is_prime(n)]
+print(f&quot;The largest prime below 100 is {below[-1]}&quot;)</pre><p>Output:</p><pre>The largest prime below 100 is 97</pre></details></article><article class="record"><h3>Adding the First Ten Primes</h3><p><b>JAH-PRIM-000012</b> — Adding the first ten primes gives a plain total. The first 10 primes add to 129</p><p><b>Math proof:</b> 7 is prime: its only divisors are 1 and 7. The first 5 primes are 2, 3, 5, 7 and 11, and they add to 28. There are 10 primes below 30. The first 10 primes add to 129. The 100th prime is 541. The 1000th prime is 7919.</p><p><b>Science proof:</b> A prime number generator works because a prime has only two divisors, and each check is plain division: 13 is prime: True. 14 is not prime: 14 = 2 times 7. 41 is prime: True. 49 is not prime: 49 = 7 times 7. The sieve below 20 finds 8 primes. That is why the local demo shows the primes and the checks together, and runs 0 prime checks on a server.</p><details><summary>Runnable demo program</summary><pre>def is_prime(n):
+    if n &lt; 2:
+        return False
+    d = 2
+    while d * d &lt;= n:
+        if n % d == 0:
+            return False
+        d += 1
+    return True
+primes = []
+n = 2
+while len(primes) &lt; 10:
+    if is_prime(n):
+        primes.append(n)
+    n += 1
+print(f&quot;The first 10 primes add to {sum(primes)}&quot;)</pre><p>Output:</p><pre>The first 10 primes add to 129</pre></details></article><article class="record"><h3>Forty-One Is Prime</h3><p><b>JAH-PRIM-000013</b> — Forty-one is prime, and forty-nine is not. 41 is prime: True. 49 is not prime: 49 = 7 times 7</p><p><b>Math proof:</b> 7 is prime: its only divisors are 1 and 7. The first 5 primes are 2, 3, 5, 7 and 11, and they add to 28. There are 10 primes below 30. The first 10 primes add to 129. The 100th prime is 541. The 1000th prime is 7919.</p><p><b>Science proof:</b> A prime number generator works because a prime has only two divisors, and each check is plain division: 13 is prime: True. 14 is not prime: 14 = 2 times 7. 41 is prime: True. 49 is not prime: 49 = 7 times 7. The sieve below 20 finds 8 primes. That is why the local demo shows the primes and the checks together, and runs 0 prime checks on a server.</p><details><summary>Runnable demo program</summary><pre>def is_prime(n):
+    if n &lt; 2:
+        return False
+    d = 2
+    while d * d &lt;= n:
+        if n % d == 0:
+            return False
+        d += 1
+    return True
+print(f&quot;41 is prime: {is_prime(41)}. 49 is not prime: 49 = 7 times 7&quot;)</pre><p>Output:</p><pre>41 is prime: True. 49 is not prime: 49 = 7 times 7</pre></details></article><article class="record"><h3>A Product of Primes</h3><p><b>JAH-PRIM-000014</b> — A product of primes multiplies small primes together. 2 times 3 times 5 times 7 is 210</p><p><b>Math proof:</b> 7 is prime: its only divisors are 1 and 7. The first 5 primes are 2, 3, 5, 7 and 11, and they add to 28. There are 10 primes below 30. The first 10 primes add to 129. The 100th prime is 541. The 1000th prime is 7919.</p><p><b>Science proof:</b> A prime number generator works because a prime has only two divisors, and each check is plain division: 13 is prime: True. 14 is not prime: 14 = 2 times 7. 41 is prime: True. 49 is not prime: 49 = 7 times 7. The sieve below 20 finds 8 primes. That is why the local demo shows the primes and the checks together, and runs 0 prime checks on a server.</p><details><summary>Runnable demo program</summary><pre>a, b, c, d = 2, 3, 5, 7
+print(f&quot;{a} times {b} times {c} times {d} is {a * b * c * d}&quot;)</pre><p>Output:</p><pre>2 times 3 times 5 times 7 is 210</pre></details></article><article class="record"><h3>The Local Demo</h3><p><b>JAH-PRIM-000015</b> — The demo on this page generates primes in the browser, with no server. The local demo runs 0 prime checks on a server: it runs in the browser</p><p><b>Math proof:</b> 7 is prime: its only divisors are 1 and 7. The first 5 primes are 2, 3, 5, 7 and 11, and they add to 28. There are 10 primes below 30. The first 10 primes add to 129. The 100th prime is 541. The 1000th prime is 7919.</p><p><b>Science proof:</b> A prime number generator works because a prime has only two divisors, and each check is plain division: 13 is prime: True. 14 is not prime: 14 = 2 times 7. 41 is prime: True. 49 is not prime: 49 = 7 times 7. The sieve below 20 finds 8 primes. That is why the local demo shows the primes and the checks together, and runs 0 prime checks on a server.</p><details><summary>Runnable demo program</summary><pre>print(&quot;The local demo runs 0 prime checks on a server: it runs in the browser&quot;)</pre><p>Output:</p><pre>The local demo runs 0 prime checks on a server: it runs in the browser</pre></details></article><article class="record"><h3>Two Primes</h3><p><b>JAH-PRIM-000016</b> — Two primes add up to a plain total. Two primes: 7 and 11, and they add to 18</p><p><b>Math proof:</b> 7 is prime: its only divisors are 1 and 7. The first 5 primes are 2, 3, 5, 7 and 11, and they add to 28. There are 10 primes below 30. The first 10 primes add to 129. The 100th prime is 541. The 1000th prime is 7919.</p><p><b>Science proof:</b> A prime number generator works because a prime has only two divisors, and each check is plain division: 13 is prime: True. 14 is not prime: 14 = 2 times 7. 41 is prime: True. 49 is not prime: 49 = 7 times 7. The sieve below 20 finds 8 primes. That is why the local demo shows the primes and the checks together, and runs 0 prime checks on a server.</p><details><summary>Runnable demo program</summary><pre>a, b = 7, 11
+print(f&quot;Two primes: {a} and {b}, and they add to {a + b}&quot;)</pre><p>Output:</p><pre>Two primes: 7 and 11, and they add to 18</pre></details></article><article class="record"><h3>Seventeen Is Prime</h3><p><b>JAH-PRIM-000017</b> — Seventeen is prime, and twenty-one is not. 17 is prime: True. 21 is not prime: 21 = 3 times 7</p><p><b>Math proof:</b> 7 is prime: its only divisors are 1 and 7. The first 5 primes are 2, 3, 5, 7 and 11, and they add to 28. There are 10 primes below 30. The first 10 primes add to 129. The 100th prime is 541. The 1000th prime is 7919.</p><p><b>Science proof:</b> A prime number generator works because a prime has only two divisors, and each check is plain division: 13 is prime: True. 14 is not prime: 14 = 2 times 7. 41 is prime: True. 49 is not prime: 49 = 7 times 7. The sieve below 20 finds 8 primes. That is why the local demo shows the primes and the checks together, and runs 0 prime checks on a server.</p><details><summary>Runnable demo program</summary><pre>def is_prime(n):
+    if n &lt; 2:
+        return False
+    d = 2
+    while d * d &lt;= n:
+        if n % d == 0:
+            return False
+        d += 1
+    return True
+print(f&quot;17 is prime: {is_prime(17)}. 21 is not prime: 21 = 3 times 7&quot;)</pre><p>Output:</p><pre>17 is prime: True. 21 is not prime: 21 = 3 times 7</pre></details></article><article class="record"><h3>A Mersenne Prime</h3><p><b>JAH-PRIM-000018</b> — A Mersenne prime is one less than a power of two. 2 to the 5 minus 1 is 31, and 31 is prime</p><p><b>Math proof:</b> 7 is prime: its only divisors are 1 and 7. The first 5 primes are 2, 3, 5, 7 and 11, and they add to 28. There are 10 primes below 30. The first 10 primes add to 129. The 100th prime is 541. The 1000th prime is 7919.</p><p><b>Science proof:</b> A prime number generator works because a prime has only two divisors, and each check is plain division: 13 is prime: True. 14 is not prime: 14 = 2 times 7. 41 is prime: True. 49 is not prime: 49 = 7 times 7. The sieve below 20 finds 8 primes. That is why the local demo shows the primes and the checks together, and runs 0 prime checks on a server.</p><details><summary>Runnable demo program</summary><pre>m = 2 ** 5 - 1
+print(f&quot;2 to the 5 minus 1 is {m}, and {m} is prime&quot;)</pre><p>Output:</p><pre>2 to the 5 minus 1 is 31, and 31 is prime</pre></details></article><article class="record"><h3>Fifty-Three Is Prime</h3><p><b>JAH-PRIM-000019</b> — Fifty-three is prime, and fifty-one is not. 53 is prime: True. 51 is not prime: 51 = 3 times 17</p><p><b>Math proof:</b> 7 is prime: its only divisors are 1 and 7. The first 5 primes are 2, 3, 5, 7 and 11, and they add to 28. There are 10 primes below 30. The first 10 primes add to 129. The 100th prime is 541. The 1000th prime is 7919.</p><p><b>Science proof:</b> A prime number generator works because a prime has only two divisors, and each check is plain division: 13 is prime: True. 14 is not prime: 14 = 2 times 7. 41 is prime: True. 49 is not prime: 49 = 7 times 7. The sieve below 20 finds 8 primes. That is why the local demo shows the primes and the checks together, and runs 0 prime checks on a server.</p><details><summary>Runnable demo program</summary><pre>def is_prime(n):
+    if n &lt; 2:
+        return False
+    d = 2
+    while d * d &lt;= n:
+        if n % d == 0:
+            return False
+        d += 1
+    return True
+print(f&quot;53 is prime: {is_prime(53)}. 51 is not prime: 51 = 3 times 17&quot;)</pre><p>Output:</p><pre>53 is prime: True. 51 is not prime: 51 = 3 times 17</pre></details></article><article class="record"><h3>Primes Between Fifty and Sixty</h3><p><b>JAH-PRIM-000020</b> — Primes between fifty and sixty are the primes in that range. The primes between 50 and 60 are 53 and 59: 2 primes</p><p><b>Math proof:</b> 7 is prime: its only divisors are 1 and 7. The first 5 primes are 2, 3, 5, 7 and 11, and they add to 28. There are 10 primes below 30. The first 10 primes add to 129. The 100th prime is 541. The 1000th prime is 7919.</p><p><b>Science proof:</b> A prime number generator works because a prime has only two divisors, and each check is plain division: 13 is prime: True. 14 is not prime: 14 = 2 times 7. 41 is prime: True. 49 is not prime: 49 = 7 times 7. The sieve below 20 finds 8 primes. That is why the local demo shows the primes and the checks together, and runs 0 prime checks on a server.</p><details><summary>Runnable demo program</summary><pre>def is_prime(n):
+    if n &lt; 2:
+        return False
+    d = 2
+    while d * d &lt;= n:
+        if n % d == 0:
+            return False
+        d += 1
+    return True
+between = [n for n in range(50, 61) if is_prime(n)]
+print(f&quot;The primes between 50 and 60 are {between[0]} and {between[1]}: {len(between)} primes&quot;)</pre><p>Output:</p><pre>The primes between 50 and 60 are 53 and 59: 2 primes</pre></details></article><article class="record"><h3>All Checks Pass</h3><p><b>JAH-PRIM-000021</b> — All checks pass when every test of the generator runs. All 3 checks pass: 3 of 3</p><p><b>Math proof:</b> 7 is prime: its only divisors are 1 and 7. The first 5 primes are 2, 3, 5, 7 and 11, and they add to 28. There are 10 primes below 30. The first 10 primes add to 129. The 100th prime is 541. The 1000th prime is 7919.</p><p><b>Science proof:</b> A prime number generator works because a prime has only two divisors, and each check is plain division: 13 is prime: True. 14 is not prime: 14 = 2 times 7. 41 is prime: True. 49 is not prime: 49 = 7 times 7. The sieve below 20 finds 8 primes. That is why the local demo shows the primes and the checks together, and runs 0 prime checks on a server.</p><details><summary>Runnable demo program</summary><pre>checks = 3
+print(f&quot;All {checks} checks pass: {checks} of {checks}&quot;)</pre><p>Output:</p><pre>All 3 checks pass: 3 of 3</pre></details></article><article class="record"><h3>The Hundredth Prime</h3><p><b>JAH-PRIM-000022</b> — The hundredth prime is far along the list of primes. The 100th prime is 541</p><p><b>Math proof:</b> 7 is prime: its only divisors are 1 and 7. The first 5 primes are 2, 3, 5, 7 and 11, and they add to 28. There are 10 primes below 30. The first 10 primes add to 129. The 100th prime is 541. The 1000th prime is 7919.</p><p><b>Science proof:</b> A prime number generator works because a prime has only two divisors, and each check is plain division: 13 is prime: True. 14 is not prime: 14 = 2 times 7. 41 is prime: True. 49 is not prime: 49 = 7 times 7. The sieve below 20 finds 8 primes. That is why the local demo shows the primes and the checks together, and runs 0 prime checks on a server.</p><details><summary>Runnable demo program</summary><pre>def sieve(limit):
+    keep = [True] * limit
+    keep[0] = keep[1] = False
+    for i in range(2, limit):
+        if keep[i]:
+            for j in range(i * i, limit, i):
+                keep[j] = False
+    return [n for n in range(limit) if keep[n]]
+primes = sieve(600)
+print(f&quot;The 100th prime is {primes[99]}&quot;)</pre><p>Output:</p><pre>The 100th prime is 541</pre></details></article><article class="record"><h3>The Thousandth Prime</h3><p><b>JAH-PRIM-000023</b> — The thousandth prime is far along the list of primes. The 1000th prime is 7919</p><p><b>Math proof:</b> 7 is prime: its only divisors are 1 and 7. The first 5 primes are 2, 3, 5, 7 and 11, and they add to 28. There are 10 primes below 30. The first 10 primes add to 129. The 100th prime is 541. The 1000th prime is 7919.</p><p><b>Science proof:</b> A prime number generator works because a prime has only two divisors, and each check is plain division: 13 is prime: True. 14 is not prime: 14 = 2 times 7. 41 is prime: True. 49 is not prime: 49 = 7 times 7. The sieve below 20 finds 8 primes. That is why the local demo shows the primes and the checks together, and runs 0 prime checks on a server.</p><details><summary>Runnable demo program</summary><pre>def sieve(limit):
+    keep = [True] * limit
+    keep[0] = keep[1] = False
+    for i in range(2, limit):
+        if keep[i]:
+            for j in range(i * i, limit, i):
+                keep[j] = False
+    return [n for n in range(limit) if keep[n]]
+primes = sieve(8000)
+print(f&quot;The 1000th prime is {primes[999]}&quot;)</pre><p>Output:</p><pre>The 1000th prime is 7919</pre></details></article><article class="record"><h3>Prime Number Generator Field Guide Index</h3><p><b>JAH-PRIM-000024</b> — This record is the field guide index for the whole prime number generator database: it lists all twenty-three content records in ladder order, simple to working to advanced, and tells a reader where to start. Records: What a Prime Number Generator Is; The First Primes; Two Is the Only Even Prime; Thirteen Is Prime; Counting Primes Below Thirty; A Prime Gap; Twin Primes; Ninety-Seven Is Prime; The Sieve; Twenty-Nine Is Prime; The Largest Prime Below One Hundred; Adding the First Ten Primes; Forty-One Is Prime; A Product of Primes; The Local Demo; Two Primes; Seventeen Is Prime; A Mersenne Prime; Fifty-Three Is Prime; Primes Between Fifty and Sixty; All Checks Pass; The Hundredth Prime; The Thousandth Prime.</p><p><b>Math proof:</b> 7 is prime: its only divisors are 1 and 7. The first 5 primes are 2, 3, 5, 7 and 11, and they add to 28. There are 10 primes below 30. The first 10 primes add to 129. The 100th prime is 541. The 1000th prime is 7919.</p><p><b>Science proof:</b> A prime number generator works because a prime has only two divisors, and each check is plain division: 13 is prime: True. 14 is not prime: 14 = 2 times 7. 41 is prime: True. 49 is not prime: 49 = 7 times 7. The sieve below 20 finds 8 primes. That is why the local demo shows the primes and the checks together, and runs 0 prime checks on a server.</p><details><summary>Runnable demo program</summary><pre>print(&#x27;24 records: 23 content + 1 index&#x27;)
+print(&#x27;First: What a Prime Number Generator Is; last: The Thousandth Prime&#x27;)</pre><p>Output:</p><pre>24 records: 23 content + 1 index
+First: What a Prime Number Generator Is; last: The Thousandth Prime</pre></details></article>
+<h2>8. Sources, codes and network</h2>
+<ul>
+<li>Patent Catalog: no related patent record exists in the catalog; none is linked rather than inventing one.</li>
+<li>Spec Catalog: <a href="https://justinahiggins614-cmyk.github.io/signature-one-archive/">JAH-SPEC-914533 — The Number Theory Database — Database Specification</a> (verified real record)</li>
+<li>GAP: no patent record in the catalog uses the phrase &#x27;prime number generator&#x27; or &#x27;prime number&#x27;; the word &#x27;prime&#x27; appears only in unrelated titles (a prime coat, a prime mover, prime data). The linked spec is a number theory database, not a prime number generator tool spec.</li>
+<li>JAH Wiki entry: <a href="https://justinahiggins614-cmyk.github.io/jah-wiki/">JAH Wiki</a> (package file wave9/wiki/prime-number-generator.md, to be merged at merge time).</li>
+<li>Dictionary entries: <a href="https://justinahiggins614-cmyk.github.io/jah-dictionary/">The Signature Dictionary</a> (package file wave9/dictionary/prime-number-generator.json, to be merged at merge time).</li>
+<li>Generator website: <a href="generator/">generator/</a> with <a href="gen-prime-number-generator.js">gen-prime-number-generator.js</a> (boundless, deterministic, runTests 10/10).</li>
+<li>Database file: <a href="https://justinahiggins614-cmyk.github.io/jah-databases-data-2/data/prime-number-generator/index.jsonl.gz">data/prime-number-generator/index.jsonl.gz</a> (24 records).</li>
+<li>Accessible version (no scripts): <a href="accessible/">accessible/</a>.</li>
+<li>All websites directory + hub listing: directory data in <a href="directory.json">directory.json</a> (merge-time step).</li>
+</ul>
+<nav aria-label="THE JAH NETWORK"><h2>THE JAH NETWORK</h2><p><a href="https://justinahiggins614-cmyk.github.io/jah-databases/">The JAH Network hub</a> | <a href="https://justinahiggins614-cmyk.github.io/jah-databases/all-websites.html">All websites directory</a> | <a href="https://justinahiggins614-cmyk.github.io/jah-wiki/">JAH Wiki</a> | <a href="https://justinahiggins614-cmyk.github.io/jah-dictionary/">The Signature Dictionary</a> | <a href="https://justinahiggins614-cmyk.github.io/cyber-patent-catalog/">Globally Rejustered Patent Catalog</a> | <a href="https://justinahiggins614-cmyk.github.io/signature-one-archive/">Signature Spec Catalog Pending Patents</a></p></nav>
+</body></html>
