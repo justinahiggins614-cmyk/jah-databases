@@ -1,0 +1,7 @@
+# Database Merger Database — files (database-merger-signature)
+
+- `demo-database-merger-signature.py` — runnable demo program (run with `python3 demo-database-merger-signature.py`).
+- `database-merger-signature-sample.txt` — a plain-text sample of the database.
+- The full database is `data/database-merger-signature/index.jsonl.gz` (24 records).
+- The generator is `gen-database-merger-signature.js`; the generator website is `generator/`.
+- The two AI specs are `ai/website-ai.json` and `ai/thing-ai.json`.

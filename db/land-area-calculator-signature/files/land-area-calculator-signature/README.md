@@ -1,0 +1,7 @@
+# Land Area Calculator Database — files (land-area-calculator-signature)
+
+- `demo-land-area-calculator-signature.py` — runnable demo program (run with `python3 demo-land-area-calculator-signature.py`).
+- `land-area-calculator-signature-sample.txt` — a plain-text sample of the database.
+- The full database is `data/land-area-calculator-signature/index.jsonl.gz` (24 records).
+- The generator is `gen-land-area-calculator-signature.js`; the generator website is `generator/`.
+- The two AI specs are `ai/website-ai.json` and `ai/thing-ai.json`.
