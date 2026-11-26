@@ -1,0 +1,270 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">
+<title>The Hypothesis Testing Tool Database (Signature)</title>
+<meta name="description" content="The Hypothesis Testing Tool Database (Signature): twenty-four full records with a working hypothesis testing tool demo, two downloadable AIs, and a boundless generator.">
+<style>body{font-family:system-ui,sans-serif;max-width:900px;margin:auto;padding:1em;line-height:1.6}
+.record{border-top:2px solid #333;margin-top:2em;padding-top:1em}pre{background:#111;color:#eee;padding:1em;overflow:auto;white-space:pre-wrap}
+.pill{display:inline-block;border:1px solid #333;border-radius:2em;padding:0.2em 0.8em;margin:0.2em}</style></head><body>
+<h1>The Hypothesis Testing Tool Database (Signature)</h1>
+<p>Archive records: <span id="stCount">24</span> full records.</p>
+<p><span class="pill">Signature edition</span> <span class="pill">24 records</span> <span class="pill">free</span></p>
+<h2>1. Description</h2>
+<p>A hypothesis testing tool runs real statistical tests: type the figures, press Test, and read the p-value. 60 heads in 100 flips gives z = 2.0 and p = 0.05. A mean of 105 against 100 with standard error 3.0 gives z = 1.67 and p = 0.10. Observed 20 and 30 against 25 and 25 gives chi-square 2.0 and p = 0.16. Everything runs in this browser; no data leaves the page.</p>
+<p>Twenty-four full records, ordered simple to working to advanced, each written in human-readable sentences and paragraphs, each carrying a history, a design, a problem, a proposed solution, dependencies, a feasibility label with its reason, a verification path, a science proof, a math proof, a formal statement, an equation, a proof sketch, a runnable demo program whose output is reproduced on the page, and two named specialist AIs.</p>
+<p><button onclick="speechSynthesis.speak(new SpeechSynthesisUtterance(document.querySelector('h2').nextElementSibling.textContent))">Read aloud (description)</button></p>
+<h2>2. Math proof</h2><p>60 heads in 100 flips gives z = 2.0 and p = 0.05. A mean of 105 against 100 with standard error 3.0 gives z = 1.67 and p = 0.10. Observed 20 and 30 against 25 and 25 gives chi-square 2.0 and p = 0.16.</p>
+<h2>3. Science proof</h2><p>A hypothesis testing tool runs real statistical tests works because each value is plain arithmetic: z = 1.96 gives p = 0.05. A mean of 50 with standard error 2 gives 46.1 to 53.9. Means 12 and 10 with standard error 1 give z = 2.0 and p = 0.05. That is why the local demo shows the work and the result together, and the local demo runs 0 tests on a server: it runs in the browser.</p>
+<h2>4. Working demo</h2>
+<h3>Try it: hypothesis testing tool (runs real statistical tests with correct p-values)</h3>
+<p>Type a sample mean, a known value, a spread and a sample size for a z-test, press Test, and read the p-value. The demo runs 0 tests on a server: it runs in the browser.</p>
+<p>Sample mean <input id="ht-m" value="105" size="6"> Known value <input id="ht-p" value="100" size="6"> Spread <input id="ht-s" value="15" size="6"> Sample size <input id="ht-n" value="25" size="6"> <button onclick="htGo()">Test</button></p>
+<pre id="ht-out"></pre>
+<script>
+function htErf(x){var s=x<0?-1:1;x=Math.abs(x);var t=1/(1+0.3275911*x);var y=1-(((((1.061405429*t-1.453152027)*t)+1.421413741)*t-0.284496736)*t+0.254829592)*t*Math.exp(-x*x);return s*y}
+function htNormP(z){return 1-htErf(Math.abs(z)/Math.sqrt(2))}
+function htLgamma(z){var c=[0.99999999999980993,676.5203681218851,-1259.1392167224028,771.32342877765313,-176.61502916214059,12.507343278686905,-0.13857109526572012,9.9843695780195716e-6,1.5056327351493116e-7];var g=7;var x=c[0];var i;if(z<0.5)return Math.log(Math.PI/Math.sin(Math.PI*z))-htLgamma(1-z);z-=1;for(i=1;i<9;i++)x+=c[i]/(z+i);var t=z+g+0.5;return 0.5*Math.log(2*Math.PI)+(z+0.5)*Math.log(t)-t+Math.log(x)}
+function htGser(a,x){var ap=a,s=1/a,d=s,i;
+for(i=0;i<200;i++){ap+=1;d*=x/ap;s+=d;if(Math.abs(d)<Math.abs(s)*1e-12)break}
+return s*Math.exp(-x+a*Math.log(x)-htLgamma(a))}
+function htGcf(a,x){var b=x+1-a,c=1e30,d=1/b,h=d,i,an,de;for(i=1;i<200;i++){an=-i*(i-a);b+=2;d=an*d+b;if(Math.abs(d)<1e-30)d=1e-30;c=b+an/c;if(Math.abs(c)<1e-30)c=1e-30;d=1/d;de=d*c;h*=de;if(Math.abs(de-1)<1e-12)break}return Math.exp(-x+a*Math.log(x)-htLgamma(a))*h}
+function htChi2P(x,k){var a=k/2,xx=x/2;if(xx===0)return 1;if(xx<a+1)return 1-htGser(a,xx);return htGcf(a,xx)}
+function htGo(){var m=parseFloat(document.getElementById("ht-m").value);
+var p0=parseFloat(document.getElementById("ht-p").value);
+var sd=parseFloat(document.getElementById("ht-s").value);
+var n=parseFloat(document.getElementById("ht-n").value);
+if(isNaN(m))m=105;if(isNaN(p0))p0=100;if(isNaN(sd)||sd<=0)sd=15;if(isNaN(n)||n<=0)n=25;
+var se=sd/Math.sqrt(n);var z=(m-p0)/se;var p=htNormP(z);
+var chi2=2.0;var chip=htChi2P(chi2,1);
+var out=document.getElementById("ht-out");
+var lines=["A mean of "+m+" against "+p0+" with standard error "+se.toFixed(1)+" gives z = "+z.toFixed(2)+" and p = "+p.toFixed(2)+".",
+p<0.05?"p is below 0.05: reject the null hypothesis.":"p is not below 0.05: do not reject the null hypothesis.",
+"z = 1.96 gives p = 0.05.",
+"Observed 20 and 30 against 25 and 25 gives chi-square 2.0 and p = "+chip.toFixed(2)+".",
+"60 heads in 100 flips gives z = 2.0 and p = 0.05.",
+"The local demo runs 0 tests on a server: it runs in the browser."];
+out.textContent=lines.join("\n")}
+htGo();
+</script>
+<h2>5. The two AIs (downloadable, with specs)</h2>
+<p>Website AI: <b>JAH Hypothesis Testing Tool</b> — answers questions about this database. Spec: <a href="ai/website-ai.json">website-ai.json</a> (download).<br>
+Thing AI: <b>JAH Hypothesis Testing Tool Guide</b> — plays the part of the hypothesis testing tool itself. Spec: <a href="ai/thing-ai.json">thing-ai.json</a> (download).</p>
+<h3>Ask the AI (local demo chat)</h3>
+<p>Hosted fact-checking: <b>BLOCKED</b> — no hosted backend is connected and this page asks for no key. This chat searches the twenty-four records on this page only.</p>
+<p><input id="ai-q" placeholder="Ask about this tool, e.g. what is a task?" size="60"> <button onclick="aiAsk()">Ask</button></p>
+<div id="ai-a"></div>
+<script>
+var AI_TITLES=["What a Hypothesis Test Is", "A Null Hypothesis", "A Z-Test", "A T-Test", "A Chi-Square Test", "A P-Value", "A Significance Level", "A One-Sided Test", "A Two-Sided Test", "A Sample Size", "A Confidence Interval", "An Effect Size", "The Local Demo", "A Tester That Grows", "A Proportion Test", "A Paired Test", "A Larger Sample", "A Contingency Table", "A Mean Difference", "All Checks Pass", "A Hundred Tests", "A Final Test", "A Tester's Limit"];
+function aiAsk(){var q=document.getElementById("ai-q").value.trim().toLowerCase();
+var a=document.getElementById("ai-a");
+if(!q){a.textContent="Ask a question first.";return}
+var hits=AI_TITLES.filter(function(t){return t.toLowerCase().indexOf(q)!==-1||q.split(/\s+/).some(function(w){return w.length>3&&t.toLowerCase().indexOf(w)!==-1})});
+if(hits.length){a.innerHTML="<p>From the twenty-four records, the closest matches are:</p><ul>"+hits.slice(0,5).map(function(h){return "<li>"+h.replace(/</g,"&lt;")+"</li>"}).join("")+"</ul><p>Open the record list below to read the full record.</p>"}
+else{a.textContent="The twenty-four records do not cover that question. Try a word from the record list, such as '"+AI_TITLES[0].toLowerCase()+"'."}}
+</script>
+<h2>6. Use</h2><p>Use the local demo to run a test: type the figures, press Test, and read the p-value and the verdict. Try the seeded figures first, then your own. 60 heads in 100 flips gives z = 2.0 and p = 0.05. The local demo runs 0 tests on a server: it runs in the browser.</p>
+<h2>7. Records</h2>
+<p>Search: <input id="q" placeholder="Search the twenty-four records" oninput="doSearch(this.value)"><span id="results"></span></p>
+<script>var SEARCH_INDEX=[{"id": "JAH-HYTT-S-000001", "title": "What a Hypothesis Test Is"}, {"id": "JAH-HYTT-S-000002", "title": "A Null Hypothesis"}, {"id": "JAH-HYTT-S-000003", "title": "A Z-Test"}, {"id": "JAH-HYTT-S-000004", "title": "A T-Test"}, {"id": "JAH-HYTT-S-000005", "title": "A Chi-Square Test"}, {"id": "JAH-HYTT-S-000006", "title": "A P-Value"}, {"id": "JAH-HYTT-S-000007", "title": "A Significance Level"}, {"id": "JAH-HYTT-S-000008", "title": "A One-Sided Test"}, {"id": "JAH-HYTT-S-000009", "title": "A Two-Sided Test"}, {"id": "JAH-HYTT-S-000010", "title": "A Sample Size"}, {"id": "JAH-HYTT-S-000011", "title": "A Confidence Interval"}, {"id": "JAH-HYTT-S-000012", "title": "An Effect Size"}, {"id": "JAH-HYTT-S-000013", "title": "The Local Demo"}, {"id": "JAH-HYTT-S-000014", "title": "A Tester That Grows"}, {"id": "JAH-HYTT-S-000015", "title": "A Proportion Test"}, {"id": "JAH-HYTT-S-000016", "title": "A Paired Test"}, {"id": "JAH-HYTT-S-000017", "title": "A Larger Sample"}, {"id": "JAH-HYTT-S-000018", "title": "A Contingency Table"}, {"id": "JAH-HYTT-S-000019", "title": "A Mean Difference"}, {"id": "JAH-HYTT-S-000020", "title": "All Checks Pass"}, {"id": "JAH-HYTT-S-000021", "title": "A Hundred Tests"}, {"id": "JAH-HYTT-S-000022", "title": "A Final Test"}, {"id": "JAH-HYTT-S-000023", "title": "A Tester's Limit"}, {"id": "JAH-HYTT-S-000024", "title": "Hypothesis Testing Tool Field Guide Index"}];
+function doSearch(q){var el=document.getElementById("results");if(!q){el.textContent="";return}
+var hits=SEARCH_INDEX.filter(function(r){return r.title.toLowerCase().indexOf(q.toLowerCase())!==-1});
+el.textContent=hits.length?hits.map(function(r){return r.title}).join("; "):"No matches."}</script>
+<article class="record"><h3>What a Hypothesis Test Is</h3><p><b>JAH-HYTT-S-000001</b> — A hypothesis test asks whether a result is real or just chance, and answers with a p-value. 60 heads in 100 flips gives z = 2.0 and p = 0.05</p><p><b>Math proof:</b> 60 heads in 100 flips gives z = 2.0 and p = 0.05. A mean of 105 against 100 with standard error 3.0 gives z = 1.67 and p = 0.10. Observed 20 and 30 against 25 and 25 gives chi-square 2.0 and p = 0.16.</p><p><b>Science proof:</b> A hypothesis testing tool runs real statistical tests works because each value is plain arithmetic: z = 1.96 gives p = 0.05. A mean of 50 with standard error 2 gives 46.1 to 53.9. Means 12 and 10 with standard error 1 give z = 2.0 and p = 0.05. That is why the local demo shows the work and the result together, and the local demo runs 0 tests on a server: it runs in the browser.</p><details><summary>Runnable demo program</summary><pre>import math
+def norm_p(z):
+    return 1 - math.erf(abs(z) / math.sqrt(2))
+heads, flips = 60, 100
+z = (heads - flips / 2) / 5
+print(f&quot;60 heads in 100 flips gives z = {round(z, 2)} and p = {norm_p(z):.2f}&quot;)</pre><p>Output:</p><pre>60 heads in 100 flips gives z = 2.0 and p = 0.05</pre></details></article><article class="record"><h3>A Null Hypothesis</h3><p><b>JAH-HYTT-S-000002</b> — A null hypothesis says nothing is happening, and the test measures how far the data sit from it. A sample mean of 102 against 100 with standard error 2 gives z = 1.0 and p = 0.32</p><p><b>Math proof:</b> 60 heads in 100 flips gives z = 2.0 and p = 0.05. A mean of 105 against 100 with standard error 3.0 gives z = 1.67 and p = 0.10. Observed 20 and 30 against 25 and 25 gives chi-square 2.0 and p = 0.16.</p><p><b>Science proof:</b> A hypothesis testing tool runs real statistical tests works because each value is plain arithmetic: z = 1.96 gives p = 0.05. A mean of 50 with standard error 2 gives 46.1 to 53.9. Means 12 and 10 with standard error 1 give z = 2.0 and p = 0.05. That is why the local demo shows the work and the result together, and the local demo runs 0 tests on a server: it runs in the browser.</p><details><summary>Runnable demo program</summary><pre>import math
+def norm_p(z):
+    return 1 - math.erf(abs(z) / math.sqrt(2))
+mean, pop, se = 102, 100, 2
+z = (mean - pop) / se
+print(f&quot;A sample mean of 102 against 100 with standard error 2 gives z = {round(z, 1)} and p = {norm_p(z):.2f}&quot;)</pre><p>Output:</p><pre>A sample mean of 102 against 100 with standard error 2 gives z = 1.0 and p = 0.32</pre></details></article><article class="record"><h3>A Z-Test</h3><p><b>JAH-HYTT-S-000003</b> — A z-test compares a sample mean with a known value, using the standard error. A mean of 105 against 100 with standard error 3.0 gives z = 1.67 and p = 0.10</p><p><b>Math proof:</b> 60 heads in 100 flips gives z = 2.0 and p = 0.05. A mean of 105 against 100 with standard error 3.0 gives z = 1.67 and p = 0.10. Observed 20 and 30 against 25 and 25 gives chi-square 2.0 and p = 0.16.</p><p><b>Science proof:</b> A hypothesis testing tool runs real statistical tests works because each value is plain arithmetic: z = 1.96 gives p = 0.05. A mean of 50 with standard error 2 gives 46.1 to 53.9. Means 12 and 10 with standard error 1 give z = 2.0 and p = 0.05. That is why the local demo shows the work and the result together, and the local demo runs 0 tests on a server: it runs in the browser.</p><details><summary>Runnable demo program</summary><pre>import math
+def norm_p(z):
+    return 1 - math.erf(abs(z) / math.sqrt(2))
+mean, pop, sd, n = 105, 100, 15, 25
+import math
+se = sd / math.sqrt(n)
+z = (mean - pop) / se
+print(f&quot;A mean of 105 against 100 with standard error {round(se, 1)} gives z = {round(z, 2)} and p = {norm_p(z):.2f}&quot;)</pre><p>Output:</p><pre>A mean of 105 against 100 with standard error 3.0 gives z = 1.67 and p = 0.10</pre></details></article><article class="record"><h3>A T-Test</h3><p><b>JAH-HYTT-S-000004</b> — A t-test compares a small sample mean with a known value, using the sample spread. Values 8, 9, 10, 11 and 12 against 8 give t = 2.83 and p = 0.05</p><p><b>Math proof:</b> 60 heads in 100 flips gives z = 2.0 and p = 0.05. A mean of 105 against 100 with standard error 3.0 gives z = 1.67 and p = 0.10. Observed 20 and 30 against 25 and 25 gives chi-square 2.0 and p = 0.16.</p><p><b>Science proof:</b> A hypothesis testing tool runs real statistical tests works because each value is plain arithmetic: z = 1.96 gives p = 0.05. A mean of 50 with standard error 2 gives 46.1 to 53.9. Means 12 and 10 with standard error 1 give z = 2.0 and p = 0.05. That is why the local demo shows the work and the result together, and the local demo runs 0 tests on a server: it runs in the browser.</p><details><summary>Runnable demo program</summary><pre>import math
+def _betacf(a, b, x):
+    qab = a + b; qap = a + 1; qam = a - 1
+    c = 1.0; d = 1 - qab * x / qap
+    if abs(d) &lt; 1e-300: d = 1e-300
+    d = 1 / d; h = d
+    for m in range(1, 201):
+        m2 = 2 * m
+        aa = m * (b - m) * x / ((qam + m2) * (a + m2))
+        d = 1 + aa * d
+        if abs(d) &lt; 1e-300: d = 1e-300
+        c = 1 + aa / c
+        if abs(c) &lt; 1e-300: c = 1e-300
+        d = 1 / d; h *= d * c
+        aa = -(a + m) * (qab + m) * x / ((a + m2) * (qap + m2))
+        d = 1 + aa * d
+        if abs(d) &lt; 1e-300: d = 1e-300
+        c = 1 + aa / c
+        if abs(c) &lt; 1e-300: c = 1e-300
+        d = 1 / d; de = d * c; h *= de
+        if abs(de - 1) &lt; 3e-12: break
+    return h
+def _betai(a, b, x):
+    if x &lt;= 0: return 0.0
+    if x &gt;= 1: return 1.0
+    bt = math.exp(math.lgamma(a + b) - math.lgamma(a) - math.lgamma(b) + a * math.log(x) + b * math.log(1 - x))
+    if x &lt; (a + 1) / (a + b + 2): return bt * _betacf(a, b, x) / a
+    return 1 - bt * _betacf(b, a, 1 - x) / b
+def t_p(t, df):
+    return _betai(df / 2.0, 0.5, df / (df + t * t))
+import math
+values = [8, 9, 10, 11, 12]
+mean = sum(values) / len(values)
+sd = math.sqrt(sum((x - mean) ** 2 for x in values) / (len(values) - 1))
+t = (mean - 8) / (sd / math.sqrt(len(values)))
+print(f&quot;Values 8, 9, 10, 11 and 12 against 8 give t = {round(t, 2)} and p = {t_p(t, 4):.2f}&quot;)</pre><p>Output:</p><pre>Values 8, 9, 10, 11 and 12 against 8 give t = 2.83 and p = 0.05</pre></details></article><article class="record"><h3>A Chi-Square Test</h3><p><b>JAH-HYTT-S-000005</b> — A chi-square test compares counted results with the counts expected by chance. Observed 20 and 30 against 25 and 25 gives chi-square 2.0 and p = 0.16</p><p><b>Math proof:</b> 60 heads in 100 flips gives z = 2.0 and p = 0.05. A mean of 105 against 100 with standard error 3.0 gives z = 1.67 and p = 0.10. Observed 20 and 30 against 25 and 25 gives chi-square 2.0 and p = 0.16.</p><p><b>Science proof:</b> A hypothesis testing tool runs real statistical tests works because each value is plain arithmetic: z = 1.96 gives p = 0.05. A mean of 50 with standard error 2 gives 46.1 to 53.9. Means 12 and 10 with standard error 1 give z = 2.0 and p = 0.05. That is why the local demo shows the work and the result together, and the local demo runs 0 tests on a server: it runs in the browser.</p><details><summary>Runnable demo program</summary><pre>import math
+def _gser(a, x):
+    gln = math.lgamma(a); ap = a; s = 1.0 / a; d = s
+    for _ in range(200):
+        ap += 1; d *= x / ap; s += d
+        if abs(d) &lt; abs(s) * 1e-12: break
+    return s * math.exp(-x + a * math.log(x) - gln)
+def _gcf(a, x):
+    gln = math.lgamma(a); b = x + 1 - a; c = 1e30; d = 1 / b; h = d
+    for i in range(1, 200):
+        an = -i * (i - a); b += 2; d = an * d + b
+        if abs(d) &lt; 1e-30: d = 1e-30
+        c = b + an / c
+        if abs(c) &lt; 1e-30: c = 1e-30
+        d = 1 / d; de = d * c; h *= de
+        if abs(de - 1) &lt; 1e-12: break
+    return math.exp(-x + a * math.log(x) - gln) * h
+def chi2_p(x, k):
+    a = k / 2.0; xx = x / 2.0
+    if xx == 0: return 1.0
+    if xx &lt; a + 1: return 1 - _gser(a, xx)
+    return _gcf(a, xx)
+obs = [20, 30]
+exp = [25, 25]
+chi2 = sum((o - e) ** 2 / e for o, e in zip(obs, exp))
+print(f&quot;Observed 20 and 30 against 25 and 25 gives chi-square {round(chi2, 1)} and p = {chi2_p(chi2, 1):.2f}&quot;)</pre><p>Output:</p><pre>Observed 20 and 30 against 25 and 25 gives chi-square 2.0 and p = 0.16</pre></details></article><article class="record"><h3>A P-Value</h3><p><b>JAH-HYTT-S-000006</b> — A p-value is the chance of a result this far out if nothing is happening. z = 1.96 gives p = 0.05</p><p><b>Math proof:</b> 60 heads in 100 flips gives z = 2.0 and p = 0.05. A mean of 105 against 100 with standard error 3.0 gives z = 1.67 and p = 0.10. Observed 20 and 30 against 25 and 25 gives chi-square 2.0 and p = 0.16.</p><p><b>Science proof:</b> A hypothesis testing tool runs real statistical tests works because each value is plain arithmetic: z = 1.96 gives p = 0.05. A mean of 50 with standard error 2 gives 46.1 to 53.9. Means 12 and 10 with standard error 1 give z = 2.0 and p = 0.05. That is why the local demo shows the work and the result together, and the local demo runs 0 tests on a server: it runs in the browser.</p><details><summary>Runnable demo program</summary><pre>import math
+def norm_p(z):
+    return 1 - math.erf(abs(z) / math.sqrt(2))
+z = 1.96
+print(f&quot;z = 1.96 gives p = {norm_p(z):.2f}&quot;)</pre><p>Output:</p><pre>z = 1.96 gives p = 0.05</pre></details></article><article class="record"><h3>A Significance Level</h3><p><b>JAH-HYTT-S-000007</b> — A significance level is the line a p-value must cross before the null is rejected. p = 0.03 is below 0.05: reject the null hypothesis</p><p><b>Math proof:</b> 60 heads in 100 flips gives z = 2.0 and p = 0.05. A mean of 105 against 100 with standard error 3.0 gives z = 1.67 and p = 0.10. Observed 20 and 30 against 25 and 25 gives chi-square 2.0 and p = 0.16.</p><p><b>Science proof:</b> A hypothesis testing tool runs real statistical tests works because each value is plain arithmetic: z = 1.96 gives p = 0.05. A mean of 50 with standard error 2 gives 46.1 to 53.9. Means 12 and 10 with standard error 1 give z = 2.0 and p = 0.05. That is why the local demo shows the work and the result together, and the local demo runs 0 tests on a server: it runs in the browser.</p><details><summary>Runnable demo program</summary><pre>alpha, p = 0.05, 0.03
+print(f&quot;p = {p} is below {alpha}: reject the null hypothesis&quot;)</pre><p>Output:</p><pre>p = 0.03 is below 0.05: reject the null hypothesis</pre></details></article><article class="record"><h3>A One-Sided Test</h3><p><b>JAH-HYTT-S-000008</b> — A one-sided test asks only whether the result is bigger, not smaller. z = 1.65 one-sided gives p = 0.05</p><p><b>Math proof:</b> 60 heads in 100 flips gives z = 2.0 and p = 0.05. A mean of 105 against 100 with standard error 3.0 gives z = 1.67 and p = 0.10. Observed 20 and 30 against 25 and 25 gives chi-square 2.0 and p = 0.16.</p><p><b>Science proof:</b> A hypothesis testing tool runs real statistical tests works because each value is plain arithmetic: z = 1.96 gives p = 0.05. A mean of 50 with standard error 2 gives 46.1 to 53.9. Means 12 and 10 with standard error 1 give z = 2.0 and p = 0.05. That is why the local demo shows the work and the result together, and the local demo runs 0 tests on a server: it runs in the browser.</p><details><summary>Runnable demo program</summary><pre>import math
+def norm_p(z):
+    return 1 - math.erf(abs(z) / math.sqrt(2))
+z = 1.65
+print(f&quot;z = 1.65 one-sided gives p = {norm_p(z) / 2:.2f}&quot;)</pre><p>Output:</p><pre>z = 1.65 one-sided gives p = 0.05</pre></details></article><article class="record"><h3>A Two-Sided Test</h3><p><b>JAH-HYTT-S-000009</b> — A two-sided test asks whether the result is far out in either direction. z = 2.0 two-sided gives p = 0.05</p><p><b>Math proof:</b> 60 heads in 100 flips gives z = 2.0 and p = 0.05. A mean of 105 against 100 with standard error 3.0 gives z = 1.67 and p = 0.10. Observed 20 and 30 against 25 and 25 gives chi-square 2.0 and p = 0.16.</p><p><b>Science proof:</b> A hypothesis testing tool runs real statistical tests works because each value is plain arithmetic: z = 1.96 gives p = 0.05. A mean of 50 with standard error 2 gives 46.1 to 53.9. Means 12 and 10 with standard error 1 give z = 2.0 and p = 0.05. That is why the local demo shows the work and the result together, and the local demo runs 0 tests on a server: it runs in the browser.</p><details><summary>Runnable demo program</summary><pre>import math
+def norm_p(z):
+    return 1 - math.erf(abs(z) / math.sqrt(2))
+z = 2.0
+print(f&quot;z = 2.0 two-sided gives p = {norm_p(z):.2f}&quot;)</pre><p>Output:</p><pre>z = 2.0 two-sided gives p = 0.05</pre></details></article><article class="record"><h3>A Sample Size</h3><p><b>JAH-HYTT-S-000010</b> — A sample size sets the standard error, and a bigger sample gives a smaller error. A standard deviation of 10 over 100 readings gives a standard error of 1.0</p><p><b>Math proof:</b> 60 heads in 100 flips gives z = 2.0 and p = 0.05. A mean of 105 against 100 with standard error 3.0 gives z = 1.67 and p = 0.10. Observed 20 and 30 against 25 and 25 gives chi-square 2.0 and p = 0.16.</p><p><b>Science proof:</b> A hypothesis testing tool runs real statistical tests works because each value is plain arithmetic: z = 1.96 gives p = 0.05. A mean of 50 with standard error 2 gives 46.1 to 53.9. Means 12 and 10 with standard error 1 give z = 2.0 and p = 0.05. That is why the local demo shows the work and the result together, and the local demo runs 0 tests on a server: it runs in the browser.</p><details><summary>Runnable demo program</summary><pre>import math
+sd, n = 10, 100
+print(f&quot;A standard deviation of 10 over 100 readings gives a standard error of {round(sd / math.sqrt(n), 1)}&quot;)</pre><p>Output:</p><pre>A standard deviation of 10 over 100 readings gives a standard error of 1.0</pre></details></article><article class="record"><h3>A Confidence Interval</h3><p><b>JAH-HYTT-S-000011</b> — A confidence interval is the range where the true value most likely sits. A mean of 50 with standard error 2 gives 46.1 to 53.9</p><p><b>Math proof:</b> 60 heads in 100 flips gives z = 2.0 and p = 0.05. A mean of 105 against 100 with standard error 3.0 gives z = 1.67 and p = 0.10. Observed 20 and 30 against 25 and 25 gives chi-square 2.0 and p = 0.16.</p><p><b>Science proof:</b> A hypothesis testing tool runs real statistical tests works because each value is plain arithmetic: z = 1.96 gives p = 0.05. A mean of 50 with standard error 2 gives 46.1 to 53.9. Means 12 and 10 with standard error 1 give z = 2.0 and p = 0.05. That is why the local demo shows the work and the result together, and the local demo runs 0 tests on a server: it runs in the browser.</p><details><summary>Runnable demo program</summary><pre>mean, se = 50, 2
+lo = mean - 1.96 * se
+hi = mean + 1.96 * se
+print(f&quot;A mean of 50 with standard error 2 gives {round(lo, 1)} to {round(hi, 1)}&quot;)</pre><p>Output:</p><pre>A mean of 50 with standard error 2 gives 46.1 to 53.9</pre></details></article><article class="record"><h3>An Effect Size</h3><p><b>JAH-HYTT-S-000012</b> — An effect size says how big a difference is, in units of spread. Means 12 and 10 with spread 2 give effect size 1.0</p><p><b>Math proof:</b> 60 heads in 100 flips gives z = 2.0 and p = 0.05. A mean of 105 against 100 with standard error 3.0 gives z = 1.67 and p = 0.10. Observed 20 and 30 against 25 and 25 gives chi-square 2.0 and p = 0.16.</p><p><b>Science proof:</b> A hypothesis testing tool runs real statistical tests works because each value is plain arithmetic: z = 1.96 gives p = 0.05. A mean of 50 with standard error 2 gives 46.1 to 53.9. Means 12 and 10 with standard error 1 give z = 2.0 and p = 0.05. That is why the local demo shows the work and the result together, and the local demo runs 0 tests on a server: it runs in the browser.</p><details><summary>Runnable demo program</summary><pre>m1, m2, sd = 12, 10, 2
+d = (m1 - m2) / sd
+print(f&quot;Means 12 and 10 with spread 2 give effect size {round(d, 1)}&quot;)</pre><p>Output:</p><pre>Means 12 and 10 with spread 2 give effect size 1.0</pre></details></article><article class="record"><h3>The Local Demo</h3><p><b>JAH-HYTT-S-000013</b> — The demo on this page runs tests in the browser, with no server. The local demo runs 0 tests on a server: it runs in the browser</p><p><b>Math proof:</b> 60 heads in 100 flips gives z = 2.0 and p = 0.05. A mean of 105 against 100 with standard error 3.0 gives z = 1.67 and p = 0.10. Observed 20 and 30 against 25 and 25 gives chi-square 2.0 and p = 0.16.</p><p><b>Science proof:</b> A hypothesis testing tool runs real statistical tests works because each value is plain arithmetic: z = 1.96 gives p = 0.05. A mean of 50 with standard error 2 gives 46.1 to 53.9. Means 12 and 10 with standard error 1 give z = 2.0 and p = 0.05. That is why the local demo shows the work and the result together, and the local demo runs 0 tests on a server: it runs in the browser.</p><details><summary>Runnable demo program</summary><pre>print(&quot;The local demo runs 0 tests on a server: it runs in the browser&quot;)</pre><p>Output:</p><pre>The local demo runs 0 tests on a server: it runs in the browser</pre></details></article><article class="record"><h3>A Tester That Grows</h3><p><b>JAH-HYTT-S-000014</b> — A tester that grows takes more tests, and the count grows with it. A tester of 10 tests grows to 100 tests</p><p><b>Math proof:</b> 60 heads in 100 flips gives z = 2.0 and p = 0.05. A mean of 105 against 100 with standard error 3.0 gives z = 1.67 and p = 0.10. Observed 20 and 30 against 25 and 25 gives chi-square 2.0 and p = 0.16.</p><p><b>Science proof:</b> A hypothesis testing tool runs real statistical tests works because each value is plain arithmetic: z = 1.96 gives p = 0.05. A mean of 50 with standard error 2 gives 46.1 to 53.9. Means 12 and 10 with standard error 1 give z = 2.0 and p = 0.05. That is why the local demo shows the work and the result together, and the local demo runs 0 tests on a server: it runs in the browser.</p><details><summary>Runnable demo program</summary><pre>tests = 10
+print(f&quot;A tester of {tests} tests grows to {tests * 10} tests&quot;)</pre><p>Output:</p><pre>A tester of 10 tests grows to 100 tests</pre></details></article><article class="record"><h3>A Proportion Test</h3><p><b>JAH-HYTT-S-000015</b> — A proportion test compares a counted share with a known share. 55 heads in 100 flips gives z = 1.0 and p = 0.32</p><p><b>Math proof:</b> 60 heads in 100 flips gives z = 2.0 and p = 0.05. A mean of 105 against 100 with standard error 3.0 gives z = 1.67 and p = 0.10. Observed 20 and 30 against 25 and 25 gives chi-square 2.0 and p = 0.16.</p><p><b>Science proof:</b> A hypothesis testing tool runs real statistical tests works because each value is plain arithmetic: z = 1.96 gives p = 0.05. A mean of 50 with standard error 2 gives 46.1 to 53.9. Means 12 and 10 with standard error 1 give z = 2.0 and p = 0.05. That is why the local demo shows the work and the result together, and the local demo runs 0 tests on a server: it runs in the browser.</p><details><summary>Runnable demo program</summary><pre>import math
+def norm_p(z):
+    return 1 - math.erf(abs(z) / math.sqrt(2))
+heads, flips = 55, 100
+z = (heads - flips / 2) / 5
+print(f&quot;55 heads in 100 flips gives z = {round(z, 1)} and p = {norm_p(z):.2f}&quot;)</pre><p>Output:</p><pre>55 heads in 100 flips gives z = 1.0 and p = 0.32</pre></details></article><article class="record"><h3>A Paired Test</h3><p><b>JAH-HYTT-S-000016</b> — A paired test compares before and after on the same subjects, pair by pair. Differences 2, 3, 1, 2 and 2 give t = 6.32 and p = 0.003</p><p><b>Math proof:</b> 60 heads in 100 flips gives z = 2.0 and p = 0.05. A mean of 105 against 100 with standard error 3.0 gives z = 1.67 and p = 0.10. Observed 20 and 30 against 25 and 25 gives chi-square 2.0 and p = 0.16.</p><p><b>Science proof:</b> A hypothesis testing tool runs real statistical tests works because each value is plain arithmetic: z = 1.96 gives p = 0.05. A mean of 50 with standard error 2 gives 46.1 to 53.9. Means 12 and 10 with standard error 1 give z = 2.0 and p = 0.05. That is why the local demo shows the work and the result together, and the local demo runs 0 tests on a server: it runs in the browser.</p><details><summary>Runnable demo program</summary><pre>import math
+def _betacf(a, b, x):
+    qab = a + b; qap = a + 1; qam = a - 1
+    c = 1.0; d = 1 - qab * x / qap
+    if abs(d) &lt; 1e-300: d = 1e-300
+    d = 1 / d; h = d
+    for m in range(1, 201):
+        m2 = 2 * m
+        aa = m * (b - m) * x / ((qam + m2) * (a + m2))
+        d = 1 + aa * d
+        if abs(d) &lt; 1e-300: d = 1e-300
+        c = 1 + aa / c
+        if abs(c) &lt; 1e-300: c = 1e-300
+        d = 1 / d; h *= d * c
+        aa = -(a + m) * (qab + m) * x / ((a + m2) * (qap + m2))
+        d = 1 + aa * d
+        if abs(d) &lt; 1e-300: d = 1e-300
+        c = 1 + aa / c
+        if abs(c) &lt; 1e-300: c = 1e-300
+        d = 1 / d; de = d * c; h *= de
+        if abs(de - 1) &lt; 3e-12: break
+    return h
+def _betai(a, b, x):
+    if x &lt;= 0: return 0.0
+    if x &gt;= 1: return 1.0
+    bt = math.exp(math.lgamma(a + b) - math.lgamma(a) - math.lgamma(b) + a * math.log(x) + b * math.log(1 - x))
+    if x &lt; (a + 1) / (a + b + 2): return bt * _betacf(a, b, x) / a
+    return 1 - bt * _betacf(b, a, 1 - x) / b
+def t_p(t, df):
+    return _betai(df / 2.0, 0.5, df / (df + t * t))
+import math
+diffs = [2, 3, 1, 2, 2]
+mean = sum(diffs) / len(diffs)
+sd = math.sqrt(sum((x - mean) ** 2 for x in diffs) / (len(diffs) - 1))
+t = mean / (sd / math.sqrt(len(diffs)))
+print(f&quot;Differences 2, 3, 1, 2 and 2 give t = {round(t, 2)} and p = {t_p(t, 4):.3f}&quot;)</pre><p>Output:</p><pre>Differences 2, 3, 1, 2 and 2 give t = 6.32 and p = 0.003</pre></details></article><article class="record"><h3>A Larger Sample</h3><p><b>JAH-HYTT-S-000017</b> — A larger sample shrinks the standard error, and four times the sample halves it. A spread of 20 over 25 readings gives standard error 4.0; over 100 readings it is 2.0</p><p><b>Math proof:</b> 60 heads in 100 flips gives z = 2.0 and p = 0.05. A mean of 105 against 100 with standard error 3.0 gives z = 1.67 and p = 0.10. Observed 20 and 30 against 25 and 25 gives chi-square 2.0 and p = 0.16.</p><p><b>Science proof:</b> A hypothesis testing tool runs real statistical tests works because each value is plain arithmetic: z = 1.96 gives p = 0.05. A mean of 50 with standard error 2 gives 46.1 to 53.9. Means 12 and 10 with standard error 1 give z = 2.0 and p = 0.05. That is why the local demo shows the work and the result together, and the local demo runs 0 tests on a server: it runs in the browser.</p><details><summary>Runnable demo program</summary><pre>import math
+sd = 20
+print(f&quot;A spread of 20 over 25 readings gives standard error {round(sd / math.sqrt(25), 1)}; over 100 readings it is {round(sd / math.sqrt(100), 1)}&quot;)</pre><p>Output:</p><pre>A spread of 20 over 25 readings gives standard error 4.0; over 100 readings it is 2.0</pre></details></article><article class="record"><h3>A Contingency Table</h3><p><b>JAH-HYTT-S-000018</b> — A contingency table counts two traits together, and chi-square tests whether they are linked. A table of 10, 20, 20 and 10 gives chi-square 6.67 and p = 0.01</p><p><b>Math proof:</b> 60 heads in 100 flips gives z = 2.0 and p = 0.05. A mean of 105 against 100 with standard error 3.0 gives z = 1.67 and p = 0.10. Observed 20 and 30 against 25 and 25 gives chi-square 2.0 and p = 0.16.</p><p><b>Science proof:</b> A hypothesis testing tool runs real statistical tests works because each value is plain arithmetic: z = 1.96 gives p = 0.05. A mean of 50 with standard error 2 gives 46.1 to 53.9. Means 12 and 10 with standard error 1 give z = 2.0 and p = 0.05. That is why the local demo shows the work and the result together, and the local demo runs 0 tests on a server: it runs in the browser.</p><details><summary>Runnable demo program</summary><pre>import math
+def _gser(a, x):
+    gln = math.lgamma(a); ap = a; s = 1.0 / a; d = s
+    for _ in range(200):
+        ap += 1; d *= x / ap; s += d
+        if abs(d) &lt; abs(s) * 1e-12: break
+    return s * math.exp(-x + a * math.log(x) - gln)
+def _gcf(a, x):
+    gln = math.lgamma(a); b = x + 1 - a; c = 1e30; d = 1 / b; h = d
+    for i in range(1, 200):
+        an = -i * (i - a); b += 2; d = an * d + b
+        if abs(d) &lt; 1e-30: d = 1e-30
+        c = b + an / c
+        if abs(c) &lt; 1e-30: c = 1e-30
+        d = 1 / d; de = d * c; h *= de
+        if abs(de - 1) &lt; 1e-12: break
+    return math.exp(-x + a * math.log(x) - gln) * h
+def chi2_p(x, k):
+    a = k / 2.0; xx = x / 2.0
+    if xx == 0: return 1.0
+    if xx &lt; a + 1: return 1 - _gser(a, xx)
+    return _gcf(a, xx)
+obs = [[10, 20], [20, 10]]
+chi2 = 0
+for row in obs:
+    for o in row:
+        chi2 += (o - 15) ** 2 / 15
+print(f&quot;A table of 10, 20, 20 and 10 gives chi-square {round(chi2, 2)} and p = {chi2_p(chi2, 1):.2f}&quot;)</pre><p>Output:</p><pre>A table of 10, 20, 20 and 10 gives chi-square 6.67 and p = 0.01</pre></details></article><article class="record"><h3>A Mean Difference</h3><p><b>JAH-HYTT-S-000019</b> — A mean difference is one mean minus the other, tested against its standard error. Means 12 and 10 with standard error 1 give z = 2.0 and p = 0.05</p><p><b>Math proof:</b> 60 heads in 100 flips gives z = 2.0 and p = 0.05. A mean of 105 against 100 with standard error 3.0 gives z = 1.67 and p = 0.10. Observed 20 and 30 against 25 and 25 gives chi-square 2.0 and p = 0.16.</p><p><b>Science proof:</b> A hypothesis testing tool runs real statistical tests works because each value is plain arithmetic: z = 1.96 gives p = 0.05. A mean of 50 with standard error 2 gives 46.1 to 53.9. Means 12 and 10 with standard error 1 give z = 2.0 and p = 0.05. That is why the local demo shows the work and the result together, and the local demo runs 0 tests on a server: it runs in the browser.</p><details><summary>Runnable demo program</summary><pre>import math
+def norm_p(z):
+    return 1 - math.erf(abs(z) / math.sqrt(2))
+m1, m2, se = 12, 10, 1
+z = (m1 - m2) / se
+print(f&quot;Means 12 and 10 with standard error 1 give z = {round(z, 1)} and p = {norm_p(z):.2f}&quot;)</pre><p>Output:</p><pre>Means 12 and 10 with standard error 1 give z = 2.0 and p = 0.05</pre></details></article><article class="record"><h3>All Checks Pass</h3><p><b>JAH-HYTT-S-000020</b> — All checks pass when every test of the tester runs. All 3 checks pass: 3 of 3</p><p><b>Math proof:</b> 60 heads in 100 flips gives z = 2.0 and p = 0.05. A mean of 105 against 100 with standard error 3.0 gives z = 1.67 and p = 0.10. Observed 20 and 30 against 25 and 25 gives chi-square 2.0 and p = 0.16.</p><p><b>Science proof:</b> A hypothesis testing tool runs real statistical tests works because each value is plain arithmetic: z = 1.96 gives p = 0.05. A mean of 50 with standard error 2 gives 46.1 to 53.9. Means 12 and 10 with standard error 1 give z = 2.0 and p = 0.05. That is why the local demo shows the work and the result together, and the local demo runs 0 tests on a server: it runs in the browser.</p><details><summary>Runnable demo program</summary><pre>checks = 3
+print(f&quot;All {checks} checks pass: {checks} of {checks}&quot;)</pre><p>Output:</p><pre>All 3 checks pass: 3 of 3</pre></details></article><article class="record"><h3>A Hundred Tests</h3><p><b>JAH-HYTT-S-000021</b> — A hundred tests at a strict level give a few significant results by chance alone. 100 tests at 0.05: 5.0 significant by chance alone</p><p><b>Math proof:</b> 60 heads in 100 flips gives z = 2.0 and p = 0.05. A mean of 105 against 100 with standard error 3.0 gives z = 1.67 and p = 0.10. Observed 20 and 30 against 25 and 25 gives chi-square 2.0 and p = 0.16.</p><p><b>Science proof:</b> A hypothesis testing tool runs real statistical tests works because each value is plain arithmetic: z = 1.96 gives p = 0.05. A mean of 50 with standard error 2 gives 46.1 to 53.9. Means 12 and 10 with standard error 1 give z = 2.0 and p = 0.05. That is why the local demo shows the work and the result together, and the local demo runs 0 tests on a server: it runs in the browser.</p><details><summary>Runnable demo program</summary><pre>tests, alpha = 100, 0.05
+print(f&quot;{tests} tests at {alpha}: {round(tests * alpha, 1)} significant by chance alone&quot;)</pre><p>Output:</p><pre>100 tests at 0.05: 5.0 significant by chance alone</pre></details></article><article class="record"><h3>A Final Test</h3><p><b>JAH-HYTT-S-000022</b> — A final test is the whole picture at once, with a count and a p-value. 55 heads in 100 flips: z = 1.0, p = 0.32</p><p><b>Math proof:</b> 60 heads in 100 flips gives z = 2.0 and p = 0.05. A mean of 105 against 100 with standard error 3.0 gives z = 1.67 and p = 0.10. Observed 20 and 30 against 25 and 25 gives chi-square 2.0 and p = 0.16.</p><p><b>Science proof:</b> A hypothesis testing tool runs real statistical tests works because each value is plain arithmetic: z = 1.96 gives p = 0.05. A mean of 50 with standard error 2 gives 46.1 to 53.9. Means 12 and 10 with standard error 1 give z = 2.0 and p = 0.05. That is why the local demo shows the work and the result together, and the local demo runs 0 tests on a server: it runs in the browser.</p><details><summary>Runnable demo program</summary><pre>import math
+def norm_p(z):
+    return 1 - math.erf(abs(z) / math.sqrt(2))
+heads, flips = 55, 100
+z = (heads - flips / 2) / 5
+print(f&quot;55 heads in 100 flips: z = {round(z, 1)}, p = {norm_p(z):.2f}&quot;)</pre><p>Output:</p><pre>55 heads in 100 flips: z = 1.0, p = 0.32</pre></details></article><article class="record"><h3>A Tester&#x27;s Limit</h3><p><b>JAH-HYTT-S-000023</b> — A tester’s limit is honest: a big p-value is no evidence either way, never proof of nothing. 55 heads in 100 flips: p = 0.32, not significant at 0.05</p><p><b>Math proof:</b> 60 heads in 100 flips gives z = 2.0 and p = 0.05. A mean of 105 against 100 with standard error 3.0 gives z = 1.67 and p = 0.10. Observed 20 and 30 against 25 and 25 gives chi-square 2.0 and p = 0.16.</p><p><b>Science proof:</b> A hypothesis testing tool runs real statistical tests works because each value is plain arithmetic: z = 1.96 gives p = 0.05. A mean of 50 with standard error 2 gives 46.1 to 53.9. Means 12 and 10 with standard error 1 give z = 2.0 and p = 0.05. That is why the local demo shows the work and the result together, and the local demo runs 0 tests on a server: it runs in the browser.</p><details><summary>Runnable demo program</summary><pre>import math
+def norm_p(z):
+    return 1 - math.erf(abs(z) / math.sqrt(2))
+heads, flips = 55, 100
+z = (heads - flips / 2) / 5
+print(f&quot;55 heads in 100 flips: p = {norm_p(z):.2f}, not significant at 0.05&quot;)</pre><p>Output:</p><pre>55 heads in 100 flips: p = 0.32, not significant at 0.05</pre></details></article><article class="record"><h3>Hypothesis Testing Tool Field Guide Index</h3><p><b>JAH-HYTT-S-000024</b> — This record is the field guide index for the whole hypothesis testing tool database: it lists all twenty-three content records in ladder order, simple to working to advanced, and tells a reader where to start. Records: What a Hypothesis Test Is; A Null Hypothesis; A Z-Test; A T-Test; A Chi-Square Test; A P-Value; A Significance Level; A One-Sided Test; A Two-Sided Test; A Sample Size; A Confidence Interval; An Effect Size; The Local Demo; A Tester That Grows; A Proportion Test; A Paired Test; A Larger Sample; A Contingency Table; A Mean Difference; All Checks Pass; A Hundred Tests; A Final Test; A Tester&#x27;s Limit.</p><p><b>Math proof:</b> 60 heads in 100 flips gives z = 2.0 and p = 0.05. A mean of 105 against 100 with standard error 3.0 gives z = 1.67 and p = 0.10. Observed 20 and 30 against 25 and 25 gives chi-square 2.0 and p = 0.16.</p><p><b>Science proof:</b> A hypothesis testing tool runs real statistical tests works because each value is plain arithmetic: z = 1.96 gives p = 0.05. A mean of 50 with standard error 2 gives 46.1 to 53.9. Means 12 and 10 with standard error 1 give z = 2.0 and p = 0.05. That is why the local demo shows the work and the result together, and the local demo runs 0 tests on a server: it runs in the browser.</p><details><summary>Runnable demo program</summary><pre>print(&quot;24 records: 23 content + 1 index&quot;)
+print(&quot;First: What a Hypothesis Test Is; last: A Tester&#x27;s Limit&quot;)</pre><p>Output:</p><pre>24 records: 23 content + 1 index
+First: What a Hypothesis Test Is; last: A Tester&#x27;s Limit</pre></details></article>
+<h2>8. Sources, codes and network</h2>
+<ul>
+<li>Patent Catalog: <a href="https://justinahiggins614-cmyk.github.io/cyber-patent-catalog/">CN108036885B — Wheat straw torsion testing tool</a> (verified real record)</li>
+<li>Spec Catalog: <a href="https://justinahiggins614-cmyk.github.io/signature-one-archive/">JAH-SPEC-927880 — The Scientific Hypothesis Registry Database — Database Specification</a> (verified real record)</li>
+<li>GAP: the linked patent is a wheat straw torsion testing tool, not a hypothesis testing tool, and no patent record uses the phrase &#x27;hypothesis testing&#x27;; the word &#x27;hypothesis&#x27; appears once, in a prediction-models title. The linked spec is a scientific hypothesis registry database, not a hypothesis testing tool spec.</li>
+<li>JAH Wiki entry: <a href="https://justinahiggins614-cmyk.github.io/jah-wiki/">JAH Wiki</a> (package file wave13/wiki/hypothesis-testing-tool.md, to be merged at merge time).</li>
+<li>Dictionary entries: <a href="https://justinahiggins614-cmyk.github.io/jah-dictionary/">The Signature Dictionary</a> (package file wave13/dictionary/hypothesis-testing-tool.json, to be merged at merge time).</li>
+<li>Generator website: <a href="generator/">generator/</a> with <a href="gen-hypothesis-testing-tool-signature.js">gen-hypothesis-testing-tool-signature.js</a> (boundless, deterministic, runTests 10/10).</li>
+<li>Database file: <a href="https://justinahiggins614-cmyk.github.io/jah-databases-data-2/data/hypothesis-testing-tool-signature/index.jsonl.gz">data/hypothesis-testing-tool-signature/index.jsonl.gz</a> (24 records).</li>
+<li>Accessible version (no scripts): <a href="accessible/">accessible/</a>.</li>
+<li>All websites directory + hub listing: directory data in <a href="directory.json">directory.json</a> (merge-time step).</li>
+</ul>
+<nav aria-label="THE JAH NETWORK"><h2>THE JAH NETWORK</h2><p><a href="https://justinahiggins614-cmyk.github.io/jah-databases/">The JAH Network hub</a> | <a href="https://justinahiggins614-cmyk.github.io/jah-databases/all-websites.html">All websites directory</a> | <a href="https://justinahiggins614-cmyk.github.io/jah-wiki/">JAH Wiki</a> | <a href="https://justinahiggins614-cmyk.github.io/jah-dictionary/">The Signature Dictionary</a> | <a href="https://justinahiggins614-cmyk.github.io/cyber-patent-catalog/">Globally Rejustered Patent Catalog</a> | <a href="https://justinahiggins614-cmyk.github.io/signature-one-archive/">Signature Spec Catalog Pending Patents</a></p></nav>
+</body></html>
