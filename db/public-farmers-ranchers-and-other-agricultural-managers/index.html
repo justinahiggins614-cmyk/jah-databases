@@ -141,5 +141,63 @@ document.getElementById('qin').value='';log.scrollTop=log.scrollHeight;};
 })();
 </script>
 <script src="../../core/signature-web-ai.js"></script>
+<script>
+/* JAH-DB-EMPTY-FIX: archive loader injected 2026-11-26 (empty-pages fix).
+   Loads this database's index and renders the record list + search.
+   public-farmers-ranchers-and-other-agricultural-managers / https://justinahiggins614-cmyk.github.io/jah-databases/data/public-farmers-ranchers-and-other-agricultural-managers/ are substituted per page by the patcher. */
+(function(){'use strict';
+var __jahFix_SLUG="public-farmers-ranchers-and-other-agricultural-managers", __jahFix_LOCAL="https://justinahiggins614-cmyk.github.io/jah-databases/data/public-farmers-ranchers-and-other-agricultural-managers/";
+function $(id){return document.getElementById(id);}
+function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+var archiveIdx=[], RECBYID={};
+function fetchGzText(url){
+  if(typeof JAHDB!=='undefined'&&JAHDB.fetchGz)return JAHDB.fetchGz(url);
+  return fetch(url).then(function(r){if(!r.ok)throw new Error('http '+r.status);return r.arrayBuffer();})
+    .then(function(ab){return new Response(new Blob([ab]).stream().pipeThrough(new DecompressionStream('gzip'))).text();});
+}
+function parseLines(t){return t.split('\n').filter(function(l){return l.trim();}).map(function(l){try{return JSON.parse(l);}catch(e){return null;}}).filter(Boolean);}
+function titleOf(r){return r.t||r.title||r.id;}
+function recCard(r){
+  return '<div class="card" data-rid="'+esc(r.id)+'"><b>'+esc(titleOf(r))+'</b> <span class="badge mono">'+esc(r.id)+'</span>'+(r.g?' <span class="badge">'+esc(r.g)+'</span>':'')+'<div class="row"><button data-full="'+esc(r.id)+'">Open full record</button></div><div class="fullrec"></div></div>';
+}
+function showFull(btn){
+  var id=btn.getAttribute('data-full'), card=btn.closest('.card'), box=card?card.querySelector('.fullrec'):null;
+  if(!box)return;
+  var r=RECBYID[id];
+  box.innerHTML=r?'<dl class="kv"><dt>Record</dt><dd><b>'+esc(titleOf(r))+'</b> ('+esc(r.id)+')</dd>'+(r.g?'<dt>Genre</dt><dd>'+esc(r.g)+'</dd>':'')+'<dt>Archive file</dt><dd class="longtext mono">'+esc(__jahFix_LOCAL+'index.jsonl.gz')+'</dd></dl>':'<p class="dim">Record not found.</p>';
+}
+document.addEventListener('click',function(e){var b=e.target.closest?e.target.closest('[data-full]'):null;if(b)showFull(b);});
+function renderGroups(){
+  var g=$('groups'); if(!g)return;
+  var seen={}, genres=[];
+  archiveIdx.forEach(function(r){var k=r.g||(titleOf(r).charAt(0).toUpperCase()); if(k&&!seen[k]){seen[k]=1;genres.push(k);}});
+  g.innerHTML=genres.map(function(k){
+    var rows=archiveIdx.filter(function(r){return (r.g||titleOf(r).charAt(0).toUpperCase())===k;}).slice(0,25);
+    return '<h3>'+esc(k)+' ('+archiveIdx.filter(function(r){return (r.g||titleOf(r).charAt(0).toUpperCase())===k;}).length+')</h3>'+rows.map(recCard).join('');
+  }).join('');
+}
+function doSearch(){
+  var qEl=$('q'), res=$('results'); if(!res)return;
+  var q=qEl?qEl.value.toLowerCase().trim():'';
+  var rows=archiveIdx.filter(function(r){return !q||(titleOf(r)+' '+r.id+' '+(r.g||'')).toLowerCase().indexOf(q)>=0;}).slice(0,60);
+  res.innerHTML='<h3>Results ('+rows.length+')</h3>'+rows.map(recCard).join('');
+}
+function renderDeepLink(){
+  var m=(location.hash||'').match(/rec=([^&]+)/); if(!m)return;
+  var r=RECBYID[decodeURIComponent(m[1])]; if(!r)return;
+  var res=$('results'); if(res)res.innerHTML='<h3>Record</h3>'+recCard(r);
+}
+fetchGzText(__jahFix_LOCAL+'index.jsonl.gz').then(parseLines).then(function(recs){
+  archiveIdx=recs; recs.forEach(function(x){RECBYID[x.id]=x;});
+  var sc=$('stCount'); if(sc)sc.textContent=recs.length.toLocaleString();
+  renderGroups(); doSearch(); renderDeepLink();
+  var qgo=$('qgo'); if(qgo)qgo.addEventListener('click',doSearch);
+  var q=$('q'); if(q)q.addEventListener('input',doSearch);
+}).catch(function(err){
+  var res=$('results'); if(res)res.innerHTML='<p class="dim">Archive failed to load ('+esc(err.message||err)+'). Data file: '+esc(__jahFix_LOCAL+'index.jsonl.gz')+'</p>';
+});
+})();
+</script>
+
 </body>
 </html>
