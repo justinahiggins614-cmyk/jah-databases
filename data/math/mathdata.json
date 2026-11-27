@@ -137,7 +137,7 @@
   "name": "Decimal (Base-10)",
   "cat": "Base systems",
   "system": "Base-10, digits 0-9: the everyday human number system. The Signature's canonical coordinates are already decimal inches.",
-  "mapping": "Signature coordinates are natively decimal (e.g. apex (4.12, 4.92), dot (3.73, 5.10)). Any Signature bitstring also converts to decimal for human readout: value = sum of bit*2^position.",
+  "mapping": "Signature coordinates are natively decimal (e.g. apex (4.12, 4.92), dot (4.54, 4.96)). Any Signature bitstring also converts to decimal for human readout: value = sum of bit*2^position. (Corrected 2026-11-26: published dot (3.73, 5.10) superseded \u2014 that point lies on the arc's belly; the only isolated dot in the source images is at (4.54, 4.96).)",
   "apply": [
    "1. For coordinates: read them as-is \u2014 they are decimal inches on the 12x12 grid.",
    "2. For a bitstring: number the bits from the right starting at position 0.",
@@ -171,15 +171,15 @@
   "name": "Geometric Coordinate Sets",
   "cat": "Geometry",
   "system": "An ordered list of (x, y) coordinate pairs (often as JSON) describing geometry exactly. This is the Signature's native data form.",
-  "mapping": "This is the source form from Document 1: segment starts, apexes, ends, dot centers, all in inches on the 12x12 grid with origin top-left. Every other conversion on this page derives from these coordinates.",
+  "mapping": "This is the source form from Document 1: segment starts, apexes, ends, dot centers, all in inches on the 12x12 grid with origin top-left. Every other conversion on this page derives from these coordinates. (Corrected 2026-11-26: published arc start (1.35, 7.73) superseded \u2014 no ink at that point in the source images; faintest connected ink reaches (1.78, 7.48).)",
   "apply": [
    "1. Copy the canonical coordinates from Document 1 (reconstruction order).",
-   "2. Store as JSON: {\"segment1_arc\": {\"start\": [1.35, 7.73], \"apex\": [4.12, 4.92]}, ...}.",
+   "2. Store as JSON: {\"segment1_arc\": {\"start\": [1.78, 7.48], \"apex\": [4.12, 4.92]}, ...}.",
    "3. Keep 2 decimal places (the documented precision).",
    "4. Any renderer plots these points to redraw the Signature deterministically."
   ],
   "ex_in": "Segment 1 arc",
-  "ex_out": "{\"start\": [1.35, 7.73], \"apex\": [4.12, 4.92]}",
+  "ex_out": "{\"start\": [1.78, 7.48], \"apex\": [4.12, 4.92]}",
   "mix_of": null,
   "id": "JAH-MATHDATA-000011",
   "letter": "G"
@@ -209,11 +209,11 @@
   "apply": [
    "1. Write the canonical record: coordinates in reconstruction order, 2 decimals, comma-separated, UTF-8.",
    "2. Run SHA-256 over those exact bytes.",
-   "3. Publish the 64-hex-character digest with the record.",
+   "3. Publish the 64-hex-character digest with the record. (Corrected 2026-11-26: over the corrected coordinate serialisation 1.78,7.48,4.12,4.92,5.37,5.47,4.54,4.96,8.17,4.39,7.72,4.70,7.47,5.15,5.74,7.85,7.09,5.74,10.61,4.92,8.80,4.49,9.40,4.33 the digest is 89ef179b704e5f3f9705c97855355bad659da8d245c35015732ac0c26a381a6d; the digest over the superseded published serialisation was 58eb1c2a76dc15937190f0cdfef83545ab6d786282446221e8977a62b35c6baa.)",
    "4. Verifiers re-hash the same bytes and compare digests."
   ],
   "ex_in": "SHA-256(\"SIGNATURE-ONE\")",
-  "ex_out": "9c08d5a1e39aaf5f9747c32a6d4335c3552265c814563d20b84a9bdc4981deb4",
+  "ex_out": "9c08d5a1e39aaf5f9747c32a6d4335c3552265c814563d20b84a9bdc4981deb4 (example: SHA-256 of the literal string \"SIGNATURE-ONE\"; the digest over the corrected coordinate serialisation is 89ef179b704e5f3f9705c97855355bad659da8d245c35015732ac0c26a381a6d)",
   "mix_of": null,
   "id": "JAH-MATHDATA-000013",
   "letter": "H"
@@ -280,8 +280,8 @@
    "3. Send as MIDI Note-On (0x90), note, velocity 100; Note-Off after one beat.",
    "4. The three dots play the Signature's dot-motif."
   ],
-  "ex_in": "dots at y = 5.10, 4.49, 4.33",
-  "ex_out": "MIDI notes = 67, 70, 71 (G4, A#4, B4)",
+  "ex_in": "dots at y = 4.96, 4.49, 4.33",
+  "ex_out": "MIDI notes = 68, 70, 71 (G#4, A#4, B4)",
   "mix_of": null,
   "id": "JAH-MATHDATA-000017",
   "letter": "M"
@@ -412,12 +412,12 @@
   "mapping": "Chain three records: ASCII text to Morse symbols (record: Morse Code), then Morse to bits with 1=dah, 0=dit (record: Binary). The Signature's name travels as text, as rhythm, and as bits.",
   "apply": [
    "1. Write the label, e.g. 'JAH'.",
-   "2. ASCII+Mor se: convert to Morse -> .--- .- ....",
+   "2. ASCII+Morse: convert to Morse -> .--- .- ....",
    "3. Morse+Binary: map - -> 1, . -> 0 (letter separators dropped, documented).",
    "4. Reverse the chain to verify the round trip."
   ],
   "ex_in": "'JAH' -> Morse -> bits",
-  "ex_out": ".--- .- .... -> 1000 01 0000 (documented mapping)",
+  "ex_out": ".--- .- .... -> 0111 01 0000 (documented mapping)",
   "mix_of": [
    "ASCII Text",
    "Morse Code",
@@ -457,8 +457,8 @@
    "3. Write 1/0 per cell -> the pixel-grid bitstring.",
    "4. Compare against the binary record's string: they must agree."
   ],
-  "ex_in": "Segment 1 arc start (1.35, 7.73)",
-  "ex_out": "lights the pixel cell covering x[1,2), y[7,8)",
+  "ex_in": "Segment 1 arc start (1.78, 7.48)",
+  "ex_out": "lights the pixel cell covering x[1,2), y[7,8) (Corrected 2026-11-26: published start (1.35, 7.73) superseded; the cell is unchanged \u2014 (1.78, 7.48) falls in the same cell, and bitstring row 7, column 1 is still '1'.)",
   "mix_of": [
    "Geometric Coordinate Sets",
    "Pixel Grid (Raster)"
